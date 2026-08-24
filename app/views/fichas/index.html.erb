@@ -1,0 +1,31 @@
+<% content_for :title, "Fichas · #{@ward.name}" %>
+
+<section class="console ficha-desk">
+  <p class="eyebrow"><%= @ward.name %> · <%= @ward.code %></p>
+  <h1>Fichas de la rama</h1>
+  <p class="lede">Fusiona, corrige o lee el año para decirlo en voz alta. No lo proyectes.</p>
+
+  <% if @people.empty? %>
+    <p class="quiet">Todavía no hay fichas. Se crean al entrar a una noche.</p>
+  <% else %>
+    <ul class="ficha-grid person-list">
+      <% @people.each do |person| %>
+        <li>
+          <%= link_to ficha_path_for(person), class: "team-pick person-pick" do %>
+            <%= render "people/card", person: person, show_year: true %>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  <% end %>
+
+  <p class="cluster">
+    <% if @night %>
+      <%= link_to "Lista de la noche", presenter_roster_path(@night.code), class: "btn btn-navy" %>
+      <%= link_to "Consola", presenter_console_path(@night.code), class: "btn btn-ghost" %>
+    <% else %>
+      <%= link_to "Abrir una noche", new_game_session_path, class: "btn btn-gold" %>
+      <%= link_to "Inicio", root_path, class: "btn btn-ghost" %>
+    <% end %>
+  </p>
+</section>

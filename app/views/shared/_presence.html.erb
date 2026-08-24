@@ -1,7 +1,8 @@
 <% snapshot = Presences::Snapshot.call(night: night) %>
 <% compact = local_assigns.fetch(:compact, false) %>
+<% variant = local_assigns.fetch(:variant, "board") %>
 <% team = local_assigns[:team] %>
-<aside id="night_presence" class="presence <%= "is-compact" if compact %>" aria-label="Quién está">
+<aside id="night_presence" class="presence <%= "is-compact" if compact %> <%= "is-stage" if variant == "stage" %>" aria-label="Quién está">
   <div class="presence-stats">
     <div class="presence-stat">
       <%= picto("person") %>

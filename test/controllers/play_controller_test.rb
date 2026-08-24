@@ -14,6 +14,20 @@ class PlayAndWatchControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test "open buzzer is a phone reel with timer and no slideshow" do
+    sign_in_as_participant(@night, name: "Sofía", team: teams(:leones))
+    get night_play_path(@night.code)
+    assert_response :success
+    assert_select "body.is-kid.is-play"
+    assert_select ".play-reel"
+    assert_select ".play-timer"
+    assert_select ".play-timer-bar"
+    assert_select ".buzz", text: /Buzz/
+    assert_select ".prompt", text: /pidió|Salomón/
+    assert_select ".play-round > .art", count: 0
+    assert_select ".challenge-media", count: 0
+  end
+
   test "watch creates a spectator" do
     assert_difference -> { @night.players.where(role: "spectator").count }, 1 do
       get night_watch_path(@night.code)

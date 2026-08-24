@@ -61,5 +61,7 @@ M1 minimum: XP on score events, visible rank on the team, streak counter. Chest 
 - Streak on correct, reset on miss
 - Cofre de Salomón at 20 XP
 - Rey on rank-up (next correct ×2)
-- Rama fichas (avatar + apellido on homonym + año favorito)
+- Rama fichas (avatar + apellido on homonym + año favorito de cuatro cifras)
+- Presenter ficha desk (edit, merge, reveal year)
+- Night roster + named missionaries remembered with the night
 - WardTeam season XP applied once when the night closes (thresholds ×4)

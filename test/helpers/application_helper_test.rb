@@ -13,6 +13,17 @@ class ApplicationHelperTest < ActionView::TestCase
     assert_nil challenge_clip(round)
   end
 
+  test "story art follows the round, not chapel slideshows" do
+    round = round_runs(:salomon)
+    assert_equal "/media/stories/salomon_wisdom.jpg", challenge_story(round)
+    assert_equal "/media/stories/scavenger_harp.jpg", challenge_story(round_runs(:scavenger_harp))
+
+    render partial: "shared/challenge_media", locals: { round: round }
+    assert_includes rendered, "/media/stories/salomon_wisdom.jpg"
+    assert_not_includes rendered, "slideshow"
+    assert_not_includes rendered, "/media/challenges/"
+  end
+
   test "player avatar key cycles through the animal set" do
     night = create_night
     player = add_player(night, name: "Lucía")
@@ -52,6 +63,9 @@ class ApplicationHelperTest < ActionView::TestCase
     assert_equal game_sessions(:david).theme_title, night_title(game_sessions(:david))
     assert_equal "La corona se queda en esta casa.", finale_blessing
     assert_includes roster_line(teams(:leones)), "Lucía"
+    line = missionary_line(game_sessions(:cerrada))
+    assert_includes line, "Élder Soto"
+    assert_includes line, "Hermana Clark"
     assert explainer?(teams(:leones), players(:lucia))
     assert player_remote?(players(:daniel))
     assert_nil emblem_mark(nil)
@@ -138,5 +152,17 @@ class ApplicationHelperTest < ActionView::TestCase
     assert_includes rendered, "Temporada"
     assert_includes rendered, "Leones de Judá"
     assert_includes rendered, "Explorador"
+  end
+
+  test "night poster and status captions" do
+    assert_equal "/media/nights/reyes_y_profetas.jpg", night_poster_src(game_sessions(:david))
+    assert_equal "/media/nights/reyes_y_profetas.jpg", night_poster_src("reyes_y_profetas")
+    assert_equal "En juego", night_status_caption(game_sessions(:david))
+    assert_equal "En el vestíbulo", night_status_caption(game_sessions(:elias))
+    assert_equal "Terminada", night_status_caption(game_sessions(:cerrada))
+    paused = game_sessions(:david)
+    paused.status = "paused"
+    assert_equal "En pausa", night_status_caption(paused)
+    assert_nil night_poster_src("missing_theme")
   end
 end

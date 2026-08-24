@@ -4,6 +4,7 @@ class HomeSmokeTest < ApplicationSystemTestCase
   test "home shows the gate" do
     visit root_path
     assert_text "Noche Live"
+    assert_text "Reyes y Profetas"
     assert_button "Entrar"
   end
 end

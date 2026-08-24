@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_24_200000) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_24_220000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -71,6 +71,14 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_24_200000) do
     t.index ["ward_id"], name: "index_game_sessions_on_ward_id"
   end
 
+  create_table "missionaries", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "game_session_id", null: false
+    t.string "name", null: false
+    t.datetime "updated_at", null: false
+    t.index ["game_session_id"], name: "index_missionaries_on_game_session_id"
+  end
+
   create_table "people", force: :cascade do |t|
     t.string "avatar_key", null: false
     t.datetime "created_at", null: false
@@ -85,6 +93,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_24_200000) do
     t.index ["last_ward_team_id"], name: "index_people_on_last_ward_team_id"
     t.index ["ward_id", "given_name_key", "family_name_key", "avatar_key", "favorite_year"], name: "index_people_on_ficha", unique: true
     t.index ["ward_id"], name: "index_people_on_ward_id"
+    t.check_constraint "favorite_year >= 1000", name: "people_favorite_year_four_digits"
   end
 
   create_table "person_devices", force: :cascade do |t|
@@ -258,6 +267,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_24_200000) do
   add_foreign_key "buzzes", "round_runs"
   add_foreign_key "buzzes", "teams"
   add_foreign_key "game_sessions", "wards"
+  add_foreign_key "missionaries", "game_sessions"
   add_foreign_key "people", "ward_teams", column: "last_ward_team_id"
   add_foreign_key "people", "wards"
   add_foreign_key "person_devices", "people"

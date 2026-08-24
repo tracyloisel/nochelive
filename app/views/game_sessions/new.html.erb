@@ -6,6 +6,7 @@
     <h1>Abrir la noche</h1>
     <p class="lede"><%= @ward.name %> · <%= @ward.code %>. Se crea un código corto. Guarda el enlace secreto.</p>
     <%= button_to "Crear Reyes y Profetas", game_sessions_path, class: "btn btn-gold" %>
+    <%= link_to "Fichas de la rama", ward_fichas_path, class: "btn btn-navy" %>
     <%= link_to "Otra rama", new_ward_path, class: "btn btn-ghost" %>
   <% else %>
     <h1>Primero tu rama</h1>

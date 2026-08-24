@@ -38,6 +38,18 @@ class GameSessionTest < ActiveSupport::TestCase
     assert_equal "intro", round_runs(:lobby_first).reload.phase
   end
 
+  test "start playing does not intro a later round when one is already live" do
+    night = create_night
+    first, second = night.round_runs.order(:position).first(2)
+    first.update!(phase: "open", opened_at: Time.current)
+
+    night.start_playing!
+
+    assert night.playing?
+    assert_equal "open", first.reload.phase
+    assert_equal "pending", second.reload.phase
+  end
+
   test "pause resume and finish" do
     night = game_sessions(:david)
     night.pause!
@@ -96,5 +108,11 @@ class GameSessionTest < ActiveSupport::TestCase
 
   test "broadcast_state delegates to Nights::Broadcast" do
     assert_nothing_raised { game_sessions(:david).broadcast_state }
+  end
+
+  test "live nights exclude finished ones" do
+    assert_includes GameSession.live, game_sessions(:david)
+    assert_includes GameSession.live, game_sessions(:elias)
+    assert_not_includes GameSession.live, game_sessions(:cerrada)
   end
 end

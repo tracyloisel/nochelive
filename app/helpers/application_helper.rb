@@ -3,6 +3,22 @@ module ApplicationHelper
     night.theme_title
   end
 
+  def night_poster_src(night_or_theme)
+    file_id = night_or_theme.respond_to?(:theme_file_id) ? night_or_theme.theme_file_id : night_or_theme.to_s
+    file_id = "reyes_y_profetas" if file_id.blank? || file_id == "kings_and_prophets"
+    rel = "media/nights/#{file_id}.jpg"
+    "/#{rel}" if Rails.public_path.join(rel).file?
+  end
+
+  def night_status_caption(night)
+    case night.status
+    when "playing" then "En juego"
+    when "lobby" then "En el vestíbulo"
+    when "paused" then "En pausa"
+    else "Terminada"
+    end
+  end
+
   def band_label(position)
     case position
     when 1..3 then "Descubrimiento"
@@ -59,6 +75,14 @@ module ApplicationHelper
 
   def roster_line(team)
     names = team_roster(team)
+    return if names.empty?
+    return names.first if names.size == 1
+
+    "#{names[0..-2].join(", ")} y #{names.last}"
+  end
+
+  def missionary_line(night)
+    names = Array(night&.missionaries).map(&:name).reject(&:blank?)
     return if names.empty?
     return names.first if names.size == 1
 
@@ -154,6 +178,17 @@ module ApplicationHelper
 
     rel = "media/challenges/#{id}/clip.mp4"
     rel if Rails.public_path.join(rel).file?
+  end
+
+  def challenge_story(round)
+    id = challenge_media_id(round)
+    return unless id
+
+    %w[jpg jpeg png webp].each do |ext|
+      rel = "media/stories/#{id}.#{ext}"
+      return "/#{rel}" if Rails.public_path.join(rel).file?
+    end
+    nil
   end
 
   def challenge_slides(round)

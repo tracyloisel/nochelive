@@ -82,6 +82,15 @@ class PresenterControllersTest < ActionDispatch::IntegrationTest
     assert @night.reload.finished?
   end
 
+  test "completing does not crash when the next round is already intro" do
+    sign_in_presenter(@night)
+    round_runs(:rey_o_profeta).update!(phase: "intro")
+    post presenter_complete_round_path(@night.code, @round)
+    assert_redirected_to presenter_console_path(@night.code)
+    assert @round.reload.completed?
+    assert_equal "intro", round_runs(:rey_o_profeta).reload.phase
+  end
+
   test "presenter scores" do
     sign_in_presenter(@night)
     team = teams(:casa)
@@ -97,5 +106,33 @@ class PresenterControllersTest < ActionDispatch::IntegrationTest
     post presenter_scores_path(@night.code), params: { team_id: team.id, kind: "minus" }
     assert team.score_events.where(kind: "adjust", points: 5).exists?
     assert team.score_events.where(kind: "adjust", points: -5).exists?
+  end
+
+  test "console is a live reel with the round as the title" do
+    sign_in_presenter(@night)
+    get presenter_console_path(@night.code)
+    assert_response :success
+    assert_select ".console.is-stage"
+    assert_select ".code-chip", text: @night.code
+    assert_select ".stage-ticks li"
+    assert_select ".stage-shot"
+    assert_select ".stage-dock"
+    assert_select ".presence.is-stage"
+    assert_select "h1", text: "La elección de Salomón"
+    assert_select ".live", text: /En directo/
+    assert_select ".challenge-story[src='/media/stories/salomon_wisdom.jpg']"
+    assert_select "[data-controller=slideshow]", count: 0
+    assert_includes response.body, "Cerrar buzzer"
+  end
+
+  test "lobby reel starts the night from the dock" do
+    night = game_sessions(:elias)
+    sign_in_presenter(night)
+    get presenter_console_path(night.code)
+    assert_response :success
+    assert_select ".console.is-stage"
+    assert_select ".stage-dock"
+    assert_includes response.body, "Empezar la noche"
+    assert_includes response.body, "Abrir"
   end
 end

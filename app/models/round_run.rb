@@ -43,7 +43,25 @@ class RoundRun < ApplicationRecord
   end
   def accepting_taps? = open? && (definition.rapid_tap? || definition.physical?)
 
+  def timed?
+    opened_at.present? && definition.duration.to_i.positive? && phase.in?(%w[open locked answering])
+  end
+
+  def ends_at
+    return unless opened_at && definition.duration.to_i.positive?
+
+    opened_at + definition.duration.seconds
+  end
+
+  def seconds_left
+    return 0 unless timed? && ends_at
+
+    [(ends_at - Time.current).ceil, 0].max
+  end
+
   def intro!
+    return if intro?
+
     transit!("intro")
   end
 

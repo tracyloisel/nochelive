@@ -1,6 +1,6 @@
 import { Controller } from "@hotwired/stimulus"
 
-const PRESSABLE = "button, .btn, .choice-btn, .team-pick, .person-pick, .buzz, .emblem-choice, .avatar-choice, .choice-chip, .picture-card, summary, a.btn"
+const PRESSABLE = "button, .btn, .choice-btn, .team-pick, .person-pick, .buzz, .emblem-choice, .avatar-choice, .choice-chip, .picture-card, .night-hit, summary, a.btn"
 
 export default class extends Controller {
   connect() {

@@ -6,11 +6,14 @@ class PersonTest < ActiveSupport::TestCase
       given_name: "María",
       family_name: "García",
       avatar_key: "colibri",
-      favorite_year: 33
+      favorite_year: 1833
     )
     assert_equal "maria", person.given_name_key
     assert_equal "garcia", person.family_name_key
     assert_equal "María García", person.display_name
+    assert Person.valid_year?(1833)
+    assert_not Person.valid_year?(33)
+    assert_not Person.valid_year?(10_000)
   end
 
   test "on_device lists fichas for a tablet" do

@@ -24,15 +24,8 @@ module Presenter
     end
 
     def complete
-      @round.complete! unless @round.completed?
-      next_round = @night.round_runs.find_by(position: @round.position + 1)
-      if next_round
-        next_round.intro!
-      else
-        @night.finish!
-      end
+      Rounds::Complete.call(round: @round)
       Rails.logger.info("session=#{@night.code} round=#{@round.yaml_round_id} event=complete")
-      @night.broadcast_state
       redirect_to presenter_console_path(@night.code)
     end
 

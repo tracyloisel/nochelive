@@ -19,11 +19,6 @@
   <div class="put-down-art" aria-hidden="true"><%= picto("speak", size: "xl") %></div>
   <p class="prompt put-down">¡DECID!</p>
   <p class="lede"><%= definition.instructions %></p>
-  <% if round.open? && round.opened_at %>
-    <p class="countdown" data-controller="countdown" data-countdown-end-value="<%= (round.opened_at + definition.duration.seconds).iso8601 %>">
-      <span data-countdown-target="label"><%= definition.duration %></span> s
-    </p>
-  <% end %>
   <% if answer %>
     <div class="lock lock-gold" role="status">
       <p class="place">¡Ya!</p>

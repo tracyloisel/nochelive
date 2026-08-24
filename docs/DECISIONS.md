@@ -35,7 +35,7 @@ Superseded by ADR-012 for persistent fichas. Night XP / Rey / coffre remain sess
 ## ADR-012 — Rama fichas, not passwords
 
 Decision:
-A `Ward` (rama) owns `Person` fichas and `WardTeam` season records. A night still has its own `Player` / `Team` / XP. Returning players pick a ficha with a chosen avatar. Homonyms (Carmen, Pilar) use apellido when needed. The memorable year is `favorite_year` — « ¿Cuál es tu año favorito? Puedes usar el año en que naciste. » It is not a date of birth, PIN, or age. Guests may play « Solo esta noche » with no ficha. Season XP is applied once at `Nights::Finish` using 4× night rank thresholds.
+A `Ward` (rama) owns `Person` fichas and `WardTeam` season records. A night still has its own `Player` / `Team` / XP. Returning players pick a ficha with a chosen avatar. Homonyms (Carmen, Pilar) use apellido when needed. The memorable year is `favorite_year` — four digits, « ¿Cuál es tu año favorito? Puedes usar el año en que naciste. » It is not a date of birth, PIN, or age. Guests may play « Solo esta noche » with no ficha. Season XP is applied once at `Nights::Finish` using 4× night rank thresholds. The presenter has a ficha desk (edit, merge, read the year aloud) and a night roster that can name visiting missionaries so they stay in the memory of that night.
 
 Why:
 Several ramas will play. First names do not identify anyone in Spain. Church Account SSO is not available to third parties. Email/password would block children.

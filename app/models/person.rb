@@ -1,4 +1,6 @@
 class Person < ApplicationRecord
+  YEAR_MIN = 1000
+
   belongs_to :ward
   belongs_to :last_ward_team, class_name: "WardTeam", optional: true
   has_many :person_devices, dependent: :destroy
@@ -8,7 +10,7 @@ class Person < ApplicationRecord
   validates :given_name, length: { minimum: 1, maximum: 24 }
   validates :family_name, length: { maximum: 24 }, allow_blank: true
   validates :avatar_key, inclusion: { in: ->(_) { Player::AVATARS } }
-  validates :favorite_year, numericality: { only_integer: true, greater_than_or_equal_to: 1 }
+  validates :favorite_year, numericality: { only_integer: true, greater_than_or_equal_to: YEAR_MIN }
   validate :favorite_year_not_future
   validates :favorite_year, uniqueness: { scope: [ :ward_id, :given_name_key, :family_name_key, :avatar_key ] }
 
@@ -19,6 +21,17 @@ class Person < ApplicationRecord
 
   def self.name_key(value)
     I18n.transliterate(value.to_s.strip).downcase.gsub(/[^a-z0-9]/, "")
+  end
+
+  def self.year_range
+    YEAR_MIN..Time.current.year
+  end
+
+  def self.valid_year?(value)
+    raw = value.to_s.strip
+    return false unless raw.match?(/\A\d{4}\z/)
+
+    year_range.cover?(raw.to_i)
   end
 
   def self.on_device(device_token, ward)
@@ -48,6 +61,6 @@ class Person < ApplicationRecord
     def favorite_year_not_future
       return if favorite_year.blank?
 
-      errors.add(:favorite_year, "must be this year or earlier") if favorite_year > Time.current.year
+      errors.add(:favorite_year, "must be this year or earlier") unless self.class.year_range.cover?(favorite_year)
     end
 end

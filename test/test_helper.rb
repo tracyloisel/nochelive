@@ -70,12 +70,17 @@ class ActionDispatch::IntegrationTest
     follow_redirect! while response.redirect?
   end
 
-  def sign_in_presenter(night, token: nil)
-    token ||= presenter_token_for(night)
-    night.update!(presenter_token_digest: GameSession.digest_token(token)) unless night.presenter_token_matches?(token)
-    get presenter_gate_path(night.code, token: token)
-    follow_redirect! if response.redirect?
-  end
+    def sign_in_ward(ward = wards(:demo), token: "rama-demo")
+      post ward_gate_path, params: { code: ward.code, token: token }
+      follow_redirect! if response.redirect?
+    end
+
+    def sign_in_presenter(night, token: nil)
+      token ||= presenter_token_for(night)
+      night.update!(presenter_token_digest: GameSession.digest_token(token)) unless night.presenter_token_matches?(token)
+      get presenter_gate_path(night.code, token: token)
+      follow_redirect! if response.redirect?
+    end
 
   def presenter_token_for(night)
     return "presenter-secret" if night.code == "DAVID"

@@ -11,6 +11,7 @@ class GameSessionsController < ApplicationController
 
     @night = Nights::Start.call(ward: current_ward)
     remember_presenter(@night)
+    remember_ward(current_ward)
     Rails.logger.info("session=#{@night.code} event=created ward=#{current_ward.code}")
     redirect_to created_game_session_path(@night, token: @night.presenter_token)
   end

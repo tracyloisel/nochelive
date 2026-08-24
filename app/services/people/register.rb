@@ -18,7 +18,7 @@ module People
 
     def call
       raise Error.new(:name, "Escribe un nombre corto.") if @given_name.blank?
-      raise Error.new(:year, "Elige un año favorito.") unless year_ok?
+      raise Error.new(:year, "El año lleva cuatro cifras.") unless Person.valid_year?(@favorite_year)
       raise Error.new(:avatar, "Elige un animal.") unless Player::AVATARS.include?(@avatar_key.to_s)
 
       homonyms = @ward.people.named(@given_name)
@@ -49,11 +49,6 @@ module People
     end
 
     private
-
-      def year_ok?
-        year = @favorite_year.to_i
-        year >= 1 && year <= Time.current.year
-      end
 
       def attach_device!(person)
         return if @device_token.blank?

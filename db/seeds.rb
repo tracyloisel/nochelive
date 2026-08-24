@@ -13,8 +13,8 @@ ward.save!
 leones_season = ward.ward_teams.find_or_create_by!(name: "Leones de Judá") { |row| row.emblem = "leon" }
 casa_season = ward.ward_teams.find_or_create_by!(name: "Casa de David") { |row| row.emblem = "ola" }
 
-carmen_g = ward.people.find_or_initialize_by(given_name_key: "carmen", family_name_key: "garcia", avatar_key: "delfin", favorite_year: 33)
-carmen_g.assign_attributes(given_name: "Carmen", family_name: "García", last_ward_team: leones_season)
+carmen_g = ward.people.find_or_initialize_by(given_name_key: "carmen", family_name_key: "garcia", avatar_key: "delfin")
+carmen_g.assign_attributes(given_name: "Carmen", family_name: "García", favorite_year: 1833, last_ward_team: leones_season)
 carmen_g.save!
 
 carmen_l = ward.people.find_or_initialize_by(given_name_key: "carmen", family_name_key: "lopez", avatar_key: "aguila", favorite_year: 2012)
@@ -51,6 +51,9 @@ TeamMembership.find_or_create_by!(player: lucia, team: leones)
 daniel = night.players.find_or_initialize_by(client_token: "seed-daniel")
 daniel.update!(name: "Daniel", role: "participant", location: "remote", last_seen_at: Time.current, avatar_key: "elefante")
 TeamMembership.find_or_create_by!(player: daniel, team: casa)
+
+night.missionaries.find_or_create_by!(name: "Élder Soto")
+night.missionaries.find_or_create_by!(name: "Hermana Clark")
 
 host = ENV.fetch("APP_HOST", "http://localhost:3000")
 

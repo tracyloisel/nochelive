@@ -8,11 +8,6 @@
   <% else %>
     <p class="lede"><%= definition.instructions %></p>
   <% end %>
-  <% if round.open? && round.opened_at %>
-    <p class="countdown" data-controller="countdown" data-countdown-end-value="<%= (round.opened_at + definition.duration.seconds).iso8601 %>">
-      <span data-countdown-target="label"><%= definition.duration %></span> s
-    </p>
-  <% end %>
   <% if answer %>
     <div class="lock lock-gold" role="status">
       <%= picto("found", size: "lg") %>

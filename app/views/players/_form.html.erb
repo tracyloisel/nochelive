@@ -31,9 +31,7 @@
       <% end %>
     </fieldset>
 
-    <label for="favorite_year">¿Cuál es tu año favorito?</label>
-    <p class="quiet">Puedes usar el año en que naciste.</p>
-    <input id="favorite_year" name="favorite_year" inputmode="numeric" maxlength="4" class="code-input" placeholder="33" value="<%= @favorite_year %>">
+    <%= render "shared/year_field", value: @favorite_year, required: true %>
 
     <fieldset class="place">
       <legend>¿Dónde estás?</legend>

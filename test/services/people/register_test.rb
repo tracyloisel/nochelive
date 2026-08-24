@@ -9,11 +9,11 @@ class People::RegisterTest < ActiveSupport::TestCase
       given_name: "Lucía",
       family_name: "",
       avatar_key: "loro",
-      favorite_year: 33,
+      favorite_year: 2010,
       device_token: "dev-lucia"
     )
     assert_equal "lucia", person.given_name_key
-    assert_equal 33, person.favorite_year
+    assert_equal 2010, person.favorite_year
     assert PersonDevice.exists?(person:, device_token: "dev-lucia")
   end
 
@@ -50,7 +50,7 @@ class People::RegisterTest < ActiveSupport::TestCase
         given_name: "Carmen",
         family_name: "García",
         avatar_key: "delfin",
-        favorite_year: 33,
+        favorite_year: 1833,
         device_token: "dev"
       )
     end
@@ -68,5 +68,19 @@ class People::RegisterTest < ActiveSupport::TestCase
     )
     assert_not_equal people(:carmen_garcia).id, person.id
     assert_equal 1830, person.favorite_year
+  end
+
+  test "rejects a year that is not four digits" do
+    error = assert_raises(People::Error) do
+      People::Register.call(
+        ward: @ward,
+        given_name: "Noa",
+        family_name: "",
+        avatar_key: "gato",
+        favorite_year: 33,
+        device_token: "dev"
+      )
+    end
+    assert_equal :year, error.code
   end
 end

@@ -39,8 +39,14 @@
 
   <p class="blessing"><%= finale_blessing %></p>
 
+  <%= render "shared/roster", night: night, compact: true %>
+
+  <% if line = missionary_line(night) %>
+    <p class="lede">Esta noche con <%= line %>.</p>
+  <% end %>
+
   <% night.teams.select { |team| team.season_rank_up.present? }.each do |team| %>
-    <p class="lede">Temporada: ¡<%= team.name %> es <%= team.season_rank_up %>!</p>
+    <p class="season-rise">Temporada: ¡<%= team.name %> es <%= team.season_rank_up %>!</p>
   <% end %>
 
   <% if you && (place = night.place_for(you)) %>

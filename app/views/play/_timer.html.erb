@@ -1,0 +1,15 @@
+<% if round.timed? %>
+  <% duration = round.definition.duration.to_i %>
+  <% left = round.seconds_left %>
+  <div class="play-timer <%= "is-low" if left.positive? && left <= 5 %> <%= "is-empty" if left <= 0 %>"
+       data-controller="countdown"
+       data-countdown-end-value="<%= round.ends_at.iso8601 %>"
+       data-countdown-duration-value="<%= duration %>"
+       role="timer"
+       aria-label="Tiempo restante">
+    <div class="play-timer-track">
+      <span class="play-timer-bar" data-countdown-target="bar" style="transform: scaleX(<%= duration.positive? ? (left.to_f / duration) : 0 %>)"></span>
+    </div>
+    <p class="play-timer-count"><span data-countdown-target="label"><%= left %></span> s</p>
+  </div>
+<% end %>

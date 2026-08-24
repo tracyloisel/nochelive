@@ -56,7 +56,7 @@ class NightFlowTest < ActionDispatch::IntegrationTest
     end
 
     get presenter_console_path(night.code)
-    assert_select "h1", text: night.code
+    assert_select ".code-chip", text: night.code
   end
 
   test "buzzer flow awards first place to one team" do

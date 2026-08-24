@@ -1,14 +1,103 @@
 <% round = night.current_round_run %>
-<section class="console" id="night_presenter">
-  <header class="console-head">
-    <div>
-      <p class="eyebrow">Presentador · <%= night.status %></p>
-      <h1><%= night.code %></h1>
+<section class="console is-stage" id="night_presenter">
+  <div class="stage-reel">
+    <div class="stage-shot">
+      <% if night.finished? %>
+        <%= render "shared/ceremony", night: night %>
+      <% elsif round %>
+        <%= render "shared/challenge_media", round: round %>
+      <% end %>
     </div>
-    <p><%= night.teams.count %> equipos</p>
-  </header>
-  <%= render "shared/presence", night: night, team: nil, compact: false %>
 
+    <div class="stage-overlay">
+      <header class="stage-chrome">
+        <ol class="stage-ticks" aria-label="Rondas">
+          <% night.round_runs.each do |tick| %>
+            <li class="<%= "is-done" if tick.completed? %> <%= "is-now" if round&.id == tick.id %>" title="<%= tick.definition.title %>"></li>
+          <% end %>
+        </ol>
+        <div class="stage-bar">
+          <p class="live"><span class="live-dot" aria-hidden="true"></span>En directo</p>
+          <p class="code-chip"><%= night.code %></p>
+        </div>
+      </header>
+
+      <aside class="stage-rail" aria-label="Atajos">
+        <%= render "shared/presence", night: night, team: nil, compact: false, variant: "stage" %>
+        <%= link_to presenter_roster_path(night.code), class: "btn btn-navy picto-btn stage-rail-btn" do %>
+          <%= picto("people") %>Lista
+        <% end %>
+        <%= link_to presenter_fichas_path(night.code), class: "btn btn-ghost picto-btn stage-rail-btn" do %>
+          <%= picto("person") %>Fichas
+        <% end %>
+      </aside>
+
+      <div class="stage-caption">
+        <% if night.finished? %>
+          <p class="eyebrow">Fin de la noche</p>
+        <% elsif round %>
+          <p class="eyebrow">Ronda <%= round.position %> / <%= night.round_runs.size %> · <%= round.phase %></p>
+          <h1 class="stage-title">
+            <%= render "shared/round_icon", key: round.definition.icon %>
+            <span><%= round.definition.title %></span>
+          </h1>
+          <p class="lede"><%= round_prompt(round) %></p>
+          <p class="quiet">Remoto: grado <%= round.definition.remote_grade %></p>
+          <% if round.definition.mime? && round.definition.story_path? %>
+            <p class="lede">En casa viven a Jonás. No adivinan el mimo.</p>
+          <% end %>
+        <% end %>
+      </div>
+
+      <% unless night.finished? %>
+        <nav class="stage-dock" aria-label="Mandos">
+          <div class="console-actions stage-dock-main">
+            <% if night.lobby? %>
+              <%= button_to "Empezar la noche", presenter_start_path(night.code), class: "btn btn-gold" %>
+            <% elsif night.paused? %>
+              <%= button_to "Seguir", presenter_resume_path(night.code), class: "btn btn-gold" %>
+            <% end %>
+
+            <% if round && (round.live? || !round.completed?) %>
+              <% if round.pending? || round.intro? %>
+                <%= button_to "Abrir", presenter_open_round_path(night.code, round), class: "btn btn-gold" %>
+              <% end %>
+              <% if round.open? && round.definition.freeze? %>
+                <%= button_to "¡CONGELADOS!", presenter_lock_round_path(night.code, round), class: "btn btn-gold" %>
+              <% elsif round.open? && round.definition.vote? %>
+                <%= button_to "Contar los votos", presenter_lock_round_path(night.code, round), class: "btn btn-gold" %>
+              <% elsif round.open? && round.definition.buzzer? && !round.definition.finale? %>
+                <%= button_to "Cerrar buzzer", presenter_lock_round_path(night.code, round), class: "btn btn-navy" %>
+              <% elsif round.open? && round.definition.finale? %>
+                <%= button_to "Cerrar la corona", presenter_lock_round_path(night.code, round), class: "btn btn-navy" %>
+              <% elsif round.open? && !round.definition.buzzer? && !round.definition.vote? %>
+                <%= button_to "Cerrar ronda", presenter_lock_round_path(night.code, round), class: "btn btn-navy" %>
+              <% end %>
+              <% if round.definition.finale? && !night.finished? && !round.completed? && !round.pending? %>
+                <%= button_to "¡La corona!", presenter_crown_path(night.code, round), class: "btn btn-gold" %>
+              <% end %>
+            <% end %>
+          </div>
+          <div class="cluster stage-dock-more">
+            <% if night.playing? %>
+              <%= button_to "Pausa", presenter_pause_path(night.code), class: "btn btn-ghost btn-tiny" %>
+            <% end %>
+            <% if round && (round.live? || !round.completed?) && !(round.definition.finale? && !night.finished? && !round.completed? && !round.pending?) %>
+              <% if round.phase.in?(%w[open locked answering]) %>
+                <%= button_to "Revelar respuesta", presenter_reveal_round_path(night.code, round), class: "btn btn-gold btn-tiny" %>
+              <% end %>
+              <% if round.revealed? || round.locked? || round.answering? || round.open? %>
+                <%= button_to "Siguiente", presenter_complete_round_path(night.code, round), class: "btn btn-navy btn-tiny" %>
+              <% end %>
+            <% end %>
+            <%= button_to "Cerrar noche", presenter_finish_path(night.code), class: "btn btn-ghost btn-tiny", form: { data: { turbo_confirm: "¿Terminar la noche?" } } %>
+          </div>
+        </nav>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="stage-desk">
   <% guests = night.ward ? night.players.participants.where(person_id: nil).to_a : [] %>
   <% if guests.any? %>
     <aside class="board">
@@ -42,58 +131,8 @@
     </aside>
   <% end %>
 
-  <div class="console-actions">
-    <% if night.lobby? %>
-      <%= button_to "Empezar la noche", presenter_start_path(night.code), class: "btn btn-gold" %>
-    <% elsif night.paused? %>
-      <%= button_to "Seguir", presenter_resume_path(night.code), class: "btn btn-gold" %>
-    <% elsif night.playing? %>
-      <%= button_to "Pausa", presenter_pause_path(night.code), class: "btn btn-ghost" %>
-    <% end %>
-    <% unless night.finished? %>
-      <%= button_to "Cerrar noche", presenter_finish_path(night.code), class: "btn btn-ghost", form: { data: { turbo_confirm: "¿Terminar la noche?" } } %>
-    <% end %>
-  </div>
-
-  <% if night.finished? %>
-    <article class="console-round finale peak">
-      <%= render "shared/ceremony", night: night %>
-    </article>
-  <% elsif round&.live? || (round && !round.completed?) %>
+  <% if round&.live? || (round && !round.completed?) %>
     <article class="console-round">
-      <p class="eyebrow">Ronda <%= round.position %> / <%= night.round_runs.size %> · <%= round.phase %></p>
-      <h2><%= round.definition.title %></h2>
-      <p><%= round_prompt(round) %></p>
-      <p class="quiet">Remoto: grado <%= round.definition.remote_grade %></p>
-      <% if round.definition.mime? && round.definition.story_path? %>
-        <p class="lede">En casa viven a Jonás. No adivinan el mimo.</p>
-      <% end %>
-
-      <div class="console-actions">
-        <% if round.pending? || round.intro? %>
-          <%= button_to "Abrir", presenter_open_round_path(night.code, round), class: "btn btn-gold" %>
-        <% end %>
-        <% if round.open? && round.definition.freeze? %>
-          <%= button_to "¡CONGELADOS!", presenter_lock_round_path(night.code, round), class: "btn btn-gold" %>
-        <% elsif round.open? && round.definition.buzzer? && !round.definition.finale? %>
-          <%= button_to "Cerrar buzzer", presenter_lock_round_path(night.code, round), class: "btn btn-navy" %>
-        <% elsif round.open? && round.definition.finale? %>
-          <%= button_to "Cerrar la corona", presenter_lock_round_path(night.code, round), class: "btn btn-navy" %>
-        <% elsif round.open? && !round.definition.buzzer? && !round.definition.vote? %>
-          <%= button_to "Cerrar ronda", presenter_lock_round_path(night.code, round), class: "btn btn-navy" %>
-        <% end %>
-        <% if round.definition.finale? && !night.finished? && !round.completed? && !round.pending? %>
-          <%= button_to "¡La corona!", presenter_crown_path(night.code, round), class: "btn btn-gold" %>
-        <% else %>
-          <% if round.phase.in?(%w[open locked answering]) %>
-            <%= button_to "Revelar respuesta", presenter_reveal_round_path(night.code, round), class: "btn btn-gold" %>
-          <% end %>
-          <% if round.revealed? || round.locked? || round.answering? || round.open? %>
-            <%= button_to "Siguiente", presenter_complete_round_path(night.code, round), class: "btn btn-navy" %>
-          <% end %>
-        <% end %>
-      </div>
-
       <% if round.buzzes.any? %>
         <h3>Buzz</h3>
         <ol class="buzz-board">
@@ -171,9 +210,7 @@
         <div class="hunt-desk">
           <p class="eyebrow">Juicio</p>
           <p class="lede"><%= round.definition.question %></p>
-          <% if round.open? %>
-            <%= button_to "Contar los votos", presenter_lock_round_path(night.code, round), class: "btn btn-gold" %>
-          <% elsif line = vote_tally_line(round) %>
+          <% if line = vote_tally_line(round) %>
             <p class="shout"><%= line %></p>
           <% end %>
           <ul class="answer-list">
@@ -280,4 +317,5 @@
       </ul>
     </details>
   <% end %>
+  </div>
 </section>

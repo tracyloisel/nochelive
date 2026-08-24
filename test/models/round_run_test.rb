@@ -42,6 +42,13 @@ class RoundRunTest < ActiveSupport::TestCase
     assert_raises(RuntimeError) { @round.intro! }
   end
 
+  test "intro is a no-op when already intro" do
+    round = round_runs(:rey_o_profeta)
+    round.intro!
+    assert_nothing_raised { round.intro! }
+    assert round.intro?
+  end
+
   test "answering team is the first unscored buzz" do
     round = round_runs(:salomon)
     Buzz.accept!(round_run: round, team: teams(:leones), player: players(:lucia))
@@ -52,5 +59,16 @@ class RoundRunTest < ActiveSupport::TestCase
     assert_equal buzzes(:lucia_first), round_runs(:daniel_lions).first_buzz
     assert buzzes(:lucia_first).first?
     assert_equal "1.º", buzzes(:lucia_first).medal
+  end
+
+  test "timed window follows duration after open" do
+    freeze_time do
+      @round.update!(opened_at: Time.current, phase: "open")
+      assert @round.timed?
+      assert_equal 30, @round.seconds_left
+      assert_equal Time.current + 30.seconds, @round.ends_at
+    end
+    @round.update!(phase: "revealed")
+    assert_not @round.timed?
   end
 end

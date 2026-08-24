@@ -46,4 +46,16 @@ Rails.application.routes.draw do
   post "/p/:session_code/people/link", to: "presenter/people#create", as: :presenter_people_link
   post "/p/:session_code/people/:id/link", to: "presenter/people#create", as: :presenter_person_link
   post "/p/:session_code/scores", to: "presenter/score_events#create", as: :presenter_scores
+  get "/p/:session_code/lista", to: "presenter/rosters#show", as: :presenter_roster
+  post "/p/:session_code/missionaries", to: "presenter/missionaries#create", as: :presenter_missionaries
+  delete "/p/:session_code/missionaries/:id", to: "presenter/missionaries#destroy", as: :presenter_missionary
+  get "/p/:session_code/fichas", to: "presenter/fichas#index", as: :presenter_fichas
+  get "/p/:session_code/fichas/:id", to: "presenter/fichas#show", as: :presenter_ficha
+  patch "/p/:session_code/fichas/:id", to: "presenter/fichas#update"
+  post "/p/:session_code/fichas/:id/merge", to: "presenter/fichas#merge", as: :presenter_ficha_merge
+
+  get "ramas/fichas", to: "fichas#index", as: :ward_fichas
+  get "ramas/fichas/:id", to: "fichas#show", as: :ward_ficha
+  patch "ramas/fichas/:id", to: "fichas#update"
+  post "ramas/fichas/:id/merge", to: "fichas#merge", as: :ward_ficha_merge
 end

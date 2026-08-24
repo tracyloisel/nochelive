@@ -9,6 +9,8 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     assert_select "body[data-controller~=press][data-controller~=motion]"
     assert_select "body.is-kid"
     assert_select ".gate"
+    assert_select ".night-menu"
+    assert_select "img.night-poster"
     assert_select ".btn.btn-gold", text: /Entrar/
     assert_select ".btn.btn-gold .picto"
     assert_select ".picto-door"
@@ -32,6 +34,8 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     assert_includes css, ".choice-token"
     assert_includes css, ".order-chip"
     assert_includes css, ".picto"
+    assert_includes css, ".play-reel"
+    assert_includes css, ".play-timer"
   end
 
   test "watch screen is a kid picture board" do
@@ -40,6 +44,7 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     assert_select "body.is-watch.is-kid"
     assert_select ".live"
     assert_select ".live-dot"
+    assert_select ".challenge-story[src='/media/stories/salomon_wisdom.jpg']"
   end
 
   test "name screen uses picture cards a child can tap" do
@@ -49,5 +54,21 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     assert_select ".picture-card", count: 2
     assert_select ".picto-sofa"
     assert_select ".picto-house"
+  end
+
+  test "presenter console is a live reel not a form" do
+    sign_in_presenter(game_sessions(:david))
+    get presenter_console_path(game_sessions(:david).code)
+    assert_response :success
+    assert_select "body.is-presenter"
+    assert_select ".console.is-stage"
+    assert_select ".stage-shot"
+    assert_select ".stage-dock"
+    assert_select ".code-chip", text: "DAVID"
+    assert_select ".challenge-story[src='/media/stories/salomon_wisdom.jpg']"
+    css = Rails.root.join("app/assets/stylesheets/application.css").read
+    assert_includes css, ".stage-dock"
+    assert_includes css, ".stage-shot"
+    assert_includes css, ".code-chip"
   end
 end

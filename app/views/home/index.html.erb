@@ -1,21 +1,50 @@
 <% content_for :title, "Noche Live" %>
 <% content_for :body_class, "is-kid" %>
 
-<section class="gate">
-  <div class="mark mark-lg" aria-hidden="true"><%= render "illustrations/crown" %></div>
-  <p class="eyebrow">Noche de hogar</p>
-  <h1>Noche Live</h1>
-  <p class="lede">La misma noche. En la sala y en casa.</p>
+<section class="gate home-board">
+  <header class="home-brand">
+    <p class="eyebrow">Noche de hogar</p>
+    <h1>Noche Live</h1>
+    <p class="lede">Elige tu noche. En la sala y en casa.</p>
+  </header>
 
-  <%= form_with url: join_path, method: :post, class: "join-form" do %>
-    <label for="code">Código de la noche</label>
-    <input id="code" name="code" inputmode="text" autocomplete="off" autocapitalize="characters" maxlength="8" required class="code-input" placeholder="DAVID">
-    <button type="submit" class="btn btn-gold picto-btn"><%= picto("door") %>Entrar</button>
-    <button type="submit" name="as" value="watch" class="btn btn-ghost picto-btn"><%= picto("eye") %>Solo ver</button>
+  <div class="night-menu">
+    <% if @nights.any? %>
+      <% @nights.each do |night| %>
+        <%= render "home/night_card", night: night %>
+      <% end %>
+    <% else %>
+      <%= render "home/program_card", theme: @theme %>
+    <% end %>
+
+    <article class="play-card night-card-new">
+      <div class="night-create-art" aria-hidden="true"><%= picto("wand") %></div>
+      <p class="eyebrow">Presentador</p>
+      <h2>¿Presentas tú?</h2>
+      <p class="lede">Abre una noche para tu rama. Se crea un código corto.</p>
+      <%= link_to new_game_session_path, class: "btn btn-navy picto-btn" do %>
+        <%= picto("wand") %>Crear una noche
+      <% end %>
+    </article>
+  </div>
+
+  <% if @memories.any? %>
+    <section class="memory-shelf">
+      <p class="eyebrow">Noches de la rama</p>
+      <h2>Lo que recordamos</h2>
+      <% @memories.each do |night| %>
+        <%= render "home/memory_card", night: night %>
+      <% end %>
+    </section>
   <% end %>
 
-  <p class="split">¿Presentas tú?</p>
-  <%= link_to new_game_session_path, class: "btn btn-navy picto-btn" do %>
-    <%= picto("wand") %>Crear una noche
-  <% end %>
+  <section class="play-card join-by-code">
+    <%= form_with url: join_path, method: :post, class: "join-form" do %>
+      <p class="eyebrow">¿Tienes el código?</p>
+      <label for="code">Código de la noche</label>
+      <input id="code" name="code" inputmode="text" autocomplete="off" autocapitalize="characters" maxlength="8" required class="code-input" placeholder="DAVID">
+      <button type="submit" class="btn btn-gold picto-btn"><%= picto("door") %>Entrar</button>
+      <button type="submit" name="as" value="watch" class="btn btn-ghost picto-btn"><%= picto("eye") %>Solo ver</button>
+    <% end %>
+  </section>
 </section>

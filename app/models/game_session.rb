@@ -8,9 +8,13 @@ class GameSession < ApplicationRecord
   has_many :players, dependent: :destroy
   has_many :round_runs, -> { order(:position) }, dependent: :destroy
   has_many :score_events, dependent: :destroy
+  has_many :missionaries, -> { order(:id) }, dependent: :destroy
 
   validates :code, :status, :theme_id, :theme_title, :presenter_token_digest, presence: true
   validates :status, inclusion: { in: STATUSES }
+
+  scope :live, -> { where.not(status: "finished") }
+  scope :finished, -> { where(status: "finished") }
 
   attr_accessor :presenter_token
 
@@ -56,11 +60,13 @@ class GameSession < ApplicationRecord
   def playing? = status == "playing"
   def paused? = status == "paused"
   def finished? = status == "finished"
+  def live? = !finished?
 
   def start_playing!
     update!(status: "playing")
-    first = round_runs.pending.first
-    first&.intro!
+    return if round_runs.active.exists?
+
+    round_runs.pending.first&.intro!
   end
 
   def pause! = update!(status: "paused")

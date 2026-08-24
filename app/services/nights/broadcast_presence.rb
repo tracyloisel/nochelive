@@ -29,7 +29,7 @@ module Nights
         @night.presenter_stream,
         target: "night_presence",
         partial: "shared/presence",
-        locals: { night: @night, team: nil, compact: false }
+        locals: { night: @night, team: nil, compact: false, variant: "stage" }
       )
     end
   end

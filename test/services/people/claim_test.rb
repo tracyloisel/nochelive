@@ -10,7 +10,7 @@ class People::ClaimTest < ActiveSupport::TestCase
   teardown { People::Claim.reset_attempts! }
 
   test "attaches the device when the year matches" do
-    People::Claim.call(ward: @ward, person: @person, favorite_year: 33, device_token: "phone-2")
+    People::Claim.call(ward: @ward, person: @person, favorite_year: 1833, device_token: "phone-2")
     assert PersonDevice.exists?(person: @person, device_token: "phone-2")
   end
 
@@ -28,7 +28,7 @@ class People::ClaimTest < ActiveSupport::TestCase
       end
     end
     error = assert_raises(People::Error) do
-      People::Claim.call(ward: @ward, person: @person, favorite_year: 33, device_token: "brute")
+      People::Claim.call(ward: @ward, person: @person, favorite_year: 1833, device_token: "brute")
     end
     assert_equal :locked, error.code
   end
