@@ -19,4 +19,20 @@ class Ranks::AdvanceTest < ActiveSupport::TestCase
     assert_nil team.pending_rank_up
     assert_not team.next_correct_doubled?
   end
+
+  test "losing a rank takes back Rey and an unopened chest" do
+    team = teams(:casa)
+    event = ScoreEvent.award!(game_session: game_sessions(:david), team: team, kind: "adjust", points: 10, xp: 30, reason: "prueba")
+    team.reload
+    assert team.rey?
+    assert team.ready_chest.present?
+
+    event.destroy!
+    Ranks::Advance.call(team: team.reload)
+    team.reload
+    assert_equal "novicio", team.rank_key
+    assert_nil team.pending_rank_up
+    assert_not team.rey?
+    assert_nil team.ready_chest
+  end
 end

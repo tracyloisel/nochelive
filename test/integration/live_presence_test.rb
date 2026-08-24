@@ -31,6 +31,7 @@ class LivePresenceTest < ActionDispatch::IntegrationTest
     get night_play_path(@night.code)
     assert_response :success
     assert_select ".story-audience", text: /En directo/
+    assert_select ".story-audience .live-mark", text: "LIVE"
     assert_select ".story-audience .picto-eye"
     assert_select ".story-audience strong", text: /\d+/
     assert_select ".story-score"

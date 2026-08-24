@@ -22,18 +22,18 @@
     <div class="story-meta">
       <%= render "shared/story_close", action: "click->story#exit" %>
       <p class="story-night"><%= night_title(night) %></p>
+      <button type="button"
+              class="story-score btn"
+              data-action="click->story#toggleScore"
+              aria-controls="play_score"
+              aria-expanded="false"
+              data-story-target="scoreBtn"
+              aria-label="Puntos, <%= team.cached_score %>">
+        <%= picto("star") %>
+        <span><%= team.cached_score %></span>
+      </button>
       <div class="story-pills">
         <%= render "shared/presence", night: night, team: team, compact: true, variant: "stage", audience: true %>
-        <button type="button"
-                class="story-score btn"
-                data-action="click->story#toggleScore"
-                aria-controls="play_score"
-                aria-expanded="false"
-                data-story-target="scoreBtn"
-                aria-label="Puntos, <%= team.cached_score %>">
-          <%= picto("star") %>
-          <span><%= team.cached_score %></span>
-        </button>
       </div>
     </div>
 

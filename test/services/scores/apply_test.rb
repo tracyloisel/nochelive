@@ -32,6 +32,9 @@ class Scores::ApplyTest < ActiveSupport::TestCase
     assert_not @casa.score_events.where(kind: "correct", round_run: @round).exists?
     assert_not @casa.score_events.where(kind: "fastest_buzz", round_run: @round).exists?
     assert @casa.score_events.where(kind: "incorrect", round_run: @round).exists?
+    assert_not @casa.rey?
+    assert_nil @casa.pending_rank_up
+    assert_nil @casa.ready_chest
   end
 
   test "correct can override a previous incorrect" do

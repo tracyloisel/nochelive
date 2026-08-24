@@ -28,6 +28,7 @@ class PlayAndWatchControllerTest < ActionDispatch::IntegrationTest
     assert_select ".story-ticks"
     assert_select ".story-night", text: /Reyes y Profetas/
     assert_select ".story-audience", text: /En directo/
+    assert_select ".story-audience .live-mark", text: "LIVE"
     assert_select ".story-audience .picto-eye"
     assert_select ".story-audience strong", text: /\d+/
     assert_select ".story-score", text: /\d+/

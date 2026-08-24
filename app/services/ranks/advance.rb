@@ -17,6 +17,9 @@ module Ranks
       if @team.rank_index(key) > @team.rank_index(previous)
         attrs[:pending_rank_up] = Team.rank_label_for(key)
         attrs[:next_correct_doubled] = true
+      elsif @team.rank_index(key) < @team.rank_index(previous)
+        attrs[:pending_rank_up] = nil
+        attrs[:next_correct_doubled] = false
       end
       @team.update!(attrs)
       unlock_chests!
@@ -26,7 +29,10 @@ module Ranks
     private
 
     def unlock_chests!
-      return if @team.xp < 20
+      if @team.xp < 20
+        @team.reward_grants.where(chest_key: "cofre_salomon", state: "ready").delete_all
+        return
+      end
 
       @team.reward_grants.find_or_create_by!(chest_key: "cofre_salomon") do |grant|
         grant.state = "ready"
