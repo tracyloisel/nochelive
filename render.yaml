@@ -19,7 +19,7 @@ services:
       - key: RAILS_LOG_TO_STDOUT
         value: true
       - key: WEB_CONCURRENCY
-        value: "1"
+        value: "0"
       - key: RENDER
         value: "true"
 
