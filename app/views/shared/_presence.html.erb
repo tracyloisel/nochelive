@@ -1,8 +1,21 @@
 <% snapshot = Presences::Snapshot.call(night: night) %>
 <% compact = local_assigns.fetch(:compact, false) %>
 <% variant = local_assigns.fetch(:variant, "board") %>
+<% audience = local_assigns.fetch(:audience, false) %>
 <% team = local_assigns[:team] %>
-<aside id="night_presence" class="presence <%= "is-compact" if compact %> <%= "is-stage" if variant == "stage" %>" aria-label="Quién está">
+<aside id="night_presence" class="presence <%= "is-compact" if compact %> <%= "is-stage" if variant == "stage" %> <%= "has-audience" if audience %>" aria-label="Quién está">
+  <% if audience %>
+    <button type="button"
+            class="story-audience btn"
+            data-story-target="liveChip"
+            data-action="click->story#live"
+            aria-label="En directo, <%= snapshot.live %> de <%= snapshot.joined %> jugadores">
+      <%= picto("eye") %>
+      <span class="word">En directo</span>
+      <strong><%= snapshot.live %></strong>
+    </button>
+  <% end %>
+  <div class="presence-board">
   <div class="presence-stats">
     <div class="presence-stat">
       <%= picto("person") %>
@@ -62,4 +75,5 @@
     </ul>
     <% end %>
   <% end %>
+  </div>
 </aside>

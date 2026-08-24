@@ -1,0 +1,29 @@
+<% case claim.status %>
+<% when "granted" %>
+  <section class="gate" id="claim_wait" data-controller="visit" data-visit-url-value="<%= presenter_console_path(night.code) %>">
+    <%= render "shared/wait", message: "La mesa es tuya." %>
+  </section>
+<% when "blocked" %>
+  <section class="gate" id="claim_wait">
+    <%= render "shared/wait", message: "Esta noche no te deja presentar." %>
+    <%= link_to "Volver", presenter_gate_path(night.code), class: "btn btn-ghost" %>
+  </section>
+<% when "refused" %>
+  <section class="gate" id="claim_wait">
+    <%= render "shared/wait", message: "El presentador sigue en la mesa." %>
+    <%= link_to "Pedir otra vez", presenter_gate_path(night.code), class: "btn btn-navy" %>
+  </section>
+<% else %>
+  <section class="gate" id="claim_wait">
+    <%= render "shared/wait", message: "Le avisamos a quien tiene la mesa." %>
+    <p class="lede">Si no responde, en un minuto es tuya.</p>
+    <div class="play-timer"
+         data-controller="countdown"
+         data-countdown-end-value="<%= claim.expires_at.iso8601 %>"
+         data-countdown-duration-value="<%= PresenterClaim::TIMEOUT %>"
+         data-countdown-reload-url-value="<%= presenter_claim_path(night.code) %>">
+      <div class="play-timer-track"><span class="play-timer-bar" data-countdown-target="bar"></span></div>
+      <p class="play-timer-count" data-countdown-target="label"><%= PresenterClaim::TIMEOUT %></p>
+    </div>
+  </section>
+<% end %>

@@ -11,6 +11,11 @@ class JoinsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to night_watch_path("DAVID")
   end
 
+  test "present join goes to the presenter gate" do
+    post join_path, params: { code: "david", as: "present" }
+    assert_redirected_to presenter_gate_path("DAVID")
+  end
+
   test "unknown code" do
     post join_path, params: { code: "XXXXX" }
     assert_redirected_to root_path

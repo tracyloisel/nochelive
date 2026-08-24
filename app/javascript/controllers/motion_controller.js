@@ -40,7 +40,7 @@ export default class extends Controller {
 
   markArrive() {
     if (this.reduced()) return
-    document.querySelectorAll(".play-card, .watch, .console, .gate, .reveal, .lock, .banner").forEach((el) => {
+    document.querySelectorAll(".play-card, .watch, .console, .gate, .reveal, .lock, .banner, .claim-modal").forEach((el) => {
       el.classList.remove("is-arriving")
       void el.offsetWidth
       el.classList.add("is-arriving")

@@ -154,4 +154,12 @@ class GameDefinitionTest < ActiveSupport::TestCase
     )
     assert_equal "D", room_only.find_round("a").remote_grade
   end
+
+  test "every round points at a story still that exists" do
+    GameDefinition.default.rounds.each do |round|
+      rel = round.presentation.fetch("image")
+      assert_match(%r{\Astories/.+\.jpg\z}, rel)
+      assert Rails.public_path.join("media/#{rel}").file?, "#{round.id} missing public/media/#{rel}"
+    end
+  end
 end

@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static values = { end: String, duration: Number }
+  static values = { end: String, duration: Number, reloadUrl: String }
   static targets = ["label", "bar"]
 
   connect() {
@@ -21,6 +21,13 @@ export default class extends Controller {
     }
     this.element.classList.toggle("is-low", remain > 0 && remain <= 5)
     this.element.classList.toggle("is-empty", remain <= 0)
-    if (remainMs > 0) this.frame = requestAnimationFrame(() => this.tick())
+    if (remainMs > 0) {
+      this.frame = requestAnimationFrame(() => this.tick())
+      return
+    }
+    if (this.reloadUrlValue && !this.reloaded) {
+      this.reloaded = true
+      window.location = this.reloadUrlValue
+    }
   }
 }

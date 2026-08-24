@@ -1,6 +1,7 @@
 class GameSessionsController < ApplicationController
   def new
     @ward = current_ward
+    @live_nights = @ward ? @ward.game_sessions.live.order(updated_at: :desc) : GameSession.none
   end
 
   def create
@@ -10,6 +11,7 @@ class GameSessionsController < ApplicationController
     end
 
     @night = Nights::Start.call(ward: current_ward)
+    Presenters::Seat.call(night: @night, device_token: device_token)
     remember_presenter(@night)
     remember_ward(current_ward)
     Rails.logger.info("session=#{@night.code} event=created ward=#{current_ward.code}")

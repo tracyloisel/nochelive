@@ -33,6 +33,9 @@ Rails.application.routes.draw do
 
   get "/p/:session_code", to: "presenter/gates#show", as: :presenter_gate
   post "/p/:session_code", to: "presenter/gates#create"
+  get "/p/:session_code/claim", to: "presenter/claims#show", as: :presenter_claim
+  post "/p/:session_code/claim", to: "presenter/claims#create"
+  post "/p/:session_code/claims/:id/resolve", to: "presenter/claims#resolve", as: :presenter_claim_resolve
   get "/p/:session_code/console", to: "presenter/consoles#show", as: :presenter_console
   post "/p/:session_code/start", to: "presenter/nights#start", as: :presenter_start
   post "/p/:session_code/pause", to: "presenter/nights#pause", as: :presenter_pause

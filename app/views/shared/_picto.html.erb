@@ -2,6 +2,9 @@
 <% size = local_assigns[:size] %>
 <svg class="picto picto-<%= name %> <%= "picto-#{size}" if size %>" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
   <% case name %>
+  <% when "close" %>
+    <circle cx="32" cy="32" r="24" fill="#d4a017"/>
+    <path d="M22 22 L42 42 M42 22 L22 42" stroke="#1a2744" stroke-width="6" stroke-linecap="round"/>
   <% when "door" %>
     <rect x="16" y="10" width="32" height="46" rx="6" fill="#1a2744"/>
     <rect x="20" y="16" width="24" height="36" rx="3" fill="#f6f3ec"/>
@@ -34,6 +37,10 @@
   <% when "check" %>
     <circle cx="32" cy="32" r="24" fill="#d4a017"/>
     <path d="M18 33 l10 10 18-20" fill="none" stroke="#1a2744" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <% when "tick" %>
+    <path d="M14 34 l12 12 24-28" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+  <% when "cross" %>
+    <path d="M18 18 L46 46 M46 18 L18 46" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
   <% when "hourglass" %>
     <path d="M20 8h24v10L36 32l8 14v10H20V46l8-14-8-14z" fill="#d4a017"/>
     <path d="M24 12h16v4L32 28 24 16z" fill="#f6f3ec"/>

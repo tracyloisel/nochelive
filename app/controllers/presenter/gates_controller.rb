@@ -4,9 +4,7 @@ module Presenter
 
     def show
       if params[:token].present? && @night.presenter_token_matches?(params[:token])
-        remember_presenter(@night)
-        remember_ward(@night.ward)
-        redirect_to presenter_console_path(@night.code)
+        admit_with_token
         return
       end
 
@@ -15,12 +13,19 @@ module Presenter
 
     def create
       if @night.presenter_token_matches?(params[:token].to_s)
+        admit_with_token
+      else
+        redirect_to presenter_gate_path(@night.code), alert: "Ese enlace no es válido."
+      end
+    end
+
+    private
+
+      def admit_with_token
+        Presenters::Seat.call(night: @night, device_token: device_token, clear_pending: true)
         remember_presenter(@night)
         remember_ward(@night.ward)
         redirect_to presenter_console_path(@night.code)
-      else
-        redirect_to presenter_gate_path(@night.code), alert: "Token incorrecto."
       end
-    end
   end
 end

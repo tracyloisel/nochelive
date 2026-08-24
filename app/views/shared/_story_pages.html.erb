@@ -1,0 +1,25 @@
+<% current = local_assigns[:current] %>
+<% reveal_future = local_assigns.fetch(:reveal_future, false) %>
+<div class="story-pages">
+  <% night.round_runs.each_with_index do |tick, index| %>
+    <% on = current && tick.id == current.id %>
+    <% locked = !reveal_future && !tick.completed? && !on && !tick.live? %>
+    <div class="story-page <%= "is-on" if on %>"
+         data-story-target="page"
+         data-index="<%= index %>"
+         <%= "hidden" unless on %>>
+      <% if locked %>
+        <div class="story-lock">
+          <p class="eyebrow">Ronda <%= tick.position %></p>
+          <p class="story-lock-mark"><%= picto("hourglass") %></p>
+          <h2>Pronto</h2>
+        </div>
+      <% else %>
+        <%= render "shared/challenge_media", round: tick %>
+        <% unless on %>
+          <p class="story-page-label"><%= tick.definition.title %></p>
+        <% end %>
+      <% end %>
+    </div>
+  <% end %>
+</div>

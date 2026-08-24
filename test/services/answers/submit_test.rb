@@ -85,7 +85,10 @@ class Answers::SubmitTest < ActiveSupport::TestCase
     round = round_runs(:kings_order)
     round.update!(phase: "open")
     Answers::Submit.call(round:, team: teams(:casa), player: players(:daniel), body: "david,saul,salomon")
-    assert teams(:casa).reload.score_events.where(kind: "incorrect", round_run: round).exists?
+    event = teams(:casa).reload.score_events.find_by!(kind: "incorrect", round_run: round)
+    assert_equal 0, event.points
+    assert_equal 0, event.xp
+    assert_equal 0, teams(:casa).cached_score
     assert_not teams(:casa).score_events.where(kind: "correct", round_run: round).exists?
   end
 

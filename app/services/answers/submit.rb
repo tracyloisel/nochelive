@@ -64,9 +64,9 @@ module Answers
       return if (definition.taboo? || definition.category?) && !correct
 
       if correct
-        ScoreApplier.correct!(@round, @team, broadcast: false)
+        Scores::Apply.correct!(@round, @team, broadcast: false)
       else
-        ScoreApplier.incorrect!(@round, @team, broadcast: false)
+        Scores::Apply.incorrect!(@round, @team, broadcast: false)
       end
     end
 

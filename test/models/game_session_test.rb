@@ -110,6 +110,15 @@ class GameSessionTest < ActiveSupport::TestCase
     assert_nothing_raised { game_sessions(:david).broadcast_state }
   end
 
+  test "digest names the holder" do
+    night = game_sessions(:david)
+    assert_not night.presenter_held_by?("phone")
+    Presenters::Seat.call(night:, device_token: "phone")
+    assert night.reload.presenter_held_by?("phone")
+    assert_not night.presenter_held_by?("other")
+    assert_not night.presenter_held_by?("")
+  end
+
   test "live nights exclude finished ones" do
     assert_includes GameSession.live, game_sessions(:david)
     assert_includes GameSession.live, game_sessions(:elias)

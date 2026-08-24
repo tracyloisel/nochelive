@@ -1,5 +1,7 @@
-# Per-round shots. `room` is chapel (seated) or cultural_hall (movement).
-# `slides` feed the TV diaporama. `video` is an optional 5s clip.
+# Legacy chapel B-roll. Presenter and watch no longer use these slides.
+# Story stills: public/media/stories/<round_id>.jpg (config/media/story_challenges.yml).
+# `room` is chapel (seated) or cultural_hall (movement) if you still generate B-roll.
+# `slides` / `video` are optional atmosphere only.
 
 rounds:
   salomon_wisdom:

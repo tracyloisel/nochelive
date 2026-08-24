@@ -24,6 +24,7 @@ rounds:
       streak: true
     presentation:
       illustration: solomon_throne
+      image: stories/salomon_wisdom.jpg
       intro_vfx: glow
     sfx:
       intro: round_start
@@ -52,6 +53,7 @@ rounds:
       xp: 14
     presentation:
       illustration: elijah_fire
+      image: stories/rey_o_profeta.jpg
 
   - id: david_goliath
     type: physical_target
@@ -76,6 +78,7 @@ rounds:
       xp: 18
     presentation:
       illustration: david_goliath
+      image: stories/david_goliath.jpg
       correct_vfx: stone_hit
     sfx:
       intro: dramatic_fire
@@ -105,6 +108,7 @@ rounds:
       xp: 18
     presentation:
       illustration: elijah_fire
+      image: stories/elias_carmel.jpg
       correct_vfx: fire_burst
 
   - id: daniel_lions
@@ -123,6 +127,7 @@ rounds:
       xp: 18
     presentation:
       illustration: daniel_lions
+      image: stories/daniel_lions.jpg
 
   - id: freeze_saul
     type: freeze_dance
@@ -146,6 +151,7 @@ rounds:
       lock: dramatic_fire
     presentation:
       illustration: solomon_throne
+      image: stories/freeze_saul.jpg
 
   - id: mime_jonah
     type: mime
@@ -174,6 +180,7 @@ rounds:
           picto: land
     presentation:
       illustration: david_goliath
+      image: stories/mime_jonah.jpg
 
   - id: kings_order
     type: ordering
@@ -203,6 +210,7 @@ rounds:
       xp: 20
     presentation:
       illustration: solomon_throne
+      image: stories/kings_order.jpg
 
   - id: taboo_nabot
     type: taboo
@@ -231,6 +239,7 @@ rounds:
       xp: 18
     presentation:
       illustration: elijah_fire
+      image: stories/taboo_nabot.jpg
 
   - id: statue_david
     type: pose
@@ -249,6 +258,7 @@ rounds:
       instructions: "En casa: 30 segundos. La misma estatua frente a la cámara."
     presentation:
       illustration: david_goliath
+      image: stories/statue_david.jpg
 
   - id: scavenger_harp
     type: scavenger_hunt
@@ -269,6 +279,7 @@ rounds:
       xp: 16
     presentation:
       illustration: solomon_throne
+      image: stories/scavenger_harp.jpg
 
   - id: category_prophets
     type: category_race
@@ -300,6 +311,7 @@ rounds:
       xp: 16
     presentation:
       illustration: elijah_fire
+      image: stories/category_prophets.jpg
 
   - id: vote_solomon
     type: team_vote
@@ -318,6 +330,7 @@ rounds:
       xp: 20
     presentation:
       illustration: solomon_throne
+      image: stories/vote_solomon.jpg
 
   - id: semifinal_crown
     type: buzzer
@@ -335,6 +348,7 @@ rounds:
       xp: 24
     presentation:
       illustration: david_goliath
+      image: stories/semifinal_crown.jpg
 
   - id: finale_prophet
     type: finale
@@ -353,6 +367,7 @@ rounds:
       xp: 40
     presentation:
       illustration: elijah_fire
+      image: stories/finale_prophet.jpg
       intro_vfx: embers
       correct_vfx: fire_burst
     sfx:

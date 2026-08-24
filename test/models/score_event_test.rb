@@ -8,14 +8,14 @@ class ScoreEventTest < ActiveSupport::TestCase
     round.intro!
     round.open!
 
-    ScoreApplier.correct!(round, team)
+    Scores::Apply.correct!(round, team)
     team.reload
     assert_operator team.cached_score, :>=, 10
     assert_operator team.xp, :>=, 20
     assert_equal 1, team.streak
     assert team.ready_chest.present?
 
-    ScoreApplier.correct!(round, team)
+    Scores::Apply.correct!(round, team)
     assert_equal 1, team.score_events.where(kind: "correct").count
   end
 

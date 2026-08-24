@@ -9,6 +9,8 @@ class GameSession < ApplicationRecord
   has_many :round_runs, -> { order(:position) }, dependent: :destroy
   has_many :score_events, dependent: :destroy
   has_many :missionaries, -> { order(:id) }, dependent: :destroy
+  has_many :presenter_claims, dependent: :destroy
+  has_many :presenter_blocks, dependent: :destroy
 
   validates :code, :status, :theme_id, :theme_title, :presenter_token_digest, presence: true
   validates :status, inclusion: { in: STATUSES }
@@ -50,6 +52,18 @@ class GameSession < ApplicationRecord
     digest = self.class.digest_token(token)
     ActiveSupport::SecurityUtils.secure_compare(presenter_token_digest, digest)
   end
+
+  def presenter_held_by?(token)
+    return false if presenter_device_digest.blank? || token.blank?
+
+    ActiveSupport::SecurityUtils.secure_compare(presenter_device_digest, self.class.digest_token(token))
+  end
+
+  def pending_presenter_claim
+    presenter_claims.pending.order(:id).first
+  end
+
+  def claim_stream(digest) = [ self, :presenter_claim, digest ]
 
   def current_round_run
     round_runs.where.not(phase: %w[pending completed]).first ||

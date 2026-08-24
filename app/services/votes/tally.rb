@@ -16,7 +16,7 @@ module Votes
 
       top = counts.values.max
       counts.select { |_id, votes| votes == top }.each_key do |team_id|
-        ScoreApplier.correct!(@round, Team.find(team_id), broadcast: false)
+        Scores::Apply.correct!(@round, Team.find(team_id), broadcast: false)
       end
     end
   end

@@ -1,21 +1,32 @@
 <% round = night.current_round_run %>
-<section class="console is-stage" id="night_presenter">
+<% live_index = night.round_runs.find_index { |tick| round && tick.id == round.id }.to_i %>
+<section class="console is-stage"
+         id="night_presenter"
+         data-controller="story"
+         data-story-exit-url-value="<%= root_path %>"
+         data-story-index-value="<%= live_index %>"
+         data-story-live-index-value="<%= live_index %>"
+         data-action="pointerdown->story#start sheet:dismiss->story#exit">
+  <% if (claim = night.pending_presenter_claim) %>
+    <%= render "presenter/claims/challenge", night: night, claim: claim %>
+  <% end %>
+  <p class="skip">Desliza abajo para salir. Izquierda y derecha cambian de ronda. Arriba abre la mesa.</p>
   <div class="stage-reel">
     <div class="stage-shot">
       <% if night.finished? %>
         <%= render "shared/ceremony", night: night %>
       <% elsif round %>
-        <%= render "shared/challenge_media", round: round %>
+        <%= render "shared/story_pages", night: night, current: round, reveal_future: true %>
       <% end %>
     </div>
 
     <div class="stage-overlay">
       <header class="stage-chrome">
-        <ol class="stage-ticks" aria-label="Rondas">
-          <% night.round_runs.each do |tick| %>
-            <li class="<%= "is-done" if tick.completed? %> <%= "is-now" if round&.id == tick.id %>" title="<%= tick.definition.title %>"></li>
-          <% end %>
-        </ol>
+        <div class="story-bar">
+          <%= render "shared/story_close", action: "click->story#exit" %>
+          <%= render "shared/story_ticks", night: night, current: round %>
+        </div>
+        <button type="button" class="story-live btn btn-gold btn-tiny" hidden data-story-target="liveChip" data-action="story#live">En directo</button>
         <div class="stage-bar">
           <p class="live"><span class="live-dot" aria-hidden="true"></span>En directo</p>
           <p class="code-chip"><%= night.code %></p>
@@ -97,41 +108,39 @@
     </div>
   </div>
 
-  <div class="stage-desk">
   <% guests = night.ward ? night.players.participants.where(person_id: nil).to_a : [] %>
-  <% if guests.any? %>
-    <aside class="board">
-      <h3>Fichas</h3>
-      <p class="quiet">Si un teléfono nuevo no recuerda a alguien, enlázalo aquí.</p>
-      <% guests.each do |player| %>
-        <% matches = night.ward.people.named(player.name) %>
-        <div class="ficha-row">
-          <p><span><%= player.name %> · sin ficha</span></p>
-          <% if matches.any? %>
-            <span class="cluster">
-              <% matches.each do |person| %>
-                <%= button_to "Es #{person.display_name}", presenter_person_link_path(night.code, person), params: { player_id: player.id }, class: "btn btn-tiny btn-ghost" %>
-              <% end %>
-            </span>
-          <% end %>
-          <% if night.ward.people.any? %>
-            <%= form_with url: presenter_people_link_path(night.code), class: "cluster" do %>
-              <input type="hidden" name="player_id" value="<%= player.id %>">
-              <label class="quiet" for="person_id_<%= player.id %>">Ficha</label>
-              <select id="person_id_<%= player.id %>" name="person_id">
-                <% night.ward.people.order(:given_name, :family_name).each do |person| %>
-                  <option value="<%= person.id %>"><%= person.display_name %></option>
-                <% end %>
-              </select>
-              <button type="submit" class="btn btn-tiny btn-gold">Enlazar</button>
-            <% end %>
-          <% end %>
-        </div>
-      <% end %>
-    </aside>
-  <% end %>
+  <% play_desk = round&.live? || (round && !round.completed?) %>
+  <% grades = play_desk ? round.score_events.select { |event| event.kind.in?(%w[correct incorrect]) }.index_by(&:team_id) : {} %>
+  <% pending = play_desk ? round.answers.count { |answer| grades[answer.team_id].blank? } : 0 %>
+  <div class="stage-desk desk-sheet story-sheet"
+       data-controller="sheet desk"
+       data-story-target="sheet"
+       data-sheet-snap-value="peek"
+       data-desk-night-value="<%= night.code %>"
+       data-desk-tab-value="<%= pending.positive? || (play_desk && round.answers.any?) ? "respuestas" : "marcador" %>"
+       data-action="pointerdown->sheet#start">
+    <button type="button"
+            class="play-sheet-grip"
+            data-sheet-target="handle"
+            data-action="click->sheet#cycle"
+            aria-label="Mover la mesa para ver el dibujo"
+            aria-valuetext="Tarjeta baja, se ve el dibujo">
+      <span class="play-sheet-pip" aria-hidden="true"></span>
+    </button>
+    <div class="play-sheet-body" data-sheet-target="body">
+    <% unless night.finished? %>
+      <nav class="desk-tabs" role="tablist" aria-label="Mesa">
+        <button type="button" class="btn btn-tiny desk-tab" role="tab" data-desk-target="tab" data-action="desk#show" data-desk-pane="respuestas" aria-controls="desk_respuestas">
+          Respuestas<% if pending.positive? %><span class="desk-count"><%= pending %></span><% end %>
+        </button>
+        <button type="button" class="btn btn-tiny desk-tab" role="tab" data-desk-target="tab" data-action="desk#show" data-desk-pane="marcador" aria-controls="desk_marcador">
+          Marcador
+        </button>
+      </nav>
+    <% end %>
 
-  <% if round&.live? || (round && !round.completed?) %>
+    <div class="desk-pane" id="desk_respuestas" role="tabpanel" data-desk-target="pane" data-desk-pane="respuestas">
+  <% if play_desk %>
     <article class="console-round">
       <% if round.buzzes.any? %>
         <h3>Buzz</h3>
@@ -143,29 +152,52 @@
       <% end %>
 
       <% if round.answers.any? %>
-        <h3>Respuestas</h3>
+        <% if round.answers.size >= 2 %>
+          <label class="desk-search">
+            <input type="search" data-desk-target="query" data-action="input->desk#filter" value="" autocomplete="off" enterkeyhint="search" aria-label="Buscar equipo o respuesta" placeholder="Buscar equipo o respuesta">
+          </label>
+        <% end %>
         <ul class="answer-list">
-          <% round.answers.includes(:team).each do |answer| %>
-            <li>
-              <strong><%= answer.team.name %></strong>
-              <p>
-                <% if round.definition.ordering? %>
-                  <%= round.definition.order_labels(answer.body).join(" → ") %>
-                <% elsif round.definition.mime? && round.definition.story_path? %>
-                  <%= round.definition.path_labels(answer.body).join(" → ") %>
-                <% elsif round.definition.freeze? %>
-                  <%= answer.body.to_i %> ms
-                <% else %>
-                  <%= answer.body %>
-                <% end %>
-              </p>
-              <span class="cluster">
-                <%= button_to "Correcta", presenter_scores_path(night.code), params: { team_id: answer.team_id, round_run_id: round.id, kind: "correct" }, class: "btn btn-gold btn-tiny" %>
-                <%= button_to "Incorrecta", presenter_scores_path(night.code), params: { team_id: answer.team_id, round_run_id: round.id, kind: "incorrect" }, class: "btn btn-ghost btn-tiny" %>
-              </span>
+          <% round.answers.includes(:team).sort_by { |answer|
+            grade = grades[answer.team_id]
+            rank = if grade.nil? then 0
+                    elsif grade.kind == "incorrect" then 1
+                    else 2
+                    end
+            [ rank, answer.created_at.to_i ]
+          }.each do |answer| %>
+            <% label = answer_body_label(round, answer) %>
+            <% grade = grades[answer.team_id] %>
+            <li class="desk-answer <%= "is-yes" if grade&.kind == "correct" %> <%= "is-no" if grade&.kind == "incorrect" %>" data-desk-target="row" data-desk-hay="<%= answer.team.name %> <%= label %>">
+              <div class="desk-answer-copy">
+                <p class="eyebrow"><%= answer.team.name %></p>
+                <p class="desk-answer-body"><%= label %></p>
+              </div>
+              <% if grade %>
+                <% yes = grade.kind == "correct" %>
+                <span class="cluster desk-grade">
+                  <p class="desk-mark <%= yes ? "is-yes" : "is-no" %>">
+                    <%= picto(yes ? "tick" : "cross") %>
+                    <span class="word"><%= yes ? "Correcta" : "Incorrecta" %></span>
+                  </p>
+                  <% if yes %>
+                    <%= button_to "Incorrecta", presenter_scores_path(night.code), params: { team_id: answer.team_id, round_run_id: round.id, kind: "incorrect" }, class: "btn btn-ghost btn-tiny" %>
+                  <% else %>
+                    <%= button_to "Correcta", presenter_scores_path(night.code), params: { team_id: answer.team_id, round_run_id: round.id, kind: "correct" }, class: "btn btn-gold btn-tiny" %>
+                  <% end %>
+                </span>
+              <% else %>
+                <span class="cluster desk-grade">
+                  <%= button_to "Correcta", presenter_scores_path(night.code), params: { team_id: answer.team_id, round_run_id: round.id, kind: "correct" }, class: "btn btn-gold btn-tiny" %>
+                  <%= button_to "Incorrecta", presenter_scores_path(night.code), params: { team_id: answer.team_id, round_run_id: round.id, kind: "incorrect" }, class: "btn btn-ghost btn-tiny" %>
+                </span>
+              <% end %>
             </li>
           <% end %>
         </ul>
+        <p class="quiet" data-desk-target="empty" hidden>Ninguna coincidencia.</p>
+      <% else %>
+        <p class="quiet">Aún no hay respuestas.</p>
       <% end %>
 
       <% if round.definition.taboo? %>
@@ -280,42 +312,69 @@
       <% if round.definition.physical? || round.definition.pose? || round.definition.mime? || round.definition.taboo? || round.definition.scavenger? || round.definition.freeze? || round.definition.category? %>
         <h3>Puntos de la sala</h3>
         <% night.teams.each do |team| %>
-          <p>
-            <span><%= team.name %></span>
-            <span class="cluster">
-              <%= button_to "+5", presenter_scores_path(night.code), params: { team_id: team.id, kind: "plus" }, class: "btn btn-tiny btn-gold" %>
-              <%= button_to "−5", presenter_scores_path(night.code), params: { team_id: team.id, kind: "minus" }, class: "btn btn-tiny btn-ghost" %>
-            </span>
-          </p>
+          <%= render "presenter/consoles/team_score", night: night, team: team, filterable: true %>
         <% end %>
       <% end %>
     </article>
+  <% else %>
+    <p class="quiet">Aún no hay respuestas.</p>
   <% end %>
+    </div>
 
-  <% unless night.finished? %>
-  <aside class="board">
-    <h3>Marcador</h3>
-    <% night.teams.order(cached_score: :desc).each do |team| %>
-      <p>
-        <span><%= team.name %> · <%= team.cached_score %> pts · <%= team.rank_label %><%= " · Rey" if team.rey? %><% if team.ward_team %> · T. <%= team.ward_team.season_rank_label %><% end %></span>
-        <span class="cluster">
-          <%= button_to "+5", presenter_scores_path(night.code), params: { team_id: team.id, kind: "plus" }, class: "btn btn-tiny btn-ghost" %>
-          <%= button_to "−5", presenter_scores_path(night.code), params: { team_id: team.id, kind: "minus" }, class: "btn btn-tiny btn-ghost" %>
-        </span>
-      </p>
-    <% end %>
-  </aside>
-  <% end %>
-
-  <% if night.score_events.any? %>
-    <details class="ledger">
-      <summary>Historial de puntos</summary>
-      <ul>
-        <% night.score_events.includes(:team).order(created_at: :desc).limit(12).each do |event| %>
-          <li><%= event.team.name %>: <%= event.points %> · <%= event.reason %></li>
+    <% unless night.finished? %>
+    <div class="desk-pane" id="desk_marcador" role="tabpanel" data-desk-target="pane" data-desk-pane="marcador" hidden>
+      <aside class="desk-board" aria-label="Marcador">
+        <% night.teams.order(cached_score: :desc).each do |team| %>
+          <%= render "presenter/consoles/team_score", night: night, team: team %>
         <% end %>
-      </ul>
-    </details>
-  <% end %>
+      </aside>
+
+      <% if night.score_events.any? %>
+        <details class="ledger desk-ledger">
+          <summary>Historial de puntos</summary>
+          <ul>
+            <% night.score_events.includes(:team).order(created_at: :desc).limit(12).each do |event| %>
+              <li><%= event.team.name %>: <%= event.points %> · <%= event.reason %></li>
+            <% end %>
+          </ul>
+        </details>
+      <% end %>
+
+      <% if guests.any? %>
+        <details class="desk-ledger">
+          <summary>Fichas · <%= guests.size %> sin ficha</summary>
+          <p class="quiet">Si un teléfono nuevo no recuerda a alguien, enlázalo aquí.</p>
+          <div class="desk-board">
+            <% guests.each do |player| %>
+              <% matches = night.ward.people.named(player.name) %>
+              <article class="desk-link">
+                <p class="desk-team-name"><%= player.name %> · sin ficha</p>
+                <% if matches.any? %>
+                  <span class="cluster">
+                    <% matches.each do |person| %>
+                      <%= button_to "Es #{person.display_name}", presenter_person_link_path(night.code, person), params: { player_id: player.id }, class: "btn btn-tiny btn-ghost" %>
+                    <% end %>
+                  </span>
+                <% end %>
+                <% if night.ward.people.any? %>
+                  <%= form_with url: presenter_people_link_path(night.code), class: "desk-link-form" do %>
+                    <input type="hidden" name="player_id" value="<%= player.id %>">
+                    <label class="quiet" for="person_id_<%= player.id %>">Ficha</label>
+                    <select id="person_id_<%= player.id %>" name="person_id">
+                      <% night.ward.people.order(:given_name, :family_name).each do |person| %>
+                        <option value="<%= person.id %>"><%= person.display_name %></option>
+                      <% end %>
+                    </select>
+                    <button type="submit" class="btn btn-tiny btn-gold">Enlazar</button>
+                  <% end %>
+                <% end %>
+              </article>
+            <% end %>
+          </div>
+        </details>
+      <% end %>
+    </div>
+    <% end %>
+  </div>
   </div>
 </section>

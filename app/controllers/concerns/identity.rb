@@ -74,7 +74,11 @@ module Identity
     end
 
     def presenter_for?(night)
-      cookies.signed[:noche_presenter].to_i == night.id
+      return false unless cookies.signed[:noche_presenter].to_i == night.id
+      return true if night.presenter_device_digest.blank?
+
+      token = cookies.signed[:noche_device].to_s
+      token.present? && night.presenter_held_by?(token)
     end
 
     def ward_presenter?
@@ -91,8 +95,25 @@ module Identity
     end
 
     def require_presenter
-      return if presenter_for?(@night)
-      redirect_to presenter_gate_path(@night.code), alert: "Necesitas el enlace del presentador."
+      expire_pending_presenter_claim
+      if presenter_for?(@night)
+        if @night.presenter_device_digest.blank?
+          Presenters::Seat.call(night: @night, device_token: device_token)
+        end
+        return
+      end
+
+      redirect_to presenter_gate_path(@night.code), alert: "Pide la consola. Toca Soy el presentador."
+    end
+
+    def expire_pending_presenter_claim
+      return unless @night
+
+      claim = @night.pending_presenter_claim
+      return unless claim&.pending?
+
+      expired = Presenters::Expire.call(claim: claim)
+      @night.reload if expired&.granted?
     end
 
     def require_ward

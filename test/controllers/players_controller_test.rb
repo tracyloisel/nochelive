@@ -6,6 +6,7 @@ class PlayersControllerTest < ActionDispatch::IntegrationTest
   test "new asks for a name" do
     get night_name_path(@night.code)
     assert_response :success
+    assert_select "a.btn", text: /Soy el presentador/
   end
 
   test "create participant then refresh does not clone" do

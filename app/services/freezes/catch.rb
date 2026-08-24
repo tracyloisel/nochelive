@@ -34,9 +34,9 @@ module Freezes
         answer = Answer.create!(round_run: locked, team: @team, player: @player, body: ms.to_s)
 
         if ms <= locked.definition.freeze_window
-          ScoreApplier.correct!(locked, @team, broadcast: false)
+          Scores::Apply.correct!(locked, @team, broadcast: false)
         else
-          ScoreApplier.incorrect!(locked, @team, broadcast: false)
+          Scores::Apply.incorrect!(locked, @team, broadcast: false)
         end
 
         answer

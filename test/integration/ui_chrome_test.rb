@@ -36,6 +36,13 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     assert_includes css, ".picto"
     assert_includes css, ".play-reel"
     assert_includes css, ".play-timer"
+    assert_includes css, ".story-close"
+    assert_includes css, ".story-ticks"
+    assert_includes css, ".story-audience"
+    assert_includes css, ".story-score"
+    assert_includes css, ".is-kid .story-audience.btn"
+    assert_includes css, ".story-night"
+    assert_includes css, "--sky:"
   end
 
   test "watch screen is a kid picture board" do
@@ -54,6 +61,7 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     assert_select ".picture-card", count: 2
     assert_select ".picto-sofa"
     assert_select ".picto-house"
+    assert_select "a.btn", text: /Soy el presentador/
   end
 
   test "presenter console is a live reel not a form" do
@@ -66,9 +74,20 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     assert_select ".stage-dock"
     assert_select ".code-chip", text: "DAVID"
     assert_select ".challenge-story[src='/media/stories/salomon_wisdom.jpg']"
+    assert_select ".story-close"
+    assert_select ".console.is-stage[data-controller=story]"
+    assert_select ".desk-sheet"
+    assert_select ".desk-tabs"
+    assert_select ".desk-board[aria-label=Marcador]"
+    assert_select ".desk-team"
+    assert_select ".stage-reel .stage-rail"
     css = Rails.root.join("app/assets/stylesheets/application.css").read
     assert_includes css, ".stage-dock"
     assert_includes css, ".stage-shot"
     assert_includes css, ".code-chip"
+    assert_includes css, ".desk-team"
+    assert_includes css, ".desk-tabs"
+    assert_includes css, ".desk-mark"
+    assert_includes css, "--desk-radius:"
   end
 end

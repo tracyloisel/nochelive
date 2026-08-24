@@ -1,0 +1,6 @@
+<%= link_to local_assigns.fetch(:href, root_path),
+            class: "story-close",
+            data: { action: local_assigns[:action] }.compact,
+            aria: { label: local_assigns.fetch(:label, "Inicio") } do %>
+  <%= picto("close") %>
+<% end %>

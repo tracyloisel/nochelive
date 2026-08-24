@@ -157,7 +157,8 @@ class NightFlowTest < ActionDispatch::IntegrationTest
     assert_includes remote.response.body, "¡LA TORMENTA!"
     assert_includes remote.response.body, "¡EL PEZ!"
     assert_includes remote.response.body, "¡TIERRA!"
-    assert_not_includes remote.response.body, "Daniel y los leones"
+    remote.assert_select ".play-stage", text: /TÚ ERES JONÁS/
+    remote.assert_select ".play-stage", text: /Daniel y los leones/, count: 0
 
     get night_watch_path(night.code)
     assert_includes response.body, "SIN PALABRAS"

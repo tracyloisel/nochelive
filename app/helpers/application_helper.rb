@@ -181,9 +181,17 @@ module ApplicationHelper
   end
 
   def challenge_story(round)
-    id = challenge_media_id(round)
-    return unless id
+    definition = round&.definition
+    return unless definition
 
+    yaml_rel = definition.presentation&.[]("image").presence
+    if yaml_rel
+      rel = yaml_rel.to_s.delete_prefix("/")
+      rel = "media/#{rel}" unless rel.start_with?("media/")
+      return "/#{rel}" if Rails.public_path.join(rel).file?
+    end
+
+    id = definition.id
     %w[jpg jpeg png webp].each do |ext|
       rel = "media/stories/#{id}.#{ext}"
       return "/#{rel}" if Rails.public_path.join(rel).file?
@@ -231,6 +239,22 @@ module ApplicationHelper
       (choice["label"] || choice[:label] || choice["key"] || choice[:key]).to_s
     else
       choice.to_s
+    end
+  end
+
+  def answer_body_label(round, answer)
+    definition = round.definition
+    if definition.ordering?
+      definition.order_labels(answer.body).join(" → ")
+    elsif definition.mime? && definition.story_path?
+      definition.path_labels(answer.body).join(" → ")
+    elsif definition.freeze?
+      "#{answer.body.to_i} ms"
+    elsif definition.choice?
+      row = Array(definition.choices).find { |choice| choice_key(choice) == answer.body.to_s }
+      row ? choice_label(row) : answer.body
+    else
+      answer.body
     end
   end
 end

@@ -18,6 +18,9 @@
     </div>
   <% end %>
   <div class="night-foot">
+    <%= link_to presenter_gate_path(night.code), class: "btn btn-navy picto-btn" do %>
+      <%= picto("wand") %>Soy el presentador
+    <% end %>
     <%= link_to night_watch_path(night.code), class: "btn btn-ghost" do %>
       <%= picto("eye") %>Solo ver
     <% end %>

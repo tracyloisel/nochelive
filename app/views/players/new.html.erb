@@ -16,4 +16,8 @@
   <% else %>
     <%= render "players/form", night: @night %>
   <% end %>
+
+  <%= link_to presenter_gate_path(@night.code), class: "btn btn-ghost picto-btn" do %>
+    <%= picto("wand") %>Soy el presentador
+  <% end %>
 </section>

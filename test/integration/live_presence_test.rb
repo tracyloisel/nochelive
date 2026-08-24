@@ -14,6 +14,7 @@ class LivePresenceTest < ActionDispatch::IntegrationTest
     assert_select ".presence-stat .word", text: "casa"
     assert_select ".presence-face.is-live"
     assert_select "#live_pulses"
+    assert_select ".story-audience", count: 0
   end
 
   test "empty watch HUD waits for people" do
@@ -25,10 +26,15 @@ class LivePresenceTest < ActionDispatch::IntegrationTest
     assert_select ".quiet", text: "Aún no hay equipos"
   end
 
-  test "play shows team faces on the presence bar" do
+  test "play reel shows live audience count and a score button" do
     sign_in_as_participant(@night, name: "Sofía", team: teams(:leones))
     get night_play_path(@night.code)
     assert_response :success
+    assert_select ".story-audience", text: /En directo/
+    assert_select ".story-audience .picto-eye"
+    assert_select ".story-audience strong", text: /\d+/
+    assert_select ".story-score"
+    assert_select ".play-chrome > .team-bar", count: 0
     assert_select "#night_presence"
     assert_select ".presence-team .presence-face"
     assert_select "[data-controller=presence]"

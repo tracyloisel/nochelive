@@ -3,76 +3,130 @@
 <% answer = team.answers.find_by(round_run: round) %>
 <% tap = team.tap_runs.find_by(round_run: round) %>
 <% hold = team.pose_holds.find_by(round_run: round) %>
+<% live_index = night.round_runs.find_index { |tick| tick.id == round.id }.to_i %>
 
-<section class="play-card play-round play-reel <%= "peak" if definition.finale? %>">
-  <%= render "play/timer", round: round %>
-  <%= render "shared/presence", night: night, team: team, compact: true, variant: "stage" %>
-
-  <header class="team-bar">
-    <span class="emblem emblem-<%= team.emblem %>"><%= render "shared/emblem", key: team.emblem %></span>
-    <div>
-      <p class="eyebrow">Ronda <%= round.position %> · <%= band_label(round.position) %></p>
-      <h1><%= team.name %></h1>
-    </div>
-    <div class="who">
-      <%= render "shared/avatar", player: player %>
-      <p class="score" aria-label="puntos"><%= picto("star") %><%= team.cached_score %></p>
-    </div>
-  </header>
-
-  <%= render "play/progress", team: team %>
-  <% if team.streak >= 2 %>
-    <p class="streak" role="status">Racha ×<%= team.streak %></p>
-  <% end %>
-
-  <div class="play-stage">
-    <p class="round-title">
-      <%= render "shared/round_icon", key: definition.icon %>
-      <span><%= definition.title %></span>
-    </p>
-
-    <% if definition.taboo? %>
-      <%= render "play/taboo", night: night, team: team, player: player, round: round, definition: definition, answer: answer %>
-    <% elsif definition.ordering? %>
-      <%= render "play/order", night: night, team: team, round: round, definition: definition, answer: answer %>
-    <% elsif definition.scavenger? %>
-      <%= render "play/scavenger", night: night, team: team, player: player, round: round, definition: definition, answer: answer %>
-    <% elsif definition.category? %>
-      <%= render "play/category", night: night, team: team, player: player, round: round, definition: definition, answer: answer %>
-    <% elsif definition.vote? %>
-      <%= render "play/vote", night: night, team: team, player: player, round: round, definition: definition %>
-    <% elsif definition.freeze? %>
-      <%= render "play/freeze", night: night, team: team, player: player, round: round, definition: definition, answer: answer %>
-    <% elsif definition.finale? %>
-      <%= render "play/crown", night: night, team: team, round: round, definition: definition, buzz: buzz, answer: answer %>
-    <% elsif round.intro? %>
-      <p class="band"><%= band_label(round.position) %></p>
-      <p class="prompt"><%= round_prompt(round) %></p>
-      <%= render "shared/wait", message: "Preparados… el presentador va a abrir." %>
-    <% elsif definition.pose? %>
-      <%= render "play/pose", night: night, team: team, player: player, round: round, definition: definition, hold: hold %>
-    <% elsif definition.mime? %>
-      <%= render "play/mime", night: night, team: team, player: player, round: round, definition: definition, answer: answer %>
-    <% elsif definition.physical? && !player_remote?(player) %>
-      <%= render "play/physical", night: night, team: team, round: round, definition: definition %>
-    <% elsif definition.rapid_tap? || (definition.physical? && definition.remote_variant) %>
-      <%= render "play/rapid_tap", night: night, team: team, round: round, definition: definition, tap: tap %>
-    <% elsif definition.choice? %>
-      <%= render "play/choice", night: night, team: team, round: round, definition: definition, answer: answer %>
-    <% elsif definition.buzzer? %>
-      <%= render "play/buzzer", night: night, team: team, round: round, definition: definition, buzz: buzz, answer: answer %>
-    <% else %>
-      <%= render "play/hosted", night: night, team: team, player: player, round: round, definition: definition %>
-    <% end %>
+<section class="play-card play-round play-reel <%= "peak" if definition.finale? %>"
+         data-controller="story"
+         data-story-exit-url-value="<%= root_path %>"
+         data-story-index-value="<%= live_index %>"
+         data-story-live-index-value="<%= live_index %>"
+         data-action="pointerdown->story#start sheet:dismiss->story#exit">
+  <p class="skip">Desliza abajo para salir. Izquierda y derecha cambian de ronda. Arriba abre el juego.</p>
+  <div class="play-shot">
+    <%= render "shared/story_pages", night: night, current: round, reveal_future: false %>
   </div>
 
-  <% if grant = team.ready_chest %>
-    <%= render "play/chest", night: night, grant: grant, compact: !round.revealed? %>
-  <% elsif opened = team.opened_rewards.order(updated_at: :desc).first %>
-    <div class="loot" role="status">
-      <p class="eyebrow">Recompensa</p>
-      <h2><%= opened.reward_title %></h2>
-      <p><%= opened.reward_detail %></p>
+  <div class="play-chrome">
+    <%= render "shared/story_ticks", night: night, current: round %>
+    <%= render "play/timer", round: round %>
+    <div class="story-meta">
+      <%= render "shared/story_close", action: "click->story#exit" %>
+      <p class="story-night"><%= night_title(night) %></p>
+      <div class="story-pills">
+        <%= render "shared/presence", night: night, team: team, compact: true, variant: "stage", audience: true %>
+        <button type="button"
+                class="story-score btn"
+                data-action="click->story#toggleScore"
+                aria-controls="play_score"
+                aria-expanded="false"
+                data-story-target="scoreBtn"
+                aria-label="Puntos, <%= team.cached_score %>">
+          <%= picto("star") %>
+          <span><%= team.cached_score %></span>
+        </button>
+      </div>
     </div>
-  <% end %>
+
+    <div class="score-pop"
+         id="play_score"
+         hidden
+         data-story-target="score"
+         role="dialog"
+         aria-label="Tu equipo">
+      <header class="team-bar">
+        <span class="emblem emblem-<%= team.emblem %>"><%= render "shared/emblem", key: team.emblem %></span>
+        <div>
+          <p class="eyebrow">Ronda <%= round.position %> · <%= band_label(round.position) %></p>
+          <h1><%= team.name %></h1>
+        </div>
+        <div class="who">
+          <%= render "shared/avatar", player: player %>
+          <p class="score" aria-label="puntos"><%= picto("star") %><%= team.cached_score %></p>
+        </div>
+        <%= render "play/progress", team: team %>
+      </header>
+      <% if team.streak >= 2 %>
+        <p class="streak" role="status">Racha ×<%= team.streak %></p>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="play-sheet story-sheet"
+       data-controller="sheet"
+       data-story-target="sheet"
+       data-sheet-snap-value="mid"
+       data-sheet-peek-ratio-value="0.18"
+       data-action="pointerdown->sheet#start">
+    <button type="button"
+            class="play-sheet-grip"
+            data-sheet-target="handle"
+            data-action="click->sheet#cycle"
+            aria-label="Mover la tarjeta para ver el dibujo"
+            aria-valuetext="Tarjeta media">
+      <span class="play-sheet-pip" aria-hidden="true"></span>
+    </button>
+
+    <div class="play-sheet-body" data-sheet-target="body">
+      <div class="play-stage">
+        <p class="round-title">
+          <%= render "shared/round_icon", key: definition.icon %>
+          <span><%= definition.title %></span>
+        </p>
+
+        <% if definition.taboo? %>
+          <%= render "play/taboo", night: night, team: team, player: player, round: round, definition: definition, answer: answer %>
+        <% elsif definition.ordering? %>
+          <%= render "play/order", night: night, team: team, round: round, definition: definition, answer: answer %>
+        <% elsif definition.scavenger? %>
+          <%= render "play/scavenger", night: night, team: team, player: player, round: round, definition: definition, answer: answer %>
+        <% elsif definition.category? %>
+          <%= render "play/category", night: night, team: team, player: player, round: round, definition: definition, answer: answer %>
+        <% elsif definition.vote? %>
+          <%= render "play/vote", night: night, team: team, player: player, round: round, definition: definition %>
+        <% elsif definition.freeze? %>
+          <%= render "play/freeze", night: night, team: team, player: player, round: round, definition: definition, answer: answer %>
+        <% elsif definition.finale? %>
+          <%= render "play/crown", night: night, team: team, round: round, definition: definition, buzz: buzz, answer: answer %>
+        <% elsif round.intro? %>
+          <p class="band"><%= band_label(round.position) %></p>
+          <p class="prompt"><%= round_prompt(round) %></p>
+          <%= render "shared/wait", message: "Preparados… el presentador va a abrir." %>
+        <% elsif definition.pose? %>
+          <%= render "play/pose", night: night, team: team, player: player, round: round, definition: definition, hold: hold %>
+        <% elsif definition.mime? %>
+          <%= render "play/mime", night: night, team: team, player: player, round: round, definition: definition, answer: answer %>
+        <% elsif definition.physical? && !player_remote?(player) %>
+          <%= render "play/physical", night: night, team: team, round: round, definition: definition %>
+        <% elsif definition.rapid_tap? || (definition.physical? && definition.remote_variant) %>
+          <%= render "play/rapid_tap", night: night, team: team, round: round, definition: definition, tap: tap %>
+        <% elsif definition.choice? %>
+          <%= render "play/choice", night: night, team: team, round: round, definition: definition, answer: answer %>
+        <% elsif definition.buzzer? %>
+          <%= render "play/buzzer", night: night, team: team, round: round, definition: definition, buzz: buzz, answer: answer %>
+        <% else %>
+          <%= render "play/hosted", night: night, team: team, player: player, round: round, definition: definition %>
+        <% end %>
+      </div>
+
+      <% if grant = team.ready_chest %>
+        <%= render "play/chest", night: night, grant: grant, compact: !round.revealed? %>
+      <% elsif opened = team.opened_rewards.order(updated_at: :desc).first %>
+        <div class="loot" role="status">
+          <p class="eyebrow">Recompensa</p>
+          <h2><%= opened.reward_title %></h2>
+          <p><%= opened.reward_detail %></p>
+        </div>
+      <% end %>
+    </div>
+  </div>
 </section>

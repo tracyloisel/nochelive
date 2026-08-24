@@ -13,10 +13,11 @@ class ApplicationHelperTest < ActionView::TestCase
     assert_nil challenge_clip(round)
   end
 
-  test "story art follows the round, not chapel slideshows" do
+  test "story art follows the yaml image, not chapel slideshows" do
     round = round_runs(:salomon)
     assert_equal "/media/stories/salomon_wisdom.jpg", challenge_story(round)
     assert_equal "/media/stories/scavenger_harp.jpg", challenge_story(round_runs(:scavenger_harp))
+    assert_equal "stories/salomon_wisdom.jpg", round.definition.presentation["image"]
 
     render partial: "shared/challenge_media", locals: { round: round }
     assert_includes rendered, "/media/stories/salomon_wisdom.jpg"
@@ -119,9 +120,12 @@ class ApplicationHelperTest < ActionView::TestCase
   test "pictos and choice marks are picture-first" do
     svg = picto("door")
     assert_includes svg, "picto-door"
+    assert_includes picto("close"), "picto-close"
     assert_includes picto("wave"), "picto-wave"
     assert_includes picto("fish"), "picto-fish"
-    assert_includes picto("land"), "picto-land"
+    assert_includes picto("tick"), "picto-tick"
+    assert_includes picto("cross"), "picto-cross"
+    assert_includes picto("close"), "picto-close"
     assert_includes svg, "<svg"
     assert_equal "circle", choice_mark(0)[:shape]
     assert_equal "gold", choice_mark(0)[:tone]
@@ -130,6 +134,13 @@ class ApplicationHelperTest < ActionView::TestCase
     assert_equal "true", choice_key({ "key" => "true", "label" => "Verdadero" })
     assert_equal "Verdadero", choice_label({ "key" => "true", "label" => "Verdadero" })
     assert_equal "fire", choice_label("fire")
+  end
+
+  test "answer_body_label uses Spanish choice labels" do
+    round = round_runs(:rey_o_profeta)
+    answer = Answer.new(body: "false", round_run: round, team: teams(:leones), player: players(:lucia))
+    assert_equal "Falso", answer_body_label(round, answer)
+    assert_equal "Sabiduría", answer_body_label(round_runs(:salomon), answers(:leones_lions))
   end
 
   test "player_label adds apellido when two share a name" do

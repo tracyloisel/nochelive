@@ -1,0 +1,15 @@
+<% current = local_assigns[:current] %>
+<ol class="stage-ticks story-ticks" aria-label="Rondas">
+  <% night.round_runs.each_with_index do |tick, index| %>
+    <li class="<%= "is-done" if tick.completed? %> <%= "is-now" if current&.id == tick.id %>" title="<%= tick.definition.title %>">
+      <button type="button"
+              class="story-tick"
+              data-story-target="tick"
+              data-action="story#jump"
+              data-story-index="<%= index %>"
+              aria-label="Ronda <%= tick.position %> · <%= tick.definition.title %>"
+              aria-current="<%= current&.id == tick.id ? "step" : "false" %>">
+      </button>
+    </li>
+  <% end %>
+</ol>

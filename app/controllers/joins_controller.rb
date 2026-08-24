@@ -11,6 +11,8 @@ class JoinsController < ApplicationController
 
     if params[:as] == "watch"
       redirect_to night_watch_path(night.code)
+    elsif params[:as] == "present"
+      redirect_to presenter_gate_path(night.code)
     else
       redirect_to night_name_path(night.code)
     end

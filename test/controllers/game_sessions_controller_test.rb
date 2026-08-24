@@ -18,6 +18,16 @@ class GameSessionsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test "open rama can claim the live night from crear" do
+    sign_in_ward
+    get new_game_session_path
+    assert_response :success
+    assert_select "button", text: /Soy el presentador · DAVID/
+
+    post presenter_claim_path("DAVID")
+    assert_redirected_to presenter_console_path("DAVID")
+  end
+
   test "created page requires the presenter token" do
     night = game_sessions(:david)
     get created_game_session_path(night, token: "presenter-secret")

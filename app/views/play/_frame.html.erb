@@ -13,6 +13,7 @@
      data-stage-sfx-value="<%= stage_sfx(round, extra_sfx, team: team, night: night) %>"
      data-stage-fx-value="<%= stage_fx(round, extra_fx, team: team, night: night) %>">
   <% unless reel %>
+    <%= render "shared/story_close" %>
     <%= render "shared/presence", night: night, team: team, compact: team.present? %>
   <% end %>
   <% if team.nil? %>

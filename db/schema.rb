@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_24_220000) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_24_230000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -59,6 +59,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_24_220000) do
   create_table "game_sessions", force: :cascade do |t|
     t.string "code", null: false
     t.datetime "created_at", null: false
+    t.string "presenter_device_digest"
     t.string "presenter_token_digest", null: false
     t.datetime "season_applied_at"
     t.string "status", default: "lobby", null: false
@@ -138,6 +139,29 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_24_220000) do
     t.index ["round_run_id", "team_id"], name: "index_pose_holds_on_round_run_id_and_team_id", unique: true
     t.index ["round_run_id"], name: "index_pose_holds_on_round_run_id"
     t.index ["team_id"], name: "index_pose_holds_on_team_id"
+  end
+
+  create_table "presenter_blocks", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "device_digest", null: false
+    t.bigint "game_session_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["game_session_id", "device_digest"], name: "index_presenter_blocks_on_game_session_id_and_device_digest", unique: true
+    t.index ["game_session_id"], name: "index_presenter_blocks_on_game_session_id"
+  end
+
+  create_table "presenter_claims", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "device_digest", null: false
+    t.datetime "expires_at", null: false
+    t.bigint "game_session_id", null: false
+    t.string "name", null: false
+    t.datetime "resolved_at"
+    t.string "status", default: "pending", null: false
+    t.datetime "updated_at", null: false
+    t.index ["game_session_id", "device_digest"], name: "index_presenter_claims_on_game_session_id_and_device_digest"
+    t.index ["game_session_id"], name: "index_presenter_claims_on_game_session_id"
+    t.index ["game_session_id"], name: "index_presenter_claims_one_pending", unique: true, where: "((status)::text = 'pending'::text)"
   end
 
   create_table "reward_grants", force: :cascade do |t|
@@ -276,6 +300,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_24_220000) do
   add_foreign_key "pose_holds", "players"
   add_foreign_key "pose_holds", "round_runs"
   add_foreign_key "pose_holds", "teams"
+  add_foreign_key "presenter_blocks", "game_sessions"
+  add_foreign_key "presenter_claims", "game_sessions"
   add_foreign_key "reward_grants", "teams"
   add_foreign_key "round_runs", "game_sessions"
   add_foreign_key "score_events", "game_sessions"

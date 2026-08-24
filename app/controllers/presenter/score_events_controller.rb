@@ -8,13 +8,13 @@ module Presenter
 
       case params[:kind]
       when "correct"
-        ScoreApplier.correct!(round, team, broadcast: false)
+        Scores::Apply.correct!(round, team, broadcast: false)
       when "incorrect"
-        ScoreApplier.incorrect!(round, team, broadcast: false)
+        Scores::Apply.incorrect!(round, team, broadcast: false)
       when "plus"
-        ScoreApplier.adjust!(@night, team, points: 5, reason: "Ajuste del presentador +5", broadcast: false)
+        Scores::Apply.adjust!(@night, team, points: 5, reason: "Ajuste del presentador +5", broadcast: false)
       when "minus"
-        ScoreApplier.adjust!(@night, team, points: -5, reason: "Ajuste del presentador −5", broadcast: false)
+        Scores::Apply.adjust!(@night, team, points: -5, reason: "Ajuste del presentador −5", broadcast: false)
       end
       @night.broadcast_state(pulse: { kind: "score", label: team.name })
 

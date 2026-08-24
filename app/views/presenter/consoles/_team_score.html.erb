@@ -1,0 +1,14 @@
+<article class="desk-team"<% if local_assigns[:filterable] %> data-desk-target="row" data-desk-hay="<%= team.name %>"<% end %>>
+  <span class="emblem emblem-<%= team.emblem %>"><%= render "shared/emblem", key: team.emblem %></span>
+  <div class="desk-team-copy">
+    <strong class="desk-team-name"><%= team.name %></strong>
+    <p class="quiet tiny">
+      <%= team.rank_label %><% if team.rey? %> · Rey<% end %><% if team.ward_team %> · Temporada <%= team.ward_team.season_rank_label %><% end %>
+    </p>
+  </div>
+  <p class="score" aria-label="puntos"><%= picto("star") %><%= team.cached_score %></p>
+  <span class="cluster desk-adjust">
+    <%= button_to "+5", presenter_scores_path(night.code), params: { team_id: team.id, kind: "plus" }, class: "btn btn-tiny btn-gold" %>
+    <%= button_to "−5", presenter_scores_path(night.code), params: { team_id: team.id, kind: "minus" }, class: "btn btn-tiny btn-ghost" %>
+  </span>
+</article>

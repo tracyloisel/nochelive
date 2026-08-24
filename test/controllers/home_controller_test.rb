@@ -17,6 +17,8 @@ class HomeControllerTest < ActionDispatch::IntegrationTest
     assert_select ".night-hit", text: /QUIT/, count: 0
     assert_select "h2", text: "Reyes y Profetas"
     assert_select "a.btn.btn-navy", text: /Crear una noche/
+    assert_select "a.btn.btn-navy", text: /Soy el presentador/
+    assert_select "button.btn.btn-navy", text: /Soy el presentador/
   end
 
   test "home remembers finished nights when the rama is signed in" do
