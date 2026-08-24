@@ -1,0 +1,36 @@
+style: >
+  Noche Live board-game token. The entire square is filled with deep navy, no white
+  margin, no empty corners. A perfect circle with a hammered gold rim sits in the
+  center. Slightly painterly, a clear silhouette readable at 48 pixels. No letters,
+  no numbers, no watermark, no photoreal pores, no blood, no weapons.
+
+emblems:
+  leon: "Circular gold badge, stylized lion face, kind and royal, mane like a sun."
+  fuego: "Circular gold badge, a single rising flame, warm and clean."
+  paloma: "Circular gold badge, a dove in flight, simple wings, peaceful."
+  corona: "Circular gold badge, a simple three-point crown, royal but humble."
+  ola: "Circular gold badge, a single rolling wave, Mediterranean night."
+  estrella: "Circular gold badge, a six-point star, bright and calm."
+
+icons:
+  crown: "Round game icon, three-point gold crown on navy."
+  scroll: "Round game icon, an open parchment scroll, no writing."
+  sling: "Round game icon, a simple shepherd sling and one smooth stone, toy-like, not a weapon."
+  fire: "Round game icon, a small altar flame."
+  lion: "Round game icon, a calm lion face."
+  harp: "Round game icon, a small gold harp."
+  wave: "Round game icon, a great fish shape in a wave, friendly, not scary."
+
+avatars:
+  delfin: "Friendly stylized dolphin head, playful, gold rim token, illustrated not photoreal."
+  ballena: "Friendly stylized whale, gentle, gold rim token, illustrated not photoreal."
+  tortuga: "Friendly stylized sea turtle, calm, gold rim token, illustrated not photoreal."
+  aguila: "Friendly stylized eagle head, noble not fierce, gold rim token, illustrated not photoreal."
+  loro: "Friendly stylized parrot, bright feathers, gold rim token, illustrated not photoreal."
+  colibri: "Friendly stylized hummingbird, tiny and bright, gold rim token, illustrated not photoreal."
+  elefante: "Friendly stylized elephant, kind, gold rim token, illustrated not photoreal."
+  jirafa: "Friendly stylized giraffe head, gentle, gold rim token, illustrated not photoreal."
+  cebra: "Friendly stylized zebra head, gold rim token, illustrated not photoreal."
+  perro: "Friendly stylized dog, loyal, gold rim token, illustrated not photoreal."
+  gato: "Friendly stylized cat, calm, gold rim token, illustrated not photoreal."
+  oveja: "Friendly stylized sheep, soft, gold rim token, illustrated not photoreal."

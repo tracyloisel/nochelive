@@ -1,0 +1,21 @@
+<% src = avatar_mark(person) %>
+<div class="art" aria-hidden="true">
+  <% if src %>
+    <img src="<%= src %>" alt="" class="avatar-img avatar-hero" width="128" height="128">
+  <% end %>
+</div>
+<h1>Tu año favorito</h1>
+<p class="lede"><%= person.card_caption %></p>
+<p class="quiet">Puedes usar el año en que naciste.</p>
+
+<%= form_with url: night_players_path(night.code), method: :post, class: "join-form" do %>
+  <input type="hidden" name="person_id" value="<%= person.id %>">
+  <input type="hidden" name="location" value="<%= @location.presence || "room" %>">
+  <label for="favorite_year">¿Cuál es tu año favorito?</label>
+  <input id="favorite_year" name="favorite_year" inputmode="numeric" maxlength="4" required class="code-input" placeholder="33" value="<%= @favorite_year %>">
+  <button type="submit" class="btn btn-gold picto-btn"><%= picto("check") %>Entrar</button>
+<% end %>
+
+<%= link_to night_name_path(night.code, fresh: 1), class: "btn btn-ghost" do %>
+  Otra persona
+<% end %>

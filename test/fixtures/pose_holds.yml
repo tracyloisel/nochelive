@@ -1,0 +1,8 @@
+# frozen_string_literal: true
+
+daniel_short:
+  round_run: statue_david
+  team: casa
+  player: daniel
+  held_ms: 1200
+  finished: false

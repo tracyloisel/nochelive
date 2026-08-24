@@ -1,0 +1,45 @@
+<% if round.revealed? %>
+  <%= render "play/reveal", definition: definition, team: team, round: round %>
+<% elsif explainer?(team, player) %>
+  <div class="put-down-art" aria-hidden="true"><%= picto("speak", size: "xl") %></div>
+  <p class="prompt put-down">TÚ EXPLICAS</p>
+  <p class="secret-target"><%= definition.target %></p>
+  <p class="lede">Cuéntalo. No digas las palabras rojas.</p>
+  <ul class="forbidden" aria-label="Palabras prohibidas">
+    <% definition.forbidden.each do |word| %>
+      <li><%= word %></li>
+    <% end %>
+  </ul>
+  <% if round.open? && round.opened_at %>
+    <p class="countdown" data-controller="countdown" data-countdown-end-value="<%= (round.opened_at + definition.duration.seconds).iso8601 %>">
+      <span data-countdown-target="label"><%= definition.duration %></span> s
+    </p>
+  <% else %>
+    <%= render "shared/wait", message: "Lee en silencio. El presentador aún no ha abierto." %>
+  <% end %>
+<% else %>
+  <div class="put-down-art" aria-hidden="true"><%= picto("ear", size: "xl") %></div>
+  <p class="prompt put-down">¡ADIVINAD!</p>
+  <p class="lede">
+    Escuchad a <strong><%= team_explainer(team)&.name %></strong>.
+    Gritad la historia. No miréis su teléfono.
+  </p>
+  <% if round.open? && round.opened_at %>
+    <p class="countdown" data-controller="countdown" data-countdown-end-value="<%= (round.opened_at + definition.duration.seconds).iso8601 %>">
+      <span data-countdown-target="label"><%= definition.duration %></span> s
+    </p>
+  <% end %>
+  <% if player_remote?(player) && round.open? && answer.nil? %>
+    <%= form_with url: night_round_run_answer_path(night.code, round), class: "answer-form" do %>
+      <label for="body">En casa: escribid vuestra idea</label>
+      <input id="body" name="body" maxlength="80" class="code-input" placeholder="¿Qué historia es?" autocomplete="off">
+      <button class="btn btn-gold picto-btn" type="submit"><%= picto("send") %>Enviar</button>
+    <% end %>
+  <% elsif answer %>
+    <p class="sent" role="status">Idea enviada. El presentador escucha la sala.</p>
+  <% elsif player_remote?(player) %>
+    <%= render "shared/wait", message: "Preparad los oídos. En casa se escribe." %>
+  <% else %>
+    <%= render "shared/wait", message: "¡Gritad cuando lo sepáis!" %>
+  <% end %>
+<% end %>

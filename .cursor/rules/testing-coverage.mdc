@@ -1,0 +1,31 @@
+---
+description: Require Minitest specs, YAML fixtures, seeds, and ≥90% SimpleCov coverage.
+globs: app/**/*.rb,test/**/*.rb,db/seeds.rb
+alwaysApply: true
+---
+
+# Tests, fixtures, seeds, coverage
+
+Noche Live is a new Rails app. Untested code is unfinished.
+
+```text
+test/                 Minitest for every class, service, and controller action
+test/fixtures/*.yml   YAML fixtures for every ActiveRecord model
+db/seeds.rb           Idempotent playable DEMO night
+SimpleCov             full `bin/rails test` and CI must stay ≥ 90% of app/
+```
+
+## Do
+
+- Ship tests in the same change as the behavior.
+- Add a fixture file when adding a model. Use labels (`game_sessions(:david)`).
+- Keep `db/seeds.rb` able to demo the night after `bin/rails db:seed`.
+- Run the full suite before finishing a slice. If coverage drops below 90%, write tests first.
+- Put use-case tests in `test/services/` once services exist.
+
+## Do not
+
+- Add RSpec or FactoryBot as a substitute for `test/` + YAML fixtures.
+- Skip tests because the slice is small.
+- Lower the SimpleCov threshold or filter production code to game coverage.
+- Leave `db/seeds.rb` as the Rails comment stub.

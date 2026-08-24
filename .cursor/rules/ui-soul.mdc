@@ -1,0 +1,17 @@
+---
+description: White canvas UI with spacing, press feedback, and screen transitions. Always apply so new views never ship unstyled.
+alwaysApply: true
+---
+
+# UI soul (required)
+
+Noche Live is a **white, tactile** product. A view without spacing or motion is unfinished.
+
+- Canvas: warm white (`--paper`). Ink text. Gold is the only loud accent. No dark navy pages.
+- Space: 8px scale (`--space-1`…`--space-8`). Cards ≥ `--space-6` padding. Stacks use **gap**, not random margins.
+- Type: Fraunces for display, Figtree for UI. Touch targets ≥ 44px; player slam controls are much larger.
+- Player screens are **picture-first**: a child who cannot read should still know what to tap. Keep Spanish captions.
+- Motion: every pressable control gets press scale + ripple (`press` controller). Screen and Turbo Stream swaps use View Transitions (`motion` controller).
+- Honor `prefers-reduced-motion`.
+- Do not add a CSS framework, a new palette, or dark mode.
+- When touching `app/views`, `app/assets/stylesheets`, or Stimulus UI, follow `.cursor/skills/noche-ui/SKILL.md`.

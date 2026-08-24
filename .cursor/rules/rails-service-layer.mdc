@@ -1,0 +1,30 @@
+---
+description: Require app/services for every Rails use case; keep controllers and models skinny.
+globs: app/**/*.rb,test/**/*.rb
+alwaysApply: true
+---
+
+# Service layer is required
+
+Noche Live is a Rails app. Use-case logic belongs in `app/services`, not in controllers and not as orchestrating class methods on ActiveRecord models.
+
+```text
+Controller  →  auth, params, one Service.call, respond
+Service     →  transaction, locks, idempotency, scoring, broadcast
+Model       →  associations, validations, scopes, predicates, single-row state
+```
+
+## Do
+
+- Add `app/services/<namespace>/<verb>.rb` → `Namespace::Verb` with `.call(**kwargs)`.
+- One class, one use case (`Buzzes::Accept`, `Answers::Submit`, `Scores::Apply`, `Nights::Broadcast`, `Rounds::Open`).
+- When you touch a use case still living on a model or controller, extract it in the same change.
+- Test use cases in `test/services/`.
+
+## Do not
+
+- Put scoring, locking, multi-model writes, auto-grading, or broadcasts in a controller.
+- Add `Model.accept!` / `submit!` / `tap!` / `start!` orchestration on ActiveRecord.
+- Leave POROs in `app/models` (`ScoreApplier`, `NightBroadcaster` belong in services).
+- Invent a `GameEngine` god object or a Result monad.
+- Skip a service because the prompt also says "prefer fewer abstractions". That exception does not apply here.

@@ -1,0 +1,56 @@
+<h1><%= @needs_family ? "Tu apellido" : "¿Cómo te llaman?" %></h1>
+<% unless @needs_family %>
+  <p class="lede">En la rama. Como te gritan.</p>
+<% end %>
+
+<%= form_with url: night_players_path(night.code), method: :post, class: "join-form" do %>
+  <% if @needs_family %>
+    <input type="hidden" name="name" value="<%= @given_name %>">
+    <input type="hidden" name="avatar_key" value="<%= @avatar_key.presence || "delfin" %>">
+    <input type="hidden" name="favorite_year" value="<%= @favorite_year %>">
+    <input type="hidden" name="location" value="<%= @location.presence || "room" %>">
+    <input type="hidden" name="soy_nueva" value="1">
+    <label for="family_name">Tu apellido</label>
+    <input id="family_name" name="family_name" maxlength="24" required class="code-input" placeholder="García" value="<%= @family_name %>" autocomplete="family-name">
+    <button type="submit" class="btn btn-gold picto-btn"><%= picto("check") %>Guardar ficha</button>
+  <% else %>
+    <label for="name">¿Cómo te llaman en la rama?</label>
+    <input id="name" name="name" maxlength="24" required autocomplete="given-name" class="code-input" placeholder="Pili" value="<%= @given_name %>">
+
+    <fieldset class="emblem-pick avatar-pick">
+      <legend>Tu animal</legend>
+      <% Player::AVATARS.each do |key| %>
+        <label class="emblem-choice avatar-choice">
+          <input type="radio" name="avatar_key" value="<%= key %>" <%= "checked" if key == (@avatar_key.presence || "delfin") %>>
+          <% src = avatar_mark(key) %>
+          <% if src %>
+            <img src="<%= src %>" alt="" class="avatar-img avatar-img-lg">
+          <% end %>
+          <em><%= key.capitalize %></em>
+        </label>
+      <% end %>
+    </fieldset>
+
+    <label for="favorite_year">¿Cuál es tu año favorito?</label>
+    <p class="quiet">Puedes usar el año en que naciste.</p>
+    <input id="favorite_year" name="favorite_year" inputmode="numeric" maxlength="4" class="code-input" placeholder="33" value="<%= @favorite_year %>">
+
+    <fieldset class="place">
+      <legend>¿Dónde estás?</legend>
+      <label class="choice-chip picture-card">
+        <input type="radio" name="location" value="room" <%= "checked" if @location != "remote" %>>
+        <%= picto("sofa", size: "lg") %>
+        <span class="word">En la sala</span>
+      </label>
+      <label class="choice-chip picture-card">
+        <input type="radio" name="location" value="remote" <%= "checked" if @location == "remote" %>>
+        <%= picto("house", size: "lg") %>
+        <span class="word">En casa</span>
+      </label>
+    </fieldset>
+
+    <button type="submit" class="btn btn-gold picto-btn"><%= picto("check") %>Guardar ficha</button>
+    <button type="submit" name="guest" value="1" class="btn btn-navy picto-btn" formnovalidate><%= picto("door") %>Solo esta noche</button>
+    <button type="submit" name="role" value="spectator" class="btn btn-ghost picto-btn" formnovalidate><%= picto("eye") %>Solo mirar</button>
+  <% end %>
+<% end %>

@@ -1,0 +1,25 @@
+# frozen_string_literal: true
+
+david:
+  ward: demo
+  code: DAVID
+  status: playing
+  theme_id: reyes_y_profetas
+  theme_title: Reyes y Profetas
+  presenter_token_digest: <%= Digest::SHA256.hexdigest("presenter-secret") %>
+
+elias:
+  ward: demo
+  code: ELIAS
+  status: lobby
+  theme_id: reyes_y_profetas
+  theme_title: Reyes y Profetas
+  presenter_token_digest: <%= Digest::SHA256.hexdigest("lobby-secret") %>
+
+cerrada:
+  ward: demo
+  code: QUIT
+  status: finished
+  theme_id: reyes_y_profetas
+  theme_title: Reyes y Profetas
+  presenter_token_digest: <%= Digest::SHA256.hexdigest("ended-secret") %>

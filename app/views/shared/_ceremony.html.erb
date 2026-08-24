@@ -1,0 +1,55 @@
+<% you = local_assigns[:you] %>
+<% champs = night.first_place_teams %>
+<div class="ceremony">
+  <p class="eyebrow">Gran final</p>
+  <p class="stand-up">¡TODOS DE PIE!</p>
+  <div class="sparks" aria-hidden="true">
+    <% 10.times do %><i></i><% end %>
+  </div>
+  <div class="art"><%= render "illustrations/crown" %></div>
+
+  <% if champs.empty? %>
+    <p class="lede">La noche cierra.</p>
+  <% elsif night.tied_finale? %>
+    <p class="shout">¡Empate de reyes!</p>
+    <p class="lede"><%= champs.map(&:name).join(" y ") %></p>
+  <% else %>
+    <p class="shout">¡<%= night.champion.name %> gana la noche!</p>
+    <% if line = roster_line(night.champion) %>
+      <p class="roster"><%= line %></p>
+    <% end %>
+  <% end %>
+
+  <% if night.visual_podium.any? %>
+    <ol class="podium-steps">
+      <% night.visual_podium.each do |other| %>
+        <% place = night.place_for(other) %>
+        <li class="step step-<%= place %> <%= 'is-you' if you && other.id == you.id %>">
+          <p class="step-place"><%= picto(place == 1 ? "trophy" : "star") %><%= medal_label(place) %></p>
+          <span class="emblem emblem-<%= other.emblem %>"><%= render "shared/emblem", key: other.emblem %></span>
+          <strong><%= other.name %></strong>
+          <em><%= other.cached_score %></em>
+          <% if line = roster_line(other) %>
+            <small><%= line %></small>
+          <% end %>
+        </li>
+      <% end %>
+    </ol>
+  <% end %>
+
+  <p class="blessing"><%= finale_blessing %></p>
+
+  <% night.teams.select { |team| team.season_rank_up.present? }.each do |team| %>
+    <p class="lede">Temporada: ¡<%= team.name %> es <%= team.season_rank_up %>!</p>
+  <% end %>
+
+  <% if you && (place = night.place_for(you)) %>
+    <% if night.champion&.id == you.id %>
+      <p class="you-are">Sois los campeones.</p>
+    <% elsif night.tied_finale? && champs.any? { |team| team.id == you.id } %>
+      <p class="you-are">Compartís la corona.</p>
+    <% else %>
+      <p class="you-are">Quedáis <%= medal_label(place) %>.</p>
+    <% end %>
+  <% end %>
+</div>

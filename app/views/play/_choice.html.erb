@@ -1,0 +1,14 @@
+<p class="prompt"><%= definition.question %></p>
+
+<% if round.open? && answer.nil? %>
+  <%= render "play/choice_list", night: night, round: round, choices: definition.choices %>
+<% elsif answer %>
+  <%= render "shared/wait", message: "Elegisteis una respuesta. Esperad." %>
+  <% if round.revealed? %>
+    <%= render "play/reveal", definition: definition, team: team, round: round %>
+  <% end %>
+<% elsif round.revealed? %>
+  <%= render "play/reveal", definition: definition, team: team, round: round %>
+<% else %>
+  <%= render "shared/wait", message: "Preparad una respuesta." %>
+<% end %>

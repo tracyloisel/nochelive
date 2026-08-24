@@ -1,0 +1,23 @@
+<div class="art" aria-hidden="true">
+  <% src = avatar_mark(person) %>
+  <% if src %>
+    <img src="<%= src %>" alt="" class="avatar-img avatar-hero" width="128" height="128">
+  <% else %>
+    <%= picto("person", size: "xl") %>
+  <% end %>
+</div>
+<h1>¿Eres tú?</h1>
+<p class="lede"><%= person.card_caption %></p>
+<% if person.last_ward_team %>
+  <p class="quiet"><%= person.last_ward_team.name %></p>
+<% end %>
+
+<%= form_with url: night_players_path(night.code), method: :post, class: "join-form" do %>
+  <input type="hidden" name="person_id" value="<%= person.id %>">
+  <input type="hidden" name="location" value="room">
+  <button type="submit" class="btn btn-gold picto-btn"><%= picto("check") %>Sí, soy <%= person.given_name %></button>
+<% end %>
+
+<%= link_to night_name_path(night.code, fresh: 1), class: "btn btn-ghost picto-btn" do %>
+  <%= picto("person") %>No soy yo
+<% end %>

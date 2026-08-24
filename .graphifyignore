@@ -1,0 +1,15 @@
+# Binary assets need a vision LLM; keep the graph on code and docs.
+*.jpg
+*.jpeg
+*.png
+*.webp
+*.svg
+*.gif
+*.wav
+*.mp4
+*.ico
+public/marks/
+public/media/
+public/sfx/
+public/icon.png
+public/icon.svg

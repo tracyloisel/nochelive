@@ -1,0 +1,283 @@
+<% round = night.current_round_run %>
+<section class="console" id="night_presenter">
+  <header class="console-head">
+    <div>
+      <p class="eyebrow">Presentador · <%= night.status %></p>
+      <h1><%= night.code %></h1>
+    </div>
+    <p><%= night.teams.count %> equipos</p>
+  </header>
+  <%= render "shared/presence", night: night, team: nil, compact: false %>
+
+  <% guests = night.ward ? night.players.participants.where(person_id: nil).to_a : [] %>
+  <% if guests.any? %>
+    <aside class="board">
+      <h3>Fichas</h3>
+      <p class="quiet">Si un teléfono nuevo no recuerda a alguien, enlázalo aquí.</p>
+      <% guests.each do |player| %>
+        <% matches = night.ward.people.named(player.name) %>
+        <div class="ficha-row">
+          <p><span><%= player.name %> · sin ficha</span></p>
+          <% if matches.any? %>
+            <span class="cluster">
+              <% matches.each do |person| %>
+                <%= button_to "Es #{person.display_name}", presenter_person_link_path(night.code, person), params: { player_id: player.id }, class: "btn btn-tiny btn-ghost" %>
+              <% end %>
+            </span>
+          <% end %>
+          <% if night.ward.people.any? %>
+            <%= form_with url: presenter_people_link_path(night.code), class: "cluster" do %>
+              <input type="hidden" name="player_id" value="<%= player.id %>">
+              <label class="quiet" for="person_id_<%= player.id %>">Ficha</label>
+              <select id="person_id_<%= player.id %>" name="person_id">
+                <% night.ward.people.order(:given_name, :family_name).each do |person| %>
+                  <option value="<%= person.id %>"><%= person.display_name %></option>
+                <% end %>
+              </select>
+              <button type="submit" class="btn btn-tiny btn-gold">Enlazar</button>
+            <% end %>
+          <% end %>
+        </div>
+      <% end %>
+    </aside>
+  <% end %>
+
+  <div class="console-actions">
+    <% if night.lobby? %>
+      <%= button_to "Empezar la noche", presenter_start_path(night.code), class: "btn btn-gold" %>
+    <% elsif night.paused? %>
+      <%= button_to "Seguir", presenter_resume_path(night.code), class: "btn btn-gold" %>
+    <% elsif night.playing? %>
+      <%= button_to "Pausa", presenter_pause_path(night.code), class: "btn btn-ghost" %>
+    <% end %>
+    <% unless night.finished? %>
+      <%= button_to "Cerrar noche", presenter_finish_path(night.code), class: "btn btn-ghost", form: { data: { turbo_confirm: "¿Terminar la noche?" } } %>
+    <% end %>
+  </div>
+
+  <% if night.finished? %>
+    <article class="console-round finale peak">
+      <%= render "shared/ceremony", night: night %>
+    </article>
+  <% elsif round&.live? || (round && !round.completed?) %>
+    <article class="console-round">
+      <p class="eyebrow">Ronda <%= round.position %> / <%= night.round_runs.size %> · <%= round.phase %></p>
+      <h2><%= round.definition.title %></h2>
+      <p><%= round_prompt(round) %></p>
+      <p class="quiet">Remoto: grado <%= round.definition.remote_grade %></p>
+      <% if round.definition.mime? && round.definition.story_path? %>
+        <p class="lede">En casa viven a Jonás. No adivinan el mimo.</p>
+      <% end %>
+
+      <div class="console-actions">
+        <% if round.pending? || round.intro? %>
+          <%= button_to "Abrir", presenter_open_round_path(night.code, round), class: "btn btn-gold" %>
+        <% end %>
+        <% if round.open? && round.definition.freeze? %>
+          <%= button_to "¡CONGELADOS!", presenter_lock_round_path(night.code, round), class: "btn btn-gold" %>
+        <% elsif round.open? && round.definition.buzzer? && !round.definition.finale? %>
+          <%= button_to "Cerrar buzzer", presenter_lock_round_path(night.code, round), class: "btn btn-navy" %>
+        <% elsif round.open? && round.definition.finale? %>
+          <%= button_to "Cerrar la corona", presenter_lock_round_path(night.code, round), class: "btn btn-navy" %>
+        <% elsif round.open? && !round.definition.buzzer? && !round.definition.vote? %>
+          <%= button_to "Cerrar ronda", presenter_lock_round_path(night.code, round), class: "btn btn-navy" %>
+        <% end %>
+        <% if round.definition.finale? && !night.finished? && !round.completed? && !round.pending? %>
+          <%= button_to "¡La corona!", presenter_crown_path(night.code, round), class: "btn btn-gold" %>
+        <% else %>
+          <% if round.phase.in?(%w[open locked answering]) %>
+            <%= button_to "Revelar respuesta", presenter_reveal_round_path(night.code, round), class: "btn btn-gold" %>
+          <% end %>
+          <% if round.revealed? || round.locked? || round.answering? || round.open? %>
+            <%= button_to "Siguiente", presenter_complete_round_path(night.code, round), class: "btn btn-navy" %>
+          <% end %>
+        <% end %>
+      </div>
+
+      <% if round.buzzes.any? %>
+        <h3>Buzz</h3>
+        <ol class="buzz-board">
+          <% round.buzzes.includes(:team, :player).each do |buzz| %>
+            <%= render "shared/buzz_line", buzz: buzz, show_player: true %>
+          <% end %>
+        </ol>
+      <% end %>
+
+      <% if round.answers.any? %>
+        <h3>Respuestas</h3>
+        <ul class="answer-list">
+          <% round.answers.includes(:team).each do |answer| %>
+            <li>
+              <strong><%= answer.team.name %></strong>
+              <p>
+                <% if round.definition.ordering? %>
+                  <%= round.definition.order_labels(answer.body).join(" → ") %>
+                <% elsif round.definition.mime? && round.definition.story_path? %>
+                  <%= round.definition.path_labels(answer.body).join(" → ") %>
+                <% elsif round.definition.freeze? %>
+                  <%= answer.body.to_i %> ms
+                <% else %>
+                  <%= answer.body %>
+                <% end %>
+              </p>
+              <span class="cluster">
+                <%= button_to "Correcta", presenter_scores_path(night.code), params: { team_id: answer.team_id, round_run_id: round.id, kind: "correct" }, class: "btn btn-gold btn-tiny" %>
+                <%= button_to "Incorrecta", presenter_scores_path(night.code), params: { team_id: answer.team_id, round_run_id: round.id, kind: "incorrect" }, class: "btn btn-ghost btn-tiny" %>
+              </span>
+            </li>
+          <% end %>
+        </ul>
+      <% end %>
+
+      <% if round.definition.taboo? %>
+        <div class="taboo-desk">
+          <p class="eyebrow">Historia</p>
+          <p class="secret-target"><%= round.definition.target %></p>
+          <p class="eyebrow">Si las dicen, pulsa</p>
+          <ul class="forbidden">
+            <% round.definition.forbidden.each do |word| %>
+              <li><%= word %></li>
+            <% end %>
+          </ul>
+          <% night.teams.each do |team| %>
+            <%= button_to "¡Lo adivinaron! — #{team.name}", presenter_scores_path(night.code), params: { team_id: team.id, round_run_id: round.id, kind: "correct" }, class: "btn btn-gold" %>
+            <%= button_to "Han dicho una palabra — #{team.name}", presenter_scores_path(night.code), params: { team_id: team.id, round_run_id: round.id, kind: "incorrect" }, class: "btn btn-ghost" %>
+          <% end %>
+        </div>
+      <% end %>
+
+      <% if round.definition.freeze? %>
+        <div class="freeze-desk hunt-desk">
+          <p class="eyebrow">Danza</p>
+          <% if round.open? %>
+            <p class="lede">La sala baila. Cuando pares, pulsa.</p>
+          <% else %>
+            <p class="lede">¿Quién se quedó quieto?</p>
+          <% end %>
+          <% night.teams.each do |team| %>
+            <% caught = round.answers.find { |row| row.team_id == team.id } %>
+            <p>
+              <span><%= team.name %> · <span class="quiet"><%= caught ? "#{caught.body.to_i} ms" : "en la sala" %></span></span>
+              <span class="cluster">
+                <%= button_to "Quieto — #{team.name}", presenter_scores_path(night.code), params: { team_id: team.id, round_run_id: round.id, kind: "correct" }, class: "btn btn-gold btn-tiny" %>
+                <%= button_to "Se movió — #{team.name}", presenter_scores_path(night.code), params: { team_id: team.id, round_run_id: round.id, kind: "incorrect" }, class: "btn btn-ghost btn-tiny" %>
+              </span>
+            </p>
+          <% end %>
+        </div>
+      <% end %>
+
+      <% if round.definition.vote? %>
+        <div class="hunt-desk">
+          <p class="eyebrow">Juicio</p>
+          <p class="lede"><%= round.definition.question %></p>
+          <% if round.open? %>
+            <%= button_to "Contar los votos", presenter_lock_round_path(night.code, round), class: "btn btn-gold" %>
+          <% elsif line = vote_tally_line(round) %>
+            <p class="shout"><%= line %></p>
+          <% end %>
+          <ul class="answer-list">
+            <% night.teams.order(:name).each do |team| %>
+              <li>
+                <strong><%= team.name %></strong>
+                <p><%= round.ballots.where(choice_team: team).count %> votos</p>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <% if round.definition.category? %>
+        <div class="hunt-desk">
+          <p class="eyebrow">Profetas</p>
+          <p class="lede">Tres nombres. Si los oyes, dales el punto.</p>
+          <ul class="cluster order-preview">
+            <% round.definition.guess_keys.each do |name| %>
+              <li><%= name %></li>
+            <% end %>
+          </ul>
+          <% claims = round.answers.includes(:team, :player).order(:created_at) %>
+          <% if claims.any? %>
+            <ol class="buzz-board">
+              <% claims.each_with_index do |claim, index| %>
+                <li>
+                  <span><%= medal_label(index + 1) %></span>
+                  <%= claim.team.name %>
+                  · <%= claim.player.remote? ? "#{round.definition.matching_names(claim.body).size} nombres" : "en la sala" %>
+                </li>
+              <% end %>
+            </ol>
+          <% end %>
+          <% night.teams.each do |team| %>
+            <% claimed = claims.any? { |claim| claim.team_id == team.id } %>
+            <p>
+              <span><%= team.name %> · <span class="quiet"><%= claimed ? "ya" : "siguen" %></span></span>
+              <%= button_to "Lo dijeron — #{team.name}", presenter_scores_path(night.code), params: { team_id: team.id, round_run_id: round.id, kind: "correct" }, class: "btn btn-gold" %>
+            </p>
+          <% end %>
+        </div>
+      <% end %>
+
+      <% if round.definition.scavenger? %>
+        <div class="hunt-desk">
+          <p class="eyebrow">Caza</p>
+          <p class="lede">¿Tienen algo que suene? Si lo ves, dales el punto.</p>
+          <% claims = round.answers.includes(:team).order(:created_at) %>
+          <% if claims.any? %>
+            <ol class="buzz-board">
+              <% claims.each_with_index do |claim, index| %>
+                <li><span><%= medal_label(index + 1) %></span> <%= claim.team.name %></li>
+              <% end %>
+            </ol>
+          <% end %>
+          <% night.teams.each do |team| %>
+            <% claimed = claims.any? { |claim| claim.team_id == team.id } %>
+            <p>
+              <span><%= team.name %> · <span class="quiet"><%= claimed ? "lo tienen" : "siguen buscando" %></span></span>
+              <%= button_to "Lo tienen — #{team.name}", presenter_scores_path(night.code), params: { team_id: team.id, round_run_id: round.id, kind: "correct" }, class: "btn btn-gold" %>
+            </p>
+          <% end %>
+        </div>
+      <% end %>
+
+      <% if round.definition.physical? || round.definition.pose? || round.definition.mime? || round.definition.taboo? || round.definition.scavenger? || round.definition.freeze? || round.definition.category? %>
+        <h3>Puntos de la sala</h3>
+        <% night.teams.each do |team| %>
+          <p>
+            <span><%= team.name %></span>
+            <span class="cluster">
+              <%= button_to "+5", presenter_scores_path(night.code), params: { team_id: team.id, kind: "plus" }, class: "btn btn-tiny btn-gold" %>
+              <%= button_to "−5", presenter_scores_path(night.code), params: { team_id: team.id, kind: "minus" }, class: "btn btn-tiny btn-ghost" %>
+            </span>
+          </p>
+        <% end %>
+      <% end %>
+    </article>
+  <% end %>
+
+  <% unless night.finished? %>
+  <aside class="board">
+    <h3>Marcador</h3>
+    <% night.teams.order(cached_score: :desc).each do |team| %>
+      <p>
+        <span><%= team.name %> · <%= team.cached_score %> pts · <%= team.rank_label %><%= " · Rey" if team.rey? %><% if team.ward_team %> · T. <%= team.ward_team.season_rank_label %><% end %></span>
+        <span class="cluster">
+          <%= button_to "+5", presenter_scores_path(night.code), params: { team_id: team.id, kind: "plus" }, class: "btn btn-tiny btn-ghost" %>
+          <%= button_to "−5", presenter_scores_path(night.code), params: { team_id: team.id, kind: "minus" }, class: "btn btn-tiny btn-ghost" %>
+        </span>
+      </p>
+    <% end %>
+  </aside>
+  <% end %>
+
+  <% if night.score_events.any? %>
+    <details class="ledger">
+      <summary>Historial de puntos</summary>
+      <ul>
+        <% night.score_events.includes(:team).order(created_at: :desc).limit(12).each do |event| %>
+          <li><%= event.team.name %>: <%= event.points %> · <%= event.reason %></li>
+        <% end %>
+      </ul>
+    </details>
+  <% end %>
+</section>

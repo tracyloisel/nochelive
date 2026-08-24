@@ -1,0 +1,10 @@
+<% content_for :title, "Presentador" %>
+<section class="gate">
+  <h1>Consola del presentador</h1>
+  <p class="lede">Pega el token secreto de esta noche.</p>
+  <%= form_with url: presenter_gate_path(@night.code), class: "join-form" do %>
+    <label for="token">Token</label>
+    <input id="token" name="token" class="code-input" required autocomplete="off">
+    <button class="btn btn-gold">Entrar</button>
+  <% end %>
+</section>

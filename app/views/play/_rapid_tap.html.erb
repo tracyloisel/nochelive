@@ -1,0 +1,27 @@
+<% goal = definition.tap_goal %>
+<% taps = tap&.taps.to_i %>
+<% done = tap&.finished? %>
+
+<p class="prompt"><%= definition.remote_variant&.fetch("instructions", nil) || definition.instructions || "Lanza la piedra." %></p>
+
+<% if round.open? && !done %>
+  <div class="sling" data-controller="sling" data-sling-url-value="<%= night_round_run_tap_path(night.code, round) %>" data-sling-goal-value="<%= goal %>" data-sling-taps-value="<%= taps %>">
+    <p class="power-label">Fuerza</p>
+    <div class="power" aria-hidden="true"><span data-sling-target="bar" style="width: <%= (taps * 100 / goal) %>%"></span></div>
+    <button type="button" class="buzz sling-btn" data-action="pointerdown->sling#tap">
+      <%= picto("stone", size: "xl") %>
+      <span>Lanzar</span>
+    </button>
+    <p class="hint"><span data-sling-target="count"><%= taps %></span> / <%= goal %></p>
+  </div>
+<% elsif done %>
+  <div class="lock lock-gold" role="status">
+    <%= picto("stone", size: "lg") %>
+    <p class="place">¡Impacto!</p>
+    <p>La piedra voló. Vuestro equipo anotó.</p>
+  </div>
+<% elsif round.revealed? %>
+  <%= render "play/reveal", definition: definition, team: team, round: round %>
+<% else %>
+  <%= render "shared/wait", message: "Esperad la señal para lanzar." %>
+<% end %>

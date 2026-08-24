@@ -1,0 +1,18 @@
+<% show_year = local_assigns[:show_year] %>
+<% src = avatar_mark(person) %>
+<span class="person-face">
+  <% if src %>
+    <img src="<%= src %>" alt="" class="avatar-img avatar-img-lg" width="72" height="72">
+  <% else %>
+    <span class="avatar-fallback avatar-fallback-lg" aria-hidden="true"><%= person.given_name.to_s.first %></span>
+  <% end %>
+</span>
+<strong><%= person.given_name %></strong>
+<small>
+  <% bits = [] %>
+  <% bits << person.family_name if person.family_name.present? %>
+  <% bits << person.favorite_year.to_s if show_year %>
+  <% bits << person.last_ward_team.name if person.last_ward_team %>
+  <% bits << hint if local_assigns[:hint].present? %>
+  <%= bits.join(" · ") %>
+</small>

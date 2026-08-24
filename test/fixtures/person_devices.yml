@@ -1,0 +1,6 @@
+# frozen_string_literal: true
+
+pili_tablet:
+  person: pili
+  device_token: pili-tablet
+  last_seen_at: <%= Time.current %>

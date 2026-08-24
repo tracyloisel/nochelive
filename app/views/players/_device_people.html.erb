@@ -1,0 +1,16 @@
+<h1>¿Quién juega?</h1>
+<p class="lede">Este teléfono ya conoce estas fichas.</p>
+
+<ul class="team-list person-list">
+  <% people.each do |person| %>
+    <li>
+      <%= button_to night_players_path(night.code), params: { person_id: person.id, location: "room" }, class: "team-pick person-pick is-here" do %>
+        <%= render "people/card", person: person, show_year: false %>
+      <% end %>
+    </li>
+  <% end %>
+</ul>
+
+<%= link_to night_name_path(night.code, fresh: 1), class: "btn btn-ghost picto-btn" do %>
+  <%= picto("plus") %>Otra persona
+<% end %>

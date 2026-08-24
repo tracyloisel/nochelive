@@ -1,0 +1,20 @@
+<section class="play-card">
+  <header class="team-bar">
+    <span class="emblem emblem-lg emblem-<%= team.emblem %>"><%= render "shared/emblem", key: team.emblem %></span>
+    <div>
+      <p class="eyebrow"><%= night.code %></p>
+      <h1><%= team.name %></h1>
+    </div>
+    <div class="who">
+      <%= render "shared/avatar", player: player %>
+      <p class="score" aria-label="puntos"><%= picto("star") %><%= team.cached_score %></p>
+    </div>
+  </header>
+  <%= render "play/progress", team: team %>
+  <div class="wait-toy" role="status">
+    <span class="emblem emblem-xl emblem-<%= team.emblem %> bob"><%= render "shared/emblem", key: team.emblem %></span>
+    <span class="wait-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+    <p class="lede">Esperad. El presentador va a abrir la primera ronda.</p>
+  </div>
+  <p class="quiet"><%= night.teams.count %> equipos</p>
+</section>

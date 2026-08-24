@@ -1,0 +1,41 @@
+<% if player_remote?(player) && definition.story_path? %>
+  <% if round.revealed? %>
+    <%= render "play/reveal", definition: definition, team: team, round: round %>
+  <% elsif answer %>
+    <%= render "shared/wait", message: "Habéis vivido la historia. Esperad." %>
+  <% elsif round.open? %>
+    <p class="prompt put-down">TÚ ERES JONÁS.</p>
+    <p class="lede"><%= definition.remote_variant["instructions"] %></p>
+    <div class="path-desk"
+         data-controller="path"
+         data-path-url-value="<%= night_round_run_answer_path(night.code, round) %>">
+      <% definition.story_beats.each_with_index do |beat, index| %>
+        <div class="path-beat"
+             data-path-target="beat"
+             data-path-key-param="<%= beat["key"] %>"
+             <%= "hidden" unless index.zero? %>>
+          <button type="button" class="buzz hunt-btn" data-action="path#advance">
+            <%= picto(beat["picto"], size: "xl") %>
+          </button>
+          <p class="prompt put-down"><%= beat["shout"] %></p>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="path-preview cluster" aria-hidden="true">
+      <% definition.story_beats.each do |beat| %>
+        <%= picto(beat["picto"], size: "lg") %>
+      <% end %>
+    </div>
+    <%= render "shared/wait", message: "Tres momentos. El presentador va a abrir." %>
+  <% end %>
+<% else %>
+  <div class="put-down-art" aria-hidden="true"><%= picto("hands", size: "xl") %></div>
+  <p class="prompt put-down">SIN PALABRAS.</p>
+  <p class="lede"><%= definition.instructions %></p>
+  <% if round.revealed? %>
+    <%= render "play/reveal", definition: definition, team: team, round: round %>
+  <% else %>
+    <%= render "shared/wait", message: "Un jugador representa. Los demás adivinan en voz alta." %>
+  <% end %>
+<% end %>

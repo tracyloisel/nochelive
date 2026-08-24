@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <title><%= content_for(:title) || "Noche Live" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="Noche Live">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#f6f3ec">
+    <meta name="view-transition" content="same-origin">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= yield :head %>
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Fraunces:opsz,wght@9..144,500;9..144,650;9..144,700&display=swap" rel="stylesheet">
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+  <body class="<%= content_for(:body_class) %>" data-controller="stage press motion">
+    <a class="skip" href="#main">Ir al juego</a>
+    <div class="sky" aria-hidden="true"></div>
+    <main id="main" class="shell">
+      <% if notice %><p class="banner" role="status"><%= notice %></p><% end %>
+      <% if alert %><p class="banner banner-alert" role="alert"><%= alert %></p><% end %>
+      <%= yield %>
+    </main>
+    <div id="live_pulses" class="live-pulses" aria-live="polite"></div>
+    <button type="button" class="mute" data-action="stage#toggleMute" data-stage-target="mute" aria-pressed="false" aria-label="Sonido">
+      <%= picto("sound") %>
+      <%= picto("sound-off") %>
+      <span class="word">Sonido</span>
+    </button>
+  </body>
+</html>

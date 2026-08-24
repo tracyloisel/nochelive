@@ -1,0 +1,21 @@
+<% content_for :title, "Noche Live" %>
+<% content_for :body_class, "is-kid" %>
+
+<section class="gate">
+  <div class="mark mark-lg" aria-hidden="true"><%= render "illustrations/crown" %></div>
+  <p class="eyebrow">Noche de hogar</p>
+  <h1>Noche Live</h1>
+  <p class="lede">La misma noche. En la sala y en casa.</p>
+
+  <%= form_with url: join_path, method: :post, class: "join-form" do %>
+    <label for="code">Código de la noche</label>
+    <input id="code" name="code" inputmode="text" autocomplete="off" autocapitalize="characters" maxlength="8" required class="code-input" placeholder="DAVID">
+    <button type="submit" class="btn btn-gold picto-btn"><%= picto("door") %>Entrar</button>
+    <button type="submit" name="as" value="watch" class="btn btn-ghost picto-btn"><%= picto("eye") %>Solo ver</button>
+  <% end %>
+
+  <p class="split">¿Presentas tú?</p>
+  <%= link_to new_game_session_path, class: "btn btn-navy picto-btn" do %>
+    <%= picto("wand") %>Crear una noche
+  <% end %>
+</section>

@@ -1,0 +1,7 @@
+<div class="put-down-art" aria-hidden="true"><%= picto("phone", size: "xl") %></div>
+<p class="prompt put-down">Dejad el teléfono un momento.</p>
+<p class="lede"><%= definition.instructions %></p>
+<p class="hint">El presentador anota los puntos de la sala.</p>
+<% if round.revealed? %>
+  <%= render "play/reveal", definition: definition, team: team, round: round %>
+<% end %>

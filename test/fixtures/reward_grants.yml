@@ -1,0 +1,6 @@
+# frozen_string_literal: true
+
+salomon_chest:
+  team: leones
+  chest_key: cofre_salomon
+  state: ready

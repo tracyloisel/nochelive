@@ -1,0 +1,45 @@
+<section class="play-card">
+  <p class="eyebrow"><%= night.code %></p>
+  <h1>Elige tu equipo</h1>
+
+  <% last_id = current_player&.person&.last_ward_team_id %>
+  <% if night.teams.any? %>
+    <ul class="team-list">
+      <% night.teams.includes(:players, :ward_team).each do |team| %>
+        <% yours = last_id.present? && team.ward_team_id == last_id %>
+        <li>
+          <%= button_to night_team_memberships_path(night.code, team), class: "team-pick #{'is-yours' if yours}" do %>
+            <span class="emblem emblem-lg emblem-<%= team.emblem %>"><%= render "shared/emblem", key: team.emblem %></span>
+            <strong><%= team.name %></strong>
+            <small>
+              <%= pluralize(team.players.size, "jugador", "jugadores") %>
+              <% if team.ward_team %>
+                · Temporada <%= team.ward_team.season_rank_label %>
+              <% end %>
+              <% if yours %>
+                · Tu equipo
+              <% end %>
+            </small>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  <% end %>
+
+  <h2 class="subhead">O crea uno</h2>
+  <%= form_with url: night_teams_path(night.code), class: "join-form" do %>
+    <label for="team_name">Nombre del equipo</label>
+    <input id="team_name" name="name" maxlength="28" required class="code-input" placeholder="Leones de Judá">
+    <fieldset class="emblem-pick">
+      <legend>Emblema</legend>
+      <% Team::EMBLEMS.each do |key, label| %>
+        <label class="emblem-choice">
+          <input type="radio" name="emblem" value="<%= key %>" <%= "checked" if key == "leon" %>>
+          <span class="emblem emblem-lg emblem-<%= key %>"><%= render "shared/emblem", key: key %></span>
+          <em><%= label %></em>
+        </label>
+      <% end %>
+    </fieldset>
+    <button type="submit" class="btn btn-gold picto-btn"><%= picto("plus") %>Crear equipo</button>
+  <% end %>
+</section>

@@ -1,0 +1,17 @@
+<% content_for :title, "Entrar en la rama" %>
+
+<section class="gate">
+  <p class="eyebrow">Presentador</p>
+  <h1>Abrir tu rama</h1>
+  <p class="lede">El código y el secreto son de la rama, no de una noche.</p>
+
+  <%= form_with url: ward_gate_path, class: "join-form" do %>
+    <label for="code">Código de la rama</label>
+    <input id="code" name="code" required class="code-input" placeholder="RAMA" autocapitalize="characters">
+    <label for="token">Secreto del presentador</label>
+    <input id="token" name="token" required class="code-input" autocomplete="off">
+    <button type="submit" class="btn btn-gold">Entrar</button>
+  <% end %>
+
+  <%= link_to "Crear una rama", new_ward_path, class: "btn btn-ghost" %>
+</section>

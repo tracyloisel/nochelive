@@ -1,0 +1,64 @@
+<% snapshot = Presences::Snapshot.call(night: night) %>
+<% compact = local_assigns.fetch(:compact, false) %>
+<% team = local_assigns[:team] %>
+<aside id="night_presence" class="presence <%= "is-compact" if compact %>" aria-label="Quién está">
+  <div class="presence-stats">
+    <div class="presence-stat">
+      <%= picto("person") %>
+      <strong><%= snapshot.live %></strong>
+      <span class="word">en vivo</span>
+    </div>
+    <div class="presence-stat">
+      <%= picto("sofa") %>
+      <strong><%= snapshot.room %></strong>
+      <span class="word">sala</span>
+    </div>
+    <div class="presence-stat">
+      <%= picto("house") %>
+      <strong><%= snapshot.remote %></strong>
+      <span class="word">casa</span>
+    </div>
+  </div>
+  <% if snapshot.joined != snapshot.live %>
+    <p class="quiet"><%= snapshot.joined %> en la noche</p>
+  <% end %>
+
+  <% if snapshot.live.zero? %>
+    <div class="presence-wait">
+      <%= picto("hourglass") %>
+      <span class="word"><%= snapshot.joined.zero? ? "Nadie aún" : "Esperando…" %></span>
+    </div>
+  <% end %>
+
+  <% if team %>
+    <div class="presence-team">
+      <% team.players.select(&:participant?).each do |member| %>
+        <span class="presence-face <%= "is-live" if member.live? %>" title="<%= player_label(member, team.players) %>">
+          <%= render "shared/avatar", player: member %>
+        </span>
+      <% end %>
+      <span class="word"><%= team.players.size %></span>
+    </div>
+  <% else %>
+    <% if snapshot.teams.empty? %>
+      <p class="quiet">Aún no hay equipos</p>
+    <% else %>
+    <ul class="presence-teams">
+      <% snapshot.teams.each do |row| %>
+        <li>
+          <span class="emblem emblem-<%= row.team.emblem %>"><%= render "shared/emblem", key: row.team.emblem %></span>
+          <span class="word"><%= row.team.name %></span>
+          <span class="presence-faces">
+            <% row.team.players.each do |member| %>
+              <span class="presence-face <%= "is-live" if member.live? %>" title="<%= player_label(member, row.team.players) %>">
+                <%= render "shared/avatar", player: member %>
+              </span>
+            <% end %>
+          </span>
+          <strong><%= row.live %>/<%= row.joined %></strong>
+        </li>
+      <% end %>
+    </ul>
+    <% end %>
+  <% end %>
+</aside>

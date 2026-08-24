@@ -1,0 +1,19 @@
+<% content_for :title, "Tu nombre" %>
+<% content_for :body_class, "is-kid" %>
+
+<section class="gate" id="night_join">
+  <p class="eyebrow"><%= @night.code %> · <%= night_title(@night) %></p>
+
+  <% case @screen %>
+  <% when :welcome %>
+    <%= render "players/welcome", night: @night, person: @people_on_device.first %>
+  <% when :device %>
+    <%= render "players/device_people", night: @night, people: @people_on_device %>
+  <% when :homonyms %>
+    <%= render "players/homonyms", night: @night, cards: @homonym_cards %>
+  <% when :claim %>
+    <%= render "players/claim", night: @night, person: @claim_person %>
+  <% else %>
+    <%= render "players/form", night: @night %>
+  <% end %>
+</section>

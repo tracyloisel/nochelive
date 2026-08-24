@@ -1,0 +1,9 @@
+<% show_player = local_assigns.fetch(:show_player, false) %>
+<li>
+  <span><%= buzz.medal %></span>
+  <span class="word">
+    <%= buzz.team.name %>
+    <% if show_player %> · <%= player_label(buzz.player) %><% end %>
+  </span>
+  <span class="delay"><%= latency_label(buzz.latency_ms) %></span>
+</li>

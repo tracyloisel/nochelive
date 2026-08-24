@@ -1,0 +1,34 @@
+<% if round.revealed? %>
+  <%= render "play/reveal", definition: definition, team: team, round: round %>
+<% else %>
+  <div class="put-down-art" aria-hidden="true"><%= picto("search", size: "xl") %></div>
+  <p class="prompt put-down">¡BUSCAD!</p>
+  <% if player_remote?(player) && definition.remote_variant %>
+    <p class="lede"><%= definition.remote_variant["instructions"] %></p>
+  <% else %>
+    <p class="lede"><%= definition.instructions %></p>
+  <% end %>
+  <% if round.open? && round.opened_at %>
+    <p class="countdown" data-controller="countdown" data-countdown-end-value="<%= (round.opened_at + definition.duration.seconds).iso8601 %>">
+      <span data-countdown-target="label"><%= definition.duration %></span> s
+    </p>
+  <% end %>
+  <% if answer %>
+    <div class="lock lock-gold" role="status">
+      <%= picto("found", size: "lg") %>
+      <p class="place">¡Lo tenemos!</p>
+      <p>Enseñadlo. El presentador mira.</p>
+    </div>
+  <% elsif round.open? %>
+    <%= form_with url: night_round_run_answer_path(night.code, round), class: "hunt-form" do %>
+      <input type="hidden" name="body" value="¡Lo tenemos!">
+      <button class="buzz hunt-btn" type="submit">
+        <%= picto("found", size: "xl") %>
+        <span>¡LO TENEMOS!</span>
+      </button>
+    <% end %>
+    <p class="hint">Corred. Luego golpead el botón.</p>
+  <% else %>
+    <%= render "shared/wait", message: "Mirad alrededor. El presentador va a abrir la caza." %>
+  <% end %>
+<% end %>

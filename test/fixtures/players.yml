@@ -1,0 +1,41 @@
+# frozen_string_literal: true
+
+lucia:
+  game_session: david
+  name: Lucía
+  role: participant
+  location: room
+  client_token: lucia-token
+  avatar_key: delfin
+
+daniel:
+  game_session: david
+  name: Daniel
+  role: participant
+  location: remote
+  client_token: daniel-token
+  avatar_key: ballena
+
+ana:
+  game_session: david
+  name: Ana
+  role: participant
+  location: room
+  client_token: ana-token
+  avatar_key: tortuga
+
+publico:
+  game_session: david
+  name: Público
+  role: spectator
+  location: room
+  client_token: publico-token
+  avatar_key: loro
+
+marta_lobby:
+  game_session: elias
+  name: Marta
+  role: participant
+  location: room
+  client_token: marta-lobby-token
+  avatar_key: aguila

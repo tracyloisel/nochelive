@@ -1,0 +1,35 @@
+# frozen_string_literal: true
+
+leones:
+  game_session: david
+  ward_team: leones_season
+  name: Leones de Judá
+  emblem: leon
+  cached_score: 10
+  xp: 20
+  rank_key: novicio
+  streak: 1
+  next_correct_doubled: false
+
+casa:
+  game_session: david
+  ward_team: casa_season
+  name: Casa de David
+  emblem: ola
+  cached_score: 0
+  xp: 0
+  rank_key: novicio
+  streak: 0
+
+lobby_leones:
+  game_session: elias
+  name: Leones
+  emblem: leon
+
+campeones:
+  game_session: cerrada
+  name: Campeones
+  emblem: corona
+  cached_score: 42
+  xp: 80
+  rank_key: guerrero

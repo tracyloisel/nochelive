@@ -1,0 +1,18 @@
+# frozen_string_literal: true
+
+leones_correct:
+  game_session: david
+  team: leones
+  round_run: daniel_lions
+  kind: correct
+  points: 10
+  xp: 20
+  reason: Respuesta correcta
+
+leones_adjust:
+  game_session: david
+  team: leones
+  kind: adjust
+  points: 0
+  xp: 0
+  reason: Semilla de prueba

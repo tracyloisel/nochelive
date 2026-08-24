@@ -1,0 +1,17 @@
+<% clip = challenge_clip(round) %>
+<% slides = challenge_slides(round) %>
+<% if clip %>
+  <div class="challenge-media">
+    <video class="challenge-clip" autoplay muted loop playsinline poster="<%= slides.first %>">
+      <source src="/<%= clip %>" type="video/mp4">
+    </video>
+  </div>
+<% elsif slides.any? %>
+  <div class="challenge-media" data-controller="slideshow" data-slideshow-interval-value="3500">
+    <% slides.each_with_index do |src, index| %>
+      <img src="<%= src %>" alt="" class="challenge-slide <%= 'is-on' if index.zero? %>" data-slideshow-target="slide">
+    <% end %>
+  </div>
+<% else %>
+  <div class="art wide"><%= render illustration_partial(round.definition.presentation["illustration"]) %></div>
+<% end %>

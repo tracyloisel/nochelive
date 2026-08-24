@@ -1,0 +1,6 @@
+<% src = avatar_mark(player) if player %>
+<% if src %>
+  <img src="<%= src %>" alt="" class="avatar-img" width="40" height="40">
+<% else %>
+  <span class="avatar-fallback" aria-hidden="true"><%= player.name.to_s.first %></span>
+<% end %>

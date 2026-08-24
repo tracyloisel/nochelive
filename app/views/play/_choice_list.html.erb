@@ -1,0 +1,11 @@
+<div class="choices">
+  <% choices.each_with_index do |choice, index| %>
+    <% mark = choice_mark(index) %>
+    <%= button_to night_round_run_answer_path(night.code, round),
+          params: { choice: choice_key(choice) },
+          class: "choice-btn choice-#{mark[:tone]}" do %>
+      <span class="choice-mark" aria-hidden="true"><%= picto(mark[:shape]) %></span>
+      <span class="word"><%= choice_label(choice) %></span>
+    <% end %>
+  <% end %>
+</div>

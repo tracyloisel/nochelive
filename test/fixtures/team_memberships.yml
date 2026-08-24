@@ -1,0 +1,13 @@
+# frozen_string_literal: true
+
+lucia_leones:
+  player: lucia
+  team: leones
+
+daniel_casa:
+  player: daniel
+  team: casa
+
+marta_lobby_leones:
+  player: marta_lobby
+  team: lobby_leones

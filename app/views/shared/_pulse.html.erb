@@ -1,0 +1,37 @@
+<% return if pulse.blank? %>
+<% player = pulse[:player] %>
+<% kind = pulse[:kind].to_s %>
+<% return if player.blank? && %w[lock reveal score].exclude?(kind) %>
+<% icon = case kind
+          when "buzz" then "bell"
+          when "found" then "found"
+          when "shout" then "speak"
+          when "join" then "person"
+          when "lock", "freeze" then "hourglass"
+          when "pose" then "statue"
+          when "score" then "star"
+          else "check"
+          end %>
+<% sfx = case kind
+         when "join", "pose" then "chest"
+         when "lock", "freeze" then "dramatic_fire"
+         when "reveal", "score" then "correct_gold"
+         else "buzzer_hit"
+         end %>
+<% word = pulse[:label].presence || (player && player_label(player)) || (kind == "lock" ? "Cerrado" : "Respuesta") %>
+<div class="live-pulse is-<%= kind %>" data-controller="pulse" data-sfx="<%= sfx %>" role="status">
+  <% if player&.team %>
+    <span class="emblem emblem-<%= player.team.emblem %>"><%= render "shared/emblem", key: player.team.emblem %></span>
+  <% end %>
+  <% if player %>
+    <%= render "shared/avatar", player: player %>
+  <% end %>
+  <%= picto(icon) %>
+  <span class="word"><%= word %></span>
+  <% if pulse[:place].present? %>
+    <span class="place"><%= medal_label(pulse[:place]) %></span>
+  <% end %>
+  <% if pulse[:delay_ms].present? %>
+    <span class="delay"><%= latency_label(pulse[:delay_ms]) %></span>
+  <% end %>
+</div>

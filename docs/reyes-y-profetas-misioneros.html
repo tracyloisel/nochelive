@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Reyes y Profetas — Ficha para misioneros</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,650;0,9..144,700;1,9..144,500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --paper: #f6f3ec;
+      --paper-deep: #ece6d9;
+      --surface: #ffffff;
+      --ink: #1c1915;
+      --navy: #1a2744;
+      --gold: #d4a017;
+      --gold-bright: #f2c14e;
+      --gold-deep: #a37a12;
+      --mute: #7a7368;
+      --fire: #e4572e;
+      --line: rgba(28, 25, 21, 0.12);
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      font-family: "Figtree", "Avenir Next", system-ui, sans-serif;
+      color: var(--ink);
+      background: var(--paper);
+      font-size: 11pt;
+      line-height: 1.45;
+    }
+    @page {
+      size: A4;
+      margin: 16mm 16mm 18mm 16mm;
+    }
+    h1, h2, h3, .display {
+      font-family: "Fraunces", Georgia, serif;
+      letter-spacing: -0.02em;
+      font-weight: 650;
+      margin: 0;
+    }
+    p, ul { margin: 0; }
+    .cover {
+      break-after: page;
+      min-height: 240mm;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 8mm 4mm 10mm;
+    }
+    .eyebrow {
+      font-size: 9.5pt;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--gold-deep);
+    }
+    .cover h1 {
+      font-size: 42pt;
+      line-height: 0.95;
+      margin: 10px 0 12px;
+    }
+    .tagline {
+      font-family: "Fraunces", Georgia, serif;
+      font-size: 16pt;
+      font-style: italic;
+      color: var(--navy);
+    }
+    .gold-rule {
+      height: 3px;
+      width: 72px;
+      background: var(--gold);
+      margin: 18px 0 22px;
+      border: 0;
+    }
+    .lede { color: var(--mute); font-size: 12pt; max-width: 36em; }
+    .cover-meta {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 28px;
+    }
+    .chip {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 14px 16px;
+    }
+    .chip strong { display: block; font-size: 10.5pt; }
+    .chip span { color: var(--mute); font-size: 10pt; }
+    h2 {
+      font-size: 18pt;
+      margin: 0 0 10px;
+    }
+    h3 {
+      font-size: 14.5pt;
+      line-height: 1.15;
+    }
+    .section { margin-bottom: 16px; }
+    .how {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+    .how ul { padding-left: 1.15em; }
+    .how li { margin: 4px 0; }
+    .round {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 14px 16px 15px;
+      margin: 0 0 11px;
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+    .round-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+    .num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 26px;
+      height: 26px;
+      border-radius: 999px;
+      background: var(--navy);
+      color: #fff;
+      font-size: 10pt;
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-right: 8px;
+      transform: translateY(-1px);
+    }
+    .title-row { display: flex; align-items: flex-start; }
+    .meta {
+      color: var(--mute);
+      font-size: 9pt;
+      font-weight: 600;
+      text-align: right;
+      white-space: nowrap;
+      line-height: 1.35;
+    }
+    .q {
+      font-size: 12pt;
+      font-weight: 600;
+      margin: 6px 0 6px;
+    }
+    .choices {
+      list-style: none;
+      padding: 0;
+      margin: 4px 0 8px;
+    }
+    .choices li {
+      padding: 3px 0 3px 14px;
+      position: relative;
+    }
+    .choices li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.55em;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      border: 1.5px solid var(--gold-deep);
+    }
+    .play {
+      color: var(--navy);
+      font-size: 10.5pt;
+      margin: 4px 0 6px;
+    }
+    .answer {
+      background: #fff8e6;
+      border-left: 4px solid var(--gold);
+      border-radius: 0 10px 10px 0;
+      padding: 8px 12px;
+      margin-top: 8px;
+    }
+    .answer .label {
+      font-size: 8.5pt;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold-deep);
+    }
+    .answer p { font-weight: 650; margin-top: 2px; }
+    .verse { color: var(--mute); font-size: 9.5pt; font-style: italic; }
+    .forbidden {
+      color: var(--fire);
+      font-weight: 700;
+    }
+    .finale { border-color: var(--gold); box-shadow: inset 0 0 0 1px rgba(212, 160, 23, 0.35); }
+    .close {
+      break-inside: avoid;
+      margin-top: 8px;
+      padding: 16px;
+      background: var(--navy);
+      color: #f6f3ec;
+      border-radius: 16px;
+    }
+    .close h2 { color: var(--gold-bright); }
+    .close p { margin-top: 8px; color: rgba(246, 243, 236, 0.88); }
+    .note { font-size: 9.5pt; color: var(--mute); margin-top: 8px; }
+  </style>
+</head>
+<body>
+  <header class="cover">
+    <div>
+      <p class="eyebrow">Noche Live · Ficha de animador</p>
+      <h1>Reyes y<br>Profetas</h1>
+      <p class="tagline">Una noche de coronas, fuego y piedras</p>
+      <hr class="gold-rule">
+      <p class="lede">
+        Las 15 rondas completas — preguntas, reglas, respuestas y versículos —
+        para animar la noche con las familias, sin la aplicación.
+        Fiche unique à envoyer aux missionnaires.
+      </p>
+      <div class="cover-meta">
+        <div class="chip">
+          <strong>15 rondas · ~45 min</strong>
+          <span>2 equipos o más · capilla y salón cultural</span>
+        </div>
+        <div class="chip">
+          <strong>189 puntos en total</strong>
+          <span>La final vale 25 · todos de pie</span>
+        </div>
+        <div class="chip">
+          <strong>Un misionero anima</strong>
+          <span>El otro lleva los puntos y los versículos</span>
+        </div>
+        <div class="chip">
+          <strong>Niños y abuelos juntos</strong>
+          <span>No solo trivia: movimiento, mimo, danza</span>
+        </div>
+      </div>
+    </div>
+    <p class="note">Orden de la noche: bienvenida → facilidad → competencia → risa → gran final.</p>
+  </header>
+
+  <section class="section how">
+    <div class="chip">
+      <h2>Cómo jugar</h2>
+      <ul>
+        <li>Dos equipos. Un presentador. Biblia opcional: los versículos están aquí.</li>
+        <li>El primero en responder bien gana los puntos de la ronda.</li>
+        <li>Alternar pensar / moverse / reír. No cinco preguntas seguidas sentados.</li>
+        <li>En las rondas de capilla: sentados, teléfonos o voz. En el salón: de pie, cuerpos.</li>
+      </ul>
+    </div>
+    <div class="chip">
+      <h2>Material</h2>
+      <ul>
+        <li>3 pelotas de espuma y una torre de cartón (Goliat).</li>
+        <li>Un objeto que suene: olla, llaves, himnario.</li>
+        <li>Espacio para bailar (salón cultural, no la capilla).</li>
+        <li>Cronómetro del teléfono. Papel para el marcador.</li>
+      </ul>
+    </div>
+  </section>
+
+  <article class="round">
+    <div class="round-head">
+      <div class="title-row">
+        <span class="num">1</span>
+        <h3>La elección de Salomón</h3>
+      </div>
+      <p class="meta">Buzzer · capilla<br>30 s · 10 pts</p>
+    </div>
+    <p class="q">Dios permitió a Salomón pedir lo que quisiera. ¿Qué pidió?</p>
+    <p class="play">El primer equipo que levante la mano (o pulse) responde.</p>
+    <div class="answer">
+      <div class="label">Respuesta</div>
+      <p>Sabiduría para gobernar al pueblo.</p>
+      <p class="verse">1 Reyes 3:5-12</p>
+    </div>
+  </article>
+
+  <article class="round">
+    <div class="round-head">
+      <div class="title-row">
+        <span class="num">2</span>
+        <h3>¿Rey o profeta?</h3>
+      </div>
+      <p class="meta">Verdadero / Falso · capilla<br>20 s · 10 pts</p>
+    </div>
+    <p class="q">«Elías fue un rey de Israel.»</p>
+    <ul class="choices">
+      <li>Verdadero</li>
+      <li>Falso</li>
+    </ul>
+    <div class="answer">
+      <div class="label">Respuesta</div>
+      <p>Falso. Elías fue profeta.</p>
+      <p class="verse">1 Reyes 17</p>
+    </div>
+  </article>
+
+  <article class="round">
+    <div class="round-head">
+      <div class="title-row">
+        <span class="num">3</span>
+        <h3>David contra Goliat</h3>
+      </div>
+      <p class="meta">Juego físico · salón<br>60 s · 10 pts</p>
+    </div>
+    <p class="q">¿Con qué derrotó David a Goliat?</p>
+    <p class="play"><strong>En la sala:</strong> tres pelotas. Derribad la torre de Goliat. El equipo que tumba la torre gana.<br>
+    <strong>Sin torre / en casa:</strong> diez toques rápidos, como si lanzaran la piedra.</p>
+    <div class="answer">
+      <div class="label">Respuesta</div>
+      <p>Con una honda y una piedra.</p>
+      <p class="verse">1 Samuel 17:40-50</p>
+    </div>
+  </article>
+
+  <article class="round">
+    <div class="round-head">
+      <div class="title-row">
+        <span class="num">4</span>
+        <h3>Fuego del cielo</h3>
+      </div>
+      <p class="meta">Opción múltiple · capilla<br>25 s · 12 pts</p>
+    </div>
+    <p class="q">¿Qué bajó sobre el altar de Elías en el Carmelo?</p>
+    <ul class="choices">
+      <li>Lluvia</li>
+      <li>Fuego</li>
+      <li>Viento</li>
+    </ul>
+    <div class="answer">
+      <div class="label">Respuesta</div>
+      <p>Fuego de Jehová.</p>
+      <p class="verse">1 Reyes 18:38</p>
+    </div>
+  </article>
+
+  <article class="round">
+    <div class="round-head">
+      <div class="title-row">
+        <span class="num">5</span>
+        <h3>Daniel y los leones</h3>
+      </div>
+      <p class="meta">Buzzer · capilla<br>30 s · 12 pts</p>
+    </div>
+    <p class="q">¿Por qué echaron a Daniel al foso de los leones?</p>
+    <div class="answer">
+      <div class="label">Respuesta</div>
+      <p>Porque oraba a su Dios.</p>
+      <p class="verse">Daniel 6</p>
+    </div>
+  </article>
+
+  <article class="round">
+    <div class="round-head">
+      <div class="title-row">
+        <span class="num">6</span>
+        <h3>La danza de David</h3>
+      </div>
+      <p class="meta">Congelados · salón<br>45 s · 10 pts</p>
+    </div>
+    <p class="play">¡A bailar! Cuando el presentador pare y grite <strong>¡CONGELADOS!</strong>, nadie se mueve. Quien se mueva pierde. El equipo más quieto gana.<br>
+    En casa: cuando vean CONGELADOS, pulsar. No antes.</p>
+    <div class="answer">
+      <div class="label">Historia</div>
+      <p>David danzó delante del Señor.</p>
+      <p class="verse">2 Samuel 6:14</p>
+    </div>
+  </article>
+
+  <article class="round">
+    <div class="round-head">
+      <div class="title-row">
+        <span class="num">7</span>
+        <h3>Jonás sin palabras</h3>
+      </div>
+      <p class="meta">Mimo · salón<br>60 s · 10 pts</p>
+    </div>
+    <p class="play">Un jugador representa a Jonás. El equipo adivina. <strong>Sin palabras.</strong></p>
+    <p class="play">Si no hay mimo, elegir: Jonás y el gran pez · Daniel y los leones · Elías y el fuego.</p>
+    <div class="answer">
+      <div class="label">Respuesta</div>
+      <p>Jonás y el gran pez.</p>
+      <p class="verse">Jonás 1–2</p>
+    </div>
+  </article>
+
+  <article class="round">
+    <div class="round-head">
+      <div class="title-row">
+        <span class="num">8</span>
+        <h3>El orden de los reyes</h3>
+      </div>
+      <p class="meta">Ordenar · capilla<br>40 s · 14 pts</p>
+    </div>
+    <p class="q">¿Quién reinó primero?</p>
+    <p class="play">Presentad mezclados: David, Salomón, Saúl. El equipo los dice <strong>en el orden del tiempo</strong>.</p>
+    <div class="answer">
+      <div class="label">Respuesta</div>
+      <p>Saúl, luego David, luego Salomón.</p>
+      <p class="verse">1 Samuel – 1 Reyes</p>
+    </div>
+  </article>
+
+  <article class="round">
+    <div class="round-head">
+      <div class="title-row">
+        <span class="num">9</span>
+        <h3>Palabras prohibidas</h3>
+      </div>
+      <p class="meta">Tabú · capilla<br>45 s · 12 pts</p>
+    </div>
+    <p class="play">Un jugador cuenta la historia. No puede decir las palabras rojas. Los demás adivinan.</p>
+    <p class="play">Palabras prohibidas: <span class="forbidden">viña · Acab · Jezabel</span></p>
+    <div class="answer">
+      <div class="label">Respuesta</div>
+      <p>La viña de Nabot. (Acab quiso la viña de Nabot.)</p>
+      <p class="verse">1 Reyes 21</p>
+    </div>
+  </article>
+
+  <article class="round">
+    <div class="round-head">
+      <div class="title-row">
+        <span class="num">10</span>
+        <h3>Estatua de David</h3>
+      </div>
+      <p class="meta">Pose · salón<br>30 s · 10 pts</p>
+    </div>
+    <p class="play">Dejad el teléfono. 30 segundos. Haced la estatua de David frente a Goliat: un pie plantado, sin huir. Quien se ría o se mueva pierde. El equipo más firme gana.</p>
+    <div class="answer">
+      <div class="label">Historia</div>
+      <p>David no corrió: se plantó.</p>
+      <p class="verse">1 Samuel 17</p>
+    </div>
+  </article>
+
+  <article class="round">
+    <div class="round-head">
+      <div class="title-row">
+        <span class="num">11</span>
+        <h3>El arpa de David</h3>
+      </div>
+      <p class="meta">Búsqueda · salón<br>50 s · 10 pts</p>
+    </div>
+    <p class="play">¡Levantaos! Encontrad un arpa, o <strong>cualquier cosa que suene</strong> (olla, llaves, himnario, voz). El primer equipo que muestre el objeto y grite gana.</p>
+    <div class="answer">
+      <div class="label">Historia</div>
+      <p>David calmaba a Saúl con el arpa.</p>
+      <p class="verse">1 Samuel 16:23</p>
+    </div>
+  </article>
+
+  <article class="round">
+    <div class="round-head">
+      <div class="title-row">
+        <span class="num">12</span>
+        <h3>Nombres de profetas</h3>
+      </div>
+      <p class="meta">Carrera · capilla<br>30 s · 12 pts</p>
+    </div>
+    <p class="play">Gritad nombres de profetas. <strong>Tres bastan.</strong> El primer equipo con 3 válidos grita ¡YA!</p>
+    <p class="play">Ejemplos: Isaías, Jeremías, Elías, Eliseo, Daniel, Jonás, Samuel, Moisés, Natán, Miqueas…</p>
+    <p class="play">En casa: escribir tres profetas, separados por comas.</p>
+  </article>
+
+  <article class="round">
+    <div class="round-head">
+      <div class="title-row">
+        <span class="num">13</span>
+        <h3>El juicio de Salomón</h3>
+      </div>
+      <p class="meta">Conversación · capilla<br>40 s · 14 pts</p>
+    </div>
+    <p class="q">¿Qué demostró Salomón con las dos madres?</p>
+    <p class="play">20 segundos para que cada equipo hable. Luego responden en voz alta.</p>
+    <div class="answer">
+      <div class="label">Respuesta</div>
+      <p>Sabiduría para ver el amor verdadero.</p>
+      <p class="verse">1 Reyes 3:16-28</p>
+    </div>
+  </article>
+
+  <article class="round">
+    <div class="round-head">
+      <div class="title-row">
+        <span class="num">14</span>
+        <h3>La corona tiembla</h3>
+      </div>
+      <p class="meta">Semifinal · buzzer · capilla<br>30 s · 18 pts</p>
+    </div>
+    <p class="q">¿Quién ungió a David en secreto, siendo aún joven?</p>
+    <div class="answer">
+      <div class="label">Respuesta</div>
+      <p>Samuel.</p>
+      <p class="verse">1 Samuel 16:13</p>
+    </div>
+  </article>
+
+  <article class="round finale">
+    <div class="round-head">
+      <div class="title-row">
+        <span class="num">15</span>
+        <h3>La noche de los profetas</h3>
+      </div>
+      <p class="meta">Gran final · todos de pie<br>40 s · 25 pts</p>
+    </div>
+    <p class="play">¡Todos de pie! La última palabra de la noche. Capilla.</p>
+    <p class="q">¿Qué pidió Eliseo a Elías antes de que el carro de fuego lo llevara?</p>
+    <div class="answer">
+      <div class="label">Respuesta</div>
+      <p>Una doble porción de su espíritu.</p>
+      <p class="verse">2 Reyes 2:9</p>
+    </div>
+  </article>
+
+  <section class="close">
+    <h2>Cierre</h2>
+    <p>Leed los puntos. Nombrad al equipo campeón. Un versículo corto, una oración, y a casa.</p>
+    <p>Puntos: 10 + 10 + 10 + 12 + 12 + 10 + 10 + 14 + 12 + 10 + 12 + 14 + 18 + 25 = <strong>189</strong>.</p>
+    <p>Que se recuerde la noche: la abuela que zumba, la torre que cae, y el último grito de pie.</p>
+  </section>
+</body>
+</html>

@@ -1,0 +1,92 @@
+# frozen_string_literal: true
+
+salomon:
+  game_session: david
+  yaml_round_id: salomon_wisdom
+  position: 1
+  phase: open
+  opened_at: <%= Time.current %>
+
+rey_o_profeta:
+  game_session: david
+  yaml_round_id: rey_o_profeta
+  position: 2
+  phase: pending
+
+david_goliath:
+  game_session: david
+  yaml_round_id: david_goliath
+  position: 3
+  phase: pending
+
+elias_carmel:
+  game_session: david
+  yaml_round_id: elias_carmel
+  position: 4
+  phase: pending
+
+daniel_lions:
+  game_session: david
+  yaml_round_id: daniel_lions
+  position: 5
+  phase: completed
+
+mime_jonah:
+  game_session: david
+  yaml_round_id: mime_jonah
+  position: 6
+  phase: pending
+
+taboo_nabot:
+  game_session: david
+  yaml_round_id: taboo_nabot
+  position: 7
+  phase: pending
+
+statue_david:
+  game_session: david
+  yaml_round_id: statue_david
+  position: 8
+  phase: pending
+
+scavenger_harp:
+  game_session: david
+  yaml_round_id: scavenger_harp
+  position: 9
+  phase: pending
+
+kings_order:
+  game_session: david
+  yaml_round_id: kings_order
+  position: 10
+  phase: pending
+
+freeze_saul:
+  game_session: david
+  yaml_round_id: freeze_saul
+  position: 11
+  phase: pending
+
+finale_prophet:
+  game_session: david
+  yaml_round_id: finale_prophet
+  position: 15
+  phase: pending
+
+category_prophets:
+  game_session: david
+  yaml_round_id: category_prophets
+  position: 12
+  phase: pending
+
+vote_solomon:
+  game_session: david
+  yaml_round_id: vote_solomon
+  position: 13
+  phase: pending
+
+lobby_first:
+  game_session: elias
+  yaml_round_id: salomon_wisdom
+  position: 1
+  phase: pending

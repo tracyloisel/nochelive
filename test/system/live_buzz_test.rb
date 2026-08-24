@@ -1,0 +1,39 @@
+require "application_system_test_case"
+
+class LiveBuzzTest < ApplicationSystemTestCase
+  test "two phones slam the same open buzzer and take first and second" do
+    code = nil
+
+    using_session(:host) do
+      visit new_game_session_path
+      click_button "Crear Reyes y Profetas"
+      assert_selector ".code-display"
+      code = find(".code-display").text
+      click_link "Abrir consola"
+      click_button "Empezar la noche"
+      click_button "Abrir"
+      assert_text(/open/i)
+    end
+
+    using_session(:lucia) do
+      join_night(code, name: "Lucía", team: "Leones", emblem: "leon")
+      assert_button "Buzz"
+    end
+
+    using_session(:daniel) do
+      join_night(code, name: "Daniel", location: "remote", team: "Casa", emblem: "ola")
+      assert_button "Buzz"
+    end
+
+    using_session(:lucia) { click_button "Buzz" }
+    using_session(:daniel) { click_button "Buzz" }
+
+    using_session(:lucia) { assert_text "1.º" }
+    using_session(:daniel) { assert_text "2.º" }
+
+    using_session(:watch) do
+      visit night_watch_path(code)
+      assert_text "buzzó primero"
+    end
+  end
+end

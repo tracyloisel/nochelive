@@ -1,0 +1,40 @@
+# Visual lock for Noche Live challenge media.
+# Meetinghouse, never a temple. Cultural hall for movement. Chapel pews for seated rounds.
+
+style: >
+  Warm cinematic still, slightly painterly, golden hour through simple rectangular
+  windows. Family-safe. Modest Sunday clothes. No text, no captions, no logos,
+  no watermarks, no UI, no phone screenshots.
+
+place_never:
+  - Latter-day Saint temple interior
+  - celestial room
+  - recommend desk
+  - Christus statue in a temple setting
+  - Catholic mass, crucifix, incense, gothic arches, marble saints
+  - clergy vestments, nuns, priests
+  - violence, blood, weapons that look real
+  - photoreal close-ups of young children
+  - brand names
+
+chapel: >
+  Latter-day Saint meetinghouse chapel: long padded pews, beige carpet, a plain
+  light-oak pulpit with no cross and no crucifix of any kind, a piano or organ
+  to the side, simple white walls, no stained-glass saints. Soft window light.
+  Families sit with phones for a live game night. A presenter laptop is allowed.
+
+cultural_hall: >
+  Adjacent LDS meetinghouse cultural hall: wood or sport floor, stacked folding
+  chairs, a small stage with a beige curtain, optional basketball backboard in
+  the far background, warm fluorescent light. Families play a church activity.
+  This is where bodies move. Not the chapel pews.
+
+people: >
+  Multi-generational Latino and European families: parents, a grandmother,
+  teenagers and youth. Modest dress. Joyful and respectful. Spanish-speaking
+  Noche de Hogar energy.
+
+negative: >
+  temple, crucifix, Christian cross on pulpit, Catholic mass, gothic cathedral, stained-glass saints,
+  violence, guns, text overlay, watermark, logo, screenshot, UI, blurry,
+  extra fingers, brand names

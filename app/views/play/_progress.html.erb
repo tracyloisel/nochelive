@@ -1,0 +1,13 @@
+<div class="progress" role="status">
+  <p class="rank"><%= team.rank_label %> · <%= team.xp %> XP</p>
+  <div class="xp" aria-label="Progreso hacia <%= team.next_rank_label %>">
+    <span style="width: <%= team.xp_progress %>%"></span>
+  </div>
+  <p class="quiet tiny">Siguiente: <%= team.next_rank_label %></p>
+  <% if team.ward_team %>
+    <p class="quiet tiny">Temporada · <%= team.ward_team.season_rank_label %></p>
+  <% end %>
+  <% if team.rey? %>
+    <p class="role" role="status">Rey · próxima ×2</p>
+  <% end %>
+</div>

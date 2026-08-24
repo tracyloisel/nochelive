@@ -1,0 +1,34 @@
+<p class="prompt"><%= definition.question %></p>
+
+<% if round.open? && buzz.nil? %>
+  <%= button_to night_round_run_buzz_path(night.code, round), class: "buzz", data: { controller: "buzzer", action: "buzzer#lock" } do %>
+    <%= picto("bell", size: "xl") %>
+    <span>Buzz</span>
+  <% end %>
+  <p class="hint">¡Sé el primero!</p>
+<% elsif buzz %>
+  <div class="lock <%= "lock-gold" if buzz.first? %>" role="status" <%= %(data-stage-sfx-value="buzzer_hit" data-stage-fx-value="gold").html_safe if buzz.first? %>>
+    <% if buzz.first? %>
+      <div class="mini-crown" aria-hidden="true"><%= render "illustrations/crown" %></div>
+      <span class="sparks" aria-hidden="true"></span>
+    <% end %>
+    <p class="place"><%= buzz.medal %></p>
+    <p class="delay"><%= latency_label(buzz.latency_ms) %></p>
+    <p><%= buzz.first? ? "¡Vuestro equipo buzzó primero!" : "Otros llegaron antes. Seguid atentos." %></p>
+  </div>
+  <% if round.accepting_answers? && (round.answering_team.nil? || round.answering_team == team) && answer.nil? %>
+    <%= form_with url: night_round_run_answer_path(night.code, round), class: "answer-form" do %>
+      <label for="body">Respuesta de vuestro equipo</label>
+      <input id="body" name="body" maxlength="140" required class="code-input" placeholder="Sabiduría…">
+      <button class="btn btn-gold picto-btn" type="submit"><%= picto("send") %>Enviar</button>
+    <% end %>
+  <% elsif answer %>
+    <%= render "shared/wait", message: "Respuesta enviada. Esperad la revelación." %>
+  <% end %>
+<% elsif round.open? %>
+  <%= render "shared/wait", message: "El buzzer está abierto…" %>
+<% elsif round.revealed? %>
+  <%= render "play/reveal", definition: definition, team: team, round: round %>
+<% else %>
+  <%= render "shared/wait", message: "El presentador cierra el buzzer." %>
+<% end %>

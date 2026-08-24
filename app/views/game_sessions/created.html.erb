@@ -1,0 +1,11 @@
+<% content_for :title, "Noche #{@night.code}" %>
+
+<section class="gate">
+  <p class="eyebrow">Tu noche está lista</p>
+  <h1 class="code-display"><%= @night.code %></h1>
+  <p class="lede">Diles este código. El enlace de abajo es solo tuyo. La rama es <%= @night.ward.name %> (<%= @night.ward.code %>).</p>
+  <p class="secret">Guarda este enlace. No lo proyectes.</p>
+  <input class="secret-url" readonly value="<%= presenter_gate_url(@night.code, token: params[:token]) %>" onclick="this.select()">
+  <%= link_to "Abrir consola", presenter_console_path(@night.code), class: "btn btn-gold" %>
+  <%= link_to "Ver como público", night_watch_path(@night.code), class: "btn btn-ghost" %>
+</section>

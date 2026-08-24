@@ -1,0 +1,11 @@
+# frozen_string_literal: true
+
+demo:
+  name: Rama DEMO
+  code: RAMA
+  presenter_token_digest: <%= Digest::SHA256.hexdigest("rama-demo") %>
+
+blank:
+  name: Rama vacía
+  code: BLANK
+  presenter_token_digest: <%= Digest::SHA256.hexdigest("rama-blank") %>

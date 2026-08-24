@@ -1,0 +1,17 @@
+<% content_for :title, "Crear noche" %>
+
+<section class="gate">
+  <p class="eyebrow">Presentador</p>
+  <% if @ward %>
+    <h1>Abrir la noche</h1>
+    <p class="lede"><%= @ward.name %> · <%= @ward.code %>. Se crea un código corto. Guarda el enlace secreto.</p>
+    <%= button_to "Crear Reyes y Profetas", game_sessions_path, class: "btn btn-gold" %>
+    <%= link_to "Otra rama", new_ward_path, class: "btn btn-ghost" %>
+  <% else %>
+    <h1>Primero tu rama</h1>
+    <p class="lede">Las fichas viven en la rama. Crea una o entra con el secreto.</p>
+    <%= link_to "Crear rama", new_ward_path, class: "btn btn-gold" %>
+    <%= link_to "Ya tengo rama", ward_gate_path, class: "btn btn-navy" %>
+  <% end %>
+  <%= link_to "Volver", root_path, class: "btn btn-ghost" %>
+</section>

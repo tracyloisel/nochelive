@@ -1,0 +1,31 @@
+# frozen_string_literal: true
+
+carmen_garcia:
+  ward: demo
+  given_name: Carmen
+  family_name: García
+  given_name_key: carmen
+  family_name_key: garcia
+  avatar_key: delfin
+  favorite_year: 33
+  last_ward_team: leones_season
+
+carmen_lopez:
+  ward: demo
+  given_name: Carmen
+  family_name: López
+  given_name_key: carmen
+  family_name_key: lopez
+  avatar_key: aguila
+  favorite_year: 2012
+  last_ward_team: casa_season
+
+pili:
+  ward: demo
+  given_name: Pili
+  family_name:
+  given_name_key: pili
+  family_name_key: ""
+  avatar_key: tortuga
+  favorite_year: 1830
+  last_ward_team: leones_season

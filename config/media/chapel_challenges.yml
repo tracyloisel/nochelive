@@ -1,0 +1,123 @@
+# Per-round shots. `room` is chapel (seated) or cultural_hall (movement).
+# `slides` feed the TV diaporama. `video` is an optional 5s clip.
+
+rounds:
+  salomon_wisdom:
+    room: chapel
+    slides:
+      - "A family on padded chapel pews leans toward a gold-lit phone, waiting to buzz. Soft window light, oak pulpit in the background."
+      - "A teenage girl slams a giant on-screen buzzer. Neighbors gasp and laugh. No readable text."
+      - "The presenter at the stand lifts a hand. The first team is locked. Warm gold light on faces."
+    video: "Handheld cinema, chapel pews, a family races to tap a glowing phone buzzer. One teen wins, the row erupts in quiet church-night joy. No text."
+
+  rey_o_profeta:
+    room: chapel
+    slides:
+      - "Two teams on opposite pews hold phones, thinking. Simple pulpit behind them."
+      - "A grandmother taps a big true-or-false choice on a phone, no readable letters."
+      - "A shake of heads: Elijah was a prophet, not a king. Soft laughter in the chapel."
+    video: "Quiet chapel, families tapping true-or-false on phones, a grandmother confident, a teen unsure, warm light."
+
+  david_goliath:
+    room: cultural_hall
+    slides:
+      - "In the cultural hall, a cardboard Goliath tower stands on the wood floor. Kids and parents hold three foam balls."
+      - "A boy winds up and throws. The tower wobbles. Folding chairs and a beige stage curtain behind."
+      - "The tower falls. The room cheers. A girl on a video call on a laptop slings on her phone at home."
+    video: "Cultural hall, a family knocks down a cardboard giant with foam balls. Quick throws, the tower falls, cheers. No weapons, no blood."
+
+  elias_carmel:
+    room: chapel
+    slides:
+      - "Chapel pews, a multiple-choice moment. Phones glow like small altars of light."
+      - "A father points at the TV. Families choose among three big buttons, no readable words."
+      - "A warm gold flash as the room picks fire, not rain. Faces lit like Carmel."
+    video: "Chapel families tap a three-choice phone, then a warm gold flash as they agree. Reverent energy, not spectacle fire."
+
+  daniel_lions:
+    room: chapel
+    slides:
+      - "Families on pews, tense, phones ready. The chapel is still."
+      - "A buzz. One team leans forward. Others wait."
+      - "Relief and a smile. Daniel prayed. Soft chapel light."
+    video: "Chapel buzz race, tense then relief, families on pews, no animals, no violence."
+
+  freeze_saul:
+    room: cultural_hall
+    slides:
+      - "Families dance in the cultural hall, modest, joyful, beige curtain stage behind."
+      - "The presenter freezes mid-gesture. Everyone becomes a statue, some mid-spin, a grandmother laughing."
+      - "Stillness. One person wobbles. The room cracks up."
+    video: "Cultural hall dance then sudden freeze. Bodies halt, someone wobbles, laughter. Modest clothes, no choreography show."
+
+  mime_jonah:
+    room: cultural_hall
+    slides:
+      - "A teenager mimes a big sea story with wide arms on the cultural hall floor. The team watches."
+      - "Guessers shout silently with their mouths. A laptop shows a remote cousin watching."
+      - "The mime becomes a fish shape. The team gets it. Joy."
+    video: "Teen mimes Jonah in a cultural hall, team guesses, remote cousin on a laptop watches. No real whale."
+
+  kings_order:
+    room: chapel
+    slides:
+      - "Three simple crown silhouettes in a row on the TV, chapel pews facing it. No readable names."
+      - "Families on pews argue gently about order, pointing."
+      - "Hands settle. Saul, then David, then Solomon energy. Three steps, no text."
+    video: "Chapel families reorder three glowing crown marks on a shared TV, then nod together."
+
+  taboo_nabot:
+    room: chapel
+    slides:
+      - "One explainer stands near the pews, whispering a story, lips careful. Forbidden-word tension, no readable words."
+      - "The team leans in. A grandmother almost says a word and covers her mouth."
+      - "The room shouts the answer. Relief and laughter in the chapel."
+    video: "Chapel pews, one person explains a Bible story without saying key words, the row almost slips, then they guess. No readable text."
+
+  statue_david:
+    room: cultural_hall
+    slides:
+      - "Phones face-down on folding chairs. Families stand in the cultural hall."
+      - "Everyone holds a living-statue pose, one arm gently back, planted feet. A grandmother commits fully. No weapons."
+      - "Thirty seconds of stillness. Someone smiles without breaking."
+    video: "Cultural hall, phones down, families become David statues, hold, then break into laughter."
+
+  scavenger_harp:
+    room: cultural_hall
+    slides:
+      - "Families spring up from folding chairs in the cultural hall, hunting for anything that sounds."
+      - "A girl finds a metal pot, a boy jingles keys, a dad has a hymnbook snap. Stage curtain behind."
+      - "They slam a giant phone button. First team holds the pot in the air like a harp."
+    video: "Cultural hall scavenger hunt. Families run, find keys and a pot, slam a glowing phone button, lift the pot like a harp."
+
+  category_prophets:
+    room: chapel
+    slides:
+      - "A team on a pew lists names into the air, fingers counting."
+      - "Another team tries to keep up. Soft competitive heat."
+      - "They run out of names and laugh. Chapel quiet returns."
+    video: "Chapel pews, two families race to name prophets out loud, then laugh when they dry up."
+
+  vote_solomon:
+    room: chapel
+    slides:
+      - "Two sides of the chapel pews, a hard choice on their faces."
+      - "A quiet vote on phones. No readable UI."
+      - "They look at each other. Wisdom, not winning, in the light."
+    video: "Chapel families quietly vote on phones, then share a look of understanding."
+
+  semifinal_crown:
+    room: chapel
+    slides:
+      - "The chapel feels tighter. Phones ready. Gold light stronger."
+      - "A buzz like a held breath released."
+      - "One team stands a little taller. The crown is close."
+    video: "High-stakes chapel buzz, gold light, one team rises in their pew."
+
+  finale_prophet:
+    room: chapel
+    slides:
+      - "Whole chapel stands. Phones down. The last question hangs in warm light."
+      - "A final buzz. Faces lifted toward the stand."
+      - "Families on their feet, a simple podium energy, names in the air, no readable text. The night ends in the pews."
+    video: "Chapel congregation stands for the last buzz, then a quiet celebration, families on their feet, gold window light."

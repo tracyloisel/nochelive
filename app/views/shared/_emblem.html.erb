@@ -1,0 +1,6 @@
+<% src = emblem_mark(key) %>
+<% if src %>
+  <img src="<%= src %>" alt="" class="emblem-img" width="48" height="48">
+<% else %>
+  <%= render "emblems/#{key}" %>
+<% end %>

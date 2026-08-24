@@ -1,0 +1,9 @@
+<div class="chest" data-controller="chest">
+  <p class="eyebrow">Tesoro desbloqueado</p>
+  <div class="art"><%= render "illustrations/crown" %></div>
+  <h2><%= grant.chest_title %></h2>
+  <p>Tocad para abrirlo. Nadie sabe qué hay dentro.</p>
+  <%= button_to night_chest_path(night.code, grant), class: "btn btn-gold picto-btn", data: { action: "chest#open" } do %>
+    <%= picto("chest") %>Abrir el cofre
+  <% end %>
+</div>
