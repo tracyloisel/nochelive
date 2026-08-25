@@ -140,7 +140,7 @@ class ApplicationHelperTest < ActionView::TestCase
     round = round_runs(:rey_o_profeta)
     answer = Answer.new(body: "false", round_run: round, team: teams(:leones), player: players(:lucia))
     assert_equal "Falso", answer_body_label(round, answer)
-    assert_equal "Sabiduría", answer_body_label(round_runs(:salomon), answers(:leones_lions))
+    assert_equal "Sabiduría", answer_body_label(round_runs(:salomon), Answer.new(body: "wisdom"))
   end
 
   test "player_label adds apellido when two share a name" do

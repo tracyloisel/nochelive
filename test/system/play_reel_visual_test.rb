@@ -83,6 +83,71 @@ class PlayReelVisualTest < ApplicationSystemTestCase
     shot("03-sheet-peek")
   end
 
+  test "choice verdict and bars stay on one story sheet" do
+    round_runs(:salomon).update_columns(phase: "completed")
+    round_runs(:rey_o_profeta).update_columns(phase: "open", opened_at: Time.current)
+
+    visit night_name_path(game_sessions(:david).code)
+    fill_in "¿Cómo te llaman en la rama?", with: "Pili"
+    find("label.choice-chip", text: "En la sala").click
+    click_button "Solo esta noche"
+    assert_text "Elige tu equipo"
+    click_button "Casa de David"
+    assert_text "Elías fue un rey de Israel."
+    assert_in_viewport ".choice-btn"
+    click_button "Falso"
+    assert_text "¡Correcto!"
+    assert_text "Falso. Elías fue profeta."
+    assert_selector ".quiz-bar"
+    assert_button "Siguiente"
+    assert_no_selector ".reveal"
+    assert_no_selector ".wait-toy"
+    assert_in_viewport ".quiz-next"
+    shot("04-choice-verdict")
+  end
+
+  test "four quiz choices stay on screen with the drawing" do
+    round_runs(:salomon).update_columns(phase: "completed")
+    round_runs(:rey_o_profeta).update_columns(phase: "completed")
+    round_runs(:david_goliath).update_columns(phase: "completed")
+    round_runs(:elias_carmel).update_columns(phase: "open", opened_at: Time.current)
+
+    visit night_name_path(game_sessions(:david).code)
+    fill_in "¿Cómo te llaman en la rama?", with: "Pili"
+    find("label.choice-chip", text: "En la sala").click
+    click_button "Solo esta noche"
+    click_button "Casa de David"
+    assert_text "¿Qué bajó sobre el altar de Elías en el Carmelo?"
+    assert_selector ".choice-btn", count: 4
+    assert_in_viewport ".choice-btn"
+    last_bottom = page.evaluate_script(<<~JS)
+      (function() {
+        var el = document.querySelector(".choices form:last-child .choice-btn");
+        if (!el) return 9999;
+        return el.getBoundingClientRect().bottom;
+      })()
+    JS
+    assert_operator last_bottom, :<=, page.evaluate_script("window.innerHeight") + 12
+    peek = page.evaluate_script(<<~JS)
+      (function() {
+        var sheet = document.querySelector(".play-sheet");
+        if (!sheet) return 0;
+        return sheet.getBoundingClientRect().top / window.innerHeight;
+      })()
+    JS
+    assert_operator peek, :>=, 0.38
+    assert_operator peek, :<=, 0.47
+    shot("06-quiz-four-asking")
+
+    click_button "Fuego"
+    assert_text "¡Correcto!"
+    assert_selector ".quiz-bar", count: 4
+    assert_button "Siguiente"
+    assert_in_viewport ".quiz-bar"
+    assert_in_viewport ".quiz-next"
+    shot("06-quiz-four-verdict")
+  end
+
   def assert_in_viewport(selector)
     visible = page.evaluate_script(<<~JS)
       (function() {

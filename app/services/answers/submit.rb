@@ -80,7 +80,7 @@ module Answers
 
     def should_grade?
       definition = @round.definition
-      definition.choice? || definition.taboo? || definition.ordering? ||
+      definition.choice? || definition.has_choices? || definition.taboo? || definition.ordering? ||
         (definition.category? && @player.remote?) ||
         (@player.remote? && definition.mime?)
     end

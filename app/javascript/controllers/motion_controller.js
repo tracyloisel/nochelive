@@ -15,7 +15,7 @@ export default class extends Controller {
 
   onStream(event) {
     const target = event.target.getAttribute("target")
-    if (target === "live_pulses" || target === "night_presence") return
+    if (target === "live_pulses" || target === "night_presence" || target === "quiz_board" || target === "night_play") return
     event.detail.render = this.wrap(event.detail.render)
   }
 

@@ -9,6 +9,8 @@ class GameDefinitionTest < ActiveSupport::TestCase
     assert_includes game.rounds.map(&:type), "physical_target"
     assert game.find_round("david_goliath").remote_variant.present?
     assert_equal "A", game.find_round("salomon_wisdom").remote_grade
+    assert game.find_round("salomon_wisdom").has_choices?
+    assert_equal "wisdom", game.find_round("salomon_wisdom").correct_choice
     assert_equal "B", game.find_round("david_goliath").remote_grade
     assert_equal "B", game.find_round("statue_david").remote_grade
     jonah = game.find_round("mime_jonah")
@@ -120,6 +122,12 @@ class GameDefinitionTest < ActiveSupport::TestCase
       GameDefinition.new(
         "theme" => { "id" => "x", "title" => "X" },
         "rounds" => [ { "id" => "a", "type" => "true_false", "title" => "A", "points" => 10 } ]
+      )
+    end
+    assert_raises(GameDefinition::Error) do
+      GameDefinition.new(
+        "theme" => { "id" => "x", "title" => "X" },
+        "rounds" => [ { "id" => "a", "type" => "buzzer", "title" => "A", "points" => 10, "question" => "¿Qué?" } ]
       )
     end
     assert_raises(GameDefinition::Error) do

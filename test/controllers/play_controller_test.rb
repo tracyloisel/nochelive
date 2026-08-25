@@ -45,6 +45,30 @@ class PlayAndWatchControllerTest < ActionDispatch::IntegrationTest
     assert_select "[data-controller=slideshow]", count: 0
   end
 
+  test "choice verdict shows bars and siguiente without waiting" do
+    round_runs(:salomon).update_columns(phase: "completed")
+    round = round_runs(:rey_o_profeta)
+    round.update_columns(phase: "open", opened_at: Time.current)
+    sign_in_as_participant(@night, name: "Sofía", team: teams(:casa))
+    post night_round_run_answer_path(@night.code, round), params: { choice: "false" }
+    get night_play_path(@night.code)
+    assert_select ".quiz-board"
+    assert_select ".quiz-verdict", text: /¡Correcto!/
+    assert_select ".quiz-bar", count: 2
+    assert_select ".quiz-next", text: /Siguiente/
+    assert_select ".quiz-answer", text: /Elías fue profeta/
+    assert_select ".reveal", count: 0
+    assert_select ".wait", count: 0
+    assert_select ".play-reel.is-quiz"
+
+    round.update_columns(phase: "revealed", revealed_at: Time.current)
+    get night_play_path(@night.code)
+    assert_select ".quiz-board"
+    assert_select ".quiz-bar"
+    assert_select ".reveal", count: 0
+    assert_select ".wait-toy", count: 0
+  end
+
   test "watch creates a spectator" do
     assert_difference -> { @night.players.where(role: "spectator").count }, 1 do
       get night_watch_path(@night.code)

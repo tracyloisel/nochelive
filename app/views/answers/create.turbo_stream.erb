@@ -1,0 +1,3 @@
+<%= turbo_stream.replace "quiz_board",
+      partial: "play/quiz_board",
+      locals: { night: @night, round: @round, team: @team, player: @player, answer: @answer } %>

@@ -16,6 +16,7 @@ class GameDefinition
     def buzzer? = type.in?(%w[buzzer finale])
     def finale? = type == "finale"
     def choice? = type.in?(%w[multiple_choice true_false])
+    def has_choices? = Array(choices).any? && correct_choice.present?
     def rapid_tap? = type == "rapid_tap"
     def physical? = type == "physical_target"
     def pose? = type == "pose"
@@ -210,6 +211,10 @@ class GameDefinition
       raise Error, "round #{row['id']} missing points" unless row["points"] || row["points_max"]
       if type.in?(%w[multiple_choice true_false])
         raise Error, "round #{row['id']} needs choices" if Array(row["choices"]).empty?
+      end
+      if type.in?(%w[buzzer finale]) && row["question"].to_s.strip.present?
+        raise Error, "round #{row['id']} needs choices" if Array(row["choices"]).empty?
+        raise Error, "round #{row['id']} needs correct_choice" if row["correct_choice"].to_s.blank?
       end
       if type == "taboo"
         raise Error, "round #{row['id']} needs forbidden words" if Array(row["forbidden"]).empty?

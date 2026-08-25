@@ -250,7 +250,7 @@ module ApplicationHelper
       definition.path_labels(answer.body).join(" → ")
     elsif definition.freeze?
       "#{answer.body.to_i} ms"
-    elsif definition.choice?
+    elsif Array(definition.choices).any?
       row = Array(definition.choices).find { |choice| choice_key(choice) == answer.body.to_s }
       row ? choice_label(row) : answer.body
     else

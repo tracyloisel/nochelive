@@ -22,6 +22,7 @@ Rails.application.routes.draw do
     resources :round_runs, only: [] do
       resource :buzz, only: [ :create ]
       resource :answer, only: [ :create ]
+      resource :forward, only: [ :create ], controller: "round_forwards"
       resource :tap, only: [ :create ]
       resource :pose_hold, only: [ :create ]
       resource :freeze, only: [ :create ]

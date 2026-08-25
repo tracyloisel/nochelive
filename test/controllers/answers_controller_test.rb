@@ -8,9 +8,9 @@ class AnswersControllerTest < ActionDispatch::IntegrationTest
     sign_in_as_participant(@night, name: "Sofía", team: teams(:leones))
     post night_round_run_buzz_path(@night.code, round)
     round.lock!
-    post night_round_run_answer_path(@night.code, round), params: { body: "Sabiduría" }
+    post night_round_run_answer_path(@night.code, round), params: { choice: "wisdom" }
     assert_redirected_to night_play_path(@night.code)
-    assert Answer.exists?(round_run: round, body: "Sabiduría")
+    assert Answer.exists?(round_run: round, body: "wisdom")
   end
 
   test "true false auto scores" do
@@ -24,6 +24,17 @@ class AnswersControllerTest < ActionDispatch::IntegrationTest
     miss.update!(phase: "open")
     post night_round_run_answer_path(@night.code, miss), params: { choice: "wrong" }
     assert teams(:casa).reload.score_events.where(kind: "incorrect", round_run: miss).exists?
+  end
+
+  test "choice answer returns quiz bars as turbo stream" do
+    round = round_runs(:rey_o_profeta)
+    round.update!(phase: "open")
+    sign_in_as_participant(@night, name: "Sofía", team: teams(:casa))
+    post night_round_run_answer_path(@night.code, round), params: { choice: "false" }, as: :turbo_stream
+    assert_response :success
+    assert_match "quiz-bar", response.body
+    assert_match "Siguiente", response.body
+    assert_match "¡Correcto!", response.body
   end
 
   test "taboo miss does not auto score" do

@@ -9,10 +9,10 @@ class Answers::SubmitTest < ActiveSupport::TestCase
 
   test "submit is idempotent for a team" do
     @round.lock!
-    one = Answers::Submit.call(round: @round, team: @team, player: @player, body: "Sabiduría")
-    two = Answers::Submit.call(round: @round, team: @team, player: @player, body: "Otra")
+    one = Answers::Submit.call(round: @round, team: @team, player: @player, body: "wisdom")
+    two = Answers::Submit.call(round: @round, team: @team, player: @player, body: "riches")
     assert_equal one.id, two.id
-    assert_equal "Sabiduría", one.reload.body
+    assert_equal "wisdom", one.reload.body
   end
 
   test "rejects answers when the round is closed" do
@@ -28,6 +28,20 @@ class Answers::SubmitTest < ActiveSupport::TestCase
     assert_raises(RuntimeError) do
       Answers::Submit.call(round: @round, team: teams(:casa), player: players(:daniel), body: "No")
     end
+  end
+
+  test "buzzer QCM auto scores the chosen key" do
+    Buzz.accept!(round_run: @round, team: @team, player: @player)
+    @round.lock!
+    Answers::Submit.call(round: @round, team: @team, player: @player, body: "wisdom")
+    assert @team.reload.score_events.where(kind: "correct", round_run: @round).exists?
+  end
+
+  test "buzzer QCM miss is incorrect" do
+    Buzz.accept!(round_run: @round, team: @team, player: @player)
+    @round.lock!
+    Answers::Submit.call(round: @round, team: @team, player: @player, body: "riches")
+    assert @team.reload.score_events.where(kind: "incorrect", round_run: @round).exists?
   end
 
   test "ordering awards correct for the true sequence" do

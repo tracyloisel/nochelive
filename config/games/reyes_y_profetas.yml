@@ -13,6 +13,14 @@ rounds:
     question: >
       Dios permitió a Salomón pedir lo que quisiera.
       ¿Qué pidió?
+    choices:
+      - key: riches
+        label: "Riquezas"
+      - key: wisdom
+        label: "Sabiduría"
+      - key: army
+        label: "Un ejército"
+    correct_choice: "wisdom"
     answer: >
       Sabiduría para gobernar al pueblo.
     reference: "1 Reyes 3:5-12"
@@ -98,6 +106,8 @@ rounds:
         label: "Fuego"
       - key: wind
         label: "Viento"
+      - key: oil
+        label: "Aceite"
     correct_choice: "fire"
     answer: "Fuego de Jehová."
     reference: "1 Reyes 18:38"
@@ -118,6 +128,14 @@ rounds:
     difficulty: 2
     intensity: 3
     question: "¿Por qué echaron a Daniel al foso de los leones?"
+    choices:
+      - key: stole
+        label: "Porque robó al rey"
+      - key: prayed
+        label: "Porque oraba a su Dios"
+      - key: slept
+        label: "Porque se durmió"
+    correct_choice: "prayed"
     answer: "Porque oraba a su Dios."
     reference: "Daniel 6"
     points: 12
@@ -339,6 +357,14 @@ rounds:
     difficulty: 3
     intensity: 4
     question: "¿Quién ungió a David en secreto, siendo aún joven?"
+    choices:
+      - key: saul
+        label: "Saúl"
+      - key: samuel
+        label: "Samuel"
+      - key: nathan
+        label: "Natán"
+    correct_choice: "samuel"
     answer: "Samuel."
     reference: "1 Samuel 16:13"
     points: 18
@@ -358,6 +384,14 @@ rounds:
     intensity: 5
     question: "¿Qué pidió Eliseo a Elías antes de que el carro de fuego lo llevara?"
     instructions: "¡Todos de pie! La última palabra de la noche."
+    choices:
+      - key: chariot
+        label: "El carro de fuego"
+      - key: double
+        label: "Una doble porción de su espíritu"
+      - key: crown
+        label: "La corona de Elías"
+    correct_choice: "double"
     answer: "Una doble porción de su espíritu."
     reference: "2 Reyes 2:9"
     points: 25

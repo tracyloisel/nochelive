@@ -5,7 +5,7 @@
 <% hold = team.pose_holds.find_by(round_run: round) %>
 <% live_index = night.round_runs.find_index { |tick| tick.id == round.id }.to_i %>
 
-<section class="play-card play-round play-reel <%= "peak" if definition.finale? %>"
+<section class="play-card play-round play-reel <%= "peak" if definition.finale? %> <%= "is-quiz" if definition.choice? %>"
          data-controller="story"
          data-story-exit-url-value="<%= root_path %>"
          data-story-index-value="<%= live_index %>"
@@ -21,19 +21,21 @@
     <%= render "play/timer", round: round %>
     <div class="story-meta">
       <%= render "shared/story_close", action: "click->story#exit" %>
-      <p class="story-night"><%= night_title(night) %></p>
-      <button type="button"
-              class="story-score btn"
-              data-action="click->story#toggleScore"
-              aria-controls="play_score"
-              aria-expanded="false"
-              data-story-target="scoreBtn"
-              aria-label="Puntos, <%= team.cached_score %>">
-        <%= picto("star") %>
-        <span><%= team.cached_score %></span>
-      </button>
-      <div class="story-pills">
-        <%= render "shared/presence", night: night, team: team, compact: true, variant: "stage", audience: true %>
+      <div class="story-cluster">
+        <p class="story-night"><%= night_title(night) %></p>
+        <button type="button"
+                class="story-score btn"
+                data-action="click->story#toggleScore"
+                aria-controls="play_score"
+                aria-expanded="false"
+                data-story-target="scoreBtn"
+                aria-label="Puntos, <%= team.cached_score %>">
+          <%= picto("star") %>
+          <span><%= team.cached_score %></span>
+        </button>
+        <div class="story-pills">
+          <%= render "shared/presence", night: night, team: team, compact: true, variant: "stage", audience: true %>
+        </div>
       </div>
     </div>
 
@@ -64,8 +66,9 @@
   <div class="play-sheet story-sheet"
        data-controller="sheet"
        data-story-target="sheet"
-       data-sheet-snap-value="mid"
+       data-sheet-snap-value="<%= definition.choice? ? "open" : (round.revealed? || answer.present? ? "open" : "mid") %>"
        data-sheet-peek-ratio-value="0.18"
+       data-sheet-mid-ratio-value="<%= definition.choice? ? 0.58 : 0.52 %>"
        data-action="pointerdown->sheet#start">
     <button type="button"
             class="play-sheet-grip"
