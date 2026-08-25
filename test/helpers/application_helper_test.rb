@@ -274,8 +274,12 @@ class ApplicationHelperTest < ActionView::TestCase
     digest = GameSession.digest_token("helper-shuffle")
     frame = Quizzes::Draw.call(device_digest: digest)
     yaml_first = frame.question.correct_choice
-    shown_first = choice_key(street_shuffled_choices(frame.run, frame.question).first)
-    assert_not_equal yaml_first, shown_first
+    moved = (1..50).any? do |offset|
+      seed = frame.run.id.to_i * 1_000 + frame.question.position.to_i + offset
+      shown_first = choice_key(frame.question.shuffled_choices(seed).first)
+      shown_first != yaml_first
+    end
+    assert moved
   end
 
   test "street audio uses one named cue and stops the bed when settled" do

@@ -11,6 +11,7 @@ class HomeControllerTest < ActionDispatch::IntegrationTest
   test "home opens a street quiz reel" do
     get root_path
     assert_response :success
+    assert_select "#profile_gate .profile-gate"
     assert_select "#street_quiz.play-reel.is-quiz.is-street"
     assert_select "#street_quiz[data-controller~=quiz]"
     assert_select "#street_quiz[data-controller~=story]"
@@ -20,12 +21,12 @@ class HomeControllerTest < ActionDispatch::IntegrationTest
     assert_select ".story-ticks", count: 0
     assert_select ".story-close", count: 0
     assert_select ".play-sheet-grip", count: 1
-    assert_select ".street-trail"
+    assert_select ".street-map"
     assert_select ".play-sheet[data-sheet-snap=mid]"
     assert_select ".street-score span", text: "0"
     assert_select ".street-score.is-tick", count: 0
     assert_select ".choice-btn"
-    assert_select ".btn.btn-gold", count: 0
+    assert_select "#street_quiz .btn.btn-gold", count: 0
     assert_select "details.home-menu:not([open])"
     assert_select "details.home-menu a[href=?]", nights_path, text: I18n.t("home.nights")
     assert_select "details.home-menu a[href=?]", search_path
@@ -49,6 +50,15 @@ class HomeControllerTest < ActionDispatch::IntegrationTest
     assert_select "#street_quiz[data-stage-timer-duration-value=20]"
     assert_select "#street_quiz[data-stage-bed-value=timer_tension]"
     assert_select ".play-timer"
+  end
+
+  test "guest mode hides the profile gate" do
+    sign_in_congregation
+    post street_profile_path, params: { guest: 1 }
+    follow_redirect!
+    assert_select "#profile_gate", count: 0
+    assert_select "#street_quiz"
+    assert_select ".street-person.is-guest"
   end
 
   test "remembered rama does not steal the street quiz" do

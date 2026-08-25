@@ -14,7 +14,9 @@ module Quizzes
       pack = run.pack
       question = pack.question_at(run.position)
       answer = run.quiz_answers.find_by(question_id: question.id)
-      complete = run.finished? ? Complete.summary(run) : nil
+      person = run.person
+      ward = person&.ward
+      complete = run.finished? ? Complete.summary(run, ward:, person:) : nil
       tally = answer && !run.finished? ? Tally.call(pack_id: pack.id, question_id: question.id) : nil
       Frame.new(run:, pack:, question:, answer:, tally:, complete:)
     end

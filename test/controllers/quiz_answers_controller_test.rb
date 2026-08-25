@@ -11,12 +11,12 @@ class QuizAnswersControllerTest < ActionDispatch::IntegrationTest
     assert_select ".story-ticks", count: 0
     assert_select ".story-close", count: 0
     assert_select ".play-sheet-grip", count: 1
-    assert_select ".street-trail"
+    assert_select ".street-map"
     assert_select ".play-sheet[data-sheet-snap=mid]"
     assert_select ".street-score span", text: "0"
     assert_select ".street-score.is-tick", count: 0
     assert_select ".choice-btn"
-    assert_select ".btn.btn-gold", count: 0
+    assert_select "#street_quiz .btn.btn-gold", count: 0
     assert_select "details.home-menu a[href=?]", nights_path
 
     run = QuizRun.order(:id).last
@@ -26,6 +26,7 @@ class QuizAnswersControllerTest < ActionDispatch::IntegrationTest
     assert_select ".quiz-board.is-settled"
     assert_select ".play-sheet[data-sheet-snap=open]"
     assert_select ".street-score.is-tick span", text: question.points.to_s
+    assert_select ".street-points-burst", text: "+#{question.points}"
     assert_select "a.quiet-link .quiz-cite", text: /#{Regexp.escape(question.scripture.cite)}/
     assert_select "a.quiet-link", text: /#{Regexp.escape(I18n.t("quiz.read_more"))}/
     assert_select ".quiz-cite", count: 1
@@ -87,7 +88,7 @@ class QuizAnswersControllerTest < ActionDispatch::IntegrationTest
     assert_select ".play-sheet[data-sheet-snap=mid]"
     assert_select ".street-score span", text: run.reload.score.to_s
     assert_select ".street-score.is-tick", count: 0
-    assert_select ".btn.btn-gold", count: 0
+    assert_select "#street_quiz .btn.btn-gold", count: 0
   end
 
   test "expire freezes a miss" do

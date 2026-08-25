@@ -242,6 +242,22 @@ module ApplicationHelper
     order.filter_map { |key| rows[key] }
   end
 
+  StreetMapSegment = Struct.new(:pack, :questions, keyword_init: true)
+
+  def street_map_segments(trail)
+    segments = []
+    current = nil
+    Array(trail).each do |step|
+      if step.pack?
+        current = StreetMapSegment.new(pack: step, questions: [])
+        segments << current
+      elsif step.question? && current
+        current.questions << step
+      end
+    end
+    segments
+  end
+
   def street_grade_fx(question, correct)
     pos = question.position.to_i
     if correct

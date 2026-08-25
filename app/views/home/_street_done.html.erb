@@ -1,16 +1,39 @@
 <% complete = street.complete %>
-<div class="quiz-hero" role="status">
-  <p class="eyebrow"><%= street.pack.copy(:title) %></p>
-  <p class="quiz-hero-score"><%= complete.score %></p>
+<% standings = complete.standings %>
+<div class="street-win" role="status">
+  <p class="street-win-burst"><%= street.pack.copy(:title) %></p>
+  <p class="street-win-label"><%= t("street.pack_done") %></p>
+  <p class="street-win-score"><%= complete.score %></p>
   <% if complete.first %>
-    <p class="lede"><%= t("quiz.first") %></p>
-  <% else %>
-    <p class="lede"><%= t("quiz.average", score: complete.average) %></p>
+    <p class="street-win-note"><%= t("quiz.first") %></p>
+  <% elsif complete.average %>
+    <p class="street-win-note"><%= t("quiz.average", score: complete.average) %></p>
   <% end %>
-  <%= button_to quiz_advance_path(street.run),
-        class: "btn btn-gold quiz-next",
-        form: { data: { turbo_stream: true } },
-        data: { action: "click->quiz#next" } do %>
-    <%= t("quiz.next") %><%= picto("arrow") %>
+  <% if standings %>
+    <p class="street-win-rank">
+      <%= t("street.rank_in_ward", rank: standings.pack_rank || "—", title: standings.rank_title) %>
+      · <%= t("street.total_rank", rank: standings.total_rank || "—", players: standings.total_players) %>
+    </p>
   <% end %>
+
+  <% if complete.pack_board&.rows&.any? %>
+    <%= render "home/leaderboard",
+          board: complete.pack_board,
+          title: t("street.board_pack", pack: street.pack.copy(:title)) %>
+  <% end %>
+  <% if complete.total_board&.rows&.any? %>
+    <%= render "home/leaderboard",
+          board: complete.total_board,
+          title: t("street.board_total"),
+          board_class: "is-total" %>
+  <% end %>
+
+  <footer class="street-quiz-dock">
+    <%= button_to quiz_advance_path(street.run),
+          class: "btn btn-gold quiz-next",
+          form: { data: { turbo_stream: true }, class: "quiz-next-form" },
+          data: { action: "click->quiz#next" } do %>
+      <%= t("street.next_pack") %><%= picto("arrow") %>
+    <% end %>
+  </footer>
 </div>

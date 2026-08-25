@@ -9,7 +9,7 @@ class QuizJumpsControllerTest < ActionDispatch::IntegrationTest
 
     post quiz_jump_path(run), params: { position: 1 }, as: :turbo_stream
     assert_response :success
-    assert_match(/street-trail/, response.body)
+    assert_match(/street-quiz-dock/, response.body)
     assert_match(/quiz-board is-settled/, response.body)
   end
 end

@@ -3,6 +3,7 @@
 <% pack = street.pack %>
 <% snap = street.asking? ? "mid" : "open" %>
 <% street_trail = local_assigns[:street_trail] || Quizzes::Trail.call(run: run) %>
+<% quiz_standings = local_assigns[:standings] %>
 <% extra_sfx = local_assigns[:sfx] %>
 <% extra_fx = local_assigns[:fx] %>
 <% still = street_still_src(question) %>
@@ -28,13 +29,22 @@
   </div>
 
   <div class="play-chrome">
-    <%= render "home/street_person" %>
+    <%= render "home/street_person", standings: quiz_standings %>
     <% unless street.done? %>
       <p class="street-score <%= "is-tick" if street.settled? && street.answer&.correct? %>"
          aria-label="<%= t("chrome.points", score: run.score) %>">
         <%= picto("star") %>
         <span><%= run.score %></span>
+        <% if street.settled? && street.answer&.correct? %>
+          <span class="street-points-pop" aria-hidden="true">+<%= question.points %></span>
+        <% end %>
       </p>
+      <% if quiz_standings&.pack_rank %>
+        <p class="street-rank" aria-label="<%= t("street.rank_in_ward", rank: quiz_standings.pack_rank, title: quiz_standings.rank_title) %>">
+          <span class="street-rank-num">#<%= quiz_standings.pack_rank %></span>
+          <span class="street-rank-title"><%= quiz_standings.rank_title %></span>
+        </p>
+      <% end %>
     <% end %>
     <% if street.asking? && question.timed? %>
       <%= render "play/timer", round: run, expire_url: quiz_expire_path(run) %>
@@ -65,7 +75,7 @@
           <%= render "home/street_done", street: street %>
         <% else %>
           <% unless street.settled? %>
-            <%= render "home/street_trail", street: street, street_trail: street_trail %>
+            <%= render "home/street_map", street: street, street_trail: street_trail %>
             <p class="round-title">
               <span class="quiz-pack"><%= pack.copy(:title) %></span>
               <span class="quiz-progress"><%= t("quiz.progress", n: run.position, total: pack.questions.size) %></span>

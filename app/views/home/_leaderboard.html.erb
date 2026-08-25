@@ -1,0 +1,20 @@
+<% board = local_assigns[:board] %>
+<% return if board.blank? || board.rows.empty? %>
+
+<section class="street-board <%= local_assigns[:board_class] %>" aria-label="<%= title %>">
+  <header class="street-board-head">
+    <h3><%= title %></h3>
+    <% if board.your_rank %>
+      <p class="street-board-you"><%= t("street.board_you", rank: board.your_rank, score: board.your_score) %></p>
+    <% end %>
+  </header>
+  <ol class="street-board-rows">
+    <% board.rows.each do |row| %>
+      <li class="street-board-row <%= "is-you" if row.you %>">
+        <span class="street-board-rank">#<%= row.rank %></span>
+        <span class="street-board-name"><%= row.person.given_name %></span>
+        <span class="street-board-score"><%= row.score %></span>
+      </li>
+    <% end %>
+  </ol>
+</section>

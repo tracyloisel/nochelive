@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   post "quiz/:quiz_run_id/expire", to: "quiz_expires#create", as: :quiz_expire
   get "quien", to: "street_profiles#show", as: :street_profile
   post "quien", to: "street_profiles#create"
+  post "rama", to: "street_ward_picks#create", as: :street_ward_pick
   get "camino", to: "street_histories#show", as: :street_history
   post "join", to: "joins#create"
   patch "locale", to: "locales#update"

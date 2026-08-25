@@ -1,28 +1,37 @@
 class StreetProfilesController < ApplicationController
-  before_action :require_ward_for_profile, only: [ :show, :create ]
+  before_action :load_gate_ward, only: [ :show, :create ]
 
   def show
     device_token
     @people_on_device = street_people_on_device.to_a
     @person = current_street_person
+    if params[:person_id].present? && current_ward
+      person = current_ward.people.find_by(id: params[:person_id])
+      if person && @people_on_device.none? { |row| row.id == person.id }
+        @claim_person = person
+      end
+    end
     assign_screen
   end
 
   def create
     device_token
     @people_on_device = street_people_on_device.to_a
+    ward = current_ward
+    raise People::Error.new(:ward, I18n.t("errors.people.ward")) unless ward
 
     if params[:guest].present?
       clear_street_person
+      remember_street_guest
       redirect_to root_path, notice: I18n.t("flashes.street_guest")
       return
     end
 
     if params[:person_id].present?
-      person = current_ward.people.find(params[:person_id])
+      person = ward.people.find(params[:person_id])
       unless @people_on_device.any? { |row| row.id == person.id }
         person = People::Claim.call(
-          ward: current_ward,
+          ward: ward,
           person: person,
           favorite_year: params[:favorite_year],
           device_token: device_token
@@ -34,14 +43,30 @@ class StreetProfilesController < ApplicationController
     end
 
     given = params[:name].to_s.strip
-    cards = People::Recognize.call(ward: current_ward, given_name: given)
-    if cards.any? && params[:soy_nueva].blank? && params[:favorite_year].present?
+    cards = People::Recognize.call(ward: ward, given_name: given) if given.present? && params[:soy_nueva].blank?
+    if cards&.size == 1 && params[:favorite_year].present?
+      person = cards.first.person
+      if person.favorite_year == params[:favorite_year].to_i
+        unless @people_on_device.any? { |row| row.id == person.id }
+          person = People::Claim.call(
+            ward: ward,
+            person: person,
+            favorite_year: params[:favorite_year],
+            device_token: device_token
+          )
+        end
+        remember_street_person(person)
+        redirect_to root_path, notice: I18n.t("flashes.street_signed_in", name: person.given_name)
+        return
+      end
+    end
+    if cards&.any? && params[:favorite_year].present?
       @homonym_cards = cards
       raise People::Error.new(:homonym, I18n.t("errors.people.homonym"))
     end
 
     person = People::Register.call(
-      ward: current_ward,
+      ward: ward,
       given_name: given,
       family_name: params[:family_name],
       avatar_key: params[:avatar_key].presence || "delfin",
@@ -57,20 +82,22 @@ class StreetProfilesController < ApplicationController
     @favorite_year = params[:favorite_year]
     @avatar_key = params[:avatar_key]
     @needs_family = error.code == :family
-    @claim_person = Person.find_by(id: params[:person_id], ward_id: current_ward.id) if params[:person_id].present?
+    @claim_person = Person.find_by(id: params[:person_id], ward_id: current_ward&.id) if params[:person_id].present?
     assign_screen(error)
     render :show, status: :unprocessable_entity
   end
 
   private
 
-    def require_ward_for_profile
+    def load_gate_ward
       return if current_ward
 
-      redirect_to search_path, alert: I18n.t("flashes.street_ward_first")
+      @featured_ward = Ward.find_by(code: Ward::FEATURED_CODE)
     end
 
     def assign_screen(error = nil)
+      return unless current_ward
+
       @homonym_cards ||= People::Recognize.call(ward: current_ward, given_name: @given_name) if @given_name.present?
 
       @screen = if @claim_person

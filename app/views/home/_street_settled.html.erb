@@ -12,6 +12,9 @@
   <div class="quiz-board-scroll">
     <div class="quiz-verdict <%= right ? "is-right" : "is-wrong" %>" role="status">
       <p class="quiz-shout"><%= right ? t("quiz.correct") : t("quiz.incorrect") %></p>
+      <% if right %>
+        <p class="street-points-burst" aria-label="<%= t("street.points_gained", points: question.points) %>">+<%= question.points %></p>
+      <% end %>
       <p class="quiz-answer"><%= question.copy(:answer) %></p>
     </div>
     <div class="quiz-bars" aria-label="<%= t("quiz.crowd") %>">

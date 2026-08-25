@@ -1,0 +1,45 @@
+<% trail = local_assigns[:street_trail] || [] %>
+<% return if trail.empty? || street.done? || street.settled? %>
+
+<% segments = street_map_segments(trail) %>
+
+<nav class="street-map" aria-label="<%= t("street.trail") %>">
+  <div class="street-map-head">
+    <p class="street-map-title"><%= t("street.trail") %></p>
+    <%= link_to street_history_path, class: "quiet-link street-map-more" do %>
+      <%= t("street.history_menu") %><%= picto("arrow") %>
+    <% end %>
+  </div>
+  <div class="street-map-track">
+    <% segments.each_with_index do |segment, index| %>
+      <article class="street-map-stop <%= segment.pack.state %> <%= index.even? ? "is-left" : "is-right" %>">
+        <div class="street-map-candy" title="<%= segment.pack.label %>">
+          <span class="street-map-star" aria-hidden="true"><%= picto("star") %></span>
+          <span class="street-map-label"><%= segment.pack.label %></span>
+        </div>
+        <ol class="street-map-steps">
+          <% segment.questions.each do |step| %>
+            <li class="street-map-step <%= step.state %>">
+              <% if step.jumpable? && step.run_id == street.run.id %>
+                <%= button_to quiz_jump_path(street.run),
+                      params: { position: step.position },
+                      class: "street-map-dot",
+                      form: { data: { turbo_stream: true } },
+                      aria: { label: trail_step_label(step) } do %>
+                  <span aria-hidden="true"><%= trail_step_mark(step) %></span>
+                <% end %>
+              <% else %>
+                <span class="street-map-dot is-static" aria-label="<%= trail_step_label(step) %>">
+                  <span aria-hidden="true"><%= trail_step_mark(step) %></span>
+                </span>
+              <% end %>
+            </li>
+          <% end %>
+        </ol>
+      </article>
+      <% unless index == segments.length - 1 %>
+        <div class="street-map-rope" aria-hidden="true"></div>
+      <% end %>
+    <% end %>
+  </div>
+</nav>

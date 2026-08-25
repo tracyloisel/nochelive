@@ -11,6 +11,20 @@ class Quizzes::CompleteTest < ActiveSupport::TestCase
     summary = Quizzes::Complete.summary(run)
     assert summary.first
     assert_nil summary.average
+    assert_nil summary.standings
+  end
+
+  test "summary includes standings when ward and person exist" do
+    digest = GameSession.digest_token("complete-person")
+    person = people(:pili)
+    run = Quizzes::Draw.call(device_digest: digest, person_id: person.id).run
+    run.update!(position: 10)
+    Quizzes::Submit.call(run:, choice_key: run.question.correct_choice)
+    Quizzes::Complete.call(run: run.reload)
+    summary = Quizzes::Complete.summary(run, ward: person.ward, person:)
+    assert summary.standings
+    assert summary.pack_board
+    assert summary.total_board
   end
 
   test "average is honest when at least two finished runs exist" do

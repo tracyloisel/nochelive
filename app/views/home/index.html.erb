@@ -1,4 +1,9 @@
 <% content_for :title, "Noche Live" %>
 <% content_for :body_class, "is-kid" %>
 <%= chrome_menu { site_menu } %>
-<%= render "home/street", street: @street, street_trail: @street_trail %>
+<%= render "home/profile_gate",
+      profile_gate: @profile_gate,
+      gate_ward: @gate_ward,
+      gate_people: @gate_people,
+      featured_ward: @featured_ward %>
+<%= render "home/street", street: @street, street_trail: @street_trail, standings: @standings %>

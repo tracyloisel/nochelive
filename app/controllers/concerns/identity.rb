@@ -3,7 +3,7 @@ module Identity
 
   included do
     helper_method :current_player, :current_team, :current_person, :current_ward, :current_street_person,
-                  :street_people_on_device, :hosted_ward, :presenter_for?, :ward_presenter?, :ward_host?,
+                  :street_people_on_device, :street_guest?, :hosted_ward, :presenter_for?, :ward_presenter?, :ward_host?,
                   :current_locale, :locale_path_for
   end
 
@@ -65,7 +65,25 @@ module Identity
       Person.on_device(device_token, current_ward)
     end
 
+    def street_guest?
+      cookies.signed[:noche_street_guest].present?
+    end
+
+    def remember_street_guest
+      cookies.signed[:noche_street_guest] = {
+        value: "1",
+        expires: 1.year,
+        httponly: true,
+        same_site: :lax
+      }
+    end
+
+    def clear_street_guest
+      cookies.delete(:noche_street_guest)
+    end
+
     def remember_street_person(person)
+      clear_street_guest
       cookies.signed[:noche_street_person] = {
         value: person.id,
         expires: 1.year,
