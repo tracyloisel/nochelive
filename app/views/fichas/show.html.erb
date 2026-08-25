@@ -1,53 +1,60 @@
 <% content_for :title, @person.display_name %>
+<% still_src = @night ? night_still_src(@night) : night_poster_src("reyes_y_profetas") %>
+<% shot = capture do %>
+  <%= render "shared/still", src: still_src, poster: true %>
+<% end %>
+<% chrome = capture do %>
+  <%= render "shared/reel_chrome", night: @night, title: @ward.name, ticks: false %>
+<% end %>
+<%= story_reel shot: shot, chrome: chrome, snap: "open", mid: 0.72, reel_class: "is-join" do %>
+  <section class="ficha-desk">
+    <h1><%= @person.display_name %></h1>
+    <p class="lede">Año favorito. Díselo ahora si alguien lo olvidó.</p>
 
-<section class="console ficha-desk">
-  <p class="eyebrow"><%= @ward.name %></p>
-  <h1><%= @person.display_name %></h1>
-  <p class="lede">Año favorito. Díselo ahora si alguien lo olvidó.</p>
+    <p class="year-shout" aria-label="Año favorito"><%= @person.favorite_year %></p>
+    <p class="quiet">No lo pongas en la pantalla grande.</p>
 
-  <p class="year-shout" aria-label="Año favorito"><%= @person.favorite_year %></p>
-  <p class="quiet">No lo pongas en la pantalla grande.</p>
+    <%= form_with url: ficha_path_for(@person), method: :patch, class: "join-form" do %>
+      <label for="given_name">Nombre</label>
+      <input id="given_name" name="given_name" maxlength="24" required class="code-input" value="<%= @person.given_name %>">
 
-  <%= form_with url: ficha_path_for(@person), method: :patch, class: "join-form" do %>
-    <label for="given_name">Nombre</label>
-    <input id="given_name" name="given_name" maxlength="24" required class="code-input" value="<%= @person.given_name %>">
+      <label for="family_name">Apellido</label>
+      <input id="family_name" name="family_name" maxlength="24" class="code-input" value="<%= @person.family_name %>">
 
-    <label for="family_name">Apellido</label>
-    <input id="family_name" name="family_name" maxlength="24" class="code-input" value="<%= @person.family_name %>">
+      <fieldset class="emblem-pick avatar-pick">
+        <legend>Animal</legend>
+        <% Player::AVATARS.each do |key| %>
+          <label class="emblem-choice avatar-choice">
+            <input type="radio" name="avatar_key" value="<%= key %>" <%= "checked" if key == @person.avatar_key %>>
+            <% src = avatar_mark(key) %>
+            <% if src %>
+              <img src="<%= src %>" alt="" class="avatar-img avatar-img-lg">
+            <% end %>
+            <em><%= key.capitalize %></em>
+          </label>
+        <% end %>
+      </fieldset>
 
-    <fieldset class="emblem-pick avatar-pick">
-      <legend>Animal</legend>
-      <% Player::AVATARS.each do |key| %>
-        <label class="emblem-choice avatar-choice">
-          <input type="radio" name="avatar_key" value="<%= key %>" <%= "checked" if key == @person.avatar_key %>>
-          <% src = avatar_mark(key) %>
-          <% if src %>
-            <img src="<%= src %>" alt="" class="avatar-img avatar-img-lg">
-          <% end %>
-          <em><%= key.capitalize %></em>
-        </label>
-      <% end %>
-    </fieldset>
+      <%= render "shared/year_field", value: @person.favorite_year, required: true %>
+      <button type="submit" class="btn btn-gold">Guardar ficha</button>
+    <% end %>
 
-    <%= render "shared/year_field", value: @person.favorite_year, required: true %>
-    <button type="submit" class="btn btn-gold">Guardar ficha</button>
-  <% end %>
+    <% if @others.any? %>
+      <article class="merge-card">
+        <h2>Fusionar</h2>
+        <p class="quiet">Si hay dos fichas de la misma persona, quédate con esta.</p>
+        <%= form_with url: ficha_merge_path_for(@person), class: "join-form" do %>
+          <label for="source_id">La otra ficha desaparece</label>
+          <select id="source_id" name="source_id">
+            <% @others.each do |other| %>
+              <option value="<%= other.id %>"><%= other.display_name %> · <%= other.favorite_year %></option>
+            <% end %>
+          </select>
+          <button type="submit" class="btn btn-navy" data-turbo-confirm="¿Fusionar? Se queda <%= @person.display_name %>.">Fusionar en esta</button>
+        <% end %>
+      </article>
+    <% end %>
 
-  <% if @others.any? %>
-    <article class="play-card">
-      <h2>Fusionar</h2>
-      <p class="quiet">Si hay dos fichas de la misma persona, quédate con esta.</p>
-      <%= form_with url: ficha_merge_path_for(@person), class: "join-form" do %>
-        <label for="source_id">La otra ficha desaparece</label>
-        <select id="source_id" name="source_id">
-          <% @others.each do |other| %>
-            <option value="<%= other.id %>"><%= other.display_name %> · <%= other.favorite_year %></option>
-          <% end %>
-        </select>
-        <button type="submit" class="btn btn-navy" data-turbo-confirm="¿Fusionar? Se queda <%= @person.display_name %>.">Fusionar en esta</button>
-      <% end %>
-    </article>
-  <% end %>
-
-  <%= link_to "Todas las fichas", fichas_path_for, class: "btn btn-ghost" %>
-</section>
+    <%= link_to "Todas las fichas", fichas_path_for, class: "btn btn-ghost" %>
+  </section>
+<% end %>

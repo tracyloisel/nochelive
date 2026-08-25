@@ -1,9 +1,7 @@
 <% poster = night_poster_src("reyes_y_profetas") %>
-<article class="play-card night-card night-program">
+<article class="night-card night-program">
   <% if poster %>
     <img class="night-poster" src="<%= poster %>" alt="<%= theme.title %>">
-  <% else %>
-    <div class="night-poster-fallback" aria-hidden="true"><%= render "illustrations/crown" %></div>
   <% end %>
   <div class="night-copy">
     <p class="eyebrow">Noche de hogar</p>

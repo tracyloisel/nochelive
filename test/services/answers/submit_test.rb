@@ -22,11 +22,24 @@ class Answers::SubmitTest < ActiveSupport::TestCase
     end
   end
 
-  test "buzzer round only accepts the answering team" do
+  test "buzzer round only accepts the answering team in the chapel" do
     Buzz.accept!(round_run: @round, team: @team, player: @player)
     @round.lock!
+    TeamMembership.create!(player: players(:ana), team: teams(:casa))
     assert_raises(RuntimeError) do
-      Answers::Submit.call(round: @round, team: teams(:casa), player: players(:daniel), body: "No")
+      Answers::Submit.call(round: @round, team: teams(:casa), player: players(:ana), body: "No")
+    end
+  end
+
+  test "remote answers a buzzer QCM while the round is open" do
+    home = teams(:daniel_home)
+    Answers::Submit.call(round: @round, team: home, player: players(:daniel), body: "wisdom")
+    assert home.reload.score_events.where(kind: "correct", round_run: @round).exists?
+  end
+
+  test "room cannot answer a buzzer round before lock" do
+    assert_raises(RuntimeError) do
+      Answers::Submit.call(round: @round, team: @team, player: @player, body: "wisdom")
     end
   end
 
@@ -54,15 +67,15 @@ class Answers::SubmitTest < ActiveSupport::TestCase
   test "remote category awards correct for three names" do
     round = round_runs(:category_prophets)
     round.update!(phase: "open")
-    Answers::Submit.call(round:, team: teams(:casa), player: players(:daniel), body: "Elías, Daniel, Isaías")
-    assert teams(:casa).reload.score_events.where(kind: "correct", round_run: round).exists?
+    Answers::Submit.call(round:, team: teams(:daniel_home), player: players(:daniel), body: "Elías, Daniel, Isaías")
+    assert teams(:daniel_home).reload.score_events.where(kind: "correct", round_run: round).exists?
   end
 
   test "remote category miss does not auto score" do
     round = round_runs(:category_prophets)
     round.update!(phase: "open")
-    Answers::Submit.call(round:, team: teams(:casa), player: players(:daniel), body: "Daniel")
-    assert_not teams(:casa).reload.score_events.where(round_run: round).exists?
+    Answers::Submit.call(round:, team: teams(:daniel_home), player: players(:daniel), body: "Daniel")
+    assert_not teams(:daniel_home).reload.score_events.where(round_run: round).exists?
   end
 
   test "room category slam does not auto score" do
@@ -76,15 +89,15 @@ class Answers::SubmitTest < ActiveSupport::TestCase
   test "remote mime awards the lived path" do
     round = round_runs(:mime_jonah)
     round.update!(phase: "open")
-    Answers::Submit.call(round:, team: teams(:casa), player: players(:daniel), body: "storm,fish,shore")
-    assert teams(:casa).reload.score_events.where(kind: "correct", round_run: round).exists?
+    Answers::Submit.call(round:, team: teams(:daniel_home), player: players(:daniel), body: "storm,fish,shore")
+    assert teams(:daniel_home).reload.score_events.where(kind: "correct", round_run: round).exists?
   end
 
   test "remote mime wrong path is incorrect" do
     round = round_runs(:mime_jonah)
     round.update!(phase: "open")
-    Answers::Submit.call(round:, team: teams(:casa), player: players(:daniel), body: "shore,fish,storm")
-    assert teams(:casa).reload.score_events.where(kind: "incorrect", round_run: round).exists?
+    Answers::Submit.call(round:, team: teams(:daniel_home), player: players(:daniel), body: "shore,fish,storm")
+    assert teams(:daniel_home).reload.score_events.where(kind: "incorrect", round_run: round).exists?
   end
 
   test "room mime slam does not auto score" do
@@ -98,12 +111,12 @@ class Answers::SubmitTest < ActiveSupport::TestCase
   test "ordering awards incorrect for a wrong sequence" do
     round = round_runs(:kings_order)
     round.update!(phase: "open")
-    Answers::Submit.call(round:, team: teams(:casa), player: players(:daniel), body: "david,saul,salomon")
-    event = teams(:casa).reload.score_events.find_by!(kind: "incorrect", round_run: round)
+    Answers::Submit.call(round:, team: teams(:daniel_home), player: players(:daniel), body: "david,saul,salomon")
+    event = teams(:daniel_home).reload.score_events.find_by!(kind: "incorrect", round_run: round)
     assert_equal 0, event.points
     assert_equal 0, event.xp
-    assert_equal 0, teams(:casa).cached_score
-    assert_not teams(:casa).score_events.where(kind: "correct", round_run: round).exists?
+    assert_equal 0, teams(:daniel_home).cached_score
+    assert_not teams(:daniel_home).score_events.where(kind: "correct", round_run: round).exists?
   end
 
   test "scavenger first shout pulses found once" do

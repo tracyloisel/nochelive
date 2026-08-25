@@ -1,32 +1,38 @@
 <% content_for :title, "Lista · #{@night.code}" %>
+<% shot = capture do %>
+  <%= render "shared/still", src: night_still_src(@night), poster: true %>
+<% end %>
+<% chrome = capture do %>
+  <%= render "shared/reel_chrome", night: @night, title: "Presentador · #{@night.code}", ticks: false %>
+<% end %>
+<%= story_reel shot: shot, chrome: chrome, snap: "open", mid: 0.7, reel_class: "is-join" do %>
+  <section class="roster-desk">
+    <h1>Lista de esta noche</h1>
+    <p class="lede">Quién juega, y los misioneros que nos visitan.</p>
 
-<section class="console roster-desk">
-  <p class="eyebrow">Presentador · <%= @night.code %></p>
-  <h1>Lista de esta noche</h1>
-  <p class="lede">Quién juega, y los misioneros que nos visitan.</p>
+    <%= render "shared/roster", night: @night %>
 
-  <%= render "shared/roster", night: @night %>
-
-  <article class="play-card">
-    <h2>Misioneros</h2>
-    <p class="quiet">No entran al juego. Los recordamos con esta noche.</p>
-    <ul class="missionary-list">
-      <% @missionaries.each do |missionary| %>
-        <li class="missionary-row">
-          <strong><%= missionary.name %></strong>
-          <%= button_to "Quitar", presenter_missionary_path(@night.code, missionary), method: :delete, class: "btn btn-tiny btn-ghost" %>
-        </li>
+    <article class="missionary-card">
+      <h2>Misioneros</h2>
+      <p class="quiet">No entran al juego. Los recordamos con esta noche.</p>
+      <ul class="missionary-list">
+        <% @missionaries.each do |missionary| %>
+          <li class="missionary-row">
+            <strong><%= missionary.name %></strong>
+            <%= button_to "Quitar", presenter_missionary_path(@night.code, missionary), method: :delete, class: "btn btn-tiny btn-ghost" %>
+          </li>
+        <% end %>
+      </ul>
+      <%= form_with url: presenter_missionaries_path(@night.code), class: "join-form" do %>
+        <label for="name">Nombre</label>
+        <input id="name" name="name" maxlength="32" required class="code-input" placeholder="Élder Soto" autocomplete="name">
+        <button type="submit" class="btn btn-gold">Añadir a esta noche</button>
       <% end %>
-    </ul>
-    <%= form_with url: presenter_missionaries_path(@night.code), class: "join-form" do %>
-      <label for="name">Nombre</label>
-      <input id="name" name="name" maxlength="32" required class="code-input" placeholder="Élder Soto" autocomplete="name">
-      <button type="submit" class="btn btn-gold">Añadir a esta noche</button>
-    <% end %>
-  </article>
+    </article>
 
-  <p class="cluster">
-    <%= link_to "Consola", presenter_console_path(@night.code), class: "btn btn-navy" %>
-    <%= link_to "Fichas", presenter_fichas_path(@night.code), class: "btn btn-ghost" %>
-  </p>
-</section>
+    <p class="cluster">
+      <%= link_to "Consola", presenter_console_path(@night.code), class: "btn btn-navy" %>
+      <%= link_to "Fichas", presenter_fichas_path(@night.code), class: "btn btn-ghost" %>
+    </p>
+  </section>
+<% end %>

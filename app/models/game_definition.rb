@@ -11,7 +11,8 @@ class GameDefinition
     :id, :type, :title, :icon, :question, :answer, :reference, :instructions,
     :choices, :correct_choice, :points, :points_max, :duration, :difficulty,
     :intensity, :remote, :remote_variant, :reward, :presentation, :sfx,
-    :target_taps, :forbidden, :target, :guess_keys, :items, :order, :goal, keyword_init: true
+    :target_taps, :forbidden, :target, :guess_keys, :items, :order, :goal,
+    :swing, :layers, keyword_init: true
   ) do
     def buzzer? = type.in?(%w[buzzer finale])
     def finale? = type == "finale"
@@ -126,6 +127,27 @@ class GameDefinition
     def tap_goal
       target_taps || remote_variant&.fetch("taps", nil).to_i.nonzero? || 10
     end
+
+    def swing?
+      swing == true || swing.to_s == "true"
+    end
+
+    def layered_finale?
+      finale? && Array(layers).size >= 2
+    end
+
+    def swing_points(night, team)
+      base = points
+      return base unless swing?
+      return base unless team
+
+      others = night.teams.reload.reject { |row| row.id == team.id }
+      best = others.map(&:cached_score).max
+      return base if best.nil?
+
+      me = team.cached_score.to_i
+      me < best ? (best - me) + 1 : base
+    end
   end
 
   Theme = Struct.new(:id, :title, :tagline, keyword_init: true)
@@ -190,8 +212,26 @@ class GameDefinition
       guess_keys: Array(row["guess_keys"]).map(&:to_s),
       items: Array(row["items"]),
       order: Array(row["order"]).map(&:to_s),
-      goal: row["goal"]
+      goal: row["goal"],
+      swing: row["swing"],
+      layers: normalize_layers(row["layers"])
     )
+  end
+
+  def normalize_layers(raw)
+    Array(raw).map do |layer|
+      next {} unless layer.is_a?(Hash)
+
+      {
+        "key" => layer["key"].to_s,
+        "label" => layer["label"].to_s,
+        "text" => layer["text"].to_s,
+        "host" => layer["host"].to_s,
+        "picto" => layer["picto"].to_s.presence || "sparkle",
+        "image" => layer["image"].to_s,
+        "clip" => layer["clip"].to_s
+      }
+    end
   end
 
   def validate!(data)
@@ -235,6 +275,15 @@ class GameDefinition
       end
       if type == "mime" && row.dig("remote_variant", "type") == "story_path"
         raise Error, "round #{row['id']} needs story beats" if Array(row.dig("remote_variant", "beats")).empty?
+      end
+      if row["layers"].present? || row["swing"]
+        layers = Array(row["layers"])
+        raise Error, "round #{row['id']} needs at least two layers" if layers.size < 2
+        layers.each do |layer|
+          %w[key label text host picto image].each do |field|
+            raise Error, "round #{row['id']} layer missing #{field}" if layer.is_a?(Hash) && layer[field].to_s.strip.blank?
+          end
+        end
       end
       if row["remote"] == false && row["remote_variant"].blank?
         # allowed, but graded D — engine still loads it

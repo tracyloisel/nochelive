@@ -3,10 +3,20 @@
 Reviewed: 2026-08-24
 Slice: Ordering as a tap sequence (same scramble for the team, auto-score)
 Tests: `bundle exec rails test`
+Gate: `.cursor/skills/noche-night/SKILL.md`.
+
+## Four seats
+
+| Seat | Verb tonight |
+|---|---|
+| Presentador | Abrir; auto-score does the rest |
+| Equipo en sala | Tap the kings in time |
+| Jugador en casa | Same scramble, same taps (A) |
+| Espectador | The order board |
 
 ---
 
-## Agent
+## Evidence
 
 Gameplay Designer
 
@@ -42,7 +52,7 @@ Freeze as a real stop, or make round 15 itself feel like a finale. Do not add dr
 
 ---
 
-## Agent
+## Evidence
 
 Remote Play Designer
 
@@ -74,7 +84,7 @@ Keep this A. Do not invent a remote-only puzzle.
 
 ---
 
-## Agent
+## Evidence
 
 Party & Social Designer
 
@@ -105,7 +115,7 @@ Leave it. Talking is the room’s job.
 
 ---
 
-## Agent
+## Evidence
 
 Progression & Reward Designer
 
@@ -133,7 +143,7 @@ Reward: 5/5
 
 ---
 
-## Agent
+## Evidence
 
 UI / Visual / VFX Designer
 
@@ -162,7 +172,7 @@ VFX: 4/5
 
 ---
 
-## Agent
+## Evidence
 
 Audio Designer
 
@@ -188,7 +198,7 @@ Sound: 4/5
 
 ---
 
-## Agent
+## Evidence
 
 Pacing & Accessibility Designer
 
@@ -218,7 +228,7 @@ Clarity: 4/5
 
 ---
 
-## Agent
+## Evidence
 
 Technical Reliability
 
@@ -251,7 +261,7 @@ Without the title, it is still “tap the three kings in time.” Pass.
 
 ---
 
-## Game Director
+## Night director
 
 M7 approved. The memory is: someone slapped Saúl, then David, then Salomón, and the room knew.
 

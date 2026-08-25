@@ -34,6 +34,11 @@ class Team < ApplicationRecord
   validates :emblem, inclusion: { in: EMBLEMS.keys }
   validates :name, uniqueness: { scope: :game_session_id }
 
+  scope :chapel, -> { where(solo: false) }
+  scope :solos, -> { where(solo: true) }
+
+  def solo? = solo
+  def chapel? = !solo
   def emblem_label = EMBLEMS[emblem]
   def rank_label = (RANKS.find { |_, key, _| key == rank_key } || RANKS.first).last
 

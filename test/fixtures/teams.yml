@@ -21,6 +21,16 @@ casa:
   rank_key: novicio
   streak: 0
 
+daniel_home:
+  game_session: david
+  name: Daniel
+  emblem: estrella
+  solo: true
+  cached_score: 0
+  xp: 0
+  rank_key: novicio
+  streak: 0
+
 lobby_leones:
   game_session: elias
   name: Leones

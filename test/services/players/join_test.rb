@@ -36,4 +36,28 @@ class Players::JoinTest < ActiveSupport::TestCase
     )
     assert_equal first.id, second.id
   end
+
+  test "remote join seats a solo team" do
+    player = Players::Join.call(
+      night: @night,
+      name: "Daniel",
+      role: "participant",
+      location: "remote",
+      device_token: "casa-phone"
+    )
+    assert player.remote?
+    assert player.team.solo?
+    assert_equal "Daniel", player.team.name
+  end
+
+  test "remote spectator is not seated" do
+    player = Players::Join.call(
+      night: @night,
+      name: "TV",
+      role: "spectator",
+      location: "remote",
+      device_token: "tv-box"
+    )
+    assert_nil player.team
+  end
 end

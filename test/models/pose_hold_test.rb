@@ -3,8 +3,8 @@ require "test_helper"
 class PoseHoldTest < ActiveSupport::TestCase
   test "a short hold does not score and a full hold does once" do
     night = create_night
-    team = add_team(night, name: "Leones")
-    player = add_player(night, name: "Daniel", team: team, location: "remote")
+    player = add_player(night, name: "Daniel", location: "remote")
+    team = player.team
     round = night.round_runs.find_by!(yaml_round_id: "statue_david")
     round.intro!
     round.open!

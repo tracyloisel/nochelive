@@ -50,7 +50,7 @@ class NightFlowTest < ActionDispatch::IntegrationTest
     cookies[:noche_player] = player.id
     # Use a dedicated player session for the buzz
     open_session do |player_sess|
-      player_sess.post night_players_path(night.code), params: { name: "Ana", location: "remote" }
+      player_sess.post night_players_path(night.code), params: { name: "Ana", location: "room" }
       player_sess.post night_teams_path(night.code), params: { name: "Profetas", emblem: "fuego" }
       player_sess.post presenter_open_round_path(night.code, night.reload.current_round_run)
     end
@@ -75,7 +75,7 @@ class NightFlowTest < ActionDispatch::IntegrationTest
     player_one.post night_teams_path(night.code), params: { name: "Leones", emblem: "leon" }
 
     player_two = open_session
-    player_two.post night_players_path(night.code), params: { name: "Daniel", location: "remote" }
+    player_two.post night_players_path(night.code), params: { name: "Carlos", location: "room" }
     player_two.post night_teams_path(night.code), params: { name: "Profetas", emblem: "fuego" }
 
     round = night.reload.current_round_run
@@ -133,7 +133,6 @@ class NightFlowTest < ActionDispatch::IntegrationTest
 
     remote = open_session
     remote.post night_players_path(night.code), params: { name: "Daniel", location: "remote" }
-    remote.post night_teams_path(night.code), params: { name: "Casa", emblem: "ola" }
     remote.get night_play_path(night.code)
     assert_includes remote.response.body, "Sostener"
     assert_not_includes remote.response.body, "DEJAD EL TELÉFONO"
@@ -151,7 +150,6 @@ class NightFlowTest < ActionDispatch::IntegrationTest
 
     remote = open_session
     remote.post night_players_path(night.code), params: { name: "Daniel", location: "remote" }
-    remote.post night_teams_path(night.code), params: { name: "Casa", emblem: "ola" }
     remote.get night_play_path(night.code)
     assert_includes remote.response.body, "TÚ ERES JONÁS"
     assert_includes remote.response.body, "¡LA TORMENTA!"
@@ -186,12 +184,10 @@ class NightFlowTest < ActionDispatch::IntegrationTest
 
     guesser = open_session
     guesser.post night_players_path(night.code), params: { name: "Daniel", location: "remote" }
-    guesser.post night_team_memberships_path(night.code, team)
 
     miss = open_session
     miss.post night_players_path(night.code), params: { name: "Ana", location: "remote" }
-    miss.post night_teams_path(night.code), params: { name: "Casa", emblem: "ola" }
-    casa = night.teams.find_by!(name: "Casa")
+    casa = seat_of(night, "Ana")
 
     explainer.get night_play_path(night.code)
     assert_includes explainer.response.body, "TÚ EXPLICAS"
@@ -214,8 +210,7 @@ class NightFlowTest < ActionDispatch::IntegrationTest
     assert_not casa.score_events.where(kind: "incorrect").exists?
 
     guesser.post night_round_run_answer_path(night.code, taboo), params: { body: "Nabot" }
-    team.reload
-    assert team.score_events.where(kind: "correct").exists?
+    assert seat_of(night, "Daniel").score_events.where(kind: "correct").exists?
 
     get presenter_console_path(night.code)
     assert_includes response.body, "Han dicho una palabra"
@@ -240,8 +235,7 @@ class NightFlowTest < ActionDispatch::IntegrationTest
 
     remote = open_session
     remote.post night_players_path(night.code), params: { name: "Daniel", location: "remote" }
-    remote.post night_teams_path(night.code), params: { name: "Casa", emblem: "ola" }
-    casa = night.teams.find_by!(name: "Casa")
+    casa = seat_of(night, "Daniel")
 
     room.get night_play_path(night.code)
     assert_includes room.response.body, "¡BUSCAD!"
@@ -296,8 +290,7 @@ class NightFlowTest < ActionDispatch::IntegrationTest
 
     remote = open_session
     remote.post night_players_path(night.code), params: { name: "Daniel", location: "remote" }
-    remote.post night_teams_path(night.code), params: { name: "Casa", emblem: "ola" }
-    casa = night.teams.find_by!(name: "Casa")
+    casa = seat_of(night, "Daniel")
 
     room.get night_play_path(night.code)
     assert_includes room.response.body, "¡BAILAD!"
@@ -358,8 +351,7 @@ class NightFlowTest < ActionDispatch::IntegrationTest
 
     remote = open_session
     remote.post night_players_path(night.code), params: { name: "Daniel", location: "remote" }
-    remote.post night_teams_path(night.code), params: { name: "Casa", emblem: "ola" }
-    casa = night.teams.find_by!(name: "Casa")
+    casa = seat_of(night, "Daniel")
 
     room.get night_play_path(night.code)
     assert_includes room.response.body, "¿Quién reinó primero?"
@@ -416,12 +408,11 @@ class NightFlowTest < ActionDispatch::IntegrationTest
 
     remote = open_session
     remote.post night_players_path(night.code), params: { name: "Daniel", location: "remote" }
-    remote.post night_teams_path(night.code), params: { name: "Casa", emblem: "ola" }
-    casa = night.teams.find_by!(name: "Casa")
+    casa = seat_of(night, "Daniel")
 
     room.get night_play_path(night.code)
     assert_includes room.response.body, "¿Quién ha mostrado más sabiduría esta noche?"
-    assert_includes room.response.body, "Casa"
+    assert_includes room.response.body, "Daniel"
     assert_not_includes room.response.body, "name=\"team_id\" value=\"#{leones.id}\""
     assert_not_includes room.response.body, "El presentador dirige esta ronda"
 
@@ -433,7 +424,7 @@ class NightFlowTest < ActionDispatch::IntegrationTest
     watch.get night_watch_path(night.code)
     assert_includes watch.response.body, "choice-token"
     assert_includes watch.response.body, "emblem-leon"
-    assert_includes watch.response.body, "emblem-ola"
+    assert_includes watch.response.body, "emblem-#{casa.emblem}"
 
     get presenter_console_path(night.code)
     assert_includes response.body, "Contar los votos"
@@ -473,8 +464,7 @@ class NightFlowTest < ActionDispatch::IntegrationTest
 
     remote = open_session
     remote.post night_players_path(night.code), params: { name: "Daniel", location: "remote" }
-    remote.post night_teams_path(night.code), params: { name: "Casa", emblem: "ola" }
-    casa = night.teams.find_by!(name: "Casa")
+    casa = seat_of(night, "Daniel")
 
     room.get night_play_path(night.code)
     assert_includes room.response.body, "¡DECID!"
@@ -512,7 +502,7 @@ class NightFlowTest < ActionDispatch::IntegrationTest
     assert_not_includes watch.response.body, "Isaías"
   end
 
-  test "finale is a crown slam then the ceremony" do
+  test "finale peels then slams then the ceremony" do
     night = create_night
     finale = night.round_runs.find_by!(yaml_round_id: "finale_prophet")
     token = "presenter-secret"
@@ -526,35 +516,79 @@ class NightFlowTest < ActionDispatch::IntegrationTest
     room.post night_players_path(night.code), params: { name: "Lucía", location: "room" }
     room.post night_teams_path(night.code), params: { name: "Leones", emblem: "leon" }
     leones = night.teams.find_by!(name: "Leones")
-    leones.update!(cached_score: 20)
+    ScoreEvent.award!(game_session: night, team: leones, kind: "adjust", points: 20, xp: 20, reason: "Marcador")
+    leones.recalculate_progress!
 
     remote = open_session
     remote.post night_players_path(night.code), params: { name: "Daniel", location: "remote" }
-    remote.post night_teams_path(night.code), params: { name: "Casa", emblem: "ola" }
 
     room.get night_play_path(night.code)
-    assert_includes room.response.body, "¡TODOS DE PIE!"
-    assert_includes room.response.body, "¡LA CORONA!"
+    assert_includes room.response.body, "Escuchad el burger."
+    assert_not_includes room.response.body, "¡LA CORONA!"
     assert_includes room.response.body, "Leones va delante"
-    assert_not_includes room.response.body, ">Buzz<"
-    assert_not_includes room.response.body, "El presentador dirige esta ronda"
 
     remote.get night_play_path(night.code)
-    assert_includes remote.response.body, "¡LA CORONA!"
-    assert_includes remote.response.body, "¡TODOS DE PIE!"
+    assert_includes remote.response.body, "Anima a Lucía"
+    assert_not_includes remote.response.body, "choice-btn"
+    assert_not_includes remote.response.body, "¡LA CORONA!"
+    assert_not_includes remote.response.body, "¿Qué pidió Eliseo"
 
     watch = open_session
     watch.get night_watch_path(night.code)
     assert_includes watch.response.body, "¡TODOS DE PIE!"
-    assert_includes watch.response.body, "¿Qué pidió Eliseo"
+    assert_includes watch.response.body, "Elías y Eliseo caminan juntos."
+    assert_includes watch.response.body, "challenge-clip"
+    assert_not_includes watch.response.body, "¿Qué pidió Eliseo"
     assert_not_includes watch.response.body, "doble porción"
 
     get presenter_console_path(night.code)
+    assert_includes response.body, "Siguiente capa"
+    assert_not_includes response.body, "Servir el burger"
+    assert_not_includes response.body, "¡La corona!"
+    assert_not_includes response.body, "Revelar respuesta"
+    assert_not_includes response.body, "¿Qué pidió Eliseo"
+
+    3.times { post presenter_peel_round_path(night.code, finale) }
+    watch.get night_watch_path(night.code)
+    assert_includes watch.response.body, "La salsa."
+    assert_not_includes watch.response.body, "¿Qué pidió Eliseo"
+
+    get presenter_console_path(night.code)
+    assert_includes response.body, "¡La pregunta!"
+    assert_not_includes response.body, "¡La corona!"
+
+    post presenter_open_round_path(night.code, finale)
+
+    room.get night_play_path(night.code)
+    assert_includes room.response.body, "¡LA CORONA!"
+
+    remote.get night_play_path(night.code)
+    assert_includes remote.response.body, "Esperad el slam."
+    assert_includes remote.response.body, "choice-token"
+    assert_not_includes remote.response.body, "choice-btn"
+
+    watch.get night_watch_path(night.code)
+    assert_includes watch.response.body, "¿Qué pidió Eliseo"
+
+    get presenter_console_path(night.code)
     assert_includes response.body, "¡La corona!"
+    assert_includes response.body, "Una doble porción de su espíritu."
     assert_not_includes response.body, "Siguiente"
 
     room.post night_round_run_buzz_path(night.code, finale)
     assert leones.reload.buzzes.where(round_run: finale).exists?
+
+    remote.get night_play_path(night.code)
+    assert_includes remote.response.body, "Leones responde."
+    assert_not_includes remote.response.body, "choice-btn"
+
+    room.post night_round_run_answer_path(night.code, finale), params: { choice: "chariot" }
+    remote.get night_play_path(night.code)
+    assert_includes remote.response.body, "choice-btn"
+    assert_includes remote.response.body, "¡Ahora vosotros!"
+
+    watch.get night_watch_path(night.code)
+    assert_includes watch.response.body, "Casa puede robar la noche."
 
     post presenter_crown_path(night.code, finale)
     assert night.reload.finished?
@@ -566,6 +600,31 @@ class NightFlowTest < ActionDispatch::IntegrationTest
     watch.get night_watch_path(night.code)
     assert_includes watch.response.body, "¡Leones gana la noche!"
     assert_includes watch.response.body, "Lucía"
+  end
+
+  test "finale chapel just denies the steal" do
+    night = create_night
+    finale = night.round_runs.find_by!(yaml_round_id: "finale_prophet")
+    token = "presenter-secret"
+    night.update!(presenter_token_digest: GameSession.digest_token(token), status: "playing")
+    night.round_runs.update_all(phase: "pending")
+    finale.update!(phase: "intro")
+    get presenter_gate_path(night.code, token: token)
+    peel_to_salsa(finale)
+    post presenter_open_round_path(night.code, finale)
+
+    room = open_session
+    room.post night_players_path(night.code), params: { name: "Lucía", location: "room" }
+    room.post night_teams_path(night.code), params: { name: "Leones", emblem: "leon" }
+    remote = open_session
+    remote.post night_players_path(night.code), params: { name: "Daniel", location: "remote" }
+
+    room.post night_round_run_buzz_path(night.code, finale)
+    room.post night_round_run_answer_path(night.code, finale), params: { choice: "double" }
+    remote.get night_play_path(night.code)
+    assert_includes remote.response.body, "La sala acertó."
+    assert_not_includes remote.response.body, "choice-btn"
+    assert_not_includes remote.response.body, "¡Ahora vosotros!"
   end
 
   test "finished night is a stand-up ceremony with names" do
@@ -580,8 +639,7 @@ class NightFlowTest < ActionDispatch::IntegrationTest
 
     daniel = open_session
     daniel.post night_players_path(night.code), params: { name: "Daniel", location: "remote" }
-    daniel.post night_teams_path(night.code), params: { name: "Casa", emblem: "ola" }
-    casa = night.teams.find_by!(name: "Casa")
+    casa = seat_of(night, "Daniel")
     leones.update!(cached_score: 42)
     casa.update!(cached_score: 15)
 
@@ -624,7 +682,6 @@ class NightFlowTest < ActionDispatch::IntegrationTest
 
     remote = open_session
     remote.post night_players_path(night.code), params: { name: "Daniel", location: "remote" }
-    remote.post night_teams_path(night.code), params: { name: "Casa", emblem: "ola" }
     remote.get night_play_path(night.code)
     assert_includes remote.response.body, "Lanzar"
     assert_includes remote.response.body, "Fuerza"

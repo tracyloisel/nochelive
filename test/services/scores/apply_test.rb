@@ -20,7 +20,8 @@ class Scores::ApplyTest < ActiveSupport::TestCase
   end
 
   test "incorrect strips points from a previous correct" do
-    Buzz.accept!(round_run: @round, team: @casa, player: players(:daniel))
+    TeamMembership.create!(player: players(:ana), team: @casa)
+    Buzz.accept!(round_run: @round, team: @casa, player: players(:ana))
     Scores::Apply.correct!(@round, @casa)
     assert_operator @casa.reload.cached_score, :>, 0
     assert @casa.score_events.where(kind: "fastest_buzz", round_run: @round).exists?
@@ -46,7 +47,8 @@ class Scores::ApplyTest < ActiveSupport::TestCase
   end
 
   test "fastest buzz bonus when the team buzzed first" do
-    Buzz.accept!(round_run: @round, team: @casa, player: players(:daniel))
+    TeamMembership.create!(player: players(:ana), team: @casa)
+    Buzz.accept!(round_run: @round, team: @casa, player: players(:ana))
     Scores::Apply.correct!(@round, @casa)
     assert @casa.score_events.where(kind: "fastest_buzz", round_run: @round).exists?
     assert @casa.score_events.where(kind: "correct", round_run: @round).exists?
@@ -78,5 +80,29 @@ class Scores::ApplyTest < ActiveSupport::TestCase
   test "presenter adjust creates a ledger row" do
     Scores::Apply.adjust!(@night, @casa, points: 5, reason: "Ajuste")
     assert @casa.score_events.where(kind: "adjust", points: 5).exists?
+  end
+
+  test "swing awards the catch-up without a fastest buzz or Rey double" do
+    round = round_runs(:finale_prophet)
+    @leones.update!(cached_score: 40)
+    @casa.update!(cached_score: 0, next_correct_doubled: true)
+    round.update!(phase: "open", layer_index: 4, opened_at: Time.current)
+    Scores::Apply.correct!(round, @casa)
+    event = @casa.score_events.find_by!(kind: "correct", round_run: round)
+    assert_equal 41, event.points
+    assert_not @casa.score_events.where(kind: "fastest_buzz", round_run: round).exists?
+    assert @casa.reload.next_correct_doubled?
+  end
+
+  test "swing for the leader is the floor without a fastest buzz" do
+    round = round_runs(:finale_prophet)
+    @leones.update!(cached_score: 40)
+    @casa.update!(cached_score: 0)
+    round.update!(phase: "open", layer_index: 4, opened_at: Time.current)
+    Buzz.accept!(round_run: round, team: @leones, player: players(:lucia))
+    Scores::Apply.correct!(round, @leones)
+    event = @leones.score_events.find_by!(kind: "correct", round_run: round)
+    assert_equal 25, event.points
+    assert_not @leones.score_events.where(kind: "fastest_buzz", round_run: round).exists?
   end
 end

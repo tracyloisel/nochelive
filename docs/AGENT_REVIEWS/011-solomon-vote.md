@@ -3,10 +3,20 @@
 Reviewed: 2026-08-24
 Slice: Team vote as a real judgment (emblem tap, per player)
 Tests: `bundle exec rails test`
+Gate: `.cursor/skills/noche-night/SKILL.md`.
+
+## Four seats
+
+| Seat | Verb tonight |
+|---|---|
+| Presentador | Count the jury; lock |
+| Equipo en sala | Vote an emblem (not self) |
+| Jugador en casa | Same vote (A) |
+| Espectador | The tally on the TV |
 
 ---
 
-## Agent
+## Evidence
 
 Gameplay Designer
 
@@ -36,7 +46,7 @@ Replayability: 4/5
 
 ---
 
-## Agent
+## Evidence
 
 Remote Play Designer
 
@@ -62,7 +72,7 @@ Remote: 4/5
 
 ---
 
-## Agent
+## Evidence
 
 Party & Social Designer
 
@@ -85,7 +95,7 @@ Social: 5/5
 
 ---
 
-## Agent
+## Evidence
 
 Technical Reliability
 
@@ -109,7 +119,7 @@ Reliability: 4/5
 
 ---
 
-## Game Director
+## Night director
 
 M11 approved. The memory is: we pointed at another emblem and the room had to live with it.
 

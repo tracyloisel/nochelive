@@ -225,10 +225,13 @@ class PresenterControllersTest < ActionDispatch::IntegrationTest
   end
 
   test "console is a live reel with the round as the title" do
+    round_runs(:salomon).update_column(:opened_at, Time.current)
     sign_in_presenter(@night)
     get presenter_console_path(@night.code)
     assert_response :success
     assert_select ".console.is-stage[data-controller=story]"
+    assert_select "#night_presenter[data-stage-bed-value=timer_tension]"
+    assert_select "#night_presenter[data-controller=story]"
     assert_select ".story-close"
     assert_select ".story-ticks"
     assert_select ".code-chip", text: @night.code
@@ -306,5 +309,34 @@ class PresenterControllersTest < ActionDispatch::IntegrationTest
     assert_select ".stage-dock"
     assert_includes response.body, "Empezar la noche"
     assert_includes response.body, "Abrir"
+  end
+
+  test "burger presenter hides the crown until the question" do
+    night = create_night
+    sign_in_presenter(night, token: "presenter-secret")
+    night.update!(status: "playing")
+    finale = night.round_runs.find_by!(yaml_round_id: "finale_prophet")
+    night.round_runs.update_all(phase: "pending")
+    finale.update!(phase: "intro", layer_index: 0)
+    get presenter_console_path(night.code)
+    assert_includes response.body, "Servir el burger"
+    assert_not_includes response.body, "¡La corona!"
+    assert_not_includes response.body, "Una doble porción de su espíritu."
+
+    post presenter_open_round_path(night.code, finale)
+    get presenter_console_path(night.code)
+    assert_includes response.body, "Siguiente capa"
+    assert_not_includes response.body, "¡La corona!"
+
+    3.times { post presenter_peel_round_path(night.code, finale) }
+    get presenter_console_path(night.code)
+    assert_includes response.body, "¡La pregunta!"
+    assert_not_includes response.body, "¡La corona!"
+    assert_not_includes response.body, "Una doble porción de su espíritu."
+
+    post presenter_open_round_path(night.code, finale)
+    get presenter_console_path(night.code)
+    assert_includes response.body, "¡La corona!"
+    assert_includes response.body, "Una doble porción de su espíritu."
   end
 end

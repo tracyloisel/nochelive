@@ -13,7 +13,7 @@
     <%= render "play/quiz_result", night: night, round: round, team: team, definition: definition, answer: answer, right: right %>
   <% elsif round.revealed? %>
     <%= render "play/reveal", definition: definition, team: team, round: round %>
-  <% elsif round.open? %>
+  <% elsif phone_quiz_asking?(round, local_assigns[:player]) %>
     <%= render "play/choice_list", night: night, round: round, choices: definition.choices %>
   <% else %>
     <%= render "shared/wait", message: "Preparad una respuesta." %>

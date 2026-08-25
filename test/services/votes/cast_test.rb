@@ -23,7 +23,7 @@ class Votes::CastTest < ActiveSupport::TestCase
     Votes::Cast.call(round: @round, team: teams(:leones), player: players(:lucia), choice: teams(:casa))
     assert @round.reload.open?
 
-    Votes::Cast.call(round: @round, team: teams(:casa), player: players(:daniel), choice: teams(:leones))
+    Votes::Cast.call(round: @round, team: teams(:daniel_home), player: players(:daniel), choice: teams(:leones))
     assert @round.reload.locked?
     assert teams(:casa).reload.score_events.where(kind: "correct", round_run: @round).exists?
     assert teams(:leones).reload.score_events.where(kind: "correct", round_run: @round).exists?

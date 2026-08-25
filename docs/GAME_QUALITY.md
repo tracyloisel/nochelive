@@ -1,7 +1,11 @@
 # Current Game Quality
 
-Inspected: 2026-08-24
-Build: M14 two-browser buzz (after M13)
+Inspected: 2026-08-25
+Build: M14 two-browser buzz; night-director gate in Cursor (`noche-night`)
+
+**Shipping gate** (not this table): four seats, rising tension, finale that can flip the score. Skill: `.cursor/skills/noche-night/SKILL.md`. Written verdicts: `docs/AGENT_REVIEWS/`.
+
+The 15-category scorecard below is history of how the night filled in. Do not raise a number unless that seat or that feeling actually changed.
 
 | Category | M0 | M1 | M2 | M3 | M4 | M5 | M6 | M7 | M8 | M9 | M10 | M11 | M12 | M13 |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|

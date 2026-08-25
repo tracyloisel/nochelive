@@ -22,16 +22,18 @@ module Answers
     private
 
     def persist!
-      raise "Answers are closed" unless @round.accepting_answers?
+      raise "Esperad el slam." if @player.remote? && @round.definition.layered_finale? && !@round.finale_steal_open?
+      raise "Answers are closed" unless @round.accepting_answers?(player: @player)
 
       ApplicationRecord.transaction do
         locked = RoundRun.lock.find(@round.id)
-        raise "Answers are closed" unless locked.accepting_answers?
+        raise "Esperad el slam." if @player.remote? && locked.definition.layered_finale? && !locked.finale_steal_open?
+        raise "Answers are closed" unless locked.accepting_answers?(player: @player)
 
         existing = Answer.find_by(round_run: locked, team: @team)
         return existing if existing
 
-        if locked.definition.buzzer? && locked.answering_team && locked.answering_team != @team
+        if locked.definition.buzzer? && !@player.remote? && locked.answering_team && locked.answering_team != @team
           raise "Not your turn"
         end
 
@@ -74,6 +76,12 @@ module Answers
       definition = @round.definition
       return "found" if definition.scavenger?
       return "shout" if definition.category?
+      if definition.layered_finale?
+        event = @team.score_events.find_by(round_run: @round)
+        return "open" if event&.kind == "incorrect" && @round.reload.finale_steal_open?
+        return "score" if event&.kind == "correct"
+        return "miss" if event&.kind == "incorrect"
+      end
 
       "answer"
     end

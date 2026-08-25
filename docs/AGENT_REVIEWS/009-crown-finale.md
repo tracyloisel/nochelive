@@ -3,10 +3,20 @@
 Reviewed: 2026-08-24
 Slice: Round 15 is a stand-up crown, then the ceremony
 Tests: `bundle exec rails test`
+Gate: `.cursor/skills/noche-night/SKILL.md`.
+
+## Four seats
+
+| Seat | Verb tonight |
+|---|---|
+| Presentador | ¡La corona! |
+| Equipo en sala | Stand-up crown slam (25 pts) |
+| Jugador en casa | Same slam, same stakes |
+| Espectador | Who takes the crown; then ceremony |
 
 ---
 
-## Agent
+## Evidence
 
 Gameplay Designer
 
@@ -41,7 +51,7 @@ Make category a real shout. Do not add another podium animation.
 
 ---
 
-## Agent
+## Evidence
 
 Remote Play Designer
 
@@ -67,7 +77,7 @@ Remote: 4/5
 
 ---
 
-## Agent
+## Evidence
 
 Party & Social Designer
 
@@ -90,7 +100,7 @@ Social: 5/5
 
 ---
 
-## Agent
+## Evidence
 
 Progression & Reward Designer
 
@@ -119,7 +129,7 @@ Pacing: 4/5
 
 ---
 
-## Agent
+## Evidence
 
 UI / Visual / VFX Designer
 
@@ -143,7 +153,7 @@ VFX: 4/5
 
 ---
 
-## Agent
+## Evidence
 
 Audio Designer
 
@@ -165,7 +175,7 @@ Sound: 4/5
 
 ---
 
-## Agent
+## Evidence
 
 Pacing & Accessibility Designer
 
@@ -194,7 +204,7 @@ Clarity: 4/5
 
 ---
 
-## Agent
+## Evidence
 
 Technical Reliability
 
@@ -222,7 +232,7 @@ Without the Elisha sentence, it is still “stand up, slam the crown, hear a nam
 
 ---
 
-## Game Director
+## Night director
 
 M9 approved. The memory is: we were on our feet, someone slammed the crown, and Lucía’s name was on the wall.
 

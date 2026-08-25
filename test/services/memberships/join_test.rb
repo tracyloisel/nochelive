@@ -17,4 +17,18 @@ class Memberships::JoinTest < ActiveSupport::TestCase
     assert_equal team, player.reload.team
     assert_equal team.ward_team, person.reload.last_ward_team
   end
+
+  test "rejects a remote player" do
+    error = assert_raises(People::Error) do
+      Memberships::Join.call(night: game_sessions(:david), player: players(:daniel), team: teams(:leones))
+    end
+    assert_equal :location, error.code
+  end
+
+  test "rejects joining a casa seat" do
+    error = assert_raises(People::Error) do
+      Memberships::Join.call(night: game_sessions(:david), player: players(:ana), team: teams(:daniel_home))
+    end
+    assert_equal :team, error.code
+  end
 end

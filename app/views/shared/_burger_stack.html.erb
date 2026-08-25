@@ -1,0 +1,20 @@
+<% layers = round.definition.layers %>
+<ol class="burger-stack" aria-hidden="true">
+  <% layers.each_with_index do |layer, index| %>
+    <% number = index + 1 %>
+    <% state = if round.layer_index.to_i <= 0
+                 "is-todo"
+               elsif round.last_layer? || round.phase.in?(%w[open locked answering revealed])
+                 "is-done"
+               elsif number < round.layer_index
+                 "is-done"
+               elsif number == round.layer_index
+                 "is-now"
+               else
+                 "is-todo"
+               end %>
+    <li class="burger-tick <%= state %>">
+      <%= picto(layer["picto"]) %>
+    </li>
+  <% end %>
+</ol>

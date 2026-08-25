@@ -3,28 +3,22 @@
 <% round = night.current_round_run %>
 <% extra_sfx = local_assigns[:sfx] %>
 <% extra_fx = local_assigns[:fx] %>
-<% reel = team.present? && team.pending_rank_up.blank? && !night.finished? && !night.lobby? && round.present? && !round.pending? %>
 <% if extra_sfx.blank? && team && (round&.definition&.scavenger? || round&.definition&.category?) && team.answers.exists?(round_run: round) && !night.finished? %>
   <% extra_sfx = "buzzer_hit" %>
 <% end %>
 
-<div id="night_play"
-     class="play <%= 'is-peak' if team&.pending_rank_up.present? || night.finished? %> <%= 'is-reel' if reel %>"
-     data-stage-sfx-value="<%= stage_sfx(round, extra_sfx, team: team, night: night) %>"
-     data-stage-fx-value="<%= stage_fx(round, extra_fx, team: team, night: night) %>">
-  <% unless reel %>
-    <%= render "shared/story_close" %>
-    <%= render "shared/presence", night: night, team: team, compact: team.present? %>
-  <% end %>
+<%= tag.div id: "night_play",
+            class: [ "play", "is-reel", ("is-peak" if team&.pending_rank_up.present? || night.finished?) ],
+            data: stage_audio_data(round, extra_sfx, extra_fx, team: team, night: night) do %>
   <% if team.nil? %>
     <%= render "play/pick_team", night: night %>
   <% elsif team.pending_rank_up.present? %>
-    <%= render "play/rank_up", night: night, team: team %>
+    <%= render "play/rank_up", night: night, team: team, player: player %>
   <% elsif night.finished? %>
-    <%= render "play/finale", night: night, team: team %>
+    <%= render "play/finale", night: night, team: team, player: player %>
   <% elsif night.lobby? || round.nil? || round.pending? %>
     <%= render "play/lobby", night: night, team: team, player: player %>
   <% else %>
-    <%= render "play/round", night: night, team: team, player: player, round: round %>
+    <%= render "play/round", night: night, team: team, player: player, round: round, pulse: local_assigns[:pulse] %>
   <% end %>
-</div>
+<% end %>

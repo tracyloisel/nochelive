@@ -1,24 +1,28 @@
 <% return if pulse.blank? %>
 <% player = pulse[:player] %>
 <% kind = pulse[:kind].to_s %>
-<% return if player.blank? && %w[lock reveal score].exclude?(kind) %>
+<% return if player.blank? && !Sfx.pulse_without_player?(kind) %>
 <% icon = case kind
           when "buzz" then "bell"
           when "found" then "found"
           when "shout" then "speak"
           when "join" then "person"
+          when "open" then "door"
+          when "advance" then "wand"
+          when "cheer" then "sparkle"
+          when "miss" then "cross"
           when "lock", "freeze" then "hourglass"
           when "pose" then "statue"
           when "score" then "star"
           else "check"
           end %>
-<% sfx = case kind
-         when "join", "pose" then "chest"
-         when "lock", "freeze" then "dramatic_fire"
-         when "reveal", "score" then "correct_gold"
-         else "buzzer_hit"
-         end %>
-<% word = pulse[:label].presence || (player && player_label(player)) || (kind == "lock" ? "Cerrado" : "Respuesta") %>
+<% sfx = Sfx.for_pulse(kind) %>
+<% word = pulse[:label].presence || (player && player_label(player)) || case kind
+          when "lock" then "Cerrado"
+          when "open" then "Abierta"
+          when "advance" then "Siguiente"
+          else "Respuesta"
+          end %>
 <div class="live-pulse is-<%= kind %>" data-controller="pulse" data-sfx="<%= sfx %>" role="status">
   <% if player&.team %>
     <span class="emblem emblem-<%= player.team.emblem %>"><%= render "shared/emblem", key: player.team.emblem %></span>

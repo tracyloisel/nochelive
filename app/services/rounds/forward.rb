@@ -26,7 +26,7 @@ module Rounds
       end
 
       if next_round
-        @night.broadcast_state
+        @night.broadcast_state(pulse: { kind: "open" })
       else
         Nights::Finish.call(night: @night)
       end

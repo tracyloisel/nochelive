@@ -3,10 +3,20 @@
 Reviewed: 2026-08-24
 Slice: Scavenger as a hunt (stand up, find something that sounds, slam ¡LO TENEMOS!)
 Tests: `bundle exec rails test` — 26 runs, 227 assertions, 0 failures
+Gate: `.cursor/skills/noche-night/SKILL.md`.
+
+## Four seats
+
+| Seat | Verb tonight |
+|---|---|
+| Presentador | Open the hunt; grade the slam |
+| Equipo en sala | Stand up, find something that sounds, ¡LO TENEMOS! |
+| Jugador en casa | Hunt something that sounds at home (B) |
+| Espectador | Who found it |
 
 ---
 
-## Agent
+## Evidence
 
 Gameplay Designer
 
@@ -42,7 +52,7 @@ Ordering as a real drag-or-tap sequence, or freeze as a real stop. Do not add a 
 
 ---
 
-## Agent
+## Evidence
 
 Remote Play Designer
 
@@ -74,7 +84,7 @@ Keep Grade B. Do not ask for a camera.
 
 ---
 
-## Agent
+## Evidence
 
 Party & Social Designer
 
@@ -101,7 +111,7 @@ Social: 5/5
 
 ---
 
-## Agent
+## Evidence
 
 UX Accessibility Tester
 
@@ -131,7 +141,7 @@ Accessibility: 4/5
 
 ---
 
-## Agent
+## Evidence
 
 Pacing Director
 
@@ -157,7 +167,7 @@ Pacing: 4/5
 
 ---
 
-## Agent
+## Evidence
 
 Game QA / Red Team
 
@@ -192,7 +202,7 @@ Without the harp title, it is still “find a thing that makes noise.” Pass.
 
 ---
 
-## Game Director
+## Night director
 
 M6 approved. The memory is: someone ran for a pot and slammed the phone.
 

@@ -1,0 +1,129 @@
+style: >
+  Family-friendly LDS game-night sound design. Warm gold chapel quiz,
+  not a horror film, not a sports stadium. Instrumental only: no vocals,
+  no lyrics, no spoken words, no choir hymn, no church organ. No screams,
+  no gunshots, no sirens. Dry and close-mic'd so it plays on a phone speaker.
+
+cues:
+  round_start:
+    kind: oneshot
+    max_seconds: 2.2
+    prompt: >
+      Isolated 2 second game-round stinger, then complete silence.
+      Soft harp and a small warm brass hit, hopeful, gold, intimate.
+      No melody that continues. No voice.
+
+  buzzer_hit:
+    kind: oneshot
+    max_seconds: 0.6
+    prompt: >
+      Isolated 0.4 second game-show slam: palm hitting a wooden desk
+      plus a short warm brass stab. Punchy, close, no reverb tail.
+      No voice, no music bed, then complete silence.
+
+  correct_gold:
+    kind: oneshot
+    max_seconds: 1.6
+    prompt: >
+      Isolated 1.2 second correct-answer chime: three rising harp notes
+      and a tiny gold sparkle. Gentle triumph for children. No voice,
+      then complete silence.
+
+  wrong_soft:
+    kind: oneshot
+    max_seconds: 1.0
+    prompt: >
+      Isolated 0.7 second soft wrong-answer fall: two muted low notes,
+      kind not punishing. No buzzer drone, no voice, then silence.
+
+  royal_fanfare:
+    kind: oneshot
+    max_seconds: 2.8
+    prompt: >
+      Isolated 2.2 second humble royal fanfare: small brass and harp,
+      chapel pageant, not a stadium. No voice, then silence.
+
+  level_up:
+    kind: oneshot
+    max_seconds: 1.8
+    prompt: >
+      Isolated 1.4 second rank-up sparkle: rising bells and harp.
+      Playful, kid-safe. No voice, then silence.
+
+  chest:
+    kind: oneshot
+    max_seconds: 1.2
+    prompt: >
+      Isolated 0.9 second wooden chest latch and a gold chime.
+      Intimate, no orchestra, no voice, then silence.
+
+  dramatic_fire:
+    kind: oneshot
+    max_seconds: 1.8
+    prompt: >
+      Isolated 1.2 second freeze-dance hit: low drum and a brief
+      fire whoosh, theatrical not scary. No voice, then silence.
+
+  fire_whoosh:
+    kind: oneshot
+    max_seconds: 1.2
+    prompt: >
+      Isolated 0.8 second warm air whoosh with a gold sparkle.
+      No crackling fire bed, no voice, then silence.
+
+  timer_tension:
+    kind: loop
+    max_seconds: 30
+    prompt: >
+      Instrumental only, no vocals, no lyrics. 30 second seamless loop.
+      Quiet chapel quiz-night tension: low pizzicato strings, a soft
+      timpani heartbeat, gold-warm minor, slowly rising. Family-friendly.
+      No horror stingers, no clock samples, no voice. Ends on the same
+      chord it starts so it can loop.
+
+  tick:
+    kind: oneshot
+    max_seconds: 0.18
+    prompt: >
+      Isolated one-shot, 0.12 seconds then complete silence.
+      Soft wooden clock tick, dry, no reverb, no music, no voice.
+      A single hit suitable to repeat every second.
+
+  tick_low:
+    kind: oneshot
+    max_seconds: 0.22
+    prompt: >
+      Isolated one-shot, 0.16 seconds then complete silence.
+      Sharper wooden clock tick, slightly higher and closer, still
+      dry, no music, no voice. For the last five seconds of a timer.
+
+  round_open:
+    kind: oneshot
+    max_seconds: 2.0
+    prompt: >
+      Isolated 1.5 second curtain-rise stinger: harp gliss and a
+      small brass door-opening hit. The question just opened.
+      No voice, then silence.
+
+  round_lock:
+    kind: oneshot
+    max_seconds: 1.6
+    prompt: >
+      Isolated 1.2 second curtain-drop stinger: muted brass fall
+      and a wooden lock click. The question just closed. No voice,
+      then silence.
+
+  question_change:
+    kind: oneshot
+    max_seconds: 1.4
+    prompt: >
+      Isolated 1.1 second page-turn whoosh with a soft harp gliss.
+      Next question arrives. Warm gold, no voice, then silence.
+
+  reveal:
+    kind: oneshot
+    max_seconds: 2.2
+    prompt: >
+      Isolated 1.8 second results-reveal stinger: three rising harp
+      notes and a small brass hit. Gentle quiz reveal for a family
+      night, no stadium roar, no voice, then silence.

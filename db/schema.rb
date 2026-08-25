@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_24_230000) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_25_040000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -54,6 +54,20 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_24_230000) do
     t.index ["round_run_id", "team_id"], name: "index_buzzes_on_round_run_id_and_team_id", unique: true
     t.index ["round_run_id"], name: "index_buzzes_on_round_run_id"
     t.index ["team_id"], name: "index_buzzes_on_team_id"
+  end
+
+  create_table "cheers", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "layer_index", null: false
+    t.string "mark", default: "fire", null: false
+    t.bigint "player_id", null: false
+    t.bigint "round_run_id", null: false
+    t.bigint "to_player_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["player_id"], name: "index_cheers_on_player_id"
+    t.index ["round_run_id", "player_id", "layer_index"], name: "index_cheers_on_round_player_layer", unique: true
+    t.index ["round_run_id"], name: "index_cheers_on_round_run_id"
+    t.index ["to_player_id"], name: "index_cheers_on_to_player_id"
   end
 
   create_table "game_sessions", force: :cascade do |t|
@@ -178,6 +192,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_24_230000) do
   create_table "round_runs", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.bigint "game_session_id", null: false
+    t.integer "layer_index", default: 0, null: false
     t.datetime "locked_at"
     t.datetime "opened_at"
     t.string "phase", default: "pending", null: false
@@ -250,6 +265,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_24_230000) do
     t.string "pending_rank_up"
     t.string "rank_key", default: "novicio", null: false
     t.string "season_rank_up"
+    t.boolean "solo", default: false, null: false
     t.integer "streak", default: 0, null: false
     t.datetime "updated_at", null: false
     t.bigint "ward_team_id"
@@ -290,6 +306,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_24_230000) do
   add_foreign_key "buzzes", "players"
   add_foreign_key "buzzes", "round_runs"
   add_foreign_key "buzzes", "teams"
+  add_foreign_key "cheers", "players"
+  add_foreign_key "cheers", "players", column: "to_player_id"
+  add_foreign_key "cheers", "round_runs"
   add_foreign_key "game_sessions", "wards"
   add_foreign_key "missionaries", "game_sessions"
   add_foreign_key "people", "ward_teams", column: "last_ward_team_id"

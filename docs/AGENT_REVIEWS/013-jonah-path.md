@@ -3,10 +3,20 @@
 Reviewed: 2026-08-24
 Slice: Remote Jonah is a three-beat path, not a 1-in-3 guess
 Tests: `bundle exec rails test`
+Gate: `.cursor/skills/noche-night/SKILL.md`.
+
+## Four seats
+
+| Seat | Verb tonight |
+|---|---|
+| Presentador | Abrir the mime; lock |
+| Equipo en sala | Mime Jonah (body, no words) |
+| Jugador en casa | Storm → fish → shore (A path) |
+| Espectador | TV stays SIN PALABRAS |
 
 ---
 
-## Agent
+## Evidence
 
 Remote Play Designer
 
@@ -35,7 +45,7 @@ Remote: 5/5
 
 ---
 
-## Agent
+## Evidence
 
 Gameplay Designer
 
@@ -62,7 +72,7 @@ Gameplay: 5/5 (held)
 
 ---
 
-## Agent
+## Evidence
 
 Party & Social Designer
 
@@ -81,3 +91,9 @@ Social: 5/5 (held)
 ## Required before approval
 
 - None.
+
+---
+
+## Night director
+
+Casa is Jonah: storm, fish, shore. The room still mimes. Spectator is not the remote player. Remote 5.

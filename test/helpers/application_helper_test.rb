@@ -59,8 +59,6 @@ class ApplicationHelperTest < ActionView::TestCase
     assert_equal "Gran final", band_label(15)
     assert_equal "1.º", medal_label(1)
     assert_equal "4.º", medal_label(4)
-    assert_equal "illustrations/crown", illustration_partial(nil)
-    assert_equal "illustrations/harp", illustration_partial("harp")
     assert_equal game_sessions(:david).theme_title, night_title(game_sessions(:david))
     assert_equal "La corona se queda en esta casa.", finale_blessing
     assert_includes roster_line(teams(:leones)), "Lucía"
@@ -69,6 +67,8 @@ class ApplicationHelperTest < ActionView::TestCase
     assert_includes line, "Hermana Clark"
     assert explainer?(teams(:leones), players(:lucia))
     assert player_remote?(players(:daniel))
+    assert teams(:daniel_home).solo?
+    assert_not teams(:casa).solo?
     assert_nil emblem_mark(nil)
     assert_nil icon_mark("missing")
     assert_match(/Salomón|pidió/i, round_prompt(round_runs(:salomon)).to_s)
@@ -97,9 +97,13 @@ class ApplicationHelperTest < ActionView::TestCase
 
   test "stage sfx and fx follow round and night" do
     round = round_runs(:salomon)
-    assert_equal "round_start", stage_sfx(round)
+    round.update_column(:opened_at, Time.current)
+    assert_nil stage_sfx(round)
+    assert_equal "timer_tension", stage_bed(round, night: game_sessions(:david))
+    assert_includes stage_sfx_token(round, nil, night: game_sessions(:david)), "open"
     round.update!(phase: "revealed")
-    assert_equal "correct_gold", stage_sfx(round.reload)
+    assert_nil stage_sfx(round.reload)
+    assert_nil stage_bed(round, night: game_sessions(:david))
     assert_equal "reveal", stage_fx(round)
     pending = teams(:leones)
     pending.pending_rank_up = "Explorador"
@@ -113,8 +117,46 @@ class ApplicationHelperTest < ActionView::TestCase
 
     freeze = round_runs(:freeze_saul)
     freeze.update!(phase: "locked")
-    assert_equal "dramatic_fire", stage_sfx(freeze)
+    assert_nil stage_sfx(freeze)
     assert_equal "shake", stage_fx(freeze)
+  end
+
+  test "burger stakes follow the board for two and three teams" do
+    night = game_sessions(:david)
+    leones = teams(:leones)
+    casa = teams(:casa)
+    leones.update!(cached_score: 40)
+    casa.update!(cached_score: 10)
+    assert_equal "El burger puede cambiar el marcador.", burger_stakes_line(night)
+    assert_equal "Si acertáis, pasáis delante.", burger_stakes_line(night, casa)
+    assert_equal "Podéis cerrar la noche.", burger_stakes_line(night, leones)
+    casa.update!(cached_score: 40)
+    assert_equal "Van juntos. El burger deshace el empate.", burger_stakes_line(night, leones)
+
+    third = night.teams.create!(name: "Olas", emblem: "ola")
+    leones.update!(cached_score: 50)
+    casa.update!(cached_score: 50)
+    third.update!(cached_score: 10)
+    assert_equal "Van juntos. El burger deshace el empate.", burger_stakes_line(night, leones)
+    assert_equal "Si acertáis, pasáis delante.", burger_stakes_line(night, third)
+  end
+
+  test "burger clip and garnish follow the layer" do
+    round = round_runs(:finale_prophet)
+    round.update!(phase: "intro", layer_index: 0)
+    assert_equal "/media/burger/chariot.jpg", challenge_story(round)
+    assert_equal "media/burger/chariot.mp4", burger_clip(round)
+    assert_equal "fry", burger_garnish_kind(round)
+
+    round.update!(layer_index: 2)
+    assert_equal "/media/burger/jordan.jpg", challenge_story(round)
+    assert_equal "media/burger/jordan.mp4", burger_clip(round)
+    assert_equal "lettuce", burger_garnish_kind(round)
+    assert_equal 24, burger_garnish_count(round, cinema: true)
+
+    render partial: "shared/challenge_media", locals: { round: round, cinema: true }
+    assert_includes rendered, "challenge-clip"
+    assert_includes rendered, "data-garnish-kind-value=\"lettuce\""
   end
 
   test "pictos and choice marks are picture-first" do
@@ -127,6 +169,9 @@ class ApplicationHelperTest < ActionView::TestCase
     assert_includes picto("cross"), "picto-cross"
     assert_includes picto("close"), "picto-close"
     assert_includes svg, "<svg"
+    assert_includes picto("fire"), "picto-fire"
+    assert_includes picto("crown"), "picto-crown"
+    assert_includes picto("scroll"), "picto-scroll"
     assert_equal "circle", choice_mark(0)[:shape]
     assert_equal "gold", choice_mark(0)[:tone]
     assert_equal "star", choice_mark(3)[:shape]
@@ -168,6 +213,8 @@ class ApplicationHelperTest < ActionView::TestCase
   test "night poster and status captions" do
     assert_equal "/media/nights/reyes_y_profetas.jpg", night_poster_src(game_sessions(:david))
     assert_equal "/media/nights/reyes_y_profetas.jpg", night_poster_src("reyes_y_profetas")
+    assert_equal "/media/stories/salomon_wisdom.jpg", night_still_src(game_sessions(:david))
+    assert_equal "/media/nights/reyes_y_profetas.jpg", night_still_src(nil)
     assert_equal "En juego", night_status_caption(game_sessions(:david))
     assert_equal "En el vestíbulo", night_status_caption(game_sessions(:elias))
     assert_equal "Terminada", night_status_caption(game_sessions(:cerrada))
@@ -175,5 +222,13 @@ class ApplicationHelperTest < ActionView::TestCase
     paused.status = "paused"
     assert_equal "En pausa", night_status_caption(paused)
     assert_nil night_poster_src("missing_theme")
+  end
+
+  test "phone quiz is the QCM for choice rounds and for casa on a buzzer" do
+    assert phone_quiz?(round_runs(:rey_o_profeta), players(:lucia))
+    assert phone_quiz?(round_runs(:salomon), players(:daniel))
+    assert_not phone_quiz?(round_runs(:salomon), players(:lucia))
+    assert phone_quiz_asking?(round_runs(:salomon), players(:daniel))
+    assert_not phone_quiz_asking?(round_runs(:salomon), players(:lucia))
   end
 end

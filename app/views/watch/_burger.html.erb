@@ -1,0 +1,46 @@
+<%= render "shared/burger_stack", round: round %>
+<p class="stand-up">¡TODOS DE PIE!</p>
+<% if line = night_leader_line(night) %>
+  <p class="lede"><%= line %></p>
+<% end %>
+<p class="lede"><%= burger_stakes_line(night) %></p>
+
+<% if round.intro? && round.layer_index.to_i.zero? %>
+<% elsif round.intro? && !round.last_layer? %>
+  <p class="prompt is-arriving"><%= round.current_layer && round.current_layer["text"] %></p>
+  <% faces = chapel_players(night) %>
+  <% if faces.any? %>
+    <ul class="cheer-heat-row">
+      <% faces.each do |face| %>
+        <% heat = layer_cheers(round).count { |cheer| cheer.to_player_id == face.id } %>
+        <li>
+          <%= render "shared/avatar", player: face %>
+          <% if heat.positive? %>
+            <span class="cheer-heat"><%= picto("sparkle") %><%= heat %></span>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  <% end %>
+<% elsif round.intro? && round.last_layer? %>
+  <p class="prompt is-arriving">La salsa.</p>
+<% elsif round.phase.in?(%w[open locked answering]) %>
+  <p class="prompt"><%= round.definition.question %></p>
+  <%= render "play/choice_tokens", choices: round.definition.choices %>
+  <% if first = round.first_buzz %>
+    <p class="shout" role="status">¡<%= first.team.name %> buzzó primero! <span class="delay"><%= latency_label(first.latency_ms) %></span></p>
+  <% end %>
+  <% if round.chapel_correct? %>
+  <% elsif round.finale_steal_open? %>
+    <p class="shout" role="status"><%= burger_watch_steal_line(night) %></p>
+  <% elsif round.score_events.exists?(kind: "incorrect") && round.answering_team %>
+    <p class="lede">Siguiente equipo.</p>
+  <% end %>
+  <% if round.buzzes.any? %>
+    <ol class="buzz-board">
+      <% round.buzzes.includes(:team).each do |buzz| %>
+        <%= render "shared/buzz_line", buzz: buzz %>
+      <% end %>
+    </ol>
+  <% end %>
+<% end %>

@@ -66,4 +66,13 @@ class PlayersControllerTest < ActionDispatch::IntegrationTest
     assert_equal "Carmen", player.name
     assert_equal "Ruiz", player.person.family_name
   end
+
+  test "remote guest is seated alone" do
+    post night_players_path(@night.code), params: { name: "Carlos", location: "remote" }
+    assert_redirected_to night_play_path(@night.code)
+    player = @night.players.order(:id).last
+    assert player.remote?
+    assert player.team.solo?
+    assert_equal "Carlos", player.team.name
+  end
 end

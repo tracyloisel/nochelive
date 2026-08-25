@@ -40,25 +40,25 @@ class AnswersControllerTest < ActionDispatch::IntegrationTest
   test "taboo miss does not auto score" do
     round = round_runs(:taboo_nabot)
     round.update!(phase: "open")
-    sign_in_as_participant(@night, name: "Sofía", location: "remote", team: teams(:casa))
+    sign_in_as_participant(@night, name: "Sofía", location: "remote")
     post night_round_run_answer_path(@night.code, round), params: { body: "Daniel" }
-    assert_not teams(:casa).reload.score_events.where(kind: "correct", round_run: round).exists?
+    assert_not seat_of(@night, "Sofía").score_events.where(kind: "correct", round_run: round).exists?
   end
 
   test "taboo match auto scores" do
     round = round_runs(:taboo_nabot)
     round.update!(phase: "open")
-    sign_in_as_participant(@night, name: "Pablo", location: "remote", team: teams(:leones))
+    sign_in_as_participant(@night, name: "Pablo", location: "remote")
     post night_round_run_answer_path(@night.code, round), params: { body: "Nabot" }
-    assert teams(:leones).reload.score_events.where(kind: "correct", round_run: round).exists?
+    assert seat_of(@night, "Pablo").score_events.where(kind: "correct", round_run: round).exists?
   end
 
   test "remote mime auto scores the story path" do
     round = round_runs(:mime_jonah)
     round.update!(phase: "open")
-    sign_in_as_participant(@night, name: "Sofía", location: "remote", team: teams(:casa))
+    sign_in_as_participant(@night, name: "Sofía", location: "remote")
     post night_round_run_answer_path(@night.code, round), params: { body: "storm,fish,shore" }
-    assert teams(:casa).reload.score_events.where(kind: "correct", round_run: round).exists?
+    assert seat_of(@night, "Sofía").score_events.where(kind: "correct", round_run: round).exists?
   end
 
   test "ordering auto scores the sequence" do
@@ -68,17 +68,28 @@ class AnswersControllerTest < ActionDispatch::IntegrationTest
     post night_round_run_answer_path(@night.code, round), params: { body: "saul,david,salomon" }
     assert teams(:casa).reload.score_events.where(kind: "correct", round_run: round).exists?
 
-    sign_in_as_participant(@night, name: "Pablo", location: "remote", team: teams(:leones))
-    post night_round_run_answer_path(@night.code, round), params: { body: "salomon,david,saul" }
-    assert teams(:leones).reload.score_events.where(kind: "incorrect", round_run: round).exists?
+    remote = open_session
+    remote.post night_players_path(@night.code), params: { name: "Pablo", location: "remote" }
+    remote.post night_round_run_answer_path(@night.code, round), params: { body: "salomon,david,saul" }
+    assert seat_of(@night, "Pablo").score_events.where(kind: "incorrect", round_run: round).exists?
   end
 
   test "remote category auto scores three names" do
     round = round_runs(:category_prophets)
     round.update!(phase: "open")
-    sign_in_as_participant(@night, name: "Sofía", location: "remote", team: teams(:casa))
+    sign_in_as_participant(@night, name: "Sofía", location: "remote")
     post night_round_run_answer_path(@night.code, round), params: { body: "Jonás, Samuel, Moisés" }
-    assert teams(:casa).reload.score_events.where(kind: "correct", round_run: round).exists?
+    assert seat_of(@night, "Sofía").score_events.where(kind: "correct", round_run: round).exists?
+  end
+
+  test "remote answers a chapel buzzer as QCM" do
+    round = round_runs(:salomon)
+    sign_in_as_participant(@night, name: "Sofía", location: "remote")
+    post night_round_run_answer_path(@night.code, round), params: { choice: "wisdom" }
+    home = seat_of(@night, "Sofía")
+    assert Answer.exists?(round_run: round, team: home, body: "wisdom")
+    assert home.score_events.where(kind: "correct", round_run: round).exists?
+    assert_not Buzz.exists?(round_run: round, team: home)
   end
 
   test "closed answer redirects" do

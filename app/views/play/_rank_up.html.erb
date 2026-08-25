@@ -1,17 +1,23 @@
-<section class="play-card rank-up" role="status">
-  <p class="eyebrow">Nueva dignidad</p>
-  <div class="art peak"><%= render "illustrations/crown" %></div>
-  <p class="band">El equipo crece</p>
-  <h1><%= team.pending_rank_up %></h1>
-  <p class="lede"><%= team.name %> ya no es el mismo.</p>
-  <% if team.rey? %>
-    <div class="role-gift" role="status">
-      <%= picto("trophy", size: "xl") %>
-      <p class="stand-up">Sois Rey</p>
-      <p class="lede">La próxima correcta vale el doble.</p>
-    </div>
-  <% end %>
-  <%= button_to night_rank_up_path(night.code), class: "btn btn-gold picto-btn" do %>
-    <%= picto("sparkle") %>Seguir la noche
-  <% end %>
-</section>
+<% shot = capture do %>
+  <%= render "shared/still", src: night_still_src(night), icon: "sparkle" %>
+<% end %>
+<% chrome = capture do %>
+  <%= render "shared/reel_chrome", night: night, title: night_title(night), team: team, player: player %>
+<% end %>
+<%= story_reel shot: shot, chrome: chrome, snap: "open", mid: 0.62, reel_class: "is-rank peak" do %>
+  <div class="rank-up" role="status">
+    <p class="eyebrow">Nueva dignidad</p>
+    <h1><%= team.pending_rank_up %></h1>
+    <p class="lede"><%= team.name %> ya no es el mismo.</p>
+    <% if team.rey? %>
+      <div class="role-gift" role="status">
+        <%= picto("trophy") %>
+        <p class="stand-up">Sois Rey</p>
+        <p class="lede">La próxima correcta vale el doble.</p>
+      </div>
+    <% end %>
+    <%= button_to night_rank_up_path(night.code), class: "btn btn-gold picto-btn" do %>
+      <%= picto("sparkle") %>Seguir la noche
+    <% end %>
+  </div>
+<% end %>

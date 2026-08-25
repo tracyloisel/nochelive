@@ -46,12 +46,13 @@ end
 
 class OpenRouterError < StandardError; end
 
-def request(url, payload, timeout: 180)
+def request(url, payload, timeout: 900, retries: 1)
   uri = URI(url)
   http = Net::HTTP.new(uri.host, uri.port)
   http.use_ssl = true
   http.read_timeout = timeout
   http.open_timeout = 20
+  http.keep_alive_timeout = timeout
 
   req = Net::HTTP::Post.new(uri)
   req["Authorization"] = "Bearer #{api_key}"
@@ -62,9 +63,24 @@ def request(url, payload, timeout: 180)
 
   res = http.request(req)
   body = res.body.to_s
-  raise OpenRouterError, "OpenRouter #{res.code}: #{body}" unless res.is_a?(Net::HTTPSuccess)
+  unless res.is_a?(Net::HTTPSuccess)
+    retryable = retries.positive? && %w[429 502 503 504].include?(res.code)
+    raise OpenRouterError, "OpenRouter #{res.code}: #{body}" unless retryable
+
+    wait = res.code == "429" ? 90 : 15
+    warn "  retry HTTP #{res.code} in #{wait}s"
+    sleep wait
+    return request(url, payload, timeout: timeout, retries: retries - 1)
+  end
 
   body.empty? ? {} : JSON.parse(body)
+rescue Net::ReadTimeout, Net::OpenTimeout, Errno::ECONNRESET, Errno::ETIMEDOUT => error
+  raise OpenRouterError, "#{error.class}: #{error.message}" if retries <= 0
+
+  wait = 90
+  warn "  retry after #{wait}s: #{error.class}"
+  sleep wait
+  request(url, payload, timeout: timeout, retries: retries - 1)
 end
 
 def compose_prompt(spec, shot)

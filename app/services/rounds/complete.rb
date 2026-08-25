@@ -13,8 +13,9 @@ module Rounds
       @round.complete! unless @round.completed?
       next_round = @night.round_runs.find_by(position: @round.position + 1)
       if next_round
+        changed = next_round.pending?
         next_round.intro! if next_round.pending?
-        @night.broadcast_state
+        @night.broadcast_state(pulse: ({ kind: "advance" } if changed))
       else
         Nights::Finish.call(night: @night)
       end

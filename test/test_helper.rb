@@ -45,12 +45,25 @@ module ActiveSupport
         client_token: SecureRandom.uuid,
         avatar_key: "delfin"
       )
-      TeamMembership.create!(player: player, team: team) if team
+      if location == "remote"
+        Teams::Seat.call(night:, player:)
+      elsif team
+        TeamMembership.create!(player: player, team: team)
+      end
       player
     end
 
     def add_team(night, name:, emblem: "leon")
       night.teams.create!(name: name, emblem: emblem)
+    end
+
+    def peel_to_salsa(round)
+      round.intro! if round.pending?
+      4.times do
+        break if round.reload.last_layer?
+        Rounds::Peel.call(round:)
+      end
+      round.reload
     end
   end
 end
@@ -64,10 +77,15 @@ class ActionDispatch::IntegrationTest
   def sign_in_as_participant(night, name:, location: "room", team: nil)
     post night_players_path(night.code), params: { name: name, location: location }
     follow_redirect! while response.redirect?
+    return if location == "remote"
     return unless team
 
     post night_team_memberships_path(night.code, team)
     follow_redirect! while response.redirect?
+  end
+
+  def seat_of(night, name)
+    night.players.find_by!(name: name).reload.team
   end
 
     def sign_in_ward(ward = wards(:demo), token: "rama-demo")

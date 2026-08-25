@@ -60,3 +60,5 @@ A design that only works for Carlos fails.
 ## Current north-star slice
 
 A family can buzz, throw at Goliath, become a statue, mime Jonah (or live the storm at home), almost say Jezabel, run for a pot that sounds like a harp, tap the kings in time, freeze when the music stops, shout prophet names, judge who showed wisdom, stand for the last word, rise to Rey, and hear a child’s name on the wall. The night is playable end to end. The next memory is a playtest.
+
+Shipping gate and written verdicts: `.cursor/skills/noche-night/SKILL.md` and `docs/AGENT_REVIEWS/`. The 15-category table in `docs/GAME_QUALITY.md` is history, not the gate.

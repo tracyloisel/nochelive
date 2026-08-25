@@ -31,12 +31,14 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
     Capybara.default_max_wait_time = 8
   end
 
-  def join_night(code, name:, location: "room", team:, emblem:)
+  def join_night(code, name:, location: "room", team: nil, emblem: nil)
     visit night_name_path(code)
     assert_text "¿Cómo te llaman?"
     fill_in "¿Cómo te llaman en la rama?", with: name
     find("label.choice-chip", text: location == "remote" ? "En casa" : "En la sala").click
     click_button "Solo esta noche"
+    return if location == "remote"
+
     assert_text "Elige tu equipo"
     fill_in "Nombre del equipo", with: team
     find("label.emblem-choice", text: Team::EMBLEMS.fetch(emblem)).click

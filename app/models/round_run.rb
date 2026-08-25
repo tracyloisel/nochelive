@@ -17,6 +17,7 @@ class RoundRun < ApplicationRecord
   has_many :tap_runs, dependent: :destroy
   has_many :pose_holds, dependent: :destroy
   has_many :ballots, dependent: :destroy
+  has_many :cheers, dependent: :destroy
 
   validates :yaml_round_id, :position, :phase, presence: true
   validates :phase, inclusion: { in: PHASES }
@@ -36,9 +37,70 @@ class RoundRun < ApplicationRecord
   def revealed? = phase == "revealed"
   def completed? = phase == "completed"
   def live? = phase.in?(%w[intro open locked answering revealed])
-  def accepting_buzzes? = open?
-  def accepting_answers?
+
+  def current_layer
+    return if layer_index.to_i <= 0
+
+    definition.layers[layer_index - 1]
+  end
+
+  def last_layer?
+    definition.layered_finale? && definition.layers.any? && layer_index >= definition.layers.size
+  end
+
+  def burger_assembled?
+    definition.layered_finale? && last_layer? && intro?
+  end
+
+  def anyone_correct?
+    score_events.exists?(kind: "correct")
+  end
+
+  def chapel_correct?
+    ids = room_team_ids
+    ids.any? && score_events.exists?(team_id: ids, kind: "correct")
+  end
+
+  def room_team_ids
+    TeamMembership.where(player_id: game_session.players.participants.where(location: "room").select(:id)).distinct.pluck(:team_id)
+  end
+
+  def finale_steal_open?
+    return false unless definition.layered_finale?
+    return false unless last_layer?
+    return false unless phase.in?(%w[open locked answering])
+    return false if anyone_correct?
+
+    ids = room_team_ids
+    return true if ids.empty?
+
+    return true if locked?
+
+    room_incorrect = score_events.exists?(team_id: ids, kind: "incorrect")
+    return false unless room_incorrect
+
+    buzzes.none? { |buzz| ids.include?(buzz.team_id) && !scored?(buzz.team) }
+  end
+
+  def accepting_buzzes?
+    return false unless open?
+    return last_layer? if definition.layered_finale?
+
+    true
+  end
+
+  def accepting_answers?(player: nil)
     return open? if definition.choice? || definition.mime? || definition.taboo? || definition.scavenger? || definition.ordering? || definition.category?
+    if definition.layered_finale?
+      return false unless last_layer?
+      if player&.remote?
+        return finale_steal_open? && phase.in?(%w[open locked answering])
+      end
+
+      return phase.in?(%w[open locked answering]) && answering_team.present?
+    end
+    return phase.in?(%w[open locked answering]) if definition.buzzer? && player&.remote?
+
     phase.in?(%w[locked answering])
   end
   def accepting_taps? = open? && (definition.rapid_tap? || definition.physical?)

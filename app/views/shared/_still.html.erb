@@ -1,0 +1,15 @@
+<% src = local_assigns[:src].presence %>
+<% icon = local_assigns.fetch(:icon, "sparkle") %>
+<% poster = local_assigns[:poster] %>
+<div class="challenge-media <%= "is-ceremony" if local_assigns[:sparks] %>">
+  <% if src %>
+    <img src="<%= src %>" alt="" class="challenge-story <%= "night-poster" if poster %>">
+  <% else %>
+    <div class="art" aria-hidden="true"><%= picto(icon, size: "xl") %></div>
+  <% end %>
+  <% if local_assigns[:sparks] %>
+    <div class="sparks" aria-hidden="true">
+      <% 10.times do %><i></i><% end %>
+    </div>
+  <% end %>
+</div>

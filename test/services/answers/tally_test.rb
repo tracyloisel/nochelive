@@ -4,7 +4,7 @@ class Answers::TallyTest < ActiveSupport::TestCase
   test "counts percent per choice" do
     round = round_runs(:elias_carmel)
     round.update!(phase: "open", opened_at: Time.current)
-    Answers::Submit.call(round:, team: teams(:casa), player: players(:daniel), body: "fire")
+    Answers::Submit.call(round:, team: teams(:daniel_home), player: players(:daniel), body: "fire")
     Answers::Submit.call(round:, team: teams(:leones), player: players(:lucia), body: "rain")
 
     rows = Answers::Tally.call(round:)

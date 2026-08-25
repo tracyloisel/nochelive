@@ -1,0 +1,41 @@
+<% skip = local_assigns.fetch(:skip, "Desliza abajo para salir. Izquierda y derecha cambian de ronda. Arriba abre el juego.") %>
+<% snap = local_assigns.fetch(:snap, "mid") %>
+<% peek = local_assigns.fetch(:peek, 0.18) %>
+<% mid = local_assigns.fetch(:mid, 0.48) %>
+<% index = local_assigns.fetch(:index, 0) %>
+<% live_index = local_assigns.fetch(:live_index, index) %>
+<% grip = local_assigns.fetch(:grip, "Mover la tarjeta para ver el dibujo") %>
+<section class="play-card play-reel <%= local_assigns[:reel_class] %>"
+         data-controller="story"
+         data-story-exit-url-value="<%= local_assigns.fetch(:exit_url, root_path) %>"
+         data-story-index-value="<%= index %>"
+         data-story-live-index-value="<%= live_index %>"
+         data-action="pointerdown->story#start sheet:dismiss->story#exit">
+  <p class="skip"><%= skip %></p>
+  <div class="play-shot">
+    <%= local_assigns[:shot] %>
+  </div>
+  <div class="play-chrome">
+    <%= local_assigns[:chrome] %>
+  </div>
+  <div class="play-sheet story-sheet"
+       data-controller="sheet"
+       data-story-target="sheet"
+       data-sheet-snap="<%= snap %>"
+       data-sheet-snap-value="<%= snap %>"
+       data-sheet-peek-ratio-value="<%= peek %>"
+       data-sheet-mid-ratio-value="<%= mid %>"
+       data-action="pointerdown->sheet#start">
+    <button type="button"
+            class="play-sheet-grip"
+            data-sheet-target="handle"
+            data-action="click->sheet#cycle"
+            aria-label="<%= grip %>"
+            aria-valuetext="Tarjeta media">
+      <span class="play-sheet-pip" aria-hidden="true"></span>
+    </button>
+    <div class="play-sheet-body" data-sheet-target="body">
+      <%= body %>
+    </div>
+  </div>
+</section>

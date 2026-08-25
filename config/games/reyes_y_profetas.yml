@@ -31,7 +31,6 @@ rounds:
       xp: 20
       streak: true
     presentation:
-      illustration: solomon_throne
       image: stories/salomon_wisdom.jpg
       intro_vfx: glow
     sfx:
@@ -60,7 +59,6 @@ rounds:
     reward:
       xp: 14
     presentation:
-      illustration: elijah_fire
       image: stories/rey_o_profeta.jpg
 
   - id: david_goliath
@@ -85,7 +83,6 @@ rounds:
     reward:
       xp: 18
     presentation:
-      illustration: david_goliath
       image: stories/david_goliath.jpg
       correct_vfx: stone_hit
     sfx:
@@ -117,7 +114,6 @@ rounds:
     reward:
       xp: 18
     presentation:
-      illustration: elijah_fire
       image: stories/elias_carmel.jpg
       correct_vfx: fire_burst
 
@@ -144,7 +140,6 @@ rounds:
     reward:
       xp: 18
     presentation:
-      illustration: daniel_lions
       image: stories/daniel_lions.jpg
 
   - id: freeze_saul
@@ -168,7 +163,6 @@ rounds:
     sfx:
       lock: dramatic_fire
     presentation:
-      illustration: solomon_throne
       image: stories/freeze_saul.jpg
 
   - id: mime_jonah
@@ -197,7 +191,6 @@ rounds:
           shout: "¡TIERRA!"
           picto: land
     presentation:
-      illustration: david_goliath
       image: stories/mime_jonah.jpg
 
   - id: kings_order
@@ -227,7 +220,6 @@ rounds:
     reward:
       xp: 20
     presentation:
-      illustration: solomon_throne
       image: stories/kings_order.jpg
 
   - id: taboo_nabot
@@ -256,7 +248,6 @@ rounds:
     reward:
       xp: 18
     presentation:
-      illustration: elijah_fire
       image: stories/taboo_nabot.jpg
 
   - id: statue_david
@@ -275,7 +266,6 @@ rounds:
       type: pose
       instructions: "En casa: 30 segundos. La misma estatua frente a la cámara."
     presentation:
-      illustration: david_goliath
       image: stories/statue_david.jpg
 
   - id: scavenger_harp
@@ -296,7 +286,6 @@ rounds:
     reward:
       xp: 16
     presentation:
-      illustration: solomon_throne
       image: stories/scavenger_harp.jpg
 
   - id: category_prophets
@@ -328,7 +317,6 @@ rounds:
     reward:
       xp: 16
     presentation:
-      illustration: elijah_fire
       image: stories/category_prophets.jpg
 
   - id: vote_solomon
@@ -347,7 +335,6 @@ rounds:
     reward:
       xp: 20
     presentation:
-      illustration: solomon_throne
       image: stories/vote_solomon.jpg
 
   - id: semifinal_crown
@@ -373,15 +360,15 @@ rounds:
     reward:
       xp: 24
     presentation:
-      illustration: david_goliath
       image: stories/semifinal_crown.jpg
 
   - id: finale_prophet
     type: finale
-    title: "La noche de los profetas"
+    title: "El burger de fuego"
     icon: fire
     difficulty: 3
     intensity: 5
+    swing: true
     question: "¿Qué pidió Eliseo a Elías antes de que el carro de fuego lo llevara?"
     instructions: "¡Todos de pie! La última palabra de la noche."
     choices:
@@ -400,10 +387,38 @@ rounds:
     reward:
       xp: 40
     presentation:
-      illustration: elijah_fire
-      image: stories/finale_prophet.jpg
+      image: burger/chariot.jpg
       intro_vfx: embers
       correct_vfx: fire_burst
     sfx:
       intro: dramatic_fire
       correct: royal_fanfare
+    layers:
+      - key: pan
+        label: "El pan"
+        text: "Elías y Eliseo caminan juntos."
+        host: "Míralos. El maestro y el discípulo. Elías va a ser llevado. Eliseo no se aparta. Un segundo de silencio."
+        picto: scroll
+        image: burger/pan.jpg
+        clip: burger/pan.mp4
+      - key: jordan
+        label: "La lechuga"
+        text: "Llegan al Jordán. El agua se abre."
+        host: "Elías golpea el río. El agua se abre. Pasan en seco. Como el pueblo hace tiempo."
+        picto: wave
+        image: burger/jordan.jpg
+        clip: burger/jordan.mp4
+      - key: chariot
+        label: "La carne"
+        text: "Un carro de fuego. Elías sube al cielo."
+        host: "Caballos de fuego. Un carro. Elías sube. Eliseo se queda. ¿Qué va a pedir?"
+        picto: fire
+        image: burger/chariot.jpg
+        clip: burger/chariot.mp4
+      - key: salsa
+        label: "La salsa"
+        text: "La salsa."
+        host: "El burger está servido. Ahora la pregunta. No corras."
+        picto: crown
+        image: burger/salsa.jpg
+        clip: burger/salsa.mp4

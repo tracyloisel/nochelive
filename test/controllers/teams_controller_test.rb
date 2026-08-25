@@ -30,4 +30,22 @@ class TeamsAndMembershipsControllerTest < ActionDispatch::IntegrationTest
     post night_team_memberships_path(@night.code, teams(:casa))
     assert_equal teams(:casa), Player.order(:id).last.team
   end
+
+  test "remote player cannot join or create a chapel team" do
+    sign_in_as_participant(@night, name: "Sofía", location: "remote")
+    home = seat_of(@night, "Sofía")
+    post night_team_memberships_path(@night.code, teams(:leones))
+    assert_equal home, Player.order(:id).last.reload.team
+    assert home.solo?
+
+    post night_teams_path(@night.code), params: { name: "Profetas", emblem: "fuego" }
+    assert_equal home, Player.order(:id).last.reload.team
+    assert_not @night.teams.exists?(name: "Profetas")
+  end
+
+  test "chapel player cannot join a casa seat" do
+    sign_in_as_participant(@night, name: "Sofía")
+    post night_team_memberships_path(@night.code, teams(:daniel_home))
+    assert_nil Player.order(:id).last.reload.team
+  end
 end

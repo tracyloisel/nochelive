@@ -29,8 +29,12 @@
     <span class="quiz-chip is-fire">Racha ×<%= team.streak %></span>
   <% end %>
 </div>
-<%= button_to "Siguiente",
-      night_round_run_forward_path(night.code, round),
-      class: "btn btn-gold quiz-next",
-      form: { data: { turbo_stream: true } },
-      data: { action: "click->quiz#next" } %>
+<% if definition.choice? %>
+  <%= button_to "Siguiente",
+        night_round_run_forward_path(night.code, round),
+        class: "btn btn-gold quiz-next",
+        form: { data: { turbo_stream: true } },
+        data: { action: "click->quiz#next" } %>
+<% else %>
+  <%= render "shared/wait", message: "Esperad la revelación." %>
+<% end %>

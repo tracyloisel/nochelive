@@ -7,7 +7,7 @@ class Votes::TallyTest < ActiveSupport::TestCase
     TeamMembership.create!(player: players(:ana), team: teams(:leones))
     Ballot.create!(round_run: round, team: teams(:leones), player: players(:lucia), choice_team: teams(:casa))
     Ballot.create!(round_run: round, team: teams(:leones), player: players(:ana), choice_team: teams(:casa))
-    Ballot.create!(round_run: round, team: teams(:casa), player: players(:daniel), choice_team: teams(:leones))
+    Ballot.create!(round_run: round, team: teams(:daniel_home), player: players(:daniel), choice_team: teams(:leones))
 
     Votes::Tally.call(round:)
 

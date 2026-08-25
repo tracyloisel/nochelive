@@ -25,4 +25,12 @@ class Buzzes::AcceptTest < ActiveSupport::TestCase
     assert_equal one.id, two.id
     assert_equal one.latency_ms, two.latency_ms
   end
+
+  test "rejects a remote player" do
+    remote = add_player(@night, name: "Daniel", location: "remote")
+    assert_raises(RuntimeError) do
+      Buzzes::Accept.call(round_run: @round, team: remote.team, player: remote)
+    end
+    assert_not Buzz.exists?(round_run: @round, player: remote)
+  end
 end

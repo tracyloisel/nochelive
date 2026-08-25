@@ -6,9 +6,9 @@ class Rounds::ForwardTest < ActiveSupport::TestCase
     round = round_runs(:rey_o_profeta)
     round.update!(phase: "open", opened_at: Time.current)
     nxt = round_runs(:david_goliath)
-    Answers::Submit.call(round:, team: teams(:casa), player: players(:daniel), body: "false")
+    Answers::Submit.call(round:, team: teams(:leones), player: players(:lucia), body: "false")
 
-    Rounds::Forward.call(round:, team: teams(:casa))
+    Rounds::Forward.call(round:, team: teams(:leones))
 
     assert round.reload.completed?
     assert nxt.reload.open?
@@ -17,6 +17,6 @@ class Rounds::ForwardTest < ActiveSupport::TestCase
   test "requires a quiz answer first" do
     round = round_runs(:rey_o_profeta)
     round.update!(phase: "open", opened_at: Time.current)
-    assert_raises(RuntimeError) { Rounds::Forward.call(round:, team: teams(:casa)) }
+    assert_raises(RuntimeError) { Rounds::Forward.call(round:, team: teams(:leones)) }
   end
 end

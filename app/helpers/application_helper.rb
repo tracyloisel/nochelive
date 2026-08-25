@@ -10,6 +10,22 @@ module ApplicationHelper
     "/#{rel}" if Rails.public_path.join(rel).file?
   end
 
+  def night_still_src(night = nil)
+    if night.is_a?(GameSession)
+      round = night.current_round_run
+      round ||= Array(night.round_runs).max_by { |run| run.position.to_i }
+      src = challenge_story(round) if round
+      return src if src.present?
+      return night_poster_src(night)
+    end
+
+    night_poster_src(night.presence || "reyes_y_profetas")
+  end
+
+  def story_reel(**kwargs, &block)
+    render "shared/reel", **kwargs, body: capture(&block)
+  end
+
   def night_status_caption(night)
     case night.status
     when "playing" then "En juego"
@@ -42,12 +58,39 @@ module ApplicationHelper
     return unless round
 
     definition = round.definition
-    case round.phase
-    when "intro" then definition.sfx["intro"] || "round_start"
-    when "open" then "round_start"
-    when "locked" then definition.sfx["lock"] || (definition.freeze? ? "dramatic_fire" : nil)
-    when "revealed" then definition.sfx["correct"] || "correct_gold"
+    if definition.layered_finale? && round.intro?
+      return "dramatic_fire" if round.layer_index.to_i.zero? || round.last_layer?
+
+      return
     end
+
+    case round.phase
+    when "intro" then definition.sfx["intro"].presence || "question_change"
+    end
+  end
+
+  def stage_sfx_token(round, sfx = nil, extra = nil, team: nil, night: nil)
+    [ sfx, extra, team&.pending_rank_up, night&.id, night&.status, round&.id, round&.phase, round&.try(:layer_index) ].compact.join(":")
+  end
+
+  def stage_bed(round, night: nil)
+    return if night&.finished?
+    return unless round&.timed? && round.seconds_left.positive?
+
+    "timer_tension"
+  end
+
+  def stage_audio_data(round, extra_sfx = nil, extra_fx = nil, team: nil, night: nil)
+    sfx = stage_sfx(round, extra_sfx, team: team, night: night)
+    timed = round&.timed?
+    {
+      stage_sfx_value: sfx,
+      stage_sfx_token_value: stage_sfx_token(round, sfx, extra_sfx, team: team, night: night),
+      stage_fx_value: stage_fx(round, extra_fx, team: team, night: night),
+      stage_bed_value: stage_bed(round, night: night),
+      stage_timer_end_value: timed && round.ends_at ? round.ends_at.iso8601 : nil,
+      stage_timer_duration_value: timed ? round.definition.duration.to_i : nil
+    }
   end
 
   def stage_fx(round, extra = nil, team: nil, night: nil)
@@ -124,17 +167,32 @@ module ApplicationHelper
     player&.remote?
   end
 
+  def phone_quiz?(round, player)
+    definition = round&.definition
+    return false unless definition
+    return false if definition.layered_finale?
+    return true if definition.choice?
+
+    player_remote?(player) && definition.buzzer? && definition.has_choices?
+  end
+
+  def phone_quiz_asking?(round, player)
+    return false unless round
+    return round.open? if round.definition.choice?
+
+    phone_quiz?(round, player) && round.phase.in?(%w[open locked answering])
+  end
+
   def team_explainer(team)
+    return if team&.solo?
+
     team.players.min_by(&:id)
   end
 
   def explainer?(team, player)
-    player && team_explainer(team)&.id == player.id
-  end
+    return false if team&.solo? && player_remote?(player)
 
-  def illustration_partial(key)
-    return "illustrations/crown" if key.blank?
-    "illustrations/#{key}"
+    player && team_explainer(team)&.id == player.id
   end
 
   def mark_src(kind, key)
@@ -173,6 +231,9 @@ module ApplicationHelper
   end
 
   def challenge_clip(round)
+    layered = burger_clip(round)
+    return layered if layered
+
     id = challenge_media_id(round)
     return unless id
 
@@ -184,11 +245,15 @@ module ApplicationHelper
     definition = round&.definition
     return unless definition
 
+    if (layer = burger_layer_for(round))
+      src = media_src(layer["image"])
+      return src if src
+    end
+
     yaml_rel = definition.presentation&.[]("image").presence
     if yaml_rel
-      rel = yaml_rel.to_s.delete_prefix("/")
-      rel = "media/#{rel}" unless rel.start_with?("media/")
-      return "/#{rel}" if Rails.public_path.join(rel).file?
+      src = media_src(yaml_rel)
+      return src if src
     end
 
     id = definition.id
@@ -197,6 +262,122 @@ module ApplicationHelper
       return "/#{rel}" if Rails.public_path.join(rel).file?
     end
     nil
+  end
+
+  def burger_layer_for(round)
+    definition = round&.definition
+    return unless definition&.layered_finale?
+
+    round.current_layer || definition.layers.find { |layer| layer["key"] == "chariot" } || definition.layers[2]
+  end
+
+  def burger_clip(round)
+    layer = burger_layer_for(round)
+    rel = media_public_path(layer&.[]("clip"))
+    rel
+  end
+
+  def media_public_path(rel)
+    return if rel.blank?
+
+    rel = rel.to_s.delete_prefix("/")
+    rel = "media/#{rel}" unless rel.start_with?("media/")
+    rel if Rails.public_path.join(rel).file?
+  end
+
+  def media_src(rel)
+    path = media_public_path(rel)
+    "/#{path}" if path
+  end
+
+  def burger_stakes_line(night, you = nil)
+    scores = Team.where(game_session_id: night.id).pluck(:cached_score)
+    return "El burger puede cambiar el marcador." if you.nil?
+
+    best = scores.max || 0
+    tied = scores.count { |score| score == best } > 1
+    me = you.cached_score.to_i
+    return "Van juntos. El burger deshace el empate." if tied && me == best
+    return "Podéis cerrar la noche." if me == best
+
+    "Si acertáis, pasáis delante."
+  end
+
+  def burger_host_value_line(night, round)
+    team = round.answering_team
+    if team.nil? && round.finale_steal_open?
+      remote_teams = night.teams.select { |row| row.players.any? { |player| player.participant? && player.remote? } }
+      team = remote_teams.first if remote_teams.size == 1
+    end
+    points = team ? round.definition.swing_points(night, team) : round.definition.points
+    "Esta respuesta vale #{points}."
+  end
+
+  def burger_watch_steal_line(night)
+    casa = night.teams.select { |team| team.players.any? { |player| player.participant? && player.remote? } }
+    casa.size == 1 ? "Casa puede robar la noche." : "Pueden robar la noche."
+  end
+
+  def burger_garnish_kind(round)
+    return unless round&.definition&.layered_finale?
+    return "nugget" if round.finale_steal_open?
+    return "fry" if round.anyone_correct?
+
+    index = round.layer_index.to_i
+    return "fry" if index <= 0 || round.last_layer? || round.phase.in?(%w[open locked answering])
+    return "lettuce" if index <= 2
+
+    "nugget"
+  end
+
+  def burger_garnish_count(round, cinema: false)
+    kind = burger_garnish_kind(round)
+    return 0 unless kind
+
+    index = round.layer_index.to_i
+    heavy = if round.finale_steal_open?
+      28
+    elsif kind == "lettuce" && index == 2
+      24
+    elsif kind == "lettuce"
+      8
+    elsif index <= 0
+      8
+    else
+      18
+    end
+    cinema ? heavy : [ (heavy / 3.0).ceil, 4 ].max
+  end
+
+  def chapel_players(night)
+    night.players.participants.where(location: "room").includes(:team).order(:id).to_a
+  end
+
+  def burger_cheer_targets(night)
+    faces = chapel_players(night)
+    return { mode: :empty, faces: [], teams: [] } if faces.empty?
+    return { mode: :emblems, faces: [], teams: chapel_cheer_teams(night, faces) } if faces.size >= 9
+
+    { mode: :faces, faces: faces, teams: [] }
+  end
+
+  def chapel_cheer_teams(night, faces)
+    ids = faces.map(&:team_id).uniq
+    night.teams.includes(:players).where(id: ids).order(:name)
+  end
+
+  def cheer_to_you_line(names)
+    names = Array(names).map(&:to_s).reject(&:blank?).uniq
+    return if names.empty?
+    return "¡#{names.first} te anima!" if names.size == 1
+
+    "¡#{names[0..-2].join(", ")} y #{names.last} te animan!"
+  end
+
+  def layer_cheers(round)
+    return Cheer.none unless round
+
+    round.cheers.where(layer_index: round.layer_index).includes(:player, :to_player)
   end
 
   def challenge_slides(round)

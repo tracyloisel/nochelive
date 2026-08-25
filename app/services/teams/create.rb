@@ -12,6 +12,7 @@ module Teams
     end
 
     def call
+      raise People::Error.new(:location, "En casa juegas solo.") if @player&.remote?
       raise People::Error.new(:name, "Ese equipo ya existe. Únete a él.") if @name.blank?
 
       emblem = Team::EMBLEMS.key?(@emblem.to_s) ? @emblem.to_s : Team::EMBLEMS.keys.sample

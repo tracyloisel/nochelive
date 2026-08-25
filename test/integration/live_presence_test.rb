@@ -66,5 +66,18 @@ class LivePresenceTest < ActionDispatch::IntegrationTest
     html = ApplicationController.render(partial: "shared/pulse", locals: { pulse: { kind: "lock" } })
     assert_includes html, "Cerrado"
     assert_includes html, "picto-hourglass"
+    assert_includes html, "data-sfx=\"round_lock\""
+  end
+
+  test "open and reveal pulses cue players without a player name" do
+    html = ApplicationController.render(partial: "shared/pulse", locals: { pulse: { kind: "open" } })
+    assert_includes html, "Abierta"
+    assert_includes html, "data-sfx=\"round_open\""
+    html = ApplicationController.render(partial: "shared/pulse", locals: { pulse: { kind: "reveal" } })
+    assert_includes html, "Respuesta"
+    assert_includes html, "data-sfx=\"reveal\""
+    html = ApplicationController.render(partial: "shared/pulse", locals: { pulse: { kind: "advance" } })
+    assert_includes html, "Siguiente"
+    assert_includes html, "data-sfx=\"question_change\""
   end
 end

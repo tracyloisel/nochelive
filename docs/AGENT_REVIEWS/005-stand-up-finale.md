@@ -3,10 +3,20 @@
 Reviewed: 2026-08-24
 Slice: Night end is a ceremony (stand up, names, podium) on play / watch / presenter
 Tests: `bundle exec rails test` — 25 runs, 196 assertions, 0 failures
+Gate: `.cursor/skills/noche-night/SKILL.md`.
+
+## Four seats
+
+| Seat | Verb tonight |
+|---|---|
+| Presentador | End the night; ceremony is the last beat |
+| Equipo en sala | Stand, hear their names |
+| Jugador en casa | Same ceremony, same stakes |
+| Espectador | Podium on the TV |
 
 ---
 
-## Agent
+## Evidence
 
 Gameplay Designer
 
@@ -42,7 +52,7 @@ Make the last *round* feel like a finale, or turn scavenger into a real verb. Do
 
 ---
 
-## Agent
+## Evidence
 
 Art Director / VFX Artist
 
@@ -76,7 +86,7 @@ A distinct finale mark, still original SVG. Not more gold flash.
 
 ---
 
-## Agent
+## Evidence
 
 Sound Designer
 
@@ -102,7 +112,7 @@ Sound: 4/5
 
 ---
 
-## Agent
+## Evidence
 
 Party & Social Designer
 
@@ -129,7 +139,7 @@ Social: 5/5
 
 ---
 
-## Agent
+## Evidence
 
 Remote Play Designer
 
@@ -156,7 +166,7 @@ Remote: 4/5
 
 ---
 
-## Agent
+## Evidence
 
 UX Accessibility Tester
 
@@ -186,7 +196,7 @@ Accessibility: 4/5
 
 ---
 
-## Agent
+## Evidence
 
 Pacing Director
 
@@ -212,7 +222,7 @@ Pacing: 4/5
 
 ---
 
-## Agent
+## Evidence
 
 Game QA / Red Team
 
@@ -245,7 +255,7 @@ Without the crown SVG, it is still “stand up, here are the names.” Pass.
 
 ---
 
-## Game Director
+## Night director
 
 M5 approved. The memory is: the room stood up and a child’s name was on the wall.
 

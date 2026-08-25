@@ -32,6 +32,7 @@ module Players
         device_token: @device_token,
         last_seen_at: Time.current
       )
+      Teams::Seat.call(night: @night, player: player) if player.participant? && player.remote?
 
       if @person && @device_token.present?
         PersonDevice.find_or_create_by!(person: @person, device_token: @device_token) do |row|

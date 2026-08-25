@@ -8,7 +8,12 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     assert_select 'meta[name="theme-color"][content="#f6f3ec"]'
     assert_select "body[data-controller~=press][data-controller~=motion]"
     assert_select "body.is-kid"
-    assert_select ".gate"
+    assert_includes response.body, "window.NocheSfx"
+    assert_includes response.body, "timer_tension"
+    assert_includes response.body, "/sfx/tick.mp3"
+    assert_select ".play-reel"
+    assert_select ".play-shot"
+    assert_select ".play-sheet"
     assert_select ".night-menu"
     assert_select "img.night-poster"
     assert_select ".btn.btn-gold", text: /Entrar/
@@ -35,6 +40,7 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     assert_includes css, ".order-chip"
     assert_includes css, ".picto"
     assert_includes css, ".play-reel"
+    assert_includes css, ".play-reel.is-join .play-sheet[data-sheet-snap=\"mid\"]"
     assert_includes css, ".play-timer"
     assert_includes css, ".story-close"
     assert_includes css, ".story-ticks"
@@ -49,9 +55,12 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     get night_watch_path(game_sessions(:david).code)
     assert_response :success
     assert_select "body.is-watch.is-kid"
-    assert_select ".live"
+    assert_select ".watch.is-board"
+    assert_select ".watch-shot"
+    assert_select ".watch-chrome .live"
     assert_select ".live-dot"
     assert_select ".challenge-story[src='/media/stories/salomon_wisdom.jpg']"
+    assert_select ".cheer-dock", count: 0
   end
 
   test "name screen uses picture cards a child can tap" do
@@ -62,6 +71,10 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     assert_select ".picto-sofa"
     assert_select ".picto-house"
     assert_select "a.btn", text: /Soy el presentador/
+    assert_select ".play-reel"
+    assert_select ".play-shot"
+    assert_select ".play-sheet[data-sheet-snap=mid]"
+    assert_select "#night_join"
   end
 
   test "presenter console is a live reel not a form" do
@@ -89,5 +102,14 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     assert_includes css, ".desk-tabs"
     assert_includes css, ".desk-mark"
     assert_includes css, "--desk-radius:"
+  end
+
+  test "finished presenter keeps the still in the shot" do
+    sign_in_presenter(game_sessions(:cerrada))
+    get presenter_console_path(game_sessions(:cerrada).code)
+    assert_response :success
+    assert_select ".stage-shot .challenge-story"
+    assert_select ".stage-shot .ceremony", count: 0
+    assert_select ".desk-sheet .ceremony", text: /TODOS DE PIE/
   end
 end

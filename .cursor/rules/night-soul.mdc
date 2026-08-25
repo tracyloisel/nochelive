@@ -1,0 +1,13 @@
+---
+description: Night director gate — tension, four seats, finale that can flip the score. Always apply so quiz-plus-OK rounds never ship.
+alwaysApply: true
+---
+
+# Night soul (required)
+
+Noche Live is a **party night**, not a quiz CMS. A round without a human job for every seat is unfinished.
+
+- **Tension**: rising curve (Descubrimiento → Gran final). Alternate think / move / laugh. Never five seated quizzes in a row.
+- **Four seats**, each with a verb: presentador (one gold next action), equipo en sala (body or voice), jugador en casa (remote grade A or B — never “OK when the room is done”), espectador (opt-in *Solo ver* on the TV, not a dumped casa player).
+- **Finale**: last round can still steal the crown (bigger stakes, stand-up, ceremony). Question N worth the same as question 1 is a VETO.
+- When touching `config/games`, round types, `remote_variant`, finale, watch, presenter flow, or seeds, follow `.cursor/skills/noche-night/SKILL.md` and leave a verdict in `docs/AGENT_REVIEWS/` (see `TEMPLATE.md`).

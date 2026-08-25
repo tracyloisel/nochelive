@@ -5,7 +5,8 @@
 <% hold = team.pose_holds.find_by(round_run: round) %>
 <% live_index = night.round_runs.find_index { |tick| tick.id == round.id }.to_i %>
 
-<section class="play-card play-round play-reel <%= "peak" if definition.finale? %> <%= "is-quiz" if definition.choice? %>"
+<% quiz_phone = phone_quiz?(round, player) %>
+<section class="play-card play-round play-reel <%= "peak" if definition.finale? %> <%= "is-quiz" if quiz_phone %>"
          data-controller="story"
          data-story-exit-url-value="<%= root_path %>"
          data-story-index-value="<%= live_index %>"
@@ -13,7 +14,7 @@
          data-action="pointerdown->story#start sheet:dismiss->story#exit">
   <p class="skip">Desliza abajo para salir. Izquierda y derecha cambian de ronda. Arriba abre el juego.</p>
   <div class="play-shot">
-    <%= render "shared/story_pages", night: night, current: round, reveal_future: false %>
+    <%= render "shared/story_pages", night: night, current: round, reveal_future: false, pulse: local_assigns[:pulse] %>
   </div>
 
   <div class="play-chrome">
@@ -66,9 +67,10 @@
   <div class="play-sheet story-sheet"
        data-controller="sheet"
        data-story-target="sheet"
-       data-sheet-snap-value="<%= definition.choice? ? "open" : (round.revealed? || answer.present? ? "open" : "mid") %>"
+       data-sheet-snap="<%= quiz_phone ? "open" : (round.revealed? || answer.present? ? "open" : "mid") %>"
+       data-sheet-snap-value="<%= quiz_phone ? "open" : (round.revealed? || answer.present? ? "open" : "mid") %>"
        data-sheet-peek-ratio-value="0.18"
-       data-sheet-mid-ratio-value="<%= definition.choice? ? 0.58 : 0.52 %>"
+       data-sheet-mid-ratio-value="<%= quiz_phone ? 0.58 : 0.52 %>"
        data-action="pointerdown->sheet#start">
     <button type="button"
             class="play-sheet-grip"
@@ -99,7 +101,7 @@
         <% elsif definition.freeze? %>
           <%= render "play/freeze", night: night, team: team, player: player, round: round, definition: definition, answer: answer %>
         <% elsif definition.finale? %>
-          <%= render "play/crown", night: night, team: team, round: round, definition: definition, buzz: buzz, answer: answer %>
+          <%= render "play/burger", night: night, team: team, player: player, round: round, definition: definition, buzz: buzz, answer: answer %>
         <% elsif round.intro? %>
           <p class="band"><%= band_label(round.position) %></p>
           <p class="prompt"><%= round_prompt(round) %></p>
@@ -112,8 +114,8 @@
           <%= render "play/physical", night: night, team: team, round: round, definition: definition %>
         <% elsif definition.rapid_tap? || (definition.physical? && definition.remote_variant) %>
           <%= render "play/rapid_tap", night: night, team: team, round: round, definition: definition, tap: tap %>
-        <% elsif definition.choice? %>
-          <%= render "play/choice", night: night, team: team, round: round, definition: definition, answer: answer %>
+        <% elsif quiz_phone %>
+          <%= render "play/choice", night: night, team: team, player: player, round: round, definition: definition, answer: answer %>
         <% elsif definition.buzzer? %>
           <%= render "play/buzzer", night: night, team: team, round: round, definition: definition, buzz: buzz, answer: answer %>
         <% else %>

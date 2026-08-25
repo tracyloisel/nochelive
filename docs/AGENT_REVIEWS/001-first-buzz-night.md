@@ -3,10 +3,22 @@
 Reviewed: 2026-08-24
 Playable build: Rails 8.1 night with join, teams, presenter, spectator, race-safe buzzer, remote David tap, XP, chest.
 Tests: `bundle exec rails test` — 14 runs, 70 assertions, 0 failures.
+Gate: `.cursor/skills/noche-night/SKILL.md`. Evidence below is history of this slice, not a Cursor persona.
+
+## Four seats
+
+| Seat | Verb tonight |
+|---|---|
+| Presentador | Abrir / Cerrar the buzzer |
+| Equipo en sala | Slam Buzz, wait for place |
+| Jugador en casa | Same Buzz (A). David later is tap (B) |
+| Espectador | Watch who slammed first (*Solo ver*) |
+
+Later slices gave mime, statue, and taboo real verbs. This file stays the M1 record.
 
 ---
 
-## Agent
+## Evidence
 
 Gameplay Designer
 
@@ -41,7 +53,7 @@ Give mime/statue a real remote verb before claiming a full 15-round night.
 
 ---
 
-## Agent
+## Evidence
 
 Progression Designer
 
@@ -73,7 +85,7 @@ Show a rank-up beat when the bar fills, not only a label change.
 
 ---
 
-## Agent
+## Evidence
 
 Reward & Loot Designer
 
@@ -105,7 +117,7 @@ A second chest at 100 XP with a different illustration.
 
 ---
 
-## Agent
+## Evidence
 
 Remote Play Designer
 
@@ -138,7 +150,7 @@ Presenter console should warn when a round is Grade D for remote players.
 
 ---
 
-## Agent
+## Evidence
 
 Party & Social Designer
 
@@ -170,7 +182,7 @@ A 3-second "¿quién va a buzzear?" crowd prompt on intro.
 
 ---
 
-## Agent
+## Evidence
 
 Art Director
 
@@ -202,7 +214,7 @@ One painted David vs Goliath background for that round only.
 
 ---
 
-## Agent
+## Evidence
 
 VFX / Motion Designer
 
@@ -233,7 +245,7 @@ A distinct intensity-5 finale (confetti, not another spark).
 
 ---
 
-## Agent
+## Evidence
 
 Sound Designer
 
@@ -264,7 +276,7 @@ Replace the four combat cues with short original recordings. Keep the names.
 
 ---
 
-## Agent
+## Evidence
 
 Pacing Director
 
@@ -295,7 +307,7 @@ Lock the first three rounds as the recommended opening set.
 
 ---
 
-## Agent
+## Evidence
 
 UX Accessibility Tester
 
@@ -331,7 +343,7 @@ Label the button "¡YA!" or "¡AHORA!" for Abuela María.
 
 ---
 
-## Agent
+## Evidence
 
 Game QA / Red Team
 
@@ -369,7 +381,7 @@ A Capybara two-session buzz test once Chrome is wired.
 
 ---
 
-## Game Director synthesis
+## Night director synthesis
 
 Would I play another round? Yes — I want to see if we buzz first again, and whether the chest is a crown.
 

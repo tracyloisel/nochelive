@@ -50,7 +50,7 @@ TeamMembership.find_or_create_by!(player: lucia, team: leones)
 
 daniel = night.players.find_or_initialize_by(client_token: "seed-daniel")
 daniel.update!(name: "Daniel", role: "participant", location: "remote", last_seen_at: Time.current, avatar_key: "elefante")
-TeamMembership.find_or_create_by!(player: daniel, team: casa)
+Teams::Seat.call(night: night, player: daniel)
 
 night.missionaries.find_or_create_by!(name: "Élder Soto")
 night.missionaries.find_or_create_by!(name: "Hermana Clark")

@@ -41,4 +41,25 @@ class Rounds::CompleteTest < ActiveSupport::TestCase
     assert night.finished?
     assert night.season_applied_at.present?
   end
+
+  test "pulses question change when the next round is still pending" do
+    round = round_runs(:salomon)
+    pulses = capture_pulses(round.game_session) do
+      Rounds::Complete.call(round:)
+    end
+
+    assert_equal [ "advance" ], pulses.map { |pulse| pulse&.fetch(:kind, nil) }
+  end
+
+  private
+
+  def capture_pulses(_night)
+    pulses = []
+    original = GameSession.instance_method(:broadcast_state)
+    GameSession.define_method(:broadcast_state) { |pulse: nil| pulses << pulse }
+    yield
+    pulses
+  ensure
+    GameSession.define_method(:broadcast_state, original)
+  end
 end

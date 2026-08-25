@@ -11,6 +11,8 @@ module Memberships
     end
 
     def call
+      raise People::Error.new(:location, "En casa juegas solo.") if @player.remote?
+      raise People::Error.new(:team, "Ese puesto es de alguien en casa.") if @team.solo?
       raise People::Error.new(:team, "Ese equipo no es de esta noche.") unless @team.game_session_id == @night.id
       return @player.team_membership if @player.team_membership&.team_id == @team.id
 

@@ -15,6 +15,7 @@ class PlayAndWatchControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "open buzzer is a phone reel with the question illustration" do
+    round_runs(:salomon).update_column(:opened_at, Time.current)
     sign_in_as_participant(@night, name: "Sofía", team: teams(:leones))
     get night_play_path(@night.code)
     assert_response :success
@@ -38,6 +39,8 @@ class PlayAndWatchControllerTest < ActionDispatch::IntegrationTest
     assert_select ".play-chrome > .team-bar", count: 0
     assert_select ".play-timer"
     assert_select ".play-timer-bar"
+    assert_select "#night_play[data-stage-bed-value=timer_tension]"
+    assert_select "#night_play[data-stage-timer-end-value]"
     assert_select ".buzz", text: /Buzz/
     assert_select ".prompt", text: /pidió|Salomón/
     assert_select ".play-round > .art", count: 0
@@ -70,9 +73,60 @@ class PlayAndWatchControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "watch creates a spectator" do
+    round_runs(:salomon).update_column(:opened_at, Time.current)
     assert_difference -> { @night.players.where(role: "spectator").count }, 1 do
       get night_watch_path(@night.code)
     end
     assert_response :success
+    assert_select "#night_watch[data-stage-bed-value=timer_tension]"
+    assert_select "#night_watch[data-stage-timer-end-value]"
+  end
+
+  test "remote play shows the QCM without a buzz" do
+    sign_in_as_participant(@night, name: "Sofía", location: "remote")
+    get night_play_path(@night.code)
+    assert_response :success
+    assert_select ".choice-btn"
+    assert_select ".buzz", count: 0
+    assert_select ".quiz-board"
+    assert_select ".score-pop h1", text: "Sofía"
+    assert_select ".play-reel.is-quiz"
+  end
+
+  test "pick team is a reel" do
+    sign_in_as_participant(@night, name: "Sofía")
+    get night_play_path(@night.code)
+    assert_select ".play-reel.is-pick"
+    assert_select ".play-shot .challenge-story"
+    assert_select ".play-sheet h1", text: /Elige tu equipo/
+    assert_select ".play-chrome > .team-bar", count: 0
+  end
+
+  test "lobby is a reel" do
+    lobby = game_sessions(:elias)
+    sign_in_as_participant(lobby, name: "Nora", team: teams(:lobby_leones))
+    get night_play_path(lobby.code)
+    assert_select ".play-reel.is-lobby"
+    assert_select ".play-sheet", text: /Esperad/
+    assert_select ".play-shot .challenge-story"
+  end
+
+  test "rank-up is a reel" do
+    teams(:leones).update!(pending_rank_up: "Explorador", next_correct_doubled: true)
+    sign_in_as_participant(@night, name: "Pilar", team: teams(:leones))
+    get night_play_path(@night.code)
+    assert_select ".play-reel.is-rank"
+    assert_select ".play-sheet", text: /Nueva dignidad/
+    assert_select ".play-shot .challenge-story"
+  end
+
+  test "finished night ceremony is a reel" do
+    done = game_sessions(:cerrada)
+    sign_in_as_participant(done, name: "Rita", team: teams(:campeones))
+    get night_play_path(done.code)
+    assert_select ".play-reel.is-finale"
+    assert_select ".play-sheet[data-sheet-snap=mid] .ceremony", text: /TODOS DE PIE/
+    assert_select ".play-shot .challenge-story"
+    assert_select ".play-chrome > .team-bar", count: 0
   end
 end

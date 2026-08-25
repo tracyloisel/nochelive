@@ -48,7 +48,7 @@ ruby script/generate_marks.rb
 ruby script/generate_marks.rb --only avatars --force
 ```
 
-Files: `public/marks/emblems`, `public/marks/icons`, `public/marks/avatars`. SVG fallbacks stay if a file is missing.
+Files: `public/marks/emblems`, `public/marks/icons`, `public/marks/avatars`.
 
 ## Prompts
 

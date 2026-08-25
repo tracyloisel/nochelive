@@ -4,10 +4,14 @@ module Presenter
     before_action :set_round
 
     def open
-      @round.intro! if @round.pending?
-      @round.open!
+      Rounds::Open.call(round: @round)
       Rails.logger.info("session=#{@night.code} round=#{@round.yaml_round_id} event=open")
-      @night.broadcast_state
+      redirect_to presenter_console_path(@night.code)
+    end
+
+    def peel
+      Rounds::Peel.call(round: @round)
+      Rails.logger.info("session=#{@night.code} round=#{@round.yaml_round_id} event=peel layer=#{@round.layer_index}")
       redirect_to presenter_console_path(@night.code)
     end
 

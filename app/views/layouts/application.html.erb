@@ -27,6 +27,7 @@
       <%= yield %>
     </main>
     <div id="live_pulses" class="live-pulses" aria-live="polite"></div>
+    <script>window.NocheSfx = <%= Sfx.catalog.to_json.html_safe %>;</script>
     <button type="button" class="mute" data-action="stage#toggleMute" data-stage-target="mute" aria-pressed="false" aria-label="Sonido">
       <%= picto("sound") %>
       <%= picto("sound-off") %>

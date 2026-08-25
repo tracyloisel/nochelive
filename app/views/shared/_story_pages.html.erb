@@ -15,7 +15,7 @@
           <h2>Pronto</h2>
         </div>
       <% else %>
-        <%= render "shared/challenge_media", round: tick %>
+        <%= render "shared/challenge_media", round: tick, cinema: local_assigns[:cinema], pulse: local_assigns[:pulse] %>
         <% unless on %>
           <p class="story-page-label"><%= tick.definition.title %></p>
         <% end %>

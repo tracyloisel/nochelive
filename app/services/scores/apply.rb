@@ -30,31 +30,10 @@ module Scores
       ApplicationRecord.transaction do
         clear_events!(team, %w[incorrect])
         unless @round_run.score_events.exists?(team: team, kind: "correct")
-          multiplier = team.next_correct_doubled? ? 2 : 1
-          team.update!(next_correct_doubled: false) if multiplier > 1
-          points = @definition.points * multiplier
-          xp = (@definition.reward["xp"] || 20) * multiplier
-
-          ScoreEvent.award!(
-            game_session: @night,
-            team: team,
-            round_run: @round_run,
-            kind: "correct",
-            points: points,
-            xp: xp,
-            reason: multiplier > 1 ? "Correcta con corona ×2" : "Respuesta correcta"
-          )
-
-          if @round_run.first_buzz&.team_id == team.id
-            ScoreEvent.award!(
-              game_session: @night,
-              team: team,
-              round_run: @round_run,
-              kind: "fastest_buzz",
-              points: 5,
-              xp: 8,
-              reason: "Primer buzz"
-            )
+          if @definition.swing?
+            apply_swing!(team)
+          else
+            apply_classic!(team)
           end
 
           team.update!(streak: team.streak + 1)
@@ -88,6 +67,49 @@ module Scores
 
       def clear_events!(team, kinds)
         @round_run.score_events.where(team: team, kind: kinds).delete_all
+      end
+
+      def apply_swing!(team)
+        points = @definition.swing_points(@night, team)
+        xp = @definition.reward["xp"] || 20
+        ScoreEvent.award!(
+          game_session: @night,
+          team: team,
+          round_run: @round_run,
+          kind: "correct",
+          points: points,
+          xp: xp,
+          reason: "Respuesta correcta"
+        )
+      end
+
+      def apply_classic!(team)
+        multiplier = team.next_correct_doubled? ? 2 : 1
+        team.update!(next_correct_doubled: false) if multiplier > 1
+        points = @definition.points * multiplier
+        xp = (@definition.reward["xp"] || 20) * multiplier
+
+        ScoreEvent.award!(
+          game_session: @night,
+          team: team,
+          round_run: @round_run,
+          kind: "correct",
+          points: points,
+          xp: xp,
+          reason: multiplier > 1 ? "Correcta con corona ×2" : "Respuesta correcta"
+        )
+
+        return unless @round_run.first_buzz&.team_id == team.id
+
+        ScoreEvent.award!(
+          game_session: @night,
+          team: team,
+          round_run: @round_run,
+          kind: "fastest_buzz",
+          points: 5,
+          xp: 8,
+          reason: "Primer buzz"
+        )
       end
   end
 end

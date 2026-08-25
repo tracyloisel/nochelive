@@ -1,23 +1,53 @@
 <% content_for :title, "Noche Live" %>
 <% content_for :body_class, "is-kid" %>
+<% nights = @nights.to_a %>
+<% featured = nights.first %>
+<% shot = capture do %>
+  <% if nights.size > 1 %>
+    <div class="story-pages">
+      <% nights.each_with_index do |night, index| %>
+        <div class="story-page <%= "is-on" if index.zero? %>"
+             data-story-target="page"
+             data-index="<%= index %>"
+             <%= "hidden" unless index.zero? %>>
+          <%= render "shared/still", src: night_still_src(night), poster: true %>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <%= render "shared/still", src: night_still_src(featured), poster: true, icon: "sparkle" %>
+  <% end %>
+<% end %>
+<% chrome = capture do %>
+  <%= render "shared/reel_chrome",
+             nights: nights,
+             ticks: (nights.size > 1 ? :nights : false),
+             title: "Noche Live",
+             close: false %>
+<% end %>
+<%= story_reel shot: shot, chrome: chrome, snap: "mid", mid: 0.55, reel_class: "is-home", skip: "Desliza abajo para salir. Arriba abre el juego." do %>
+  <p class="lede">Elige tu noche. En la sala y en casa.</p>
 
-<section class="gate home-board">
-  <header class="home-brand">
-    <p class="eyebrow">Noche de hogar</p>
-    <h1>Noche Live</h1>
-    <p class="lede">Elige tu noche. En la sala y en casa.</p>
-  </header>
+  <%= form_with url: join_path, method: :post, class: "join-form home-join" do %>
+    <label for="code">Código de la noche</label>
+    <input id="code" name="code" inputmode="text" autocomplete="off" autocapitalize="characters" maxlength="8" required class="code-input" placeholder="DAVID">
+    <button type="submit" class="btn btn-gold picto-btn"><%= picto("door") %>Entrar</button>
+    <div class="cluster">
+      <button type="submit" name="as" value="present" class="btn btn-navy"><%= picto("wand") %>Soy el presentador</button>
+      <button type="submit" name="as" value="watch" class="btn btn-ghost"><%= picto("eye") %>Solo ver</button>
+    </div>
+  <% end %>
 
   <div class="night-menu">
-    <% if @nights.any? %>
-      <% @nights.each do |night| %>
+    <% if nights.any? %>
+      <% nights.each do |night| %>
         <%= render "home/night_card", night: night %>
       <% end %>
     <% else %>
       <%= render "home/program_card", theme: @theme %>
     <% end %>
 
-    <article class="play-card night-card-new">
+    <article class="night-card-new">
       <div class="night-create-art" aria-hidden="true"><%= picto("wand") %></div>
       <p class="eyebrow">Presentador</p>
       <h2>¿Presentas tú?</h2>
@@ -37,15 +67,4 @@
       <% end %>
     </section>
   <% end %>
-
-  <section class="play-card join-by-code">
-    <%= form_with url: join_path, method: :post, class: "join-form" do %>
-      <p class="eyebrow">¿Tienes el código?</p>
-      <label for="code">Código de la noche</label>
-      <input id="code" name="code" inputmode="text" autocomplete="off" autocapitalize="characters" maxlength="8" required class="code-input" placeholder="DAVID">
-      <button type="submit" class="btn btn-gold picto-btn"><%= picto("door") %>Entrar</button>
-      <button type="submit" name="as" value="present" class="btn btn-navy picto-btn"><%= picto("wand") %>Soy el presentador</button>
-      <button type="submit" name="as" value="watch" class="btn btn-ghost picto-btn"><%= picto("eye") %>Solo ver</button>
-    <% end %>
-  </section>
-</section>
+<% end %>

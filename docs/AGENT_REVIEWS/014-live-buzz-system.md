@@ -3,10 +3,20 @@
 Reviewed: 2026-08-24
 Slice: Capybara system test, two phones + presenter through the first slam
 Tests: `bundle exec rails test`
+Gate: `.cursor/skills/noche-night/SKILL.md`.
+
+## Four seats
+
+| Seat | Verb tonight |
+|---|---|
+| Presentador | Abrir; first buzz appears live |
+| Equipo en sala | Slam Buzz (phone in Chrome) |
+| Jugador en casa | Same Buzz, second phone |
+| Espectador | TV names who slammed first |
 
 ---
 
-## Agent
+## Evidence
 
 Technical Reliability
 
@@ -35,6 +45,6 @@ Reliability: 4/5 (held)
 
 ---
 
-## Game Director
+## Night director
 
 The first buzz is now something two browsers did, not only two `open_session` POSTs. Do not raise Reliability for a test. Playtest is still the hole.

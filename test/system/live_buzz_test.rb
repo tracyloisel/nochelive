@@ -20,16 +20,16 @@ class LiveBuzzTest < ApplicationSystemTestCase
       assert_button "Buzz"
     end
 
-    using_session(:daniel) do
-      join_night(code, name: "Daniel", location: "remote", team: "Casa", emblem: "ola")
+    using_session(:carlos) do
+      join_night(code, name: "Carlos", location: "room", team: "Casa", emblem: "ola")
       assert_button "Buzz"
     end
 
     using_session(:lucia) { click_button "Buzz" }
-    using_session(:daniel) { click_button "Buzz" }
+    using_session(:carlos) { click_button "Buzz" }
 
     using_session(:lucia) { assert_text "1.º" }
-    using_session(:daniel) { assert_text "2.º" }
+    using_session(:carlos) { assert_text "2.º" }
 
     using_session(:watch) do
       visit night_watch_path(code)

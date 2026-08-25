@@ -4,7 +4,7 @@ class Freezes::CatchTest < ActiveSupport::TestCase
   setup do
     @round = round_runs(:freeze_saul)
     @round.update!(phase: "open", opened_at: Time.current)
-    @team = teams(:casa)
+    @team = teams(:daniel_home)
     @player = players(:daniel)
   end
 

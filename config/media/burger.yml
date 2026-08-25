@@ -1,0 +1,52 @@
+# El burger de fuego — 16:9 stills, Seedance clips, garnish sprites.
+# Style and negative come from config/media/story_challenges.yml (gouache,
+# no text, no crucifix, no temple, no blood). Stills are landscape 16:9,
+# not the story portrait crop.
+
+layers:
+  pan:
+    still: >
+      Elijah and Elisha walking a dusty road together, hairy mantle, gold
+      late light, dust motes. Two prophets side by side on a dry path,
+      modest ancient Near Eastern clothing. No chariot yet. No temple.
+    motion: >
+      Slow walk forward, mantle stirs in a warm breeze, camera gentle
+      push-in. Dust motes drift. No chariot yet.
+  jordan:
+    still: >
+      Elijah and Elisha at the Jordan river, a wall of water splitting,
+      a dry path between the banks, gold sun on the river. Two prophets
+      standing on the opened bed. Not Jonah, no fish, no temple.
+    motion: >
+      Water peels apart into two walls, gold light falls on the dry path.
+      Not Jonah, no fish.
+  chariot:
+    still: >
+      Chariot of fire and horses of fire lifting Elijah into a gold sky,
+      his mantle falling toward Elisha who stands on the river bank and
+      reaches upward. Wonder, not harm. No people harmed. No temple.
+    motion: >
+      Fire rolls upward with the chariot, the mantle drops toward Elisha.
+      No people harmed.
+  salsa:
+    still: >
+      Elisha alone on the river bank, the hairy mantle held in both hands,
+      looking up at an empty gold sky. The ask, not the answer. Quiet
+      wonder. No chariot, no readable question, no temple.
+    motion: >
+      The mantle breathes in a soft wind, a few gold embers drift.
+      No readable question.
+
+sprites:
+  lettuce: >
+    One single gouache lettuce leaf, crisp green with cream-gold veins,
+    isolated and centered on a flat cream paper background exactly #f6f3ec.
+    No plate, no salad, no people, no scene, no burger.
+  nugget: >
+    One single gold-brown breaded nugget, gouache still-life, isolated
+    and centered on a flat cream paper background exactly #f6f3ec.
+    No plate, no people, no scene, no burger bun.
+  fry: >
+    One single golden french fry, gouache still-life, isolated and
+    centered on a flat cream paper background exactly #f6f3ec.
+    No plate, no people, no scene, no burger.

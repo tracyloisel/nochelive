@@ -17,4 +17,12 @@ class Teams::CreateTest < ActiveSupport::TestCase
     assert Team::EMBLEMS.key?(team.emblem)
     assert_equal team, player.reload.team
   end
+
+  test "rejects a remote player" do
+    error = assert_raises(People::Error) do
+      Teams::Create.call(night: @night, player: players(:daniel), name: "Profetas", emblem: "fuego")
+    end
+    assert_equal :location, error.code
+    assert_not @night.teams.exists?(name: "Profetas")
+  end
 end

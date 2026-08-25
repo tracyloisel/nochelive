@@ -9,7 +9,7 @@
 <% elsif buzz %>
   <div class="lock <%= "lock-gold" if buzz.first? %>" role="status" <%= %(data-stage-sfx-value="buzzer_hit" data-stage-fx-value="gold").html_safe if buzz.first? %>>
     <% if buzz.first? %>
-      <div class="mini-crown" aria-hidden="true"><%= render "illustrations/crown" %></div>
+      <div class="mini-crown" aria-hidden="true"><%= picto("trophy", size: "lg") %></div>
       <span class="sparks" aria-hidden="true"></span>
     <% end %>
     <p class="place"><%= buzz.medal %></p>

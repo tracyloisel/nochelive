@@ -3,10 +3,20 @@
 Reviewed: 2026-08-24
 Slice: Crossing a rank grants Rey (next correct ×2)
 Tests: `bundle exec rails test`
+Gate: `.cursor/skills/noche-night/SKILL.md`.
+
+## Four seats
+
+| Seat | Verb tonight |
+|---|---|
+| Presentador | Names who is Rey |
+| Equipo en sala | See the crown; next correct ×2 |
+| Jugador en casa | Same crown, same chip (A) |
+| Espectador | Watch names the Rey |
 
 ---
 
-## Agent
+## Evidence
 
 Progression Designer
 
@@ -35,7 +45,7 @@ Progression: 5/5 (held)
 
 ---
 
-## Agent
+## Evidence
 
 Reward Designer
 
@@ -61,7 +71,7 @@ Reward: 5/5 (held)
 
 ---
 
-## Agent
+## Evidence
 
 Remote Play Designer
 
@@ -84,3 +94,9 @@ Remote: 4/5 (held)
 ## Required before approval
 
 - None.
+
+---
+
+## Night director
+
+Rank-up is a weapon, not a label. Only Rey. Other ranks stay on paper. Remote stays 4 because Jonah is M13.

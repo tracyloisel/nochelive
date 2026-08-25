@@ -34,4 +34,12 @@ class BuzzesControllerTest < ActionDispatch::IntegrationTest
     post night_round_run_buzz_path(@night.code, @round)
     assert_redirected_to night_play_path(@night.code)
   end
+
+  test "remote player cannot buzz" do
+    sign_in_as_participant(@night, name: "Sofía", location: "remote")
+    assert_no_difference -> { Buzz.where(round_run: @round).count } do
+      post night_round_run_buzz_path(@night.code, @round)
+    end
+    assert_redirected_to night_play_path(@night.code)
+  end
 end

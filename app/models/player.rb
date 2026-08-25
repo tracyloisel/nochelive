@@ -15,6 +15,8 @@ class Player < ApplicationRecord
   has_many :buzzes, class_name: "Buzz", dependent: :nullify
   has_many :answers, dependent: :nullify
   has_many :ballots, dependent: :destroy
+  has_many :cheers, dependent: :destroy
+  has_many :received_cheers, class_name: "Cheer", foreign_key: :to_player_id, dependent: :destroy
 
   validates :name, :client_token, :role, :avatar_key, presence: true
   validates :role, inclusion: { in: ROLES }

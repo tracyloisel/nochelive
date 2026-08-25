@@ -11,6 +11,7 @@ module Buzzes
     end
 
     def call
+      raise "El buzz es en la sala" if @player.remote?
       raise "Round is not open" unless @round_run.accepting_buzzes?
 
       ApplicationRecord.transaction do

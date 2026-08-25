@@ -3,10 +3,22 @@
 Reviewed: 2026-08-24
 Slice: original named SFX recordings + rank-up event + finale intensity 5
 Tests: `bundle exec rails test` — 17 runs, 105 assertions, 0 failures
+Gate: `.cursor/skills/noche-night/SKILL.md`. Sound hat below is evidence. Live audio gate: `.cursor/skills/noche-sfx/SKILL.md`.
+
+## Four seats
+
+| Seat | Verb tonight |
+|---|---|
+| Presentador | Rank-up and finale still one next action; pulses carry the voice |
+| Equipo en sala | Hears the same named cues as the slam |
+| Jugador en casa | Same cues, not a silent spectator leftover |
+| Espectador | TV hears the bed and stingers |
+
+Named cues now ship as OpenRouter MP3s (`public/sfx/*.mp3`), not WAV placeholders. This slice named the catalog.
 
 ---
 
-## Agent
+## Evidence
 
 Sound Designer
 
@@ -21,7 +33,7 @@ Sound: 4/5
 ## What works
 
 - Cues are named (`buzzer_hit`, `correct_gold`, `level_up`, `royal_fanfare`). Paths live in `Sfx` / the sound controller only.
-- Files are original short WAV recordings, not a single oscillator.
+- Files are original named recordings (`Sfx` catalog). Current files are MP3 (Lyria), generated offline.
 - Mute still works. Autoplay failure is silent. Reduced motion no longer kills sound.
 
 ## What feels weak
@@ -39,7 +51,7 @@ A louder, shorter buzzer hit and a warmer correct chord.
 
 ---
 
-## Agent
+## Evidence
 
 Progression Designer
 
@@ -70,7 +82,7 @@ One temporary role on rank-up (Rey / Profeta) for the next round.
 
 ---
 
-## Agent
+## Evidence
 
 VFX / Motion Designer
 
@@ -101,7 +113,7 @@ More finale particles, still CSS, still reduced-motion safe.
 
 ---
 
-## Agent
+## Evidence
 
 Pacing Director
 
@@ -128,7 +140,7 @@ None for this slice.
 
 ---
 
-## Agent
+## Evidence
 
 UX Accessibility Tester
 
@@ -157,7 +169,7 @@ Accessibility: 4/5
 
 ---
 
-## Agent
+## Evidence
 
 Game QA / Red Team
 
@@ -185,7 +197,7 @@ Still a race, not a questionnaire.
 
 ---
 
-## Agent
+## Evidence
 
 Gameplay Designer
 
@@ -216,7 +228,7 @@ Statue / mime as the next slice. Mandatory if we want another remembered night.
 
 ---
 
-## Agent
+## Evidence
 
 Remote Play Designer
 
@@ -242,7 +254,7 @@ Remote: 4/5
 
 ---
 
-## Game Director
+## Night director
 
 M2 approved. Gate still holds. Total moves 58 → 60. Major milestone 64 is not reached.
 

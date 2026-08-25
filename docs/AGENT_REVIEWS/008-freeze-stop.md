@@ -3,10 +3,20 @@
 Reviewed: 2026-08-24
 Slice: Freeze as a real stop (room body + remote catch)
 Tests: `bundle exec rails test`
+Gate: `.cursor/skills/noche-night/SKILL.md`.
+
+## Four seats
+
+| Seat | Verb tonight |
+|---|---|
+| Presentador | ¡CONGELADOS! |
+| Equipo en sala | Freeze the body |
+| Jugador en casa | Catch the figure in 2s (B) |
+| Espectador | The dancer on the TV |
 
 ---
 
-## Agent
+## Evidence
 
 Gameplay Designer
 
@@ -41,7 +51,7 @@ Make round 15 itself feel like a finale. Do not add a camera.
 
 ---
 
-## Agent
+## Evidence
 
 Remote Play Designer
 
@@ -74,7 +84,7 @@ Keep this B. Do not ask Daniel to film himself.
 
 ---
 
-## Agent
+## Evidence
 
 Party & Social Designer
 
@@ -101,7 +111,7 @@ Social: 5/5
 
 ---
 
-## Agent
+## Evidence
 
 Progression & Reward Designer
 
@@ -125,7 +135,7 @@ Reward: 5/5
 
 ---
 
-## Agent
+## Evidence
 
 UI / Visual / VFX Designer
 
@@ -153,7 +163,7 @@ VFX: 4/5
 
 ---
 
-## Agent
+## Evidence
 
 Audio Designer
 
@@ -179,7 +189,7 @@ Sound: 4/5
 
 ---
 
-## Agent
+## Evidence
 
 Pacing & Accessibility Designer
 
@@ -209,7 +219,7 @@ Clarity: 4/5
 
 ---
 
-## Agent
+## Evidence
 
 Technical Reliability
 
@@ -241,7 +251,7 @@ Without the title, it is still “dance, then freeze when the word hits.” Pass
 
 ---
 
-## Game Director
+## Night director
 
 M8 approved. The memory is: someone froze mid-spin and the room screamed.
 

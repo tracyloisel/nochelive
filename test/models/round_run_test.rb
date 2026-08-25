@@ -10,6 +10,7 @@ class RoundRunTest < ActiveSupport::TestCase
     assert @round.live?
     assert @round.accepting_buzzes?
     assert_not @round.accepting_answers?
+    assert @round.accepting_answers?(player: players(:daniel))
   end
 
   test "choice rounds accept answers while open" do
@@ -70,5 +71,25 @@ class RoundRunTest < ActiveSupport::TestCase
     end
     @round.update!(phase: "revealed")
     assert_not @round.timed?
+  end
+
+  test "burger layers wait for the chapel slam" do
+    round = round_runs(:finale_prophet)
+    round.update!(phase: "intro", layer_index: 0)
+    assert_nil round.current_layer
+    assert_not round.last_layer?
+    assert_not round.burger_assembled?
+    assert_not round.accepting_buzzes?
+
+    round.update!(layer_index: 4)
+    assert round.last_layer?
+    assert round.burger_assembled?
+    assert_equal "salsa", round.current_layer["key"]
+
+    round.open!
+    assert round.accepting_buzzes?
+    assert_not round.finale_steal_open?
+    assert_not round.accepting_answers?(player: players(:daniel))
+    assert_not round.accepting_answers?(player: players(:lucia))
   end
 end

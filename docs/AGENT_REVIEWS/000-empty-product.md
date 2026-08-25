@@ -3,14 +3,24 @@
 Reviewed: 2026-08-24
 Playable build: none
 Repository contents: `README.md`, `LICENSE`, `projet.md`
+Gate: `.cursor/skills/noche-night/SKILL.md` — founding record. Closed: a family can play now; do not treat this VETO as the current product.
+
+## Four seats
+
+| Seat | Verb tonight |
+|---|---|
+| Presentador | None |
+| Equipo en sala | None |
+| Jugador en casa | None |
+| Espectador | None |
 
 No agent may approve its own later implementation. These reviews describe **what a family can do tonight**, which is nothing.
 
 ---
 
-## Agent
+## Evidence
 
-Game Director
+Night director (founding VETO)
 
 ## Verdict
 
@@ -40,7 +50,7 @@ Ship **First Buzz Night**: create session, join team, open buzzer, lock, reveal,
 
 ---
 
-## Agent
+## Evidence
 
 Gameplay Designer
 
@@ -74,7 +84,7 @@ The first verb must be **BUZZ**, with a wait before the place is official.
 
 ---
 
-## Agent
+## Evidence
 
 Progression Designer
 
@@ -104,7 +114,7 @@ XP and a visible rank the first time a team scores.
 
 ---
 
-## Agent
+## Evidence
 
 Reward & Loot Designer
 
@@ -134,7 +144,7 @@ Do not invent an economy before the first correct answer has a gold flash. Queue
 
 ---
 
-## Agent
+## Evidence
 
 Remote Play Designer
 
@@ -165,7 +175,7 @@ Same buzzer in the room and at home (Grade A).
 
 ---
 
-## Agent
+## Evidence
 
 Party & Social Designer
 
@@ -195,7 +205,7 @@ First-place announcement that the whole room hears/sees together.
 
 ---
 
-## Agent
+## Evidence
 
 Art Director
 
@@ -225,7 +235,7 @@ One identity system on join + team + buzzer. Original marks only.
 
 ---
 
-## Agent
+## Evidence
 
 VFX / Motion Designer
 
@@ -255,7 +265,7 @@ Intensity 4 on first buzz, 3 on correct. Respect `prefers-reduced-motion`.
 
 ---
 
-## Agent
+## Evidence
 
 Sound Designer
 
@@ -285,7 +295,7 @@ Named cues: `round_start`, `buzzer_hit`, `correct_gold`, `wrong_soft`. Optional,
 
 ---
 
-## Agent
+## Evidence
 
 Pacing Director
 
@@ -315,7 +325,7 @@ One peak: countdown → open → first buzz → reveal.
 
 ---
 
-## Agent
+## Evidence
 
 UX Accessibility Tester
 
@@ -351,7 +361,7 @@ Home: one code field, one huge ENTRAR. Buzzer: one huge button.
 
 ---
 
-## Agent
+## Evidence
 
 Game QA / Red Team
 
@@ -383,7 +393,7 @@ Race-safe buzz, idempotent join, presenter token, GET reconstructs state.
 
 ---
 
-## Game Director synthesis (M0)
+## Night director synthesis (M0)
 
 Quality gate: **FAIL** (0/75).
 

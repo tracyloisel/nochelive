@@ -1,0 +1,80 @@
+<% night = local_assigns[:night] %>
+<% current = local_assigns[:current] %>
+<% team = local_assigns[:team] %>
+<% player = local_assigns[:player] %>
+<% title = local_assigns[:title] %>
+<% nights = Array(local_assigns[:nights]) %>
+<% close = local_assigns.fetch(:close, true) %>
+<% ticks = local_assigns[:ticks] %>
+
+<% if ticks == :nights && nights.size > 1 %>
+  <ol class="stage-ticks story-ticks" aria-label="Noches">
+    <% nights.each_with_index do |item, index| %>
+      <li class="<%= "is-now" if index.zero? %>" title="<%= night_title(item) %>">
+        <button type="button"
+                class="story-tick"
+                data-story-target="tick"
+                data-action="story#jump"
+                data-story-index="<%= index %>"
+                aria-label="<%= item.code %> · <%= night_title(item) %>"
+                aria-current="<%= index.zero? ? "step" : "false" %>">
+        </button>
+      </li>
+    <% end %>
+  </ol>
+<% elsif ticks != false && night && night.round_runs.any? %>
+  <%= render "shared/story_ticks", night: night, current: current %>
+<% end %>
+
+<div class="story-meta">
+  <% if close %>
+    <%= render "shared/story_close", action: "click->story#exit" %>
+  <% end %>
+  <div class="story-cluster">
+    <% if title.present? %>
+      <p class="story-night"><%= title %></p>
+    <% end %>
+    <% if team %>
+      <button type="button"
+              class="story-score btn"
+              data-action="click->story#toggleScore"
+              aria-controls="play_score"
+              aria-expanded="false"
+              data-story-target="scoreBtn"
+              aria-label="Puntos, <%= team.cached_score %>">
+        <%= picto("star") %>
+        <span><%= team.cached_score %></span>
+      </button>
+    <% end %>
+    <% if night %>
+      <div class="story-pills">
+        <%= render "shared/presence", night: night, team: team, compact: true, variant: "stage", audience: true %>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<% if team %>
+  <div class="score-pop"
+       id="play_score"
+       hidden
+       data-story-target="score"
+       role="dialog"
+       aria-label="Tu equipo">
+    <header class="team-bar">
+      <span class="emblem emblem-<%= team.emblem %>"><%= render "shared/emblem", key: team.emblem %></span>
+      <div>
+        <p class="eyebrow"><%= night&.code %></p>
+        <h1><%= team.name %></h1>
+      </div>
+      <div class="who">
+        <%= render "shared/avatar", player: player %>
+        <p class="score" aria-label="puntos"><%= picto("star") %><%= team.cached_score %></p>
+      </div>
+      <%= render "play/progress", team: team %>
+    </header>
+    <% if team.streak.to_i >= 2 %>
+      <p class="streak" role="status">Racha ×<%= team.streak %></p>
+    <% end %>
+  </div>
+<% end %>

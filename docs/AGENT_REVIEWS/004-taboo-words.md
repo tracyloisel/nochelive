@@ -3,10 +3,20 @@
 Reviewed: 2026-08-24
 Slice: Nabot taboo as a spoken party round (explainer / guessers / remote type-in / presenter slip catch)
 Tests: `bundle exec rails test` — 22 runs, 160 assertions, 0 failures
+Gate: `.cursor/skills/noche-night/SKILL.md`.
+
+## Four seats
+
+| Seat | Verb tonight |
+|---|---|
+| Presentador | Catch a slip; one lock |
+| Equipo en sala | Shout without the forbidden words |
+| Jugador en casa | Type a guess (B) |
+| Espectador | Forbidden list / put the phone down |
 
 ---
 
-## Agent
+## Evidence
 
 Gameplay Designer
 
@@ -44,7 +54,7 @@ A finale that feels larger than question 15. Taboo is now a memory; the last min
 
 ---
 
-## Agent
+## Evidence
 
 Remote Play Designer
 
@@ -77,7 +87,7 @@ Keep Grade B. Do not add a three-choice crutch that turns taboo back into a quiz
 
 ---
 
-## Agent
+## Evidence
 
 Party & Social Designer
 
@@ -105,7 +115,7 @@ Social: 5/5
 
 ---
 
-## Agent
+## Evidence
 
 UX Accessibility Tester
 
@@ -135,7 +145,7 @@ Accessibility: 4/5
 
 ---
 
-## Agent
+## Evidence
 
 Game QA / Red Team
 
@@ -170,7 +180,7 @@ Without biblical graphics, this is still “don’t say the word.” Pass.
 
 ---
 
-## Agent
+## Evidence
 
 Pacing Director
 
@@ -197,7 +207,7 @@ Pacing: 4/5
 
 ---
 
-## Game Director
+## Night director
 
 M4 approved. The night has a new memory: someone almost said Jezabel.
 

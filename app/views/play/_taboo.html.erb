@@ -17,8 +17,12 @@
   <div class="put-down-art" aria-hidden="true"><%= picto("ear", size: "xl") %></div>
   <p class="prompt put-down">¡ADIVINAD!</p>
   <p class="lede">
-    Escuchad a <strong><%= team_explainer(team)&.name %></strong>.
-    Gritad la historia. No miréis su teléfono.
+    <% if host = team_explainer(team) %>
+      Escuchad a <strong><%= host.name %></strong>.
+      Gritad la historia. No miréis su teléfono.
+    <% else %>
+      Escuchad la sala. En casa se escribe.
+    <% end %>
   </p>
   <% if player_remote?(player) && round.open? && answer.nil? %>
     <%= form_with url: night_round_run_answer_path(night.code, round), class: "answer-form" do %>

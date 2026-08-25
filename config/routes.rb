@@ -22,6 +22,7 @@ Rails.application.routes.draw do
     resources :round_runs, only: [] do
       resource :buzz, only: [ :create ]
       resource :answer, only: [ :create ]
+      resource :cheer, only: [ :create ]
       resource :forward, only: [ :create ], controller: "round_forwards"
       resource :tap, only: [ :create ]
       resource :pose_hold, only: [ :create ]
@@ -44,6 +45,7 @@ Rails.application.routes.draw do
   post "/p/:session_code/finish", to: "presenter/nights#finish", as: :presenter_finish
   post "/p/:session_code/rounds/:id/crown", to: "presenter/nights#crown", as: :presenter_crown
   post "/p/:session_code/rounds/:id/open", to: "presenter/round_runs#open", as: :presenter_open_round
+  post "/p/:session_code/rounds/:id/peel", to: "presenter/round_runs#peel", as: :presenter_peel_round
   post "/p/:session_code/rounds/:id/lock", to: "presenter/round_runs#lock", as: :presenter_lock_round
   post "/p/:session_code/rounds/:id/reveal", to: "presenter/round_runs#reveal", as: :presenter_reveal_round
   post "/p/:session_code/rounds/:id/complete", to: "presenter/round_runs#complete", as: :presenter_complete_round

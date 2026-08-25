@@ -3,10 +3,20 @@
 Reviewed: 2026-08-24
 Slice: Category as a shout (room slam + remote list)
 Tests: `bundle exec rails test`
+Gate: `.cursor/skills/noche-night/SKILL.md`.
+
+## Four seats
+
+| Seat | Verb tonight |
+|---|---|
+| Presentador | Abrir; lock after the shouts |
+| Equipo en sala | Shout three prophets, slam ¡YA! |
+| Jugador en casa | Type three names (B) |
+| Espectador | The shouts / who slammed |
 
 ---
 
-## Agent
+## Evidence
 
 Gameplay Designer
 
@@ -41,7 +51,7 @@ Make Solomon a judgment the room casts. Do not add a prophet encyclopedia.
 
 ---
 
-## Agent
+## Evidence
 
 Remote Play Designer
 
@@ -69,7 +79,7 @@ Remote: 4/5
 
 ---
 
-## Agent
+## Evidence
 
 Party & Social Designer
 
@@ -92,7 +102,7 @@ Social: 5/5
 
 ---
 
-## Agent
+## Evidence
 
 Technical Reliability
 
@@ -120,7 +130,7 @@ Without the title, it is still “shout three prophets.” Pass.
 
 ---
 
-## Game Director
+## Night director
 
 M10 approved. The memory is: the room yelled names and someone slammed the phone.
 

@@ -39,6 +39,12 @@ class GameDefinitionTest < ActiveSupport::TestCase
     assert crown.finale?
     assert crown.buzzer?
     assert crown.implemented?
+    assert crown.swing?
+    assert crown.layered_finale?
+    assert_equal "El burger de fuego", crown.title
+    assert_equal 4, crown.layers.size
+    assert_equal "El pan", crown.layers.first["label"]
+    assert_equal "La salsa.", crown.layers.last["text"]
     assert_equal "A", crown.remote_grade
     assert_equal 25, crown.points
     shout = game.find_round("category_prophets")
@@ -165,9 +171,40 @@ class GameDefinitionTest < ActiveSupport::TestCase
 
   test "every round points at a story still that exists" do
     GameDefinition.default.rounds.each do |round|
-      rel = round.presentation.fetch("image")
-      assert_match(%r{\Astories/.+\.jpg\z}, rel)
-      assert Rails.public_path.join("media/#{rel}").file?, "#{round.id} missing public/media/#{rel}"
+      if round.layered_finale?
+        round.layers.each do |layer|
+          assert Rails.public_path.join("media/#{layer['image']}").file?, "#{round.id} missing public/media/#{layer['image']}"
+          assert Rails.public_path.join("media/#{layer['clip']}").file?, "#{round.id} missing public/media/#{layer['clip']}" if layer["clip"].present?
+        end
+      else
+        rel = round.presentation.fetch("image")
+        assert_match(%r{\Astories/.+\.jpg\z}, rel)
+        assert Rails.public_path.join("media/#{rel}").file?, "#{round.id} missing public/media/#{rel}"
+      end
     end
+  end
+
+  test "rejects a finale with fewer than two layers" do
+    assert_raises(GameDefinition::Error) do
+      GameDefinition.new(
+        "theme" => { "id" => "x", "title" => "X" },
+        "rounds" => [ {
+          "id" => "a", "type" => "finale", "title" => "A", "points" => 25, "swing" => true,
+          "layers" => [ { "key" => "pan", "label" => "Pan", "text" => "T", "host" => "H", "picto" => "scroll", "image" => "burger/pan.jpg" } ]
+        } ]
+      )
+    end
+  end
+
+  test "swing points catch the leader then sit on the floor" do
+    game = GameDefinition.default
+    crown = game.find_round("finale_prophet")
+    night = game_sessions(:david)
+    behind = teams(:casa)
+    leader = teams(:leones)
+    leader.update!(cached_score: 40)
+    behind.update!(cached_score: 0)
+    assert_equal 41, crown.swing_points(night, behind)
+    assert_equal 25, crown.swing_points(night, leader)
   end
 end

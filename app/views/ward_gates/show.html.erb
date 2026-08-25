@@ -1,7 +1,11 @@
 <% content_for :title, "Entrar en la rama" %>
-
-<section class="gate">
-  <p class="eyebrow">Presentador</p>
+<% shot = capture do %>
+  <%= render "shared/still", src: night_poster_src("reyes_y_profetas"), poster: true %>
+<% end %>
+<% chrome = capture do %>
+  <%= render "shared/reel_chrome", title: "Presentador", ticks: false %>
+<% end %>
+<%= story_reel shot: shot, chrome: chrome, snap: "open", mid: 0.62, reel_class: "is-join" do %>
   <h1>Abrir tu rama</h1>
   <p class="lede">El código y el secreto son de la rama, no de una noche.</p>
 
@@ -14,4 +18,4 @@
   <% end %>
 
   <%= link_to "Crear una rama", new_ward_path, class: "btn btn-ghost" %>
-</section>
+<% end %>

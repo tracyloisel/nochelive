@@ -1,23 +1,28 @@
 <% content_for :title, "Tu nombre" %>
 <% content_for :body_class, "is-kid" %>
+<% shot = capture do %>
+  <%= render "shared/still", src: night_still_src(@night), poster: true %>
+<% end %>
+<% chrome = capture do %>
+  <%= render "shared/reel_chrome", night: @night, title: "#{@night.code} · #{night_title(@night)}" %>
+<% end %>
+<%= story_reel shot: shot, chrome: chrome, snap: "mid", mid: 0.48, reel_class: "is-join" do %>
+  <div id="night_join">
+    <% case @screen %>
+    <% when :welcome %>
+      <%= render "players/welcome", night: @night, person: @people_on_device.first %>
+    <% when :device %>
+      <%= render "players/device_people", night: @night, people: @people_on_device %>
+    <% when :homonyms %>
+      <%= render "players/homonyms", night: @night, cards: @homonym_cards %>
+    <% when :claim %>
+      <%= render "players/claim", night: @night, person: @claim_person %>
+    <% else %>
+      <%= render "players/form", night: @night %>
+    <% end %>
 
-<section class="gate" id="night_join">
-  <p class="eyebrow"><%= @night.code %> · <%= night_title(@night) %></p>
-
-  <% case @screen %>
-  <% when :welcome %>
-    <%= render "players/welcome", night: @night, person: @people_on_device.first %>
-  <% when :device %>
-    <%= render "players/device_people", night: @night, people: @people_on_device %>
-  <% when :homonyms %>
-    <%= render "players/homonyms", night: @night, cards: @homonym_cards %>
-  <% when :claim %>
-    <%= render "players/claim", night: @night, person: @claim_person %>
-  <% else %>
-    <%= render "players/form", night: @night %>
-  <% end %>
-
-  <%= link_to presenter_gate_path(@night.code), class: "btn btn-ghost picto-btn" do %>
-    <%= picto("wand") %>Soy el presentador
-  <% end %>
-</section>
+    <%= link_to presenter_gate_path(@night.code), class: "btn btn-ghost picto-btn" do %>
+      <%= picto("wand") %>Soy el presentador
+    <% end %>
+  </div>
+<% end %>

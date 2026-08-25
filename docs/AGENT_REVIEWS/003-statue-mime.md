@@ -3,10 +3,20 @@
 Reviewed: 2026-08-24
 Slice: Estatua de David + Jonás as real verbs
 Tests: `bundle exec rails test` — 20 runs, 124 assertions, 0 failures
+Gate: `.cursor/skills/noche-night/SKILL.md`.
+
+## Four seats
+
+| Seat | Verb tonight |
+|---|---|
+| Presentador | Abrir the pose / mime round |
+| Equipo en sala | Become the statue / mime Jonah |
+| Jugador en casa | Hold 8s (statue, B). Jonah path is M13 |
+| Espectador | Sees freeze / put-down on the TV |
 
 ---
 
-## Agent
+## Evidence
 
 Gameplay Designer
 
@@ -42,7 +52,7 @@ Taboo as a spoken round with forbidden words on the presenter screen.
 
 ---
 
-## Agent
+## Evidence
 
 Remote Play Designer
 
@@ -75,7 +85,7 @@ If the night has a video link, say so on the remote Jonah card. Do not require i
 
 ---
 
-## Agent
+## Evidence
 
 Party & Social Designer
 
@@ -103,7 +113,7 @@ Social: 5/5
 
 ---
 
-## Agent
+## Evidence
 
 UX Accessibility Tester
 
@@ -133,7 +143,7 @@ Accessibility: 4/5
 
 ---
 
-## Agent
+## Evidence
 
 Game QA / Red Team
 
@@ -166,7 +176,7 @@ Without biblical graphics, statue and hold are still a party game. Pass.
 
 ---
 
-## Agent
+## Evidence
 
 Pacing Director
 
@@ -188,7 +198,7 @@ Pacing: 4/5
 
 ---
 
-## Game Director
+## Night director
 
 M3 approved. The night now has a memory that is not a leaderboard: the statue.
 

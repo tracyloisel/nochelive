@@ -8,7 +8,7 @@ class AnswersController < ApplicationController
     Rails.logger.info("session=#{@night.code} round=#{@round.yaml_round_id} team=#{current_team.id} event=answer")
     respond_to do |format|
       format.turbo_stream do
-        if @round.definition.choice?
+        if helpers.phone_quiz?(@round, current_player)
           @team = current_team.reload
           @player = current_player
           render :create

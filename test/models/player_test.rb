@@ -15,6 +15,7 @@ class PlayerTest < ActiveSupport::TestCase
     assert publico.spectator?
     daniel = players(:daniel)
     assert daniel.remote?
+    assert_equal teams(:daniel_home), daniel.team
   end
 
   test "live window follows last_seen_at" do

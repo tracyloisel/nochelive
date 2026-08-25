@@ -1,12 +1,14 @@
 <% round = night.current_round_run %>
 <% live_index = night.round_runs.find_index { |tick| round && tick.id == round.id }.to_i %>
-<section class="console is-stage"
-         id="night_presenter"
-         data-controller="story"
-         data-story-exit-url-value="<%= root_path %>"
-         data-story-index-value="<%= live_index %>"
-         data-story-live-index-value="<%= live_index %>"
-         data-action="pointerdown->story#start sheet:dismiss->story#exit">
+<%= tag.section class: "console is-stage",
+                id: "night_presenter",
+                data: stage_audio_data(round, night: night).merge(
+                  controller: "story",
+                  story_exit_url_value: root_path,
+                  story_index_value: live_index,
+                  story_live_index_value: live_index,
+                  action: "pointerdown->story#start sheet:dismiss->story#exit"
+                ) do %>
   <% if (claim = night.pending_presenter_claim) %>
     <%= render "presenter/claims/challenge", night: night, claim: claim %>
   <% end %>
@@ -14,9 +16,11 @@
   <div class="stage-reel">
     <div class="stage-shot">
       <% if night.finished? %>
-        <%= render "shared/ceremony", night: night %>
+        <%= render "shared/still", src: night_still_src(night), sparks: true, icon: "trophy" %>
       <% elsif round %>
-        <%= render "shared/story_pages", night: night, current: round, reveal_future: true %>
+        <%= render "shared/story_pages", night: night, current: round, reveal_future: true, cinema: true, pulse: local_assigns[:pulse] %>
+      <% else %>
+        <%= render "shared/still", src: night_still_src(night), poster: true %>
       <% end %>
     </div>
 
@@ -52,8 +56,26 @@
             <%= render "shared/round_icon", key: round.definition.icon %>
             <span><%= round.definition.title %></span>
           </h1>
-          <p class="lede"><%= round_prompt(round) %></p>
+          <% if round.definition.layered_finale? %>
+            <%= render "shared/burger_stack", round: round %>
+          <% end %>
           <p class="quiet">Remoto: grado <%= round.definition.remote_grade %></p>
+          <% if round.definition.layered_finale? %>
+            <% if round.intro? && round.layer_index.to_i.zero? %>
+              <p class="lede">Hazlos ponerse de pie. Espera.</p>
+            <% elsif round.intro? && (layer = round.current_layer) %>
+              <p class="lede"><%= layer["label"] %></p>
+              <p class="lede"><%= layer["host"] %></p>
+              <% layer_cheers(round).each do |cheer| %>
+                <p class="quiet">¡<%= cheer.player.name %> anima a <%= cheer.to_player.name %>!</p>
+              <% end %>
+            <% elsif round.phase.in?(%w[open locked answering]) %>
+              <p class="lede"><%= round.definition.question %></p>
+              <p class="lede"><%= burger_host_value_line(night, round) %></p>
+            <% end %>
+          <% else %>
+            <p class="lede"><%= round_prompt(round) %></p>
+          <% end %>
           <% if round.definition.mime? && round.definition.story_path? %>
             <p class="lede">En casa viven a Jonás. No adivinan el mimo.</p>
           <% end %>
@@ -70,7 +92,14 @@
             <% end %>
 
             <% if round && (round.live? || !round.completed?) %>
-              <% if round.pending? || round.intro? %>
+              <% layered = round.definition.layered_finale? %>
+              <% if layered && (round.pending? || (round.intro? && round.layer_index.to_i.zero?)) %>
+                <%= button_to "Servir el burger", presenter_open_round_path(night.code, round), class: "btn btn-gold" %>
+              <% elsif layered && round.intro? && !round.last_layer? %>
+                <%= button_to "Siguiente capa", presenter_peel_round_path(night.code, round), class: "btn btn-gold" %>
+              <% elsif layered && round.burger_assembled? %>
+                <%= button_to "¡La pregunta!", presenter_open_round_path(night.code, round), class: "btn btn-gold" %>
+              <% elsif round.pending? || round.intro? %>
                 <%= button_to "Abrir", presenter_open_round_path(night.code, round), class: "btn btn-gold" %>
               <% end %>
               <% if round.open? && round.definition.freeze? %>
@@ -84,7 +113,9 @@
               <% elsif round.open? && !round.definition.buzzer? && !round.definition.vote? %>
                 <%= button_to "Cerrar ronda", presenter_lock_round_path(night.code, round), class: "btn btn-navy" %>
               <% end %>
-              <% if round.definition.finale? && !night.finished? && !round.completed? && !round.pending? %>
+              <% show_crown = round.definition.finale? && !night.finished? && !round.completed? && !round.pending? %>
+              <% show_crown &&= !layered || round.phase.in?(%w[open locked answering revealed]) %>
+              <% if show_crown %>
                 <%= button_to "¡La corona!", presenter_crown_path(night.code, round), class: "btn btn-gold" %>
               <% end %>
             <% end %>
@@ -112,12 +143,21 @@
   <% play_desk = round&.live? || (round && !round.completed?) %>
   <% grades = play_desk ? round.score_events.select { |event| event.kind.in?(%w[correct incorrect]) }.index_by(&:team_id) : {} %>
   <% pending = play_desk ? round.answers.count { |answer| grades[answer.team_id].blank? } : 0 %>
+  <% burger_quiet = play_desk && round.definition.layered_finale? && !round.phase.in?(%w[open locked answering revealed]) %>
+  <% desk_tab = if burger_quiet
+                  "marcador"
+                elsif pending.positive? || (play_desk && (round.answers.any? || round.buzzes.any?))
+                  "respuestas"
+                else
+                  "marcador"
+                end %>
   <div class="stage-desk desk-sheet story-sheet"
        data-controller="sheet desk"
        data-story-target="sheet"
-       data-sheet-snap-value="peek"
+       data-sheet-snap="<%= night.finished? ? "mid" : "peek" %>"
+       data-sheet-snap-value="<%= night.finished? ? "mid" : "peek" %>"
        data-desk-night-value="<%= night.code %>"
-       data-desk-tab-value="<%= pending.positive? || (play_desk && round.answers.any?) ? "respuestas" : "marcador" %>"
+       data-desk-tab-value="<%= desk_tab %>"
        data-action="pointerdown->sheet#start">
     <button type="button"
             class="play-sheet-grip"
@@ -128,7 +168,9 @@
       <span class="play-sheet-pip" aria-hidden="true"></span>
     </button>
     <div class="play-sheet-body" data-sheet-target="body">
-    <% unless night.finished? %>
+    <% if night.finished? %>
+      <%= render "shared/ceremony", night: night %>
+    <% else %>
       <nav class="desk-tabs" role="tablist" aria-label="Mesa">
         <button type="button" class="btn btn-tiny desk-tab" role="tab" data-desk-target="tab" data-action="desk#show" data-desk-pane="respuestas" aria-controls="desk_respuestas">
           Respuestas<% if pending.positive? %><span class="desk-count"><%= pending %></span><% end %>
@@ -137,11 +179,14 @@
           Marcador
         </button>
       </nav>
-    <% end %>
 
     <div class="desk-pane" id="desk_respuestas" role="tabpanel" data-desk-target="pane" data-desk-pane="respuestas">
   <% if play_desk %>
     <article class="console-round">
+      <% if play_desk && round.definition.layered_finale? && round.phase.in?(%w[open locked answering]) %>
+        <p class="quiet"><%= round.definition.answer %></p>
+        <p class="lede"><%= burger_host_value_line(night, round) %></p>
+      <% end %>
       <% if round.buzzes.any? %>
         <h3>Buzz</h3>
         <ol class="buzz-board">
@@ -375,6 +420,7 @@
       <% end %>
     </div>
     <% end %>
+    <% end %>
   </div>
   </div>
-</section>
+<% end %>

@@ -17,10 +17,10 @@ class TapsAndPoseHoldsControllerTest < ActionDispatch::IntegrationTest
   test "pose hold completes at eight seconds" do
     round = round_runs(:statue_david)
     round.update!(phase: "open")
-    sign_in_as_participant(@night, name: "Sofía", location: "remote", team: teams(:leones))
+    sign_in_as_participant(@night, name: "Sofía", location: "remote")
     post night_round_run_pose_hold_path(@night.code, round), params: { held_ms: 8500 }
     assert_response :ok
-    assert PoseHold.find_by(round_run: round, team: teams(:leones)).finished?
+    assert PoseHold.find_by(round_run: round, team: seat_of(@night, "Sofía")).finished?
     round.update!(phase: "locked")
     post night_round_run_pose_hold_path(@night.code, round), params: { held_ms: 9000 }
     assert_response :unprocessable_entity

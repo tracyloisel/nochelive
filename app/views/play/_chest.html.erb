@@ -1,7 +1,7 @@
 <div class="chest <%= "is-compact" if local_assigns[:compact] %>" data-controller="chest">
   <p class="eyebrow">Tesoro desbloqueado</p>
   <% unless local_assigns[:compact] %>
-    <div class="art"><%= render "illustrations/crown" %></div>
+    <div class="art"><%= picto("chest", size: "xl") %></div>
   <% end %>
   <h2><%= grant.chest_title %></h2>
   <% unless local_assigns[:compact] %>
