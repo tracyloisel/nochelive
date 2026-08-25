@@ -14,6 +14,8 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
     assert_selector ".quiz-pack"
     assert_selector ".street-score span", text: "0"
     assert_no_selector ".btn.btn-gold"
+    assert_operator score_top, :>, 0
+    assert_operator score_top, :<, 0.2
     peek = sheet_top
     assert_operator peek, :>=, 0.42
     pair("01-ask")
@@ -76,6 +78,16 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
         var sheet = document.querySelector("#street_quiz .play-sheet");
         if (!sheet) return 0;
         return sheet.getBoundingClientRect().top / window.innerHeight;
+      })()
+    JS
+  end
+
+  def score_top
+    page.evaluate_script(<<~JS)
+      (function() {
+        var score = document.querySelector("#street_quiz .street-score");
+        if (!score) return 1;
+        return score.getBoundingClientRect().top / window.innerHeight;
       })()
     JS
   end
