@@ -637,12 +637,15 @@ p.place { font-size: 3rem; color: var(--ink); line-height: 1; }
 .mute {
   position: fixed; right: max(var(--space-4), env(safe-area-inset-right));
   bottom: max(var(--space-4), env(safe-area-inset-bottom)); z-index: 10;
-  width: 3.5rem; height: 3.5rem; padding: 0; display: grid; place-items: center;
+  width: 3.5rem; height: 3.5rem; padding: 0;
+  display: grid; grid-template: 1fr / 1fr; place-items: center;
+  overflow: hidden;
   border: 1.5px solid var(--line); background: var(--surface); color: var(--ink);
   border-radius: var(--radius-pill); font: inherit; font-weight: 650;
   box-shadow: var(--shadow); cursor: pointer;
   transition: transform var(--dur-press) var(--ease-out), opacity 160ms ease;
 }
+.mute > * { grid-area: 1 / 1; }
 .mute .picto { width: 1.7rem; height: 1.7rem; }
 .mute .picto-sound-off { display: none; }
 .mute.is-muted .picto-sound { display: none; }

@@ -39,8 +39,7 @@ const store = window.NocheLiveAudio = window.NocheLiveAudio || {
   timerFrame: null,
   muted: false,
   unlocked: false,
-  armed: false,
-  gestureAt: 0
+  armed: false
 }
 
 try {
@@ -289,8 +288,8 @@ function afterUnlock() {
   playFrom(document)
 }
 
-function onGesture() {
-  store.gestureAt = performance.now()
+function onGesture(event) {
+  if (event?.target?.closest?.(".mute")) return
   if (!store.unlocked) {
     store.unlocked = true
     unlockHtmlSync()
@@ -354,9 +353,16 @@ export default class extends Controller {
     // Keep the shared store (bed, pool, timer) alive across Turbo body swaps.
   }
 
-  toggleMute() {
-    const justUnlocked = store.gestureAt && (performance.now() - store.gestureAt) < 500
-    if (justUnlocked && !store.muted) {
+  toggleMute(event) {
+    if (event) {
+      event.preventDefault()
+      event.stopPropagation()
+    }
+    if (!store.unlocked) {
+      store.unlocked = true
+      unlockHtmlSync()
+      unlockWebSync()
+      afterUnlock()
       this.syncMute()
       return
     }

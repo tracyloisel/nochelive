@@ -40,6 +40,7 @@ class UiChromeTest < ActionDispatch::IntegrationTest
   test "design tokens and motion live in the stylesheet" do
     css = Rails.root.join("app/assets/stylesheets/application.css").read
     assert_includes css, ".sfx-gate"
+    assert_includes css, ".mute > * { grid-area: 1 / 1; }"
     assert_includes css, "--paper:"
     assert_includes css, "--space-4:"
     assert_includes css, "--dur-press:"
