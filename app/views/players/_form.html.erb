@@ -31,8 +31,8 @@
       </label>
     </fieldset>
 
-    <button type="submit" name="guest" value="1" class="btn btn-navy picto-btn" formnovalidate><%= picto("door") %>Solo esta noche</button>
-    <button type="submit" name="role" value="spectator" class="btn btn-ghost picto-btn" formnovalidate><%= picto("eye") %>Solo mirar</button>
+    <button type="submit" name="guest" value="1" class="btn btn-gold" formnovalidate>Solo esta noche</button>
+    <button type="submit" name="role" value="spectator" class="quiet-link" formnovalidate>Solo mirar</button>
 
     <div class="join-ficha">
       <fieldset class="emblem-pick avatar-pick">
@@ -50,7 +50,7 @@
       </fieldset>
 
       <%= render "shared/year_field", value: @favorite_year, required: true %>
-      <button type="submit" class="btn btn-gold picto-btn"><%= picto("check") %>Guardar ficha</button>
+      <button type="submit" class="btn btn-navy">Guardar ficha</button>
     </div>
   <% end %>
 <% end %>

@@ -18,6 +18,8 @@ class ReelGrammarVisualTest < ApplicationSystemTestCase
     assert_selector ".play-shot .challenge-story"
     assert_selector ".play-sheet[data-sheet-snap=mid]"
     assert_text "¿Cómo te llaman?"
+    assert_no_selector ".story-close"
+    assert_no_selector ".story-ticks"
     assert_still_peeks
     shot("02-join")
 
@@ -60,7 +62,7 @@ class ReelGrammarVisualTest < ApplicationSystemTestCase
     find("label.choice-chip", text: "En la sala").click
     click_button "Solo esta noche"
     click_button "Campeones"
-    assert_text "¡TODOS DE PIE!"
+    assert_text "¡Campeones gana la noche!"
     assert_selector ".play-reel.is-finale"
     assert_selector ".play-sheet[data-sheet-snap=mid] .ceremony"
     assert_selector ".play-shot .challenge-story"
@@ -75,7 +77,7 @@ class ReelGrammarVisualTest < ApplicationSystemTestCase
     shot("07-watch")
 
     visit night_watch_path(game_sessions(:cerrada).code)
-    assert_text "¡TODOS DE PIE!"
+    assert_text "¡Campeones gana la noche!"
     assert_selector ".watch-shot .challenge-story"
     assert_selector ".watch-caption .ceremony"
     assert_no_selector ".cheer-dock"

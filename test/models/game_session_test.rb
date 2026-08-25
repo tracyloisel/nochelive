@@ -18,6 +18,16 @@ class GameSessionTest < ActiveSupport::TestCase
     assert_not night.tied_finale?
   end
 
+  test "zero scores are not a coronation" do
+    night = create_night
+    add_team(night, name: "Leones")
+    add_team(night, name: "Casa", emblem: "ola")
+
+    assert_not night.scored_finale?
+    assert night.tied_finale?
+    assert_nil night.champion
+  end
+
   test "tied first place is a shared crown" do
     night = create_night
     leones = add_team(night, name: "Leones")

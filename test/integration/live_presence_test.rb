@@ -3,37 +3,33 @@ require "test_helper"
 class LivePresenceTest < ActionDispatch::IntegrationTest
   setup { @night = game_sessions(:david) }
 
-  test "watch shows who is live in the room and at home" do
+  test "watch shows a single scoreboard strip" do
     players(:lucia).update_column(:last_seen_at, Time.current)
     players(:daniel).update_column(:last_seen_at, Time.current)
     get night_watch_path(@night.code)
     assert_response :success
-    assert_select ".presence"
-    assert_select ".presence-stat .word", text: "en vivo"
-    assert_select ".presence-stat .word", text: "sala"
-    assert_select ".presence-stat .word", text: "casa"
-    assert_select ".presence-face.is-live"
-    assert_select "#live_pulses"
+    assert_select ".watch-board .score-strip"
+    assert_select ".watch-board .score-strip .emblem"
+    assert_select ".watch-chrome .watch-mark"
+    assert_select ".presence-stat", count: 0
     assert_select ".story-audience", count: 0
+    assert_select "#live_pulses"
   end
 
-  test "empty watch HUD waits for people" do
+  test "empty watch HUD waits for people in the caption" do
     night = create_night
     get night_watch_path(night.code)
     assert_response :success
-    assert_select ".presence-wait"
-    assert_select ".word", text: "Nadie aún"
-    assert_select ".quiet", text: "Aún no hay equipos"
+    assert_select ".watch-caption", text: /equipos se reúnen/
+    assert_select ".presence-wait", count: 0
   end
 
-  test "play reel shows live audience count and a score button" do
+  test "play reel shows a score button without a LIVE costume" do
     sign_in_as_participant(@night, name: "Sofía", team: teams(:leones))
     get night_play_path(@night.code)
     assert_response :success
-    assert_select ".story-audience", text: /En directo/
-    assert_select ".story-audience .live-mark", text: "LIVE"
-    assert_select ".story-audience .picto-eye"
-    assert_select ".story-audience strong", text: /\d+/
+    assert_select ".story-audience", count: 0
+    assert_select ".live-mark", count: 0
     assert_select ".story-score"
     assert_select ".play-chrome > .team-bar", count: 0
     assert_select "#night_presence"

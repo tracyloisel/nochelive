@@ -1,5 +1,5 @@
 <% layers = round.definition.layers %>
-<ol class="burger-stack" aria-hidden="true">
+<ol class="burger-stack" aria-label="Capas del burger">
   <% layers.each_with_index do |layer, index| %>
     <% number = index + 1 %>
     <% state = if round.layer_index.to_i <= 0
@@ -15,6 +15,7 @@
                end %>
     <li class="burger-tick <%= state %>">
       <%= picto(layer["picto"]) %>
+      <span class="word"><%= layer["label"] %></span>
     </li>
   <% end %>
 </ol>

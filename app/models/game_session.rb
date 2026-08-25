@@ -108,6 +108,10 @@ class GameSession < ApplicationRecord
     first_place_teams.first
   end
 
+  def scored_finale?
+    teams.any? { |team| team.cached_score.to_i.positive? }
+  end
+
   def tied_finale?
     first_place_teams.size > 1
   end

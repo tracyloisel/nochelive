@@ -5,14 +5,14 @@
 <% chrome = capture do %>
   <%= render "shared/reel_chrome", title: "Presentador", ticks: false %>
 <% end %>
-<%= story_reel shot: shot, chrome: chrome, snap: "open", mid: 0.62, reel_class: "is-join" do %>
+<%= story_reel shot: shot, chrome: chrome, snap: "open", mid: 0.62, handle: false, reel_class: "is-join" do %>
   <h1>Tu rama</h1>
   <p class="lede">Las fichas y los equipos viven aquí. Las noches se abren dentro de la rama.</p>
 
   <%= form_with url: wards_path, class: "join-form" do %>
     <label for="ward_name">Nombre de la rama</label>
     <input id="ward_name" name="name" maxlength="48" required class="code-input" placeholder="Madrid Centro">
-    <button type="submit" class="btn btn-gold picto-btn"><%= picto("plus") %>Crear rama</button>
+    <button type="submit" class="btn btn-gold"><%= picto("plus") %>Crear rama</button>
   <% end %>
 
   <p class="split">¿Ya tienes una?</p>

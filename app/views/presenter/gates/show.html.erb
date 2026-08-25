@@ -3,14 +3,14 @@
   <%= render "shared/still", src: night_still_src(@night), poster: true %>
 <% end %>
 <% chrome = capture do %>
-  <%= render "shared/reel_chrome", night: @night, title: "#{@night.code} · #{@night.ward.name}" %>
+  <%= render "shared/reel_chrome", night: @night, title: "#{@night.code} · #{@night.ward.name}", close: true %>
 <% end %>
-<%= story_reel shot: shot, chrome: chrome, snap: "mid", reel_class: "is-join" do %>
+<%= story_reel shot: shot, chrome: chrome, snap: "mid", handle: false, reel_class: "is-join" do %>
   <div id="night_presenter_gate">
     <h1>Consola del presentador</h1>
     <p class="lede">Toca si llevas tú la noche. Si ya hay presentador, le avisamos. Tiene un minuto. Si no responde, la mesa pasa a ti.</p>
 
-    <%= button_to presenter_claim_path(@night.code), class: "btn btn-gold picto-btn" do %>
+    <%= button_to presenter_claim_path(@night.code), class: "btn btn-gold" do %>
       <%= picto("wand") %>Soy el presentador
     <% end %>
   </div>

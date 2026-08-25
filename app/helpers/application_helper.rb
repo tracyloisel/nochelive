@@ -22,8 +22,64 @@ module ApplicationHelper
     night_poster_src(night.presence || "reyes_y_profetas")
   end
 
+  def ceremony_still_src(night)
+    Array(night&.round_runs).sort_by { |run| -run.position.to_i }.each do |run|
+      src = challenge_story(run)
+      return src if src.present?
+    end
+    night_still_src(night)
+  end
+
   def story_reel(**kwargs, &block)
     render "shared/reel", **kwargs, body: capture(&block)
+  end
+
+  def presenter_next_action(night, round)
+    return { label: "Empezar la noche", url: presenter_start_path(night.code) } if night.lobby?
+    return { label: "Seguir", url: presenter_resume_path(night.code) } if night.paused?
+    return if night.finished? || round.nil?
+    return unless round.live? || !round.completed?
+
+    definition = round.definition
+    layered = definition.layered_finale?
+
+    if layered && (round.pending? || (round.intro? && round.layer_index.to_i.zero?))
+      return { label: "Servir el burger", url: presenter_open_round_path(night.code, round) }
+    end
+    if layered && round.intro? && !round.last_layer?
+      return { label: "Siguiente capa", url: presenter_peel_round_path(night.code, round) }
+    end
+    if layered && round.burger_assembled?
+      return { label: "¡La pregunta!", url: presenter_open_round_path(night.code, round) }
+    end
+    if round.pending? || round.intro?
+      return { label: "Abrir", url: presenter_open_round_path(night.code, round) }
+    end
+
+    show_crown = definition.finale? && !night.finished? && !round.completed? && !round.pending?
+    show_crown &&= !layered || round.phase.in?(%w[open locked answering revealed])
+    return { label: "¡La corona!", url: presenter_crown_path(night.code, round) } if show_crown
+
+    if round.open?
+      if definition.freeze?
+        return { label: "¡CONGELADOS!", url: presenter_lock_round_path(night.code, round) }
+      elsif definition.vote?
+        return { label: "Contar los votos", url: presenter_lock_round_path(night.code, round) }
+      elsif definition.buzzer? && !definition.finale?
+        return { label: "Cerrar buzzer", url: presenter_lock_round_path(night.code, round) }
+      elsif definition.finale?
+        return { label: "Cerrar la corona", url: presenter_lock_round_path(night.code, round) }
+      else
+        return { label: "Cerrar ronda", url: presenter_lock_round_path(night.code, round) }
+      end
+    end
+
+    if round.phase.in?(%w[locked answering])
+      return { label: "Revelar respuesta", url: presenter_reveal_round_path(night.code, round) }
+    end
+    if round.revealed?
+      return { label: "Siguiente", url: presenter_complete_round_path(night.code, round) }
+    end
   end
 
   def night_status_caption(night)

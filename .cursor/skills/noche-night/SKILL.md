@@ -102,5 +102,4 @@ intensity: 5
 - [ ] Spectator is opt-in TV, not a failed player
 - [ ] Night still has a rising curve (no quiz pile-up)
 - [ ] Last round can change who wins
-- [ ] A child who cannot read still knows what to slam (see noche-ui)
 - [ ] Night-director verdict written from `docs/AGENT_REVIEWS/TEMPLATE.md`

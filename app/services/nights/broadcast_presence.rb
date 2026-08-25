@@ -14,7 +14,7 @@ module Nights
           @night.player_stream(player),
           target: "night_presence",
           partial: "shared/presence",
-          locals: { night: @night, team: player.team, compact: player.team.present?, variant: "stage", audience: true }
+          locals: { night: @night, team: player.team, compact: player.team.present?, variant: "stage" }
         )
       end
 

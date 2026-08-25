@@ -6,7 +6,7 @@
 <% chrome = capture do %>
   <%= render "shared/reel_chrome", night: @night, title: @ward.name, ticks: false %>
 <% end %>
-<%= story_reel shot: shot, chrome: chrome, snap: "open", mid: 0.72, reel_class: "is-join" do %>
+<%= story_reel shot: shot, chrome: chrome, snap: "open", mid: 0.72, handle: false, reel_class: "is-join" do %>
   <section class="ficha-desk">
     <h1><%= @person.display_name %></h1>
     <p class="lede">Año favorito. Díselo ahora si alguien lo olvidó.</p>

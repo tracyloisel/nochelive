@@ -5,7 +5,7 @@
 <% chrome = capture do %>
   <%= render "shared/reel_chrome", title: "Presentador", ticks: false %>
 <% end %>
-<%= story_reel shot: shot, chrome: chrome, snap: "open", mid: 0.62, reel_class: "is-join" do %>
+<%= story_reel shot: shot, chrome: chrome, snap: "open", mid: 0.62, handle: false, reel_class: "is-join" do %>
   <h1>Abrir tu rama</h1>
   <p class="lede">El código y el secreto son de la rama, no de una noche.</p>
 

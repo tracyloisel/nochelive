@@ -159,7 +159,7 @@ class ApplicationHelperTest < ActionView::TestCase
     assert_includes rendered, "data-garnish-kind-value=\"lettuce\""
   end
 
-  test "pictos and choice marks are picture-first" do
+  test "pictos and choice marks stay visual" do
     svg = picto("door")
     assert_includes svg, "picto-door"
     assert_includes picto("close"), "picto-close"
@@ -208,6 +208,32 @@ class ApplicationHelperTest < ActionView::TestCase
     assert_includes rendered, "Temporada"
     assert_includes rendered, "Leones de Judá"
     assert_includes rendered, "Explorador"
+  end
+
+  test "empty ceremony does not shout a coronation" do
+    night = game_sessions(:elias)
+    render partial: "shared/ceremony", locals: { night: night }
+    assert_includes rendered, "La noche cierra."
+    assert_not_includes rendered, "¡TODOS DE PIE!"
+    assert_not_includes rendered, "Gran final"
+  end
+
+  test "ceremony still prefers a round painting over the flyer" do
+    src = ceremony_still_src(game_sessions(:david))
+    assert src.present?
+    assert_not_equal night_poster_src(game_sessions(:david)), src
+    assert_not_includes src, "/media/nights/"
+  end
+
+  test "presenter next action is a single sequential verb" do
+    night = game_sessions(:david)
+    round = round_runs(:salomon)
+    round.update_column(:opened_at, Time.current)
+    action = presenter_next_action(night, round)
+    assert_equal "Cerrar buzzer", action[:label]
+
+    lobby = game_sessions(:elias)
+    assert_equal "Empezar la noche", presenter_next_action(lobby, lobby.current_round_run)[:label]
   end
 
   test "night poster and status captions" do

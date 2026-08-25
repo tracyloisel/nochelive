@@ -12,7 +12,7 @@ class StoryGesturesTest < ApplicationSystemTestCase
     assert_selector ".play-reel[data-controller=story]"
     assert_selector ".story-close"
     assert_selector ".story-night", text: /Reyes y Profetas/
-    assert_selector ".story-audience"
+    assert_no_selector ".story-audience"
     assert_selector ".story-score"
     shot("01-play-story")
 
@@ -30,7 +30,10 @@ class StoryGesturesTest < ApplicationSystemTestCase
     assert_text "Pronto"
     shot("02-play-next-round")
 
-    find(".story-audience").click
+    page.execute_script(<<~JS)
+      var el = document.querySelector(".play-reel");
+      window.Stimulus.getControllerForElementAndIdentifier(el, "story").live();
+    JS
     assert_button "Buzz"
     shot("03-play-back-live")
 

@@ -3,29 +3,15 @@
 <% team = local_assigns[:team] %>
 <% player = local_assigns[:player] %>
 <% title = local_assigns[:title] %>
-<% nights = Array(local_assigns[:nights]) %>
-<% close = local_assigns.fetch(:close, true) %>
+<% close = local_assigns.fetch(:close, false) %>
 <% ticks = local_assigns[:ticks] %>
+<% live = local_assigns.fetch(:live, false) %>
 
-<% if ticks == :nights && nights.size > 1 %>
-  <ol class="stage-ticks story-ticks" aria-label="Noches">
-    <% nights.each_with_index do |item, index| %>
-      <li class="<%= "is-now" if index.zero? %>" title="<%= night_title(item) %>">
-        <button type="button"
-                class="story-tick"
-                data-story-target="tick"
-                data-action="story#jump"
-                data-story-index="<%= index %>"
-                aria-label="<%= item.code %> · <%= night_title(item) %>"
-                aria-current="<%= index.zero? ? "step" : "false" %>">
-        </button>
-      </li>
-    <% end %>
-  </ol>
-<% elsif ticks != false && night && night.round_runs.any? %>
+<% if ticks == true && night && night.round_runs.any? %>
   <%= render "shared/story_ticks", night: night, current: current %>
 <% end %>
 
+<% if close || title.present? || team || (live && night) %>
 <div class="story-meta">
   <% if close %>
     <%= render "shared/story_close", action: "click->story#exit" %>
@@ -46,13 +32,12 @@
         <span><%= team.cached_score %></span>
       </button>
     <% end %>
-    <% if night %>
-      <div class="story-pills">
-        <%= render "shared/presence", night: night, team: team, compact: true, variant: "stage", audience: true %>
-      </div>
+    <% if live && night %>
+      <%= render "shared/presence", night: night, team: team, compact: true, variant: "stage" %>
     <% end %>
   </div>
 </div>
+<% end %>
 
 <% if team %>
   <div class="score-pop"

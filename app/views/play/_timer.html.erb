@@ -6,10 +6,10 @@
        data-countdown-end-value="<%= round.ends_at.iso8601 %>"
        data-countdown-duration-value="<%= duration %>"
        role="timer"
-       aria-label="Tiempo restante">
+       aria-label="Tiempo restante, <%= left %> segundos">
+    <p class="play-timer-count"><span data-countdown-target="label"><%= left %></span><small>s</small></p>
     <div class="play-timer-track">
       <span class="play-timer-bar" data-countdown-target="bar" style="transform: scaleX(<%= duration.positive? ? (left.to_f / duration) : 0 %>)"></span>
     </div>
-    <p class="play-timer-count"><span data-countdown-target="label"><%= left %></span> s</p>
   </div>
 <% end %>

@@ -16,7 +16,7 @@
   <div class="stage-reel">
     <div class="stage-shot">
       <% if night.finished? %>
-        <%= render "shared/still", src: night_still_src(night), sparks: true, icon: "trophy" %>
+        <%= render "shared/still", src: ceremony_still_src(night), icon: "trophy" %>
       <% elsif round %>
         <%= render "shared/story_pages", night: night, current: round, reveal_future: true, cinema: true, pulse: local_assigns[:pulse] %>
       <% else %>
@@ -28,30 +28,20 @@
       <header class="stage-chrome">
         <div class="story-bar">
           <%= render "shared/story_close", action: "click->story#exit" %>
-          <%= render "shared/story_ticks", night: night, current: round %>
+          <% unless night.finished? %>
+            <%= render "shared/story_ticks", night: night, current: round %>
+          <% end %>
         </div>
-        <button type="button" class="story-live btn btn-gold btn-tiny" hidden data-story-target="liveChip" data-action="story#live">En directo</button>
         <div class="stage-bar">
-          <p class="live"><span class="live-dot" aria-hidden="true"></span>En directo</p>
           <p class="code-chip"><%= night.code %></p>
         </div>
       </header>
-
-      <aside class="stage-rail" aria-label="Atajos">
-        <%= render "shared/presence", night: night, team: nil, compact: false, variant: "stage" %>
-        <%= link_to presenter_roster_path(night.code), class: "btn btn-navy picto-btn stage-rail-btn" do %>
-          <%= picto("people") %>Lista
-        <% end %>
-        <%= link_to presenter_fichas_path(night.code), class: "btn btn-ghost picto-btn stage-rail-btn" do %>
-          <%= picto("person") %>Fichas
-        <% end %>
-      </aside>
 
       <div class="stage-caption">
         <% if night.finished? %>
           <p class="eyebrow">Fin de la noche</p>
         <% elsif round %>
-          <p class="eyebrow">Ronda <%= round.position %> / <%= night.round_runs.size %> · <%= round.phase %></p>
+          <p class="eyebrow">Ronda <%= round.position %> de <%= night.round_runs.size %></p>
           <h1 class="stage-title">
             <%= render "shared/round_icon", key: round.definition.icon %>
             <span><%= round.definition.title %></span>
@@ -59,7 +49,6 @@
           <% if round.definition.layered_finale? %>
             <%= render "shared/burger_stack", round: round %>
           <% end %>
-          <p class="quiet">Remoto: grado <%= round.definition.remote_grade %></p>
           <% if round.definition.layered_finale? %>
             <% if round.intro? && round.layer_index.to_i.zero? %>
               <p class="lede">Hazlos ponerse de pie. Espera.</p>
@@ -85,55 +74,21 @@
       <% unless night.finished? %>
         <nav class="stage-dock" aria-label="Mandos">
           <div class="console-actions stage-dock-main">
-            <% if night.lobby? %>
-              <%= button_to "Empezar la noche", presenter_start_path(night.code), class: "btn btn-gold" %>
-            <% elsif night.paused? %>
-              <%= button_to "Seguir", presenter_resume_path(night.code), class: "btn btn-gold" %>
-            <% end %>
-
-            <% if round && (round.live? || !round.completed?) %>
-              <% layered = round.definition.layered_finale? %>
-              <% if layered && (round.pending? || (round.intro? && round.layer_index.to_i.zero?)) %>
-                <%= button_to "Servir el burger", presenter_open_round_path(night.code, round), class: "btn btn-gold" %>
-              <% elsif layered && round.intro? && !round.last_layer? %>
-                <%= button_to "Siguiente capa", presenter_peel_round_path(night.code, round), class: "btn btn-gold" %>
-              <% elsif layered && round.burger_assembled? %>
-                <%= button_to "¡La pregunta!", presenter_open_round_path(night.code, round), class: "btn btn-gold" %>
-              <% elsif round.pending? || round.intro? %>
-                <%= button_to "Abrir", presenter_open_round_path(night.code, round), class: "btn btn-gold" %>
-              <% end %>
-              <% if round.open? && round.definition.freeze? %>
-                <%= button_to "¡CONGELADOS!", presenter_lock_round_path(night.code, round), class: "btn btn-gold" %>
-              <% elsif round.open? && round.definition.vote? %>
-                <%= button_to "Contar los votos", presenter_lock_round_path(night.code, round), class: "btn btn-gold" %>
-              <% elsif round.open? && round.definition.buzzer? && !round.definition.finale? %>
-                <%= button_to "Cerrar buzzer", presenter_lock_round_path(night.code, round), class: "btn btn-navy" %>
-              <% elsif round.open? && round.definition.finale? %>
-                <%= button_to "Cerrar la corona", presenter_lock_round_path(night.code, round), class: "btn btn-navy" %>
-              <% elsif round.open? && !round.definition.buzzer? && !round.definition.vote? %>
-                <%= button_to "Cerrar ronda", presenter_lock_round_path(night.code, round), class: "btn btn-navy" %>
-              <% end %>
-              <% show_crown = round.definition.finale? && !night.finished? && !round.completed? && !round.pending? %>
-              <% show_crown &&= !layered || round.phase.in?(%w[open locked answering revealed]) %>
-              <% if show_crown %>
-                <%= button_to "¡La corona!", presenter_crown_path(night.code, round), class: "btn btn-gold" %>
-              <% end %>
+            <% if (action = presenter_next_action(night, round)) %>
+              <%= button_to action[:label], action[:url], class: "btn btn-gold" %>
             <% end %>
           </div>
-          <div class="cluster stage-dock-more">
-            <% if night.playing? %>
-              <%= button_to "Pausa", presenter_pause_path(night.code), class: "btn btn-ghost btn-tiny" %>
-            <% end %>
-            <% if round && (round.live? || !round.completed?) && !(round.definition.finale? && !night.finished? && !round.completed? && !round.pending?) %>
-              <% if round.phase.in?(%w[open locked answering]) %>
-                <%= button_to "Revelar respuesta", presenter_reveal_round_path(night.code, round), class: "btn btn-gold btn-tiny" %>
+          <details class="stage-more">
+            <summary class="quiet-link">Más</summary>
+            <div class="cluster stage-dock-more">
+              <% if night.playing? %>
+                <%= button_to "Pausa", presenter_pause_path(night.code), class: "btn btn-ghost btn-tiny" %>
               <% end %>
-              <% if round.revealed? || round.locked? || round.answering? || round.open? %>
-                <%= button_to "Siguiente", presenter_complete_round_path(night.code, round), class: "btn btn-navy btn-tiny" %>
-              <% end %>
-            <% end %>
-            <%= button_to "Cerrar noche", presenter_finish_path(night.code), class: "btn btn-ghost btn-tiny", form: { data: { turbo_confirm: "¿Terminar la noche?" } } %>
-          </div>
+              <%= button_to "Cerrar noche", presenter_finish_path(night.code), class: "btn btn-ghost btn-tiny", form: { data: { turbo_confirm: "¿Terminar la noche?" } } %>
+              <%= link_to "Lista", presenter_roster_path(night.code), class: "quiet-link" %>
+              <%= link_to "Fichas", presenter_fichas_path(night.code), class: "quiet-link" %>
+            </div>
+          </details>
         </nav>
       <% end %>
     </div>
@@ -159,6 +114,7 @@
        data-desk-night-value="<%= night.code %>"
        data-desk-tab-value="<%= desk_tab %>"
        data-action="pointerdown->sheet#start">
+    <% unless night.finished? %>
     <button type="button"
             class="play-sheet-grip"
             data-sheet-target="handle"
@@ -167,7 +123,12 @@
             aria-valuetext="Tarjeta baja, se ve el dibujo">
       <span class="play-sheet-pip" aria-hidden="true"></span>
     </button>
+    <% end %>
     <div class="play-sheet-body" data-sheet-target="body">
+    <p class="desk-tools">
+      <%= link_to "Lista", presenter_roster_path(night.code), class: "quiet-link" %>
+      <%= link_to "Fichas", presenter_fichas_path(night.code), class: "quiet-link" %>
+    </p>
     <% if night.finished? %>
       <%= render "shared/ceremony", night: night %>
     <% else %>

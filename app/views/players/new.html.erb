@@ -4,9 +4,9 @@
   <%= render "shared/still", src: night_still_src(@night), poster: true %>
 <% end %>
 <% chrome = capture do %>
-  <%= render "shared/reel_chrome", night: @night, title: "#{@night.code} · #{night_title(@night)}" %>
+  <%= render "shared/reel_chrome", night: @night, title: "#{@night.code} · #{night_title(@night)}", ticks: false, live: false %>
 <% end %>
-<%= story_reel shot: shot, chrome: chrome, snap: "mid", mid: 0.48, reel_class: "is-join" do %>
+<%= story_reel shot: shot, chrome: chrome, snap: "mid", mid: 0.48, handle: false, reel_class: "is-join" do %>
   <div id="night_join">
     <% case @screen %>
     <% when :welcome %>
@@ -21,8 +21,8 @@
       <%= render "players/form", night: @night %>
     <% end %>
 
-    <%= link_to presenter_gate_path(@night.code), class: "btn btn-ghost picto-btn" do %>
-      <%= picto("wand") %>Soy el presentador
+    <%= link_to presenter_gate_path(@night.code), class: "quiet-link" do %>
+      Soy el presentador
     <% end %>
   </div>
 <% end %>

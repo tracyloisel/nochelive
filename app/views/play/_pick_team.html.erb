@@ -2,9 +2,9 @@
   <%= render "shared/still", src: night_still_src(night) %>
 <% end %>
 <% chrome = capture do %>
-  <%= render "shared/reel_chrome", night: night, title: "#{night.code} · #{night_title(night)}" %>
+  <%= render "shared/reel_chrome", night: night, title: "#{night.code} · #{night_title(night)}", ticks: false, live: false, close: true %>
 <% end %>
-<%= story_reel shot: shot, chrome: chrome, snap: "open", mid: 0.62, reel_class: "is-pick" do %>
+<%= story_reel shot: shot, chrome: chrome, snap: "open", mid: 0.62, handle: false, reel_class: "is-pick" do %>
   <h1>Elige tu equipo</h1>
 
   <% last_id = current_player&.person&.last_ward_team_id %>
@@ -34,7 +34,7 @@
   <h2 class="subhead">O crea uno</h2>
   <%= form_with url: night_teams_path(night.code), class: "join-form" do %>
     <label for="team_name">Nombre del equipo</label>
-    <input id="team_name" name="name" maxlength="28" required class="code-input" placeholder="Leones de Judá">
+    <input id="team_name" name="name" maxlength="28" required class="code-input" placeholder="Los vuestros" autocomplete="off">
     <fieldset class="emblem-pick">
       <legend>Emblema</legend>
       <% Team::EMBLEMS.each do |key, label| %>

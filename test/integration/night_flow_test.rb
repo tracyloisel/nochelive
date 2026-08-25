@@ -24,7 +24,7 @@ class NightFlowTest < ActionDispatch::IntegrationTest
     follow_redirect!
     get night_watch_path(night.code)
     assert_response :success
-    assert_select ".live"
+    assert_select ".watch-mark"
     assert_select "form[action*='buzz']", count: 0
   end
 
@@ -594,8 +594,8 @@ class NightFlowTest < ActionDispatch::IntegrationTest
     assert night.reload.finished?
 
     room.get night_play_path(night.code)
-    assert_includes room.response.body, "¡TODOS DE PIE!"
     assert_includes room.response.body, "Sois los campeones."
+    assert_includes room.response.body, "gana la noche"
 
     watch.get night_watch_path(night.code)
     assert_includes watch.response.body, "¡Leones gana la noche!"
@@ -647,7 +647,6 @@ class NightFlowTest < ActionDispatch::IntegrationTest
     post presenter_finish_path(night.code)
 
     get presenter_console_path(night.code)
-    assert_includes response.body, "¡TODOS DE PIE!"
     assert_includes response.body, "¡Leones gana la noche!"
     assert_includes response.body, "Lucía"
     assert_includes response.body, "La corona se queda en esta casa."
@@ -656,12 +655,11 @@ class NightFlowTest < ActionDispatch::IntegrationTest
 
     watch = open_session
     watch.get night_watch_path(night.code)
-    assert_includes watch.response.body, "¡TODOS DE PIE!"
+    assert_includes watch.response.body, "¡Leones gana la noche!"
     assert_includes watch.response.body, "Lucía"
     assert_includes watch.response.body, "Daniel"
 
     lucia.get night_play_path(night.code)
-    assert_includes lucia.response.body, "¡TODOS DE PIE!"
     assert_includes lucia.response.body, "Sois los campeones."
     assert_includes lucia.response.body, "Lucía"
 

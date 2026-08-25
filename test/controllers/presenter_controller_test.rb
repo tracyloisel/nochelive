@@ -187,7 +187,7 @@ class PresenterControllersTest < ActionDispatch::IntegrationTest
     assert_redirected_to presenter_console_path(@night.code)
     assert @night.reload.finished?
     get presenter_console_path(@night.code)
-    assert_includes response.body, "¡TODOS DE PIE!"
+    assert_includes response.body, "gana la noche"
     assert_not_includes response.body, "Siguiente"
   end
 
@@ -238,12 +238,13 @@ class PresenterControllersTest < ActionDispatch::IntegrationTest
     assert_select ".stage-ticks li"
     assert_select ".stage-shot"
     assert_select ".stage-dock"
-    assert_select ".presence.is-stage"
     assert_select "h1", text: "La elección de Salomón"
-    assert_select ".live", text: /En directo/
     assert_select ".challenge-story[src='/media/stories/salomon_wisdom.jpg']"
     assert_select "[data-controller=slideshow]", count: 0
     assert_includes response.body, "Cerrar buzzer"
+    assert_select ".stage-dock-main .btn-gold", count: 1
+    assert_select ".stage-dock-main .btn-navy", count: 0
+    assert_not_includes response.body, "Remoto:"
     assert_select ".desk-sheet[data-controller~=sheet][data-controller~=desk]"
     assert_select ".desk-tabs"
     assert_select ".desk-tab", text: /Respuestas/
@@ -308,7 +309,8 @@ class PresenterControllersTest < ActionDispatch::IntegrationTest
     assert_select ".console.is-stage"
     assert_select ".stage-dock"
     assert_includes response.body, "Empezar la noche"
-    assert_includes response.body, "Abrir"
+    assert_select ".stage-dock-main", text: /Empezar la noche/
+    assert_select ".stage-dock-main", text: /Abrir/, count: 0
   end
 
   test "burger presenter hides the crown until the question" do

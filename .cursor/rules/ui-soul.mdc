@@ -1,16 +1,19 @@
 ---
-description: White Stories/TikTok-like reel UI. Always apply so live play never ships as a dashboard of cards.
+description: Warm-white UI. Ink for words, gold for metal. Live quiz is a still-first reel; other screens keep what shipped. Never restore old .gate dashboards.
 alwaysApply: true
 ---
 
 # UI soul (required)
 
-Noche Live is a **white, tactile Stories reel**. A live round without a full-bleed still, overlay chrome, and a pull-up sheet is unfinished. It is not a black TikTok skin and not a stack of admin cards.
+Noche Live is a **warm white, tactile** product. A **live round** without a full-bleed still and a thin action dock is unfinished. It is not a black TikTok skin, not Instagram Stories on a form, and not a stack of admin cards.
 
-- Canvas: warm white (`--paper`). Ink text. Gold is the only loud accent. No dark navy pages.
-- Every screen: `.play-shot` (or stage/watch shot) + thin `.play-chrome` (ticks at the top) + `.play-sheet` / desk sheet. Watch is shot + chrome, no sheet. Swipe is `story` + `sheet`.
-- Home, lobby, join, pick-team, rank-up, ceremony, finished night: same reel grammar as play. Never a padded `.play-card` + `.team-bar` as the live layout. Sheet padding uses the 8px gap scale (`--space-6` / `--space-7`).
-- Player screens are **picture-first**: a child who cannot read should still know what to tap. Keep Spanish captions.
+- Canvas: warm white (`--paper`). **Ink for words** (titles, questions, stand-up). **Gold for metal** (emblems, one CTA, trophies). Never gold type on cream, never gold on the painting’s light-beam, never stacked gold headlines. No dark navy pages. 8px gap scale (`--space-6` / `--space-7`).
+- **Live quiz only** (play round, burger finale, TV /watch during a round, presenter stage during a round): still-first reel. Painting visible. Thin chrome (ticks + timer + score — no LIVE chip). Watch = cinema (still + question + one **short** scoreboard lower-third), no sheet. Overlay contrast (local short scrims, cream type — never a milky veil or a bottom wash that eats the painting). Swipe is `story` + `sheet`. If the sheet cannot be dragged, no fake grab-handle. Timer is a readable object. Burger layers are labeled.
+- **Everything else** (home, join, pick-team, lobby, fichas, roster, gates, presenter lists): keep the layout that is on disk. Strip Story residue (ticks, LIVE 0, décor X, mute, fake handle). You may design a clearer layout later. Do **not** force every screen into shot+sheet. Do **not** restore the old `.gate` / dashboard cards. Do not unwind peek-pass or overlay-contrast CSS.
+- **Home/join:** one door — code + Entrar as a real button (label with icon, not a springboard tile). Presenter / Solo ver as quieter links. High-contrast inputs. No next-card peek stealing the footer.
+- **Presenter:** one sequential gold next action. Pause/end/Lista/Fichas in overflow or desk. No “Remoto: grado A” on stage.
+- **Ceremony:** one hero (name, emblem, score). Honest empty or tie. No “Este viernes” flyer, no 0–0 coronation shout.
+- Family night: Spanish, large hits, sofa vs casa. Questions and titles are readable type.
 - Motion: press scale + ripple (`press`). Turbo swaps use View Transitions (`motion`). Honor `prefers-reduced-motion`.
 - Do not add a CSS framework, a new palette, or dark mode.
 - When touching `app/views`, `app/assets/stylesheets`, or Stimulus UI, follow `.cursor/skills/noche-ui/SKILL.md`.

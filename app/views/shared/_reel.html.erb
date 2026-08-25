@@ -4,8 +4,9 @@
 <% mid = local_assigns.fetch(:mid, 0.48) %>
 <% index = local_assigns.fetch(:index, 0) %>
 <% live_index = local_assigns.fetch(:live_index, index) %>
+<% handle = local_assigns.fetch(:handle, true) %>
 <% grip = local_assigns.fetch(:grip, "Mover la tarjeta para ver el dibujo") %>
-<section class="play-card play-reel <%= local_assigns[:reel_class] %>"
+<section class="play-card play-reel <%= local_assigns[:reel_class] %> <%= "is-dock" unless handle %>"
          data-controller="story"
          data-story-exit-url-value="<%= local_assigns.fetch(:exit_url, root_path) %>"
          data-story-index-value="<%= index %>"
@@ -26,14 +27,16 @@
        data-sheet-peek-ratio-value="<%= peek %>"
        data-sheet-mid-ratio-value="<%= mid %>"
        data-action="pointerdown->sheet#start">
-    <button type="button"
-            class="play-sheet-grip"
-            data-sheet-target="handle"
-            data-action="click->sheet#cycle"
-            aria-label="<%= grip %>"
-            aria-valuetext="Tarjeta media">
-      <span class="play-sheet-pip" aria-hidden="true"></span>
-    </button>
+    <% if handle %>
+      <button type="button"
+              class="play-sheet-grip"
+              data-sheet-target="handle"
+              data-action="click->sheet#cycle"
+              aria-label="<%= grip %>"
+              aria-valuetext="Tarjeta media">
+        <span class="play-sheet-pip" aria-hidden="true"></span>
+      </button>
+    <% end %>
     <div class="play-sheet-body" data-sheet-target="body">
       <%= body %>
     </div>

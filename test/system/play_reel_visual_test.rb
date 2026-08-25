@@ -17,8 +17,7 @@ class PlayReelVisualTest < ApplicationSystemTestCase
     assert_selector ".story-close"
     assert_selector ".story-ticks"
     assert_selector ".story-night", text: /Reyes y Profetas/
-    assert_selector ".story-audience .live-mark", text: "LIVE"
-    assert_selector ".story-audience strong", text: /\d+/
+    assert_no_selector ".story-audience"
     assert_selector ".story-score"
     assert_selector ".challenge-story"
     assert_no_selector ".play-round > .art"
@@ -45,14 +44,6 @@ class PlayReelVisualTest < ApplicationSystemTestCase
       })();
     JS
     assert gap >= 0 && gap < 20, "score pill should sit immediately after the night title"
-    live_gap = page.evaluate_script(<<~JS)
-      (function() {
-        var score = document.querySelector(".story-score").getBoundingClientRect();
-        var live = document.querySelector(".story-audience").getBoundingClientRect();
-        return live.left - score.right;
-      })();
-    JS
-    assert live_gap >= 0 && live_gap < 20, "LIVE pill should sit immediately after the score, not float right"
     assert chrome_bottom < 240, "story chrome should stay a thin overlay over the drawing"
     assert sheet_top > 80, "the illustration should peek above the question card"
     shot("01-buzz-open-844")

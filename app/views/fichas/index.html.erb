@@ -6,7 +6,7 @@
 <% chrome = capture do %>
   <%= render "shared/reel_chrome", night: @night, title: "#{@ward.name} · #{@ward.code}", ticks: false %>
 <% end %>
-<%= story_reel shot: shot, chrome: chrome, snap: "open", mid: 0.7, reel_class: "is-join" do %>
+<%= story_reel shot: shot, chrome: chrome, snap: "open", mid: 0.7, handle: false, reel_class: "is-join" do %>
   <section class="ficha-desk">
     <h1>Fichas de la rama</h1>
     <p class="lede">Fusiona, corrige o lee el año para decirlo en voz alta. No lo proyectes.</p>

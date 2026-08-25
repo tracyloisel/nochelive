@@ -5,14 +5,14 @@
 <% chrome = capture do %>
   <%= render "shared/reel_chrome", title: "Presentador", ticks: false %>
 <% end %>
-<%= story_reel shot: shot, chrome: chrome, snap: "open", mid: 0.62, reel_class: "is-join" do %>
+<%= story_reel shot: shot, chrome: chrome, snap: "open", mid: 0.62, handle: false, reel_class: "is-join" do %>
   <% if @ward %>
     <h1>Abrir la noche</h1>
     <p class="lede"><%= @ward.name %> · <%= @ward.code %>. Se crea un código corto. Guarda el enlace secreto.</p>
     <% if @live_nights.any? %>
       <p class="lede">Esta rama ya tiene una noche. Entra como presentador o crea otra.</p>
       <% @live_nights.each do |night| %>
-        <%= button_to presenter_claim_path(night.code), class: "btn btn-gold picto-btn" do %>
+        <%= button_to presenter_claim_path(night.code), class: "btn btn-gold" do %>
           <%= picto("wand") %>Soy el presentador · <%= night.code %>
         <% end %>
       <% end %>

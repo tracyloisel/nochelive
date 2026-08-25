@@ -2,7 +2,7 @@
 <%= tag.section class: "watch is-board", id: "night_watch", data: stage_audio_data(round, night: night) do %>
   <div class="watch-shot">
     <% if night.finished? %>
-      <%= render "shared/still", src: night_still_src(night), sparks: true, icon: "trophy" %>
+      <%= render "shared/still", src: ceremony_still_src(night), icon: "trophy" %>
     <% elsif night.lobby? || round.nil? || round.pending? %>
       <%= render "shared/still", src: night_still_src(night), poster: true %>
     <% else %>
@@ -11,9 +11,7 @@
   </div>
 
   <div class="watch-chrome">
-    <p class="live"><span class="live-dot" aria-hidden="true"></span>En directo · <%= night.code %></p>
-    <h1><%= night.theme_title %></h1>
-    <%= render "shared/presence", night: night, team: nil, compact: true %>
+    <p class="watch-mark"><%= night.code %></p>
   </div>
 
   <div class="watch-caption">
@@ -157,20 +155,15 @@
 
   <% unless night.finished? %>
     <aside class="board watch-board" aria-label="Marcador">
-      <% night.teams.includes(:players).order(cached_score: :desc).each do |team| %>
-        <p>
-          <span class="emblem emblem-<%= team.emblem %>"><%= render "shared/emblem", key: team.emblem %></span>
-          <span class="word"><%= team.name %></span>
-          <span class="presence-faces">
-            <% team.players.each do |member| %>
-              <span class="presence-face <%= "is-live" if member.live? %>" title="<%= member.name %>">
-                <%= render "shared/avatar", player: member %>
-              </span>
-            <% end %>
-          </span>
-          <strong class="score"><%= picto("star") %><%= team.cached_score %></strong>
-        </p>
-      <% end %>
+      <ol class="score-strip">
+        <% night.teams.includes(:players).order(cached_score: :desc).each do |team| %>
+          <li>
+            <span class="emblem emblem-<%= team.emblem %>"><%= render "shared/emblem", key: team.emblem %></span>
+            <span class="word"><%= team.name %></span>
+            <strong class="score"><%= team.cached_score %></strong>
+          </li>
+        <% end %>
+      </ol>
     </aside>
   <% end %>
 <% end %>

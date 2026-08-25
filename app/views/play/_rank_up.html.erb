@@ -2,9 +2,9 @@
   <%= render "shared/still", src: night_still_src(night), icon: "sparkle" %>
 <% end %>
 <% chrome = capture do %>
-  <%= render "shared/reel_chrome", night: night, title: night_title(night), team: team, player: player %>
+  <%= render "shared/reel_chrome", night: night, title: night_title(night), team: team, player: player, ticks: false, live: false, close: true %>
 <% end %>
-<%= story_reel shot: shot, chrome: chrome, snap: "open", mid: 0.62, reel_class: "is-rank peak" do %>
+<%= story_reel shot: shot, chrome: chrome, snap: "open", mid: 0.62, handle: false, reel_class: "is-rank peak" do %>
   <div class="rank-up" role="status">
     <p class="eyebrow">Nueva dignidad</p>
     <h1><%= team.pending_rank_up %></h1>

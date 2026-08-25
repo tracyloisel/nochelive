@@ -17,10 +17,15 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     assert_select ".night-menu"
     assert_select "img.night-poster"
     assert_select ".btn.btn-gold", text: /Entrar/
+    assert_select "h1", text: "Noche Live"
+    assert_select "h1", text: "Noche Live"
     assert_select ".btn.btn-gold .picto"
     assert_select ".picto-door"
-    assert_select ".btn.btn-ghost"
-    assert_select ".btn.btn-navy"
+    assert_select ".quiet-link", text: /Soy el presentador/
+    assert_select ".quiet-link", text: /Solo ver/
+    assert_select ".story-ticks", count: 0
+    assert_select ".play-sheet-grip", count: 0
+    assert_select ".btn.btn-navy", text: /Crear una noche/
   end
 
   test "design tokens and motion live in the stylesheet" do
@@ -53,36 +58,42 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     assert_includes css, "--story-shadow:"
     assert_includes css, "--scrim-top:"
     assert_includes css, "--scrim-bottom:"
+    assert_includes css, "--scrim-board:"
     assert_includes css, "rgba(28, 25, 21, 0.9)"
-    assert_includes css, "rgba(28, 25, 21, 0.66)"
+    assert_includes css, "rgba(28, 25, 21, 0.42)"
     assert_includes css, ".watch-caption,\n.stage-caption {\n  background: var(--scrim-bottom);"
+    assert_includes css, "background: var(--scrim-board);"
     refute_includes css, "linear-gradient(180deg, var(--paper) 0%, transparent 28%)"
     assert_includes css, "--sky:"
   end
 
-  test "watch screen is a kid picture board" do
+  test "watch screen is a still-first cinema board" do
     get night_watch_path(game_sessions(:david).code)
     assert_response :success
     assert_select "body.is-watch.is-kid"
     assert_select ".watch.is-board"
     assert_select ".watch-shot"
-    assert_select ".watch-chrome .live"
-    assert_select ".live-dot"
+    assert_select ".watch-chrome .watch-mark"
+    assert_select ".watch-chrome .presence-stat", count: 0
+    assert_select ".watch-chrome .live", count: 0
     assert_select ".challenge-story[src='/media/stories/salomon_wisdom.jpg']"
     assert_select ".cheer-dock", count: 0
   end
 
-  test "name screen uses picture cards a child can tap" do
+  test "name screen is a form on a still without Story costume" do
     get night_name_path(game_sessions(:david).code)
     assert_response :success
     assert_select "h1", text: /llama/
     assert_select ".picture-card", count: 2
     assert_select ".picto-sofa"
     assert_select ".picto-house"
-    assert_select "a.btn", text: /Soy el presentador/
+    assert_select "a.quiet-link", text: /Soy el presentador/
     assert_select ".play-reel"
     assert_select ".play-shot"
     assert_select ".play-sheet[data-sheet-snap=mid]"
+    assert_select ".play-sheet-grip", count: 0
+    assert_select ".story-ticks", count: 0
+    assert_select ".story-close", count: 0
     assert_select "#night_join"
   end
 
@@ -102,7 +113,10 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     assert_select ".desk-tabs"
     assert_select ".desk-board[aria-label=Marcador]"
     assert_select ".desk-team"
-    assert_select ".stage-reel .stage-rail"
+    assert_select ".stage-dock-main .btn-gold", count: 1
+    assert_select ".stage-more", text: /Lista/
+    assert_select ".stage-rail", count: 0
+    assert_not_includes response.body, "Remoto: grado"
     css = Rails.root.join("app/assets/stylesheets/application.css").read
     assert_includes css, ".stage-dock"
     assert_includes css, ".stage-shot"
@@ -119,6 +133,8 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select ".stage-shot .challenge-story"
     assert_select ".stage-shot .ceremony", count: 0
-    assert_select ".desk-sheet .ceremony", text: /TODOS DE PIE/
+    assert_select ".desk-sheet .ceremony", text: /gana la noche/
+    assert_select ".story-ticks", count: 0
+    assert_select ".play-sheet-grip", count: 0
   end
 end

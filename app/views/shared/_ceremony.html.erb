@@ -1,26 +1,41 @@
 <% you = local_assigns[:you] %>
-<% champs = night.first_place_teams %>
-<div class="ceremony">
-  <p class="eyebrow">Gran final</p>
-  <p class="stand-up">¡TODOS DE PIE!</p>
-
-  <% if champs.empty? %>
-    <p class="lede">La noche cierra.</p>
-  <% elsif night.tied_finale? %>
+<% champs = night.scored_finale? ? night.first_place_teams : [] %>
+<% champ = night.scored_finale? ? night.champion : nil %>
+<div class="ceremony <%= "is-empty" unless night.scored_finale? %>">
+  <% if champ %>
+    <div class="ceremony-hero">
+      <span class="emblem emblem-xl emblem-<%= champ.emblem %>"><%= render "shared/emblem", key: champ.emblem %></span>
+      <h1><%= champ.name %></h1>
+      <p class="score" aria-label="puntos"><%= picto("trophy") %><%= champ.cached_score %></p>
+      <% if line = roster_line(champ) %>
+        <p class="roster"><%= line %></p>
+      <% end %>
+    </div>
+    <p class="shout">¡<%= champ.name %> gana la noche!</p>
+  <% elsif night.scored_finale? && night.tied_finale? %>
+    <div class="ceremony-hero is-tie">
+      <h1>Empate</h1>
+      <ul class="tie-lockup">
+        <% champs.each do |team| %>
+          <li>
+            <span class="emblem emblem-lg emblem-<%= team.emblem %>"><%= render "shared/emblem", key: team.emblem %></span>
+            <strong><%= team.name %></strong>
+            <em><%= team.cached_score %></em>
+          </li>
+        <% end %>
+      </ul>
+    </div>
     <p class="shout">¡Empate de reyes!</p>
     <p class="lede"><%= champs.map(&:name).join(" y ") %></p>
   <% else %>
-    <p class="shout">¡<%= night.champion.name %> gana la noche!</p>
-    <% if line = roster_line(night.champion) %>
-      <p class="roster"><%= line %></p>
-    <% end %>
+    <p class="lede">La noche cierra.</p>
   <% end %>
 
-  <% if night.visual_podium.any? %>
+  <% if night.scored_finale? && night.visual_podium.any? && night.visual_podium.size > 1 %>
     <ol class="podium-steps">
       <% night.visual_podium.each do |other| %>
         <% place = night.place_for(other) %>
-        <li class="step step-<%= place %> <%= 'is-you' if you && other.id == you.id %>">
+        <li class="step step-<%= place %> <%= "is-you" if you && other.id == you.id %> <%= "is-hero" if champ && other.id == champ.id %>">
           <p class="step-place"><%= picto(place == 1 ? "trophy" : "star") %><%= medal_label(place) %></p>
           <span class="emblem emblem-<%= other.emblem %>"><%= render "shared/emblem", key: other.emblem %></span>
           <strong><%= other.name %></strong>
@@ -35,8 +50,6 @@
 
   <p class="blessing"><%= finale_blessing %></p>
 
-  <%= render "shared/roster", night: night, compact: true %>
-
   <% if line = missionary_line(night) %>
     <p class="lede">Esta noche con <%= line %>.</p>
   <% end %>
@@ -45,8 +58,8 @@
     <p class="season-rise">Temporada: ¡<%= team.name %> es <%= team.season_rank_up %>!</p>
   <% end %>
 
-  <% if you && (place = night.place_for(you)) %>
-    <% if night.champion&.id == you.id %>
+  <% if you && night.scored_finale? && (place = night.place_for(you)) %>
+    <% if champ&.id == you.id %>
       <p class="you-are">Sois los campeones.</p>
     <% elsif night.tied_finale? && champs.any? { |team| team.id == you.id } %>
       <p class="you-are">Compartís la corona.</p>

@@ -28,12 +28,9 @@ class PlayAndWatchControllerTest < ActionDispatch::IntegrationTest
     assert_select ".play-reel[data-controller=story]"
     assert_select ".story-ticks"
     assert_select ".story-night", text: /Reyes y Profetas/
-    assert_select ".story-audience", text: /En directo/
-    assert_select ".story-audience .live-mark", text: "LIVE"
-    assert_select ".story-audience .picto-eye"
-    assert_select ".story-audience strong", text: /\d+/
+    assert_select ".story-audience", count: 0
+    assert_select ".live-mark", count: 0
     assert_select ".story-score", text: /\d+/
-    assert_select ".story-meta .story-pills"
     assert_select ".story-meta .story-score"
     assert_select ".score-pop .team-bar"
     assert_select ".play-chrome > .team-bar", count: 0
@@ -125,7 +122,7 @@ class PlayAndWatchControllerTest < ActionDispatch::IntegrationTest
     sign_in_as_participant(done, name: "Rita", team: teams(:campeones))
     get night_play_path(done.code)
     assert_select ".play-reel.is-finale"
-    assert_select ".play-sheet[data-sheet-snap=mid] .ceremony", text: /TODOS DE PIE/
+    assert_select ".play-sheet[data-sheet-snap=mid] .ceremony", text: /gana la noche/
     assert_select ".play-shot .challenge-story"
     assert_select ".play-chrome > .team-bar", count: 0
   end

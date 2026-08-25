@@ -34,11 +34,9 @@
           <%= picto("star") %>
           <span><%= team.cached_score %></span>
         </button>
-        <div class="story-pills">
-          <%= render "shared/presence", night: night, team: team, compact: true, variant: "stage", audience: true %>
-        </div>
       </div>
     </div>
+    <%= render "shared/presence", night: night, team: team, compact: true, variant: "stage" %>
 
     <div class="score-pop"
          id="play_score"
@@ -70,7 +68,7 @@
        data-sheet-snap="<%= quiz_phone ? "open" : (round.revealed? || answer.present? ? "open" : "mid") %>"
        data-sheet-snap-value="<%= quiz_phone ? "open" : (round.revealed? || answer.present? ? "open" : "mid") %>"
        data-sheet-peek-ratio-value="0.18"
-       data-sheet-mid-ratio-value="<%= quiz_phone ? 0.58 : 0.52 %>"
+       data-sheet-mid-ratio-value="<%= quiz_phone ? 0.52 : 0.40 %>"
        data-action="pointerdown->sheet#start">
     <button type="button"
             class="play-sheet-grip"

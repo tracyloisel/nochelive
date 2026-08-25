@@ -2,9 +2,9 @@
   <%= render "shared/still", src: night_still_src(night) %>
 <% end %>
 <% chrome = capture do %>
-  <%= render "shared/reel_chrome", night: night, title: night_title(night), team: team, player: player %>
+  <%= render "shared/reel_chrome", night: night, title: night_title(night), team: team, player: player, ticks: false, live: false, close: true %>
 <% end %>
-<%= story_reel shot: shot, chrome: chrome, snap: "mid", reel_class: "is-lobby" do %>
+<%= story_reel shot: shot, chrome: chrome, snap: "mid", handle: false, reel_class: "is-lobby" do %>
   <div class="wait-toy" role="status">
     <span class="emblem emblem-xl emblem-<%= team.emblem %> bob"><%= render "shared/emblem", key: team.emblem %></span>
     <span class="wait-dots" aria-hidden="true"><i></i><i></i><i></i></span>
