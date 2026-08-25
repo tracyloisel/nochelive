@@ -270,6 +270,14 @@ class ApplicationHelperTest < ActionView::TestCase
     assert_not phone_quiz_asking?(round_runs(:salomon), players(:lucia))
   end
 
+  test "street choices shuffle per run question" do
+    digest = GameSession.digest_token("helper-shuffle")
+    frame = Quizzes::Draw.call(device_digest: digest)
+    yaml_first = frame.question.correct_choice
+    shown_first = choice_key(street_shuffled_choices(frame.run, frame.question).first)
+    assert_not_equal yaml_first, shown_first
+  end
+
   test "street audio uses one named cue and stops the bed when settled" do
     digest = GameSession.digest_token("helper-street")
     frame = Quizzes::Draw.call(device_digest: digest)

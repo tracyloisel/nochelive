@@ -116,6 +116,19 @@ class QuizDefinitionTest < ActiveSupport::TestCase
     assert_equal 17, second.packs.size
   end
 
+  test "shuffled choices move the correct key away from first place" do
+    question = QuizDefinition.catalog.find_pack("hermanas").question_at(9)
+    yaml_first = (question.choices.first["key"] || question.choices.first[:key]).to_s
+    assert_equal question.correct_choice, yaml_first
+
+    moved = (1..20).any? do |seed|
+      shuffled = question.shuffled_choices(seed)
+      first = (shuffled.first["key"] || shuffled.first[:key]).to_s
+      first != yaml_first
+    end
+    assert moved
+  end
+
   private
 
   def catalog_data

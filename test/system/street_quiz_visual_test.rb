@@ -64,6 +64,35 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
     pair("06-timed")
   end
 
+  test "settled four bars keep next in the dock" do
+    page.current_window.resize_to(390, 844)
+    visit root_path
+    run = QuizRun.order(:id).last
+    question = QuizDefinition.catalog.find_pack("coronas").question_at(2)
+    run.update!(pack_id: "coronas", position: 2, score: 0, ends_at: nil, status: "open")
+    visit root_path
+
+    wrong = page.all(".choice-btn").find { |btn| btn["data-choice-key"] != question.correct_choice }
+    wrong.click
+    assert_selector ".quiz-board.is-settled"
+    assert_selector ".quiz-bar", count: 4
+    assert_selector ".street-quiz-dock .quiz-next"
+    assert_in_viewport ".street-quiz-dock .quiz-next"
+    shot("07-four-bars-settled")
+  end
+
+  def assert_in_viewport(selector)
+    visible = page.evaluate_script(<<~JS)
+      (function() {
+        var el = document.querySelector(#{selector.to_json});
+        if (!el) return false;
+        var r = el.getBoundingClientRect();
+        return r.top >= -8 && r.bottom <= (window.innerHeight + 8) && r.height > 0;
+      })()
+    JS
+    assert visible, "#{selector} should sit in the first screen"
+  end
+
   def pair(name)
     page.current_window.resize_to(390, 844)
     shot("#{name}-phone")

@@ -2,7 +2,6 @@
 <%= link_to t("home.who"), about_path, class: "quiet-link" %>
 <%= link_to t("home.menu_search"), search_path, class: "quiet-link" %>
 <%= link_to t("home.nights"), nights_path, class: "quiet-link" %>
-<% if current_ward %>
-  <%= link_to t("street.profile_menu"), street_profile_path, class: "quiet-link" %>
-<% end %>
+<%= link_to t("street.profile_menu"), street_profile_path, class: "quiet-link" %>
+<%= link_to t("street.history_menu"), street_history_path, class: "quiet-link" %>
 <%= render "shared/night_code" %>

@@ -64,16 +64,18 @@
         <% if street.done? %>
           <%= render "home/street_done", street: street %>
         <% else %>
-          <%= render "home/street_trail", street: street, street_trail: street_trail %>
-          <p class="round-title">
-            <span class="quiz-pack"><%= pack.copy(:title) %></span>
-            <span class="quiz-progress"><%= t("quiz.progress", n: run.position, total: pack.questions.size) %></span>
-          </p>
+          <% unless street.settled? %>
+            <%= render "home/street_trail", street: street, street_trail: street_trail %>
+            <p class="round-title">
+              <span class="quiz-pack"><%= pack.copy(:title) %></span>
+              <span class="quiz-progress"><%= t("quiz.progress", n: run.position, total: pack.questions.size) %></span>
+            </p>
+          <% end %>
           <% if street.asking? %>
             <p class="prompt"><%= question.copy(:question) %></p>
             <%= render "home/street_choices", street: street %>
           <% else %>
-            <%= render "home/street_settled", street: street %>
+            <%= render "home/street_settled", street: street, pack: pack, run: run %>
           <% end %>
         <% end %>
       </div>

@@ -1,5 +1,5 @@
 <div class="choices">
-  <% street.question.choices.each_with_index do |choice, index| %>
+  <% street_shuffled_choices(street.run, street.question).each_with_index do |choice, index| %>
     <% mark = choice_mark(index) %>
     <%= button_to quiz_answers_path(street.run),
           params: { choice: choice_key(choice) },

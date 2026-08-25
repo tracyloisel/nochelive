@@ -1,7 +1,14 @@
 <% trail = local_assigns[:street_trail] || [] %>
 <% return if trail.empty? || street.done? %>
 
-<nav class="street-trail" aria-label="<%= t("street.trail") %>">
+<div class="street-trail-wrap">
+  <div class="street-trail-head">
+    <p class="street-trail-title"><%= t("street.trail") %></p>
+    <%= link_to street_history_path, class: "quiet-link street-trail-more" do %>
+      <%= t("street.history_menu") %><%= picto("arrow") %>
+    <% end %>
+  </div>
+  <nav class="street-trail" aria-label="<%= t("street.trail") %>">
   <ol class="street-trail-path">
     <% trail.each do |step| %>
       <% if step.pack? %>
@@ -29,4 +36,5 @@
       <% end %>
     <% end %>
   </ol>
-</nav>
+  </nav>
+</div>

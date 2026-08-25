@@ -30,6 +30,9 @@ class HomeControllerTest < ActionDispatch::IntegrationTest
     assert_select "details.home-menu a[href=?]", nights_path, text: I18n.t("home.nights")
     assert_select "details.home-menu a[href=?]", search_path
     assert_select "details.home-menu a[href=?]", about_path
+    assert_select "details.home-menu a[href=?]", street_profile_path, text: I18n.t("street.profile_menu")
+    assert_select "details.home-menu a[href=?]", street_history_path, text: I18n.t("street.history_menu")
+    assert_select ".street-person"
     assert_select "details.home-menu .place-input", count: 0
     assert_select ".ward-grid", count: 0
     assert_select ".chrome-tools .mute + .lang-switch"

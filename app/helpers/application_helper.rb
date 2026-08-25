@@ -228,6 +228,20 @@ module ApplicationHelper
     }
   end
 
+  def street_choice_seed(run, question)
+    run.id.to_i * 1_000 + question.position.to_i
+  end
+
+  def street_shuffled_choices(run, question)
+    question.shuffled_choices(street_choice_seed(run, question))
+  end
+
+  def street_shuffled_tally(run, question, tally)
+    order = street_shuffled_choices(run, question).map { |choice| choice_key(choice) }
+    rows = Array(tally).index_by(&:key)
+    order.filter_map { |key| rows[key] }
+  end
+
   def street_grade_fx(question, correct)
     pos = question.position.to_i
     if correct

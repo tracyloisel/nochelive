@@ -1,18 +1,16 @@
-<% if current_ward %>
-  <% if current_street_person %>
-    <%= link_to street_profile_path, class: "street-person" do %>
-      <% src = avatar_mark(current_street_person) %>
-      <% if src %>
-        <img src="<%= src %>" alt="" class="avatar-img" width="28" height="28">
-      <% else %>
-        <span class="avatar-fallback" aria-hidden="true"><%= current_street_person.given_name.to_s.first %></span>
-      <% end %>
-      <span class="word"><%= current_street_person.given_name %></span>
+<% if current_street_person %>
+  <%= link_to street_profile_path, class: "street-person" do %>
+    <% src = avatar_mark(current_street_person) %>
+    <% if src %>
+      <img src="<%= src %>" alt="" class="avatar-img" width="28" height="28">
+    <% else %>
+      <span class="avatar-fallback" aria-hidden="true"><%= current_street_person.given_name.to_s.first %></span>
     <% end %>
-  <% else %>
-    <%= link_to street_profile_path, class: "street-person is-guest quiet-link" do %>
-      <%= picto("user") %>
-      <span class="word"><%= t("street.pick_profile") %></span>
-    <% end %>
+    <span class="word"><%= current_street_person.given_name %></span>
+  <% end %>
+<% else %>
+  <%= link_to street_profile_path, class: "street-person is-guest quiet-link" do %>
+    <%= picto("user") %>
+    <span class="word"><%= t("street.pick_profile") %></span>
   <% end %>
 <% end %>

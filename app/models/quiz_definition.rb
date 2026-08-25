@@ -47,6 +47,10 @@ class QuizDefinition
     def timed?
       duration.to_i > 0
     end
+
+    def shuffled_choices(seed)
+      choices.shuffle(random: Random.new(seed.to_i))
+    end
   end
 
   Pack = Struct.new(:id, :title, :questions, keyword_init: true) do
