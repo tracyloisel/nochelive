@@ -50,6 +50,18 @@ WATCH
   .watch-caption shout / prompt / ceremony over the picture
 ```
 
+Overlay copy on the still is **cream**, not `--ink`. Soft vertical scrims sit only under chrome (top) and watch/presenter captions (bottom). Never a milky paper veil over the picture.
+
+| Token | Role |
+|---|---|
+| `--story-type` | Overlay captions (ticks row, watch lede, presenter overlay title) |
+| `--story-type-soft` | Secondary overlay copy |
+| `--story-shadow` | Halo so cream reads on gold or night stills |
+| `--scrim-top` | `.play-chrome` / `.watch-chrome` / `.stage-chrome` |
+| `--scrim-bottom` | `.watch-caption` / `.stage-caption` |
+
+The pull-up sheet and presenter desk stay `--paper` / `--ink`. Do not pick colors per illustration.
+
 Do **not** put a live night, lobby, rank-up, or ceremony in a padded `.play-card` with a `.team-bar` on the chrome. Score lives in `.score-pop`. Ticks sit at the **very top**, like Stories. Sheet padding stays on the 8px scale (`--space-6` on phone, `--space-7` on presenter/watch desks). Never one-off `margin: 4px`.
 
 ```erb

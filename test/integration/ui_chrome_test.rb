@@ -48,6 +48,15 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     assert_includes css, ".story-score"
     assert_includes css, ".is-kid .story-audience.btn"
     assert_includes css, ".story-night"
+    assert_includes css, "--story-type:"
+    assert_includes css, "--story-type-soft:"
+    assert_includes css, "--story-shadow:"
+    assert_includes css, "--scrim-top:"
+    assert_includes css, "--scrim-bottom:"
+    assert_includes css, "rgba(28, 25, 21, 0.9)"
+    assert_includes css, "rgba(28, 25, 21, 0.66)"
+    assert_includes css, ".watch-caption,\n.stage-caption {\n  background: var(--scrim-bottom);"
+    refute_includes css, "linear-gradient(180deg, var(--paper) 0%, transparent 28%)"
     assert_includes css, "--sky:"
   end
 
