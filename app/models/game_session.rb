@@ -41,6 +41,17 @@ class GameSession < ApplicationRecord
     value.to_s.upcase.gsub(/[^A-Z0-9]/, "")
   end
 
+  def self.find_by_code(code)
+    key = normalize_code(code)
+    return if key.blank?
+
+    live.where(code: key).order(id: :desc).first || where(code: key).order(id: :desc).first
+  end
+
+  def self.find_by_code!(code)
+    find_by_code(code) || raise(ActiveRecord::RecordNotFound)
+  end
+
   def definition
     @definition ||= GameDefinition.load(theme_file_id)
   end

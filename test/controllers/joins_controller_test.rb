@@ -20,4 +20,17 @@ class JoinsControllerTest < ActionDispatch::IntegrationTest
     post join_path, params: { code: "XXXXX" }
     assert_redirected_to root_path
   end
+
+  test "DEMO joins the live night when a finished one shares the code" do
+    game_sessions(:cerrada).update_column(:code, "DEMO")
+    live = game_sessions(:elias)
+    live.update_column(:code, "DEMO")
+
+    post join_path, params: { code: "demo" }
+    assert_redirected_to night_name_path("DEMO")
+
+    get night_watch_path("DEMO")
+    assert_response :success
+    assert_select ".ceremony", count: 0
+  end
 end

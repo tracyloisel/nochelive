@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
       code = params[:session_code]
       return if code.blank? || @night
 
-      @night = GameSession.find_by(code: GameSession.normalize_code(code))
+      @night = GameSession.find_by_code(code)
     end
 
     def use_locale(&block)

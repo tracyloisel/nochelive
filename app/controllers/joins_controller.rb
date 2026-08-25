@@ -1,8 +1,7 @@
 class JoinsController < ApplicationController
   def create
     code = GameSession.normalize_code(params[:code])
-    night = GameSession.find_by(code: code)
-    night = GameSession.where("upper(code) = ?", code).where.not(status: "finished").first if night.nil?
+    night = GameSession.find_by_code(code)
 
     if night.nil?
       redirect_to root_path, alert: I18n.t("flashes.night_missing")

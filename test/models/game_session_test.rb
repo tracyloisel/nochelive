@@ -116,6 +116,14 @@ class GameSessionTest < ActiveSupport::TestCase
     assert_equal "DAVID", GameSession.normalize_code(" da-vid ")
   end
 
+  test "code lookup prefers the live night" do
+    game_sessions(:cerrada).update_column(:code, "DEMO")
+    live = game_sessions(:elias)
+    live.update_column(:code, "DEMO")
+
+    assert_equal live.id, GameSession.find_by_code("demo").id
+  end
+
   test "broadcast_state delegates to Nights::Broadcast" do
     assert_nothing_raised { game_sessions(:david).broadcast_state }
   end

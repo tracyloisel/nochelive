@@ -11,7 +11,7 @@ module Identity
 
     def set_night
       code = GameSession.normalize_code(params[:session_code] || params[:code])
-      @night = GameSession.find_by!(code: code)
+      @night = GameSession.find_by_code!(code)
     end
 
     def current_player
