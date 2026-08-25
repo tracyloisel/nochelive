@@ -1,0 +1,62 @@
+<% run = street.run %>
+<% question = street.question %>
+<% pack = street.pack %>
+<% snap = street.asking? ? "mid" : "open" %>
+<% extra_sfx = local_assigns[:sfx] %>
+<% extra_fx = local_assigns[:fx] %>
+<% still = street_still_src(question) %>
+<% nxt = street_next_still(street) %>
+
+<%= tag.section id: "street_quiz",
+      class: [ "play-card", "play-reel", "is-quiz", "is-street", ("is-settled" if street.settled?), ("is-done" if street.done?) ],
+      data: street_audio_data(run, question, extra_sfx:, extra_fx:).merge(
+        controller: "quiz story",
+        story_street_value: true,
+        quiz_correct_value: question.correct_choice,
+        quiz_next_image_value: nxt,
+        quiz_rewind_url_value: quiz_rewind_path(run),
+        intensity: question.intensity,
+        action: "pointerdown->story#start click->quiz#pick turbo:submit-start->quiz#lock"
+      ) do %>
+  <div class="play-shot">
+    <% if still %>
+      <div class="challenge-media">
+        <img src="<%= still %>" alt="" class="challenge-story">
+      </div>
+    <% end %>
+  </div>
+
+  <div class="play-chrome">
+    <% unless street.done? %>
+      <p class="street-score <%= "is-tick" if street.settled? && street.answer&.correct? %>"
+         aria-label="<%= t("chrome.points", score: run.score) %>">
+        <%= picto("star") %>
+        <span><%= run.score %></span>
+      </p>
+    <% end %>
+    <% if street.asking? && question.timed? %>
+      <%= render "play/timer", round: run, expire_url: quiz_expire_path(run) %>
+    <% end %>
+  </div>
+
+  <div class="play-sheet story-sheet" data-sheet-snap="<%= snap %>">
+    <div class="play-sheet-body">
+      <div class="play-stage">
+        <% if street.done? %>
+          <%= render "home/street_done", street: street %>
+        <% else %>
+          <p class="round-title">
+            <span class="quiz-pack"><%= pack.copy(:title) %></span>
+            <span class="quiz-progress"><%= t("quiz.progress", n: run.position, total: pack.questions.size) %></span>
+          </p>
+          <% if street.asking? %>
+            <p class="prompt"><%= question.copy(:question) %></p>
+            <%= render "home/street_choices", street: street %>
+          <% else %>
+            <%= render "home/street_settled", street: street %>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+<% end %>

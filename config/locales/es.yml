@@ -120,6 +120,16 @@ es:
     past: "Noches anteriores"
     empty_upcoming: "No hay noches en los próximos 14 días."
     empty_past: "Aún no hay noches cerradas."
+    nights: "Noches"
+  quiz:
+    next: "Siguiente"
+    crowd: "Así respondió la gente"
+    read_more: "Leer en las Escrituras"
+    progress: "%{n} / %{total}"
+    first: "Eres el primero"
+    average: "La media es %{score}"
+    correct: "¡Eso es!"
+    incorrect: "No era esa"
   join:
     title: "Tu nombre"
     pick_team: "Elige equipo"

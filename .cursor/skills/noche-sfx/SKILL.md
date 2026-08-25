@@ -44,12 +44,12 @@ Already wired on `<body data-controller="stage press motion">`. First pointerdow
 | Layer | How | Gain |
 |---|---|---|
 | One-shot | `stage.play(name)` or pulse `data-sfx` | `0.85` |
-| Bed | `data-stage-bed-value` on `#night_play`, `#night_watch`, `#night_presenter` | `0.35`, `loop` |
+| Bed | `data-stage-bed-value` on `#night_play`, `#night_watch`, `#night_presenter`, `#street_quiz` | `0.35`, `loop` |
 | Tick | `data-stage-timer-end-value` on those same nodes | `tick` `0.42`, `tick_low` `0.58` (last 5s) |
 
-`countdown_controller.js` is **visual only**. The presenter-claim timer must not tick. Bed and ticks follow round `timed?` + `ends_at` on the three stage roots, not the `.play-timer` DOM (the TV has no bar).
+`countdown_controller.js` is **visual only**. The presenter-claim timer must not tick. Bed and ticks follow round `timed?` + `ends_at` on the three stage roots **and** `#street_quiz`, not the `.play-timer` DOM (the TV has no bar). Street quiz has **one** trigger: `data-stage-*` on `#street_quiz`. Do not also `quiz_controller#cue()` on the street (keep cue for the Friday play reel). There is no Cable pulse on the street.
 
-Mute is the **Sonido** button (`noche_sfx_muted`). `prefers-reduced-motion` does not silence audio.
+Mute is the **Sonido** button (`noche_sfx_muted`). `prefers-reduced-motion` does not silence audio. It **does** hide flash veils (`is-fx-*`).
 
 ## When it plays
 

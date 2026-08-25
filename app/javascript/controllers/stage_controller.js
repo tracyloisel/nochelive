@@ -20,8 +20,13 @@ const FALLBACK_CUES = [
 ]
 
 const TICK_GAIN = { tick: 0.42, tick_low: 0.58 }
+const BED_GAIN = 0.35
+const BED_DUCK = 0.11
+const STING_GAIN = 0.85
+const CUT_MS = 55
+const TICK_CUES = new Set(["tick", "tick_low"])
+const BED_CUE = "timer_tension"
 const GESTURES = ["pointerdown", "touchstart", "keydown", "click"]
-const POOL_SIZE = 4
 
 const store = window.NocheLiveAudio = window.NocheLiveAudio || {
   context: null,
@@ -32,6 +37,9 @@ const store = window.NocheLiveAudio = window.NocheLiveAudio || {
   bedName: null,
   bedEl: null,
   desiredBed: null,
+  stingerEl: null,
+  tickEl: null,
+  fadeGen: 0,
   lastSfx: null,
   lastToken: null,
   timerEnd: null,
@@ -47,6 +55,12 @@ try {
 } catch (_error) {
   store.muted = false
 }
+
+store.pending ||= []
+store.pool ||= {}
+store.fadeGen = store.fadeGen || 0
+store.stingerEl = store.stingerEl || null
+store.tickEl = store.tickEl || null
 
 function catalog() {
   return window.NocheSfx || {}
@@ -130,48 +144,147 @@ function unlockWebSync() {
   if (ctx.state === "suspended") ctx.resume().catch(() => {})
 }
 
-function preload() {
-  cueNames().forEach((name) => {
-    const pool = (store.pool[name] ||= [])
-    if (!pool.length) pool.push(makeAudio(cuePath(name)))
-    else pool[0].load()
-  })
+function voiceEl(name) {
+  const pool = (store.pool[name] ||= [])
+  if (!pool[0]) pool[0] = makeAudio(cuePath(name))
+  return pool[0]
 }
 
-function playHtml(name, gainValue) {
-  const path = cuePath(name)
-  const pool = (store.pool[name] ||= [])
-  let el = pool.find((node) => node.paused || node.ended)
-  if (!el) {
-    el = makeAudio(path)
-    if (pool.length < POOL_SIZE) pool.push(el)
+function preload() {
+  cueNames().forEach((name) => voiceEl(name).load())
+}
+
+function isTick(name) {
+  return TICK_CUES.has(name)
+}
+
+function isBed(name) {
+  return name === BED_CUE
+}
+
+function stingerPlaying() {
+  const el = store.stingerEl
+  return !!(el && !el.paused && !el.ended)
+}
+
+function cutEl(el, ms = CUT_MS) {
+  if (!el) return
+  const gen = ++store.fadeGen
+  el.dataset.fadeGen = String(gen)
+  let from = 0
+  try { from = el.volume } catch (_error) { from = 0 }
+  if (ms <= 0 || from <= 0.02) {
+    try { el.pause() } catch (_error) { /* ignore */ }
+    try { el.currentTime = 0 } catch (_error) { /* ignore */ }
+    return
   }
+  const t0 = performance.now()
+  const step = (now) => {
+    if (el.dataset.fadeGen !== String(gen)) return
+    const t = Math.min(1, (now - t0) / ms)
+    try { el.volume = from * (1 - t) } catch (_error) { /* ignore */ }
+    if (t < 1) {
+      requestAnimationFrame(step)
+      return
+    }
+    try { el.pause() } catch (_error) { /* ignore */ }
+    try { el.currentTime = 0 } catch (_error) { /* ignore */ }
+  }
+  requestAnimationFrame(step)
+}
+
+function duckBed() {
+  if (!store.bedEl) return
+  try { store.bedEl.volume = BED_DUCK } catch (_error) { /* ignore */ }
+}
+
+function unduckBed() {
+  if (!store.bedEl || store.muted) return
+  try { store.bedEl.volume = BED_GAIN } catch (_error) { /* ignore */ }
+}
+
+function stopStinger() {
+  const el = store.stingerEl
+  store.stingerEl = null
+  if (el) cutEl(el)
+  unduckBed()
+}
+
+function startVoice(el, gainValue) {
+  el.dataset.fadeGen = String(++store.fadeGen)
   try { el.pause() } catch (_error) { /* ignore */ }
   try { el.currentTime = 0 } catch (_error) { /* iOS before loadedmetadata */ }
   el.muted = false
   try { el.volume = clampGain(gainValue) } catch (_error) { /* ignore */ }
   const play = el.play()
-  if (play && play.catch) {
-    play.catch(() => {
-      store.pending.push([name, gainValue])
-    })
-  }
+  if (play && play.catch) return play
+  return Promise.resolve()
 }
 
-function playCue(name, gainValue = 0.85) {
+function queueStinger(name, gainValue) {
+  store.pending = [[name, gainValue]]
+}
+
+function playStinger(name, gainValue) {
+  const el = voiceEl(name)
+  const prev = store.stingerEl
+  if (prev && prev !== el) cutEl(prev)
+  store.stingerEl = el
+  duckBed()
+  el.onended = () => {
+    if (store.stingerEl !== el) return
+    store.stingerEl = null
+    unduckBed()
+  }
+  startVoice(el, gainValue).catch(() => {
+    queueStinger(name, gainValue)
+  })
+}
+
+function playTick(name, gainValue) {
+  if (stingerPlaying()) return
+  const el = voiceEl(name)
+  const prev = store.tickEl
+  if (prev && prev !== el) {
+    try { prev.pause() } catch (_error) { /* ignore */ }
+    try { prev.currentTime = 0 } catch (_error) { /* ignore */ }
+  }
+  store.tickEl = el
+  startVoice(el, gainValue).catch(() => {})
+}
+
+function playCue(name, gainValue) {
   if (store.muted || !name || !cueNames().includes(name)) return
-  playHtml(name, gainValue)
+  if (isBed(name)) {
+    startBed(name)
+    return
+  }
+  if (isTick(name)) {
+    if (!store.unlocked) return
+    playTick(name, gainValue ?? TICK_GAIN[name] ?? 0.42)
+    return
+  }
+  playStinger(name, gainValue ?? STING_GAIN)
 }
 
 function flushPending() {
   const queued = store.pending.splice(0)
-  queued.forEach(([name, gain]) => playCue(name, gain))
+  let stinger = null
+  queued.forEach((item) => {
+    if (isTick(item[0]) || isBed(item[0])) return
+    stinger = item
+  })
+  if (stinger) playCue(stinger[0], stinger[1])
 }
 
 function hushHtml() {
+  stopStinger()
+  store.tickEl = null
   Object.values(store.pool).forEach((nodes) => {
     nodes.forEach((el) => {
+      el.dataset.fadeGen = String(++store.fadeGen)
       try { el.pause() } catch (_error) { /* ignore */ }
+      try { el.currentTime = 0 } catch (_error) { /* ignore */ }
     })
   })
   const gate = store.htmlUnlock || gateElement()
@@ -201,7 +314,7 @@ function startBed(name) {
   stopBed()
   const el = makeAudio(cuePath(name))
   el.loop = true
-  try { el.volume = 0.35 } catch (_error) { /* ignore */ }
+  try { el.volume = stingerPlaying() ? BED_DUCK : BED_GAIN } catch (_error) { /* ignore */ }
   store.bedEl = el
   store.bedName = name
   const play = el.play()
@@ -223,7 +336,7 @@ function syncBed(name) {
 }
 
 function stageNode(root) {
-  return root.querySelector("#night_play, #night_watch, #night_presenter")
+  return root.querySelector("#night_play, #night_watch, #night_presenter, #street_quiz")
     || root.querySelector("[data-stage-sfx-value]")
 }
 
@@ -244,8 +357,10 @@ function playFrom(root) {
 }
 
 function syncTimer(node) {
-  const raw = node?.dataset.stageTimerEndValue
-  const nextEnd = raw ? Date.parse(raw) : null
+  const raw = node?.dataset.stageTimerEndValue || node?.getAttribute?.("data-stage-timer-end-value")
+  const duration = Number(node?.dataset.stageTimerDurationValue || node?.getAttribute?.("data-stage-timer-duration-value") || 0)
+  const parsed = raw ? Date.parse(raw) : NaN
+  const nextEnd = Number.isFinite(parsed) && duration > 0 ? parsed : null
   if (nextEnd === store.timerEnd) {
     if (store.timerEnd && !store.timerFrame) timerTick()
     return
@@ -286,6 +401,7 @@ function afterUnlock() {
   flushPending()
   if (store.desiredBed) startBed(store.desiredBed)
   playFrom(document)
+  if (store.timerEnd && !store.timerFrame) timerTick()
 }
 
 function onGesture(event) {

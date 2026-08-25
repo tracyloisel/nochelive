@@ -45,8 +45,9 @@ Biblical names, localized: Salomón / Solomon / Salomon / Salomão. Jehová / th
 
 | Surface | Place |
 |---|---|
-| Chrome, join, presenter, ceremony | `config/locales/{es,en,fr,pt-BR}.yml` |
+| Chrome, join, presenter, ceremony, street quiz | `config/locales/{es,en,fr,pt-BR}.yml` (`quiz.*`, `home.nights`) |
 | Round titles, questions, layers, beats | `config/locales/games.{en,fr,pt-BR}.yml` — Spanish stays in `config/games/*.yml` |
+| Street-quiz packs | `config/quizzes/*.yml` (Spanish) + `config/locales/quizzes.{en,fr,pt-BR}.yml`. Street copy is **tú**, never `play.group_answers` |
 | Lookups | `definition.copy`, `choice_copy`, `layer_copy`, `beat_copy`, `remote_instructions`, `forbidden_copy` |
 | Self language | `Locales::Set` + `PATCH /locale` and `PATCH /s/:code/locale` |
 | Presenter for a person | `Locales::Assign` + roster/ficha `lang_assign` |

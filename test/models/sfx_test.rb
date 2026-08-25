@@ -47,4 +47,14 @@ class SfxTest < ActiveSupport::TestCase
     assert_equal "royal_fanfare", Sfx.for_pulse("score", burger)
     assert_equal "buzzer_hit", Sfx.for_pulse("buzz", salomon)
   end
+
+  test "mix layers keep the bed and ticks off the event voice" do
+    bed_and_ticks = %w[timer_tension tick tick_low]
+    events = Sfx::CUES - bed_and_ticks
+    assert_equal bed_and_ticks.sort, (Sfx::CUES & bed_and_ticks).sort
+    assert_includes events, "buzzer_hit"
+    assert_includes events, "round_open"
+    assert_includes events, "reveal"
+    assert_not_includes events, "timer_tension"
+  end
 end

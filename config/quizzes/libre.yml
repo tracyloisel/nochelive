@@ -1,0 +1,3454 @@
+packs:
+  - id: coronas
+    title: "Reyes"
+    questions:
+      - id: ungio_david
+        question: "¿Quién ungió a David cuando era muchacho?"
+        choices:
+          - key: samuel
+            label: "Samuel"
+          - key: saul
+            label: "Saúl"
+          - key: natan
+            label: "Natán"
+        correct_choice: samuel
+        answer: "Samuel lo ungió en Belén, delante de sus hermanos."
+        points: 5
+        duration: 0
+        intensity: 1
+        scripture:
+          canon: bible
+          cite: "1 Samuel 16:13"
+          study: "ot/1-sam/16"
+        presentation:
+          image: quizzes/coronas/ungio_david.jpg
+      - id: piedras_arroyo
+        question: "¿Cuántas piedras lisas tomó David del arroyo?"
+        choices:
+          - key: cinco
+            label: "Cinco"
+          - key: tres
+            label: "Tres"
+          - key: siete
+            label: "Siete"
+          - key: una
+            label: "Una"
+        correct_choice: cinco
+        answer: "Tomó cinco piedras lisas del arroyo."
+        points: 5
+        duration: 0
+        intensity: 1
+        scripture:
+          canon: bible
+          cite: "1 Samuel 17:40"
+          study: "ot/1-sam/17"
+        presentation:
+          image: quizzes/coronas/piedras_arroyo.jpg
+      - id: arpa_saul
+        question: "El arpa de David calmaba el mal espíritu de…"
+        choices:
+          - key: saul
+            label: "Saúl"
+          - key: absalon
+            label: "Absalón"
+          - key: goliat
+            label: "Goliat"
+        correct_choice: saul
+        answer: "Cuando David tocaba, Saúl hallaba alivio."
+        points: 5
+        duration: 0
+        intensity: 2
+        scripture:
+          canon: bible
+          cite: "1 Samuel 16:23"
+          study: "ot/1-sam/16"
+        presentation:
+          image: quizzes/coronas/arpa_saul.jpg
+      - id: vina_nabot
+        question: "¿Quién quiso la viña de Nabot?"
+        choices:
+          - key: acab
+            label: "Acab"
+          - key: jehu
+            label: "Jehú"
+          - key: elias
+            label: "Elías"
+        correct_choice: acab
+        answer: "El rey Acab quiso la viña que estaba junto a su palacio."
+        points: 8
+        duration: 20
+        intensity: 2
+        scripture:
+          canon: bible
+          cite: "1 Reyes 21:2-3"
+          study: "ot/1-kgs/21"
+        presentation:
+          image: quizzes/coronas/vina_nabot.jpg
+      - id: salomon_templo
+        question: "¿Qué levantó Salomón en Jerusalén para el Señor?"
+        choices:
+          - key: templo
+            label: "El templo"
+          - key: palacio
+            label: "Un palacio para Faraón"
+          - key: torre
+            label: "La torre de Babel"
+        correct_choice: templo
+        answer: "Salomón construyó la casa del Señor: el templo."
+        points: 8
+        duration: 20
+        intensity: 2
+        scripture:
+          canon: bible
+          cite: "1 Reyes 6:1"
+          study: "ot/1-kgs/6"
+        presentation:
+          image: quizzes/coronas/salomon_templo.jpg
+      - id: juicio_madres
+        question: "En el juicio de las dos madres, ¿qué mandó traer Salomón?"
+        choices:
+          - key: espada
+            label: "Una espada"
+          - key: balanza
+            label: "Una balanza"
+          - key: arca
+            label: "El arca"
+        correct_choice: espada
+        answer: "Mandó traer una espada. La madre de verdad no dejó partir al niño."
+        points: 8
+        duration: 20
+        intensity: 3
+        scripture:
+          canon: bible
+          cite: "1 Reyes 3:16-27"
+          study: "ot/1-kgs/3"
+        presentation:
+          image: quizzes/coronas/juicio_madres.jpg
+      - id: arca_jerusalen
+        question: "¿Dónde puso David el arca del convenio?"
+        choices:
+          - key: jerusalen
+            label: "Jerusalén"
+          - key: silo
+            label: "Silo"
+          - key: egipto
+            label: "Egipto"
+        correct_choice: jerusalen
+        answer: "David hizo subir el arca a Jerusalén, con alegría."
+        points: 12
+        duration: 15
+        intensity: 3
+        scripture:
+          canon: bible
+          cite: "2 Samuel 6:12-17"
+          study: "ot/2-sam/6"
+        presentation:
+          image: quizzes/coronas/arca_jerusalen.jpg
+      - id: sucedio_salomon
+        question: "¿Quién fue ungido rey cuando David era viejo?"
+        choices:
+          - key: salomon
+            label: "Salomón"
+          - key: adonias
+            label: "Adonías"
+          - key: joab
+            label: "Joab"
+        correct_choice: salomon
+        answer: "Salomón fue ungido, y el pueblo dijo: ¡Viva el rey Salomón!"
+        points: 12
+        duration: 15
+        intensity: 4
+        scripture:
+          canon: bible
+          cite: "1 Reyes 1:39"
+          study: "ot/1-kgs/1"
+        presentation:
+          image: quizzes/coronas/sucedio_salomon.jpg
+      - id: josias_libro
+        question: "¿Qué halló el sacerdote Helcías en la casa del Señor, en días de Josías?"
+        choices:
+          - key: ley
+            label: "El libro de la ley"
+          - key: mana
+            label: "Una vasija de maná"
+          - key: corona
+            label: "La corona de David"
+        correct_choice: ley
+        answer: "Halló el libro de la ley. Josías rasgó sus vestidos al oírlo."
+        points: 15
+        duration: 15
+        intensity: 4
+        scripture:
+          canon: bible
+          cite: "2 Reyes 22:8"
+          study: "ot/2-kgs/22"
+        presentation:
+          image: quizzes/coronas/josias_libro.jpg
+      - id: moises_roca
+        question: "En Meriba, ¿qué hizo Moisés a la roca, en vez de hablarle?"
+        choices:
+          - key: golpeo
+            label: "La golpeó"
+          - key: canto
+            label: "Le cantó"
+          - key: ignoro
+            label: "Pasó de largo"
+        correct_choice: golpeo
+        answer: "Golpeó la roca dos veces. Por eso no entró en la tierra."
+        points: 25
+        duration: 15
+        intensity: 5
+        scripture:
+          canon: bible
+          cite: "Números 20:11-12"
+          study: "ot/num/20"
+        presentation:
+          image: quizzes/coronas/moises_roca.jpg
+  - id: placas
+    title: "Placas"
+    questions:
+      - id: lehi_jerusalen
+        question: "¿De qué ciudad salió Lehi con su familia?"
+        choices:
+          - key: jerusalen
+            label: "Jerusalén"
+          - key: babilonia
+            label: "Babilonia"
+          - key: egipto
+            label: "Egipto"
+        correct_choice: jerusalen
+        answer: "El Señor le mandó salir de Jerusalén."
+        points: 5
+        duration: 0
+        intensity: 1
+        scripture:
+          canon: bom
+          cite: "1 Néfi 2:2"
+          study: "bofm/1-ne/2"
+        presentation:
+          image: quizzes/placas/lehi_jerusalen.jpg
+      - id: nefi_barco
+        question: "Junto al mar, ¿qué le mandó el Señor construir a Néfi?"
+        choices:
+          - key: barco
+            label: "Un barco"
+          - key: templo
+            label: "Un templo"
+          - key: torre
+            label: "Una torre"
+        correct_choice: barco
+        answer: "El Señor le dijo que construyera un barco, según su manera."
+        points: 5
+        duration: 0
+        intensity: 1
+        scripture:
+          canon: bom
+          cite: "1 Néfi 17:8"
+          study: "bofm/1-ne/17"
+        presentation:
+          image: quizzes/placas/nefi_barco.jpg
+      - id: benjamin_torre
+        question: "¿Desde dónde habló el rey Benjamín a su pueblo?"
+        choices:
+          - key: torre
+            label: "Una torre"
+          - key: muro
+            label: "El muro de la ciudad"
+          - key: templo
+            label: "El templo de Salomón"
+        correct_choice: torre
+        answer: "Hizo construir una torre para que el pueblo lo oyera."
+        points: 5
+        duration: 0
+        intensity: 2
+        scripture:
+          canon: bom
+          cite: "Mosíah 2:7"
+          study: "bofm/mosiah/2"
+        presentation:
+          image: quizzes/placas/benjamin_torre.jpg
+      - id: noe_inicuo
+        question: "El rey Noé, hijo de Zeniff, era un rey…"
+        choices:
+          - key: inicuo
+            label: "Inicuo"
+          - key: justo
+            label: "Justo"
+          - key: nino
+            label: "Aún niño"
+        correct_choice: inicuo
+        answer: "Noé gravó al pueblo y no guardó los mandamientos."
+        points: 8
+        duration: 20
+        intensity: 2
+        scripture:
+          canon: bom
+          cite: "Mosíah 11:1-2"
+          study: "bofm/mosiah/11"
+        presentation:
+          image: quizzes/placas/noe_inicuo.jpg
+      - id: abinadi_noe
+        question: "¿Ante quién testificó Abinadí?"
+        choices:
+          - key: noe
+            label: "El rey Noé"
+          - key: mosiah
+            label: "El rey Mosíah"
+          - key: lamoni
+            label: "El rey Lamoni"
+        correct_choice: noe
+        answer: "Abinadí vino con un mensaje del Señor para Noé y su pueblo."
+        points: 8
+        duration: 20
+        intensity: 2
+        scripture:
+          canon: bom
+          cite: "Mosíah 12:1"
+          study: "bofm/mosiah/12"
+        presentation:
+          image: quizzes/placas/abinadi_noe.jpg
+      - id: alma_joven
+        question: "¿Qué le sucedió a Alma el joven cuando un ángel habló?"
+        choices:
+          - key: cayo
+            label: "Cayó al suelo"
+          - key: rey
+            label: "Lo hicieron rey"
+          - key: mar
+            label: "Huyó al mar"
+        correct_choice: cayo
+        answer: "Cayó y no pudo hablar. El Señor había oído a su padre."
+        points: 8
+        duration: 20
+        intensity: 3
+        scripture:
+          canon: bom
+          cite: "Mosíah 27:18-19"
+          study: "bofm/mosiah/27"
+        presentation:
+          image: quizzes/placas/alma_joven.jpg
+      - id: samuel_muro
+        question: "¿Desde dónde predicó Samuel el lamanita a los nefitas?"
+        choices:
+          - key: muro
+            label: "El muro"
+          - key: rio
+            label: "El río Sidón"
+          - key: bosque
+            label: "Un bosque"
+        correct_choice: muro
+        answer: "Lo echaron de la ciudad. Subió al muro y no pudieron tocarlo."
+        points: 12
+        duration: 15
+        intensity: 3
+        scripture:
+          canon: bom
+          cite: "Helamán 13:2-4"
+          study: "bofm/hel/13"
+        presentation:
+          image: quizzes/placas/samuel_muro.jpg
+      - id: mosiah_jared
+        question: "¿Qué registros tradujo Mosíah con las piedras de videntes?"
+        choices:
+          - key: jared
+            label: "Los de Jared"
+          - key: isaias
+            label: "Isaías"
+          - key: brass
+            label: "Las planchas de Labán"
+        correct_choice: jared
+        answer: "Tradujo los registros del pueblo de Jared, hallados por el pueblo de Limhi."
+        points: 12
+        duration: 15
+        intensity: 4
+        scripture:
+          canon: bom
+          cite: "Mosíah 28:11-13"
+          study: "bofm/mosiah/28"
+        presentation:
+          image: quizzes/placas/mosiah_jared.jpg
+      - id: moroni_planchas
+        question: "¿Qué escondió Moroni para que salieran a luz en el último día?"
+        choices:
+          - key: planchas
+            label: "Las planchas"
+          - key: arca
+            label: "El arca"
+          - key: corona
+            label: "La corona de Benjamín"
+        correct_choice: planchas
+        answer: "Moroni terminó el registro de su padre y escondió las planchas."
+        points: 15
+        duration: 15
+        intensity: 4
+        scripture:
+          canon: bom
+          cite: "Mormón 8:1-4"
+          study: "bofm/morm/8"
+        presentation:
+          image: quizzes/placas/moroni_planchas.jpg
+      - id: jared_senor
+        question: "En el monte, ¿a quién vio el hermano de Jared?"
+        choices:
+          - key: senor
+            label: "Al Señor"
+          - key: moroni
+            label: "A Moroni"
+          - key: noe
+            label: "A Noé"
+        correct_choice: senor
+        answer: "El Señor se le mostró. El velo fue quitado de sus ojos."
+        points: 25
+        duration: 15
+        intensity: 5
+        scripture:
+          canon: bom
+          cite: "Éter 3:13-16"
+          study: "bofm/ether/3"
+        presentation:
+          image: quizzes/placas/jared_senor.jpg
+  - id: hermanas
+    title: "Hermanas"
+    questions:
+      - id: rut_noemi
+        question: "¿Con quién se quedó Rut, en vez de volverse a Moab?"
+        choices:
+          - key: noemi
+            label: "Noemí"
+          - key: orfa
+            label: "Orfa"
+          - key: raquel
+            label: "Raquel"
+        correct_choice: noemi
+        answer: "Rut dijo: a donde fueres, iré yo."
+        points: 5
+        duration: 0
+        intensity: 1
+        scripture:
+          canon: bible
+          cite: "Rut 1:16"
+          study: "ot/ruth/1"
+        presentation:
+          image: quizzes/hermanas/rut_noemi.jpg
+      - id: ester_rey
+        question: "¿Ante quién se presentó Ester, aun sin ser llamada?"
+        choices:
+          - key: rey
+            label: "El rey"
+          - key: aman
+            label: "Amán"
+          - key: mardoqueo
+            label: "Mardoqueo"
+        correct_choice: rey
+        answer: "Ester dijo: si perezco, que perezca. Entró a ver al rey."
+        points: 5
+        duration: 0
+        intensity: 1
+        scripture:
+          canon: bible
+          cite: "Ester 4:16"
+          study: "ot/esth/4"
+        presentation:
+          image: quizzes/hermanas/ester_rey.jpg
+      - id: ana_hijo
+        question: "¿Qué pidió Ana al Señor en Silo, con amargura de alma?"
+        choices:
+          - key: hijo
+            label: "Un hijo"
+          - key: corona
+            label: "Una corona"
+          - key: tierra
+            label: "Una tierra"
+        correct_choice: hijo
+        answer: "Pidió un hijo y prometió dedicarlo al Señor."
+        points: 5
+        duration: 0
+        intensity: 2
+        scripture:
+          canon: bible
+          cite: "1 Samuel 1:10-11"
+          study: "ot/1-sam/1"
+        presentation:
+          image: quizzes/hermanas/ana_hijo.jpg
+      - id: debora_juzga
+        question: "¿Quién juzgaba a Israel bajo la palmera?"
+        choices:
+          - key: debora
+            label: "Débora"
+          - key: jael
+            label: "Jael"
+          - key: rut
+            label: "Rut"
+        correct_choice: debora
+        answer: "Débora, profetisa, juzgaba a Israel."
+        points: 8
+        duration: 20
+        intensity: 2
+        scripture:
+          canon: bible
+          cite: "Jueces 4:4"
+          study: "ot/judg/4"
+        presentation:
+          image: quizzes/hermanas/debora_juzga.jpg
+      - id: abigail_david
+        question: "¿A quién detuvo Abigail para que no derramara sangre?"
+        choices:
+          - key: david
+            label: "A David"
+          - key: naval
+            label: "A Nabal"
+          - key: saul
+            label: "A Saúl"
+        correct_choice: david
+        answer: "Abigail salió al encuentro de David con panes y fruto."
+        points: 8
+        duration: 20
+        intensity: 2
+        scripture:
+          canon: bible
+          cite: "1 Samuel 25:18-23"
+          study: "ot/1-sam/25"
+        presentation:
+          image: quizzes/hermanas/abigail_david.jpg
+      - id: saba_salomon
+        question: "¿A quién visitó la reina de Saba?"
+        choices:
+          - key: salomon
+            label: "A Salomón"
+          - key: david
+            label: "A David"
+          - key: faraon
+            label: "A Faraón"
+        correct_choice: salomon
+        answer: "Vino a probar a Salomón con preguntas difíciles."
+        points: 8
+        duration: 20
+        intensity: 3
+        scripture:
+          canon: bible
+          cite: "1 Reyes 10:1"
+          study: "ot/1-kgs/10"
+        presentation:
+          image: quizzes/hermanas/saba_salomon.jpg
+      - id: maria_madre
+        question: "¿De quién sería madre María?"
+        choices:
+          - key: jesus
+            label: "De Jesús"
+          - key: juan
+            label: "De Juan el Bautista"
+          - key: moises
+            label: "De Moisés"
+        correct_choice: jesus
+        answer: "El ángel le dijo: concebirás y darás a luz un hijo."
+        points: 12
+        duration: 15
+        intensity: 3
+        scripture:
+          canon: bible
+          cite: "Lucas 1:30-31"
+          study: "nt/luke/1"
+        presentation:
+          image: quizzes/hermanas/maria_madre.jpg
+      - id: magdalena_tumba
+        question: "¿A quién vio María Magdalena junto a la tumba vacía?"
+        choices:
+          - key: jesus
+            label: "A Jesús"
+          - key: pilato
+            label: "A Pilato"
+          - key: caifas
+            label: "A Caifás"
+        correct_choice: jesus
+        answer: "Jesús le dijo: María. Entonces ella lo reconoció."
+        points: 12
+        duration: 15
+        intensity: 4
+        scripture:
+          canon: bible
+          cite: "Juan 20:16"
+          study: "nt/john/20"
+        presentation:
+          image: quizzes/hermanas/magdalena_tumba.jpg
+      - id: viuda_blancas
+        question: "¿Qué echó la viuda pobre en el tesoro?"
+        choices:
+          - key: blancas
+            label: "Dos blancas"
+          - key: oro
+            label: "Un talento de oro"
+          - key: diezmo
+            label: "El diezmo del templo"
+        correct_choice: blancas
+        answer: "Echó dos blancas: más que todos, porque era todo lo que tenía."
+        points: 15
+        duration: 15
+        intensity: 4
+        scripture:
+          canon: bible
+          cite: "Marcos 12:42-43"
+          study: "nt/mark/12"
+        presentation:
+          image: quizzes/hermanas/viuda_blancas.jpg
+      - id: marta_parte
+        question: "Jesús dijo a Marta que María había escogido…"
+        choices:
+          - key: parte
+            label: "La buena parte"
+          - key: cocina
+            label: "La cocina"
+          - key: corona
+            label: "Una corona"
+        correct_choice: parte
+        answer: "María se sentó a oír. Eso no le sería quitado."
+        points: 25
+        duration: 15
+        intensity: 5
+        scripture:
+          canon: bible
+          cite: "Lucas 10:41-42"
+          study: "nt/luke/10"
+        presentation:
+          image: quizzes/hermanas/marta_parte.jpg
+  - id: abish
+    title: "Abish"
+    questions:
+      - id: saria_lehi
+        question: "¿Con quién salió Saria de Jerusalén?"
+        choices:
+          - key: lehi
+            label: "Lehi"
+          - key: laban
+            label: "Labán"
+          - key: ismael
+            label: "Ismael"
+        correct_choice: lehi
+        answer: "Saria salió con Lehi, su marido, y sus hijos."
+        points: 5
+        duration: 0
+        intensity: 1
+        scripture:
+          canon: bom
+          cite: "1 Néfi 5:1"
+          study: "bofm/1-ne/5"
+        presentation:
+          image: quizzes/abish/saria_lehi.jpg
+      - id: abish_reina
+        question: "Abish era sierva de…"
+        choices:
+          - key: reina
+            label: "La reina"
+          - key: noe
+            label: "El rey Noé"
+          - key: benjamin
+            label: "El rey Benjamín"
+        correct_choice: reina
+        answer: "Abish, lamanita, servía a la esposa de Lamoni."
+        points: 5
+        duration: 0
+        intensity: 1
+        scripture:
+          canon: bom
+          cite: "Alma 19:16"
+          study: "bofm/alma/19"
+        presentation:
+          image: quizzes/abish/abish_reina.jpg
+      - id: lamoni_esposa
+        question: "¿Quién creyó las palabras de Ammón sobre el rey Lamoni?"
+        choices:
+          - key: esposa
+            label: "La esposa de Lamoni"
+          - key: anti
+            label: "Anti-Néfi-Lehi"
+          - key: noe
+            label: "Noé"
+        correct_choice: esposa
+        answer: "La reina creyó. Dijo: yo no tengo ninguna duda."
+        points: 5
+        duration: 0
+        intensity: 2
+        scripture:
+          canon: bom
+          cite: "Alma 19:9-10"
+          study: "bofm/alma/19"
+        presentation:
+          image: quizzes/abish/lamoni_esposa.jpg
+      - id: madres_dudar
+        question: "Las madres de los dos mil enseñaron a sus hijos a…"
+        choices:
+          - key: dudar
+            label: "No dudar"
+          - key: huir
+            label: "Huir a las montañas"
+          - key: diezmar
+            label: "Pagar el diezmo primero"
+        correct_choice: dudar
+        answer: "Les enseñaron que si no dudaban, Dios los libraría."
+        points: 8
+        duration: 20
+        intensity: 2
+        scripture:
+          canon: bom
+          cite: "Alma 56:47-48"
+          study: "bofm/alma/56"
+        presentation:
+          image: quizzes/abish/madres_dudar.jpg
+      - id: eva_madre
+        question: "Según Lehi, Eva es madre de…"
+        choices:
+          - key: vivientes
+            label: "Todos los vivientes"
+          - key: israel
+            label: "Solo Israel"
+          - key: nefi
+            label: "Solo Néfi"
+        correct_choice: vivientes
+        answer: "Adán y Eva trajeron hijos. Eva es madre de todos los vivientes."
+        points: 8
+        duration: 20
+        intensity: 2
+        scripture:
+          canon: bom
+          cite: "2 Néfi 2:20"
+          study: "bofm/2-ne/2"
+        presentation:
+          image: quizzes/abish/eva_madre.jpg
+      - id: maria_hijo
+        question: "El ángel dijo a Benjamín que María sería madre del…"
+        choices:
+          - key: hijo
+            label: "Hijo de Dios"
+          - key: benjamin
+            label: "Rey Benjamín"
+          - key: samuel
+            label: "El profeta Samuel"
+        correct_choice: hijo
+        answer: "Se llamaría Jesucristo, el Hijo de Dios."
+        points: 8
+        duration: 20
+        intensity: 3
+        scripture:
+          canon: bom
+          cite: "Mosíah 3:8"
+          study: "bofm/mosiah/3"
+        presentation:
+          image: quizzes/abish/maria_hijo.jpg
+      - id: saria_bronce
+        question: "¿Al ver qué se alegró Saria, después de murmurar?"
+        choices:
+          - key: bronce
+            label: "Las planchas de bronce"
+          - key: barco
+            label: "El barco de Néfi"
+          - key: liahona
+            label: "La Liahona"
+        correct_choice: bronce
+        answer: "Vio que sus hijos habían vuelto con las planchas. Ofreció sacrificio."
+        points: 12
+        duration: 15
+        intensity: 3
+        scripture:
+          canon: bom
+          cite: "1 Néfi 5:8-9"
+          study: "bofm/1-ne/5"
+        presentation:
+          image: quizzes/abish/saria_bronce.jpg
+      - id: abish_casas
+        question: "Cuando la reina y el rey cayeron, ¿qué hizo Abish?"
+        choices:
+          - key: casas
+            label: "Corrió de casa en casa"
+          - key: escondio
+            label: "Se escondió"
+          - key: canto
+            label: "Cantó un salmo"
+        correct_choice: casas
+        answer: "Corrió de casa en casa, para que el pueblo viera el poder de Dios."
+        points: 12
+        duration: 15
+        intensity: 4
+        scripture:
+          canon: bom
+          cite: "Alma 19:17"
+          study: "bofm/alma/19"
+        presentation:
+          image: quizzes/abish/abish_casas.jpg
+      - id: saria_barco
+        question: "En el barco, Saria y los niños pequeños…"
+        choices:
+          - key: sufrieron
+            label: "Sufrieron"
+          - key: gobernaron
+            label: "Gobernaron el timón"
+          - key: durmieron
+            label: "Durmieron todo el viaje"
+        correct_choice: sufrieron
+        answer: "Lamán y Lemuel habían atado a Néfi. Saria y los niños enfermaban de dolor."
+        points: 15
+        duration: 15
+        intensity: 4
+        scripture:
+          canon: bom
+          cite: "1 Néfi 18:17-19"
+          study: "bofm/1-ne/18"
+        presentation:
+          image: quizzes/abish/saria_barco.jpg
+      - id: abish_vision
+        question: "¿Cómo se había convertido Abish, años antes?"
+        choices:
+          - key: vision
+            label: "Por una visión notable de su padre"
+          - key: benjamin
+            label: "Al oír a Benjamín"
+          - key: placas
+            label: "Al leer las planchas"
+        correct_choice: vision
+        answer: "El Señor la había preparado. Por la visión de su padre, ella creía."
+        points: 25
+        duration: 15
+        intensity: 5
+        scripture:
+          canon: bom
+          cite: "Alma 19:16"
+          study: "bofm/alma/19"
+        presentation:
+          image: quizzes/abish/abish_vision.jpg
+  - id: profetas
+    title: "Profetas"
+    questions:
+      - id: jonas_tres
+        question: "¿Cuántos días estuvo Jonás en el pez?"
+        choices:
+          - key: tres
+            label: "Tres"
+          - key: siete
+            label: "Siete"
+          - key: cuarenta
+            label: "Cuarenta"
+        correct_choice: tres
+        answer: "Tres días y tres noches."
+        points: 5
+        duration: 0
+        intensity: 1
+        scripture:
+          canon: bible
+          cite: "Jonás 1:17"
+          study: "ot/jonah/1"
+        presentation:
+          image: quizzes/profetas/jonas_tres.jpg
+      - id: elias_cuervos
+        question: "Junto al arroyo, ¿quién alimentaba a Elías?"
+        choices:
+          - key: cuervos
+            label: "Cuervos"
+          - key: angeles
+            label: "Ángeles"
+          - key: sacerdotes
+            label: "Sacerdotes"
+        correct_choice: cuervos
+        answer: "Los cuervos le llevaban pan y carne, mañana y tarde."
+        points: 5
+        duration: 0
+        intensity: 1
+        scripture:
+          canon: bible
+          cite: "1 Reyes 17:6"
+          study: "ot/1-kgs/17"
+        presentation:
+          image: quizzes/profetas/elias_cuervos.jpg
+      - id: daniel_tres
+        question: "¿Cuántas veces al día oraba Daniel, con las ventanas abiertas hacia Jerusalén?"
+        choices:
+          - key: tres
+            label: "Tres veces al día"
+          - key: una
+            label: "Una vez al año"
+          - key: nunca
+            label: "Nunca, por decreto"
+        correct_choice: tres
+        answer: "Tres veces al día, como lo hacía antes."
+        points: 5
+        duration: 0
+        intensity: 2
+        scripture:
+          canon: bible
+          cite: "Daniel 6:10"
+          study: "ot/dan/6"
+        presentation:
+          image: quizzes/profetas/daniel_tres.jpg
+      - id: jonas_tarsis
+        question: "¿Hacia dónde huyó Jonás, en vez de ir a Nínive?"
+        choices:
+          - key: tarsis
+            label: "Tarsis"
+          - key: ninive
+            label: "Nínive"
+          - key: egipto
+            label: "Egipto"
+        correct_choice: tarsis
+        answer: "Huyó hacia Tarsis, lejos de la presencia del Señor."
+        points: 8
+        duration: 20
+        intensity: 2
+        scripture:
+          canon: bible
+          cite: "Jonás 1:3"
+          study: "ot/jonah/1"
+        presentation:
+          image: quizzes/profetas/jonas_tarsis.jpg
+      - id: naaman_jordan
+        question: "¿En qué río se lavó Naamán y quedó limpio?"
+        choices:
+          - key: jordan
+            label: "El Jordán"
+          - key: nilo
+            label: "El Nilo"
+          - key: mar
+            label: "El mar Muerto"
+        correct_choice: jordan
+        answer: "Se sumergió siete veces en el Jordán, según la palabra de Eliseo."
+        points: 8
+        duration: 20
+        intensity: 2
+        scripture:
+          canon: bible
+          cite: "2 Reyes 5:14"
+          study: "ot/2-kgs/5"
+        presentation:
+          image: quizzes/profetas/naaman_jordan.jpg
+      - id: elias_siete
+        question: "Elías mandó a su criado mirar hacia el mar. ¿Cuántas veces?"
+        choices:
+          - key: siete
+            label: "Siete veces"
+          - key: tres
+            label: "Tres veces"
+          - key: una
+            label: "Una sola vez"
+        correct_choice: siete
+        answer: "Siete veces. A la séptima, se veía una nubecilla."
+        points: 8
+        duration: 20
+        intensity: 3
+        scripture:
+          canon: bible
+          cite: "1 Reyes 18:43"
+          study: "ot/1-kgs/18"
+        presentation:
+          image: quizzes/profetas/elias_siete.jpg
+      - id: tres_horno
+        question: "¿Quiénes fueron echados en el horno porque no se inclinaron?"
+        choices:
+          - key: tres
+            label: "Sadrac, Mesac y Abed-nego"
+          - key: daniel
+            label: "Daniel solo"
+          - key: moises
+            label: "Moisés y Aarón"
+        correct_choice: tres
+        answer: "Sadrac, Mesac y Abed-nego. No sirvieron a la estatua del rey."
+        points: 12
+        duration: 15
+        intensity: 3
+        scripture:
+          canon: bible
+          cite: "Daniel 3:19-20"
+          study: "ot/dan/3"
+        presentation:
+          image: quizzes/profetas/tres_horno.jpg
+      - id: elias_manto
+        question: "¿Con qué golpeó Elías el Jordán para pasarlo en seco?"
+        choices:
+          - key: manto
+            label: "Su manto"
+          - key: vara
+            label: "La vara de Moisés"
+          - key: arpa
+            label: "El arpa de David"
+        correct_choice: manto
+        answer: "Con su manto. Las aguas se apartaron."
+        points: 12
+        duration: 15
+        intensity: 4
+        scripture:
+          canon: bible
+          cite: "2 Reyes 2:8"
+          study: "ot/2-kgs/2"
+        presentation:
+          image: quizzes/profetas/elias_manto.jpg
+      - id: isaias_templo
+        question: "¿A quién vio Isaías sentado sobre un trono, en el templo?"
+        choices:
+          - key: senor
+            label: "Al Señor"
+          - key: saul
+            label: "Al rey Saúl"
+          - key: babilonia
+            label: "A Babilonia"
+        correct_choice: senor
+        answer: "Vio al Señor. El borde de su manto llenaba el templo."
+        points: 15
+        duration: 15
+        intensity: 4
+        scripture:
+          canon: bible
+          cite: "Isaías 6:1"
+          study: "ot/isa/6"
+        presentation:
+          image: quizzes/profetas/isaias_templo.jpg
+      - id: eliseo_carros
+        question: "Cuando Elías fue alzado, ¿qué vio Eliseo?"
+        choices:
+          - key: carros
+            label: "Carros de fuego"
+          - key: barca
+            label: "Una barca en el Jordán"
+          - key: nube
+            label: "Solo una nube gris"
+        correct_choice: carros
+        answer: "Un carro de fuego y caballos de fuego. Elías subió en un torbellino."
+        points: 25
+        duration: 15
+        intensity: 5
+        scripture:
+          canon: bible
+          cite: "2 Reyes 2:11"
+          study: "ot/2-kgs/2"
+        presentation:
+          image: quizzes/profetas/eliseo_carros.jpg
+  - id: jehova
+    title: "Jehová"
+    questions:
+      - id: zarza_yo_soy
+        question: "En la zarza, ¿qué nombre se dio el Señor a Moisés?"
+        choices:
+          - key: yo_soy
+            label: "YO SOY"
+          - key: moises
+            label: "El Dios de Moisés solo"
+          - key: faraon
+            label: "El nombre de Faraón"
+        correct_choice: yo_soy
+        answer: "YO SOY EL QUE SOY. Así dirás a los hijos de Israel."
+        points: 5
+        duration: 0
+        intensity: 1
+        scripture:
+          canon: bible
+          cite: "Éxodo 3:14"
+          study: "ot/ex/3"
+        presentation:
+          image: quizzes/jehova/zarza_yo_soy.jpg
+      - id: mar_rojo
+        question: "¿Qué abrió el Señor para que Israel pasara en seco?"
+        choices:
+          - key: mar
+            label: "El mar Rojo"
+          - key: jordan
+            label: "El Jordán"
+          - key: nilo
+            label: "El Nilo"
+        correct_choice: mar
+        answer: "Extendió Moisés la mano, y el Señor abrió el mar Rojo."
+        points: 5
+        duration: 0
+        intensity: 1
+        scripture:
+          canon: bible
+          cite: "Éxodo 14:21"
+          study: "ot/ex/14"
+        presentation:
+          image: quizzes/jehova/mar_rojo.jpg
+      - id: no_salvador
+        question: "Isaías oye al Señor decir: yo, yo Jehová, y…"
+        choices:
+          - key: yo
+            label: "Fuera de mí no hay Salvador"
+          - key: babilonia
+            label: "Babilonia salvará"
+          - key: reyes
+            label: "Los reyes de la tierra"
+        correct_choice: yo
+        answer: "Fuera de mí no hay quien salve."
+        points: 5
+        duration: 0
+        intensity: 2
+        scripture:
+          canon: bible
+          cite: "Isaías 43:11"
+          study: "ot/isa/43"
+        presentation:
+          image: quizzes/jehova/no_salvador.jpg
+      - id: kirtland_senor
+        question: "¿Quién se apareció a José y a Oliver en Kirtland, bajo el velo?"
+        choices:
+          - key: senor
+            label: "El Señor"
+          - key: moises_solo
+            label: "Solo Moisés"
+          - key: elias_solo
+            label: "Solo Elías"
+        correct_choice: senor
+        answer: "El Señor. Su voz era como el rumor de grandes aguas."
+        points: 8
+        duration: 20
+        intensity: 2
+        scripture:
+          canon: dc
+          cite: "DyC 110:3-4"
+          study: "dc-testament/dc/110"
+        presentation:
+          image: quizzes/jehova/kirtland_senor.jpg
+      - id: ley_moises
+        question: "En Abundancia, Jesús dijo de la ley de Moisés…"
+        choices:
+          - key: yo
+            label: "Yo soy el que di la ley a Moisés"
+          - key: aaron
+            label: "Aarón dio la ley"
+          - key: roma
+            label: "César dio la ley"
+        correct_choice: yo
+        answer: "Yo soy el que di la ley. Yo soy el que la cumplí."
+        points: 8
+        duration: 20
+        intensity: 2
+        scripture:
+          canon: bom
+          cite: "3 Néfi 15:5"
+          study: "bofm/3-ne/15"
+        presentation:
+          image: quizzes/jehova/ley_moises.jpg
+      - id: antes_abraham
+        question: "Jesús dijo a los que le oían: de cierto, de cierto os digo…"
+        choices:
+          - key: yo_soy
+            label: "Antes que Abraham fuese, YO SOY"
+          - key: despues
+            label: "Después de Abraham nací"
+          - key: nieto
+            label: "Soy nieto de Abraham"
+        correct_choice: yo_soy
+        answer: "Antes que Abraham fuese, YO SOY."
+        points: 8
+        duration: 20
+        intensity: 3
+        scripture:
+          canon: bible
+          cite: "Juan 8:58"
+          study: "nt/john/8"
+        presentation:
+          image: quizzes/jehova/antes_abraham.jpg
+      - id: omnipotente_descendio
+        question: "El Señor Omnipotente, según el ángel a Benjamín…"
+        choices:
+          - key: descendio
+            label: "Descenderá entre los hijos de los hombres"
+          - key: lejos
+            label: "Se quedará lejos para siempre"
+          - key: angel
+            label: "Enviará solo a un ángel"
+        correct_choice: descendio
+        answer: "Descenderá del cielo y morará en un tabernáculo de barro."
+        points: 12
+        duration: 15
+        intensity: 3
+        scripture:
+          canon: bom
+          cite: "Mosíah 3:5"
+          study: "bofm/mosiah/3"
+        presentation:
+          image: quizzes/jehova/omnipotente_descendio.jpg
+      - id: jared_padre_hijo
+        question: "El hermano de Jared oyó: he aquí, yo soy…"
+        choices:
+          - key: ambos
+            label: "El Padre y el Hijo"
+          - key: solo_angel
+            label: "Solo un ángel"
+          - key: moises
+            label: "Moisés en gloria"
+        correct_choice: ambos
+        answer: "Yo soy el Padre y el Hijo. En mí será la luz para siempre."
+        points: 12
+        duration: 15
+        intensity: 4
+        scripture:
+          canon: bom
+          cite: "Éter 3:14"
+          study: "bofm/ether/3"
+        presentation:
+          image: quizzes/jehova/jared_padre_hijo.jpg
+      - id: dios_egipto
+        question: "Según Néfi, el Dios de Abraham, de Isaac y de Jacob es el mismo que…"
+        choices:
+          - key: egipto
+            label: "El Dios de Abraham, que sacó a Israel de Egipto"
+          - key: baal
+            label: "Baal de los cananeos"
+          - key: roma
+            label: "El César de Roma"
+        correct_choice: egipto
+        answer: "Sacó a los hijos de Israel de Egipto, y será levantado."
+        points: 15
+        duration: 15
+        intensity: 4
+        scripture:
+          canon: bom
+          cite: "1 Néfi 19:10"
+          study: "bofm/1-ne/19"
+        presentation:
+          image: quizzes/jehova/dios_egipto.jpg
+      - id: nube_nombre
+        question: "Desde la nube, sobre el pueblo de Néfi, ¿quién se nombró?"
+        choices:
+          - key: jesus
+            label: "Jesucristo"
+          - key: alma
+            label: "Alma el joven"
+          - key: samuel
+            label: "Samuel el lamanita"
+        correct_choice: jesus
+        answer: "Jesucristo, el Hijo de Dios. Yo creé los cielos y la tierra."
+        points: 25
+        duration: 15
+        intensity: 5
+        scripture:
+          canon: bom
+          cite: "3 Néfi 9:15"
+          study: "bofm/3-ne/9"
+        presentation:
+          image: quizzes/jehova/nube_nombre.jpg
+  - id: nazareno
+    title: "En la tierra"
+    questions:
+      - id: nacio_belen
+        question: "¿Dónde nació Jesús?"
+        choices:
+          - key: belen
+            label: "Belén"
+          - key: nazaret
+            label: "Nazaret"
+          - key: jerusalen
+            label: "Jerusalén"
+        correct_choice: belen
+        answer: "En Belén de Judea, en un pesebre, porque no había lugar."
+        points: 5
+        duration: 0
+        intensity: 1
+        scripture:
+          canon: bible
+          cite: "Lucas 2:4-7"
+          study: "nt/luke/2"
+        presentation:
+          image: quizzes/nazareno/nacio_belen.jpg
+      - id: bautizo_juan
+        question: "¿Quién bautizó a Jesús en el Jordán?"
+        choices:
+          - key: juan
+            label: "Juan"
+          - key: pedro
+            label: "Pedro"
+          - key: andrew
+            label: "Andrés"
+        correct_choice: juan
+        answer: "Juan. Los cielos se abrieron, y el Espíritu descendió."
+        points: 5
+        duration: 0
+        intensity: 1
+        scripture:
+          canon: bible
+          cite: "Mateo 3:13-16"
+          study: "nt/matt/3"
+        presentation:
+          image: quizzes/nazareno/bautizo_juan.jpg
+      - id: cana_vino
+        question: "En Caná, Jesús convirtió el agua en…"
+        choices:
+          - key: vino
+            label: "Vino"
+          - key: aceite
+            label: "Aceite"
+          - key: miel
+            label: "Miel"
+        correct_choice: vino
+        answer: "En vino. Fue la primera señal, en una boda."
+        points: 5
+        duration: 0
+        intensity: 2
+        scripture:
+          canon: bible
+          cite: "Juan 2:1-11"
+          study: "nt/john/2"
+        presentation:
+          image: quizzes/nazareno/cana_vino.jpg
+      - id: cinco_mil
+        question: "Con cinco panes y dos peces, ¿a cuántos alimentó Jesús?"
+        choices:
+          - key: cinco
+            label: "Cinco mil"
+          - key: doce
+            label: "Doce"
+          - key: ciento
+            label: "Cien"
+        correct_choice: cinco
+        answer: "Como cinco mil hombres, además de mujeres y niños."
+        points: 8
+        duration: 20
+        intensity: 2
+        scripture:
+          canon: bible
+          cite: "Juan 6:9-11"
+          study: "nt/john/6"
+        presentation:
+          image: quizzes/nazareno/cinco_mil.jpg
+      - id: camino_mar
+        question: "De noche, hacia la barca, Jesús caminó sobre…"
+        choices:
+          - key: mar
+            label: "El mar"
+          - key: nubes
+            label: "Las nubes"
+          - key: fuego
+            label: "Un río de fuego"
+        correct_choice: mar
+        answer: "Sobre el mar. Los discípulos se asustaron, y él dijo: soy yo."
+        points: 8
+        duration: 20
+        intensity: 2
+        scripture:
+          canon: bible
+          cite: "Mateo 14:25"
+          study: "nt/matt/14"
+        presentation:
+          image: quizzes/nazareno/camino_mar.jpg
+      - id: getsemani
+        question: "En Getsemaní, ¿qué hizo Jesús?"
+        choices:
+          - key: orar
+            label: "Oró, con el alma muy triste"
+          - key: huir
+            label: "Huyó a Galilea"
+          - key: dormir
+            label: "Durmió hasta el alba"
+        correct_choice: orar
+        answer: "Oró. Su sudor era como grandes gotas de sangre."
+        points: 8
+        duration: 20
+        intensity: 3
+        scripture:
+          canon: bible
+          cite: "Lucas 22:44"
+          study: "nt/luke/22"
+        presentation:
+          image: quizzes/nazareno/getsemani.jpg
+      - id: crucificado
+        question: "En el Gólgota, ¿qué le hicieron a Jesús?"
+        choices:
+          - key: cruz
+            label: "Lo crucificaron"
+          - key: rey
+            label: "Lo coronaron César"
+          - key: egipto
+            label: "Lo enviaron a Egipto"
+        correct_choice: cruz
+        answer: "Lo crucificaron. Entregó su vida, y todo se cumplió."
+        points: 12
+        duration: 15
+        intensity: 3
+        scripture:
+          canon: bible
+          cite: "Juan 19:17-18"
+          study: "nt/john/19"
+        presentation:
+          image: quizzes/nazareno/crucificado.jpg
+      - id: magdalena_resucitado
+        question: "Después del tercer día, María Magdalena…"
+        choices:
+          - key: resucitado
+            label: "Lo vio resucitado"
+          - key: tumba
+            label: "Solo vio la tumba cerrada"
+          - key: soldados
+            label: "Vio a los soldados de Roma"
+        correct_choice: resucitado
+        answer: "Vio a Jesús vivo. Fue a decir a los discípulos: he visto al Señor."
+        points: 12
+        duration: 15
+        intensity: 4
+        scripture:
+          canon: bible
+          cite: "Juan 20:16-18"
+          study: "nt/john/20"
+        presentation:
+          image: quizzes/nazareno/magdalena_resucitado.jpg
+      - id: abundancia
+        question: "Después de su resurrección, ¿en qué templo se mostró Jesús a los nefitas?"
+        choices:
+          - key: abundancia
+            label: "Abundancia"
+          - key: zarahemla
+            label: "Zarahemla"
+          - key: jerusalen
+            label: "Jerusalén de Judea"
+        correct_choice: abundancia
+        answer: "En el templo de Abundancia. Descendió, y el pueblo lo tocó."
+        points: 15
+        duration: 15
+        intensity: 4
+        scripture:
+          canon: bom
+          cite: "3 Néfi 11:8-10"
+          study: "bofm/3-ne/11"
+        presentation:
+          image: quizzes/nazareno/abundancia.jpg
+      - id: ninos_uno
+        question: "En Abundancia, ¿cómo bendijo Jesús a los niños?"
+        choices:
+          - key: uno
+            label: "Uno a uno"
+          - key: lejos
+            label: "Desde lejos, en grupo"
+          - key: angeles
+            label: "Solo los ángeles los tocaron"
+        correct_choice: uno
+        answer: "Uno a uno. Los tomó en sus brazos y los bendijo."
+        points: 25
+        duration: 15
+        intensity: 5
+        scripture:
+          canon: bom
+          cite: "3 Néfi 17:21"
+          study: "bofm/3-ne/17"
+        presentation:
+          image: quizzes/nazareno/ninos_uno.jpg
+  - id: moises
+    title: "Moisés"
+    questions:
+      - id: moises_cara
+        question: "Según el libro de Moisés, Moisés vio a Dios…"
+        choices:
+          - key: cara
+            label: "Cara a cara"
+          - key: sueno
+            label: "Solo en un sueño"
+          - key: nube
+            label: "Detrás de una nube, sin verlo"
+        correct_choice: cara
+        answer: "Cara a cara, y habló con él. La gloria de Dios estaba sobre Moisés."
+        points: 5
+        duration: 0
+        intensity: 1
+        scripture:
+          canon: pgp
+          cite: "Moisés 1:2"
+          study: "pgp/moses/1"
+        presentation:
+          image: quizzes/moises/moises_cara.jpg
+      - id: satanas_tento
+        question: "Cuando la gloria se apartó, Satanás tentó a Moisés…"
+        choices:
+          - key: adorar
+            label: "A adorarlo"
+          - key: rey
+            label: "A hacerlo faraón"
+          - key: huir
+            label: "A huir a Madián otra vez"
+        correct_choice: adorar
+        answer: "Le dijo: Moisés, hijo de hombre, adórame. Moisés no se rindió."
+        points: 5
+        duration: 0
+        intensity: 1
+        scripture:
+          canon: pgp
+          cite: "Moisés 1:12-15"
+          study: "pgp/moses/1"
+        presentation:
+          image: quizzes/moises/satanas_tento.jpg
+      - id: cielo_tierra
+        question: "En Moisés 2, Dios dice que creó…"
+        choices:
+          - key: cielo
+            label: "El cielo y la tierra"
+          - key: kolob
+            label: "Solo Kolob"
+          - key: egipto
+            label: "Solo Egipto"
+        correct_choice: cielo
+        answer: "El cielo y la tierra. Yo soy el Principio y el Fin."
+        points: 5
+        duration: 0
+        intensity: 2
+        scripture:
+          canon: pgp
+          cite: "Moisés 2:1"
+          study: "pgp/moses/2"
+        presentation:
+          image: quizzes/moises/cielo_tierra.jpg
+      - id: polvo_hombre
+        question: "El hombre fue formado del…"
+        choices:
+          - key: polvo
+            label: "Polvo de la tierra"
+          - key: estrella
+            label: "Una estrella"
+          - key: agua
+            label: "Solo agua"
+        correct_choice: polvo
+        answer: "Polvo de la tierra. Dios sopló en su nariz aliento de vida."
+        points: 8
+        duration: 20
+        intensity: 2
+        scripture:
+          canon: pgp
+          cite: "Moisés 3:7"
+          study: "pgp/moses/3"
+        presentation:
+          image: quizzes/moises/polvo_hombre.jpg
+      - id: eden_adan
+        question: "¿Dónde puso Dios a Adán y a Eva?"
+        choices:
+          - key: eden
+            label: "El jardín de Edén"
+          - key: egipto
+            label: "Egipto"
+          - key: ur
+            label: "Ur de los caldeos"
+        correct_choice: eden
+        answer: "En el jardín de Edén, al oriente. Allí hizo crecer todo árbol."
+        points: 8
+        duration: 20
+        intensity: 2
+        scripture:
+          canon: pgp
+          cite: "Moisés 3:8-9"
+          study: "pgp/moses/3"
+        presentation:
+          image: quizzes/moises/eden_adan.jpg
+      - id: la_caida
+        question: "Después de la caída, ¿qué sucedió a Adán y a Eva?"
+        choices:
+          - key: caida
+            label: "Salieron del jardín; la tierra fue maldecida"
+          - key: trono
+            label: "Fueron puestos en un trono"
+          - key: cielo
+            label: "Subieron al cielo enseguida"
+        correct_choice: caida
+        answer: "La tierra fue maldecida por su causa. Comerían con dolor."
+        points: 8
+        duration: 20
+        intensity: 3
+        scripture:
+          canon: pgp
+          cite: "Moisés 4:23-25"
+          study: "pgp/moses/4"
+        presentation:
+          image: quizzes/moises/la_caida.jpg
+      - id: adan_sacrificio
+        question: "El Señor mandó a Adán ofrecer las primicias. Adán…"
+        choices:
+          - key: sacrificio
+            label: "Ofreció sacrificio"
+          - key: torre
+            label: "Edificó Babel"
+          - key: corona
+            label: "Se hizo rey de Egipto"
+        correct_choice: sacrificio
+        answer: "Obedeció. Un ángel le preguntó: ¿por qué ofreces sacrificio?"
+        points: 12
+        duration: 15
+        intensity: 3
+        scripture:
+          canon: pgp
+          cite: "Moisés 5:5-7"
+          study: "pgp/moses/5"
+        presentation:
+          image: quizzes/moises/adan_sacrificio.jpg
+      - id: enoc_sion
+        question: "Enoc predicó, y el pueblo se llamó…"
+        choices:
+          - key: sion
+            label: "Sion"
+          - key: babilonia
+            label: "Babilonia"
+          - key: roma
+            label: "Roma"
+        correct_choice: sion
+        answer: "Sion, porque eran de un corazón y una mente. El Señor habitó allí."
+        points: 12
+        duration: 15
+        intensity: 4
+        scripture:
+          canon: pgp
+          cite: "Moisés 7:18-21"
+          study: "pgp/moses/7"
+        presentation:
+          image: quizzes/moises/enoc_sion.jpg
+      - id: enoc_noe
+        question: "Enoc miró, y vio la familia de…"
+        choices:
+          - key: noe
+            label: "A Noé"
+          - key: abraham
+            label: "A Abraham"
+          - key: jose
+            label: "A José de Egipto"
+        correct_choice: noe
+        answer: "Vio a Noé y su familia. El Señor había preparado un arca."
+        points: 15
+        duration: 15
+        intensity: 4
+        scripture:
+          canon: pgp
+          cite: "Moisés 7:42-43"
+          study: "pgp/moses/7"
+        presentation:
+          image: quizzes/moises/enoc_noe.jpg
+      - id: sion_cielo
+        question: "Al fin, ¿qué fue de Sion, la ciudad de Enoc?"
+        choices:
+          - key: cielo
+            label: "Fue llevada al cielo"
+          - key: mar
+            label: "Se hundió en el mar"
+          - key: desierto
+            label: "Se quedó en el desierto"
+        correct_choice: cielo
+        answer: "Fue llevada al cielo. Dios la recibió en su seno."
+        points: 25
+        duration: 15
+        intensity: 5
+        scripture:
+          canon: pgp
+          cite: "Moisés 7:69"
+          study: "pgp/moses/7"
+        presentation:
+          image: quizzes/moises/sion_cielo.jpg
+  - id: abraham
+    title: "Abraham"
+    questions:
+      - id: salio_ur
+        question: "Abraham dice: yo vivía en la tierra de…"
+        choices:
+          - key: ur
+            label: "Ur"
+          - key: egipto
+            label: "Egipto"
+          - key: canan
+            label: "Canaán primero"
+        correct_choice: ur
+        answer: "Ur de los caldeos. Allí sus padres se habían vuelto a la idolatría."
+        points: 5
+        duration: 0
+        intensity: 1
+        scripture:
+          canon: pgp
+          cite: "Abraham 1:1"
+          study: "pgp/abr/1"
+        presentation:
+          image: quizzes/abraham/salio_ur.jpg
+      - id: sacerdotes_altar
+        question: "Los sacerdotes de Faraón quisieron…"
+        choices:
+          - key: ofrecerlo
+            label: "Ofrecerlo sobre un altar"
+          - key: rey
+            label: "Hacerlo faraón"
+          - key: maestro
+            label: "Nombrarlo maestro de la corte"
+        correct_choice: ofrecerlo
+        answer: "Ofrecerlo sobre un altar, como a los otros. El Señor no lo permitió."
+        points: 5
+        duration: 0
+        intensity: 1
+        scripture:
+          canon: pgp
+          cite: "Abraham 1:7-15"
+          study: "pgp/abr/1"
+        presentation:
+          image: quizzes/abraham/sacerdotes_altar.jpg
+      - id: senor_libero
+        question: "Cuando Abraham estaba sobre el altar, ¿quién lo libró?"
+        choices:
+          - key: libero
+            label: "El Señor lo libró"
+          - key: faraon
+            label: "Faraón se arrepintió"
+          - key: oro
+            label: "Lo compraron con oro"
+        correct_choice: libero
+        answer: "El Señor. El ángel de su presencia lo soltó."
+        points: 5
+        duration: 0
+        intensity: 2
+        scripture:
+          canon: pgp
+          cite: "Abraham 1:16-17"
+          study: "pgp/abr/1"
+        presentation:
+          image: quizzes/abraham/senor_libero.jpg
+      - id: tierra_simiente
+        question: "Jehová prometió a Abraham…"
+        choices:
+          - key: simiente
+            label: "Tierra y simiente"
+          - key: trono
+            label: "El trono de Faraón"
+          - key: oro
+            label: "Solo oro y rebaños"
+        correct_choice: simiente
+        answer: "Una tierra y una simiente. En su simiente serían benditas todas las familias."
+        points: 8
+        duration: 20
+        intensity: 2
+        scripture:
+          canon: pgp
+          cite: "Abraham 2:6-11"
+          study: "pgp/abr/2"
+        presentation:
+          image: quizzes/abraham/tierra_simiente.jpg
+      - id: sarai_egipto
+        question: "Por el hambre, Abraham y Sarai bajaron a…"
+        choices:
+          - key: egipto
+            label: "Egipto"
+          - key: ninive
+            label: "Nínive"
+          - key: roma
+            label: "Roma"
+        correct_choice: egipto
+        answer: "Egipto. El Señor le había dicho que dijera de Sarai: es mi hermana."
+        points: 8
+        duration: 20
+        intensity: 2
+        scripture:
+          canon: pgp
+          cite: "Abraham 2:21-22"
+          study: "pgp/abr/2"
+        presentation:
+          image: quizzes/abraham/sarai_egipto.jpg
+      - id: sacerdocio_padres
+        question: "Abraham buscó el sacerdocio. Le vino…"
+        choices:
+          - key: padres
+            label: "De los padres"
+          - key: faraon
+            label: "De Faraón"
+          - key: baal
+            label: "De los sacerdotes de Baal"
+        correct_choice: padres
+        answer: "De los padres, hasta Noé, hasta Adán, quien fue el primer hombre."
+        points: 8
+        duration: 20
+        intensity: 3
+        scripture:
+          canon: pgp
+          cite: "Abraham 1:2-3"
+          study: "pgp/abr/1"
+        presentation:
+          image: quizzes/abraham/sacerdocio_padres.jpg
+      - id: dioses_organizaron
+        question: "En el relato de Abraham, al principio…"
+        choices:
+          - key: organizaron
+            label: "Los Dioses organizaron"
+          - key: azar
+            label: "Salió todo por azar"
+          - key: faraon
+            label: "Faraón lo mandó"
+        correct_choice: organizaron
+        answer: "Los Dioses organizaron y formaron los cielos y la tierra."
+        points: 12
+        duration: 15
+        intensity: 3
+        scripture:
+          canon: pgp
+          cite: "Abraham 4:1"
+          study: "pgp/abr/4"
+        presentation:
+          image: quizzes/abraham/dioses_organizaron.jpg
+      - id: imagen_dioses
+        question: "Los Dioses dijeron: hagamos al hombre…"
+        choices:
+          - key: imagen
+            label: "A imagen de los Dioses"
+          - key: bestias
+            label: "A imagen de las bestias"
+          - key: estrellas
+            label: "A imagen de las estrellas"
+        correct_choice: imagen
+        answer: "A imagen nuestra, a nuestra semejanza."
+        points: 12
+        duration: 15
+        intensity: 4
+        scripture:
+          canon: pgp
+          cite: "Abraham 4:26-27"
+          study: "pgp/abr/4"
+        presentation:
+          image: quizzes/abraham/imagen_dioses.jpg
+      - id: dia_septimo
+        question: "Después de organizar, los Dioses descansaron…"
+        choices:
+          - key: septimo
+            label: "El día séptimo"
+          - key: tercero
+            label: "El día tercero"
+          - key: nunca
+            label: "No descansaron nunca"
+        correct_choice: septimo
+        answer: "El día séptimo, de toda su obra que habían hecho."
+        points: 15
+        duration: 15
+        intensity: 4
+        scripture:
+          canon: pgp
+          cite: "Abraham 5:1-3"
+          study: "pgp/abr/5"
+        presentation:
+          image: quizzes/abraham/dia_septimo.jpg
+      - id: lumbreras
+        question: "Los Dioses ordenaron, para señales y estaciones…"
+        choices:
+          - key: lumbreras
+            label: "Las lumbreras"
+          - key: montes
+            label: "Solo los montes"
+          - key: rios
+            label: "Solo los ríos"
+        correct_choice: lumbreras
+        answer: "Las lumbreras en la expansión del cielo: el sol, la luna y las estrellas."
+        points: 25
+        duration: 15
+        intensity: 5
+        scripture:
+          canon: pgp
+          cite: "Abraham 4:14-16"
+          study: "pgp/abr/4"
+        presentation:
+          image: quizzes/abraham/lumbreras.jpg
+  - id: kolob
+    title: "Kolob"
+    questions:
+      - id: cerca_trono
+        question: "Kolob está cerca de…"
+        choices:
+          - key: trono
+            label: "El trono de Dios"
+          - key: egipto
+            label: "El palacio de Faraón"
+          - key: mar
+            label: "El mar de cristal"
+        correct_choice: trono
+        answer: "El trono de Dios. Abraham lo vio por el Urim y Tumim."
+        points: 5
+        duration: 0
+        intensity: 1
+        scripture:
+          canon: pgp
+          cite: "Abraham 3:2-3"
+          study: "pgp/abr/3"
+        presentation:
+          image: quizzes/kolob/cerca_trono.jpg
+      - id: gobierna_astros
+        question: "Kolob gobierna a…"
+        choices:
+          - key: astros
+            label: "Los demás astros"
+          - key: reyes
+            label: "Los reyes de Egipto"
+          - key: rios
+            label: "Solo los ríos"
+        correct_choice: astros
+        answer: "Los demás astros que están de la misma orden que él."
+        points: 5
+        duration: 0
+        intensity: 1
+        scripture:
+          canon: pgp
+          cite: "Abraham 3:3-9"
+          study: "pgp/abr/3"
+        presentation:
+          image: quizzes/kolob/gobierna_astros.jpg
+      - id: mil_anos
+        question: "Un día en Kolob es…"
+        choices:
+          - key: mil
+            label: "Mil años nuestros"
+          - key: un_dia
+            label: "Un día nuestro"
+          - key: una_hora
+            label: "Una hora nuestra"
+        correct_choice: mil
+        answer: "Mil años según la medición de esta tierra."
+        points: 5
+        duration: 0
+        intensity: 2
+        scripture:
+          canon: pgp
+          cite: "Abraham 3:4"
+          study: "pgp/abr/3"
+        presentation:
+          image: quizzes/kolob/mil_anos.jpg
+      - id: oliblish
+        question: "Cerca de Kolob hay otros astros grandes. Uno se llama…"
+        choices:
+          - key: oliblish
+            label: "Oliblish"
+          - key: belen
+            label: "Belén"
+          - key: sinai
+            label: "El Sinaí"
+        correct_choice: oliblish
+        answer: "Oliblish. El Señor le mostró a Abraham muchos grandes."
+        points: 8
+        duration: 20
+        intensity: 2
+        scripture:
+          canon: pgp
+          cite: "Abraham 3:3"
+          study: "pgp/abr/3"
+        presentation:
+          image: quizzes/kolob/oliblish.jpg
+      - id: urim_tumim
+        question: "Abraham aprendió esto por el…"
+        choices:
+          - key: urim
+            label: "Urim y Tumim"
+          - key: sueno
+            label: "Solo un sueño"
+          - key: mapa
+            label: "Un mapa de Faraón"
+        correct_choice: urim
+        answer: "Urim y Tumim, que el Señor le había dado."
+        points: 8
+        duration: 20
+        intensity: 2
+        scripture:
+          canon: pgp
+          cite: "Abraham 3:1"
+          study: "pgp/abr/3"
+        presentation:
+          image: quizzes/kolob/urim_tumim.jpg
+      - id: mayor_menor
+        question: "Las estrellas están ordenadas…"
+        choices:
+          - key: menor
+            label: "De mayor a menor"
+          - key: azar
+            label: "Al azar"
+          - key: iguales
+            label: "Todas iguales"
+        correct_choice: menor
+        answer: "De mayor a menor. Kolob es la más grande de todas las que vio."
+        points: 8
+        duration: 20
+        intensity: 3
+        scripture:
+          canon: pgp
+          cite: "Abraham 3:16"
+          study: "pgp/abr/3"
+        presentation:
+          image: quizzes/kolob/mayor_menor.jpg
+      - id: mas_inteligente
+        question: "El que es más inteligente que todas las demás es…"
+        choices:
+          - key: senor
+            label: "El Señor"
+          - key: kolob
+            label: "Kolob mismo"
+          - key: abraham
+            label: "Abraham"
+        correct_choice: senor
+        answer: "El Señor. Él es más inteligente que todos ellos."
+        points: 12
+        duration: 15
+        intensity: 3
+        scripture:
+          canon: pgp
+          cite: "Abraham 3:19"
+          study: "pgp/abr/3"
+        presentation:
+          image: quizzes/kolob/mas_inteligente.jpg
+      - id: cuerpos_luz
+        question: "Kolob es el más cercano a Dios de todos los…"
+        choices:
+          - key: luz
+            label: "Cuerpos de luz"
+          - key: piedra
+            label: "Montes de piedra"
+          - key: agua
+            label: "Mares de agua"
+        correct_choice: luz
+        answer: "Cuerpos de luz que Abraham vio."
+        points: 12
+        duration: 15
+        intensity: 4
+        scripture:
+          canon: pgp
+          cite: "Abraham 3:16"
+          study: "pgp/abr/3"
+        presentation:
+          image: quizzes/kolob/cuerpos_luz.jpg
+      - id: tiempo_senor
+        question: "El tiempo de Kolob es el tiempo del…"
+        choices:
+          - key: senor
+            label: "El tiempo del Señor"
+          - key: egipto
+            label: "El tiempo de Egipto"
+          - key: luna
+            label: "Solo el tiempo de la luna"
+        correct_choice: senor
+        answer: "Señor. Según su tiempo, así es el recuento de la tierra."
+        points: 15
+        duration: 15
+        intensity: 4
+        scripture:
+          canon: pgp
+          cite: "Abraham 3:9"
+          study: "pgp/abr/3"
+        presentation:
+          image: quizzes/kolob/tiempo_senor.jpg
+      - id: hay_mayor
+        question: "Si existen dos cosas, una más inteligente que la otra…"
+        choices:
+          - key: mayor
+            label: "Hay una mayor"
+          - key: iguales
+            label: "Las dos son siempre iguales"
+          - key: azar
+            label: "No hay orden"
+        correct_choice: mayor
+        answer: "Hay una mayor que ambas. El Señor es más inteligente que todas."
+        points: 25
+        duration: 15
+        intensity: 5
+        scripture:
+          canon: pgp
+          cite: "Abraham 3:18-19"
+          study: "pgp/abr/3"
+        presentation:
+          image: quizzes/kolob/hay_mayor.jpg
+  - id: premortal
+    title: "Antes de nacer"
+    questions:
+      - id: eramos_inteligencias
+        question: "Antes de nacer, éramos…"
+        choices:
+          - key: inteligencias
+            label: "Inteligencias, espíritus"
+          - key: piedras
+            label: "Piedras del arroyo"
+          - key: nada
+            label: "Nada: no existíamos"
+        correct_choice: inteligencias
+        answer: "Inteligencias. El Señor mostró a Abraham a los espíritus que habían de nacer."
+        points: 5
+        duration: 0
+        intensity: 1
+        scripture:
+          canon: pgp
+          cite: "Abraham 3:22-23"
+          study: "pgp/abr/3"
+        presentation:
+          image: quizzes/premortal/eramos_inteligencias.jpg
+      - id: a_quien_envio
+        question: "El Padre preguntó, al preparar este mundo…"
+        choices:
+          - key: envio
+            label: "¿A quién enviaré?"
+          - key: kolob
+            label: "¿Cuál estrella es Kolob?"
+          - key: oro
+            label: "¿Quién traerá el oro?"
+        correct_choice: envio
+        answer: "¿A quién enviaré? Alguien tenía que bajar y hacer la obra."
+        points: 5
+        duration: 0
+        intensity: 1
+        scripture:
+          canon: pgp
+          cite: "Abraham 3:27"
+          study: "pgp/abr/3"
+        presentation:
+          image: quizzes/premortal/a_quien_envio.jpg
+      - id: primero_heme
+        question: "El primero dijo…"
+        choices:
+          - key: primero
+            label: "Heme aquí, envíame"
+          - key: no
+            label: "No iré"
+          - key: otro
+            label: "Envía a otro"
+        correct_choice: primero
+        answer: "Heme aquí, envíame. Era el amado y escogido desde el principio."
+        points: 5
+        duration: 0
+        intensity: 2
+        scripture:
+          canon: pgp
+          cite: "Abraham 3:27"
+          study: "pgp/abr/3"
+        presentation:
+          image: quizzes/premortal/primero_heme.jpg
+      - id: segundo_satanas
+        question: "El segundo también dijo: heme aquí, envíame. Era…"
+        choices:
+          - key: satanas
+            label: "Satanás"
+          - key: micheal
+            label: "Miguel"
+          - key: noe
+            label: "Noé"
+        correct_choice: satanas
+        answer: "Satanás. Quiso la honra para sí, y el Señor no se la dio."
+        points: 8
+        duration: 20
+        intensity: 2
+        scripture:
+          canon: pgp
+          cite: "Moisés 4:1"
+          study: "pgp/moses/4"
+        presentation:
+          image: quizzes/premortal/segundo_satanas.jpg
+      - id: primogenito
+        question: "El Padre eligió…"
+        choices:
+          - key: primogenito
+            label: "Al Primogénito"
+          - key: segundo
+            label: "Al segundo"
+          - key: abraham
+            label: "A Abraham en persona"
+        correct_choice: primogenito
+        answer: "Al Primogénito. El segundo se enojó, y muchos lo siguieron."
+        points: 8
+        duration: 20
+        intensity: 2
+        scripture:
+          canon: pgp
+          cite: "Abraham 3:27-28"
+          study: "pgp/abr/3"
+        presentation:
+          image: quizzes/premortal/primogenito.jpg
+      - id: jeremias_conocido
+        question: "El Señor dijo a Jeremías: te conocí…"
+        choices:
+          - key: antes
+            label: "Antes de nacer"
+          - key: templo
+            label: "Solo en el templo, de adulto"
+          - key: exilio
+            label: "En el exilio, de viejo"
+        correct_choice: antes
+        answer: "Antes que te formase en el vientre. Te santifiqué; te di por profeta."
+        points: 8
+        duration: 20
+        intensity: 3
+        scripture:
+          canon: bible
+          cite: "Jeremías 1:5"
+          study: "ot/jer/1"
+        presentation:
+          image: quizzes/premortal/jeremias_conocido.jpg
+      - id: principio_dios
+        question: "El hombre era…"
+        choices:
+          - key: principio
+            label: "En el principio con Dios"
+          - key: nada
+            label: "De la nada, el día del nacimiento"
+          - key: despues
+            label: "Solo después de morir"
+        correct_choice: principio
+        answer: "En el principio con Dios. La inteligencia no fue creada ni hecha."
+        points: 12
+        duration: 15
+        intensity: 3
+        scripture:
+          canon: dc
+          cite: "DyC 93:29"
+          study: "dc-testament/dc/93"
+        presentation:
+          image: quizzes/premortal/principio_dios.jpg
+      - id: llamados_preparados
+        question: "Según Alma, muchos fueron, desde la fundación del mundo…"
+        choices:
+          - key: preparados
+            label: "Llamados y preparados"
+          - key: azar
+            label: "Elegidos al azar al nacer"
+          - key: oro
+            label: "Comprados con oro"
+        correct_choice: preparados
+        answer: "Llamados y preparados. Según la presciencia de Dios."
+        points: 12
+        duration: 15
+        intensity: 4
+        scripture:
+          canon: bom
+          cite: "Alma 13:3"
+          study: "bofm/alma/13"
+        presentation:
+          image: quizzes/premortal/llamados_preparados.jpg
+      - id: lecciones_antes
+        question: "Los nobles y grandes recibieron, en el mundo de los espíritus…"
+        choices:
+          - key: lecciones
+            label: "Lecciones antes de nacer"
+          - key: nada
+            label: "Ninguna preparación"
+          - key: egipto
+            label: "Solo la escuela de Egipto"
+        correct_choice: lecciones
+        answer: "Sus primeras lecciones, antes de nacer. Fueron preparados para venir."
+        points: 15
+        duration: 15
+        intensity: 4
+        scripture:
+          canon: dc
+          cite: "DyC 138:56"
+          study: "dc-testament/dc/138"
+        presentation:
+          image: quizzes/premortal/lecciones_antes.jpg
+      - id: gritaron_gozo
+        question: "Cuando el Señor fundó la tierra, los hijos de Dios…"
+        choices:
+          - key: gozo
+            label: "Gritaron de gozo"
+          - key: silencio
+            label: "Guardaron silencio"
+          - key: huir
+            label: "Huyeron de la luz"
+        correct_choice: gozo
+        answer: "Gritaron de gozo. Las estrellas de la mañana cantaban."
+        points: 25
+        duration: 15
+        intensity: 5
+        scripture:
+          canon: bible
+          cite: "Job 38:4-7"
+          study: "ot/job/38"
+        presentation:
+          image: quizzes/premortal/gritaron_gozo.jpg
+  - id: exaltacion
+    title: "Exaltación"
+    questions:
+      - id: obra_gloria
+        question: "La obra y la gloria de Dios es llevar a cabo la inmortalidad y…"
+        choices:
+          - key: eterna
+            label: "Inmortalidad y vida eterna"
+          - key: oro
+            label: "Oro y tronos de este mundo"
+          - key: fama
+            label: "Fama entre las naciones"
+        correct_choice: eterna
+        answer: "La vida eterna del hombre."
+        points: 5
+        duration: 0
+        intensity: 1
+        scripture:
+          canon: pgp
+          cite: "Moisés 1:39"
+          study: "pgp/moses/1"
+        presentation:
+          image: quizzes/exaltacion/obra_gloria.jpg
+      - id: vida_eterna
+        question: "La vida eterna es…"
+        choices:
+          - key: conocer
+            label: "Conocer a Dios y a Jesucristo"
+          - key: oro
+            label: "Juntar oro"
+          - key: nombres
+            label: "Memorizar todos los nombres"
+        correct_choice: conocer
+        answer: "Que te conozcan a ti, el único Dios verdadero, y a Jesucristo, a quien has enviado."
+        points: 5
+        duration: 0
+        intensity: 1
+        scripture:
+          canon: bible
+          cite: "Juan 17:3"
+          study: "nt/john/17"
+        presentation:
+          image: quizzes/exaltacion/vida_eterna.jpg
+      - id: iglesia_cordero
+        question: "Los del celestial son los de…"
+        choices:
+          - key: cordero
+            label: "La Iglesia del Cordero"
+          - key: babilonia
+            label: "Babilonia"
+          - key: cesar
+            label: "La corte de César"
+        correct_choice: cordero
+        answer: "La Iglesia del Primogénito. Reciben de su plenitud."
+        points: 5
+        duration: 0
+        intensity: 2
+        scripture:
+          canon: dc
+          cite: "DyC 76:50-54"
+          study: "dc-testament/dc/76"
+        presentation:
+          image: quizzes/exaltacion/iglesia_cordero.jpg
+      - id: tres_grados
+        question: "En la gloria celestial hay…"
+        choices:
+          - key: tres
+            label: "Tres cielos, o grados"
+          - key: uno
+            label: "Un solo grado"
+          - key: diez
+            label: "Diez cielos"
+        correct_choice: tres
+        answer: "Tres cielos o grados."
+        points: 8
+        duration: 20
+        intensity: 2
+        scripture:
+          canon: dc
+          cite: "DyC 131:1"
+          study: "dc-testament/dc/131"
+        presentation:
+          image: quizzes/exaltacion/tres_grados.jpg
+      - id: matrimonio_eterno
+        question: "Para la gloria más alta, ¿en qué convenio entras tú?"
+        choices:
+          - key: sello
+            label: "El matrimonio eterno"
+          - key: diezmo
+            label: "Solo el diezmo"
+          - key: ayuno
+            label: "Un ayuno de cuarenta días"
+        correct_choice: sello
+        answer: "En el sello del matrimonio eterno. Tú y quien amas, para siempre."
+        points: 8
+        duration: 20
+        intensity: 2
+        scripture:
+          canon: dc
+          cite: "DyC 131:2"
+          study: "dc-testament/dc/131"
+        presentation:
+          image: quizzes/exaltacion/matrimonio_eterno.jpg
+      - id: perseverar
+        question: "Si perseveras hasta el fin, tendrás…"
+        choices:
+          - key: vida
+            label: "Vida eterna"
+          - key: oro
+            label: "Oro de la tierra"
+          - key: fama
+            label: "Fama en la plaza"
+        correct_choice: vida
+        answer: "La vida eterna, el mayor de todos los dones de Dios."
+        points: 8
+        duration: 20
+        intensity: 3
+        scripture:
+          canon: dc
+          cite: "DyC 14:7"
+          study: "dc-testament/dc/14"
+        presentation:
+          image: quizzes/exaltacion/perseverar.jpg
+      - id: sed_perfectos
+        question: "Jesús dijo, en el monte: sed, pues…"
+        choices:
+          - key: perfectos
+            label: "Sed, pues, perfectos"
+          - key: ricos
+            label: "Sed, pues, ricos"
+          - key: temidos
+            label: "Sed, pues, temidos"
+        correct_choice: perfectos
+        answer: "Perfectos, como vuestro Padre que está en los cielos es perfecto."
+        points: 12
+        duration: 15
+        intensity: 3
+        scripture:
+          canon: bible
+          cite: "Mateo 5:48"
+          study: "nt/matt/5"
+        presentation:
+          image: quizzes/exaltacion/sed_perfectos.jpg
+      - id: familias_selladas
+        question: "Las familias…"
+        choices:
+          - key: selladas
+            label: "Pueden ser selladas"
+          - key: olvidadas
+            label: "Quedan olvidadas"
+          - key: rotas
+            label: "Se rompen al morir"
+        correct_choice: selladas
+        answer: "Pueden ser selladas. Elías prometió volver antes del día grande."
+        points: 12
+        duration: 15
+        intensity: 4
+        scripture:
+          canon: dc
+          cite: "DyC 138:47-48"
+          study: "dc-testament/dc/138"
+        presentation:
+          image: quizzes/exaltacion/familias_selladas.jpg
+      - id: gracia_gracia
+        question: "Si guardáis mis mandamientos, recibiréis de su plenitud…"
+        choices:
+          - key: gracia
+            label: "Gracia por gracia"
+          - key: oro
+            label: "Oro por oro"
+          - key: silencio
+            label: "Silencio por silencio"
+        correct_choice: gracia
+        answer: "Gracia por gracia."
+        points: 15
+        duration: 15
+        intensity: 4
+        scripture:
+          canon: dc
+          cite: "DyC 93:19-20"
+          study: "dc-testament/dc/93"
+        presentation:
+          image: quizzes/exaltacion/gracia_gracia.jpg
+      - id: presencia_padre
+        question: "¿Dónde morarán los que reciben la gloria celestial?"
+        choices:
+          - key: presencia
+            label: "En la presencia del Padre y del Hijo"
+          - key: luna
+            label: "En la luna"
+          - key: paraiso
+            label: "Solo en un paraíso de espíritus, lejos"
+        correct_choice: presencia
+        answer: "En la presencia de Dios y de su Cristo, por los siglos de los siglos."
+        points: 25
+        duration: 15
+        intensity: 5
+        scripture:
+          canon: dc
+          cite: "DyC 76:62"
+          study: "dc-testament/dc/76"
+        presentation:
+          image: quizzes/exaltacion/presencia_padre.jpg
+  - id: jose
+    title: "José"
+    questions:
+      - id: nacio_sharon
+        question: "¿Dónde nació José Smith?"
+        choices:
+          - key: sharon
+            label: "Sharon, Vermont"
+          - key: palmyra
+            label: "Palmyra, Nueva York"
+          - key: nauvoo
+            label: "Nauvoo, Illinois"
+        correct_choice: sharon
+        answer: "En Sharon, condado de Windsor, Vermont. Lo cuenta la Historia de José Smith."
+        points: 5
+        duration: 0
+        intensity: 1
+        scripture:
+          canon: pgp
+          cite: "JS-H 1:3"
+          study: "pgp/js-h/1"
+        presentation:
+          image: quizzes/jose/nacio_sharon.jpg
+      - id: bosquecillo
+        question: "En el bosquecillo, José vio…"
+        choices:
+          - key: ambos
+            label: "Al Padre y al Hijo"
+          - key: angel
+            label: "Solo a un ángel"
+          - key: nube
+            label: "Solo una luz, sin nadie"
+        correct_choice: ambos
+        answer: "Al Padre y al Hijo. Una persona dijo: José, éste es mi Hijo Amado. ¡Escúchalo!"
+        points: 5
+        duration: 0
+        intensity: 1
+        scripture:
+          canon: pgp
+          cite: "JS-H 1:16-17"
+          study: "pgp/js-h/1"
+        presentation:
+          image: quizzes/jose/bosquecillo.jpg
+      - id: moroni_planchas
+        question: "Moroni le habló de un libro, escrito sobre…"
+        choices:
+          - key: planchas
+            label: "Un libro escrito en planchas"
+          - key: corona
+            label: "Una corona de oro"
+          - key: mapa
+            label: "Un mapa de Kirtland"
+        correct_choice: planchas
+        answer: "Planchas de oro. Daba cuenta de los antiguos habitantes de este continente."
+        points: 5
+        duration: 0
+        intensity: 2
+        scripture:
+          canon: pgp
+          cite: "JS-H 1:30-34"
+          study: "pgp/js-h/1"
+        presentation:
+          image: quizzes/jose/moroni_planchas.jpg
+      - id: cerro_planchas
+        question: "¿Dónde recibió José las planchas?"
+        choices:
+          - key: cerro
+            label: "En el cerro"
+          - key: templo
+            label: "En el templo de Kirtland"
+          - key: rio
+            label: "En el fondo del río"
+        correct_choice: cerro
+        answer: "En el cerro. Debajo de una piedra había una caja, y en ella las planchas."
+        points: 8
+        duration: 20
+        intensity: 2
+        scripture:
+          canon: pgp
+          cite: "JS-H 1:51-52"
+          study: "pgp/js-h/1"
+        presentation:
+          image: quizzes/jose/cerro_planchas.jpg
+      - id: oliver_traduce
+        question: "¿Quién llegó a Harmony y escribió mientras José traducía?"
+        choices:
+          - key: oliver
+            label: "Oliver Cowdery"
+          - key: brigham
+            label: "Brigham Young"
+          - key: martin
+            label: "Martín Lutero"
+        correct_choice: oliver
+        answer: "Oliver Cowdery. Escribió lo que José le dictaba."
+        points: 8
+        duration: 20
+        intensity: 2
+        scripture:
+          canon: pgp
+          cite: "JS-H 1:66-67"
+          study: "pgp/js-h/1"
+        presentation:
+          image: quizzes/jose/oliver_traduce.jpg
+      - id: emma_esposa
+        question: "El Señor habló, en una revelación, a…"
+        choices:
+          - key: emma
+            label: "Emma, su esposa"
+          - key: lucy
+            label: "Lucy, su madre"
+          - key: saria
+            label: "Saria"
+        correct_choice: emma
+        answer: "Emma Smith, mi hija. La llamó electa y le dio un encargo."
+        points: 8
+        duration: 20
+        intensity: 3
+        scripture:
+          canon: dc
+          cite: "DyC 25:1-3"
+          study: "dc-testament/dc/25"
+        presentation:
+          image: quizzes/jose/emma_esposa.jpg
+      - id: liberty_donde
+        question: "En Liberty, José clamó al Señor…"
+        choices:
+          - key: donde
+            label: "¿Dónde estás?"
+          - key: oro
+            label: "¿Dónde está el oro?"
+          - key: nauvoo
+            label: "¿Cuándo volvemos a Nauvoo?"
+        correct_choice: donde
+        answer: "¿Dónde estás? La cárcel era oscura. Él preguntó cuánto duraría."
+        points: 12
+        duration: 15
+        intensity: 3
+        scripture:
+          canon: dc
+          cite: "DyC 121:1-6"
+          study: "dc-testament/dc/121"
+        presentation:
+          image: quizzes/jose/liberty_donde.jpg
+      - id: experiencia
+        question: "Todas estas cosas te darán…"
+        choices:
+          - key: experiencia
+            label: "Experiencia"
+          - key: oro
+            label: "Oro"
+          - key: olvido
+            label: "Olvido"
+        correct_choice: experiencia
+        answer: "Experiencia, y serán para tu bien."
+        points: 12
+        duration: 15
+        intensity: 4
+        scripture:
+          canon: dc
+          cite: "DyC 122:7"
+          study: "dc-testament/dc/122"
+        presentation:
+          image: quizzes/jose/experiencia.jpg
+      - id: carthage_cordero
+        question: "¿Cómo fue José a Carthage?"
+        choices:
+          - key: cordero
+            label: "Como un cordero"
+          - key: ejercito
+            label: "Al frente de un ejército"
+          - key: secreto
+            label: "De noche, a escondidas"
+        correct_choice: cordero
+        answer: "Como un cordero. Sabía lo que le esperaba, y aun así fue."
+        points: 15
+        duration: 15
+        intensity: 4
+        scripture:
+          canon: dc
+          cite: "DyC 135:4"
+          study: "dc-testament/dc/135"
+        presentation:
+          image: quizzes/jose/carthage_cordero.jpg
+      - id: salvo_jesus
+        question: "José ha hecho más, salvo Jesús, por la salvación de…"
+        choices:
+          - key: generacion
+            label: "Esta generación"
+          - key: moises
+            label: "Solo los días de Moisés"
+          - key: roma
+            label: "Solo los días de Roma"
+        correct_choice: generacion
+        answer: "Los hombres de esta generación. Vivió grande, y murió grande a los ojos de Dios."
+        points: 25
+        duration: 15
+        intensity: 5
+        scripture:
+          canon: dc
+          cite: "DyC 135:3"
+          study: "dc-testament/dc/135"
+        presentation:
+          image: quizzes/jose/salvo_jesus.jpg
+  - id: inicios
+    title: "Comienzos"
+    questions:
+      - id: seis_abril
+        question: "¿En qué fecha se organizó la Iglesia?"
+        choices:
+          - key: abril
+            label: "El 6 de abril de 1830"
+          - key: navidad
+            label: "El 25 de diciembre de 1830"
+          - key: valle
+            label: "El día que llegaron al valle"
+        correct_choice: abril
+        answer: "El 6 de abril de 1830, según el mandamiento y las revelaciones."
+        points: 5
+        duration: 0
+        intensity: 1
+        scripture:
+          canon: dc
+          cite: "DyC 20:1"
+          study: "dc-testament/dc/20"
+        presentation:
+          image: quizzes/inicios/seis_abril.jpg
+      - id: vidente_profeta
+        question: "Se le llamó a José…"
+        choices:
+          - key: vidente
+            label: "Vidente, traductor, profeta"
+          - key: rey
+            label: "Rey de los Estados Unidos"
+          - key: general
+            label: "General de Misuri"
+        correct_choice: vidente
+        answer: "Vidente, traductor, profeta, apóstol de Jesucristo."
+        points: 5
+        duration: 0
+        intensity: 1
+        scripture:
+          canon: dc
+          cite: "DyC 21:1"
+          study: "dc-testament/dc/21"
+        presentation:
+          image: quizzes/inicios/vidente_profeta.jpg
+      - id: kirtland_dedico
+        question: "¿Dónde se dedicó la casa del Señor, con la oración de José?"
+        choices:
+          - key: kirtland
+            label: "Kirtland"
+          - key: nauvoo
+            label: "Nauvoo"
+          - key: salt
+            label: "El valle del Lago Salado"
+        correct_choice: kirtland
+        answer: "En Kirtland. Pidió que la gloria de Dios reposara sobre esa casa."
+        points: 5
+        duration: 0
+        intensity: 2
+        scripture:
+          canon: dc
+          cite: "DyC 109:12-13"
+          study: "dc-testament/dc/109"
+        presentation:
+          image: quizzes/inicios/kirtland_dedico.jpg
+      - id: ley_kirtland
+        question: "El Señor dio la ley de la Iglesia en…"
+        choices:
+          - key: ohio
+            label: "Kirtland, Ohio"
+          - key: palmyra
+            label: "Palmyra"
+          - key: carthage
+            label: "Carthage"
+        correct_choice: ohio
+        answer: "Kirtland, Ohio. Los élderes se habían reunido, y él habló."
+        points: 8
+        duration: 20
+        intensity: 2
+        scripture:
+          canon: dc
+          cite: "DyC 42:1-3"
+          study: "dc-testament/dc/42"
+        presentation:
+          image: quizzes/inicios/ley_kirtland.jpg
+      - id: independencia
+        question: "¿Qué lugar sería el centro, la tierra de Sion?"
+        choices:
+          - key: centro
+            label: "El centro, Independencia"
+          - key: boston
+            label: "Boston"
+          - key: londres
+            label: "Londres"
+        correct_choice: centro
+        answer: "Independencia, Misuri. Allí se señalaría el solar del templo."
+        points: 8
+        duration: 20
+        intensity: 2
+        scripture:
+          canon: dc
+          cite: "DyC 57:1-3"
+          study: "dc-testament/dc/57"
+        presentation:
+          image: quizzes/inicios/independencia.jpg
+      - id: misuri
+        question: "Los santos sufrieron en…"
+        choices:
+          - key: misuri
+            label: "Misuri"
+          - key: vermont
+            label: "Vermont"
+          - key: california
+            label: "California"
+        correct_choice: misuri
+        answer: "Misuri. Fueron echados de sus tierras. El Señor oyó su clamor."
+        points: 8
+        duration: 20
+        intensity: 3
+        scripture:
+          canon: dc
+          cite: "DyC 101:1-6"
+          study: "dc-testament/dc/101"
+        presentation:
+          image: quizzes/inicios/misuri.jpg
+      - id: campamento_sion
+        question: "El Señor mandó reunir hombres para ir a la tierra de Sion. Eso fue…"
+        choices:
+          - key: campamento
+            label: "El campamento de Sion"
+          - key: barco
+            label: "Un barco a Inglaterra"
+          - key: mina
+            label: "Una mina de oro"
+        correct_choice: campamento
+        answer: "El campamento de Sion. Iban a llevar auxilio a los hermanos."
+        points: 12
+        duration: 15
+        intensity: 3
+        scripture:
+          canon: dc
+          cite: "DyC 103:30-34"
+          study: "dc-testament/dc/103"
+        presentation:
+          image: quizzes/inicios/campamento_sion.jpg
+      - id: nauvoo_hermosa
+        question: "La ciudad que se llamó «la hermosa» fue…"
+        choices:
+          - key: nauvoo
+            label: "Nauvoo, la hermosa"
+          - key: kirtland
+            label: "Solo Kirtland"
+          - key: palmyra
+            label: "Palmyra"
+        correct_choice: nauvoo
+        answer: "Nauvoo. El Señor mandó edificar allí una casa a su nombre."
+        points: 12
+        duration: 15
+        intensity: 4
+        scripture:
+          canon: dc
+          cite: "DyC 124:2-3"
+          study: "dc-testament/dc/124"
+        presentation:
+          image: quizzes/inicios/nauvoo_hermosa.jpg
+      - id: pioneros_desierto
+        question: "Los pioneros recibieron, para organizar el campamento…"
+        choices:
+          - key: desierto
+            label: "La palabra en el desierto"
+          - key: mar
+            label: "Un decreto junto al mar"
+          - key: corte
+            label: "Una carta de la corte"
+        correct_choice: desierto
+        answer: "La palabra del Señor en el desierto. Un pacto y un campamento en orden."
+        points: 15
+        duration: 15
+        intensity: 4
+        scripture:
+          canon: dc
+          cite: "DyC 136:1-4"
+          study: "dc-testament/dc/136"
+        presentation:
+          image: quizzes/inicios/pioneros_desierto.jpg
+      - id: iglesia_verdadera
+        question: "El Señor dijo que sacaría a luz…"
+        choices:
+          - key: unica
+            label: "La única iglesia verdadera y viva"
+          - key: una_mas
+            label: "Una más entre muchas iguales"
+          - key: cerrada
+            label: "Una iglesia ya cerrada"
+        correct_choice: unica
+        answer: "La única iglesia verdadera y viva sobre la faz de toda la tierra."
+        points: 25
+        duration: 15
+        intensity: 5
+        scripture:
+          canon: dc
+          cite: "DyC 1:30"
+          study: "dc-testament/dc/1"
+        presentation:
+          image: quizzes/inicios/iglesia_verdadera.jpg
+  - id: pruebas_profetas
+    title: "Pruebas"
+    questions:
+      - id: jeremias_cisterna
+        question: "Jeremías fue echado en…"
+        choices:
+          - key: cisterna
+            label: "La cisterna"
+          - key: trono
+            label: "El trono del rey"
+          - key: barco
+            label: "Un barco a Tarsis"
+        correct_choice: cisterna
+        answer: "Una cisterna. Quedó hundido en el lodo, y un siervo lo sacó."
+        points: 5
+        duration: 0
+        intensity: 1
+        scripture:
+          canon: bible
+          cite: "Jeremías 38:6"
+          study: "ot/jer/38"
+        presentation:
+          image: quizzes/pruebas_profetas/jeremias_cisterna.jpg
+      - id: elias_jezabel
+        question: "¿De quién huyó Elías al desierto, con el alma cansada?"
+        choices:
+          - key: jezabel
+            label: "Jezabel"
+          - key: nabot
+            label: "Nabot"
+          - key: natan
+            label: "Natán"
+        correct_choice: jezabel
+        answer: "De Jezabel. Se sentó bajo un enebro y pidió morirse. El Señor lo sostuvo."
+        points: 5
+        duration: 0
+        intensity: 1
+        scripture:
+          canon: bible
+          cite: "1 Reyes 19:1-4"
+          study: "ot/1-kgs/19"
+        presentation:
+          image: quizzes/pruebas_profetas/elias_jezabel.jpg
+      - id: abinadi_condenado
+        question: "Después de testificar, Abinadí fue…"
+        choices:
+          - key: condenado
+            label: "Condenado por Noé"
+          - key: coronado
+            label: "Coronado rey"
+          - key: libre
+            label: "Puesto en libertad al día siguiente"
+        correct_choice: condenado
+        answer: "Condenado por Noé. No negó la palabra del Señor."
+        points: 5
+        duration: 0
+        intensity: 2
+        scripture:
+          canon: bom
+          cite: "Mosíah 17:1-13"
+          study: "bofm/mosiah/17"
+        presentation:
+          image: quizzes/pruebas_profetas/abinadi_condenado.jpg
+      - id: lehi_desierto
+        question: "Lehi y su familia sufrieron en…"
+        choices:
+          - key: desierto
+            label: "El desierto"
+          - key: palacio
+            label: "Un palacio"
+          - key: barco
+            label: "Un barco de Tiro"
+        correct_choice: desierto
+        answer: "El desierto. Dejaron su casa y salieron, porque el Señor se lo mandó."
+        points: 8
+        duration: 20
+        intensity: 2
+        scripture:
+          canon: bom
+          cite: "1 Néfi 2:2-4"
+          study: "bofm/1-ne/2"
+        presentation:
+          image: quizzes/pruebas_profetas/lehi_desierto.jpg
+      - id: alma_amoniah
+        question: "Alma y Amulek fueron echados en la prisión de…"
+        choices:
+          - key: amoniah
+            label: "Amoníah"
+          - key: zarahemla
+            label: "Zarahemla"
+          - key: bountiful
+            label: "Abundancia"
+        correct_choice: amoniah
+        answer: "Amoníah. El Señor los libró. Las paredes cedieron, y ellos salieron."
+        points: 8
+        duration: 20
+        intensity: 2
+        scripture:
+          canon: bom
+          cite: "Alma 14:17-26"
+          study: "bofm/alma/14"
+        presentation:
+          image: quizzes/pruebas_profetas/alma_amoniah.jpg
+      - id: nefi_atado
+        question: "Néfi fue atado…"
+        choices:
+          - key: barco
+            label: "En el barco"
+          - key: templo
+            label: "En el templo"
+          - key: cerro
+            label: "En el cerro"
+        correct_choice: barco
+        answer: "En el barco, por sus hermanos. La tempestad los azotó hasta que lo soltaron."
+        points: 8
+        duration: 20
+        intensity: 3
+        scripture:
+          canon: bom
+          cite: "1 Néfi 18:11-15"
+          study: "bofm/1-ne/18"
+        presentation:
+          image: quizzes/pruebas_profetas/nefi_atado.jpg
+      - id: liberty_paz
+        question: "En Liberty, ¿qué dijo el Señor al alma de José?"
+        choices:
+          - key: paz
+            label: "Paz a tu alma"
+          - key: huir
+            label: "Huye esta noche"
+          - key: maldecir
+            label: "Maldice a tus enemigos"
+        correct_choice: paz
+        answer: "Hijo mío, paz a tu alma. Tu adversidad será por un breve momento."
+        points: 12
+        duration: 15
+        intensity: 3
+        scripture:
+          canon: dc
+          cite: "DyC 121:7"
+          study: "dc-testament/dc/121"
+        presentation:
+          image: quizzes/pruebas_profetas/liberty_paz.jpg
+      - id: noe_no_escucho
+        question: "Noé predicó, y el mundo…"
+        choices:
+          - key: escucho
+            label: "No escuchó"
+          - key: ayuno
+            label: "Ayunó cuarenta días"
+          - key: templo
+            label: "Edificó un templo"
+        correct_choice: escucho
+        answer: "No escuchó. Se habían corrompido. El Señor le mandó hacer un arca."
+        points: 12
+        duration: 15
+        intensity: 4
+        scripture:
+          canon: pgp
+          cite: "Moisés 8:19-24"
+          study: "pgp/moses/8"
+        presentation:
+          image: quizzes/pruebas_profetas/noe_no_escucho.jpg
+      - id: isaias_no_oiria
+        question: "Isaías fue enviado a un pueblo que…"
+        choices:
+          - key: oiria
+            label: "No oiría"
+          - key: canto
+            label: "Cantaría siempre"
+          - key: ayuno
+            label: "Ayunaría enseguida"
+        correct_choice: oiria
+        answer: "Oiría, y no entendería. El corazón del pueblo estaba endurecido."
+        points: 15
+        duration: 15
+        intensity: 4
+        scripture:
+          canon: bible
+          cite: "Isaías 6:8-10"
+          study: "ot/isa/6"
+        presentation:
+          image: quizzes/pruebas_profetas/isaias_no_oiria.jpg
+      - id: bienaventurados_vituperio
+        question: "Jesús dijo: bienaventurados sois…"
+        choices:
+          - key: vituperio
+            label: "Cuando os vituperen"
+          - key: oro
+            label: "Cuando os den oro"
+          - key: trono
+            label: "Cuando os sienten en un trono"
+        correct_choice: vituperio
+        answer: "Cuando por mi causa os vituperen y os persigan. El galardón es grande en los cielos."
+        points: 25
+        duration: 15
+        intensity: 5
+        scripture:
+          canon: bible
+          cite: "Mateo 5:11-12"
+          study: "nt/matt/5"
+        presentation:
+          image: quizzes/pruebas_profetas/bienaventurados_vituperio.jpg
+  - id: pruebas_heroes
+    title: "Valientes"
+    questions:
+      - id: job_no_maldijo
+        question: "Job lo perdió todo, y…"
+        choices:
+          - key: no_maldijo
+            label: "No maldijo a Dios"
+          - key: huyo
+            label: "Huyó a Egipto"
+          - key: oro
+            label: "Compró otro rebaño al día siguiente"
+        correct_choice: no_maldijo
+        answer: "No maldijo a Dios. Rasgó su manto, y adoró."
+        points: 5
+        duration: 0
+        intensity: 1
+        scripture:
+          canon: bible
+          cite: "Job 1:20-22"
+          study: "ot/job/1"
+        presentation:
+          image: quizzes/pruebas_heroes/job_no_maldijo.jpg
+      - id: jose_vendido
+        question: "José fue vendido por…"
+        choices:
+          - key: hermanos
+            label: "Sus hermanos"
+          - key: faraon
+            label: "Faraón"
+          - key: moises
+            label: "Moisés"
+        correct_choice: hermanos
+        answer: "Sus hermanos. Lo bajaron a Egipto."
+        points: 5
+        duration: 0
+        intensity: 1
+        scripture:
+          canon: bible
+          cite: "Génesis 37:28"
+          study: "ot/gen/37"
+        presentation:
+          image: quizzes/pruebas_heroes/jose_vendido.jpg
+      - id: jose_carcel
+        question: "En casa de Potifar, José fue puesto en…"
+        choices:
+          - key: carcel
+            label: "La cárcel"
+          - key: trono
+            label: "El trono, al día siguiente"
+          - key: barco
+            label: "Un barco a Canaán"
+        correct_choice: carcel
+        answer: "La cárcel. El Señor estaba con él también allí."
+        points: 5
+        duration: 0
+        intensity: 2
+        scripture:
+          canon: bible
+          cite: "Génesis 39:20"
+          study: "ot/gen/39"
+        presentation:
+          image: quizzes/pruebas_heroes/jose_carcel.jpg
+      - id: daniel_foso
+        question: "En el foso de los leones, Daniel…"
+        choices:
+          - key: ileso
+            label: "Amaneció ileso"
+          - key: olvidado
+            label: "El rey lo olvidó"
+          - key: mudo
+            label: "Quedó mudo de miedo"
+        correct_choice: ileso
+        answer: "Amaneció ileso. El Señor envió a su ángel, y cerró la boca de los leones."
+        points: 8
+        duration: 20
+        intensity: 2
+        scripture:
+          canon: bible
+          cite: "Daniel 6:16-22"
+          study: "ot/dan/6"
+        presentation:
+          image: quizzes/pruebas_heroes/daniel_foso.jpg
+      - id: ester_peligro
+        question: "Ester se presentó al rey, y con ello…"
+        choices:
+          - key: peligro
+            label: "Arriesgó la vida"
+          - key: huyo
+            label: "Huyó a Moab"
+          - key: silencio
+            label: "Guardó silencio para siempre"
+        correct_choice: peligro
+        answer: "Arriesgó la vida. La ley no la llamaba. Ella fue por su pueblo."
+        points: 8
+        duration: 20
+        intensity: 2
+        scripture:
+          canon: bible
+          cite: "Ester 4:16"
+          study: "ot/esth/4"
+        presentation:
+          image: quizzes/pruebas_heroes/ester_peligro.jpg
+      - id: david_huyo
+        question: "David huyó de…"
+        choices:
+          - key: saul
+            label: "Saúl"
+          - key: goliat
+            label: "Goliat"
+          - key: natan
+            label: "Natán"
+        correct_choice: saul
+        answer: "Saúl. Mical lo ayudó a bajar por la ventana, de noche."
+        points: 8
+        duration: 20
+        intensity: 3
+        scripture:
+          canon: bible
+          cite: "1 Samuel 19:10-12"
+          study: "ot/1-sam/19"
+        presentation:
+          image: quizzes/pruebas_heroes/david_huyo.jpg
+      - id: rut_espigo
+        question: "Rut espigó en el campo para…"
+        choices:
+          - key: noemi
+            label: "Noemí"
+          - key: orfa
+            label: "Orfa"
+          - key: saba
+            label: "La reina de Saba"
+        correct_choice: noemi
+        answer: "Noemí. Fue al campo de Booz, a recoger espigas detrás de los segadores."
+        points: 12
+        duration: 15
+        intensity: 3
+        scripture:
+          canon: bible
+          cite: "Rut 2:2-3"
+          study: "ot/ruth/2"
+        presentation:
+          image: quizzes/pruebas_heroes/rut_espigo.jpg
+      - id: ana_lloro
+        question: "Ana lloró porque…"
+        choices:
+          - key: hijo
+            label: "No tenía hijo"
+          - key: casa
+            label: "No tenía casa"
+          - key: pan
+            label: "No tenía pan"
+        correct_choice: hijo
+        answer: "No tenía hijo. Oró al Señor, y él la oyó."
+        points: 12
+        duration: 15
+        intensity: 4
+        scripture:
+          canon: bible
+          cite: "1 Samuel 1:10"
+          study: "ot/1-sam/1"
+        presentation:
+          image: quizzes/pruebas_heroes/ana_lloro.jpg
+      - id: jovenes_fuego
+        question: "Los tres jóvenes, en el horno…"
+        choices:
+          - key: andaban
+            label: "Andaban en medio del fuego"
+          - key: nombres
+            label: "Recitaron sus tres nombres al rey"
+          - key: huyeron
+            label: "Huyeron antes de entrar"
+        correct_choice: andaban
+        answer: "Andaban en medio del fuego, y con ellos se veía un cuarto."
+        points: 15
+        duration: 15
+        intensity: 4
+        scripture:
+          canon: bible
+          cite: "Daniel 3:21-25"
+          study: "ot/dan/3"
+        presentation:
+          image: quizzes/pruebas_heroes/jovenes_fuego.jpg
+      - id: jose_bien
+        question: "José dijo a sus hermanos: vosotros pensasteis mal; Dios…"
+        choices:
+          - key: bien
+            label: "Lo encaminó a bien"
+          - key: olvido
+            label: "Lo olvidó para siempre"
+          - key: venganza
+            label: "Pidió venganza"
+        correct_choice: bien
+        answer: "Lo encaminó a bien, para preservar la vida de un pueblo."
+        points: 25
+        duration: 15
+        intensity: 5
+        scripture:
+          canon: bible
+          cite: "Génesis 50:20"
+          study: "ot/gen/50"
+        presentation:
+          image: quizzes/pruebas_heroes/jose_bien.jpg
+  - id: milagros
+    title: "Milagros"
+    questions:
+      - id: mar_abrio
+        question: "El mar Rojo…"
+        choices:
+          - key: abrio
+            label: "Se abrió"
+          - key: hielo
+            label: "Se heló"
+          - key: subio
+            label: "Subió como una nube"
+        correct_choice: abrio
+        answer: "Se abrió. Israel pasó en seco, y el agua les era muro a ambos lados."
+        points: 5
+        duration: 0
+        intensity: 1
+        scripture:
+          canon: bible
+          cite: "Éxodo 14:21-22"
+          study: "ot/ex/14"
+        presentation:
+          image: quizzes/milagros/mar_abrio.jpg
+      - id: mana_cielo
+        question: "El maná cayó…"
+        choices:
+          - key: cielo
+            label: "Del cielo"
+          - key: egipto
+            label: "De los graneros de Egipto"
+          - key: mar
+            label: "Del fondo del mar"
+        correct_choice: cielo
+        answer: "Del cielo. Era como escarcha sobre la tierra. El pueblo dijo: ¿qué es esto?"
+        points: 5
+        duration: 0
+        intensity: 1
+        scripture:
+          canon: bible
+          cite: "Éxodo 16:14-15"
+          study: "ot/ex/16"
+        presentation:
+          image: quizzes/milagros/mana_cielo.jpg
+      - id: sol_josue
+        question: "¿Para quién se detuvo el sol?"
+        choices:
+          - key: josue
+            label: "Josué"
+          - key: saul
+            label: "Saúl"
+          - key: jonas
+            label: "Jonás"
+        correct_choice: josue
+        answer: "Para Josué. El sol se detuvo, y la luna se paró, hasta que el pueblo se vengó."
+        points: 5
+        duration: 0
+        intensity: 2
+        scripture:
+          canon: bible
+          cite: "Josué 10:12-13"
+          study: "ot/josh/10"
+        presentation:
+          image: quizzes/milagros/sol_josue.jpg
+      - id: aceite_viuda
+        question: "El aceite de la viuda…"
+        choices:
+          - key: ceso
+            label: "No cesó"
+          - key: acabo
+            label: "Se acabó al primer jarro"
+          - key: veneno
+            label: "Se volvió veneno"
+        correct_choice: ceso
+        answer: "No cesó, mientras hubo vasijas. Eliseo le había dicho que pidiera prestadas muchas."
+        points: 8
+        duration: 20
+        intensity: 2
+        scripture:
+          canon: bible
+          cite: "2 Reyes 4:1-7"
+          study: "ot/2-kgs/4"
+        presentation:
+          image: quizzes/milagros/aceite_viuda.jpg
+      - id: jerico_cayeron
+        question: "Los muros de Jericó…"
+        choices:
+          - key: cayeron
+            label: "Cayeron"
+          - key: subieron
+            label: "Subieron al cielo"
+          - key: oro
+            label: "Se volvieron oro"
+        correct_choice: cayeron
+        answer: "Cayeron. El pueblo gritó, y las trompetas sonaron, y el muro se vino abajo."
+        points: 8
+        duration: 20
+        intensity: 2
+        scripture:
+          canon: bible
+          cite: "Josué 6:20"
+          study: "ot/josh/6"
+        presentation:
+          image: quizzes/milagros/jerico_cayeron.jpg
+      - id: fuego_alma
+        question: "En la prisión, Alma y Nefi, hijos de Helamán, vieron…"
+        choices:
+          - key: fuego
+            label: "Un fuego alrededor, que no los quemaba"
+          - key: llave
+            label: "Una llave de oro"
+          - key: carta
+            label: "Una carta del rey"
+        correct_choice: fuego
+        answer: "Un fuego alrededor. No los quemaba. Una voz les habló de paz."
+        points: 8
+        duration: 20
+        intensity: 3
+        scripture:
+          canon: bom
+          cite: "Helamán 5:23-44"
+          study: "bofm/hel/5"
+        presentation:
+          image: quizzes/milagros/fuego_alma.jpg
+      - id: lazaro_fuera
+        question: "Jesús clamó delante de la tumba…"
+        choices:
+          - key: fuera
+            label: "¡Lázaro, ven fuera!"
+          - key: duerme
+            label: "Lázaro, duerme un día más"
+          - key: huye
+            label: "Lázaro, huye a Egipto"
+        correct_choice: fuera
+        answer: "¡Lázaro, ven fuera! Y el que había muerto salió."
+        points: 12
+        duration: 15
+        intensity: 3
+        scripture:
+          canon: bible
+          cite: "Juan 11:43-44"
+          study: "nt/john/11"
+        presentation:
+          image: quizzes/milagros/lazaro_fuera.jpg
+      - id: cojo_hermosa
+        question: "En la Puerta Hermosa, el cojo, en el nombre de Jesús…"
+        choices:
+          - key: anda
+            label: "Levantó y anduvo"
+          - key: oro
+            label: "Pidió una bolsa de oro"
+          - key: quedo
+            label: "Se quedó sentado"
+        correct_choice: anda
+        answer: "Se levantó y anduvo. Pedro no tenía plata ni oro. Tenía el nombre de Jesús."
+        points: 12
+        duration: 15
+        intensity: 4
+        scripture:
+          canon: bible
+          cite: "Hechos 3:6-8"
+          study: "nt/acts/3"
+        presentation:
+          image: quizzes/milagros/cojo_hermosa.jpg
+      - id: zeezrom_sanado
+        question: "Zeezrom, que había estado enfermo de fiebre, por la fe…"
+        choices:
+          - key: sanado
+            label: "Fue sanado"
+          - key: rey
+            label: "Fue hecho rey"
+          - key: mar
+            label: "Huyó al mar"
+        correct_choice: sanado
+        answer: "Fue sanado. Alma le tomó la mano y le dijo: ¿crees?"
+        points: 15
+        duration: 15
+        intensity: 4
+        scripture:
+          canon: bom
+          cite: "Alma 15:4-11"
+          study: "bofm/alma/15"
+        presentation:
+          image: quizzes/milagros/zeezrom_sanado.jpg
+      - id: mostaza
+        question: "Jesús dijo: si tenéis fe como un grano de…"
+        choices:
+          - key: mostaza
+            label: "Mostaza"
+          - key: trigo
+            label: "Trigo"
+          - key: arena
+            label: "Arena"
+        correct_choice: mostaza
+        answer: "Mostaza. Diréis a este monte: pásate de aquí, y se pasará."
+        points: 25
+        duration: 15
+        intensity: 5
+        scripture:
+          canon: bible
+          cite: "Mateo 17:20"
+          study: "nt/matt/17"
+        presentation:
+          image: quizzes/milagros/mostaza.jpg

@@ -120,6 +120,16 @@ en:
     past: "Past nights"
     empty_upcoming: "No nights in the next 14 days."
     empty_past: "No nights closed yet."
+    nights: "Nights"
+  quiz:
+    next: "Next"
+    crowd: "How people answered"
+    read_more: "Read it in the scriptures"
+    progress: "%{n} / %{total}"
+    first: "You're the first"
+    average: "The average is %{score}"
+    correct: "That's it!"
+    incorrect: "Not that one"
   join:
     title: "Your name"
     pick_team: "Pick a team"

@@ -63,6 +63,26 @@ Teams::Seat.call(night: night, player: daniel)
 night.missionaries.find_or_create_by!(name: "Élder Soto")
 night.missionaries.find_or_create_by!(name: "Hermana Clark")
 
+quiz_digest = GameSession.digest_token("noche-quiz-demo")
+unless QuizRun.exists?(device_digest: quiz_digest)
+  pack = QuizDefinition.catalog.find_pack("coronas")
+  demo_run = QuizRun.create!(
+    device_digest: quiz_digest,
+    pack_id: pack.id,
+    position: pack.questions.size,
+    score: pack.questions.sum(&:points),
+    status: "finished",
+    opened_at: Time.current
+  )
+  pack.questions.each do |question|
+    QuizAnswer.find_or_create_by!(device_digest: quiz_digest, pack_id: pack.id, question_id: question.id) do |row|
+      row.quiz_run = demo_run
+      row.choice_key = question.correct_choice
+      row.correct = true
+    end
+  end
+end
+
 host = ENV.fetch("APP_HOST", "http://localhost:3000")
 
 puts <<~MSG

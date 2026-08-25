@@ -1,7 +1,7 @@
 class HomeController < ApplicationController
+  include StreetQuiz
+
   def index
-    feed = Nights::Feed.call
-    @upcoming = feed[:upcoming]
-    @past = feed[:past]
+    @street = Quizzes::Draw.call(device_digest: street_digest)
   end
 end

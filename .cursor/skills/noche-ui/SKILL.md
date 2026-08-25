@@ -30,7 +30,7 @@ Family night still matters (huge hit targets, sofa vs casa). Questions, titles, 
 | Universal costume: ticks + LIVE 0 + X + mute + handle on every surface | One job per screen. Mute on live quiz only. X only where swipe-down exit needs a visible control (play round, presenter stage). **No X on home/join/ceremony/fichas/roster.** No LIVE chip |
 | Presenter: grado A, five equal pills, Lista/Fichas FABs, pause/end/next all gold | **One** sequential gold next. Pause / end / Lista / Fichas in overflow or desk |
 | Ceremony shouting Gran Final / ¡TODOS DE PIE! over **0–0**; “Este viernes” flyer under the result | One hero (name, emblem, score). Honest empty or tie. Prefer last-round still, not the theme flyer |
-| Home: night code or search form as the hero; a painting as home wallpaper; search form inside the hamburger | Paper home. Title + Quién somos + Buscar. Search is its own page. Night posters on the feed. Menu links, not a form |
+| Home: night code or search form as the hero; Stories ticks on the street quiz; `/noches` dressed as a live reel | `/` is the street-quiz reel (`#street_quiz`). `/noches` is the paper night feed. Mute on the street quiz. Flag language control sits under mute. Noches live in the hamburger |
 | Join: iOS springboard tile (icon stacked over label); equal-weight presenter; next-card peek stealing the footer | **Entrar** as a real button (label **with** icon, row). Presenter / Solo ver as quieter links |
 | Watch: four headcounts + iOS score pills + LIVE 0 | Cinema: still + question + **one** scoreboard lower-third |
 | Full-screen milky veil over the painting | Cream type + **local** top/bottom scrims only |
@@ -103,9 +103,10 @@ Do **not** put a live round in a padded `.play-card` with a `.team-bar` on the c
 
 **Everywhere else** may pick the best layout **in the future** — a gate card, a form, a desk, a feed. That freedom is for *new* work.
 
-What is on disk **now** stays (still + sheet wrapper is OK), except **home**, which is a paper night feed:
+What is on disk **now** stays (still + sheet wrapper is OK), except **home**, which is the street-quiz reel, and **`/noches`**, which is the paper night feed:
 
-- Home (`home-paper`: title, Quién somos, Buscar, upcoming + past)
+- Home (`#street_quiz`: still-first pack QCM, no ticks, no X, no story swipe)
+- Nights (`/noches`, `home-paper`: title, Quién somos, Buscar, upcoming + past)
 - Join / name, pick-team, lobby waiting
 - Fichas, roster, missionaries
 - Rama / create-night gates, presenter claim / wait
@@ -191,7 +192,9 @@ On the phone column, the primary button is full width **inside the sheet**, labe
 
 ## Surfaces
 
-**Home** — paper feed, not a reel. Ink wordmark (`Noche Live`). No full-bleed painting behind the page. Two quiet doors under the title: Quién somos (`/nosotros`) and Buscar (`/buscar`). Then **Próximamente** (listed-ward nights from today through +14 days) and the last 10 finished nights. Paintings live **on night cards**, not as wallpaper. Hamburger: home, quién somos, buscar page (never the search form), night code, language. No X, no ticks, no gold on home.
+**Home** — street quiz reel (`#street_quiz`, `.play-reel.is-quiz.is-street`). Pack title + `3 / 10` in ink on the sheet. One gold **Siguiente** after a tap. Scripture is a `.quiet-link`. No ticks, no X, no `story` swipe. Mute stays visible. Flag language control sits under mute. **Noches** (`/noches`) live in the hamburger. Search stays `/buscar`.
+
+**Noches (`/noches`)** — paper feed, not a reel. Ink wordmark (`Noche Live`). No full-bleed painting behind the page. Two quiet doors: Quién somos (`/nosotros`) and Buscar (`/buscar`). Then **Próximamente** and the last 10 finished nights. Paintings live **on night cards**. No X, no ticks, no gold, no mute.
 
 **Buscar** — dedicated place search. Form is the job of that page. Listed Benidorm shows without typing.
 
@@ -212,8 +215,9 @@ On the phone column, the primary button is full width **inside the sheet**, labe
 - [ ] Live quiz / watch-during-round / presenter-stage-during-round is shot + thin chrome (+ sheet on play)
 - [ ] No gold headlines on cream or on the light-beam
 - [ ] Ticks only on a live round timeline
-- [ ] Home is paper (title, Quién somos, Buscar, upcoming + past nights), not a reel wallpaper; search is `/buscar`
-- [ ] Home/join/ceremony/fichas/roster have no Story costume (ticks, LIVE 0, X, fake handle)
+- [ ] Home is the street-quiz reel (`#street_quiz`); `/noches` is paper (title, Quién somos, Buscar, upcoming + past nights); search is `/buscar`
+- [ ] Street quiz has no Story costume (ticks, LIVE 0, X, fake handle); mute is visible; flag language control sits under mute; one gold Siguiente after a tap
+- [ ] Join/ceremony/fichas/roster have no Story costume (ticks, LIVE 0, X, fake handle)
 - [ ] Play chrome has no LIVE chip
 - [ ] Painting visible (mid/peek); no handle if the sheet is not a drag dock
 - [ ] Watch caption + board scrims are local and short; names on the strip wrap

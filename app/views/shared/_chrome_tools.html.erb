@@ -1,0 +1,8 @@
+<div class="chrome-tools">
+  <button type="button" class="mute" data-action="stage#toggleMute" data-stage-target="mute" aria-pressed="false" aria-label="<%= t("chrome.sound") %>" data-sound-on="<%= t("chrome.sound") %>" data-sound-off="<%= t("chrome.sound_off") %>">
+    <%= picto("sound") %>
+    <%= picto("sound-off") %>
+    <span class="word"><%= t("chrome.sound") %></span>
+  </button>
+  <%= render "shared/lang_switch" %>
+</div>

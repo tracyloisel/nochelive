@@ -1,0 +1,1244 @@
+fr:
+  quizzes:
+    coronas:
+      title: "Rois"
+      questions:
+        ungio_david:
+          question: "Qui a oint David quand il était encore un garçon ?"
+          answer: "Samuel l’a oint à Bethléhem, devant ses frères."
+          choices:
+            samuel: "Samuel"
+            saul: "Saül"
+            natan: "Nathan"
+        piedras_arroyo:
+          question: "Combien de pierres lisses David a-t-il prises dans le torrent ?"
+          answer: "Il a pris cinq pierres lisses dans le torrent."
+          choices:
+            cinco: "Cinq"
+            tres: "Trois"
+            siete: "Sept"
+            una: "Une"
+        arpa_saul:
+          question: "La harpe de David apaisait l’esprit tourmenté de…"
+          answer: "Quand David jouait, Saül se sentait soulagé."
+          choices:
+            saul: "Saül"
+            absalon: "Absalom"
+            goliat: "Goliath"
+        vina_nabot:
+          question: "Qui a voulu la vigne de Naboth ?"
+          answer: "Le roi Achab a voulu la vigne qui jouxtait son palais."
+          choices:
+            acab: "Achab"
+            jehu: "Jéhu"
+            elias: "Élie"
+        salomon_templo:
+          question: "Qu’a élevé Salomon à Jérusalem pour l’Éternel ?"
+          answer: "Salomon a bâti la maison de l’Éternel : le temple."
+          choices:
+            templo: "Le temple"
+            palacio: "Un palais pour Pharaon"
+            torre: "La tour de Babel"
+        juicio_madres:
+          question: "Dans le jugement des deux mères, qu’a demandé Salomon ?"
+          answer: "Il a demandé une épée. La vraie mère n’a pas laissé couper l’enfant."
+          choices:
+            espada: "Une épée"
+            balanza: "Une balance"
+            arca: "L’arche"
+        arca_jerusalen:
+          question: "Où David a-t-il fait reposer l’arche de l’alliance ?"
+          answer: "David a fait monter l’arche à Jérusalem, dans la joie."
+          choices:
+            jerusalen: "Jérusalem"
+            silo: "Silo"
+            egipto: "L’Égypte"
+        sucedio_salomon:
+          question: "Qui a été oint roi quand David était vieux ?"
+          answer: "Salomon a été oint, et le peuple a crié : Vive le roi Salomon !"
+          choices:
+            salomon: "Salomon"
+            adonias: "Adonias"
+            joab: "Joab"
+        josias_libro:
+          question: "Qu’a trouvé le prêtre Hilkiya dans la maison de l’Éternel, au temps de Josias ?"
+          answer: "Il a trouvé le livre de la loi. Josias a déchiré ses vêtements en l’entendant."
+          choices:
+            ley: "Le livre de la loi"
+            mana: "Une jarre de manne"
+            corona: "La couronne de David"
+        moises_roca:
+          question: "À Mériba, qu’a fait Moïse au rocher, au lieu de lui parler ?"
+          answer: "Il a frappé le rocher deux fois. C’est pour cela qu’il n’est pas entré dans le pays."
+          choices:
+            golpeo: "Il l’a frappé"
+            canto: "Il lui a chanté"
+            ignoro: "Il est passé outre"
+    placas:
+      title: "Plaques"
+      questions:
+        lehi_jerusalen:
+          question: "De quelle ville Léhi est-il parti avec sa famille ?"
+          answer: "L’Éternel lui a commandé de quitter Jérusalem."
+          choices:
+            jerusalen: "Jérusalem"
+            babilonia: "Babylone"
+            egipto: "L’Égypte"
+        nefi_barco:
+          question: "Au bord de la mer, que l’Éternel a-t-il commandé à Néphi de construire ?"
+          answer: "L’Éternel lui a dit de construire un bateau, selon sa manière."
+          choices:
+            barco: "Un bateau"
+            templo: "Un temple"
+            torre: "Une tour"
+        benjamin_torre:
+          question: "D’où le roi Benjamin a-t-il parlé à son peuple ?"
+          answer: "Il a fait construire une tour pour que le peuple l’entende."
+          choices:
+            torre: "Une tour"
+            muro: "Le mur de la ville"
+            templo: "Le temple de Salomon"
+        noe_inicuo:
+          question: "Le roi Noé, fils de Zéniff, était un roi…"
+          answer: "Noé a imposé le peuple et n’a pas gardé les commandements."
+          choices:
+            inicuo: "Inique"
+            justo: "Juste"
+            nino: "Encore enfant"
+        abinadi_noe:
+          question: "Devant qui Abinadi a-t-il rendu témoignage ?"
+          answer: "Abinadi est venu avec le message de l’Éternel pour Noé et son peuple."
+          choices:
+            noe: "Le roi Noé"
+            mosiah: "Le roi Mosiah"
+            lamoni: "Le roi Lamoni"
+        alma_joven:
+          question: "Qu’est-il arrivé à Alma le jeune quand un ange a parlé ?"
+          answer: "Il est tombé et n’a plus pu parler. L’Éternel avait entendu son père."
+          choices:
+            cayo: "Il est tombé à terre"
+            rey: "On l’a fait roi"
+            mar: "Il s’est enfui vers la mer"
+        samuel_muro:
+          question: "D’où Samuel le Lamanite a-t-il prêché aux Néphites ?"
+          answer: "Ils l’ont chassé de la ville. Il est monté sur le mur, et ils n’ont pas pu l’atteindre."
+          choices:
+            muro: "Le mur"
+            rio: "Le fleuve Sidon"
+            bosque: "Une forêt"
+        mosiah_jared:
+          question: "Quels registres Mosiah a-t-il traduits avec les interprètes ?"
+          answer: "Il a traduit les registres du peuple de Jared, trouvés par le peuple de Limhi."
+          choices:
+            jared: "Ceux de Jared"
+            isaias: "Ésaïe"
+            brass: "Les plaques de Laban"
+        moroni_planchas:
+          question: "Qu’a caché Moroni pour que cela vienne à la lumière au dernier jour ?"
+          answer: "Moroni a terminé le registre de son père et a caché les plaques."
+          choices:
+            planchas: "Les plaques"
+            arca: "L’arche"
+            corona: "La couronne de Benjamin"
+        jared_senor:
+          question: "Sur la montagne, qui le frère de Jared a-t-il vu ?"
+          answer: "Le Seigneur s’est montré. Le voile a été ôté de ses yeux."
+          choices:
+            senor: "Le Seigneur"
+            moroni: "Moroni"
+            noe: "Noé"
+    hermanas:
+      title: "Sœurs"
+      questions:
+        rut_noemi:
+          question: "Avec qui Ruth est-elle restée, au lieu de rentrer en Moab ?"
+          answer: "Ruth a dit : où tu iras, j’irai."
+          choices:
+            noemi: "Noémi"
+            orfa: "Orpa"
+            raquel: "Rachel"
+        ester_rey:
+          question: "Devant qui Esther s’est-elle présentée, sans même avoir été appelée ?"
+          answer: "Esther a dit : si je péris, je périrai. Elle est entrée chez le roi."
+          choices:
+            rey: "Le roi"
+            aman: "Haman"
+            mardoqueo: "Mardochée"
+        ana_hijo:
+          question: "Qu’a demandé Anne à l’Éternel à Silo, l’âme amère ?"
+          answer: "Elle a demandé un fils et a promis de le consacrer à l’Éternel."
+          choices:
+            hijo: "Un fils"
+            corona: "Une couronne"
+            tierra: "Une terre"
+        debora_juzga:
+          question: "Qui jugeait Israël sous le palmier ?"
+          answer: "Débora, prophétesse, jugeait Israël."
+          choices:
+            debora: "Débora"
+            jael: "Jaël"
+            rut: "Ruth"
+        abigail_david:
+          question: "Qui Abigaïl a-t-elle arrêté pour qu’il ne verse pas le sang ?"
+          answer: "Abigaïl est allée au-devant de David avec du pain et des fruits."
+          choices:
+            david: "David"
+            naval: "Nabal"
+            saul: "Saül"
+        saba_salomon:
+          question: "Qui la reine de Saba a-t-elle visité ?"
+          answer: "Elle est venue éprouver Salomon par des questions difficiles."
+          choices:
+            salomon: "Salomon"
+            david: "David"
+            faraon: "Pharaon"
+        maria_madre:
+          question: "De qui Marie serait-elle la mère ?"
+          answer: "L’ange lui a dit : tu concevras et tu enfanteras un fils."
+          choices:
+            jesus: "Jésus"
+            juan: "Jean-Baptiste"
+            moises: "Moïse"
+        magdalena_tumba:
+          question: "Qui Marie de Magdala a-t-elle vu près du tombeau vide ?"
+          answer: "Jésus lui a dit : Marie. Alors elle l’a reconnu."
+          choices:
+            jesus: "Jésus"
+            pilato: "Pilate"
+            caifas: "Caïphe"
+        viuda_blancas:
+          question: "Qu’a jeté la veuve pauvre dans le trésor ?"
+          answer: "Elle a jeté deux petites pièces : plus que tous, parce que c’était tout ce qu’elle avait."
+          choices:
+            blancas: "Deux petites pièces"
+            oro: "Un talent d’or"
+            diezmo: "La dîme du temple"
+        marta_parte:
+          question: "Jésus a dit à Marthe que Marie avait choisi…"
+          answer: "Marie s’était assise pour écouter. Cela ne lui serait pas ôté."
+          choices:
+            parte: "La bonne part"
+            cocina: "La cuisine"
+            corona: "Une couronne"
+    abish:
+      title: "Abish"
+      questions:
+        saria_lehi:
+          question: "Avec qui Sariah a-t-elle quitté Jérusalem ?"
+          answer: "Sariah est partie avec Léhi, son mari, et leurs fils."
+          choices:
+            lehi: "Léhi"
+            laban: "Laban"
+            ismael: "Ismaël"
+        abish_reina:
+          question: "Abish était servante de…"
+          answer: "Abish, lamanite, servait la femme de Lamoni."
+          choices:
+            reina: "La reine"
+            noe: "Le roi Noé"
+            benjamin: "Le roi Benjamin"
+        lamoni_esposa:
+          question: "Qui a cru les paroles d’Ammon au sujet du roi Lamoni ?"
+          answer: "La reine a cru. Elle a dit : je n’ai aucun doute."
+          choices:
+            esposa: "La femme de Lamoni"
+            anti: "Anti-Néphi-Léhi"
+            noe: "Noé"
+        madres_dudar:
+          question: "Les mères des deux mille ont enseigné à leurs fils à…"
+          answer: "Elles leur ont enseigné que s’ils ne doutaient pas, Dieu les délivrerait."
+          choices:
+            dudar: "Ne pas douter"
+            huir: "Fuir vers les montagnes"
+            diezmar: "Payer la dîme d’abord"
+        eva_madre:
+          question: "Selon Léhi, Ève est mère de…"
+          answer: "Adam et Ève ont eu des enfants. Ève est mère de tous les vivants."
+          choices:
+            vivientes: "Tous les vivants"
+            israel: "Israël seulement"
+            nefi: "Néphi seulement"
+        maria_hijo:
+          question: "L’ange a dit à Benjamin que Marie serait mère du…"
+          answer: "Il s’appellerait Jésus-Christ, le Fils de Dieu."
+          choices:
+            hijo: "Fils de Dieu"
+            benjamin: "Roi Benjamin"
+            samuel: "Le prophète Samuel"
+        saria_bronce:
+          question: "En voyant quoi Sariah s’est-elle réjouie, après avoir murmuré ?"
+          answer: "Elle a vu que ses fils étaient revenus avec les plaques. Elle a offert un sacrifice."
+          choices:
+            bronce: "Les plaques d’airain"
+            barco: "Le bateau de Néphi"
+            liahona: "La Liahona"
+        abish_casas:
+          question: "Quand la reine et le roi sont tombés, qu’a fait Abish ?"
+          answer: "Elle a couru de maison en maison, pour que le peuple voie la puissance de Dieu."
+          choices:
+            casas: "Elle a couru de maison en maison"
+            escondio: "Elle s’est cachée"
+            canto: "Elle a chanté un psaume"
+        saria_barco:
+          question: "Sur le bateau, Sariah et les petits enfants…"
+          answer: "Laman et Lémuel avaient lié Néphi. Sariah et les enfants étaient malades de chagrin."
+          choices:
+            sufrieron: "Ont souffert"
+            gobernaron: "Ont tenu la barre"
+            durmieron: "Ont dormi tout le voyage"
+        abish_vision:
+          question: "Comment Abish s’était-elle convertie, des années auparavant ?"
+          answer: "Le Seigneur l’avait préparée. Grâce à la vision de son père, elle croyait."
+          choices:
+            vision: "Par une vision remarquable de son père"
+            benjamin: "En écoutant Benjamin"
+            placas: "En lisant les plaques"
+    profetas:
+      title: "Prophètes"
+      questions:
+        jonas_tres:
+          question: "Combien de jours Jonas est-il resté dans le poisson ?"
+          answer: "Trois jours et trois nuits."
+          choices:
+            tres: "Trois"
+            siete: "Sept"
+            cuarenta: "Quarante"
+        elias_cuervos:
+          question: "Près du torrent, qui nourrissait Élie ?"
+          answer: "Les corbeaux lui apportaient du pain et de la viande, matin et soir."
+          choices:
+            cuervos: "Des corbeaux"
+            angeles: "Des anges"
+            sacerdotes: "Des prêtres"
+        daniel_tres:
+          question: "Combien de fois par jour Daniel priait-il, les fenêtres ouvertes vers Jérusalem ?"
+          answer: "Trois fois par jour, comme il le faisait auparavant."
+          choices:
+            tres: "Trois fois par jour"
+            una: "Une fois par an"
+            nunca: "Jamais, par décret"
+        jonas_tarsis:
+          question: "Vers où Jonas a-t-il fui, au lieu d’aller à Ninive ?"
+          answer: "Il a fui vers Tarsis, loin de la face de l’Éternel."
+          choices:
+            tarsis: "Tarsis"
+            ninive: "Ninive"
+            egipto: "L’Égypte"
+        naaman_jordan:
+          question: "Dans quel fleuve Naaman s’est-il lavé et a-t-il été purifié ?"
+          answer: "Il s’est plongé sept fois dans le Jourdain, selon la parole d’Élisée."
+          choices:
+            jordan: "Le Jourdain"
+            nilo: "Le Nil"
+            mar: "La mer Morte"
+        elias_siete:
+          question: "Élie a dit à son serviteur de regarder vers la mer. Combien de fois ?"
+          answer: "Sept fois. À la septième, on voyait un petit nuage."
+          choices:
+            siete: "Sept fois"
+            tres: "Trois fois"
+            una: "Une seule fois"
+        tres_horno:
+          question: "Qui a été jeté dans la fournaise pour n’avoir pas voulu se prosterner ?"
+          answer: "Shadrak, Méshak et Abed-Nego. Ils n’ont pas servi la statue du roi."
+          choices:
+            tres: "Shadrak, Méshak et Abed-Nego"
+            daniel: "Daniel seul"
+            moises: "Moïse et Aaron"
+        elias_manto:
+          question: "Avec quoi Élie a-t-il frappé le Jourdain pour le passer à sec ?"
+          answer: "Avec son manteau. Les eaux se sont écartées."
+          choices:
+            manto: "Son manteau"
+            vara: "La verge de Moïse"
+            arpa: "La harpe de David"
+        isaias_templo:
+          question: "Qui Ésaïe a-t-il vu assis sur un trône, dans le temple ?"
+          answer: "Il a vu l’Éternel. Le pan de son manteau remplissait le temple."
+          choices:
+            senor: "L’Éternel"
+            saul: "Le roi Saül"
+            babilonia: "Babylone"
+        eliseo_carros:
+          question: "Quand Élie a été enlevé, qu’a vu Élisée ?"
+          answer: "Un char de feu et des chevaux de feu. Élie est monté dans un tourbillon."
+          choices:
+            carros: "Des chars de feu"
+            barca: "Une barque sur le Jourdain"
+            nube: "Seulement un nuage gris"
+    jehova:
+      title: "L’Éternel"
+      questions:
+        zarza_yo_soy:
+          question: "Dans le buisson, quel nom l’Éternel s’est-il donné à Moïse ?"
+          answer: "JE SUIS CELUI QUI SUIS. Voilà ce que tu diras aux enfants d’Israël."
+          choices:
+            yo_soy: "JE SUIS"
+            moises: "Le Dieu de Moïse seulement"
+            faraon: "Le nom de Pharaon"
+        mar_rojo:
+          question: "Qu’a ouvert l’Éternel pour qu’Israël passe à pied sec ?"
+          answer: "Moïse a étendu la main, et l’Éternel a ouvert la mer Rouge."
+          choices:
+            mar: "La mer Rouge"
+            jordan: "Le Jourdain"
+            nilo: "Le Nil"
+        no_salvador:
+          question: "Ésaïe entend l’Éternel dire : moi, moi l’Éternel, et…"
+          answer: "Hors de moi, il n’y a point de Sauveur."
+          choices:
+            yo: "Hors de moi, point de Sauveur"
+            babilonia: "Babylone sauvera"
+            reyes: "Les rois de la terre"
+        kirtland_senor:
+          question: "Qui est apparu à Joseph et à Oliver à Kirtland, sous le voile ?"
+          answer: "Le Seigneur. Sa voix était comme le bruit de grandes eaux."
+          choices:
+            senor: "Le Seigneur"
+            moises_solo: "Moïse seulement"
+            elias_solo: "Élie seulement"
+        ley_moises:
+          question: "À Bountiful, Jésus a dit de la loi de Moïse…"
+          answer: "C’est moi qui ai donné la loi. C’est moi qui l’ai accomplie."
+          choices:
+            yo: "C’est moi qui ai donné la loi à Moïse"
+            aaron: "Aaron a donné la loi"
+            roma: "César a donné la loi"
+        antes_abraham:
+          question: "Jésus a dit à ceux qui l’écoutaient : en vérité, en vérité, je vous le dis…"
+          answer: "Avant qu’Abraham fût, JE SUIS."
+          choices:
+            yo_soy: "Avant qu’Abraham fût, JE SUIS"
+            despues: "Je suis né après Abraham"
+            nieto: "Je suis le petit-fils d’Abraham"
+        omnipotente_descendio:
+          question: "Le Seigneur Tout-Puissant, selon l’ange qui parla à Benjamin…"
+          answer: "Il descendra du ciel et habitera dans un tabernacle d’argile."
+          choices:
+            descendio: "Il descendra parmi les enfants des hommes"
+            lejos: "Il restera loin pour toujours"
+            angel: "Il enverra seulement un ange"
+        jared_padre_hijo:
+          question: "Le frère de Jared a entendu : voici, je suis…"
+          answer: "Je suis le Père et le Fils. En moi l’humanité aura la lumière."
+          choices:
+            ambos: "Le Père et le Fils"
+            solo_angel: "Seulement un ange"
+            moises: "Moïse dans la gloire"
+        dios_egipto:
+          question: "Selon Néphi, le Dieu d’Abraham, d’Isaac et de Jacob est le même qui…"
+          answer: "A fait sortir les enfants d’Israël d’Égypte, et serait élevé."
+          choices:
+            egipto: "Le Dieu d’Abraham, qui a fait sortir Israël d’Égypte"
+            baal: "Baal des Cananéens"
+            roma: "César de Rome"
+        nube_nombre:
+          question: "Depuis la nuée, au-dessus du peuple de Néphi, qui s’est nommé ?"
+          answer: "Jésus-Christ, le Fils de Dieu. J’ai créé les cieux et la terre."
+          choices:
+            jesus: "Jésus-Christ"
+            alma: "Alma le jeune"
+            samuel: "Samuel le Lamanite"
+    nazareno:
+      title: "Sur la terre"
+      questions:
+        nacio_belen:
+          question: "Où Jésus est-il né ?"
+          answer: "À Bethléhem de Judée, dans une crèche, parce qu’il n’y avait pas de place."
+          choices:
+            belen: "Bethléhem"
+            nazaret: "Nazareth"
+            jerusalen: "Jérusalem"
+        bautizo_juan:
+          question: "Qui a baptisé Jésus dans le Jourdain ?"
+          answer: "Jean. Les cieux se sont ouverts, et l’Esprit est descendu."
+          choices:
+            juan: "Jean"
+            pedro: "Pierre"
+            andrew: "André"
+        cana_vino:
+          question: "À Cana, Jésus a changé l’eau en…"
+          answer: "En vin. Ce fut le premier signe, à des noces."
+          choices:
+            vino: "Du vin"
+            aceite: "De l’huile"
+            miel: "Du miel"
+        cinco_mil:
+          question: "Avec cinq pains et deux poissons, combien Jésus a-t-il nourris ?"
+          answer: "Environ cinq mille hommes, sans compter les femmes et les enfants."
+          choices:
+            cinco: "Cinq mille"
+            doce: "Douze"
+            ciento: "Cent"
+        camino_mar:
+          question: "La nuit, vers la barque, Jésus a marché sur…"
+          answer: "Sur la mer. Les disciples ont eu peur, et il a dit : c’est moi."
+          choices:
+            mar: "La mer"
+            nubes: "Les nuages"
+            fuego: "Un fleuve de feu"
+        getsemani:
+          question: "À Gethsémané, qu’a fait Jésus ?"
+          answer: "Il a prié. Sa sueur était comme de grosses gouttes de sang."
+          choices:
+            orar: "Il a prié, l’âme toute triste"
+            huir: "Il s’est enfui en Galilée"
+            dormir: "Il a dormi jusqu’à l’aube"
+        crucificado:
+          question: "Au Golgotha, qu’a-t-on fait à Jésus ?"
+          answer: "On l’a crucifié. Il a livré sa vie, et tout s’est accompli."
+          choices:
+            cruz: "On l’a crucifié"
+            rey: "On l’a couronné César"
+            egipto: "On l’a envoyé en Égypte"
+        magdalena_resucitado:
+          question: "Après le troisième jour, Marie de Magdala…"
+          answer: "Elle a vu Jésus vivant. Elle est allée dire aux disciples : j’ai vu le Seigneur."
+          choices:
+            resucitado: "Elle l’a vu ressuscité"
+            tumba: "Elle n’a vu qu’un tombeau fermé"
+            soldados: "Elle a vu les soldats de Rome"
+        abundancia:
+          question: "Après sa résurrection, dans quel temple Jésus s’est-il montré aux Néphites ?"
+          answer: "Au temple de Bountiful. Il est descendu, et le peuple l’a touché."
+          choices:
+            abundancia: "Bountiful"
+            zarahemla: "Zarahemla"
+            jerusalen: "Jérusalem de Judée"
+        ninos_uno:
+          question: "À Bountiful, comment Jésus a-t-il béni les enfants ?"
+          answer: "Un à un. Il les a pris dans ses bras et les a bénis."
+          choices:
+            uno: "Un à un"
+            lejos: "De loin, en groupe"
+            angeles: "Seuls les anges les ont touchés"
+    moises:
+      title: "Moïse"
+      questions:
+        moises_cara:
+          question: "Selon le livre de Moïse, Moïse a vu Dieu…"
+          answer: "Face à face, et il a parlé avec lui. La gloire de Dieu était sur Moïse."
+          choices:
+            cara: "Face à face"
+            sueno: "Seulement dans un rêve"
+            nube: "Derrière une nuée, sans le voir"
+        satanas_tento:
+          question: "Quand la gloire s’est retirée, Satan a tenté Moïse…"
+          answer: "Il a dit : Moïse, fils de l’homme, adore-moi. Moïse n’a pas cédé."
+          choices:
+            adorar: "À l’adorer"
+            rey: "À le faire Pharaon"
+            huir: "À fuir de nouveau à Madian"
+        cielo_tierra:
+          question: "En Moïse 2, Dieu dit qu’il a créé…"
+          answer: "Le ciel et la terre. Je suis le Commencement et la Fin."
+          choices:
+            cielo: "Le ciel et la terre"
+            kolob: "Kolob seulement"
+            egipto: "L’Égypte seulement"
+        polvo_hombre:
+          question: "L’homme a été formé de…"
+          answer: "La poussière de la terre. Dieu a soufflé dans ses narines un souffle de vie."
+          choices:
+            polvo: "La poussière de la terre"
+            estrella: "Une étoile"
+            agua: "De l’eau seulement"
+        eden_adan:
+          question: "Où Dieu a-t-il mis Adam et Ève ?"
+          answer: "Dans le jardin d’Éden, à l’orient. Là il a fait croître tout arbre."
+          choices:
+            eden: "Le jardin d’Éden"
+            egipto: "L’Égypte"
+            ur: "Ur des Chaldéens"
+        la_caida:
+          question: "Après la chute, qu’est-il arrivé à Adam et à Ève ?"
+          answer: "La terre a été maudite à cause d’eux. Ils mangeraient dans la douleur."
+          choices:
+            caida: "Ils ont quitté le jardin ; la terre a été maudite"
+            trono: "Ils ont été mis sur un trône"
+            cielo: "Ils sont montés tout de suite au ciel"
+        adan_sacrificio:
+          question: "Le Seigneur a commandé à Adam d’offrir les premiers-nés. Adam…"
+          answer: "Il a obéi. Un ange lui a demandé : pourquoi offres-tu des sacrifices ?"
+          choices:
+            sacrificio: "Il a offert un sacrifice"
+            torre: "Il a bâti Babel"
+            corona: "Il s’est fait roi d’Égypte"
+        enoc_sion:
+          question: "Énoch a prêché, et le peuple a été appelé…"
+          answer: "Sion, parce qu’ils n’avaient qu’un cœur et qu’un esprit. Le Seigneur y habitait."
+          choices:
+            sion: "Sion"
+            babilonia: "Babylone"
+            roma: "Rome"
+        enoc_noe:
+          question: "Énoch a regardé, et il a vu la famille de…"
+          answer: "Il a vu Noé et sa famille. Le Seigneur avait préparé une arche."
+          choices:
+            noe: "Noé"
+            abraham: "Abraham"
+            jose: "Joseph d’Égypte"
+        sion_cielo:
+          question: "À la fin, qu’est-il advenu de Sion, la ville d’Énoch ?"
+          answer: "Elle a été enlevée au ciel. Dieu l’a reçue dans son sein."
+          choices:
+            cielo: "Elle a été enlevée au ciel"
+            mar: "Elle a sombré dans la mer"
+            desierto: "Elle est restée dans le désert"
+    abraham:
+      title: "Abraham"
+      questions:
+        salio_ur:
+          question: "Abraham dit : j’habitais au pays de…"
+          answer: "Ur des Chaldéens. Là ses pères s’étaient tournés vers l’idolâtrie."
+          choices:
+            ur: "Ur"
+            egipto: "L’Égypte"
+            canan: "Canaan d’abord"
+        sacerdotes_altar:
+          question: "Les prêtres de Pharaon ont voulu…"
+          answer: "L’offrir sur un autel, comme les autres. Le Seigneur ne l’a pas permis."
+          choices:
+            ofrecerlo: "L’offrir sur un autel"
+            rey: "Le faire Pharaon"
+            maestro: "Le nommer maître de la cour"
+        senor_libero:
+          question: "Quand Abraham était sur l’autel, qui l’a délivré ?"
+          answer: "Le Seigneur. L’ange de sa présence l’a détaché."
+          choices:
+            libero: "Le Seigneur l’a délivré"
+            faraon: "Pharaon s’est repenti"
+            oro: "On l’a acheté avec de l’or"
+        tierra_simiente:
+          question: "L’Éternel a promis à Abraham…"
+          answer: "Un pays et une postérité. En sa postérité toutes les familles seraient bénies."
+          choices:
+            simiente: "Un pays et une postérité"
+            trono: "Le trône de Pharaon"
+            oro: "Seulement de l’or et des troupeaux"
+        sarai_egipto:
+          question: "À cause de la famine, Abraham et Saraï sont descendus en…"
+          answer: "Égypte. Le Seigneur lui avait dit de dire de Saraï : c’est ma sœur."
+          choices:
+            egipto: "L’Égypte"
+            ninive: "Ninive"
+            roma: "Rome"
+        sacerdocio_padres:
+          question: "Abraham a cherché la prêtrise. Elle lui est venue…"
+          answer: "Des pères, jusqu’à Noé, jusqu’à Adam, qui fut le premier homme."
+          choices:
+            padres: "Des pères"
+            faraon: "De Pharaon"
+            baal: "Des prêtres de Baal"
+        dioses_organizaron:
+          question: "Dans le récit d’Abraham, au commencement…"
+          answer: "Les Dieux ont organisé et formé les cieux et la terre."
+          choices:
+            organizaron: "Les Dieux ont organisé"
+            azar: "Tout est venu par hasard"
+            faraon: "Pharaon l’a commandé"
+        imagen_dioses:
+          question: "Les Dieux ont dit : faisons l’homme…"
+          answer: "À notre image, selon notre ressemblance."
+          choices:
+            imagen: "À l’image des Dieux"
+            bestias: "À l’image des bêtes"
+            estrellas: "À l’image des étoiles"
+        dia_septimo:
+          question: "Après avoir organisé, les Dieux se sont reposés…"
+          answer: "Le septième jour, de toute l’œuvre qu’ils avaient faite."
+          choices:
+            septimo: "Le septième jour"
+            tercero: "Le troisième jour"
+            nunca: "Ils ne se sont jamais reposés"
+        lumbreras:
+          question: "Les Dieux ont ordonné, pour des signes et des saisons…"
+          answer: "Les luminaires dans l’étendue du ciel : le soleil, la lune et les étoiles."
+          choices:
+            lumbreras: "Les luminaires"
+            montes: "Les montagnes seulement"
+            rios: "Les fleuves seulement"
+    kolob:
+      title: "Kolob"
+      questions:
+        cerca_trono:
+          question: "Kolob est le plus près de…"
+          answer: "Le trône de Dieu. Abraham l’a vu par l’Urim et le Thummim."
+          choices:
+            trono: "Le trône de Dieu"
+            egipto: "Le palais de Pharaon"
+            mar: "La mer de verre"
+        gobierna_astros:
+          question: "Kolob gouverne…"
+          answer: "Les autres astres qui sont du même ordre que lui."
+          choices:
+            astros: "Les autres astres"
+            reyes: "Les rois d’Égypte"
+            rios: "Les fleuves seulement"
+        mil_anos:
+          question: "Un jour sur Kolob, c’est…"
+          answer: "Mille ans selon la mesure de cette terre."
+          choices:
+            mil: "Mille de nos années"
+            un_dia: "Un de nos jours"
+            una_hora: "Une de nos heures"
+        oliblish:
+          question: "Près de Kolob il y a d’autres grands astres. L’un s’appelle…"
+          answer: "Oliblish. Le Seigneur en a montré beaucoup de grands à Abraham."
+          choices:
+            oliblish: "Oliblish"
+            belen: "Bethléhem"
+            sinai: "Le Sinaï"
+        urim_tumim:
+          question: "Abraham a appris cela par…"
+          answer: "L’Urim et le Thummim, que le Seigneur lui avait donnés."
+          choices:
+            urim: "L’Urim et le Thummim"
+            sueno: "Un rêve seulement"
+            mapa: "Une carte de Pharaon"
+        mayor_menor:
+          question: "Les étoiles sont ordonnées…"
+          answer: "Du plus grand au plus petit. Kolob est la plus grande de toutes celles qu’il a vues."
+          choices:
+            menor: "Du plus grand au plus petit"
+            azar: "Au hasard"
+            iguales: "Toutes égales"
+        mas_inteligente:
+          question: "Celui qui est plus intelligent que tous les autres, c’est…"
+          answer: "Le Seigneur. Il est plus intelligent qu’eux tous."
+          choices:
+            senor: "Le Seigneur"
+            kolob: "Kolob lui-même"
+            abraham: "Abraham"
+        cuerpos_luz:
+          question: "Kolob est le plus proche de Dieu de tous les…"
+          answer: "Corps de lumière qu’Abraham a vus."
+          choices:
+            luz: "Des corps de lumière"
+            piedra: "Des montagnes de pierre"
+            agua: "Des mers d’eau"
+        tiempo_senor:
+          question: "Le temps de Kolob, c’est le temps du…"
+          answer: "Seigneur. Selon son temps, ainsi est le comput de la terre."
+          choices:
+            senor: "Le temps du Seigneur"
+            egipto: "Le temps de l’Égypte"
+            luna: "Seulement le temps de la lune"
+        hay_mayor:
+          question: "S’il existe deux choses, l’une plus intelligente que l’autre…"
+          answer: "Il y en a une plus grande que les deux. Le Seigneur est plus intelligent que toutes."
+          choices:
+            mayor: "Il y en a une plus grande"
+            iguales: "Les deux sont toujours égales"
+            azar: "Il n’y a pas d’ordre"
+    premortal:
+      title: "Avant de naître"
+      questions:
+        eramos_inteligencias:
+          question: "Avant de naître, nous étions…"
+          answer: "Des intelligences. Le Seigneur a montré à Abraham les esprits qui devaient naître."
+          choices:
+            inteligencias: "Des intelligences, des esprits"
+            piedras: "Des pierres du torrent"
+            nada: "Rien : nous n’existions pas"
+        a_quien_envio:
+          question: "Le Père a demandé, quand ce monde se préparait…"
+          answer: "Qui enverrai-je ? Quelqu’un devait descendre et faire l’œuvre."
+          choices:
+            envio: "Qui enverrai-je ?"
+            kolob: "Quelle étoile est Kolob ?"
+            oro: "Qui apportera l’or ?"
+        primero_heme:
+          question: "Le premier a dit…"
+          answer: "Me voici, envoie-moi. C’était le bien-aimé, choisi dès le commencement."
+          choices:
+            primero: "Me voici, envoie-moi"
+            no: "Je n’irai pas"
+            otro: "Envoie quelqu’un d’autre"
+        segundo_satanas:
+          question: "Le deuxième a dit aussi : me voici, envoie-moi. C’était…"
+          answer: "Satan. Il a voulu l’honneur pour lui, et le Seigneur ne le lui a pas donné."
+          choices:
+            satanas: "Satan"
+            micheal: "Michaël"
+            noe: "Noé"
+        primogenito:
+          question: "Le Père a choisi…"
+          answer: "Le Premier-né. Le deuxième s’est mis en colère, et beaucoup l’ont suivi."
+          choices:
+            primogenito: "Le Premier-né"
+            segundo: "Le deuxième"
+            abraham: "Abraham en personne"
+        jeremias_conocido:
+          question: "L’Éternel a dit à Jérémie : je t’ai connu…"
+          answer: "Avant de te former dans le ventre. Je t’ai sanctifié ; je t’ai établi prophète."
+          choices:
+            antes: "Avant qu’il naisse"
+            templo: "Seulement au temple, adulte"
+            exilio: "En exil, tout vieux"
+        principio_dios:
+          question: "L’homme était…"
+          answer: "Au commencement avec Dieu. L’intelligence n’a été ni créée ni faite."
+          choices:
+            principio: "Au commencement avec Dieu"
+            nada: "Du néant, le jour de la naissance"
+            despues: "Seulement après la mort"
+        llamados_preparados:
+          question: "Selon Alma, beaucoup ont été, dès la fondation du monde…"
+          answer: "Appelés et préparés. Selon la prescience de Dieu."
+          choices:
+            preparados: "Appelés et préparés"
+            azar: "Choisis au hasard à la naissance"
+            oro: "Achetés avec de l’or"
+        lecciones_antes:
+          question: "Les nobles et les grands ont reçu, dans le monde des esprits…"
+          answer: "Leurs premières leçons, avant de naître. Ils ont été préparés à venir."
+          choices:
+            lecciones: "Des leçons avant de naître"
+            nada: "Aucune préparation"
+            egipto: "Seulement l’école d’Égypte"
+        gritaron_gozo:
+          question: "Quand l’Éternel a fondé la terre, les fils de Dieu…"
+          answer: "Ont poussé des cris de joie. Les étoiles du matin chantaient."
+          choices:
+            gozo: "Ont poussé des cris de joie"
+            silencio: "Sont restés silencieux"
+            huir: "Ont fui la lumière"
+    exaltacion:
+      title: "Exaltation"
+      questions:
+        obra_gloria:
+          question: "L’œuvre et la gloire de Dieu, c’est de réaliser l’immortalité et…"
+          answer: "La vie éternelle de l’homme."
+          choices:
+            eterna: "L’immortalité et la vie éternelle"
+            oro: "L’or et les trônes de ce monde"
+            fama: "La renommée parmi les nations"
+        vida_eterna:
+          question: "La vie éternelle, c’est…"
+          answer: "Qu’ils te connaissent, toi, le seul vrai Dieu, et Jésus-Christ, que tu as envoyé."
+          choices:
+            conocer: "Connaître Dieu et Jésus-Christ"
+            oro: "Amasser de l’or"
+            nombres: "Mémoriser tous les noms"
+        iglesia_cordero:
+          question: "Ceux du céleste sont ceux de…"
+          answer: "L’Église du Premier-né. Ils reçoivent de sa plénitude."
+          choices:
+            cordero: "L’Église de l’Agneau"
+            babilonia: "Babylone"
+            cesar: "La cour de César"
+        tres_grados:
+          question: "Dans la gloire céleste, il y a…"
+          answer: "Trois cieux ou degrés."
+          choices:
+            tres: "Trois cieux, ou degrés"
+            uno: "Un seul degré"
+            diez: "Dix cieux"
+        matrimonio_eterno:
+          question: "Pour la gloire la plus haute, dans quelle alliance entres-tu ?"
+          answer: "Le sceau du mariage éternel. Toi et celle ou celui que tu aimes, pour toujours."
+          choices:
+            sello: "Le mariage éternel"
+            diezmo: "La dîme seulement"
+            ayuno: "Un jeûne de quarante jours"
+        perseverar:
+          question: "Si tu persévères jusqu’à la fin, tu auras…"
+          answer: "La vie éternelle, le plus grand de tous les dons de Dieu."
+          choices:
+            vida: "La vie éternelle"
+            oro: "L’or de la terre"
+            fama: "La renommée sur la place"
+        sed_perfectos:
+          question: "Jésus a dit, sur la montagne : soyez donc…"
+          answer: "Parfaits, comme votre Père qui est dans les cieux est parfait."
+          choices:
+            perfectos: "Soyez donc parfaits"
+            ricos: "Soyez donc riches"
+            temidos: "Soyez donc craints"
+        familias_selladas:
+          question: "Les familles…"
+          answer: "Peuvent être scellées. Élie a promis de revenir avant le grand jour."
+          choices:
+            selladas: "Peuvent être scellées"
+            olvidadas: "Sont oubliées"
+            rotas: "Se brisent à la mort"
+        gracia_gracia:
+          question: "Si vous gardez mes commandements, vous recevrez de sa plénitude…"
+          answer: "Grâce pour grâce."
+          choices:
+            gracia: "Grâce pour grâce"
+            oro: "Or pour or"
+            silencio: "Silence pour silence"
+        presencia_padre:
+          question: "Où habiteront ceux qui reçoivent la gloire céleste ?"
+          answer: "En la présence de Dieu et de son Christ, aux siècles des siècles."
+          choices:
+            presencia: "En la présence du Père et du Fils"
+            luna: "Sur la lune"
+            paraiso: "Seulement dans un paradis d’esprits, au loin"
+    jose:
+      title: "Joseph"
+      questions:
+        nacio_sharon:
+          question: "Où Joseph Smith est-il né ?"
+          answer: "À Sharon, comté de Windsor, dans le Vermont. L’Histoire de Joseph Smith le raconte."
+          choices:
+            sharon: "Sharon, dans le Vermont"
+            palmyra: "Palmyra, dans l’État de New York"
+            nauvoo: "Nauvoo, dans l’Illinois"
+        bosquecillo:
+          question: "Dans le bosquet, Joseph a vu…"
+          answer: "Le Père et le Fils. L’un d’eux a dit : Joseph, celui-ci est mon Fils bien-aimé. Écoute-le !"
+          choices:
+            ambos: "Le Père et le Fils"
+            angel: "Un ange seulement"
+            nube: "Seulement une lumière, sans personne"
+        moroni_planchas:
+          question: "Moroni lui a parlé d’un livre, écrit sur…"
+          answer: "Des plaques d’or. Il racontait les anciens habitants de ce continent."
+          choices:
+            planchas: "Un livre écrit sur des plaques"
+            corona: "Une couronne d’or"
+            mapa: "Une carte de Kirtland"
+        cerro_planchas:
+          question: "Où Joseph a-t-il reçu les plaques ?"
+          answer: "Dans la colline. Sous une pierre il y avait un coffre, et dedans les plaques."
+          choices:
+            cerro: "Dans la colline"
+            templo: "Dans le temple de Kirtland"
+            rio: "Au fond de la rivière"
+        oliver_traduce:
+          question: "Qui est arrivé à Harmony et a écrit pendant que Joseph traduisait ?"
+          answer: "Oliver Cowdery. Il a écrit ce que Joseph lui dictait."
+          choices:
+            oliver: "Oliver Cowdery"
+            brigham: "Brigham Young"
+            martin: "Martin Luther"
+        emma_esposa:
+          question: "Le Seigneur a parlé, dans une révélation, à…"
+          answer: "Emma Smith, ma fille. Il l’a appelée élue et lui a donné une charge."
+          choices:
+            emma: "Emma, sa femme"
+            lucy: "Lucy, sa mère"
+            saria: "Sariah"
+        liberty_donde:
+          question: "À Liberty, Joseph a crié au Seigneur…"
+          answer: "Où es-tu ? La prison était sombre. Il a demandé combien de temps cela durerait."
+          choices:
+            donde: "Où es-tu ?"
+            oro: "Où est l’or ?"
+            nauvoo: "Quand rentrons-nous à Nauvoo ?"
+        experiencia:
+          question: "Toutes ces choses te donneront…"
+          answer: "De l’expérience, et ce sera pour ton bien."
+          choices:
+            experiencia: "De l’expérience"
+            oro: "De l’or"
+            olvido: "De l’oubli"
+        carthage_cordero:
+          question: "Comment Joseph est-il allé à Carthage ?"
+          answer: "Comme un agneau. Il savait ce qui l’attendait, et il y est allé quand même."
+          choices:
+            cordero: "Comme un agneau"
+            ejercito: "À la tête d’une armée"
+            secreto: "De nuit, en cachette"
+        salvo_jesus:
+          question: "Joseph a fait plus, si l’on excepte Jésus seulement, pour le salut de…"
+          answer: "Des hommes de cette génération. Il a vécu grand, et il est mort grand aux yeux de Dieu."
+          choices:
+            generacion: "Cette génération"
+            moises: "Seulement les jours de Moïse"
+            roma: "Seulement les jours de Rome"
+    inicios:
+      title: "Commencements"
+      questions:
+        seis_abril:
+          question: "À quelle date l’Église a-t-elle été organisée ?"
+          answer: "Le 6 avril 1830, selon le commandement et les révélations."
+          choices:
+            abril: "Le 6 avril 1830"
+            navidad: "Le 25 décembre 1830"
+            valle: "Le jour où ils sont arrivés dans la vallée"
+        vidente_profeta:
+          question: "Joseph a été appelé…"
+          answer: "Voyant, traducteur, prophète, apôtre de Jésus-Christ."
+          choices:
+            vidente: "Voyant, traducteur, prophète"
+            rey: "Roi des États-Unis"
+            general: "Général du Missouri"
+        kirtland_dedico:
+          question: "Où la maison du Seigneur a-t-elle été dédiée, avec la prière de Joseph ?"
+          answer: "À Kirtland. Il a demandé que la gloire de Dieu repose sur cette maison."
+          choices:
+            kirtland: "Kirtland"
+            nauvoo: "Nauvoo"
+            salt: "La vallée du Grand Lac Salé"
+        ley_kirtland:
+          question: "Le Seigneur a donné la loi de l’Église à…"
+          answer: "Kirtland, dans l’Ohio. Les anciens s’étaient réunis, et il a parlé."
+          choices:
+            ohio: "Kirtland, dans l’Ohio"
+            palmyra: "Palmyra"
+            carthage: "Carthage"
+        independencia:
+          question: "Quel lieu serait le centre, la terre de Sion ?"
+          answer: "Independence, dans le Missouri. Là serait désigné le terrain du temple."
+          choices:
+            centro: "Le centre, Independence"
+            boston: "Boston"
+            londres: "Londres"
+        misuri:
+          question: "Les saints ont souffert dans…"
+          answer: "Le Missouri. Ils ont été chassés de leurs terres. Le Seigneur a entendu leur cri."
+          choices:
+            misuri: "Le Missouri"
+            vermont: "Le Vermont"
+            california: "La Californie"
+        campamento_sion:
+          question: "Le Seigneur a commandé de rassembler des hommes pour aller à la terre de Sion. Ce fut…"
+          answer: "Le camp de Sion. Ils allaient porter secours aux frères."
+          choices:
+            campamento: "Le camp de Sion"
+            barco: "Un bateau vers l’Angleterre"
+            mina: "Une mine d’or"
+        nauvoo_hermosa:
+          question: "La ville qu’on a appelée « la belle », c’était…"
+          answer: "Nauvoo. Le Seigneur a commandé d’y bâtir une maison à son nom."
+          choices:
+            nauvoo: "Nauvoo la belle"
+            kirtland: "Kirtland seulement"
+            palmyra: "Palmyra"
+        pioneros_desierto:
+          question: "Les pionniers ont reçu, pour organiser le camp…"
+          answer: "La parole du Seigneur dans le désert. Une alliance, et un camp en ordre."
+          choices:
+            desierto: "La parole dans le désert"
+            mar: "Un décret au bord de la mer"
+            corte: "Une lettre de la cour"
+        iglesia_verdadera:
+          question: "Le Seigneur a dit qu’il ferait paraître…"
+          answer: "La seule Église vraie et vivante sur toute la surface de la terre."
+          choices:
+            unica: "La seule Église vraie et vivante"
+            una_mas: "Une de plus parmi beaucoup d’égales"
+            cerrada: "Une Église déjà fermée"
+    pruebas_profetas:
+      title: "Épreuves"
+      questions:
+        jeremias_cisterna:
+          question: "Jérémie a été jeté dans…"
+          answer: "Une citerne. Il a enfoncé dans la boue, et un serviteur l’a retiré."
+          choices:
+            cisterna: "La citerne"
+            trono: "Le trône du roi"
+            barco: "Un bateau pour Tarsis"
+        elias_jezabel:
+          question: "De qui Élie a-t-il fui au désert, l’âme lasse ?"
+          answer: "De Jézabel. Il s’est assis sous un genêt et a demandé à mourir. L’Éternel l’a soutenu."
+          choices:
+            jezabel: "Jézabel"
+            nabot: "Naboth"
+            natan: "Nathan"
+        abinadi_condenado:
+          question: "Après avoir rendu témoignage, Abinadi a été…"
+          answer: "Condamné par Noé. Il n’a pas nié la parole du Seigneur."
+          choices:
+            condenado: "Condamné par Noé"
+            coronado: "Couronné roi"
+            libre: "Relâché le lendemain"
+        lehi_desierto:
+          question: "Léhi et sa famille ont souffert dans…"
+          answer: "Le désert. Ils ont quitté leur maison et sont partis, parce que le Seigneur l’avait commandé."
+          choices:
+            desierto: "Le désert"
+            palacio: "Un palais"
+            barco: "Un bateau de Tyr"
+        alma_amoniah:
+          question: "Alma et Amulek ont été jetés dans la prison d’…"
+          answer: "Ammonihah. Le Seigneur les a délivrés. Les murs ont cédé, et ils sont sortis."
+          choices:
+            amoniah: "Ammonihah"
+            zarahemla: "Zarahemla"
+            bountiful: "Bountiful"
+        nefi_atado:
+          question: "Néphi a été lié…"
+          answer: "Sur le bateau, par ses frères. La tempête les a battus jusqu’à ce qu’ils le détachent."
+          choices:
+            barco: "Sur le bateau"
+            templo: "Dans le temple"
+            cerro: "Sur la colline"
+        liberty_paz:
+          question: "À Liberty, qu’a dit le Seigneur à l’âme de Joseph ?"
+          answer: "Mon fils, paix à ton âme. Ton adversité ne sera que pour un petit moment."
+          choices:
+            paz: "Paix à ton âme"
+            huir: "Fuis cette nuit"
+            maldecir: "Maudis tes ennemis"
+        noe_no_escucho:
+          question: "Noé a prêché, et le monde…"
+          answer: "N’a pas écouté. Ils s’étaient corrompus. Le Seigneur lui a commandé de faire une arche."
+          choices:
+            escucho: "N’a pas écouté"
+            ayuno: "A jeûné quarante jours"
+            templo: "A bâti un temple"
+        isaias_no_oiria:
+          question: "Ésaïe a été envoyé vers un peuple qui…"
+          answer: "Entendrait, et ne comprendrait pas. Le cœur du peuple s’était endurci."
+          choices:
+            oiria: "N’entendrait pas"
+            canto: "Chanterait toujours"
+            ayuno: "Jeûnerait tout de suite"
+        bienaventurados_vituperio:
+          question: "Jésus a dit : heureux serez-vous…"
+          answer: "Quand, à cause de moi, on vous insultera et on vous persécutera. Grande est votre récompense dans les cieux."
+          choices:
+            vituperio: "Quand on vous insultera"
+            oro: "Quand on vous donnera de l’or"
+            trono: "Quand on vous assiera sur un trône"
+    pruebas_heroes:
+      title: "Les vaillants"
+      questions:
+        job_no_maldijo:
+          question: "Job a tout perdu, et…"
+          answer: "Il n’a pas maudit Dieu. Il a déchiré son manteau, et il s’est prosterné."
+          choices:
+            no_maldijo: "Il n’a pas maudit Dieu"
+            huyo: "Il s’est enfui en Égypte"
+            oro: "Il a racheté un troupeau le lendemain"
+        jose_vendido:
+          question: "Joseph a été vendu par…"
+          answer: "Ses frères. Ils l’ont fait descendre en Égypte."
+          choices:
+            hermanos: "Ses frères"
+            faraon: "Pharaon"
+            moises: "Moïse"
+        jose_carcel:
+          question: "Chez Potiphar, Joseph a été mis…"
+          answer: "En prison. L’Éternel était avec lui là aussi."
+          choices:
+            carcel: "La prison"
+            trono: "Le trône, dès le lendemain"
+            barco: "Un bateau pour Canaan"
+        daniel_foso:
+          question: "Dans la fosse aux lions, Daniel…"
+          answer: "En est sorti indemne. L’Éternel a envoyé son ange, et a fermé la gueule des lions."
+          choices:
+            ileso: "Il en est sorti indemne"
+            olvidado: "Le roi l’a oublié"
+            mudo: "Il est resté muet de peur"
+        ester_peligro:
+          question: "Esther s’est présentée au roi, et par là elle…"
+          answer: "A risqué sa vie. La loi ne l’appelait pas. Elle y est allée pour son peuple."
+          choices:
+            peligro: "Elle a risqué sa vie"
+            huyo: "Elle s’est enfuie en Moab"
+            silencio: "Elle s’est tue pour toujours"
+        david_huyo:
+          question: "David a fui…"
+          answer: "Saül. Mikal l’a aidé à descendre par la fenêtre, la nuit."
+          choices:
+            saul: "Saül"
+            goliat: "Goliath"
+            natan: "Nathan"
+        rut_espigo:
+          question: "Ruth a glané dans le champ pour…"
+          answer: "Noémi. Elle est allée au champ de Boaz, glaner derrière les moissonneurs."
+          choices:
+            noemi: "Noémi"
+            orfa: "Orpa"
+            saba: "La reine de Saba"
+        ana_lloro:
+          question: "Anne a pleuré parce qu’…"
+          answer: "Elle n’avait pas d’enfant. Elle a prié l’Éternel, et il l’a entendue."
+          choices:
+            hijo: "Elle n’avait pas d’enfant"
+            casa: "Elle n’avait pas de maison"
+            pan: "Elle n’avait pas de pain"
+        jovenes_fuego:
+          question: "Les trois jeunes gens, dans la fournaise…"
+          answer: "Marchaient au milieu du feu, et on en voyait un quatrième avec eux."
+          choices:
+            andaban: "Ils marchaient au milieu du feu"
+            nombres: "Ils ont récité leurs trois noms au roi"
+            huyeron: "Ils ont fui avant d’entrer"
+        jose_bien:
+          question: "Joseph a dit à ses frères : vous avez pensé le mal ; Dieu…"
+          answer: "L’a tourné en bien, pour sauver la vie d’un peuple."
+          choices:
+            bien: "L’a tourné en bien"
+            olvido: "L’a oublié pour toujours"
+            venganza: "A demandé vengeance"
+    milagros:
+      title: "Miracles"
+      questions:
+        mar_abrio:
+          question: "La mer Rouge…"
+          answer: "S’est ouverte. Israël a passé à pied sec, et l’eau était pour eux une muraille des deux côtés."
+          choices:
+            abrio: "Elle s’est ouverte"
+            hielo: "Elle a gelé"
+            subio: "Elle s’est élevée comme une nuée"
+        mana_cielo:
+          question: "La manne est tombée…"
+          answer: "Du ciel. C’était comme du givre sur la terre. Le peuple a dit : qu’est-ce que c’est ?"
+          choices:
+            cielo: "Du ciel"
+            egipto: "Des greniers d’Égypte"
+            mar: "Du fond de la mer"
+        sol_josue:
+          question: "Pour qui le soleil s’est-il arrêté ?"
+          answer: "Pour Josué. Le soleil s’est arrêté, et la lune s’est tenue, jusqu’à ce que le peuple ait la victoire."
+          choices:
+            josue: "Josué"
+            saul: "Saül"
+            jonas: "Jonas"
+        aceite_viuda:
+          question: "L’huile de la veuve…"
+          answer: "N’a pas cessé, tant qu’il y a eu des vases. Élisée lui avait dit d’en emprunter beaucoup."
+          choices:
+            ceso: "N’a pas cessé"
+            acabo: "S’est tarie dès la première cruche"
+            veneno: "Est devenue poison"
+        jerico_cayeron:
+          question: "Les murs de Jéricho…"
+          answer: "Sont tombés. Le peuple a crié, les trompettes ont sonné, et la muraille s’est écroulée."
+          choices:
+            cayeron: "Ils sont tombés"
+            subieron: "Ils se sont élevés au ciel"
+            oro: "Ils sont devenus or"
+        fuego_alma:
+          question: "Dans la prison, Alma et Néphi, fils d’Hélaman, ont vu…"
+          answer: "Un feu autour d’eux. Il ne les brûlait pas. Une voix leur a parlé de paix."
+          choices:
+            fuego: "Un feu autour d’eux, qui ne les brûlait pas"
+            llave: "Une clé d’or"
+            carta: "Une lettre du roi"
+        lazaro_fuera:
+          question: "Jésus a crié devant le tombeau…"
+          answer: "Lazare, sors ! Et celui qui était mort est sorti."
+          choices:
+            fuera: "Lazare, sors !"
+            duerme: "Lazare, dors encore un jour"
+            huye: "Lazare, fuis en Égypte"
+        cojo_hermosa:
+          question: "À la Belle Porte, le boiteux, au nom de Jésus…"
+          answer: "S’est levé et a marché. Pierre n’avait ni argent ni or. Il avait le nom de Jésus."
+          choices:
+            anda: "Il s’est levé et a marché"
+            oro: "Il a demandé une bourse d’or"
+            quedo: "Il est resté assis"
+        zeezrom_sanado:
+          question: "Zeezrom, qui avait été malade de fièvre, par la foi…"
+          answer: "A été guéri. Alma l’a pris par la main et a dit : crois-tu ?"
+          choices:
+            sanado: "Il a été guéri"
+            rey: "Il a été fait roi"
+            mar: "Il s’est enfui vers la mer"
+        mostaza:
+          question: "Jésus a dit : si vous avez de la foi comme un grain de…"
+          answer: "Moutarde. Vous direz à cette montagne : passe d’ici, et elle passera."
+          choices:
+            mostaza: "Moutarde"
+            trigo: "Blé"
+            arena: "Sable"

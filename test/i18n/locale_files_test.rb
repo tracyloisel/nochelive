@@ -26,6 +26,18 @@ class LocaleFilesTest < ActiveSupport::TestCase
     end
   end
 
+  test "quiz locale files share the same keys" do
+    trees = {
+      "en" => load_locale("quizzes.en.yml", "en"),
+      "fr" => load_locale("quizzes.fr.yml", "fr"),
+      "pt-BR" => load_locale("quizzes.pt-BR.yml", "pt-BR")
+    }
+    expected = flatten_keys(trees["en"]).sort
+    trees.each do |code, tree|
+      assert_equal expected, flatten_keys(tree).sort, "#{code} quiz keys differ from en"
+    end
+  end
+
   test "game copy follows the request locale" do
     round = GameDefinition.default.find_round("salomon_wisdom")
     I18n.with_locale(:es) do

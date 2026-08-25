@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static values = { end: String, duration: Number, reloadUrl: String }
+  static values = { end: String, duration: Number, reloadUrl: String, expireUrl: String }
   static targets = ["label", "bar"]
 
   connect() {
@@ -23,6 +23,21 @@ export default class extends Controller {
     this.element.classList.toggle("is-empty", remain <= 0)
     if (remainMs > 0) {
       this.frame = requestAnimationFrame(() => this.tick())
+      return
+    }
+    if (this.hasExpireUrlValue && this.expireUrlValue && !this.expired) {
+      this.expired = true
+      const token = document.querySelector('meta[name="csrf-token"]')?.content
+      fetch(this.expireUrlValue, {
+        method: "POST",
+        headers: {
+          "X-CSRF-Token": token || "",
+          Accept: "text/vnd.turbo-stream.html"
+        },
+        credentials: "same-origin"
+      }).then((res) => res.text()).then((html) => {
+        if (html && window.Turbo) window.Turbo.renderStreamMessage(html)
+      }).catch(() => {})
       return
     }
     if (this.reloadUrlValue && !this.reloaded) {

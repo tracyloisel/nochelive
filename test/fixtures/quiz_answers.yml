@@ -1,0 +1,9 @@
+# frozen_string_literal: true
+
+crowd_mar:
+  quiz_run: crowd_milagros
+  device_digest: <%= Digest::SHA256.hexdigest("quiz-crowd") %>
+  pack_id: milagros
+  question_id: mar_abrio
+  choice_key: abrio
+  correct: true

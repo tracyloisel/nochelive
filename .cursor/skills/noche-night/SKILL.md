@@ -37,6 +37,8 @@ A design that only works for the teenager with the fastest phone fails Lucía (8
 
 A night is a **power curve**, not fifteen identical 10-point cards.
 
+The **street quiz** on `/` is a second product: 17 packs of seated QCM for a visitor alone. It does **not** have the four seats, the night bands (Descubrimiento → Gran final), or the Friday questions. Do not copy night rounds into `config/quizzes`. Do not put Gran final / ¡TODOS DE PIE! on a street pack. Review a street-quiz slice as one street seat (tú) plus i18n; the Friday night stays unchanged.
+
 ```text
 WELCOME → CURIOSITY → EASY SUCCESS → COMPETITION
 → LAUGHTER → SURPRISE → RIVALRY → POWER-UP

@@ -2,6 +2,12 @@ class Locale
   AVAILABLE = %w[es pt-BR fr en].freeze
   DEFAULT = "es"
   COOKIE = :noche_locale
+  FLAG = {
+    "es" => "flag-es",
+    "pt-BR" => "flag-pt",
+    "fr" => "flag-fr",
+    "en" => "flag-en"
+  }.freeze
 
   def self.cast(value)
     raw = value.to_s.strip.tr("_", "-")
@@ -13,6 +19,10 @@ class Locale
 
   def self.i18n(value)
     cast(value).to_sym
+  end
+
+  def self.flag(value)
+    FLAG.fetch(cast(value))
   end
 
   def self.from_accept_language(header)

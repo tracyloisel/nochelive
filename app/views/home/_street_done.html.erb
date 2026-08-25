@@ -1,0 +1,16 @@
+<% complete = street.complete %>
+<div class="quiz-hero" role="status">
+  <p class="eyebrow"><%= street.pack.copy(:title) %></p>
+  <p class="quiz-hero-score"><%= complete.score %></p>
+  <% if complete.first %>
+    <p class="lede"><%= t("quiz.first") %></p>
+  <% else %>
+    <p class="lede"><%= t("quiz.average", score: complete.average) %></p>
+  <% end %>
+  <%= button_to quiz_advance_path(street.run),
+        class: "btn btn-gold quiz-next",
+        form: { data: { turbo_stream: true } },
+        data: { action: "click->quiz#next" } do %>
+    <%= t("quiz.next") %><%= picto("arrow") %>
+  <% end %>
+</div>

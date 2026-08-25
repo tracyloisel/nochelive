@@ -1,0 +1,17 @@
+# frozen_string_literal: true
+
+crowd_milagros:
+  device_digest: <%= Digest::SHA256.hexdigest("quiz-crowd") %>
+  pack_id: milagros
+  position: 10
+  score: 103
+  opened_at: <%= Time.zone.parse("2026-08-20 18:00:00") %>
+  status: finished
+
+open_coronas:
+  device_digest: <%= Digest::SHA256.hexdigest("quiz-open") %>
+  pack_id: coronas
+  position: 1
+  score: 0
+  opened_at: <%= Time.zone.parse("2026-08-25 12:00:00") %>
+  status: open

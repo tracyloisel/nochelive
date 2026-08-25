@@ -7,12 +7,13 @@ class ReelGrammarVisualTest < ApplicationSystemTestCase
     page.current_window.resize_to(390, 844)
 
     visit root_path
-    assert_selector ".home-paper"
+    assert_selector "#street_quiz.play-reel.is-quiz.is-street"
+    assert_no_selector ".home-paper"
     assert_no_selector ".play-reel.is-home"
-    assert_text "Noche Live"
-    assert_text "Reyes y Profetas"
+    assert_text QuizDefinition.catalog.find_pack("coronas").copy(:title)
     assert_selector ".home-menu"
     assert_no_selector ".place-input"
+    assert_no_selector ".story-ticks"
     shot("01-home")
 
     visit night_name_path(game_sessions(:david).code)

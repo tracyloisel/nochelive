@@ -5,7 +5,8 @@ export default class extends Controller {
     playUrl: String,
     correct: String,
     nextImage: String,
-    sfx: String
+    sfx: String,
+    rewindUrl: String
   }
 
   connect() {
@@ -44,7 +45,32 @@ export default class extends Controller {
   }
 
   next() {
+    if (this.street()) return
     this.element.classList.add("is-leaving")
+  }
+
+  advance() {
+    if (!this.street()) return
+    const button = this.element.querySelector(".quiz-next")
+    if (!button) return
+    this.next()
+    button.click()
+  }
+
+  rewind() {
+    if (!this.street()) return
+    if (!this.hasRewindUrlValue || !this.rewindUrlValue) return
+    const token = document.querySelector('meta[name="csrf-token"]')?.content
+    fetch(this.rewindUrlValue, {
+      method: "POST",
+      headers: {
+        "X-CSRF-Token": token || "",
+        Accept: "text/vnd.turbo-stream.html"
+      },
+      credentials: "same-origin"
+    }).then((res) => res.text()).then((html) => {
+      if (html && window.Turbo) window.Turbo.renderStreamMessage(html)
+    }).catch(() => {})
   }
 
   animateBars() {
@@ -77,6 +103,7 @@ export default class extends Controller {
   }
 
   cue() {
+    if (this.street()) return
     if (!this.sfxValue) return
     if (window.NocheLiveAudio?.play) {
       window.NocheLiveAudio.play(this.sfxValue)
@@ -86,7 +113,12 @@ export default class extends Controller {
     stage?.play(this.sfxValue)
   }
 
+  street() {
+    return this.element.id === "street_quiz" || !!this.element.closest("#street_quiz")
+  }
+
   holdSheet() {
+    if (this.street()) return
     const sheetEl = this.element.closest("[data-controller~='sheet']")
     if (!sheetEl) return
     const sheet = this.application.getControllerForElementAndIdentifier(sheetEl, "sheet")

@@ -50,5 +50,6 @@ Do not invent a new “Gameplay Designer” agent. Do not rubber-stamp a slice b
 | [017](017-listed-directory.md) | Hosted directory is Rama Benidorm only |
 | [018](018-home-hamburger.md) | Home hamburger; still-first directory |
 | [019](019-home-paper-feed.md) | Paper home; `/buscar`; night feed |
+| [020](020-street-quiz.md) | Street quiz on `/`; paper nights on `/noches` |
 
 Older files keep `## Evidence` blocks with the hat name from that slice. That is history, not a Cursor persona to revive. The four-seat table at the top is the night-director record.

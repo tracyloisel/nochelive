@@ -120,6 +120,16 @@ fr:
     past: "Soirées passées"
     empty_upcoming: "Pas de soirée dans les 14 prochains jours."
     empty_past: "Pas encore de soirée fermée."
+    nights: "Soirées"
+  quiz:
+    next: "Suivant"
+    crowd: "Ce que les autres ont choisi"
+    read_more: "Lire dans les Écritures"
+    progress: "%{n} / %{total}"
+    first: "Tu es le premier"
+    average: "La moyenne est de %{score}"
+    correct: "C’est ça !"
+    incorrect: "Ce n’était pas ça"
   join:
     title: "Ton prénom"
     pick_team: "Choisis une équipe"

@@ -1,38 +1,4 @@
 <% content_for :title, "Noche Live" %>
 <% content_for :body_class, "is-kid" %>
 <%= chrome_menu { site_menu } %>
-<section class="home-paper">
-  <div class="home-brand">
-    <h1>Noche Live</h1>
-  </div>
-  <nav class="home-doors" aria-label="<%= t("home.doors") %>">
-    <%= link_to t("home.who"), about_path, class: "quiet-link" %>
-    <%= link_to t("home.search_page"), search_path, class: "quiet-link" %>
-  </nav>
-
-  <section class="home-feed home-upcoming">
-    <h2><%= t("home.upcoming") %></h2>
-    <% if @upcoming.any? %>
-      <div class="night-menu">
-        <% @upcoming.each do |night| %>
-          <%= render "home/night_card", night: night %>
-        <% end %>
-      </div>
-    <% else %>
-      <p class="lede"><%= t("home.empty_upcoming") %></p>
-    <% end %>
-  </section>
-
-  <section class="home-feed home-past">
-    <h2><%= t("home.past") %></h2>
-    <% if @past.any? %>
-      <div class="night-menu">
-        <% @past.each do |night| %>
-          <%= render "home/night_card", night: night %>
-        <% end %>
-      </div>
-    <% else %>
-      <p class="lede"><%= t("home.empty_past") %></p>
-    <% end %>
-  </section>
-</section>
+<%= render "home/street", street: @street %>

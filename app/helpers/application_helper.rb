@@ -57,7 +57,6 @@ module ApplicationHelper
   end
 
   def chrome_menu(open: false, &block)
-    content_for :lang_in_menu, "1"
     render "shared/chrome_menu", open: open, body: capture(&block)
   end
 
@@ -168,6 +167,75 @@ module ApplicationHelper
     return unless round&.timed? && round.seconds_left.positive?
 
     "timer_tension"
+  end
+
+  def street_still_src(question)
+    media_src(question&.presentation&.[]("image"))
+  end
+
+  def street_next_still(street)
+    pack = street.pack
+    ids = QuizDefinition.catalog.pack_ids
+    if street.done?
+      nxt = QuizDefinition.catalog.find_pack(ids[(ids.index(pack.id).to_i + 1) % ids.size])
+      return street_still_src(nxt.question_at(1))
+    end
+    return unless street.settled?
+    return street_still_src(pack.question_at(street.run.position + 1)) unless street.run.last_question?
+
+    nxt = QuizDefinition.catalog.find_pack(ids[(ids.index(pack.id).to_i + 1) % ids.size])
+    street_still_src(nxt.question_at(1))
+  end
+
+  def street_audio_data(run, question, extra_sfx: nil, extra_fx: nil)
+    answer = run.quiz_answers.find_by(question_id: question.id)
+    if run.finished?
+      sfx = extra_sfx.presence || "royal_fanfare"
+      fx = extra_fx.presence || "level"
+      return {
+        stage_sfx_value: sfx,
+        stage_sfx_token_value: "#{run.id}:done:#{sfx}",
+        stage_fx_value: fx,
+        stage_bed_value: nil,
+        stage_timer_end_value: nil,
+        stage_timer_duration_value: nil
+      }
+    end
+
+    if answer
+      grade = answer.correct? ? "correct" : "wrong"
+      sfx = extra_sfx.presence || (answer.correct? ? "correct_gold" : "wrong_soft")
+      fx = extra_fx.presence || street_grade_fx(question, answer.correct?)
+      return {
+        stage_sfx_value: sfx,
+        stage_sfx_token_value: "#{run.id}:#{question.id}:settled:#{grade}",
+        stage_fx_value: fx,
+        stage_bed_value: nil,
+        stage_timer_end_value: nil,
+        stage_timer_duration_value: nil
+      }
+    end
+
+    sfx = extra_sfx.presence || (question.slam? ? "round_start" : "question_change")
+    timed = question.timed? && run.ends_at.present?
+    {
+      stage_sfx_value: sfx,
+      stage_sfx_token_value: "#{run.id}:#{question.id}:ask",
+      stage_fx_value: extra_fx,
+      stage_bed_value: timed ? "timer_tension" : nil,
+      stage_timer_end_value: timed ? run.ends_at.iso8601 : nil,
+      stage_timer_duration_value: timed ? question.duration.to_i : nil
+    }
+  end
+
+  def street_grade_fx(question, correct)
+    pos = question.position.to_i
+    if correct
+      return "gold" if pos <= 3
+      return "reveal"
+    end
+
+    "shake" if pos >= 7 && pos <= 9
   end
 
   def stage_audio_data(round, extra_sfx = nil, extra_fx = nil, team: nil, night: nil)
@@ -490,6 +558,10 @@ module ApplicationHelper
 
   def picto(name, size: nil)
     render "shared/picto", name: name.to_s, size: size
+  end
+
+  def locale_flag(code)
+    picto(Locale.flag(code))
   end
 
   def choice_mark(index)

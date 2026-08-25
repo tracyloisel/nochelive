@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_25_190000) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_25_210000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -183,6 +183,34 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_25_190000) do
     t.index ["game_session_id"], name: "index_presenter_claims_one_pending", unique: true, where: "((status)::text = 'pending'::text)"
   end
 
+  create_table "quiz_answers", force: :cascade do |t|
+    t.string "choice_key"
+    t.boolean "correct", default: false, null: false
+    t.datetime "created_at", null: false
+    t.string "device_digest", null: false
+    t.string "pack_id", null: false
+    t.string "question_id", null: false
+    t.bigint "quiz_run_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["device_digest", "pack_id", "question_id"], name: "idx_on_device_digest_pack_id_question_id_d4c3f03d57"
+    t.index ["quiz_run_id", "question_id"], name: "index_quiz_answers_on_quiz_run_id_and_question_id", unique: true
+    t.index ["quiz_run_id"], name: "index_quiz_answers_on_quiz_run_id"
+  end
+
+  create_table "quiz_runs", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "device_digest", null: false
+    t.datetime "ends_at"
+    t.datetime "opened_at", null: false
+    t.string "pack_id", null: false
+    t.integer "position", default: 1, null: false
+    t.integer "score", default: 0, null: false
+    t.string "status", default: "open", null: false
+    t.datetime "updated_at", null: false
+    t.index ["device_digest", "status"], name: "index_quiz_runs_on_device_digest_and_status"
+    t.index ["device_digest"], name: "index_quiz_runs_on_device_digest"
+  end
+
   create_table "reward_grants", force: :cascade do |t|
     t.string "chest_key", null: false
     t.datetime "created_at", null: false
@@ -339,6 +367,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_25_190000) do
   add_foreign_key "pose_holds", "teams"
   add_foreign_key "presenter_blocks", "game_sessions"
   add_foreign_key "presenter_claims", "game_sessions"
+  add_foreign_key "quiz_answers", "quiz_runs"
   add_foreign_key "reward_grants", "teams"
   add_foreign_key "round_runs", "game_sessions"
   add_foreign_key "score_events", "game_sessions"

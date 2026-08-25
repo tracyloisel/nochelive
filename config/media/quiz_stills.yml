@@ -1,0 +1,730 @@
+# One gouache still per street-quiz question.
+# No readable text in the picture. Family-safe. No crucifix. No temple interiors.
+
+style: >
+  Warm painterly gouache illustration for a family Bible game night.
+  Cream paper tones, gold light, soft ink shadows. Vertical portrait
+  composition. Modest ancient Near Eastern clothing. Stylized, not photoreal.
+
+negative: >
+  text, letters, numbers, captions, logos, watermarks, UI, screenshot,
+  crucifix, Christian cross, temple interior, blood, gore, violence in progress,
+  photoreal close-up of a child, extra fingers,
+  firing squad, gunfire, Carthage shooting, burning at the stake, pyre,
+  facsimiles, readable text
+
+packs:
+  coronas:
+    ungio_david: >
+      Prophet Samuel pouring oil from a ram's horn onto young shepherd David
+      among sheep in a quiet field. Secret anointing at dusk, gold light on
+      the boy's hair. No jeweled crown.
+    piedras_arroyo: >
+      A sunlit brook in a valley, young shepherd David kneeling to choose
+      five smooth stones from the water. A leather sling rests on the bank.
+      Five stones clearly visible. No giant yet, no blood.
+    arpa_saul: >
+      Young David seated playing a wooden lyre, gold sound-like light in the air.
+      King Saul nearby on a simple stool, his troubled face softening as the
+      music calms him.
+    vina_nabot: >
+      A sunlit vineyard on a hillside, a humble Israelite tending vines.
+      King Ahab watching greedily from a distant terrace. Naboth's vineyard.
+      No violence.
+    salomon_templo: >
+      King Solomon standing before the finished temple exterior, pale stone
+      walls, cedar doors, gold light on the facade. Courtyard and threshold
+      only, people small at the steps. No interior rooms, no ordinance hall.
+    juicio_madres: >
+      King Solomon on a simple throne between two mothers, one holding a
+      swaddled infant. Solomon raises an open calming hand. No sword, no violence.
+    arca_jerusalen: >
+      A joyful procession bringing a simple wooden ark with poles into
+      Jerusalem's stone gate. David in a modest tunic dancing with gladness.
+      Gold late light, celebration, no blood.
+    sucedio_salomon: >
+      Young Solomon anointed king in a courtyard, a priest pouring oil, a
+      simple circlet nearby. Aging David watches from a terrace in peace.
+      Succession, not a deathbed. No jeweled crown pile.
+    josias_libro: >
+      Young King Josiah in a stone hall receiving a thick blank unreadable
+      scroll, the book of the law, from a scribe. Gold light on the pages.
+      Wonder and resolve. No readable letters.
+    moises_roca: >
+      Moses striking a desert rock with his staff, a clear stream bursting
+      forth. Thirsty families gathering with jars in the background. Water
+      as mercy. No people harmed.
+
+  placas:
+    lehi_jerusalen: >
+      Prophet Lehi and his family leaving a walled ancient city at dawn,
+      packs and tents, looking back at Jerusalem on the hill. Gold light
+      on the road into the wilderness. Modest desert clothing.
+    nefi_barco: >
+      Young Nephi building a timber ship on a wild seashore, adze and
+      planks, gold sun on the hull. Ocean behind. Craft and faith, not a
+      battle. Modest Nephite clothing.
+    benjamin_torre: >
+      Aged King Benjamin speaking from a wooden tower above a field of
+      family tents. People looking up, children in laps. Gold morning.
+      A tower, not a temple interior.
+    noe_inicuo: >
+      Wicked King Noah on a carved seat, rich robes, idle gold cups, a
+      low palace terrace. Pride and ease. No fire, no prisoner, no pyre.
+    abinadi_noe: >
+      Prophet Abinadi standing before King Noah, speaking with lifted hands,
+      worn mantle, gold conviction light. The king listens with a hard face.
+      Chains optional. No flames, no pyre.
+    alma_joven: >
+      Young Alma fallen as if asleep on a dusty road, companions kneeling,
+      a column of gold-white angel light above him. Wonder, not injury.
+      Modest Nephite clothing.
+    samuel_muro: >
+      Samuel the Lamanite preaching from the top of a high stone city wall
+      at dusk, arms raised, arrows none, gold sky. People on the wall and
+      below listening. No violence in progress.
+    mosiah_jared: >
+      King Mosiah at a simple table with ancient metal plates, gold
+      translation light on his hands. Interpreters as two small glowing
+      stones, not labeled. No readable glyphs.
+    moroni_planchas: >
+      Lone Moroni at night on a hill, lowering a stack of gold plates into
+      a stone box in the earth. Quiet, last witness. Gold moonlight.
+      No battle, no readable engravings.
+    jared_senor: >
+      The brother of Jared on a mountain, sixteen small white stones in a
+      hollow, a finger of gold-white light touching one stone. Veil of light,
+      awe. No full interior temple, no facsimile plate.
+
+  hermanas:
+    rut_noemi: >
+      Two women on a dusty road at dusk, younger Ruth clinging to older
+      Naomi, refusing to turn back. Moab hills behind, Bethlehem ahead.
+      Loyalty, modest cloaks, gold last light.
+    ester_rey: >
+      Queen Esther in modest royal robes approaching a Persian king on a
+      high seat, the golden sceptre extended toward her. Courage in a vast
+      court. No violence, no blood.
+    ana_hijo: >
+      Hannah in a tabernacle courtyard at dusk, lips moving in vow, hands
+      lifted toward gold heavenly light. She asks for a son. Empty doorway
+      of a simple stone sanctuary, not an interior hall.
+    debora_juzga: >
+      Prophetess Deborah seated under a palm tree, judging Israel, people
+      waiting in a quiet line. Warm day, wooden staff, modest robes.
+      Authority without a sword fight.
+    abigail_david: >
+      Abigail on a donkey path meeting David and his men, laden with bread
+      and clusters, bowing with peace. Gold hills. She stops a quarrel.
+      No drawn swords striking anyone.
+    saba_salomon: >
+      The Queen of Sheba arriving with a small camel caravan before King
+      Solomon's pale stone palace exterior. Gifts of gold vessels, blank
+      unreadable. Diplomacy and wonder. Courtyard, not a temple interior.
+    maria_madre: >
+      A modest young woman in a simple Judean room, gold-white angel light
+      filling the doorway. Annunciation peace. No infant yet, no cross,
+      no church interior.
+    magdalena_tumba: >
+      A garden at pale dawn, Mary Magdalene before an empty stone tomb
+      doorway, linen folded, wonder on her face. Flowers, olive trees.
+      Joy and absence. No corpse, no cross.
+    viuda_blancas: >
+      A poor widow at a simple stone offering chest in an outer courtyard,
+      dropping two small blank discs. Gold light on her hands. Humble gift.
+      No readable coins, no temple interior rooms.
+    marta_parte: >
+      A modest home: Martha busy with a bowl at a table, Mary seated on
+      the floor listening to a calm teacher in gold-soft light. The better
+      part. Domestic, peaceful. No cross.
+
+  abish:
+    saria_lehi: >
+      Sariah walking beside Lehi out of Jerusalem's gate, children around
+      them, city walls behind. She looks back once. Dawn gold. Family
+      leaving home, modest desert dress.
+    abish_reina: >
+      Lamanite servant Abish standing in a palace room, the queen lying as
+      if in a peaceful sleep of light, gold on their faces. Wonder, not
+      death. Modest Lamanite clothing.
+    lamoni_esposa: >
+      The wife of King Lamoni standing in faith, hand on her heart, looking
+      toward a gold-white light while the king lies in a peaceful trance.
+      Belief. No injury shown.
+    madres_dudar: >
+      Helamanite mothers teaching a circle of young sons under a tree,
+      hands on shoulders, gold evening. They teach not to doubt. No battle,
+      no weapons in use, modest clothing.
+    eva_madre: >
+      Eve in a green garden at the world's morning, modest simple garment,
+      a river and fruit trees, gold light. Mother of all living. Peaceful
+      origin, no serpent attack, no gore.
+    maria_hijo: >
+      Open Nephite hillside, families listening, a gold vision in the sky
+      of a modest young mother holding an infant of light. Promise that
+      Mary would be the mother of the Son. No cross, no church nave.
+    saria_bronce: >
+      Sariah in a desert camp rejoicing, hands lifted, as sons present a
+      stack of brass plates that catch the sun. Relief and gold. No
+      readable engravings.
+    abish_casas: >
+      Abish running from house to house in a Lamanite city, calling people,
+      doors opening, gold morning. Urgency and good news. Modest clothing,
+      no panic violence.
+    saria_barco: >
+      A wooden ship in a hard storm, Sariah sheltering children under a
+      cloak while waves rise. Worry and endurance, gold light in one break
+      of cloud. No wreck bodies, no gore.
+    abish_vision: >
+      Young Abish in a quiet courtyard seeing a gold-white vision of her
+      father in heavenly light. Conversion by a father's vision. Awe,
+      not fear. Modest Lamanite dress.
+
+  profetas:
+    jonas_tres: >
+      Jonah inside a vast gentle great-fish belly like a cavern of ribs,
+      amber gold light, three days of hush. Wondrous, not horror. He
+      kneels in prayer.
+    elias_cuervos: >
+      Prophet Elijah by a small wilderness brook, black ravens lowering
+      bread toward his hands. Hairy mantle, leather belt, gold dry country.
+      Fed, not starving to death.
+    daniel_tres: >
+      Daniel at an upper window, kneeling in prayer toward a distant city,
+      three times a day's quiet. Persian house, gold afternoon. Lions none.
+      Devotion, not a den.
+    jonas_tarsis: >
+      Jonah boarding a merchant ship in harbor, looking away from a gold
+      inland road. Sails, sailors, flight toward Tarshish. Sea wind.
+      No storm yet, no fish.
+    naaman_jordan: >
+      A man standing in a wide calm river at dusk, gold light on the
+      water, servants waiting on the bank. Simple obedience. Peaceful,
+      family-safe, modest clothing. No illness shown.
+    elias_siete: >
+      Elijah on a Carmel ridge looking toward a distant sea, a servant
+      climbing to look a seventh time. Tiny cloud far off. Gold evening.
+      No altar fire, no consumed offering.
+    tres_horno: >
+      Three young men in modest Babylonian dress standing together before
+      a great brick furnace mouth, a king on a terrace watching. Gold sky.
+      Courage before the fire. No people in flames.
+    elias_manto: >
+      Elijah striking the Jordan with his folded mantle, water standing
+      in two walls, a dry path. Elisha beside him. Gold sun. Not Jonah,
+      no fish.
+    isaias_templo: >
+      Isaiah at the threshold of Solomon's temple courtyard, looking up
+      as gold-white heavenly light fills the open court and porch.
+      Seraph-like glow in the air. Courtyard and threshold only, no
+      interior ordinance rooms, no Christian cross.
+    eliseo_carros: >
+      Elisha looking up as a chariot of fire and horses of fire lift
+      Elijah into a gold sky, the mantle falling toward Elisha's hands.
+      No people harmed.
+
+  jehova:
+    zarza_yo_soy: >
+      Moses before a desert bush that burns with gold-white fire and is
+      not consumed. He unlaces a sandal. Presence saying I AM. No readable
+      letters in the flame.
+    mar_rojo: >
+      The Lord as a pillar of gold fire at the shore, Moses' staff raised,
+      the Red Sea standing in two walls. Emphasis on the divine opening.
+      Empty dry path. No army slaughter.
+    no_salvador: >
+      A lone prophet on a ridge under a single column of gold heavenly
+      light, lesser stone idols in shadow at his feet. Besides this light
+      there is no Savior. No other gods shining. No cross.
+    kirtland_senor: >
+      Night snow, exterior of a modest 1830s meetinghouse with pale walls
+      and tall windows. Intense gold light pouring out through the glass
+      onto the snow. Silhouettes outside looking toward the glow. No
+      interior, no temple ordinance room. 1830s American clothing.
+    ley_moises: >
+      The living Lord in gold-white light teaching on an open Nephite
+      hillside, a faint vision of Sinai and Moses in the clouds above.
+      He who gave the law. Blank unreadable tablets in the vision. No
+      temple interior, no cross.
+    antes_abraham: >
+      A teacher in gold-soft light speaking in a stone Judean courtyard,
+      older than the stones, presence of I AM before Abraham. Listeners
+      in modest robes. No crucifix, no church nave.
+    omnipotente_descendio: >
+      A gold-white personage descending through clouds toward a green
+      Nephite land, people looking up from fields. The Lord Omnipotent
+      coming down. Hope, not a nativity, not a cross.
+    jared_padre_hijo: >
+      The brother of Jared fallen in awe before a luminous personage of
+      gold-white light, glowing stones nearby. The Lord as Father and Son
+      revealed. Mountain cave mouth, not a temple interior.
+    dios_egipto: >
+      Night exodus: families walking between dunes, a pillar of fire
+      leading them from Egypt. Moses ahead. The God of Abraham bringing
+      them out. Gold fire-cloud. No army massacre.
+    nube_nombre: >
+      A darkened Nephite land under a vast gold-white speaking cloud,
+      quiet empty streets, no fallen bodies. The Lord naming himself from
+      the cloud. Presence without readable words. No destruction gore.
+
+  nazareno:
+    nacio_belen: >
+      A modest Bethlehem stable cave, Mary and Joseph, a swaddled infant
+      in a manger, gold-warm light. Shepherds at the door. Birth peace.
+      No cross, no church interior.
+    bautizo_juan: >
+      Jesus standing in the Jordan as John baptizes him, gold-white dove
+      light above the water. River reeds, modest clothing. Heaven opening.
+      No crowd violence.
+    cana_vino: >
+      A wedding courtyard at Cana, stone water jars, a servant pouring
+      dark wine, Jesus nearby in quiet gold light. Joy of a feast. Modest
+      guests. No drunken chaos.
+    cinco_mil: >
+      A grassy hillside, Jesus blessing a small basket, loaves and fish
+      multiplying in gold light, a great seated crowd in modest clothes.
+      Feeding five thousand. Open air, not a hall.
+    camino_mar: >
+      Night sea, Jesus walking on dark water toward a small boat, gold
+      path on the waves. Disciples watching in awe. Wind, not a wreck.
+      No drowning figures.
+    getsemani: >
+      An olive grove at night, a kneeling figure in gold-white anguish
+      light among the trees, companions sleeping at a distance. Gethsemane.
+      Sorrow without gore, no wounds shown, no cross.
+    crucificado: >
+      A distant dark hill under a bruised sky, sorrowing figures in modest
+      cloaks in the foreground, gold-thin last light. Grief of that hour.
+      Empty hillside, no religious symbols, no violence.
+    magdalena_resucitado: >
+      A garden at sunrise, Mary Magdalene recognizing the risen Lord
+      standing in gold-white living light among flowers. Joy, empty stone
+      doorway behind. No wounds, no body.
+    abundancia: >
+      Open-air Nephite temple courtyard of Bountiful, pale stone platform
+      and sky, the living Christ descending in gold-white light as people
+      look up. Courtyard and threshold only. Not an LDS temple, no interior
+      ordinance rooms, no steeple of a modern church.
+    ninos_uno: >
+      The living Christ seated in an open Nephite courtyard, blessing
+      children one by one, a parent kneeling nearby. Gold-soft light,
+      tenderness. Modest clothing. No crowd crush, no close-up of a child.
+
+  moises:
+    moises_cara: >
+      Moses on a high mountain in overwhelming gold-white light, seeing
+      God as a personage of glory face to face. His own face beginning
+      to shine. Rock, sky, no temple interior.
+    satanas_tento: >
+      Moses standing firm in gold heavenly light while a proud darker
+      silhouette stays far off at the edge of the picture. Contrast of
+      light and shadow. Calm courage, family-safe, no horror.
+    cielo_tierra: >
+      The first creation: gold light dividing from deep waters, a new
+      earth and sky taking shape. Painterly cosmos, no diagrams, no
+      labels, no facsimile plates.
+    polvo_hombre: >
+      Gold hands of heavenly light forming a man from red dust in a quiet
+      garden hollow. Adam rising. Modest, stylized, family-safe. No medical
+      anatomy.
+    eden_adan: >
+      Adam and Eve in a lush garden, modest simple garments, a river and
+      two great trees, gold morning. Peace before the leaving. No nudity,
+      no serpent striking.
+    la_caida: >
+      Adam and Eve walking out through a garden gate in modest garments
+      of skins, looking back at gold light behind them. The fall as exile.
+      A distant serpent-shadow only. No gore.
+    adan_sacrificio: >
+      Adam at a simple stone altar in open country, looking up as gold
+      fire accepts an offering. An angel of light teaching nearby. No
+      blood, no slaughtered animal shown.
+    enoc_sion: >
+      Enoch preaching among a city of pale stone and tents, people of one
+      heart gathered, gold evening on Zion. A prophet raising a people.
+      Modest clothing, no battle.
+    enoc_noe: >
+      Enoch on a high place seeing, in a valley below, Noah building a
+      great ark among trees. Vision across generations. Gold air. Family-safe,
+      no flood drownings.
+    sion_cielo: >
+      The city of Zion lifting into gold clouds, streets and people
+      becoming light, Enoch looking up with joy. Taken to heaven. No
+      wreckage, no temple interior.
+
+  abraham:
+    salio_ur: >
+      Abraham and his household leaving the ziggurat city of Ur at dawn,
+      camels and packs, looking toward a gold open country. Departure in
+      faith. Modest Mesopotamian dress.
+    sacerdotes_altar: >
+      A stone altar and priests of Pharaoh in a court, Abraham standing
+      bound nearby, a sudden column of gold heavenly light delivering him.
+      Rescue. No blood, no knife on skin, no gore.
+    senor_libero: >
+      Abraham walking free from the court into gold morning, the Lord's
+      light as a shield at his back, priests fallen back in awe. Deliverance
+      complete. No violence in progress.
+    tierra_simiente: >
+      Abraham under a vast night sky, tent behind him, looking at countless
+      stars. Promise of land and seed. Gold starlight. No city diagram,
+      no readable map.
+    sarai_egipto: >
+      Abraham and Sarai on a desert road toward Egypt's distant river and
+      pylons, modest travel clothes, a small caravan. Going down to Egypt.
+      Gold haze. No palace intrigue violence.
+    sacerdocio_padres: >
+      Aged patriarchs in modest robes laying hands on Abraham's head in
+      a quiet courtyard, gold priesthood light. The priesthood from the
+      fathers. Peace, no temple interior.
+    dioses_organizaron: >
+      The Gods organizing creation: gold personages of light above ordered
+      waters and land taking shape. Painterly cosmos. No facsimile plate,
+      no labels, no Egyptian diagrams.
+    imagen_dioses: >
+      A man and a woman standing in a new garden, modest garments, gold
+      light shaping them after the image of heavenly personages in the
+      sky. Dignity. No anatomy study.
+    dia_septimo: >
+      Quiet seventh-day rest: finished earth in gold evening, heavenly
+      personages at peace above a still garden. Rest, not labor. No
+      readable calendar.
+    lumbreras: >
+      Night and day in one vertical sky: a great sun, a silver moon, and
+      ordered stars placed by gold heavenly hands. The Gods ordering the
+      lights. No facsimile, no star chart labels.
+
+  kolob:
+    cerca_trono: >
+      Nested heavens, one immense warm star close to a throne of gold
+      light in the highest sky. Kolob near the throne of God. Pure sky,
+      no plate, no diagram, no labels.
+    gobierna_astros: >
+      A great governing star whose gold rays order lesser stars in
+      circling ranks. Kolob ruling the other lights. Nested heavens.
+      No facsimile, no readable names.
+    mil_anos: >
+      Nested rings of gold time-light around one great star, earthly
+      night small below. A day of Kolob as a thousand years. Sky only,
+      no clock faces, no numbers.
+    oliblish: >
+      Two great companion stars in a deep gold-blue heaven, one slightly
+      lesser, both vast. Kolob and Oliblish as lights. No labels, no
+      facsimile plate.
+    urim_tumim: >
+      Abraham in a desert night holding two small glowing stones, looking
+      up at one great star. Learning by Urim and Thummim. Stones of light,
+      not labeled plates, no Egyptian figures.
+    mayor_menor: >
+      A ladder of stars from a small spark to a greater gold sun, ordered
+      from greater to lesser. Abraham's sky. No diagram arrows, no text.
+    mas_inteligente: >
+      Among countless lights, one supreme gold personage of intelligence
+      brighter than every star. The Lord more intelligent than all. Sky
+      and nested heavens, no facsimile.
+    cuerpos_luz: >
+      Many bodies of light in nested heavens, one star nearest the gold
+      throne-glow. Kolob closest of all. Pure astronomy of glory, no
+      plate, no labels.
+    tiempo_senor: >
+      A great star whose slow gold pulse is the Lord's time, lesser worlds
+      turning faster below. Time of Kolob as the Lord's time. No clocks,
+      no numbers.
+    hay_mayor: >
+      Two stars of different sizes, and above them a still greater gold
+      light. If two things exist, there is a greater. Nested heavens.
+      No labels, no facsimile.
+
+  premortal:
+    eramos_inteligencias: >
+      A deep gold heaven of countless small spirit-lights, intelligences
+      before birth, gentle and bright. We were spirits. No bodies of
+      flesh yet, no diagrams.
+    a_quien_envio: >
+      A council in the heavens, a Father of gold light, two noble figures
+      stepping forward. Whom shall I send. Dignity, not a quarrel of fists.
+      Nested heavens.
+    primero_heme: >
+      The first beloved figure in gold-white light, hand on heart, offering
+      to go. Here am I, send me. Peace and willingness. No crown fight.
+    segundo_satanas: >
+      A proud darker silhouette at the edge of a heavenly court, lesser
+      lights shrinking back. Pride of the second volunteer. Family-safe,
+      no horror, no monsters.
+    primogenito: >
+      The Father of lights placing a gold mantle of trust on the Firstborn,
+      the willing one. Choice of the Beloved. Heavenly court, nested
+      heavens. No temple interior.
+    jeremias_conocido: >
+      A gold spirit-light of a prophet known before birth, and below a
+      small earthly infant in a modest room, the same soul. Jeremiah
+      known beforehand. Gentle, family-safe.
+    principio_dios: >
+      A human spirit-light standing beside a personage of God in the
+      first heaven. Man was in the beginning with God. Companionship of
+      light. No flesh anatomy.
+    llamados_preparados: >
+      Many noble spirit-lights gathered in ranks of gold, prepared and
+      called. Foreordination as a quiet assembly. Nested heavens, no
+      name tags.
+    lecciones_antes: >
+      Spirit-lights seated in a heavenly grove of gold, learning from
+      personages of light before birth. Lessons in the first estate.
+      Peaceful school of heaven, no chalkboard text.
+    gritaron_gozo: >
+      Creation morning: stars and spirit-children of God shining, faces
+      of light lifted in joy, shouting without readable words. The sons
+      of God shouted for joy. Sky and new earth below.
+
+  exaltacion:
+    obra_gloria: >
+      A path of gold light toward distant immortal hills, a modest family
+      walking it. God's work and glory: immortality and eternal life.
+      Hope, not a palace of gold type.
+    vida_eterna: >
+      Two personages of gold-white light, the Father and the Son, known
+      and near, a disciple looking on in a quiet garden. Eternal life is
+      to know them. No cross, no interior temple.
+    iglesia_cordero: >
+      A modest congregation in cream clothes gathered in an open courtyard,
+      a living lamb of gold light above them. Church of the Lamb. Peace.
+      No slain animal, no cathedral nave.
+    tres_grados: >
+      A family on a hill looking up at three nested globes of gold light
+      in the sky, one brighter than the next. Three degrees of glory.
+      No labels, no diagram arrows.
+    matrimonio_eterno: >
+      A modest couple joining hands under an outdoor gold canopy of light
+      in a garden at evening. Covenant of eternal marriage. No temple
+      sealing room, no interior ordinance hall.
+    perseverar: >
+      A traveler on a long dusty road toward a gold horizon, staff in
+      hand, not yet arrived. Endure to the end. Modest clothes, hope.
+      No finish-line banner text.
+    sed_perfectos: >
+      Jesus teaching on a Galilean hillside, disciples listening, gold
+      afternoon. Be ye therefore perfect. Open air sermon, modest robes.
+      No church interior, no cross.
+    familias_selladas: >
+      Three generations in a circle outdoors at dusk, a ring of gold light
+      around them. Families sealed. Tenderness. No temple interior, no
+      altar of sacrifice.
+    gracia_gracia: >
+      A disciple walking from dim dawn into increasing gold, light upon
+      light. Grace for grace. A simple path, a modest figure. No readable
+      rungs of a chart.
+    presencia_padre: >
+      A family approaching two personages of gold-white light, the Father
+      and the Son, in a vast peaceful heaven. They shall dwell in that
+      presence. No throne-room temple interior, no cross.
+
+  jose:
+    nacio_sharon: >
+      A small snowy Vermont farmhouse in winter, warm gold in one window,
+      1805 American frontier. Birthplace at Sharon. Modest wooden house,
+      pines. 1800s clothing if figures appear. No church steeple cross.
+    bosquecillo: >
+      Young Joseph in 1820s homespun in a grove of trees, looking up at
+      two personages of gold-white light, the Father and the Son. Sacred
+      grove. No crucifix, no steeple.
+    moroni_planchas: >
+      A gold-white messenger in a modest 1820s bedroom, speaking to young
+      Joseph of a book on gold plates. Wonder. Plates suggested, no
+      readable engravings. Period American clothing.
+    cerro_planchas: >
+      Night on a New York hill, young Joseph lifting a stone lid from a
+      box of gold plates, Moroni's light nearby. Receiving the plates.
+      1820s clothing. No battle, no labeled facsimile.
+    oliver_traduce: >
+      Joseph and Oliver Cowdery at a wooden table in a modest 1820s room,
+      gold translation light, plates covered nearby. Translating together.
+      Blank unreadable pages. Period clothing.
+    emma_esposa: >
+      Emma in a simple 1830s dress in a quiet domestic room, gold
+      revelation light, peace on her face. The Lord speaking to her as
+      wife. No church interior. Period American clothing.
+    liberty_donde: >
+      Joseph in a small stone jail cell, a high tiny window, a shaft of
+      cold light. He kneels and cries out in prayer. Liberty Jail.
+      Anguish without torture, no chains cutting flesh, no blood.
+    experiencia: >
+      The same stone cell in softer gold light, Joseph seated in weary
+      calm as comfort fills the room. All these things shall give thee
+      experience. Hope returning. No torture, no gore.
+    carthage_cordero: >
+      Interior of a small 1840s jail room, one window with gold afternoon
+      light, Joseph standing calm as a lamb, coat buttoned. Carthage jail
+      before any shot. No guns, no firing squad, no gunfire, no assassination.
+    salvo_jesus: >
+      Joseph in 1840s clothing teaching with gold plates at his side, and
+      above him the living resurrected Christ in gold-white light, standing,
+      not suffering. Salvation of a generation. No cross, no crucifix,
+      no martyrdom scene.
+
+  inicios:
+    seis_abril: >
+      A small log farmhouse in spring, a handful of 1830s saints in a
+      modest room organizing a church, April light. Fayette gathering.
+      Period clothing. No gold lettering of a date.
+    vidente_profeta: >
+      Joseph standing among early saints outdoors, 1830s coats, called
+      seer, translator, prophet. Simple meeting, gold quiet light. No
+      cathedral, no crown.
+    kirtland_dedico: >
+      Exterior of a modest 1830s meetinghouse newly finished, pale walls,
+      people in period clothing gathered at the doors. Gold light through
+      the windows from outside at dedication. No interior, no ordinance
+      rooms, no modern temple spires.
+    ley_kirtland: >
+      A wooden 1830s Ohio meetinghouse exterior and muddy street, saints
+      receiving a law, Joseph among them, gold afternoon. Kirtland, Ohio.
+      Period clothing. No temple interior.
+    independencia: >
+      A Missouri prairie, a modest 1830s settlement, saints looking toward
+      a center place on the open land. Independence as the center. Gold
+      grass. No temple building depicted.
+    misuri: >
+      Families in 1830s clothing walking a winter road with bundles and a
+      wagon, hardship in Missouri. Cold sky, endurance. No mob violence
+      in progress, no guns firing, no blood.
+    campamento_sion: >
+      A column of 1830s men with staffs and packs walking a dusty road,
+      evening camp in the distance. Zion's Camp on the march. Resolve.
+      No battle scene.
+    nauvoo_hermosa: >
+      A brick river town on the Mississippi, 1840s houses and gardens,
+      gold evening on the water. Nauvoo the Beautiful. City and river
+      only. No temple building, no temple interior.
+    pioneros_desierto: >
+      Covered wagons in sagebrush desert, 1840s pioneers, a leader with a
+      blank unreadable page in gold evening light. Word in the wilderness.
+      Period clothing. No readable trail signs.
+    iglesia_verdadera: >
+      A modest 1830 congregation in cream and brown clothes before a small
+      meetinghouse exterior, gold light on the company. The true and living
+      church as a people. No cathedral, no cross on a steeple.
+
+  pruebas_profetas:
+    jeremias_cisterna: >
+      Jeremiah being lowered by ropes into a dry stone cistern, looking
+      up at a circle of sky. Mud at the bottom, not drowning. Prison of
+      a pit. No gore, no beating.
+    elias_jezabel: >
+      Elijah fleeing into the wilderness, sitting under a broom tree,
+      exhausted, gold harsh light. Flight from Jezebel. Hairy mantle.
+      Alone, not captured, no queen's violence shown.
+    abinadi_condenado: >
+      Prophet Abinadi standing before King Noah in judgment, optional
+      chains on his wrists, speaking still. Guards at the sides. Condemned,
+      not executed. No pyre, no flames on a person, no burning at the stake.
+    lehi_desierto: >
+      Lehi's family in a hard desert camp, empty bowls, tents, gold severe
+      sun. Suffering in the wilderness. Endurance. Modest clothing, no
+      attack scene.
+    alma_amoniah: >
+      Alma and Amulek in a dark stone prison at Ammonihah, a small high
+      window, sitting in patience. Gold thin light. Prison, not a collapse.
+      No beating shown, no fire on people.
+    nefi_atado: >
+      Nephi bound with cords on a wooden ship's deck, storm around, family
+      arguing in the background. Bound on the ship. Distress without gore.
+      Ropes, not wounds.
+    liberty_paz: >
+      Joseph in Liberty's stone cell, small window, a warm gold light on
+      his face as peace fills him. Peace to thy soul. Comfort, not the
+      cry of where art thou. No torture, no blood.
+    noe_no_escucho: >
+      Noah preaching beside a rising ark, a crowd turning away laughing
+      or busy. The world would not hear. Gold sky. No flood drownings,
+      no violence.
+    isaias_no_oiria: >
+      Isaiah speaking in Solomon's temple courtyard at the threshold,
+      people covering ears or turning away. Sent to a people who would
+      not hear. Courtyard only, no interior rooms, no Christian cross.
+    bienaventurados_vituperio: >
+      Jesus teaching on a hillside, some listeners peaceful, a few turning
+      away with hard faces. Blessed when they revile you. Open air, modest
+      robes. No stones thrown, no cross.
+
+  pruebas_heroes:
+    job_no_maldijo: >
+      Job sitting on the ground among broken pots, torn modest robe,
+      looking upward in faith. He lost much and did not curse God. Empty
+      homestead behind. No sores, no corpses, no gore.
+    jose_vendido: >
+      Young Joseph standing by a camel caravan, brothers turning away,
+      unreadable silver discs in a hand. Sold by his brothers. Desert
+      road. No beating in progress, no blood.
+    jose_carcel: >
+      Joseph in an Egyptian prison corridor of stone, a small window,
+      calm dignity. Put in jail. Modest clothing. No torture, no gore.
+    daniel_foso: >
+      Daniel seated in a stone den among lions that lie at peace, moonlight
+      and gold hush. The pit as trial. Lions not attacking. No mauling,
+      no blood.
+    ester_peligro: >
+      Esther paused in a vast court doorway, pale with the danger of
+      uninvited approach, the distant throne and guards ahead. Risking
+      her life. Tension without a drawn execution. No blood.
+    david_huyo: >
+      Night, young David climbing from a window on a rope, Saul's palace
+      silhouette behind. He fled from Saul. Michal watching. Escape, not
+      a spear in flesh. No blood.
+    rut_espigo: >
+      Ruth gleaning leftover barley in a sunlit field for Naomi, modest
+      dress, sheaves, gold afternoon. Labor and loyalty. No hunger as
+      starvation horror.
+    ana_lloro: >
+      Hannah weeping in a sanctuary courtyard, empty hands, tears, a
+      distant priest. She wept because she had no son. Sorrow. Simple
+      stone court, not an interior hall. No close-up of a child.
+    jovenes_fuego: >
+      Three young men walking unharmed inside a great gold fire, a fourth
+      figure of light with them, a king watching in awe from a terrace.
+      They walk in the fire. Fire as glory, not people burning, no gore.
+    jose_bien: >
+      Aged Joseph in Egypt embracing his brothers in mercy, gold hall
+      light, grain jars nearby. God meant it for good. Forgiveness.
+      No revenge, no blood.
+
+  milagros:
+    mar_abrio: >
+      Families walking a dry path between two standing walls of sea,
+      children, baskets, gold sun in the corridor of water. The Red Sea
+      opened. Passage of a people. No army destroyed in frame.
+    mana_cielo: >
+      Dawn in the camp of Israel, small pale flakes of manna on the
+      ground, people gathering into bowls, gold sky. Bread from heaven.
+      Wonder. No readable labels on jars.
+    sol_josue: >
+      Joshua on a ridge, arm raised, the sun standing still in a gold
+      sky over a quiet valley. The sun halted. Epic light, no battlefield
+      corpses, no gore.
+    aceite_viuda: >
+      A poor widow in a modest room pouring oil that never empties, many
+      jars filling, gold kitchen light. The oil did not cease. Mercy.
+      No palace.
+    jerico_cayeron: >
+      The walls of Jericho crumbling outward in dust, priests with
+      ram's horns, people at a distance. Walls fell. Empty battlements,
+      no one crushed, no gore.
+    fuego_alma: >
+      Two Nephite prophets standing unharmed in a dark stone prison, a
+      pillar of gold-white fire encircling them as a shield. Protective
+      fire. No people burning, no pyre.
+    lazaro_fuera: >
+      A garden tomb doorway, Lazarus walking out alive in loose linen,
+      family rejoicing, Jesus nearby in gold light. Come forth. A living
+      man. No corpse, no decay, no gore.
+    cojo_hermosa: >
+      The outer Beautiful Gate of a stone sanctuary, a man who was lame
+      now standing and walking, Peter and John in modest robes, gold
+      afternoon. Courtyard and gate only. No temple interior rooms.
+    zeezrom_sanado: >
+      Zeezrom sitting up from a sickbed as Alma takes his hand, gold
+      healing light. A Nephite room, modest blankets. Healing. No sores
+      shown, no gore.
+    mostaza: >
+      A weathered open palm holding one tiny mustard seed, a great
+      mountain in the gold distance. Faith as a mustard seed. Simple
+      still life and landscape. No readable words, no diagram.

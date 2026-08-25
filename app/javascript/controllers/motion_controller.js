@@ -16,6 +16,10 @@ export default class extends Controller {
   onStream(event) {
     const target = event.target.getAttribute("target")
     if (target === "live_pulses" || target === "night_presence" || target === "quiz_board" || target === "night_play") return
+    if (target === "street_quiz") {
+      event.detail.render = this.wrapStreet(event.detail.render)
+      return
+    }
     event.detail.render = this.wrap(event.detail.render)
   }
 
@@ -35,6 +39,20 @@ export default class extends Controller {
         await run()
       }
       this.markArrive()
+    }
+  }
+
+  wrapStreet(original) {
+    return async (...args) => {
+      const run = () => original(...args)
+      if (!document.startViewTransition || this.reduced()) return run()
+
+      try {
+        const transition = document.startViewTransition(run)
+        await transition.finished
+      } catch (_error) {
+        await run()
+      }
     }
   }
 

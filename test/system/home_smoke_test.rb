@@ -1,29 +1,40 @@
 require "application_system_test_case"
 
 class HomeSmokeTest < ApplicationSystemTestCase
-  test "home is a paper feed and search lives on its own page" do
+  test "home is a street quiz and nights live in the hamburger" do
     visit root_path
-    assert_text "Noche Live"
-    assert_text I18n.t("home.who")
-    assert_text I18n.t("home.search_page")
-    assert_text I18n.t("home.upcoming")
-    assert_text "Reyes y Profetas"
-    assert_no_selector ".play-reel.is-home"
-    assert_selector ".home-paper"
+    assert_selector "#street_quiz.play-reel.is-quiz.is-street"
+    assert_no_selector ".home-paper"
+    assert_no_selector ".story-ticks"
+    assert_no_selector ".play-sheet-grip"
+    assert_selector ".choice-btn"
+    assert_selector ".street-score span", text: "0"
+    assert_no_selector ".btn.btn-gold"
     assert_selector "details.home-menu"
+    assert_selector ".chrome-tools .mute + .lang-switch"
+
+    first(".choice-btn").click
+    assert_selector ".quiz-board.is-settled"
+    assert_selector ".play-sheet[data-sheet-snap=open]"
+    assert_selector ".street-score"
+    assert_text I18n.t("quiz.read_more")
+    assert_selector "a.quiet-link", text: I18n.t("quiz.read_more")
+    assert_selector "a.quiet-link .quiz-cite"
+    assert_selector ".quiz-cite", count: 1
+    assert_button I18n.t("quiz.next")
+
+    find(".home-menu-btn").click
+    find("details.home-menu").click_link I18n.t("home.nights")
+    assert_current_path nights_path
+    assert_selector ".home-paper"
+    assert_text "Reyes y Profetas"
+    assert_no_selector "#street_quiz"
     assert_no_selector ".place-input"
 
-    find(".home-doors").click_link I18n.t("home.search_page")
-    assert_current_path search_path
-    assert_selector ".place-input"
-    assert_text "Rama Benidorm"
-    assert_no_text "Rama vacía"
-
     visit root_path
-    find(".home-menu-btn").click
-    find("details.home-menu").click_link I18n.t("home.who")
-    assert_current_path about_path
-    assert_selector ".btn.btn-gold"
-    assert_no_selector "form input[name=name]"
+    find(".lang-switch > summary").click
+    click_button "Français"
+    assert_selector "html[lang=fr]"
+    assert_selector ".lang-switch > summary .picto-flag-fr"
   end
 end

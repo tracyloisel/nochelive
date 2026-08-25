@@ -2,16 +2,19 @@
 <% url = local_assigns[:url] || locale_path_for %>
 <details class="lang-switch">
   <summary aria-label="<%= t("locale.label") %>">
+    <span class="lang-flag" aria-hidden="true"><%= locale_flag(current) %></span>
     <span class="word"><%= t("locale.names.#{current}") %></span>
   </summary>
   <div class="lang-menu" role="list">
     <% Locale::AVAILABLE.each do |code| %>
-      <%= button_to t("locale.names.#{code}"),
-            url,
+      <%= button_to url,
             method: :patch,
             params: { locale: code },
             class: [ "lang-opt", ("is-on" if code == current) ],
-            form_class: "lang-form" %>
+            form_class: "lang-form" do %>
+        <span class="lang-flag" aria-hidden="true"><%= locale_flag(code) %></span>
+        <span class="lang-name"><%= t("locale.names.#{code}") %></span>
+      <% end %>
     <% end %>
   </div>
 </details>

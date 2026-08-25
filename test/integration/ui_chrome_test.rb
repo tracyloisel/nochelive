@@ -13,20 +13,21 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     assert_includes response.body, "/sfx/tick.mp3"
     assert_select "audio#noche_sfx_gate[playsinline]"
     assert_select "audio#noche_sfx_gate[src='/sfx/tick.mp3']"
-    assert_select ".play-reel", count: 0
-    assert_select ".home-paper"
-    assert_select "img.night-poster"
-    assert_select "h1", text: "Noche Live"
+    assert_select "#street_quiz.play-reel.is-quiz.is-street"
+    assert_select ".home-paper", count: 0
     assert_select "details.home-menu:not([open])"
+    assert_select "details.home-menu a[href=?]", nights_path
     assert_select "details.home-menu a[href=?]", search_path
     assert_select "details.home-menu .place-input", count: 0
-    assert_select ".home-paper .place-input", count: 0
     assert_select "details.home-code .code-input"
-    assert_select ".home-upcoming .night-hit"
-    assert_select ".ward-hit", count: 0
     assert_select ".story-ticks", count: 0
     assert_select ".play-sheet-grip", count: 0
+    assert_select ".street-score span", text: "0"
     assert_select ".btn.btn-gold", count: 0
+    assert_select ".mute"
+    assert_select ".chrome-tools .mute + .lang-switch"
+    assert_select ".lang-switch > summary .picto-flag-es"
+    assert_select "details.home-menu .lang-switch", count: 0
   end
 
   test "every named cue is a public mp3" do
@@ -37,10 +38,19 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test "every street quiz still is a public jpeg" do
+    QuizDefinition.catalog.all_questions.each do |question|
+      get "/media/#{question.presentation['image']}"
+      assert_response :success, "missing #{question.presentation['image']}"
+      assert_match %r{image/jpeg}, response.media_type
+    end
+  end
+
   test "design tokens and motion live in the stylesheet" do
     css = Rails.root.join("app/assets/stylesheets/application.css").read
     assert_includes css, ".sfx-gate"
     assert_includes css, ".mute > * { grid-area: 1 / 1; }"
+    assert_includes css, ".chrome-tools"
     assert_includes css, "--paper:"
     assert_includes css, "--space-4:"
     assert_includes css, "--dur-press:"
@@ -61,8 +71,20 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     assert_includes css, ".home-menu"
     assert_includes css, ".rama-grid"
     assert_includes css, ".home-paper"
+    assert_includes css, ".play-reel.is-street"
+    assert_includes css, "color-mix(in srgb, var(--surface) 42%, transparent)"
+    motion = Rails.root.join("app/javascript/controllers/motion_controller.js").read
+    assert_includes motion, 'target === "street_quiz"'
+    assert_includes motion, "wrapStreet"
+    assert_includes css, "view-transition-name: street-sheet"
+    assert_includes css, "view-transition-name: street-score"
+    assert_includes css, ".play-reel.is-street .street-score"
+    assert_includes css, ".play-reel.is-street.is-quiz .play-sheet-body"
+    assert_includes css, "padding: calc(var(--space-6) + var(--space-2)) var(--space-6)"
+    assert_includes css, ".play-reel.is-street .quiz-bar.is-right"
     assert_includes css, ".play-reel.is-join .play-sheet[data-sheet-snap=\"mid\"]"
     assert_includes css, ".play-timer"
+    assert_includes css, "body[class*=\"is-fx-\"]::after { display: none; }"
     assert_includes css, ".story-close"
     assert_includes css, ".story-ticks"
     assert_includes css, ".story-audience"

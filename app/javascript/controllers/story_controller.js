@@ -1,11 +1,13 @@
 import { Controller } from "@hotwired/stimulus"
 
 const AVOID = "button, a, input, textarea, select, label, .buzz, .choice-btn, .quiz-bar, .quiz-next, .btn, .story-sheet, .play-sheet, .desk-sheet, .play-sheet-body, .play-sheet-grip, .claim-veil, .claim-modal"
+const STREET_AVOID = "button, a, input, textarea, select, label, .buzz, .choice-btn, .quiz-bar, .quiz-next, .btn, .play-sheet-grip, .home-menu, .chrome-tools, .mute, .lang-switch, .claim-veil, .claim-modal"
 
 export default class extends Controller {
   static targets = [ "page", "sheet", "tick", "liveChip", "score", "scoreBtn" ]
   static values = {
     exitUrl: String,
+    street: { type: Boolean, default: false },
     index: { type: Number, default: 0 },
     liveIndex: { type: Number, default: 0 }
   }
@@ -30,7 +32,7 @@ export default class extends Controller {
   start(event) {
     if (this.exiting) return
     if (event.pointerType === "mouse" && event.button !== 0) return
-    if (event.target.closest(AVOID)) return
+    if (event.target.closest(this.streetMode() ? STREET_AVOID : AVOID)) return
 
     this.dragging = true
     this.moved = false
@@ -65,7 +67,7 @@ export default class extends Controller {
     this.lastY = event.clientY
     this.lastAt = now
 
-    if (this.axis === "y" && dy > 0) {
+    if (this.axis === "y" && dy > 0 && !this.streetMode()) {
       const p = Math.min(1, dy / (window.innerHeight * 0.45))
       this.element.style.setProperty("--story-pull", `${dy * 0.92}px`)
       this.element.style.setProperty("--story-scale", String(1 - p * 0.08))
@@ -85,12 +87,16 @@ export default class extends Controller {
     const dy = y - this.startY
 
     if (!this.moved) {
-      this.tap(this.startX)
+      if (!this.streetMode()) this.tap(this.startX)
       this.clearPull()
       return
     }
 
     if (this.axis === "y") {
+      if (this.streetMode()) {
+        this.clearPull()
+        return
+      }
       if (dy > 88 || this.vy > 0.5) {
         this.exit()
         return
@@ -111,17 +117,33 @@ export default class extends Controller {
   }
 
   prev() {
+    if (this.streetMode()) {
+      this.streetQuiz()?.rewind()
+      return
+    }
     if (this.indexValue <= 0) return
     this.show(this.indexValue - 1, true)
   }
 
   next() {
+    if (this.streetMode()) {
+      this.streetQuiz()?.advance()
+      return
+    }
     if (this.pageTargets.length === 0) return
     if (this.indexValue >= this.pageTargets.length - 1) {
       this.openSheet()
       return
     }
     this.show(this.indexValue + 1, true)
+  }
+
+  streetMode() {
+    return this.streetValue || this.element.id === "street_quiz"
+  }
+
+  streetQuiz() {
+    return this.application.getControllerForElementAndIdentifier(this.element, "quiz")
   }
 
   jump(event) {
@@ -216,11 +238,11 @@ export default class extends Controller {
         this.paintScore()
         return
       }
-      this.exit(event)
+      if (!this.streetMode()) this.exit(event)
     }
     if (event.key === "ArrowLeft") this.prev()
     if (event.key === "ArrowRight") this.next()
-    if (event.key === "ArrowUp") this.openSheet()
+    if (event.key === "ArrowUp" && !this.streetMode()) this.openSheet()
   }
 
   clearPull() {

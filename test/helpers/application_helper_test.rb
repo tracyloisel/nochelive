@@ -178,6 +178,7 @@ class ApplicationHelperTest < ActionView::TestCase
     assert_includes picto("fire"), "picto-fire"
     assert_includes picto("crown"), "picto-crown"
     assert_includes picto("scroll"), "picto-scroll"
+    assert_includes picto("arrow"), "picto-arrow"
     assert_equal "circle", choice_mark(0)[:shape]
     assert_equal "gold", choice_mark(0)[:tone]
     assert_equal "star", choice_mark(3)[:shape]
@@ -267,5 +268,39 @@ class ApplicationHelperTest < ActionView::TestCase
     assert_not phone_quiz?(round_runs(:salomon), players(:lucia))
     assert phone_quiz_asking?(round_runs(:salomon), players(:daniel))
     assert_not phone_quiz_asking?(round_runs(:salomon), players(:lucia))
+  end
+
+  test "street audio uses one named cue and stops the bed when settled" do
+    digest = GameSession.digest_token("helper-street")
+    frame = Quizzes::Draw.call(device_digest: digest)
+    ask = street_audio_data(frame.run, frame.question)
+    assert_equal "question_change", ask[:stage_sfx_value]
+    assert_nil ask[:stage_bed_value]
+    assert_match(/:ask\z/, ask[:stage_sfx_token_value])
+
+    Quizzes::Submit.call(run: frame.run, choice_key: frame.question.correct_choice)
+    settled = street_audio_data(frame.run.reload, frame.question)
+    assert_equal "correct_gold", settled[:stage_sfx_value]
+    assert_equal "gold", settled[:stage_fx_value]
+    assert_nil settled[:stage_bed_value]
+    assert_match(/:settled:correct\z/, settled[:stage_sfx_token_value])
+  end
+
+  test "street slam ask uses round_start and pack done uses royal_fanfare" do
+    digest = GameSession.digest_token("helper-slam")
+    run = Quizzes::Draw.call(device_digest: digest).run
+    run.update!(position: 10, ends_at: 15.seconds.from_now)
+    slam = street_audio_data(run, run.question)
+    assert_equal "round_start", slam[:stage_sfx_value]
+    assert_equal "timer_tension", slam[:stage_bed_value]
+    assert slam[:stage_timer_end_value].present?
+    assert_equal 15, slam[:stage_timer_duration_value]
+
+    Quizzes::Submit.call(run:, choice_key: run.question.correct_choice)
+    Quizzes::Complete.call(run: run.reload)
+    done = street_audio_data(run.reload, run.question)
+    assert_equal "royal_fanfare", done[:stage_sfx_value]
+    assert_equal "level", done[:stage_fx_value]
+    assert_nil done[:stage_bed_value]
   end
 end

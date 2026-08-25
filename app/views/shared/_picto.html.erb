@@ -112,6 +112,9 @@
     <circle cx="32" cy="32" r="24" fill="#d4a017"/>
     <rect x="28" y="16" width="8" height="32" rx="3" fill="#1a2744"/>
     <rect x="16" y="28" width="32" height="8" rx="3" fill="#1a2744"/>
+  <% when "arrow" %>
+    <path d="M12 32 H40" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
+    <path d="M30 16 L48 32 L30 48" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
   <% when "undo" %>
     <path d="M20 28a16 16 0 1 1 4 16" fill="none" stroke="#1a2744" stroke-width="6" stroke-linecap="round"/>
     <path d="M12 16 L20 30 L32 22" fill="#d4a017"/>
@@ -151,6 +154,24 @@
     <ellipse cx="30" cy="32" rx="18" ry="12" fill="#d4a017"/>
     <path d="M46 32 L58 18 V46Z" fill="#1a2744"/>
     <circle cx="24" cy="28" r="3" fill="#1a2744"/>
+  <% when "flag-es" %>
+    <rect width="64" height="64" fill="#c60b1e"/>
+    <rect y="16" width="64" height="32" fill="#ffc400"/>
+  <% when "flag-pt" %>
+    <rect width="64" height="64" fill="#009c3b"/>
+    <polygon points="32,8 56,32 32,56 8,32" fill="#ffdf00"/>
+    <circle cx="32" cy="32" r="11" fill="#002776"/>
+    <path d="M22 34c4-4 16-4 20 0" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+  <% when "flag-fr" %>
+    <rect width="22" height="64" fill="#002395"/>
+    <rect x="22" width="20" height="64" fill="#fff"/>
+    <rect x="42" width="22" height="64" fill="#ed2939"/>
+  <% when "flag-en" %>
+    <rect width="64" height="64" fill="#012169"/>
+    <path d="M0 0 L64 64 M64 0 L0 64" stroke="#fff" stroke-width="14"/>
+    <path d="M0 0 L64 64 M64 0 L0 64" stroke="#c8102e" stroke-width="8"/>
+    <path d="M32 0 V64 M0 32 H64" stroke="#fff" stroke-width="20"/>
+    <path d="M32 0 V64 M0 32 H64" stroke="#c8102e" stroke-width="12"/>
   <% when "menu" %>
     <path d="M14 18h36 M14 32h36 M14 46h36" fill="none" stroke="#1a2744" stroke-width="6" stroke-linecap="round"/>
   <% when "land" %>

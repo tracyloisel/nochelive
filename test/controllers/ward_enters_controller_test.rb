@@ -6,7 +6,7 @@ class WardEntersControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to ward_profile_path("RAMA")
     get root_path
     assert_response :success
-    assert_select ".home-paper"
+    assert_select "#street_quiz"
   end
 
   test "rejects a missing rama" do

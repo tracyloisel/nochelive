@@ -26,10 +26,13 @@ class PlayReelVisualTest < ApplicationSystemTestCase
     assert_in_viewport ".prompt"
     assert_in_viewport ".buzz"
     mute_top = page.evaluate_script("document.querySelector('.mute').getBoundingClientRect().top")
+    lang_top = page.evaluate_script("document.querySelector('.lang-switch').getBoundingClientRect().top")
+    mute_bottom = page.evaluate_script("document.querySelector('.mute').getBoundingClientRect().bottom")
     sheet_top = page.evaluate_script("document.querySelector('.play-sheet').getBoundingClientRect().top")
     chrome_bottom = page.evaluate_script("document.querySelector('.play-chrome').getBoundingClientRect().bottom")
     ticks_top = page.evaluate_script("document.querySelector('.story-ticks').getBoundingClientRect().top")
     assert mute_top < 80, "mute should sit at the top of the play reel"
+    assert lang_top >= mute_bottom - 1, "language flags should sit under mute"
     assert ticks_top < 36, "round ticks should sit at the very top, like a story"
     tick_h = page.evaluate_script("document.querySelector('.story-tick').getBoundingClientRect().height")
     assert tick_h >= 40, "round ticks should be easy to tap"

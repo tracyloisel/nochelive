@@ -1,0 +1,1244 @@
+en:
+  quizzes:
+    coronas:
+      title: "Kings"
+      questions:
+        ungio_david:
+          question: "Who anointed David when he was still a boy?"
+          answer: "Samuel anointed him in Bethlehem, in front of his brothers."
+          choices:
+            samuel: "Samuel"
+            saul: "Saul"
+            natan: "Nathan"
+        piedras_arroyo:
+          question: "How many smooth stones did David take from the brook?"
+          answer: "He took five smooth stones from the brook."
+          choices:
+            cinco: "Five"
+            tres: "Three"
+            siete: "Seven"
+            una: "One"
+        arpa_saul:
+          question: "David’s harp soothed the troubled spirit of…"
+          answer: "When David played, Saul found relief."
+          choices:
+            saul: "Saul"
+            absalon: "Absalom"
+            goliat: "Goliath"
+        vina_nabot:
+          question: "Who wanted Naboth’s vineyard?"
+          answer: "King Ahab wanted the vineyard next to his palace."
+          choices:
+            acab: "Ahab"
+            jehu: "Jehu"
+            elias: "Elijah"
+        salomon_templo:
+          question: "What did Solomon raise in Jerusalem for the Lord?"
+          answer: "Solomon built the Lord’s house: the temple."
+          choices:
+            templo: "The temple"
+            palacio: "A palace for Pharaoh"
+            torre: "The tower of Babel"
+        juicio_madres:
+          question: "In the judgment of the two mothers, what did Solomon call for?"
+          answer: "He called for a sword. The real mother would not let the child be divided."
+          choices:
+            espada: "A sword"
+            balanza: "A pair of scales"
+            arca: "The ark"
+        arca_jerusalen:
+          question: "Where did David place the ark of the covenant?"
+          answer: "David brought the ark up to Jerusalem, with joy."
+          choices:
+            jerusalen: "Jerusalem"
+            silo: "Shiloh"
+            egipto: "Egypt"
+        sucedio_salomon:
+          question: "Who was anointed king when David was old?"
+          answer: "Solomon was anointed, and the people shouted: Long live King Solomon!"
+          choices:
+            salomon: "Solomon"
+            adonias: "Adonijah"
+            joab: "Joab"
+        josias_libro:
+          question: "What did the priest Hilkiah find in the house of the Lord, in Josiah’s day?"
+          answer: "He found the book of the law. Josiah tore his clothes when he heard it."
+          choices:
+            ley: "The book of the law"
+            mana: "A jar of manna"
+            corona: "David’s crown"
+        moises_roca:
+          question: "At Meribah, what did Moses do to the rock, instead of speaking to it?"
+          answer: "He struck the rock twice. That is why he did not enter the land."
+          choices:
+            golpeo: "He struck it"
+            canto: "He sang to it"
+            ignoro: "He walked past it"
+    placas:
+      title: "Plates"
+      questions:
+        lehi_jerusalen:
+          question: "From which city did Lehi leave with his family?"
+          answer: "The Lord told him to leave Jerusalem."
+          choices:
+            jerusalen: "Jerusalem"
+            babilonia: "Babylon"
+            egipto: "Egypt"
+        nefi_barco:
+          question: "By the sea, what did the Lord command Nephi to build?"
+          answer: "The Lord told him to build a ship, in the Lord’s way."
+          choices:
+            barco: "A ship"
+            templo: "A temple"
+            torre: "A tower"
+        benjamin_torre:
+          question: "From where did King Benjamin speak to his people?"
+          answer: "He had a tower built so the people could hear him."
+          choices:
+            torre: "A tower"
+            muro: "The city wall"
+            templo: "Solomon’s temple"
+        noe_inicuo:
+          question: "King Noah, son of Zeniff, was a king who was…"
+          answer: "Noah taxed the people and did not keep the commandments."
+          choices:
+            inicuo: "Wicked"
+            justo: "Just"
+            nino: "Still a child"
+        abinadi_noe:
+          question: "Before whom did Abinadi bear testimony?"
+          answer: "Abinadi came with the Lord’s message for Noah and his people."
+          choices:
+            noe: "King Noah"
+            mosiah: "King Mosiah"
+            lamoni: "King Lamoni"
+        alma_joven:
+          question: "What happened to Alma the Younger when an angel spoke?"
+          answer: "He fell and could not speak. The Lord had heard his father."
+          choices:
+            cayo: "He fell to the ground"
+            rey: "They made him king"
+            mar: "He fled to the sea"
+        samuel_muro:
+          question: "From where did Samuel the Lamanite preach to the Nephites?"
+          answer: "They cast him out. He climbed the wall, and they could not hit him."
+          choices:
+            muro: "The wall"
+            rio: "The river Sidon"
+            bosque: "A forest"
+        mosiah_jared:
+          question: "What records did Mosiah translate with the interpreters?"
+          answer: "He translated the records of the people of Jared, found by the people of Limhi."
+          choices:
+            jared: "Those of Jared"
+            isaias: "Isaiah"
+            brass: "Laban’s plates"
+        moroni_planchas:
+          question: "What did Moroni hide so it would come to light in the last day?"
+          answer: "Moroni finished his father’s record and hid the plates."
+          choices:
+            planchas: "The plates"
+            arca: "The ark"
+            corona: "Benjamin’s crown"
+        jared_senor:
+          question: "On the mount, whom did the brother of Jared see?"
+          answer: "The Lord showed himself. The veil was taken from his eyes."
+          choices:
+            senor: "The Lord"
+            moroni: "Moroni"
+            noe: "Noah"
+    hermanas:
+      title: "Sisters"
+      questions:
+        rut_noemi:
+          question: "Whom did Ruth stay with, instead of going back to Moab?"
+          answer: "Ruth said: where you go, I will go."
+          choices:
+            noemi: "Naomi"
+            orfa: "Orpah"
+            raquel: "Rachel"
+        ester_rey:
+          question: "Before whom did Esther appear, even without being summoned?"
+          answer: "Esther said: if I perish, I perish. She went in to the king."
+          choices:
+            rey: "The king"
+            aman: "Haman"
+            mardoqueo: "Mordecai"
+        ana_hijo:
+          question: "What did Hannah ask of the Lord at Shiloh, with a bitter soul?"
+          answer: "She asked for a son and promised to lend him to the Lord."
+          choices:
+            hijo: "A son"
+            corona: "A crown"
+            tierra: "Land"
+        debora_juzga:
+          question: "Who judged Israel under the palm tree?"
+          answer: "Deborah, a prophetess, judged Israel."
+          choices:
+            debora: "Deborah"
+            jael: "Jael"
+            rut: "Ruth"
+        abigail_david:
+          question: "Whom did Abigail stop from shedding blood?"
+          answer: "Abigail went out to meet David with bread and fruit."
+          choices:
+            david: "David"
+            naval: "Nabal"
+            saul: "Saul"
+        saba_salomon:
+          question: "Whom did the queen of Sheba visit?"
+          answer: "She came to test Solomon with hard questions."
+          choices:
+            salomon: "Solomon"
+            david: "David"
+            faraon: "Pharaoh"
+        maria_madre:
+          question: "Of whom would Mary be the mother?"
+          answer: "The angel said: you will conceive and bear a son."
+          choices:
+            jesus: "Jesus"
+            juan: "John the Baptist"
+            moises: "Moses"
+        magdalena_tumba:
+          question: "Whom did Mary Magdalene see by the empty tomb?"
+          answer: "Jesus said to her: Mary. Then she knew him."
+          choices:
+            jesus: "Jesus"
+            pilato: "Pilate"
+            caifas: "Caiaphas"
+        viuda_blancas:
+          question: "What did the poor widow put into the treasury?"
+          answer: "She put in two mites: more than all the others, because it was all she had."
+          choices:
+            blancas: "Two mites"
+            oro: "A talent of gold"
+            diezmo: "The temple tithe"
+        marta_parte:
+          question: "Jesus told Martha that Mary had chosen…"
+          answer: "Mary sat to listen. That would not be taken from her."
+          choices:
+            parte: "The good part"
+            cocina: "The kitchen"
+            corona: "A crown"
+    abish:
+      title: "Abish"
+      questions:
+        saria_lehi:
+          question: "With whom did Sariah leave Jerusalem?"
+          answer: "Sariah left with Lehi, her husband, and their sons."
+          choices:
+            lehi: "Lehi"
+            laban: "Laban"
+            ismael: "Ishmael"
+        abish_reina:
+          question: "Abish was a servant of…"
+          answer: "Abish, a Lamanite, served Lamoni’s wife."
+          choices:
+            reina: "The queen"
+            noe: "King Noah"
+            benjamin: "King Benjamin"
+        lamoni_esposa:
+          question: "Who believed Ammon’s words about King Lamoni?"
+          answer: "The queen believed. She said: I have no doubt."
+          choices:
+            esposa: "Lamoni’s wife"
+            anti: "Anti-Nephi-Lehi"
+            noe: "Noah"
+        madres_dudar:
+          question: "The mothers of the two thousand taught their sons to…"
+          answer: "They taught them that if they did not doubt, God would deliver them."
+          choices:
+            dudar: "Not to doubt"
+            huir: "Flee to the mountains"
+            diezmar: "Pay tithing first"
+        eva_madre:
+          question: "According to Lehi, Eve is the mother of…"
+          answer: "Adam and Eve brought children. Eve is the mother of all living."
+          choices:
+            vivientes: "All living"
+            israel: "Israel only"
+            nefi: "Nephi only"
+        maria_hijo:
+          question: "The angel told Benjamin that Mary would be the mother of the…"
+          answer: "He would be called Jesus Christ, the Son of God."
+          choices:
+            hijo: "Son of God"
+            benjamin: "King Benjamin"
+            samuel: "The prophet Samuel"
+        saria_bronce:
+          question: "What made Sariah rejoice, after she had murmured?"
+          answer: "She saw her sons had returned with the plates. She offered sacrifice."
+          choices:
+            bronce: "The brass plates"
+            barco: "Nephi’s ship"
+            liahona: "The Liahona"
+        abish_casas:
+          question: "When the queen and king fell, what did Abish do?"
+          answer: "She ran from house to house, so the people would see the power of God."
+          choices:
+            casas: "She ran from house to house"
+            escondio: "She hid"
+            canto: "She sang a psalm"
+        saria_barco:
+          question: "On the ship, Sariah and the little children…"
+          answer: "Laman and Lemuel had bound Nephi. Sariah and the children were sick with grief."
+          choices:
+            sufrieron: "Suffered"
+            gobernaron: "Steered the helm"
+            durmieron: "Slept the whole way"
+        abish_vision:
+          question: "How had Abish been converted, years before?"
+          answer: "The Lord had prepared her. Because of her father’s vision, she believed."
+          choices:
+            vision: "By a remarkable vision of her father"
+            benjamin: "By hearing Benjamin"
+            placas: "By reading the plates"
+    profetas:
+      title: "Prophets"
+      questions:
+        jonas_tres:
+          question: "How many days was Jonah in the fish?"
+          answer: "Three days and three nights."
+          choices:
+            tres: "Three"
+            siete: "Seven"
+            cuarenta: "Forty"
+        elias_cuervos:
+          question: "By the brook, who fed Elijah?"
+          answer: "The ravens brought him bread and meat, morning and evening."
+          choices:
+            cuervos: "Ravens"
+            angeles: "Angels"
+            sacerdotes: "Priests"
+        daniel_tres:
+          question: "How many times a day did Daniel pray, with the windows open toward Jerusalem?"
+          answer: "Three times a day, as he had done before."
+          choices:
+            tres: "Three times a day"
+            una: "Once a year"
+            nunca: "Never, by decree"
+        jonas_tarsis:
+          question: "Where did Jonah flee, instead of going to Nineveh?"
+          answer: "He fled toward Tarshish, away from the presence of the Lord."
+          choices:
+            tarsis: "Tarshish"
+            ninive: "Nineveh"
+            egipto: "Egypt"
+        naaman_jordan:
+          question: "In which river did Naaman wash and become clean?"
+          answer: "He dipped seven times in the Jordan, according to Elisha’s word."
+          choices:
+            jordan: "The Jordan"
+            nilo: "The Nile"
+            mar: "The Dead Sea"
+        elias_siete:
+          question: "Elijah told his servant to look toward the sea. How many times?"
+          answer: "Seven times. The seventh time, a little cloud appeared."
+          choices:
+            siete: "Seven times"
+            tres: "Three times"
+            una: "Only once"
+        tres_horno:
+          question: "Who were thrown into the furnace because they would not bow?"
+          answer: "Shadrach, Meshach, and Abed-nego. They would not serve the king’s statue."
+          choices:
+            tres: "Shadrach, Meshach, and Abed-nego"
+            daniel: "Daniel alone"
+            moises: "Moses and Aaron"
+        elias_manto:
+          question: "What did Elijah strike the Jordan with, so they could cross on dry ground?"
+          answer: "With his mantle. The waters parted."
+          choices:
+            manto: "His mantle"
+            vara: "Moses’ rod"
+            arpa: "David’s harp"
+        isaias_templo:
+          question: "Whom did Isaiah see sitting on a throne, in the temple?"
+          answer: "He saw the Lord. The train of his robe filled the temple."
+          choices:
+            senor: "The Lord"
+            saul: "King Saul"
+            babilonia: "Babylon"
+        eliseo_carros:
+          question: "When Elijah was taken up, what did Elisha see?"
+          answer: "A chariot of fire and horses of fire. Elijah went up in a whirlwind."
+          choices:
+            carros: "Chariots of fire"
+            barca: "A boat on the Jordan"
+            nube: "Only a grey cloud"
+    jehova:
+      title: "The Lord"
+      questions:
+        zarza_yo_soy:
+          question: "In the bush, what name did the Lord give Moses?"
+          answer: "I AM THAT I AM. That is what you will say to the children of Israel."
+          choices:
+            yo_soy: "I AM"
+            moises: "The God of Moses only"
+            faraon: "Pharaoh’s name"
+        mar_rojo:
+          question: "What did the Lord open so Israel could cross on dry ground?"
+          answer: "Moses stretched out his hand, and the Lord opened the Red Sea."
+          choices:
+            mar: "The Red Sea"
+            jordan: "The Jordan"
+            nilo: "The Nile"
+        no_salvador:
+          question: "Isaiah hears the Lord say: I, even I, am the Lord, and…"
+          answer: "Beside me there is no savior."
+          choices:
+            yo: "Beside me there is no savior"
+            babilonia: "Babylon will save"
+            reyes: "The kings of the earth"
+        kirtland_senor:
+          question: "Who appeared to Joseph and Oliver in Kirtland, under the veil?"
+          answer: "The Lord. His voice was as the sound of the rushing of great waters."
+          choices:
+            senor: "The Lord"
+            moises_solo: "Moses only"
+            elias_solo: "Elijah only"
+        ley_moises:
+          question: "In Bountiful, Jesus said of the law of Moses…"
+          answer: "I am he who gave the law. I am he who fulfilled it."
+          choices:
+            yo: "I am he who gave the law to Moses"
+            aaron: "Aaron gave the law"
+            roma: "Caesar gave the law"
+        antes_abraham:
+          question: "Jesus said to those who heard him: truly, I tell you…"
+          answer: "Before Abraham was, I AM."
+          choices:
+            yo_soy: "Before Abraham was, I AM"
+            despues: "I was born after Abraham"
+            nieto: "I am Abraham’s grandson"
+        omnipotente_descendio:
+          question: "The Lord Omnipotent, according to the angel who spoke to Benjamin…"
+          answer: "He will come down from heaven and dwell in a tabernacle of clay."
+          choices:
+            descendio: "He will come down among the children of men"
+            lejos: "He will stay far away forever"
+            angel: "He will send only an angel"
+        jared_padre_hijo:
+          question: "The brother of Jared heard: behold, I am…"
+          answer: "I am the Father and the Son. In me all mankind will have light."
+          choices:
+            ambos: "The Father and the Son"
+            solo_angel: "Only an angel"
+            moises: "Moses in glory"
+        dios_egipto:
+          question: "According to Nephi, the God of Abraham, Isaac, and Jacob is the same who…"
+          answer: "Brought the children of Israel out of Egypt, and would be lifted up."
+          choices:
+            egipto: "The God of Abraham, who brought Israel out of Egypt"
+            baal: "Baal of the Canaanites"
+            roma: "Caesar of Rome"
+        nube_nombre:
+          question: "From the cloud, over the people of Nephi, who named himself?"
+          answer: "Jesus Christ, the Son of God. I created the heavens and the earth."
+          choices:
+            jesus: "Jesus Christ"
+            alma: "Alma the Younger"
+            samuel: "Samuel the Lamanite"
+    nazareno:
+      title: "On the earth"
+      questions:
+        nacio_belen:
+          question: "Where was Jesus born?"
+          answer: "In Bethlehem of Judea, in a manger, because there was no room."
+          choices:
+            belen: "Bethlehem"
+            nazaret: "Nazareth"
+            jerusalen: "Jerusalem"
+        bautizo_juan:
+          question: "Who baptized Jesus in the Jordan?"
+          answer: "John. The heavens were opened, and the Spirit descended."
+          choices:
+            juan: "John"
+            pedro: "Peter"
+            andrew: "Andrew"
+        cana_vino:
+          question: "At Cana, Jesus turned the water into…"
+          answer: "Into wine. It was the first sign, at a wedding."
+          choices:
+            vino: "Wine"
+            aceite: "Oil"
+            miel: "Honey"
+        cinco_mil:
+          question: "With five loaves and two fish, how many did Jesus feed?"
+          answer: "About five thousand men, besides women and children."
+          choices:
+            cinco: "Five thousand"
+            doce: "Twelve"
+            ciento: "A hundred"
+        camino_mar:
+          question: "At night, toward the boat, Jesus walked on…"
+          answer: "On the sea. The disciples were afraid, and he said: it is I."
+          choices:
+            mar: "The sea"
+            nubes: "The clouds"
+            fuego: "A river of fire"
+        getsemani:
+          question: "In Gethsemane, what did Jesus do?"
+          answer: "He prayed. His sweat was as it were great drops of blood."
+          choices:
+            orar: "He prayed, his soul very sorrowful"
+            huir: "He fled to Galilee"
+            dormir: "He slept until dawn"
+        crucificado:
+          question: "At Golgotha, what did they do to Jesus?"
+          answer: "They crucified him. He gave his life, and it was finished."
+          choices:
+            cruz: "They crucified him"
+            rey: "They crowned him Caesar"
+            egipto: "They sent him to Egypt"
+        magdalena_resucitado:
+          question: "After the third day, Mary Magdalene…"
+          answer: "She saw Jesus alive. She went to tell the disciples: I have seen the Lord."
+          choices:
+            resucitado: "She saw him risen"
+            tumba: "She only saw a sealed tomb"
+            soldados: "She saw the soldiers of Rome"
+        abundancia:
+          question: "After his resurrection, at which temple did Jesus show himself to the Nephites?"
+          answer: "At the temple in Bountiful. He came down, and the people touched him."
+          choices:
+            abundancia: "Bountiful"
+            zarahemla: "Zarahemla"
+            jerusalen: "Jerusalem of Judea"
+        ninos_uno:
+          question: "In Bountiful, how did Jesus bless the children?"
+          answer: "One by one. He took them in his arms and blessed them."
+          choices:
+            uno: "One by one"
+            lejos: "From far away, as a group"
+            angeles: "Only the angels touched them"
+    moises:
+      title: "Moses"
+      questions:
+        moises_cara:
+          question: "According to the book of Moses, Moses saw God…"
+          answer: "Face to face, and talked with him. The glory of God was upon Moses."
+          choices:
+            cara: "Face to face"
+            sueno: "Only in a dream"
+            nube: "Behind a cloud, without seeing him"
+        satanas_tento:
+          question: "When the glory withdrew, Satan tempted Moses…"
+          answer: "He said: Moses, son of man, worship me. Moses did not give in."
+          choices:
+            adorar: "To worship him"
+            rey: "To make him Pharaoh"
+            huir: "To flee to Midian again"
+        cielo_tierra:
+          question: "In Moses 2, God says he created…"
+          answer: "The heaven and the earth. I am the Beginning and the End."
+          choices:
+            cielo: "The heaven and the earth"
+            kolob: "Kolob only"
+            egipto: "Egypt only"
+        polvo_hombre:
+          question: "The man was formed from…"
+          answer: "The dust of the ground. God breathed into his nostrils the breath of life."
+          choices:
+            polvo: "The dust of the ground"
+            estrella: "A star"
+            agua: "Water only"
+        eden_adan:
+          question: "Where did God put Adam and Eve?"
+          answer: "In the garden of Eden, eastward. There he made every tree grow."
+          choices:
+            eden: "The garden of Eden"
+            egipto: "Egypt"
+            ur: "Ur of the Chaldees"
+        la_caida:
+          question: "After the Fall, what happened to Adam and Eve?"
+          answer: "The ground was cursed for their sake. They would eat in sorrow."
+          choices:
+            caida: "They left the garden; the ground was cursed"
+            trono: "They were set on a throne"
+            cielo: "They went straight to heaven"
+        adan_sacrificio:
+          question: "The Lord commanded Adam to offer the firstlings. Adam…"
+          answer: "He obeyed. An angel asked him: why do you offer sacrifice?"
+          choices:
+            sacrificio: "He offered sacrifice"
+            torre: "He built Babel"
+            corona: "He made himself king of Egypt"
+        enoc_sion:
+          question: "Enoch preached, and the people were called…"
+          answer: "Zion, because they were of one heart and one mind. The Lord dwelt there."
+          choices:
+            sion: "Zion"
+            babilonia: "Babylon"
+            roma: "Rome"
+        enoc_noe:
+          question: "Enoch looked, and saw the family of…"
+          answer: "He saw Noah and his family. The Lord had prepared an ark."
+          choices:
+            noe: "Noah"
+            abraham: "Abraham"
+            jose: "Joseph of Egypt"
+        sion_cielo:
+          question: "In the end, what became of Zion, the city of Enoch?"
+          answer: "It was taken up into heaven. God received it into his own bosom."
+          choices:
+            cielo: "It was taken up into heaven"
+            mar: "It sank in the sea"
+            desierto: "It stayed in the desert"
+    abraham:
+      title: "Abraham"
+      questions:
+        salio_ur:
+          question: "Abraham says: I dwelt in the land of…"
+          answer: "Ur of the Chaldees. There his fathers had turned to idolatry."
+          choices:
+            ur: "Ur"
+            egipto: "Egypt"
+            canan: "Canaan first"
+        sacerdotes_altar:
+          question: "The priests of Pharaoh tried to…"
+          answer: "Offer him upon an altar, as they had others. The Lord did not allow it."
+          choices:
+            ofrecerlo: "Offer him upon an altar"
+            rey: "Make him Pharaoh"
+            maestro: "Name him a court teacher"
+        senor_libero:
+          question: "When Abraham was on the altar, who delivered him?"
+          answer: "The Lord. The angel of his presence unloosed him."
+          choices:
+            libero: "The Lord delivered him"
+            faraon: "Pharaoh repented"
+            oro: "They bought him with gold"
+        tierra_simiente:
+          question: "The Lord promised Abraham…"
+          answer: "A land and a seed. In his seed would all the families of the earth be blessed."
+          choices:
+            simiente: "Land and seed"
+            trono: "Pharaoh’s throne"
+            oro: "Only gold and flocks"
+        sarai_egipto:
+          question: "Because of the famine, Abraham and Sarai went down to…"
+          answer: "Egypt. The Lord had told him to say of Sarai: she is my sister."
+          choices:
+            egipto: "Egypt"
+            ninive: "Nineveh"
+            roma: "Rome"
+        sacerdocio_padres:
+          question: "Abraham sought the priesthood. It came…"
+          answer: "From the fathers, even to Noah, even to Adam, who was the first man."
+          choices:
+            padres: "From the fathers"
+            faraon: "From Pharaoh"
+            baal: "From the priests of Baal"
+        dioses_organizaron:
+          question: "In Abraham’s account, in the beginning…"
+          answer: "The Gods organized and formed the heavens and the earth."
+          choices:
+            organizaron: "The Gods organized"
+            azar: "It all came by chance"
+            faraon: "Pharaoh commanded it"
+        imagen_dioses:
+          question: "The Gods said: let us make man…"
+          answer: "In our image, after our likeness."
+          choices:
+            imagen: "In the image of the Gods"
+            bestias: "In the image of the beasts"
+            estrellas: "In the image of the stars"
+        dia_septimo:
+          question: "After they organized, the Gods rested…"
+          answer: "On the seventh day, from all their work which they had made."
+          choices:
+            septimo: "The seventh day"
+            tercero: "The third day"
+            nunca: "They never rested"
+        lumbreras:
+          question: "The Gods ordered, for signs and seasons…"
+          answer: "The lights in the expanse of heaven: the sun, the moon, and the stars."
+          choices:
+            lumbreras: "The lights"
+            montes: "The mountains only"
+            rios: "The rivers only"
+    kolob:
+      title: "Kolob"
+      questions:
+        cerca_trono:
+          question: "Kolob is nearest to…"
+          answer: "The throne of God. Abraham saw it through the Urim and Thummim."
+          choices:
+            trono: "The throne of God"
+            egipto: "Pharaoh’s palace"
+            mar: "The sea of glass"
+        gobierna_astros:
+          question: "Kolob governs…"
+          answer: "The other stars that are of the same order as it."
+          choices:
+            astros: "The other stars"
+            reyes: "The kings of Egypt"
+            rios: "The rivers only"
+        mil_anos:
+          question: "One day on Kolob is…"
+          answer: "A thousand years according to the measurement of this earth."
+          choices:
+            mil: "A thousand years of ours"
+            un_dia: "One of our days"
+            una_hora: "One of our hours"
+        oliblish:
+          question: "Near Kolob there are other great stars. One is called…"
+          answer: "Oliblish. The Lord showed Abraham many great ones."
+          choices:
+            oliblish: "Oliblish"
+            belen: "Bethlehem"
+            sinai: "Sinai"
+        urim_tumim:
+          question: "Abraham learned this through the…"
+          answer: "Urim and Thummim, which the Lord had given him."
+          choices:
+            urim: "Urim and Thummim"
+            sueno: "A dream only"
+            mapa: "A map from Pharaoh"
+        mayor_menor:
+          question: "The stars are set in order…"
+          answer: "From greater to lesser. Kolob is the greatest of all he saw."
+          choices:
+            menor: "From greater to lesser"
+            azar: "At random"
+            iguales: "All equal"
+        mas_inteligente:
+          question: "The one who is more intelligent than they all is…"
+          answer: "The Lord. He is more intelligent than they all."
+          choices:
+            senor: "The Lord"
+            kolob: "Kolob itself"
+            abraham: "Abraham"
+        cuerpos_luz:
+          question: "Kolob is the nearest to God of all the…"
+          answer: "Bodies of light that Abraham saw."
+          choices:
+            luz: "Bodies of light"
+            piedra: "Mountains of stone"
+            agua: "Seas of water"
+        tiempo_senor:
+          question: "The time of Kolob is the time of the…"
+          answer: "Lord. According to its time, so is the reckoning of the earth."
+          choices:
+            senor: "The Lord’s time"
+            egipto: "Egypt’s time"
+            luna: "The moon’s time only"
+        hay_mayor:
+          question: "If two things exist, and one is more intelligent than the other…"
+          answer: "There is one greater than they both. The Lord is more intelligent than they all."
+          choices:
+            mayor: "There is one greater"
+            iguales: "The two are always equal"
+            azar: "There is no order"
+    premortal:
+      title: "Before birth"
+      questions:
+        eramos_inteligencias:
+          question: "Before we were born, we were…"
+          answer: "Intelligences. The Lord showed Abraham the spirits that were to be born."
+          choices:
+            inteligencias: "Intelligences, spirits"
+            piedras: "Stones of the brook"
+            nada: "Nothing: we did not exist"
+        a_quien_envio:
+          question: "The Father asked, when this world was being prepared…"
+          answer: "Whom shall I send? Someone had to go down and do the work."
+          choices:
+            envio: "Whom shall I send?"
+            kolob: "Which star is Kolob?"
+            oro: "Who will bring the gold?"
+        primero_heme:
+          question: "The first one said…"
+          answer: "Here am I, send me. He was the beloved and chosen from the beginning."
+          choices:
+            primero: "Here am I, send me"
+            no: "I will not go"
+            otro: "Send someone else"
+        segundo_satanas:
+          question: "The second also said: here am I, send me. He was…"
+          answer: "Satan. He wanted the honor for himself, and the Lord did not give it."
+          choices:
+            satanas: "Satan"
+            micheal: "Michael"
+            noe: "Noah"
+        primogenito:
+          question: "The Father chose…"
+          answer: "The Firstborn. The second was angry, and many followed him."
+          choices:
+            primogenito: "The Firstborn"
+            segundo: "The second"
+            abraham: "Abraham in person"
+        jeremias_conocido:
+          question: "The Lord said to Jeremiah: I knew you…"
+          answer: "Before I formed you in the belly. I sanctified you; I ordained you a prophet."
+          choices:
+            antes: "Before he was born"
+            templo: "Only in the temple, as an adult"
+            exilio: "In exile, as an old man"
+        principio_dios:
+          question: "Man was…"
+          answer: "In the beginning with God. Intelligence was not created or made."
+          choices:
+            principio: "In the beginning with God"
+            nada: "From nothing, on the day of birth"
+            despues: "Only after death"
+        llamados_preparados:
+          question: "According to Alma, many were, from the foundation of the world…"
+          answer: "Called and prepared. According to the foreknowledge of God."
+          choices:
+            preparados: "Called and prepared"
+            azar: "Chosen at random at birth"
+            oro: "Bought with gold"
+        lecciones_antes:
+          question: "The noble and great ones received, in the world of spirits…"
+          answer: "Their first lessons, before they were born. They were prepared to come."
+          choices:
+            lecciones: "Lessons before they were born"
+            nada: "No preparation"
+            egipto: "Only the school of Egypt"
+        gritaron_gozo:
+          question: "When the Lord laid the foundations of the earth, the sons of God…"
+          answer: "Shouted for joy. The morning stars sang together."
+          choices:
+            gozo: "Shouted for joy"
+            silencio: "Kept silent"
+            huir: "Fled from the light"
+    exaltacion:
+      title: "Exaltation"
+      questions:
+        obra_gloria:
+          question: "God’s work and glory is to bring to pass the immortality and…"
+          answer: "The eternal life of man."
+          choices:
+            eterna: "Immortality and eternal life"
+            oro: "Gold and thrones of this world"
+            fama: "Fame among the nations"
+        vida_eterna:
+          question: "Eternal life is…"
+          answer: "To know you, the only true God, and Jesus Christ, whom you have sent."
+          choices:
+            conocer: "To know God and Jesus Christ"
+            oro: "To gather gold"
+            nombres: "To memorize every name"
+        iglesia_cordero:
+          question: "Those of the celestial are they of…"
+          answer: "The church of the Firstborn. They receive of his fulness."
+          choices:
+            cordero: "The church of the Lamb"
+            babilonia: "Babylon"
+            cesar: "Caesar’s court"
+        tres_grados:
+          question: "In the celestial glory there are…"
+          answer: "Three heavens or degrees."
+          choices:
+            tres: "Three heavens, or degrees"
+            uno: "One degree only"
+            diez: "Ten heavens"
+        matrimonio_eterno:
+          question: "For the highest glory, what covenant do you enter?"
+          answer: "The seal of eternal marriage. You and the one you love, forever."
+          choices:
+            sello: "Eternal marriage"
+            diezmo: "Tithing only"
+            ayuno: "A forty-day fast"
+        perseverar:
+          question: "If you endure to the end, you will have…"
+          answer: "Eternal life, the greatest of all the gifts of God."
+          choices:
+            vida: "Eternal life"
+            oro: "Gold of the earth"
+            fama: "Fame in the square"
+        sed_perfectos:
+          question: "Jesus said on the mountain: be…"
+          answer: "Perfect, as your Father in heaven is perfect."
+          choices:
+            perfectos: "Perfect"
+            ricos: "Rich"
+            temidos: "Feared"
+        familias_selladas:
+          question: "Families…"
+          answer: "Can be sealed. Elijah promised to return before the great day."
+          choices:
+            selladas: "Can be sealed"
+            olvidadas: "Are forgotten"
+            rotas: "Break at death"
+        gracia_gracia:
+          question: "If you keep my commandments, you will receive of his fulness…"
+          answer: "Grace for grace."
+          choices:
+            gracia: "Grace for grace"
+            oro: "Gold for gold"
+            silencio: "Silence for silence"
+        presencia_padre:
+          question: "Where will those who receive the celestial glory dwell?"
+          answer: "In the presence of God and his Christ, forever and ever."
+          choices:
+            presencia: "In the presence of the Father and the Son"
+            luna: "On the moon"
+            paraiso: "Only in a spirit paradise, far away"
+    jose:
+      title: "Joseph"
+      questions:
+        nacio_sharon:
+          question: "Where was Joseph Smith born?"
+          answer: "In Sharon, Windsor County, Vermont. Joseph Smith—History tells it."
+          choices:
+            sharon: "Sharon, Vermont"
+            palmyra: "Palmyra, New York"
+            nauvoo: "Nauvoo, Illinois"
+        bosquecillo:
+          question: "In the grove, Joseph saw…"
+          answer: "The Father and the Son. One of them said: Joseph, this is my Beloved Son. Hear him!"
+          choices:
+            ambos: "The Father and the Son"
+            angel: "An angel only"
+            nube: "Only a light, with no one there"
+        moroni_planchas:
+          question: "Moroni told him of a book, written on…"
+          answer: "Gold plates. It told of the former inhabitants of this continent."
+          choices:
+            planchas: "A book written on plates"
+            corona: "A crown of gold"
+            mapa: "A map of Kirtland"
+        cerro_planchas:
+          question: "Where did Joseph receive the plates?"
+          answer: "In the hill. Under a stone there was a box, and in it the plates."
+          choices:
+            cerro: "In the hill"
+            templo: "In the Kirtland Temple"
+            rio: "At the bottom of the river"
+        oliver_traduce:
+          question: "Who came to Harmony and wrote while Joseph translated?"
+          answer: "Oliver Cowdery. He wrote as Joseph dictated."
+          choices:
+            oliver: "Oliver Cowdery"
+            brigham: "Brigham Young"
+            martin: "Martin Luther"
+        emma_esposa:
+          question: "The Lord spoke, in a revelation, to…"
+          answer: "Emma Smith, my daughter. He called her elect and gave her a work."
+          choices:
+            emma: "Emma, his wife"
+            lucy: "Lucy, his mother"
+            saria: "Sariah"
+        liberty_donde:
+          question: "In Liberty, Joseph cried to the Lord…"
+          answer: "Where are you? The jail was dark. He asked how long it would last."
+          choices:
+            donde: "Where are you?"
+            oro: "Where is the gold?"
+            nauvoo: "When do we go back to Nauvoo?"
+        experiencia:
+          question: "All these things will give you…"
+          answer: "Experience, and they will be for your good."
+          choices:
+            experiencia: "Experience"
+            oro: "Gold"
+            olvido: "Forgetfulness"
+        carthage_cordero:
+          question: "How did Joseph go to Carthage?"
+          answer: "Like a lamb. He knew what waited, and he went anyway."
+          choices:
+            cordero: "Like a lamb"
+            ejercito: "At the head of an army"
+            secreto: "By night, in secret"
+        salvo_jesus:
+          question: "Joseph has done more, save Jesus only, for the salvation of…"
+          answer: "The men of this generation. He lived great, and he died great in the eyes of God."
+          choices:
+            generacion: "This generation"
+            moises: "Only the days of Moses"
+            roma: "Only the days of Rome"
+    inicios:
+      title: "Beginnings"
+      questions:
+        seis_abril:
+          question: "On what date was the Church organized?"
+          answer: "April 6, 1830, according to the commandment and the revelations."
+          choices:
+            abril: "April 6, 1830"
+            navidad: "December 25, 1830"
+            valle: "The day they reached the valley"
+        vidente_profeta:
+          question: "Joseph was called…"
+          answer: "A seer, a translator, a prophet, an apostle of Jesus Christ."
+          choices:
+            vidente: "Seer, translator, prophet"
+            rey: "King of the United States"
+            general: "General of Missouri"
+        kirtland_dedico:
+          question: "Where was the house of the Lord dedicated, with Joseph’s prayer?"
+          answer: "In Kirtland. He asked that the glory of God rest upon that house."
+          choices:
+            kirtland: "Kirtland"
+            nauvoo: "Nauvoo"
+            salt: "The Salt Lake Valley"
+        ley_kirtland:
+          question: "The Lord gave the law of the Church in…"
+          answer: "Kirtland, Ohio. The elders had gathered, and he spoke."
+          choices:
+            ohio: "Kirtland, Ohio"
+            palmyra: "Palmyra"
+            carthage: "Carthage"
+        independencia:
+          question: "What place would be the center, the land of Zion?"
+          answer: "Independence, Missouri. There the temple lot would be pointed out."
+          choices:
+            centro: "The center, Independence"
+            boston: "Boston"
+            londres: "London"
+        misuri:
+          question: "The Saints suffered in…"
+          answer: "Missouri. They were driven from their lands. The Lord heard their cry."
+          choices:
+            misuri: "Missouri"
+            vermont: "Vermont"
+            california: "California"
+        campamento_sion:
+          question: "The Lord commanded men to gather and go to the land of Zion. That was…"
+          answer: "Zion’s Camp. They were to bring relief to the brethren."
+          choices:
+            campamento: "Zion’s Camp"
+            barco: "A ship to England"
+            mina: "A gold mine"
+        nauvoo_hermosa:
+          question: "The city called “the beautiful” was…"
+          answer: "Nauvoo. The Lord commanded a house to be built there to his name."
+          choices:
+            nauvoo: "Nauvoo, the beautiful"
+            kirtland: "Kirtland only"
+            palmyra: "Palmyra"
+        pioneros_desierto:
+          question: "The pioneers received, to organize the camp…"
+          answer: "The word of the Lord in the wilderness. A covenant, and a camp in order."
+          choices:
+            desierto: "The word in the wilderness"
+            mar: "A decree by the sea"
+            corte: "A letter from the court"
+        iglesia_verdadera:
+          question: "The Lord said he would bring forth…"
+          answer: "The only true and living church upon the face of the whole earth."
+          choices:
+            unica: "The only true and living church"
+            una_mas: "One more among many equals"
+            cerrada: "A church already closed"
+    pruebas_profetas:
+      title: "Trials"
+      questions:
+        jeremias_cisterna:
+          question: "Jeremiah was lowered into…"
+          answer: "A cistern. He sank in the mud, and a servant pulled him out."
+          choices:
+            cisterna: "The cistern"
+            trono: "The king’s throne"
+            barco: "A ship to Tarshish"
+        elias_jezabel:
+          question: "From whom did Elijah flee into the wilderness, with a weary soul?"
+          answer: "From Jezebel. He sat under a broom tree and asked to die. The Lord sustained him."
+          choices:
+            jezabel: "Jezebel"
+            nabot: "Naboth"
+            natan: "Nathan"
+        abinadi_condenado:
+          question: "After he testified, Abinadi was…"
+          answer: "Condemned by Noah. He did not deny the word of the Lord."
+          choices:
+            condenado: "Condemned by Noah"
+            coronado: "Crowned king"
+            libre: "Set free the next day"
+        lehi_desierto:
+          question: "Lehi and his family suffered in…"
+          answer: "The wilderness. They left their home and went, because the Lord commanded it."
+          choices:
+            desierto: "The wilderness"
+            palacio: "A palace"
+            barco: "A ship from Tyre"
+        alma_amoniah:
+          question: "Alma and Amulek were cast into the prison at…"
+          answer: "Ammonihah. The Lord delivered them. The walls gave way, and they came out."
+          choices:
+            amoniah: "Ammonihah"
+            zarahemla: "Zarahemla"
+            bountiful: "Bountiful"
+        nefi_atado:
+          question: "Nephi was bound…"
+          answer: "On the ship, by his brothers. The storm beat on them until they loosed him."
+          choices:
+            barco: "On the ship"
+            templo: "In the temple"
+            cerro: "On the hill"
+        liberty_paz:
+          question: "In Liberty, what did the Lord say to Joseph’s soul?"
+          answer: "My son, peace to your soul. This hard time will last only a little while."
+          choices:
+            paz: "Peace to your soul"
+            huir: "Flee tonight"
+            maldecir: "Curse your enemies"
+        noe_no_escucho:
+          question: "Noah preached, and the world…"
+          answer: "Did not listen. They had become corrupt. The Lord told him to make an ark."
+          choices:
+            escucho: "Did not listen"
+            ayuno: "Fasted forty days"
+            templo: "Built a temple"
+        isaias_no_oiria:
+          question: "Isaiah was sent to a people who…"
+          answer: "Would hear, and not understand. The people’s heart was fat."
+          choices:
+            oiria: "Would not hear"
+            canto: "Would always sing"
+            ayuno: "Would fast at once"
+        bienaventurados_vituperio:
+          question: "Jesus said: blessed are you…"
+          answer: "When they revile you and persecute you for my sake. Great is your reward in heaven."
+          choices:
+            vituperio: "When they revile you"
+            oro: "When they give you gold"
+            trono: "When they seat you on a throne"
+    pruebas_heroes:
+      title: "The brave"
+      questions:
+        job_no_maldijo:
+          question: "Job lost everything, and…"
+          answer: "He did not curse God. He tore his robe, and he worshiped."
+          choices:
+            no_maldijo: "He did not curse God"
+            huyo: "He fled to Egypt"
+            oro: "He bought another flock the next day"
+        jose_vendido:
+          question: "Joseph was sold by…"
+          answer: "His brothers. They sent him down to Egypt."
+          choices:
+            hermanos: "His brothers"
+            faraon: "Pharaoh"
+            moises: "Moses"
+        jose_carcel:
+          question: "In Potiphar’s house, Joseph was put in…"
+          answer: "Prison. The Lord was with him there too."
+          choices:
+            carcel: "Prison"
+            trono: "The throne, the next day"
+            barco: "A ship to Canaan"
+        daniel_foso:
+          question: "In the lions’ den, Daniel…"
+          answer: "Came out unhurt. The Lord sent his angel, and shut the lions’ mouths."
+          choices:
+            ileso: "He came out unhurt"
+            olvidado: "The king forgot him"
+            mudo: "He was struck dumb with fear"
+        ester_peligro:
+          question: "Esther went in to the king, and in doing so she…"
+          answer: "Risked her life. The law had not called her. She went for her people."
+          choices:
+            peligro: "She risked her life"
+            huyo: "She fled to Moab"
+            silencio: "She kept silent forever"
+        david_huyo:
+          question: "David fled from…"
+          answer: "Saul. Michal helped him down through the window, at night."
+          choices:
+            saul: "Saul"
+            goliat: "Goliath"
+            natan: "Nathan"
+        rut_espigo:
+          question: "Ruth gleaned in the field for…"
+          answer: "Naomi. She went to Boaz’s field, to glean behind the reapers."
+          choices:
+            noemi: "Naomi"
+            orfa: "Orpah"
+            saba: "The queen of Sheba"
+        ana_lloro:
+          question: "Hannah wept because…"
+          answer: "She had no child. She prayed to the Lord, and he heard her."
+          choices:
+            hijo: "She had no child"
+            casa: "She had no house"
+            pan: "She had no bread"
+        jovenes_fuego:
+          question: "The three young men, in the furnace…"
+          answer: "Walked in the midst of the fire, and a fourth could be seen with them."
+          choices:
+            andaban: "They walked in the midst of the fire"
+            nombres: "They recited their three names to the king"
+            huyeron: "They fled before going in"
+        jose_bien:
+          question: "Joseph said to his brothers: you meant it for evil; God…"
+          answer: "Turned it to good, to save the life of a people."
+          choices:
+            bien: "Turned it to good"
+            olvido: "Forgot it forever"
+            venganza: "Asked for revenge"
+    milagros:
+      title: "Miracles"
+      questions:
+        mar_abrio:
+          question: "The Red Sea…"
+          answer: "Opened. Israel crossed on dry ground, and the water was a wall on both sides."
+          choices:
+            abrio: "It opened"
+            hielo: "It froze"
+            subio: "It rose like a cloud"
+        mana_cielo:
+          question: "The manna fell…"
+          answer: "From heaven. It was like frost on the ground. The people said: what is it?"
+          choices:
+            cielo: "From heaven"
+            egipto: "From Egypt’s granaries"
+            mar: "From the sea floor"
+        sol_josue:
+          question: "For whom did the sun stand still?"
+          answer: "For Joshua. The sun stood still, and the moon stayed, until the people had the victory."
+          choices:
+            josue: "Joshua"
+            saul: "Saul"
+            jonas: "Jonah"
+        aceite_viuda:
+          question: "The widow’s oil…"
+          answer: "Did not fail, while there were vessels. Elisha had told her to borrow many."
+          choices:
+            ceso: "Did not fail"
+            acabo: "Ran out at the first jar"
+            veneno: "Turned to poison"
+        jerico_cayeron:
+          question: "The walls of Jericho…"
+          answer: "Fell. The people shouted, and the trumpets sounded, and the wall came down."
+          choices:
+            cayeron: "They fell"
+            subieron: "They rose to heaven"
+            oro: "They turned to gold"
+        fuego_alma:
+          question: "In the prison, Alma and Nephi, sons of Helaman, saw…"
+          answer: "A fire around them. It did not burn them. A voice spoke peace to them."
+          choices:
+            fuego: "A fire around them that did not burn them"
+            llave: "A gold key"
+            carta: "A letter from the king"
+        lazaro_fuera:
+          question: "Jesus cried before the tomb…"
+          answer: "Lazarus, come forth! And he that was dead came forth."
+          choices:
+            fuera: "Lazarus, come forth!"
+            duerme: "Lazarus, sleep one more day"
+            huye: "Lazarus, flee to Egypt"
+        cojo_hermosa:
+          question: "At the Beautiful Gate, the lame man, in the name of Jesus…"
+          answer: "Rose and walked. Peter had neither silver nor gold. He had the name of Jesus."
+          choices:
+            anda: "He rose and walked"
+            oro: "He asked for a bag of gold"
+            quedo: "He stayed seated"
+        zeezrom_sanado:
+          question: "Zeezrom, who had been sick with a fever, by faith…"
+          answer: "Was healed. Alma took him by the hand and said: do you believe?"
+          choices:
+            sanado: "He was healed"
+            rey: "He was made king"
+            mar: "He fled to the sea"
+        mostaza:
+          question: "Jesus said: if you have faith as a grain of…"
+          answer: "Mustard. You will say to this mountain: move, and it will move."
+          choices:
+            mostaza: "Mustard"
+            trigo: "Wheat"
+            arena: "Sand"
