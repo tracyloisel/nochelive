@@ -2136,7 +2136,37 @@ fieldset.place:has(.picture-card) { grid-template-columns: 1fr 1fr; }
 .play-reel.is-street .play-chrome {
   padding-inline: calc(3.5rem + var(--space-4));
   align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
 }
+.play-reel.is-street .street-person {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 1.75rem;
+  max-width: 42vw;
+  padding: 0.15rem 0.5rem 0.15rem 0.15rem;
+  border-radius: var(--radius-s);
+  background: color-mix(in srgb, var(--surface) 90%, transparent);
+  color: var(--ink);
+  font-family: var(--font-ui);
+  font-size: 0.92rem;
+  font-weight: 650;
+  text-decoration: none;
+}
+.play-reel.is-street .street-person .avatar-img,
+.play-reel.is-street .street-person .avatar-fallback {
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 999px;
+}
+.play-reel.is-street .street-person .word {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.play-reel.is-street .street-person.is-guest { color: var(--parchment); }
+.play-reel.is-street .street-person .picto { width: 1.1rem; height: 1.1rem; }
 .play-reel.is-street .street-score {
   display: inline-flex;
   align-items: center;
@@ -2182,10 +2212,97 @@ fieldset.place:has(.picture-card) { grid-template-columns: 1fr 1fr; }
 }
 .play-reel.is-street.is-quiz .play-stage { gap: var(--space-4); }
 .play-reel.is-street .play-sheet[data-sheet-snap="mid"] {
-  max-height: 52dvh;
+  max-height: 38dvh;
 }
 .play-reel.is-street .play-sheet[data-sheet-snap="open"] {
-  max-height: min(78dvh, 36rem);
+  max-height: min(72dvh, 34rem);
+}
+.play-reel.is-street.is-quiz .play-sheet.is-arriving {
+  animation: street-sheet-rise 420ms var(--ease-out) both;
+}
+@keyframes street-sheet-rise {
+  from {
+    opacity: 0;
+    transform: translateY(calc(var(--sheet-shift, 0px) + 1.25rem));
+  }
+  to {
+    opacity: 1;
+    transform: translateY(var(--sheet-shift, 0px));
+  }
+}
+.street-trail {
+  overflow-x: auto;
+  margin: 0 calc(-1 * var(--space-2));
+  padding: 0 var(--space-2) var(--space-2);
+  -webkit-overflow-scrolling: touch;
+}
+.street-trail-path {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  min-width: min-content;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.street-trail-pack {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  flex: 0 0 auto;
+  max-width: 8.5rem;
+  padding: 0.2rem 0.45rem;
+  border-radius: var(--radius-s);
+  background: color-mix(in srgb, var(--surface) 82%, transparent);
+  color: var(--ink);
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  font-weight: 650;
+  line-height: 1.15;
+}
+.street-trail-pack.done { opacity: 0.72; }
+.street-trail-pack.current { box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--gold) 45%, transparent); }
+.street-trail-pack .street-trail-node .picto { width: 0.85rem; height: 0.85rem; }
+.street-trail-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.street-trail-step { flex: 0 0 auto; }
+.street-trail-dot {
+  display: inline-grid;
+  place-items: center;
+  width: 1.55rem;
+  height: 1.55rem;
+  padding: 0;
+  border: 1px solid color-mix(in srgb, var(--ink) 18%, transparent);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  font-weight: 700;
+  line-height: 1;
+}
+.street-trail-dot.is-static { display: inline-grid; }
+.street-trail-step.correct .street-trail-dot {
+  border-color: var(--ink);
+  background: var(--ink);
+  color: var(--paper);
+}
+.street-trail-step.wrong .street-trail-dot {
+  border-color: var(--fire);
+  background: color-mix(in srgb, var(--fire) 16%, transparent);
+}
+.street-trail-step.current .street-trail-dot {
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--gold) 50%, transparent);
+}
+.street-trail-step.future .street-trail-dot { opacity: 0.45; }
+.street-trail-step.correct .street-trail-dot .picto { width: 0.85rem; height: 0.85rem; }
+.street-profile-hero .person-pick {
+  display: inline-flex;
+  width: auto;
+  pointer-events: none;
 }
 .play-reel.is-street.is-quiz:has(.quiz-board.is-settled) .round-title {
   display: flex;

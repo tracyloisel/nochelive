@@ -21,8 +21,8 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     assert_select "details.home-menu .place-input", count: 0
     assert_select "details.home-code .code-input"
     assert_select ".story-ticks", count: 0
-    assert_select ".play-sheet-grip", count: 0
-    assert_select ".street-score span", text: "0"
+    assert_select ".play-sheet-grip", count: 1
+    assert_select ".street-trail"
     assert_select ".btn.btn-gold", count: 0
     assert_select ".mute"
     assert_select ".chrome-tools .mute + .lang-switch"
@@ -81,7 +81,8 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     assert_includes css, ".play-reel.is-street .street-score"
     assert_includes css, ".play-reel.is-street.is-quiz .play-sheet-body"
     assert_includes css, "padding: calc(var(--space-6) + var(--space-2)) var(--space-6)"
-    assert_includes css, ".play-reel.is-street .quiz-bar.is-right"
+    assert_includes css, ".street-trail"
+    assert_includes css, "street-sheet-rise"
     assert_includes css, ".play-reel.is-join .play-sheet[data-sheet-snap=\"mid\"]"
     assert_includes css, ".play-timer"
     assert_includes css, "body[class*=\"is-fx-\"]::after { display: none; }"

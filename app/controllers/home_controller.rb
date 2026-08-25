@@ -2,6 +2,7 @@ class HomeController < ApplicationController
   include StreetQuiz
 
   def index
-    @street = Quizzes::Draw.call(device_digest: street_digest)
+    @street = street_draw
+    @street_trail = Quizzes::Trail.call(run: @street.run)
   end
 end

@@ -1,0 +1,33 @@
+<% content_for :title, t("street.profile_title") %>
+<% content_for :body_class, "is-kid" %>
+<%= chrome_menu(open: true) { site_menu } %>
+
+<section class="gate is-paper">
+  <% if @person %>
+    <p class="eyebrow"><%= t("street.signed_in_as") %></p>
+    <div class="street-profile-hero">
+      <%= render "people/card", person: @person, show_year: true %>
+    </div>
+    <%= button_to street_profile_path, params: { guest: 1 }, class: "btn btn-ghost" do %>
+      <%= t("street.sign_out") %>
+    <% end %>
+    <hr class="soft">
+  <% end %>
+
+  <% case @screen %>
+  <% when :welcome %>
+    <%= render "street_profiles/welcome", person: @people_on_device.first %>
+  <% when :device %>
+    <%= render "street_profiles/device_people", people: @people_on_device %>
+  <% when :homonyms %>
+    <%= render "street_profiles/homonyms", cards: @homonym_cards %>
+  <% when :claim %>
+    <%= render "street_profiles/claim", person: @claim_person %>
+  <% else %>
+    <%= render "street_profiles/form" %>
+  <% end %>
+
+  <%= link_to root_path, class: "quiet-link" do %>
+    <%= t("street.back_quiz") %>
+  <% end %>
+</section>

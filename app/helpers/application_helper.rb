@@ -238,6 +238,24 @@ module ApplicationHelper
     "shake" if pos >= 7 && pos <= 9
   end
 
+  def trail_step_mark(step)
+    case step.state
+    when :correct then picto("check")
+    when :wrong then "×"
+    when :current then step.position.to_s
+    else step.position.to_s
+    end
+  end
+
+  def trail_step_label(step)
+    case step.state
+    when :correct then t("street.trail_correct", n: step.position)
+    when :wrong then t("street.trail_wrong", n: step.position)
+    when :current then t("street.trail_current", n: step.position)
+    else t("street.trail_future", n: step.position)
+    end
+  end
+
   def stage_audio_data(round, extra_sfx = nil, extra_fx = nil, team: nil, night: nil)
     sfx = stage_sfx(round, extra_sfx, team: team, night: night)
     timed = round&.timed?

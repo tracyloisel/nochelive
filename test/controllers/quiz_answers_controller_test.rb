@@ -10,7 +10,8 @@ class QuizAnswersControllerTest < ActionDispatch::IntegrationTest
     assert_select "#street_quiz[data-story-street-value=true]"
     assert_select ".story-ticks", count: 0
     assert_select ".story-close", count: 0
-    assert_select ".play-sheet-grip", count: 0
+    assert_select ".play-sheet-grip", count: 1
+    assert_select ".street-trail"
     assert_select ".play-sheet[data-sheet-snap=mid]"
     assert_select ".street-score span", text: "0"
     assert_select ".street-score.is-tick", count: 0

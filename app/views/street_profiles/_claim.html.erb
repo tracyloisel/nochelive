@@ -1,0 +1,12 @@
+<h1><%= t("join.claim_title") %></h1>
+<p class="lede"><%= person.display_name %></p>
+
+<%= form_with url: street_profile_path, method: :post, class: "join-form" do %>
+  <input type="hidden" name="person_id" value="<%= person.id %>">
+  <%= render "shared/year_field", required: true %>
+  <button type="submit" class="btn btn-gold picto-btn"><%= picto("check") %><%= t("join.yes_name", name: person.given_name) %></button>
+<% end %>
+
+<%= link_to street_profile_path(fresh: 1), class: "quiet-link" do %>
+  <%= t("join.not_me") %>
+<% end %>

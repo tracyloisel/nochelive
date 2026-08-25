@@ -130,6 +130,23 @@ pt-BR:
     average: "A média é %{score}"
     correct: "Isso mesmo!"
     incorrect: "Não era essa"
+  street:
+    profile_title: "Quem joga?"
+    profile_menu: "Sua ficha"
+    pick_profile: "Escolher ficha"
+    signed_in_as: "Conectado como"
+    sign_out: "Jogar sem ficha"
+    continue_guest: "Continuar sem ficha"
+    back_quiz: "Voltar ao quiz"
+    create_title: "Sua ficha na ala"
+    create_lede: "Assim o iPad de casa te reconhece."
+    welcome_lede: "Este iPad já te conhece, %{name}."
+    trail: "Seu caminho"
+    jump_question: "Pergunta %{n}"
+    trail_correct: "Pergunta %{n}, você acertou"
+    trail_wrong: "Pergunta %{n}, você errou"
+    trail_current: "Pergunta %{n}, agora"
+    trail_future: "Pergunta %{n}, ainda não"
   join:
     title: "Seu nome"
     pick_team: "Escolha uma equipe"
@@ -582,6 +599,9 @@ pt-BR:
     short_name: "Escreva um nome curto."
     ficha_saved: "Ficha salva."
     fichas_merged: "Fichas unidas. Fica %{name}."
+    street_signed_in: "Oi, %{name}."
+    street_guest: "Ainda sem ficha."
+    street_ward_first: "Primeiro escolha sua ala."
     yielded: "Você cedeu a mesa."
   errors:
     people:

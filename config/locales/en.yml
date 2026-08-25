@@ -130,6 +130,23 @@ en:
     average: "The average is %{score}"
     correct: "That's it!"
     incorrect: "Not that one"
+  street:
+    profile_title: "Who's playing?"
+    profile_menu: "Your card"
+    pick_profile: "Pick a card"
+    signed_in_as: "Signed in as"
+    sign_out: "Play without a card"
+    continue_guest: "Keep going without a card"
+    back_quiz: "Back to the quiz"
+    create_title: "Your ward card"
+    create_lede: "So the family iPad knows you."
+    welcome_lede: "This iPad already knows you, %{name}."
+    trail: "Your path"
+    jump_question: "Question %{n}"
+    trail_correct: "Question %{n}, you got it"
+    trail_wrong: "Question %{n}, you missed"
+    trail_current: "Question %{n}, now"
+    trail_future: "Question %{n}, not yet"
   join:
     title: "Your name"
     pick_team: "Pick a team"
@@ -582,6 +599,9 @@ en:
     short_name: "Write a short name."
     ficha_saved: "Card saved."
     fichas_merged: "Cards merged. %{name} stays."
+    street_signed_in: "Hi, %{name}."
+    street_guest: "Still no card."
+    street_ward_first: "Pick your ward first."
     yielded: "You handed over the desk."
   errors:
     people:

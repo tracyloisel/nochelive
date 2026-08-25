@@ -1,0 +1,16 @@
+<h1><%= t("join.device_title") %></h1>
+<p class="lede"><%= t("join.device_lede") %></p>
+
+<ul class="team-list person-list">
+  <% people.each do |person| %>
+    <li>
+      <%= button_to street_profile_path, params: { person_id: person.id }, class: "team-pick person-pick is-here" do %>
+        <%= render "people/card", person: person, show_year: false %>
+      <% end %>
+    </li>
+  <% end %>
+</ul>
+
+<%= link_to street_profile_path(fresh: 1), class: "btn btn-ghost picto-btn" do %>
+  <%= picto("plus") %><%= t("join.other_person") %>
+<% end %>

@@ -1,0 +1,10 @@
+<h1><%= t("join.welcome_title") %></h1>
+<p class="lede"><%= t("street.welcome_lede", name: person.given_name) %></p>
+
+<%= button_to street_profile_path, params: { person_id: person.id }, class: "btn btn-gold picto-btn" do %>
+  <%= picto("check") %><%= t("join.yes_name", name: person.given_name) %>
+<% end %>
+
+<%= link_to street_profile_path(fresh: 1), class: "btn btn-ghost picto-btn" do %>
+  <%= picto("user") %><%= t("join.not_me") %>
+<% end %>

@@ -1,0 +1,32 @@
+<% trail = local_assigns[:street_trail] || [] %>
+<% return if trail.empty? || street.done? %>
+
+<nav class="street-trail" aria-label="<%= t("street.trail") %>">
+  <ol class="street-trail-path">
+    <% trail.each do |step| %>
+      <% if step.pack? %>
+        <li class="street-trail-pack <%= step.state %>">
+          <span class="street-trail-node" aria-hidden="true"><%= picto("flag") %></span>
+          <span class="street-trail-label"><%= step.label %></span>
+        </li>
+      <% else %>
+        <li class="street-trail-step <%= step.state %>">
+          <% if step.jumpable? && step.run_id == street.run.id %>
+            <%= button_to quiz_jump_path(street.run),
+                  params: { position: step.position },
+                  class: "street-trail-dot",
+                  form: { data: { turbo_stream: true } },
+                  title: t("street.jump_question", n: step.position),
+                  aria: { label: trail_step_label(step) } do %>
+              <span aria-hidden="true"><%= trail_step_mark(step) %></span>
+            <% end %>
+          <% else %>
+            <span class="street-trail-dot is-static" aria-label="<%= trail_step_label(step) %>">
+              <span aria-hidden="true"><%= trail_step_mark(step) %></span>
+            </span>
+          <% end %>
+        </li>
+      <% end %>
+    <% end %>
+  </ol>
+</nav>

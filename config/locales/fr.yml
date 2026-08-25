@@ -130,6 +130,23 @@ fr:
     average: "La moyenne est de %{score}"
     correct: "C’est ça !"
     incorrect: "Ce n’était pas ça"
+  street:
+    profile_title: "Qui joue ?"
+    profile_menu: "Ta fiche"
+    pick_profile: "Choisir une fiche"
+    signed_in_as: "Connecté en tant que"
+    sign_out: "Jouer sans fiche"
+    continue_guest: "Continuer sans fiche"
+    back_quiz: "Retour au quiz"
+    create_title: "Ta fiche dans la paroisse"
+    create_lede: "Pour que l’iPad de la maison te reconnaisse."
+    welcome_lede: "Cet iPad te connaît déjà, %{name}."
+    trail: "Ton chemin"
+    jump_question: "Question %{n}"
+    trail_correct: "Question %{n}, tu as eu bon"
+    trail_wrong: "Question %{n}, tu as raté"
+    trail_current: "Question %{n}, maintenant"
+    trail_future: "Question %{n}, pas encore"
   join:
     title: "Ton prénom"
     pick_team: "Choisis une équipe"
@@ -582,6 +599,9 @@ fr:
     short_name: "Écrivez un prénom court."
     ficha_saved: "Fiche enregistrée."
     fichas_merged: "Fiches fusionnées. %{name} reste."
+    street_signed_in: "Salut, %{name}."
+    street_guest: "Toujours sans fiche."
+    street_ward_first: "Choisis d’abord ta paroisse."
     yielded: "Vous avez cédé le pupitre."
   errors:
     people:

@@ -2,7 +2,9 @@ module Identity
   extend ActiveSupport::Concern
 
   included do
-    helper_method :current_player, :current_team, :current_person, :current_ward, :hosted_ward, :presenter_for?, :ward_presenter?, :ward_host?, :current_locale, :locale_path_for
+    helper_method :current_player, :current_team, :current_person, :current_ward, :current_street_person,
+                  :street_people_on_device, :hosted_ward, :presenter_for?, :ward_presenter?, :ward_host?,
+                  :current_locale, :locale_path_for
   end
 
   private
@@ -40,7 +42,42 @@ module Identity
     end
 
     def current_person
-      current_player&.person
+      current_player&.person || current_street_person
+    end
+
+    def current_street_person
+      return @current_street_person if defined?(@current_street_person)
+
+      ward = current_ward
+      person_id = cookies.signed[:noche_street_person]
+      return @current_street_person = nil unless ward && person_id
+
+      person = ward.people.find_by(id: person_id)
+      return @current_street_person = nil unless person
+      return @current_street_person = nil unless street_people_on_device.exists?(id: person.id)
+
+      @current_street_person = person
+    end
+
+    def street_people_on_device
+      return Person.none unless current_ward
+
+      Person.on_device(device_token, current_ward)
+    end
+
+    def remember_street_person(person)
+      cookies.signed[:noche_street_person] = {
+        value: person.id,
+        expires: 1.year,
+        httponly: true,
+        same_site: :lax
+      }
+      @current_street_person = person
+    end
+
+    def clear_street_person
+      cookies.delete(:noche_street_person)
+      @current_street_person = nil if defined?(@current_street_person)
     end
 
     def device_token

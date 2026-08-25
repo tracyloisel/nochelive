@@ -6,7 +6,10 @@ Rails.application.routes.draw do
   post "quiz/:quiz_run_id/answers", to: "quiz_answers#create", as: :quiz_answers
   post "quiz/:quiz_run_id/advance", to: "quiz_advances#create", as: :quiz_advance
   post "quiz/:quiz_run_id/rewind", to: "quiz_rewinds#create", as: :quiz_rewind
+  post "quiz/:quiz_run_id/jump", to: "quiz_jumps#create", as: :quiz_jump
   post "quiz/:quiz_run_id/expire", to: "quiz_expires#create", as: :quiz_expire
+  get "quien", to: "street_profiles#show", as: :street_profile
+  post "quien", to: "street_profiles#create"
   post "join", to: "joins#create"
   patch "locale", to: "locales#update"
   get "nosotros", to: "ward_adds#show", as: :about

@@ -14,6 +14,7 @@ export default class extends Controller {
     this.animateBars()
     this.prefetch()
     this.holdSheet()
+    this.delayStreetSheet()
   }
 
   pick(event) {
@@ -123,5 +124,21 @@ export default class extends Controller {
     if (!sheetEl) return
     const sheet = this.application.getControllerForElementAndIdentifier(sheetEl, "sheet")
     sheet?.snapTo("open", false)
+  }
+
+  delayStreetSheet() {
+    if (!this.street()) return
+    const sheet = this.element.querySelector(".play-sheet")
+    if (!sheet) return
+    sheet.classList.remove("is-arriving")
+    const delay = this.reduced() ? 0 : 220
+    window.setTimeout(() => {
+      sheet.classList.add("is-arriving")
+      window.setTimeout(() => sheet.classList.remove("is-arriving"), 420)
+    }, delay)
+  }
+
+  reduced() {
+    return window.matchMedia("(prefers-reduced-motion: reduce)").matches
   }
 }

@@ -1,6 +1,7 @@
 class QuizRun < ApplicationRecord
   STATUSES = %w[open finished].freeze
 
+  belongs_to :person, optional: true
   has_many :quiz_answers, dependent: :destroy
 
   validates :device_digest, :pack_id, :status, :opened_at, presence: true

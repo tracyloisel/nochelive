@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_25_210000) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_25_220000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -203,12 +203,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_25_210000) do
     t.datetime "ends_at"
     t.datetime "opened_at", null: false
     t.string "pack_id", null: false
+    t.bigint "person_id"
     t.integer "position", default: 1, null: false
     t.integer "score", default: 0, null: false
     t.string "status", default: "open", null: false
     t.datetime "updated_at", null: false
+    t.index ["device_digest", "person_id", "status"], name: "index_quiz_runs_on_device_person_status"
     t.index ["device_digest", "status"], name: "index_quiz_runs_on_device_digest_and_status"
     t.index ["device_digest"], name: "index_quiz_runs_on_device_digest"
+    t.index ["person_id"], name: "index_quiz_runs_on_person_id"
   end
 
   create_table "reward_grants", force: :cascade do |t|
@@ -249,7 +252,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_25_210000) do
     t.datetime "updated_at", null: false
     t.integer "xp", default: 0, null: false
     t.index ["game_session_id"], name: "index_score_events_on_game_session_id"
-    t.index ["round_run_id", "team_id", "kind"], name: "index_score_events_unique_round_kind", unique: true, where: "((round_run_id IS NOT NULL) AND ((kind)::text = ANY (ARRAY[('correct'::character varying)::text, ('fastest_buzz'::character varying)::text, ('rapid_tap'::character varying)::text, ('participation'::character varying)::text])))"
+    t.index ["round_run_id", "team_id", "kind"], name: "index_score_events_unique_round_kind", unique: true, where: "((round_run_id IS NOT NULL) AND ((kind)::text = ANY ((ARRAY['correct'::character varying, 'fastest_buzz'::character varying, 'rapid_tap'::character varying, 'participation'::character varying])::text[])))"
     t.index ["round_run_id"], name: "index_score_events_on_round_run_id"
     t.index ["team_id"], name: "index_score_events_on_team_id"
   end
@@ -368,6 +371,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_25_210000) do
   add_foreign_key "presenter_blocks", "game_sessions"
   add_foreign_key "presenter_claims", "game_sessions"
   add_foreign_key "quiz_answers", "quiz_runs"
+  add_foreign_key "quiz_runs", "people"
   add_foreign_key "reward_grants", "teams"
   add_foreign_key "round_runs", "game_sessions"
   add_foreign_key "score_events", "game_sessions"

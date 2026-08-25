@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 const AVOID = "button, a, input, textarea, select, label, .buzz, .choice-btn, .quiz-bar, .quiz-next, .btn, .story-sheet, .play-sheet, .desk-sheet, .play-sheet-body, .play-sheet-grip, .claim-veil, .claim-modal"
-const STREET_AVOID = "button, a, input, textarea, select, label, .buzz, .choice-btn, .quiz-bar, .quiz-next, .btn, .play-sheet-grip, .home-menu, .chrome-tools, .mute, .lang-switch, .claim-veil, .claim-modal"
+const STREET_AVOID = "button, a, input, textarea, select, label, .buzz, .choice-btn, .quiz-bar, .quiz-next, .btn, .play-sheet-grip, .home-menu, .chrome-tools, .mute, .lang-switch, .claim-veil, .claim-modal, .street-trail-dot, .street-trail"
 
 export default class extends Controller {
   static targets = [ "page", "sheet", "tick", "liveChip", "score", "scoreBtn" ]

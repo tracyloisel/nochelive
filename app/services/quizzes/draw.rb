@@ -6,8 +6,8 @@ module Quizzes
       def asking? = !done? && answer.nil?
     end
 
-    def self.call(device_digest:)
-      new(device_digest:).call
+    def self.call(device_digest:, person_id: nil)
+      new(device_digest:, person_id:).call
     end
 
     def self.frame(run)
@@ -19,16 +19,17 @@ module Quizzes
       Frame.new(run:, pack:, question:, answer:, tally:, complete:)
     end
 
-    def initialize(device_digest:)
+    def initialize(device_digest:, person_id: nil)
       @digest = device_digest.to_s
+      @person_id = person_id
       raise ArgumentError, "device required" if @digest.blank?
     end
 
     def call
-      open = QuizRun.open_runs.where(device_digest: @digest).order(:id).last
+      open = scoped.open_runs.order(:id).last
       return self.class.frame(open) if open
 
-      last = QuizRun.where(device_digest: @digest).order(:id).last
+      last = scoped.order(:id).last
       return self.class.frame(last) if last&.finished?
 
       self.class.frame(start_pack(next_pack_id(last)))
@@ -39,6 +40,10 @@ module Quizzes
     end
 
     private
+
+      def scoped
+        QuizRun.where(device_digest: @digest, person_id: @person_id)
+      end
 
       def next_pack_id(last)
         ids = QuizDefinition.catalog.pack_ids
@@ -53,6 +58,7 @@ module Quizzes
         question = pack.question_at(1)
         QuizRun.create!(
           device_digest: @digest,
+          person_id: @person_id,
           pack_id: pack_id,
           position: 1,
           score: 0,

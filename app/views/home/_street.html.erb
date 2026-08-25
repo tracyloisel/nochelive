@@ -2,6 +2,7 @@
 <% question = street.question %>
 <% pack = street.pack %>
 <% snap = street.asking? ? "mid" : "open" %>
+<% street_trail = local_assigns[:street_trail] || Quizzes::Trail.call(run: run) %>
 <% extra_sfx = local_assigns[:sfx] %>
 <% extra_fx = local_assigns[:fx] %>
 <% still = street_still_src(question) %>
@@ -27,6 +28,7 @@
   </div>
 
   <div class="play-chrome">
+    <%= render "home/street_person" %>
     <% unless street.done? %>
       <p class="street-score <%= "is-tick" if street.settled? && street.answer&.correct? %>"
          aria-label="<%= t("chrome.points", score: run.score) %>">
@@ -39,12 +41,30 @@
     <% end %>
   </div>
 
-  <div class="play-sheet story-sheet" data-sheet-snap="<%= snap %>">
-    <div class="play-sheet-body">
+  <div class="play-sheet story-sheet"
+       data-controller="sheet"
+       data-sheet-mid-ratio-value="0.36"
+       data-sheet-peek-ratio-value="0.12"
+       data-sheet-snap="<%= snap %>"
+       data-sheet-snap-value="<%= snap %>"
+       data-sheet-open-label-value="<%= t("chrome.grip_open") %>"
+       data-sheet-mid-label-value="<%= t("chrome.grip_mid") %>"
+       data-sheet-peek-label-value="<%= t("chrome.grip_peek") %>"
+       data-action="pointerdown->sheet#start">
+    <button type="button"
+            class="play-sheet-grip"
+            data-sheet-target="handle"
+            data-action="click->sheet#cycle"
+            aria-label="<%= t("chrome.grip") %>"
+            aria-valuetext="<%= t("chrome.grip_mid") %>">
+      <span class="play-sheet-pip" aria-hidden="true"></span>
+    </button>
+    <div class="play-sheet-body" data-sheet-target="body">
       <div class="play-stage">
         <% if street.done? %>
           <%= render "home/street_done", street: street %>
         <% else %>
+          <%= render "home/street_trail", street: street, street_trail: street_trail %>
           <p class="round-title">
             <span class="quiz-pack"><%= pack.copy(:title) %></span>
             <span class="quiz-progress"><%= t("quiz.progress", n: run.position, total: pack.questions.size) %></span>
