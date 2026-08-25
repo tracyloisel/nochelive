@@ -22,12 +22,12 @@ module Answers
     private
 
     def persist!
-      raise "Esperad el slam." if @player.remote? && @round.definition.layered_finale? && !@round.finale_steal_open?
+      raise I18n.t("play.wait_slam") if @player.remote? && @round.definition.layered_finale? && !@round.finale_steal_open?
       raise "Answers are closed" unless @round.accepting_answers?(player: @player)
 
       ApplicationRecord.transaction do
         locked = RoundRun.lock.find(@round.id)
-        raise "Esperad el slam." if @player.remote? && locked.definition.layered_finale? && !locked.finale_steal_open?
+        raise I18n.t("play.wait_slam") if @player.remote? && locked.definition.layered_finale? && !locked.finale_steal_open?
         raise "Answers are closed" unless locked.accepting_answers?(player: @player)
 
         existing = Answer.find_by(round_run: locked, team: @team)

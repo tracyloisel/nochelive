@@ -1,0 +1,8 @@
+<details class="home-menu" <%= "open" if local_assigns[:open] %>>
+  <summary class="home-menu-btn quiet-link" aria-label="<%= t("chrome.menu") %>">
+    <%= picto("menu") %>
+  </summary>
+  <div class="home-menu-panel">
+    <%= body %>
+  </div>
+</details>

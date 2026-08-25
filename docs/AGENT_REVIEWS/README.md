@@ -4,11 +4,13 @@ This folder is **live**. It is not an archive of fake Cursor personas.
 
 The shipping gate is the Cursor skill [noche-night](../../.cursor/skills/noche-night/SKILL.md) (always-on rule: `night-soul`). These markdown files are the **written verdict** after a slice so the next agent can see what already passed.
 
+Copy has its own council seat: [noche-i18n](../../.cursor/skills/noche-i18n/SKILL.md) (`i18n-soul`). A string is unfinished until it is **valid and validated** in **español**, **brésilien** (`pt-BR`), **English**, and **français**.
+
 ## How to review
 
 1. Apply the skill **in the change** (YAML, remote, finale, watch, presenter). VETO there, not in a leftover doc.
 2. Copy [TEMPLATE.md](TEMPLATE.md) to `NNN-short-slug.md` (next integer after the last file).
-3. Fill **Four seats**, **Tension**, **Finale**, verdict. Optional `## Evidence` (sound, reliability, UI) is extra, not a new agent.
+3. Fill **Four seats**, **Tension**, **Finale**, verdict. If copy moved, fill **Languages**. Optional `## Evidence` (sound, reliability, UI) is extra, not a new agent.
 4. Update `docs/GAME_QUALITY.md` only if a category actually moved.
 
 Do not invent a new “Gameplay Designer” agent. Do not rubber-stamp a slice by appending PASS under an old hat.
@@ -43,5 +45,10 @@ Do not invent a new “Gameplay Designer” agent. Do not rubber-stamp a slice b
 | [012](012-rank-role.md) | Temporary Rey |
 | [013](013-jonah-path.md) | Jonah path at home |
 | [014](014-live-buzz-system.md) | Two-browser first buzz |
+| [015](015-four-languages.md) | Four languages mid-quiz |
+| [016](016-rama-profile-home.md) | Worldwide rama directory, Benidorm first |
+| [017](017-listed-directory.md) | Hosted directory is Rama Benidorm only |
+| [018](018-home-hamburger.md) | Home hamburger; still-first directory |
+| [019](019-home-paper-feed.md) | Paper home; `/buscar`; night feed |
 
 Older files keep `## Evidence` blocks with the hat name from that slice. That is history, not a Cursor persona to revive. The four-seat table at the top is the night-director record.

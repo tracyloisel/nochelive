@@ -1,4 +1,4 @@
 <% value = local_assigns[:value] %>
-<label for="favorite_year">¿Cuál es tu año favorito?</label>
-<p class="quiet">Cuatro cifras. Puedes usar el año en que naciste.</p>
+<label for="favorite_year"><%= t("join.year") %></label>
+<p class="quiet"><%= t("join.year_hint") %></p>
 <input id="favorite_year" name="favorite_year" inputmode="numeric" autocomplete="off" minlength="4" maxlength="4" pattern="[0-9]{4}" class="code-input" placeholder="1830" value="<%= value %>" <%= "required" if local_assigns[:required] %>>

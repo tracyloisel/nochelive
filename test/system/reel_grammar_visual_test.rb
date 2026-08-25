@@ -7,10 +7,12 @@ class ReelGrammarVisualTest < ApplicationSystemTestCase
     page.current_window.resize_to(390, 844)
 
     visit root_path
-    assert_selector ".play-reel.is-home"
-    assert_selector ".play-shot .challenge-story"
-    assert_selector ".play-sheet"
-    assert_button "Entrar"
+    assert_selector ".home-paper"
+    assert_no_selector ".play-reel.is-home"
+    assert_text "Noche Live"
+    assert_text "Reyes y Profetas"
+    assert_selector ".home-menu"
+    assert_no_selector ".place-input"
     shot("01-home")
 
     visit night_name_path(game_sessions(:david).code)

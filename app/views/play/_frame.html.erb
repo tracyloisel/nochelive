@@ -3,9 +3,6 @@
 <% round = night.current_round_run %>
 <% extra_sfx = local_assigns[:sfx] %>
 <% extra_fx = local_assigns[:fx] %>
-<% if extra_sfx.blank? && team && (round&.definition&.scavenger? || round&.definition&.category?) && team.answers.exists?(round_run: round) && !night.finished? %>
-  <% extra_sfx = "buzzer_hit" %>
-<% end %>
 
 <%= tag.div id: "night_play",
             class: [ "play", "is-reel", ("is-peak" if team&.pending_rank_up.present? || night.finished?) ],

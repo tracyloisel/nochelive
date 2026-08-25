@@ -36,7 +36,7 @@ class PoseHold < ApplicationRecord
       kind: "rapid_tap",
       points: round_run.definition.points,
       xp: 16,
-      reason: "Estatua sostenida"
+      reason: "scores.statue"
     )
   end
   private_class_method :award_if_finished!

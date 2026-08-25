@@ -7,11 +7,11 @@ module Presenters
     def initialize(night:, device_token:, name:)
       @night = night
       @device_token = device_token.to_s
-      @name = (name.to_s.strip.presence || "Alguien")[0, 40]
+      @name = (name.to_s.strip.presence || I18n.t("presenter.someone"))[0, 40]
     end
 
     def call
-      raise People::Error.new(:missing, "Falta el teléfono.") if @device_token.blank?
+      raise People::Error.new(:missing, I18n.t("errors.people.phone")) if @device_token.blank?
 
       Presenters::Expire.call(claim: @night.pending_presenter_claim)
       @night.reload
@@ -22,7 +22,7 @@ module Presenters
         digest = GameSession.digest_token(@device_token)
 
         if night.presenter_blocks.exists?(device_digest: digest)
-          raise People::Error.new(:blocked, "El presentador no te deja llevar esta noche.")
+          raise People::Error.new(:blocked, I18n.t("errors.people.blocked"))
         end
 
         if night.presenter_device_digest.blank? || night.presenter_held_by?(@device_token)
@@ -34,7 +34,7 @@ module Presenters
         return mine if mine
 
         if night.presenter_claims.pending.exists?
-          raise People::Error.new(:busy, "Ya hay alguien pidiendo la mesa. Espera un minuto.")
+          raise People::Error.new(:busy, I18n.t("errors.people.busy"))
         end
 
         claim = night.presenter_claims.create!(

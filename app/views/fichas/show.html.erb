@@ -9,20 +9,23 @@
 <%= story_reel shot: shot, chrome: chrome, snap: "open", mid: 0.72, handle: false, reel_class: "is-join" do %>
   <section class="ficha-desk">
     <h1><%= @person.display_name %></h1>
-    <p class="lede">Año favorito. Díselo ahora si alguien lo olvidó.</p>
+    <% if @night %>
+      <%= render "shared/lang_assign", url: presenter_person_locale_path(@night.code, @person), current: @person.locale, name: @person.display_name %>
+    <% end %>
+    <p class="lede"><%= t("fichas.year_lede") %></p>
 
-    <p class="year-shout" aria-label="Año favorito"><%= @person.favorite_year %></p>
-    <p class="quiet">No lo pongas en la pantalla grande.</p>
+    <p class="year-shout" aria-label="<%= t("fichas.year") %>"><%= @person.favorite_year %></p>
+    <p class="quiet"><%= t("fichas.not_on_tv") %></p>
 
     <%= form_with url: ficha_path_for(@person), method: :patch, class: "join-form" do %>
-      <label for="given_name">Nombre</label>
+      <label for="given_name"><%= t("fichas.given") %></label>
       <input id="given_name" name="given_name" maxlength="24" required class="code-input" value="<%= @person.given_name %>">
 
-      <label for="family_name">Apellido</label>
+      <label for="family_name"><%= t("fichas.family") %></label>
       <input id="family_name" name="family_name" maxlength="24" class="code-input" value="<%= @person.family_name %>">
 
       <fieldset class="emblem-pick avatar-pick">
-        <legend>Animal</legend>
+        <legend><%= t("fichas.animal") %></legend>
         <% Player::AVATARS.each do |key| %>
           <label class="emblem-choice avatar-choice">
             <input type="radio" name="avatar_key" value="<%= key %>" <%= "checked" if key == @person.avatar_key %>>
@@ -30,31 +33,31 @@
             <% if src %>
               <img src="<%= src %>" alt="" class="avatar-img avatar-img-lg">
             <% end %>
-            <em><%= key.capitalize %></em>
+            <em><%= avatar_name(key) %></em>
           </label>
         <% end %>
       </fieldset>
 
       <%= render "shared/year_field", value: @person.favorite_year, required: true %>
-      <button type="submit" class="btn btn-gold">Guardar ficha</button>
+      <button type="submit" class="btn btn-gold"><%= t("fichas.save") %></button>
     <% end %>
 
     <% if @others.any? %>
       <article class="merge-card">
-        <h2>Fusionar</h2>
-        <p class="quiet">Si hay dos fichas de la misma persona, quédate con esta.</p>
+        <h2><%= t("fichas.merge") %></h2>
+        <p class="quiet"><%= t("fichas.merge_hint") %></p>
         <%= form_with url: ficha_merge_path_for(@person), class: "join-form" do %>
-          <label for="source_id">La otra ficha desaparece</label>
+          <label for="source_id"><%= t("fichas.other_goes") %></label>
           <select id="source_id" name="source_id">
             <% @others.each do |other| %>
               <option value="<%= other.id %>"><%= other.display_name %> · <%= other.favorite_year %></option>
             <% end %>
           </select>
-          <button type="submit" class="btn btn-navy" data-turbo-confirm="¿Fusionar? Se queda <%= @person.display_name %>.">Fusionar en esta</button>
+          <button type="submit" class="btn btn-navy" data-turbo-confirm="<%= t("fichas.merge_confirm", name: @person.display_name) %>"><%= t("fichas.merge_into") %></button>
         <% end %>
       </article>
     <% end %>
 
-    <%= link_to "Todas las fichas", fichas_path_for, class: "btn btn-ghost" %>
+    <%= link_to t("fichas.all"), fichas_path_for, class: "btn btn-ghost" %>
   </section>
 <% end %>

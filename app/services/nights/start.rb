@@ -43,6 +43,8 @@ module Nights
             status: "lobby",
             theme_id: definition.theme.id,
             theme_title: definition.theme.title,
+            starts_at: Time.current,
+            presenter_locale: Locale.cast(I18n.locale),
             presenter_token_digest: GameSession.digest_token(token)
           )
           night.presenter_token = token

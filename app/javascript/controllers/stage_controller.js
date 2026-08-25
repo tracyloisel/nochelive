@@ -20,6 +20,34 @@ const FALLBACK_CUES = [
 ]
 
 const TICK_GAIN = { tick: 0.42, tick_low: 0.58 }
+const GESTURES = ["pointerdown", "touchstart", "keydown", "click"]
+const POOL_SIZE = 4
+
+const store = window.NocheLiveAudio = window.NocheLiveAudio || {
+  context: null,
+  buffers: {},
+  loading: {},
+  pending: [],
+  pool: {},
+  bedName: null,
+  bedEl: null,
+  desiredBed: null,
+  lastSfx: null,
+  lastToken: null,
+  timerEnd: null,
+  lastRemain: null,
+  timerFrame: null,
+  muted: false,
+  unlocked: false,
+  armed: false,
+  gestureAt: 0
+}
+
+try {
+  store.muted = window.localStorage?.getItem("noche_sfx_muted") === "1"
+} catch (_error) {
+  store.muted = false
+}
 
 function catalog() {
   return window.NocheSfx || {}
@@ -30,202 +58,338 @@ function cueNames() {
   return names.length ? names : FALLBACK_CUES
 }
 
+function cuePath(name) {
+  return catalog()[name] || `/sfx/${name}.mp3`
+}
+
+function clampGain(value) {
+  const n = Number(value)
+  if (!Number.isFinite(n)) return 0.85
+  return Math.min(1, Math.max(0, n))
+}
+
+function contextClass() {
+  return window.AudioContext || window.webkitAudioContext || null
+}
+
+function ensureContext() {
+  const AudioCtx = contextClass()
+  if (!AudioCtx) return null
+  store.context = store.context || new AudioCtx()
+  return store.context
+}
+
+function tapContext(ctx) {
+  if (!ctx) return
+  try {
+    const buffer = ctx.createBuffer(1, 1, ctx.sampleRate || 22050)
+    const source = ctx.createBufferSource()
+    source.buffer = buffer
+    source.connect(ctx.destination)
+    source.start(0)
+  } catch (_error) {
+    // Older engines reject a 1-frame buffer; HTML5 still plays.
+  }
+}
+
+function makeAudio(path) {
+  const el = new Audio()
+  el.preload = "auto"
+  el.playsInline = true
+  el.setAttribute("playsinline", "")
+  el.setAttribute("webkit-playsinline", "true")
+  try { el.crossOrigin = "anonymous" } catch (_error) { /* file:// */ }
+  el.src = path
+  return el
+}
+
+function gateElement() {
+  return document.getElementById("noche_sfx_gate")
+}
+
+function unlockHtmlSync() {
+  const path = cuePath("tick")
+  const gate = gateElement() || store.htmlUnlock || makeAudio(path)
+  store.htmlUnlock = gate
+  gate.playsInline = true
+  gate.muted = false
+  try { gate.volume = 0.01 } catch (_error) { /* some engines freeze volume */ }
+  const play = gate.play()
+  if (play && play.then) {
+    play.then(() => {
+      try { gate.pause() } catch (_error) { /* already paused */ }
+      try { gate.currentTime = 0 } catch (_error) { /* not seekable yet */ }
+      try { gate.volume = 1 } catch (_error) { /* ignore */ }
+    }).catch(() => {})
+  }
+}
+
+function unlockWebSync() {
+  const ctx = ensureContext()
+  if (!ctx) return
+  tapContext(ctx)
+  if (ctx.state === "suspended") ctx.resume().catch(() => {})
+}
+
+function preload() {
+  cueNames().forEach((name) => {
+    const pool = (store.pool[name] ||= [])
+    if (!pool.length) pool.push(makeAudio(cuePath(name)))
+    else pool[0].load()
+  })
+}
+
+function playHtml(name, gainValue) {
+  const path = cuePath(name)
+  const pool = (store.pool[name] ||= [])
+  let el = pool.find((node) => node.paused || node.ended)
+  if (!el) {
+    el = makeAudio(path)
+    if (pool.length < POOL_SIZE) pool.push(el)
+  }
+  try { el.pause() } catch (_error) { /* ignore */ }
+  try { el.currentTime = 0 } catch (_error) { /* iOS before loadedmetadata */ }
+  el.muted = false
+  try { el.volume = clampGain(gainValue) } catch (_error) { /* ignore */ }
+  const play = el.play()
+  if (play && play.catch) {
+    play.catch(() => {
+      store.pending.push([name, gainValue])
+    })
+  }
+}
+
+function playCue(name, gainValue = 0.85) {
+  if (store.muted || !name || !cueNames().includes(name)) return
+  playHtml(name, gainValue)
+}
+
+function flushPending() {
+  const queued = store.pending.splice(0)
+  queued.forEach(([name, gain]) => playCue(name, gain))
+}
+
+function hushHtml() {
+  Object.values(store.pool).forEach((nodes) => {
+    nodes.forEach((el) => {
+      try { el.pause() } catch (_error) { /* ignore */ }
+    })
+  })
+  const gate = store.htmlUnlock || gateElement()
+  if (gate) {
+    try { gate.pause() } catch (_error) { /* ignore */ }
+  }
+}
+
+function stopBed() {
+  const el = store.bedEl
+  if (el) {
+    try { el.pause() } catch (_error) { /* ignore */ }
+  }
+  store.bedEl = null
+  store.bedName = null
+}
+
+function startBed(name) {
+  store.desiredBed = name
+  if (store.muted || !name) {
+    stopBed()
+    return
+  }
+  if (store.bedName === name && store.bedEl && !store.bedEl.paused) return
+  if (!store.unlocked) return
+
+  stopBed()
+  const el = makeAudio(cuePath(name))
+  el.loop = true
+  try { el.volume = 0.35 } catch (_error) { /* ignore */ }
+  store.bedEl = el
+  store.bedName = name
+  const play = el.play()
+  if (play && play.catch) {
+    play.catch(() => {
+      store.bedEl = null
+      store.bedName = null
+    })
+  }
+}
+
+function syncBed(name) {
+  if (store.muted || !name) {
+    store.desiredBed = null
+    stopBed()
+    return
+  }
+  startBed(name)
+}
+
+function stageNode(root) {
+  return root.querySelector("#night_play, #night_watch, #night_presenter")
+    || root.querySelector("[data-stage-sfx-value]")
+}
+
+function playFrom(root) {
+  const node = stageNode(root || document)
+  const sfx = node?.dataset.stageSfxValue
+  const token = node?.dataset.stageSfxTokenValue || sfx
+  const fx = node?.dataset.stageFxValue
+  const bed = node?.dataset.stageBedValue
+  if (sfx && (sfx !== store.lastSfx || token !== store.lastToken)) {
+    store.lastSfx = sfx
+    store.lastToken = token
+    playCue(sfx)
+  }
+  if (fx) flash(fx)
+  syncBed(bed)
+  syncTimer(node)
+}
+
+function syncTimer(node) {
+  const raw = node?.dataset.stageTimerEndValue
+  const nextEnd = raw ? Date.parse(raw) : null
+  if (nextEnd === store.timerEnd) {
+    if (store.timerEnd && !store.timerFrame) timerTick()
+    return
+  }
+  store.timerEnd = nextEnd
+  store.lastRemain = null
+  if (store.timerFrame) cancelAnimationFrame(store.timerFrame)
+  store.timerFrame = null
+  if (store.timerEnd) timerTick()
+}
+
+function timerTick() {
+  if (!store.timerEnd) return
+  const remainMs = Math.max(0, store.timerEnd - Date.now())
+  const remain = Math.ceil(remainMs / 1000)
+  if (store.lastRemain !== null && remain < store.lastRemain && remain >= 0) {
+    const low = remain <= 5
+    playCue(low ? "tick_low" : "tick", TICK_GAIN[low ? "tick_low" : "tick"])
+  }
+  store.lastRemain = remain
+  if (remainMs > 0) {
+    store.timerFrame = requestAnimationFrame(timerTick)
+    return
+  }
+  store.timerFrame = null
+  store.desiredBed = null
+  stopBed()
+}
+
+function flash(name) {
+  document.body.classList.remove("is-fx-gold", "is-fx-reveal", "is-fx-shake", "is-fx-level", "is-fx-finale")
+  const map = { shake: "is-fx-shake", reveal: "is-fx-reveal", level: "is-fx-level", finale: "is-fx-finale" }
+  document.body.classList.add(map[name] || "is-fx-gold")
+}
+
+function afterUnlock() {
+  preload()
+  flushPending()
+  if (store.desiredBed) startBed(store.desiredBed)
+  playFrom(document)
+}
+
+function onGesture() {
+  store.gestureAt = performance.now()
+  if (!store.unlocked) {
+    store.unlocked = true
+    unlockHtmlSync()
+    unlockWebSync()
+    afterUnlock()
+    return
+  }
+  if (store.muted) return
+  unlockWebSync()
+  flushPending()
+  if (store.desiredBed && (!store.bedEl || store.bedEl.paused)) startBed(store.desiredBed)
+}
+
+function armGestures() {
+  if (store.armed) return
+  store.armed = true
+  GESTURES.forEach((type) => {
+    const passive = type !== "keydown"
+    document.addEventListener(type, onGesture, { capture: true, passive })
+  })
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden || !store.unlocked || store.muted) return
+    unlockWebSync()
+    if (store.desiredBed) startBed(store.desiredBed)
+  })
+  window.addEventListener("pageshow", () => {
+    if (!store.unlocked || store.muted) return
+    unlockWebSync()
+    if (store.desiredBed) startBed(store.desiredBed)
+  })
+  document.addEventListener("turbo:load", () => playFrom(document))
+  document.addEventListener("turbo:render", () => playFrom(document))
+  document.addEventListener("turbo:frame-render", () => playFrom(document))
+  document.addEventListener("turbo:after-stream-render", () => playFrom(document))
+  document.addEventListener("turbo:before-stream-render", () => {
+    requestAnimationFrame(() => playFrom(document))
+  })
+}
+
+store.play = playCue
+store.unlock = onGesture
+store.playFrom = playFrom
+store.flash = flash
+
 export default class extends Controller {
   static targets = ["mute"]
 
   connect() {
-    this.muted = window.localStorage.getItem("noche_sfx_muted") === "1"
+    try {
+      store.muted = window.localStorage?.getItem("noche_sfx_muted") === "1"
+    } catch (_error) {
+      store.muted = false
+    }
     this.syncMute()
-    this.lastSfx = null
-    this.lastToken = null
-    this.buffers = {}
-    this.bedName = null
-    this.bedSource = null
-    this.timerEnd = null
-    this.lastRemain = null
-    this.unlock = this.unlock.bind(this)
-    document.addEventListener("pointerdown", this.unlock, { once: true })
-    this.observe()
-    this.playFrom(document)
+    armGestures()
+    playFrom(document)
+    if (store.unlocked && !store.muted) afterUnlock()
   }
 
   disconnect() {
-    document.removeEventListener("pointerdown", this.unlock)
-    this.stopBed()
-    if (this.timerFrame) cancelAnimationFrame(this.timerFrame)
+    // Keep the shared store (bed, pool, timer) alive across Turbo body swaps.
   }
 
   toggleMute() {
-    this.muted = !this.muted
-    window.localStorage.setItem("noche_sfx_muted", this.muted ? "1" : "0")
-    this.syncMute()
-    if (this.muted) {
-      this.stopBed()
+    const justUnlocked = store.gestureAt && (performance.now() - store.gestureAt) < 500
+    if (justUnlocked && !store.muted) {
+      this.syncMute()
       return
     }
-    this.unlock()
-    this.playFrom(document)
+    store.muted = !store.muted
+    try {
+      window.localStorage.setItem("noche_sfx_muted", store.muted ? "1" : "0")
+    } catch (_error) { /* private mode */ }
+    this.syncMute()
+    if (store.muted) {
+      store.desiredBed = null
+      stopBed()
+      hushHtml()
+      return
+    }
+    onGesture()
+  }
+
+  play(name, gainValue = 0.85) {
+    playCue(name, gainValue)
+  }
+
+  flash(name) {
+    flash(name)
   }
 
   syncMute() {
     if (!this.hasMuteTarget) return
-    this.muteTarget.setAttribute("aria-pressed", this.muted ? "true" : "false")
-    this.muteTarget.classList.toggle("is-muted", this.muted)
+    this.muteTarget.setAttribute("aria-pressed", store.muted ? "true" : "false")
+    this.muteTarget.classList.toggle("is-muted", store.muted)
     const word = this.muteTarget.querySelector(".word")
-    if (word) word.textContent = this.muted ? "Sonido off" : "Sonido"
-    this.muteTarget.setAttribute("aria-label", this.muted ? "Sonido off" : "Sonido")
-  }
-
-  observe() {
-    document.addEventListener("turbo:frame-render", () => this.playFrom(document))
-    document.addEventListener("turbo:render", () => this.playFrom(document))
-    document.addEventListener("turbo:before-stream-render", () => {
-      requestAnimationFrame(() => this.playFrom(document))
-    })
-  }
-
-  stageNode(root) {
-    return root.querySelector("#night_play, #night_watch, #night_presenter")
-      || root.querySelector("[data-stage-sfx-value]")
-  }
-
-  playFrom(root) {
-    const node = this.stageNode(root)
-    const sfx = node?.dataset.stageSfxValue
-    const token = node?.dataset.stageSfxTokenValue || sfx
-    const fx = node?.dataset.stageFxValue
-    const bed = node?.dataset.stageBedValue
-    if (sfx && (sfx !== this.lastSfx || token !== this.lastToken)) {
-      this.lastSfx = sfx
-      this.lastToken = token
-      this.play(sfx)
-    }
-    if (fx) this.flash(fx)
-    this.syncBed(bed)
-    this.syncTimer(node)
-  }
-
-  syncBed(name) {
-    if (this.muted || !name) {
-      this.stopBed()
-      return
-    }
-    if (this.bedName === name && this.bedSource) return
-    this.startBed(name)
-  }
-
-  async startBed(name) {
-    this.stopBed()
-    this.bedName = name
-    const ctx = this.ensureContext()
-    if (!ctx || this.muted) return
-    try {
-      if (ctx.state === "suspended") await ctx.resume()
-      await this.load(name)
-      const buffer = this.buffers[name]
-      if (!buffer || this.bedName !== name || this.muted) return
-      const source = ctx.createBufferSource()
-      const gain = ctx.createGain()
-      gain.gain.value = 0.35
-      source.buffer = buffer
-      source.loop = true
-      source.connect(gain)
-      gain.connect(ctx.destination)
-      source.start()
-      this.bedSource = source
-    } catch (_error) {
-      this.bedSource = null
-    }
-  }
-
-  stopBed() {
-    try { this.bedSource?.stop() } catch (_error) { /* already stopped */ }
-    this.bedSource = null
-    this.bedName = null
-  }
-
-  syncTimer(node) {
-    const raw = node?.dataset.stageTimerEndValue
-    const nextEnd = raw ? Date.parse(raw) : null
-    if (nextEnd === this.timerEnd) {
-      if (this.timerEnd && !this.timerFrame) this.timerTick()
-      return
-    }
-    this.timerEnd = nextEnd
-    this.lastRemain = null
-    if (this.timerFrame) cancelAnimationFrame(this.timerFrame)
-    this.timerFrame = null
-    if (this.timerEnd) this.timerTick()
-  }
-
-  timerTick() {
-    if (!this.timerEnd) return
-    const remainMs = Math.max(0, this.timerEnd - Date.now())
-    const remain = Math.ceil(remainMs / 1000)
-    if (this.lastRemain !== null && remain < this.lastRemain && remain >= 0) {
-      const low = remain <= 5
-      this.play(low ? "tick_low" : "tick", TICK_GAIN[low ? "tick_low" : "tick"])
-    }
-    this.lastRemain = remain
-    if (remainMs > 0) {
-      this.timerFrame = requestAnimationFrame(() => this.timerTick())
-      return
-    }
-    this.timerFrame = null
-    this.stopBed()
-  }
-
-  async unlock() {
-    const ctx = this.ensureContext()
-    if (!ctx) return
-    if (ctx.state === "suspended") await ctx.resume()
-    cueNames().forEach((name) => this.load(name))
-  }
-
-  ensureContext() {
-    if (!window.AudioContext) return null
-    this.context = this.context || new AudioContext()
-    return this.context
-  }
-
-  async load(name) {
-    if (this.buffers[name] || !cueNames().includes(name)) return
-    const ctx = this.ensureContext()
-    if (!ctx) return
-    const path = catalog()[name] || `/sfx/${name}.mp3`
-    try {
-      const response = await fetch(path)
-      if (!response.ok) return
-      this.buffers[name] = await ctx.decodeAudioData(await response.arrayBuffer())
-    } catch (_error) {
-      this.buffers[name] = null
-    }
-  }
-
-  async play(name, gainValue = 0.85) {
-    if (this.muted || !cueNames().includes(name)) return
-    const ctx = this.ensureContext()
-    if (!ctx) return
-    try {
-      if (ctx.state === "suspended") await ctx.resume()
-      await this.load(name)
-      const buffer = this.buffers[name]
-      if (!buffer) return
-      const source = ctx.createBufferSource()
-      const gain = ctx.createGain()
-      gain.gain.value = gainValue
-      source.buffer = buffer
-      source.connect(gain)
-      gain.connect(ctx.destination)
-      source.start()
-    } catch (_error) {
-      // Autoplay may be blocked; silence is fine.
-    }
-  }
-
-  flash(name) {
-    document.body.classList.remove("is-fx-gold", "is-fx-reveal", "is-fx-shake", "is-fx-level", "is-fx-finale")
-    const map = { shake: "is-fx-shake", reveal: "is-fx-reveal", level: "is-fx-level", finale: "is-fx-finale" }
-    document.body.classList.add(map[name] || "is-fx-gold")
+    const on = this.muteTarget.dataset.soundOn || "Sonido"
+    const off = this.muteTarget.dataset.soundOff || "Sonido off"
+    if (word) word.textContent = store.muted ? off : on
+    this.muteTarget.setAttribute("aria-label", store.muted ? off : on)
   }
 }

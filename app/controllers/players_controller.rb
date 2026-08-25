@@ -31,6 +31,7 @@ class PlayersController < ApplicationController
     @people_on_device = people_on_device.to_a
     player = enter!
     remember_player(player)
+    remember_ward(@night.ward)
     Rails.logger.info("session=#{@night.code} player=#{player.id} event=join role=#{player.role}")
 
     if player.spectator?
@@ -50,7 +51,7 @@ class PlayersController < ApplicationController
     assign_join_screen(error)
     render :new, status: :unprocessable_entity
   rescue ActiveRecord::RecordInvalid
-    redirect_to night_name_path(@night.code), alert: "Escribe un nombre corto."
+    redirect_to night_name_path(@night.code), alert: I18n.t("flashes.short_name")
   end
 
   private
@@ -66,7 +67,8 @@ class PlayersController < ApplicationController
           role: role,
           location: location,
           device_token: device_token,
-          avatar_key: params[:avatar_key]
+          avatar_key: params[:avatar_key],
+          locale: locale_preference
         )
       end
 
@@ -86,7 +88,8 @@ class PlayersController < ApplicationController
           role: role,
           location: location,
           device_token: device_token,
-          person: person
+          person: person,
+          locale: person.locale.presence || locale_preference
         )
       end
 
@@ -94,7 +97,7 @@ class PlayersController < ApplicationController
       cards = People::Recognize.call(ward: @night.ward, given_name: given)
       if cards.any? && params[:soy_nueva].blank? && params[:favorite_year].present?
         @homonym_cards = cards
-        raise People::Error.new(:homonym, "¿Eres una de estas?")
+        raise People::Error.new(:homonym, I18n.t("errors.people.homonym"))
       end
 
       person = People::Register.call(
@@ -111,7 +114,8 @@ class PlayersController < ApplicationController
         role: role,
         location: location,
         device_token: device_token,
-        person: person
+        person: person,
+        locale: person.locale.presence || locale_preference
       )
     end
 

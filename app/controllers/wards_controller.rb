@@ -1,15 +1,25 @@
 class WardsController < ApplicationController
   def new
-    @ward = current_ward
+    @ward = Ward.new
   end
 
   def create
-    ward = Wards::Create.call(name: params.require(:name))
-    remember_ward(ward)
+    ward = Wards::Create.call(
+      name: params[:name],
+      emblem: params[:emblem],
+      chapel_name: params[:chapel_name],
+      chapel_address: params[:chapel_address],
+      city: params[:city],
+      region: params[:region],
+      postal_code: params[:postal_code],
+      country_code: params[:country_code]
+    )
+    remember_ward_host(ward)
     Rails.logger.info("ward=#{ward.code} event=created")
-    redirect_to new_game_session_path
+    redirect_to ward_profile_path(ward.code)
   rescue People::Error => error
     flash.now[:alert] = error.message
+    @ward = Ward.new
     render :new, status: :unprocessable_entity
   end
 end

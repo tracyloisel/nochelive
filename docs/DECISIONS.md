@@ -121,3 +121,27 @@ A new app with logic only in controllers/models and no fixtures/seeds/coverage b
 
 Rejected:
 FactoryBot instead of fixtures. RSpec alongside Minitest. Lowering the coverage threshold. Empty `db/seeds.rb`.
+
+## ADR-013 — Worldwide rama directory, first unit Benidorm
+
+Decision:
+Home is a congregation directory, not a night-code portal. A `Ward` carries chapel address, city, country, and emblem. Empty search shows up to six unidades with Rama Benidorm first (Avinguda Alfonso Puchades, 27). A query filters the world (max 24). Search and night codes live in the home hamburger, never as the first sheet on the painting. Live nights live on that rama’s public profile. `noche_ward` remembers the congregation; `noche_ward_host` (secreto / create) is required for fichas and opening a night. Maps is a search link, not an embed.
+
+Why:
+Noche Live is the worldwide family-night directory. Madrid DEMO as the face of the product was a lie. Church Account SSO and the meetinghouse locator are not available to third parties in this slice.
+
+Rejected:
+Dumping every live night on earth on the home page. Embedding Google Maps. Scraping Church meetinghouse locator. GPS “near me”. Importing the Church directory API.
+
+## ADR-014 — Hosted directory is listed unidades only
+
+Decision:
+`wards.listed` (boolean, default false) is the public mosaic. `Wards::Search` returns listed rows only. Rama Benidorm (`code: RAMA`) is listed. Fixture `blank` and self-serve `Wards::Create` are not, unless the directory has nobody listed yet (first OSS host). Add-rama lives in the hamburger and goes to `/ramas/anadir`, not the create form. The form stays in the repo for people who fork and host themselves.
+
+Why:
+The hosted app is Rama Benidorm’s night, not a worldwide self-serve directory. Env checks would make the filter untestable. A fake contact email does not exist; the mission leader writes to Rama Benidorm. The other door is GitHub.
+
+Rejected:
+`Rails.env.production?` to hide unidades. Deleting `Wards::Create`. Inventing a mailbox.
+
+

@@ -1,13 +1,13 @@
 <div class="chest <%= "is-compact" if local_assigns[:compact] %>" data-controller="chest">
-  <p class="eyebrow">Tesoro desbloqueado</p>
+  <p class="eyebrow"><%= t("play.chest_ready") %></p>
   <% unless local_assigns[:compact] %>
     <div class="art"><%= picto("chest", size: "xl") %></div>
   <% end %>
   <h2><%= grant.chest_title %></h2>
   <% unless local_assigns[:compact] %>
-    <p>Tocad para abrirlo. Nadie sabe qué hay dentro.</p>
+    <p><%= t("play.chest_hint") %></p>
   <% end %>
   <%= button_to night_chest_path(night.code, grant), class: "btn btn-gold picto-btn", data: { action: "chest#open" } do %>
-    <%= picto("chest") %>Abrir el cofre
+    <%= picto("chest") %><%= t("play.open_chest") %>
   <% end %>
 </div>

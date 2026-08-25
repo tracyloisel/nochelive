@@ -4,8 +4,10 @@ class WardGatesControllerTest < ActionDispatch::IntegrationTest
   test "opens a rama with the secret" do
     get ward_gate_path
     assert_response :success
+    assert_select "a[href=?]", add_ward_path
+    assert_select "a[href=?]", new_ward_path, count: 0
     post ward_gate_path, params: { code: "RAMA", token: "rama-demo" }
-    assert_redirected_to new_game_session_path
+    assert_redirected_to ward_profile_path("RAMA")
   end
 
   test "rejects a bad secret" do

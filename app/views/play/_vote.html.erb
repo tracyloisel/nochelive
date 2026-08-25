@@ -10,14 +10,14 @@
   <% end %>
   <%= render "play/reveal", definition: definition, team: team, round: round if round.revealed? %>
 <% elsif ballot %>
-  <p class="prompt"><%= definition.question %></p>
-  <%= render "shared/wait", message: "Voto enviado. Esperad el juicio." %>
+  <p class="prompt"><%= definition.copy(:question) %></p>
+  <%= render "shared/wait", message: t("play.vote_sent") %>
 <% elsif others.empty? %>
-  <p class="lede"><%= definition.instructions %></p>
-  <%= render "shared/wait", message: "Hace falta otro equipo." %>
+  <p class="lede"><%= definition.copy(:instructions) %></p>
+  <%= render "shared/wait", message: t("play.need_team") %>
 <% elsif round.open? %>
-  <p class="prompt"><%= definition.question %></p>
-  <p class="lede"><%= definition.instructions %></p>
+  <p class="prompt"><%= definition.copy(:question) %></p>
+  <p class="lede"><%= definition.copy(:instructions) %></p>
   <ul class="team-list">
     <% others.each do |other| %>
       <li>
@@ -29,6 +29,6 @@
     <% end %>
   </ul>
 <% else %>
-  <p class="lede"><%= definition.instructions %></p>
-  <%= render "shared/wait", message: "El juicio llega." %>
+  <p class="lede"><%= definition.copy(:instructions) %></p>
+  <%= render "shared/wait", message: t("play.judgment_comes") %>
 <% end %>

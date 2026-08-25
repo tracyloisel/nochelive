@@ -65,7 +65,7 @@ Write the four verbs **before** the YAML:
 ```text
 SALA:    …
 CASA:    …   (A or B — different is fine)
-PRESENTER: one button named in Spanish
+PRESENTER: one button, copy in es / pt-BR / en / fr (noche-i18n)
 TV:      what the spectator sees without a phone
 FINALE?: if last round, can the score still flip?
 ```
@@ -102,4 +102,5 @@ intensity: 5
 - [ ] Spectator is opt-in TV, not a failed player
 - [ ] Night still has a rising curve (no quiz pile-up)
 - [ ] Last round can change who wins
+- [ ] User-facing copy is valid and validated in es, pt-BR, en, fr (noche-i18n)
 - [ ] Night-director verdict written from `docs/AGENT_REVIEWS/TEMPLATE.md`

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_25_040000) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_25_190000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -74,8 +74,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_25_040000) do
     t.string "code", null: false
     t.datetime "created_at", null: false
     t.string "presenter_device_digest"
+    t.string "presenter_locale", default: "es", null: false
     t.string "presenter_token_digest", null: false
     t.datetime "season_applied_at"
+    t.datetime "starts_at", null: false
     t.string "status", default: "lobby", null: false
     t.string "theme_id", null: false
     t.string "theme_title", null: false
@@ -83,6 +85,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_25_040000) do
     t.bigint "ward_id", null: false
     t.index ["code"], name: "index_game_sessions_active_code", unique: true, where: "((status)::text <> 'finished'::text)"
     t.index ["code"], name: "index_game_sessions_on_code"
+    t.index ["starts_at"], name: "index_game_sessions_on_starts_at"
     t.index ["ward_id"], name: "index_game_sessions_on_ward_id"
   end
 
@@ -103,6 +106,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_25_040000) do
     t.string "given_name", null: false
     t.string "given_name_key", null: false
     t.bigint "last_ward_team_id"
+    t.string "locale", default: "es", null: false
     t.datetime "updated_at", null: false
     t.bigint "ward_id", null: false
     t.index ["last_ward_team_id"], name: "index_people_on_last_ward_team_id"
@@ -129,6 +133,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_25_040000) do
     t.string "device_token"
     t.bigint "game_session_id", null: false
     t.datetime "last_seen_at"
+    t.string "locale", default: "es", null: false
     t.string "location", default: "room", null: false
     t.string "name", null: false
     t.bigint "person_id"
@@ -216,7 +221,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_25_040000) do
     t.datetime "updated_at", null: false
     t.integer "xp", default: 0, null: false
     t.index ["game_session_id"], name: "index_score_events_on_game_session_id"
-    t.index ["round_run_id", "team_id", "kind"], name: "index_score_events_unique_round_kind", unique: true, where: "((round_run_id IS NOT NULL) AND ((kind)::text = ANY ((ARRAY['correct'::character varying, 'fastest_buzz'::character varying, 'rapid_tap'::character varying, 'participation'::character varying])::text[])))"
+    t.index ["round_run_id", "team_id", "kind"], name: "index_score_events_unique_round_kind", unique: true, where: "((round_run_id IS NOT NULL) AND ((kind)::text = ANY (ARRAY[('correct'::character varying)::text, ('fastest_buzz'::character varying)::text, ('rapid_tap'::character varying)::text, ('participation'::character varying)::text])))"
     t.index ["round_run_id"], name: "index_score_events_on_round_run_id"
     t.index ["team_id"], name: "index_score_events_on_team_id"
   end
@@ -288,12 +293,25 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_25_040000) do
   end
 
   create_table "wards", force: :cascade do |t|
+    t.string "chapel_address"
+    t.string "chapel_name"
+    t.string "city"
     t.string "code", null: false
+    t.string "country_code"
     t.datetime "created_at", null: false
+    t.string "emblem", default: "paloma", null: false
+    t.decimal "latitude", precision: 10, scale: 6
+    t.boolean "listed", default: false, null: false
+    t.decimal "longitude", precision: 10, scale: 6
     t.string "name", null: false
+    t.string "postal_code"
     t.string "presenter_token_digest", null: false
+    t.string "region"
     t.datetime "updated_at", null: false
+    t.index ["city"], name: "index_wards_on_city"
     t.index ["code"], name: "index_wards_on_code", unique: true
+    t.index ["country_code"], name: "index_wards_on_country_code"
+    t.index ["listed"], name: "index_wards_on_listed", where: "(listed = true)"
   end
 
   add_foreign_key "answers", "players"

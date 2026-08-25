@@ -3,12 +3,12 @@ require "test_helper"
 class GameSessionsControllerTest < ActionDispatch::IntegrationTest
   test "new and create a night" do
     get new_game_session_path
-    assert_response :success
+    assert_redirected_to root_path
 
     post game_sessions_path
-    assert_redirected_to new_ward_path
+    assert_redirected_to ward_gate_path
 
-    post wards_path, params: { name: "Madrid Centro" }
+    post wards_path, params: { name: "Rama Valencia" }
     follow_redirect!
 
     assert_difference -> { GameSession.count }, 1 do
@@ -18,11 +18,11 @@ class GameSessionsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test "open rama can claim the live night from crear" do
+  test "open rama can enter the live night from the profile" do
     sign_in_ward
-    get new_game_session_path
+    get ward_profile_path("RAMA")
     assert_response :success
-    assert_select "button", text: /Soy el presentador · DAVID/
+    assert_select ".btn.btn-gold", text: /Entrar/
 
     post presenter_claim_path("DAVID")
     assert_redirected_to presenter_console_path("DAVID")
@@ -34,9 +34,9 @@ class GameSessionsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to root_path
 
     post game_sessions_path
-    assert_redirected_to new_ward_path
+    assert_redirected_to ward_gate_path
 
-    post wards_path, params: { name: "Madrid Centro" }
+    post wards_path, params: { name: "Rama Valencia" }
     follow_redirect!
     post game_sessions_path
     follow_redirect!

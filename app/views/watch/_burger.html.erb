@@ -1,5 +1,5 @@
 <%= render "shared/burger_stack", round: round %>
-<p class="stand-up">¡TODOS DE PIE!</p>
+<p class="stand-up"><%= t("watch.stand_all") %></p>
 <% if line = night_leader_line(night) %>
   <p class="lede"><%= line %></p>
 <% end %>
@@ -7,7 +7,7 @@
 
 <% if round.intro? && round.layer_index.to_i.zero? %>
 <% elsif round.intro? && !round.last_layer? %>
-  <p class="prompt is-arriving"><%= round.current_layer && round.current_layer["text"] %></p>
+  <p class="prompt is-arriving"><%= round.current_layer && round.definition.layer_copy(round.current_layer, "text") %></p>
   <% faces = chapel_players(night) %>
   <% if faces.any? %>
     <ul class="cheer-heat-row">
@@ -23,18 +23,18 @@
     </ul>
   <% end %>
 <% elsif round.intro? && round.last_layer? %>
-  <p class="prompt is-arriving">La salsa.</p>
+  <p class="prompt is-arriving"><%= round.current_layer ? round.definition.layer_copy(round.current_layer, "text") : t("play.salsa") %></p>
 <% elsif round.phase.in?(%w[open locked answering]) %>
-  <p class="prompt"><%= round.definition.question %></p>
-  <%= render "play/choice_tokens", choices: round.definition.choices %>
+  <p class="prompt"><%= round.definition.copy(:question) %></p>
+  <%= render "play/choice_tokens", choices: round.definition.choices, definition: round.definition %>
   <% if first = round.first_buzz %>
-    <p class="shout" role="status">¡<%= first.team.name %> buzzó primero! <span class="delay"><%= latency_label(first.latency_ms) %></span></p>
+    <p class="shout" role="status"><%= t("watch.buzzed_first", name: first.team.name) %> <span class="delay"><%= latency_label(first.latency_ms) %></span></p>
   <% end %>
   <% if round.chapel_correct? %>
   <% elsif round.finale_steal_open? %>
     <p class="shout" role="status"><%= burger_watch_steal_line(night) %></p>
   <% elsif round.score_events.exists?(kind: "incorrect") && round.answering_team %>
-    <p class="lede">Siguiente equipo.</p>
+    <p class="lede"><%= t("watch.next_team") %></p>
   <% end %>
   <% if round.buzzes.any? %>
     <ol class="buzz-board">

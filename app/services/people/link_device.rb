@@ -11,8 +11,8 @@ module People
     end
 
     def call
-      raise Error.new(:ward, "Esa ficha no es de esta rama.") unless @person.ward_id == @night.ward_id
-      raise Error.new(:player, "Ese jugador no es de esta noche.") unless @player.game_session_id == @night.id
+      raise Error.new(:ward, I18n.t("errors.people.ward")) unless @person.ward_id == @night.ward_id
+      raise Error.new(:player, I18n.t("errors.people.player")) unless @player.game_session_id == @night.id
 
       ApplicationRecord.transaction do
         @player.update!(person: @person, name: @person.given_name, avatar_key: @person.avatar_key)

@@ -29,7 +29,7 @@ module Cheers
         player: @player,
         to: @to_player,
         mark: "fire",
-        label: "¡#{@player.name} anima a #{@to_player.name}!"
+        label: I18n.t("presenter.cheer_line", from: @player.name, to: @to_player.name)
       })
       cheer
     end

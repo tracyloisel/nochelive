@@ -1,8 +1,8 @@
 <aside class="claim-veil" role="dialog" aria-modal="true" aria-labelledby="claim-title">
   <div class="claim-modal">
-    <p class="eyebrow">La mesa</p>
-    <h2 id="claim-title">¿Ceder la consola?</h2>
-    <p class="lede"><%= claim.name %> quiere presentar esta noche. Si no respondes, en un minuto cedes.</p>
+    <p class="eyebrow"><%= t("presenter.table") %></p>
+    <h2 id="claim-title"><%= t("presenter.yield_title") %></h2>
+    <p class="lede"><%= t("presenter.yield_lede", name: claim.name) %></p>
     <div class="play-timer"
          data-controller="countdown"
          data-countdown-end-value="<%= claim.expires_at.iso8601 %>"
@@ -10,9 +10,9 @@
       <div class="play-timer-track"><span class="play-timer-bar" data-countdown-target="bar"></span></div>
       <p class="play-timer-count" data-countdown-target="label"><%= PresenterClaim::TIMEOUT %></p>
     </div>
-    <%= button_to "Ceder la mesa", presenter_claim_resolve_path(night.code, claim), params: { decision: "grant" }, class: "btn btn-gold" %>
-    <%= button_to "Seguir yo", presenter_claim_resolve_path(night.code, claim), params: { decision: "refuse" }, class: "btn btn-navy" %>
-    <%= button_to "Nunca esta persona", presenter_claim_resolve_path(night.code, claim), params: { decision: "block" }, class: "btn btn-ghost" %>
-    <p class="quiet">Nunca = solo esta noche, para este teléfono.</p>
+    <%= button_to t("presenter.yield"), presenter_claim_resolve_path(night.code, claim), params: { decision: "grant" }, class: "btn btn-gold" %>
+    <%= button_to t("presenter.stay"), presenter_claim_resolve_path(night.code, claim), params: { decision: "refuse" }, class: "btn btn-navy" %>
+    <%= button_to t("presenter.never"), presenter_claim_resolve_path(night.code, claim), params: { decision: "block" }, class: "btn btn-ghost" %>
+    <p class="quiet"><%= t("presenter.never_hint") %></p>
   </div>
 </aside>

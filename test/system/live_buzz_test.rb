@@ -5,14 +5,17 @@ class LiveBuzzTest < ApplicationSystemTestCase
     code = nil
 
     using_session(:host) do
-      visit new_game_session_path
-      click_button "Crear Reyes y Profetas"
+      visit ward_gate_path
+      fill_in "Código de la rama", with: "BLANK"
+      fill_in "Secreto del presentador", with: "rama-blank"
+      click_button "Entrar"
+      click_button "Abrir la noche"
       assert_selector ".code-display"
       code = find(".code-display").text
       click_link "Abrir consola"
       click_button "Empezar la noche"
       click_button "Abrir"
-      assert_text(/open/i)
+      assert_button "Cerrar buzzer"
     end
 
     using_session(:lucia) do

@@ -6,18 +6,18 @@
 <% end %>
 <%= story_reel shot: shot, chrome: chrome, snap: "open", mid: 0.62, handle: false, reel_class: "is-rank peak" do %>
   <div class="rank-up" role="status">
-    <p class="eyebrow">Nueva dignidad</p>
-    <h1><%= team.pending_rank_up %></h1>
-    <p class="lede"><%= team.name %> ya no es el mismo.</p>
+    <p class="eyebrow"><%= t("play.rank_new") %></p>
+    <h1><%= rank_name(team.pending_rank_up) %></h1>
+    <p class="lede"><%= t("play.rank_changed", name: team.name) %></p>
     <% if team.rey? %>
       <div class="role-gift" role="status">
         <%= picto("trophy") %>
-        <p class="stand-up">Sois Rey</p>
-        <p class="lede">La próxima correcta vale el doble.</p>
+        <p class="stand-up"><%= t("play.you_are_king") %></p>
+        <p class="lede"><%= t("play.next_double") %></p>
       </div>
     <% end %>
     <%= button_to night_rank_up_path(night.code), class: "btn btn-gold picto-btn" do %>
-      <%= picto("sparkle") %>Seguir la noche
+      <%= picto("sparkle") %><%= t("play.continue") %>
     <% end %>
   </div>
 <% end %>

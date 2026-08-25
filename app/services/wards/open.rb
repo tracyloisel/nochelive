@@ -11,8 +11,8 @@ module Wards
 
     def call
       ward = Ward.find_by(code: @code)
-      raise People::Error.new(:missing, "Esa rama no existe.") unless ward
-      raise People::Error.new(:token, "Ese enlace no es válido.") unless ward.presenter_token_matches?(@token)
+      raise People::Error.new(:missing, I18n.t("errors.people.ward_missing")) unless ward
+      raise People::Error.new(:token, I18n.t("errors.people.token")) unless ward.presenter_token_matches?(@token)
 
       ward
     end

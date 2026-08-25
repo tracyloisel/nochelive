@@ -27,6 +27,9 @@ module Nochelive
     # not contain `.rb` files, or that should not be reloaded or eager loaded.
     # Common ones are `templates`, `generators`, or `middleware`, for example.
     config.autoload_lib(ignore: %w[assets tasks])
+    config.i18n.available_locales = [ :es, :"pt-BR", :fr, :en ]
+    config.i18n.default_locale = :es
+    config.i18n.fallbacks = [ :es ]
 
     # Configuration for the application, engines, and railties goes here.
     #

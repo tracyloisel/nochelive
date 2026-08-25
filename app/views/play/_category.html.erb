@@ -2,38 +2,38 @@
   <%= render "play/reveal", definition: definition, team: team, round: round %>
 <% elsif player_remote?(player) %>
   <div class="put-down-art" aria-hidden="true"><%= picto("speak", size: "xl") %></div>
-  <p class="prompt put-down">¡DECID!</p>
-  <p class="lede"><%= definition.remote_variant&.fetch("instructions", definition.instructions) %></p>
+  <p class="prompt put-down"><%= t("play.say_it") %></p>
+  <p class="lede"><%= (definition.remote_variant && definition.remote_instructions.presence) || definition.copy(:instructions) %></p>
   <% if answer %>
-    <p class="sent" role="status">Nombres enviados. El presentador escucha la sala.</p>
+    <p class="sent" role="status"><%= t("play.names_sent") %></p>
   <% elsif round.open? %>
     <%= form_with url: night_round_run_answer_path(night.code, round), class: "answer-form" do %>
-      <label for="body">Tres profetas</label>
-      <input id="body" name="body" maxlength="140" required class="code-input" placeholder="Elías, Daniel…" autocomplete="off">
-      <button class="btn btn-gold picto-btn" type="submit"><%= picto("send") %>Enviar</button>
+      <label for="body"><%= t("play.three_prophets") %></label>
+      <input id="body" name="body" maxlength="140" required class="code-input" placeholder="<%= t("play.prophets_ph") %>" autocomplete="off">
+      <button class="btn btn-gold picto-btn" type="submit"><%= picto("send") %><%= t("play.send") %></button>
     <% end %>
   <% else %>
-    <%= render "shared/wait", message: "Preparad los nombres. El presentador va a abrir." %>
+    <%= render "shared/wait", message: t("play.names_ready") %>
   <% end %>
 <% else %>
   <div class="put-down-art" aria-hidden="true"><%= picto("speak", size: "xl") %></div>
-  <p class="prompt put-down">¡DECID!</p>
-  <p class="lede"><%= definition.instructions %></p>
+  <p class="prompt put-down"><%= t("play.say_it") %></p>
+  <p class="lede"><%= definition.copy(:instructions) %></p>
   <% if answer %>
     <div class="lock lock-gold" role="status">
-      <p class="place">¡Ya!</p>
-      <p>El presentador cuenta.</p>
+      <p class="place"><%= t("play.already") %></p>
+      <p><%= t("play.host_counts") %></p>
     </div>
   <% elsif round.open? %>
     <%= form_with url: night_round_run_answer_path(night.code, round), class: "hunt-form" do %>
       <input type="hidden" name="body" value="¡Ya!">
       <button class="buzz hunt-btn" type="submit">
         <%= picto("speak", size: "xl") %>
-        <span>¡YA!</span>
+        <span><%= t("play.already_shout") %></span>
       </button>
     <% end %>
-    <p class="hint">Gritad. Luego golpead.</p>
+    <p class="hint"><%= t("play.shout_then") %></p>
   <% else %>
-    <%= render "shared/wait", message: "Abrid la boca. El presentador va a abrir." %>
+    <%= render "shared/wait", message: t("play.open_mouth") %>
   <% end %>
 <% end %>

@@ -2,34 +2,34 @@
   <%= render "shared/still", src: night_still_src(night), poster: true %>
 <% end %>
 <% chrome = capture do %>
-  <%= render "shared/reel_chrome", night: night, title: "#{night.code} · La mesa", close: true %>
+  <%= render "shared/reel_chrome", night: night, title: "#{night.code} · #{t("presenter.table")}", close: true %>
 <% end %>
 <% case claim.status %>
 <% when "granted" %>
   <%= story_reel shot: shot, chrome: chrome, snap: "mid", handle: false, reel_class: "is-join" do %>
     <section id="claim_wait" data-controller="visit" data-visit-url-value="<%= presenter_console_path(night.code) %>">
-      <%= render "shared/wait", message: "La mesa es tuya." %>
+      <%= render "shared/wait", message: t("presenter.yours") %>
     </section>
   <% end %>
 <% when "blocked" %>
   <%= story_reel shot: shot, chrome: chrome, snap: "mid", handle: false, reel_class: "is-join" do %>
     <section id="claim_wait">
-      <%= render "shared/wait", message: "Esta noche no te deja presentar." %>
-      <%= link_to "Volver", presenter_gate_path(night.code), class: "btn btn-ghost" %>
+      <%= render "shared/wait", message: t("presenter.blocked") %>
+      <%= link_to t("presenter.back"), presenter_gate_path(night.code), class: "btn btn-ghost" %>
     </section>
   <% end %>
 <% when "refused" %>
   <%= story_reel shot: shot, chrome: chrome, snap: "mid", handle: false, reel_class: "is-join" do %>
     <section id="claim_wait">
-      <%= render "shared/wait", message: "El presentador sigue en la mesa." %>
-      <%= link_to "Pedir otra vez", presenter_gate_path(night.code), class: "btn btn-navy" %>
+      <%= render "shared/wait", message: t("presenter.still_holder") %>
+      <%= link_to t("presenter.ask_again"), presenter_gate_path(night.code), class: "btn btn-navy" %>
     </section>
   <% end %>
 <% else %>
   <%= story_reel shot: shot, chrome: chrome, snap: "mid", handle: false, reel_class: "is-join" do %>
     <section id="claim_wait">
-      <%= render "shared/wait", message: "Le avisamos a quien tiene la mesa." %>
-      <p class="lede">Si no responde, en un minuto es tuya.</p>
+      <%= render "shared/wait", message: t("presenter.waiting") %>
+      <p class="lede"><%= t("presenter.wait_minute") %></p>
       <div class="play-timer"
            data-controller="countdown"
            data-countdown-end-value="<%= claim.expires_at.iso8601 %>"

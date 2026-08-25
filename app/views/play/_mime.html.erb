@@ -2,10 +2,10 @@
   <% if round.revealed? %>
     <%= render "play/reveal", definition: definition, team: team, round: round %>
   <% elsif answer %>
-    <%= render "shared/wait", message: "Habéis vivido la historia. Esperad." %>
+    <%= render "shared/wait", message: t("play.lived_story") %>
   <% elsif round.open? %>
-    <p class="prompt put-down">TÚ ERES JONÁS.</p>
-    <p class="lede"><%= definition.remote_variant["instructions"] %></p>
+    <p class="prompt put-down"><%= t("play.you_are_jonah") %></p>
+    <p class="lede"><%= definition.remote_instructions %></p>
     <div class="path-desk"
          data-controller="path"
          data-path-url-value="<%= night_round_run_answer_path(night.code, round) %>">
@@ -27,15 +27,15 @@
         <%= picto(beat["picto"], size: "lg") %>
       <% end %>
     </div>
-    <%= render "shared/wait", message: "Tres momentos. El presentador va a abrir." %>
+    <%= render "shared/wait", message: t("play.three_beats") %>
   <% end %>
 <% else %>
   <div class="put-down-art" aria-hidden="true"><%= picto("hands", size: "xl") %></div>
-  <p class="prompt put-down">SIN PALABRAS.</p>
-  <p class="lede"><%= definition.instructions %></p>
+  <p class="prompt put-down"><%= t("play.no_words") %></p>
+  <p class="lede"><%= definition.copy(:instructions) %></p>
   <% if round.revealed? %>
     <%= render "play/reveal", definition: definition, team: team, round: round %>
   <% else %>
-    <%= render "shared/wait", message: "Un jugador representa. Los demás adivinan en voz alta." %>
+    <%= render "shared/wait", message: t("play.mime_wait") %>
   <% end %>
 <% end %>

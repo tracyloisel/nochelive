@@ -15,7 +15,13 @@ module Rounds
       return @round if @round.open? || @round.completed? || @round.last_layer?
 
       @round.update!(layer_index: @round.layer_index + 1)
-      pulse = @round.last_layer? ? nil : { kind: "advance" }
+      pulse = if @round.last_layer?
+        nil
+      elsif @round.layer_index <= 1
+        { kind: "open" }
+      else
+        { kind: "advance" }
+      end
       @round.game_session.broadcast_state(pulse: pulse)
       @round
     end

@@ -12,6 +12,6 @@ class Buzz < ApplicationRecord
 
   def first? = position == 1
   def medal
-    { 1 => "1.º", 2 => "2.º", 3 => "3.º" }[position] || "#{position}.º"
+    I18n.t("ordinals.#{position}", default: I18n.t("ordinals.other", n: position))
   end
 end

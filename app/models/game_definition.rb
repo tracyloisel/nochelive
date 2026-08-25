@@ -12,7 +12,7 @@ class GameDefinition
     :choices, :correct_choice, :points, :points_max, :duration, :difficulty,
     :intensity, :remote, :remote_variant, :reward, :presentation, :sfx,
     :target_taps, :forbidden, :target, :guess_keys, :items, :order, :goal,
-    :swing, :layers, keyword_init: true
+    :swing, :layers, :theme_id, keyword_init: true
   ) do
     def buzzer? = type.in?(%w[buzzer finale])
     def finale? = type == "finale"
@@ -37,8 +37,16 @@ class GameDefinition
     end
 
     def matching_names(body)
-      hay = fold_name(body)
-      guess_keys.select { |key| hay.include?(fold_name(key)) }.uniq
+      tokens = guess_tokens(body)
+      seen = {}
+      all_guess_keys.each do |key|
+        folded = fold_name(key)
+        next if folded.blank? || seen[folded]
+        next unless tokens.include?(folded)
+
+        seen[folded] = key
+      end
+      seen.values
     end
 
     def fold_name(text)
@@ -51,16 +59,20 @@ class GameDefinition
     end
 
     def matches_guess?(body)
-      hay = ActiveSupport::Inflector.transliterate(body.to_s.downcase)
-      guess_keys.any? { |key| hay.include?(ActiveSupport::Inflector.transliterate(key.to_s.downcase)) }
+      tokens = guess_tokens(body)
+      all_guess_keys.any? { |key| tokens.include?(fold_name(key)) }
+    end
+
+    def guess_tokens(body)
+      fold_name(body).scan(/[a-z0-9]+/)
     end
 
     def item_pairs
       Array(items).map do |item|
         if item.is_a?(Hash)
-          { "key" => (item["key"] || item[:key]).to_s, "label" => (item["label"] || item[:label]).to_s }
+          { "key" => (item["key"] || item[:key]).to_s, "label" => item_copy(item) }
         else
-          { "key" => item.to_s, "label" => item.to_s }
+          { "key" => item.to_s, "label" => item_copy(item) }
         end
       end
     end
@@ -90,13 +102,70 @@ class GameDefinition
       remote_type == "story_path"
     end
 
+    def copy(field, **opts)
+      fallback = opts.key?(:default) ? opts[:default] : public_send(field)
+      I18n.t("games.#{theme_id}.rounds.#{id}.#{field}", default: fallback)
+    end
+
+    def choice_copy(choice)
+      key = if choice.is_a?(Hash)
+        (choice["key"] || choice[:key] || choice["label"] || choice[:label]).to_s
+      else
+        choice.to_s
+      end
+      fallback = if choice.is_a?(Hash)
+        (choice["label"] || choice[:label] || key).to_s
+      else
+        choice.to_s
+      end
+      I18n.t("games.#{theme_id}.rounds.#{id}.choices.#{key}", default: fallback)
+    end
+
+    def item_copy(item)
+      key = item.is_a?(Hash) ? (item["key"] || item[:key]).to_s : item.to_s
+      fallback = item.is_a?(Hash) ? (item["label"] || item[:label] || key).to_s : item.to_s
+      I18n.t("games.#{theme_id}.rounds.#{id}.items.#{key}", default: fallback)
+    end
+
+    def layer_copy(layer, field)
+      key = layer["key"].to_s
+      I18n.t("games.#{theme_id}.rounds.#{id}.layers.#{key}.#{field}", default: layer[field].to_s)
+    end
+
+    def beat_copy(beat, field)
+      key = beat["key"].to_s
+      fallback = (beat[field] || beat["shout"] || key).to_s
+      I18n.t("games.#{theme_id}.rounds.#{id}.beats.#{key}.#{field}", default: fallback)
+    end
+
+    def remote_instructions
+      raw = remote_variant.is_a?(Hash) ? remote_variant["instructions"] : nil
+      I18n.t("games.#{theme_id}.rounds.#{id}.remote_instructions", default: raw)
+    end
+
+    def forbidden_copy
+      Array(forbidden).map do |word|
+        slug = ActiveSupport::Inflector.transliterate(word.to_s).downcase.gsub(/[^a-z0-9]/, "")
+        I18n.t("games.#{theme_id}.rounds.#{id}.forbidden.#{slug}", default: word.to_s)
+      end
+    end
+
+    def all_guess_keys
+      keys = Array(guess_keys).map(&:to_s)
+      Locale::AVAILABLE.each do |code|
+        extra = I18n.t("games.#{theme_id}.rounds.#{id}.guess_keys", locale: Locale.i18n(code), default: [])
+        keys.concat(Array(extra).map(&:to_s)) if extra.is_a?(Array)
+      end
+      keys.map { |key| key.to_s.strip }.reject(&:blank?).uniq
+    end
+
     def story_beats
       Array(remote_variant&.fetch("beats", nil)).map do |beat|
         {
           "key" => beat["key"].to_s,
-          "shout" => beat["shout"].to_s,
+          "shout" => beat_copy(beat, "shout"),
           "picto" => beat["picto"].to_s.presence || "sparkle",
-          "label" => (beat["label"] || beat["shout"]).to_s
+          "label" => beat_copy(beat, "label")
         }
       end
     end
@@ -150,7 +219,11 @@ class GameDefinition
     end
   end
 
-  Theme = Struct.new(:id, :title, :tagline, keyword_init: true)
+  Theme = Struct.new(:id, :title, :tagline, keyword_init: true) do
+    def copy(field)
+      I18n.t("games.#{id}.#{field}", default: public_send(field))
+    end
+  end
 
   attr_reader :theme, :rounds
 
@@ -174,7 +247,7 @@ class GameDefinition
       title: theme_data.fetch("title"),
       tagline: theme_data["tagline"]
     )
-    @rounds = data.fetch("rounds").map { |row| build_round(row) }
+    @rounds = data.fetch("rounds").map { |row| build_round(row, @theme.id) }
   end
 
   def find_round(id)
@@ -183,7 +256,7 @@ class GameDefinition
 
   private
 
-  def build_round(row)
+  def build_round(row, theme_id)
     variant = row["remote_variant"]
     Round.new(
       id: row.fetch("id"),
@@ -214,7 +287,8 @@ class GameDefinition
       order: Array(row["order"]).map(&:to_s),
       goal: row["goal"],
       swing: row["swing"],
-      layers: normalize_layers(row["layers"])
+      layers: normalize_layers(row["layers"]),
+      theme_id: theme_id
     )
   end
 

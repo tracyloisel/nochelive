@@ -37,7 +37,7 @@ class TapRun < ApplicationRecord
       kind: "rapid_tap",
       points: points,
       xp: 16,
-      reason: "Piedra lanzada"
+      reason: "scores.stone"
     )
   end
   private_class_method :award_if_finished!

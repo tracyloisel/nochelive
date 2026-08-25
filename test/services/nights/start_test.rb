@@ -8,5 +8,6 @@ class Nights::StartTest < ActiveSupport::TestCase
     assert_equal [ "Casa de David", "Leones de Judá" ], night.teams.order(:name).pluck(:name)
     assert night.teams.all? { |team| team.xp.zero? }
     assert_equal ward_teams(:leones_season), night.teams.find_by!(name: "Leones de Judá").ward_team
+    assert night.starts_at.present?
   end
 end

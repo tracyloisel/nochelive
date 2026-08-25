@@ -1,0 +1,160 @@
+pt-BR:
+  games:
+    kings_and_prophets:
+      title: "Reis e Profetas"
+      tagline: "Uma noite de coroas, fogo e pedras"
+      rounds:
+        salomon_wisdom:
+          title: "A escolha de Salomão"
+          question: "Deus deixou Salomão pedir o que quisesse. O que ele pediu?"
+          answer: "Sabedoria para governar o povo."
+          choices:
+            riches: "Riquezas"
+            wisdom: "Sabedoria"
+            army: "Um exército"
+        rey_o_profeta:
+          title: "Rei ou profeta?"
+          question: "Elias foi um rei de Israel."
+          answer: "Falso. Elias foi profeta."
+          choices:
+            "true": "Verdadeiro"
+            "false": "Falso"
+        david_goliath:
+          title: "Davi contra Golias"
+          question: "Com o que Davi derrotou Golias?"
+          answer: "Com uma funda e uma pedra."
+          instructions: "Na sala: três bolas. Derrubem a torre de Golias."
+          remote_instructions: "Mantenha o ritmo e lance a pedra."
+        elias_carmel:
+          title: "Fogo do céu"
+          question: "O que desceu sobre o altar de Elias no Carmelo?"
+          answer: "Fogo do Senhor."
+          choices:
+            rain: "Chuva"
+            fire: "Fogo"
+            wind: "Vento"
+            oil: "Azeite"
+        daniel_lions:
+          title: "Daniel e os leões"
+          question: "Por que jogaram Daniel na cova dos leões?"
+          answer: "Porque ele orava ao seu Deus."
+          choices:
+            stole: "Porque roubou o rei"
+            prayed: "Porque orava ao seu Deus"
+            slept: "Porque dormiu"
+        freeze_saul:
+          title: "A dança de Davi"
+          instructions: "Dancem. Quando o apresentador parar, congelem!"
+          answer: "Davi dançou diante do Senhor."
+          remote_instructions: "Quando você ver CONGELEM, toque. Não antes."
+        mime_jonah:
+          title: "Jonas sem palavras"
+          instructions: "Um jogador representa Jonas. A equipe adivinha."
+          answer: "Jonas e o grande peixe."
+          remote_instructions: "Você é Jonas. Viva os três momentos."
+          beats:
+            storm:
+              shout: "A TEMPESTADE!"
+              label: "A TEMPESTADE!"
+            fish:
+              shout: "O PEIXE!"
+              label: "O PEIXE!"
+            shore:
+              shout: "TERRA!"
+              label: "TERRA!"
+        kings_order:
+          title: "A ordem dos reis"
+          question: "Quem reinou primeiro?"
+          instructions: "Toquem os reis na ordem do tempo."
+          answer: "Saul, depois Davi, depois Salomão."
+          items:
+            saul: "Saul"
+            david: "Davi"
+            salomon: "Salomão"
+        taboo_nabot:
+          title: "Palavras proibidas"
+          instructions: "Um jogador conta a história. Não pode falar as palavras vermelhas. Os outros adivinham."
+          target: "A vinha de Nabote"
+          answer: "Acabe quis a vinha de Nabote."
+          remote_instructions: "Em casa: escutem a chamada e escrevam a história."
+          forbidden:
+            vina: "vinha"
+            acab: "Acabe"
+            jezabel: "Jezabel"
+          guess_keys:
+            - nabote
+            - naboth
+            - vinha
+            - nabot
+        statue_david:
+          title: "Estátua de Davi"
+          instructions: "Guardem o telefone. 30 segundos. Façam a estátua de Davi diante de Golias."
+          answer: "Davi não correu: se plantou."
+          remote_instructions: "Em casa: 30 segundos. A mesma estátua na frente da câmera."
+        scavenger_harp:
+          title: "A harpa de Davi"
+          instructions: "Fiquem de pé. Achem uma harpa, ou qualquer coisa que soe."
+          answer: "Davi acalmava Saul com a harpa."
+          remote_instructions: "Em casa: um objeto que soe. Caixa, chaves, panela, voz."
+        category_prophets:
+          title: "Nomes de profetas"
+          instructions: "Gritem profetas. Três bastam."
+          answer: "Isaías, Jeremias, Elias, Eliseu, Daniel…"
+          remote_instructions: "Escrevam três profetas. Separem com vírgulas."
+          guess_keys:
+            - Isaías
+            - Isaias
+            - Jeremias
+            - Elias
+            - Eliseu
+            - Daniel
+            - Jonas
+            - Samuel
+            - Moisés
+            - Moises
+            - Natã
+            - Natan
+            - Miqueias
+            - Jeremías
+            - Elías
+            - Eliseo
+            - Jonás
+        vote_solomon:
+          title: "O julgamento de Salomão"
+          question: "Quem mostrou mais sabedoria nesta noite?"
+          instructions: "Vocês não podem votar em vocês mesmos."
+          answer: "Sabedoria para ver o amor de verdade."
+        semifinal_crown:
+          title: "A coroa treme"
+          question: "Quem ungiu Davi em segredo, ainda jovem?"
+          answer: "Samuel."
+          choices:
+            saul: "Saul"
+            samuel: "Samuel"
+            nathan: "Natã"
+        finale_prophet:
+          title: "O burger de fogo"
+          question: "O que Eliseu pediu a Elias antes do carro de fogo o levar?"
+          instructions: "Todo mundo de pé! A última palavra da noite."
+          answer: "Uma porção dobrada do seu espírito."
+          choices:
+            chariot: "O carro de fogo"
+            double: "Uma porção dobrada do seu espírito"
+            crown: "A coroa de Elias"
+          layers:
+            pan:
+              label: "O pão"
+              text: "Elias e Eliseu caminham juntos."
+              host: "Olhem. O mestre e o discípulo. Elias vai ser levado. Eliseu não se afasta. Um segundo de silêncio."
+            jordan:
+              label: "A alface"
+              text: "Chegam ao Jordão. A água se abre."
+              host: "Elias bate no rio. A água se abre. Passam a seco. Como o povo há tempo."
+            chariot:
+              label: "A carne"
+              text: "Um carro de fogo. Elias sobe ao céu."
+              host: "Cavalos de fogo. Um carro. Elias sobe. Eliseu fica. O que ele vai pedir?"
+            salsa:
+              label: "O molho"
+              text: "O molho."
+              host: "O burger está servido. Agora a pergunta. Sem pressa."

@@ -12,7 +12,7 @@
          data-story-index-value="<%= live_index %>"
          data-story-live-index-value="<%= live_index %>"
          data-action="pointerdown->story#start sheet:dismiss->story#exit">
-  <p class="skip">Desliza abajo para salir. Izquierda y derecha cambian de ronda. Arriba abre el juego.</p>
+  <p class="skip"><%= t("chrome.skip_play") %></p>
   <div class="play-shot">
     <%= render "shared/story_pages", night: night, current: round, reveal_future: false, pulse: local_assigns[:pulse] %>
   </div>
@@ -30,7 +30,7 @@
                 aria-controls="play_score"
                 aria-expanded="false"
                 data-story-target="scoreBtn"
-                aria-label="Puntos, <%= team.cached_score %>">
+                aria-label="<%= t("chrome.points", score: team.cached_score) %>">
           <%= picto("star") %>
           <span><%= team.cached_score %></span>
         </button>
@@ -43,21 +43,21 @@
          hidden
          data-story-target="score"
          role="dialog"
-         aria-label="Tu equipo">
+         aria-label="<%= t("chrome.your_team") %>">
       <header class="team-bar">
         <span class="emblem emblem-<%= team.emblem %>"><%= render "shared/emblem", key: team.emblem %></span>
         <div>
-          <p class="eyebrow">Ronda <%= round.position %> · <%= band_label(round.position) %></p>
+          <p class="eyebrow"><%= t("play.round_band", n: round.position, band: band_label(round.position)) %></p>
           <h1><%= team.name %></h1>
         </div>
         <div class="who">
           <%= render "shared/avatar", player: player %>
-          <p class="score" aria-label="puntos"><%= picto("star") %><%= team.cached_score %></p>
+          <p class="score" aria-label="<%= t("chrome.points_word") %>"><%= picto("star") %><%= team.cached_score %></p>
         </div>
         <%= render "play/progress", team: team %>
       </header>
       <% if team.streak >= 2 %>
-        <p class="streak" role="status">Racha ×<%= team.streak %></p>
+        <p class="streak" role="status"><%= t("chrome.streak", count: team.streak) %></p>
       <% end %>
     </div>
   </div>
@@ -69,13 +69,16 @@
        data-sheet-snap-value="<%= quiz_phone ? "open" : (round.revealed? || answer.present? ? "open" : "mid") %>"
        data-sheet-peek-ratio-value="0.18"
        data-sheet-mid-ratio-value="<%= quiz_phone ? 0.52 : 0.40 %>"
+       data-sheet-open-label-value="<%= t("chrome.grip_open") %>"
+       data-sheet-mid-label-value="<%= t("chrome.grip_mid") %>"
+       data-sheet-peek-label-value="<%= t("chrome.grip_peek") %>"
        data-action="pointerdown->sheet#start">
     <button type="button"
             class="play-sheet-grip"
             data-sheet-target="handle"
             data-action="click->sheet#cycle"
-            aria-label="Mover la tarjeta para ver el dibujo"
-            aria-valuetext="Tarjeta media">
+            aria-label="<%= t("chrome.grip") %>"
+            aria-valuetext="<%= t("chrome.grip_mid") %>">
       <span class="play-sheet-pip" aria-hidden="true"></span>
     </button>
 
@@ -83,7 +86,7 @@
       <div class="play-stage">
         <p class="round-title">
           <%= render "shared/round_icon", key: definition.icon %>
-          <span><%= definition.title %></span>
+          <span><%= definition.copy(:title) %></span>
         </p>
 
         <% if definition.taboo? %>
@@ -103,7 +106,7 @@
         <% elsif round.intro? %>
           <p class="band"><%= band_label(round.position) %></p>
           <p class="prompt"><%= round_prompt(round) %></p>
-          <%= render "shared/wait", message: "Preparados… el presentador va a abrir." %>
+          <%= render "shared/wait", message: t("play.wait_intro") %>
         <% elsif definition.pose? %>
           <%= render "play/pose", night: night, team: team, player: player, round: round, definition: definition, hold: hold %>
         <% elsif definition.mime? %>
@@ -125,7 +128,7 @@
         <%= render "play/chest", night: night, grant: grant, compact: !round.revealed? %>
       <% elsif opened = team.opened_rewards.order(updated_at: :desc).first %>
         <div class="loot" role="status">
-          <p class="eyebrow">Recompensa</p>
+          <p class="eyebrow"><%= t("play.reward") %></p>
           <h2><%= opened.reward_title %></h2>
           <p><%= opened.reward_detail %></p>
         </div>

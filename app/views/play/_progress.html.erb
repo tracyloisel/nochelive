@@ -1,13 +1,13 @@
 <div class="progress" role="status">
-  <p class="rank"><%= team.rank_label %> · <%= team.xp %> XP</p>
-  <div class="xp" aria-label="Progreso hacia <%= team.next_rank_label %>">
+  <p class="rank"><%= t("play.xp", rank: rank_name(team.rank_key), xp: team.xp) %></p>
+  <div class="xp" aria-label="<%= t("play.progress", rank: rank_name(team.next_rank_label)) %>">
     <span style="width: <%= team.xp_progress %>%"></span>
   </div>
-  <p class="quiet tiny">Siguiente: <%= team.next_rank_label %></p>
+  <p class="quiet tiny"><%= t("play.next_rank", rank: rank_name(team.next_rank_label)) %></p>
   <% if team.ward_team %>
-    <p class="quiet tiny">Temporada · <%= team.ward_team.season_rank_label %></p>
+    <p class="quiet tiny"><%= t("play.season_rank", rank: rank_name(team.ward_team.season_rank_label)) %></p>
   <% end %>
   <% if team.rey? %>
-    <p class="role" role="status">Rey · próxima ×2</p>
+    <p class="role" role="status"><%= t("play.king_next") %></p>
   <% end %>
 </div>

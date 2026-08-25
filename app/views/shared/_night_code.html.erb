@@ -1,0 +1,13 @@
+<details class="home-code">
+  <summary class="quiet-link"><%= t("home.night_code") %></summary>
+  <p class="lede"><%= t("home.night_code_hint") %></p>
+  <%= form_with url: join_path, method: :post, class: "join-form home-join" do %>
+    <label for="code"><%= t("home.code") %></label>
+    <input id="code" name="code" inputmode="text" autocomplete="off" autocapitalize="characters" maxlength="8" required class="code-input" placeholder="DEMO">
+    <button type="submit" class="btn btn-navy"><%= picto("door") %><%= t("home.enter") %></button>
+    <p class="door-links">
+      <button type="submit" name="as" value="present" class="quiet-link"><%= t("home.presenter") %></button>
+      <button type="submit" name="as" value="watch" class="quiet-link"><%= t("home.watch") %></button>
+    </p>
+  <% end %>
+</details>

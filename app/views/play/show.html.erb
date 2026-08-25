@@ -1,4 +1,4 @@
-<% content_for :title, current_team&.name || "Elige equipo" %>
+<% content_for :title, current_team&.name || t("join.pick_team") %>
 <% content_for :body_class, "is-kid is-play" %>
 <%= turbo_stream_from @night.player_stream(current_player) %>
 <div hidden data-controller="presence" data-presence-url-value="<%= night_presence_path(@night.code) %>"></div>

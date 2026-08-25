@@ -76,4 +76,27 @@ class LivePresenceTest < ActionDispatch::IntegrationTest
     assert_includes html, "Siguiente"
     assert_includes html, "data-sfx=\"question_change\""
   end
+
+  test "round yaml chooses the opening and scoring cues" do
+    html = ApplicationController.render(
+      partial: "shared/pulse",
+      locals: { pulse: { kind: "open" }, round: round_runs(:salomon) }
+    )
+    assert_includes html, "data-sfx=\"round_start\""
+    html = ApplicationController.render(
+      partial: "shared/pulse",
+      locals: { pulse: { kind: "score", label: "Leones" }, round: round_runs(:david_goliath) }
+    )
+    assert_includes html, "data-sfx=\"fire_whoosh\""
+    html = ApplicationController.render(
+      partial: "shared/pulse",
+      locals: { pulse: { kind: "lock" }, round: round_runs(:freeze_saul) }
+    )
+    assert_includes html, "data-sfx=\"dramatic_fire\""
+    html = ApplicationController.render(
+      partial: "shared/pulse",
+      locals: { pulse: { kind: "miss", label: "Casa" } }
+    )
+    assert_includes html, "data-sfx=\"wrong_soft\""
+  end
 end

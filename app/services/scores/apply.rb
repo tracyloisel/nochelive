@@ -54,7 +54,7 @@ module Scores
             kind: "incorrect",
             points: 0,
             xp: 0,
-            reason: "Respuesta incorrecta"
+            reason: "scores.incorrect"
           )
         end
         team.update!(streak: 0)
@@ -79,7 +79,7 @@ module Scores
           kind: "correct",
           points: points,
           xp: xp,
-          reason: "Respuesta correcta"
+          reason: "scores.correct"
         )
       end
 
@@ -96,7 +96,7 @@ module Scores
           kind: "correct",
           points: points,
           xp: xp,
-          reason: multiplier > 1 ? "Correcta con corona ×2" : "Respuesta correcta"
+          reason: multiplier > 1 ? "scores.crown" : "scores.correct"
         )
 
         return unless @round_run.first_buzz&.team_id == team.id
@@ -108,7 +108,7 @@ module Scores
           kind: "fastest_buzz",
           points: 5,
           xp: 8,
-          reason: "Primer buzz"
+          reason: "scores.first_buzz"
         )
       end
   end

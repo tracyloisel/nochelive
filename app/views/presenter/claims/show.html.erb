@@ -1,3 +1,3 @@
-<% content_for :title, "La mesa" %>
+<% content_for :title, t("presenter.table") %>
 <%= turbo_stream_from @night.claim_stream(@claim.device_digest) %>
 <%= render "presenter/claims/wait", night: @night, claim: @claim %>

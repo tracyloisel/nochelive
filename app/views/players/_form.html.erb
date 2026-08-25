@@ -1,6 +1,6 @@
-<h1><%= @needs_family ? "Tu apellido" : "¿Cómo te llaman?" %></h1>
+<h1><%= @needs_family ? t("join.family") : t("join.who") %></h1>
 <% unless @needs_family %>
-  <p class="lede">En la rama. Como te gritan.</p>
+  <p class="lede"><%= t("join.lede") %></p>
 <% end %>
 
 <%= form_with url: night_players_path(night.code), method: :post, class: "join-form" do %>
@@ -10,33 +10,33 @@
     <input type="hidden" name="favorite_year" value="<%= @favorite_year %>">
     <input type="hidden" name="location" value="<%= @location.presence || "room" %>">
     <input type="hidden" name="soy_nueva" value="1">
-    <label for="family_name">Tu apellido</label>
-    <input id="family_name" name="family_name" maxlength="24" required class="code-input" placeholder="García" value="<%= @family_name %>" autocomplete="family-name">
-    <button type="submit" class="btn btn-gold picto-btn"><%= picto("check") %>Guardar ficha</button>
+    <label for="family_name"><%= t("join.family") %></label>
+    <input id="family_name" name="family_name" maxlength="24" required class="code-input" placeholder="<%= t("join.family_ph") %>" value="<%= @family_name %>" autocomplete="family-name">
+    <button type="submit" class="btn btn-gold picto-btn"><%= picto("check") %><%= t("join.save_ficha") %></button>
   <% else %>
-    <label for="name">¿Cómo te llaman en la rama?</label>
+    <label for="name"><%= t("join.who_rama") %></label>
     <input id="name" name="name" maxlength="24" required autocomplete="given-name" class="code-input" placeholder="Pili" value="<%= @given_name %>">
 
     <fieldset class="place">
-      <legend>¿Dónde estás?</legend>
+      <legend><%= t("join.where") %></legend>
       <label class="choice-chip picture-card">
         <input type="radio" name="location" value="room" <%= "checked" if @location != "remote" %>>
         <%= picto("sofa", size: "lg") %>
-        <span class="word">En la sala</span>
+        <span class="word"><%= t("join.room") %></span>
       </label>
       <label class="choice-chip picture-card">
         <input type="radio" name="location" value="remote" <%= "checked" if @location == "remote" %>>
         <%= picto("house", size: "lg") %>
-        <span class="word">En casa</span>
+        <span class="word"><%= t("join.home") %></span>
       </label>
     </fieldset>
 
-    <button type="submit" name="guest" value="1" class="btn btn-gold" formnovalidate>Solo esta noche</button>
-    <button type="submit" name="role" value="spectator" class="quiet-link" formnovalidate>Solo mirar</button>
+    <button type="submit" name="guest" value="1" class="btn btn-gold" formnovalidate><%= t("join.guest") %></button>
+    <button type="submit" name="role" value="spectator" class="quiet-link" formnovalidate><%= t("join.spectate") %></button>
 
     <div class="join-ficha">
       <fieldset class="emblem-pick avatar-pick">
-        <legend>Tu animal</legend>
+        <legend><%= t("join.animal") %></legend>
         <% Player::AVATARS.each do |key| %>
           <label class="emblem-choice avatar-choice">
             <input type="radio" name="avatar_key" value="<%= key %>" <%= "checked" if key == (@avatar_key.presence || "delfin") %>>
@@ -44,13 +44,13 @@
             <% if src %>
               <img src="<%= src %>" alt="" class="avatar-img avatar-img-lg">
             <% end %>
-            <em><%= key.capitalize %></em>
+            <em><%= avatar_name(key) %></em>
           </label>
         <% end %>
       </fieldset>
 
       <%= render "shared/year_field", value: @favorite_year, required: true %>
-      <button type="submit" class="btn btn-navy">Guardar ficha</button>
+      <button type="submit" class="btn btn-navy"><%= t("join.save_ficha") %></button>
     </div>
   <% end %>
 <% end %>

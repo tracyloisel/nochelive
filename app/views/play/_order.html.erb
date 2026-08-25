@@ -1,11 +1,11 @@
 <% if round.revealed? %>
   <%= render "play/reveal", definition: definition, team: team, round: round %>
 <% elsif answer %>
-  <p class="prompt"><%= definition.question %></p>
-  <p class="sent" role="status">Orden enviado: <%= definition.order_labels(answer.body).join(" → ") %></p>
+  <p class="prompt"><%= definition.copy(:question) %></p>
+  <p class="sent" role="status"><%= t("play.order_sent", order: definition.order_labels(answer.body).join(" → ")) %></p>
 <% else %>
-  <p class="prompt"><%= definition.question %></p>
-  <p class="lede"><%= definition.instructions %></p>
+  <p class="prompt"><%= definition.copy(:question) %></p>
+  <p class="lede"><%= definition.copy(:instructions) %></p>
   <% items = definition.shuffled_items(round.id) %>
   <% if round.open? %>
     <div class="order-desk"
@@ -27,7 +27,7 @@
           </button>
         <% end %>
       </div>
-      <button type="button" class="btn btn-ghost picto-btn" data-action="order#undo"><%= picto("undo") %>Borrar</button>
+      <button type="button" class="btn btn-ghost picto-btn" data-action="order#undo"><%= picto("undo") %><%= t("play.undo") %></button>
     </div>
   <% else %>
     <ul class="cluster order-preview">
@@ -39,6 +39,6 @@
         </li>
       <% end %>
     </ul>
-    <%= render "shared/wait", message: "Leed los nombres. El presentador va a abrir." %>
+    <%= render "shared/wait", message: t("play.read_names") %>
   <% end %>
 <% end %>

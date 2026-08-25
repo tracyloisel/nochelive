@@ -10,6 +10,7 @@ class Person < ApplicationRecord
   validates :given_name, length: { minimum: 1, maximum: 24 }
   validates :family_name, length: { maximum: 24 }, allow_blank: true
   validates :avatar_key, inclusion: { in: ->(_) { Player::AVATARS } }
+  validates :locale, inclusion: { in: Locale::AVAILABLE }
   validates :favorite_year, numericality: { only_integer: true, greater_than_or_equal_to: YEAR_MIN }
   validate :favorite_year_not_future
   validates :favorite_year, uniqueness: { scope: [ :ward_id, :given_name_key, :family_name_key, :avatar_key ] }
@@ -61,6 +62,6 @@ class Person < ApplicationRecord
     def favorite_year_not_future
       return if favorite_year.blank?
 
-      errors.add(:favorite_year, "must be this year or earlier") unless self.class.year_range.cover?(favorite_year)
+      errors.add(:favorite_year, :future) unless self.class.year_range.cover?(favorite_year)
     end
 end

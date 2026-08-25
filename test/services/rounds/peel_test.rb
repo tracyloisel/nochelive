@@ -14,7 +14,7 @@ class Rounds::PeelTest < ActiveSupport::TestCase
     assert @round.intro?
     assert_not @round.open?
     assert_equal "pan", @round.current_layer["key"]
-    assert_equal [ "advance" ], pulses.map { |pulse| pulse&.fetch(:kind, nil) }
+    assert_equal [ "open" ], pulses.map { |pulse| pulse&.fetch(:kind, nil) }
   end
 
   test "fourth peel is salsa without opening" do
@@ -44,6 +44,14 @@ class Rounds::PeelTest < ActiveSupport::TestCase
     assert_nothing_raised { Rounds::Peel.call(round: @round) }
     assert_equal 4, @round.reload.layer_index
     assert @round.intro?
+  end
+
+  test "middle peels turn the page" do
+    Rounds::Peel.call(round: @round)
+    pulses = capture_pulses(@night) { Rounds::Peel.call(round: @round.reload) }
+
+    assert_equal 2, @round.reload.layer_index
+    assert_equal [ "advance" ], pulses.map { |pulse| pulse&.fetch(:kind, nil) }
   end
 
   private

@@ -17,13 +17,13 @@ module People
     end
 
     def call
-      raise Error.new(:name, "Escribe un nombre corto.") if @given_name.blank?
-      raise Error.new(:year, "El año lleva cuatro cifras.") unless Person.valid_year?(@favorite_year)
-      raise Error.new(:avatar, "Elige un animal.") unless Player::AVATARS.include?(@avatar_key.to_s)
+      raise Error.new(:name, I18n.t("errors.people.name")) if @given_name.blank?
+      raise Error.new(:year, I18n.t("errors.people.year")) unless Person.valid_year?(@favorite_year)
+      raise Error.new(:avatar, I18n.t("errors.people.avatar")) unless Player::AVATARS.include?(@avatar_key.to_s)
 
       homonyms = @ward.people.named(@given_name)
       if homonyms.exists? && @family_name.blank?
-        raise Error.new(:family, "Hay otra persona con ese nombre. Escribe un apellido.")
+        raise Error.new(:family, I18n.t("errors.people.family"))
       end
 
       twin = homonyms.find_by(
@@ -31,7 +31,7 @@ module People
         avatar_key: @avatar_key,
         favorite_year: @favorite_year.to_i
       )
-      raise Error.new(:taken, "Esa ficha ya existe. Entra con tu año favorito.") if twin
+      raise Error.new(:taken, I18n.t("errors.people.taken")) if twin
 
       ApplicationRecord.transaction do
         person = @ward.people.create!(
@@ -39,13 +39,14 @@ module People
           family_name: @family_name.presence,
           avatar_key: @avatar_key,
           favorite_year: @favorite_year.to_i,
-          last_ward_team: @last_ward_team
+          last_ward_team: @last_ward_team,
+          locale: Locale.cast(I18n.locale)
         )
         attach_device!(person)
         person
       end
     rescue ActiveRecord::RecordNotUnique
-      raise Error.new(:taken, "Esa ficha ya existe. Entra con tu año favorito.")
+      raise Error.new(:taken, I18n.t("errors.people.taken"))
     end
 
     private

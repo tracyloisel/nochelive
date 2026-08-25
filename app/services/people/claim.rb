@@ -20,12 +20,12 @@ module People
     end
 
     def call
-      raise Error.new(:missing, "No encontramos esa ficha.") unless @person&.ward_id == @ward.id
-      raise Error.new(:locked, "Espera un poco y prueba otra vez.") if locked?
+      raise Error.new(:missing, I18n.t("errors.people.missing")) unless @person&.ward_id == @ward.id
+      raise Error.new(:locked, I18n.t("errors.people.locked")) if locked?
 
       unless @person.favorite_year == @favorite_year
         record_failure!
-        raise Error.new(:year, "Ese año no coincide.")
+        raise Error.new(:year, I18n.t("errors.people.year_miss"))
       end
 
       ATTEMPTS.delete(attempt_key)

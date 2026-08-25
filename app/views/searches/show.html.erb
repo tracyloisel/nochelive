@@ -1,0 +1,23 @@
+<% content_for :title, t("home.menu_search") %>
+<% content_for :body_class, "is-kid" %>
+<%= chrome_menu { site_menu } %>
+<section class="home-paper">
+  <h1><%= t("home.menu_search") %></h1>
+  <p class="lede"><%= t("home.lede") %></p>
+
+  <%= form_with url: search_path, method: :get, class: "home-search" do %>
+    <label for="q"><%= t("home.search") %></label>
+    <input id="q" name="q" value="<%= @query %>" class="place-input" placeholder="<%= t("home.search_ph") %>" autocomplete="off" autocapitalize="words">
+    <button type="submit" class="btn btn-navy"><%= picto("search") %><%= t("home.search_action") %></button>
+  <% end %>
+
+  <% if @query.to_s.strip.length >= 2 && @wards.empty? %>
+    <p class="lede"><%= t("home.empty") %></p>
+  <% else %>
+    <div class="ward-grid">
+      <% @wards.each do |ward| %>
+        <%= render "home/ward_card", ward: ward %>
+      <% end %>
+    </div>
+  <% end %>
+</section>

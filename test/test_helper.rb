@@ -57,6 +57,17 @@ module ActiveSupport
       night.teams.create!(name: name, emblem: emblem)
     end
 
+    def extra_ward(i, listed: false)
+      Ward.create!(
+        name: "Rama Extra #{i}",
+        code: format("XT%02d", i),
+        emblem: "paloma",
+        city: "Valencia",
+        listed: listed,
+        presenter_token_digest: GameSession.digest_token("xt#{i}")
+      )
+    end
+
     def peel_to_salsa(round)
       round.intro! if round.pending?
       4.times do
@@ -90,6 +101,11 @@ class ActionDispatch::IntegrationTest
 
     def sign_in_ward(ward = wards(:demo), token: "rama-demo")
       post ward_gate_path, params: { code: ward.code, token: token }
+      follow_redirect! if response.redirect?
+    end
+
+    def sign_in_congregation(ward = wards(:demo))
+      post enter_ward_path, params: { code: ward.code }
       follow_redirect! if response.redirect?
     end
 

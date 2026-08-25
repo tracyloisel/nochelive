@@ -1,15 +1,15 @@
-<% content_for :title, "Noche #{@night.code}" %>
+<% content_for :title, t("night.title_code", code: @night.code) %>
 <% shot = capture do %>
   <%= render "shared/still", src: night_still_src(@night), poster: true %>
 <% end %>
 <% chrome = capture do %>
-  <%= render "shared/reel_chrome", night: @night, title: "Tu noche está lista", ticks: false %>
+  <%= render "shared/reel_chrome", night: @night, title: t("night.ready"), ticks: false %>
 <% end %>
 <%= story_reel shot: shot, chrome: chrome, snap: "open", mid: 0.6, handle: false, reel_class: "is-join" do %>
   <h1 class="code-display"><%= @night.code %></h1>
-  <p class="lede">Diles este código. El enlace de abajo es solo tuyo. La rama es <%= @night.ward.name %> (<%= @night.ward.code %>).</p>
-  <p class="secret">Guarda este enlace. No lo proyectes.</p>
+  <p class="lede"><%= t("night.code_lede", ward: @night.ward.name, code: @night.ward.code) %></p>
+  <p class="secret"><%= t("night.secret") %></p>
   <input class="secret-url" readonly value="<%= presenter_gate_url(@night.code, token: params[:token]) %>" onclick="this.select()">
-  <%= link_to "Abrir consola", presenter_console_path(@night.code), class: "btn btn-gold" %>
-  <%= link_to "Ver como público", night_watch_path(@night.code), class: "btn btn-ghost" %>
+  <%= link_to t("night.open_console"), presenter_console_path(@night.code), class: "btn btn-gold" %>
+  <%= link_to t("night.as_public"), night_watch_path(@night.code), class: "btn btn-ghost" %>
 <% end %>

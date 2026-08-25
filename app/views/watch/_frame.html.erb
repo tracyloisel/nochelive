@@ -18,41 +18,41 @@
     <% if night.finished? %>
       <%= render "shared/ceremony", night: night %>
     <% elsif night.lobby? || round.nil? || round.pending? %>
-      <p class="lede">Los equipos se reúnen.</p>
+      <p class="lede"><%= t("watch.gathering") %></p>
     <% elsif round.definition.layered_finale? && !round.revealed? %>
       <p class="round-title">
         <%= render "shared/round_icon", key: round.definition.icon %>
-        <span><%= round.definition.title %></span>
+        <span><%= round.definition.copy(:title) %></span>
       </p>
       <%= render "watch/burger", night: night, round: round %>
     <% else %>
       <p class="round-title">
         <%= render "shared/round_icon", key: round.definition.icon %>
-        <span><%= round.definition.title %></span>
+        <span><%= round.definition.copy(:title) %></span>
       </p>
       <% if round.definition.taboo? && !round.revealed? %>
-        <p class="prompt put-down">¡Sin esas palabras!</p>
+        <p class="prompt put-down"><%= t("watch.no_words") %></p>
         <ul class="forbidden">
-          <% round.definition.forbidden.each do |word| %>
+          <% round.definition.forbidden_copy.each do |word| %>
             <li><%= word %></li>
           <% end %>
         </ul>
       <% elsif round.definition.finale? && !round.revealed? %>
-        <p class="stand-up">¡TODOS DE PIE!</p>
+        <p class="stand-up"><%= t("watch.stand_all") %></p>
         <% if line = night_leader_line(night) %>
           <p class="lede"><%= line %></p>
         <% end %>
         <% if round.open? %>
-          <p class="prompt"><%= round.definition.question %></p>
+          <p class="prompt"><%= round.definition.copy(:question) %></p>
         <% else %>
-          <p class="lede"><%= round.definition.instructions %></p>
+          <p class="lede"><%= round.definition.copy(:instructions) %></p>
         <% end %>
       <% elsif round.definition.mime? && !round.revealed? %>
-        <p class="prompt put-down">SIN PALABRAS.</p>
-        <p class="lede">En la sala miman. En casa viven a Jonás.</p>
+        <p class="prompt put-down"><%= t("play.no_words") %></p>
+        <p class="lede"><%= t("watch.mime_tv") %></p>
       <% elsif round.definition.ordering? && !round.revealed? %>
-        <p class="prompt put-down"><%= round.definition.question %></p>
-        <p class="lede">Poned a los reyes en su tiempo.</p>
+        <p class="prompt put-down"><%= round.definition.copy(:question) %></p>
+        <p class="lede"><%= t("watch.kings_time") %></p>
         <ol class="choice-board">
           <% round.definition.shuffled_items(round.id).each_with_index do |item, index| %>
             <% mark = choice_mark(index) %>
@@ -64,20 +64,20 @@
         </ol>
       <% elsif round.definition.freeze? && !round.revealed? %>
         <% if round.locked? %>
-          <p class="prompt put-down">¡CONGELADOS!</p>
+          <p class="prompt put-down"><%= t("watch.frozen") %></p>
           <%= render "shared/dancer", frozen: true %>
         <% elsif round.open? %>
-          <p class="prompt put-down">¡BAILAD!</p>
+          <p class="prompt put-down"><%= t("watch.dance") %></p>
           <%= render "shared/dancer", frozen: false %>
         <% else %>
-          <p class="prompt put-down"><%= round.definition.instructions %></p>
+          <p class="prompt put-down"><%= round.definition.copy(:instructions) %></p>
         <% end %>
       <% elsif round.definition.vote? && !round.revealed? %>
-        <p class="prompt put-down"><%= round.definition.question %></p>
+        <p class="prompt put-down"><%= round.definition.copy(:question) %></p>
         <% if round.locked? && (line = vote_tally_line(round)) %>
           <p class="shout" role="status"><%= line %></p>
         <% else %>
-          <p class="lede">Los equipos juzgan. Como Salomón.</p>
+          <p class="lede"><%= t("watch.teams_judge") %></p>
           <ul class="team-list">
             <% night.teams.order(:name).each do |team| %>
               <li class="choice-token">
@@ -88,10 +88,10 @@
           </ul>
         <% end %>
       <% elsif round.definition.category? && !round.revealed? %>
-        <p class="prompt put-down">¡DECID!</p>
-        <p class="lede">Profetas. En voz alta. Tres bastan.</p>
+        <p class="prompt put-down"><%= t("watch.say_it") %></p>
+        <p class="lede"><%= t("watch.prophets_tv") %></p>
         <% if (shouts = round.answers.includes(:team).order(:created_at)).any? %>
-          <p class="shout" role="status">¡<%= shouts.first.team.name %> ya!</p>
+          <p class="shout" role="status"><%= t("watch.already", name: shouts.first.team.name) %></p>
           <ol class="buzz-board">
             <% shouts.each_with_index do |claim, index| %>
               <li><span><%= medal_label(index + 1) %></span> <%= claim.team.name %></li>
@@ -99,10 +99,10 @@
           </ol>
         <% end %>
       <% elsif round.definition.scavenger? && !round.revealed? %>
-        <p class="prompt put-down">¡BUSCAD!</p>
-        <p class="lede"><%= round.definition.instructions %></p>
+        <p class="prompt put-down"><%= t("watch.hunt") %></p>
+        <p class="lede"><%= round.definition.copy(:instructions) %></p>
         <% if (found = round.answers.includes(:team).order(:created_at)).any? %>
-          <p class="shout" role="status">¡<%= found.first.team.name %> lo tiene!</p>
+          <p class="shout" role="status"><%= t("watch.has_it", name: found.first.team.name) %></p>
           <ol class="buzz-board">
             <% found.each_with_index do |claim, index| %>
               <li><span><%= medal_label(index + 1) %></span> <%= claim.team.name %></li>
@@ -110,21 +110,13 @@
           </ol>
         <% end %>
       <% elsif round.definition.choice? && !round.revealed? %>
-        <p class="prompt"><%= round.definition.question %></p>
-        <ol class="choice-board">
-          <% round.definition.choices.each_with_index do |choice, index| %>
-            <% mark = choice_mark(index) %>
-            <li class="choice-token choice-<%= mark[:tone] %>">
-              <span class="choice-mark" aria-hidden="true"><%= picto(mark[:shape]) %></span>
-              <span class="word"><%= choice_label(choice) %></span>
-            </li>
-          <% end %>
-        </ol>
+        <p class="prompt"><%= round.definition.copy(:question) %></p>
+        <%= render "play/choice_tokens", choices: round.definition.choices, definition: round.definition %>
       <% else %>
         <p class="prompt"><%= round_prompt(round) %></p>
       <% end %>
       <% if first = round.first_buzz %>
-        <p class="shout" role="status">¡<%= first.team.name %> buzzó primero! <span class="delay"><%= latency_label(first.latency_ms) %></span></p>
+        <p class="shout" role="status"><%= t("watch.buzzed_first", name: first.team.name) %> <span class="delay"><%= latency_label(first.latency_ms) %></span></p>
       <% end %>
       <% if round.buzzes.any? %>
         <ol class="buzz-board">
@@ -136,9 +128,9 @@
       <% if round.revealed? %>
         <div class="reveal">
           <div class="put-down-art" aria-hidden="true"><%= picto("check", size: "lg") %></div>
-          <p class="eyebrow">Respuesta</p>
-          <p class="answer-line"><%= round.definition.answer %></p>
-          <p class="ref"><%= round.definition.reference %></p>
+          <p class="eyebrow"><%= t("watch.reveal") %></p>
+          <p class="answer-line"><%= round.definition.copy(:answer) %></p>
+          <p class="ref"><%= round.definition.copy(:reference) if round.definition.reference.present? %></p>
         </div>
       <% end %>
     <% end %>
@@ -148,13 +140,13 @@
         <p class="shout" role="status"><%= rank_up_shout(team) %></p>
       <% end %>
       <% night.teams.select { |team| team.rey? && team.pending_rank_up.blank? }.each do |team| %>
-        <p class="lede">¡<%= team.name %> es Rey esta ronda!</p>
+        <p class="lede"><%= t("watch.is_king", name: team.name) %></p>
       <% end %>
     <% end %>
   </div>
 
   <% unless night.finished? %>
-    <aside class="board watch-board" aria-label="Marcador">
+    <aside class="board watch-board" aria-label="<%= t("watch.scoreboard") %>">
       <ol class="score-strip">
         <% night.teams.includes(:players).order(cached_score: :desc).each do |team| %>
           <li>

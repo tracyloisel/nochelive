@@ -1,11 +1,11 @@
-<% skip = local_assigns.fetch(:skip, "Desliza abajo para salir. Izquierda y derecha cambian de ronda. Arriba abre el juego.") %>
+<% skip = local_assigns.fetch(:skip, t("chrome.skip_play")) %>
 <% snap = local_assigns.fetch(:snap, "mid") %>
 <% peek = local_assigns.fetch(:peek, 0.18) %>
 <% mid = local_assigns.fetch(:mid, 0.48) %>
 <% index = local_assigns.fetch(:index, 0) %>
 <% live_index = local_assigns.fetch(:live_index, index) %>
 <% handle = local_assigns.fetch(:handle, true) %>
-<% grip = local_assigns.fetch(:grip, "Mover la tarjeta para ver el dibujo") %>
+<% grip = local_assigns.fetch(:grip, t("chrome.grip")) %>
 <section class="play-card play-reel <%= local_assigns[:reel_class] %> <%= "is-dock" unless handle %>"
          data-controller="story"
          data-story-exit-url-value="<%= local_assigns.fetch(:exit_url, root_path) %>"
@@ -26,6 +26,9 @@
        data-sheet-snap-value="<%= snap %>"
        data-sheet-peek-ratio-value="<%= peek %>"
        data-sheet-mid-ratio-value="<%= mid %>"
+       data-sheet-open-label-value="<%= t("chrome.grip_open") %>"
+       data-sheet-mid-label-value="<%= t("chrome.grip_mid") %>"
+       data-sheet-peek-label-value="<%= t("chrome.grip_peek") %>"
        data-action="pointerdown->sheet#start">
     <% if handle %>
       <button type="button"
@@ -33,7 +36,7 @@
               data-sheet-target="handle"
               data-action="click->sheet#cycle"
               aria-label="<%= grip %>"
-              aria-valuetext="Tarjeta media">
+              aria-valuetext="<%= t("chrome.grip_mid") %>">
         <span class="play-sheet-pip" aria-hidden="true"></span>
       </button>
     <% end %>

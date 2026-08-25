@@ -12,8 +12,9 @@ class GameSession < ApplicationRecord
   has_many :presenter_claims, dependent: :destroy
   has_many :presenter_blocks, dependent: :destroy
 
-  validates :code, :status, :theme_id, :theme_title, :presenter_token_digest, presence: true
+  validates :code, :status, :theme_id, :theme_title, :presenter_token_digest, :starts_at, presence: true
   validates :status, inclusion: { in: STATUSES }
+  validates :presenter_locale, inclusion: { in: Locale::AVAILABLE }
 
   scope :live, -> { where.not(status: "finished") }
   scope :finished, -> { where(status: "finished") }

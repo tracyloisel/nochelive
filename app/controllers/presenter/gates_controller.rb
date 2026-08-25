@@ -15,7 +15,7 @@ module Presenter
       if @night.presenter_token_matches?(params[:token].to_s)
         admit_with_token
       else
-        redirect_to presenter_gate_path(@night.code), alert: "Ese enlace no es válido."
+        redirect_to presenter_gate_path(@night.code), alert: I18n.t("flashes.bad_link")
       end
     end
 

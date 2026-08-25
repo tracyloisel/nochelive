@@ -1,8 +1,0 @@
-<article class="memory-card">
-  <p class="eyebrow"><%= night.updated_at.strftime("%d/%m/%Y") %> · <%= night.code %></p>
-  <h3><%= night_title(night) %></h3>
-  <% if night.champion %>
-    <p class="lede">Ganó <%= night.champion.name %>.</p>
-  <% end %>
-  <%= render "shared/roster", night: night, compact: true %>
-</article>

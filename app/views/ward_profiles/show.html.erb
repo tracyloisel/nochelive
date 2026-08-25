@@ -1,0 +1,63 @@
+<% content_for :title, @ward.name %>
+<% content_for :body_class, "is-kid" %>
+<% host = ward_host?(@ward) %>
+<% live = @live_night %>
+<%= chrome_menu { site_menu } %>
+<% shot = capture do %>
+  <%= render "shared/still", src: ward_poster_src(@ward), poster: true %>
+<% end %>
+<%= story_reel shot: shot, chrome: nil, snap: "open", mid: 0.55, handle: false, reel_class: "is-profile", skip: t("chrome.skip_home") do %>
+  <header class="rama-head">
+    <span class="emblem emblem-xl emblem-<%= @ward.emblem %>"><%= render "shared/emblem", key: @ward.emblem %></span>
+    <h1><%= @ward.name %></h1>
+    <% if @ward.maps_url %>
+      <%= link_to @ward.maps_url, class: "rama-pin", target: "_blank", rel: "noreferrer" do %>
+        <%= picto("pin") %>
+        <span><%= [ @ward.chapel_address, @ward.postal_code, @ward.city ].compact_blank.join(", ") %></span>
+      <% end %>
+    <% elsif ward_place(@ward).present? %>
+      <p class="lede ward-place"><%= picto("pin") %><%= ward_place(@ward) %></p>
+    <% end %>
+    <p class="rama-stats"><%= t("ward.nights_count", count: @ward.nights_count) %></p>
+  </header>
+
+  <div class="rama-cta">
+    <% if live %>
+      <%= link_to night_name_path(live.code), class: "btn btn-gold" do %>
+        <%= picto("door") %><%= t("home.enter") %>
+      <% end %>
+      <%= link_to t("home.watch"), night_watch_path(live.code), class: "quiet-link" %>
+    <% elsif host %>
+      <%= button_to game_sessions_path, class: "btn btn-gold" do %>
+        <%= picto("wand") %><%= t("ward.open_night") %>
+      <% end %>
+    <% end %>
+
+    <% if host %>
+      <%= link_to t("night.fichas"), ward_fichas_path, class: "quiet-link" %>
+      <%= link_to t("ward.secret"), ward_gate_path, class: "quiet-link" %>
+      <% if live %>
+        <%= button_to game_sessions_path, class: "quiet-link" do %>
+          <%= t("ward.open_another") %>
+        <% end %>
+      <% end %>
+    <% else %>
+      <%= link_to t("ward.enter_one"), ward_gate_path, class: "quiet-link" %>
+    <% end %>
+  </div>
+
+  <% if @nights.any? %>
+    <div class="rama-grid">
+      <% @nights.each do |night| %>
+        <% href = night.live? ? night_name_path(night.code) : ward_memory_path(@ward.code, night.code) %>
+        <%= link_to href, class: "rama-cell" do %>
+          <% poster = night_poster_src(night) %>
+          <% if poster %>
+            <img src="<%= poster %>" alt="<%= night_title(night) %>">
+          <% end %>
+          <% if night.live? %><span class="live-dot"></span><% end %>
+        <% end %>
+      <% end %>
+    </div>
+  <% end %>
+<% end %>

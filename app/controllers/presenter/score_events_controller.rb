@@ -12,11 +12,12 @@ module Presenter
       when "incorrect"
         Scores::Apply.incorrect!(round, team, broadcast: false)
       when "plus"
-        Scores::Apply.adjust!(@night, team, points: 5, reason: "Ajuste del presentador +5", broadcast: false)
+        Scores::Apply.adjust!(@night, team, points: 5, reason: "scores.presenter_plus", broadcast: false)
       when "minus"
-        Scores::Apply.adjust!(@night, team, points: -5, reason: "Ajuste del presentador −5", broadcast: false)
+        Scores::Apply.adjust!(@night, team, points: -5, reason: "scores.presenter_minus", broadcast: false)
       end
-      @night.broadcast_state(pulse: { kind: "score", label: team.name })
+      pulse_kind = params[:kind].in?(%w[incorrect minus]) ? "miss" : "score"
+      @night.broadcast_state(pulse: { kind: pulse_kind, label: team.name })
 
       Rails.logger.info("session=#{@night.code} team=#{team.id} event=score kind=#{params[:kind]}")
       redirect_to presenter_console_path(@night.code)

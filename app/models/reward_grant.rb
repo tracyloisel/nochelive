@@ -17,9 +17,17 @@ class RewardGrant < ApplicationRecord
 
   def ready? = state == "ready"
   def opened? = state == "opened"
-  def chest_title = CHESTS[chest_key]
-  def reward_title = REWARDS.dig(reward_key, :title)
-  def reward_detail = REWARDS.dig(reward_key, :detail)
+  def chest_title
+    I18n.t("rewards.chests.#{chest_key}", default: CHESTS[chest_key])
+  end
+
+  def reward_title
+    I18n.t("rewards.#{reward_key}.title", default: REWARDS.dig(reward_key, :title)) if reward_key.present?
+  end
+
+  def reward_detail
+    I18n.t("rewards.#{reward_key}.detail", default: REWARDS.dig(reward_key, :detail)) if reward_key.present?
+  end
 
   def open!
     raise "Chest already opened" unless ready?
@@ -38,11 +46,11 @@ class RewardGrant < ApplicationRecord
     when "corona"
       team.update!(next_correct_doubled: true)
     when "fuego"
-      ScoreEvent.award!(game_session: team.game_session, team: team, kind: "chest", points: 8, xp: 8, reason: "Fuego de Elías")
+      ScoreEvent.award!(game_session: team.game_session, team: team, kind: "chest", points: 8, xp: 8, reason: "scores.chest_fuego")
     when "escudo"
-      ScoreEvent.award!(game_session: team.game_session, team: team, kind: "chest", points: 5, xp: 5, reason: "Escudo de David")
+      ScoreEvent.award!(game_session: team.game_session, team: team, kind: "chest", points: 5, xp: 5, reason: "scores.chest_escudo")
     when "sabiduria"
-      ScoreEvent.award!(game_session: team.game_session, team: team, kind: "chest", points: 6, xp: 6, reason: "Sabiduría")
+      ScoreEvent.award!(game_session: team.game_session, team: team, kind: "chest", points: 6, xp: 6, reason: "scores.chest_sabiduria")
     end
   end
 end

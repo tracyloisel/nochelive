@@ -3,9 +3,20 @@ Rails.application.routes.draw do
 
   root "home#index"
   post "join", to: "joins#create"
+  patch "locale", to: "locales#update"
+  get "nosotros", to: "ward_adds#show", as: :about
+  get "buscar", to: "searches#show", as: :search
   resources :wards, only: [ :new, :create ]
+  get "ramas/anadir", to: "ward_adds#show", as: :add_ward
   get "ramas/entrar", to: "ward_gates#show", as: :ward_gate
   post "ramas/entrar", to: "ward_gates#create"
+  post "ramas/elegir", to: "ward_enters#create", as: :enter_ward
+  get "ramas/fichas", to: "fichas#index", as: :ward_fichas
+  get "ramas/fichas/:id", to: "fichas#show", as: :ward_ficha
+  patch "ramas/fichas/:id", to: "fichas#update"
+  post "ramas/fichas/:id/merge", to: "fichas#merge", as: :ward_ficha_merge
+  get "ramas/:code/n/:session_code", to: "ward_memories#show", as: :ward_memory
+  get "ramas/:code", to: "ward_profiles#show", as: :ward_profile
   resources :game_sessions, only: [ :new, :create ] do
     get :created, on: :member
   end
@@ -31,6 +42,7 @@ Rails.application.routes.draw do
     end
     post "chests/:id", to: "chests#create", as: :chest
     post "rank_up", to: "rank_ups#create", as: :rank_up
+    patch "locale", to: "locales#update"
   end
 
   get "/p/:session_code", to: "presenter/gates#show", as: :presenter_gate
@@ -59,9 +71,7 @@ Rails.application.routes.draw do
   get "/p/:session_code/fichas/:id", to: "presenter/fichas#show", as: :presenter_ficha
   patch "/p/:session_code/fichas/:id", to: "presenter/fichas#update"
   post "/p/:session_code/fichas/:id/merge", to: "presenter/fichas#merge", as: :presenter_ficha_merge
+  patch "/p/:session_code/people/:person_id/locale", to: "presenter/locales#update", as: :presenter_person_locale
+  patch "/p/:session_code/players/:player_id/locale", to: "presenter/locales#update", as: :presenter_player_locale
 
-  get "ramas/fichas", to: "fichas#index", as: :ward_fichas
-  get "ramas/fichas/:id", to: "fichas#show", as: :ward_ficha
-  patch "ramas/fichas/:id", to: "fichas#update"
-  post "ramas/fichas/:id/merge", to: "fichas#merge", as: :ward_ficha_merge
 end

@@ -11,12 +11,14 @@ module Presenters
 
     def call
       night = @night.reload
-      Turbo::StreamsChannel.broadcast_replace_to(
-        night.presenter_stream,
-        target: "night_presenter",
-        partial: "presenter/consoles/frame",
-        locals: { night: night }
-      )
+      I18n.with_locale(Locale.i18n(night.presenter_locale)) do
+        Turbo::StreamsChannel.broadcast_replace_to(
+          night.presenter_stream,
+          target: "night_presenter",
+          partial: "presenter/consoles/frame",
+          locals: { night: night }
+        )
+      end
       return unless @claim
 
       Turbo::StreamsChannel.broadcast_replace_to(

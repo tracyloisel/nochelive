@@ -1,21 +1,53 @@
-<% content_for :title, "Tu rama" %>
+<% content_for :title, t("ward.yours") %>
 <% shot = capture do %>
   <%= render "shared/still", src: night_poster_src("reyes_y_profetas"), poster: true %>
 <% end %>
-<% chrome = capture do %>
-  <%= render "shared/reel_chrome", title: "Presentador", ticks: false %>
-<% end %>
-<%= story_reel shot: shot, chrome: chrome, snap: "open", mid: 0.62, handle: false, reel_class: "is-join" do %>
-  <h1>Tu rama</h1>
-  <p class="lede">Las fichas y los equipos viven aquí. Las noches se abren dentro de la rama.</p>
+<%= story_reel shot: shot, chrome: nil, snap: "open", mid: 0.62, handle: false, reel_class: "is-join" do %>
+  <h1><%= t("ward.yours") %></h1>
+  <p class="lede"><%= t("ward.yours_lede") %></p>
 
   <%= form_with url: wards_path, class: "join-form" do %>
-    <label for="ward_name">Nombre de la rama</label>
-    <input id="ward_name" name="name" maxlength="48" required class="code-input" placeholder="Madrid Centro">
-    <button type="submit" class="btn btn-gold"><%= picto("plus") %>Crear rama</button>
+    <label for="ward_name"><%= t("ward.name") %></label>
+    <input id="ward_name" name="name" maxlength="48" required class="code-input" placeholder="<%= t("ward.name_ph") %>">
+
+    <fieldset class="emblem-pick">
+      <legend><%= t("ward.emblem") %></legend>
+      <% Team::EMBLEMS.each do |key, _label| %>
+        <label class="emblem-choice">
+          <input type="radio" name="emblem" value="<%= key %>" <%= "checked" if key == "paloma" %>>
+          <span class="emblem emblem-lg emblem-<%= key %>"><%= render "shared/emblem", key: key %></span>
+          <em><%= emblem_name(key) %></em>
+        </label>
+      <% end %>
+    </fieldset>
+
+    <label for="chapel_name"><%= t("ward.chapel_name") %></label>
+    <input id="chapel_name" name="chapel_name" maxlength="80" class="code-input" placeholder="<%= t("ward.chapel_ph") %>">
+
+    <label for="chapel_address"><%= t("ward.chapel_address") %></label>
+    <input id="chapel_address" name="chapel_address" maxlength="80" class="code-input" placeholder="<%= t("ward.address_ph") %>">
+
+    <label for="city"><%= t("ward.city") %></label>
+    <input id="city" name="city" maxlength="80" class="code-input" placeholder="<%= t("ward.city_ph") %>">
+
+    <label for="region"><%= t("ward.region") %></label>
+    <input id="region" name="region" maxlength="80" class="code-input" placeholder="<%= t("ward.region_ph") %>">
+
+    <label for="postal_code"><%= t("ward.postal_code") %></label>
+    <input id="postal_code" name="postal_code" maxlength="80" class="code-input" placeholder="<%= t("ward.postal_ph") %>">
+
+    <label for="country_code"><%= t("ward.country") %></label>
+    <select id="country_code" name="country_code" class="place-input">
+      <option value=""><%= t("ward.country") %></option>
+      <% Ward::COUNTRY_CODES.each do |code| %>
+        <option value="<%= code %>" <%= "selected" if code == "ES" %>><%= t("countries.#{code}") %></option>
+      <% end %>
+    </select>
+
+    <button type="submit" class="btn btn-gold"><%= picto("plus") %><%= t("ward.create") %></button>
   <% end %>
 
-  <p class="split">¿Ya tienes una?</p>
-  <%= link_to "Entrar en una rama", ward_gate_path, class: "btn btn-navy" %>
-  <%= link_to "Volver", root_path, class: "btn btn-ghost" %>
+  <p class="split"><%= t("ward.have_one") %></p>
+  <%= link_to t("ward.enter_one"), ward_gate_path, class: "btn btn-navy" %>
+  <%= link_to t("presenter.back"), root_path, class: "btn btn-ghost" %>
 <% end %>

@@ -1,5 +1,7 @@
 module ApplicationHelper
   def night_title(night)
+    night.definition.theme.copy(:title)
+  rescue GameDefinition::Error
     night.theme_title
   end
 
@@ -8,6 +10,26 @@ module ApplicationHelper
     file_id = "reyes_y_profetas" if file_id.blank? || file_id == "kings_and_prophets"
     rel = "media/nights/#{file_id}.jpg"
     "/#{rel}" if Rails.public_path.join(rel).file?
+  end
+
+  def ward_poster_src(ward)
+    nights = ward.game_sessions
+    night = nights.loaded? ? nights.max_by(&:updated_at) : nights.order(updated_at: :desc).first
+    night_still_src(night)
+  end
+
+  def ward_country(ward)
+    return if ward.country_code.blank?
+
+    t("countries.#{ward.country_code}", default: ward.country_code)
+  end
+
+  def ward_place(ward)
+    [ ward.city, ward_country(ward) ].compact_blank.join(", ")
+  end
+
+  def source_repo_url
+    "https://github.com/tracyloisel/nochelive"
   end
 
   def night_still_src(night = nil)
@@ -34,9 +56,22 @@ module ApplicationHelper
     render "shared/reel", **kwargs, body: capture(&block)
   end
 
+  def chrome_menu(open: false, &block)
+    content_for :lang_in_menu, "1"
+    render "shared/chrome_menu", open: open, body: capture(&block)
+  end
+
+  def site_menu
+    render "shared/site_menu"
+  end
+
+  def home_night_path_for(night)
+    night.finished? ? ward_memory_path(night.ward.code, night.code) : night_name_path(night.code)
+  end
+
   def presenter_next_action(night, round)
-    return { label: "Empezar la noche", url: presenter_start_path(night.code) } if night.lobby?
-    return { label: "Seguir", url: presenter_resume_path(night.code) } if night.paused?
+    return { label: t("presenter.actions.start"), url: presenter_start_path(night.code) } if night.lobby?
+    return { label: t("presenter.actions.resume"), url: presenter_resume_path(night.code) } if night.paused?
     return if night.finished? || round.nil?
     return unless round.live? || !round.completed?
 
@@ -44,67 +79,63 @@ module ApplicationHelper
     layered = definition.layered_finale?
 
     if layered && (round.pending? || (round.intro? && round.layer_index.to_i.zero?))
-      return { label: "Servir el burger", url: presenter_open_round_path(night.code, round) }
+      return { label: t("presenter.actions.serve"), url: presenter_open_round_path(night.code, round) }
     end
     if layered && round.intro? && !round.last_layer?
-      return { label: "Siguiente capa", url: presenter_peel_round_path(night.code, round) }
+      return { label: t("presenter.actions.next_layer"), url: presenter_peel_round_path(night.code, round) }
     end
     if layered && round.burger_assembled?
-      return { label: "¡La pregunta!", url: presenter_open_round_path(night.code, round) }
+      return { label: t("presenter.actions.the_question"), url: presenter_open_round_path(night.code, round) }
     end
     if round.pending? || round.intro?
-      return { label: "Abrir", url: presenter_open_round_path(night.code, round) }
+      return { label: t("presenter.actions.open"), url: presenter_open_round_path(night.code, round) }
     end
 
     show_crown = definition.finale? && !night.finished? && !round.completed? && !round.pending?
     show_crown &&= !layered || round.phase.in?(%w[open locked answering revealed])
-    return { label: "¡La corona!", url: presenter_crown_path(night.code, round) } if show_crown
+    return { label: t("presenter.actions.crown"), url: presenter_crown_path(night.code, round) } if show_crown
 
     if round.open?
       if definition.freeze?
-        return { label: "¡CONGELADOS!", url: presenter_lock_round_path(night.code, round) }
+        return { label: t("presenter.actions.freeze"), url: presenter_lock_round_path(night.code, round) }
       elsif definition.vote?
-        return { label: "Contar los votos", url: presenter_lock_round_path(night.code, round) }
+        return { label: t("presenter.actions.count_votes"), url: presenter_lock_round_path(night.code, round) }
       elsif definition.buzzer? && !definition.finale?
-        return { label: "Cerrar buzzer", url: presenter_lock_round_path(night.code, round) }
+        return { label: t("presenter.actions.close_buzz"), url: presenter_lock_round_path(night.code, round) }
       elsif definition.finale?
-        return { label: "Cerrar la corona", url: presenter_lock_round_path(night.code, round) }
+        return { label: t("presenter.actions.close_crown"), url: presenter_lock_round_path(night.code, round) }
       else
-        return { label: "Cerrar ronda", url: presenter_lock_round_path(night.code, round) }
+        return { label: t("presenter.actions.close_round"), url: presenter_lock_round_path(night.code, round) }
       end
     end
 
     if round.phase.in?(%w[locked answering])
-      return { label: "Revelar respuesta", url: presenter_reveal_round_path(night.code, round) }
+      return { label: t("presenter.actions.reveal"), url: presenter_reveal_round_path(night.code, round) }
     end
     if round.revealed?
-      return { label: "Siguiente", url: presenter_complete_round_path(night.code, round) }
+      return { label: t("presenter.actions.next"), url: presenter_complete_round_path(night.code, round) }
     end
   end
 
   def night_status_caption(night)
-    case night.status
-    when "playing" then "En juego"
-    when "lobby" then "En el vestíbulo"
-    when "paused" then "En pausa"
-    else "Terminada"
-    end
+    t("status.#{night.status}", default: t("status.finished"))
   end
 
   def band_label(position)
-    case position
-    when 1..3 then "Descubrimiento"
-    when 4..6 then "Competencia"
-    when 7..10 then "Fuego"
-    when 11..13 then "Caos"
-    when 14 then "Semifinal"
-    else "Gran final"
+    key = case position
+    when 1..3 then "discovery"
+    when 4..6 then "competition"
+    when 7..10 then "fire"
+    when 11..13 then "chaos"
+    when 14 then "semifinal"
+    else "finale"
     end
+    t("bands.#{key}")
   end
 
   def round_prompt(round)
     definition = round.definition
-    definition.question.presence || definition.instructions
+    definition.copy(:question).presence || definition.copy(:instructions)
   end
 
   def stage_sfx(round, extra = nil, team: nil, night: nil)
@@ -115,7 +146,10 @@ module ApplicationHelper
 
     definition = round.definition
     if definition.layered_finale? && round.intro?
-      return "dramatic_fire" if round.layer_index.to_i.zero? || round.last_layer?
+      if round.layer_index.to_i.zero? || round.last_layer?
+        cue = definition.sfx["intro"].presence || "dramatic_fire"
+        return cue if Sfx.known?(cue)
+      end
 
       return
     end
@@ -159,7 +193,7 @@ module ApplicationHelper
   end
 
   def medal_label(position)
-    { 1 => "1.º", 2 => "2.º", 3 => "3.º" }[position] || "#{position}.º"
+    I18n.t("ordinals.#{position}", default: I18n.t("ordinals.other", n: position))
   end
 
   def latency_label(ms)
@@ -175,21 +209,19 @@ module ApplicationHelper
   def roster_line(team)
     names = team_roster(team)
     return if names.empty?
-    return names.first if names.size == 1
 
-    "#{names[0..-2].join(", ")} y #{names.last}"
+    names.to_sentence
   end
 
   def missionary_line(night)
     names = Array(night&.missionaries).map(&:name).reject(&:blank?)
     return if names.empty?
-    return names.first if names.size == 1
 
-    "#{names[0..-2].join(", ")} y #{names.last}"
+    names.to_sentence
   end
 
   def finale_blessing
-    "La corona se queda en esta casa."
+    t("lines.blessing")
   end
 
   def vote_tally_line(round)
@@ -199,24 +231,26 @@ module ApplicationHelper
     top = counts.values.max
     names = Team.where(id: counts.select { |_id, votes| votes == top }.keys).order(:name).pluck(:name)
     return if names.empty?
-    return "¡#{names.first} tiene la sabiduría!" if names.size == 1
+    return t("lines.wisdom_one", name: names.first) if names.size == 1
 
-    "¡#{names.join(" y ")} comparten la sabiduría!"
+    t("lines.wisdom_many", names: names.to_sentence)
   end
 
   def rank_up_shout(team)
     return if team.pending_rank_up.blank?
-    return "¡#{team.name} es #{team.pending_rank_up} y Rey!" if team.rey?
 
-    "¡#{team.name} es #{team.pending_rank_up}!"
+    rank = rank_name(team.pending_rank_up)
+    return t("lines.rank_king", name: team.name, rank: rank) if team.rey?
+
+    t("lines.rank", name: team.name, rank: rank)
   end
 
   def night_leader_line(night)
     champs = night.first_place_teams
     return if champs.empty?
-    return "#{champs.map(&:name).join(" y ")} van juntos." if night.tied_finale?
+    return t("lines.tied", names: champs.map(&:name).to_sentence) if night.tied_finale?
 
-    "#{night.champion.name} va delante."
+    t("lines.leader", name: night.champion.name)
   end
 
   def player_remote?(player)
@@ -348,15 +382,15 @@ module ApplicationHelper
 
   def burger_stakes_line(night, you = nil)
     scores = Team.where(game_session_id: night.id).pluck(:cached_score)
-    return "El burger puede cambiar el marcador." if you.nil?
+    return t("lines.burger_can") if you.nil?
 
     best = scores.max || 0
     tied = scores.count { |score| score == best } > 1
     me = you.cached_score.to_i
-    return "Van juntos. El burger deshace el empate." if tied && me == best
-    return "Podéis cerrar la noche." if me == best
+    return t("lines.burger_tie") if tied && me == best
+    return t("lines.burger_close") if me == best
 
-    "Si acertáis, pasáis delante."
+    t("lines.burger_pass")
   end
 
   def burger_host_value_line(night, round)
@@ -366,12 +400,12 @@ module ApplicationHelper
       team = remote_teams.first if remote_teams.size == 1
     end
     points = team ? round.definition.swing_points(night, team) : round.definition.points
-    "Esta respuesta vale #{points}."
+    t("lines.burger_value", points: points)
   end
 
   def burger_watch_steal_line(night)
     casa = night.teams.select { |team| team.players.any? { |player| player.participant? && player.remote? } }
-    casa.size == 1 ? "Casa puede robar la noche." : "Pueden robar la noche."
+    casa.size == 1 ? t("lines.burger_steal_one") : t("lines.burger_steal")
   end
 
   def burger_garnish_kind(round)
@@ -425,9 +459,8 @@ module ApplicationHelper
   def cheer_to_you_line(names)
     names = Array(names).map(&:to_s).reject(&:blank?).uniq
     return if names.empty?
-    return "¡#{names.first} te anima!" if names.size == 1
 
-    "¡#{names[0..-2].join(", ")} y #{names.last} te animan!"
+    t("play.cheer_you", count: names.size, names: names.to_sentence)
   end
 
   def layer_cheers(round)
@@ -471,7 +504,9 @@ module ApplicationHelper
     end
   end
 
-  def choice_label(choice)
+  def choice_label(choice, definition = nil)
+    return definition.choice_copy(choice) if definition
+
     if choice.is_a?(Hash)
       (choice["label"] || choice[:label] || choice["key"] || choice[:key]).to_s
     else
@@ -489,9 +524,48 @@ module ApplicationHelper
       "#{answer.body.to_i} ms"
     elsif Array(definition.choices).any?
       row = Array(definition.choices).find { |choice| choice_key(choice) == answer.body.to_s }
-      row ? choice_label(row) : answer.body
+      row ? choice_label(row, definition) : answer.body
     else
       answer.body
     end
+  end
+
+  def rank_name(label_or_key)
+    raw = label_or_key.to_s
+    key = Team::RANKS.find { |_, rank_key, label| rank_key == raw || label == raw }&.second
+    key ||= "rey" if raw.casecmp("Rey").zero? || raw.casecmp("King").zero?
+    return raw if key.blank?
+
+    t("ranks.#{key}")
+  end
+
+  def emblem_name(key)
+    t("emblems.#{key}", default: Team::EMBLEMS[key.to_s])
+  end
+
+  def avatar_name(key)
+    t("avatars.#{key}", default: key.to_s.capitalize)
+  end
+
+  SCORE_REASON_KEYS = {
+    "Respuesta incorrecta" => "scores.incorrect",
+    "Respuesta correcta" => "scores.correct",
+    "Correcta con corona ×2" => "scores.crown",
+    "Primer buzz" => "scores.first_buzz",
+    "Estatua sostenida" => "scores.statue",
+    "Piedra lanzada" => "scores.stone",
+    "Fuego de Elías" => "scores.chest_fuego",
+    "Escudo de David" => "scores.chest_escudo",
+    "Sabiduría" => "scores.chest_sabiduria",
+    "Ajuste del presentador +5" => "scores.presenter_plus",
+    "Ajuste del presentador −5" => "scores.presenter_minus"
+  }.freeze
+
+  def score_reason_label(reason)
+    raw = reason.to_s
+    return t(raw) if raw.start_with?("scores.")
+
+    key = SCORE_REASON_KEYS[raw]
+    key ? t(key) : raw
   end
 end

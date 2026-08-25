@@ -1,19 +1,20 @@
 <% rows = Answers::Tally.call(round: round) %>
 <% event = team.score_events.where(round_run: round, kind: %w[correct incorrect]).first %>
 <div class="quiz-verdict <%= right ? "is-right" : "is-wrong" %>" role="status">
-  <p class="quiz-shout"><%= right ? "¡Correcto!" : "Incorrecto" %></p>
-  <p class="quiz-answer"><%= definition.answer %></p>
+  <p class="quiz-shout"><%= right ? t("play.correct") : t("play.incorrect") %></p>
+  <p class="quiz-answer"><%= definition.copy(:answer) %></p>
 </div>
-<div class="quiz-bars" aria-label="Respuestas del grupo">
+<div class="quiz-bars" aria-label="<%= t("play.group_answers") %>">
   <% rows.each_with_index do |row, index| %>
     <% mark = choice_mark(index) %>
     <% picked = row.key == answer.body.to_s %>
+    <% label = choice_label(row.key, definition) %>
     <div class="quiz-bar choice-<%= mark[:tone] %> <%= "is-correct" if row.correct %> <%= "is-picked" if picked %> <%= "is-miss" if picked && !row.correct %>"
          role="img"
-         aria-label="<%= row.label %>, <%= row.percent %>%">
+         aria-label="<%= label %>, <%= row.percent %>%">
       <span class="quiz-fill" data-share="<%= row.percent %>"></span>
       <span class="choice-mark" aria-hidden="true"><%= picto(mark[:shape]) %></span>
-      <span class="word"><%= row.label %></span>
+      <span class="word"><%= label %></span>
       <span class="quiz-pct"><%= row.percent %>%</span>
     </div>
   <% end %>
@@ -26,15 +27,15 @@
     <span class="quiz-chip">+<%= event.xp %> XP</span>
   <% end %>
   <% if team.streak >= 2 %>
-    <span class="quiz-chip is-fire">Racha ×<%= team.streak %></span>
+    <span class="quiz-chip is-fire"><%= t("chrome.streak", count: team.streak) %></span>
   <% end %>
 </div>
 <% if definition.choice? %>
-  <%= button_to "Siguiente",
+  <%= button_to t("play.next"),
         night_round_run_forward_path(night.code, round),
         class: "btn btn-gold quiz-next",
         form: { data: { turbo_stream: true } },
         data: { action: "click->quiz#next" } %>
 <% else %>
-  <%= render "shared/wait", message: "Esperad la revelación." %>
+  <%= render "shared/wait", message: t("play.wait_reveal") %>
 <% end %>

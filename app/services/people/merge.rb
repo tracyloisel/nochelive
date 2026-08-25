@@ -10,8 +10,8 @@ module People
     end
 
     def call
-      raise Error.new(:ward, "Esas fichas no son de la misma rama.") if @keeper.ward_id != @source.ward_id
-      raise Error.new(:same, "Elige otra ficha para fusionar.") if @keeper.id == @source.id
+      raise Error.new(:ward, I18n.t("errors.people.merge_ward")) if @keeper.ward_id != @source.ward_id
+      raise Error.new(:same, I18n.t("errors.people.merge_same")) if @keeper.id == @source.id
 
       ApplicationRecord.transaction do
         @keeper.lock!

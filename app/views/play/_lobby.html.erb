@@ -8,12 +8,12 @@
   <div class="wait-toy" role="status">
     <span class="emblem emblem-xl emblem-<%= team.emblem %> bob"><%= render "shared/emblem", key: team.emblem %></span>
     <span class="wait-dots" aria-hidden="true"><i></i><i></i><i></i></span>
-    <p class="lede">Esperad. El presentador va a abrir la primera ronda.</p>
+    <p class="lede"><%= t("play.wait_open") %></p>
   </div>
   <p class="quiet">
-    <%= night.teams.chapel.count %> equipos
+    <%= t("play.teams", count: night.teams.chapel.count) %>
     <% if night.teams.solos.any? %>
-      · <%= night.teams.solos.count %> en casa
+      · <%= t("play.remote_teams", count: night.teams.solos.count) %>
     <% end %>
   </p>
 <% end %>

@@ -11,25 +11,35 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     assert_includes response.body, "window.NocheSfx"
     assert_includes response.body, "timer_tension"
     assert_includes response.body, "/sfx/tick.mp3"
-    assert_select ".play-reel"
-    assert_select ".play-shot"
-    assert_select ".play-sheet"
-    assert_select ".night-menu"
+    assert_select "audio#noche_sfx_gate[playsinline]"
+    assert_select "audio#noche_sfx_gate[src='/sfx/tick.mp3']"
+    assert_select ".play-reel", count: 0
+    assert_select ".home-paper"
     assert_select "img.night-poster"
-    assert_select ".btn.btn-gold", text: /Entrar/
     assert_select "h1", text: "Noche Live"
-    assert_select "h1", text: "Noche Live"
-    assert_select ".btn.btn-gold .picto"
-    assert_select ".picto-door"
-    assert_select ".quiet-link", text: /Soy el presentador/
-    assert_select ".quiet-link", text: /Solo ver/
+    assert_select "details.home-menu:not([open])"
+    assert_select "details.home-menu a[href=?]", search_path
+    assert_select "details.home-menu .place-input", count: 0
+    assert_select ".home-paper .place-input", count: 0
+    assert_select "details.home-code .code-input"
+    assert_select ".home-upcoming .night-hit"
+    assert_select ".ward-hit", count: 0
     assert_select ".story-ticks", count: 0
     assert_select ".play-sheet-grip", count: 0
-    assert_select ".btn.btn-navy", text: /Crear una noche/
+    assert_select ".btn.btn-gold", count: 0
+  end
+
+  test "every named cue is a public mp3" do
+    Sfx::CUES.each do |name|
+      get "/sfx/#{name}.mp3"
+      assert_response :success, "missing /sfx/#{name}.mp3"
+      assert_match %r{audio/(mpeg|mp3)}, response.media_type
+    end
   end
 
   test "design tokens and motion live in the stylesheet" do
     css = Rails.root.join("app/assets/stylesheets/application.css").read
+    assert_includes css, ".sfx-gate"
     assert_includes css, "--paper:"
     assert_includes css, "--space-4:"
     assert_includes css, "--dur-press:"
@@ -45,6 +55,11 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     assert_includes css, ".order-chip"
     assert_includes css, ".picto"
     assert_includes css, ".play-reel"
+    assert_includes css, ".ward-grid"
+    assert_includes css, ".place-input"
+    assert_includes css, ".home-menu"
+    assert_includes css, ".rama-grid"
+    assert_includes css, ".home-paper"
     assert_includes css, ".play-reel.is-join .play-sheet[data-sheet-snap=\"mid\"]"
     assert_includes css, ".play-timer"
     assert_includes css, ".story-close"

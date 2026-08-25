@@ -2,7 +2,7 @@ module Identity
   extend ActiveSupport::Concern
 
   included do
-    helper_method :current_player, :current_team, :current_person, :current_ward, :presenter_for?, :ward_presenter?
+    helper_method :current_player, :current_team, :current_person, :current_ward, :hosted_ward, :presenter_for?, :ward_presenter?, :ward_host?, :current_locale, :locale_path_for
   end
 
   private
@@ -30,6 +30,13 @@ module Identity
 
       ward_id = cookies.signed[:noche_ward]
       @current_ward = Ward.find_by(id: ward_id) if ward_id
+    end
+
+    def hosted_ward
+      return @hosted_ward if defined?(@hosted_ward)
+
+      ward_id = cookies.signed[:noche_ward_host]
+      @hosted_ward = Ward.find_by(id: ward_id) if ward_id
     end
 
     def current_person
@@ -73,6 +80,40 @@ module Identity
       cookies.signed[:noche_ward] = { value: ward.id, expires: 1.year, httponly: true, same_site: :lax }
     end
 
+    def remember_ward_host(ward)
+      remember_ward(ward)
+      cookies.signed[:noche_ward_host] = { value: ward.id, expires: 1.year, httponly: true, same_site: :lax }
+    end
+
+    def remember_locale(locale)
+      cookies[Locale::COOKIE] = {
+        value: Locale.cast(locale),
+        expires: 1.year,
+        httponly: true,
+        same_site: :lax
+      }
+    end
+
+    def current_locale
+      Locale.i18n(locale_preference)
+    end
+
+    def locale_preference
+      return current_player.locale if current_player&.locale.present?
+      return @night.presenter_locale if @night && presenter_for?(@night) && @night.presenter_locale.present?
+      return cookies[Locale::COOKIE] if cookies[Locale::COOKIE].present?
+
+      Locale.from_accept_language(request.env["HTTP_ACCEPT_LANGUAGE"])
+    end
+
+    def locale_path_for
+      if @night
+        night_locale_path(@night.code)
+      else
+        locale_path
+      end
+    end
+
     def presenter_for?(night)
       return false unless cookies.signed[:noche_presenter].to_i == night.id
       return true if night.presenter_device_digest.blank?
@@ -82,7 +123,11 @@ module Identity
     end
 
     def ward_presenter?
-      current_ward.present?
+      hosted_ward.present?
+    end
+
+    def ward_host?(ward = current_ward)
+      hosted_ward.present? && ward.present? && hosted_ward.id == ward.id
     end
 
     def require_player
@@ -103,7 +148,7 @@ module Identity
         return
       end
 
-      redirect_to presenter_gate_path(@night.code), alert: "Pide la consola. Toca Soy el presentador."
+      redirect_to presenter_gate_path(@night.code), alert: I18n.t("flashes.presenter_required")
     end
 
     def expire_pending_presenter_claim
@@ -119,6 +164,16 @@ module Identity
     def require_ward
       return if current_ward
 
-      redirect_to new_ward_path
+      redirect_to root_path
+    end
+
+    def require_ward_presenter
+      return if hosted_ward
+
+      if current_ward
+        redirect_to ward_profile_path(current_ward.code), alert: I18n.t("flashes.open_ward_first")
+      else
+        redirect_to ward_gate_path, alert: I18n.t("flashes.open_ward_first")
+      end
     end
 end

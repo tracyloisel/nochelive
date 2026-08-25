@@ -1,0 +1,161 @@
+fr:
+  games:
+    kings_and_prophets:
+      title: "Rois et prophètes"
+      tagline: "Une soirée de couronnes, de feu et de pierres"
+      rounds:
+        salomon_wisdom:
+          title: "Le choix de Salomon"
+          question: "Dieu permit à Salomon de demander ce qu’il voulait. Qu’a-t-il demandé ?"
+          answer: "La sagesse pour gouverner le peuple."
+          choices:
+            riches: "Des richesses"
+            wisdom: "La sagesse"
+            army: "Une armée"
+        rey_o_profeta:
+          title: "Roi ou prophète ?"
+          question: "Élie a été un roi d’Israël."
+          answer: "Faux. Élie était prophète."
+          choices:
+            "true": "Vrai"
+            "false": "Faux"
+        david_goliath:
+          title: "David contre Goliath"
+          question: "Avec quoi David a-t-il vaincu Goliath ?"
+          answer: "Une fronde et une pierre."
+          instructions: "Dans la salle : trois balles. Faites tomber la tour de Goliath."
+          remote_instructions: "Garde le rythme et lance la pierre."
+        elias_carmel:
+          title: "Le feu du ciel"
+          question: "Qu’est-ce qui est descendu sur l’autel d’Élie au Carmel ?"
+          answer: "Le feu de l’Éternel."
+          choices:
+            rain: "La pluie"
+            fire: "Le feu"
+            wind: "Le vent"
+            oil: "L’huile"
+        daniel_lions:
+          title: "Daniel et les lions"
+          question: "Pourquoi a-t-on jeté Daniel dans la fosse aux lions ?"
+          answer: "Parce qu’il priait son Dieu."
+          choices:
+            stole: "Parce qu’il a volé le roi"
+            prayed: "Parce qu’il priait son Dieu"
+            slept: "Parce qu’il s’est endormi"
+        freeze_saul:
+          title: "La danse de David"
+          instructions: "Dansez. Quand le présentateur s’arrête, figez-vous !"
+          answer: "David a dansé devant le Seigneur."
+          remote_instructions: "Quand tu vois FIGEZ-VOUS, touche. Pas avant."
+        mime_jonah:
+          title: "Jonas sans paroles"
+          instructions: "Un joueur mime Jonas. L’équipe devine."
+          answer: "Jonas et le grand poisson."
+          remote_instructions: "Tu es Jonas. Vis les trois moments."
+          beats:
+            storm:
+              shout: "LA TEMPÊTE !"
+              label: "LA TEMPÊTE !"
+            fish:
+              shout: "LE POISSON !"
+              label: "LE POISSON !"
+            shore:
+              shout: "TERRE !"
+              label: "TERRE !"
+        kings_order:
+          title: "L’ordre des rois"
+          question: "Qui a régné le premier ?"
+          instructions: "Touchez les rois dans l’ordre du temps."
+          answer: "Saül, puis David, puis Salomon."
+          items:
+            saul: "Saül"
+            david: "David"
+            salomon: "Salomon"
+        taboo_nabot:
+          title: "Mots interdits"
+          instructions: "Un joueur raconte l’histoire. Il ne peut pas dire les mots en rouge. Les autres devinent."
+          target: "La vigne de Naboth"
+          answer: "Achab a voulu la vigne de Naboth."
+          remote_instructions: "À la maison : écoutez l’appel et écrivez l’histoire."
+          forbidden:
+            vina: "vigne"
+            acab: "Achab"
+            jezabel: "Jézabel"
+          guess_keys:
+            - naboth
+            - vigne
+            - nabot
+        statue_david:
+          title: "Statue de David"
+          instructions: "Posez le téléphone. 30 secondes. Faites la statue de David face à Goliath."
+          answer: "David n’a pas fui. Il s’est planté."
+          remote_instructions: "À la maison : 30 secondes. La même statue devant la caméra."
+        scavenger_harp:
+          title: "La harpe de David"
+          instructions: "Levez-vous. Trouvez une harpe, ou n’importe quoi qui sonne."
+          answer: "David calmait Saül avec la harpe."
+          remote_instructions: "À la maison : un objet qui sonne. Boîte, clés, casserole, voix."
+        category_prophets:
+          title: "Noms de prophètes"
+          instructions: "Criez des prophètes. Trois suffisent."
+          answer: "Ésaïe, Jérémie, Élie, Élisée, Daniel…"
+          remote_instructions: "Écrivez trois prophètes. Séparez-les par des virgules."
+          guess_keys:
+            - Ésaïe
+            - Esaie
+            - Jérémie
+            - Jeremie
+            - Élie
+            - Elie
+            - Élisée
+            - Elisee
+            - Daniel
+            - Jonas
+            - Samuel
+            - Moïse
+            - Moise
+            - Nathan
+            - Michée
+            - Michee
+            - Isaías
+            - Elías
+            - Eliseo
+        vote_solomon:
+          title: "Le jugement de Salomon"
+          question: "Qui a montré le plus de sagesse ce soir ?"
+          instructions: "Vous ne pouvez pas voter pour vous."
+          answer: "La sagesse de voir le vrai amour."
+        semifinal_crown:
+          title: "La couronne tremble"
+          question: "Qui a oint David en secret, alors qu’il était encore jeune ?"
+          answer: "Samuel."
+          choices:
+            saul: "Saül"
+            samuel: "Samuel"
+            nathan: "Nathan"
+        finale_prophet:
+          title: "Le burger de feu"
+          question: "Qu’a demandé Élisée à Élie avant que le char de feu l’emporte ?"
+          instructions: "Tout le monde debout ! Le dernier mot de la soirée."
+          answer: "Une double portion de son esprit."
+          choices:
+            chariot: "Le char de feu"
+            double: "Une double portion de son esprit"
+            crown: "La couronne d’Élie"
+          layers:
+            pan:
+              label: "Le pain"
+              text: "Élie et Élisée marchent ensemble."
+              host: "Regardez-les. Le maître et le disciple. Élie va être enlevé. Élisée ne s’écarte pas. Une seconde de silence."
+            jordan:
+              label: "La salade"
+              text: "Ils arrivent au Jourdain. L’eau s’ouvre."
+              host: "Élie frappe le fleuve. L’eau s’ouvre. Ils passent à pied sec. Comme le peuple autrefois."
+            chariot:
+              label: "La viande"
+              text: "Un char de feu. Élie monte au ciel."
+              host: "Des chevaux de feu. Un char. Élie monte. Élisée reste. Qu’est-ce qu’il va demander ?"
+            salsa:
+              label: "La sauce"
+              text: "La sauce."
+              host: "Le burger est servi. Maintenant la question. Ne vous précipitez pas."

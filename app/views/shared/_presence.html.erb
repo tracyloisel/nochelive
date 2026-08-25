@@ -3,15 +3,15 @@
 <% variant = local_assigns.fetch(:variant, "board") %>
 <% audience = local_assigns.fetch(:audience, false) %>
 <% team = local_assigns[:team] %>
-<aside id="night_presence" class="presence <%= "is-compact" if compact %> <%= "is-stage" if variant == "stage" %> <%= "has-audience" if audience %>" aria-label="Quién está">
+<aside id="night_presence" class="presence <%= "is-compact" if compact %> <%= "is-stage" if variant == "stage" %> <%= "has-audience" if audience %>" aria-label="<%= t("presence.who") %>">
   <% if audience %>
     <button type="button"
             class="story-audience btn"
             data-story-target="liveChip"
             data-action="click->story#live"
-            aria-label="En directo, <%= snapshot.live %> de <%= snapshot.joined %> jugadores">
+            aria-label="<%= t("presence.live_of", live: snapshot.live, joined: snapshot.joined) %>">
       <%= picto("eye") %>
-      <span class="word">En directo</span>
+      <span class="word"><%= t("presence.live") %></span>
       <span class="live-mark" aria-hidden="true">LIVE</span>
       <strong><%= snapshot.live %></strong>
     </button>
@@ -21,27 +21,27 @@
     <div class="presence-stat">
       <%= picto("person") %>
       <strong><%= snapshot.live %></strong>
-      <span class="word">en vivo</span>
+      <span class="word"><%= t("presence.live_word") %></span>
     </div>
     <div class="presence-stat">
       <%= picto("sofa") %>
       <strong><%= snapshot.room %></strong>
-      <span class="word">sala</span>
+      <span class="word"><%= t("presence.room") %></span>
     </div>
     <div class="presence-stat">
       <%= picto("house") %>
       <strong><%= snapshot.remote %></strong>
-      <span class="word">casa</span>
+      <span class="word"><%= t("presence.home") %></span>
     </div>
   </div>
   <% if snapshot.joined != snapshot.live %>
-    <p class="quiet"><%= snapshot.joined %> en la noche</p>
+    <p class="quiet"><%= t("presence.in_night", count: snapshot.joined) %></p>
   <% end %>
 
   <% if snapshot.live.zero? %>
     <div class="presence-wait">
       <%= picto("hourglass") %>
-      <span class="word"><%= snapshot.joined.zero? ? "Nadie aún" : "Esperando…" %></span>
+      <span class="word"><%= snapshot.joined.zero? ? t("presence.nobody") : t("presence.waiting") %></span>
     </div>
   <% end %>
 
@@ -56,7 +56,7 @@
     </div>
   <% else %>
     <% if snapshot.teams.empty? %>
-      <p class="quiet">Aún no hay equipos</p>
+      <p class="quiet"><%= t("presence.no_teams") %></p>
     <% else %>
     <ul class="presence-teams">
       <% snapshot.teams.each do |row| %>

@@ -18,9 +18,10 @@ class Player < ApplicationRecord
   has_many :cheers, dependent: :destroy
   has_many :received_cheers, class_name: "Cheer", foreign_key: :to_player_id, dependent: :destroy
 
-  validates :name, :client_token, :role, :avatar_key, presence: true
+  validates :name, :client_token, :role, :avatar_key, :locale, presence: true
   validates :role, inclusion: { in: ROLES }
   validates :location, inclusion: { in: LOCATIONS }
+  validates :locale, inclusion: { in: Locale::AVAILABLE }
   validates :avatar_key, inclusion: { in: AVATARS }
   validates :name, length: { minimum: 1, maximum: 24 }
   before_validation :assign_avatar_key

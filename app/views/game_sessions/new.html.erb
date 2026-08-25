@@ -1,30 +1,30 @@
-<% content_for :title, "Crear noche" %>
+<% content_for :title, t("night.create_title") %>
 <% shot = capture do %>
   <%= render "shared/still", src: night_poster_src("reyes_y_profetas"), poster: true %>
 <% end %>
 <% chrome = capture do %>
-  <%= render "shared/reel_chrome", title: "Presentador", ticks: false %>
+  <%= render "shared/reel_chrome", title: t("presenter.title"), ticks: false %>
 <% end %>
 <%= story_reel shot: shot, chrome: chrome, snap: "open", mid: 0.62, handle: false, reel_class: "is-join" do %>
   <% if @ward %>
-    <h1>Abrir la noche</h1>
-    <p class="lede"><%= @ward.name %> · <%= @ward.code %>. Se crea un código corto. Guarda el enlace secreto.</p>
+    <h1><%= t("night.open_title") %></h1>
+    <p class="lede"><%= t("night.open_lede", ward: @ward.name, code: @ward.code) %></p>
     <% if @live_nights.any? %>
-      <p class="lede">Esta rama ya tiene una noche. Entra como presentador o crea otra.</p>
+      <p class="lede"><%= t("night.already") %></p>
       <% @live_nights.each do |night| %>
         <%= button_to presenter_claim_path(night.code), class: "btn btn-gold" do %>
-          <%= picto("wand") %>Soy el presentador · <%= night.code %>
+          <%= picto("wand") %><%= t("night.i_am_code", code: night.code) %>
         <% end %>
       <% end %>
     <% end %>
-    <%= button_to "Crear Reyes y Profetas", game_sessions_path, class: "btn btn-navy" %>
-    <%= link_to "Fichas de la rama", ward_fichas_path, class: "btn btn-navy" %>
-    <%= link_to "Otra rama", new_ward_path, class: "btn btn-ghost" %>
+    <%= button_to t("night.create_theme"), game_sessions_path, class: "btn btn-navy" %>
+    <%= link_to t("night.fichas"), ward_fichas_path, class: "btn btn-navy" %>
+    <%= link_to t("night.other_ward"), root_path, class: "btn btn-ghost" %>
   <% else %>
-    <h1>Primero tu rama</h1>
-    <p class="lede">Las fichas viven en la rama. Crea una o entra con el secreto.</p>
-    <%= link_to "Crear rama", new_ward_path, class: "btn btn-gold" %>
-    <%= link_to "Ya tengo rama", ward_gate_path, class: "btn btn-navy" %>
+    <h1><%= t("night.first_ward") %></h1>
+    <p class="lede"><%= t("night.first_lede") %></p>
+    <%= link_to t("night.create_ward"), add_ward_path, class: "btn btn-gold" %>
+    <%= link_to t("night.have_ward"), ward_gate_path, class: "btn btn-navy" %>
   <% end %>
-  <%= link_to "Volver", root_path, class: "btn btn-ghost" %>
+  <%= link_to t("presenter.back"), root_path, class: "btn btn-ghost" %>
 <% end %>

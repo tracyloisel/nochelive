@@ -46,7 +46,7 @@ module Presenter
         holder_token: device_token
       )
       if params[:decision].to_s == "grant"
-        redirect_to presenter_gate_path(@night.code), notice: "Cediste la mesa."
+        redirect_to presenter_gate_path(@night.code), notice: I18n.t("flashes.yielded")
       else
         redirect_to presenter_console_path(@night.code)
       end

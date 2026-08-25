@@ -14,21 +14,21 @@ module Presenters
     end
 
     def call
-      raise People::Error.new(:missing, "Esa petición no existe.") unless @claim
+      raise People::Error.new(:missing, I18n.t("errors.people.claim_missing")) unless @claim
       unless DECISIONS.include?(@decision)
-        raise People::Error.new(:missing, "Elige ceder, seguir o bloquear.")
+        raise People::Error.new(:missing, I18n.t("errors.people.claim_choice"))
       end
 
       if @decision == "grant"
-        raise People::Error.new(:forbidden, "Ya no tienes la mesa.") unless holder?
+        raise People::Error.new(:forbidden, I18n.t("errors.people.not_holder")) unless holder?
         return Presenters::Grant.call(claim: @claim)
       end
 
       ApplicationRecord.transaction do
         claim = PresenterClaim.lock.find(@claim.id)
         night = GameSession.lock.find(claim.game_session_id)
-        raise People::Error.new(:forbidden, "Ya no tienes la mesa.") unless night.presenter_held_by?(@holder_token)
-        raise People::Error.new(:missing, "Esa petición ya no está viva.") unless claim.pending?
+        raise People::Error.new(:forbidden, I18n.t("errors.people.not_holder")) unless night.presenter_held_by?(@holder_token)
+        raise People::Error.new(:missing, I18n.t("errors.people.claim_dead")) unless claim.pending?
 
         if @decision == "block"
           night.presenter_blocks.find_or_create_by!(device_digest: claim.device_digest)

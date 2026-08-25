@@ -5,7 +5,15 @@ DEMO_CODE = "DEMO"
 
 ward = Ward.find_or_initialize_by(code: "RAMA")
 ward.assign_attributes(
-  name: "Rama DEMO",
+  name: "Rama Benidorm",
+  emblem: "paloma",
+  chapel_name: "Capilla de Benidorm",
+  chapel_address: "Avinguda Alfonso Puchades, 27",
+  city: "Benidorm",
+  region: "Alicante",
+  postal_code: "03502",
+  country_code: "ES",
+  listed: true,
   presenter_token_digest: GameSession.digest_token(WARD_TOKEN)
 )
 ward.save!
@@ -59,7 +67,8 @@ host = ENV.fetch("APP_HOST", "http://localhost:3000")
 
 puts <<~MSG
 
-  Rama DEMO lista. Código rama: RAMA
+  Rama Benidorm lista. Código rama: RAMA
+  Capilla: Avinguda Alfonso Puchades, 27, 03502 Benidorm
   Secreto rama: #{WARD_TOKEN}
   Noche: #{DEMO_CODE}
   Jugadores: #{host}

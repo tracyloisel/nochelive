@@ -4,27 +4,27 @@
   <% if hold&.finished? %>
     <div class="lock lock-gold" role="status">
       <%= picto("statue", size: "lg") %>
-      <p class="place">¡Plantados!</p>
-      <p>Habéis sostenido la estatua.</p>
+      <p class="place"><%= t("play.planted_pose") %></p>
+      <p><%= t("play.held_statue") %></p>
     </div>
   <% elsif round.open? %>
-    <p class="prompt put-down">David frente a Goliat.</p>
-    <p class="lede">Mantén la pose. No sueltes.</p>
+    <p class="prompt put-down"><%= t("play.david_goliath") %></p>
+    <p class="lede"><%= t("play.hold_pose") %></p>
     <div data-controller="pose"
          data-pose-url-value="<%= night_round_run_pose_hold_path(night.code, round) %>"
          data-pose-goal-value="<%= PoseHold::GOAL_MS %>">
       <button type="button" class="buzz sling-btn" data-pose-target="button" data-action="pointerdown->pose#hold pointerup->pose#release pointerleave->pose#release pointercancel->pose#release">
         <%= picto("statue", size: "xl") %>
-        <span>Sostener</span>
+        <span><%= t("play.hold") %></span>
       </button>
       <p class="hint"><span data-pose-target="count">0</span> / 8 s</p>
     </div>
   <% else %>
-    <%= render "shared/wait", message: "Esperad la señal para la estatua." %>
+    <%= render "shared/wait", message: t("play.wait_statue") %>
   <% end %>
 <% else %>
   <div class="put-down-art" aria-hidden="true"><%= picto("phone", size: "xl") %></div>
-  <p class="prompt put-down">DEJAD EL TELÉFONO.</p>
-  <p class="lede"><%= definition.instructions %></p>
-  <p class="hint">El presentador ve la sala y anota.</p>
+  <p class="prompt put-down"><%= t("play.leave_phone") %></p>
+  <p class="lede"><%= definition.copy(:instructions) %></p>
+  <p class="hint"><%= t("play.host_watches") %></p>
 <% end %>

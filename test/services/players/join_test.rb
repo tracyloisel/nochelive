@@ -60,4 +60,25 @@ class Players::JoinTest < ActiveSupport::TestCase
     )
     assert_nil player.team
   end
+
+  test "participant join pulses chest" do
+    pulses = []
+    original = GameSession.instance_method(:broadcast_state)
+    GameSession.define_method(:broadcast_state) { |pulse: nil| pulses << pulse }
+    player = Players::Join.call(
+      night: @night,
+      name: "Marta",
+      role: "participant",
+      location: "room",
+      device_token: "guest-phone-2",
+      avatar_key: "perro"
+    )
+    GameSession.define_method(:broadcast_state, original)
+
+    assert_equal "join", pulses.last[:kind]
+    assert_equal player.id, pulses.last[:player].id
+    assert_equal "chest", Sfx.for_pulse("join")
+  ensure
+    GameSession.define_method(:broadcast_state, original) if original
+  end
 end

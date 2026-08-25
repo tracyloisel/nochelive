@@ -1,11 +1,23 @@
 # frozen_string_literal: true
 
 demo:
-  name: Rama DEMO
+  name: Rama Benidorm
   code: RAMA
+  emblem: paloma
+  chapel_name: Capilla de Benidorm
+  chapel_address: "Avinguda Alfonso Puchades, 27"
+  city: Benidorm
+  region: Alicante
+  postal_code: "03502"
+  country_code: ES
+  listed: true
   presenter_token_digest: <%= Digest::SHA256.hexdigest("rama-demo") %>
 
 blank:
   name: Rama vacía
   code: BLANK
+  emblem: paloma
+  city: Madrid
+  country_code: ES
+  listed: false
   presenter_token_digest: <%= Digest::SHA256.hexdigest("rama-blank") %>

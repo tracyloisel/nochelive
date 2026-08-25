@@ -4,17 +4,17 @@
     <img src="<%= src %>" alt="" class="avatar-img avatar-hero" width="128" height="128">
   <% end %>
 </div>
-<h1>Tu año favorito</h1>
+<h1><%= t("join.claim_title") %></h1>
 <p class="lede"><%= person.card_caption %></p>
-<p class="quiet">Cuatro cifras. Puedes usar el año en que naciste.</p>
+<p class="quiet"><%= t("join.year_hint") %></p>
 
 <%= form_with url: night_players_path(night.code), method: :post, class: "join-form" do %>
   <input type="hidden" name="person_id" value="<%= person.id %>">
   <input type="hidden" name="location" value="<%= @location.presence || "room" %>">
   <%= render "shared/year_field", value: @favorite_year, required: true %>
-  <button type="submit" class="btn btn-gold picto-btn"><%= picto("check") %>Entrar</button>
+  <button type="submit" class="btn btn-gold picto-btn"><%= picto("check") %><%= t("home.enter") %></button>
 <% end %>
 
 <%= link_to night_name_path(night.code, fresh: 1), class: "btn btn-ghost" do %>
-  Otra persona
+  <%= t("join.other_person") %>
 <% end %>

@@ -10,10 +10,11 @@ Noche Live is a **warm white, tactile** product. A **live round** without a full
 - Canvas: warm white (`--paper`). **Ink for words** (titles, questions, stand-up). **Gold for metal** (emblems, one CTA, trophies). Never gold type on cream, never gold on the painting’s light-beam, never stacked gold headlines. No dark navy pages. 8px gap scale (`--space-6` / `--space-7`).
 - **Live quiz only** (play round, burger finale, TV /watch during a round, presenter stage during a round): still-first reel. Painting visible. Thin chrome (ticks + timer + score — no LIVE chip). Watch = cinema (still + question + one **short** scoreboard lower-third), no sheet. Overlay contrast (local short scrims, cream type — never a milky veil or a bottom wash that eats the painting). Swipe is `story` + `sheet`. If the sheet cannot be dragged, no fake grab-handle. Timer is a readable object. Burger layers are labeled.
 - **Everything else** (home, join, pick-team, lobby, fichas, roster, gates, presenter lists): keep the layout that is on disk. Strip Story residue (ticks, LIVE 0, décor X, mute, fake handle). You may design a clearer layout later. Do **not** force every screen into shot+sheet. Do **not** restore the old `.gate` / dashboard cards. Do not unwind peek-pass or overlay-contrast CSS.
-- **Home/join:** one door — code + Entrar as a real button (label with icon, not a springboard tile). Presenter / Solo ver as quieter links. High-contrast inputs. No next-card peek stealing the footer.
+- **Home:** still-first (Reyes y Profetas peek/mid). Congregation posters featured without a query (Benidorm first). Search and night code live in the hamburger, not on the painting. Add-rama is menu-only (`/ramas/anadir`). Cookie rama → profile.
+- **Join:** name on a still. Entrar as a real button (label with icon, not a springboard tile). Presenter / Solo ver as quieter links. High-contrast inputs. No next-card peek stealing the footer.
 - **Presenter:** one sequential gold next action. Pause/end/Lista/Fichas in overflow or desk. No “Remoto: grado A” on stage.
 - **Ceremony:** one hero (name, emblem, score). Honest empty or tie. No “Este viernes” flyer, no 0–0 coronation shout.
-- Family night: Spanish, large hits, sofa vs casa. Questions and titles are readable type.
+- Family night: large hits, sofa vs casa. Questions and titles are readable type. Copy is **valid and validated** in español, brésilien (`pt-BR`), English, français — `.cursor/skills/noche-i18n/SKILL.md`.
 - Motion: press scale + ripple (`press`). Turbo swaps use View Transitions (`motion`). Honor `prefers-reduced-motion`.
 - Do not add a CSS framework, a new palette, or dark mode.
 - When touching `app/views`, `app/assets/stylesheets`, or Stimulus UI, follow `.cursor/skills/noche-ui/SKILL.md`.

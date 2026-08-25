@@ -1,4 +1,4 @@
-<% content_for :title, "Presentador" %>
+<% content_for :title, t("presenter.title") %>
 <% shot = capture do %>
   <%= render "shared/still", src: night_still_src(@night), poster: true %>
 <% end %>
@@ -7,11 +7,11 @@
 <% end %>
 <%= story_reel shot: shot, chrome: chrome, snap: "mid", handle: false, reel_class: "is-join" do %>
   <div id="night_presenter_gate">
-    <h1>Consola del presentador</h1>
-    <p class="lede">Toca si llevas tú la noche. Si ya hay presentador, le avisamos. Tiene un minuto. Si no responde, la mesa pasa a ti.</p>
+    <h1><%= t("presenter.console") %></h1>
+    <p class="lede"><%= t("presenter.gate_lede") %></p>
 
     <%= button_to presenter_claim_path(@night.code), class: "btn btn-gold" do %>
-      <%= picto("wand") %>Soy el presentador
+      <%= picto("wand") %><%= t("presenter.i_am") %>
     <% end %>
   </div>
 <% end %>

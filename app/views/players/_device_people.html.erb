@@ -1,5 +1,5 @@
-<h1>¿Quién juega?</h1>
-<p class="lede">Este teléfono ya conoce estas fichas.</p>
+<h1><%= t("join.device_title") %></h1>
+<p class="lede"><%= t("join.device_lede") %></p>
 
 <ul class="team-list person-list">
   <% people.each do |person| %>
@@ -12,5 +12,5 @@
 </ul>
 
 <%= link_to night_name_path(night.code, fresh: 1), class: "btn btn-ghost picto-btn" do %>
-  <%= picto("plus") %>Otra persona
+  <%= picto("plus") %><%= t("join.other_person") %>
 <% end %>

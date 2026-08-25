@@ -1,11 +1,11 @@
 <p class="prompt"><%= round_prompt(round) %></p>
-<p class="lede"><%= definition.instructions %></p>
+<p class="lede"><%= definition.copy(:instructions) %></p>
 <% if player_remote?(local_assigns[:player]) && definition.remote_variant %>
-  <p class="hint"><%= definition.remote_variant["instructions"] %></p>
+  <p class="hint"><%= definition.remote_instructions %></p>
 <% end %>
 <% if round.revealed? %>
   <%= render "play/reveal", definition: definition, team: team, round: round %>
 <% else %>
   <div class="put-down-art" aria-hidden="true"><%= picto("wand", size: "xl") %></div>
-  <%= render "shared/wait", message: "El presentador dirige esta ronda. Actuad juntos." %>
+  <%= render "shared/wait", message: t("play.host_leads") %>
 <% end %>

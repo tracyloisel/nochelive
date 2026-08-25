@@ -35,7 +35,19 @@ class Sfx
     "answer" => "buzzer_hit"
   }.freeze
 
-  PULSE_SOLO = %w[lock reveal score open advance].freeze
+  PULSE_YAML = {
+    "open" => "intro",
+    "lock" => "lock",
+    "freeze" => "lock",
+    "score" => "correct",
+    "miss" => "wrong",
+    "buzz" => "buzz",
+    "found" => "buzz",
+    "shout" => "buzz",
+    "answer" => "buzz"
+  }.freeze
+
+  PULSE_SOLO = %w[lock reveal score open advance miss].freeze
 
   def self.catalog
     CUES.index_with { |name| path_for(name) }.compact
@@ -57,8 +69,27 @@ class Sfx
     "/sfx/#{file.basename}" if file
   end
 
-  def self.for_pulse(kind)
-    PULSE.fetch(kind.to_s, "buzzer_hit")
+  def self.for_pulse(kind, source = nil)
+    kind = kind.to_s
+    round = source if source.respond_to?(:yaml_round_id)
+    definition = round ? round.definition : source
+    if kind == "open" && round&.definition&.layered_finale? && !round.intro?
+      return PULSE.fetch("open")
+    end
+
+    yaml_key = PULSE_YAML[kind]
+    override = definition&.sfx&.[](yaml_key).presence
+    return override if override && known?(override)
+
+    PULSE.fetch(kind, "buzzer_hit")
+  end
+
+  def self.for_grade(definition, correct:)
+    key = correct ? "correct" : "wrong"
+    override = definition&.sfx&.[](key).presence
+    return override if override && known?(override)
+
+    correct ? "correct_gold" : "wrong_soft"
   end
 
   def self.pulse_without_player?(kind)

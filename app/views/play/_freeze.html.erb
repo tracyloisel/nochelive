@@ -4,47 +4,47 @@
   <% if answer %>
     <div class="lock lock-gold" role="status">
       <%= picto("dancer", size: "lg") %>
-      <p class="place"><%= answer.body.to_i <= definition.freeze_window ? "¡Plantado!" : "Tarde" %></p>
-      <p><%= answer.body.to_i <= definition.freeze_window ? "El muñeco se quedó." : "El muñeco se movió." %></p>
+      <p class="place"><%= answer.body.to_i <= definition.freeze_window ? t("play.planted") : t("play.late") %></p>
+      <p><%= answer.body.to_i <= definition.freeze_window ? t("play.doll_still") : t("play.doll_moved") %></p>
     </div>
   <% elsif round.locked? %>
     <div class="freeze-desk">
-      <p class="prompt put-down">¡CONGELADOS!</p>
+      <p class="prompt put-down"><%= t("play.frozen") %></p>
       <%= render "shared/dancer", frozen: true %>
       <%= form_with url: night_round_run_freeze_path(night.code, round), class: "hunt-form" do %>
         <button class="buzz hunt-btn" type="submit">
           <%= picto("statue", size: "xl") %>
-          <span>¡ME QUEDÉ!</span>
+          <span><%= t("play.i_froze") %></span>
         </button>
       <% end %>
     </div>
   <% elsif round.open? %>
     <div class="freeze-desk">
-      <p class="prompt put-down">¡BAILAD!</p>
-      <p class="lede"><%= definition.remote_variant&.fetch("instructions", definition.instructions) %></p>
+      <p class="prompt put-down"><%= t("play.dance") %></p>
+      <p class="lede"><%= definition.remote_variant ? (definition.remote_instructions.presence || definition.copy(:instructions)) : definition.copy(:instructions) %></p>
       <%= render "shared/dancer", frozen: false %>
-      <%= render "shared/wait", message: "Espera. No pulses todavía." %>
+      <%= render "shared/wait", message: t("play.wait_tap") %>
     </div>
   <% else %>
-    <p class="lede"><%= definition.instructions %></p>
-    <%= render "shared/wait", message: "El muñeco va a bailar." %>
+    <p class="lede"><%= definition.copy(:instructions) %></p>
+    <%= render "shared/wait", message: t("play.doll_dances") %>
   <% end %>
 <% else %>
   <% if round.locked? %>
     <div class="lock lock-gold" role="status">
-      <p class="place">¡CONGELADOS!</p>
+      <p class="place"><%= t("play.frozen") %></p>
       <%= render "shared/dancer", frozen: true %>
-      <p>No os mováis. El presentador mira.</p>
+      <p><%= t("play.dont_move") %></p>
     </div>
   <% elsif round.open? %>
     <div class="freeze-desk">
-      <p class="prompt put-down">¡BAILAD!</p>
-      <p class="lede"><%= definition.instructions %></p>
+      <p class="prompt put-down"><%= t("play.dance") %></p>
+      <p class="lede"><%= definition.copy(:instructions) %></p>
       <%= render "shared/dancer", frozen: false %>
-      <p class="hint">Dejad el teléfono en la mesa.</p>
+      <p class="hint"><%= t("play.phone_down") %></p>
     </div>
   <% else %>
-    <p class="lede"><%= definition.instructions %></p>
-    <%= render "shared/wait", message: "Id a bailar. El presentador va a abrir." %>
+    <p class="lede"><%= definition.copy(:instructions) %></p>
+    <%= render "shared/wait", message: t("play.go_dance") %>
   <% end %>
 <% end %>

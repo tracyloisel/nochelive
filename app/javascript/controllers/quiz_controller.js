@@ -78,6 +78,10 @@ export default class extends Controller {
 
   cue() {
     if (!this.sfxValue) return
+    if (window.NocheLiveAudio?.play) {
+      window.NocheLiveAudio.play(this.sfxValue)
+      return
+    }
     const stage = this.application.getControllerForElementAndIdentifier(document.body, "stage")
     stage?.play(this.sfxValue)
   }

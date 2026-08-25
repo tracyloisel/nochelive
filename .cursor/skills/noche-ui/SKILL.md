@@ -18,7 +18,7 @@ Stay warm white — never a black TikTok skin. **Ink for words. Gold for metal**
 
 **Do not restore the old gate-card / dashboard screens.** Home, join, pick-team, lobby, fichas, roster, missionaries, rama / create-night gates, and presenter desk lists already shipped as stills and sheets. Never `git checkout` pre-reel views. Do not unwind peek-pass or overlay-contrast CSS. Non-quiz screens may use a clearer layout *later*; that is not a license to rewind to `.gate` cards.
 
-Family night still matters (Spanish, huge hit targets, sofa vs casa). Questions, titles, and stand-up are **readable type**.
+Family night still matters (huge hit targets, sofa vs casa). Questions, titles, and stand-up are **readable type**. Copy is I18n in es, pt-BR, en, and fr — see noche-i18n.
 
 ## Hard don’ts (never ship)
 
@@ -30,12 +30,13 @@ Family night still matters (Spanish, huge hit targets, sofa vs casa). Questions,
 | Universal costume: ticks + LIVE 0 + X + mute + handle on every surface | One job per screen. Mute on live quiz only. X only where swipe-down exit needs a visible control (play round, presenter stage). **No X on home/join/ceremony/fichas/roster.** No LIVE chip |
 | Presenter: grado A, five equal pills, Lista/Fichas FABs, pause/end/next all gold | **One** sequential gold next. Pause / end / Lista / Fichas in overflow or desk |
 | Ceremony shouting Gran Final / ¡TODOS DE PIE! over **0–0**; “Este viernes” flyer under the result | One hero (name, emblem, score). Honest empty or tie. Prefer last-round still, not the theme flyer |
-| Home/join: iOS springboard tile (icon stacked over label); equal-weight presenter; next-card peek stealing the footer | Code + **Entrar** as a real button (label **with** icon, row). Presenter / Solo ver as quieter links |
+| Home: night code or search form as the hero; a painting as home wallpaper; search form inside the hamburger | Paper home. Title + Quién somos + Buscar. Search is its own page. Night posters on the feed. Menu links, not a form |
+| Join: iOS springboard tile (icon stacked over label); equal-weight presenter; next-card peek stealing the footer | **Entrar** as a real button (label **with** icon, row). Presenter / Solo ver as quieter links |
 | Watch: four headcounts + iOS score pills + LIVE 0 | Cinema: still + question + **one** scoreboard lower-third |
 | Full-screen milky veil over the painting | Cream type + **local** top/bottom scrims only |
 | Burger layers as four mystery discs | Labels on each layer, or one peel verb |
 | Timer as a yellow hairline | Timer as a readable object (fat numerals + thick bar) |
-| Copy “Solo esta noche” changed while tests still pin it | Keep the Spanish string tests assert; fix glyph and hierarchy. Prefer **Jugar** only when tests change in the same commit |
+| Copy “Solo esta noche” changed while tests still pin a Spanish literal | Use `t()`; update locale files **and** tests in the same change. Four languages: noche-i18n |
 
 ```erb
 <%# BAD — gold words on cream; Stories ticks on a form; tile CTA %>
@@ -102,9 +103,10 @@ Do **not** put a live round in a padded `.play-card` with a `.team-bar` on the c
 
 **Everywhere else** may pick the best layout **in the future** — a gate card, a form, a desk, a feed. That freedom is for *new* work.
 
-What is on disk **now** stays (still + sheet wrapper is OK):
+What is on disk **now** stays (still + sheet wrapper is OK), except **home**, which is a paper night feed:
 
-- Home, join / name, pick-team, lobby waiting
+- Home (`home-paper`: title, Quién somos, Buscar, upcoming + past)
+- Join / name, pick-team, lobby waiting
 - Fichas, roster, missionaries
 - Rama / create-night gates, presenter claim / wait
 - Presenter desk lists
@@ -189,7 +191,13 @@ On the phone column, the primary button is full width **inside the sheet**, labe
 
 ## Surfaces
 
-**Home / join** — one door. Ink wordmark on home (`Noche Live`). Featured still (not a night carousel peeking the next poster). Code field high-contrast. `Entrar` is a pill, not a springboard tile. Presenter and Solo ver are `.quiet-link`. Guest play may keep the string `Solo esta noche` if tests pin it; do not use a trash/cup glyph. No X on the still.
+**Home** — paper feed, not a reel. Ink wordmark (`Noche Live`). No full-bleed painting behind the page. Two quiet doors under the title: Quién somos (`/nosotros`) and Buscar (`/buscar`). Then **Próximamente** (listed-ward nights from today through +14 days) and the last 10 finished nights. Paintings live **on night cards**, not as wallpaper. Hamburger: home, quién somos, buscar page (never the search form), night code, language. No X, no ticks, no gold on home.
+
+**Buscar** — dedicated place search. Form is the job of that page. Listed Benidorm shows without typing.
+
+**Join** — name screen for a night. `Entrar` is a pill, not a springboard tile. Presenter and Solo ver are `.quiet-link`. Guest play may keep the string `Solo esta noche` if tests pin it; do not use a trash/cup glyph. No X on the still.
+
+**Rama profile** — Instagram-like: emblem, name, chapel pin (Maps link, no embed), N noches, grid. **One** gold CTA. Live night → Entrar. Else if host → Abrir la noche. Never both gold. Live: Solo ver as `.quiet-link`. Host fichas / secreto stay quiet.
 
 **Play** — ticks, fat timer, score. No LIVE chip. Question and round title in ink on the sheet. Burger layers labeled. Mid/peek so Solomon’s face is not under the card.
 
@@ -204,6 +212,7 @@ On the phone column, the primary button is full width **inside the sheet**, labe
 - [ ] Live quiz / watch-during-round / presenter-stage-during-round is shot + thin chrome (+ sheet on play)
 - [ ] No gold headlines on cream or on the light-beam
 - [ ] Ticks only on a live round timeline
+- [ ] Home is paper (title, Quién somos, Buscar, upcoming + past nights), not a reel wallpaper; search is `/buscar`
 - [ ] Home/join/ceremony/fichas/roster have no Story costume (ticks, LIVE 0, X, fake handle)
 - [ ] Play chrome has no LIVE chip
 - [ ] Painting visible (mid/peek); no handle if the sheet is not a drag dock
@@ -217,5 +226,5 @@ On the phone column, the primary button is full width **inside the sheet**, labe
 - [ ] Peek-pass / contrast CSS was not unwound
 - [ ] Gestures stay on `story` / `sheet`
 - [ ] Padding uses gap tokens
-- [ ] Copy in tests still matches (or tests updated in this change)
+- [ ] Copy in tests still matches (or tests updated in this change); new strings exist in es, pt-BR, en, fr
 - [ ] Verify the flow in the browser (or curl + screenshots)

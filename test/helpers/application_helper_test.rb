@@ -51,7 +51,13 @@ class ApplicationHelperTest < ActionView::TestCase
   end
 
   test "labels bands medals prompts and roster" do
-    assert_equal "Descubrimiento", band_label(1)
+    I18n.with_locale(:fr) do
+      assert_equal "Découverte", band_label(1)
+      assert_equal "Commencer la soirée", presenter_next_action(game_sessions(:elias), game_sessions(:elias).current_round_run)[:label]
+    end
+    I18n.with_locale(:es) do
+      assert_equal "Descubrimiento", band_label(1)
+    end
     assert_equal "Competencia", band_label(5)
     assert_equal "Fuego", band_label(8)
     assert_equal "Caos", band_label(12)
@@ -248,6 +254,11 @@ class ApplicationHelperTest < ActionView::TestCase
     paused.status = "paused"
     assert_equal "En pausa", night_status_caption(paused)
     assert_nil night_poster_src("missing_theme")
+  end
+
+  test "home night path is the memory for a finished night" do
+    assert_equal night_name_path("DAVID"), home_night_path_for(game_sessions(:david))
+    assert_equal ward_memory_path("RAMA", "QUIT"), home_night_path_for(game_sessions(:cerrada))
   end
 
   test "phone quiz is the QCM for choice rounds and for casa on a buzzer" do

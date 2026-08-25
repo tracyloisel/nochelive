@@ -1,0 +1,14 @@
+<% content_for :title, night_title(@night) %>
+<% content_for :body_class, "is-kid" %>
+<% shot = capture do %>
+  <%= render "shared/still", src: ceremony_still_src(@night), poster: true %>
+<% end %>
+<%= story_reel shot: shot, chrome: nil, snap: "open", mid: 0.55, handle: false, reel_class: "is-profile", skip: t("chrome.skip_home") do %>
+  <p class="eyebrow"><%= @night.updated_at.strftime("%d/%m/%Y") %> · <%= @night.code %></p>
+  <h1><%= night_title(@night) %></h1>
+  <% if @night.champion %>
+    <p class="lede"><%= t("home.won", name: @night.champion.name) %></p>
+  <% end %>
+  <%= render "shared/roster", night: @night, compact: true %>
+  <%= link_to t("presenter.back"), ward_profile_path(@ward.code), class: "quiet-link" %>
+<% end %>

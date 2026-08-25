@@ -1,9 +1,9 @@
 <% targets = burger_cheer_targets(night) %>
 <% sent = layer_cheers(round).find { |cheer| cheer.player_id == player.id } %>
 <% if targets[:mode] == :empty %>
-  <p class="lede">Nadie en la sala. El burger es vuestro.</p>
+  <p class="lede"><%= t("play.cheer_empty") %></p>
 <% elsif sent %>
-  <p class="sent" role="status">¡<%= sent.to_player.name %> te oye!</p>
+  <p class="sent" role="status"><%= t("play.hears_you", name: sent.to_player.name) %></p>
 <% else %>
   <div class="cheer-dock">
     <div class="cheer-faces">
@@ -13,7 +13,7 @@
                 params: { to_player_id: face.id },
                 class: "picture-card team-pick" do %>
             <%= render "shared/avatar", player: face %>
-            <span class="word">Anima a <%= face.name %></span>
+            <span class="word"><%= t("play.cheer", name: face.name) %></span>
           <% end %>
         <% end %>
       <% else %>

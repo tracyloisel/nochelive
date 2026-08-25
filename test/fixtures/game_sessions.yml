@@ -6,6 +6,7 @@ david:
   status: playing
   theme_id: reyes_y_profetas
   theme_title: Reyes y Profetas
+  starts_at: <%= Time.current %>
   presenter_token_digest: <%= Digest::SHA256.hexdigest("presenter-secret") %>
 
 elias:
@@ -14,6 +15,7 @@ elias:
   status: lobby
   theme_id: reyes_y_profetas
   theme_title: Reyes y Profetas
+  starts_at: <%= 2.days.from_now %>
   presenter_token_digest: <%= Digest::SHA256.hexdigest("lobby-secret") %>
 
 cerrada:
@@ -22,4 +24,5 @@ cerrada:
   status: finished
   theme_id: reyes_y_profetas
   theme_title: Reyes y Profetas
+  starts_at: <%= 10.days.ago %>
   presenter_token_digest: <%= Digest::SHA256.hexdigest("ended-secret") %>

@@ -1,0 +1,12 @@
+<% current = Locale.cast(local_assigns[:current]) %>
+<% name = local_assigns[:name] %>
+<%= form_with url: local_assigns[:url], method: :patch, class: "lang-assign" do %>
+  <label class="lang-assign-label">
+    <span class="visually-hidden"><%= t("locale.assign", name: name) %></span>
+    <select name="locale" onchange="this.form.requestSubmit()">
+      <% Locale::AVAILABLE.each do |code| %>
+        <option value="<%= code %>" <%= "selected" if code == current %>><%= t("locale.names.#{code}") %></option>
+      <% end %>
+    </select>
+  </label>
+<% end %>

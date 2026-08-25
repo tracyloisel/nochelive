@@ -15,9 +15,9 @@ class PoseHoldTest < ActiveSupport::TestCase
 
     done = PoseHold.complete!(round_run: round, team: team, player: player, held_ms: 8500)
     assert done.finished?
-    assert_equal 1, team.reload.score_events.where(reason: "Estatua sostenida").count
+    assert_equal 1, team.reload.score_events.where(reason: "scores.statue").count
 
     PoseHold.complete!(round_run: round, team: team, player: player, held_ms: 9000)
-    assert_equal 1, team.reload.score_events.where(reason: "Estatua sostenida").count
+    assert_equal 1, team.reload.score_events.where(reason: "scores.statue").count
   end
 end

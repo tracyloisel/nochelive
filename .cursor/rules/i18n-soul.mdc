@@ -1,0 +1,15 @@
+---
+description: User-facing copy is native in es, pt-BR, fr, and en. Follow noche-i18n; never leave a new string in only one locale.
+globs: config/locales/**,config/games/**,app/views/**/*.erb
+alwaysApply: false
+---
+
+# Language (required)
+
+Noche Live speaks **Spanish, Brazilian Portuguese, French, and English**. A new sentence that only exists in one locale is unfinished.
+
+- Spanish source of truth: `config/games/*.yml` + `config/locales/es.yml`.
+- Other languages: `config/locales/{en,fr,pt-BR}.yml` and `config/locales/games.{en,fr,pt-BR}.yml`.
+- Lookups: `t()`, `definition.copy` / `choice_copy` / `layer_copy`. No new hardcoded UI strings.
+- Language control stays reachable mid-quiz. Presenter can set a person’s language on Lista / ficha.
+- Do not translate **Noche Live**. pt-BR is Brazilian. Review with `.cursor/skills/noche-i18n/SKILL.md`.

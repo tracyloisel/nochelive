@@ -1,7 +1,7 @@
 <% count = night.players.count(&:participant?) %>
 <% poster = night_poster_src(night) %>
 <article class="night-card">
-  <%= link_to night_name_path(night.code), class: "night-hit", aria: { label: "Entrar a #{night_title(night)}, código #{night.code}" } do %>
+  <%= link_to home_night_path_for(night), class: "night-hit", aria: { label: t("home.enter_night", title: night_title(night), code: night.code) } do %>
     <% if poster %>
       <img class="night-poster" src="<%= poster %>" alt="">
     <% end %>
@@ -9,10 +9,11 @@
       <p class="live night-status">
         <% if night.playing? %><span class="live-dot"></span><% end %>
         <%= night_status_caption(night) %>
-        · <%= night.code %>
+        · <%= l(night.starts_at.to_date) %>
+        · <%= night.ward.name %>
       </p>
       <h2><%= night_title(night) %></h2>
-      <p class="lede"><%= count == 1 ? "1 jugador" : "#{count} jugadores" %></p>
+      <p class="lede"><%= t("play.players", count: count) %></p>
     </div>
   <% end %>
 </article>

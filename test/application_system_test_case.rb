@@ -21,6 +21,9 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
       options.add_argument("--headless=new")
       options.add_argument("--disable-dev-shm-usage")
       options.add_argument("--no-sandbox")
+      options.add_argument("--lang=es-ES")
+      options.add_argument("--accept-lang=es-ES,es")
+      options.add_preference("intl.accept_languages", "es-ES,es")
     end
   else
     driven_by :rack_test

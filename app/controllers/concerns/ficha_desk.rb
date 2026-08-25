@@ -23,7 +23,7 @@ module FichaDesk
       avatar_key: params[:avatar_key],
       favorite_year: params[:favorite_year]
     )
-    redirect_to ficha_path_for(@person), notice: "Ficha guardada."
+    redirect_to ficha_path_for(@person), notice: I18n.t("flashes.ficha_saved")
   rescue People::Error => error
     flash.now[:alert] = error.message
     @others = @ward.people.where.not(id: @person.id).order(:given_name, :family_name)
@@ -34,7 +34,7 @@ module FichaDesk
     load_person
     source = @ward.people.find(params[:source_id])
     People::Merge.call(keeper: @person, source:)
-    redirect_to ficha_path_for(@person), notice: "Fichas fusionadas. Se queda #{@person.display_name}."
+    redirect_to ficha_path_for(@person), notice: I18n.t("flashes.fichas_merged", name: @person.display_name)
   rescue People::Error => error
     redirect_to ficha_path_for(@person), alert: error.message
   end

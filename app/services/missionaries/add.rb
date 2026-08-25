@@ -10,7 +10,7 @@ module Missionaries
     end
 
     def call
-      raise People::Error.new(:name, "Escribe el nombre del misionero.") if @name.blank?
+      raise People::Error.new(:name, I18n.t("errors.people.missionary")) if @name.blank?
 
       missionary = @night.missionaries.create!(name: @name)
       @night.broadcast_state

@@ -13,9 +13,9 @@ module People
     end
 
     def call
-      raise Error.new(:name, "Escribe un nombre corto.") if @given_name.blank?
-      raise Error.new(:year, "El año lleva cuatro cifras.") unless Person.valid_year?(@favorite_year)
-      raise Error.new(:avatar, "Elige un animal.") unless Player::AVATARS.include?(@avatar_key.to_s)
+      raise Error.new(:name, I18n.t("errors.people.name")) if @given_name.blank?
+      raise Error.new(:year, I18n.t("errors.people.year")) unless Person.valid_year?(@favorite_year)
+      raise Error.new(:avatar, I18n.t("errors.people.avatar")) unless Player::AVATARS.include?(@avatar_key.to_s)
 
       ApplicationRecord.transaction do
         @person.update!(
@@ -32,7 +32,7 @@ module People
         @person
       end
     rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique
-      raise Error.new(:taken, "Esa ficha chocaría con otra. Cambia el año, el animal o el apellido.")
+      raise Error.new(:taken, I18n.t("errors.people.taken_clash"))
     end
   end
 end

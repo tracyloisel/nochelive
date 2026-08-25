@@ -24,6 +24,27 @@ class SfxTest < ActiveSupport::TestCase
     assert_equal "wrong_soft", Sfx.for_pulse("miss")
     assert Sfx.pulse_without_player?("open")
     assert Sfx.pulse_without_player?("advance")
+    assert Sfx.pulse_without_player?("miss")
     assert_not Sfx.pulse_without_player?("buzz")
+  end
+
+  test "round yaml overrides pulse and grade cues" do
+    salomon = GameDefinition.load("reyes_y_profetas").rounds.find { |row| row.id == "salomon_wisdom" }
+    goliath = GameDefinition.load("reyes_y_profetas").rounds.find { |row| row.id == "david_goliath" }
+    freeze = GameDefinition.load("reyes_y_profetas").rounds.find { |row| row.id == "freeze_saul" }
+    burger = GameDefinition.load("reyes_y_profetas").rounds.find { |row| row.id == "finale_prophet" }
+
+    assert_equal "round_start", Sfx.for_pulse("open", salomon)
+    assert_equal "round_open", Sfx.for_pulse("open")
+    assert_equal "correct_gold", Sfx.for_pulse("score", salomon)
+    assert_equal "correct_gold", Sfx.for_grade(salomon, correct: true)
+    assert_equal "wrong_soft", Sfx.for_grade(salomon, correct: false)
+    assert_equal "dramatic_fire", Sfx.for_pulse("open", goliath)
+    assert_equal "fire_whoosh", Sfx.for_pulse("score", goliath)
+    assert_equal "fire_whoosh", Sfx.for_grade(goliath, correct: true)
+    assert_equal "dramatic_fire", Sfx.for_pulse("lock", freeze)
+    assert_equal "dramatic_fire", Sfx.for_pulse("freeze", freeze)
+    assert_equal "royal_fanfare", Sfx.for_pulse("score", burger)
+    assert_equal "buzzer_hit", Sfx.for_pulse("buzz", salomon)
   end
 end

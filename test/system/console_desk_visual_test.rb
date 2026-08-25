@@ -15,14 +15,14 @@ class ConsoleDeskVisualTest < ApplicationSystemTestCase
     visit presenter_gate_path(game_sessions(:david).code, token: "presenter-secret")
     assert_selector ".console.is-stage"
     assert_selector ".story-close"
-    assert_selector ".desk-tabs"
-    shot("01-reel")
     page.execute_script(<<~JS)
       var el = document.querySelector(".desk-sheet");
       var ctrl = window.Stimulus.getControllerForElementAndIdentifier(el, "sheet");
       ctrl.snapTo("open", false);
     JS
     sleep 0.35
+    assert_selector ".desk-tabs"
+    shot("01-reel")
 
     assert_css ".desk-tab[data-desk-pane=respuestas][aria-selected=true]"
     assert_text "Falso"

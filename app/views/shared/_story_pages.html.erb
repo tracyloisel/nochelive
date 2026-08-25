@@ -10,14 +10,14 @@
          <%= "hidden" unless on %>>
       <% if locked %>
         <div class="story-lock">
-          <p class="eyebrow">Ronda <%= tick.position %></p>
+          <p class="eyebrow"><%= t("chrome.round_n", n: tick.position) %></p>
           <p class="story-lock-mark"><%= picto("hourglass") %></p>
-          <h2>Pronto</h2>
+          <h2><%= t("play.soon") %></h2>
         </div>
       <% else %>
         <%= render "shared/challenge_media", round: tick, cinema: local_assigns[:cinema], pulse: local_assigns[:pulse] %>
         <% unless on %>
-          <p class="story-page-label"><%= tick.definition.title %></p>
+          <p class="story-page-label"><%= tick.definition.copy(:title) %></p>
         <% end %>
       <% end %>
     </div>

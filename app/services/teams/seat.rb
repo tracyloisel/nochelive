@@ -10,8 +10,8 @@ module Teams
     end
 
     def call
-      raise People::Error.new(:location, "En casa juegas solo.") unless @player.remote?
-      raise People::Error.new(:role, "Los espectadores no juegan.") unless @player.participant?
+      raise People::Error.new(:location, I18n.t("errors.people.location")) unless @player.remote?
+      raise People::Error.new(:role, I18n.t("errors.people.role")) unless @player.participant?
 
       team = ApplicationRecord.transaction do
         locked = Player.lock.find(@player.id)
@@ -32,7 +32,7 @@ module Teams
 
       def unique_name
         base = @player.name.to_s.strip.first(28)
-        base = "Casa" if base.blank?
+        base = I18n.t("play.casa_team") if base.blank?
         return base unless @night.teams.exists?(name: base)
 
         2.upto(20) do |n|

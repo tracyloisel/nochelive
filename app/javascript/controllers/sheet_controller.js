@@ -1,14 +1,17 @@
 import { Controller } from "@hotwired/stimulus"
 
 const SNAPS = ["open", "mid", "peek"]
-const AVOID = "button, a, input, textarea, select, .buzz, .choice-btn, .quiz-bar, .quiz-next, label, .btn"
+const AVOID = "button, a, input, textarea, select, .buzz, .choice-btn, .quiz-bar, .quiz-next, label, .btn, summary, details, .home-menu"
 
 export default class extends Controller {
   static targets = ["handle", "body"]
   static values = {
     snap: { type: String, default: "mid" },
     peekRatio: { type: Number, default: 0.16 },
-    midRatio: { type: Number, default: 0.52 }
+    midRatio: { type: Number, default: 0.52 },
+    openLabel: { type: String, default: "" },
+    midLabel: { type: String, default: "" },
+    peekLabel: { type: String, default: "" }
   }
 
   connect() {
@@ -138,8 +141,13 @@ export default class extends Controller {
 
   announce() {
     if (!this.hasHandleTarget) return
-    const labels = { open: "Tarjeta alta", mid: "Tarjeta media", peek: "Tarjeta baja, se ve el dibujo" }
-    this.handleTarget.setAttribute("aria-valuetext", labels[this.snapValue])
+    const labels = {
+      open: this.openLabelValue,
+      mid: this.midLabelValue,
+      peek: this.peekLabelValue
+    }
+    const text = labels[this.snapValue]
+    if (text) this.handleTarget.setAttribute("aria-valuetext", text)
   }
 
   reduced() {

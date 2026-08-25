@@ -1,10 +1,10 @@
 module Players
   class Join
-    def self.call(night:, name:, role:, location:, device_token:, person: nil, avatar_key: nil)
-      new(night:, name:, role:, location:, device_token:, person:, avatar_key:).call
+    def self.call(night:, name:, role:, location:, device_token:, person: nil, avatar_key: nil, locale: nil)
+      new(night:, name:, role:, location:, device_token:, person:, avatar_key:, locale:).call
     end
 
-    def initialize(night:, name:, role:, location:, device_token:, person:, avatar_key:)
+    def initialize(night:, name:, role:, location:, device_token:, person:, avatar_key:, locale:)
       @night = night
       @name = name.to_s.strip.first(24)
       @role = role
@@ -12,10 +12,11 @@ module Players
       @device_token = device_token
       @person = person
       @avatar_key = avatar_key
+      @locale = Locale.cast(locale.presence || person&.locale)
     end
 
     def call
-      raise People::Error.new(:name, "Escribe un nombre corto.") if @name.blank? && @person.blank?
+      raise People::Error.new(:name, I18n.t("errors.people.name")) if @name.blank? && @person.blank?
 
       if @person
         existing = @night.players.find_by(person_id: @person.id)
@@ -30,6 +31,7 @@ module Players
         client_token: SecureRandom.uuid,
         avatar_key: @person&.avatar_key || safe_avatar,
         device_token: @device_token,
+        locale: @locale,
         last_seen_at: Time.current
       )
       Teams::Seat.call(night: @night, player: player) if player.participant? && player.remote?
@@ -43,7 +45,7 @@ module Players
       if player.spectator?
         Nights::BroadcastPresence.call(night: @night)
       else
-        @night.broadcast_state
+        @night.broadcast_state(pulse: { kind: "join", player: player })
       end
       player
     end

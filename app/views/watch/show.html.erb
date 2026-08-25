@@ -1,6 +1,7 @@
-<% content_for :title, "En directo · #{@night.code}" %>
+<% content_for :title, t("watch.live", code: @night.code) %>
 <% content_for :body_class, "is-watch is-kid" %>
-<%= turbo_stream_from @night.watch_stream %>
+<%= turbo_stream_from @night.player_stream(current_player) if current_player %>
+<%= turbo_stream_from @night.watch_stream unless current_player %>
 <% if current_player %>
   <div hidden data-controller="presence" data-presence-url-value="<%= night_presence_path(@night.code) %>"></div>
 <% end %>

@@ -7,7 +7,7 @@
           form: { data: { turbo_stream: true } },
           data: { choice_key: choice_key(choice) } do %>
       <span class="choice-mark" aria-hidden="true"><%= picto(mark[:shape]) %></span>
-      <span class="word"><%= choice_label(choice) %></span>
+      <span class="word"><%= choice_label(choice, local_assigns[:definition]) %></span>
     <% end %>
   <% end %>
 </div>

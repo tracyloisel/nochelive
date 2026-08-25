@@ -10,7 +10,7 @@ module Missionaries
     end
 
     def call
-      raise People::Error.new(:missing, "Ese nombre no está en esta noche.") unless @missionary.game_session_id == @night.id
+      raise People::Error.new(:missing, I18n.t("errors.people.missionary_missing")) unless @missionary.game_session_id == @night.id
 
       @missionary.destroy!
       @night.broadcast_state

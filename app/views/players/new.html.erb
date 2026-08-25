@@ -1,4 +1,4 @@
-<% content_for :title, "Tu nombre" %>
+<% content_for :title, t("join.title") %>
 <% content_for :body_class, "is-kid" %>
 <% shot = capture do %>
   <%= render "shared/still", src: night_still_src(@night), poster: true %>
@@ -22,7 +22,7 @@
     <% end %>
 
     <%= link_to presenter_gate_path(@night.code), class: "quiet-link" do %>
-      Soy el presentador
+      <%= t("join.presenter_link") %>
     <% end %>
   </div>
 <% end %>
