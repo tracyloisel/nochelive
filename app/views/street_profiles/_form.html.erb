@@ -3,7 +3,7 @@
   <p class="lede"><%= t("street.create_lede") %></p>
 <% end %>
 
-<%= form_with url: street_profile_path, method: :post, class: "join-form" do %>
+<%= form_with url: street_profile_path, method: :post, class: "join-form profile-gate-new" do %>
   <% if @needs_family %>
     <input type="hidden" name="name" value="<%= @given_name %>">
     <input type="hidden" name="avatar_key" value="<%= @avatar_key.presence || "delfin" %>">
@@ -13,18 +13,20 @@
     <input id="family_name" name="family_name" maxlength="24" required class="code-input" placeholder="<%= t("join.family_ph") %>" value="<%= @family_name %>" autocomplete="family-name">
     <button type="submit" class="btn btn-gold"><%= picto("check") %><%= t("join.save_ficha") %></button>
   <% else %>
-    <label for="name"><%= t("join.who_rama") %></label>
+    <label for="name"><%= t("street.create_who") %></label>
     <input id="name" name="name" maxlength="24" required autocomplete="given-name" class="code-input" placeholder="Pili" value="<%= @given_name %>">
 
     <div class="join-ficha">
       <fieldset class="emblem-pick avatar-pick">
-        <legend><%= t("join.animal") %></legend>
+        <legend><%= t("street.create_animal") %></legend>
         <% Player::AVATARS.each do |key| %>
           <label class="emblem-choice avatar-choice">
             <input type="radio" name="avatar_key" value="<%= key %>" <%= "checked" if key == (@avatar_key.presence || "delfin") %>>
             <% src = avatar_mark(key) %>
             <% if src %>
-              <img src="<%= src %>" alt="" class="avatar-img avatar-img-lg">
+              <span class="avatar-seal" aria-hidden="true">
+                <img src="<%= src %>" alt="" class="avatar-img avatar-img-lg">
+              </span>
             <% end %>
             <em><%= avatar_name(key) %></em>
           </label>

@@ -32,17 +32,19 @@ PASS WITH NOTES
 - Rival chip stacks cream name over gold `+N pts`; guests still see the ward leader.
 - Question sheet uses a small upward bump + 4-point star, not a deep inverted notch.
 - Next/prev: swipe or tap the painting; right-swipe / tap-right clicks **Suivant** once the answer is in; left rewinds. The sheet itself does not skip.
-- Hub lockup star is visible; concentric gold oculus arcs sit behind the title; WORLD HUB is a gold-bordered ink pill.
+- Hub lockup star sits above the ink wordmark; concentric gold oculus arcs sit behind the title. Ink lockup is **Noche Live** only (no WORLD HUB pill).
+- Hub recapture 2026-08-26 ~13:33: `hub-phone` / `hub-desktop` show avatar left, hamburger right, column on the hall. Gold Jugar sits in the dock; the five-tab bar is gone (controller + visual tests). Ranking stays in the drawer.
 
 ## What feels weak
 
-- Mockup right icon is people; product mute stays on jugar.
+- Mockup right icon is people; mute + language live in the ivory drawer on hub and jugar.
 - Mockup gold “NOCHE LIVE” is not shipped (ui-soul veto). Ink lockup with LIVE hairlines instead.
-- Hub keeps mute + flag under the trophy (product), not the mockup’s gear/trophy-only chrome.
+- Hub chrome is avatar + hamburger + drawer mute (product KEEP), not the mockup’s gear/trophy-only chrome.
+- Mockup 5-tab dock is not shipped; tests require no `.street-hub-nav` on hub or `/liga`.
 
 ## Required before approval
 
-- Visual shots of `01-ask-phone`, `01-ask-rival-phone`, `hub-phone` vs the two temple mockups.
+- Done: hub recaptured 2026-08-26 ~13:33 after the five-tab dock left `/`. Jugar ask still 13:19 (ivory apex bump + gold-leaf star). KEEP leftovers: honest scores, 3 choices, drawer chrome, growing column, no 5-tab bar.
 
 ## Night director
 

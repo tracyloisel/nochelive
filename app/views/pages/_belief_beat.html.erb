@@ -1,0 +1,5 @@
+<article class="belief-beat">
+  <%= render "shared/hall_still", src: church_still_src(still), loading: local_assigns.fetch(:loading, "lazy") %>
+  <h3><%= title %></h3>
+  <p class="lede"><%= body %></p>
+</article>

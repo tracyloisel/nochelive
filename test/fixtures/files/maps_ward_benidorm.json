@@ -1,0 +1,27 @@
+[
+  {
+    "id": "333239",
+    "type": "WARD",
+    "name": "Benidorm Branch",
+    "nameDisplay": "Benidorm Branch",
+    "organizationType": { "code": "BRANCH" },
+    "address": {
+      "street1": "Alfonso Puchades 27",
+      "city": "BENIDORM",
+      "postalCode": "03502",
+      "country": "Spain",
+      "countryCode2": "ES"
+    },
+    "coordinates": [-0.12452, 38.54202],
+    "parent": {
+      "type": "STAKE",
+      "name": "Elche Spain Stake",
+      "nameDisplay": "Elche Spain Stake"
+    },
+    "facility": {
+      "name": "Benidorm Chapel",
+      "nameDisplay": "Benidorm Chapel"
+    },
+    "identifiers": { "unitNumber": 333239 }
+  }
+]

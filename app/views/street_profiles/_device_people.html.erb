@@ -11,6 +11,6 @@
   <% end %>
 </ul>
 
-<%= link_to street_profile_path(fresh: 1), class: "btn btn-ghost" do %>
-  <%= picto("plus") %><%= t("join.other_person") %>
+<%= link_to local_assigns.fetch(:someone_else_path) { street_profile_path(fresh: 1) }, class: "btn btn-ghost" do %>
+  <%= picto("plus") %><%= t("join.none_of_these") %>
 <% end %>

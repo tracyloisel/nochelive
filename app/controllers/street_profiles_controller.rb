@@ -100,18 +100,17 @@ class StreetProfilesController < ApplicationController
 
       @homonym_cards ||= People::Recognize.call(ward: current_ward, given_name: @given_name) if @given_name.present?
 
-      @screen = if @claim_person
-        :claim
-      elsif error&.code == :homonym || (params[:soy_nueva].blank? && @homonym_cards.present? && params[:favorite_year].present? && params[:person_id].blank?)
-        :homonyms
-      elsif error&.code == :family || @needs_family
-        :form
-      elsif params[:fresh].blank? && @people_on_device.one?
-        :welcome
-      elsif params[:fresh].blank? && @people_on_device.many?
-        :device
-      else
-        :form
-      end
+      gate = StreetProfiles::Screen.call(
+        people_on_device: @people_on_device,
+        current_person: @person,
+        fresh: params[:fresh].present?,
+        not_me: params[:not_me].present?,
+        claim_person: @claim_person,
+        homonyms: error&.code == :homonym || (params[:soy_nueva].blank? && @homonym_cards.present? && params[:favorite_year].present? && params[:person_id].blank?),
+        needs_family: error&.code == :family || @needs_family
+      )
+      @screen = gate.name
+      @welcome_person = gate.person
+      @listed_people = gate.people
     end
 end

@@ -1,6 +1,6 @@
 <% poster = ward_poster_src(ward) %>
 <% live = ward.live_night %>
-<%= form_with url: enter_ward_path, method: :post, class: "ward-card" do %>
+<%= form_with url: local_assigns.fetch(:pick_url, enter_ward_path), method: :post, class: "ward-card" do %>
   <input type="hidden" name="code" value="<%= ward.code %>">
   <button type="submit" class="ward-hit" aria-label="<%= ward.name %>">
     <% if poster %>

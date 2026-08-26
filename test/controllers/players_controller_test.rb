@@ -6,7 +6,16 @@ class PlayersControllerTest < ActionDispatch::IntegrationTest
   test "new asks for a name" do
     get night_name_path(@night.code)
     assert_response :success
+    assert_select "body.is-paper-hall"
+    assert_select "#night_join.hall-paper"
+    assert_select ".hall-sheet"
     assert_select "a.quiet-link", text: /Soy el presentador/
+    assert_select "button.btn-gold", text: /Solo esta noche/
+    assert_select "button[name=role][value=spectator].quiet-link"
+    assert_select ".choice-chip", count: 2
+    assert_select ".play-reel", count: 0
+    assert_select ".gate", count: 0
+    assert_select ".picto-btn", count: 0
   end
 
   test "create participant then refresh does not clone" do

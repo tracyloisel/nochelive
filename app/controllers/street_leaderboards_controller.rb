@@ -3,6 +3,7 @@ class StreetLeaderboardsController < ApplicationController
 
   def show
     remember_device
+    touch_street_presence
     ward = current_ward
     person = current_street_person
     return redirect_to root_path unless ward

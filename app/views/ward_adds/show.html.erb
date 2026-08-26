@@ -1,22 +1,25 @@
-<%= chrome_menu { site_menu } %>
 <% content_for :title, t("home.who") %>
-<% shot = capture do %>
-  <%= render "shared/still", src: night_poster_src("reyes_y_profetas"), poster: true %>
-<% end %>
-<%= story_reel shot: shot, chrome: nil, snap: "open", mid: 0.55, handle: false, reel_class: "is-join", skip: t("chrome.skip_home") do %>
-  <h1><%= t("ward.add_title") %></h1>
-  <p class="lede"><%= t("ward.add_lede") %></p>
-  <p class="lede"><%= t("ward.add_run") %></p>
-  <% if @ward %>
-    <p class="lede"><%= t("ward.add_ask", name: @ward.name) %></p>
+<% content_for :body_class, "is-kid is-paper-hall" %>
+<%= chrome_menu { site_menu } %>
+
+<%= paper_hall id: "ward_add", kicker: t("home.who"), extra_class: "is-about" do %>
+  <% portrait = about_portrait_src %>
+  <% if portrait %>
+    <figure class="about-face">
+      <img src="<%= portrait %>" alt="<%= t("about.portrait_alt") %>" width="640" height="640">
+      <figcaption>
+        <strong>Tracy Loisel</strong>
+        <span><%= t("about.role") %></span>
+      </figcaption>
+    </figure>
   <% end %>
-  <p class="lede"><%= t("ward.add_fork") %></p>
-  <%= link_to t("ward.add_source"), source_repo_url, class: "quiet-link", target: "_blank", rel: "noreferrer" %>
-  <% if @ward %>
-    <%= link_to ward_profile_path(@ward.code), class: "btn btn-gold" do %>
-      <%= picto("door") %><%= t("ward.add_see", name: @ward.name) %>
-    <% end %>
-  <% else %>
-    <%= link_to t("presenter.back"), root_path, class: "btn btn-gold" %>
-  <% end %>
+  <h1><%= t("about.title") %></h1>
+  <p class="lede"><%= t("about.gift") %></p>
+  <p class="lede"><%= t("about.born") %></p>
+  <%= render "shared/hall_still", src: night_poster_src("reyes_y_profetas") %>
+  <p class="lede"><%= t("about.source") %></p>
+  <%= link_to t("about.github"), source_repo_url, class: "quiet-link", target: "_blank", rel: "noreferrer" %>
+  <p class="lede"><%= t("about.purse") %></p>
+  <p class="lede"><%= t("about.association") %></p>
+  <p class="lede"><%= t("about.disclaimer") %></p>
 <% end %>

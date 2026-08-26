@@ -6,11 +6,12 @@
 <h1><%= t("join.welcome_title") %></h1>
 <p class="street-quiz-rule street-quien-rule" aria-hidden="true"></p>
 <p class="lede"><%= t("street.welcome_lede", name: person.given_name) %></p>
+<%= render "street_profiles/ward_switch" %>
 
 <%= button_to street_profile_path, params: { person_id: person.id }, class: "btn btn-gold" do %>
   <%= picto("check") %><%= t("join.yes_name", name: person.given_name) %>
 <% end %>
 
-<%= link_to street_profile_path(fresh: 1), class: "btn btn-ghost" do %>
+<%= link_to local_assigns.fetch(:not_me_path) { street_profile_path(not_me: 1) }, class: "btn btn-ghost" do %>
   <%= picto("person") %><%= t("join.not_me") %>
 <% end %>

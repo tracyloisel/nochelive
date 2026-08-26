@@ -24,6 +24,7 @@ export default class extends Controller {
   }
 
   onFrame(event) {
+    if (event.target.id === "scripture_reader") return
     event.detail.render = this.wrap(event.detail.render)
   }
 
@@ -61,7 +62,7 @@ export default class extends Controller {
 
   markArrive() {
     if (this.reduced()) return
-    document.querySelectorAll(".play-card, .watch, .console, .gate, .reveal, .lock, .banner, .claim-modal").forEach((el) => {
+    document.querySelectorAll(".play-card, .watch, .console, .gate, .reveal, .lock, .claim-modal").forEach((el) => {
       el.classList.remove("is-arriving")
       void el.offsetWidth
       el.classList.add("is-arriving")

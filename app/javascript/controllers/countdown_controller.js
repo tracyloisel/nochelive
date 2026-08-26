@@ -1,7 +1,10 @@
 import { Controller } from "@hotwired/stimulus"
 
+const TIMER_WARN_RATIO = 0.4
+const TIMER_HOT_RATIO = 0.2
+
 export default class extends Controller {
-  static values = { end: String, duration: Number, reloadUrl: String, expireUrl: String }
+  static values = { end: String, duration: Number, reloadUrl: String, expireUrl: String, ask: Boolean }
   static targets = ["label", "bar"]
 
   connect() {
@@ -12,6 +15,19 @@ export default class extends Controller {
     if (this.frame) cancelAnimationFrame(this.frame)
   }
 
+  askZones(remain) {
+    if (this.askValue) {
+      const duration = this.durationValue
+      if (!(duration > 0) || remain <= 0) return { warn: false, hot: false }
+      const hot = remain <= duration * TIMER_HOT_RATIO
+      return { warn: !hot && remain <= duration * TIMER_WARN_RATIO, hot }
+    }
+    return {
+      warn: remain > 10 && remain <= 20,
+      hot: remain > 0 && remain <= 10
+    }
+  }
+
   tick() {
     const remainMs = Math.max(0, Date.parse(this.endValue) - Date.now())
     const remain = Math.ceil(remainMs / 1000)
@@ -19,8 +35,9 @@ export default class extends Controller {
     if (this.hasBarTarget && this.durationValue > 0) {
       this.barTarget.style.transform = `scaleX(${Math.min(1, remainMs / (this.durationValue * 1000))})`
     }
-    this.element.classList.toggle("is-warn", remain > 10 && remain <= 20)
-    this.element.classList.toggle("is-low", remain > 0 && remain <= 10)
+    const { warn, hot } = this.askZones(remain)
+    this.element.classList.toggle("is-warn", warn)
+    this.element.classList.toggle("is-low", hot)
     this.element.classList.toggle("is-empty", remain <= 0)
     if (remainMs > 0) {
       this.frame = requestAnimationFrame(() => this.tick())

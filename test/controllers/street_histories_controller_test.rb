@@ -8,6 +8,11 @@ class StreetHistoriesControllerTest < ActionDispatch::IntegrationTest
     get street_history_path
     assert_response :success
     assert_select "h1", text: I18n.t("street.history_title")
+    assert_select "body.is-paper-hall"
+    assert_select "#street_history.hall-paper"
+    assert_select ".hall-sheet"
+    assert_select ".gate", count: 0
+    assert_select ".play-reel", count: 0
     assert_select ".street-history-step.correct"
   end
 

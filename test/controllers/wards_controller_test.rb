@@ -4,7 +4,12 @@ class WardsControllerTest < ActionDispatch::IntegrationTest
   test "create a rama then a night" do
     get new_ward_path
     assert_response :success
+    assert_select "body.is-paper-hall"
+    assert_select "#ward_new.hall-paper"
+    assert_select ".hall-sheet"
     assert_select "input[placeholder='Rama Benidorm']"
+    assert_select ".btn.btn-gold", count: 1
+    assert_select ".play-reel", count: 0
 
     assert_difference -> { Ward.count }, 1 do
       post wards_path, params: {

@@ -16,6 +16,12 @@ class GameSessionsControllerTest < ActionDispatch::IntegrationTest
     end
     follow_redirect!
     assert_response :success
+    assert_select "body.is-paper-hall"
+    assert_select "#night_created.hall-paper"
+    assert_select ".hall-sheet"
+    assert_select ".hall-still"
+    assert_select ".btn.btn-gold", count: 1
+    assert_select ".play-reel", count: 0
   end
 
   test "open rama can enter the live night from the profile" do

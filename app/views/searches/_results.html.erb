@@ -1,0 +1,28 @@
+<% extras = { pick: params[:pick].presence || @picker_pick, cambiar: ("1" if @changing_ward || params[:cambiar].present?) }.compact %>
+
+<div class="ward-picker-results">
+  <% listed = Array(@wards) %>
+  <% if @query.to_s.strip.length >= 2 && listed.blank? %>
+    <p class="lede home-empty"><%= t("home.empty") %></p>
+  <% elsif @search&.nearby? && listed.any? %>
+    <p class="ward-picker-stake"><%= t("street.gate_nearby") %></p>
+    <ul class="ward-picker-list">
+      <li>
+        <%= render "searches/ward_row", ward: listed.first, pick_url: @pick_url || enter_ward_path %>
+      </li>
+    </ul>
+  <% else %>
+    <% listed.group_by { |ward| ward.stake_name.presence || t("street.gate_no_stake") }.each do |stake, rows| %>
+      <% if listed.size > 1 || stake != t("street.gate_no_stake") %>
+        <p class="ward-picker-stake"><%= stake %></p>
+      <% end %>
+      <ul class="ward-picker-list">
+        <% rows.each do |ward| %>
+          <li>
+            <%= render "searches/ward_row", ward: ward, pick_url: @pick_url || enter_ward_path %>
+          </li>
+        <% end %>
+      </ul>
+    <% end %>
+  <% end %>
+</div>

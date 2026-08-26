@@ -76,8 +76,14 @@ class SfxTest < ActiveSupport::TestCase
     refute_match(/function timerTick\([^)]*\) \{[\s\S]{0,400}playCue\(low \? "tick_low"/, js)
     assert_includes js, "function syncHalo("
     assert_includes js, "is-timer-hot"
-    assert_includes js, "remain > 20"
+    assert_includes js, "is-timer-pulse"
+    assert_includes js, "const TIMER_WARN_RATIO = 0.4"
+    assert_includes js, "const TIMER_HOT_RATIO = 0.2"
+    refute_includes js, "remain > 20"
     countdown = Rails.root.join("app/javascript/controllers/countdown_controller.js").read
+    assert_includes countdown, "const TIMER_WARN_RATIO = 0.4"
+    assert_includes countdown, "const TIMER_HOT_RATIO = 0.2"
+    assert_includes countdown, "this.askValue"
     assert_includes countdown, "remain > 10 && remain <= 20"
     assert_includes countdown, "remain > 0 && remain <= 10"
     hub = Rails.root.join("app/javascript/controllers/street_hub_controller.js").read

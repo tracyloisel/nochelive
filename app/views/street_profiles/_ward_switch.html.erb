@@ -1,0 +1,6 @@
+<% if current_ward %>
+  <p class="street-quien-ward">
+    <span><%= current_ward.city.present? ? t("street.ward_here", name: current_ward.city) : current_ward.name %></span>
+    <%= link_to t("street.change_ward_short"), search_path(cambiar: 1), class: "quiet-link", "aria-label": t("street.change_ward") %>
+  </p>
+<% end %>

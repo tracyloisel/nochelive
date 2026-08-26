@@ -3,6 +3,7 @@ class StreetPlaysController < ApplicationController
 
   def show
     remember_device
+    touch_street_presence
     @run = QuizRun.open_runs
       .where(device_digest: street_digest, person_id: current_street_person&.id)
       .order(:id)

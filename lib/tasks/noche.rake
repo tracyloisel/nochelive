@@ -6,4 +6,9 @@ namespace :noche do
 
     puts "DEMO #{night.status} · #{night.theme_title}"
   end
+
+  desc "Import listed wards from the Meetinghouse Locator or FILE= JSON"
+  task import_wards: :environment do
+    load Rails.root.join("script/import_meetinghouses.rb")
+  end
 end

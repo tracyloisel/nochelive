@@ -1,0 +1,66 @@
+{
+  "locations": [
+    {
+      "id": "mh-benidorm",
+      "name": "Capilla de Benidorm",
+      "latitude": 38.5412,
+      "longitude": -0.1315,
+      "address": {
+        "street": "Avinguda Alfonso Puchades, 27",
+        "city": "Benidorm",
+        "state": "Alicante",
+        "zip": "03502",
+        "country": "Spain",
+        "countryCode2": "ES"
+      },
+      "properties": {
+        "Assigned": [
+          { "id": "stake-alicante", "name": "Alicante Spain Stake", "type": "stake" },
+          { "id": "unit-benidorm", "name": "Benidorm Ward", "type": "ward", "stake": "Alicante Spain Stake" }
+        ]
+      }
+    },
+    {
+      "id": "mh-valencia",
+      "name": "Capilla de Valencia",
+      "latitude": 39.4699,
+      "longitude": -0.3763,
+      "address": {
+        "street": "Calle Ejemplo 10",
+        "city": "Valencia",
+        "state": "Valencia",
+        "zip": "46001",
+        "country": "Spain",
+        "countryCode2": "ES"
+      },
+      "properties": {
+        "Assigned": [
+          { "id": "stake-valencia", "name": "Valencia Spain Stake", "type": "stake" },
+          { "id": "unit-valencia-1", "name": "Valencia 1st Ward", "type": "ward", "stake": "Valencia Spain Stake" },
+          { "id": "unit-temple-skip", "name": "Madrid Spain Temple", "type": "temple" }
+        ]
+      }
+    },
+    {
+      "id": "mh-sao-paulo",
+      "name": "Capela Jardim Ângela",
+      "latitude": -23.6792,
+      "longitude": -46.7612,
+      "address": {
+        "street": "Rua das Palmeiras 100",
+        "city": "São Paulo",
+        "state": "SP",
+        "zip": "04920-000",
+        "country": "Brazil",
+        "countryCode2": "BR"
+      },
+      "properties": {
+        "Assigned": [
+          { "id": "stake-sp-angela", "name": "São Paulo Brazil Jardim Ângela Stake", "type": "stake" },
+          { "id": "unit-sp-angela", "name": "Jardim Ângela Ward", "type": "ward", "stake": "São Paulo Brazil Jardim Ângela Stake" },
+          { "id": "unit-sp-branch", "name": "Capão Redondo Branch", "type": "branch", "stake": "São Paulo Brazil Jardim Ângela Stake" }
+        ]
+      }
+    }
+  ]
+}

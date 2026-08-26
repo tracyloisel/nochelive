@@ -5,7 +5,7 @@ module Wards
     end
 
     def initialize(name:, emblem: "paloma", chapel_name: nil, chapel_address: nil, city: nil, region: nil, postal_code: nil, country_code: nil)
-      @name = name.to_s.strip.first(48)
+      @name = name.to_s.strip.first(Ward::NAME_MAX)
       @emblem = Team::EMBLEMS.key?(emblem.to_s) ? emblem.to_s : "paloma"
       @chapel_name = chapel_name.to_s.strip.first(80).presence
       @chapel_address = chapel_address.to_s.strip.first(80).presence

@@ -1,0 +1,25 @@
+<% href = home_night_path_for(night) %>
+<% poster = night_poster_src(night) %>
+<% names = missionary_line(night) %>
+<li>
+  <%= link_to href, class: "rama-night", aria: { label: t("home.enter_night", title: night_title(night), code: night.code) } do %>
+    <div class="rama-night-still">
+      <% if poster %>
+        <img class="night-poster" src="<%= poster %>" alt="">
+      <% end %>
+      <% if night.live? %><span class="live-dot"></span><% end %>
+    </div>
+    <div class="rama-night-copy">
+      <h2><%= night_title(night) %></h2>
+      <p class="rama-night-date">
+        <time datetime="<%= night.starts_at.to_date.iso8601 %>"><%= l(night.starts_at.to_date) %></time>
+      </p>
+      <% if names.present? %>
+        <p class="rama-night-missionaries">
+          <span class="rama-night-role"><%= t("presenter.missionaries") %></span>
+          <%= names %>
+        </p>
+      <% end %>
+    </div>
+  <% end %>
+</li>

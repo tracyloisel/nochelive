@@ -1,7 +1,8 @@
 class Ward < ApplicationRecord
   FEATURED_CITY = "benidorm"
   FEATURED_CODE = "RAMA"
-  COUNTRY_CODES = %w[ES PT FR GB US BR MX AR CL PE CO UY IT DE BE CH CA AU NZ PH IE NL].freeze
+  UNIT_KINDS = %w[ward branch].freeze
+  NAME_MAX = 120
 
   has_many :people, dependent: :destroy
   has_many :ward_teams, dependent: :destroy
@@ -12,15 +13,21 @@ class Ward < ApplicationRecord
 
   validates :name, :code, :presenter_token_digest, presence: true
   validates :code, uniqueness: true
-  validates :name, length: { maximum: 48 }
+  validates :church_unit_id, uniqueness: true, allow_nil: true
+  validates :name, length: { maximum: NAME_MAX }
   validates :emblem, inclusion: { in: Team::EMBLEMS.keys }
-  validates :country_code, inclusion: { in: COUNTRY_CODES }, allow_blank: true
-  validates :chapel_name, :chapel_address, :city, :region, :postal_code, length: { maximum: 80 }, allow_blank: true
+  validates :country_code, format: { with: /\A[A-Z]{2}\z/ }, allow_blank: true
+  validates :unit_kind, inclusion: { in: UNIT_KINDS }, allow_blank: true
+  validates :chapel_name, :chapel_address, :city, :region, :postal_code, :stake_name, :country_name, length: { maximum: 80 }, allow_blank: true
 
   attr_accessor :presenter_token
 
   def self.normalize_code(value)
     GameSession.normalize_code(value)
+  end
+
+  def self.generate_import_code
+    Array.new(5) { GameSession::CODE_CHARS.sample }.join
   end
 
   def presenter_token_matches?(token)

@@ -10,9 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_25_233000) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_26_102000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+  enable_extension "pg_trgm"
 
   create_table "answers", force: :cascade do |t|
     t.string "body", null: false
@@ -349,9 +350,11 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_25_233000) do
   create_table "wards", force: :cascade do |t|
     t.string "chapel_address"
     t.string "chapel_name"
+    t.string "church_unit_id"
     t.string "city"
     t.string "code", null: false
     t.string "country_code"
+    t.string "country_name"
     t.datetime "created_at", null: false
     t.string "emblem", default: "paloma", null: false
     t.decimal "latitude", precision: 10, scale: 6
@@ -361,11 +364,18 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_25_233000) do
     t.string "postal_code"
     t.string "presenter_token_digest", null: false
     t.string "region"
+    t.string "stake_name"
+    t.string "unit_kind"
     t.datetime "updated_at", null: false
+    t.index ["church_unit_id"], name: "index_wards_on_church_unit_id", unique: true, where: "(church_unit_id IS NOT NULL)"
     t.index ["city"], name: "index_wards_on_city"
+    t.index ["city"], name: "index_wards_on_city_trgm", opclass: :gin_trgm_ops, using: :gin
     t.index ["code"], name: "index_wards_on_code", unique: true
     t.index ["country_code"], name: "index_wards_on_country_code"
+    t.index ["listed", "country_code", "stake_name"], name: "index_wards_on_listed_country_stake"
     t.index ["listed"], name: "index_wards_on_listed", where: "(listed = true)"
+    t.index ["name"], name: "index_wards_on_name_trgm", opclass: :gin_trgm_ops, using: :gin
+    t.index ["stake_name"], name: "index_wards_on_stake_name_trgm", opclass: :gin_trgm_ops, using: :gin
   end
 
   add_foreign_key "answers", "players"

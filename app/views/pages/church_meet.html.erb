@@ -1,0 +1,17 @@
+<% content_for :title, t("church.meet_title") %>
+<% content_for :body_class, "is-kid is-paper-hall" %>
+<%= chrome_menu { site_menu } %>
+<section class="home-paper">
+  <%= render "pages/head", kicker: t("church.kicker") %>
+  <%= render layout: "pages/story", locals: { still: "meet", title: t("church.meet_title") } do %>
+    <p class="lede"><%= t("church.meet_lede") %></p>
+    <p class="lede"><%= t("church.meet_expect") %></p>
+    <p class="lede"><%= t("church.meet_note") %></p>
+  <% end %>
+  <div class="paper-foot">
+    <%= link_to church_visit_url, class: "btn btn-gold", target: "_blank", rel: "noreferrer" do %>
+      <%= picto("door") %><%= t("church.meet_cta") %>
+    <% end %>
+    <%= render "pages/other_doors", except: :meet %>
+  </div>
+</section>

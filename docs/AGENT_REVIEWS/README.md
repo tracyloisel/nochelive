@@ -51,5 +51,17 @@ Do not invent a new “Gameplay Designer” agent. Do not rubber-stamp a slice b
 | [018](018-home-hamburger.md) | Home hamburger; still-first directory |
 | [019](019-home-paper-feed.md) | Paper home; `/buscar`; night feed |
 | [020](020-street-quiz.md) | Street quiz on `/`; paper nights on `/noches` |
+| [031](031-temple-arrival-directory.md) | Temple arrival + listed worldwide rama directory |
+| [032](032-abuelos-type-breakpoints.md) | Abuelos type floor + iPad / desktop / XL columns |
+| [032](032-street-qcm-shot-actions.md) | Street QCM: scripture + next on the still; nothing under the choices |
+| [033](033-temple-leftover-hall.md) | Leftover screens on `/quien` paper hall; lobby without LIVE |
+| [034](034-lazy-locator-on-pick.md) | Search via Church Maps API; create the rama on first enter |
+| [035](035-home-arrival-door.md) | First-visit home is a play door, not a directory overlay |
+| [036](036-jugar-hub-chrome.md) | Jugar keeps hub chrome: hamburger right, mute + language in the drawer |
+| [036](036-charter-privacy-legal.md) | Carta sheet for `/privacidad` and `/legal`; Spanish-law copy |
+| [037](037-hub-drop-five-tab-dock.md) | Street hub drops the five-tab dock; gold Jugar stays |
+| [037](037-rama-nights-feed.md) | Rama profile: marble hall, one night per row, date + missionaries |
+| [038](038-nosotros-gift.md) | `/nosotros`: Tracy’s gift, origin night, portrait, GitHub |
+| [039](039-hub-column-media-queries.md) | Hub / arrival column follows 720 / 1024 / 1440; first visit no longer pins to ceremony phone width |
 
 Older files keep `## Evidence` blocks with the hat name from that slice. That is history, not a Cursor persona to revive. The four-seat table at the top is the night-director record.

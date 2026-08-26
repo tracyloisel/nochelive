@@ -1,0 +1,36 @@
+<% content_for :title, t("church.beliefs_title") %>
+<% content_for :body_class, "is-kid is-paper-hall" %>
+<%= chrome_menu { site_menu } %>
+<section class="home-paper is-beliefs">
+  <%= render "pages/head", kicker: t("church.kicker") %>
+  <%= render layout: "pages/story", locals: { still: nil, title: t("church.beliefs_title") } do %>
+    <p class="lede"><%= t("church.beliefs_lede") %></p>
+  <% end %>
+  <div class="belief-stack">
+    <%= render "pages/belief_beat", still: "christ", title: t("church.belief.christ_title"), body: t("church.belief.christ_body"), loading: "eager" %>
+    <%= render "pages/belief_beat", still: "father", title: t("church.belief.father_title"), body: t("church.belief.father_body") %>
+    <%= render "pages/belief_beat", still: "plan", title: t("church.belief.plan_title"), body: t("church.belief.plan_body") %>
+    <%= render "pages/belief_beat", still: "word", title: t("church.belief.word_title"), body: t("church.belief.word_body") %>
+    <%= render "pages/belief_beat", still: "restored", title: t("church.belief.church_title"), body: t("church.belief.church_body") %>
+    <article class="belief-beat">
+      <h3><%= t("church.belief.christlike_title") %></h3>
+      <p class="lede"><%= t("church.belief.christlike_body") %></p>
+    </article>
+  </div>
+  <section class="belief-faq" aria-label="<%= t("church.belief.faq_title") %>">
+    <h3><%= t("church.belief.faq_title") %></h3>
+    <% %w[denomination wear length donate member].each do |key| %>
+      <details class="belief-q">
+        <summary><%= t("church.belief.faq.#{key}.q") %></summary>
+        <p><%= t("church.belief.faq.#{key}.a") %></p>
+      </details>
+    <% end %>
+  </section>
+  <div class="paper-foot">
+    <%= link_to church_meet_path, class: "btn btn-gold" do %>
+      <%= picto("door") %><%= t("church.meet_cta") %>
+    <% end %>
+    <%= link_to t("church.official"), church_believe_url, class: "quiet-link", target: "_blank", rel: "noreferrer" %>
+    <%= render "pages/other_doors", except: :beliefs %>
+  </div>
+</section>

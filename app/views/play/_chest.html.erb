@@ -7,7 +7,7 @@
   <% unless local_assigns[:compact] %>
     <p><%= t("play.chest_hint") %></p>
   <% end %>
-  <%= button_to night_chest_path(night.code, grant), class: "btn btn-gold picto-btn", data: { action: "chest#open" } do %>
+  <%= button_to night_chest_path(night.code, grant), class: "btn btn-gold", data: { action: "chest#open" } do %>
     <%= picto("chest") %><%= t("play.open_chest") %>
   <% end %>
 </div>

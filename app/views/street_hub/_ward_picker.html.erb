@@ -1,0 +1,46 @@
+<% picker_pick = local_assigns[:pick] %>
+<%= form_with url: search_path, method: :get, class: "ward-picker-search",
+      data: {
+        controller: "ward-search",
+        turbo_frame: "ward_picker_results",
+        action: "input->ward-search#queue keydown.esc->ward-search#clearOnEscape turbo:submit-start->ward-search#start turbo:submit-end->ward-search#stop"
+      } do %>
+  <% if picker_pick.present? %>
+    <input type="hidden" name="pick" value="<%= picker_pick %>">
+  <% end %>
+  <% if local_assigns[:cambiar] %>
+    <input type="hidden" name="cambiar" value="1">
+  <% end %>
+  <input type="hidden" name="lat" value="<%= params[:lat] %>" data-ward-search-target="lat">
+  <input type="hidden" name="lng" value="<%= params[:lng] %>" data-ward-search-target="lng">
+  <label class="visually-hidden" for="ward_q"><%= t("home.search") %></label>
+  <div class="ward-picker-search-row<%= " is-filled" if @query.present? %>">
+    <input id="ward_q"
+           name="q"
+           type="search"
+           value="<%= @query %>"
+           maxlength="48"
+           autocomplete="off"
+           autocapitalize="words"
+           enterkeyhint="search"
+           class="ward-picker-query"
+           placeholder="<%= t("street.gate_search_ph") %>"
+           data-action="input->ward-search#queue">
+    <button type="submit" class="ward-picker-search-go" aria-label="<%= t("home.search_action") %>">
+      <%= picto("search") %>
+    </button>
+  </div>
+  <p class="ward-picker-wait" role="status" aria-live="polite">
+    <span class="ward-picker-spin" aria-hidden="true"></span>
+    <span><%= t("home.search_wait") %></span>
+  </p>
+<% end %>
+
+<%= turbo_frame_tag "ward_picker_results" do %>
+  <%= render "searches/results" %>
+<% end %>
+<% if local_assigns[:ssr_fallback] && @wards.present? %>
+  <div class="ward-picker-ssr" data-ward-ssr>
+    <%= render "searches/results" %>
+  </div>
+<% end %>

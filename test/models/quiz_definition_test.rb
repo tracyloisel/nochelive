@@ -30,6 +30,16 @@ class QuizDefinitionTest < ActiveSupport::TestCase
     end
   end
 
+  test "timed questions start outside the warn ratio" do
+    timed = QuizDefinition.catalog.all_questions.select(&:timed?)
+    assert timed.any?
+    assert_equal [ 15, 20 ], timed.map(&:duration).uniq.sort
+    timed.each do |question|
+      refute ApplicationController.helpers.play_timer_warn?(question.duration, question.duration), question.id
+      refute ApplicationController.helpers.play_timer_hot?(question.duration, question.duration), question.id
+    end
+  end
+
   test "every question has a canon cite and study path" do
     QuizDefinition.catalog.all_questions.each do |question|
       assert_includes QuizDefinition::CANONS, question.scripture.canon, question.id

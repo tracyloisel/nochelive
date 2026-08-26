@@ -1,31 +1,25 @@
-<% person = current_street_person %>
-<% ward = current_ward %>
 <% in_run = controller_name.in?(%w[street_plays street_challenges]) %>
+<% tools = local_assigns.fetch(:tools, false) %>
 <nav class="home-menu-nav" aria-label="<%= t("chrome.menu") %>">
-  <% if person %>
-    <%= link_to street_profile_path,
-          class: [ "home-menu-me", ("is-current" if current_page?(street_profile_path)) ],
-          aria: { current: ("page" if current_page?(street_profile_path)) } do %>
-      <span class="home-menu-face">
-        <% src = avatar_mark(person) %>
-        <% if src %>
-          <img src="<%= src %>" alt="" class="avatar-img" width="40" height="40">
-        <% else %>
-          <span class="avatar-fallback" aria-hidden="true"><%= person.given_name.to_s.first %></span>
-        <% end %>
-      </span>
-      <span class="home-menu-me-copy">
-        <strong><%= person.given_name %></strong>
-        <% if ward %>
-          <small><%= ward.name %></small>
-        <% end %>
-      </span>
-    <% end %>
-  <% else %>
-    <%= link_to root_path(ficha: 1), class: "home-menu-me is-guest" do %>
-      <span class="home-menu-ico" aria-hidden="true"><%= picto("person") %></span>
-      <span class="home-menu-label"><%= t("street.pick_profile") %></span>
-    <% end %>
+  <% if tools %>
+    <div class="home-menu-block">
+      <p class="home-menu-kicker"><%= t("chrome.sound_lang") %></p>
+      <button type="button"
+              class="home-menu-row mute"
+              data-action="stage#toggleMute"
+              data-stage-target="mute"
+              aria-pressed="false"
+              aria-label="<%= t("chrome.sound_on") %>"
+              data-sound-on="<%= t("chrome.sound_on") %>"
+              data-sound-off="<%= t("chrome.sound_off") %>">
+        <span class="home-menu-ico mute-ico" aria-hidden="true">
+          <%= picto("sound") %>
+          <%= picto("sound-off") %>
+        </span>
+        <span class="home-menu-label word"><%= t("chrome.sound_on") %></span>
+      </button>
+      <%= render "shared/lang_switch", drawer: true %>
+    </div>
   <% end %>
 
   <div class="home-menu-list">
@@ -36,30 +30,59 @@
             label: in_run ? t("street.ceremony_back_map") : t("street.nav_hub") %>
     <% end %>
     <%= render "shared/menu_row",
+          path: jugar_path,
+          icon: "sparkle",
+          label: t("street.menu_play") %>
+    <%= render "shared/menu_row",
+          path: street_leaderboard_path,
+          icon: "trophy",
+          label: t("street.nav_ranking") %>
+    <%= render "shared/menu_row",
           path: street_history_path,
           icon: "scroll",
           label: t("street.history_menu") %>
   </div>
 
   <div class="home-menu-block">
-    <p class="home-menu-kicker"><%= t("home.program") %></p>
-    <%= render "shared/night_code" %>
+    <p class="home-menu-kicker"><%= t("home.ward_menu") %></p>
+    <div class="home-menu-list">
+      <%= render "shared/menu_row",
+            path: nights_path,
+            icon: "sofa",
+            label: t("home.nights_menu") %>
+      <%= render "shared/night_code" %>
+    </div>
+  </div>
+
+  <div class="home-menu-block">
+    <p class="home-menu-kicker"><%= t("church.menu") %></p>
     <div class="home-menu-list">
       <%= render "shared/menu_row",
             path: search_path,
             icon: "search",
             label: t("home.menu_search") %>
       <%= render "shared/menu_row",
-            path: nights_path,
-            icon: "sofa",
-            label: t("home.nights") %>
+            path: church_path,
+            icon: "house",
+            label: t("church.title") %>
     </div>
   </div>
 
-  <div class="home-menu-list">
-    <%= render "shared/menu_row",
-          path: about_path,
-          icon: "temple",
-          label: t("home.who") %>
+  <div class="home-menu-block">
+    <p class="home-menu-kicker"><%= t("home.about_menu") %></p>
+    <div class="home-menu-list">
+      <%= render "shared/menu_row",
+            path: about_path,
+            icon: "temple",
+            label: t("home.who") %>
+      <%= render "shared/menu_row",
+            path: legal_path,
+            icon: "scroll",
+            label: t("legal.title") %>
+      <%= render "shared/menu_row",
+            path: privacy_path,
+            icon: "hush",
+            label: t("privacy.title") %>
+    </div>
   </div>
 </nav>

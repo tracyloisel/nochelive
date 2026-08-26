@@ -26,5 +26,5 @@
   <input type="hidden" name="favorite_year" value="<%= @favorite_year %>">
   <input type="hidden" name="location" value="<%= @location.presence || "room" %>">
   <input type="hidden" name="soy_nueva" value="1">
-  <button type="submit" class="btn btn-navy picto-btn"><%= picto("plus") %><%= t("join.new_person") %></button>
+  <button type="submit" class="btn btn-navy"><%= picto("plus") %><%= t("join.new_person") %></button>
 <% end %>

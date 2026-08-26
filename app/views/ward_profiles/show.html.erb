@@ -1,12 +1,11 @@
 <% content_for :title, @ward.name %>
-<% content_for :body_class, "is-kid" %>
+<% content_for :body_class, "is-kid is-paper-hall" %>
 <% host = ward_host?(@ward) %>
 <% live = @live_night %>
 <%= chrome_menu { site_menu } %>
-<% shot = capture do %>
-  <%= render "shared/still", src: ward_poster_src(@ward), poster: true %>
-<% end %>
-<%= story_reel shot: shot, chrome: nil, snap: "open", mid: 0.55, handle: false, reel_class: "is-profile", skip: t("chrome.skip_home") do %>
+
+<%= paper_hall id: "rama_profile", kicker: @ward.name, extra_class: "rama-page", sheet: false do %>
+  <%= render "shared/hall_still", src: ward_poster_src(@ward) %>
   <header class="rama-head">
     <span class="emblem emblem-xl emblem-<%= @ward.emblem %>"><%= render "shared/emblem", key: @ward.emblem %></span>
     <h1><%= @ward.name %></h1>
@@ -47,17 +46,10 @@
   </div>
 
   <% if @nights.any? %>
-    <div class="rama-grid">
+    <ul class="rama-nights" aria-label="<%= t("home.memories") %>">
       <% @nights.each do |night| %>
-        <% href = night.live? ? night_name_path(night.code) : ward_memory_path(@ward.code, night.code) %>
-        <%= link_to href, class: "rama-cell" do %>
-          <% poster = night_poster_src(night) %>
-          <% if poster %>
-            <img src="<%= poster %>" alt="<%= night_title(night) %>">
-          <% end %>
-          <% if night.live? %><span class="live-dot"></span><% end %>
-        <% end %>
+        <%= render "ward_profiles/night", night: night %>
       <% end %>
-    </div>
+    </ul>
   <% end %>
 <% end %>

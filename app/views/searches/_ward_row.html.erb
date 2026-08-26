@@ -1,0 +1,34 @@
+<%= form_with url: pick_url, method: :post,
+      class: "ward-pick-form#{' is-featured' if ward.featured?}",
+      data: { turbo_frame: "_top" } do %>
+  <% if ward.try(:code).present? %>
+    <input type="hidden" name="code" value="<%= ward.code %>">
+  <% elsif ward.try(:church_unit_id).present? %>
+    <input type="hidden" name="church_unit_id" value="<%= ward.church_unit_id %>">
+  <% end %>
+  <% if ward.featured? %>
+    <span class="ward-pick-star" aria-hidden="true"><%= picto("star") %></span>
+  <% end %>
+  <button type="submit"
+          class="ward-pick-row ward-hit<%= " is-featured" if ward.featured? %>"
+          aria-label="<%= [ ward.name, ward_street(ward), ward_place(ward), (t("street.gate_enter") if ward.featured?) ].compact_blank.join(" — ") %>">
+    <span class="ward-pick-copy">
+      <span class="ward-pick-name"><%= ward.name %></span>
+      <% if ward_street(ward).present? %>
+        <span class="ward-pick-address"><%= ward_street(ward) %></span>
+      <% end %>
+      <% if ward_place(ward).present? %>
+        <span class="ward-pick-place"><%= ward_place(ward) %></span>
+      <% end %>
+      <% if ward.featured? %>
+        <span class="ward-pick-enter">
+          <span><%= t("street.gate_enter") %></span>
+          <%= picto("door") %>
+        </span>
+      <% end %>
+    </span>
+    <% unless ward.featured? %>
+      <span class="ward-pick-door" aria-hidden="true"><%= picto("door") %></span>
+    <% end %>
+  </button>
+<% end %>

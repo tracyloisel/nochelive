@@ -5,8 +5,14 @@ class FichasControllerTest < ActionDispatch::IntegrationTest
     sign_in_ward
     get ward_fichas_path
     assert_response :success
+    assert_select "body.is-paper-hall"
+    assert_select "#ficha_index.hall-paper"
+    assert_select ".hall-sheet"
+    assert_select ".hall-still"
     assert_select "h1", "Fichas de la rama"
     assert_select "a", /Carmen/
+    assert_select ".play-reel", count: 0
+    assert_select ".gate", count: 0
     get ward_ficha_path(people(:carmen_garcia))
     assert_response :success
     assert_select ".year-shout", "1833"

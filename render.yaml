@@ -2,7 +2,7 @@ services:
   - type: web
     name: nochelive
     runtime: ruby
-    plan: free
+    plan: starter
     region: frankfurt
     buildCommand: bundle install && bundle exec rails assets:precompile && bundle exec rails db:migrate
     startCommand: bundle exec puma -C config/puma.rb
@@ -27,5 +27,5 @@ services:
 
 databases:
   - name: nochelive-db
-    plan: free
+    plan: basic-256mb
     region: frankfurt

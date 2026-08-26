@@ -16,23 +16,30 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     assert_select "#street_world"
     assert_select ".street-hub-lockup-star"
     assert_select ".home-paper", count: 0
-    assert_select "details.home-menu:not([open])"
-    assert_select "details.home-menu .picto-gear"
-    assert_select "details.home-menu .home-menu-nav"
-    assert_select "details.home-menu .home-menu-me"
-    assert_select "details.home-menu .home-menu-kicker", text: I18n.t("home.program")
-    assert_select "details.home-menu a.home-menu-row[href=?]", nights_path
-    assert_select "details.home-menu a.home-menu-row[href=?]", search_path
-    assert_select "details.home-menu a.home-menu-row[href=?]", street_history_path
-    assert_select "details.home-menu .place-input", count: 0
-    assert_select "details.home-menu .code-input"
+    assert_select "nav.home-menu"
+    assert_select ".home-menu-btn .picto-menu"
+    assert_select ".home-menu-btn .picto-cross"
+    assert_select ".chrome-drawer .home-menu-nav"
+    assert_select ".chrome-face.is-guest"
+    assert_select ".chrome-face.is-guest .picto-person"
+    assert_select ".home-menu-kicker", text: I18n.t("home.ward_menu")
+    assert_select ".home-menu-kicker", text: I18n.t("church.menu")
+    assert_select ".home-menu-kicker", text: I18n.t("home.about_menu")
+    assert_select ".home-menu-kicker", text: I18n.t("home.program"), count: 0
+    assert_select ".chrome-drawer a.home-menu-row[href=?]", jugar_path, text: I18n.t("street.menu_play")
+    assert_select ".chrome-drawer a.home-menu-row[href=?]", nights_path, text: I18n.t("home.nights_menu")
+    assert_select ".chrome-drawer a.home-menu-row[href=?]", search_path
+    assert_select ".chrome-drawer a.home-menu-row[href=?]", street_history_path
+    assert_select ".chrome-drawer .place-input", count: 0
+    assert_select ".chrome-drawer .code-input"
     assert_select "details.home-code summary", text: I18n.t("home.night_code")
     assert_select ".story-ticks", count: 0
     assert_select ".street-card.is-pack"
-    assert_select ".mute"
-    assert_select ".chrome-tools .mute + .lang-switch"
-    assert_select ".lang-switch > summary .picto-flag-es"
-    assert_select "details.home-menu .lang-switch", count: 0
+    assert_select ".chrome-drawer .mute"
+    assert_select ".chrome-drawer .mute .word", text: I18n.t("chrome.sound_on")
+    assert_select ".chrome-tools", count: 0
+    assert_select ".chrome-drawer .lang-switch.is-drawer"
+    assert_select ".chrome-drawer .lang-opt .picto-flag-es"
 
     start_street_jugar!
     get jugar_path
@@ -41,8 +48,16 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     assert_select ".play-sheet-grip", count: 0
     assert_select ".street-quiz-head"
     assert_select ".street-quiz-apex"
+    assert_select ".street-quiz-card"
     assert_select ".street-level-rail"
     assert_select "#street_quiz .btn.btn-gold", count: 0
+    assert_select ".home-menu.is-split .chrome-face"
+    assert_select ".home-menu.is-split .home-menu-btn"
+    assert_select ".chrome-drawer .mute"
+    assert_select ".chrome-drawer .mute .word", text: I18n.t("chrome.sound_on")
+    assert_select ".chrome-drawer .lang-switch.is-drawer"
+    assert_select ".chrome-tools", count: 0
+    assert_select ".chrome-tools .mute", count: 0
   end
 
   test "every named cue is a public mp3" do
@@ -66,11 +81,16 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     assert_includes css, ".sfx-gate"
     assert_includes css, ".mute > * { grid-area: 1 / 1; }"
     assert_includes css, ".chrome-tools"
+    assert_includes css, ".scripture-veil[hidden]"
     assert_includes css, "--paper:"
+    assert_includes css, ".street-live-dot"
     assert_includes css, "--space-4:"
     assert_includes css, "--dur-press:"
     assert_includes css, "@keyframes ripple"
     assert_includes css, "@keyframes arrive"
+    assert_includes css, ".toast-slot"
+    assert_includes css, "@keyframes banner-glide"
+    assert_includes css, "banner-glide 4.4s"
     assert_includes css, "@view-transition"
     assert_includes css, "prefers-reduced-motion"
     assert_includes css, "fieldset.place"
@@ -88,10 +108,17 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     assert_includes css, ".home-menu"
     assert_includes css, ".home-menu-row"
     assert_includes css, ".home-menu-nav"
+    assert_includes css, ".chrome-drawer"
+    assert_includes css, ".chrome-face.quiet-link,\n.home-menu-btn.quiet-link"
     assert_includes css, "--street-hub-col:"
     assert_includes css, "--street-hub-inset:"
+    assert_includes css, "--type-min:"
+    assert_includes css, "--street-play-col:"
+    assert_includes css, "--street-ceremony-col:"
+    assert_includes css, ":root, body {"
+    refute_includes css, "body.is-street-hub:has(#street_world.is-profile-gate)"
     refute_includes css, ".street-map-path-title::after"
-    assert_includes css, ".rama-grid"
+    assert_includes css, ".rama-nights"
     assert_includes css, ".home-paper"
     assert_includes css, ".play-reel.is-street"
     assert_includes css, "color-mix(in srgb, var(--temple-marble, var(--paper)) 94%, white)"
@@ -107,10 +134,32 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     assert_includes css, ".street-card"
     assert_includes css, "@keyframes pack-pulse"
     assert_includes css, "street-sheet-rise"
-    assert_includes css, ".play-reel.is-join .play-sheet[data-sheet-snap=\"mid\"]"
+    assert_includes css, ".hall-sheet"
+    assert_includes css, ".hall-sheet.charter-sheet"
     assert_includes css, ".play-timer"
     assert_includes css, ".timer-halo"
+    assert_includes css, "animation: timer-halo-beat 0.76s linear both;"
+    assert_includes css, "animation: timer-halo-beat-hot 0.64s linear both;"
+    assert_includes css, "@keyframes timer-halo-beat {"
+    assert_includes css, "@keyframes timer-halo-beat-hot {"
+    assert_includes css, "0%, 4% { opacity: 1; }"
+    assert_includes css, "22% { opacity: 0.4; }"
+    assert_includes css, "32% { opacity: 0.48; }"
+    assert_includes css, "18% { opacity: 0.18; }"
+    assert_includes css, "28% { opacity: 0.26; }"
+    assert_includes css, "100% { opacity: 0.26; }"
+    assert_includes css, "100% { opacity: 0.1; }"
+    assert_includes css, ".timer-halo { animation: none !important; }"
+    refute_includes css, "timer-halo-beat 0.26s"
+    refute_includes css, "timer-halo-beat-hot 0.14s"
+    refute_includes css, "timer-halo-beat 0.82s"
+    refute_includes css, "0% { opacity: 0.38; }"
+    refute_includes css, "animation-duration: 0.68s;"
     assert_includes css, ".street-praise"
+    assert_includes css, "container-name: street-shot"
+    assert_includes css, "clamp(1.5rem, 9cqi, 2.55rem)"
+    refute_includes css, "clamp(3.9rem, 20vw, 6.1rem)"
+    refute_includes css, "scale(1.28)"
     assert_includes css, "body[class*=\"is-fx-\"]::after { display: none; }"
     assert_includes css, ".story-close"
     assert_includes css, ".story-ticks"
@@ -146,20 +195,23 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     assert_select ".cheer-dock", count: 0
   end
 
-  test "name screen is a form on a still without Story costume" do
+  test "name screen is a paper hall without Story costume" do
     get night_name_path(game_sessions(:david).code)
     assert_response :success
+    assert_select "body.is-paper-hall"
     assert_select "h1", text: /llama/
     assert_select ".picture-card", count: 2
     assert_select ".picto-sofa"
     assert_select ".picto-house"
     assert_select "a.quiet-link", text: /Soy el presentador/
-    assert_select ".play-reel"
-    assert_select ".play-shot"
-    assert_select ".play-sheet[data-sheet-snap=mid]"
+    assert_select "#night_join.hall-paper"
+    assert_select ".hall-sheet"
+    assert_select ".play-reel", count: 0
+    assert_select ".play-shot", count: 0
     assert_select ".play-sheet-grip", count: 0
     assert_select ".story-ticks", count: 0
     assert_select ".story-close", count: 0
+    assert_select ".picto-btn", count: 0
     assert_select "#night_join"
   end
 

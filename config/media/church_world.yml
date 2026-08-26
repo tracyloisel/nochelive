@@ -1,0 +1,33 @@
+# Visual lock for /iglesia stills.
+# UI chrome is the Salt Lake celestial marble hall (same plate as the hub).
+# These paintings sit on that hall — painterly, not Church stock photos.
+# Night round stills stay in chapel_world.yml (meetinghouse, never temple).
+
+style: >
+  Warm cinematic painterly classical illustration in the Salt Lake City Temple
+  celestial language already used for Noche Live chrome: luminous ivory marble,
+  tall fluted columns with ornate warm gold-leaf Corinthian capitals, circular
+  oculus with cream god-rays, polished reflective marble floors, eight-pointed
+  star motifs etched quietly in stone. Sacred grandeur, family-safe, not
+  photoreal, not a tourist photograph, not a dark nave. Gold is metal and light
+  only — never gold lettering. No text, no captions, no logos, no watermarks, no UI.
+
+people: >
+  Modest Sunday clothes. Multi-generational Latino and European families.
+  Missionaries: young elders in dark suits or sister missionaries in modest
+  coats and skirts, always two by two. Faces reverent and kind. No readable
+  name-tag lettering.
+
+place_never:
+  - Catholic mass, crucifix, incense, gothic cathedral, marble saints
+  - Christus statue on a plinth, recommend desk, ordinance-room veil
+  - clergy vestments, nuns, priests
+  - photoreal close-ups of children's faces
+  - brand names, screenshots, HUD
+
+negative: >
+  crucifix, Christian cross on a pulpit, Catholic mass, gothic cathedral,
+  stained-glass saints, Christus statue on a pedestal, recommend desk,
+  ordinance veil, photoreal close-up child faces, violence, guns, blood,
+  text overlay, letters, captions, watermark, logo, screenshot, UI, blurry,
+  extra fingers, brand names, gold typography

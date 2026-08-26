@@ -1,0 +1,15 @@
+<% person = current_street_person %>
+<%= link_to root_path(ficha: 1),
+      class: [ "chrome-face", "quiet-link", ("is-guest" unless person) ],
+      aria: { label: person ? t("street.face_label") : t("street.pick_profile") } do %>
+  <% if person %>
+    <% src = avatar_mark(person) %>
+    <% if src %>
+      <img src="<%= src %>" alt="" class="avatar-img" width="44" height="44">
+    <% else %>
+      <span class="avatar-fallback" aria-hidden="true"><%= person.given_name.to_s.first %></span>
+    <% end %>
+  <% else %>
+    <%= picto("person") %>
+  <% end %>
+<% end %>

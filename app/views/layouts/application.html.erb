@@ -22,12 +22,23 @@
     }</style>
     <%= javascript_importmap_tags %>
   </head>
-  <body class="<%= content_for(:body_class) %>" data-controller="stage press motion">
+  <body class="<%= content_for(:body_class) %>" data-controller="stage press motion scripture">
       <a class="skip" href="#main"><%= t("chrome.skip_main") %></a>
     <div class="sky" aria-hidden="true"></div>
+    <% if notice || alert %>
+      <div class="toast-slot">
+        <% if notice %>
+          <p class="banner" role="status" data-controller="banner">
+            <span class="banner-mark" aria-hidden="true"><%= picto("star8") %></span>
+            <%= notice %>
+          </p>
+        <% end %>
+        <% if alert %>
+          <p class="banner banner-alert" role="alert" data-controller="banner"><%= alert %></p>
+        <% end %>
+      </div>
+    <% end %>
     <main id="main" class="shell">
-      <% if notice %><p class="banner" role="status"><%= notice %></p><% end %>
-      <% if alert %><p class="banner banner-alert" role="alert"><%= alert %></p><% end %>
       <%= yield %>
     </main>
     <div id="live_pulses" class="live-pulses" aria-live="polite"></div>
@@ -36,6 +47,15 @@
     <% if tick %>
       <audio id="noche_sfx_gate" class="sfx-gate" preload="auto" playsinline webkit-playsinline="true" src="<%= tick %>"></audio>
     <% end %>
-    <%= render "shared/chrome_tools" %>
+    <%= render "shared/chrome_tools" unless chrome_tools_in_drawer? %>
+    <% if current_street_person %>
+      <div hidden data-controller="presence" data-presence-url-value="<%= street_presence_path %>"></div>
+    <% end %>
+    <aside id="scripture_loading" class="scripture-veil is-loading" hidden data-scripture-target="loading" role="status">
+      <div class="scripture-sheet">
+        <p class="scripture-loading"><%= t("quiz.scripture_loading") %></p>
+      </div>
+    </aside>
+    <turbo-frame id="scripture_reader" data-scripture-target="frame"></turbo-frame>
   </body>
 </html>

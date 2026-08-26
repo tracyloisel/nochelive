@@ -1,4 +1,19 @@
 module ApplicationHelper
+  TIMER_WARN_RATIO = 0.4
+  TIMER_HOT_RATIO = 0.2
+
+  def play_timer_hot?(left, duration)
+    duration = duration.to_i
+    left = left.to_i
+    duration.positive? && left.positive? && left <= duration * TIMER_HOT_RATIO
+  end
+
+  def play_timer_warn?(left, duration)
+    duration = duration.to_i
+    left = left.to_i
+    duration.positive? && left.positive? && left <= duration * TIMER_WARN_RATIO && !play_timer_hot?(left, duration)
+  end
+
   def night_title(night)
     night.definition.theme.copy(:title)
   rescue GameDefinition::Error
@@ -19,17 +34,38 @@ module ApplicationHelper
   end
 
   def ward_country(ward)
-    return if ward.country_code.blank?
+    code = ward.country_code
+    fallback = ward.try(:country_name).presence || code
+    return fallback if code.blank?
 
-    t("countries.#{ward.country_code}", default: ward.country_code)
+    t("countries.#{code}", default: fallback)
+  end
+
+  def ward_picker_query(extra = {})
+    {
+      q: params[:q].presence,
+      lat: params[:lat].presence,
+      lng: params[:lng].presence,
+      cambiar: params[:cambiar].presence,
+      pick: params[:pick].presence || extra[:pick] || @picker_pick
+    }.compact.merge(extra.except(:pick).compact)
   end
 
   def ward_place(ward)
     [ ward.city, ward_country(ward) ].compact_blank.join(", ")
   end
 
+  def ward_street(ward)
+    ward.try(:chapel_address).presence
+  end
+
   def source_repo_url
     "https://github.com/tracyloisel/nochelive"
+  end
+
+  def about_portrait_src
+    rel = "media/about/tracy.png"
+    "/#{rel}" if Rails.public_path.join(rel).file?
   end
 
   def night_still_src(night = nil)
@@ -72,16 +108,46 @@ module ApplicationHelper
     nil
   end
 
+  def church_still_src(name)
+    rel = "media/church/#{name}.jpg"
+    "/#{rel}" if Rails.public_path.join(rel).file?
+  end
+
   def story_reel(**kwargs, &block)
     render "shared/reel", **kwargs, body: capture(&block)
   end
 
-  def chrome_menu(open: false, icon: "gear", &block)
-    render "shared/chrome_menu", open: open, icon: icon, body: capture(&block)
+  def paper_hall(id:, kicker:, extra_class: nil, sheet_class: nil, sheet: true, &block)
+    render "shared/paper_hall",
+      hall_id: id,
+      kicker: kicker,
+      extra_class: extra_class,
+      sheet_class: sheet_class,
+      sheet: sheet,
+      body: capture(&block)
   end
 
-  def site_menu
-    render "shared/site_menu"
+  def charter_hall(id:, kicker:, &block)
+    paper_hall(id:, kicker:, extra_class: "is-charter", sheet_class: "charter-sheet", &block)
+  end
+
+  def chrome_menu(open: false, icon: "menu", face: nil, tools: nil, &block)
+    face = chrome_face? if face.nil?
+    tools = chrome_tools_in_drawer? if tools.nil?
+    render "shared/chrome_menu", open: open, icon: icon, face: face, tools: tools, body: capture(&block)
+  end
+
+  def site_menu(tools: chrome_tools_in_drawer?)
+    render "shared/site_menu", tools: tools
+  end
+
+  def chrome_face?
+    chrome_tools_in_drawer?
+  end
+
+  def chrome_tools_in_drawer?
+    css = content_for(:body_class).to_s
+    css.include?("is-street-hub") || css.include?("is-paper-hall") || css.include?("is-street-play")
   end
 
   def home_night_path_for(night)
@@ -252,6 +318,14 @@ module ApplicationHelper
 
   def street_choice_seed(run, question)
     run.id.to_i * 1_000 + question.position.to_i
+  end
+
+  def street_praise_line(run, question)
+    lines = Array(I18n.t("street.praises"))
+    lines = [ I18n.t("street.praise") ] if lines.empty?
+    seed = 0
+    "#{run.id}:#{question.id}".each_byte { |byte| seed = (seed * 33 + byte) & 0x7fffffff }
+    lines[seed % lines.size]
   end
 
   def street_shuffled_choices(run, question)
@@ -455,6 +529,14 @@ module ApplicationHelper
   def avatar_mark(record)
     key = record.is_a?(String) ? record : record&.avatar_key
     mark_src("avatars", key)
+  end
+
+  def street_live_dot(live)
+    return unless live
+
+    tag.span(class: "street-live-dot", title: t("street.live")) do
+      tag.span(t("street.live"), class: "visually-hidden")
+    end
   end
 
   def player_label(player, peers = nil)

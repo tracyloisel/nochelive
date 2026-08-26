@@ -1,0 +1,7 @@
+<article class="paper-story">
+  <%= render "shared/hall_still", src: still.present? ? church_still_src(still) : nil, loading: local_assigns.fetch(:loading, "eager") %>
+  <div class="paper-story-copy">
+    <h2 class="paper-page-title"><%= title %></h2>
+    <%= yield %>
+  </div>
+</article>

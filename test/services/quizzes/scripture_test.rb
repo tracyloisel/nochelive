@@ -25,5 +25,8 @@ class Quizzes::ScriptureTest < ActiveSupport::TestCase
       assert_match %r{/pgp/js-h/1\?lang=por\z}, Quizzes::Scripture.url(jsh)
     end
     assert_equal Quizzes::Scripture.url(jsh, locale: :en), Quizzes::Scripture.call(question: jsh, locale: :en)
+    assert_equal Quizzes::Scripture.url(bible), Quizzes::Scripture.page_url("ot/1-sam/16")
+    assert Quizzes::Scripture.known_study?("ot/1-sam/16")
+    refute Quizzes::Scripture.known_study?("ot/gen/1")
   end
 end

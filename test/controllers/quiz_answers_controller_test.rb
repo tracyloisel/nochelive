@@ -14,6 +14,7 @@ class QuizAnswersControllerTest < ActionDispatch::IntegrationTest
     assert_select "#street_quiz.play-reel.is-quiz.is-street"
     assert_select ".street-level-rail"
     assert_select ".choice-btn"
+    assert_select "turbo-frame#scripture_reader"
 
     run = QuizRun.order(:id).last
     question = run.question
@@ -25,9 +26,21 @@ class QuizAnswersControllerTest < ActionDispatch::IntegrationTest
     assert_select ".quiz-bar .choice-mark", count: 0
     assert_select ".street-score.is-tick span", text: question.points.to_s
     assert_select ".street-points-pop", text: "+#{question.points}"
-    assert_select ".street-praise-line", text: I18n.t("street.praise")
+    shout = ApplicationController.helpers.street_praise_line(run, question)
+    assert_select ".street-praise"
+    assert_select ".street-praise-line", text: shout
     assert_select ".street-praise-pts", text: "+#{question.points}"
     assert_select ".quiz-board.is-settled .quiz-shout", count: 0
+    assert_select ".play-shot .street-shot-actions .quiz-next"
+    assert_select ".play-shot a.quiz-scripture.btn.btn-navy[data-turbo-frame=scripture_reader][href*='/escrituras/']"
+    assert_select ".play-shot a.quiz-scripture .quiz-read", text: I18n.t("quiz.read")
+    assert_select ".play-shot a.quiz-scripture .quiz-cite", text: question.scripture.cite
+    assert_select ".play-shot a.quiz-scripture[href*='cite=']"
+    assert_select ".play-shot a.quiz-scripture[href*='churchofjesuschrist.org']", count: 0
+    assert_select ".play-shot a.quiz-scripture[target=_blank]", count: 0
+    assert_select ".quiz-board.is-settled .quiz-next", count: 0
+    assert_select ".quiz-board.is-settled .quiz-scripture", count: 0
+    assert_select ".street-quiz-dock", count: 0
   end
 
   test "a miss marks the true choice and the wrong pick" do

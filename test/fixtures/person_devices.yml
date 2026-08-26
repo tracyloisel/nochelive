@@ -3,9 +3,9 @@
 pili_tablet:
   person: pili
   device_token: pili-tablet
-  last_seen_at: <%= Time.current %>
+  last_seen_at: <%= 1.hour.ago %>
 
 carmen_phone:
   person: carmen_garcia
   device_token: carmen-phone
-  last_seen_at: <%= Time.current %>
+  last_seen_at: <%= 1.hour.ago %>

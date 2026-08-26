@@ -55,6 +55,18 @@ class LocaleFilesTest < ActiveSupport::TestCase
     end
   end
 
+  test "street praises are a shouted list in every locale" do
+    %i[es en fr pt-BR].each do |locale|
+      I18n.with_locale(locale) do
+        lines = I18n.t("street.praises")
+        assert_kind_of Array, lines, locale.to_s
+        assert_operator lines.size, :>=, 7, locale.to_s
+        assert lines.all? { |line| line.is_a?(String) && line.present? }, locale.to_s
+        assert_includes lines, I18n.t("street.praise"), locale.to_s
+      end
+    end
+  end
+
   test "guess keys include every locale so mixed nights still match" do
     round = GameDefinition.default.find_round("category_prophets")
     keys = round.all_guess_keys.map { |key| ActiveSupport::Inflector.transliterate(key).downcase }

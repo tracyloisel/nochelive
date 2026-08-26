@@ -1,9 +1,18 @@
 <% current = Locale.cast(local_assigns[:current] || I18n.locale) %>
 <% url = local_assigns[:url] || locale_path_for %>
-<details class="lang-switch">
-  <summary aria-label="<%= t("locale.label") %>">
-    <span class="lang-flag" aria-hidden="true"><%= locale_flag(current) %></span>
-    <span class="word"><%= t("locale.names.#{current}") %></span>
+<% drawer = local_assigns[:drawer] %>
+<details class="lang-switch<%= " is-drawer" if drawer %>">
+  <summary class="<%= "home-menu-row" if drawer %>" aria-label="<%= t("locale.label") %>">
+    <% if drawer %>
+      <span class="home-menu-ico" aria-hidden="true">
+        <span class="lang-flag"><%= locale_flag(current) %></span>
+      </span>
+      <span class="home-menu-label word"><%= t("locale.names.#{current}") %></span>
+      <span class="home-menu-caret" aria-hidden="true"><%= picto("arrow") %></span>
+    <% else %>
+      <span class="lang-flag" aria-hidden="true"><%= locale_flag(current) %></span>
+      <span class="word"><%= t("locale.names.#{current}") %></span>
+    <% end %>
   </summary>
   <div class="lang-menu" role="list">
     <% Locale::AVAILABLE.each do |code| %>

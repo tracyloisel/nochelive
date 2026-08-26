@@ -3,6 +3,7 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
   connect() {
     this.restoreCaret()
+    this.revealYou()
   }
 
   queue(event) {
@@ -12,6 +13,14 @@ export default class extends Controller {
     }
     window.clearTimeout(this.timer)
     this.timer = window.setTimeout(() => this.submit(), 320)
+  }
+
+  clearOnEscape(event) {
+    if (!event.target.matches("#leaderboard_q")) return
+    if (!event.target.value) return
+    event.preventDefault()
+    event.target.value = ""
+    this.submit()
   }
 
   submit() {
@@ -28,6 +37,14 @@ export default class extends Controller {
     field.focus()
     const end = field.value.length
     try { field.setSelectionRange(end, end) } catch (_) { /* search inputs in some engines */ }
+  }
+
+  revealYou() {
+    if (window.location.hash !== "#liga-you") return
+    const row = document.getElementById("liga-you")
+    if (!row) return
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    row.scrollIntoView({ block: "center", behavior: reduce ? "auto" : "smooth" })
   }
 
   disconnect() {

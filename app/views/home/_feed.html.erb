@@ -11,11 +11,10 @@
         <span class="street-hub-rule" aria-hidden="true"></span>
       </p>
     </div>
-    <nav class="home-doors" aria-label="<%= t("home.doors") %>">
-      <%= link_to t("home.who"), about_path, class: "quiet-link" %>
-      <%= link_to t("home.search_page"), search_path, class: "quiet-link" %>
-    </nav>
   </header>
+  <nav class="home-doors" aria-label="<%= t("church.invite") %>">
+    <%= link_to t("church.invite"), church_path, class: "btn btn-gold" %>
+  </nav>
 
   <section class="home-feed home-upcoming">
     <h2>

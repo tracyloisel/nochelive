@@ -35,18 +35,5 @@
         </div>
       <% end %>
     </div>
-    <p class="quiz-scripture">
-      <%= link_to Quizzes::Scripture.url(question), class: "quiet-link", target: "_blank", rel: "noopener" do %>
-        <%= t("quiz.read_more") %><span class="quiz-cite"> · <%= question.scripture.cite %></span>
-      <% end %>
-    </p>
   </div>
-  <footer class="street-quiz-dock">
-    <%= button_to quiz_advance_path(street.run),
-          class: "btn btn-gold quiz-next",
-          form: { data: { turbo_stream: true }, class: "quiz-next-form" },
-          data: { action: "click->quiz#next" } do %>
-      <%= t("quiz.next") %><%= picto("arrow") %>
-    <% end %>
-  </footer>
 </div>

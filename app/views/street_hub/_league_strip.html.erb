@@ -19,9 +19,14 @@
       <div class="street-league-slot <%= "is-you" if row.you %> is-medal-<%= row.rank %>">
         <span class="street-league-medal-badge" aria-hidden="true"><%= row.rank %></span>
         <% src = avatar_mark(row.person) %>
-        <% if src %>
-          <img src="<%= src %>" alt="" class="avatar-img street-league-avatar" width="40" height="40">
-        <% end %>
+        <span class="street-league-face <%= "is-live" if row.live %>">
+          <% if src %>
+            <img src="<%= src %>" alt="" class="avatar-img street-league-avatar" width="40" height="40">
+          <% else %>
+            <span class="avatar-fallback street-league-avatar" aria-hidden="true"><%= row.person.given_name.to_s.first %></span>
+          <% end %>
+          <%= street_live_dot(row.live) %>
+        </span>
         <span class="street-card-name"><%= row.person.given_name %></span>
         <span class="street-card-score">
           <%= picto("crown") %><%= number_with_delimiter(row.score) %>

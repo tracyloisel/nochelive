@@ -1,4 +1,4 @@
-<% content_for :title, t("home.menu_search") %>
+<% content_for :title, @changing_ward ? t("street.change_ward") : t("home.menu_search") %>
 <% content_for :body_class, "is-kid is-paper-hall" %>
 <%= chrome_menu { site_menu } %>
 <section class="home-paper">
@@ -6,7 +6,7 @@
     <div class="street-hub-lockup">
       <div class="street-hub-lockup-wordmark">
         <span class="street-hub-lockup-star" aria-hidden="true"><%= picto("star8") %></span>
-        <h1 class="street-hub-lockup-name"><%= t("home.menu_search") %></h1>
+        <h1 class="street-hub-lockup-name"><%= @changing_ward ? t("street.change_ward") : t("home.menu_search") %></h1>
       </div>
       <p class="street-temple-pill street-temple-hub-title">
         <span class="street-hub-rule" aria-hidden="true"></span>
@@ -15,20 +15,6 @@
       </p>
     </div>
   </header>
-  <%= form_with url: search_path, method: :get, class: "home-search" do %>
-    <p class="lede home-search-lede"><%= t("home.lede") %></p>
-    <label for="q"><%= t("home.search") %></label>
-    <input id="q" name="q" value="<%= @query %>" class="place-input" placeholder="<%= t("home.search_ph") %>" autocomplete="off" autocapitalize="words">
-    <button type="submit" class="btn btn-navy"><%= picto("search") %><%= t("home.search_action") %></button>
-  <% end %>
-
-  <% if @query.to_s.strip.length >= 2 && @wards.empty? %>
-    <p class="lede home-empty"><%= t("home.empty") %></p>
-  <% else %>
-    <div class="ward-grid">
-      <% @wards.each do |ward| %>
-        <%= render "home/ward_card", ward: ward %>
-      <% end %>
-    </div>
-  <% end %>
+  <p class="lede home-search-lede"><%= @changing_ward ? t("street.change_ward_lede") : t("home.lede") %></p>
+  <%= render "street_hub/ward_picker", pick: (@changing_ward ? "rama" : nil), cambiar: @changing_ward %>
 </section>

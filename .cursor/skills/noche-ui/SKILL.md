@@ -21,7 +21,7 @@ Family night: huge hits, sofa vs casa. Copy is i18n (es, pt-BR, en, fr) — noch
 
 ## Spec first
 
-Read [MOCKUPS.md](MOCKUPS.md). Compare `tmp/*-shots/temple-themed/` to the mockup. Close chrome gaps. Product KEEP (mute, ink lockup, live scores) is listed there — do not violate a hard don’t to copy demo data.
+Read [MOCKUPS.md](MOCKUPS.md). Compare `tmp/*-shots/temple-themed/` to the mockup. Close chrome gaps. Product KEEP (mute in the hamburger on street, ink lockup, live scores) is listed there — do not violate a hard don’t to copy demo data.
 
 | Product | Mockup |
 |---|---|
@@ -42,7 +42,7 @@ Street ≠ night. Do not put a 10-dot **level rail** on a live round. Do not put
 | Gold type on cream, gold on the light-beam, stacked gold headlines | Ink (`--ink`) on paper; cream overlay type only on a **local** scrim. Gold = emblem, **one** CTA, trophy, Buzz metal, score-as-metal |
 | Word-card sheet beheading the still; fake gold grab-handle on a non-drag form | Painting visible. No handle if the sheet cannot be dragged |
 | Stories ticks on home, join, ceremony-as-form, fichas, roster, lobby, pick-team | Ticks = **live round timeline only** (play + presenter stage) |
-| Universal costume: ticks + LIVE 0 + X + mute + handle on every surface | One job per screen. Mute on hub, jugar, live play, presenter. X only where swipe-down exit needs it (play, presenter). **No X on home/join/ceremony/fichas/roster.** No LIVE chip |
+| Universal costume: ticks + LIVE 0 + X + mute + handle on every surface | One job per screen. Mute in the hamburger on hub and jugar; mute + flag on live play and presenter. X only where swipe-down exit needs it (play, presenter). **No X on home/join/ceremony/fichas/roster.** No LIVE chip |
 | Presenter: grado A, five equal pills, Lista/Fichas FABs, pause/end/next all gold | **One** sequential gold next. Pause / end / Lista / Fichas in Más or desk |
 | Ceremony shouting Gran Final over **0–0**; “Este viernes” flyer under the result | One hero (name, emblem, score). Honest empty or tie |
 | Home: night code or search as the hero; Stories ticks on the hub | Hub mockup. `/noches` is the paper feed. Search and night code in the hamburger |
@@ -51,6 +51,7 @@ Street ≠ night. Do not put a 10-dot **level rail** on a live round. Do not put
 | Casa wait-toy while the room buzzes; sala QCM instead of Buzz | Casa = pick; sala = slam. Same still, different sheet |
 | Flat yellow circle labeled Buzz | Gold **medallion** (metal disc, bell, navy Buzz on gold) |
 | Color-coded V/F or A/B choice marks on temple QCM | Rounded-rect, gold hairline; picked = gold border + star |
+| Scripture, Next, or chips under the QCM choices | The choice list is the **last** block in the sheet. Street settled: scripture + next sit on the still |
 | Full-screen milky veil | Cream type + **local** top/bottom scrims only |
 | Burger layers as four mystery discs | Labels on each layer, or one peel verb |
 | Timer as a yellow hairline | Timer as a readable object (fat numerals + thick gold bar) |
@@ -121,8 +122,9 @@ Mobile game loop, not a night. Same marble language. Adventure stills, not chape
 
 | Surface | Shape |
 |---|---|
-| Hub `/` | Hall canvas. Player card, 3-node rope map, MAPA, LIGA top 3, gold Jugar, 5-tab dock. **No reel.** Wide window = **phone-width column** (390) centered on the hall; gear / mute / trophy pin to that column, not the browser corners. |
-| Jugar ask | Cream head + level rail + still + ivory QCM sheet (4 choices). Mute stays. |
+| Hub `/` | Hall canvas. Player card, 3-node rope map, MAPA, LIGA top 3, gold Jugar. **No reel. No 5-tab dock.** Same composition, **column grows with the window**: 390 / iPad 36rem / desktop 44rem / XL 52rem, centered on the hall. Avatar / hamburger pin to that column, not the browser corners. Type floor `--type-min` (14px+) for abuelos. Mute and language live in the drawer. |
+| Jugar ask | Cream head + level rail + still + ivory QCM sheet (choices last). Same chrome as the hub: avatar left, hamburger right, mute + language in the drawer. From 720, **phone arch** on the hall (28 / 32 / 36rem), never a stretched QCM. |
+| Jugar settled | Same three-band. Navy **Leer** + cite pill + gold next live **on the still**. Sheet ends at the rounded-rect bars. |
 | Pack ceremony | Hall + god rays + ivory stele in a **double gold arch** on a marble plinth (not stacked cards) + chest + Volver / Desafiar |
 | Cards | `.street-card` `.is-player` `.is-pack` `.is-rival` `.is-duel`. Marble, gold border, ink titles |
 | Duels | Async `/desafio/:token`. Face-to-face after both finish |
@@ -133,13 +135,13 @@ Hub pack stills are thumbnails on the rope, not full-bleed. Wizard is an inline 
 
 Hub, `/noches`, fichas, roster, gates, presenter **lists** are not shot+sheet quizzes. You may design a clearer layout for *new* work in that family — still temple marble, still not `.gate` cards, still not a fake reel.
 
-**Noches (`/noches`)** — paper feed. Ink wordmark. Quién somos + Buscar. Próximamente + last 10 nights. Paintings on **cards**. No X, ticks, gold, mute.
+**Noches (`/noches`)** — paper feed. Ink wordmark. One gold **Ven a la Iglesia** CTA (`church.invite` → `/iglesia`). Search lives in the hamburger. Próximamente + last 10 nights. Paintings on **cards**. No X, ticks, mute.
 
 **Buscar** — form is the job. Listed Benidorm shows without typing.
 
 **Join** — Entrar is a pill. Presenter / Solo ver quiet. Guest may keep `Solo esta noche` if tests pin it.
 
-**Rama** — emblem, name, chapel pin (Maps, no embed), grid. **One** gold CTA (Entrar *or* Abrir la noche). Live: Solo ver quiet.
+**Rama** — emblem, name, chapel pin (Maps, no embed) on the marble hall (no ivory sheet). One night poster per row, with date and missionary names under it. **One** gold CTA (Entrar *or* Abrir la noche). Live: Solo ver quiet.
 
 If you touch a non-quiz screen: strip Story residue. Do not peel the still off and drop a paper `.gate` card.
 
@@ -153,6 +155,8 @@ If you touch a non-quiz screen: strip Story residue. Do not peel the still off a
 | `--muted` / `--parchment` | Secondary |
 | `--line` | Hairlines |
 | `--gold` | Metal and one CTA — not headlines |
+| `--type-min` `--type-ui` `--type-ask` `--type-choice` `--type-hit` | Abuelos floor (14px+) and ask/choice/CTA; bump at 720 / 1024 / 1440 |
+| `--street-play-col` `--street-ceremony-col` | Phone-arch width for jugar / live seats / ceremony monument |
 | `--temple-marble`, `--temple-ivory`, `--temple-oculus`, `--temple-gold-leaf`, `--temple-gold-border`, `--temple-gold-hairline`, `--temple-star` | Celestial chrome |
 | `--fire` | Alerts, streaks |
 | `--story-type` / `--story-shadow` | Overlay on stills |
@@ -185,13 +189,13 @@ Already on `story` + `sheet`. Do not invent a second swipe engine.
 
 Keep the Spanish skip line tests assert. Drawing must **peek** above the sheet. Watch does not swipe.
 
-Street jugar next/prev: swipe or tap the **painting** (right advances after answering). No `story` swipe on hub.
+Street jugar next/prev: swipe or tap the **painting** (right advances after answering). After a settle, **Siguiente** is a compact gold pill on the still (not a dock under the QCM). Scripture is a navy pill: short verb (`quiz.read` — Leer / Ler / Read / Lire) + cite (`1 Samuel 16:13`). No `story` swipe on hub. The ivory sheet **never** puts another block under the QCM choices.
 
 ## Motion
 
 `<body data-controller="stage press motion">`. Pressable: `.btn`, `.choice-btn`, `.team-pick`, `.buzz`, `.emblem-choice`, `.choice-chip`, `.story-tick`, `.picture-card`, `.quiet-link`. View Transitions meta. Stable ids `#night_play`, `#night_watch`, `#night_presenter`. Honor `prefers-reduced-motion`. Street ceremonies/duels: `street_motion_controller`.
 
-Timed ask: inset `.timer-halo` on `#street_quiz` / `#night_play` / `#night_watch` (orange 20–10s, red last 10s), one pulse per second — not a tick sound. Street correct settle: `.street-praise` cream type on the still with a **local** scrim (never gold on the painting).
+Timed ask: inset `.timer-halo` on `#street_quiz` / `#night_play` / `#night_watch` (orange when remaining ≤ 40% of the question, red when remaining ≤ 20%), one pulse per second — not a tick sound. Matching numeral/bar: `.play-timer.is-warn` / `.is-low`. A freshly opened ask must not start orange. Street correct settle: `.street-praise` cream type on the still with a **local** scrim (never gold on the painting).
 
 ## Controls
 

@@ -9,6 +9,7 @@ Street stills: biblical adventure (peril + grace) per `config/media/street_world
 | Surface | Mockup | Shot to compare |
 |---|---|---|
 | Street hub `/` | `tmp/street-shots/temple-mockups/mockup-street-hub-temple-ui.png` | `tmp/street-shots/temple-themed/hub-phone.png` |
+| Street arrival (first visit) | hall `marble-hall.jpg` + ivory search sheet | `tmp/street-shots/temple-themed/wizard-phone.png` |
 | Street jugar ask | `tmp/street-shots/temple-mockups/mockup-street-jugar-temple-adventure.png` | `tmp/street-shots/temple-themed/01-ask-phone.png` |
 | Street pack ceremony | `tmp/street-shots/temple-mockups/mockup-street-ceremony-temple-victory.png` | `tmp/street-shots/temple-themed/jugar-ceremony-desktop.png` |
 | Presenter stage | `tmp/night-shots/temple-mockups/mockup-night-presenter-temple.png` | `tmp/night-shots/temple-themed/presenter-stage.png` |
@@ -25,8 +26,8 @@ Ship the chrome. Do **not** fake the painting’s demo data or violate a hard do
 | Mockup may show | Product keeps |
 |---|---|
 | Gold “NOCHE LIVE” letters on cream | **Ink** lockup. Gold = metal only |
-| People / trophy icon top-right on jugar | **Mute** + flag under mute |
-| Hub without mute | Mute + flag stay on hub |
+| People / trophy icon top-right on jugar | Same chrome as the hub: avatar left, hamburger right. Mute + language live **in the drawer** |
+| Hub chrome stacked (mute, flag, trophy, WORLD HUB) | Avatar left, hamburger right. Mute + language + ranking live **in the drawer**. Ink lockup is **Noche Live** only |
 | Andrés / 7,850 XP / María G. | Live ficha, rank math, league fixtures |
 | Watch scores 10 / 6 / 4, “Las Hermanas” | Live `cached_score` + real team names (wrap, no ellipsis) |
 | Presenter desk covering half the still | Desk **peek** so Solomon’s face still reads; full desk is a summon |
@@ -37,23 +38,23 @@ Ship the chrome. Do **not** fake the painting’s demo data or violate a hard do
 
 Marble hall is the canvas (columns at 9:16 edges, oculus). No reel, no ticks.
 
-1. Ink lockup + WORLD HUB between gold rules. Gear + trophy chrome.
+1. Ink lockup **Noche Live**. Avatar left, hamburger right. Mute, language, and ranking live in the ivory drawer.
 2. Player card: avatar ring, gold rank banner, 12-point level star, XP `current / next`, racha.
 3. **3-node rope**: locked padlock above / current XL hero + CORONAS + 4-point star pointer / finished check below. Brown-gold **braided helix between** nodes.
 4. MAPA DE VIAJE card. Horizontal LIGA top 3 → `/liga`.
-5. Wide gold **Jugar** bar (pointed / hex metal, star flanks). 5-tab dock (Hub · Tienda stub · Ranking · Amigos · Perfil).
+5. Wide gold **Jugar** bar (pointed / hex metal, star flanks). Ranking, history, and play live in the hamburger; profile is the avatar. **No 5-tab dock.**
 
-First fold on 390×844: 3 nodes + league + Jugar above the dock.
+First fold on 390×844: 3 nodes + league + Jugar above the CTA.
 
-Desktop is the same phone column on the hall — never a stretched glass stack with chrome at the window edges. Locked padlock sits **above** the node; finished check sits **below**. MAPA title has no trailing star (it reads as a plus).
+Desktop is the same hub composition on the hall, column **grows** (not a stretched glass stack, chrome never at the window edges). iPad 36rem / desktop 44rem / XL 52rem. Locked padlock sits **above** the node; finished check sits **below**. MAPA title has no trailing star (it reads as a plus). Readable type never drops below `--type-min` (14px).
 
 ## Anatomy — street jugar ask
 
 Three bands, gold-trimmed phone arch.
 
-1. **Cream head**: ink Noche Live + LIVE hairlines + vaulted gold arcs + **level rail** (10 dots, star bookends). Mute + flag. No story ticks, no X.
-2. **Still**: rounded adventure painting. Rival chip top-left (avatar, cream name, gold `+N pts`). Score star pill top-right.
-3. **Ivory arched sheet**: small 4-point apex bump, centered ink question, gold star rule, **4 rounded-rect** choices. No color marks. Picked = gold border + star. No map, no pack title, no grab-handle.
+1. **Cream head**: ink Noche Live + LIVE hairlines + vaulted gold arcs + **level rail** (10 dots, star bookends). Avatar left, hamburger right. Mute + language live in the ivory drawer. No story ticks, no X.
+2. **Still**: rounded adventure painting. Rival chip top-left (avatar, cream name, gold `+N pts`). Score star pill top-right. Settled: navy **Leer 1 Samuel 16:13** pill + compact gold **Siguiente** on a local bottom scrim — never gold type on the painting.
+3. **Ivory arched sheet**: small 4-point apex bump, centered ink question, gold star rule, **rounded-rect** choices. No color marks. Picked = gold border + star. No map, no pack title, no grab-handle. **The choice list is the last block** — never Next, scripture, or chips under the rects. Settled: pack + progress + verdict + bars; navy **Leer** + cite pill and gold **Siguiente** live on the still, above the sheet.
 
 ## Anatomy — street ceremony
 
@@ -84,7 +85,7 @@ Three-band temple **phone**, live-night head (not street rail).
 
 1. Cream head: ink Noche Live + hairlines, **story ticks** + star bookends (not 10-dot level rail), mute + flag, **timer as object** (fat `22 s` + thick gold bar).
 2. Still: round painting, gold arch. Team chip (Casa / emblem) top-left — not street rival Carmen. Score pill top-right.
-3. Ivory arched sheet: apex star, ink title + question, gold star rule, **rounded-rect choices** (3 on Salomón). No red/green V/F marks. Picked = gold border + star. No grab-handle on ask.
+3. Ivory arched sheet: apex star, ink title + question, gold star rule, **rounded-rect choices** (3 on Salomón). No red/green V/F marks. Picked = gold border + star. No grab-handle on ask. **Choices are the last block** in the sheet.
 
 Casa’s verb is the pick. Never a wait-toy “when the room is done.”
 

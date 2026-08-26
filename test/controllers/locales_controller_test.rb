@@ -8,26 +8,33 @@ class LocalesControllerTest < ActionDispatch::IntegrationTest
     assert_equal "fr", cookies[:noche_locale]
     assert_select "html[lang=fr]"
     assert_select "#street_world"
-    assert_select "details.home-menu"
-    assert_select "details.home-menu a", text: /paroisse/
-    assert_select "details.home-menu a", text: /Qui sommes-nous/
-    assert_select "details.home-menu a", text: /Chercher/
-    assert_select "details.home-menu a", text: /Soirées/
+    assert_select "nav.home-menu"
+    assert_select ".chrome-drawer a", text: /paroisse/
+    assert_select ".chrome-drawer a", text: /Qui sommes-nous/
+    assert_select ".chrome-drawer a", text: /Chercher/
+    assert_select ".chrome-drawer a", text: /Soirées de ma paroisse/
+    assert_select ".chrome-drawer a", text: /Jouer pour une autre paroisse/, count: 0
     assert_select ".home-search", count: 0
-    assert_select ".chrome-tools .mute + .lang-switch"
-    assert_select "details.home-menu .lang-switch", count: 0
-    assert_select ".lang-switch > summary .picto-flag-fr"
-    assert_select ".lang-opt .picto-flag-es"
-    assert_select ".lang-opt .picto-flag-pt"
-    assert_select ".lang-opt .picto-flag-en"
-    assert_select ".lang-opt .lang-name", text: "Español"
-    assert_select ".lang-opt .lang-name", text: "Português"
-    assert_select ".lang-opt .lang-name", text: "Français"
-    assert_select ".lang-opt .lang-name", text: "English"
+    assert_select ".chrome-tools", count: 0
+    assert_select ".chrome-drawer .mute"
+    assert_select ".chrome-drawer .mute .word", text: "Activé"
+    assert_select ".home-menu-kicker", text: /Paroisse/
+    assert_select ".home-menu-kicker", text: /Église de Jésus-Christ/
+    assert_select ".chrome-drawer .lang-switch.is-drawer"
+    assert_select ".chrome-drawer .lang-switch.is-drawer > summary .picto-flag-fr"
+    assert_select ".chrome-drawer .lang-opt.is-on .picto-flag-fr"
+    assert_select ".chrome-drawer .lang-opt .picto-flag-es"
+    assert_select ".chrome-drawer .lang-opt .picto-flag-pt"
+    assert_select ".chrome-drawer .lang-opt .picto-flag-en"
+    assert_select ".chrome-drawer .lang-opt .lang-name", text: "Español"
+    assert_select ".chrome-drawer .lang-opt .lang-name", text: "Português"
+    assert_select ".chrome-drawer .lang-opt .lang-name", text: "Français"
+    assert_select ".chrome-drawer .lang-opt .lang-name", text: "English"
 
     get nights_path
-    assert_select ".home-doors a", text: /Qui sommes-nous/
-    assert_select ".home-doors a", text: /Chercher/
+    assert_select ".home-doors a.btn.btn-gold", text: /Viens à l.église de Jésus-Christ/
+    assert_select ".home-doors a", text: /Qui sommes-nous/, count: 0
+    assert_select ".home-doors a", text: /Chercher/, count: 0
     assert_select "h2", text: /Prochainement/
   end
 

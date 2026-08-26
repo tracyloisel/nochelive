@@ -6,15 +6,19 @@ class HomeSmokeTest < ApplicationSystemTestCase
     assert_selector "#street_world"
     assert_no_selector ".home-paper"
     assert_no_selector ".story-ticks"
-    assert_selector "details.home-menu"
-    assert_selector ".home-menu-btn .picto-gear"
-    assert_selector ".chrome-tools .mute + .lang-switch"
+    assert_selector "nav.home-menu"
+    assert_selector ".home-menu-btn .picto-menu"
+    assert_selector ".chrome-face"
+    assert_no_selector ".chrome-tools"
 
     find(".home-menu-btn").click
-    assert_selector "details.home-menu[open] .home-menu-nav"
+    assert_selector "dialog.chrome-drawer[open] .home-menu-nav"
     assert_selector ".home-menu-row", text: I18n.t("street.history_menu")
-    assert_selector ".home-menu-kicker", text: /noche de hogar/i
-    find("details.home-menu").click_link I18n.t("home.nights")
+    assert_selector ".home-menu-row", text: I18n.t("street.menu_play")
+    assert_selector ".home-menu-kicker", text: /#{Regexp.escape(I18n.t("home.ward_menu"))}/i
+    assert_selector ".home-menu-kicker", text: /iglesia de jesucristo/i
+    assert_no_selector ".home-menu-kicker", text: /noche de hogar/i
+    click_link I18n.t("home.nights_menu")
     assert_current_path nights_path
     assert_selector "body.is-paper-hall"
     assert_selector ".home-paper"
@@ -29,9 +33,12 @@ class HomeSmokeTest < ApplicationSystemTestCase
     assert_no_selector ".btn-gold"
 
     visit root_path
-    find(".lang-switch > summary").click
+    find(".home-menu-btn").click
+    assert_selector "dialog.chrome-drawer[open]"
+    find(".chrome-drawer .lang-switch.is-drawer > summary").click
     click_button "Français"
     assert_selector "html[lang=fr]"
-    assert_selector ".lang-switch > summary .picto-flag-fr"
+    find(".home-menu-btn").click
+    assert_selector ".chrome-drawer .lang-opt.is-on .picto-flag-fr"
   end
 end

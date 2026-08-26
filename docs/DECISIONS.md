@@ -144,4 +144,17 @@ The hosted app is Rama Benidorm’s night, not a worldwide self-serve directory.
 Rejected:
 `Rails.env.production?` to hide unidades. Deleting `Wards::Create`. Inventing a mailbox.
 
+## ADR-015 — Public meetinghouse import, listed directory
+
+Decision:
+Live search asks the **public** Church Maps proxy (`locations/search` for the typed query; `locations/identify` for one nearby unit from the phone’s coordinates; then `locations?ids=WARD:…` on pick). Hits are not written on keystroke. On pick, `Wards::Ensure` upserts one listed row via `Wards::SyncDirectory`; that person is simply the first ficha. Empty search does **not** dump listed ramas. There is no country → estaca browse. Coordinates are not stored. The one-shot `noche:import_wards` script remains a fixture/ops tool, not the product path and never CI or boot. Self-serve `Wards::Create` stays **unlisted** (ADR-014). Rama Benidorm (`code: RAMA`) is merged, never duplicated; name, code, and demo token stay. First visit on `/` is a temple-hall arrival then live search — not a dump of every country or every live night. Empty leagues on a rama with no players are honest.
+
+This amends ADR-013’s “locator not available in this slice” and ADR-014’s “hosted app is not a worldwide directory”: the hosted mosaic **grows as families enter**. It does not amend: no member directory, no Maps embed, no dumping every live night on `/`. Device geolocation is only used to ask identify for **one** nearby congregación.
+
+Why:
+Families outside Benidorm cannot play a street league if the mosaic is one row. Downloading ~30k unidades is unnecessary when the locator already answers a city query or a point. The Maps JSON is public (name, chapel address, congregation type). Member households, photos, and Church Account SSO stay out.
+
+Rejected:
+Scraping Directory (login). Importing stakes as playable `Ward` rows. Hitting the locator at boot or in CI. Bulk world import as the join path. Autoplay SFX on first paint. Showing 150 countries under the empty search field. Dumping every listed rama as “suggestions”.
+
 

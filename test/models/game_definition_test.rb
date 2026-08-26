@@ -207,4 +207,14 @@ class GameDefinitionTest < ActiveSupport::TestCase
     assert_equal 41, crown.swing_points(night, behind)
     assert_equal 25, crown.swing_points(night, leader)
   end
+
+  test "timed rounds start outside the warn ratio" do
+    timed = GameDefinition.default.rounds.select { |round| round.duration.to_i.positive? }
+    assert timed.any?
+    assert_operator timed.map { |round| round.duration.to_i }.min, :>=, 20
+    timed.each do |round|
+      refute ApplicationController.helpers.play_timer_warn?(round.duration, round.duration), round.id
+      refute ApplicationController.helpers.play_timer_hot?(round.duration, round.duration), round.id
+    end
+  end
 end

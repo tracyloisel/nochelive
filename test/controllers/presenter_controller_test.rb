@@ -12,9 +12,16 @@ class PresenterControllersTest < ActionDispatch::IntegrationTest
 
     get presenter_gate_path(@night.code)
     assert_response :success
+    assert_select "body.is-paper-hall"
+    assert_select "#night_presenter_gate.hall-paper"
+    assert_select ".hall-sheet"
     assert_select "h1", text: /presentador/i
     assert_select "form[action=?]", presenter_claim_path(@night.code)
     assert_select "button", text: /Soy el presentador/
+    assert_select ".btn.btn-gold", count: 1
+    assert_select ".story-close", count: 0
+    assert_select ".play-reel", count: 0
+    assert_select ".gate", count: 0
     assert_select "#ward_token", count: 0
     assert_select "#token", count: 0
 

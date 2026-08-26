@@ -30,14 +30,14 @@ module Identity
     def current_ward
       return @current_ward if defined?(@current_ward)
 
-      ward_id = cookies.signed[:noche_ward]
+      ward_id = signed_cookie(:noche_ward)
       @current_ward = Ward.find_by(id: ward_id) if ward_id
     end
 
     def hosted_ward
       return @hosted_ward if defined?(@hosted_ward)
 
-      ward_id = cookies.signed[:noche_ward_host]
+      ward_id = signed_cookie(:noche_ward_host)
       @hosted_ward = Ward.find_by(id: ward_id) if ward_id
     end
 
@@ -49,7 +49,7 @@ module Identity
       return @current_street_person if defined?(@current_street_person)
 
       ward = current_ward
-      person_id = cookies.signed[:noche_street_person]
+      person_id = signed_cookie(:noche_street_person)
       return @current_street_person = nil unless ward && person_id
 
       person = ward.people.find_by(id: person_id)
@@ -127,12 +127,20 @@ module Identity
       }
     end
 
+    def touch_street_presence
+      person = current_street_person
+      return unless person
+
+      Presences::StreetHeartbeat.call(person:, device_token: device_token)
+    end
+
     def remember_presenter(night)
       cookies.signed[:noche_presenter] = { value: night.id, expires: 1.day, httponly: true, same_site: :lax }
     end
 
     def remember_ward(ward)
       cookies.signed[:noche_ward] = { value: ward.id, expires: 1.year, httponly: true, same_site: :lax }
+      @current_ward = ward
     end
 
     def remember_ward_host(ward)
@@ -167,6 +175,13 @@ module Identity
       else
         locale_path
       end
+    end
+
+    def signed_cookie(name)
+      cookies.signed[name]
+    rescue NoMethodError => error
+      raise unless error.message.include?("generate_key")
+      nil
     end
 
     def presenter_for?(night)

@@ -182,6 +182,14 @@ class ApplicationHelperTest < ActionView::TestCase
     assert_includes picto("crown"), "picto-crown"
     assert_includes picto("scroll"), "picto-scroll"
     assert_includes picto("arrow"), "picto-arrow"
+    menu = picto("menu")
+    assert_includes menu, "picto-menu"
+    assert_includes menu, "currentColor"
+    refute_includes menu, 'stroke="#1a2744"'
+    person = picto("person")
+    assert_includes person, "picto-person"
+    assert_includes person, "currentColor"
+    refute_includes person, 'fill="#d4a017"'
     assert_equal "circle", choice_mark(0)[:shape]
     assert_equal "gold", choice_mark(0)[:tone]
     assert_equal "star", choice_mark(3)[:shape]
@@ -277,6 +285,20 @@ class ApplicationHelperTest < ActionView::TestCase
     assert_equal "Empezar la noche", presenter_next_action(lobby, lobby.current_round_run)[:label]
   end
 
+  test "church stills resolve when the painting exists" do
+    assert_nil church_still_src("missing_door")
+    path = Rails.public_path.join("media/church/_spec.jpg")
+    FileUtils.mkdir_p(path.dirname)
+    File.write(path, "x")
+    assert_equal "/media/church/_spec.jpg", church_still_src("_spec")
+  ensure
+    FileUtils.rm_f(path) if path
+  end
+
+  test "about portrait is the circular tracy still" do
+    assert_equal "/media/about/tracy.png", about_portrait_src
+  end
+
   test "night poster and status captions" do
     assert_equal "/media/nights/reyes_y_profetas.jpg", night_poster_src(game_sessions(:david))
     assert_equal "/media/nights/reyes_y_profetas.jpg", night_poster_src("reyes_y_profetas")
@@ -302,6 +324,26 @@ class ApplicationHelperTest < ActionView::TestCase
     assert_not phone_quiz?(round_runs(:salomon), players(:lucia))
     assert phone_quiz_asking?(round_runs(:salomon), players(:daniel))
     assert_not phone_quiz_asking?(round_runs(:salomon), players(:lucia))
+  end
+
+  test "street praise is stable per run and question" do
+    digest = GameSession.digest_token("helper-praise")
+    frame = Quizzes::Draw.call(device_digest: digest)
+    run = frame.run
+    first = street_praise_line(run, frame.question)
+    assert_equal first, street_praise_line(run, frame.question)
+    assert_includes I18n.t("street.praises"), first
+
+    shouts = (1..QuizDefinition::QUESTIONS_PER_PACK).map do |position|
+      street_praise_line(run, run.pack.question_at(position))
+    end
+    assert_operator shouts.uniq.size, :>=, 2
+
+    I18n.with_locale(:fr) do
+      french = street_praise_line(run, frame.question)
+      assert_includes I18n.t("street.praises"), french
+      assert_not_equal first, french
+    end
   end
 
   test "street choices shuffle per run question" do
@@ -364,5 +406,54 @@ class ApplicationHelperTest < ActionView::TestCase
     assert_equal "royal_fanfare", done[:stage_sfx_value]
     assert_equal "level", done[:stage_fx_value]
     assert_nil done[:stage_bed_value]
+  end
+
+  test "ask timer zones follow remaining percent of duration" do
+    assert play_timer_warn?(4, 10)
+    assert play_timer_hot?(2, 10)
+    refute play_timer_warn?(5, 10)
+    refute play_timer_hot?(3, 10)
+
+    refute play_timer_warn?(15, 15)
+    refute play_timer_hot?(15, 15)
+    assert play_timer_warn?(6, 15)
+    refute play_timer_hot?(6, 15)
+    assert play_timer_hot?(3, 15)
+
+    refute play_timer_warn?(20, 20)
+    assert play_timer_warn?(8, 20)
+    assert play_timer_hot?(4, 20)
+
+    refute play_timer_warn?(1, 0)
+    refute play_timer_hot?(1, 0)
+    refute play_timer_warn?(0, 15)
+  end
+
+  test "street play keeps mute and language in the hamburger" do
+    content_for(:body_class, "is-kid is-street-play")
+    assert chrome_tools_in_drawer?
+    assert chrome_face?
+  end
+
+  test "live night play keeps mute beside the cream head" do
+    content_for(:body_class, "is-kid is-play")
+    assert_not chrome_tools_in_drawer?
+    assert_not chrome_face?
+  end
+
+  test "fresh 15s ask timer markup is not warn or low" do
+    digest = GameSession.digest_token("helper-timer-paint")
+    run = Quizzes::Draw.call(device_digest: digest).run
+    run.update!(position: 10, ends_at: 15.seconds.from_now)
+    render partial: "play/timer", locals: { round: run }
+    assert_includes rendered, "data-countdown-ask-value=\"true\""
+    assert_not_includes rendered, "is-warn"
+    assert_not_includes rendered, "is-low"
+  end
+
+  test "ward street is the chapel address when present" do
+    assert_equal "Avinguda Alfonso Puchades, 27", ward_street(wards(:demo))
+    assert_nil ward_street(wards(:blank))
+    assert_equal "Calle del Prado 1", ward_street(Wards::Search::Hit.new(chapel_address: "Calle del Prado 1"))
   end
 end

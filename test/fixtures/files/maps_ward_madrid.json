@@ -1,0 +1,26 @@
+[
+  {
+    "id": "999001",
+    "type": "WARD",
+    "name": "Madrid 1st Ward",
+    "nameDisplay": "Madrid 1st Ward",
+    "organizationType": { "code": "WARD" },
+    "address": {
+      "street1": "Calle del Prado 1",
+      "city": "MADRID",
+      "postalCode": "28014",
+      "country": "Spain",
+      "countryCode2": "ES"
+    },
+    "coordinates": [-3.7038, 40.4168],
+    "parent": {
+      "type": "STAKE",
+      "name": "Madrid Spain Stake",
+      "nameDisplay": "Madrid Spain Stake"
+    },
+    "facility": {
+      "name": "Madrid Chapel"
+    },
+    "identifiers": { "unitNumber": 999001 }
+  }
+]

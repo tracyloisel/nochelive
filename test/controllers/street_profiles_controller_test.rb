@@ -14,6 +14,10 @@ class StreetProfilesControllerTest < ActionDispatch::IntegrationTest
     assert_select ".street-hub-lockup-name", text: "Noche Live"
     assert_select ".street-hub-kicker", text: I18n.t("street.profile_title")
     assert_select "h1", text: I18n.t("street.create_title")
+    assert_select "p.lede", text: I18n.t("street.create_lede")
+    assert_select "label", text: I18n.t("street.create_who")
+    assert_select "legend", text: I18n.t("street.create_animal")
+    assert_select ".profile-gate-new"
     assert_select ".gate", count: 0
     assert_select ".story-ticks", count: 0
     assert_select ".play-reel", count: 0
@@ -34,6 +38,8 @@ class StreetProfilesControllerTest < ActionDispatch::IntegrationTest
       assert_select "button.btn-gold", text: I18n.t("join.yes_name", name: pili.given_name)
     end
     assert_select "a.btn-ghost", text: I18n.t("join.not_me")
+    assert_select "a.quiet-link", text: I18n.t("street.change_ward_short")
+    assert_select ".street-quien-ward", text: /#{Regexp.escape(I18n.t("street.ward_here", name: wards(:demo).city))}/
     assert_select ".gate", count: 0
     assert_select ".picto-btn", count: 0
   end
@@ -62,6 +68,9 @@ class StreetProfilesControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to root_path
     follow_redirect!
     assert_select ".street-card-name", text: "Nuevo"
+    assert_select ".toast-slot .banner[data-controller=banner]",
+          text: I18n.t("flashes.street_signed_in", name: "Nuevo")
+    assert_select ".banner-mark .picto-star8"
   end
 
   test "guest clears the street profile and closes the gate" do
@@ -94,17 +103,27 @@ class StreetProfilesControllerTest < ActionDispatch::IntegrationTest
     assert_select "#profile_gate", count: 0
   end
 
-  test "show lists device people on the marble sheet" do
+  test "show lists other device people after not me" do
     pili = people(:pili)
+    carmen = people(:carmen_garcia)
     post street_profile_path, params: { person_id: pili.id, favorite_year: pili.favorite_year }
     follow_redirect!
     token = PersonDevice.where(person: pili).order(:id).last.device_token
-    PersonDevice.create!(person: people(:carmen_garcia), device_token: token, last_seen_at: Time.current)
+    PersonDevice.create!(person: carmen, device_token: token, last_seen_at: Time.current)
 
     get street_profile_path
     assert_response :success
+    assert_select "h1", text: I18n.t("join.welcome_title")
+    assert_select "a.btn-ghost", text: I18n.t("join.not_me")
+    assert_select ".street-quien-sheet .join-form", count: 0
+
+    get street_profile_path, params: { not_me: 1 }
+    assert_response :success
     assert_select "h1", text: I18n.t("join.device_title")
-    assert_select "#street_quien .street-quien-sheet .person-list .person-pick", count: 2
+    assert_select "#street_quien .street-quien-sheet .person-list .person-pick", count: 1
+    assert_select ".person-list strong", text: carmen.given_name
+    assert_select "a.btn-ghost", text: I18n.t("join.none_of_these")
+    assert_select ".street-quien-sheet .join-form", count: 0
     assert_select ".gate", count: 0
   end
 

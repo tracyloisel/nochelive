@@ -18,6 +18,19 @@ ward.assign_attributes(
 )
 ward.save!
 
+valencia = Ward.find_or_initialize_by(code: "VALX")
+valencia.assign_attributes(
+  name: "Rama Valencia",
+  emblem: "ola",
+  chapel_name: "Capilla de Valencia",
+  city: "Valencia",
+  region: "Valencia",
+  country_code: "ES",
+  listed: true,
+  presenter_token_digest: GameSession.digest_token("valx-demo")
+)
+valencia.save!
+
 leones_season = ward.ward_teams.find_or_create_by!(name: "Leones de Judá") { |row| row.emblem = "leon" }
 casa_season = ward.ward_teams.find_or_create_by!(name: "Casa de David") { |row| row.emblem = "ola" }
 
@@ -88,6 +101,7 @@ host = ENV.fetch("APP_HOST", "http://localhost:3000")
 puts <<~MSG
 
   Rama Benidorm lista. Código rama: RAMA
+  Rama Valencia lista. Código rama: VALX
   Capilla: Avinguda Alfonso Puchades, 27, 03502 Benidorm
   Secreto rama: #{WARD_TOKEN}
   Noche: #{DEMO_CODE}

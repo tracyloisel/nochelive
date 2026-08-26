@@ -1,11 +1,6 @@
 <% content_for :title, "Noche Live" %>
 <% content_for :body_class, "is-kid is-street-hub" %>
 <%= chrome_menu { site_menu } %>
-<%= link_to street_leaderboard_path,
-      class: "street-hub-tool street-hub-tool-trophy quiet-link",
-      aria: { label: t("street.nav_ranking") } do %>
-  <%= picto("trophy") %>
-<% end %>
 
 <section id="street_world"
          class="street-world<%= " is-profile-gate" if @profile_gate %>"
@@ -21,6 +16,8 @@
   <%= render "street_hub/profile_wizard",
         profile_gate: @profile_gate,
         gate_ward: @gate_ward,
+        gate_screen: @gate_screen,
+        gate_person: @gate_person,
         gate_people: @gate_people,
         featured_ward: @featured_ward %>
 
@@ -34,12 +31,6 @@
         <span class="street-hub-lockup-star" aria-hidden="true"><%= picto("star8") %></span>
         <p class="street-hub-lockup-name">Noche Live</p>
       </div>
-      <p class="street-hub-lockup-tag"><%= t("street.hub_brand_sub") %></p>
-      <p class="street-temple-pill street-temple-hub-title">
-        <span class="street-hub-rule" aria-hidden="true"></span>
-        <span class="street-hub-kicker"><%= t("street.world_hub_pill") %></span>
-        <span class="street-hub-rule" aria-hidden="true"></span>
-      </p>
     </div>
   </header>
 
@@ -75,6 +66,5 @@
         <% end %>
       <% end %>
     </div>
-    <%= render "street_hub/hub_nav", active: :hub %>
   </footer>
 </section>

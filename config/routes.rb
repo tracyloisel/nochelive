@@ -17,13 +17,22 @@ Rails.application.routes.draw do
   post "quien", to: "street_profiles#create"
   post "rama", to: "street_ward_picks#create", as: :street_ward_pick
   get "camino", to: redirect("/#historial")
-  get "home", to: "home#index", as: :legacy_home
+  get "home", to: redirect("/"), as: :legacy_home
   get "camino/historial", to: "street_histories#show", as: :street_history
   get "liga", to: "street_leaderboards#show", as: :street_leaderboard
+  post "presence", to: "street_presences#create", as: :street_presence
   post "join", to: "joins#create"
   patch "locale", to: "locales#update"
   get "nosotros", to: "ward_adds#show", as: :about
+  get "iglesia", to: "pages#church", as: :church
+  get "iglesia/misioneros", to: "pages#church_meet", as: :church_meet
+  get "iglesia/creencias", to: "pages#church_beliefs", as: :church_beliefs
+  get "iglesia/mision", to: "pages#church_missionaries", as: :church_missionaries
+  get "iglesia/adorar", to: "pages#church_worship", as: :church_worship
+  get "legal", to: "pages#legal", as: :legal
+  get "privacidad", to: "pages#privacy", as: :privacy
   get "buscar", to: "searches#show", as: :search
+  get "escrituras/*study", to: "scriptures#show", as: :scripture, format: false
   resources :wards, only: [ :new, :create ]
   get "ramas/anadir", to: "ward_adds#show", as: :add_ward
   get "ramas/entrar", to: "ward_gates#show", as: :ward_gate

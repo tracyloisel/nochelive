@@ -47,7 +47,7 @@ Already wired on `<body data-controller="stage press motion">`. First pointerdow
 | Stinger | `round_open`, `reveal`, `royal_fanfare`, … — exclusive among themselves, 240ms crossfade | `0.80` |
 | Bed | `data-stage-bed-value` on `#night_play`, `#night_watch`, `#night_presenter`, `#street_quiz` | `0.32` loop, fade in/out, duck under hits (`0.20`) and stingers (`0.10`) |
 | Tick files | Unlock gate + catalog only | `tick` / `tick_low` MP3s stay for HTML unlock. **Do not play them on the countdown.** |
-| Halo | `data-stage-timer-end-value` on `#street_quiz`, `#night_play`, `#night_watch` | Inset pulse: orange 20–10s (`is-timer-warn`), red last 10s (`is-timer-hot`). One beat per remaining second. Presenter desk and claim timer: no halo. |
+| Halo | `data-stage-timer-end-value` + `data-stage-timer-duration-value` on `#street_quiz`, `#night_play`, `#night_watch` | Inset pulse: orange when remaining ≤ 40% of the question (`is-timer-warn`), red when remaining ≤ 20% (`is-timer-hot`). Integer remaining seconds (a 10s ask is orange at ≤4s, red at ≤2s). One beat per remaining second. Presenter desk and claim timer: no halo. Never warn/hot on first paint or if duration is unknown. |
 
 `countdown_controller.js` is the numeral/bar. The adrenaline cue is the halo, not `tick` / `tick_low`. The presenter-claim timer must not tick and must not halo. Bed follows round `timed?` + `ends_at` on the three stage roots **and** `#street_quiz`, not the `.play-timer` DOM (the TV has no bar). Street quiz has **one** trigger: `data-stage-*` on `#street_quiz`. Do not also `quiz_controller#cue()` on the street (keep cue for the Friday play reel). There is no Cable pulse on the street.
 

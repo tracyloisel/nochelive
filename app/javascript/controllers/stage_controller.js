@@ -27,6 +27,8 @@ const HIT_GAIN = 0.78
 const STING_GAIN = 0.80
 const CUT_MS = 240
 const RETRIGGER_MS = 260
+const TIMER_WARN_RATIO = 0.4
+const TIMER_HOT_RATIO = 0.2
 const BED_IN_MS = 160
 const BED_OUT_MS = 380
 const BED_DUCK_MS = 110
@@ -55,6 +57,7 @@ const store = window.NocheLiveAudio = window.NocheLiveAudio || {
   lastSfx: null,
   lastToken: null,
   timerEnd: null,
+  timerDuration: null,
   lastRemain: null,
   lastHaloRemain: null,
   timerFrame: null,
@@ -88,6 +91,7 @@ store.hitCount = store.hitCount || 0
 store.stingCount = store.stingCount || 0
 store.voiceSeq = store.voiceSeq || 0
 store.lastCueAt = store.lastCueAt || 0
+store.timerDuration = store.timerDuration || 0
 
 function catalog() {
   return window.NocheSfx || {}
@@ -652,6 +656,7 @@ function releaseAsk() {
   stopStinger()
   stopBed()
   store.timerEnd = null
+  store.timerDuration = null
   store.lastRemain = null
   store.lastHaloRemain = null
   if (store.timerFrame) cancelAnimationFrame(store.timerFrame)
@@ -694,6 +699,7 @@ function syncTimer(node) {
   const duration = Number(node?.dataset.stageTimerDurationValue || node?.getAttribute?.("data-stage-timer-duration-value") || 0)
   const parsed = raw ? Date.parse(raw) : NaN
   const nextEnd = Number.isFinite(parsed) && duration > 0 ? parsed : null
+  store.timerDuration = nextEnd ? duration : 0
   if (nextEnd === store.timerEnd) {
     if (store.timerEnd && !store.timerFrame) timerTick()
     return
@@ -735,13 +741,16 @@ function clearHalo() {
 function syncHalo(remain, remainMs) {
   const root = haloRoot()
   if (!root) return
-  if (!remainMs || remain <= 0 || remain > 20) {
+  const duration = Number(store.timerDuration) || 0
+  const warnAt = duration * TIMER_WARN_RATIO
+  const hotAt = duration * TIMER_HOT_RATIO
+  if (!remainMs || remain <= 0 || !(duration > 0) || remain > warnAt) {
     root.classList.remove("is-timer-warn", "is-timer-hot", "is-timer-pulse")
     store.lastHaloRemain = null
     return
   }
   ensureHalo(root)
-  const hot = remain <= 10
+  const hot = remain <= hotAt
   root.classList.toggle("is-timer-warn", !hot)
   root.classList.toggle("is-timer-hot", hot)
   if (store.lastHaloRemain === remain) return
@@ -890,8 +899,8 @@ export default class extends Controller {
     this.muteTarget.setAttribute("aria-pressed", store.muted ? "true" : "false")
     this.muteTarget.classList.toggle("is-muted", store.muted)
     const word = this.muteTarget.querySelector(".word")
-    const on = this.muteTarget.dataset.soundOn || "Sonido"
-    const off = this.muteTarget.dataset.soundOff || "Sonido off"
+    const on = this.muteTarget.dataset.soundOn || "Activado"
+    const off = this.muteTarget.dataset.soundOff || "Desactivado"
     if (word) word.textContent = store.muted ? off : on
     this.muteTarget.setAttribute("aria-label", store.muted ? off : on)
   }

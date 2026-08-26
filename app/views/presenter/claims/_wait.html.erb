@@ -1,43 +1,29 @@
-<% shot = capture do %>
-  <%= render "shared/still", src: night_still_src(night), poster: true %>
-<% end %>
-<% chrome = capture do %>
-  <%= render "shared/reel_chrome", night: night, title: "#{night.code} · #{t("presenter.table")}", close: true %>
-<% end %>
-<% case claim.status %>
-<% when "granted" %>
-  <%= story_reel shot: shot, chrome: chrome, snap: "mid", handle: false, reel_class: "is-join" do %>
-    <section id="claim_wait" data-controller="visit" data-visit-url-value="<%= presenter_console_path(night.code) %>">
+<% content_for :title, t("presenter.table") %>
+<% content_for :body_class, "is-kid is-paper-hall" %>
+<%= chrome_menu { site_menu } %>
+
+<%= paper_hall id: "claim_wait", kicker: t("presenter.table") do %>
+  <% case claim.status %>
+  <% when "granted" %>
+    <section data-controller="visit" data-visit-url-value="<%= presenter_console_path(night.code) %>">
       <%= render "shared/wait", message: t("presenter.yours") %>
     </section>
-  <% end %>
-<% when "blocked" %>
-  <%= story_reel shot: shot, chrome: chrome, snap: "mid", handle: false, reel_class: "is-join" do %>
-    <section id="claim_wait">
-      <%= render "shared/wait", message: t("presenter.blocked") %>
-      <%= link_to t("presenter.back"), presenter_gate_path(night.code), class: "btn btn-ghost" %>
-    </section>
-  <% end %>
-<% when "refused" %>
-  <%= story_reel shot: shot, chrome: chrome, snap: "mid", handle: false, reel_class: "is-join" do %>
-    <section id="claim_wait">
-      <%= render "shared/wait", message: t("presenter.still_holder") %>
-      <%= link_to t("presenter.ask_again"), presenter_gate_path(night.code), class: "btn btn-navy" %>
-    </section>
-  <% end %>
-<% else %>
-  <%= story_reel shot: shot, chrome: chrome, snap: "mid", handle: false, reel_class: "is-join" do %>
-    <section id="claim_wait">
-      <%= render "shared/wait", message: t("presenter.waiting") %>
-      <p class="lede"><%= t("presenter.wait_minute") %></p>
-      <div class="play-timer"
-           data-controller="countdown"
-           data-countdown-end-value="<%= claim.expires_at.iso8601 %>"
-           data-countdown-duration-value="<%= PresenterClaim::TIMEOUT %>"
-           data-countdown-reload-url-value="<%= presenter_claim_path(night.code) %>">
-        <div class="play-timer-track"><span class="play-timer-bar" data-countdown-target="bar"></span></div>
-        <p class="play-timer-count" data-countdown-target="label"><%= PresenterClaim::TIMEOUT %></p>
-      </div>
-    </section>
+  <% when "blocked" %>
+    <%= render "shared/wait", message: t("presenter.blocked") %>
+    <%= link_to t("presenter.back"), presenter_gate_path(night.code), class: "btn btn-ghost" %>
+  <% when "refused" %>
+    <%= render "shared/wait", message: t("presenter.still_holder") %>
+    <%= link_to t("presenter.ask_again"), presenter_gate_path(night.code), class: "btn btn-navy" %>
+  <% else %>
+    <%= render "shared/wait", message: t("presenter.waiting") %>
+    <p class="lede"><%= t("presenter.wait_minute") %></p>
+    <div class="play-timer"
+         data-controller="countdown"
+         data-countdown-end-value="<%= claim.expires_at.iso8601 %>"
+         data-countdown-duration-value="<%= PresenterClaim::TIMEOUT %>"
+         data-countdown-reload-url-value="<%= presenter_claim_path(night.code) %>">
+      <div class="play-timer-track"><span class="play-timer-bar" data-countdown-target="bar"></span></div>
+      <p class="play-timer-count" data-countdown-target="label"><%= PresenterClaim::TIMEOUT %></p>
+    </div>
   <% end %>
 <% end %>

@@ -12,7 +12,7 @@
   <input type="hidden" name="person_id" value="<%= person.id %>">
   <input type="hidden" name="location" value="<%= @location.presence || "room" %>">
   <%= render "shared/year_field", value: @favorite_year, required: true %>
-  <button type="submit" class="btn btn-gold picto-btn"><%= picto("check") %><%= t("home.enter") %></button>
+  <button type="submit" class="btn btn-gold"><%= picto("check") %><%= t("home.enter") %></button>
 <% end %>
 
 <%= link_to night_name_path(night.code, fresh: 1), class: "btn btn-ghost" do %>

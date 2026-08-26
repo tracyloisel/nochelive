@@ -11,10 +11,8 @@ module Nights
     end
 
     def call
-      ApplicationRecord.transaction do
-        ApplicationRecord.connection.disable_referential_integrity do
-          WIPE.each(&:delete_all)
-        end
+      ApplicationRecord.connection.disable_referential_integrity do
+        WIPE.each(&:delete_all)
       end
 
       load Rails.root.join("db/seeds.rb")

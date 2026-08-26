@@ -16,11 +16,60 @@ class StreetPlaysControllerTest < ActionDispatch::IntegrationTest
     assert_select ".street-quiz-head"
     assert_select ".street-quiz-lockup-name", text: "Noche Live"
     assert_select ".street-quiz-apex"
+    assert_select ".street-quiz-card"
     assert_select ".street-score"
     assert_select ".street-shot-rival"
     assert_select ".street-level-rail"
     assert_select ".street-back-map", count: 0
     assert_select ".street-map", count: 0
     assert_select "a.home-menu-row[href=?]", root_path, text: I18n.t("street.ceremony_back_map")
+    assert_select "a.home-menu-row[href=?]", jugar_path, text: I18n.t("street.menu_play")
+    assert_select ".home-menu.is-split .chrome-face"
+    assert_select ".chrome-drawer .mute"
+    assert_select ".chrome-drawer .lang-switch.is-drawer"
+    assert_select ".chrome-tools", count: 0
+  end
+
+  test "short timed ask does not start warn or hot" do
+    freeze_time
+    sign_in_congregation
+    post street_profile_path, params: { guest: 1 }
+    follow_redirect!
+    start_street_play!("coronas")
+    run = QuizRun.order(:id).last
+
+    run.update!(position: 10, ends_at: 15.seconds.from_now)
+    get jugar_path
+    assert_select ".play-timer"
+    assert_select ".play-timer.is-warn", count: 0
+    assert_select ".play-timer.is-low", count: 0
+    assert_select "#street_quiz[data-stage-timer-duration-value=?]", "15"
+
+    travel 9.seconds
+    get jugar_path
+    assert_select ".play-timer.is-warn"
+    assert_select ".play-timer.is-low", count: 0
+
+    travel 3.seconds
+    get jugar_path
+    assert_select ".play-timer.is-low"
+  end
+
+  test "twenty-second street ask turns warn at eight seconds" do
+    freeze_time
+    sign_in_congregation
+    post street_profile_path, params: { guest: 1 }
+    follow_redirect!
+    start_street_play!("coronas")
+    run = QuizRun.order(:id).last
+    run.update!(position: 4, ends_at: 20.seconds.from_now)
+    get jugar_path
+    assert_select ".play-timer.is-warn", count: 0
+    assert_select ".play-timer.is-low", count: 0
+    assert_select "#street_quiz[data-stage-timer-duration-value=?]", "20"
+
+    travel 12.seconds
+    get jugar_path
+    assert_select ".play-timer.is-warn"
   end
 end

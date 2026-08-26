@@ -18,4 +18,11 @@ class WardTest < ActiveSupport::TestCase
     assert_match(/Alfonso/, ward.maps_url)
     assert_match(/Benidorm/, ward.maps_url)
   end
+
+  test "accepts any ISO country and a long official name" do
+    ward = extra_ward(9, listed: true, country_code: "JP", country_name: "Japan", name: "T" * Ward::NAME_MAX)
+    assert_equal "JP", ward.country_code
+    assert_equal Ward::NAME_MAX, ward.name.length
+    assert_match(/\A[A-Z0-9]{5}\z/, Ward.generate_import_code)
+  end
 end

@@ -4,8 +4,8 @@ module Quizzes
     LIMIT_STRIP = 3
     LIMIT_PAGE = 25
 
-    Row = Struct.new(:rank, :person, :score, :you, :context, keyword_init: true)
-    Board = Struct.new(:rows, :your_rank, :your_score, :pack_id, :players, :page, :pages, keyword_init: true)
+    Row = Struct.new(:rank, :person, :score, :answered, :you, :context, :live, keyword_init: true)
+    Board = Struct.new(:rows, :your_rank, :your_score, :your_answered, :your_live, :your_page, :pack_id, :players, :page, :pages, keyword_init: true)
 
     def self.call(ward:, pack_id: nil, person: nil, limit: LIMIT_MINI, offset: 0, q: nil, include_you: false)
       new(ward:, pack_id:, person:, limit:, offset:, q:, include_you:).call
@@ -36,15 +36,24 @@ module Quizzes
       end
       person_ids = (slice.map(&:first) + context_slice.map(&:first)).uniq
       people_by_id = load_people(person_ids)
-      rows = build_rows(slice, people_by_id, offset: @offset)
-      rows.concat(build_context_rows(context_slice, people_by_id, your_rank:))
+      count_ids = @person ? (person_ids + [ @person.id ]).uniq : person_ids
+      answered_by_id = answer_counts(count_ids)
+      live_ids = live_person_ids(count_ids)
+      rows = build_rows(slice, people_by_id, answered_by_id, live_ids, offset: @offset)
+      rows.concat(build_context_rows(context_slice, people_by_id, answered_by_id, live_ids, your_rank:))
       page = page_number
       pages = page_count(players)
+      your_page = page_for_rank(your_rank)
+      your_answered = @person ? answered_by_id[@person.id].to_i : nil
+      your_live = @person ? live_ids.include?(@person.id) : false
 
       Board.new(
         rows:,
         your_rank:,
         your_score:,
+        your_answered:,
+        your_live:,
+        your_page:,
         pack_id: @pack_id,
         players:,
         page:,
@@ -72,7 +81,7 @@ module Quizzes
         @ward.people.where("given_name_key LIKE :key OR family_name_key LIKE :key", key: "#{key}%").pluck(:id)
       end
 
-      def build_rows(slice, people_by_id, offset:)
+      def build_rows(slice, people_by_id, answered_by_id, live_ids, offset:)
         slice.each_with_index.filter_map do |(person_id, score), index|
           row_person = people_by_id[person_id]
           next unless row_person
@@ -81,13 +90,15 @@ module Quizzes
             rank: offset + index + 1,
             person: row_person,
             score:,
+            answered: answered_by_id[person_id].to_i,
             you: @person&.id == person_id,
-            context: false
+            context: false,
+            live: live_ids.include?(person_id)
           )
         end
       end
 
-      def build_context_rows(context_slice, people_by_id, your_rank:)
+      def build_context_rows(context_slice, people_by_id, answered_by_id, live_ids, your_rank:)
         context_slice.filter_map do |(person_id, score)|
           row_person = people_by_id[person_id]
           next unless row_person
@@ -96,10 +107,29 @@ module Quizzes
             rank: your_rank,
             person: row_person,
             score:,
+            answered: answered_by_id[person_id].to_i,
             you: true,
-            context: true
+            context: true,
+            live: live_ids.include?(person_id)
           )
         end
+      end
+
+      def live_person_ids(person_ids)
+        return Set.new if person_ids.empty?
+
+        street = PersonDevice.where(person_id: person_ids).live.distinct.pluck(:person_id)
+        night = Player.where(person_id: person_ids).live.distinct.pluck(:person_id)
+        Set.new(street + night)
+      end
+
+      def answer_counts(person_ids)
+        return {} if person_ids.empty?
+
+        QuizAnswer.joins(:quiz_run)
+          .where(quiz_runs: { person_id: person_ids })
+          .group("quiz_runs.person_id")
+          .count
       end
 
       def load_people(person_ids)
@@ -112,6 +142,12 @@ module Quizzes
         return 1 unless @limit.positive?
 
         (@offset / @limit) + 1
+      end
+
+      def page_for_rank(rank)
+        return nil unless rank && @limit.positive?
+
+        ((rank - 1) / @limit) + 1
       end
 
       def page_count(players)

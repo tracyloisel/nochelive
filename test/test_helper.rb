@@ -57,15 +57,32 @@ module ActiveSupport
       night.teams.create!(name: name, emblem: emblem)
     end
 
-    def extra_ward(i, listed: false)
-      Ward.create!(
+    def extra_ward(i, listed: false, **attrs)
+      Ward.create!({
         name: "Rama Extra #{i}",
         code: format("XT%02d", i),
         emblem: "paloma",
         city: "Valencia",
+        country_code: "ES",
+        country_name: "Spain",
+        stake_name: "Valencia Spain Stake",
         listed: listed,
         presenter_token_digest: GameSession.digest_token("xt#{i}")
-      )
+      }.merge(attrs))
+    end
+
+    setup do
+      Wards::QueryLocator.transport = nil
+      Wards::QueryLocator.forced_hits = nil
+      Wards::QueryLocator.forced_details = nil
+      Wards::QueryLocator.forced_near = nil
+    end
+
+    teardown do
+      Wards::QueryLocator.transport = nil
+      Wards::QueryLocator.forced_hits = nil
+      Wards::QueryLocator.forced_details = nil
+      Wards::QueryLocator.forced_near = nil
     end
 
     def peel_to_salsa(round)

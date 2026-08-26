@@ -2,10 +2,11 @@
   <% duration = round.definition.duration.to_i %>
   <% left = round.seconds_left %>
   <% expire_url = local_assigns[:expire_url] %>
-  <div class="play-timer <%= "is-warn" if left > 10 && left <= 20 %> <%= "is-low" if left.positive? && left <= 10 %> <%= "is-empty" if left <= 0 %>"
+  <div class="play-timer <%= "is-warn" if play_timer_warn?(left, duration) %> <%= "is-low" if play_timer_hot?(left, duration) %> <%= "is-empty" if left <= 0 %>"
        data-controller="countdown"
        data-countdown-end-value="<%= round.ends_at.iso8601 %>"
        data-countdown-duration-value="<%= duration %>"
+       data-countdown-ask-value="true"
        data-countdown-expire-url-value="<%= expire_url %>"
        role="timer"
        aria-label="<%= t("chrome.timer", count: left) %>">

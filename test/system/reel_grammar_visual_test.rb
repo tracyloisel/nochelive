@@ -3,27 +3,27 @@ require "application_system_test_case"
 class ReelGrammarVisualTest < ApplicationSystemTestCase
   SHOT_DIR = Rails.root.join("tmp/reel-shots")
 
-  test "home join pick lobby rank-up ceremony and watch are reels" do
+  test "hub join pick lobby rank-up ceremony and watch" do
     page.current_window.resize_to(390, 844)
 
     visit root_path
-    assert_selector "#street_quiz.play-reel.is-quiz.is-street"
-    assert_no_selector ".home-paper"
+    assert_selector "#street_world.street-world"
+    assert_no_selector "#street_quiz"
     assert_no_selector ".play-reel.is-home"
-    assert_text QuizDefinition.catalog.find_pack("coronas").copy(:title)
     assert_selector ".home-menu"
     assert_no_selector ".place-input"
     assert_no_selector ".story-ticks"
     shot("01-home")
 
     visit night_name_path(game_sessions(:david).code)
-    assert_selector ".play-reel.is-join"
-    assert_selector ".play-shot .challenge-story"
-    assert_selector ".play-sheet[data-sheet-snap=mid]"
+    assert_selector "body.is-paper-hall"
+    assert_selector "#night_join.hall-paper"
+    assert_selector ".hall-sheet"
+    assert_no_selector ".play-reel.is-join"
     assert_text "¿Cómo te llaman?"
     assert_no_selector ".story-close"
     assert_no_selector ".story-ticks"
-    assert_still_peeks
+    assert_no_selector ".picto-btn"
     shot("02-join")
 
     fill_in "¿Cómo te llaman en la rama?", with: "Pili"
@@ -35,6 +35,7 @@ class ReelGrammarVisualTest < ApplicationSystemTestCase
     assert_selector ".play-reel.is-pick"
     assert_selector ".play-shot .challenge-story"
     assert_selector ".play-chrome > .team-bar", count: 0
+    assert_no_selector ".picto-btn"
     shot("03-pick-team")
 
     visit night_name_path(game_sessions(:elias).code)
@@ -47,6 +48,7 @@ class ReelGrammarVisualTest < ApplicationSystemTestCase
     assert_selector ".night-quiz-head"
     assert_no_selector ".story-ticks"
     assert_no_selector ".wait-dots"
+    assert_no_selector ".street-quiz-lockup-tag"
     assert_selector ".play-shot .challenge-story"
     shot("04-lobby")
 
@@ -61,6 +63,7 @@ class ReelGrammarVisualTest < ApplicationSystemTestCase
     assert_button "Seguir la noche"
     assert_selector ".play-reel.is-rank"
     assert_selector ".play-shot .challenge-story"
+    assert_no_selector ".picto-btn"
     shot("05-rank-up")
 
     visit night_name_path(game_sessions(:cerrada).code)
@@ -109,17 +112,6 @@ class ReelGrammarVisualTest < ApplicationSystemTestCase
     assert_selector ".console.is-ceremony-immersive"
     assert_selector ".desk-sheet .ceremony-temple"
     shot("10-presenter-ceremony")
-  end
-
-  def assert_still_peeks
-    peek = page.evaluate_script(<<~JS)
-      (function() {
-        var sheet = document.querySelector(".play-sheet");
-        if (!sheet) return 0;
-        return sheet.getBoundingClientRect().top / window.innerHeight;
-      })()
-    JS
-    assert_operator peek, :>=, 0.42
   end
 
   def shot(name)

@@ -116,6 +116,9 @@ class Quizzes::LeaderboardTest < ActiveSupport::TestCase
     assert_equal 5, second_page.rows.size
     assert_equal 2, second_page.page
     assert_equal 6, second_page.rows.first.rank
+    assert_equal 9, first_page.your_rank
+    assert_equal 2, first_page.your_page
+    assert_equal 2, second_page.your_page
   end
 
   test "include_you adds context row when player is outside the top slice" do
@@ -171,4 +174,139 @@ class Quizzes::LeaderboardTest < ActiveSupport::TestCase
     assert_equal 2, board.rows.size
     assert_equal [ "Andrés", "Ana" ], board.rows.map { |row| row.person.given_name }
   end
+
+  test "marks a person live from a recent device heartbeat" do
+    QuizRun.create!(
+      device_digest: "live-a",
+      person: @pili,
+      pack_id: "placas",
+      position: 10,
+      score: 50,
+      status: "finished",
+      opened_at: Time.current
+    )
+    QuizRun.create!(
+      device_digest: "live-b",
+      person: @carmen,
+      pack_id: "placas",
+      position: 10,
+      score: 80,
+      status: "finished",
+      opened_at: Time.current
+    )
+    PersonDevice.create!(person: @carmen, device_token: "live-carmen", last_seen_at: Time.current)
+    PersonDevice.create!(person: @pili, device_token: "stale-pili", last_seen_at: 2.minutes.ago)
+
+    board = Quizzes::Leaderboard.call(ward: @ward, pack_id: "placas", person: @pili, limit: 5)
+
+    assert board.rows.first.live
+    assert_not board.rows.second.live
+    assert_not board.your_live
+  end
+
+  test "counts lifetime answers across packs, open runs, and a pack filter" do
+    placas = QuizRun.create!(
+      device_digest: "ans-placas",
+      person: @pili,
+      pack_id: "placas",
+      position: 10,
+      score: 40,
+      status: "finished",
+      opened_at: Time.current
+    )
+    milagros = QuizRun.create!(
+      device_digest: "ans-milagros",
+      person: @pili,
+      pack_id: "milagros",
+      position: 10,
+      score: 20,
+      status: "finished",
+      opened_at: Time.current
+    )
+    open_run = QuizRun.create!(
+      device_digest: "ans-open",
+      person: @pili,
+      pack_id: "coronas",
+      position: 2,
+      score: 0,
+      status: "open",
+      opened_at: Time.current
+    )
+    carmen_run = QuizRun.create!(
+      device_digest: "ans-carmen",
+      person: @carmen,
+      pack_id: "placas",
+      position: 10,
+      score: 90,
+      status: "finished",
+      opened_at: Time.current
+    )
+    record_answers(placas, 3)
+    record_answers(milagros, 2)
+    record_answers(open_run, 1, choice_key: nil)
+    record_answers(carmen_run, 4)
+
+    board = Quizzes::Leaderboard.call(ward: @ward, person: @pili, limit: 5)
+    pack_board = Quizzes::Leaderboard.call(ward: @ward, pack_id: "placas", person: @pili, limit: 5)
+
+    pili_row = board.rows.find { |row| row.person == @pili }
+    carmen_row = board.rows.find { |row| row.person == @carmen }
+    assert_equal 6, pili_row.answered
+    assert_equal 4, carmen_row.answered
+    assert_equal 6, board.your_answered
+    assert_equal 6, pack_board.rows.find { |row| row.person == @pili }.answered
+    assert_equal 6, pack_board.your_answered
+  end
+
+  test "your_answered is present when the player sits off the page" do
+    people = Array.new(6) do |index|
+      @ward.people.create!(
+        given_name: "Fila#{index}",
+        avatar_key: Player::AVATARS[index % Player::AVATARS.size],
+        favorite_year: 2001 + index
+      )
+    end
+    people.each_with_index do |person, index|
+      QuizRun.create!(
+        device_digest: "off-#{index}",
+        person:,
+        pack_id: "placas",
+        position: 10,
+        score: 80 - index,
+        status: "finished",
+        opened_at: Time.current
+      )
+    end
+    pili_run = QuizRun.create!(
+      device_digest: "off-pili",
+      person: @pili,
+      pack_id: "placas",
+      position: 10,
+      score: 1,
+      status: "finished",
+      opened_at: Time.current
+    )
+    record_answers(pili_run, 7)
+
+    board = Quizzes::Leaderboard.call(ward: @ward, person: @pili, limit: 3)
+
+    assert_nil(board.rows.find { |row| row.you })
+    assert_equal 7, board.your_answered
+    assert_equal 7, board.your_rank
+  end
+
+  private
+
+    def record_answers(run, count, choice_key: "a")
+      count.times do |index|
+        QuizAnswer.create!(
+          quiz_run: run,
+          device_digest: run.device_digest,
+          pack_id: run.pack_id,
+          question_id: "q-#{run.id}-#{index}",
+          choice_key:,
+          correct: choice_key.present?
+        )
+      end
+    end
 end

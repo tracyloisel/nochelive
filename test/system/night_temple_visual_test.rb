@@ -5,10 +5,14 @@ class NightTempleVisualTest < ApplicationSystemTestCase
 
   test "live play reel shows temple marble sheet star chrome and gold arch" do
     visit night_name_path(game_sessions(:david).code)
+    assert_selector "body.is-paper-hall"
+    assert_selector "#night_join .hall-sheet"
+    assert_no_selector ".play-reel"
+    assert_no_selector ".picto-btn"
+    shot("join-sheet")
     fill_in "¿Cómo te llaman en la rama?", with: "Pili"
     find("label.choice-chip", text: "En la sala").click
     click_button "Solo esta noche"
-    shot("join-sheet")
     assert_text "Elige tu equipo"
     click_button "Casa de David"
     assert_button "Buzz"
@@ -40,6 +44,10 @@ class NightTempleVisualTest < ApplicationSystemTestCase
     assert_text "¿Qué pidió?"
     sleep 0.4
     shot("play-quiz-casa")
+    page.current_window.resize_to(1280, 800)
+    sleep 0.3
+    shot("play-quiz-casa-desktop")
+    page.current_window.resize_to(390, 844)
   end
 
   test "choice quiz shows temple choice buttons and gold arch" do
@@ -61,6 +69,10 @@ class NightTempleVisualTest < ApplicationSystemTestCase
     assert_selector ".story-ticks"
     sleep 0.45
     shot("play-quiz-ask")
+    page.current_window.resize_to(1280, 800)
+    sleep 0.3
+    shot("play-quiz-ask-desktop")
+    page.current_window.resize_to(390, 844)
   end
 
   test "presenter stage shows marble desk chrome" do
@@ -73,6 +85,10 @@ class NightTempleVisualTest < ApplicationSystemTestCase
     assert_selector ".code-chip"
     assert_stage_shot_arch
     shot("presenter-stage")
+    page.current_window.resize_to(1280, 800)
+    sleep 0.3
+    shot("presenter-stage-desktop")
+    page.current_window.resize_to(390, 844)
     page.execute_script(<<~JS)
       var el = document.querySelector(".desk-sheet");
       var ctrl = window.Stimulus.getControllerForElementAndIdentifier(el, "sheet");
@@ -91,6 +107,9 @@ class NightTempleVisualTest < ApplicationSystemTestCase
     assert_watch_shot_arch
     sleep 0.5
     shot("watch-board")
+    page.current_window.resize_to(1280, 800)
+    sleep 0.3
+    shot("watch-board-desktop")
   end
 
   test "finished night play shows temple ceremony scrim" do
@@ -127,6 +146,7 @@ class NightTempleVisualTest < ApplicationSystemTestCase
     assert_selector ".play-shot-seat"
     assert_no_selector ".story-ticks"
     assert_no_selector ".wait-dots"
+    assert_no_selector ".street-quiz-lockup-tag"
     assert_play_shot_arch
     sleep 0.35
     shot("play-lobby-wait")
@@ -140,9 +160,10 @@ class NightTempleVisualTest < ApplicationSystemTestCase
     assert_selector ".street-hub-lockup-star"
     assert_selector "h1", text: "Noche Live"
     assert_selector ".street-hub-kicker", text: /#{Regexp.escape(I18n.t("home.nights"))}/i
-    assert_selector ".home-doors a", text: I18n.t("home.who")
+    assert_selector ".home-doors a.btn-gold", text: I18n.t("church.invite")
     assert_selector ".night-still .night-poster"
-    assert_no_selector ".btn-gold"
+    assert_no_selector ".home-doors a", text: I18n.t("home.who")
+    assert_no_selector ".home-doors a", text: I18n.t("home.search_page")
     assert_no_selector ".story-ticks"
     sleep 0.4
     shot("noches-phone")
@@ -155,12 +176,18 @@ class NightTempleVisualTest < ApplicationSystemTestCase
     visit search_path
     assert_selector "body.is-paper-hall"
     assert_selector "h1", text: I18n.t("home.menu_search")
-    assert_selector ".home-search .home-search-lede"
-    assert_selector ".home-search .place-input"
-    assert_selector ".ward-hit", text: /Rama Benidorm/
+    assert_selector ".home-search-lede"
+    assert_selector "#ward_q"
     assert_no_selector ".btn-gold"
     sleep 0.35
     shot("buscar-phone")
+
+    visit search_path(q: "Benidorm")
+    assert_selector ".ward-pick-form.is-featured .ward-pick-star"
+    assert_no_selector ".ward-hit.is-featured .ward-pick-star"
+    assert_featured_star_sits_above_card
+    sleep 0.35
+    shot("buscar-benidorm-star")
 
     page.current_window.resize_to(1280, 844)
     sleep 0.3
@@ -172,6 +199,35 @@ class NightTempleVisualTest < ApplicationSystemTestCase
     path = SHOT_DIR.join("#{name}.png")
     page.save_screenshot(path)
     warn "night-temple-shot #{path}"
+  end
+
+  def assert_featured_star_sits_above_card
+    metrics = page.evaluate_script(<<~JS)
+      (function() {
+        var form = document.querySelector(".ward-pick-form.is-featured");
+        var star = document.querySelector(".ward-pick-form.is-featured .ward-pick-star");
+        var glyph = star && star.querySelector(".picto");
+        var btn = document.querySelector(".ward-hit.is-featured");
+        if (!form || !star || !glyph || !btn) return null;
+        var f = form.getBoundingClientRect();
+        var s = star.getBoundingClientRect();
+        var g = glyph.getBoundingClientRect();
+        var b = btn.getBoundingClientRect();
+        return {
+          glyphTop: Math.round(g.top),
+          glyphBottom: Math.round(g.bottom),
+          starTop: Math.round(s.top),
+          btnTop: Math.round(b.top),
+          formTop: Math.round(f.top),
+          overflow: getComputedStyle(form).overflow
+        };
+      })()
+    JS
+    assert metrics, "featured Benidorm card should render a star"
+    assert_operator metrics["starTop"], :>=, metrics["formTop"] - 1
+    assert_operator metrics["glyphTop"], :>=, metrics["formTop"] - 1
+    assert_operator metrics["glyphBottom"], :<=, metrics["btnTop"] + 4
+    assert_equal "visible", metrics["overflow"]
   end
 
   def assert_play_shot_arch

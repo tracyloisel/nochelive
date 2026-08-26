@@ -16,7 +16,13 @@ class StreetChallengesControllerTest < ActionDispatch::IntegrationTest
     duel = street_duels(:pending_challenge)
     get street_challenge_path(duel.token)
     assert_response :success
+    assert_select "body.is-paper-hall"
+    assert_select "#street_desafio.hall-paper"
+    assert_select ".hall-sheet"
     assert_select "h1", text: I18n.t("street.duel_title")
+    assert_select ".gate", count: 0
+    assert_select ".btn-gold", text: I18n.t("street.duel_accept")
+    assert_select ".picto-btn", count: 0
   end
 
   test "create returns token" do

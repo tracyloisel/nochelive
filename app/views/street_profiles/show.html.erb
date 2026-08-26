@@ -2,27 +2,11 @@
 <% content_for :body_class, "is-kid is-paper-hall" %>
 <%= chrome_menu { site_menu } %>
 
-<section id="street_quien" class="home-paper street-quien">
-  <header class="home-brand">
-    <div class="street-hub-lockup">
-      <div class="street-hub-lockup-wordmark">
-        <span class="street-hub-lockup-star" aria-hidden="true"><%= picto("star8") %></span>
-        <p class="street-hub-lockup-name">Noche Live</p>
-      </div>
-      <p class="street-temple-pill street-temple-hub-title">
-        <span class="street-hub-rule" aria-hidden="true"></span>
-        <span class="street-hub-kicker"><%= t("street.profile_title") %></span>
-        <span class="street-hub-rule" aria-hidden="true"></span>
-      </p>
-    </div>
-  </header>
-
-  <article class="street-quien-sheet">
-    <span class="street-quien-apex" aria-hidden="true"><%= picto("star4") %></span>
-
+<%= paper_hall id: "street_quien", kicker: t("street.profile_title"), extra_class: "street-quien", sheet_class: "street-quien-sheet" do %>
     <% if @person && @screen != :welcome %>
       <div class="street-quien-session">
         <p class="eyebrow"><%= t("street.signed_in_as") %> <strong><%= @person.given_name %></strong></p>
+        <%= render "street_profiles/ward_switch" %>
         <% unless @screen == :form %>
           <%= button_to street_profile_path, params: { guest: 1 }, class: "quiet-link" do %>
             <%= t("street.sign_out") %>
@@ -33,9 +17,9 @@
 
     <% case @screen %>
     <% when :welcome %>
-      <%= render "street_profiles/welcome", person: @people_on_device.first %>
+      <%= render "street_profiles/welcome", person: @welcome_person %>
     <% when :device %>
-      <%= render "street_profiles/device_people", people: @people_on_device %>
+      <%= render "street_profiles/device_people", people: @listed_people %>
     <% when :homonyms %>
       <%= render "street_profiles/homonyms", cards: @homonym_cards %>
     <% when :claim %>
@@ -44,7 +28,7 @@
       <%= render "street_profiles/form" %>
     <% end %>
 
-    <nav class="street-quien-foot">
+    <nav class="street-quien-foot hall-sheet-foot">
       <% if @person && @screen == :welcome %>
         <%= button_to street_profile_path, params: { guest: 1 }, class: "quiet-link" do %>
           <%= t("street.sign_out") %>
@@ -59,5 +43,4 @@
         <%= t("street.back_quiz") %>
       <% end %>
     </nav>
-  </article>
-</section>
+<% end %>

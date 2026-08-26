@@ -1,0 +1,34 @@
+<% content_for :title, t("church.title") %>
+<% content_for :body_class, "is-kid is-paper-hall" %>
+<%= chrome_menu { site_menu } %>
+<section class="home-paper">
+  <%= render "pages/head", kicker: t("church.kicker") %>
+  <p class="lede paper-lede"><%= t("church.lede") %></p>
+  <nav class="paper-doors" aria-label="<%= t("church.doors") %>">
+    <%= render "pages/door",
+          path: church_meet_path,
+          still: "meet",
+          icon: "people",
+          title: t("church.meet_title"),
+          hint: t("church.meet_hint"),
+          loading: "eager" %>
+    <%= render "pages/door",
+          path: church_beliefs_path,
+          still: "beliefs",
+          icon: "star8",
+          title: t("church.beliefs_title"),
+          hint: t("church.beliefs_hint") %>
+    <%= render "pages/door",
+          path: church_missionaries_path,
+          still: "missionaries",
+          icon: "person",
+          title: t("church.missionaries_title"),
+          hint: t("church.missionaries_hint") %>
+    <%= render "pages/door",
+          path: church_worship_path,
+          still: "worship",
+          icon: "temple",
+          title: t("church.worship_title"),
+          hint: t("church.worship_hint") %>
+  </nav>
+</section>

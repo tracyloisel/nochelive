@@ -1,9 +1,8 @@
 require "test_helper"
 
 class HomeControllerTest < ActionDispatch::IntegrationTest
-  test "legacy home still serves street reel" do
+  test "legacy home redirects to the hub" do
     get legacy_home_path
-    assert_response :success
-    assert_select "#street_quiz"
+    assert_redirected_to "/"
   end
 end

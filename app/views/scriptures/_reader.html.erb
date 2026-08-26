@@ -1,0 +1,37 @@
+<aside class="scripture-veil" role="dialog" aria-modal="true" aria-labelledby="scripture-title">
+  <div class="scripture-sheet">
+    <header class="scripture-head">
+      <button type="button"
+              class="story-close scripture-close"
+              data-action="click->scripture#close"
+              data-scripture-close
+              aria-label="<%= t("quiz.scripture_close") %>">
+        <%= picto("close") %>
+      </button>
+      <h1 id="scripture-title"><%= @chapter&.title.presence || @cite.presence || t("quiz.read_more") %></h1>
+    </header>
+
+    <div class="scripture-body">
+      <% if @chapter %>
+        <% if @chapter.summary.present? %>
+          <p class="scripture-summary"><%= @chapter.summary %></p>
+        <% end %>
+        <% @chapter.verses.each do |verse| %>
+          <% focused = @chapter.focus.include?(verse.number) %>
+          <p class="scripture-verse <%= "is-focus" if focused %>"
+             <% if focused && verse.number == @chapter.focus.first %>data-scripture-focus<% end %>>
+            <span class="scripture-verse-n"><%= verse.number %></span>
+            <%= verse.text %>
+          </p>
+        <% end %>
+      <% else %>
+        <p class="scripture-error"><%= t("quiz.scripture_error") %></p>
+      <% end %>
+    </div>
+
+    <footer class="scripture-foot">
+      <p class="scripture-source"><%= t("quiz.scripture_source") %></p>
+      <%= link_to t("quiz.scripture_open_site"), @source_url, class: "quiet-link", target: "_blank", rel: "noopener" %>
+    </footer>
+  </div>
+</aside>

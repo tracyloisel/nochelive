@@ -39,8 +39,11 @@ class PlayAndWatchControllerTest < ActionDispatch::IntegrationTest
     assert_select ".play-chrome > .team-bar", count: 0
     assert_select ".play-timer"
     assert_select ".play-timer-bar"
+    assert_select ".play-timer.is-warn", count: 0
+    assert_select ".play-timer.is-low", count: 0
     assert_select "#night_play[data-stage-bed-value=timer_tension]"
     assert_select "#night_play[data-stage-timer-end-value]"
+    assert_select "#night_play[data-stage-timer-duration-value=?]", "30"
     assert_select ".buzz", text: /Buzz/
     assert_select ".prompt", text: /pidió|Salomón/
     assert_select ".play-round > .art", count: 0
@@ -81,6 +84,7 @@ class PlayAndWatchControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select "#night_watch[data-stage-bed-value=timer_tension]"
     assert_select "#night_watch[data-stage-timer-end-value]"
+    assert_select "#night_watch[data-stage-timer-duration-value=?]", "30"
   end
 
   test "remote play shows the QCM without a buzz" do
@@ -94,6 +98,26 @@ class PlayAndWatchControllerTest < ActionDispatch::IntegrationTest
     assert_select ".play-reel.is-quiz"
   end
 
+  test "twenty-second night ask does not start in the warn zone" do
+    freeze_time
+    round_runs(:salomon).update_columns(phase: "completed")
+    round_runs(:rey_o_profeta).update_columns(phase: "open", opened_at: Time.current)
+    sign_in_as_participant(@night, name: "Sofía", team: teams(:leones))
+    get night_play_path(@night.code)
+    assert_select ".play-timer"
+    assert_select ".play-timer.is-warn", count: 0
+    assert_select ".play-timer.is-low", count: 0
+    assert_select "#night_play[data-stage-timer-duration-value=?]", "20"
+
+    travel 12.seconds
+    get night_play_path(@night.code)
+    assert_select ".play-timer.is-warn"
+
+    travel 4.seconds
+    get night_play_path(@night.code)
+    assert_select ".play-timer.is-low"
+  end
+
   test "pick team is a reel" do
     sign_in_as_participant(@night, name: "Sofía")
     get night_play_path(@night.code)
@@ -101,6 +125,7 @@ class PlayAndWatchControllerTest < ActionDispatch::IntegrationTest
     assert_select ".play-shot .challenge-story"
     assert_select ".play-sheet h1", text: /Elige tu equipo/
     assert_select ".play-chrome > .team-bar", count: 0
+    assert_select ".picto-btn", count: 0
   end
 
   test "lobby is a reel" do
@@ -116,6 +141,8 @@ class PlayAndWatchControllerTest < ActionDispatch::IntegrationTest
     assert_select ".story-score"
     assert_select ".wait-dots", count: 0
     assert_select ".story-ticks", count: 0
+    assert_select ".street-quiz-lockup-tag", count: 0
+    assert_select ".picto-btn", count: 0
   end
 
   test "rank-up is a reel" do
@@ -125,6 +152,7 @@ class PlayAndWatchControllerTest < ActionDispatch::IntegrationTest
     assert_select ".play-reel.is-rank"
     assert_select ".play-sheet", text: /Nueva dignidad/
     assert_select ".play-shot .challenge-story"
+    assert_select ".picto-btn", count: 0
   end
 
   test "finished night ceremony is a reel" do

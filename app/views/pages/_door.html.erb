@@ -1,0 +1,15 @@
+<% src = church_still_src(still) %>
+<%= link_to path, class: "paper-door" do %>
+  <% if src.present? %>
+    <figure class="paper-door-still">
+      <img class="night-poster" src="<%= src %>" alt="" loading="<%= local_assigns.fetch(:loading, "lazy") %>" decoding="async">
+    </figure>
+  <% end %>
+  <span class="paper-door-copy">
+    <span class="paper-door-ico" aria-hidden="true"><%= picto(icon) %></span>
+    <span class="paper-door-words">
+      <strong><%= title %></strong>
+      <span class="paper-door-hint"><%= hint %></span>
+    </span>
+  </span>
+<% end %>
