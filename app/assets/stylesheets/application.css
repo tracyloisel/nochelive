@@ -3262,6 +3262,16 @@ fieldset.place:has(.picture-card) { grid-template-columns: 1fr 1fr; }
   max-width: 4.2rem;
   height: 0.42rem;
   margin-inline: 0;
+  background:
+    linear-gradient(45deg, #5c4a12 0 42%, #e0b83a 42% 58%, var(--gold-deep) 58%) 100% 50% / 0.46rem 0.46rem no-repeat,
+    linear-gradient(45deg, var(--gold-deep), var(--gold-bright)) 62% 50% / 0.32rem 0.32rem no-repeat,
+    linear-gradient(90deg, transparent, var(--gold-deep) 18%, var(--gold-bright), var(--gold-deep)) 0 50% / calc(100% - 0.28rem) 1.5px no-repeat;
+}
+.rama-page .rama-liga .street-league-head h2::after {
+  background:
+    linear-gradient(45deg, #5c4a12 0 42%, #e0b83a 42% 58%, var(--gold-deep) 58%) 0 50% / 0.46rem 0.46rem no-repeat,
+    linear-gradient(45deg, var(--gold-deep), var(--gold-bright)) 38% 50% / 0.32rem 0.32rem no-repeat,
+    linear-gradient(90deg, var(--gold-deep), var(--gold-bright), var(--gold-deep) 82%, transparent) 100% 50% / calc(100% - 0.28rem) 1.5px no-repeat;
 }
 .rama-page .rama-liga .street-league-panel {
   border: 0;
@@ -3302,7 +3312,8 @@ fieldset.place:has(.picture-card) { grid-template-columns: 1fr 1fr; }
   height: 2.25rem;
   color: var(--gold-deep);
 }
-.rama-liga-empty-mark .picto { width: 1.5rem; height: 1.5rem; }
+.rama-page .rama-liga.is-pressed { transform: scale(0.99); }
+.rama-page .rama-liga:focus-visible { outline: 3px solid rgba(212, 160, 23, 0.5); outline-offset: 3px; }
 .rama-nights {
   list-style: none; margin: 0; padding: 0;
   display: flex; flex-direction: column; gap: var(--space-6);
