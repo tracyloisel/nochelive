@@ -298,8 +298,10 @@ class StreetLeaderboardsControllerTest < ActionDispatch::IntegrationTest
 
     get ward_leaderboard_path("BLANK")
     assert_response :success
-    assert_select ".street-leaderboard-ward", text: "Rama vacía"
-    assert_select "a.street-leaderboard-ward-back[href=?]", ward_profile_path("BLANK")
+    assert_select ".street-hub-kicker", text: "Rama vacía"
+    assert_select ".street-leaderboard-ward", count: 0
+    assert_select "a.street-leaderboard-ward-back[href=?]", ward_profile_path("BLANK"),
+          text: I18n.t("street.leaderboard_back_ward")
     assert_select ".street-liga-entry", text: /Marta/
     assert_select ".street-liga-entry", text: /Pili/, count: 0
     assert_select ".is-you", count: 0
@@ -310,5 +312,14 @@ class StreetLeaderboardsControllerTest < ActionDispatch::IntegrationTest
     get ward_leaderboard_path("NOPE")
     assert_redirected_to root_path
     assert_equal I18n.t("errors.people.ward_missing"), flash[:alert]
+  end
+
+  test "empty rama liga names the chapel" do
+    get ward_leaderboard_path("BLANK")
+    assert_response :success
+    assert_select ".street-hub-kicker", text: "Rama vacía"
+    assert_select ".street-leaderboard-empty", text: I18n.t("street.leaderboard_empty_ward")
+    assert_select "a.street-leaderboard-ward-back", text: I18n.t("street.leaderboard_back_ward")
+    assert_select "a.btn-gold", count: 0
   end
 end
