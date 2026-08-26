@@ -33,7 +33,7 @@ PASS WITH NOTES
 - Question sheet uses a small upward bump + 4-point star, not a deep inverted notch.
 - Next/prev: swipe or tap the painting; right-swipe / tap-right clicks **Suivant** once the answer is in; left rewinds. The sheet itself does not skip.
 - Hub lockup star sits above the ink wordmark; concentric gold oculus arcs sit behind the title. Ink lockup is **Noche Live** only (no WORLD HUB pill).
-- Hub recapture 2026-08-26 ~13:33: `hub-phone` / `hub-desktop` show avatar left, hamburger right, column on the hall. Gold Jugar sits in the dock; the five-tab bar is gone (controller + visual tests). Ranking stays in the drawer.
+- Hub recapture 2026-08-26 ~16:56: MAPA is a door card on `/` (rope lives on `/mapa`); league pins just above gold Jugar. Avatar left, hamburger right. No five-tab bar. Ranking stays in the drawer.
 
 ## What feels weak
 
@@ -41,10 +41,11 @@ PASS WITH NOTES
 - Mockup gold “NOCHE LIVE” is not shipped (ui-soul veto). Ink lockup with LIVE hairlines instead.
 - Hub chrome is avatar + hamburger + drawer mute (product KEEP), not the mockup’s gear/trophy-only chrome.
 - Mockup 5-tab dock is not shipped; tests require no `.street-hub-nav` on hub or `/liga`.
+- Mockup 3-node rope on hub first-fold is not shipped; tests require `.street-map-path` count 0 on `/` and a MAPA door to `/mapa`.
 
 ## Required before approval
 
-- Done: hub recaptured 2026-08-26 ~13:33 after the five-tab dock left `/`. Jugar ask still 13:19 (ivory apex bump + gold-leaf star). KEEP leftovers: honest scores, 3 choices, drawer chrome, growing column, no 5-tab bar.
+- Done: hub recaptured 2026-08-26 ~16:56 after MAPA moved to a door + `/mapa`. Jugar ask still 16:20 (ivory apex bump + gold-leaf star). KEEP leftovers: honest scores, 3 choices, drawer chrome, growing column, no 5-tab bar, rope on `/mapa`.
 
 ## Night director
 

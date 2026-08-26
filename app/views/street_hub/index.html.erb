@@ -4,9 +4,8 @@
 
 <section id="street_world"
          class="street-world<%= " is-profile-gate" if @profile_gate %>"
-         data-controller="street-hub street-share"
+         data-controller="street-share"
          data-street-share-copied-value="<%= t("street.share_copied") %>"
-         data-street-hub-current-pack-value="<%= @world.current_pack_id %>"
          <% if params[:rank_up].present? %>
          data-stage-sfx-value="level_up"
          data-stage-sfx-token-value="hub:rank_up:<%= current_street_person&.id || "guest" %>"
@@ -21,20 +20,20 @@
         gate_people: @gate_people,
         featured_ward: @featured_ward %>
 
-  <% if @challenge&.phase == :result && current_street_person %>
-    <%= render "street_hub/duel_result", duel: @challenge.duel, you: current_street_person %>
-  <% elsif @challenge %>
-    <%= render "street_hub/duel_banner", duel: @challenge.duel, challenge: @challenge %>
-  <% end %>
-
   <header class="street-hub-brand">
-    <div class="street-hub-lockup">
-      <div class="street-hub-lockup-wordmark">
-        <span class="street-hub-lockup-star" aria-hidden="true"><%= picto("star8") %></span>
-        <p class="street-hub-lockup-name">Noche Live</p>
-      </div>
-    </div>
+    <%= render "shared/street_hub_lockup" %>
   </header>
+
+  <div class="street-hub-feed">
+    <% if @challenge&.phase == :result && current_street_person %>
+      <%= render "street_hub/duel_result",
+            duel: @challenge.duel,
+            you: current_street_person,
+            compact: true,
+            map_path: street_map_path %>
+    <% elsif @challenge %>
+      <%= render "street_hub/duel_banner", duel: @challenge.duel, challenge: @challenge %>
+    <% end %>
 
     <%= render "street_hub/player_card",
           person: current_street_person,
@@ -42,31 +41,24 @@
           streak: @streak,
           rank_up: params[:rank_up].present? %>
 
-  <%= render "street_hub/map_path", world: @world, unlock_pack_id: @unlock_pack_id %>
+    <%= render "street_hub/map_door", world: @world, open_run: @open_run %>
 
-  <% if @standings %>
-    <%= render "street_hub/league_strip", board: @standings.total_board, rank_title: @standings.rank_title %>
-  <% end %>
+    <% if @standings %>
+      <%= render "street_hub/league_strip", board: @standings.total_board, rank_title: @standings.rank_title %>
+    <% end %>
+  </div>
 
-  <%= render "street_hub/friend_rail", rival: @rival, standings: @standings %>
-
-  <footer class="street-world-dock">
-    <div class="street-world-dock-cta">
-      <% if @open_run %>
-        <%= link_to jugar_path, class: "btn btn-gold street-play-cta" do %>
-          <span class="street-cta-star" aria-hidden="true"><%= picto("star8") %></span>
-          <span class="street-cta-label"><%= t("street.world_continue") %></span>
-          <span class="street-cta-star" aria-hidden="true"><%= picto("star8") %></span>
-        <% end %>
-      <% elsif @world.current_pack_id %>
-        <%= button_to street_pack_start_path(@world.current_pack_id),
-              class: "btn btn-gold street-play-cta",
-              form: { data: { turbo: false } } do %>
-          <span class="street-cta-star" aria-hidden="true"><%= picto("star8") %></span>
-          <span class="street-cta-label"><%= t("street.world_play") %></span>
-          <span class="street-cta-star" aria-hidden="true"><%= picto("star8") %></span>
-        <% end %>
+  <% unless @profile_gate %>
+    <footer class="street-world-dock">
+      <%= turbo_frame_tag "street_pulse",
+            src: street_pulse_path,
+            data: {
+              controller: "street-pulse",
+              street_pulse_src_value: street_pulse_path,
+              street_pulse_interval_value: 5000
+            } do %>
+        <%= render "street_hub/pulse", pulse: @pulse %>
       <% end %>
-    </div>
-  </footer>
+    </footer>
+  <% end %>
 </section>

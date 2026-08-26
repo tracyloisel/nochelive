@@ -97,4 +97,19 @@ class Quizzes::ChallengeScreenTest < ActiveSupport::TestCase
     screen = Quizzes::ChallengeScreen.call(person: people(:pili), duel:)
     assert_equal :result, screen.phase
   end
+
+  test "declined duel is taken" do
+    duel = StreetDuel.create!(
+      challenger_person: people(:pili),
+      opponent_person: people(:carmen_garcia),
+      ward: wards(:demo),
+      pack_id: "placas",
+      token: "screen-declined-token",
+      status: "declined",
+      challenger_score: 40,
+      expires_at: 7.days.from_now
+    )
+    screen = Quizzes::ChallengeScreen.call(duel:, person: people(:carmen_garcia))
+    assert_equal :taken, screen.phase
+  end
 end

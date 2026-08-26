@@ -182,6 +182,8 @@ class ApplicationHelperTest < ActionView::TestCase
     assert_includes picto("crown"), "picto-crown"
     assert_includes picto("scroll"), "picto-scroll"
     assert_includes picto("arrow"), "picto-arrow"
+    assert_includes picto("whatsapp"), "picto-whatsapp"
+    assert_includes picto("instagram"), "picto-instagram"
     menu = picto("menu")
     assert_includes menu, "picto-menu"
     assert_includes menu, "currentColor"
@@ -249,6 +251,42 @@ class ApplicationHelperTest < ActionView::TestCase
     assert_nil street_xp_cap(260)
   end
 
+  test "street_xp_remaining is points still needed for the next rank" do
+    assert_equal 25, street_xp_remaining(0)
+    assert_equal 20, street_xp_remaining(40)
+    assert_equal 15, street_xp_remaining(95)
+    assert_nil street_xp_remaining(260)
+  end
+
+  test "player card puts rank progress in ink beside the gold fill" do
+    standings = Struct.new(:total_score, :rank_title).new(40, "Explorador")
+    streak = Struct.new(:days).new(1)
+    render partial: "street_hub/player_card", locals: {
+      person: people(:pili),
+      standings:,
+      streak:
+    }
+
+    assert_includes rendered, I18n.t("street.card_xp_left", count: 20, rank: I18n.t("ranks.guerrero"))
+    assert_not_includes rendered, "40 / 60"
+    assert_select ".street-xp-bar .street-xp-fill"
+    assert_select ".street-xp-caption", text: I18n.t("street.card_xp_left", count: 20, rank: I18n.t("ranks.guerrero"))
+    assert_select ".street-xp-bar .street-xp-caption", count: 0
+  end
+
+  test "player card at the last rank names the summit" do
+    standings = Struct.new(:total_score, :rank_title).new(260, "Leyenda")
+    streak = Struct.new(:days).new(3)
+    render partial: "street_hub/player_card", locals: {
+      person: people(:pili),
+      standings:,
+      streak:
+    }
+
+    assert_select ".street-xp-caption", text: I18n.t("street.card_xp_max", rank: I18n.t("ranks.leyenda"))
+    assert_select ".street-rank-banner", text: I18n.t("ranks.leyenda")
+  end
+
   test "temple_hall_bg_src prefers OpenRouter hall photo when present" do
     if Rails.public_path.join("media/temple/marble-hall.jpg").file?
       assert_equal "/media/temple/marble-hall.jpg", temple_hall_bg_src
@@ -297,6 +335,11 @@ class ApplicationHelperTest < ActionView::TestCase
 
   test "about portrait is the circular tracy still" do
     assert_equal "/media/about/tracy.png", about_portrait_src
+  end
+
+  test "about reach links open WhatsApp and Instagram" do
+    assert_equal "https://wa.me/34689226754", about_whatsapp_url
+    assert_equal "https://www.instagram.com/tracy_loisel/", about_instagram_url
   end
 
   test "night poster and status captions" do
@@ -369,7 +412,7 @@ class ApplicationHelperTest < ActionView::TestCase
     Quizzes::Submit.call(run: frame.run, choice_key: frame.question.correct_choice)
     settled = street_audio_data(frame.run.reload, frame.question)
     assert_equal "correct_gold", settled[:stage_sfx_value]
-    assert_equal "gold", settled[:stage_fx_value]
+    assert_nil settled[:stage_fx_value]
     assert_nil settled[:stage_bed_value]
     assert_match(/:settled:correct\z/, settled[:stage_sfx_token_value])
   end

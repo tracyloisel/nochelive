@@ -12,6 +12,7 @@ class StreetProfilesControllerTest < ActionDispatch::IntegrationTest
     assert_select "#street_quien.street-quien"
     assert_select ".street-quien-sheet"
     assert_select ".street-hub-lockup-name", text: "Noche Live"
+    assert_select "a.street-hub-lockup-wordmark[href=?]", root_path
     assert_select ".street-hub-kicker", text: I18n.t("street.profile_title")
     assert_select "h1", text: I18n.t("street.create_title")
     assert_select "p.lede", text: I18n.t("street.create_lede")

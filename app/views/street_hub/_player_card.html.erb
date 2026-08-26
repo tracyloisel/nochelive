@@ -4,7 +4,9 @@
 <% total_score = standings&.total_score.to_i %>
 <% rank_title = standings&.rank_title || Team::RANKS.first.last %>
 <% progress = street_rank_progress(total_score) %>
-<% xp_cap = street_xp_cap(total_score) %>
+<% xp_left = street_xp_remaining(total_score) %>
+<% xp_rank = rank_name(street_next_rank(total_score)) %>
+<% xp_caption = xp_left ? t("street.card_xp_left", count: xp_left, rank: xp_rank) : t("street.card_xp_max", rank: xp_rank) %>
 <% streak_days = streak&.days.to_i %>
 
 <article class="street-card is-player <%= "is-rank-up" if local_assigns[:rank_up] %>">
@@ -21,20 +23,16 @@
       </span>
       <div class="street-card-meta">
         <p class="street-card-name"><%= person.given_name %></p>
-        <p class="street-rank-banner"><%= rank_title %></p>
+        <p class="street-rank-banner"><%= rank_name(rank_title) %></p>
         <div class="street-xp-row">
           <span class="street-level-badge" aria-label="<%= t("street.card_level", level: street_rank_level(total_score)) %>">
             <%= street_rank_level(total_score) %>
           </span>
-          <div class="street-xp-bar" role="progressbar" aria-valuenow="<%= progress %>" aria-valuemin="0" aria-valuemax="100">
-            <span class="street-xp-fill" style="width: <%= progress %>%"></span>
-            <span class="street-xp-label">
-              <% if xp_cap %>
-                <%= t("street.card_xp", current: number_with_delimiter(total_score), next: number_with_delimiter(xp_cap)) %>
-              <% else %>
-                <%= number_with_delimiter(total_score) %>
-              <% end %>
-            </span>
+          <div class="street-xp-meter">
+            <div class="street-xp-bar" role="progressbar" aria-valuenow="<%= progress %>" aria-valuemin="0" aria-valuemax="100" aria-labelledby="street_xp_caption">
+              <span class="street-xp-fill" style="width: <%= progress %>%"></span>
+            </div>
+            <p class="street-xp-caption" id="street_xp_caption"><%= xp_caption %></p>
           </div>
         </div>
       </div>

@@ -1,19 +1,24 @@
-<% content_for :title, t("street.leaderboard_title") %>
+<% content_for :title, @visit ? "#{@board_ward.name} · #{t("street.leaderboard_kicker")}" : t("street.leaderboard_title") %>
 <% content_for :body_class, "is-kid is-street-hub" %>
 <% pack_title = @pack_id ? QuizDefinition.catalog.find_pack(@pack_id).copy(:title) : nil %>
 <% board_title = pack_title ? t("street.board_pack", pack: pack_title) : t("street.board_total") %>
-<% you = current_street_person %>
+<% you = @you %>
 <% you_on_page = @board.rows.any? { |row| row.you && !row.context } %>
+<% liga_empty = @q.present? ? t("street.leaderboard_empty_search") : (@visit ? t("street.leaderboard_empty_ward") : t("street.leaderboard_empty")) %>
 <%= chrome_menu { site_menu } %>
 
 <section id="street_world"
          class="street-world street-leaderboard-page"
          style="view-transition-name: street-world">
-  <%= render "pages/head", kicker: t("street.leaderboard_kicker") %>
+  <%= render "pages/head", kicker: @visit ? @board_ward.name : t("street.leaderboard_kicker") %>
 
   <div class="street-leaderboard-sheet">
     <div class="street-leaderboard-tools">
-    <%= form_with url: street_leaderboard_path, method: :get, class: "street-leaderboard-search",
+    <% if @visit %>
+      <%= link_to t("street.leaderboard_back_ward"), ward_profile_path(@board_ward.code),
+            class: "quiet-link street-leaderboard-ward-back" %>
+    <% end %>
+    <%= form_with url: liga_path_for, method: :get, class: "street-leaderboard-search",
           data: { controller: "liga-search", action: "input->liga-search#queue keydown.esc->liga-search#clearOnEscape" } do %>
       <div class="street-leaderboard-search-row<%= " is-filled" if @q.present? %>">
         <label for="leaderboard_q" class="visually-hidden"><%= t("street.leaderboard_search") %></label>
@@ -29,7 +34,7 @@
                data-action="input->liga-search#queue"
                <%= "autofocus" if @q.present? %>>
         <% if @q.present? %>
-          <%= link_to street_leaderboard_path(pack_id: @pack_id),
+          <%= link_to liga_path_for(pack_id: @pack_id),
                 class: "street-leaderboard-search-clear",
                 aria: { label: t("street.leaderboard_search_clear") } do %>
             <%= picto("cross") %>
@@ -55,16 +60,18 @@
       </label>
     <% end %>
 
-    <%= link_to street_challenges_path(pack_id: @pack_id),
-          class: "quiet-link street-leaderboard-duels" do %>
-      <%= t("street.duel_inbox") %>
-      <% if @duel_incoming.to_i.positive? %>
-        <span class="street-leaderboard-duels-n" aria-label="<%= t("street.duel_incoming") %>"><%= @duel_incoming %></span>
+    <% unless @visit && you.blank? %>
+      <%= link_to street_challenges_path(pack_id: @pack_id),
+            class: "quiet-link street-leaderboard-duels" do %>
+        <%= t("street.duel_inbox") %>
+        <% if @duel_incoming.to_i.positive? %>
+          <span class="street-leaderboard-duels-n" aria-label="<%= t("street.duel_incoming") %>"><%= @duel_incoming %></span>
+        <% end %>
       <% end %>
     <% end %>
 
     <% if you && @board.your_rank && !you_on_page && @board.your_page %>
-      <%= link_to street_leaderboard_path(pack_id: @pack_id, page: @board.your_page, q: @q.presence, anchor: "liga-you"),
+      <%= link_to liga_path_for(pack_id: @pack_id, page: @board.your_page, q: @q.presence, anchor: "liga-you"),
             class: "street-leaderboard-you-card" do %>
         <span class="street-board-rank"><%= @board.your_rank %></span>
         <% src = avatar_mark(you) %>
@@ -101,7 +108,7 @@
     <% else %>
       <p class="street-leaderboard-empty<%= " is-search" if @q.present? %>">
         <span class="street-leaderboard-empty-mark" aria-hidden="true"><%= picto(@q.present? ? "search" : "podium") %></span>
-        <%= @q.present? ? t("street.leaderboard_empty_search") : t("street.leaderboard_empty") %>
+        <%= liga_empty %>
       </p>
     <% end %>
 
@@ -112,14 +119,14 @@
       <nav class="street-leaderboard-pages" aria-label="<%= t("street.leaderboard_pages") %>">
         <span class="visually-hidden"><%= t("street.leaderboard_page", page: @page, pages: pages) %></span>
         <% if @page > 1 %>
-          <%= link_to street_leaderboard_path(pack_id: @pack_id, page: @page - 1, q: @q.presence),
+          <%= link_to liga_path_for(pack_id: @pack_id, page: @page - 1, q: @q.presence),
                 class: "street-leaderboard-page-link is-step",
                 aria: { label: t("street.leaderboard_prev") } do %>
             <span aria-hidden="true">‹</span>
           <% end %>
         <% end %>
         <% if from > 1 %>
-          <%= link_to "1", street_leaderboard_path(pack_id: @pack_id, page: 1, q: @q.presence),
+          <%= link_to "1", liga_path_for(pack_id: @pack_id, page: 1, q: @q.presence),
                 class: "street-leaderboard-page-link",
                 aria: { label: t("street.leaderboard_page", page: 1, pages: pages) } %>
           <% if from > 2 %>
@@ -130,7 +137,7 @@
           <% if n == @page %>
             <span class="street-leaderboard-page-link is-current" aria-current="page"><%= n %></span>
           <% else %>
-            <%= link_to n, street_leaderboard_path(pack_id: @pack_id, page: n, q: @q.presence),
+            <%= link_to n, liga_path_for(pack_id: @pack_id, page: n, q: @q.presence),
                   class: "street-leaderboard-page-link",
                   aria: { label: t("street.leaderboard_page", page: n, pages: pages) } %>
           <% end %>
@@ -139,12 +146,12 @@
           <% if to < pages - 1 %>
             <span class="street-leaderboard-page-gap" aria-hidden="true"><%= t("street.leaderboard_gap") %></span>
           <% end %>
-          <%= link_to pages, street_leaderboard_path(pack_id: @pack_id, page: pages, q: @q.presence),
+          <%= link_to pages, liga_path_for(pack_id: @pack_id, page: pages, q: @q.presence),
                 class: "street-leaderboard-page-link",
                 aria: { label: t("street.leaderboard_page", page: pages, pages: pages) } %>
         <% end %>
         <% if @page < pages %>
-          <%= link_to street_leaderboard_path(pack_id: @pack_id, page: @page + 1, q: @q.presence),
+          <%= link_to liga_path_for(pack_id: @pack_id, page: @page + 1, q: @q.presence),
                 class: "street-leaderboard-page-link is-step",
                 aria: { label: t("street.leaderboard_next") } do %>
             <span aria-hidden="true">›</span>

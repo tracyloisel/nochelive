@@ -27,6 +27,7 @@ class PlayReelVisualTest < ApplicationSystemTestCase
     sleep 0.5
     assert_in_viewport ".prompt"
     assert_in_viewport ".buzz"
+    assert_in_viewport ".hint"
     mute_top = page.evaluate_script("document.querySelector('.mute').getBoundingClientRect().top")
     lang_top = page.evaluate_script("document.querySelector('.lang-switch').getBoundingClientRect().top")
     mute_bottom = page.evaluate_script("document.querySelector('.mute').getBoundingClientRect().bottom")

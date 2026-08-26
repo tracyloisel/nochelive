@@ -18,6 +18,8 @@ class QuizDefinitionTest < ActiveSupport::TestCase
 
     catalog.packs.each do |pack|
       assert_equal QuizDefinition::QUESTIONS_PER_PACK, pack.questions.size, pack.id
+      assert pack.lede.present?, pack.id
+      assert pack.kicker.present?, pack.id
       assert_equal QuizDefinition::CURVE_POINTS, pack.questions.map(&:points), pack.id
       assert_equal QuizDefinition::CURVE_DURATION, pack.questions.map(&:duration), pack.id
       assert_equal QuizDefinition::CURVE_INTENSITY, pack.questions.map(&:intensity), pack.id
@@ -90,10 +92,20 @@ class QuizDefinitionTest < ActiveSupport::TestCase
       pack = QuizDefinition.catalog.find_pack("coronas")
       question = pack.question_at(1)
       assert_equal "Kings", pack.copy(:title)
+      assert_equal "Royal quiz", pack.copy(:kicker)
+      assert_match(/Solomon/i, pack.copy(:lede))
       assert_match(/anointed/i, question.copy(:question))
       assert_match(/Samuel anointed/i, question.copy(:answer))
       samuel = question.choices.find { |choice| choice["key"] == "samuel" }
       assert_equal "Samuel", question.choice_copy(samuel)
+    end
+  end
+
+  test "copy in French returns French" do
+    I18n.with_locale(:fr) do
+      pack = QuizDefinition.catalog.find_pack("coronas")
+      assert_equal "Rois", pack.copy(:title)
+      assert_equal "Quizz royal", pack.copy(:kicker)
     end
   end
 
@@ -111,6 +123,14 @@ class QuizDefinitionTest < ActiveSupport::TestCase
 
     data = catalog_data
     data["packs"][0]["questions"][9]["intensity"] = 1
+    assert_raises(QuizDefinition::Error) { QuizDefinition.new(data) }
+
+    data = catalog_data
+    data["packs"][0].delete("kicker")
+    assert_raises(QuizDefinition::Error) { QuizDefinition.new(data) }
+
+    data = catalog_data
+    data["packs"][0].delete("lede")
     assert_raises(QuizDefinition::Error) { QuizDefinition.new(data) }
 
     data = catalog_data

@@ -169,4 +169,20 @@ class Quizzes::ChallengeCreateTest < ActiveSupport::TestCase
     end
     assert_equal :score, error.code
   end
+
+  test "denies a rematch on a pack already played against that person" do
+    person = people(:pili)
+    carmen = people(:carmen_garcia)
+    run = quiz_runs(:pili_coronas)
+    error = assert_raises(Quizzes::ChallengeCreate::Denied) do
+      Quizzes::ChallengeCreate.call(
+        challenger_person: person,
+        ward: person.ward,
+        pack_id: "coronas",
+        run:,
+        opponent_person: carmen
+      )
+    end
+    assert_equal :played, error.code
+  end
 end

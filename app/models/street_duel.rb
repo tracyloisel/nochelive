@@ -1,5 +1,6 @@
 class StreetDuel < ApplicationRecord
-  STATUSES = %w[pending challenger_done opponent_done resolved].freeze
+  STATUSES = %w[pending challenger_done opponent_done resolved declined].freeze
+  ACTIVE = %w[pending challenger_done opponent_done].freeze
 
   belongs_to :challenger_person, class_name: "Person"
   belongs_to :opponent_person, class_name: "Person", optional: true
@@ -11,14 +12,16 @@ class StreetDuel < ApplicationRecord
   validates :status, inclusion: { in: STATUSES }
   validates :token, uniqueness: true
 
-  scope :active, -> { where(status: %w[pending challenger_done opponent_done]) }
+  scope :active, -> { where(status: ACTIVE) }
   scope :not_expired, -> { where("expires_at > ?", Time.current) }
 
   def pending? = status == "pending"
   def challenger_done? = status == "challenger_done"
   def opponent_done? = status == "opponent_done"
   def resolved? = status == "resolved"
+  def declined? = status == "declined"
   def expired? = expires_at <= Time.current
+  def active? = ACTIVE.include?(status)
 
   def winner_person
     return unless resolved? && challenger_score && opponent_score

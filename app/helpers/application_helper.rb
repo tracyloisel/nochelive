@@ -63,6 +63,17 @@ module ApplicationHelper
     "https://github.com/tracyloisel/nochelive"
   end
 
+  ABOUT_WHATSAPP_E164 = "34689226754"
+  ABOUT_INSTAGRAM_HANDLE = "tracy_loisel"
+
+  def about_whatsapp_url
+    "https://wa.me/#{ABOUT_WHATSAPP_E164}"
+  end
+
+  def about_instagram_url
+    "https://www.instagram.com/#{ABOUT_INSTAGRAM_HANDLE}/"
+  end
+
   def about_portrait_src
     rel = "media/about/tracy.png"
     "/#{rel}" if Rails.public_path.join(rel).file?
@@ -127,8 +138,14 @@ module ApplicationHelper
       body: capture(&block)
   end
 
-  def charter_hall(id:, kicker:, &block)
-    paper_hall(id:, kicker:, extra_class: "is-charter", sheet_class: "charter-sheet", &block)
+  def charter_hall(id:, kicker:, extra_class: nil, &block)
+    paper_hall(
+      id:,
+      kicker:,
+      extra_class: [ "is-charter", extra_class ].compact_blank.join(" "),
+      sheet_class: "charter-sheet",
+      &block
+    )
   end
 
   def chrome_menu(open: false, icon: "menu", face: nil, tools: nil, &block)
@@ -148,6 +165,15 @@ module ApplicationHelper
   def chrome_tools_in_drawer?
     css = content_for(:body_class).to_s
     css.include?("is-street-hub") || css.include?("is-paper-hall") || css.include?("is-street-play")
+  end
+
+  def street_duel_ping?
+    return false unless current_street_person
+
+    css = content_for(:body_class).to_s
+    street = css.include?("is-street-hub") || css.include?("is-street-play") || css.include?("is-paper-hall")
+    night = css.include?("is-play") || css.include?("is-watch") || css.include?("is-presenter")
+    street && !night
   end
 
   def home_night_path_for(night)
@@ -374,8 +400,8 @@ module ApplicationHelper
     (((score - current[0]) * 100) / span).clamp(0, 100)
   end
 
-  def street_grade_fx(_question, correct)
-    correct ? "gold" : "shake"
+  def street_grade_fx(_question, _correct)
+    nil
   end
 
   def trail_step_mark(step)
@@ -829,5 +855,13 @@ module ApplicationHelper
 
   def street_xp_cap(score)
     Team::RANKS.find { |threshold, _, _| score < threshold }&.first
+  end
+
+  def street_xp_remaining(score)
+    cap = street_xp_cap(score)
+    return if cap.nil?
+
+    left = cap - score.to_i
+    left.positive? ? left : nil
   end
 end

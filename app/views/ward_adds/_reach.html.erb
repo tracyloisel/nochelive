@@ -1,0 +1,25 @@
+<nav class="about-reach" aria-label="<%= t("about.reach") %>">
+  <%= link_to about_whatsapp_url,
+        class: "about-reach-chip",
+        target: "_blank",
+        rel: "noreferrer",
+        aria: { label: t("about.whatsapp_aria") } do %>
+    <span class="about-reach-seal" aria-hidden="true"><%= picto("whatsapp") %></span>
+    <span class="about-reach-copy">
+      <em><%= t("about.whatsapp") %></em>
+      <strong><%= t("about.whatsapp_number") %></strong>
+    </span>
+  <% end %>
+  <span class="about-reach-rule" aria-hidden="true"></span>
+  <%= link_to about_instagram_url,
+        class: "about-reach-chip",
+        target: "_blank",
+        rel: "noreferrer",
+        aria: { label: t("about.instagram_aria") } do %>
+    <span class="about-reach-seal" aria-hidden="true"><%= picto("instagram") %></span>
+    <span class="about-reach-copy">
+      <em><%= t("about.instagram") %></em>
+      <strong><%= t("about.instagram_handle") %></strong>
+    </span>
+  <% end %>
+</nav>

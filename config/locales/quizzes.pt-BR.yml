@@ -2,6 +2,8 @@ pt-BR:
   quizzes:
     coronas:
       title: "Reis"
+      kicker: "Quiz real"
+      lede: "Davi, Saul, Salomão: quem foi ungido, quem orou, quem caiu."
       questions:
         ungio_david:
           question: "Quem ungiu Davi quando ele ainda era rapaz?"
@@ -76,6 +78,8 @@ pt-BR:
             ignoro: "Ele passou adiante"
     placas:
       title: "Placas"
+      kicker: "Quiz das placas"
+      lede: "Leí, Néfi, Abinádi: as placas, o barco e a torre."
       questions:
         lehi_jerusalen:
           question: "De que cidade Leí saiu com a família?"
@@ -149,6 +153,8 @@ pt-BR:
             noe: "Noé"
     hermanas:
       title: "Irmãs"
+      kicker: "Quiz das irmãs"
+      lede: "Rute, Ester, Ana e Débora: mulheres que ficaram, falaram e salvaram."
       questions:
         rut_noemi:
           question: "Com quem Rute ficou, em vez de voltar a Moabe?"
@@ -222,6 +228,8 @@ pt-BR:
             corona: "Uma coroa"
     abish:
       title: "Abish"
+      kicker: "Quiz da Abish"
+      lede: "Abish, Sariah e as mães dos dois mil: fé que não duvidou."
       questions:
         saria_lehi:
           question: "Com quem Sariah saiu de Jerusalém?"
@@ -295,6 +303,8 @@ pt-BR:
             placas: "Ao ler as placas"
     profetas:
       title: "Profetas"
+      kicker: "Quiz dos profetas"
+      lede: "Jonas, Elias e Daniel: três dias, corvos e janelas para Jerusalém."
       questions:
         jonas_tres:
           question: "Quantos dias Jonas ficou no peixe?"
@@ -368,6 +378,8 @@ pt-BR:
             nube: "Só uma nuvem cinza"
     jehova:
       title: "O Senhor"
+      kicker: "Quiz do Senhor"
+      lede: "O nome do Senhor, o mar que se abre e o único Salvador."
       questions:
         zarza_yo_soy:
           question: "Na sarça, que nome o Senhor deu a Moisés?"
@@ -441,6 +453,8 @@ pt-BR:
             samuel: "Samuel, o lamanita"
     nazareno:
       title: "Na terra"
+      kicker: "Quiz na terra"
+      lede: "Belém, o batismo e os milagres: Jesus entre nós."
       questions:
         nacio_belen:
           question: "Onde Jesus nasceu?"
@@ -514,6 +528,8 @@ pt-BR:
             angeles: "Só os anjos os tocaram"
     moises:
       title: "Moisés"
+      kicker: "Quiz de Moisés"
+      lede: "Face a face, o Éden e a criação: o que Moisés viu."
       questions:
         moises_cara:
           question: "Segundo o livro de Moisés, Moisés viu Deus…"
@@ -587,6 +603,8 @@ pt-BR:
             desierto: "Ficou no deserto"
     abraham:
       title: "Abraão"
+      kicker: "Quiz de Abraão"
+      lede: "Ur, o altar e a descendência: a promessa que não se quebra."
       questions:
         salio_ur:
           question: "Abraão diz: eu morava na terra de…"
@@ -660,6 +678,8 @@ pt-BR:
             rios: "Só os rios"
     kolob:
       title: "Kolob"
+      kicker: "Quiz de Kolob"
+      lede: "O astro junto ao trono: um dia lá, mil anos aqui."
       questions:
         cerca_trono:
           question: "Kolob está perto de…"
@@ -733,6 +753,8 @@ pt-BR:
             azar: "Não há ordem"
     premortal:
       title: "Antes de nascer"
+      kicker: "Quiz de antes"
+      lede: "Antes de nascer: inteligências, e «A quem enviarei?»"
       questions:
         eramos_inteligencias:
           question: "Antes de nascer, éramos…"
@@ -806,6 +828,8 @@ pt-BR:
             huir: "Fugiram da luz"
     exaltacion:
       title: "Exaltação"
+      kicker: "Quiz da exaltação"
+      lede: "A obra de Deus: vida eterna, graus e o selamento."
       questions:
         obra_gloria:
           question: "A obra e a glória de Deus é realizar a imortalidade e…"
@@ -879,6 +903,8 @@ pt-BR:
             paraiso: "Só num paraíso de espíritos, longe"
     jose:
       title: "Joseph"
+      kicker: "Quiz de José"
+      lede: "Sharon, o bosque e as placas: como José começou."
       questions:
         nacio_sharon:
           question: "Onde Joseph Smith nasceu?"
@@ -952,6 +978,8 @@ pt-BR:
             roma: "Só os dias de Roma"
     inicios:
       title: "Começos"
+      kicker: "Quiz dos começos"
+      lede: "6 de abril, Kirtland e Sião: os começos da Igreja."
       questions:
         seis_abril:
           question: "Em que data a Igreja foi organizada?"
@@ -1025,6 +1053,8 @@ pt-BR:
             cerrada: "Uma igreja já fechada"
     pruebas_profetas:
       title: "Provações"
+      kicker: "Quiz das provações"
+      lede: "Jeremias, Elias, Abinádi: quando a palavra custa."
       questions:
         jeremias_cisterna:
           question: "Jeremias foi lançado na…"
@@ -1098,6 +1128,8 @@ pt-BR:
             trono: "Quando vos sentarem num trono"
     pruebas_heroes:
       title: "Valentes"
+      kicker: "Quiz dos valentes"
+      lede: "Jó, José, Daniel e Ester: valentes que não amaldiçoaram."
       questions:
         job_no_maldijo:
           question: "Jó perdeu tudo, e…"
@@ -1171,6 +1203,8 @@ pt-BR:
             venganza: "Pediu vingança"
     milagros:
       title: "Milagres"
+      kicker: "Quiz dos milagres"
+      lede: "O mar, o maná, o sol de Josué: quando o céu toca a terra."
       questions:
         mar_abrio:
           question: "O mar Vermelho…"

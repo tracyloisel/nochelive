@@ -7,6 +7,7 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
     assert_select "body.is-paper-hall"
     assert_select ".home-paper"
     assert_select "h1", text: "Noche Live"
+    assert_select "a.street-hub-lockup-wordmark[href=?]", root_path
     assert_select ".street-hub-kicker", text: I18n.t("church.kicker")
     assert_select "p.lede.paper-lede", text: I18n.t("church.lede")
     assert_select "a.paper-door[href=?]", church_meet_path
@@ -85,6 +86,7 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
     assert_select ".paper-facts", text: /Render Services, Inc./
     assert_select ".paper-facts", text: /525 Brannan/
     assert_select "a.quiet-link[href=?]", privacy_path
+    assert_select "a.quiet-link[href=?]", platform_stats_path
     assert_select ".story-ticks", count: 0
     assert_select ".btn.btn-gold", count: 0
   end
@@ -109,5 +111,45 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
     assert_select ".charter-sheet .lede", count: 0
     assert_select ".story-ticks", count: 0
     assert_select ".btn.btn-gold", count: 0
+  end
+
+  test "stats is a public carta with four marble chapters" do
+    get platform_stats_path
+    assert_response :success
+    assert_select "body.is-paper-hall"
+    assert_select "#stats_charter.is-charter.is-stats"
+    assert_select ".hall-sheet.charter-sheet h1", text: I18n.t("stats.title")
+    assert_select "section.stats-chapter h2", count: 4
+    assert_select "section.stats-chapter h2", text: I18n.t("stats.house.title")
+    assert_select "section.stats-chapter h2", text: I18n.t("stats.path.title")
+    assert_select "section.stats-chapter h2", text: I18n.t("stats.meet.title")
+    assert_select "section.stats-chapter h2", text: I18n.t("stats.world.title")
+    assert_select ".stats-tile"
+    assert_select ".stats-langs"
+    assert_select ".stats-share.is-path"
+    assert_select "dl.paper-facts", count: 0
+    assert_select ".stats-podium"
+    assert_select ".stats-podium-name", text: "Carmen"
+    assert_select ".stats-podium-name", text: /García/, count: 0
+    assert_select ".is-stats", text: /1833/, count: 0
+    assert_select ".street-liga-podium", count: 0
+    assert_select ".story-ticks", count: 0
+    assert_select ".btn.btn-gold", count: 0
+    assert_select ".chrome-drawer a.home-menu-row[href=?]", platform_stats_path, text: I18n.t("stats.menu")
+    assert_select "a.quiet-link[href=?]", about_path, text: I18n.t("home.who")
+    get about_path
+    assert_select "a.quiet-link[href=?]", platform_stats_path
+    get legal_path
+    assert_select "a.quiet-link[href=?]", platform_stats_path
+  end
+
+  test "stats shows an honest empty world when no pack is finished" do
+    QuizAnswer.delete_all
+    QuizRun.delete_all
+    get platform_stats_path
+    assert_response :success
+    assert_select ".stats-empty", text: I18n.t("stats.world.empty")
+    assert_select ".stats-podium", count: 0
+    assert_select ".stats-board", count: 0
   end
 end

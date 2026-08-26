@@ -24,6 +24,7 @@ class PlayAndWatchControllerTest < ActionDispatch::IntegrationTest
     assert_select ".play-round.is-night-live"
     assert_select ".night-quiz-head"
     assert_select ".street-quiz-lockup-name", text: "Noche Live"
+    assert_select "#night_play a.street-quiz-lockup", count: 0
     assert_select ".play-shot"
     assert_select ".play-sheet[data-controller=sheet]"
     assert_select ".play-sheet-grip"
@@ -46,6 +47,7 @@ class PlayAndWatchControllerTest < ActionDispatch::IntegrationTest
     assert_select "#night_play[data-stage-timer-end-value]"
     assert_select "#night_play[data-stage-timer-duration-value=?]", "30"
     assert_select ".buzz", text: /Buzz/
+    assert_select ".hint", text: /primero/
     assert_select ".prompt", text: /pidió|Salomón/
     assert_select ".play-round > .art", count: 0
     assert_select ".challenge-story[src='/media/stories/salomon_wisdom.jpg']"

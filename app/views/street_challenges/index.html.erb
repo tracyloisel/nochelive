@@ -7,7 +7,8 @@
          style="view-transition-name: street-world">
   <%= render "pages/head", kicker: t("street.duel_inbox_kicker") %>
 
-  <div class="street-leaderboard-sheet">
+  <article class="hall-sheet street-duel-inbox-sheet">
+    <span class="hall-sheet-apex street-quien-apex" aria-hidden="true"><%= picto("star4") %></span>
     <p class="lede street-duel-inbox-lede"><%= t("street.duel_inbox_lede") %></p>
 
     <section class="street-duel-inbox-block" aria-labelledby="duel_incoming">
@@ -20,6 +21,19 @@
         </ul>
       <% else %>
         <p class="street-duel-inbox-empty"><%= t("street.duel_empty_incoming") %></p>
+      <% end %>
+    </section>
+
+    <section class="street-duel-inbox-block" aria-labelledby="duel_recent">
+      <h2 id="duel_recent"><%= t("street.duel_recent") %></h2>
+      <% if @inbox.recent.any? %>
+        <ul class="street-duel-inbox-list">
+          <% @inbox.recent.each do |item| %>
+            <li><%= render "street_challenges/item", item: item %></li>
+          <% end %>
+        </ul>
+      <% else %>
+        <p class="street-duel-inbox-empty"><%= t("street.duel_empty_recent") %></p>
       <% end %>
     </section>
 
@@ -50,71 +64,40 @@
                    autocomplete="off"
                    class="street-leaderboard-query"
                    placeholder="<%= t("street.duel_search_rivals") %>">
-            <% if @pack_id %><input type="hidden" name="pack_id" value="<%= @pack_id %>"><% end %>
             <button type="submit" class="street-leaderboard-search-go" aria-label="<%= t("street.leaderboard_search_btn") %>">
               <%= picto("search") %>
             </button>
           </div>
+          <label class="street-leaderboard-filter street-duel-inbox-pack">
+            <span class="visually-hidden"><%= t("street.duel_pick_pack") %></span>
+            <select name="pack_id" class="street-leaderboard-select" onchange="this.form.requestSubmit()">
+              <% @playable_pack_ids.each do |pack_id| %>
+                <% pack = QuizDefinition.catalog.find_pack(pack_id) %>
+                <% best = @pack_bests[pack_id] %>
+                <option value="<%= pack_id %>" <%= "selected" if @pack_id == pack_id %>>
+                  <%= best ? t("street.duel_pack_with_score", pack: pack.copy(:title), score: best) : pack.copy(:title) %>
+                </option>
+              <% end %>
+            </select>
+          </label>
         <% end %>
 
-        <%= form_with url: street_challenges_path, method: :post, class: "street-duel-inbox-form" do %>
-          <% if @rivals.any? %>
-            <fieldset class="street-duel-inbox-rivals">
-              <legend class="visually-hidden"><%= t("street.duel_pick") %></legend>
-              <% @rivals.each do |row| %>
-                <label class="street-duel-inbox-rival <%= "is-picked" if @picked_id == row.person.id %>">
-                  <%= radio_button_tag :opponent_id, row.person.id, @picked_id == row.person.id || (@picked_id.blank? && row == @rivals.first) %>
-                  <% src = avatar_mark(row.person) %>
-                  <% if src %>
-                    <img src="<%= src %>" alt="" class="avatar-img" width="40" height="40">
-                  <% else %>
-                    <span class="avatar-fallback" aria-hidden="true"><%= row.person.given_name.to_s.first %></span>
-                  <% end %>
-                  <span class="street-duel-inbox-rival-name"><%= row.person.display_name %></span>
-                  <span class="street-duel-inbox-rival-score"><%= row.score.positive? ? number_with_delimiter(row.score) : "—" %></span>
-                </label>
-              <% end %>
-            </fieldset>
-          <% else %>
-            <p class="street-duel-inbox-empty"><%= t("street.duel_empty_rivals") %></p>
-          <% end %>
-
-          <% if @rivals.any? %>
-            <label class="street-leaderboard-filter street-duel-inbox-pack">
-              <span class="visually-hidden"><%= t("street.duel_pick_pack") %></span>
-              <select name="pack_id" class="street-leaderboard-select">
-                <% @playable_pack_ids.each do |pack_id| %>
-                  <% pack = QuizDefinition.catalog.find_pack(pack_id) %>
-                  <% best = @pack_bests[pack_id] %>
-                  <option value="<%= pack_id %>" <%= "selected" if @pack_id == pack_id %>>
-                    <%= best ? t("street.duel_pack_with_score", pack: pack.copy(:title), score: best) : pack.copy(:title) %>
-                  </option>
-                <% end %>
-              </select>
-            </label>
-            <button type="submit" class="btn <%= @incoming_action ? "btn-navy" : "btn-gold" %> street-duel-inbox-send"><%= t("street.duel_send") %></button>
-          <% end %>
+        <% if @rivals.any? %>
+          <ul class="street-duel-inbox-rivals">
+            <% @rivals.each do |row| %>
+              <li><%= render "street_challenges/rival", row: row, pack_id: @pack_id, incoming_action: @incoming_action %></li>
+            <% end %>
+          </ul>
+        <% else %>
+          <p class="street-duel-inbox-empty"><%= t("street.duel_empty_rivals") %></p>
         <% end %>
       <% else %>
         <p class="street-duel-inbox-empty"><%= t("street.duel_need_score") %></p>
       <% end %>
     </section>
 
-    <section class="street-duel-inbox-block" aria-labelledby="duel_recent">
-      <h2 id="duel_recent"><%= t("street.duel_recent") %></h2>
-      <% if @inbox.recent.any? %>
-        <ul class="street-duel-inbox-list">
-          <% @inbox.recent.each do |item| %>
-            <li><%= render "street_challenges/item", item: item %></li>
-          <% end %>
-        </ul>
-      <% else %>
-        <p class="street-duel-inbox-empty"><%= t("street.duel_empty_recent") %></p>
-      <% end %>
-    </section>
-
     <nav class="hall-sheet-foot">
       <%= link_to t("street.duel_inbox_back"), street_leaderboard_path, class: "quiet-link" %>
     </nav>
-  </div>
+  </article>
 </section>

@@ -1,9 +1,13 @@
 <% board = local_assigns[:board] %>
 <% rank_title = local_assigns[:rank_title] %>
-<% return if board.blank? || board.rows.empty? %>
+<% path = local_assigns.fetch(:path, street_leaderboard_path) %>
+<% empty_ok = local_assigns[:empty_ok] %>
+<% extra_class = local_assigns[:league_class] %>
+<% return if board.blank? %>
+<% return if board.rows.empty? && !empty_ok %>
 
-<%= link_to street_leaderboard_path,
-      class: "street-league",
+<%= link_to path,
+      class: [ "street-league", extra_class ].compact.join(" "),
       aria: { label: t("street.world_league") } do %>
   <header class="street-league-head">
     <h2><%= rank_title.present? ? t("street.league_named", rank: rank_title) : t("street.world_league") %></h2>
@@ -14,24 +18,31 @@
       </p>
     <% end %>
   </header>
-  <div class="street-league-panel is-avatars">
-    <% board.rows.first(3).each do |row| %>
-      <div class="street-league-slot <%= "is-you" if row.you %> is-medal-<%= row.rank %>">
-        <span class="street-league-medal-badge" aria-hidden="true"><%= row.rank %></span>
-        <% src = avatar_mark(row.person) %>
-        <span class="street-league-face <%= "is-live" if row.live %>">
-          <% if src %>
-            <img src="<%= src %>" alt="" class="avatar-img street-league-avatar" width="40" height="40">
-          <% else %>
-            <span class="avatar-fallback street-league-avatar" aria-hidden="true"><%= row.person.given_name.to_s.first %></span>
-          <% end %>
-          <%= street_live_dot(row.live) %>
-        </span>
-        <span class="street-card-name"><%= row.person.given_name %></span>
-        <span class="street-card-score">
-          <%= picto("crown") %><%= number_with_delimiter(row.score) %>
-        </span>
-      </div>
-    <% end %>
-  </div>
+  <% if board.rows.any? %>
+    <div class="street-league-panel is-avatars">
+      <% board.rows.first(3).each do |row| %>
+        <div class="street-league-slot <%= "is-you" if row.you %> is-medal-<%= row.rank %>">
+          <span class="street-league-medal-badge" aria-hidden="true"><%= row.rank %></span>
+          <% src = avatar_mark(row.person) %>
+          <span class="street-league-face <%= "is-live" if row.live %>">
+            <% if src %>
+              <img src="<%= src %>" alt="" class="avatar-img street-league-avatar" width="40" height="40">
+            <% else %>
+              <span class="avatar-fallback street-league-avatar" aria-hidden="true"><%= row.person.given_name.to_s.first %></span>
+            <% end %>
+            <%= street_live_dot(row.live) %>
+          </span>
+          <span class="street-card-name"><%= row.person.given_name %></span>
+          <span class="street-card-score">
+            <%= picto("crown") %><%= number_with_delimiter(row.score) %>
+          </span>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <p class="rama-liga-empty">
+      <span class="rama-liga-empty-mark" aria-hidden="true"><%= picto("podium") %></span>
+      <%= t("street.leaderboard_empty_ward") %>
+    </p>
+  <% end %>
 <% end %>

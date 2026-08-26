@@ -53,7 +53,7 @@ class QuizDefinition
     end
   end
 
-  Pack = Struct.new(:id, :title, :questions, keyword_init: true) do
+  Pack = Struct.new(:id, :title, :kicker, :lede, :questions, keyword_init: true) do
     def copy(field)
       I18n.t("quizzes.#{id}.#{field}", default: public_send(field))
     end
@@ -110,7 +110,13 @@ class QuizDefinition
     questions = Array(row["questions"]).each_with_index.map do |question, index|
       build_question(question, pack_id, index + 1)
     end
-    Pack.new(id: pack_id, title: row.fetch("title"), questions: questions)
+    Pack.new(
+      id: pack_id,
+      title: row.fetch("title"),
+      kicker: row.fetch("kicker").to_s,
+      lede: row.fetch("lede").to_s,
+      questions: questions
+    )
   end
 
   def build_question(row, pack_id, position)
@@ -169,6 +175,8 @@ class QuizDefinition
   def validate_pack!(pack, question_ids)
     pack_id = pack["id"].to_s
     raise Error, "pack #{pack_id} missing title" if pack["title"].to_s.strip.blank?
+    raise Error, "pack #{pack_id} missing kicker" if pack["kicker"].to_s.strip.blank?
+    raise Error, "pack #{pack_id} missing lede" if pack["lede"].to_s.strip.blank?
 
     questions = pack["questions"]
     raise Error, "pack #{pack_id} needs #{QUESTIONS_PER_PACK} questions" unless questions.is_a?(Array) && questions.size == QUESTIONS_PER_PACK

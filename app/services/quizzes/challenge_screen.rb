@@ -18,7 +18,7 @@ module Quizzes
       if @duel || @token
         duel = @duel || duel_from_token
         return unless duel
-        return if duel.expired? && !duel.resolved?
+        return if duel.expired? && !duel.resolved? && !duel.declined?
 
         return result_for(duel)
       end
@@ -66,6 +66,7 @@ module Quizzes
       end
 
       def phase_for(duel, role)
+        return :taken if duel.declined?
         return :result if duel.resolved?
         return :taken if role == :other
 

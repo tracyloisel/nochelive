@@ -1,0 +1,145 @@
+<% content_for :title, t("stats.title") %>
+<% content_for :body_class, "is-kid is-paper-hall" %>
+<%= chrome_menu { site_menu } %>
+<%= charter_hall id: "stats_charter", kicker: t("stats.kicker"), extra_class: "is-stats" do %>
+  <h1><%= t("stats.title") %></h1>
+  <p class="lede"><%= t("stats.lede") %></p>
+
+  <section class="stats-chapter charter-block">
+    <h2><%= t("stats.house.title") %></h2>
+    <p><%= t("stats.house.lede") %></p>
+    <div class="stats-tiles is-trio">
+      <% [
+        [ "people", @stats.people, "stats.people" ],
+        [ "temple", @stats.wards, "stats.wards" ],
+        [ "land", @stats.countries, "stats.countries" ]
+      ].each do |icon, value, key| %>
+        <article class="stats-tile">
+          <span class="stats-tile-ico" aria-hidden="true"><%= picto(icon) %></span>
+          <p class="stats-tile-value"><%= number_with_delimiter(value) %></p>
+          <p class="stats-tile-label"><%= t(key) %></p>
+        </article>
+      <% end %>
+    </div>
+    <div class="stats-langs" aria-label="<%= t("stats.languages") %>">
+      <% @stats.languages.each do |lang| %>
+        <article class="stats-lang">
+          <p class="stats-lang-who">
+            <span class="stats-lang-flag" aria-hidden="true"><%= locale_flag(lang.code) %></span>
+            <span class="stats-lang-name"><%= t("locale.names.#{lang.code}") %></span>
+            <span class="stats-lang-count"><%= number_with_delimiter(lang.count) %></span>
+          </p>
+          <span class="stats-share" style="--stats-share: <%= (lang.share * 100).round %>%" aria-hidden="true">
+            <span class="stats-share-fill"></span>
+          </span>
+        </article>
+      <% end %>
+    </div>
+  </section>
+
+  <section class="stats-chapter charter-block">
+    <h2><%= t("stats.path.title") %></h2>
+    <p><%= t("stats.path.lede") %></p>
+    <div class="stats-tiles">
+      <article class="stats-tile is-hero">
+        <span class="stats-tile-ico" aria-hidden="true"><%= picto("sparkle") %></span>
+        <p class="stats-tile-value"><%= number_with_delimiter(@stats.answers) %></p>
+        <p class="stats-tile-label"><%= t("stats.answers") %></p>
+      </article>
+    </div>
+    <div class="stats-tiles is-pair">
+      <article class="stats-tile">
+        <span class="stats-tile-ico" aria-hidden="true"><%= picto("check") %></span>
+        <p class="stats-tile-value"><%= number_with_delimiter(@stats.correct) %></p>
+        <p class="stats-tile-label"><%= t("stats.correct") %></p>
+      </article>
+      <article class="stats-tile">
+        <span class="stats-tile-ico" aria-hidden="true"><%= picto("cross") %></span>
+        <p class="stats-tile-value"><%= number_with_delimiter(@stats.wrong) %></p>
+        <p class="stats-tile-label"><%= t("stats.wrong") %></p>
+      </article>
+    </div>
+    <div class="stats-share is-path"
+         style="--stats-share: <%= (@stats.path_share * 100).round %>%"
+         role="img"
+         aria-label="<%= t("stats.path.ratio", correct: number_with_delimiter(@stats.correct), total: number_with_delimiter(@stats.answers)) %>">
+      <span class="stats-share-fill"></span>
+    </div>
+  </section>
+
+  <section class="stats-chapter charter-block">
+    <h2><%= t("stats.meet.title") %></h2>
+    <p><%= t("stats.meet.lede") %></p>
+    <div class="stats-tiles is-trio">
+      <% [
+        [ "trophy", @stats.duels, "stats.duels" ],
+        [ "sofa", @stats.nights, "stats.nights" ],
+        [ "people", @stats.teams, "stats.teams" ]
+      ].each do |icon, value, key| %>
+        <article class="stats-tile">
+          <span class="stats-tile-ico" aria-hidden="true"><%= picto(icon) %></span>
+          <p class="stats-tile-value"><%= number_with_delimiter(value) %></p>
+          <p class="stats-tile-label"><%= t(key) %></p>
+        </article>
+      <% end %>
+    </div>
+  </section>
+
+  <section class="stats-chapter charter-block">
+    <h2><%= t("stats.world.title") %></h2>
+    <p><%= t("stats.world.lede") %></p>
+    <% if @stats.world.empty? %>
+      <p class="stats-empty"><%= t("stats.world.empty") %></p>
+    <% else %>
+      <% podium = @stats.world.select { |row| row.rank.between?(1, 3) } %>
+      <% rest = @stats.world.reject { |row| row.rank.between?(1, 3) } %>
+      <ol class="stats-podium <%= "is-solo" if podium.size == 1 %> <%= "is-pair" if podium.size == 2 %>"
+          aria-label="<%= t("stats.world.title") %>">
+        <% podium.each do |row| %>
+          <li class="stats-podium-slot is-place-<%= row.rank %>">
+            <span class="stats-podium-face">
+              <span class="stats-podium-badge" aria-hidden="true"><%= row.rank %></span>
+              <span class="stats-podium-avatar">
+                <% src = avatar_mark(row.person) %>
+                <% if src %>
+                  <img src="<%= src %>" alt="" class="avatar-img" width="72" height="72">
+                <% else %>
+                  <span class="avatar-fallback" aria-hidden="true"><%= row.person.given_name.to_s.first %></span>
+                <% end %>
+              </span>
+            </span>
+            <span class="stats-podium-name"><%= row.person.given_name %></span>
+            <span class="stats-podium-place"><%= t("stats.world.place", ward: row.ward_name, country: row.country) %></span>
+            <span class="stats-podium-score"><%= picto("crown") %><%= number_with_delimiter(row.score) %></span>
+          </li>
+        <% end %>
+      </ol>
+      <% if rest.any? %>
+        <ol class="stats-board" start="4">
+          <% rest.each do |row| %>
+            <li class="stats-board-row">
+              <span class="stats-board-rank"><%= row.rank %></span>
+              <span class="stats-board-avatar">
+                <% src = avatar_mark(row.person) %>
+                <% if src %>
+                  <img src="<%= src %>" alt="" class="avatar-img" width="40" height="40">
+                <% else %>
+                  <span class="avatar-fallback" aria-hidden="true"><%= row.person.given_name.to_s.first %></span>
+                <% end %>
+              </span>
+              <span class="stats-board-who">
+                <span class="stats-board-name"><%= row.person.given_name %></span>
+                <span class="stats-board-place"><%= t("stats.world.place", ward: row.ward_name, country: row.country) %></span>
+              </span>
+              <span class="stats-board-score"><%= number_with_delimiter(row.score) %></span>
+            </li>
+          <% end %>
+        </ol>
+      <% end %>
+    <% end %>
+  </section>
+
+  <nav class="hall-sheet-foot">
+    <%= link_to t("home.who"), about_path, class: "quiet-link" %>
+  </nav>
+<% end %>

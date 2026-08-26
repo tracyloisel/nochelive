@@ -12,6 +12,9 @@ class PagesController < ApplicationController
   def church_worship; end
   def legal; end
   def privacy; end
+  def stats
+    @stats = Platform::Stats.call
+  end
 
   private
 

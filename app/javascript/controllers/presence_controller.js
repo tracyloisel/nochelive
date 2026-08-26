@@ -23,6 +23,7 @@ export default class extends Controller {
   beat() {
     if (!this.urlValue || document.hidden) return
     const token = document.querySelector("meta[name='csrf-token']")?.content
+    if (!token) return
     fetch(this.urlValue, {
       method: "POST",
       headers: {
@@ -30,7 +31,7 @@ export default class extends Controller {
         Accept: "text/plain",
         "X-Requested-With": "XMLHttpRequest"
       },
-      keepalive: true
+      credentials: "same-origin"
     }).catch(() => {})
   }
 }

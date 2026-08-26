@@ -25,11 +25,11 @@
              role="img"
              aria-label="<%= label %>, <%= row.percent %>%">
           <span class="quiz-fill" data-share="<%= row.percent %>"></span>
+          <span class="quiz-flag <%= row.correct ? "is-yes" : "is-no" %>" aria-hidden="true">
+            <%= picto(row.correct ? "tick" : "cross") %>
+          </span>
           <span class="word"><%= label %></span>
           <span class="quiz-meta">
-            <% if row.correct %>
-              <span class="quiz-flag" aria-hidden="true"><%= picto("check") %></span>
-            <% end %>
             <span class="quiz-pct"><%= row.percent %>%</span>
           </span>
         </div>

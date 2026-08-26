@@ -2,7 +2,7 @@
 <html lang="<%= I18n.locale.to_s.tr('_', '-') %>">
   <head>
     <title><%= content_for(:title) || "Noche Live" %></title>
-    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content">
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-visual">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="application-name" content="Noche Live">
     <meta name="mobile-web-app-capable" content="yes">
@@ -53,6 +53,10 @@
     <%= render "shared/chrome_tools" unless chrome_tools_in_drawer? %>
     <% if current_street_person %>
       <div hidden data-controller="presence" data-presence-url-value="<%= street_presence_path %>"></div>
+    <% end %>
+    <% if street_duel_ping? %>
+      <%= turbo_stream_from current_street_person, :street_duel %>
+      <div id="street_duel_ping"></div>
     <% end %>
     <aside id="scripture_loading" class="scripture-veil is-loading" hidden data-scripture-target="loading" role="status">
       <div class="scripture-sheet">

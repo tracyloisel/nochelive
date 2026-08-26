@@ -44,6 +44,7 @@ PASS WITH NOTES
 
 - Still no push when the friend finishes. The challenger sees the result on the next hub or inbox visit (now more likely, because a fresh result ranks above waiting).
 - OG image for the public `/desafio/:token` link remains out of scope.
+- Hub crowding: duel CTA clipped, map gone — see [043](043-street-hub-map-page.md).
 
 ## Required before approval
 

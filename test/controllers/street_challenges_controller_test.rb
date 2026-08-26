@@ -154,13 +154,65 @@ class StreetChallengesControllerTest < ActionDispatch::IntegrationTest
     get street_challenges_path
     assert_response :success
     assert_select ".street-duel-inbox"
+    assert_select "article.hall-sheet.street-duel-inbox-sheet"
+    assert_select "#street_duel_ping"
+    assert_select "turbo-cable-stream-source"
     assert_select ".street-hub-kicker", text: I18n.t("street.duel_inbox_kicker")
+    assert_select "a.street-hub-lockup-wordmark[href=?]", root_path
     assert_select ".street-duel-inbox-lede", text: I18n.t("street.duel_inbox_lede")
     assert_select ".street-duel-inbox-card-name", text: I18n.t("street.share_guest")
-    assert_select ".street-duel-inbox-card-name", text: people(:carmen_garcia).display_name
+    assert_select ".street-duel-inbox-card-score", text: I18n.t("street.duel_waiting_link")
+    assert_select ".street-duel-inbox-card-name", text: I18n.t("street.duel_they_won", name: people(:carmen_garcia).display_name)
+    assert_select ".street-duel-inbox-rival-state", text: I18n.t("street.duel_lost_badge")
+    assert_select ".street-duel-inbox-rival-go", text: I18n.t("street.duel_send")
     assert_select ".street-hub-nav", count: 0
     assert_select ".street-world-dock", count: 0
     assert_select "a.quiet-link", text: I18n.t("street.duel_inbox_back")
+    html = response.body
+    assert_operator html.index("id=\"duel_recent\""), :<, html.index("id=\"duel_outgoing\"")
+  end
+
+  test "inbox puts live rivals first and keeps a finished pair off challenge" do
+    PersonDevice.create!(person: people(:carmen_lopez), device_token: "lopez-live-inbox", last_seen_at: Time.current)
+    get street_challenges_path
+    assert_response :success
+    assert_select ".street-duel-inbox-rivals li:first-child .street-duel-inbox-rival-name", text: people(:carmen_lopez).display_name
+    assert_select ".street-live-dot"
+    names = css_select(".street-duel-inbox-rival-name").map { |node| node.text.strip }
+    assert_equal people(:carmen_lopez).display_name, names.first
+    assert_select ".street-duel-inbox-rival.is-settled .street-duel-inbox-rival-name", text: people(:carmen_garcia).display_name
+  end
+
+  test "named rematch on a resolved pack is denied" do
+    carmen = people(:carmen_garcia)
+    post street_challenges_path, params: { opponent_id: carmen.id, pack_id: "coronas" }
+    assert_redirected_to street_challenges_path
+    follow_redirect!
+    assert_select ".banner", text: I18n.t("street.duel_played")
+  end
+
+  test "opponent can decline a named challenge" do
+    carmen = people(:carmen_garcia)
+    StreetDuel.create!(
+      challenger_person: people(:pili),
+      opponent_person: carmen,
+      ward: wards(:demo),
+      pack_id: "placas",
+      token: "decline-inbox-token",
+      status: "challenger_done",
+      challenger_score: 44,
+      expires_at: 7.days.from_now
+    )
+    reset!
+    sign_in_congregation
+    post street_profile_path, params: { person_id: carmen.id, favorite_year: carmen.favorite_year }
+    follow_redirect!
+    post street_challenge_decline_path("decline-inbox-token")
+    assert_redirected_to street_challenges_path
+    assert_equal "declined", StreetDuel.find_by!(token: "decline-inbox-token").status
+    follow_redirect!
+    assert_select ".banner", text: I18n.t("street.duel_declined")
+    assert_select ".street-duel-inbox-card-name", text: people(:pili).display_name, count: 0
   end
 
   test "named html create puts the opponent on the duel" do
@@ -168,13 +220,13 @@ class StreetChallengesControllerTest < ActionDispatch::IntegrationTest
     QuizRun.create!(
       device_digest: GameSession.digest_token("inbox-named"),
       person: people(:pili),
-      pack_id: "coronas",
+      pack_id: "placas",
       position: 10,
       score: 58,
       status: "finished",
       opened_at: 1.hour.ago
     )
-    post street_challenges_path, params: { opponent_id: carmen.id, pack_id: "coronas" }
+    post street_challenges_path, params: { opponent_id: carmen.id, pack_id: "placas" }
     assert_redirected_to street_challenges_path
     duel = StreetDuel.order(:id).last
     assert_equal carmen.id, duel.opponent_person_id
@@ -184,7 +236,7 @@ class StreetChallengesControllerTest < ActionDispatch::IntegrationTest
     assert_select ".banner", text: I18n.t(
       "street.duel_named",
       name: carmen.display_name,
-      pack: QuizDefinition.catalog.find_pack("coronas").copy(:title)
+      pack: QuizDefinition.catalog.find_pack("placas").copy(:title)
     )
   end
 

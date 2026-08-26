@@ -3,9 +3,11 @@ Rails.application.routes.draw do
 
   root "street_hub#index"
   get "jugar", to: "street_plays#show", as: :jugar
+  get "mapa", to: "street_hub#map", as: :street_map
   post "packs/:pack_id", to: "street_pack_starts#create", as: :street_pack_start
   get "desafio/:token", to: "street_challenges#show", as: :street_challenge
   post "desafio/:token", to: "street_challenges#accept", as: :street_challenge_accept
+  post "desafio/:token/decline", to: "street_challenges#decline", as: :street_challenge_decline
   get "desafios", to: "street_challenges#index", as: :street_challenges
   post "desafios", to: "street_challenges#create"
   get "noches", to: "nights#index", as: :nights
@@ -17,7 +19,7 @@ Rails.application.routes.draw do
   get "quien", to: "street_profiles#show", as: :street_profile
   post "quien", to: "street_profiles#create"
   post "rama", to: "street_ward_picks#create", as: :street_ward_pick
-  get "camino", to: redirect("/#historial")
+  get "camino", to: redirect("/mapa#historial")
   get "home", to: redirect("/"), as: :legacy_home
   get "camino/historial", to: "street_histories#show", as: :street_history
   get "liga", to: "street_leaderboards#show", as: :street_leaderboard
@@ -32,6 +34,8 @@ Rails.application.routes.draw do
   get "iglesia/adorar", to: "pages#church_worship", as: :church_worship
   get "legal", to: "pages#legal", as: :legal
   get "privacidad", to: "pages#privacy", as: :privacy
+  get "cifras", to: "pages#stats", as: :platform_stats
+  get "pulso", to: "street_pulses#show", as: :street_pulse
   get "buscar", to: "searches#show", as: :search
   get "escrituras/*study", to: "scriptures#show", as: :scripture, format: false
   resources :wards, only: [ :new, :create ]
@@ -44,6 +48,7 @@ Rails.application.routes.draw do
   patch "ramas/fichas/:id", to: "fichas#update"
   post "ramas/fichas/:id/merge", to: "fichas#merge", as: :ward_ficha_merge
   get "ramas/:code/n/:session_code", to: "ward_memories#show", as: :ward_memory
+  get "ramas/:code/liga", to: "street_leaderboards#show", as: :ward_leaderboard
   get "ramas/:code", to: "ward_profiles#show", as: :ward_profile
   resources :game_sessions, only: [ :new, :create ] do
     get :created, on: :member

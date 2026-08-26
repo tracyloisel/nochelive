@@ -1,0 +1,50 @@
+<% world = local_assigns[:world] %>
+<% open_run = local_assigns[:open_run] %>
+<% play_pack_id = open_run&.pack_id.presence || world.current_pack_id %>
+<% current = world.packs.find { |pack_view| pack_view.id == play_pack_id } ||
+     world.packs.find { |pack_view| pack_view.id == world.current_pack_id } ||
+     world.packs.first %>
+<% thumb = current && street_still_src(current.pack.question_at(1)) %>
+<% step_n = current ? current.index + 1 : 1 %>
+<% here = open_run.present? && current && open_run.pack_id == current.id %>
+<% step_line = if here
+  t("street.pack_here", n: step_n, q: open_run.position, total: current.pack.questions.size)
+else
+  t("street.pack_step", n: step_n)
+end %>
+
+<article class="street-card is-hub-tile is-map-door is-brief">
+  <div class="street-map-door-head">
+    <span class="street-map-door-thumb" aria-hidden="true">
+      <% if thumb %>
+        <img src="<%= thumb %>" alt="" width="56" height="56">
+      <% else %>
+        <%= picto("compass") %>
+      <% end %>
+    </span>
+    <div class="street-map-door-copy">
+      <% if current %>
+        <p class="street-hub-tile-kicker street-map-door-kicker"><%= current.pack.copy(:kicker) %></p>
+      <% end %>
+      <p class="street-map-door-step"><%= step_line %></p>
+      <% if current %>
+        <p class="street-hub-tile-title street-map-door-pack"><%= current.pack.copy(:title) %></p>
+        <p class="street-map-door-lede"><%= current.pack.copy(:lede) %></p>
+      <% end %>
+    </div>
+    <% play_inner = capture do %>
+      <span class="street-cta-star" aria-hidden="true"><%= picto("star8") %></span>
+      <span class="street-map-door-play-label"><%= t("street.world_play") %></span>
+      <span class="street-cta-star" aria-hidden="true"><%= picto("star8") %></span>
+    <% end %>
+    <% if open_run %>
+      <%= link_to jugar_path, class: "street-map-door-play" do %><%= play_inner %><% end %>
+    <% elsif world.current_pack_id %>
+      <%= button_to street_pack_start_path(world.current_pack_id),
+            class: "street-map-door-play",
+            form: { data: { turbo: false }, class: "street-map-door-play-form" } do %>
+        <%= play_inner %>
+      <% end %>
+    <% end %>
+  </div>
+</article>

@@ -42,6 +42,10 @@ class StreetPlaysController < ApplicationController
           return match if match
         end
       end
+      pinned = session[:street_play_run_id]
+      match = open.find_by(id: pinned) if pinned
+      return match if match
+
       open.order(:id).last
     end
 end

@@ -1,0 +1,4 @@
+<% challenge = Quizzes::ChallengeScreen.call(duel:, person: viewer) %>
+<div id="street_duel_ping" class="street-duel-ping" role="status">
+  <%= render "street_hub/duel_banner", duel:, challenge:, viewer:, csrf: false %>
+</div>

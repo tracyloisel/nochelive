@@ -17,8 +17,18 @@
     <% elsif ward_place(@ward).present? %>
       <p class="lede ward-place"><%= picto("pin") %><%= ward_place(@ward) %></p>
     <% end %>
-    <p class="rama-stats"><%= t("ward.nights_count", count: @ward.nights_count) %></p>
+    <p class="rama-stats">
+      <%= t("ward.nights_count", count: @ward.nights_count) %>
+      <span aria-hidden="true"> · </span>
+      <%= t("street.leaderboard_players", count: @board.players) %>
+    </p>
   </header>
+
+  <%= render "street_hub/league_strip",
+        board: @board,
+        path: ward_leaderboard_path(@ward.code),
+        empty_ok: true,
+        league_class: "rama-liga" %>
 
   <div class="rama-cta">
     <% if live %>

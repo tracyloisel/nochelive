@@ -25,10 +25,10 @@
       ).compact do %>
   <% if jugar && !street.done? %>
     <header class="street-quiz-head">
-      <div class="street-quiz-lockup">
+      <%= link_to root_path, class: "street-quiz-lockup", aria: { label: t("street.lockup_hub") } do %>
         <p class="street-quiz-lockup-name">Noche Live</p>
         <p class="street-quiz-lockup-tag">LIVE</p>
-      </div>
+      <% end %>
       <%= render "home/street_level_rail", run: run, pack: pack %>
     </header>
   <% end %>
@@ -47,17 +47,7 @@
       </p>
     <% end %>
     <% if quiz_rival && street.asking? %>
-      <article class="street-card is-rival is-compact street-shot-rival" aria-label="<%= quiz_rival.person.given_name %>">
-        <% src = avatar_mark(quiz_rival.person) %>
-        <% if src %><img src="<%= src %>" alt="" class="avatar-img street-shot-rival-avatar" width="40" height="40"><% end %>
-        <div class="street-shot-rival-body">
-          <span class="street-shot-rival-name"><%= quiz_rival.person.given_name %></span>
-          <% gap = quiz_rival.pack_gap.to_i > 0 ? quiz_rival.pack_gap : quiz_rival.gap %>
-          <% if gap.to_i > 0 %>
-            <span class="street-shot-rival-gap"><%= t("street.shot_rival_gap", gap: gap) %></span>
-          <% end %>
-        </div>
-      </article>
+      <%= render "home/street_shot_rival", rival: quiz_rival %>
     <% end %>
     <% if jugar && !street.done? %>
       <p class="street-score <%= "is-tick" if street.settled? && street.answer&.correct? %>"

@@ -8,6 +8,15 @@ class Quizzes::StartPackTest < ActiveSupport::TestCase
     assert_equal "coronas", frame.run.pack_id
   end
 
+  test "open pack resumes the same run" do
+    digest = GameSession.digest_token("start-resume")
+    first = Quizzes::StartPack.call(device_digest: digest, pack_id: "coronas").run
+    first.update!(position: 4)
+    again = Quizzes::StartPack.call(device_digest: digest, pack_id: "coronas").run
+    assert_equal first.id, again.id
+    assert_equal 4, again.position
+  end
+
   test "locked pack raises" do
     digest = GameSession.digest_token("start-locked")
     assert_raises(Quizzes::StartPack::Locked) do

@@ -21,6 +21,7 @@ class NightTempleVisualTest < ApplicationSystemTestCase
     assert_selector ".night-quiz-head"
     assert_selector ".night-quiz-head .story-close"
     assert_selector ".play-shot-seat"
+    assert_text "¡Sé el primero!"
     assert_play_shot_arch
     has_star = page.evaluate_script(<<~JS)
       (function() {
@@ -85,11 +86,27 @@ class NightTempleVisualTest < ApplicationSystemTestCase
     round_runs(:salomon).update!(phase: "completed")
     round = round_runs(:rey_o_profeta)
     round.update!(phase: "open", opened_at: Time.current)
+    Buzz.create!(round_run: round, team: teams(:leones), player: players(:lucia), position: 1, latency_ms: 400)
 
     visit presenter_gate_path(game_sessions(:david).code, token: "presenter-secret")
     assert_selector ".console.is-stage"
     assert_selector ".code-chip"
     assert_stage_shot_arch
+    peek = page.evaluate_script(<<~JS)
+      (function() {
+        var tabs = document.querySelector(".desk-tabs");
+        var row = document.querySelector(".buzz-board li");
+        if (!tabs) return [0, 0];
+        var t = tabs.getBoundingClientRect();
+        var tabsOk = t.top >= 0 && t.bottom <= (window.innerHeight + 8) && t.height > 0 ? 1 : 0;
+        if (!row) return [tabsOk, 0];
+        var r = row.getBoundingClientRect();
+        var rowOk = r.top >= 0 && r.top < window.innerHeight && r.height > 0 ? 1 : 0;
+        return [tabsOk, rowOk];
+      })()
+    JS
+    assert_equal 1, peek[0], "Lista/Fichas tabs should sit in the desk peek"
+    assert_equal 1, peek[1], "first buzz row should peek on the marble desk"
     shot("presenter-stage")
     page.current_window.resize_to(1280, 800)
     sleep 0.3
@@ -122,6 +139,32 @@ class NightTempleVisualTest < ApplicationSystemTestCase
     page.current_window.resize_to(1024, 768)
     sleep 0.3
     shot("watch-board-cinema")
+    page.current_window.resize_to(844, 390)
+    sleep 0.3
+    board_share = page.evaluate_script(<<~JS)
+      (function() {
+        var shot = document.querySelector(".watch-shot");
+        var board = document.querySelector(".watch-board");
+        var caption = document.querySelector(".watch-caption");
+        if (!shot || !board) return [1, 1, 0, 0];
+        var s = shot.getBoundingClientRect();
+        var b = board.getBoundingClientRect();
+        var c = caption ? caption.getBoundingClientRect() : { height: 0, bottom: 0, top: 0 };
+        if (s.height <= 0) return [1, 1, 0, 0];
+        return [
+          b.height / s.height,
+          c.height / s.height,
+          c.bottom <= b.top + 2 ? 1 : 0,
+          c.top > s.top + s.height * 0.5 ? 1 : 0
+        ];
+      })()
+    JS
+    assert board_share[0] < 0.42, "landscape watch board should stay a lower-third, got #{board_share[0]}"
+    assert board_share[1] < 0.28, "landscape watch caption should not cover the light-beam, got #{board_share[1]}"
+    assert_equal 1, board_share[2], "landscape watch caption should sit on the still, above the marble strip"
+    assert_equal 1, board_share[3], "landscape watch caption should sit in the lower half, off the light-beam"
+    shot("watch-board-landscape")
+    page.current_window.resize_to(390, 844)
   end
 
   test "finished night play shows temple ceremony scrim" do

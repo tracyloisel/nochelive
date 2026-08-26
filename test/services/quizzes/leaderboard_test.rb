@@ -258,6 +258,29 @@ class Quizzes::LeaderboardTest < ActiveSupport::TestCase
     assert_equal 6, pack_board.your_answered
   end
 
+  test "pack_best_totals without a ward sums the world" do
+    other = extra_ward(12, country_code: "BR", country_name: "Brazil")
+    rival = other.people.create!(given_name: "Joao", avatar_key: "gato", favorite_year: 1994)
+    QuizRun.create!(
+      device_digest: "world-rival",
+      person: rival,
+      pack_id: "placas",
+      position: 10,
+      score: 44,
+      status: "finished",
+      opened_at: Time.current
+    )
+    carmen = people(:carmen_garcia)
+    world = Quizzes::Leaderboard.pack_best_totals
+    demo = Quizzes::Leaderboard.pack_best_totals(ward: wards(:demo))
+
+    assert_equal 120 + 88, world[carmen.id]
+    assert_equal 44, world[rival.id]
+    assert_equal 120 + 88, demo[carmen.id]
+    refute_includes demo.keys, rival.id
+    assert_equal world[carmen.id], demo[carmen.id]
+  end
+
   test "your_answered is present when the player sits off the page" do
     people = Array.new(6) do |index|
       @ward.people.create!(

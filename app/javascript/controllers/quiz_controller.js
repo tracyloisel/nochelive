@@ -81,15 +81,18 @@ export default class extends Controller {
     const fills = this.element.querySelectorAll(".quiz-fill")
     if (!fills.length) return
 
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches
-    fills.forEach((fill) => {
+    const reduced = this.reduced()
+    const street = this.street()
+    fills.forEach((fill, index) => {
       const share = `${fill.dataset.share || 0}%`
       if (reduced) {
         fill.style.width = share
         return
       }
       fill.style.width = "0%"
-      fill.style.transition = "width 300ms cubic-bezier(0.22, 1, 0.36, 1)"
+      const duration = street ? 640 : 300
+      const delay = street ? index * 70 : 0
+      fill.style.transition = `width ${duration}ms cubic-bezier(0.22, 1, 0.36, 1) ${delay}ms`
       requestAnimationFrame(() => {
         requestAnimationFrame(() => { fill.style.width = share })
       })
@@ -136,6 +139,7 @@ export default class extends Controller {
 
   delayStreetSheet() {
     if (!this.street()) return
+    if (this.element.classList.contains("is-settled")) return
     const sheet = this.element.querySelector(".play-sheet")
     if (!sheet) return
     sheet.classList.remove("is-arriving")

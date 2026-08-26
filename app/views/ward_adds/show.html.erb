@@ -11,6 +11,7 @@
         <strong>Tracy Loisel</strong>
         <span><%= t("about.role") %></span>
       </figcaption>
+      <%= render "reach" %>
     </figure>
   <% end %>
   <h1><%= t("about.title") %></h1>
@@ -22,4 +23,7 @@
   <p class="lede"><%= t("about.purse") %></p>
   <p class="lede"><%= t("about.association") %></p>
   <p class="lede"><%= t("about.disclaimer") %></p>
+  <nav class="hall-sheet-foot">
+    <%= link_to t("stats.title"), platform_stats_path, class: "quiet-link" %>
+  </nav>
 <% end %>

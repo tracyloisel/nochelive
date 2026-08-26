@@ -34,6 +34,9 @@ class WardProfilesControllerTest < ActionDispatch::IntegrationTest
     assert_select ".rama-night-missionaries", text: /Élder Soto/
     assert_select ".rama-night-missionaries", text: /Hermana Clark/
     assert_select ".rama-night-role", text: I18n.t("presenter.missionaries")
+    assert_select ".rama-cta a.quiet-link[href=?]", ward_leaderboard_path("RAMA"),
+          text: I18n.t("street.league_see_all")
+    assert_select ".rama-cta .btn.btn-gold", count: 1
   end
 
   test "host without a live night gets Abrir la noche as the gold CTA" do
@@ -43,6 +46,8 @@ class WardProfilesControllerTest < ActionDispatch::IntegrationTest
     assert_select ".btn.btn-gold", text: /Abrir la noche/
     assert_select ".btn.btn-gold", count: 1
     assert_select ".btn.btn-gold", text: /Entrar/, count: 0
+    assert_select ".rama-cta a.quiet-link[href=?]", ward_leaderboard_path("BLANK"),
+          text: I18n.t("street.league_see_all")
   end
 
   test "congregation cookie does not open fichas" do

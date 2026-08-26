@@ -1,0 +1,42 @@
+<% content_for :title, t("street.world_map") %>
+<% content_for :body_class, "is-kid is-street-hub" %>
+<%= chrome_menu { site_menu } %>
+
+<section id="street_world"
+         class="street-world street-map-page"
+         data-controller="street-hub street-share"
+         data-street-share-copied-value="<%= t("street.share_copied") %>"
+         data-street-hub-current-pack-value="<%= @world.current_pack_id %>"
+         <% if params[:rank_up].present? %>
+         data-stage-sfx-value="level_up"
+         data-stage-sfx-token-value="map:rank_up:<%= current_street_person&.id || "guest" %>"
+         data-stage-fx-value="level"
+         <% end %>
+         style="view-transition-name: street-world">
+  <header class="street-hub-brand">
+    <%= render "shared/street_hub_lockup" %>
+  </header>
+
+  <%= link_to t("street.world_map_close"), root_path, class: "quiet-link street-map-close" %>
+  <%= render "street_hub/map_path", world: @world, unlock_pack_id: @unlock_pack_id %>
+
+  <footer class="street-world-dock">
+    <div class="street-world-dock-cta">
+      <% if @open_run %>
+        <%= link_to jugar_path, class: "btn btn-gold street-play-cta" do %>
+          <span class="street-cta-star" aria-hidden="true"><%= picto("star8") %></span>
+          <span class="street-cta-label"><%= t("street.world_continue") %></span>
+          <span class="street-cta-star" aria-hidden="true"><%= picto("star8") %></span>
+        <% end %>
+      <% elsif @world.current_pack_id %>
+        <%= button_to street_pack_start_path(@world.current_pack_id),
+              class: "btn btn-gold street-play-cta",
+              form: { data: { turbo: false } } do %>
+          <span class="street-cta-star" aria-hidden="true"><%= picto("star8") %></span>
+          <span class="street-cta-label"><%= t("street.world_play") %></span>
+          <span class="street-cta-star" aria-hidden="true"><%= picto("star8") %></span>
+        <% end %>
+      <% end %>
+    </div>
+  </footer>
+</section>

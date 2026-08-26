@@ -6,7 +6,7 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select 'meta[name="view-transition"][content="same-origin"]'
     assert_select 'meta[name="theme-color"][content="#f6f3ec"]'
-    assert_select 'meta[name="viewport"][content*="interactive-widget=resizes-content"]'
+    assert_select 'meta[name="viewport"][content*="interactive-widget=resizes-visual"]'
     assert_select "body[data-controller~=press][data-controller~=motion]"
     assert_select "body.is-kid"
     assert_includes response.body, "window.NocheSfx"
@@ -15,6 +15,7 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     assert_select "audio#noche_sfx_gate[playsinline]"
     assert_select "audio#noche_sfx_gate[src='/sfx/tick.mp3']"
     assert_select "#street_world"
+    assert_select "a.street-hub-lockup-wordmark[href=?]", root_path
     assert_select ".street-hub-lockup-star"
     assert_select ".home-paper", count: 0
     assert_select "nav.home-menu"
@@ -31,11 +32,13 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     assert_select ".chrome-drawer a.home-menu-row[href=?]", nights_path, text: I18n.t("home.nights_menu")
     assert_select ".chrome-drawer a.home-menu-row[href=?]", search_path
     assert_select ".chrome-drawer a.home-menu-row[href=?]", street_history_path
+    assert_select ".chrome-drawer a.home-menu-row[href=?]", street_map_path, text: I18n.t("street.world_map")
+    assert_select ".chrome-drawer a.home-menu-row[href=?]", platform_stats_path, text: I18n.t("stats.menu")
     assert_select ".chrome-drawer .place-input", count: 0
     assert_select ".chrome-drawer .code-input"
     assert_select "details.home-code summary", text: I18n.t("home.night_code")
     assert_select ".story-ticks", count: 0
-    assert_select ".street-card.is-pack"
+    assert_select ".street-card.is-map-door"
     assert_select ".chrome-drawer .mute"
     assert_select ".chrome-drawer .mute .word", text: I18n.t("chrome.sound_on")
     assert_select ".chrome-tools", count: 0
@@ -45,7 +48,7 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     start_street_jugar!
     get jugar_path
     assert_select "#street_quiz.play-reel.is-quiz.is-street"
-    assert_select "a.home-menu-row[href=?]", root_path, text: I18n.t("street.ceremony_back_map")
+    assert_select "a.home-menu-row[href=?]", street_map_path, text: I18n.t("street.ceremony_back_map")
     assert_select ".play-sheet-grip", count: 0
     assert_select ".street-quiz-head"
     assert_select ".street-quiz-apex"
@@ -100,6 +103,8 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     assert_includes css, ".choice-mark"
     assert_includes css, ".quiz-meta"
     assert_includes css, ".play-reel.is-street.is-quiz .quiz-bar .word"
+    refute_includes css, ".play-reel.is-street .quiz-bar.is-right {\n  background: var(--ink);"
+    refute_includes css, ".play-reel.is-street .quiz-board.is-right { animation: goldflash"
     assert_includes css, ".choice-token"
     assert_includes css, ".order-chip"
     assert_includes css, ".picto"
@@ -181,6 +186,7 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     assert_includes css, ".watch-caption,\n.stage-caption {\n  background: var(--scrim-bottom);"
     assert_includes css, "background: var(--scrim-board);"
     assert_includes css, "body.is-watch .chrome-tools .mute { display: none; }"
+    assert_includes css, "@media (orientation: landscape) and (max-height: 500px)"
     refute_includes css, "linear-gradient(180deg, var(--paper) 0%, transparent 28%)"
     assert_includes css, "--sky:"
   end
@@ -198,6 +204,7 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     assert_select ".watch-board .score-strip"
     assert_select ".challenge-story[src='/media/stories/salomon_wisdom.jpg']"
     assert_select ".cheer-dock", count: 0
+    assert_select "#street_duel_ping", count: 0
   end
 
   test "name screen is a paper hall without Story costume" do
@@ -233,7 +240,7 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     assert_select ".story-close"
     assert_select ".console.is-stage[data-controller=story]"
     assert_select ".desk-sheet"
-    assert_select ".desk-sheet[data-sheet-peek-ratio-value='0.26']"
+    assert_select ".desk-sheet[data-sheet-peek-ratio-value='0.28']"
     assert_select ".desk-tabs"
     assert_select ".desk-board[aria-label=Marcador]"
     assert_select ".desk-team"

@@ -67,5 +67,22 @@ Do not invent a new “Gameplay Designer” agent. Do not rubber-stamp a slice b
 | [041](041-night-seat-cinema.md) | Four live-night seats: cream head X, Casa/sala chip, Buzz gong, 16:9 marble TV |
 | [041](041-street-desafios-inbox.md) | Street défis inbox from Liga: named rama challenge, incoming Accept, no fifth hub tab |
 | [042](042-street-desafios-council.md) | Conseil Noche on défis: hub acts first, named wait without share, homonyms, liga count |
+| [043](043-street-hub-map-page.md) | Hub tiles: défi CTA visible; rope map on `/mapa` with inner scroll |
+| [044](044-street-hub-tile-rhythm.md) | Hub tiles share one padding and type; gold stays Jugar |
+| [045](045-street-map-read-and-tap.md) | `/mapa` left rope, readable titles, tap to resume or replay |
+| [045](045-street-desafios-readable.md) | Défis: ivory sheet, stacked tiles, win before Défier, live-first, in-app ping |
+| [046](046-street-hub-feed-scroll.md) | Hub tiles scroll; header and Continuer stay pinned |
+| [046](046-platform-stats.md) | Public `/cifras` carta: house numbers in four marble chapters |
+| [047](047-street-hub-xp-caption.md) | Hub ficha: remaining to next rank in ink, not 40/60 on gold |
+| [048](048-street-hub-stone-tiles.md) | Hub tiles: four marble veins, faded hall, fade under lockup |
+| [049](049-street-hub-map-brief.md) | Hub map door: step, pack promise, open + continue |
+| [050](050-street-jugar-lockup-hub.md) | Jugar lockup: tap Noche Live LIVE → hub |
+| [051](051-street-hub-map-ink-verb.md) | Hub MAPA: briefing stays; ink Ouvrir; gold stays dock |
+| [052](052-street-jugar-rival-chip.md) | Jugar still: one chase rival, live dot, +N others |
+| [053](053-street-hub-quiz-kicker.md) | Hub pack tile: Quizz royal kicker, ink Continuer |
+| [054](054-street-hub-play-jewel.md) | Hub pack tile: compact gold Jouer jewel |
+| [055](055-street-hub-solid-header.md) | Hub header: solid ivory section above the feed |
+| [056](056-street-jugar-settled-rects.md) | Jugar settled: ivory rounded-rects, gold key, no ink poll fill |
+| [057](057-street-hub-pulse.md) | Hub dock: live house pulse instead of Continuer |
 
 Older files keep `## Evidence` blocks with the hat name from that slice. That is history, not a Cursor persona to revive. The four-seat table at the top is the night-director record.

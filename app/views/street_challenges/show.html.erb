@@ -41,10 +41,11 @@
     <% if @challenge.waiting_for == :play && other %>
       <p class="lede"><%= t("street.duel_playing_named", name: other.display_name) %></p>
     <% elsif @challenge.waiting_for == :accept && other %>
-      <p class="lede"><%= t("street.duel_waiting_named", name: other.display_name) %></p>
+      <p class="lede"><%= t("street.duel_waiting_named_short", name: other.display_name) %></p>
+    <% elsif @challenge.waiting_for == :link %>
+      <p class="lede"><%= t("street.duel_waiting_link") %></p>
     <% else %>
       <p class="lede"><%= t("street.duel_you_sent", pack: pack_title) %></p>
-      <p class="lede"><%= t("street.duel_waiting_friend") %></p>
     <% end %>
     <% if @challenge.waiting_for == :link %>
       <button type="button"
@@ -66,11 +67,9 @@
     <% if @duel.challenger_score %>
       <p class="lede"><%= t("street.duel_beat_score", name: @challenger.display_name, score: @duel.challenger_score) %></p>
     <% end %>
-    <%= button_to street_challenge_accept_path(@duel.token), class: "btn btn-gold" do %>
-      <%= t("street.duel_accept") %>
-    <% end %>
+    <%= render "street_challenges/reply", duel: @duel %>
   <% end %>
   <nav class="hall-sheet-foot">
-    <%= link_to t("street.ceremony_back_map"), root_path, class: "quiet-link" %>
+    <%= link_to t("street.ceremony_back_map"), street_map_path, class: "quiet-link" %>
   </nav>
 <% end %>

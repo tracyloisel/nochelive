@@ -97,11 +97,11 @@
       <%= render "street_hub/duel_result",
             duel:,
             you: current_street_person,
-            map_path: root_path(rank_up: complete.rank_up ? 1 : nil, unlock: Quizzes::Complete.unlock_pack_id(street.run)) %>
+            map_path: street_map_path(rank_up: complete.rank_up ? 1 : nil, unlock: Quizzes::Complete.unlock_pack_id(street.run)) %>
     <% else %>
     <footer class="street-ceremony-actions">
       <%= link_to t("street.ceremony_back_map"),
-            root_path(rank_up: complete.rank_up ? 1 : nil, unlock: Quizzes::Complete.unlock_pack_id(street.run)),
+            street_map_path(rank_up: complete.rank_up ? 1 : nil, unlock: Quizzes::Complete.unlock_pack_id(street.run)),
             class: "btn street-ceremony-map" %>
       <% if current_street_person && duel %>
         <% named = duel.opponent_person %>

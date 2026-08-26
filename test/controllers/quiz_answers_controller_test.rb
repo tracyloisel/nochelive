@@ -24,6 +24,9 @@ class QuizAnswersControllerTest < ActionDispatch::IntegrationTest
     assert_select ".quiz-bar .word"
     assert_select ".quiz-bar .quiz-meta .quiz-pct"
     assert_select ".quiz-bar .choice-mark", count: 0
+    assert_select ".quiz-bar.is-correct .quiz-flag.is-yes .picto-tick", count: 1
+    assert_select ".quiz-bar:not(.is-correct) .quiz-flag.is-no .picto-cross"
+    assert_select ".quiz-meta .quiz-flag", count: 0
     assert_select ".street-score.is-tick span", text: question.points.to_s
     assert_select ".street-points-pop", text: "+#{question.points}"
     shout = ApplicationController.helpers.street_praise_line(run, question)
@@ -53,6 +56,9 @@ class QuizAnswersControllerTest < ActionDispatch::IntegrationTest
     assert_select ".street-score span", text: "0"
     assert_select ".street-praise", count: 0
     assert_select ".quiz-shout", text: I18n.t("quiz.incorrect")
+    assert_select ".quiz-bar.is-correct .quiz-flag.is-yes .picto-tick", count: 1
+    assert_select ".quiz-bar.is-wrong.is-miss .quiz-flag.is-no .picto-cross", count: 1
+    assert_select ".quiz-bar:not(.is-correct) .quiz-flag.is-no .picto-cross"
   end
 
   test "rewind shows the prior settled question and will not skip an ask" do

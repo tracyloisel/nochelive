@@ -24,7 +24,13 @@ class WardAddsControllerTest < ActionDispatch::IntegrationTest
     assert_select "p.lede", text: /iniciativa totalmente privada/
     assert_select "p.lede", text: /Pull Request/
     assert_select ".hall-still"
+    assert_select ".about-face nav.about-reach"
+    assert_select "a.about-reach-chip[href=?]", "https://wa.me/34689226754"
+    assert_select "a.about-reach-chip[href=?]", "https://www.instagram.com/tracy_loisel/"
+    assert_select ".about-reach-chip strong", text: "+34 689 22 67 54"
+    assert_select ".about-reach-chip strong", text: "@tracy_loisel"
     assert_select "a.quiet-link[href=?]", "https://github.com/tracyloisel/nochelive"
+    assert_select "a.quiet-link[href=?]", platform_stats_path
     assert_select ".btn.btn-gold", count: 0
     assert_select "a[href=?]", ward_profile_path("RAMA"), count: 0
     assert_select "form[action=?]", wards_path, count: 0

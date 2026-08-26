@@ -1,6 +1,6 @@
 module Quizzes
   class Rival
-    Result = Struct.new(:person, :rank, :score, :gap, :pack_gap, keyword_init: true)
+    Result = Struct.new(:person, :rank, :score, :gap, :pack_gap, :live, :others, keyword_init: true)
 
     def self.call(ward:, person: nil, pack_id: nil)
       return nil unless ward
@@ -26,7 +26,9 @@ module Quizzes
         rank: rival_row.rank,
         score: rival_row.score,
         gap:,
-        pack_gap:
+        pack_gap:,
+        live: rival_row.live,
+        others: others_for(total_board)
       )
     end
 
@@ -51,6 +53,11 @@ module Quizzes
           person: @person,
           limit: 2
         ).rows.find { |row| row.person&.id != @person&.id }
+      end
+
+      def others_for(board)
+        you = board.your_rank ? 1 : 0
+        [ board.players.to_i - 1 - you, 0 ].max
       end
 
       def pack_gap_for

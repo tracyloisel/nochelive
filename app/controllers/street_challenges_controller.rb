@@ -1,7 +1,7 @@
 class StreetChallengesController < ApplicationController
   include StreetQuiz
 
-  before_action :load_duel, only: [ :show, :accept ]
+  before_action :load_duel, only: [ :show, :accept, :decline ]
 
   def index
     remember_device
@@ -21,11 +21,10 @@ class StreetChallengesController < ApplicationController
     @inbox = Quizzes::ChallengeInbox.call(person:)
     @q = params[:q].to_s.strip
     @pack_id = pack_id_param
-    @picked_id = params[:person_id].presence&.to_i
     @playable_pack_ids = playable_pack_ids_for(person)
     @pack_id = @playable_pack_ids.first if @pack_id.blank? || @playable_pack_ids.exclude?(@pack_id)
     @pack_bests = pack_bests_for(person, @playable_pack_ids)
-    @rivals = rival_rows(ward:, person:)
+    @rivals = Quizzes::ChallengeRivals.call(ward:, person:, pack_id: @pack_id, q: @q)
     @incoming_action = @inbox.incoming.any? { |item| item.phase == :accept || item.phase == :play }
   end
 
@@ -80,7 +79,8 @@ class StreetChallengesController < ApplicationController
     alert = {
       self: I18n.t("street.duel_self"),
       ward: I18n.t("street.duel_ward"),
-      score: I18n.t("street.duel_score")
+      score: I18n.t("street.duel_score"),
+      played: I18n.t("street.duel_played")
     }[error.code] || I18n.t("street.duel_create_failed")
     return redirect_to street_challenges_path, alert: alert if request.format.html?
 
@@ -106,11 +106,26 @@ class StreetChallengesController < ApplicationController
     redirect_to street_challenges_path, alert: I18n.t("street.duel_taken")
   end
 
+  def decline
+    person = current_street_person
+    unless person
+      redirect_to root_path(ficha: 1), alert: I18n.t("street.duel_sign_in")
+      return
+    end
+
+    Quizzes::ChallengeDecline.call(duel: @duel, opponent_person: person)
+    redirect_to street_challenges_path, notice: I18n.t("street.duel_declined")
+  rescue Quizzes::ChallengeDecline::Expired
+    redirect_to root_path, alert: I18n.t("street.duel_expired")
+  rescue Quizzes::ChallengeDecline::Taken
+    redirect_to street_challenges_path, alert: I18n.t("street.duel_taken")
+  end
+
   private
 
     def load_duel
       @duel = StreetDuel.find_by!(token: params[:token])
-      return unless @duel.expired? && !@duel.resolved?
+      return unless @duel.expired? && !@duel.resolved? && !@duel.declined?
 
       redirect_to root_path, alert: I18n.t("street.duel_expired")
     rescue ActiveRecord::RecordNotFound
@@ -142,25 +157,5 @@ class StreetChallengesController < ApplicationController
       return {} if pack_ids.blank?
 
       QuizRun.finished.where(person_id: person.id, pack_id: pack_ids).group(:pack_id).maximum(:score)
-    end
-
-    def rival_rows(ward:, person:)
-      board = Quizzes::Leaderboard.call(ward:, person:, q: @q, limit: 8)
-      ranked = board.rows.reject { |row| row.you || row.person.id == person.id }
-      return ranked if ranked.any? || @q.present?
-
-      scores = Quizzes::Leaderboard.call(ward:, person:, limit: 50).rows.index_by { |row| row.person.id }
-      ward.people.where.not(id: person.id).order(:given_name_key, :family_name_key, :id).limit(8).map do |rival|
-        row = scores[rival.id]
-        Quizzes::Leaderboard::Row.new(
-          rank: row&.rank.to_i,
-          person: rival,
-          score: row&.score.to_i,
-          answered: row&.answered.to_i,
-          you: false,
-          context: false,
-          live: row&.live || false
-        )
-      end
     end
 end

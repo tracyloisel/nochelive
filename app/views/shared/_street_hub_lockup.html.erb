@@ -1,0 +1,19 @@
+<% heading = local_assigns.fetch(:heading, false) %>
+<% kicker = local_assigns[:kicker] %>
+<div class="street-hub-lockup">
+  <%= link_to root_path, class: "street-hub-lockup-wordmark" do %>
+    <span class="street-hub-lockup-star" aria-hidden="true"><%= picto("star8") %></span>
+    <% if heading %>
+      <h1 class="street-hub-lockup-name">Noche Live</h1>
+    <% else %>
+      <p class="street-hub-lockup-name">Noche Live</p>
+    <% end %>
+  <% end %>
+  <% if kicker.present? %>
+    <p class="street-temple-pill street-temple-hub-title">
+      <span class="street-hub-rule" aria-hidden="true"></span>
+      <span class="street-hub-kicker"><%= kicker %></span>
+      <span class="street-hub-rule" aria-hidden="true"></span>
+    </p>
+  <% end %>
+</div>

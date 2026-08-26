@@ -1,6 +1,6 @@
 import { Controller } from "@hotwired/stimulus"
 
-const PRESSABLE = "button, .btn, .choice-btn, .quiz-bar, .quiz-next, .team-pick, .person-pick, .buzz, .emblem-choice, .avatar-choice, .choice-chip, .picture-card, .night-hit, .ward-hit, .rama-night, .rama-pin, summary, a.btn, .quiet-link, .home-menu-btn, .home-menu-row, .chrome-face, .lang-opt, .paper-door, .story-close, .story-tick, .story-live, .story-audience, .story-score"
+const PRESSABLE = "button, .btn, .choice-btn, .quiz-bar, .quiz-next, .team-pick, .person-pick, .buzz, .emblem-choice, .avatar-choice, .choice-chip, .picture-card, .night-hit, .ward-hit, .rama-night, .rama-pin, summary, a.btn, .quiet-link, .home-menu-btn, .home-menu-row, .chrome-face, .lang-opt, .paper-door, .story-close, .story-tick, .story-live, .story-audience, .story-score, .street-map-door-play, .about-reach-chip, .street-pulse"
 
 export default class extends Controller {
   connect() {

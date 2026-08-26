@@ -98,6 +98,7 @@ class SfxTest < ActiveSupport::TestCase
     quiz = Rails.root.join("app/javascript/controllers/quiz_controller.js").read
     assert_includes quiz, "releaseStreetAsk"
     assert_includes quiz, "releaseAsk"
+    assert_includes quiz, "is-settled"
     stage = Rails.root.join("app/javascript/controllers/stage_controller.js").read
     assert_includes stage, "function releaseAsk("
     refute_includes stage, "turbo:before-stream-render"

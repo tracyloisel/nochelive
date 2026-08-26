@@ -2,6 +2,8 @@ en:
   quizzes:
     coronas:
       title: "Kings"
+      kicker: "Royal quiz"
+      lede: "David, Saul, Solomon: who was anointed, who prayed, who fell."
       questions:
         ungio_david:
           question: "Who anointed David when he was still a boy?"
@@ -76,6 +78,8 @@ en:
             ignoro: "He walked past it"
     placas:
       title: "Plates"
+      kicker: "Plates quiz"
+      lede: "Lehi, Nephi, Abinadi: the plates, the ship, and the tower."
       questions:
         lehi_jerusalen:
           question: "From which city did Lehi leave with his family?"
@@ -149,6 +153,8 @@ en:
             noe: "Noah"
     hermanas:
       title: "Sisters"
+      kicker: "Sisters quiz"
+      lede: "Ruth, Esther, Hannah, Deborah: women who stayed, spoke, and saved."
       questions:
         rut_noemi:
           question: "Whom did Ruth stay with, instead of going back to Moab?"
@@ -222,6 +228,8 @@ en:
             corona: "A crown"
     abish:
       title: "Abish"
+      kicker: "Abish quiz"
+      lede: "Abish, Sariah, and the mothers of the two thousand: faith that did not doubt."
       questions:
         saria_lehi:
           question: "With whom did Sariah leave Jerusalem?"
@@ -295,6 +303,8 @@ en:
             placas: "By reading the plates"
     profetas:
       title: "Prophets"
+      kicker: "Prophets quiz"
+      lede: "Jonah, Elijah, Daniel: three days, ravens, windows toward Jerusalem."
       questions:
         jonas_tres:
           question: "How many days was Jonah in the fish?"
@@ -368,6 +378,8 @@ en:
             nube: "Only a grey cloud"
     jehova:
       title: "The Lord"
+      kicker: "The Lord quiz"
+      lede: "The Lord’s name, the sea that opens, the only Savior."
       questions:
         zarza_yo_soy:
           question: "In the bush, what name did the Lord give Moses?"
@@ -441,6 +453,8 @@ en:
             samuel: "Samuel the Lamanite"
     nazareno:
       title: "On the earth"
+      kicker: "On earth quiz"
+      lede: "Bethlehem, the baptism, the miracles: Jesus among us."
       questions:
         nacio_belen:
           question: "Where was Jesus born?"
@@ -514,6 +528,8 @@ en:
             angeles: "Only the angels touched them"
     moises:
       title: "Moses"
+      kicker: "Moses quiz"
+      lede: "Face to face, Eden, the creation: what Moses saw."
       questions:
         moises_cara:
           question: "According to the book of Moses, Moses saw God…"
@@ -587,6 +603,8 @@ en:
             desierto: "It stayed in the desert"
     abraham:
       title: "Abraham"
+      kicker: "Abraham quiz"
+      lede: "Ur, the altar, the seed: the promise that does not break."
       questions:
         salio_ur:
           question: "Abraham says: I dwelt in the land of…"
@@ -660,6 +678,8 @@ en:
             rios: "The rivers only"
     kolob:
       title: "Kolob"
+      kicker: "Kolob quiz"
+      lede: "The star nearest the throne: a day there, a thousand years here."
       questions:
         cerca_trono:
           question: "Kolob is nearest to…"
@@ -733,6 +753,8 @@ en:
             azar: "There is no order"
     premortal:
       title: "Before birth"
+      kicker: "Before birth quiz"
+      lede: "Before we were born: intelligences, and “Who shall I send?”"
       questions:
         eramos_inteligencias:
           question: "Before we were born, we were…"
@@ -806,6 +828,8 @@ en:
             huir: "Fled from the light"
     exaltacion:
       title: "Exaltation"
+      kicker: "Exaltation quiz"
+      lede: "God’s work: eternal life, degrees, and the sealing."
       questions:
         obra_gloria:
           question: "God’s work and glory is to bring to pass the immortality and…"
@@ -879,6 +903,8 @@ en:
             paraiso: "Only in a spirit paradise, far away"
     jose:
       title: "Joseph"
+      kicker: "Joseph quiz"
+      lede: "Sharon, the grove, the plates: how Joseph began."
       questions:
         nacio_sharon:
           question: "Where was Joseph Smith born?"
@@ -952,6 +978,8 @@ en:
             roma: "Only the days of Rome"
     inicios:
       title: "Beginnings"
+      kicker: "Beginnings quiz"
+      lede: "April 6, Kirtland, Zion: the beginnings of the Church."
       questions:
         seis_abril:
           question: "On what date was the Church organized?"
@@ -1025,6 +1053,8 @@ en:
             cerrada: "A church already closed"
     pruebas_profetas:
       title: "Trials"
+      kicker: "Trials quiz"
+      lede: "Jeremiah, Elijah, Abinadi: when the word costs."
       questions:
         jeremias_cisterna:
           question: "Jeremiah was lowered into…"
@@ -1098,6 +1128,8 @@ en:
             trono: "When they seat you on a throne"
     pruebas_heroes:
       title: "The brave"
+      kicker: "The brave quiz"
+      lede: "Job, Joseph, Daniel, Esther: the valiant who did not curse."
       questions:
         job_no_maldijo:
           question: "Job lost everything, and…"
@@ -1171,6 +1203,8 @@ en:
             venganza: "Asked for revenge"
     milagros:
       title: "Miracles"
+      kicker: "Miracles quiz"
+      lede: "The sea, the manna, Joshua’s sun: when heaven touches earth."
       questions:
         mar_abrio:
           question: "The Red Sea…"

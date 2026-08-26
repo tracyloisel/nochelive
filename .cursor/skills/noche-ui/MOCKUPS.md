@@ -54,7 +54,7 @@ Three bands, gold-trimmed phone arch.
 
 1. **Cream head**: ink Noche Live + LIVE hairlines + vaulted gold arcs + **level rail** (10 dots, star bookends). Avatar left, hamburger right. Mute + language live in the ivory drawer. No story ticks, no X.
 2. **Still**: rounded adventure painting. Rival chip top-left (avatar, cream name, gold `+N pts`). Score star pill top-right. Settled: navy **Leer 1 Samuel 16:13** pill + compact gold **Siguiente** on a local bottom scrim — never gold type on the painting.
-3. **Ivory arched sheet**: small 4-point apex bump, centered ink question, gold star rule, **rounded-rect** choices. No color marks. Picked = gold border + star. No map, no pack title, no grab-handle. **The choice list is the last block** — never Next, scripture, or chips under the rects. Settled: pack + progress + verdict + bars; navy **Leer** + cite pill and gold **Siguiente** live on the still, above the sheet.
+3. **Ivory arched sheet**: small 4-point apex bump, centered ink question, gold star rule, **rounded-rect** choices. No color marks. Picked = gold border + star. No map, no pack title, no grab-handle. **The choice list is the last block** — never Next, scripture, or chips under the rects. Settled: pack + progress + verdict + **the same ivory rounded-rects**; share wash **grows**, then left **green tick** / **red crosses** appear — never a yellow sheet flash or inverted poll fill; navy **Leer** + cite pill and gold **Siguiente** live on the still, above the sheet.
 
 ## Anatomy — street ceremony
 

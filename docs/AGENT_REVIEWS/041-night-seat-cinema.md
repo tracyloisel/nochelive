@@ -2,7 +2,7 @@
 
 Reviewed: 2026-08-26
 Slice: sala Buzz, casa QCM, TV watch, presenter stage — mockup chrome at phone / tablet / desktop
-Tests: `PARALLEL_WORKERS=1 bin/rails test` — 645 runs, 7158 assertions, 0 failures. Coverage 94.71%.
+Tests: `bin/rails test` — 677 runs, 7486 assertions, 0 failures. Coverage 94.84%.
 Gate: `.cursor/skills/noche-ui/SKILL.md` + `.cursor/skills/noche-night/SKILL.md`
 Copy: N/A — reused `play.casa_team` / `play.first_hint`; no new keys
 
@@ -10,10 +10,10 @@ Copy: N/A — reused `play.casa_team` / `play.first_hint`; no new keys
 
 | Seat | Verb tonight |
 |---|---|
-| Presentador | One gold next; marble desk peek (Lista / Fichas, Respuestas / Marcador) |
-| Equipo en sala | Slam the gold Buzz medallion — `¡Sé el primero!` |
+| Presentador | One gold next; marble desk peek 0.28 (Lista / Fichas, Respuestas / Marcador, first buzz row) |
+| Equipo en sala | Slam the gold Buzz medallion — `¡Sé el primero!` on the first fold (hidden only at ≤667px) |
 | Jugador en casa | Grade A/B on ivory QCM; Casa chip on the still |
-| Espectador | Opt-in Solo ver — 16:9 cinema from 720px, marble score strip |
+| Espectador | Opt-in Solo ver — 16:9 cinema from 720px; landscape phones keep the 1fr / auto cinema grid (caption on the still, marble strip as row 2) |
 
 ## Tension
 
@@ -25,7 +25,7 @@ Untouched.
 
 ## Languages
 
-N/A — no new copy. Mute hidden on TV; language flag stays reachable (i18n mid-quiz).
+N/A — no new copy. Mute hidden on TV; language flag stays reachable (i18n mid-quiz). Flag pins to the cinema frame from 720px.
 
 ## Verdict
 
@@ -34,20 +34,19 @@ PASS WITH NOTES
 ## What works
 
 - Play three-band: close X in the cream head; team / Casa chip on the still; score pill stays on the painting.
-- Sala Buzz is a metal disc with a glow ring; hint reads as ink, hidden only on short phones so the slam stays on the first fold.
-- Watch: gold code chip, corner stars, marble lower-third (ink names, gold scores), mute off the TV. From 720 the board is a 16:9 frame on the hall.
-- Presenter desk peek is shorter (0.26) so Solomon still reads; tabs are an ink underline, not a second gold CTA.
+- Sala Buzz is a metal disc; hint `¡Sé el primero!` sits under the gong on ~844-class phones. Short 667 hides the hint so the slam stays on the first fold (Selenium inner height is ~701 for the 844 window, so the hide breakpoint is 667 not 720).
+- Watch: gold code chip, corner stars, marble lower-third (ink names, gold scores), mute off the TV. From 720 the board is a 16:9 frame on the hall. Landscape phones keep the same 1fr / auto cinema grid so the one-line caption sits just above the marble — not a mid-frame dark banner over the light-beam.
+- Presenter desk peek (0.28) keeps Lista / Fichas, Respuestas / Marcador, and a first buzz row on screen; the prophet still reads; tabs are an ink underline, not a second gold CTA.
 
 ## What feels weak
 
-- Phone portrait watch is still full-bleed 9:16 cinema chrome, not a letterboxed 16:9 strip (unusable on a handset).
-- Sala hint `¡Sé el primero!` yields to the first-fold test on 667-tall phones.
-- Next tick: compare recaptured shots to mockups; tighten presenter desk peek vs Solomon’s face.
+- Landscape watch is cinema-on-a-phone: the still is short; Solomon still shares the frame with the hall letterbox.
+- Presenter peek shows the first buzz row; the rest of the desk is still a summon.
 
 ## Required before approval
 
-- Visual shots recaptured: `play-buzz-open`, `play-quiz-casa`, `watch-board` + desktop/cinema, `presenter-stage`.
+- None.
 
 ## Night director
 
-Would I still buzz on round 3? Yes — the painting peeks, casa has a named seat, the TV is a board, the host has one gold next.
+Would I still buzz on round 3? Yes — the painting peeks, casa has a named seat, the TV is a board, the host has one gold next, and the sala sheet now says *be first*.

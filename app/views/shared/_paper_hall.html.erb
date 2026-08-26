@@ -1,16 +1,6 @@
 <section id="<%= hall_id %>" class="home-paper hall-paper<%= " #{extra_class}" if extra_class.present? %>">
   <header class="home-brand">
-    <div class="street-hub-lockup">
-      <div class="street-hub-lockup-wordmark">
-        <span class="street-hub-lockup-star" aria-hidden="true"><%= picto("star8") %></span>
-        <p class="street-hub-lockup-name">Noche Live</p>
-      </div>
-      <p class="street-temple-pill street-temple-hub-title">
-        <span class="street-hub-rule" aria-hidden="true"></span>
-        <span class="street-hub-kicker"><%= kicker %></span>
-        <span class="street-hub-rule" aria-hidden="true"></span>
-      </p>
-    </div>
+    <%= render "shared/street_hub_lockup", kicker: kicker %>
   </header>
 
   <% if sheet %>

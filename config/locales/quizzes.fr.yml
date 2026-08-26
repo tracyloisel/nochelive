@@ -2,6 +2,8 @@ fr:
   quizzes:
     coronas:
       title: "Rois"
+      kicker: "Quizz royal"
+      lede: "David, Saül, Salomon : qui a été oint, qui a prié, qui a chuté."
       questions:
         ungio_david:
           question: "Qui a oint David quand il était encore un garçon ?"
@@ -76,6 +78,8 @@ fr:
             ignoro: "Il est passé outre"
     placas:
       title: "Plaques"
+      kicker: "Quiz des plaques"
+      lede: "Léhi, Néphi, Abinadi : les plaques, le bateau et la tour."
       questions:
         lehi_jerusalen:
           question: "De quelle ville Léhi est-il parti avec sa famille ?"
@@ -149,6 +153,8 @@ fr:
             noe: "Noé"
     hermanas:
       title: "Sœurs"
+      kicker: "Quiz des sœurs"
+      lede: "Ruth, Esther, Anne et Débora : des femmes qui sont restées, ont parlé, ont sauvé."
       questions:
         rut_noemi:
           question: "Avec qui Ruth est-elle restée, au lieu de rentrer en Moab ?"
@@ -222,6 +228,8 @@ fr:
             corona: "Une couronne"
     abish:
       title: "Abish"
+      kicker: "Quiz d’Abish"
+      lede: "Abish, Sariah et les mères des deux mille : une foi qui n’a pas douté."
       questions:
         saria_lehi:
           question: "Avec qui Sariah a-t-elle quitté Jérusalem ?"
@@ -295,6 +303,8 @@ fr:
             placas: "En lisant les plaques"
     profetas:
       title: "Prophètes"
+      kicker: "Quiz des prophètes"
+      lede: "Jonas, Élie, Daniel : trois jours, des corbeaux, des fenêtres vers Jérusalem."
       questions:
         jonas_tres:
           question: "Combien de jours Jonas est-il resté dans le poisson ?"
@@ -368,6 +378,8 @@ fr:
             nube: "Seulement un nuage gris"
     jehova:
       title: "L’Éternel"
+      kicker: "Quiz de l’Éternel"
+      lede: "Le nom de l’Éternel, la mer qui s’ouvre, le seul Sauveur."
       questions:
         zarza_yo_soy:
           question: "Dans le buisson, quel nom l’Éternel s’est-il donné à Moïse ?"
@@ -441,6 +453,8 @@ fr:
             samuel: "Samuel le Lamanite"
     nazareno:
       title: "Sur la terre"
+      kicker: "Quiz sur la terre"
+      lede: "Bethléhem, le baptême, les miracles : Jésus parmi nous."
       questions:
         nacio_belen:
           question: "Où Jésus est-il né ?"
@@ -514,6 +528,8 @@ fr:
             angeles: "Seuls les anges les ont touchés"
     moises:
       title: "Moïse"
+      kicker: "Quiz de Moïse"
+      lede: "Face à face, l’Éden, la création : ce que Moïse a vu."
       questions:
         moises_cara:
           question: "Selon le livre de Moïse, Moïse a vu Dieu…"
@@ -587,6 +603,8 @@ fr:
             desierto: "Elle est restée dans le désert"
     abraham:
       title: "Abraham"
+      kicker: "Quiz d’Abraham"
+      lede: "Ur, l’autel, la postérité : la promesse qui ne se brise pas."
       questions:
         salio_ur:
           question: "Abraham dit : j’habitais au pays de…"
@@ -660,6 +678,8 @@ fr:
             rios: "Les fleuves seulement"
     kolob:
       title: "Kolob"
+      kicker: "Quiz de Kolob"
+      lede: "L’astre près du trône : un jour là-bas, mille ans ici."
       questions:
         cerca_trono:
           question: "Kolob est le plus près de…"
@@ -733,6 +753,8 @@ fr:
             azar: "Il n’y a pas d’ordre"
     premortal:
       title: "Avant de naître"
+      kicker: "Quiz d’avant"
+      lede: "Avant de naître : des intelligences, et « Qui enverrai-je ? »"
       questions:
         eramos_inteligencias:
           question: "Avant de naître, nous étions…"
@@ -806,6 +828,8 @@ fr:
             huir: "Ont fui la lumière"
     exaltacion:
       title: "Exaltation"
+      kicker: "Quiz d’exaltation"
+      lede: "L’œuvre de Dieu : vie éternelle, degrés, sceau."
       questions:
         obra_gloria:
           question: "L’œuvre et la gloire de Dieu, c’est de réaliser l’immortalité et…"
@@ -879,6 +903,8 @@ fr:
             paraiso: "Seulement dans un paradis d’esprits, au loin"
     jose:
       title: "Joseph"
+      kicker: "Quiz de Joseph"
+      lede: "Sharon, le bosquet, les plaques : comment Joseph a commencé."
       questions:
         nacio_sharon:
           question: "Où Joseph Smith est-il né ?"
@@ -952,6 +978,8 @@ fr:
             roma: "Seulement les jours de Rome"
     inicios:
       title: "Commencements"
+      kicker: "Quiz des commencements"
+      lede: "Le 6 avril, Kirtland, Sion : les commencements de l’Église."
       questions:
         seis_abril:
           question: "À quelle date l’Église a-t-elle été organisée ?"
@@ -1025,6 +1053,8 @@ fr:
             cerrada: "Une Église déjà fermée"
     pruebas_profetas:
       title: "Épreuves"
+      kicker: "Quiz des épreuves"
+      lede: "Jérémie, Élie, Abinadi : quand la parole coûte."
       questions:
         jeremias_cisterna:
           question: "Jérémie a été jeté dans…"
@@ -1098,6 +1128,8 @@ fr:
             trono: "Quand on vous assiera sur un trône"
     pruebas_heroes:
       title: "Les vaillants"
+      kicker: "Quiz des vaillants"
+      lede: "Job, Joseph, Daniel, Esther : des vaillants qui n’ont pas maudit."
       questions:
         job_no_maldijo:
           question: "Job a tout perdu, et…"
@@ -1171,6 +1203,8 @@ fr:
             venganza: "A demandé vengeance"
     milagros:
       title: "Miracles"
+      kicker: "Quiz des miracles"
+      lede: "La mer, la manne, le soleil de Josué : quand le ciel touche la terre."
       questions:
         mar_abrio:
           question: "La mer Rouge…"

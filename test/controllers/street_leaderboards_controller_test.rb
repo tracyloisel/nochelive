@@ -31,6 +31,7 @@ class StreetLeaderboardsControllerTest < ActionDispatch::IntegrationTest
     assert_select ".street-leaderboard-page"
     assert_select ".home-brand"
     assert_select "h1.street-hub-lockup-name", text: "Noche Live"
+    assert_select "a.street-hub-lockup-wordmark[href=?]", root_path
     assert_select ".street-hub-kicker", text: I18n.t("street.leaderboard_kicker")
     assert_select ".street-leaderboard-sheet"
     assert_select ".street-leaderboard-tools"
@@ -50,6 +51,8 @@ class StreetLeaderboardsControllerTest < ActionDispatch::IntegrationTest
     assert_select "a.btn-gold", count: 0
     assert_select "a.quiet-link.street-leaderboard-duels", text: I18n.t("street.duel_inbox")
     assert_select "a.street-leaderboard-duels[href=?]", street_challenges_path
+    assert_select ".street-leaderboard-ward", count: 0
+    assert_select "a.street-leaderboard-ward-back", count: 0
   end
 
   test "guest can browse ward leaderboard without profile" do
@@ -230,5 +233,82 @@ class StreetLeaderboardsControllerTest < ActionDispatch::IntegrationTest
     assert_match(/font-size: 1\.18rem/, name)
     refute_match(/#fffef9/, sheet)
     refute_match(/#fffef9/, tools)
+  end
+
+  test "public rama liga is scoped to that ward" do
+    pili = people(:pili)
+    QuizRun.create!(
+      device_digest: "liga-rama-pili",
+      person: pili,
+      pack_id: "coronas",
+      position: 10,
+      score: 55,
+      status: "finished",
+      opened_at: Time.current
+    )
+    marta = wards(:blank).people.create!(given_name: "Marta", avatar_key: "gato", favorite_year: 1999)
+    QuizRun.create!(
+      device_digest: "liga-rama-marta",
+      person: marta,
+      pack_id: "coronas",
+      position: 10,
+      score: 99,
+      status: "finished",
+      opened_at: Time.current
+    )
+
+    get ward_leaderboard_path("RAMA")
+    assert_response :success
+    assert_select ".street-leaderboard-page"
+    assert_select ".street-hub-kicker", text: I18n.t("street.leaderboard_kicker")
+    assert_select ".street-leaderboard-ward", text: "Rama Benidorm"
+    assert_select "a.street-leaderboard-ward-back[href=?]", ward_profile_path("RAMA"),
+          text: I18n.t("ward.add_see", name: "Rama Benidorm")
+    assert_select "form.street-leaderboard-search[action=?]", ward_leaderboard_path("RAMA")
+    assert_select ".street-liga-entry", text: /Pili/
+    assert_select ".street-liga-entry", text: /Marta/, count: 0
+    assert_select "a.street-leaderboard-duels", count: 0
+    assert_select "a.btn-gold", count: 0
+  end
+
+  test "visiting another rama liga does not mark you or show duels" do
+    sign_in_congregation
+    pili = people(:pili)
+    QuizRun.create!(
+      device_digest: "liga-visit-pili",
+      person: pili,
+      pack_id: "coronas",
+      position: 10,
+      score: 40,
+      status: "finished",
+      opened_at: Time.current
+    )
+    post street_profile_path, params: { person_id: pili.id, favorite_year: pili.favorite_year }
+    follow_redirect!
+    marta = wards(:blank).people.create!(given_name: "Marta", avatar_key: "gato", favorite_year: 1999)
+    QuizRun.create!(
+      device_digest: "liga-visit-marta",
+      person: marta,
+      pack_id: "coronas",
+      position: 10,
+      score: 12,
+      status: "finished",
+      opened_at: Time.current
+    )
+
+    get ward_leaderboard_path("BLANK")
+    assert_response :success
+    assert_select ".street-leaderboard-ward", text: "Rama vacía"
+    assert_select "a.street-leaderboard-ward-back[href=?]", ward_profile_path("BLANK")
+    assert_select ".street-liga-entry", text: /Marta/
+    assert_select ".street-liga-entry", text: /Pili/, count: 0
+    assert_select ".is-you", count: 0
+    assert_select "a.street-leaderboard-duels", count: 0
+  end
+
+  test "unknown rama liga redirects home" do
+    get ward_leaderboard_path("NOPE")
+    assert_redirected_to root_path
+    assert_equal I18n.t("errors.people.ward_missing"), flash[:alert]
   end
 end

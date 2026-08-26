@@ -12,6 +12,9 @@
     </aside>
   </div>
   <div class="street-map-track">
+    <svg class="street-map-thread" aria-hidden="true" focusable="false">
+      <path />
+    </svg>
     <% packs.reverse.each_with_index do |pack_view, idx| %>
       <% role = if pack_view.id == current_id
            :current

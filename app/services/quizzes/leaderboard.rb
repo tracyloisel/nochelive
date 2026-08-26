@@ -11,6 +11,19 @@ module Quizzes
       new(ward:, pack_id:, person:, limit:, offset:, q:, include_you:).call
     end
 
+    def self.pack_best_totals(ward: nil)
+      scope = QuizRun.finished
+      if ward
+        scope = scope.joins(:person).where(people: { ward_id: ward.id })
+      else
+        scope = scope.where.not(person_id: nil)
+      end
+      bests = scope.group(:person_id, :pack_id).maximum(:score)
+      totals = Hash.new(0)
+      bests.each { |(person_id, _), score| totals[person_id] += score.to_i }
+      totals
+    end
+
     def initialize(ward:, pack_id: nil, person: nil, limit: LIMIT_MINI, offset: 0, q: nil, include_you: false)
       @ward = ward
       @pack_id = pack_id
@@ -174,14 +187,7 @@ module Quizzes
       end
 
       def total_scores
-        bests = QuizRun.finished
-          .joins(:person)
-          .where(people: { ward_id: @ward.id })
-          .group(:person_id, :pack_id)
-          .maximum(:score)
-        totals = Hash.new(0)
-        bests.each { |(person_id, _), score| totals[person_id] += score.to_i }
-        totals
+        self.class.pack_best_totals(ward: @ward)
       end
   end
 end

@@ -7,6 +7,7 @@ class NightsControllerTest < ActionDispatch::IntegrationTest
     assert_select "body.is-paper-hall"
     assert_select "h1", text: "Noche Live"
     assert_select ".home-paper"
+    assert_select "a.street-hub-lockup-wordmark[href=?]", root_path
     assert_select ".street-hub-lockup-star"
     assert_select ".street-hub-kicker", text: I18n.t("home.nights")
     assert_select "#street_quiz", count: 0

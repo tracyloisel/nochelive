@@ -52,6 +52,7 @@ Street ≠ night. Do not put a 10-dot **level rail** on a live round. Do not put
 | Flat yellow circle labeled Buzz | Gold **medallion** (metal disc, bell, navy Buzz on gold) |
 | Color-coded V/F or A/B choice marks on temple QCM | Rounded-rect, gold hairline; picked = gold border + star |
 | Scripture, Next, or chips under the QCM choices | The choice list is the **last** block in the sheet. Street settled: scripture + next sit on the still |
+| Dark poll-fill / ink invert on the correct QCM bar | Same ivory rounded-rect as the ask; left green tick / red cross; % as a quiet figure |
 | Full-screen milky veil | Cream type + **local** top/bottom scrims only |
 | Burger layers as four mystery discs | Labels on each layer, or one peel verb |
 | Timer as a yellow hairline | Timer as a readable object (fat numerals + thick gold bar) |
@@ -124,7 +125,7 @@ Mobile game loop, not a night. Same marble language. Adventure stills, not chape
 |---|---|
 | Hub `/` | Hall canvas. Player card, 3-node rope map, MAPA, LIGA top 3, gold Jugar. **No reel. No 5-tab dock.** Same composition, **column grows with the window**: 390 / iPad 36rem / desktop 44rem / XL 52rem, centered on the hall. Avatar / hamburger pin to that column, not the browser corners. Type floor `--type-min` (14px+) for abuelos. Mute and language live in the drawer. |
 | Jugar ask | Cream head + level rail + still + ivory QCM sheet (choices last). Same chrome as the hub: avatar left, hamburger right, mute + language in the drawer. From 720, **phone arch** on the hall (28 / 32 / 36rem), never a stretched QCM. |
-| Jugar settled | Same three-band. Navy **Leer** + cite pill + gold next live **on the still**. Sheet ends at the rounded-rect bars. |
+| Jugar settled | Same three-band. Navy **Leer** + cite pill + gold next live **on the still**. Sheet stays put: share bars grow, then left green tick / red crosses appear. No yellow flash. |
 | Pack ceremony | Hall + god rays + ivory stele in a **double gold arch** on a marble plinth (not stacked cards) + chest + Volver / Desafiar |
 | Cards | `.street-card` `.is-player` `.is-pack` `.is-rival` `.is-duel`. Marble, gold border, ink titles |
 | Duels | Async `/desafio/:token`. Face-to-face after both finish |
@@ -137,7 +138,7 @@ Hub, `/noches`, fichas, roster, gates, presenter **lists** are not shot+sheet qu
 
 **Noches (`/noches`)** — paper feed. Ink wordmark. One gold **Ven a la Iglesia** CTA (`church.invite` → `/iglesia`). Search lives in the hamburger. Próximamente + last 10 nights. Paintings on **cards**. No X, ticks, mute.
 
-**Buscar** — form is the job. Listed Benidorm shows without typing.
+**Buscar** — form is the job. Empty query shows nothing until they type or share location (never default Benidorm). Keyboard overlays (`interactive-widget=resizes-visual`); search sits high in the sheet; do not pad or scroll from `visualViewport`.
 
 **Join** — Entrar is a pill. Presenter / Solo ver quiet. Guest may keep `Solo esta noche` if tests pin it.
 

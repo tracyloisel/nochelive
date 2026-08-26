@@ -1,16 +1,6 @@
 <section class="home-paper">
   <header class="home-brand">
-    <div class="street-hub-lockup">
-      <div class="street-hub-lockup-wordmark">
-        <span class="street-hub-lockup-star" aria-hidden="true"><%= picto("star8") %></span>
-        <h1 class="street-hub-lockup-name">Noche Live</h1>
-      </div>
-      <p class="street-temple-pill street-temple-hub-title">
-        <span class="street-hub-rule" aria-hidden="true"></span>
-        <span class="street-hub-kicker"><%= t("home.nights") %></span>
-        <span class="street-hub-rule" aria-hidden="true"></span>
-      </p>
-    </div>
+    <%= render "shared/street_hub_lockup", heading: true, kicker: t("home.nights") %>
   </header>
   <nav class="home-doors" aria-label="<%= t("church.invite") %>">
     <%= link_to t("church.invite"), church_path, class: "btn btn-gold" %>

@@ -1,18 +1,21 @@
 <% duel = local_assigns[:duel] %>
 <% you = local_assigns[:you] %>
+<% compact = local_assigns.fetch(:compact, false) %>
+<% map_path = local_assigns[:map_path] || street_map_path %>
 <% opponent = you.id == duel.challenger_person_id ? duel.opponent_person : duel.challenger_person %>
 <% your_score = you.id == duel.challenger_person_id ? duel.challenger_score : duel.opponent_score %>
 <% their_score = you.id == duel.challenger_person_id ? duel.opponent_score : duel.challenger_score %>
 <% you_won = duel.winner_person&.id == you.id %>
 <% tie = duel.challenger_score == duel.opponent_score %>
+<% share = you_won && you.ward ? Quizzes::ShareCard.call(person: you, ward: you.ward, pack_id: duel.pack_id, score: your_score, host: request.host_with_port) : nil %>
 
-<section class="street-card is-duel" data-controller="street-motion" data-street-motion-sequence-value="duelReveal">
+<section class="street-card is-duel<%= " is-compact" if compact %>" data-controller="street-motion" data-street-motion-sequence-value="duelReveal">
   <p class="street-duel-result-kicker"><%= t("street.duel_title") %></p>
   <div class="street-duel-result-faces">
   <div class="street-duel-side <%= "is-winner" if you_won && !tie %><%= " is-loser" if !you_won && !tie %>">
     <p class="street-duel-label"><%= t("street.duel_you") %></p>
     <% src = avatar_mark(you) %>
-    <% if src %><img src="<%= src %>" alt="" class="avatar-img" width="56" height="56"><% end %>
+    <% if src %><img src="<%= src %>" alt="" class="avatar-img" width="<%= compact ? 36 : 56 %>" height="<%= compact ? 36 : 56 %>"><% end %>
     <p class="street-duel-score"><%= your_score %></p>
     <%= render "street_hub/stars", count: Quizzes::Stars.call(score: your_score.to_i) %>
     <% if you_won && !tie %><p class="street-duel-winner"><%= t("street.duel_winner") %></p><% end %>
@@ -22,7 +25,7 @@
     <p class="street-duel-label"><%= opponent&.display_name || "—" %></p>
     <% if opponent %>
       <% src = avatar_mark(opponent) %>
-      <% if src %><img src="<%= src %>" alt="" class="avatar-img" width="56" height="56"><% end %>
+        <% if src %><img src="<%= src %>" alt="" class="avatar-img" width="<%= compact ? 36 : 56 %>" height="<%= compact ? 36 : 56 %>"><% end %>
     <% end %>
     <p class="street-duel-score"><%= their_score %></p>
     <%= render "street_hub/stars", count: Quizzes::Stars.call(score: their_score.to_i) %>
@@ -32,11 +35,25 @@
   <% if tie %>
     <p class="street-duel-tie"><%= t("street.duel_tie") %></p>
   <% end %>
-  <footer class="street-duel-foot">
-    <%= link_to t("street.ceremony_back_map"), local_assigns[:map_path] || root_path, class: "btn btn-gold" %>
-    <% if you_won %>
-      <% share = Quizzes::ShareCard.call(person: you, ward: you.ward, pack_id: duel.pack_id, score: your_score, host: request.host_with_port) %>
-      <%= render "street_hub/share_card", share:, person: you, cta_class: "btn-ghost" %>
-    <% end %>
-  </footer>
+  <% if compact && share %>
+    <footer class="street-duel-foot">
+      <button type="button"
+              class="street-hub-tile-go street-duel-share"
+              data-controller="street-share"
+              data-action="street-share#share"
+              data-street-share-url-value="<%= share.url %>"
+              data-street-share-text-value="<%= share.text %>"
+              data-street-share-title-value="<%= share.title %>"
+              data-street-share-copied-value="<%= t("street.share_copied") %>">
+        <%= t("street.share_cta") %>
+      </button>
+    </footer>
+  <% elsif !compact %>
+    <footer class="street-duel-foot">
+      <%= link_to t("street.ceremony_back_map"), map_path, class: "btn btn-gold" %>
+      <% if share %>
+        <%= render "street_hub/share_card", share:, person: you, cta_class: "btn-ghost" %>
+      <% end %>
+    </footer>
+  <% end %>
 </section>

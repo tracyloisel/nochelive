@@ -21,8 +21,16 @@ class StreetHubController < ApplicationController
     @challenge = load_challenge
     @pending_duel = @challenge&.duel
     @open_run = preferred_open_run
-    @unlock_pack_id = unlock_pack_id_param
+    @pulse = Platform::Pulse.call unless @profile_gate
     assign_ward_picker if @profile_gate && @gate_ward.blank?
+  end
+
+  def map
+    remember_device
+    touch_street_presence
+    @world = Quizzes::World.call(device_digest: street_digest, person_id: current_street_person&.id)
+    @open_run = QuizRun.open_runs.where(device_digest: street_digest, person_id: current_street_person&.id).order(:id).last
+    @unlock_pack_id = unlock_pack_id_param
   end
 
   private

@@ -1,0 +1,11 @@
+<% src = avatar_mark(row.person) %>
+<span class="street-duel-inbox-rival-face">
+  <% if src %>
+    <img src="<%= src %>" alt="" class="avatar-img" width="40" height="40">
+  <% else %>
+    <span class="avatar-fallback" aria-hidden="true"><%= row.person.given_name.to_s.first %></span>
+  <% end %>
+  <%= street_live_dot(row.live) %>
+</span>
+<span class="street-duel-inbox-rival-name"><%= row.person.display_name %></span>
+<span class="street-duel-inbox-rival-score"><%= row.score.positive? ? number_with_delimiter(row.score) : "—" %></span>

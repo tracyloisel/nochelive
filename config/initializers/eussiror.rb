@@ -1,0 +1,34 @@
+Eussiror.configure do |config|
+  # Required: GitHub personal access token with "repo" scope (or a fine-grained
+  # token with Issues read/write permission on the target repository).
+  config.github_token = ENV["GITHUB_TOKEN"]
+
+  # Required: target GitHub repository in "owner/repository" format.
+  config.github_repository = "tracyloisel/nochelive"
+
+  # Environments where errors will be reported to GitHub.
+  # Default: ["production"]
+  config.environments = %w[production]
+
+  # How much request/user context to include in issue bodies and occurrence comments.
+  # :minimal (default) — method + path only; safest for public repos.
+  # :standard — also Remote IP and User-Agent when present.
+  # :full — standard + User section from env["eussiror.user_id"] / ["eussiror.user_label"].
+  # config.issue_privacy = :minimal
+
+  # Also report errors caught by Rails.error.handle (default: false — only unhandled).
+  # config.report_handled_errors = false
+
+  # Labels applied to every new issue created by Eussiror (optional).
+  # config.labels = %w[bug automated]
+
+  # GitHub login(s) to assign to new issues (optional).
+  # config.assignees = []
+
+  # Exception classes that should NOT trigger issue creation (optional).
+  # config.ignored_exceptions = %w[ActionController::RoutingError]
+
+  # Set to false to report synchronously instead of in a background thread.
+  # Recommended for test environments or when using a job queue.
+  # config.async = false
+end

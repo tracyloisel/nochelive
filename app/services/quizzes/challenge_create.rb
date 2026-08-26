@@ -27,6 +27,7 @@ module Quizzes
       raise Denied, :self if @opponent && @opponent.id == @challenger.id
       raise Denied, :ward if @opponent && @opponent.ward_id != @ward.id
       raise Denied, :score if @opponent && !@run&.finished?
+      raise Denied, :played if already_played?
 
       existing = find_existing
       if existing
@@ -46,10 +47,20 @@ module Quizzes
         challenger_score: finished ? @run.score : nil,
         expires_at: 7.days.from_now
       )
+      Quizzes::ChallengeNotify.call(duel:) if @opponent
       Result.new(duel:, share_url: share_path_for(duel))
     end
 
     private
+
+      def already_played?
+        return false unless @opponent
+
+        StreetDuel.where(status: "resolved", pack_id: @pack_id).where(
+          "(challenger_person_id = :a AND opponent_person_id = :b) OR (challenger_person_id = :b AND opponent_person_id = :a)",
+          a: @challenger.id, b: @opponent.id
+        ).exists?
+      end
 
       def find_existing
         scope = StreetDuel.active.not_expired.where(

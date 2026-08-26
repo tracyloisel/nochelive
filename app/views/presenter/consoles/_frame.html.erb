@@ -111,7 +111,7 @@
        data-story-target="sheet"
        data-sheet-snap="<%= night.finished? ? "mid" : "peek" %>"
        data-sheet-snap-value="<%= night.finished? ? "mid" : "peek" %>"
-       data-sheet-peek-ratio-value="0.26"
+       data-sheet-peek-ratio-value="0.28"
        data-sheet-open-label-value="<%= t("chrome.grip_open") %>"
        data-sheet-mid-label-value="<%= t("chrome.grip_mid") %>"
        data-sheet-peek-label-value="<%= t("chrome.grip_peek") %>"
@@ -207,7 +207,9 @@
         </ul>
         <p class="quiet" data-desk-target="empty" hidden><%= t("presenter.no_match") %></p>
       <% else %>
-        <p class="quiet"><%= t("presenter.no_answers") %></p>
+        <% unless round.buzzes.any? %>
+          <p class="quiet"><%= t("presenter.no_answers") %></p>
+        <% end %>
       <% end %>
 
       <% if round.definition.taboo? %>
