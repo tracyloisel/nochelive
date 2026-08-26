@@ -51,6 +51,7 @@
   --street-ceremony-col: 22.75rem;
   --street-hub-col: 24.375rem;
   --street-hub-inset: calc((100vw - min(var(--street-hub-col), 100vw)) / 2 + var(--space-4));
+  --chrome-head: calc(max(var(--space-4), env(safe-area-inset-top)) + var(--space-7) + var(--space-4));
   --temple-marble: #faf8f4;
   --temple-marble-deep: #f0ebe3;
   --temple-marble-vein: rgba(28, 25, 21, 0.04);
@@ -1023,7 +1024,7 @@ body:has(.play-reel.is-pick) .lang-menu {
   width: min(22rem, 86%);
   height: 100%;
   overflow: auto;
-  padding: calc(var(--space-4) + env(safe-area-inset-top) + 3.15rem) var(--space-4) calc(var(--space-6) + env(safe-area-inset-bottom));
+  padding: var(--chrome-head) var(--space-4) calc(var(--space-6) + env(safe-area-inset-bottom));
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.72) 0%, transparent 22%),
     var(--temple-ivory, var(--surface));
@@ -1335,7 +1336,7 @@ body:has(.home-paper) .lang-switch:not(.is-drawer) > summary .lang-flag .picto {
   width: min(var(--street-hub-col, 24.375rem), 100%);
   margin: 0 auto;
   min-height: 100dvh;
-  padding: calc(var(--space-3) + env(safe-area-inset-top)) var(--space-4) var(--space-7);
+  padding: max(var(--space-4), env(safe-area-inset-top)) var(--space-4) var(--space-7);
   display: flex;
   flex-direction: column;
   gap: var(--space-5);
@@ -1359,10 +1360,13 @@ body:has(.home-paper) .lang-switch:not(.is-drawer) > summary .lang-flag .picto {
 }
 .home-paper > * { position: relative; z-index: 1; }
 .home-paper .home-brand {
+  position: relative;
+  z-index: 3;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: var(--space-4);
+  min-height: var(--space-7);
   padding: 0 3.4rem;
   text-align: center;
 }
@@ -2486,7 +2490,7 @@ body:has(#street_quien) .lang-switch > summary {
 }
 .banner {
   position: absolute;
-  top: calc(max(var(--space-4), env(safe-area-inset-top)) + var(--space-7) + var(--space-3));
+  top: var(--chrome-head);
   left: var(--space-4);
   right: var(--space-4);
   width: fit-content;
@@ -4745,8 +4749,11 @@ body.is-street-play .home-menu.is-split {
   --street-hub-dock-clearance: calc(var(--space-5) + env(safe-area-inset-bottom));
 }
 .street-leaderboard-page .home-brand {
-  position: relative;
-  z-index: 1;
+  position: absolute;
+  top: max(var(--space-4), env(safe-area-inset-top));
+  left: 0;
+  right: 0;
+  z-index: 3;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -4755,6 +4762,7 @@ body.is-street-play .home-menu.is-split {
   margin: 0;
   text-align: center;
   background: transparent;
+  pointer-events: none;
 }
 .street-leaderboard-page .home-brand h1,
 .street-leaderboard-page .street-hub-lockup-name {
@@ -6377,7 +6385,7 @@ body.is-street-hub .sky {
   max-width: var(--street-hub-col, 24.375rem);
   margin-inline: auto;
   min-height: 100dvh;
-  padding: calc(var(--space-3) + env(safe-area-inset-top)) var(--space-4) var(--street-hub-dock-clearance);
+  padding: var(--chrome-head) var(--space-4) var(--street-hub-dock-clearance);
   isolation: isolate;
   background: transparent;
 }
@@ -6403,9 +6411,11 @@ body.is-street-hub .sky {
 }
 .street-world::after { content: none; }
 .street-world > * { position: relative; z-index: 1; }
-.street-hub-brand {
-  position: sticky;
-  top: calc(env(safe-area-inset-top) + 0.2rem);
+.street-world > .street-hub-brand {
+  position: absolute;
+  top: max(var(--space-4), env(safe-area-inset-top));
+  left: 0;
+  right: 0;
   z-index: 3;
   display: flex;
   flex-direction: column;
@@ -6413,8 +6423,13 @@ body.is-street-hub .sky {
   gap: 0;
   padding: 0 3.4rem;
   margin-bottom: 0;
-  scroll-margin-top: calc(var(--space-7) + env(safe-area-inset-top));
+  pointer-events: none;
   background: transparent;
+}
+.street-world.street-leaderboard-page > .street-hub-brand {
+  position: sticky;
+  top: max(var(--space-4), env(safe-area-inset-top));
+  margin-top: calc(max(var(--space-4), env(safe-area-inset-top)) - var(--chrome-head));
 }
 .street-hub-lockup {
   display: flex;
@@ -7721,7 +7736,7 @@ body.is-street-hub.is-kid .btn.street-play-cta { min-height: 2.75rem; }
   margin: 0;
   overflow: visible;
   padding:
-    calc(3.75rem + env(safe-area-inset-top))
+    var(--chrome-head)
     var(--space-4)
     max(var(--space-5), env(safe-area-inset-bottom), env(keyboard-inset-height, 0px));
   background: transparent;
@@ -7792,7 +7807,6 @@ body.is-street-hub.is-kid .btn.street-play-cta { min-height: 2.75rem; }
 #profile_gate.street-wizard.is-ready:has(.profile-gate-new),
 #profile_gate.street-wizard.is-ready:has(.profile-gate-people) {
   justify-content: flex-start;
-  padding-top: calc(4.75rem + env(safe-area-inset-top));
 }
 #profile_gate .street-wizard-panel.hall-sheet:has(.profile-gate-new),
 .street-quien-sheet:has(.profile-gate-new) {

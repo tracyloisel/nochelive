@@ -113,6 +113,7 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     assert_includes css, ".chrome-face.quiet-link,\n.home-menu-btn.quiet-link"
     assert_includes css, "--street-hub-col:"
     assert_includes css, "--street-hub-inset:"
+    assert_includes css, "--chrome-head:"
     assert_includes css, "--type-min:"
     assert_includes css, "--street-play-col:"
     assert_includes css, "--street-ceremony-col:"

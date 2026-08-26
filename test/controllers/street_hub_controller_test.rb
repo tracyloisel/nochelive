@@ -292,11 +292,20 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
     assert reduced, "expected solid ivory fallback when transparency is reduced"
     assert_match(/backdrop-filter:\s*none/, reduced)
     assert_match(/--temple-ivory/, reduced)
+    wizard = css[/\.street-wizard \{[^}]+\}/m]
+    assert wizard, "expected .street-wizard rule"
+    assert_match(/var\(--chrome-head\)/, wizard)
+    refute_match(/3\.75rem \+ env\(safe-area-inset-top\)/, wizard)
+    paper = css[/\.home-paper \{[^}]+\}/m]
+    assert paper, "expected .home-paper rule"
+    assert_match(/padding: max\(var\(--space-4\), env\(safe-area-inset-top\)\)/, paper)
+    world = css[/\.street-world \{[^}]+\}/m]
+    assert world, "expected .street-world rule"
+    assert_match(/padding: var\(--chrome-head\)/, world)
     clearance = css[/#profile_gate\.street-wizard\.is-ready:has\(\.profile-gate-new\),\n#profile_gate\.street-wizard\.is-ready:has\(\.profile-gate-people\) \{[^}]+\}/m]
     assert clearance, "expected create/device wizard to start below the chrome"
     assert_match(/justify-content:\s*flex-start/, clearance)
-    assert_match(/padding-top:\s*calc\(4\.75rem \+ env\(safe-area-inset-top\)\)/, clearance)
-    refute_match(/--space-5/, clearance)
+    refute_match(/padding-top/, clearance)
   end
 
   test "wizard asks not me before listing other device fichas then create" do

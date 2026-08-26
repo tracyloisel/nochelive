@@ -66,5 +66,6 @@ Do not invent a new “Gameplay Designer” agent. Do not rubber-stamp a slice b
 | [040](040-street-challenge-playable.md) | Street challenge: locked packs playable, scores from finished runs, result on ceremony and hub |
 | [041](041-night-seat-cinema.md) | Four live-night seats: cream head X, Casa/sala chip, Buzz gong, 16:9 marble TV |
 | [041](041-street-desafios-inbox.md) | Street défis inbox from Liga: named rama challenge, incoming Accept, no fifth hub tab |
+| [042](042-street-desafios-council.md) | Conseil Noche on défis: hub acts first, named wait without share, homonyms, liga count |
 
 Older files keep `## Evidence` blocks with the hat name from that slice. That is history, not a Cursor persona to revive. The four-seat table at the top is the night-director record.

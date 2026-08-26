@@ -2,7 +2,7 @@
 
 Reviewed: 2026-08-26
 Slice: sala Buzz, casa QCM, TV watch, presenter stage — mockup chrome at phone / tablet / desktop
-Tests: `PARALLEL_WORKERS=1 bin/rails test test/controllers/play_controller_test.rb test/integration/ui_chrome_test.rb test/system/night_temple_visual_test.rb test/system/play_reel_visual_test.rb` — 30 runs, 1235 assertions, 0 failures
+Tests: `PARALLEL_WORKERS=1 bin/rails test` — 645 runs, 7158 assertions, 0 failures. Coverage 94.71%.
 Gate: `.cursor/skills/noche-ui/SKILL.md` + `.cursor/skills/noche-night/SKILL.md`
 Copy: N/A — reused `play.casa_team` / `play.first_hint`; no new keys
 
@@ -41,7 +41,8 @@ PASS WITH NOTES
 ## What feels weak
 
 - Phone portrait watch is still full-bleed 9:16 cinema chrome, not a letterboxed 16:9 strip (unusable on a handset).
-- Buzz density on 667-tall phones is still capped so prompt + medallion stay in view.
+- Sala hint `¡Sé el primero!` yields to the first-fold test on 667-tall phones.
+- Next tick: compare recaptured shots to mockups; tighten presenter desk peek vs Solomon’s face.
 
 ## Required before approval
 

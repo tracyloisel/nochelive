@@ -59,7 +59,7 @@
           class: "quiet-link street-leaderboard-duels" do %>
       <%= t("street.duel_inbox") %>
       <% if @duel_incoming.to_i.positive? %>
-        <span class="street-leaderboard-duels-n"><%= @duel_incoming %></span>
+        <span class="street-leaderboard-duels-n" aria-label="<%= t("street.duel_incoming") %>"><%= @duel_incoming %></span>
       <% end %>
     <% end %>
 
