@@ -19,6 +19,8 @@ class NightTempleVisualTest < ApplicationSystemTestCase
     assert_selector ".play-sheet"
     assert_selector ".story-ticks"
     assert_selector ".night-quiz-head"
+    assert_selector ".night-quiz-head .story-close"
+    assert_selector ".play-shot-seat"
     assert_play_shot_arch
     has_star = page.evaluate_script(<<~JS)
       (function() {
@@ -38,7 +40,11 @@ class NightTempleVisualTest < ApplicationSystemTestCase
     click_button "Solo esta noche"
     assert_selector ".play-reel.is-quiz.is-night-live"
     assert_selector ".night-quiz-head"
+    assert_selector ".night-quiz-head .story-close"
+    assert_selector ".play-shot-seat"
     assert_selector ".choice-btn", minimum: 2
+    assert_text "Riquezas"
+    assert_text "Sabiduría"
     assert_no_button "Buzz"
     assert_no_selector ".play-sheet-grip"
     assert_text "¿Qué pidió?"
@@ -104,12 +110,18 @@ class NightTempleVisualTest < ApplicationSystemTestCase
 
     visit night_watch_path(game_sessions(:david).code)
     assert_selector ".watch.is-board"
+    assert_selector ".watch-corner", count: 4
     assert_watch_shot_arch
+    mute_display = page.evaluate_script("getComputedStyle(document.querySelector('.chrome-tools .mute')).display")
+    assert_equal "none", mute_display
     sleep 0.5
     shot("watch-board")
     page.current_window.resize_to(1280, 800)
     sleep 0.3
     shot("watch-board-desktop")
+    page.current_window.resize_to(1024, 768)
+    sleep 0.3
+    shot("watch-board-cinema")
   end
 
   test "finished night play shows temple ceremony scrim" do

@@ -37,14 +37,16 @@ module Quizzes
       )
     end
 
+    def self.duel_for(run)
+      return unless run
+
+      StreetDuel.where("challenger_run_id = :id OR opponent_run_id = :id", id: run.id).order(:id).last
+    end
+
     def self.active_duel_for(run)
       return nil unless run.finished? && run.person_id
 
-      StreetDuel.not_expired
-        .where(pack_id: run.pack_id)
-        .where("challenger_run_id = ? OR opponent_run_id = ?", run.id, run.id)
-        .order(:id)
-        .last
+      duel_for(run)
     end
 
     def self.rank_up?(person, run)

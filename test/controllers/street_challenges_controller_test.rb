@@ -20,9 +20,24 @@ class StreetChallengesControllerTest < ActionDispatch::IntegrationTest
     assert_select "#street_desafio.hall-paper"
     assert_select ".hall-sheet"
     assert_select "h1", text: I18n.t("street.duel_title")
+    assert_select ".street-desafio-faces"
     assert_select ".gate", count: 0
-    assert_select ".btn-gold", text: I18n.t("street.duel_accept")
+    assert_select ".btn-gold", text: I18n.t("street.duel_share_again")
     assert_select ".picto-btn", count: 0
+  end
+
+  test "invitee sees accept and the score to beat" do
+    duel = street_duels(:pending_challenge)
+    duel.update!(status: "challenger_done", challenger_score: 75)
+    carmen = people(:carmen_garcia)
+    reset!
+    sign_in_congregation
+    post street_profile_path, params: { person_id: carmen.id, favorite_year: carmen.favorite_year }
+    follow_redirect!
+    get street_challenge_path(duel.token)
+    assert_response :success
+    assert_select ".btn-gold", text: I18n.t("street.duel_accept")
+    assert_select "p.lede", text: I18n.t("street.duel_beat_score", name: people(:pili).given_name, score: 75)
   end
 
   test "create returns token" do
@@ -97,5 +112,118 @@ class StreetChallengesControllerTest < ActionDispatch::IntegrationTest
     assert duel.resolved?
     assert_operator duel.opponent_score.to_i, :>, 0
     assert_includes [ pili.id, carmen.id ], duel.winner_person&.id
+  end
+
+  test "create without a ficha returns unauthorized json" do
+    reset!
+    sign_in_congregation
+    post street_challenges_path, params: { pack_id: "coronas" }, as: :json
+    assert_response :unauthorized
+  end
+
+  test "accepting a locked pack still starts the challenge" do
+    duel = street_duels(:pending_challenge)
+    duel.update!(pack_id: "placas", status: "challenger_done", challenger_score: 40)
+    carmen = people(:carmen_garcia)
+    reset!
+    sign_in_congregation
+    post street_profile_path, params: { person_id: carmen.id, favorite_year: carmen.favorite_year }
+    follow_redirect!
+    post street_challenge_accept_path(duel.token)
+    assert_redirected_to jugar_path
+    follow_redirect!
+    run = QuizRun.open_runs.where(person_id: carmen.id, pack_id: "placas").order(:id).last
+    assert run
+    assert_equal "placas", run.pack_id
+  end
+
+  test "picking a ficha after the invite auto-starts the challenge" do
+    duel = street_duels(:pending_challenge)
+    carmen = people(:carmen_garcia)
+    reset!
+    sign_in_congregation
+    get root_path
+    post street_challenge_accept_path(duel.token)
+    assert_redirected_to root_path(desafio: duel.token, ficha: 1)
+    post street_profile_path, params: { person_id: carmen.id, favorite_year: carmen.favorite_year }
+    assert_redirected_to jugar_path
+    assert_equal carmen.id, duel.reload.opponent_person_id
+  end
+
+  test "inbox lists waiting and recent duels on the marble sheet" do
+    get street_challenges_path
+    assert_response :success
+    assert_select ".street-duel-inbox"
+    assert_select ".street-hub-kicker", text: I18n.t("street.duel_inbox_kicker")
+    assert_select ".street-duel-inbox-lede", text: I18n.t("street.duel_inbox_lede")
+    assert_select ".street-duel-inbox-card-name", text: I18n.t("street.share_guest")
+    assert_select ".street-duel-inbox-card-name", text: people(:carmen_garcia).display_name
+    assert_select ".street-hub-nav", count: 0
+    assert_select ".street-world-dock", count: 0
+    assert_select "a.quiet-link", text: I18n.t("street.duel_inbox_back")
+  end
+
+  test "named html create puts the opponent on the duel" do
+    carmen = people(:carmen_garcia)
+    QuizRun.create!(
+      device_digest: GameSession.digest_token("inbox-named"),
+      person: people(:pili),
+      pack_id: "coronas",
+      position: 10,
+      score: 58,
+      status: "finished",
+      opened_at: 1.hour.ago
+    )
+    post street_challenges_path, params: { opponent_id: carmen.id, pack_id: "coronas" }
+    assert_redirected_to street_challenges_path
+    duel = StreetDuel.order(:id).last
+    assert_equal carmen.id, duel.opponent_person_id
+    assert_equal people(:pili).id, duel.challenger_person_id
+    assert_equal 58, duel.challenger_score
+    follow_redirect!
+    assert_select ".banner", text: I18n.t(
+      "street.duel_named",
+      name: carmen.display_name,
+      pack: QuizDefinition.catalog.find_pack("coronas").copy(:title)
+    )
+  end
+
+  test "inbox without a ficha sends you to pick one" do
+    reset!
+    sign_in_congregation
+    get street_challenges_path
+    assert_redirected_to root_path(ficha: 1)
+  end
+
+  test "ceremony turbo stream shows the duel result when both have finished" do
+    duel = street_duels(:pending_challenge)
+    pili = people(:pili)
+    carmen = people(:carmen_garcia)
+    challenger_run = QuizRun.create!(
+      device_digest: GameSession.digest_token("challenger-device-ui"),
+      person_id: pili.id,
+      pack_id: duel.pack_id,
+      position: 10,
+      score: 75,
+      status: "finished",
+      opened_at: 2.hours.ago
+    )
+    duel.update!(challenger_run:, challenger_score: 75, status: "challenger_done")
+
+    reset!
+    sign_in_congregation
+    post street_profile_path, params: { person_id: carmen.id, favorite_year: carmen.favorite_year }
+    follow_redirect!
+    post street_challenge_accept_path(duel.token)
+    follow_redirect!
+
+    run = QuizRun.open_runs.where(person_id: carmen.id, pack_id: duel.pack_id).order(:id).last
+    pack = QuizDefinition.catalog.find_pack(run.pack_id)
+    run.update!(position: 10, ends_at: nil)
+    Quizzes::Submit.call(run: run.reload, choice_key: pack.question_at(10).correct_choice)
+    post quiz_advance_path(run), as: :turbo_stream
+    assert_response :success
+    assert_select ".street-card.is-duel"
+    assert_select ".street-duel-score", text: "75"
   end
 end

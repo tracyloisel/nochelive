@@ -55,6 +55,14 @@
       </label>
     <% end %>
 
+    <%= link_to street_challenges_path(pack_id: @pack_id),
+          class: "quiet-link street-leaderboard-duels" do %>
+      <%= t("street.duel_inbox") %>
+      <% if @duel_incoming.to_i.positive? %>
+        <span class="street-leaderboard-duels-n"><%= @duel_incoming %></span>
+      <% end %>
+    <% end %>
+
     <% if you && @board.your_rank && !you_on_page && @board.your_page %>
       <%= link_to street_leaderboard_path(pack_id: @pack_id, page: @board.your_page, q: @q.presence, anchor: "liga-you"),
             class: "street-leaderboard-you-card" do %>

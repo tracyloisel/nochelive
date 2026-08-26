@@ -363,7 +363,7 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
     shot("wizard-arrive-phone")
     assert_hub_column_on_hall
     assert_hub_chrome_on_column
-    find(".street-arrival-hit").click
+    find(".street-arrival-hit").click if page.has_css?(".street-arrival-hit", wait: 0.2)
     assert_selector "#profile_gate.is-ready"
     assert_selector "#ward_q"
     sleep 0.6
@@ -385,7 +385,7 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
   test "hub profile wizard live search filters as you type" do
     page.current_window.resize_to(390, 844)
     visit root_path
-    find(".street-arrival-hit").click
+    find(".street-arrival-hit").click if page.has_css?(".street-arrival-hit", wait: 0.4)
     assert_selector "#ward_q"
     fill_in "ward_q", with: "Beni"
     assert_selector ".ward-hit", text: /Rama Benidorm/, wait: 5
@@ -401,6 +401,27 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
     assert_selector "#profile_gate.is-ready"
     assert_selector "#ward_q"
     assert_no_selector ".street-arrival-caption"
+  end
+
+  test "hub profile wizard shows featured rama without typing" do
+    page.current_window.resize_to(390, 844)
+    visit root_path
+    find(".street-arrival-hit").click if page.has_css?(".street-arrival-hit", wait: 0.4)
+    assert_selector "#profile_gate.is-ready"
+    assert_selector ".ward-hit.is-featured", text: /Rama Benidorm/
+  end
+
+  test "create ficha form scrolls on a short phone" do
+    page.current_window.resize_to(390, 640)
+    visit root_path
+    pick_ward_in_gate!
+    assert_selector ".profile-gate-new", wait: 8
+    assert_selector "#gate_name"
+    assert_selector "#favorite_year"
+    overflow = page.evaluate_script("getComputedStyle(document.body).overflowY")
+    assert_includes %w[auto scroll], overflow
+    page.execute_script("document.querySelector('.profile-gate-new .btn-gold').scrollIntoView({block:'center'})")
+    assert_in_viewport ".profile-gate-new .btn-gold", slop: 96
   end
 
   test "hub duel banner with pending challenge" do

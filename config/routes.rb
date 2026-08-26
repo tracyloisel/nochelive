@@ -6,7 +6,8 @@ Rails.application.routes.draw do
   post "packs/:pack_id", to: "street_pack_starts#create", as: :street_pack_start
   get "desafio/:token", to: "street_challenges#show", as: :street_challenge
   post "desafio/:token", to: "street_challenges#accept", as: :street_challenge_accept
-  post "desafios", to: "street_challenges#create", as: :street_challenges
+  get "desafios", to: "street_challenges#index", as: :street_challenges
+  post "desafios", to: "street_challenges#create"
   get "noches", to: "nights#index", as: :nights
   post "quiz/:quiz_run_id/answers", to: "quiz_answers#create", as: :quiz_answers
   post "quiz/:quiz_run_id/advance", to: "quiz_advances#create", as: :quiz_advance

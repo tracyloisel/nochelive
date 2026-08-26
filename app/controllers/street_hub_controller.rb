@@ -18,8 +18,9 @@ class StreetHubController < ApplicationController
     @rival = if current_ward && current_street_person
       Quizzes::Rival.call(ward: current_ward, person: current_street_person)
     end
-    @pending_duel = load_pending_duel
-    @open_run = QuizRun.open_runs.where(device_digest: street_digest, person_id: current_street_person&.id).order(:id).last
+    @challenge = load_challenge
+    @pending_duel = @challenge&.duel
+    @open_run = preferred_open_run
     @unlock_pack_id = unlock_pack_id_param
     assign_ward_picker if @profile_gate && @gate_ward.blank?
   end
@@ -53,15 +54,36 @@ class StreetHubController < ApplicationController
       id
     end
 
-    def load_pending_duel
-      token = params[:desafio].presence || params[:token].presence || session[:pending_duel_token].presence
-      return unless token
+    def load_challenge
+      explicit = params[:desafio].presence || params[:token].presence
+      token = explicit || session[:pending_duel_token].presence
+      screen = Quizzes::ChallengeScreen.call(person: current_street_person, token:)
+      return unless screen
+      return if screen.phase == :taken
 
-      duel = StreetDuel.not_expired.find_by(token:)
-      return unless duel
-      return if duel.resolved?
+      pin_challenge_token!(screen, explicit)
+      screen
+    end
 
-      session.delete(:pending_duel_token) if session[:pending_duel_token] == token
-      duel
+    def pin_challenge_token!(screen, explicit)
+      own_outgoing = screen.role == :challenger
+      done = screen.phase == :result
+      if own_outgoing || done
+        session.delete(:pending_duel_token) if session[:pending_duel_token] == screen.duel.token
+      elsif explicit.present? && screen.phase == :accept
+        session[:pending_duel_token] = screen.duel.token
+      end
+    end
+
+    def preferred_open_run
+      open = QuizRun.open_runs.where(device_digest: street_digest, person_id: current_street_person&.id)
+      person = current_street_person
+      if person && @challenge
+        duel = @challenge.duel
+        run_id = person.id == duel.challenger_person_id ? duel.challenger_run_id : duel.opponent_run_id
+        match = open.find_by(id: run_id) if run_id
+        return match if match
+      end
+      open.order(:id).last
     end
 end

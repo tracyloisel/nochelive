@@ -48,6 +48,8 @@ class StreetLeaderboardsControllerTest < ActionDispatch::IntegrationTest
     assert_select ".street-hub-nav", count: 0
     assert_select ".street-world-dock", count: 0
     assert_select "a.btn-gold", count: 0
+    assert_select "a.quiet-link.street-leaderboard-duels", text: I18n.t("street.duel_inbox")
+    assert_select "a.street-leaderboard-duels[href=?]", street_challenges_path
   end
 
   test "guest can browse ward leaderboard without profile" do

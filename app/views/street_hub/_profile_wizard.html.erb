@@ -2,7 +2,7 @@
   <% if gate_ward.blank? %>
     <aside id="profile_gate"
            class="street-wizard"
-           data-controller="street-arrival"
+           data-controller="street-arrival keyboard-inset"
            aria-labelledby="profile-gate-title">
       <button type="button"
               class="street-arrival-hit"
@@ -19,7 +19,10 @@
       </div>
     </aside>
   <% else %>
-    <aside id="profile_gate" class="street-wizard is-ready" aria-labelledby="profile-gate-title">
+    <aside id="profile_gate"
+           class="street-wizard is-ready"
+           data-controller="keyboard-inset"
+           aria-labelledby="profile-gate-title">
       <div class="street-wizard-panel hall-sheet">
         <span class="hall-sheet-apex street-quien-apex" aria-hidden="true"><%= picto("star4") %></span>
         <%= render "street_hub/identity_steps",

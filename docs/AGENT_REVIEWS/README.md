@@ -63,5 +63,8 @@ Do not invent a new “Gameplay Designer” agent. Do not rubber-stamp a slice b
 | [037](037-rama-nights-feed.md) | Rama profile: marble hall, one night per row, date + missionaries |
 | [038](038-nosotros-gift.md) | `/nosotros`: Tracy’s gift, origin night, portrait, GitHub |
 | [039](039-hub-column-media-queries.md) | Hub / arrival column follows 720 / 1024 / 1440; first visit no longer pins to ceremony phone width |
+| [040](040-street-challenge-playable.md) | Street challenge: locked packs playable, scores from finished runs, result on ceremony and hub |
+| [041](041-night-seat-cinema.md) | Four live-night seats: cream head X, Casa/sala chip, Buzz gong, 16:9 marble TV |
+| [041](041-street-desafios-inbox.md) | Street défis inbox from Liga: named rama challenge, incoming Accept, no fifth hub tab |
 
 Older files keep `## Evidence` blocks with the hat name from that slice. That is history, not a Cursor persona to revive. The four-seat table at the top is the night-director record.

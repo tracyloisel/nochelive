@@ -27,13 +27,14 @@ module StreetQuiz
       ward = current_ward || person&.ward
       standings = ward && person ? Quizzes::Standings.call(ward:, person:, pack_id: run.pack_id) : nil
       rival = ward ? Quizzes::Rival.call(ward:, person:, pack_id: run.pack_id) : nil
+      duel = Quizzes::Complete.duel_for(street.run)
       respond_to do |format|
         format.turbo_stream do
           I18n.with_locale(current_locale) do
             render turbo_stream: turbo_stream.replace(
               "street_quiz",
               partial: "home/street",
-              locals: { street: street, street_trail: trail, standings: standings, rival: rival, play_context: :jugar }
+              locals: { street: street, street_trail: trail, standings: standings, rival: rival, play_context: :jugar, duel: duel }
             )
           end
         end

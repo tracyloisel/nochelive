@@ -6,6 +6,8 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select "#street_world.street-world.is-profile-gate"
     assert_select "#profile_gate.street-wizard"
+    assert_select "#profile_gate[data-controller~=keyboard-inset]"
+    assert_select "#profile_gate[data-controller~=street-arrival]"
     assert_select "#profile_gate .hall-sheet"
     assert_select ".picto-btn", count: 0
     assert_select "#profile_gate[role=dialog]", count: 0
@@ -18,7 +20,9 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
     assert_select "#profile_gate .street-quien-rule"
     assert_select "#profile_gate .hall-sheet-apex"
     assert_no_match(/guardar tu progreso/, response.body)
-    assert_select ".ward-hit", count: 0
+    assert_select "#ward_picker_results .ward-hit", count: 1
+    assert_select "#ward_picker_results .ward-hit.is-featured", text: /Rama Benidorm/
+    assert_select "button.ward-picker-locate", text: I18n.t("street.gate_locate")
     assert_select "button.btn-gold", text: /Rama Benidorm/, count: 0
     assert_select ".street-card.is-player"
     assert_select ".street-map-path"
@@ -238,6 +242,7 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
     get root_path(ficha: 1)
     assert_response :success
     assert_select "#profile_gate.street-wizard"
+    assert_select "#profile_gate[data-controller~=keyboard-inset]"
     assert_select ".profile-gate-new"
     assert_select "#gate_name"
     assert_select ".profile-gate-avatars .avatar-choice", count: Player::AVATARS.size
@@ -267,9 +272,31 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
     assert_match(/gap: var\(--space-5\)/, confirm)
     assert_match(/background: transparent/, confirm)
     create = css[/#profile_gate \.street-wizard-panel\.hall-sheet:has\(\.profile-gate-new\),\n\.street-quien-sheet:has\(\.profile-gate-new\) \{[^}]+\}/m]
-    assert create, "expected create profile sheet without ivory fill"
-    assert_match(/background: transparent/, create)
+    assert create, "expected frosted ivory create profile sheet"
+    refute_match(/background:\s*transparent/, create)
+    assert_match(/--temple-ivory/, create)
+    assert_match(/backdrop-filter:\s*blur\(14px\)/, create)
+    assert_match(/box-shadow: var\(--street-card-shadow/, create)
+    refute_match(/\.street-quien-sheet:has\(\.profile-gate-new\) \.btn-ghost/, css)
     refute_match(/body\.is-street-hub:has\(#street_world\.is-profile-gate\)/, css)
+    assert_match(/max-height:\s*none/, create)
+    gate = css[/\.street-world\.is-profile-gate \{[^}]+\}/m]
+    assert gate, "expected .street-world.is-profile-gate rule"
+    assert_match(/overflow:\s*visible/, gate)
+    assert_match(/height:\s*auto/, gate)
+    assert_match(/max-height:\s*none/, gate)
+    html_scroll = css[/html:has\(#profile_gate\),\nbody:has\(#profile_gate\) \{[^}]+\}/m]
+    assert html_scroll, "expected document scroll while the profile gate is open"
+    assert_match(/overflow-y:\s*auto/, html_scroll)
+    reduced = css.split("@media (prefers-reduced-transparency: reduce)", 2).last
+    assert reduced, "expected solid ivory fallback when transparency is reduced"
+    assert_match(/backdrop-filter:\s*none/, reduced)
+    assert_match(/--temple-ivory/, reduced)
+    clearance = css[/#profile_gate\.street-wizard\.is-ready:has\(\.profile-gate-new\),\n#profile_gate\.street-wizard\.is-ready:has\(\.profile-gate-people\) \{[^}]+\}/m]
+    assert clearance, "expected create/device wizard to start below the chrome"
+    assert_match(/justify-content:\s*flex-start/, clearance)
+    assert_match(/padding-top:\s*calc\(4\.75rem \+ env\(safe-area-inset-top\)\)/, clearance)
+    refute_match(/--space-5/, clearance)
   end
 
   test "wizard asks not me before listing other device fichas then create" do
@@ -363,5 +390,39 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
     assert_select ".street-duel-banner"
     assert_select ".street-duel-vs-mark", text: "VS"
     assert_select "form[action=?]", street_challenge_accept_path(duel.token)
+  end
+
+  test "challenger hub shows waiting after a scored challenge" do
+    sign_in_congregation
+    pili = people(:pili)
+    post street_profile_path, params: { person_id: pili.id, favorite_year: pili.favorite_year }
+    follow_redirect!
+    street_duels(:pending_challenge).update!(status: "challenger_done", challenger_score: 80)
+    get root_path
+    assert_select ".street-duel-banner"
+    assert_select ".street-duel-accept", text: I18n.t("street.duel_share_again")
+    assert_select "form[action=?]", street_challenge_accept_path(street_duels(:pending_challenge).token), count: 0
+  end
+
+  test "named waiting hub does not offer a share link" do
+    sign_in_congregation
+    pili = people(:pili)
+    post street_profile_path, params: { person_id: pili.id, favorite_year: pili.favorite_year }
+    follow_redirect!
+    StreetDuel.create!(
+      challenger_person: pili,
+      opponent_person: people(:carmen_garcia),
+      ward: wards(:demo),
+      pack_id: "coronas",
+      token: "hub-named-wait",
+      status: "challenger_done",
+      challenger_score: 81,
+      expires_at: 7.days.from_now
+    )
+    get root_path
+    assert_select ".street-duel-banner"
+    assert_select ".street-duel-accept", count: 0
+    assert_select "a.quiet-link", text: I18n.t("street.duel_inbox_open")
+    assert_select ".street-duel-banner-lede", text: I18n.t("street.duel_waiting_named", name: people(:carmen_garcia).display_name)
   end
 end

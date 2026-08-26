@@ -14,7 +14,9 @@ pili_vs_carmen:
   ward: demo
   pack_id: coronas
   token: pili-vs-carmen-token
-  status: opponent_done
+  status: resolved
   challenger_score: 82
   opponent_score: 90
   expires_at: <%= 7.days.from_now %>
+  created_at: <%= 1.week.ago %>
+  updated_at: <%= 1.week.ago %>

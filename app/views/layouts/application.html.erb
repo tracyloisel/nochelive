@@ -2,7 +2,7 @@
 <html lang="<%= I18n.locale.to_s.tr('_', '-') %>">
   <head>
     <title><%= content_for(:title) || "Noche Live" %></title>
-    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="application-name" content="Noche Live">
     <meta name="mobile-web-app-capable" content="yes">
@@ -22,7 +22,10 @@
     }</style>
     <%= javascript_importmap_tags %>
   </head>
-  <body class="<%= content_for(:body_class) %>" data-controller="stage press motion scripture">
+  <body class="<%= content_for(:body_class) %>"
+        data-controller="stage press motion scripture"
+        data-street-share-copied="<%= t("street.share_copied") %>"
+        data-street-share-failed="<%= t("street.duel_create_failed") %>">
       <a class="skip" href="#main"><%= t("chrome.skip_main") %></a>
     <div class="sky" aria-hidden="true"></div>
     <% if notice || alert %>

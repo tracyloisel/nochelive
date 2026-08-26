@@ -30,6 +30,8 @@ module Wards
         @wards = matching
       elsif nearby_coords?
         @wards = nearby
+      elsif @query.blank?
+        @wards = home_listed
       else
         @wards = []
       end
@@ -49,6 +51,11 @@ module Wards
     end
 
     private
+
+      def home_listed
+        ward = directory.find_by(code: Ward::FEATURED_CODE)
+        ward ? [ ward ] : []
+      end
 
       def nearby_coords?
         return false if @latitude.blank? || @longitude.blank?

@@ -27,12 +27,13 @@ class PlayAndWatchControllerTest < ActionDispatch::IntegrationTest
     assert_select ".play-shot"
     assert_select ".play-sheet[data-controller=sheet]"
     assert_select ".play-sheet-grip"
-    assert_select ".story-close"
+    assert_select ".night-quiz-head .story-close"
     assert_select ".play-reel[data-controller=story]"
     assert_select ".night-quiz-head .story-ticks"
     assert_select ".story-night", text: /Reyes y Profetas/
     assert_select ".story-audience", count: 0
     assert_select ".live-mark", count: 0
+    assert_select ".play-shot-seat .word", text: "Leones de Judá"
     assert_select ".story-score", text: /\d+/
     assert_select ".story-meta .story-score"
     assert_select ".score-pop .team-bar"
@@ -96,6 +97,8 @@ class PlayAndWatchControllerTest < ActionDispatch::IntegrationTest
     assert_select ".quiz-board"
     assert_select ".score-pop h1", text: "Sofía"
     assert_select ".play-reel.is-quiz"
+    assert_select ".night-quiz-head .story-close"
+    assert_select ".play-shot-seat .word", text: "Casa"
   end
 
   test "twenty-second night ask does not start in the warn zone" do

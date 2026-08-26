@@ -5,8 +5,12 @@ class Wards::SearchTest < ActiveSupport::TestCase
     8.times { |i| extra_ward(i, listed: true) }
 
     rows = Wards::Search.call(query: "").wards
-    assert_empty rows
-    assert_not_includes Wards::Search.call(query: "").wards.map(&:id), wards(:blank).id
+    assert_equal [ wards(:demo).id ], rows.map(&:id)
+    assert_not_includes rows.map(&:id), wards(:blank).id
+
+    extra_ids = Ward.listed.where.not(code: Ward::FEATURED_CODE).pluck(:id)
+    assert extra_ids.size >= 8
+    assert_empty extra_ids & rows.map(&:id)
 
     short = Wards::Search.call(query: "B").wards
     assert_empty short

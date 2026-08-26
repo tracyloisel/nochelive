@@ -19,7 +19,7 @@
   </div>
   <div class="street-duel-vs-mark" aria-hidden="true"><%= t("street.duel_vs") %></div>
   <div class="street-duel-side <%= "is-winner" if !you_won && !tie && opponent %><%= " is-loser" if you_won && !tie && opponent %>">
-    <p class="street-duel-label"><%= opponent&.given_name || "—" %></p>
+    <p class="street-duel-label"><%= opponent&.display_name || "—" %></p>
     <% if opponent %>
       <% src = avatar_mark(opponent) %>
       <% if src %><img src="<%= src %>" alt="" class="avatar-img" width="56" height="56"><% end %>
@@ -33,7 +33,7 @@
     <p class="street-duel-tie"><%= t("street.duel_tie") %></p>
   <% end %>
   <footer class="street-duel-foot">
-    <%= link_to t("street.ceremony_back_map"), root_path, class: "btn btn-gold" %>
+    <%= link_to t("street.ceremony_back_map"), local_assigns[:map_path] || root_path, class: "btn btn-gold" %>
     <% if you_won %>
       <% share = Quizzes::ShareCard.call(person: you, ward: you.ward, pack_id: duel.pack_id, score: your_score, host: request.host_with_port) %>
       <%= render "street_hub/share_card", share:, person: you, cta_class: "btn-ghost" %>

@@ -14,8 +14,11 @@ class SearchesControllerTest < ActionDispatch::IntegrationTest
     assert_select ".play-reel", count: 0
     assert_select ".ward-picker-query"
     assert_select ".ward-picker-wait", text: I18n.t("home.search_wait")
+    assert_select "button.ward-picker-locate", text: I18n.t("street.gate_locate")
     assert_select ".chrome-drawer a[href=?]", search_path
-    assert_select ".ward-hit", count: 0
+    assert_select ".ward-hit", count: 1
+    assert_select ".ward-hit.is-featured", text: /Rama Benidorm/
+    assert_select ".ward-hit", text: /Rama Extra/, count: 0
   end
 
   test "nearby coords show one suggested rama" do

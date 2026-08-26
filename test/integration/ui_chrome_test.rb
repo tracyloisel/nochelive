@@ -6,6 +6,7 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select 'meta[name="view-transition"][content="same-origin"]'
     assert_select 'meta[name="theme-color"][content="#f6f3ec"]'
+    assert_select 'meta[name="viewport"][content*="interactive-widget=resizes-content"]'
     assert_select "body[data-controller~=press][data-controller~=motion]"
     assert_select "body.is-kid"
     assert_includes response.body, "window.NocheSfx"
@@ -178,6 +179,7 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     assert_includes css, "rgba(28, 25, 21, 0.42)"
     assert_includes css, ".watch-caption,\n.stage-caption {\n  background: var(--scrim-bottom);"
     assert_includes css, "background: var(--scrim-board);"
+    assert_includes css, "body.is-watch .chrome-tools .mute { display: none; }"
     refute_includes css, "linear-gradient(180deg, var(--paper) 0%, transparent 28%)"
     assert_includes css, "--sky:"
   end
@@ -191,6 +193,8 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     assert_select ".watch-chrome .watch-mark"
     assert_select ".watch-chrome .presence-stat", count: 0
     assert_select ".watch-chrome .live", count: 0
+    assert_select ".watch-corner", count: 4
+    assert_select ".watch-board .score-strip"
     assert_select ".challenge-story[src='/media/stories/salomon_wisdom.jpg']"
     assert_select ".cheer-dock", count: 0
   end
@@ -228,6 +232,7 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     assert_select ".story-close"
     assert_select ".console.is-stage[data-controller=story]"
     assert_select ".desk-sheet"
+    assert_select ".desk-sheet[data-sheet-peek-ratio-value='0.26']"
     assert_select ".desk-tabs"
     assert_select ".desk-board[aria-label=Marcador]"
     assert_select ".desk-team"

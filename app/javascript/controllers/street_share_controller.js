@@ -6,7 +6,8 @@ export default class extends Controller {
     text: String,
     title: String,
     pack: String,
-    copied: String
+    copied: String,
+    failed: String
   }
 
   invite(event) {
@@ -31,20 +32,31 @@ export default class extends Controller {
     const packId = this.packValue || event.currentTarget.dataset.streetSharePackValue
     const endpoint = event.currentTarget.dataset.streetShareUrlValue || "/desafios"
     const token = document.querySelector('meta[name="csrf-token"]')?.content
-    const response = await fetch(endpoint, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-CSRF-Token": token,
-        Accept: "application/json"
-      },
-      body: JSON.stringify({ pack_id: packId })
-    })
-    if (!response.ok) return
-    const data = await response.json()
-    const url = new URL(data.url, window.location.origin).href
-    const text = this.textValue || ""
-    this.shareOrCopy({ url, text, title: this.titleValue || document.title })
+    try {
+      const response = await fetch(endpoint, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRF-Token": token,
+          Accept: "application/json"
+        },
+        body: JSON.stringify({ pack_id: packId })
+      })
+      if (!response.ok) {
+        this.toast(this.failMessage())
+        return
+      }
+      const data = await response.json()
+      if (!data?.url) {
+        this.toast(this.failMessage())
+        return
+      }
+      const url = new URL(data.url, window.location.origin).href
+      const text = this.textValue || event.currentTarget.dataset.streetShareTextValue || ""
+      this.shareOrCopy({ url, text, title: this.titleValue || document.title })
+    } catch (_) {
+      this.toast(this.failMessage())
+    }
   }
 
   async shareOrCopy({ url, text, title }) {
@@ -57,18 +69,27 @@ export default class extends Controller {
         /* fall through */
       }
     }
-    await navigator.clipboard.writeText(payload.text || url)
-    this.toast()
+    try {
+      await navigator.clipboard.writeText(payload.text || url)
+      this.toast()
+    } catch (_) {
+      this.toast(this.failMessage())
+    }
   }
 
-  toast() {
+  toast(message) {
     const node = document.createElement("p")
     node.className = "street-share-toast"
     node.setAttribute("role", "status")
-    node.textContent = this.copyMessage()
+    node.textContent = message || this.copyMessage()
     document.body.appendChild(node)
     requestAnimationFrame(() => node.classList.add("is-visible"))
     setTimeout(() => node.remove(), 2400)
+  }
+
+  failMessage() {
+    if (this.hasFailedValue && this.failedValue) return this.failedValue
+    return document.body.dataset.streetShareFailed || this.copyMessage()
   }
 
   copyMessage() {

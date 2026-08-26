@@ -7,8 +7,6 @@
         street: @street,
         standings: @standings,
         rival: @rival,
-        play_context: :jugar %>
-  <% if @street.done? && @duel&.resolved? && current_street_person %>
-    <%= render "street_hub/duel_result", duel: @duel, you: current_street_person %>
-  <% end %>
+        play_context: :jugar,
+        duel: @duel %>
 </div>

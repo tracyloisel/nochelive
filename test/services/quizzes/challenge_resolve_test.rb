@@ -6,5 +6,93 @@ class Quizzes::ChallengeResolveTest < ActiveSupport::TestCase
     result = Quizzes::ChallengeResolve.call(duel:)
     assert result.duel.resolved?
     assert_equal people(:carmen_garcia), result.winner
+    refute result.tie
+  end
+
+  test "tie has no winner" do
+    duel = street_duels(:pili_vs_carmen)
+    duel.update!(challenger_score: 80, opponent_score: 80)
+    result = Quizzes::ChallengeResolve.call(duel:)
+    assert result.duel.resolved?
+    assert_nil result.winner
+    assert result.tie
+  end
+
+  test "after_run! waits for the second score" do
+    duel = street_duels(:pending_challenge)
+    run = QuizRun.create!(
+      device_digest: GameSession.digest_token("resolve-challenger"),
+      person: people(:pili),
+      pack_id: duel.pack_id,
+      position: 10,
+      score: 60,
+      status: "finished",
+      opened_at: 1.hour.ago
+    )
+    Quizzes::ChallengeResolve.after_run!(run:)
+    duel.reload
+    assert_equal "challenger_done", duel.status
+    assert_equal 60, duel.challenger_score
+    assert_equal run.id, duel.challenger_run_id
+    refute duel.resolved?
+  end
+
+  test "after_run! resolves when the opponent finishes" do
+    duel = street_duels(:pending_challenge)
+    challenger_run = QuizRun.create!(
+      device_digest: GameSession.digest_token("resolve-c"),
+      person: people(:pili),
+      pack_id: duel.pack_id,
+      position: 10,
+      score: 40,
+      status: "finished",
+      opened_at: 2.hours.ago
+    )
+    opponent_run = QuizRun.create!(
+      device_digest: GameSession.digest_token("resolve-o"),
+      person: people(:carmen_garcia),
+      pack_id: duel.pack_id,
+      position: 10,
+      score: 90,
+      status: "finished",
+      opened_at: 1.hour.ago
+    )
+    duel.update!(
+      challenger_run:,
+      challenger_score: 40,
+      status: "challenger_done",
+      opponent_person: people(:carmen_garcia),
+      opponent_run:
+    )
+    Quizzes::ChallengeResolve.after_run!(run: opponent_run)
+    duel.reload
+    assert duel.resolved?
+    assert_equal 90, duel.opponent_score
+    assert_equal people(:carmen_garcia), duel.winner_person
+  end
+
+  test "after_run! ignores an unfinished run so partial scores cannot win" do
+    duel = street_duels(:pending_challenge)
+    run = QuizRun.create!(
+      device_digest: GameSession.digest_token("resolve-open"),
+      person: people(:pili),
+      pack_id: duel.pack_id,
+      position: 3,
+      score: 25,
+      status: "open",
+      opened_at: Time.current
+    )
+    Quizzes::ChallengeResolve.after_run!(run:)
+    assert_equal "pending", duel.reload.status
+    assert_nil duel.challenger_score
+  end
+
+  test "zero to zero is a resolved tie" do
+    duel = street_duels(:pili_vs_carmen)
+    duel.update!(challenger_score: 0, opponent_score: 0, status: "opponent_done")
+    result = Quizzes::ChallengeResolve.call(duel:)
+    assert result.duel.resolved?
+    assert result.tie
+    assert_nil result.winner
   end
 end

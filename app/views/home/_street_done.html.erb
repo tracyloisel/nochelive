@@ -92,16 +92,42 @@
       </section>
     </div>
 
+    <% duel = local_assigns[:duel] || Quizzes::Complete.duel_for(street.run) %>
+    <% if duel&.resolved? && current_street_person %>
+      <%= render "street_hub/duel_result",
+            duel:,
+            you: current_street_person,
+            map_path: root_path(rank_up: complete.rank_up ? 1 : nil, unlock: Quizzes::Complete.unlock_pack_id(street.run)) %>
+    <% else %>
     <footer class="street-ceremony-actions">
       <%= link_to t("street.ceremony_back_map"),
             root_path(rank_up: complete.rank_up ? 1 : nil, unlock: Quizzes::Complete.unlock_pack_id(street.run)),
             class: "btn street-ceremony-map" %>
-      <% if current_street_person %>
+      <% if current_street_person && duel %>
+        <% named = duel.opponent_person %>
+        <% if named %>
+          <p class="street-duel-waiting-note"><%= t("street.duel_waiting_named", name: named.display_name) %></p>
+          <%= link_to t("street.duel_inbox_open"), street_challenges_path, class: "btn street-challenge-btn" %>
+        <% else %>
+        <p class="street-duel-waiting-note"><%= t("street.duel_waiting_friend") %></p>
+        <button type="button"
+                class="btn street-challenge-btn"
+                data-controller="street-share"
+                data-action="street-share#invite"
+                data-street-share-url-value="<%= street_challenge_url(duel.token) %>"
+                data-street-share-text-value="<%= t("street.share_message", score: complete.score, pack: street.pack.copy(:title), ward: current_ward&.name.presence || t("street.share_guest")) %>"
+                data-street-share-copied-value="<%= t("street.share_copied") %>">
+          <%= t("street.duel_share_again") %>
+        </button>
+        <% end %>
+      <% elsif current_street_person %>
         <button type="button"
                 class="btn street-challenge-btn"
                 data-controller="street-share"
                 data-action="street-share#challenge"
                 data-street-share-pack-value="<%= street.pack.id %>"
+                data-street-share-text-value="<%= t("street.share_message", score: complete.score, pack: street.pack.copy(:title), ward: current_ward&.name.presence || t("street.share_guest")) %>"
+                data-street-share-copied-value="<%= t("street.share_copied") %>"
                 data-street-share-url-value="<%= street_challenges_path %>">
           <%= t("street.duel_challenge_btn") %>
         </button>
@@ -111,6 +137,7 @@
               class: "btn street-challenge-btn" %>
       <% end %>
     </footer>
+    <% end %>
     </div>
   </div>
 </div>

@@ -22,6 +22,7 @@ class StreetLeaderboardsController < ApplicationController
     )
     @page = page
     @q = params[:q].to_s.strip
+    @duel_incoming = person ? Quizzes::ChallengeInbox.actionable_count(person:) : 0
   end
 
   private

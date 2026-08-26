@@ -29,4 +29,12 @@ class Quizzes::WorldTest < ActiveSupport::TestCase
     assert_equal world.packs.second.id, world.path.current.id
     assert_equal :locked, world.path.locked.state
   end
+
+  test "an open challenge run is playable even if the pack is still locked on the map" do
+    digest = GameSession.digest_token("world-challenge-open")
+    Quizzes::StartPack.call(device_digest: digest, pack_id: "placas", challenge: true)
+    world = Quizzes::World.call(device_digest: digest)
+    placas = world.packs.find { |pack| pack.id == "placas" }
+    assert_equal :open, placas.state
+  end
 end

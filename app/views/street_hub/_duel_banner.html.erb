@@ -1,20 +1,15 @@
 <% duel = local_assigns[:duel] %>
+<% challenge = local_assigns[:challenge] %>
 <% pack = QuizDefinition.catalog.find_pack(duel.pack_id) %>
 <% challenger = duel.challenger_person %>
 <% viewer = current_street_person %>
+<% other = viewer&.id == challenger.id ? duel.opponent_person : challenger %>
+<% phase = challenge&.phase || :accept %>
+<% share_text = t("street.duel_share_text", name: challenger.display_name, pack: pack.copy(:title)) %>
 
 <aside class="street-duel-banner" role="status">
   <p class="street-duel-banner-kicker"><%= t("street.duel_title") %></p>
   <div class="street-duel-banner-faces">
-    <div class="street-duel-face">
-      <% src = avatar_mark(challenger) %>
-      <% if src %><img src="<%= src %>" alt="" class="avatar-img" width="52" height="52"><% end %>
-      <span class="street-duel-face-name"><%= challenger.given_name %></span>
-    </div>
-    <div class="street-duel-vs" aria-hidden="true">
-      <span class="street-duel-vs-mark"><%= t("street.duel_vs") %></span>
-      <span class="street-duel-pack"><%= pack.copy(:title) %></span>
-    </div>
     <div class="street-duel-face is-you">
       <% if viewer %>
         <% src = avatar_mark(viewer) %>
@@ -24,9 +19,58 @@
       <% end %>
       <span class="street-duel-face-name"><%= t("street.duel_you") %></span>
     </div>
+    <div class="street-duel-vs" aria-hidden="true">
+      <span class="street-duel-vs-mark"><%= t("street.duel_vs") %></span>
+      <span class="street-duel-pack"><%= pack.copy(:title) %></span>
+    </div>
+    <div class="street-duel-face">
+      <% if other %>
+        <% src = avatar_mark(other) %>
+        <% if src %><img src="<%= src %>" alt="" class="avatar-img" width="52" height="52"><% end %>
+        <span class="street-duel-face-name"><%= other.display_name %></span>
+      <% else %>
+        <span class="street-duel-face-slot" aria-hidden="true"><%= picto("sparkle") %></span>
+        <span class="street-duel-face-name"><%= t("street.share_guest") %></span>
+      <% end %>
+    </div>
   </div>
-  <p class="street-duel-banner-lede"><%= t("street.duel_challenge", name: challenger.given_name, pack: pack.copy(:title)) %></p>
-  <%= button_to street_challenge_accept_path(duel.token), class: "btn btn-gold street-duel-accept" do %>
-    <%= t("street.duel_accept") %>
+  <% case phase %>
+  <% when :waiting %>
+    <% if challenge&.waiting_for == :play && other %>
+      <p class="street-duel-banner-lede"><%= t("street.duel_playing_named", name: other.display_name) %></p>
+    <% elsif challenge&.waiting_for == :accept && other %>
+      <p class="street-duel-banner-lede"><%= t("street.duel_waiting_named", name: other.display_name) %></p>
+    <% elsif challenge&.role == :challenger %>
+      <p class="street-duel-banner-lede"><%= t("street.duel_you_sent", pack: pack.copy(:title)) %></p>
+      <p class="street-duel-banner-lede"><%= t("street.duel_waiting_friend") %></p>
+    <% else %>
+      <p class="street-duel-banner-lede"><%= t("street.duel_waiting_friend") %></p>
+    <% end %>
+    <% if challenge&.waiting_for == :link %>
+      <button type="button"
+              class="btn btn-gold street-duel-accept"
+              data-action="street-share#invite"
+              data-street-share-url-value="<%= street_challenge_url(duel.token) %>"
+              data-street-share-text-value="<%= share_text %>">
+        <%= t("street.duel_share_again") %>
+      </button>
+    <% else %>
+      <%= link_to t("street.duel_inbox_open"), street_challenges_path, class: "quiet-link" %>
+    <% end %>
+  <% when :play %>
+    <p class="street-duel-banner-lede"><%= t("street.duel_challenge", name: challenger.display_name, pack: pack.copy(:title)) %></p>
+    <%= link_to jugar_path, class: "btn btn-gold street-duel-accept" do %>
+      <%= t("street.duel_play") %>
+    <% end %>
+  <% else %>
+    <p class="street-duel-banner-lede"><%= t("street.duel_challenge", name: challenger.display_name, pack: pack.copy(:title)) %></p>
+    <% if duel.challenger_score %>
+      <p class="street-duel-banner-lede"><%= t("street.duel_beat_score", name: challenger.display_name, score: duel.challenger_score) %></p>
+    <% end %>
+    <% if viewer || current_ward.blank? %>
+      <%= button_to street_challenge_accept_path(duel.token), class: "btn btn-gold street-duel-accept" do %>
+        <%= t("street.duel_accept") %>
+      <% end %>
+    <% end %>
   <% end %>
 </aside>

@@ -22,6 +22,8 @@
            maxlength="48"
            autocomplete="off"
            autocapitalize="words"
+           autocorrect="off"
+           spellcheck="false"
            enterkeyhint="search"
            class="ward-picker-query"
            placeholder="<%= t("street.gate_search_ph") %>"
@@ -34,6 +36,14 @@
     <span class="ward-picker-spin" aria-hidden="true"></span>
     <span><%= t("home.search_wait") %></span>
   </p>
+  <button type="button"
+          class="quiet-link ward-picker-locate"
+          hidden
+          data-ward-search-target="locate"
+          data-action="ward-search#askLocate">
+    <%= picto("pin") %>
+    <span><%= t("street.gate_locate") %></span>
+  </button>
 <% end %>
 
 <%= turbo_frame_tag "ward_picker_results" do %>

@@ -26,8 +26,6 @@ export default class extends Controller {
     this.element.classList.add("is-ready")
     const audio = window.NocheLiveAudio
     if (audio?.unlocked && !audio.muted) audio.play?.("round_open")
-    const field = this.element.querySelector("#ward_q")
-    if (field && !this.reduced()) field.focus({ preventScroll: true })
   }
 
   reduced() {

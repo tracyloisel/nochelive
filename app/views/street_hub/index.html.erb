@@ -21,8 +21,10 @@
         gate_people: @gate_people,
         featured_ward: @featured_ward %>
 
-  <% if @pending_duel %>
-    <%= render "street_hub/duel_banner", duel: @pending_duel %>
+  <% if @challenge&.phase == :result && current_street_person %>
+    <%= render "street_hub/duel_result", duel: @challenge.duel, you: current_street_person %>
+  <% elsif @challenge %>
+    <%= render "street_hub/duel_banner", duel: @challenge.duel, challenge: @challenge %>
   <% end %>
 
   <header class="street-hub-brand">

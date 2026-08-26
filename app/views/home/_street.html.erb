@@ -10,6 +10,7 @@
 <% still = street_still_src(question) %>
 <% nxt = street_next_still(street) %>
 <% jugar = play_context == :jugar %>
+<% duel = local_assigns[:duel] %>
 
 <%= tag.section id: "street_quiz",
       class: [ "play-card", "play-reel", "is-quiz", "is-street", ("is-settled" if street.settled?), ("is-done" if street.done?), ("is-ceremony-immersive" if street.done?) ],
@@ -142,7 +143,7 @@
       <div class="play-sheet-body" data-sheet-target="body">
         <div class="play-stage">
           <% if street.done? %>
-            <%= render "home/street_done", street: street %>
+            <%= render "home/street_done", street: street, duel: duel %>
           <% elsif street.asking? %>
             <p class="prompt"><%= question.copy(:question) %></p>
             <p class="street-quiz-rule" aria-hidden="true"></p>

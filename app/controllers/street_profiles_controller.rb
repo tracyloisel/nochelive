@@ -1,4 +1,6 @@
 class StreetProfilesController < ApplicationController
+  include StreetQuiz
+
   before_action :load_gate_ward, only: [ :show, :create ]
 
   def show
@@ -21,6 +23,10 @@ class StreetProfilesController < ApplicationController
     raise People::Error.new(:ward, I18n.t("errors.people.ward")) unless ward
 
     if params[:guest].present?
+      if session[:pending_duel_token].present?
+        redirect_to root_path(ficha: 1, desafio: session[:pending_duel_token]), alert: I18n.t("street.duel_sign_in")
+        return
+      end
       clear_street_person
       remember_street_guest
       redirect_to root_path, notice: I18n.t("flashes.street_guest")
@@ -38,7 +44,7 @@ class StreetProfilesController < ApplicationController
         )
       end
       remember_street_person(person)
-      redirect_to root_path, notice: I18n.t("flashes.street_signed_in", name: person.given_name)
+      enter_street!(person)
       return
     end
 
@@ -56,7 +62,7 @@ class StreetProfilesController < ApplicationController
           )
         end
         remember_street_person(person)
-        redirect_to root_path, notice: I18n.t("flashes.street_signed_in", name: person.given_name)
+        enter_street!(person)
         return
       end
     end
@@ -74,7 +80,7 @@ class StreetProfilesController < ApplicationController
       device_token: device_token
     )
     remember_street_person(person)
-    redirect_to root_path, notice: I18n.t("flashes.street_signed_in", name: person.given_name)
+    enter_street!(person)
   rescue People::Error => error
     flash.now[:alert] = error.message
     @given_name = params[:name]
@@ -93,6 +99,37 @@ class StreetProfilesController < ApplicationController
       return if current_ward
 
       @featured_ward = Ward.find_by(code: Ward::FEATURED_CODE)
+    end
+
+    def enter_street!(person)
+      if redirect_pending_duel!(person)
+        return
+      end
+      if session.delete(:street_return) == "desafios"
+        redirect_to street_challenges_path, notice: I18n.t("flashes.street_signed_in", name: person.given_name)
+        return
+      end
+
+      redirect_to root_path, notice: I18n.t("flashes.street_signed_in", name: person.given_name)
+    end
+
+    def redirect_pending_duel!(person)
+      token = session[:pending_duel_token]
+      return false if token.blank?
+
+      duel = StreetDuel.not_expired.find_by(token:)
+      return false unless duel
+
+      Quizzes::ChallengeAccept.call(duel:, opponent_person: person, device_digest: street_digest)
+      session.delete(:pending_duel_token)
+      redirect_to jugar_path, notice: I18n.t("flashes.street_signed_in", name: person.given_name)
+      true
+    rescue Quizzes::ChallengeAccept::Expired
+      session.delete(:pending_duel_token)
+      redirect_to root_path, alert: I18n.t("street.duel_expired")
+      true
+    rescue Quizzes::ChallengeAccept::Taken
+      false
     end
 
     def assign_screen(error = nil)

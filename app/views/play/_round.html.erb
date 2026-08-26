@@ -14,20 +14,26 @@
          data-action="pointerdown->story#start sheet:dismiss->story#exit">
   <p class="skip"><%= t("chrome.skip_play") %></p>
   <header class="night-quiz-head">
-    <div class="street-quiz-lockup">
-      <p class="street-quiz-lockup-name">Noche Live</p>
-      <p class="street-quiz-lockup-tag">LIVE</p>
+    <%= render "shared/story_close", action: "click->story#exit" %>
+    <div class="night-quiz-head-stack">
+      <div class="street-quiz-lockup">
+        <p class="street-quiz-lockup-name">Noche Live</p>
+        <p class="street-quiz-lockup-tag">LIVE</p>
+      </div>
+      <%= render "shared/story_ticks", night: night, current: round %>
+      <%= render "play/timer", round: round %>
     </div>
-    <%= render "shared/story_ticks", night: night, current: round %>
-    <%= render "play/timer", round: round %>
   </header>
   <div class="play-shot">
     <%= render "shared/story_pages", night: night, current: round, reveal_future: false, pulse: local_assigns[:pulse] %>
+    <div class="play-shot-seat" aria-hidden="true">
+      <span class="emblem emblem-<%= team.emblem %>"><%= render "shared/emblem", key: team.emblem %></span>
+      <span class="word"><%= player_remote?(player) ? t("play.casa_team") : team.name %></span>
+    </div>
   </div>
 
   <div class="play-chrome">
     <div class="story-meta">
-      <%= render "shared/story_close", action: "click->story#exit" %>
       <div class="story-cluster">
         <p class="story-night"><%= night_title(night) %></p>
         <button type="button"

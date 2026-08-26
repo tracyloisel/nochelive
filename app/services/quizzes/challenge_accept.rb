@@ -16,12 +16,25 @@ module Quizzes
     def call
       raise Expired, "duel expired" if @duel.expired?
       raise Taken, "duel resolved" if @duel.resolved?
-      raise Taken, "cannot challenge yourself" if @duel.challenger_person_id == @opponent.id
 
       ApplicationRecord.transaction do
         locked = StreetDuel.lock.find(@duel.id)
-        locked.update!(opponent_person: @opponent) if locked.opponent_person.nil?
-        frame = StartPack.call(device_digest: @digest, person_id: @opponent.id, pack_id: locked.pack_id)
+        raise Expired, "duel expired" if locked.expired?
+        raise Taken, "duel resolved" if locked.resolved?
+        raise Taken, "cannot challenge yourself" if locked.challenger_person_id == @opponent.id
+        raise Taken, "duel taken" if locked.opponent_person_id.present? && locked.opponent_person_id != @opponent.id
+
+        locked.update!(opponent_person: @opponent) if locked.opponent_person_id.nil?
+
+        existing = locked.opponent_run
+        return Draw.frame(existing) if existing&.open? || existing&.finished?
+
+        frame = StartPack.call(
+          device_digest: @digest,
+          person_id: @opponent.id,
+          pack_id: locked.pack_id,
+          challenge: true
+        )
         locked.update!(opponent_run: frame.run)
         frame
       end

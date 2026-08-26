@@ -136,4 +136,19 @@ class StreetProfilesControllerTest < ActionDispatch::IntegrationTest
     assert_select "h1", text: I18n.t("join.claim_title")
     assert_select "button.btn-gold", text: I18n.t("join.yes_name", name: pili.given_name)
   end
+
+  test "guest cannot skip a pending challenge" do
+    duel = street_duels(:pending_challenge)
+    post street_challenge_accept_path(duel.token)
+    post street_profile_path, params: { guest: 1 }
+    assert_redirected_to root_path(ficha: 1, desafio: duel.token)
+  end
+
+  test "ficha after desafios returns to the inbox" do
+    get street_challenges_path
+    assert_redirected_to root_path(ficha: 1)
+    pili = people(:pili)
+    post street_profile_path, params: { person_id: pili.id, favorite_year: pili.favorite_year }
+    assert_redirected_to street_challenges_path
+  end
 end

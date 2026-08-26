@@ -56,10 +56,10 @@ module Quizzes
         unlocked = index.zero? || finished.key?(@pack_ids[index - 1])
         fin = finished[pack_id]
         open = open_runs[pack_id]
-        state = if !unlocked
-          :locked
-        elsif open
+        state = if open
           :open
+        elsif !unlocked
+          :locked
         elsif fin
           :finished
         elsif pack_id == next_id
