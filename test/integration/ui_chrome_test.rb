@@ -109,6 +109,8 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     assert_includes css, "street-sheet-rise"
     assert_includes css, ".play-reel.is-join .play-sheet[data-sheet-snap=\"mid\"]"
     assert_includes css, ".play-timer"
+    assert_includes css, ".timer-halo"
+    assert_includes css, ".street-praise"
     assert_includes css, "body[class*=\"is-fx-\"]::after { display: none; }"
     assert_includes css, ".story-close"
     assert_includes css, ".story-ticks"

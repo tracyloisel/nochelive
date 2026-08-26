@@ -1,5 +1,5 @@
 <% round = night.current_round_run %>
-<%= tag.section class: [ "watch", "is-board", ("is-ceremony-immersive" if night.finished?) ], id: "night_watch", data: stage_audio_data(round, night: night) do %>
+<%= tag.section class: [ "watch", "is-board", ("is-ceremony-immersive" if night.finished?) ], id: "night_watch", data: stage_audio_data(round, night: night, pulse: local_assigns[:pulse]) do %>
   <div class="watch-shot">
     <% if night.finished? %>
       <%= render "shared/still", src: ceremony_still_src(night), icon: "trophy" %>

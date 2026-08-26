@@ -12,7 +12,6 @@
          data-controller="street-hub street-share"
          data-street-share-copied-value="<%= t("street.share_copied") %>"
          data-street-hub-current-pack-value="<%= @world.current_pack_id %>"
-         data-street-hub-rank-up-value="<%= params[:rank_up].present? %>"
          <% if params[:rank_up].present? %>
          data-stage-sfx-value="level_up"
          data-stage-sfx-token-value="hub:rank_up:<%= current_street_person&.id || "guest" %>"
@@ -31,8 +30,10 @@
 
   <header class="street-hub-brand">
     <div class="street-hub-lockup">
-      <span class="street-hub-lockup-star" aria-hidden="true"><%= picto("star8") %></span>
-      <p class="street-hub-lockup-name">Noche Live</p>
+      <div class="street-hub-lockup-wordmark">
+        <span class="street-hub-lockup-star" aria-hidden="true"><%= picto("star8") %></span>
+        <p class="street-hub-lockup-name">Noche Live</p>
+      </div>
       <p class="street-hub-lockup-tag"><%= t("street.hub_brand_sub") %></p>
       <p class="street-temple-pill street-temple-hub-title">
         <span class="street-hub-rule" aria-hidden="true"></span>
@@ -74,38 +75,6 @@
         <% end %>
       <% end %>
     </div>
-    <nav class="street-hub-nav" aria-label="<%= t("street.nav_label") %>">
-      <span class="street-hub-nav-item is-active" aria-current="page">
-        <%= picto("compass") %>
-        <span><%= t("street.nav_hub") %></span>
-      </span>
-      <span class="street-hub-nav-item is-soon" aria-disabled="true" title="<%= t("street.nav_shop_soon") %>">
-        <%= picto("shop") %>
-        <span><%= t("street.nav_shop") %></span>
-      </span>
-      <%= link_to street_leaderboard_path, class: "street-hub-nav-item" do %>
-        <%= picto("podium") %>
-        <span><%= t("street.nav_ranking") %></span>
-      <% end %>
-      <button type="button"
-              class="street-hub-nav-item"
-              data-action="street-share#invite"
-              data-street-share-url-value="<%= root_url(rama: current_ward&.code) %>"
-              data-street-share-text-value="<%= t("street.share_invite") %>">
-        <%= picto("people") %>
-        <span><%= t("street.nav_friends") %></span>
-      </button>
-      <% if current_street_person %>
-        <%= link_to street_profile_path, class: "street-hub-nav-item" do %>
-          <%= picto("person") %>
-          <span><%= t("street.nav_profile") %></span>
-        <% end %>
-      <% else %>
-        <%= link_to root_path(ficha: 1), class: "street-hub-nav-item" do %>
-          <%= picto("person") %>
-          <span><%= t("street.nav_profile") %></span>
-        <% end %>
-      <% end %>
-    </nav>
+    <%= render "street_hub/hub_nav", active: :hub %>
   </footer>
 </section>

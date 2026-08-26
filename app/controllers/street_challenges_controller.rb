@@ -27,7 +27,7 @@ class StreetChallengesController < ApplicationController
       pack_id: pack_id || run&.pack_id || Quizzes::World.call(device_digest: street_digest, person_id: person.id).current_pack_id,
       run:
     )
-    render json: { token: result.duel.token, url: result.share_url }
+    render json: { token: result.duel.token, url: street_challenge_url(result.duel.token) }
   end
 
   def accept

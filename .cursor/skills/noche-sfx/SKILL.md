@@ -43,11 +43,13 @@ Already wired on `<body data-controller="stage press motion">`. First pointerdow
 
 | Layer | How | Gain |
 |---|---|---|
-| One-shot | `stage.play(name)` or pulse `data-sfx` | `0.85` |
-| Bed | `data-stage-bed-value` on `#night_play`, `#night_watch`, `#night_presenter`, `#street_quiz` | `0.35`, `loop` |
-| Tick | `data-stage-timer-end-value` on those same nodes | `tick` `0.42`, `tick_low` `0.58` (last 5s) |
+| Hit | `buzzer_hit`, `chest`, `correct_gold`, `wrong_soft`, `fire_whoosh` — overlay, never cut a stinger | `0.78` |
+| Stinger | `round_open`, `reveal`, `royal_fanfare`, … — exclusive among themselves, 240ms crossfade | `0.80` |
+| Bed | `data-stage-bed-value` on `#night_play`, `#night_watch`, `#night_presenter`, `#street_quiz` | `0.32` loop, fade in/out, duck under hits (`0.20`) and stingers (`0.10`) |
+| Tick files | Unlock gate + catalog only | `tick` / `tick_low` MP3s stay for HTML unlock. **Do not play them on the countdown.** |
+| Halo | `data-stage-timer-end-value` on `#street_quiz`, `#night_play`, `#night_watch` | Inset pulse: orange 20–10s (`is-timer-warn`), red last 10s (`is-timer-hot`). One beat per remaining second. Presenter desk and claim timer: no halo. |
 
-`countdown_controller.js` is **visual only**. The presenter-claim timer must not tick. Bed and ticks follow round `timed?` + `ends_at` on the three stage roots **and** `#street_quiz`, not the `.play-timer` DOM (the TV has no bar). Street quiz has **one** trigger: `data-stage-*` on `#street_quiz`. Do not also `quiz_controller#cue()` on the street (keep cue for the Friday play reel). There is no Cable pulse on the street.
+`countdown_controller.js` is the numeral/bar. The adrenaline cue is the halo, not `tick` / `tick_low`. The presenter-claim timer must not tick and must not halo. Bed follows round `timed?` + `ends_at` on the three stage roots **and** `#street_quiz`, not the `.play-timer` DOM (the TV has no bar). Street quiz has **one** trigger: `data-stage-*` on `#street_quiz`. Do not also `quiz_controller#cue()` on the street (keep cue for the Friday play reel). There is no Cable pulse on the street.
 
 Mute is the **Sonido** button (`noche_sfx_muted`). `prefers-reduced-motion` does not silence audio. It **does** hide flash veils (`is-fx-*`).
 
@@ -96,6 +98,11 @@ pulse: { kind: "open" }  # maps in Sfx::PULSE
 - Start the tension bed from `.play-timer` only (watch/presenter go silent).
 - Restart the bed on every Turbo presence replace (same `ends_at` → keep the loop).
 - Double-play a stinger from both the pulse and `data-stage-sfx-value`.
+- Run every one-shot through a single exclusive voice that hard-cuts the previous cue. Hits overlay; only ceremony stingers crossfade. Same named cue must not restart within ~250ms (pulse + click).
+- Stop the tension bed with `pause()` — fade it out.
+- Leave oneshot MP3s loud at the file end. Reverse-fade the tail in `generate_sfx.rb` so a cue that plays out does not click off.
+- Keep the tension bed running on the street result sheet. `releaseAsk` on pick; `playFrom` after the street Turbo swap — never from `turbo:before-stream-render` (stale ask node).
+- Play `tick` / `tick_low` on each remaining second. The countdown is a halo, not a metronome.
 
 ## Checklist
 
@@ -103,5 +110,6 @@ pulse: { kind: "open" }  # maps in Sfx::PULSE
 - [ ] Prompt lives in `sfx.yml` (chapel, no voice, then silence for one-shots)
 - [ ] One trigger path; token changes when the same name must replay
 - [ ] Timed rounds set bed + timer on play, watch, **and** presenter
-- [ ] Mute still cuts bed and ticks
+- [ ] Mute still cuts bed; countdown halo still pulses (visual, not Sonido)
+- [ ] Hits overlay stingers; stinger crossfade ≥180ms; bed fades in/out
 - [ ] Tests cover the mapping (`Sfx.for_pulse`, `stage_sfx` / `stage_bed`, pulse partial)

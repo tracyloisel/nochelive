@@ -44,7 +44,10 @@ export default class extends Controller {
 
   wrapStreet(original) {
     return async (...args) => {
-      const run = () => original(...args)
+      const run = () => {
+        original(...args)
+        window.NocheLiveAudio?.playFrom?.(document)
+      }
       if (!document.startViewTransition || this.reduced()) return run()
 
       try {

@@ -27,6 +27,24 @@ class StreetChallengesControllerTest < ActionDispatch::IntegrationTest
     assert body["url"].present?
   end
 
+  test "create share url uses the request host" do
+    reset!
+    host! "nochelive.onrender.com"
+    sign_in_congregation
+    pili = people(:pili)
+    post street_profile_path, params: {
+      name: pili.given_name,
+      favorite_year: pili.favorite_year,
+      avatar_key: pili.avatar_key
+    }
+    follow_redirect!
+
+    post street_challenges_path, params: { pack_id: "coronas" }, as: :json
+    assert_response :success
+    body = JSON.parse(response.body)
+    assert_equal "http://nochelive.onrender.com/desafio/#{body["token"]}", body["url"]
+  end
+
   test "accept starts opponent pack" do
     duel = street_duels(:pending_challenge)
     carmen = people(:carmen_garcia)

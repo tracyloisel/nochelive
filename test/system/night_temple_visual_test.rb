@@ -112,6 +112,61 @@ class NightTempleVisualTest < ApplicationSystemTestCase
     shot("play-finale-ceremony")
   end
 
+  test "lobby wait uses temple three-band without round ticks" do
+    page.current_window.resize_to(390, 844)
+    visit night_name_path(game_sessions(:elias).code)
+    fill_in "¿Cómo te llaman en la rama?", with: "Marta"
+    find("label.choice-chip", text: "En la sala").click
+    click_button "Solo esta noche"
+    click_button "Leones"
+    assert_text "Esperad"
+    assert_selector ".play-reel.is-lobby.is-night-live"
+    assert_selector ".night-quiz-head"
+    assert_selector ".night-quiz-head .story-close"
+    assert_selector ".lobby-wait"
+    assert_selector ".play-shot-seat"
+    assert_no_selector ".story-ticks"
+    assert_no_selector ".wait-dots"
+    assert_play_shot_arch
+    sleep 0.35
+    shot("play-lobby-wait")
+  end
+
+  test "noches paper feed sits on the marble hall" do
+    page.current_window.resize_to(390, 844)
+    visit nights_path
+    assert_selector "body.is-paper-hall"
+    assert_selector ".home-paper"
+    assert_selector ".street-hub-lockup-star"
+    assert_selector "h1", text: "Noche Live"
+    assert_selector ".street-hub-kicker", text: /#{Regexp.escape(I18n.t("home.nights"))}/i
+    assert_selector ".home-doors a", text: I18n.t("home.who")
+    assert_selector ".night-still .night-poster"
+    assert_no_selector ".btn-gold"
+    assert_no_selector ".story-ticks"
+    sleep 0.4
+    shot("noches-phone")
+
+    page.current_window.resize_to(1280, 844)
+    sleep 0.3
+    shot("noches-desktop")
+
+    page.current_window.resize_to(390, 844)
+    visit search_path
+    assert_selector "body.is-paper-hall"
+    assert_selector "h1", text: I18n.t("home.menu_search")
+    assert_selector ".home-search .home-search-lede"
+    assert_selector ".home-search .place-input"
+    assert_selector ".ward-hit", text: /Rama Benidorm/
+    assert_no_selector ".btn-gold"
+    sleep 0.35
+    shot("buscar-phone")
+
+    page.current_window.resize_to(1280, 844)
+    sleep 0.3
+    shot("buscar-desktop")
+  end
+
   def shot(name)
     FileUtils.mkdir_p(SHOT_DIR)
     path = SHOT_DIR.join("#{name}.png")

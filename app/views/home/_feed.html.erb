@@ -1,14 +1,28 @@
 <section class="home-paper">
-  <div class="home-brand">
-    <h1>Noche Live</h1>
-  </div>
-  <nav class="home-doors" aria-label="<%= t("home.doors") %>">
-    <%= link_to t("home.who"), about_path, class: "quiet-link" %>
-    <%= link_to t("home.search_page"), search_path, class: "quiet-link" %>
-  </nav>
+  <header class="home-brand">
+    <div class="street-hub-lockup">
+      <div class="street-hub-lockup-wordmark">
+        <span class="street-hub-lockup-star" aria-hidden="true"><%= picto("star8") %></span>
+        <h1 class="street-hub-lockup-name">Noche Live</h1>
+      </div>
+      <p class="street-temple-pill street-temple-hub-title">
+        <span class="street-hub-rule" aria-hidden="true"></span>
+        <span class="street-hub-kicker"><%= t("home.nights") %></span>
+        <span class="street-hub-rule" aria-hidden="true"></span>
+      </p>
+    </div>
+    <nav class="home-doors" aria-label="<%= t("home.doors") %>">
+      <%= link_to t("home.who"), about_path, class: "quiet-link" %>
+      <%= link_to t("home.search_page"), search_path, class: "quiet-link" %>
+    </nav>
+  </header>
 
   <section class="home-feed home-upcoming">
-    <h2><%= t("home.upcoming") %></h2>
+    <h2>
+      <span class="street-hub-rule" aria-hidden="true"></span>
+      <span class="home-feed-title"><%= t("home.upcoming") %></span>
+      <span class="street-hub-rule" aria-hidden="true"></span>
+    </h2>
     <% if upcoming.any? %>
       <div class="night-menu">
         <% upcoming.each do |night| %>
@@ -16,12 +30,16 @@
         <% end %>
       </div>
     <% else %>
-      <p class="lede"><%= t("home.empty_upcoming") %></p>
+      <p class="lede home-empty"><%= t("home.empty_upcoming") %></p>
     <% end %>
   </section>
 
   <section class="home-feed home-past">
-    <h2><%= t("home.past") %></h2>
+    <h2>
+      <span class="street-hub-rule" aria-hidden="true"></span>
+      <span class="home-feed-title"><%= t("home.past") %></span>
+      <span class="street-hub-rule" aria-hidden="true"></span>
+    </h2>
     <% if past.any? %>
       <div class="night-menu">
         <% past.each do |night| %>
@@ -29,7 +47,7 @@
         <% end %>
       </div>
     <% else %>
-      <p class="lede"><%= t("home.empty_past") %></p>
+      <p class="lede home-empty"><%= t("home.empty_past") %></p>
     <% end %>
   </section>
 </section>

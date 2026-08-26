@@ -1,9 +1,10 @@
 <% board = local_assigns[:board] %>
 <% return if board.blank? || board.rows.empty? %>
+<% show_avatars = local_assigns[:show_avatars] %>
 
 <section class="street-board <%= local_assigns[:board_class] %>" aria-label="<%= title %>">
   <header class="street-board-head">
-    <h3><%= title %></h3>
+    <h3 class="<%= "visually-hidden" if local_assigns[:compact_head] %>"><%= title %></h3>
     <% if board.your_rank && !local_assigns[:show_players] %>
       <p class="street-board-you">
         <% if board.players %>
@@ -14,7 +15,7 @@
       </p>
     <% end %>
     <% if local_assigns[:show_players] && board.players %>
-      <p class="street-board-total quiet"><%= t("street.leaderboard_players", count: board.players) %></p>
+      <p class="street-board-total"><%= t("street.leaderboard_players", count: board.players) %></p>
     <% end %>
   </header>
   <ol class="street-board-rows">
@@ -22,10 +23,20 @@
       <% if row.context %>
         <li class="street-board-gap" aria-hidden="true"><%= t("street.leaderboard_gap") %></li>
       <% end %>
-      <li class="street-board-row <%= "is-you" if row.you %>">
-        <span class="street-board-rank">#<%= row.rank %></span>
+      <li class="street-board-row <%= "is-you" if row.you %> <%= "is-medal-#{row.rank}" if row.rank.to_i.between?(1, 3) %>">
+        <span class="street-board-rank"><%= row.rank.to_i.between?(1, 3) && show_avatars ? row.rank : "##{row.rank}" %></span>
+        <% if show_avatars %>
+          <% src = avatar_mark(row.person) %>
+          <span class="street-board-avatar">
+            <% if src %>
+              <img src="<%= src %>" alt="" class="avatar-img" width="32" height="32">
+            <% else %>
+              <span class="avatar-fallback" aria-hidden="true"><%= row.person.given_name.to_s.first %></span>
+            <% end %>
+          </span>
+        <% end %>
         <span class="street-board-name"><%= row.person.given_name %></span>
-        <span class="street-board-score"><%= row.score %></span>
+        <span class="street-board-score"><% if show_avatars %><%= picto("crown") %><% end %><%= number_with_delimiter(row.score) %></span>
       </li>
     <% end %>
   </ol>

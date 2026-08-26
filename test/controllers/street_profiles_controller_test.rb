@@ -8,7 +8,49 @@ class StreetProfilesControllerTest < ActionDispatch::IntegrationTest
   test "show prompts for a profile when none is signed in" do
     get street_profile_path
     assert_response :success
+    assert_select "body.is-paper-hall"
+    assert_select "#street_quien.street-quien"
+    assert_select ".street-quien-sheet"
+    assert_select ".street-hub-lockup-name", text: "Noche Live"
+    assert_select ".street-hub-kicker", text: I18n.t("street.profile_title")
     assert_select "h1", text: I18n.t("street.create_title")
+    assert_select ".gate", count: 0
+    assert_select ".story-ticks", count: 0
+    assert_select ".play-reel", count: 0
+  end
+
+  test "show welcomes a person already on this device" do
+    pili = people(:pili)
+    post street_profile_path, params: { person_id: pili.id, favorite_year: pili.favorite_year }
+    follow_redirect!
+    get street_profile_path
+    assert_response :success
+    assert_select "body.is-paper-hall"
+    assert_select "#street_quien"
+    assert_select "h1", text: I18n.t("join.welcome_title")
+    assert_select ".street-quien-ficha"
+    assert_select ".street-quien-apex"
+    assert_select "form[action=?]", street_profile_path do
+      assert_select "button.btn-gold", text: I18n.t("join.yes_name", name: pili.given_name)
+    end
+    assert_select "a.btn-ghost", text: I18n.t("join.not_me")
+    assert_select ".gate", count: 0
+    assert_select ".picto-btn", count: 0
+  end
+
+  test "fresh form keeps a quiet signed-in line without a second ficha" do
+    pili = people(:pili)
+    post street_profile_path, params: { person_id: pili.id, favorite_year: pili.favorite_year }
+    follow_redirect!
+    get street_profile_path, params: { fresh: 1 }
+    assert_response :success
+    assert_select "h1", text: I18n.t("street.create_title")
+    assert_select ".street-quien-session", text: /#{Regexp.escape(pili.given_name)}/
+    assert_select ".street-quien-ficha", count: 0
+    assert_select "button.btn-ghost", count: 0
+    assert_select ".join-form"
+    assert_select ".street-quien-foot button", text: I18n.t("street.continue_guest")
+    assert_select ".street-quien-foot a", text: I18n.t("street.back_quiz")
   end
 
   test "create remembers a person on the device" do
@@ -52,10 +94,27 @@ class StreetProfilesControllerTest < ActionDispatch::IntegrationTest
     assert_select "#profile_gate", count: 0
   end
 
+  test "show lists device people on the marble sheet" do
+    pili = people(:pili)
+    post street_profile_path, params: { person_id: pili.id, favorite_year: pili.favorite_year }
+    follow_redirect!
+    token = PersonDevice.where(person: pili).order(:id).last.device_token
+    PersonDevice.create!(person: people(:carmen_garcia), device_token: token, last_seen_at: Time.current)
+
+    get street_profile_path
+    assert_response :success
+    assert_select "h1", text: I18n.t("join.device_title")
+    assert_select "#street_quien .street-quien-sheet .person-list .person-pick", count: 2
+    assert_select ".gate", count: 0
+  end
+
   test "show opens claim when picking an away homonym" do
     pili = people(:pili)
     get street_profile_path, params: { person_id: pili.id }
     assert_response :success
+    assert_select "body.is-paper-hall"
+    assert_select "#street_quien .street-quien-sheet"
     assert_select "h1", text: I18n.t("join.claim_title")
+    assert_select "button.btn-gold", text: I18n.t("join.yes_name", name: pili.given_name)
   end
 end

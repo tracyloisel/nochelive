@@ -76,9 +76,11 @@ module Answers
       definition = @round.definition
       return "found" if definition.scavenger?
       return "shout" if definition.category?
-      if definition.layered_finale?
+      if should_grade?
         event = @team.score_events.find_by(round_run: @round)
-        return "open" if event&.kind == "incorrect" && @round.reload.finale_steal_open?
+        if definition.layered_finale? && event&.kind == "incorrect" && @round.reload.finale_steal_open?
+          return "open"
+        end
         return "score" if event&.kind == "correct"
         return "miss" if event&.kind == "incorrect"
       end

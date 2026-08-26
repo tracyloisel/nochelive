@@ -1,0 +1,48 @@
+<% active = local_assigns.fetch(:active, :hub) %>
+<nav class="street-hub-nav" aria-label="<%= t("street.nav_label") %>">
+  <% if active == :hub %>
+    <span class="street-hub-nav-item is-active" aria-current="page">
+      <span class="street-hub-nav-ico"><%= picto("compass") %></span>
+      <span><%= t("street.nav_hub") %></span>
+    </span>
+  <% else %>
+    <%= link_to root_path, class: "street-hub-nav-item" do %>
+      <span class="street-hub-nav-ico"><%= picto("compass") %></span>
+      <span><%= t("street.nav_hub") %></span>
+    <% end %>
+  <% end %>
+  <span class="street-hub-nav-item is-soon" aria-disabled="true" title="<%= t("street.nav_shop_soon") %>">
+    <span class="street-hub-nav-ico"><%= picto("shop") %></span>
+    <span><%= t("street.nav_shop") %></span>
+  </span>
+  <% if active == :ranking %>
+    <span class="street-hub-nav-item is-active" aria-current="page">
+      <span class="street-hub-nav-ico"><%= picto("podium") %></span>
+      <span><%= t("street.nav_ranking") %></span>
+    </span>
+  <% else %>
+    <%= link_to street_leaderboard_path, class: "street-hub-nav-item" do %>
+      <span class="street-hub-nav-ico"><%= picto("podium") %></span>
+      <span><%= t("street.nav_ranking") %></span>
+    <% end %>
+  <% end %>
+  <button type="button"
+          class="street-hub-nav-item"
+          data-action="street-share#invite"
+          data-street-share-url-value="<%= root_url(rama: current_ward&.code) %>"
+          data-street-share-text-value="<%= t("street.share_invite") %>">
+    <span class="street-hub-nav-ico"><%= picto("people") %></span>
+    <span><%= t("street.nav_friends") %></span>
+  </button>
+  <% if current_street_person %>
+    <%= link_to street_profile_path, class: "street-hub-nav-item" do %>
+      <span class="street-hub-nav-ico"><%= picto("person") %></span>
+      <span><%= t("street.nav_profile") %></span>
+    <% end %>
+  <% else %>
+    <%= link_to root_path(ficha: 1), class: "street-hub-nav-item" do %>
+      <span class="street-hub-nav-ico"><%= picto("person") %></span>
+      <span><%= t("street.nav_profile") %></span>
+    <% end %>
+  <% end %>
+</nav>

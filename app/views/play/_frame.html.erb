@@ -6,7 +6,7 @@
 
 <%= tag.div id: "night_play",
             class: [ "play", "is-reel", ("is-peak" if team&.pending_rank_up.present? || night.finished?) ],
-            data: stage_audio_data(round, extra_sfx, extra_fx, team: team, night: night) do %>
+            data: stage_audio_data(round, extra_sfx, extra_fx, team: team, night: night, pulse: local_assigns[:pulse]) do %>
   <% if team.nil? %>
     <%= render "play/pick_team", night: night %>
   <% elsif team.pending_rank_up.present? %>

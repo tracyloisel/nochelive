@@ -4,11 +4,13 @@
   <input type="hidden" name="code" value="<%= ward.code %>">
   <button type="submit" class="ward-hit" aria-label="<%= ward.name %>">
     <% if poster %>
-      <img class="night-poster" src="<%= poster %>" alt="">
+      <div class="night-still">
+        <img class="night-poster" src="<%= poster %>" alt="">
+      </div>
     <% end %>
     <div class="night-copy">
       <span class="emblem emblem-lg emblem-<%= ward.emblem %>"><%= render "shared/emblem", key: ward.emblem %></span>
-      <p class="live night-status">
+      <p class="night-status">
         <% if live %><span class="live-dot"></span> <%= t("home.live") %> · <% end %>
         <%= t("ward.nights_count", count: ward.nights_count) %>
       </p>

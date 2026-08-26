@@ -19,7 +19,8 @@ export default class extends Controller {
     if (this.hasBarTarget && this.durationValue > 0) {
       this.barTarget.style.transform = `scaleX(${Math.min(1, remainMs / (this.durationValue * 1000))})`
     }
-    this.element.classList.toggle("is-low", remain > 0 && remain <= 5)
+    this.element.classList.toggle("is-warn", remain > 10 && remain <= 20)
+    this.element.classList.toggle("is-low", remain > 0 && remain <= 10)
     this.element.classList.toggle("is-empty", remain <= 0)
     if (remainMs > 0) {
       this.frame = requestAnimationFrame(() => this.tick())

@@ -25,6 +25,9 @@ class QuizAnswersControllerTest < ActionDispatch::IntegrationTest
     assert_select ".quiz-bar .choice-mark", count: 0
     assert_select ".street-score.is-tick span", text: question.points.to_s
     assert_select ".street-points-pop", text: "+#{question.points}"
+    assert_select ".street-praise-line", text: I18n.t("street.praise")
+    assert_select ".street-praise-pts", text: "+#{question.points}"
+    assert_select ".quiz-board.is-settled .quiz-shout", count: 0
   end
 
   test "a miss marks the true choice and the wrong pick" do
@@ -35,6 +38,8 @@ class QuizAnswersControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select ".quiz-board.is-wrong"
     assert_select ".street-score span", text: "0"
+    assert_select ".street-praise", count: 0
+    assert_select ".quiz-shout", text: I18n.t("quiz.incorrect")
   end
 
   test "rewind shows the prior settled question and will not skip an ask" do
@@ -63,9 +68,18 @@ class QuizAnswersControllerTest < ActionDispatch::IntegrationTest
     assert_select ".street-ceremony-slab"
     assert_select ".street-ceremony-plinth"
     assert_select ".street-ceremony-chest-img"
+    assert_select ".street-ceremony-ward-card"
+    assert_select ".street-ceremony-plinth-grid"
+    assert_select ".street-ceremony-monument .street-ceremony-trophy .street-ceremony-slab"
+    assert_select ".street-ceremony-monument .street-ceremony-plinth .street-ceremony-actions"
     assert_select ".street-ceremony-map", text: I18n.t("street.ceremony_back_map")
     assert_select ".street-challenge-btn"
     assert_select ".street-card.is-share", count: 0
+    assert_select ".street-win-score.score-fly" do |nodes|
+      score = nodes.first
+      assert_equal score["data-final"], score.text.strip
+      refute_equal "0", score.text.strip
+    end
   end
 
   test "expire freezes a miss" do

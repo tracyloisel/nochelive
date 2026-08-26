@@ -1,60 +1,122 @@
 <% content_for :title, t("street.leaderboard_title") %>
 <% content_for :body_class, "is-kid is-street-hub" %>
+<% pack_title = @pack_id ? QuizDefinition.catalog.find_pack(@pack_id).copy(:title) : nil %>
+<% board_title = pack_title ? t("street.board_pack", pack: pack_title) : t("street.board_total") %>
+<% you = current_street_person %>
+<% you_on_page = @board.rows.any? { |row| row.you && !row.context } %>
 <%= chrome_menu { site_menu } %>
 
-<section id="street_world" class="street-world street-leaderboard-page">
-  <header class="street-leaderboard-head">
-    <h1><%= t("street.leaderboard_title") %></h1>
-    <% if @board.your_rank %>
-      <p class="street-leaderboard-you">
-        <%= t("street.leaderboard_you", rank: @board.your_rank, players: @board.players, score: @board.your_score) %>
-      </p>
-    <% end %>
+<section id="street_world"
+         class="street-world street-leaderboard-page"
+         data-controller="street-share"
+         data-street-share-copied-value="<%= t("street.share_copied") %>"
+         style="view-transition-name: street-world">
+  <header class="street-hub-brand">
+    <div class="street-hub-lockup">
+      <span class="street-hub-lockup-star" aria-hidden="true"><%= picto("star8") %></span>
+      <p class="street-hub-lockup-name">Noche Live</p>
+      <p class="street-hub-lockup-tag"><%= t("street.hub_brand_sub") %></p>
+      <h1 class="street-temple-pill street-temple-hub-title">
+        <span class="street-hub-rule" aria-hidden="true"></span>
+        <span class="street-hub-kicker"><%= t("street.leaderboard_kicker") %></span>
+        <span class="street-hub-rule" aria-hidden="true"></span>
+      </h1>
+    </div>
   </header>
 
-  <nav class="street-leaderboard-tabs" aria-label="<%= t("street.leaderboard_scope") %>">
-    <%= link_to t("street.board_total"),
-          street_leaderboard_path(q: @q.presence),
-          class: "street-leaderboard-tab#{' is-active' unless @pack_id}" %>
-    <% QuizDefinition.catalog.pack_ids.each do |pack_id| %>
-      <%= link_to QuizDefinition.catalog.find_pack(pack_id).copy(:title),
-            street_leaderboard_path(pack_id:, q: @q.presence),
-            class: "street-leaderboard-tab#{' is-active' if @pack_id == pack_id}" %>
+  <div class="street-leaderboard-sheet">
+    <%= form_with url: street_leaderboard_path, method: :get, class: "street-leaderboard-search",
+          data: { controller: "liga-search", action: "input->liga-search#queue" },
+          html: { onsubmit: "this.querySelectorAll('[name]').forEach(function(el){ if(!el.value) el.disabled = true; });" } do %>
+      <label class="street-leaderboard-filter">
+        <span class="visually-hidden"><%= t("street.leaderboard_scope") %></span>
+        <select name="pack_id" class="street-leaderboard-select">
+          <option value="" <%= "selected" unless @pack_id %>><%= t("street.leaderboard_scope_all") %></option>
+          <% QuizDefinition.catalog.pack_ids.each do |pack_id| %>
+            <option value="<%= pack_id %>" <%= "selected" if @pack_id == pack_id %>>
+              <%= QuizDefinition.catalog.find_pack(pack_id).copy(:title) %>
+            </option>
+          <% end %>
+        </select>
+      </label>
+      <div class="street-leaderboard-search-row<%= " is-filled" if @q.present? %>">
+        <label for="leaderboard_q" class="visually-hidden"><%= t("street.leaderboard_search") %></label>
+        <input id="leaderboard_q"
+               name="q"
+               type="search"
+               value="<%= @q %>"
+               maxlength="24"
+               autocomplete="off"
+               enterkeyhint="search"
+               class="street-leaderboard-query"
+               placeholder="<%= t("street.leaderboard_search_hint") %>"
+               data-action="input->liga-search#queue"
+               <%= "autofocus" if @q.present? %>>
+        <% if @q.present? %>
+          <%= link_to street_leaderboard_path(pack_id: @pack_id),
+                class: "street-leaderboard-search-clear",
+                aria: { label: t("street.leaderboard_search_clear") } do %>
+            <%= picto("cross") %>
+          <% end %>
+        <% end %>
+        <button type="submit" class="street-leaderboard-search-go" aria-label="<%= t("street.leaderboard_search_btn") %>">
+          <%= picto("search") %>
+        </button>
+      </div>
     <% end %>
-  </nav>
 
-  <%= form_with url: street_leaderboard_path(pack_id: @pack_id, page: 1), method: :get, class: "street-leaderboard-search" do %>
-    <label for="leaderboard_q" class="quiet"><%= t("street.leaderboard_search") %></label>
-    <input id="leaderboard_q" name="q" type="search" value="<%= @q %>" maxlength="24" class="code-input">
-    <button type="submit" class="btn btn-ghost"><%= t("street.leaderboard_search_btn") %></button>
-  <% end %>
+    <% if you && @board.your_rank && !you_on_page %>
+      <article class="street-leaderboard-you-card">
+        <% src = avatar_mark(you) %>
+        <span class="street-card-avatar">
+          <% if src %>
+            <img src="<%= src %>" alt="" class="avatar-img" width="48" height="48">
+          <% else %>
+            <span class="avatar-fallback" aria-hidden="true"><%= you.given_name.to_s.first %></span>
+          <% end %>
+        </span>
+        <div class="street-card-meta">
+          <p class="street-card-name"><%= you.given_name %></p>
+          <p class="street-leaderboard-you"><%= t("street.leaderboard_you", rank: @board.your_rank, players: @board.players, score: @board.your_score) %></p>
+        </div>
+        <p class="street-card-score">
+          <%= picto("crown") %><%= number_with_delimiter(@board.your_score) %>
+        </p>
+      </article>
+    <% end %>
 
-  <% if @board.rows.any? %>
-    <%= render "home/leaderboard",
-          board: @board,
-          title: @pack_id ? t("street.board_pack", pack: QuizDefinition.catalog.find_pack(@pack_id).copy(:title)) : t("street.board_total"),
-          show_players: true %>
-  <% else %>
-    <p class="quiet"><%= t("street.leaderboard_empty") %></p>
-  <% end %>
+    <% if @board.rows.any? %>
+      <%= render "home/leaderboard",
+            board: @board,
+            title: board_title,
+            show_players: true,
+            show_avatars: true,
+            compact_head: true %>
+    <% else %>
+      <p class="street-leaderboard-empty">
+        <span class="street-leaderboard-empty-mark" aria-hidden="true"><%= picto("podium") %></span>
+        <%= @q.present? ? t("street.leaderboard_empty_search") : t("street.leaderboard_empty") %>
+      </p>
+    <% end %>
 
-  <% if @board.pages > 1 %>
-    <nav class="street-leaderboard-pages" aria-label="<%= t("street.leaderboard_pages") %>">
-      <% if @page > 1 %>
-        <%= link_to t("street.leaderboard_prev"),
-              street_leaderboard_path(pack_id: @pack_id, page: @page - 1, q: @q.presence),
-              class: "btn btn-ghost" %>
-      <% end %>
-      <span class="quiet"><%= t("street.leaderboard_page", page: @page, pages: @board.pages) %></span>
-      <% if @page < @board.pages %>
-        <%= link_to t("street.leaderboard_next"),
-              street_leaderboard_path(pack_id: @pack_id, page: @page + 1, q: @q.presence),
-              class: "btn btn-ghost" %>
-      <% end %>
-    </nav>
-  <% end %>
+    <% if @board.pages > 1 %>
+      <nav class="street-leaderboard-pages" aria-label="<%= t("street.leaderboard_pages") %>">
+        <% if @page > 1 %>
+          <%= link_to t("street.leaderboard_prev"),
+                street_leaderboard_path(pack_id: @pack_id, page: @page - 1, q: @q.presence),
+                class: "street-leaderboard-page-link" %>
+        <% end %>
+        <span class="street-leaderboard-page-num"><%= t("street.leaderboard_page", page: @page, pages: @board.pages) %></span>
+        <% if @page < @board.pages %>
+          <%= link_to t("street.leaderboard_next"),
+                street_leaderboard_path(pack_id: @pack_id, page: @page + 1, q: @q.presence),
+                class: "street-leaderboard-page-link" %>
+        <% end %>
+      </nav>
+    <% end %>
+  </div>
 
   <footer class="street-world-dock">
-    <%= link_to t("street.leaderboard_back"), root_path, class: "btn btn-gold" %>
+    <%= render "street_hub/hub_nav", active: :ranking %>
   </footer>
 </section>

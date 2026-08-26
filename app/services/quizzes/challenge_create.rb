@@ -31,10 +31,7 @@ module Quizzes
     private
 
       def share_path_for(duel)
-        Rails.application.routes.url_helpers.street_challenge_url(
-          duel.token,
-          host: ENV.fetch("APP_HOST", "www.example.com")
-        )
+        Rails.application.routes.url_helpers.street_challenge_path(duel.token)
       end
   end
 end

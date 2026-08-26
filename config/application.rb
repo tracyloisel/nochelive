@@ -30,6 +30,7 @@ module Nochelive
     config.i18n.available_locales = [ :es, :"pt-BR", :fr, :en ]
     config.i18n.default_locale = :es
     config.i18n.fallbacks = [ :es ]
+    config.x.app_host = ENV["APP_HOST"].presence || "localhost:3000"
 
     # Configuration for the application, engines, and railties goes here.
     #

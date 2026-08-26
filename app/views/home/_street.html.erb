@@ -38,6 +38,12 @@
         <img src="<%= still %>" alt="" class="challenge-story">
       </div>
     <% end %>
+    <% if street.settled? && street.answer&.correct? %>
+      <p class="street-praise" role="status" aria-label="<%= t("street.praise") %> <%= t("street.points_gained", points: question.points) %>">
+        <span class="street-praise-line"><%= t("street.praise") %></span>
+        <span class="street-praise-pts" aria-hidden="true">+<%= question.points %></span>
+      </p>
+    <% end %>
     <% if quiz_rival && street.asking? %>
       <article class="street-card is-rival is-compact street-shot-rival" aria-label="<%= quiz_rival.person.given_name %>">
         <% src = avatar_mark(quiz_rival.person) %>

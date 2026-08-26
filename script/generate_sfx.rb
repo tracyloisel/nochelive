@@ -172,13 +172,21 @@ def write_mp3(dest, bytes)
   File.binwrite(dest, bytes)
 end
 
+def fade_out_seconds(max_seconds)
+  max = max_seconds.to_f
+  return 0.03 if max <= 0.25
+  return 0.08 if max <= 0.7
+  [ max * 0.14, 0.24 ].min
+end
+
 def trim_mp3(src, dest, max_seconds:, loopable:)
   return FileUtils.cp(src, dest) unless ffmpeg?
 
   filter = if loopable
     "afade=t=in:st=0:d=0.04,afade=t=out:st=#{[ max_seconds - 0.08, 0 ].max}:d=0.08"
   else
-    "silenceremove=start_periods=1:start_threshold=-34dB:start_silence=0.02:stop_periods=1:stop_threshold=-34dB:stop_duration=0.12"
+    fade = format("%.3f", fade_out_seconds(max_seconds))
+    "silenceremove=start_periods=1:start_threshold=-34dB:start_silence=0.02:stop_periods=1:stop_threshold=-34dB:stop_duration=0.12,areverse,afade=t=in:d=#{fade},areverse"
   end
 
   cmd = [

@@ -1,7 +1,7 @@
 <% pack_view = local_assigns[:pack_view] %>
 <% role = local_assigns[:role] %>
 <% unlock_pack_id = local_assigns[:unlock_pack_id] %>
-<% unlocking = unlock_pack_id == pack_view.id %>
+<% unlocking = unlock_pack_id == pack_view.id && (role == :locked || pack_view.state == :locked) %>
 <% historial = local_assigns[:historial] %>
 <% thumb = street_still_src(pack_view.pack.question_at(1)) %>
 <% state_class = unlocking ? "is-unlocking is-locked" : "is-#{pack_view.state}" %>
@@ -39,20 +39,14 @@
     <% if role == :current %>
       <p class="street-pack-coronas-label"><%= t("street.coronas_label") %></p>
     <% end %>
+    <% if role == :finished && pack_view.state == :finished %>
+      <p class="street-pack-replay-hint" aria-hidden="true"><%= t("street.pack_replay") %></p>
+    <% end %>
     <% if role == :locked || pack_view.state == :locked %>
       <p class="street-pack-soon"><%= t("street.pack_coming_soon") %></p>
     <% end %>
     <% if pack_view.best_score && role != :locked %>
       <p class="street-pack-best"><%= t("street.card_best", score: pack_view.best_score) %></p>
-    <% end %>
-    <% if unlocking %>
-      <div class="street-pack-play-wrap" hidden>
-        <%= button_to street_pack_start_path(pack_view.id),
-              class: "street-pack-play quiet-link",
-              form: { data: { turbo: false } } do %>
-          <%= t("street.world_play_pack") %>
-        <% end %>
-      </div>
     <% end %>
     <% if historial && pack_view.trail.any? && pack_view.state.in?(%i[finished open current]) %>
       <details class="street-pack-history" id="historial">
@@ -76,4 +70,11 @@
       </details>
     <% end %>
   </div>
+  <% if role == :finished && pack_view.state == :finished %>
+    <%= button_to street_pack_start_path(pack_view.id),
+          class: "street-pack-replay quiet-link",
+          form: { class: "street-pack-replay-form", data: { turbo: false } } do %>
+      <span class="visually-hidden"><%= t("street.pack_replay") %></span>
+    <% end %>
+  <% end %>
 </article>

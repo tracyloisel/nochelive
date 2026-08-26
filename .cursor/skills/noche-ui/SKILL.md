@@ -191,6 +191,8 @@ Street jugar next/prev: swipe or tap the **painting** (right advances after answ
 
 `<body data-controller="stage press motion">`. Pressable: `.btn`, `.choice-btn`, `.team-pick`, `.buzz`, `.emblem-choice`, `.choice-chip`, `.story-tick`, `.picture-card`, `.quiet-link`. View Transitions meta. Stable ids `#night_play`, `#night_watch`, `#night_presenter`. Honor `prefers-reduced-motion`. Street ceremonies/duels: `street_motion_controller`.
 
+Timed ask: inset `.timer-halo` on `#street_quiz` / `#night_play` / `#night_watch` (orange 20–10s, red last 10s), one pulse per second — not a tick sound. Street correct settle: `.street-praise` cream type on the still with a **local** scrim (never gold on the painting).
+
 ## Controls
 
 | Class | Use |

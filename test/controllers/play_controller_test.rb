@@ -107,9 +107,15 @@ class PlayAndWatchControllerTest < ActionDispatch::IntegrationTest
     lobby = game_sessions(:elias)
     sign_in_as_participant(lobby, name: "Nora", team: teams(:lobby_leones))
     get night_play_path(lobby.code)
-    assert_select ".play-reel.is-lobby"
+    assert_select ".play-reel.is-lobby.is-night-live"
+    assert_select ".night-quiz-head"
     assert_select ".play-sheet", text: /Esperad/
     assert_select ".play-shot .challenge-story"
+    assert_select ".lobby-wait"
+    assert_select ".play-shot-seat"
+    assert_select ".story-score"
+    assert_select ".wait-dots", count: 0
+    assert_select ".story-ticks", count: 0
   end
 
   test "rank-up is a reel" do

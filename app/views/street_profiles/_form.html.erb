@@ -11,7 +11,7 @@
     <input type="hidden" name="soy_nueva" value="1">
     <label for="family_name"><%= t("join.family") %></label>
     <input id="family_name" name="family_name" maxlength="24" required class="code-input" placeholder="<%= t("join.family_ph") %>" value="<%= @family_name %>" autocomplete="family-name">
-    <button type="submit" class="btn btn-gold picto-btn"><%= picto("check") %><%= t("join.save_ficha") %></button>
+    <button type="submit" class="btn btn-gold"><%= picto("check") %><%= t("join.save_ficha") %></button>
   <% else %>
     <label for="name"><%= t("join.who_rama") %></label>
     <input id="name" name="name" maxlength="24" required autocomplete="given-name" class="code-input" placeholder="Pili" value="<%= @given_name %>">
@@ -32,11 +32,7 @@
       </fieldset>
 
       <%= render "shared/year_field", value: @favorite_year, required: true %>
-      <button type="submit" class="btn btn-gold picto-btn"><%= picto("check") %><%= t("join.save_ficha") %></button>
+      <button type="submit" class="btn btn-gold"><%= picto("check") %><%= t("join.save_ficha") %></button>
     </div>
   <% end %>
-<% end %>
-
-<%= button_to street_profile_path, params: { guest: 1 }, class: "quiet-link", formnovalidate: true do %>
-  <%= t("street.continue_guest") %>
 <% end %>

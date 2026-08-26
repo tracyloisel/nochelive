@@ -157,10 +157,12 @@ module ApplicationHelper
     definition.copy(:question).presence || definition.copy(:instructions)
   end
 
-  def stage_sfx(round, extra = nil, team: nil, night: nil)
+  def stage_sfx(round, extra = nil, team: nil, night: nil, pulse: nil)
     return extra if extra.present?
     return "level_up" if team&.pending_rank_up.present?
     return "royal_fanfare" if night&.finished?
+    kind = pulse.is_a?(Hash) ? (pulse[:kind] || pulse["kind"]) : nil
+    return if %w[open advance lock reveal freeze score miss].include?(kind.to_s)
     return unless round
 
     definition = round.definition
@@ -320,8 +322,8 @@ module ApplicationHelper
     end
   end
 
-  def stage_audio_data(round, extra_sfx = nil, extra_fx = nil, team: nil, night: nil)
-    sfx = stage_sfx(round, extra_sfx, team: team, night: night)
+  def stage_audio_data(round, extra_sfx = nil, extra_fx = nil, team: nil, night: nil, pulse: nil)
+    sfx = stage_sfx(round, extra_sfx, team: team, night: night, pulse: pulse)
     timed = round&.timed?
     {
       stage_sfx_value: sfx,

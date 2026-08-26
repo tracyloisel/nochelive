@@ -35,7 +35,7 @@
   <footer class="street-duel-foot">
     <%= link_to t("street.ceremony_back_map"), root_path, class: "btn btn-gold" %>
     <% if you_won %>
-      <% share = Quizzes::ShareCard.call(person: you, ward: you.ward, pack_id: duel.pack_id, score: your_score) %>
+      <% share = Quizzes::ShareCard.call(person: you, ward: you.ward, pack_id: duel.pack_id, score: your_score, host: request.host_with_port) %>
       <%= render "street_hub/share_card", share:, person: you, cta_class: "btn-ghost" %>
     <% end %>
   </footer>

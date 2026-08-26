@@ -15,6 +15,7 @@ export default class extends Controller {
     this.prefetch()
     this.holdSheet()
     this.delayStreetSheet()
+    if (this.street()) window.NocheLiveAudio?.playFrom?.(document)
   }
 
   pick(event) {
@@ -27,6 +28,7 @@ export default class extends Controller {
     }
     this.element.classList.add("is-locked")
     button.classList.add("is-picked")
+    this.releaseStreetAsk()
     const key = button.dataset.choiceKey
     const correct = this.correctValue
     if (key && correct) {
@@ -42,6 +44,7 @@ export default class extends Controller {
   lock(event) {
     if (this.element.classList.contains("is-locked")) return
     this.element.classList.add("is-locked")
+    this.releaseStreetAsk()
     event.detail?.formSubmission?.submitter?.classList.add("is-picked")
   }
 
@@ -116,6 +119,11 @@ export default class extends Controller {
 
   street() {
     return this.element.id === "street_quiz" || !!this.element.closest("#street_quiz")
+  }
+
+  releaseStreetAsk() {
+    if (!this.street()) return
+    window.NocheLiveAudio?.releaseAsk?.()
   }
 
   holdSheet() {

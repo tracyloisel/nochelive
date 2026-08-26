@@ -1,33 +1,63 @@
 <% content_for :title, t("street.profile_title") %>
-<% content_for :body_class, "is-kid" %>
+<% content_for :body_class, "is-kid is-paper-hall" %>
 <%= chrome_menu { site_menu } %>
 
-<section class="gate is-paper">
-  <% if @person %>
-    <p class="eyebrow"><%= t("street.signed_in_as") %></p>
-    <div class="street-profile-hero">
-      <%= render "people/card", person: @person, show_year: true %>
+<section id="street_quien" class="home-paper street-quien">
+  <header class="home-brand">
+    <div class="street-hub-lockup">
+      <div class="street-hub-lockup-wordmark">
+        <span class="street-hub-lockup-star" aria-hidden="true"><%= picto("star8") %></span>
+        <p class="street-hub-lockup-name">Noche Live</p>
+      </div>
+      <p class="street-temple-pill street-temple-hub-title">
+        <span class="street-hub-rule" aria-hidden="true"></span>
+        <span class="street-hub-kicker"><%= t("street.profile_title") %></span>
+        <span class="street-hub-rule" aria-hidden="true"></span>
+      </p>
     </div>
-    <%= button_to street_profile_path, params: { guest: 1 }, class: "btn btn-ghost" do %>
-      <%= t("street.sign_out") %>
+  </header>
+
+  <article class="street-quien-sheet">
+    <span class="street-quien-apex" aria-hidden="true"><%= picto("star4") %></span>
+
+    <% if @person && @screen != :welcome %>
+      <div class="street-quien-session">
+        <p class="eyebrow"><%= t("street.signed_in_as") %> <strong><%= @person.given_name %></strong></p>
+        <% unless @screen == :form %>
+          <%= button_to street_profile_path, params: { guest: 1 }, class: "quiet-link" do %>
+            <%= t("street.sign_out") %>
+          <% end %>
+        <% end %>
+      </div>
     <% end %>
-    <hr class="soft">
-  <% end %>
 
-  <% case @screen %>
-  <% when :welcome %>
-    <%= render "street_profiles/welcome", person: @people_on_device.first %>
-  <% when :device %>
-    <%= render "street_profiles/device_people", people: @people_on_device %>
-  <% when :homonyms %>
-    <%= render "street_profiles/homonyms", cards: @homonym_cards %>
-  <% when :claim %>
-    <%= render "street_profiles/claim", person: @claim_person %>
-  <% else %>
-    <%= render "street_profiles/form" %>
-  <% end %>
+    <% case @screen %>
+    <% when :welcome %>
+      <%= render "street_profiles/welcome", person: @people_on_device.first %>
+    <% when :device %>
+      <%= render "street_profiles/device_people", people: @people_on_device %>
+    <% when :homonyms %>
+      <%= render "street_profiles/homonyms", cards: @homonym_cards %>
+    <% when :claim %>
+      <%= render "street_profiles/claim", person: @claim_person %>
+    <% else %>
+      <%= render "street_profiles/form" %>
+    <% end %>
 
-  <%= link_to root_path, class: "quiet-link" do %>
-    <%= t("street.back_quiz") %>
-  <% end %>
+    <nav class="street-quien-foot">
+      <% if @person && @screen == :welcome %>
+        <%= button_to street_profile_path, params: { guest: 1 }, class: "quiet-link" do %>
+          <%= t("street.sign_out") %>
+        <% end %>
+      <% elsif @screen == :form %>
+        <%= button_to street_profile_path, params: { guest: 1 }, class: "quiet-link", formnovalidate: true do %>
+          <%= t("street.continue_guest") %>
+        <% end %>
+      <% end %>
+
+      <%= link_to root_path, class: "quiet-link" do %>
+        <%= t("street.back_quiz") %>
+      <% end %>
+    </nav>
+  </article>
 </section>

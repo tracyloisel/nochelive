@@ -95,10 +95,13 @@ class ApplicationHelperTest < ActionView::TestCase
     assert_equal "¡Leones de Judá es Explorador y Rey!", rank_up_shout(leones)
   end
 
-  test "intro sfx" do
+  test "intro sfx yields to an open pulse" do
     round = round_runs(:lobby_first)
     round.intro!
     assert_equal "round_start", stage_sfx(round)
+    assert_nil stage_sfx(round, pulse: { kind: "open" })
+    assert_nil stage_sfx(round, pulse: { kind: "advance" })
+    assert_equal "round_start", stage_sfx(round, pulse: { kind: "buzz" })
   end
 
   test "stage sfx and fx follow round and night" do
@@ -327,6 +330,22 @@ class ApplicationHelperTest < ActionView::TestCase
     assert_equal "gold", settled[:stage_fx_value]
     assert_nil settled[:stage_bed_value]
     assert_match(/:settled:correct\z/, settled[:stage_sfx_token_value])
+  end
+
+  test "timed street settle clears the tension bed and tick timer" do
+    digest = GameSession.digest_token("helper-timed-settle")
+    run = Quizzes::Draw.call(device_digest: digest).run
+    run.update!(position: 4, ends_at: 20.seconds.from_now)
+    ask = street_audio_data(run, run.question)
+    assert_equal "timer_tension", ask[:stage_bed_value]
+    assert ask[:stage_timer_end_value].present?
+
+    Quizzes::Submit.call(run:, choice_key: run.question.correct_choice)
+    settled = street_audio_data(run.reload, run.question)
+    assert_equal "correct_gold", settled[:stage_sfx_value]
+    assert_nil settled[:stage_bed_value]
+    assert_nil settled[:stage_timer_end_value]
+    assert_nil settled[:stage_timer_duration_value]
   end
 
   test "street slam ask uses round_start and pack done uses royal_fanfare" do

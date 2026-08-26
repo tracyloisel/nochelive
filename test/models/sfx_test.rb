@@ -57,4 +57,45 @@ class SfxTest < ActiveSupport::TestCase
     assert_includes events, "reveal"
     assert_not_includes events, "timer_tension"
   end
+
+  test "mixer lets hits overlay stingers and fades the bed instead of cutting" do
+    js = Rails.root.join("app/javascript/controllers/stage_controller.js").read
+    hits = %w[buzzer_hit fire_whoosh chest correct_gold wrong_soft]
+    hits.each { |cue| assert_match(/HIT_CUES[\s\S]{0,200}#{cue}/, js) }
+    assert_includes js, "function playHit("
+    assert_includes js, "function playStinger("
+    assert_includes js, "decodeAudioData"
+    assert_includes js, "function spawnVoice("
+    assert_includes js, "BED_OUT_MS"
+    assert_includes js, "BED_IN_MS"
+    cut = js[/const CUT_MS = (\d+)/, 1].to_i
+    assert_operator cut, :>=, 180, "stinger crossfade must be long enough to hear the previous cue leave"
+    retrigger = js[/const RETRIGGER_MS = (\d+)/, 1].to_i
+    assert_operator retrigger, :>=, 200, "same cue must not restart over itself on pulse+click"
+    refute_match(/function playTick\([^)]*\) \{\s*if \(stingerPlaying\(\)\) return/, js)
+    refute_match(/function timerTick\([^)]*\) \{[\s\S]{0,400}playCue\(low \? "tick_low"/, js)
+    assert_includes js, "function syncHalo("
+    assert_includes js, "is-timer-hot"
+    assert_includes js, "remain > 20"
+    countdown = Rails.root.join("app/javascript/controllers/countdown_controller.js").read
+    assert_includes countdown, "remain > 10 && remain <= 20"
+    assert_includes countdown, "remain > 0 && remain <= 10"
+    hub = Rails.root.join("app/javascript/controllers/street_hub_controller.js").read
+    refute_includes hub, 'play?.("level_up")'
+    motion = Rails.root.join("app/javascript/controllers/street_motion_controller.js").read
+    ceremony_js = motion.split("packUnlock()")[0]
+    refute_match(/NocheLiveAudio/, ceremony_js)
+    gen = Rails.root.join("script/generate_sfx.rb").read
+    assert_includes gen, "areverse,afade"
+    board = Rails.root.join("app/views/play/_quiz_board.html.erb").read
+    refute_includes board, "quiz-sfx"
+    quiz = Rails.root.join("app/javascript/controllers/quiz_controller.js").read
+    assert_includes quiz, "releaseStreetAsk"
+    assert_includes quiz, "releaseAsk"
+    stage = Rails.root.join("app/javascript/controllers/stage_controller.js").read
+    assert_includes stage, "function releaseAsk("
+    refute_includes stage, "turbo:before-stream-render"
+    motion = Rails.root.join("app/javascript/controllers/motion_controller.js").read
+    assert_includes motion.split("wrapStreet").last, "playFrom"
+  end
 end

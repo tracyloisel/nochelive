@@ -58,25 +58,15 @@ export default class extends Controller {
     this.phaseTimers?.forEach((timer) => window.clearTimeout(timer))
     this.phaseTimers = []
     this.element.classList.add("is-sequence-done")
-    if (skipped) this.instantComplete(this.sequenceValue)
+    this.instantComplete(this.sequenceValue)
   }
 
   packComplete() {
     const score = this.element.querySelector(".score-fly")
     const chest = this.element.querySelector(".street-ceremony-chest")
     chest?.classList.add("is-opening")
-    window.NocheLiveAudio?.play?.("chest")
 
-    if (score) {
-      const final = parseInt(score.dataset.final || score.textContent, 10)
-      const start = performance.now()
-      const tick = (now) => {
-        const t = Math.min(1, (now - start) / 700)
-        score.textContent = Math.round(final * t)
-        if (t < 1) requestAnimationFrame(tick)
-      }
-      requestAnimationFrame(tick)
-    }
+    if (score?.dataset.final) score.textContent = score.dataset.final
 
     this.phase(620, () => {
       this.element.classList.add("is-stars-phase")
@@ -84,7 +74,6 @@ export default class extends Controller {
         star.style.animationDelay = `${i * 130}ms`
         star.classList.add("is-popping")
       })
-      window.NocheLiveAudio?.play?.("correct_gold")
     })
 
     this.phase(1050, () => {
@@ -113,7 +102,6 @@ export default class extends Controller {
       pack.classList.remove("is-locked", "is-unlocking")
       pack.classList.add("is-current", "is-landing")
       pack.querySelector(".street-pack-lock")?.remove()
-      pack.querySelector(".street-pack-play-wrap")?.removeAttribute("hidden")
     })
 
     t += PACK_UNLOCK.land
@@ -122,7 +110,7 @@ export default class extends Controller {
       pack.querySelectorAll(".street-star").forEach((star, i) => {
         star.style.animationDelay = `${i * 120}ms`
       })
-      window.NocheLiveAudio?.play?.("chest")
+      window.NocheLiveAudio?.play?.("chest", 0.62)
     })
 
     t += PACK_UNLOCK.stars
@@ -146,7 +134,6 @@ export default class extends Controller {
       pack.classList.remove("is-locked", "is-unlocking", "is-lock-breaking", "is-landing")
       pack.classList.add("is-current", "is-pulse-active", "is-stars-reveal")
       pack.querySelector(".street-pack-lock")?.remove()
-      pack.querySelector(".street-pack-play-wrap")?.removeAttribute("hidden")
       return
     }
 

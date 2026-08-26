@@ -119,6 +119,23 @@ class Answers::SubmitTest < ActiveSupport::TestCase
     assert_not teams(:daniel_home).score_events.where(kind: "correct", round_run: round).exists?
   end
 
+  test "graded QCM pulses score not a buzzer slam" do
+    Buzz.accept!(round_run: @round, team: @team, player: @player)
+    @round.lock!
+    pulses = capture_pulses(@round.game_session) do
+      Answers::Submit.call(round: @round, team: @team, player: @player, body: "wisdom")
+    end
+    assert_equal [ "score" ], pulses.map { |pulse| pulse&.fetch(:kind, nil) }
+  end
+
+  test "remote QCM miss pulses miss" do
+    home = teams(:daniel_home)
+    pulses = capture_pulses(@round.game_session) do
+      Answers::Submit.call(round: @round, team: home, player: players(:daniel), body: "riches")
+    end
+    assert_equal [ "miss" ], pulses.map { |pulse| pulse&.fetch(:kind, nil) }
+  end
+
   test "scavenger first shout pulses found once" do
     round = round_runs(:scavenger_harp)
     round.update!(phase: "open")

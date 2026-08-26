@@ -9,6 +9,6 @@ class Quizzes::ChallengeCreateTest < ActiveSupport::TestCase
       pack_id: "coronas"
     )
     assert result.duel.pending?
-    assert result.share_url.include?(result.duel.token)
+    assert_equal "/desafio/#{result.duel.token}", result.share_url
   end
 end

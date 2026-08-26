@@ -44,6 +44,9 @@ class ReelGrammarVisualTest < ApplicationSystemTestCase
     click_button "Leones"
     assert_text "Esperad"
     assert_selector ".play-reel.is-lobby"
+    assert_selector ".night-quiz-head"
+    assert_no_selector ".story-ticks"
+    assert_no_selector ".wait-dots"
     assert_selector ".play-shot .challenge-story"
     shot("04-lobby")
 

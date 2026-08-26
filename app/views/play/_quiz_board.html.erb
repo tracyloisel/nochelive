@@ -7,7 +7,6 @@
      data-quiz-play-url-value="<%= night_play_path(night.code) %>"
      data-quiz-correct-value="<%= definition.correct_choice %>"
      data-quiz-next-image-value="<%= challenge_story(nxt) if nxt %>"
-     data-quiz-sfx-value="<%= answer ? Sfx.for_grade(definition, correct: right) : "" %>"
      data-action="click->quiz#pick turbo:submit-start->quiz#lock">
   <% if answer %>
     <%= render "play/quiz_result", night: night, round: round, team: team, definition: definition, answer: answer, right: right %>

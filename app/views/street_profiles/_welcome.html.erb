@@ -1,10 +1,16 @@
+<div class="street-quien-ficha">
+  <div class="team-pick person-pick is-here">
+    <%= render "people/card", person: person, show_year: true %>
+  </div>
+</div>
 <h1><%= t("join.welcome_title") %></h1>
+<p class="street-quiz-rule street-quien-rule" aria-hidden="true"></p>
 <p class="lede"><%= t("street.welcome_lede", name: person.given_name) %></p>
 
-<%= button_to street_profile_path, params: { person_id: person.id }, class: "btn btn-gold picto-btn" do %>
+<%= button_to street_profile_path, params: { person_id: person.id }, class: "btn btn-gold" do %>
   <%= picto("check") %><%= t("join.yes_name", name: person.given_name) %>
 <% end %>
 
-<%= link_to street_profile_path(fresh: 1), class: "btn btn-ghost picto-btn" do %>
-  <%= picto("user") %><%= t("join.not_me") %>
+<%= link_to street_profile_path(fresh: 1), class: "btn btn-ghost" do %>
+  <%= picto("person") %><%= t("join.not_me") %>
 <% end %>

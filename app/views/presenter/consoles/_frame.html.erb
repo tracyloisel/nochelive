@@ -2,7 +2,7 @@
 <% live_index = night.round_runs.find_index { |tick| round && tick.id == round.id }.to_i %>
 <%= tag.section class: [ "console", "is-stage", ("is-ceremony-immersive" if night.finished?) ],
                 id: "night_presenter",
-                data: stage_audio_data(round, night: night).merge(
+                data: stage_audio_data(round, night: night, pulse: local_assigns[:pulse]).merge(
                   controller: "story",
                   story_exit_url_value: root_path,
                   story_index_value: live_index,

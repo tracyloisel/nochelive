@@ -1,39 +1,35 @@
 <% world = local_assigns[:world] %>
 <% unlock_pack_id = local_assigns[:unlock_pack_id] %>
-<% path = world.path %>
+<% packs = world.packs %>
+<% current_id = world.current_pack_id %>
+<% first_finished_id = packs.find { |pack_view| pack_view.state == :finished }&.id %>
+<% last_index = packs.size - 1 %>
 
 <nav class="street-map-path is-rope" aria-label="<%= t("street.world_map") %>" data-street-hub-target="map">
-  <aside class="street-map-legend">
-    <span class="street-map-legend-rose" aria-hidden="true"><%= picto("compass") %></span>
-    <h2 class="street-map-path-title"><%= t("street.world_map") %></h2>
-    <p class="street-map-path-lede"><%= t("street.world_map_lede") %></p>
-  </aside>
+  <div class="street-map-legend-pin">
+    <aside class="street-map-legend">
+      <h2 class="street-map-path-title"><%= t("street.world_map") %></h2>
+    </aside>
+  </div>
   <div class="street-map-track">
-    <% if path.locked %>
+    <% packs.reverse.each_with_index do |pack_view, idx| %>
+      <% role = if pack_view.id == current_id
+           :current
+         elsif pack_view.state == :finished
+           :finished
+         elsif pack_view.state == :locked
+           :locked
+         else
+           pack_view.state
+         end %>
       <%= render "street_hub/map_node",
-            pack_view: path.locked,
-            role: :locked,
-            unlock_pack_id: unlock_pack_id %>
-      <% if path.current || path.finished %>
+            pack_view: pack_view,
+            role: role,
+            unlock_pack_id: unlock_pack_id,
+            historial: pack_view.id == first_finished_id || (first_finished_id.blank? && pack_view.id == current_id) %>
+      <% unless idx == last_index %>
         <span class="street-map-rope" aria-hidden="true"></span>
       <% end %>
-    <% end %>
-    <% if path.current %>
-      <%= render "street_hub/map_node",
-            pack_view: path.current,
-            role: :current,
-            unlock_pack_id: unlock_pack_id,
-            historial: path.finished.blank? %>
-      <% if path.finished %>
-        <span class="street-map-rope" aria-hidden="true"></span>
-      <% end %>
-    <% end %>
-    <% if path.finished %>
-      <%= render "street_hub/map_node",
-            pack_view: path.finished,
-            role: :finished,
-            unlock_pack_id: unlock_pack_id,
-            historial: true %>
     <% end %>
   </div>
 </nav>

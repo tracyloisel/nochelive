@@ -3,10 +3,12 @@
 <article class="night-card">
   <%= link_to home_night_path_for(night), class: "night-hit", aria: { label: t("home.enter_night", title: night_title(night), code: night.code) } do %>
     <% if poster %>
-      <img class="night-poster" src="<%= poster %>" alt="">
+      <div class="night-still">
+        <img class="night-poster" src="<%= poster %>" alt="">
+      </div>
     <% end %>
     <div class="night-copy">
-      <p class="live night-status">
+      <p class="night-status">
         <% if night.playing? %><span class="live-dot"></span><% end %>
         <%= night_status_caption(night) %>
         · <%= l(night.starts_at.to_date) %>

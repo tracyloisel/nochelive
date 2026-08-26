@@ -5,6 +5,7 @@ class Quizzes::WorldTest < ActiveSupport::TestCase
     digest = GameSession.digest_token("world-new")
     world = Quizzes::World.call(device_digest: digest)
     assert_equal "coronas", world.current_pack_id
+    assert_equal QuizDefinition.catalog.pack_ids.size, world.packs.size
     first = world.packs.first
     assert_equal :current, first.state
     assert world.packs.drop(1).all? { |p| p.state == :locked }
