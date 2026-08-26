@@ -1,0 +1,52 @@
+<% pack_view = local_assigns[:pack_view] %>
+<% side = local_assigns[:side] %>
+<% pack = pack_view.pack %>
+<% still = street_still_src(pack.question_at(1)) %>
+<% state_class = pack_view.state %>
+
+<article class="street-card is-pack is-<%= state_class %> is-<%= side %>"
+         id="pack-<%= pack_view.id %>"
+         data-pack-id="<%= pack_view.id %>">
+  <div class="street-pack-stars" aria-label="<%= t("street.stars_label", count: pack_view.stars) %>">
+    <% 3.times do |i| %>
+      <span class="street-star<%= " is-filled" if i < pack_view.stars %>"><%= picto("star") %></span>
+    <% end %>
+  </div>
+  <% if still %>
+    <div class="street-pack-thumb">
+      <img src="<%= still %>" alt="">
+    </div>
+  <% end %>
+  <h3 class="street-pack-title"><%= pack.copy(:title) %></h3>
+  <% if pack_view.best_score %>
+    <p class="street-pack-best"><%= t("street.best_score", score: pack_view.best_score) %></p>
+  <% end %>
+  <% if pack_view.state == :locked %>
+    <span class="street-pack-lock" aria-hidden="true"><%= picto("lock") %></span>
+  <% elsif pack_view.state.in?(%i[current open available]) %>
+    <%= button_to street_pack_start_path(pack_view.id), class: "street-pack-play quiet-link" do %>
+      <%= t("street.play_pack_short") %><%= picto("arrow") %>
+    <% end %>
+  <% end %>
+  <% if pack_view.trail.any? %>
+    <details class="street-pack-history">
+      <summary><%= t("street.history_expand") %></summary>
+      <ol class="street-pack-trail">
+        <% pack_view.trail.select(&:question?).each do |step| %>
+          <li class="<%= step.state %>">
+            <% if step.jumpable? && pack_view.open_run_id %>
+              <%= button_to quiz_jump_path(pack_view.open_run_id),
+                    params: { position: step.position },
+                    class: "quiet-link",
+                    form: { data: { turbo_stream: true } } do %>
+                <%= t("street.jump_question", n: step.position) %>
+              <% end %>
+            <% else %>
+              <%= t("street.jump_question", n: step.position) %>
+            <% end %>
+          </li>
+        <% end %>
+      </ol>
+    </details>
+  <% end %>
+</article>

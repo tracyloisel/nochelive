@@ -1,7 +1,12 @@
 Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
 
-  root "home#index"
+  root "street_hub#index"
+  get "jugar", to: "street_plays#show", as: :jugar
+  post "packs/:pack_id", to: "street_pack_starts#create", as: :street_pack_start
+  get "desafio/:token", to: "street_challenges#show", as: :street_challenge
+  post "desafio/:token", to: "street_challenges#accept", as: :street_challenge_accept
+  post "desafios", to: "street_challenges#create", as: :street_challenges
   get "noches", to: "nights#index", as: :nights
   post "quiz/:quiz_run_id/answers", to: "quiz_answers#create", as: :quiz_answers
   post "quiz/:quiz_run_id/advance", to: "quiz_advances#create", as: :quiz_advance
@@ -11,7 +16,10 @@ Rails.application.routes.draw do
   get "quien", to: "street_profiles#show", as: :street_profile
   post "quien", to: "street_profiles#create"
   post "rama", to: "street_ward_picks#create", as: :street_ward_pick
-  get "camino", to: "street_histories#show", as: :street_history
+  get "camino", to: redirect("/#historial")
+  get "home", to: "home#index", as: :legacy_home
+  get "camino/historial", to: "street_histories#show", as: :street_history
+  get "liga", to: "street_leaderboards#show", as: :street_leaderboard
   post "join", to: "joins#create"
   patch "locale", to: "locales#update"
   get "nosotros", to: "ward_adds#show", as: :about

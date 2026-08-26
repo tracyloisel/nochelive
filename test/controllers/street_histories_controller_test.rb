@@ -2,8 +2,7 @@ require "test_helper"
 
 class StreetHistoriesControllerTest < ActionDispatch::IntegrationTest
   test "history page lists the trail" do
-    get root_path
-    run = QuizRun.order(:id).last
+    run = start_street_jugar!
     Quizzes::Submit.call(run:, choice_key: run.question.correct_choice)
 
     get street_history_path
@@ -13,12 +12,11 @@ class StreetHistoriesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "jump from history returns to the quiz" do
-    get root_path
-    run = QuizRun.order(:id).last
+    run = start_street_jugar!
     Quizzes::Submit.call(run:, choice_key: run.question.correct_choice)
     Quizzes::Advance.call(run: run.reload)
 
     post quiz_jump_path(run), params: { position: 1 }
-    assert_redirected_to root_path
+    assert_redirected_to jugar_path
   end
 end

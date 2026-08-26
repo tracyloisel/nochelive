@@ -6,6 +6,6 @@ class QuizAnswersController < ApplicationController
     Quizzes::Submit.call(run: @run, choice_key: params[:choice].to_s)
     replace_street(@run.reload)
   rescue RuntimeError, ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique
-    redirect_to root_path
+    redirect_to jugar_path
   end
 end

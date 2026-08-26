@@ -11,6 +11,12 @@
     <h1><%= t("fichas.heading") %></h1>
     <p class="lede"><%= t("fichas.lede") %></p>
 
+    <%= form_with url: fichas_path_for, method: :get, class: "ficha-search" do %>
+      <label for="ficha_q"><%= t("fichas.search") %></label>
+      <input id="ficha_q" name="q" type="search" value="<%= @q %>" maxlength="24" class="code-input">
+      <button type="submit" class="btn btn-ghost"><%= t("fichas.search_btn") %></button>
+    <% end %>
+
     <% if @people.empty? %>
       <p class="quiet"><%= t("fichas.empty") %></p>
     <% else %>
@@ -23,6 +29,18 @@
           </li>
         <% end %>
       </ul>
+    <% end %>
+
+    <% if @pages > 1 %>
+      <nav class="ficha-pages" aria-label="<%= t("fichas.pages") %>">
+        <% if @page > 1 %>
+          <%= link_to t("fichas.prev"), fichas_path_for(page: @page - 1, q: @q.presence), class: "btn btn-ghost" %>
+        <% end %>
+        <span class="quiet"><%= t("fichas.page", page: @page, pages: @pages, total: @total) %></span>
+        <% if @page < @pages %>
+          <%= link_to t("fichas.next"), fichas_path_for(page: @page + 1, q: @q.presence), class: "btn btn-ghost" %>
+        <% end %>
+      </nav>
     <% end %>
 
     <p class="cluster">

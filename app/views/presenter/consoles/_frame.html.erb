@@ -1,6 +1,6 @@
 <% round = night.current_round_run %>
 <% live_index = night.round_runs.find_index { |tick| round && tick.id == round.id }.to_i %>
-<%= tag.section class: "console is-stage",
+<%= tag.section class: [ "console", "is-stage", ("is-ceremony-immersive" if night.finished?) ],
                 id: "night_presenter",
                 data: stage_audio_data(round, night: night).merge(
                   controller: "story",
@@ -368,12 +368,8 @@
                 <% if night.ward.people.any? %>
                   <%= form_with url: presenter_people_link_path(night.code), class: "desk-link-form" do %>
                     <input type="hidden" name="player_id" value="<%= player.id %>">
-                    <label class="quiet" for="person_id_<%= player.id %>"><%= t("presenter.ficha") %></label>
-                    <select id="person_id_<%= player.id %>" name="person_id">
-                      <% night.ward.people.order(:given_name, :family_name).each do |person| %>
-                        <option value="<%= person.id %>"><%= person.display_name %></option>
-                      <% end %>
-                    </select>
+                    <label class="quiet" for="given_name_<%= player.id %>"><%= t("presenter.ficha") %></label>
+                    <input id="given_name_<%= player.id %>" name="given_name" type="search" maxlength="24" class="code-input" placeholder="<%= t("presenter.ficha_search") %>">
                     <button type="submit" class="btn btn-tiny btn-gold"><%= t("presenter.link") %></button>
                   <% end %>
                 <% end %>

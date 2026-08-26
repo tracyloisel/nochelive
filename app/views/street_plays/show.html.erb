@@ -1,0 +1,14 @@
+<% content_for :title, t("street.world_play") %>
+<% content_for :body_class, "is-kid is-street-play" %>
+<%= chrome_menu { site_menu } %>
+
+<div style="view-transition-name: street-quiz">
+  <%= render "home/street",
+        street: @street,
+        standings: @standings,
+        rival: @rival,
+        play_context: :jugar %>
+  <% if @street.done? && @duel&.resolved? && current_street_person %>
+    <%= render "street_hub/duel_result", duel: @duel, you: current_street_person %>
+  <% end %>
+</div>

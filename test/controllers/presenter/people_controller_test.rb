@@ -32,4 +32,20 @@ class Presenter::PeopleControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to presenter_console_path(night.code)
     assert_equal people(:pili), player.reload.person
   end
+
+  test "presenter links guest by name search" do
+    night = game_sessions(:elias)
+    player = Players::Join.call(
+      night:,
+      name: "Huésped",
+      role: "participant",
+      location: "room",
+      device_token: "guest-phone-2",
+      avatar_key: "gato"
+    )
+    sign_in_presenter(night)
+    post presenter_people_link_path(night.code), params: { player_id: player.id, given_name: "Pili" }
+    assert_redirected_to presenter_console_path(night.code)
+    assert_equal people(:pili), player.reload.person
+  end
 end

@@ -1,0 +1,12 @@
+<% content_for :title, t("street.duel_title") %>
+<% content_for :body_class, "is-kid" %>
+<%= chrome_menu { site_menu } %>
+
+<section class="street-challenge-gate">
+  <h1><%= t("street.duel_title") %></h1>
+  <p><%= t("street.duel_challenge", name: @challenger.given_name, pack: @pack.copy(:title)) %></p>
+  <%= button_to street_challenge_accept_path(@duel.token), class: "btn btn-gold" do %>
+    <%= t("street.duel_accept") %>
+  <% end %>
+  <%= link_to t("street.ceremony_back_map"), root_path, class: "quiet-link" %>
+</section>

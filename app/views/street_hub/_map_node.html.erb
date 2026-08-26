@@ -1,0 +1,79 @@
+<% pack_view = local_assigns[:pack_view] %>
+<% role = local_assigns[:role] %>
+<% unlock_pack_id = local_assigns[:unlock_pack_id] %>
+<% unlocking = unlock_pack_id == pack_view.id %>
+<% historial = local_assigns[:historial] %>
+<% thumb = street_still_src(pack_view.pack.question_at(1)) %>
+<% state_class = unlocking ? "is-unlocking is-locked" : "is-#{pack_view.state}" %>
+<% state_class = "#{state_class} is-current" if role == :current && !state_class.include?("is-current") %>
+
+<article id="pack-<%= pack_view.id %>"
+         class="street-card is-pack is-node is-<%= role %> <%= state_class %>"
+         data-pack-id="<%= pack_view.id %>"
+         <%= %(data-controller="street-motion" data-street-motion-sequence-value="packUnlock").html_safe if unlocking %>>
+  <% if role == :current %>
+    <span class="street-pack-beacon" aria-hidden="true"><%= picto("star4") %></span>
+  <% end %>
+
+  <div class="street-pack-thumb">
+    <% if thumb %>
+      <img src="<%= thumb %>" alt="">
+    <% end %>
+    <% if role == :finished || pack_view.state == :finished %>
+      <span class="street-pack-check" aria-hidden="true"><%= picto("check") %></span>
+    <% end %>
+    <% if unlocking || role == :locked || pack_view.state == :locked %>
+      <span class="street-pack-lock" aria-hidden="true"><%= picto("lock") %></span>
+    <% end %>
+  </div>
+
+  <div class="street-pack-meta">
+    <h3 class="street-pack-title">
+      <%= t("street.pack_number_label", n: pack_view.index + 1, title: pack_view.pack.copy(:title)) %>
+    </h3>
+    <div class="street-pack-stars" aria-label="<%= t("street.card_stars", count: pack_view.stars) %>">
+      <% 3.times do |i| %>
+        <span class="street-star <%= "is-filled" if i < pack_view.stars %>"><%= picto("star") %></span>
+      <% end %>
+    </div>
+    <% if role == :current %>
+      <p class="street-pack-coronas-label"><%= t("street.coronas_label") %></p>
+    <% end %>
+    <% if role == :locked || pack_view.state == :locked %>
+      <p class="street-pack-soon"><%= t("street.pack_coming_soon") %></p>
+    <% end %>
+    <% if pack_view.best_score && role != :locked %>
+      <p class="street-pack-best"><%= t("street.card_best", score: pack_view.best_score) %></p>
+    <% end %>
+    <% if unlocking %>
+      <div class="street-pack-play-wrap" hidden>
+        <%= button_to street_pack_start_path(pack_view.id),
+              class: "street-pack-play quiet-link",
+              form: { data: { turbo: false } } do %>
+          <%= t("street.world_play_pack") %>
+        <% end %>
+      </div>
+    <% end %>
+    <% if historial && pack_view.trail.any? && pack_view.state.in?(%i[finished open current]) %>
+      <details class="street-pack-history" id="historial">
+        <summary><%= t("street.history_menu") %></summary>
+        <ol class="street-pack-trail">
+          <% pack_view.trail.select(&:question?).each do |step| %>
+            <li class="<%= step.state %>">
+              <% if step.jumpable? && step.run_id %>
+                <%= button_to quiz_jump_path(step.run_id),
+                      params: { position: step.position },
+                      class: "quiet-link",
+                      form: { data: { turbo_stream: true } } do %>
+                  <%= trail_step_label(step) %>
+                <% end %>
+              <% else %>
+                <span><%= trail_step_label(step) %></span>
+              <% end %>
+            </li>
+          <% end %>
+        </ol>
+      </details>
+    <% end %>
+  </div>
+</article>

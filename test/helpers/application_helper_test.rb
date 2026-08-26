@@ -232,6 +232,37 @@ class ApplicationHelperTest < ActionView::TestCase
     assert_not_includes src, "/media/nights/"
   end
 
+  test "street_xp_cap is the next rank threshold" do
+    assert_equal 25, street_xp_cap(0)
+    assert_equal 60, street_xp_cap(25)
+    assert_nil street_xp_cap(260)
+  end
+
+  test "temple_hall_bg_src prefers OpenRouter hall photo when present" do
+    if Rails.public_path.join("media/temple/marble-hall.jpg").file?
+      assert_equal "/media/temple/marble-hall.jpg", temple_hall_bg_src
+      return
+    end
+
+    assert_equal "/media/ui/temple-marble-hall.svg", temple_hall_bg_src
+
+    hall = Rails.public_path.join("media/temple/temple-marble-hall.jpg")
+    FileUtils.mkdir_p(hall.dirname)
+    hall.write("fake")
+    assert_equal "/media/temple/temple-marble-hall.jpg", temple_hall_bg_src
+  ensure
+    hall&.delete if defined?(hall) && hall&.exist? && hall.basename.to_s == "temple-marble-hall.jpg"
+  end
+
+  test "street_ceremony_asset_src finds temple PNGs" do
+    assert_equal "/media/temple/ceremony-chest.png", street_ceremony_asset_src("ceremony-chest")
+    assert_equal "/media/temple/ceremony-star.png", street_ceremony_asset_src("ceremony-star")
+    assert_equal "/media/temple/ceremony-lockup-mark.png", street_ceremony_asset_src("ceremony-lockup-mark")
+    assert_equal "/media/temple/ceremony-laurel.png", street_ceremony_asset_src("ceremony-laurel")
+    assert_equal "/media/temple/marble-hall-victory.jpg", street_ceremony_asset_src("marble-hall-victory")
+    assert_nil street_ceremony_asset_src("missing-ornament")
+  end
+
   test "presenter next action is a single sequential verb" do
     night = game_sessions(:david)
     round = round_runs(:salomon)

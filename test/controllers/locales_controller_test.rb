@@ -7,7 +7,7 @@ class LocalesControllerTest < ActionDispatch::IntegrationTest
 
     assert_equal "fr", cookies[:noche_locale]
     assert_select "html[lang=fr]"
-    assert_select "#street_quiz"
+    assert_select "#street_world"
     assert_select "details.home-menu"
     assert_select "details.home-menu a", text: /paroisse/
     assert_select "details.home-menu a", text: /Qui sommes-nous/

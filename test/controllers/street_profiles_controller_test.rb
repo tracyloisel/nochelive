@@ -19,7 +19,7 @@ class StreetProfilesControllerTest < ActionDispatch::IntegrationTest
     }
     assert_redirected_to root_path
     follow_redirect!
-    assert_select ".street-person .word", text: "Nuevo"
+    assert_select ".street-card-name", text: "Nuevo"
   end
 
   test "guest clears the street profile and closes the gate" do
@@ -29,14 +29,14 @@ class StreetProfilesControllerTest < ActionDispatch::IntegrationTest
       favorite_year: 2010
     }
     follow_redirect!
-    assert_select ".street-person .word", text: "Nuevo"
+    assert_select ".street-card-name", text: "Nuevo"
 
     post street_profile_path, params: { guest: 1 }
     assert_redirected_to root_path
     follow_redirect!
-    assert_select ".street-person.is-guest"
+    assert_select ".street-card-name", text: I18n.t("street.pick_profile")
     assert_select "#profile_gate", count: 0
-    assert_select "#street_quiz"
+    assert_select "#street_world"
   end
 
   test "create claims an existing unique name with a matching year" do
@@ -48,7 +48,7 @@ class StreetProfilesControllerTest < ActionDispatch::IntegrationTest
     }
     assert_redirected_to root_path
     follow_redirect!
-    assert_select ".street-person .word", text: pili.given_name
+    assert_select ".street-card-name", text: pili.given_name
     assert_select "#profile_gate", count: 0
   end
 

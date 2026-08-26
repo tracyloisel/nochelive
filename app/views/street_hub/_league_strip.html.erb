@@ -1,0 +1,32 @@
+<% board = local_assigns[:board] %>
+<% rank_title = local_assigns[:rank_title] %>
+<% return if board.blank? || board.rows.empty? %>
+
+<%= link_to street_leaderboard_path,
+      class: "street-league",
+      aria: { label: t("street.world_league") } do %>
+  <header class="street-league-head">
+    <h2><%= rank_title.present? ? t("street.league_named", rank: rank_title) : t("street.world_league") %></h2>
+    <% if board.players %>
+      <p class="street-league-meta quiet">
+        <%= t("street.leaderboard_players", count: board.players) %>
+        <span class="street-league-all"><%= t("street.league_see_all") %></span>
+      </p>
+    <% end %>
+  </header>
+  <div class="street-league-panel is-avatars">
+    <% board.rows.first(3).each do |row| %>
+      <div class="street-league-slot <%= "is-you" if row.you %> is-medal-<%= row.rank %>">
+        <span class="street-league-medal-badge" aria-hidden="true"><%= row.rank %></span>
+        <% src = avatar_mark(row.person) %>
+        <% if src %>
+          <img src="<%= src %>" alt="" class="avatar-img street-league-avatar" width="40" height="40">
+        <% end %>
+        <span class="street-card-name"><%= row.person.given_name %></span>
+        <span class="street-card-score">
+          <%= picto("crown") %><%= number_with_delimiter(row.score) %>
+        </span>
+      </div>
+    <% end %>
+  </div>
+<% end %>

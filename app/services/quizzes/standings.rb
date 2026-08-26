@@ -19,8 +19,20 @@ module Quizzes
     end
 
     def call
-      total_board = Leaderboard.call(ward: @ward, person: @person, limit: 100)
-      pack_board = @pack_id ? Leaderboard.call(ward: @ward, pack_id: @pack_id, person: @person, limit: 100) : nil
+      total_board = Leaderboard.call(
+        ward: @ward,
+        person: @person,
+        limit: Leaderboard::LIMIT_MINI,
+        include_you: true
+      )
+      pack_board = @pack_id ? Leaderboard.call(
+        ward: @ward,
+        pack_id: @pack_id,
+        person: @person,
+        limit: Leaderboard::LIMIT_MINI,
+        include_you: true
+      ) : nil
+
       Result.new(
         total_rank: total_board.your_rank,
         total_score: total_board.your_score.to_i,
@@ -28,8 +40,8 @@ module Quizzes
         pack_rank: pack_board&.your_rank,
         pack_score: pack_board&.your_score.to_i,
         rank_title: rank_title(total_board.your_score.to_i),
-        total_board: Leaderboard.call(ward: @ward, person: @person, limit: 5),
-        pack_board: @pack_id ? Leaderboard.call(ward: @ward, pack_id: @pack_id, person: @person, limit: 5) : nil
+        total_board:,
+        pack_board:
       )
     end
 

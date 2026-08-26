@@ -66,10 +66,10 @@ class ReelGrammarVisualTest < ApplicationSystemTestCase
     click_button "Solo esta noche"
     click_button "Campeones"
     assert_text "¡Campeones gana la noche!"
-    assert_selector ".play-reel.is-finale"
-    assert_selector ".play-sheet[data-sheet-snap=mid] .ceremony"
-    assert_selector ".play-shot .challenge-story"
-    assert_still_peeks
+    assert_selector ".play-reel.is-finale.is-ceremony-immersive"
+    assert_selector ".play-sheet[data-sheet-snap=mid] .ceremony-temple"
+    assert_selector ".ceremony-arch-crown"
+    assert_no_selector ".play-shot .challenge-story", visible: :all
     shot("06-ceremony")
 
     page.current_window.resize_to(1920, 1080)
@@ -81,8 +81,9 @@ class ReelGrammarVisualTest < ApplicationSystemTestCase
 
     visit night_watch_path(game_sessions(:cerrada).code)
     assert_text "¡Campeones gana la noche!"
-    assert_selector ".watch-shot .challenge-story"
-    assert_selector ".watch-caption .ceremony"
+    assert_selector "#night_watch.is-ceremony-immersive"
+    assert_selector ".watch-caption .ceremony-temple"
+    assert_no_selector ".watch-shot .challenge-story", visible: :all
     assert_no_selector ".cheer-dock"
     caption_share = page.evaluate_script(<<~JS)
       (function() {
@@ -102,8 +103,8 @@ class ReelGrammarVisualTest < ApplicationSystemTestCase
 
     visit presenter_gate_path(game_sessions(:cerrada).code, token: "ended-secret")
     visit presenter_console_path(game_sessions(:cerrada).code)
-    assert_selector ".stage-shot .challenge-story"
-    assert_selector ".desk-sheet .ceremony"
+    assert_selector ".console.is-ceremony-immersive"
+    assert_selector ".desk-sheet .ceremony-temple"
     shot("10-presenter-ceremony")
   end
 

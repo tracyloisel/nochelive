@@ -1,0 +1,57 @@
+<% person = local_assigns[:person] %>
+<% standings = local_assigns[:standings] %>
+<% streak = local_assigns[:streak] %>
+<% total_score = standings&.total_score.to_i %>
+<% rank_title = standings&.rank_title || Team::RANKS.first.last %>
+<% progress = street_rank_progress(total_score) %>
+<% xp_cap = street_xp_cap(total_score) %>
+<% streak_days = streak&.days.to_i %>
+
+<article class="street-card is-player <%= "is-rank-up" if local_assigns[:rank_up] %>">
+  <div class="street-card-head">
+    <% if person %>
+      <% src = avatar_mark(person) %>
+      <span class="street-card-avatar">
+        <% if src %>
+          <img src="<%= src %>" alt="" class="avatar-img" width="48" height="48">
+        <% else %>
+          <span class="avatar-fallback" aria-hidden="true"><%= person.given_name.to_s.first %></span>
+        <% end %>
+        <span class="street-avatar-star" aria-hidden="true"><%= picto("compass") %></span>
+      </span>
+      <div class="street-card-meta">
+        <p class="street-card-name"><%= person.given_name %></p>
+        <p class="street-rank-banner"><%= rank_title %></p>
+        <div class="street-xp-row">
+          <span class="street-level-badge" aria-label="<%= t("street.card_level", level: street_rank_level(total_score)) %>">
+            <%= street_rank_level(total_score) %>
+          </span>
+          <div class="street-xp-bar" role="progressbar" aria-valuenow="<%= progress %>" aria-valuemin="0" aria-valuemax="100">
+            <span class="street-xp-fill" style="width: <%= progress %>%"></span>
+            <span class="street-xp-label">
+              <% if xp_cap %>
+                <%= t("street.card_xp", current: number_with_delimiter(total_score), next: number_with_delimiter(xp_cap)) %>
+              <% else %>
+                <%= number_with_delimiter(total_score) %>
+              <% end %>
+            </span>
+          </div>
+        </div>
+      </div>
+    <% else %>
+      <span class="street-card-avatar is-guest">
+        <%= picto("person") %>
+        <span class="street-avatar-star" aria-hidden="true"><%= picto("compass") %></span>
+      </span>
+      <div class="street-card-meta">
+        <p class="street-card-name"><%= t("street.pick_profile") %></p>
+        <p class="street-card-rank"><%= t("street.card_guest_lede") %></p>
+      </div>
+    <% end %>
+    <div class="street-streak-panel" aria-label="<%= t("street.card_streak", days: streak_days) %>">
+      <%= picto("fire") %>
+      <span class="street-streak-num"><%= streak_days %></span>
+      <span class="street-streak-label"><%= t("street.card_streak_label") %></span>
+    </div>
+  </div>
+</article>

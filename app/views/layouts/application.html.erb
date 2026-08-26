@@ -14,8 +14,12 @@
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Fraunces:opsz,wght@9..144,500;9..144,650;9..144,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Fraunces:opsz,wght@9..144,500;9..144,650;9..144,700&family=Kalam:wght@700&display=swap" rel="stylesheet">
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <style>:root {
+      --temple-hall-bg: url("<%= temple_hall_bg_src %>");
+      --temple-ceremony-hall-bg: url("<%= street_ceremony_asset_src("marble-hall-victory") || temple_hall_bg_src %>");
+    }</style>
     <%= javascript_importmap_tags %>
   </head>
   <body class="<%= content_for(:body_class) %>" data-controller="stage press motion">

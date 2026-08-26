@@ -1,5 +1,5 @@
 <% round = night.current_round_run %>
-<%= tag.section class: "watch is-board", id: "night_watch", data: stage_audio_data(round, night: night) do %>
+<%= tag.section class: [ "watch", "is-board", ("is-ceremony-immersive" if night.finished?) ], id: "night_watch", data: stage_audio_data(round, night: night) do %>
   <div class="watch-shot">
     <% if night.finished? %>
       <%= render "shared/still", src: ceremony_still_src(night), icon: "trophy" %>
@@ -148,8 +148,8 @@
   <% unless night.finished? %>
     <aside class="board watch-board" aria-label="<%= t("watch.scoreboard") %>">
       <ol class="score-strip">
-        <% night.teams.includes(:players).order(cached_score: :desc).each do |team| %>
-          <li>
+        <% night.teams.includes(:players).order(cached_score: :desc).each_with_index do |team, index| %>
+          <li class="<%= "is-leading" if index.zero? %>">
             <span class="emblem emblem-<%= team.emblem %>"><%= render "shared/emblem", key: team.emblem %></span>
             <span class="word"><%= team.name %></span>
             <strong class="score"><%= team.cached_score %></strong>

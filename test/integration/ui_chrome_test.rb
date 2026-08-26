@@ -13,21 +13,36 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     assert_includes response.body, "/sfx/tick.mp3"
     assert_select "audio#noche_sfx_gate[playsinline]"
     assert_select "audio#noche_sfx_gate[src='/sfx/tick.mp3']"
-    assert_select "#street_quiz.play-reel.is-quiz.is-street"
+    assert_select "#street_world"
+    assert_select ".street-hub-lockup-star"
     assert_select ".home-paper", count: 0
     assert_select "details.home-menu:not([open])"
-    assert_select "details.home-menu a[href=?]", nights_path
-    assert_select "details.home-menu a[href=?]", search_path
+    assert_select "details.home-menu .picto-gear"
+    assert_select "details.home-menu .home-menu-nav"
+    assert_select "details.home-menu .home-menu-me"
+    assert_select "details.home-menu .home-menu-kicker", text: I18n.t("home.program")
+    assert_select "details.home-menu a.home-menu-row[href=?]", nights_path
+    assert_select "details.home-menu a.home-menu-row[href=?]", search_path
+    assert_select "details.home-menu a.home-menu-row[href=?]", street_history_path
     assert_select "details.home-menu .place-input", count: 0
-    assert_select "details.home-code .code-input"
+    assert_select "details.home-menu .code-input"
+    assert_select "details.home-code summary", text: I18n.t("home.night_code")
     assert_select ".story-ticks", count: 0
-    assert_select ".play-sheet-grip", count: 1
-    assert_select ".street-map"
-    assert_select "#street_quiz .btn.btn-gold", count: 0
+    assert_select ".street-card.is-pack"
     assert_select ".mute"
     assert_select ".chrome-tools .mute + .lang-switch"
     assert_select ".lang-switch > summary .picto-flag-es"
     assert_select "details.home-menu .lang-switch", count: 0
+
+    start_street_jugar!
+    get jugar_path
+    assert_select "#street_quiz.play-reel.is-quiz.is-street"
+    assert_select "a.home-menu-row[href=?]", root_path, text: I18n.t("street.ceremony_back_map")
+    assert_select ".play-sheet-grip", count: 0
+    assert_select ".street-quiz-head"
+    assert_select ".street-quiz-apex"
+    assert_select ".street-level-rail"
+    assert_select "#street_quiz .btn.btn-gold", count: 0
   end
 
   test "every named cue is a public mp3" do
@@ -62,6 +77,8 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     assert_includes css, "p.place"
     assert_includes css, ".picture-card"
     assert_includes css, ".choice-mark"
+    assert_includes css, ".quiz-meta"
+    assert_includes css, ".play-reel.is-street.is-quiz .quiz-bar .word"
     assert_includes css, ".choice-token"
     assert_includes css, ".order-chip"
     assert_includes css, ".picto"
@@ -69,10 +86,15 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     assert_includes css, ".ward-grid"
     assert_includes css, ".place-input"
     assert_includes css, ".home-menu"
+    assert_includes css, ".home-menu-row"
+    assert_includes css, ".home-menu-nav"
+    assert_includes css, "--street-hub-col:"
+    assert_includes css, "--street-hub-inset:"
+    refute_includes css, ".street-map-path-title::after"
     assert_includes css, ".rama-grid"
     assert_includes css, ".home-paper"
     assert_includes css, ".play-reel.is-street"
-    assert_includes css, "color-mix(in srgb, var(--surface) 42%, transparent)"
+    assert_includes css, "color-mix(in srgb, var(--temple-marble, var(--paper)) 94%, white)"
     motion = Rails.root.join("app/javascript/controllers/motion_controller.js").read
     assert_includes motion, 'target === "street_quiz"'
     assert_includes motion, "wrapStreet"
@@ -81,7 +103,9 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     assert_includes css, ".play-reel.is-street .street-score"
     assert_includes css, ".play-reel.is-street.is-quiz .play-sheet-body"
     assert_includes css, "padding: calc(var(--space-5) + var(--space-1)) var(--space-5)"
-    assert_includes css, ".street-map"
+    assert_includes css, ".street-world"
+    assert_includes css, ".street-card"
+    assert_includes css, "@keyframes pack-pulse"
     assert_includes css, "street-sheet-rise"
     assert_includes css, ".play-reel.is-join .play-sheet[data-sheet-snap=\"mid\"]"
     assert_includes css, ".play-timer"
@@ -92,6 +116,7 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     assert_includes css, ".story-score"
     assert_includes css, ".is-kid .story-audience.btn"
     assert_includes css, ".story-night"
+    assert_includes css, ".night-quiz-head"
     assert_includes css, "--story-type:"
     assert_includes css, "--story-type-soft:"
     assert_includes css, "--story-shadow:"

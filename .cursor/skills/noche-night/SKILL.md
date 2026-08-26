@@ -33,6 +33,8 @@ Spectator is a seat people **opt into**. It is not the fallback for Daniel.
 
 A design that only works for the teenager with the fastest phone fails Lucía (8) and Abuela (67).
 
+**Chrome** for these four seats is the temple mockups in `.cursor/skills/noche-ui/MOCKUPS.md` (`tmp/night-shots/temple-mockups/`). A round whose casa phone is a wait toy, whose sala Buzz is a `btn-gold` rectangle, or whose TV is a phone sheet, is a UI VETO as well as a night VETO.
+
 ## Tension
 
 A night is a **power curve**, not fifteen identical 10-point cards.

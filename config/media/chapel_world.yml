@@ -1,14 +1,17 @@
 # Visual lock for Noche Live challenge media.
-# Meetinghouse, never a temple. Cultural hall for movement. Chapel pews for seated rounds.
+# Meetinghouse / cultural hall as SETTING — temple-quality luminous light through
+# tall windows, marble-white walls, gold trim on woodwork. Never a literal temple
+# interior photo (no Christus, recommend desk, celestial room set).
 
 style: >
-  Warm cinematic still, slightly painterly, golden hour through simple rectangular
-  windows. Family-safe. Modest Sunday clothes. No text, no captions, no logos,
-  no watermarks, no UI, no phone screenshots.
+  Warm cinematic still, slightly painterly, sacred luminous grandeur: golden hour
+  through tall rectangular meetinghouse windows, soft oculus-like glow from above,
+  ivory marble-white walls with subtle gold trim on plain oak woodwork. Family-safe.
+  Modest Sunday clothes. No text, no captions, no logos, no watermarks, no UI.
 
 place_never:
-  - Latter-day Saint temple interior
-  - celestial room
+  - literal Latter-day Saint temple interior photograph
+  - celestial room as a set
   - recommend desk
   - Christus statue in a temple setting
   - Catholic mass, crucifix, incense, gothic arches, marble saints
@@ -20,13 +23,15 @@ place_never:
 chapel: >
   Latter-day Saint meetinghouse chapel: long padded pews, beige carpet, a plain
   light-oak pulpit with no cross and no crucifix of any kind, a piano or organ
-  to the side, simple white walls, no stained-glass saints. Soft window light.
+  to the side, luminous ivory walls washed in warm window light (gold hour through
+  tall simple windows), subtle gold trim on woodwork. Soft divine light from above.
   Families sit with phones for a live game night. A presenter laptop is allowed.
 
 cultural_hall: >
   Adjacent LDS meetinghouse cultural hall: wood or sport floor, stacked folding
   chairs, a small stage with a beige curtain, optional basketball backboard in
-  the far background, warm fluorescent light. Families play a church activity.
+  the far background, warm light through high windows plus soft overhead glow.
+  Marble-white walls, gold accents on wood trim. Families play a church activity.
   This is where bodies move. Not the chapel pews.
 
 people: >
@@ -35,6 +40,6 @@ people: >
   Noche de Hogar energy.
 
 negative: >
-  temple, crucifix, Christian cross on pulpit, Catholic mass, gothic cathedral, stained-glass saints,
-  violence, guns, text overlay, watermark, logo, screenshot, UI, blurry,
-  extra fingers, brand names
+  literal temple interior, celestial room set, crucifix, Christian cross on pulpit,
+  Catholic mass, gothic cathedral, stained-glass saints, violence, guns, text overlay,
+  watermark, logo, screenshot, UI, blurry, extra fingers, brand names

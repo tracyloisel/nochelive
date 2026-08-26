@@ -1,0 +1,32 @@
+<% duel = local_assigns[:duel] %>
+<% pack = QuizDefinition.catalog.find_pack(duel.pack_id) %>
+<% challenger = duel.challenger_person %>
+<% viewer = current_street_person %>
+
+<aside class="street-duel-banner" role="status">
+  <p class="street-duel-banner-kicker"><%= t("street.duel_title") %></p>
+  <div class="street-duel-banner-faces">
+    <div class="street-duel-face">
+      <% src = avatar_mark(challenger) %>
+      <% if src %><img src="<%= src %>" alt="" class="avatar-img" width="52" height="52"><% end %>
+      <span class="street-duel-face-name"><%= challenger.given_name %></span>
+    </div>
+    <div class="street-duel-vs" aria-hidden="true">
+      <span class="street-duel-vs-mark"><%= t("street.duel_vs") %></span>
+      <span class="street-duel-pack"><%= pack.copy(:title) %></span>
+    </div>
+    <div class="street-duel-face is-you">
+      <% if viewer %>
+        <% src = avatar_mark(viewer) %>
+        <% if src %><img src="<%= src %>" alt="" class="avatar-img" width="52" height="52"><% end %>
+      <% else %>
+        <span class="street-duel-face-slot" aria-hidden="true"><%= picto("sparkle") %></span>
+      <% end %>
+      <span class="street-duel-face-name"><%= t("street.duel_you") %></span>
+    </div>
+  </div>
+  <p class="street-duel-banner-lede"><%= t("street.duel_challenge", name: challenger.given_name, pack: pack.copy(:title)) %></p>
+  <%= button_to street_challenge_accept_path(duel.token), class: "btn btn-gold street-duel-accept" do %>
+    <%= t("street.duel_accept") %>
+  <% end %>
+</aside>

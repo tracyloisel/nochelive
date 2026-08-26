@@ -6,39 +6,40 @@ module Quizzes
       def asking? = !done? && answer.nil?
     end
 
-    def self.call(device_digest:, person_id: nil)
-      new(device_digest:, person_id:).call
+    def self.call(device_digest:, person_id: nil, ward: nil)
+      new(device_digest:, person_id:, ward:).call
     end
 
-    def self.frame(run)
+    def self.frame(run, ward: nil)
       pack = run.pack
       question = pack.question_at(run.position)
       answer = run.quiz_answers.find_by(question_id: question.id)
       person = run.person
-      ward = person&.ward
+      ward ||= person&.ward
       complete = run.finished? ? Complete.summary(run, ward:, person:) : nil
       tally = answer && !run.finished? ? Tally.call(pack_id: pack.id, question_id: question.id) : nil
       Frame.new(run:, pack:, question:, answer:, tally:, complete:)
     end
 
-    def initialize(device_digest:, person_id: nil)
+    def initialize(device_digest:, person_id: nil, ward: nil)
       @digest = device_digest.to_s
       @person_id = person_id
+      @ward = ward
       raise ArgumentError, "device required" if @digest.blank?
     end
 
     def call
       open = scoped.open_runs.order(:id).last
-      return self.class.frame(open) if open
+      return self.class.frame(open, ward: @ward) if open
 
       last = scoped.order(:id).last
-      return self.class.frame(last) if last&.finished?
+      return self.class.frame(last, ward: @ward) if last&.finished?
 
-      self.class.frame(start_pack(next_pack_id(last)))
+      self.class.frame(start_pack(next_pack_id(last)), ward: @ward)
     end
 
     def start_next(after:)
-      self.class.frame(start_pack(next_pack_id(after)))
+      self.class.frame(start_pack(next_pack_id(after)), ward: @ward)
     end
 
     private

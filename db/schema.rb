@@ -267,6 +267,29 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_25_233000) do
     t.index ["created_at"], name: "index_solid_cable_messages_on_created_at"
   end
 
+  create_table "street_duels", force: :cascade do |t|
+    t.bigint "challenger_person_id", null: false
+    t.bigint "challenger_run_id"
+    t.integer "challenger_score"
+    t.datetime "created_at", null: false
+    t.datetime "expires_at", null: false
+    t.bigint "opponent_person_id"
+    t.bigint "opponent_run_id"
+    t.integer "opponent_score"
+    t.string "pack_id", null: false
+    t.string "status", default: "pending", null: false
+    t.string "token", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "ward_id", null: false
+    t.index ["challenger_person_id"], name: "index_street_duels_on_challenger_person_id"
+    t.index ["challenger_run_id"], name: "index_street_duels_on_challenger_run_id"
+    t.index ["opponent_person_id"], name: "index_street_duels_on_opponent_person_id"
+    t.index ["opponent_run_id"], name: "index_street_duels_on_opponent_run_id"
+    t.index ["status"], name: "index_street_duels_on_status"
+    t.index ["token"], name: "index_street_duels_on_token", unique: true
+    t.index ["ward_id"], name: "index_street_duels_on_ward_id"
+  end
+
   create_table "tap_runs", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.boolean "finished", default: false, null: false
@@ -377,6 +400,11 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_25_233000) do
   add_foreign_key "score_events", "game_sessions"
   add_foreign_key "score_events", "round_runs"
   add_foreign_key "score_events", "teams"
+  add_foreign_key "street_duels", "people", column: "challenger_person_id"
+  add_foreign_key "street_duels", "people", column: "opponent_person_id"
+  add_foreign_key "street_duels", "quiz_runs", column: "challenger_run_id"
+  add_foreign_key "street_duels", "quiz_runs", column: "opponent_run_id"
+  add_foreign_key "street_duels", "wards"
   add_foreign_key "tap_runs", "players"
   add_foreign_key "tap_runs", "round_runs"
   add_foreign_key "tap_runs", "teams"

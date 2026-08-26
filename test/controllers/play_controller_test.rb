@@ -21,12 +21,15 @@ class PlayAndWatchControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select "body.is-kid.is-play"
     assert_select ".play-reel"
+    assert_select ".play-round.is-night-live"
+    assert_select ".night-quiz-head"
+    assert_select ".street-quiz-lockup-name", text: "Noche Live"
     assert_select ".play-shot"
     assert_select ".play-sheet[data-controller=sheet]"
     assert_select ".play-sheet-grip"
     assert_select ".story-close"
     assert_select ".play-reel[data-controller=story]"
-    assert_select ".story-ticks"
+    assert_select ".night-quiz-head .story-ticks"
     assert_select ".story-night", text: /Reyes y Profetas/
     assert_select ".story-audience", count: 0
     assert_select ".live-mark", count: 0
@@ -55,6 +58,7 @@ class PlayAndWatchControllerTest < ActionDispatch::IntegrationTest
     assert_select ".quiz-board"
     assert_select ".quiz-verdict", text: /¡Correcto!/
     assert_select ".quiz-bar", count: 2
+    assert_select ".quiz-bar .quiz-meta .quiz-pct"
     assert_select ".quiz-next", text: /Siguiente/
     assert_select ".quiz-answer", text: /Elías fue profeta/
     assert_select ".reveal", count: 0

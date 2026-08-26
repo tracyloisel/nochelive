@@ -37,6 +37,7 @@ end
 load_dotenv
 
 SHOTS_PATH = File.join(ROOT, "config/media/quiz_stills.yml")
+WORLD_PATH = File.join(ROOT, "config/media/street_world.yml")
 OUT_ROOT = File.join(ROOT, "public/media/quizzes")
 API = "https://openrouter.ai/api/v1"
 IMAGE_MODEL = ENV.fetch("OPENROUTER_IMAGE_MODEL", "black-forest-labs/flux.2-flex")
@@ -88,13 +89,22 @@ rescue Net::ReadTimeout, Net::OpenTimeout, Errno::ECONNRESET, Errno::ETIMEDOUT =
   request(url, payload, timeout: timeout, retries: retries - 1)
 end
 
-def compose_prompt(spec, shot)
+def compose_prompt(world, shot)
+  style = world.fetch("style").to_s.strip
+  adventure = world["adventure"].to_s.strip
+  people = world["people"].to_s.strip
+  negative = world.fetch("negative").to_s.strip
+
   <<~PROMPT
-    #{spec.fetch("style").to_s.strip}
+    #{style}
+
+    #{("ADVENTURE: #{adventure}" if !adventure.to_s.strip.empty?)}
+
+    #{("PEOPLE: #{people}" if !people.to_s.strip.empty?)}
 
     SCENE: #{shot.to_s.strip}
 
-    Avoid: #{spec.fetch("negative").to_s.strip}
+    Avoid: #{negative}
   PROMPT
 end
 
@@ -157,8 +167,10 @@ OptionParser.new do |opts|
   opts.on("--force") { force = true }
 end.parse!
 
+world = YAML.safe_load_file(WORLD_PATH)
 spec = YAML.safe_load_file(SHOTS_PATH)
 packs = spec.fetch("packs")
+puts "world=#{WORLD_PATH.delete_prefix("#{ROOT}/")}"
 targets = resolve_targets(packs, only, all)
 abort "No stills to generate." if targets.empty?
 
@@ -174,7 +186,7 @@ targets.each do |pack_id, qid|
   end
   puts "#{pack_id}/#{qid} …"
   begin
-    generate_still(compose_prompt(spec, packs.fetch(pack_id).fetch(qid)), dest)
+    generate_still(compose_prompt(world, packs.fetch(pack_id).fetch(qid)), dest)
     puts "  wrote #{dest.delete_prefix("#{ROOT}/")}"
   rescue OpenRouterError => error
     if error.message.include?("402")

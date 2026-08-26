@@ -1,39 +1,116 @@
 <% complete = street.complete %>
-<% standings = complete.standings %>
-<div class="street-win" role="status">
-  <p class="street-win-burst"><%= street.pack.copy(:title) %></p>
-  <p class="street-win-label"><%= t("street.pack_done") %></p>
-  <p class="street-win-score"><%= complete.score %></p>
-  <% if complete.first %>
-    <p class="street-win-note"><%= t("quiz.first") %></p>
-  <% elsif complete.average %>
-    <p class="street-win-note"><%= t("quiz.average", score: complete.average) %></p>
-  <% end %>
-  <% if standings %>
-    <p class="street-win-rank">
-      <%= t("street.rank_in_ward", rank: standings.pack_rank || "—", title: standings.rank_title) %>
-      · <%= t("street.total_rank", rank: standings.total_rank || "—", players: standings.total_players) %>
-    </p>
-  <% end %>
+<% star_src = street_ceremony_asset_src("ceremony-star") %>
+<% chest_src = street_ceremony_asset_src("ceremony-chest") %>
+<% mark_src = street_ceremony_asset_src("ceremony-lockup-mark") %>
+<% laurel_src = street_ceremony_asset_src("ceremony-laurel") %>
+<% pack_rows = Array(complete.pack_board&.rows).first(4) %>
+<% ward = current_ward %>
+<div class="street-win street-ceremony" role="status" tabindex="0" data-controller="street-motion" data-street-motion-sequence-value="packComplete">
+  <p class="street-sequence-skip visually-hidden"><%= t("street.ceremony_skip") %></p>
 
-  <% if complete.pack_board&.rows&.any? %>
-    <%= render "home/leaderboard",
-          board: complete.pack_board,
-          title: t("street.board_pack", pack: street.pack.copy(:title)) %>
-  <% end %>
-  <% if complete.total_board&.rows&.any? %>
-    <%= render "home/leaderboard",
-          board: complete.total_board,
-          title: t("street.board_total"),
-          board_class: "is-total" %>
-  <% end %>
+  <header class="street-ceremony-lockup">
+    <span class="street-ceremony-lockup-mark" aria-hidden="true">
+      <% if mark_src %>
+        <img src="<%= mark_src %>" alt="" class="street-ceremony-lockup-mark-img">
+      <% else %>
+        <%= picto("sparkle") %>
+      <% end %>
+    </span>
+    <p class="street-ceremony-lockup-name">Noche</p>
+    <p class="street-ceremony-lockup-live">Live</p>
+    <p class="street-ceremony-lockup-tag"><%= t("street.ceremony_brand_sub") %></p>
+  </header>
 
-  <footer class="street-quiz-dock">
-    <%= button_to quiz_advance_path(street.run),
-          class: "btn btn-gold quiz-next",
-          form: { data: { turbo_stream: true }, class: "quiz-next-form" },
-          data: { action: "click->quiz#next" } do %>
-      <%= t("street.next_pack") %><%= picto("arrow") %>
-    <% end %>
-  </footer>
+  <p class="street-win-label is-brush-ink"><%= t("street.pack_done") %></p>
+  <span class="street-ceremony-filigree" aria-hidden="true"></span>
+
+  <div class="street-ceremony-monument">
+    <div class="street-ceremony-trophy">
+      <div class="street-ceremony-stars" aria-label="<%= t("street.card_stars", count: complete.stars_earned) %>">
+        <% 3.times do |i| %>
+          <span class="street-star star-pop street-ceremony-star is-filled <%= "is-center" if i == 1 %>">
+            <% if star_src %>
+              <img src="<%= star_src %>" alt="" class="street-ceremony-star-img">
+            <% else %>
+              <%= picto("star") %>
+            <% end %>
+          </span>
+        <% end %>
+      </div>
+      <div class="street-ceremony-slab">
+        <p class="street-ceremony-score-label"><%= t("street.ceremony_score_label") %></p>
+        <p class="street-win-score is-brush-ink score-fly" data-final="<%= complete.score %>">0</p>
+        <p class="street-ceremony-points"><%= t("chrome.points_word") %></p>
+        <div class="street-ceremony-chest-wrap">
+          <% if laurel_src %>
+            <img src="<%= laurel_src %>" alt="" class="street-ceremony-laurel">
+          <% end %>
+          <span class="street-ceremony-starburst" aria-hidden="true"></span>
+          <div class="street-ceremony-chest" data-chest-target="box">
+            <% if chest_src %>
+              <img src="<%= chest_src %>" alt="" class="street-ceremony-chest-img">
+            <% else %>
+              <%= picto("chest") %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="street-ceremony-plinth board-rise">
+    <div class="street-ceremony-plinth-grid">
+      <section class="street-ceremony-best" aria-label="<%= t("street.ceremony_best") %>">
+        <header class="street-ceremony-plinth-head">
+          <%= picto("trophy") %>
+          <h3><%= t("street.ceremony_best") %></h3>
+        </header>
+        <% if pack_rows.any? %>
+          <ol class="street-ceremony-best-rows">
+            <% pack_rows.each do |row| %>
+              <li class="street-ceremony-best-row <%= "is-you" if row.you %>">
+                <span class="street-ceremony-medal is-rank-<%= row.rank %>"><%= row.rank %></span>
+                <%= picto("temple") %>
+                <span class="street-ceremony-best-name"><%= row.person.given_name %></span>
+                <span class="street-ceremony-best-score"><%= row.score %></span>
+              </li>
+            <% end %>
+          </ol>
+        <% else %>
+          <p class="street-ceremony-empty"><%= t("street.leaderboard_empty") %></p>
+        <% end %>
+      </section>
+      <section class="street-ceremony-yours" aria-label="<%= t("street.ceremony_your_ward") %>">
+        <header class="street-ceremony-plinth-head">
+          <%= picto("people") %>
+          <h3><%= t("street.ceremony_your_ward") %></h3>
+        </header>
+        <div class="street-ceremony-ward-card">
+          <%= picto("temple") %>
+          <p class="street-ceremony-ward-name"><%= ward&.name.presence || t("street.share_guest") %></p>
+          <p class="street-ceremony-ward-score"><%= complete.score %></p>
+        </div>
+      </section>
+    </div>
+
+    <footer class="street-ceremony-actions">
+      <%= link_to t("street.ceremony_back_map"),
+            root_path(rank_up: complete.rank_up ? 1 : nil, unlock: Quizzes::Complete.unlock_pack_id(street.run)),
+            class: "btn street-ceremony-map" %>
+      <% if current_street_person %>
+        <button type="button"
+                class="btn street-challenge-btn"
+                data-controller="street-share"
+                data-action="street-share#challenge"
+                data-street-share-pack-value="<%= street.pack.id %>"
+                data-street-share-url-value="<%= street_challenges_path %>">
+          <%= t("street.duel_challenge_btn") %>
+        </button>
+      <% else %>
+        <%= link_to t("street.duel_challenge_btn"),
+              root_path(ficha: 1),
+              class: "btn street-challenge-btn" %>
+      <% end %>
+    </footer>
+    </div>
+  </div>
 </div>

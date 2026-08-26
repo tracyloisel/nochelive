@@ -2,35 +2,56 @@
 <% question = street.question %>
 <% pack = street.pack %>
 <% snap = street.asking? ? "mid" : "open" %>
-<% street_trail = local_assigns[:street_trail] || Quizzes::Trail.call(run: run) %>
 <% quiz_standings = local_assigns[:standings] %>
+<% quiz_rival = local_assigns[:rival] %>
+<% play_context = local_assigns[:play_context] %>
 <% extra_sfx = local_assigns[:sfx] %>
 <% extra_fx = local_assigns[:fx] %>
 <% still = street_still_src(question) %>
 <% nxt = street_next_still(street) %>
+<% jugar = play_context == :jugar %>
 
 <%= tag.section id: "street_quiz",
-      class: [ "play-card", "play-reel", "is-quiz", "is-street", ("is-settled" if street.settled?), ("is-done" if street.done?) ],
+      class: [ "play-card", "play-reel", "is-quiz", "is-street", ("is-settled" if street.settled?), ("is-done" if street.done?), ("is-ceremony-immersive" if street.done?) ],
       data: street_audio_data(run, question, extra_sfx:, extra_fx:).merge(
-        controller: "quiz story",
+        controller: [ "quiz", "story" ].compact.join(" "),
         story_street_value: true,
         quiz_correct_value: question.correct_choice,
         quiz_next_image_value: nxt,
         quiz_rewind_url_value: quiz_rewind_path(run),
         intensity: question.intensity,
         action: "pointerdown->story#start click->quiz#pick turbo:submit-start->quiz#lock"
-      ) do %>
+      ).compact do %>
+  <% if jugar && !street.done? %>
+    <header class="street-quiz-head">
+      <div class="street-quiz-lockup">
+        <p class="street-quiz-lockup-name">Noche Live</p>
+        <p class="street-quiz-lockup-tag">LIVE</p>
+      </div>
+      <%= render "home/street_level_rail", run: run, pack: pack %>
+    </header>
+  <% end %>
+
   <div class="play-shot">
     <% if still %>
       <div class="challenge-media">
         <img src="<%= still %>" alt="" class="challenge-story">
       </div>
     <% end %>
-  </div>
-
-  <div class="play-chrome">
-    <%= render "home/street_person", standings: quiz_standings %>
-    <% unless street.done? %>
+    <% if quiz_rival && street.asking? %>
+      <article class="street-card is-rival is-compact street-shot-rival" aria-label="<%= quiz_rival.person.given_name %>">
+        <% src = avatar_mark(quiz_rival.person) %>
+        <% if src %><img src="<%= src %>" alt="" class="avatar-img street-shot-rival-avatar" width="40" height="40"><% end %>
+        <div class="street-shot-rival-body">
+          <span class="street-shot-rival-name"><%= quiz_rival.person.given_name %></span>
+          <% gap = quiz_rival.pack_gap.to_i > 0 ? quiz_rival.pack_gap : quiz_rival.gap %>
+          <% if gap.to_i > 0 %>
+            <span class="street-shot-rival-gap"><%= t("street.shot_rival_gap", gap: gap) %></span>
+          <% end %>
+        </div>
+      </article>
+    <% end %>
+    <% if jugar && !street.done? %>
       <p class="street-score <%= "is-tick" if street.settled? && street.answer&.correct? %>"
          aria-label="<%= t("chrome.points", score: run.score) %>">
         <%= picto("star") %>
@@ -39,21 +60,40 @@
           <span class="street-points-pop" aria-hidden="true">+<%= question.points %></span>
         <% end %>
       </p>
-      <% if quiz_standings&.pack_rank %>
-        <p class="street-rank" aria-label="<%= t("street.rank_in_ward", rank: quiz_standings.pack_rank, title: quiz_standings.rank_title) %>">
-          <span class="street-rank-num">#<%= quiz_standings.pack_rank %></span>
-          <span class="street-rank-title"><%= quiz_standings.rank_title %></span>
-        </p>
+      <% if street.asking? && question.timed? %>
+        <%= render "play/timer", round: run, expire_url: quiz_expire_path(run) %>
       <% end %>
-    <% end %>
-    <% if street.asking? && question.timed? %>
-      <%= render "play/timer", round: run, expire_url: quiz_expire_path(run) %>
     <% end %>
   </div>
 
+  <% unless jugar %>
+    <div class="play-chrome">
+      <%= render "home/street_person", standings: quiz_standings %>
+      <% unless street.done? %>
+        <p class="street-score <%= "is-tick" if street.settled? && street.answer&.correct? %>"
+           aria-label="<%= t("chrome.points", score: run.score) %>">
+          <%= picto("star") %>
+          <span><%= run.score %></span>
+          <% if street.settled? && street.answer&.correct? %>
+            <span class="street-points-pop" aria-hidden="true">+<%= question.points %></span>
+          <% end %>
+        </p>
+        <% if quiz_rival.nil? && quiz_standings&.pack_rank %>
+          <p class="street-rank" aria-label="<%= t("street.rank_in_ward", rank: quiz_standings.pack_rank, title: quiz_standings.rank_title) %>">
+            <span class="street-rank-num">#<%= quiz_standings.pack_rank %></span>
+            <span class="street-rank-title"><%= quiz_standings.rank_title %></span>
+          </p>
+        <% end %>
+      <% end %>
+      <% if street.asking? && question.timed? %>
+        <%= render "play/timer", round: run, expire_url: quiz_expire_path(run) %>
+      <% end %>
+    </div>
+  <% end %>
+
   <div class="play-sheet story-sheet"
        data-controller="sheet"
-       data-sheet-mid-ratio-value="0.36"
+       data-sheet-mid-ratio-value="0.48"
        data-sheet-peek-ratio-value="0.12"
        data-sheet-snap="<%= snap %>"
        data-sheet-snap-value="<%= snap %>"
@@ -61,32 +101,29 @@
        data-sheet-mid-label-value="<%= t("chrome.grip_mid") %>"
        data-sheet-peek-label-value="<%= t("chrome.grip_peek") %>"
        data-action="pointerdown->sheet#start">
-    <button type="button"
-            class="play-sheet-grip"
-            data-sheet-target="handle"
-            data-action="click->sheet#cycle"
-            aria-label="<%= t("chrome.grip") %>"
-            aria-valuetext="<%= t("chrome.grip_mid") %>">
-      <span class="play-sheet-pip" aria-hidden="true"></span>
-    </button>
+    <% unless street.done? %>
+      <span class="street-quiz-apex" aria-hidden="true"><%= picto("star4") %></span>
+    <% end %>
+    <% unless street.asking? %>
+      <button type="button"
+              class="play-sheet-grip"
+              data-sheet-target="handle"
+              data-action="click->sheet#cycle"
+              aria-label="<%= t("chrome.grip") %>"
+              aria-valuetext="<%= t("chrome.grip_mid") %>">
+        <span class="play-sheet-pip" aria-hidden="true"></span>
+      </button>
+    <% end %>
     <div class="play-sheet-body" data-sheet-target="body">
       <div class="play-stage">
         <% if street.done? %>
           <%= render "home/street_done", street: street %>
+        <% elsif street.asking? %>
+          <p class="prompt"><%= question.copy(:question) %></p>
+          <p class="street-quiz-rule" aria-hidden="true"></p>
+          <%= render "home/street_choices", street: street %>
         <% else %>
-          <% unless street.settled? %>
-            <%= render "home/street_map", street: street, street_trail: street_trail %>
-            <p class="round-title">
-              <span class="quiz-pack"><%= pack.copy(:title) %></span>
-              <span class="quiz-progress"><%= t("quiz.progress", n: run.position, total: pack.questions.size) %></span>
-            </p>
-          <% end %>
-          <% if street.asking? %>
-            <p class="prompt"><%= question.copy(:question) %></p>
-            <%= render "home/street_choices", street: street %>
-          <% else %>
-            <%= render "home/street_settled", street: street, pack: pack, run: run %>
-          <% end %>
+          <%= render "home/street_settled", street: street, pack: pack, run: run %>
         <% end %>
       </div>
     </div>

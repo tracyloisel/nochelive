@@ -1,118 +1,147 @@
 ---
 name: noche-ui
 description: >-
-  Designs Noche Live's warm-white UI: live quiz is a still-first reel; other
-  screens keep what shipped (never restore old .gate dashboards). Use when
-  changing ERB, CSS, Stimulus, play-reel, sheets, ticks, ceremony, presenter
-  dock, watch TV, home, join, gold type, chrome, or when a screen looks like
-  Instagram Stories on a form.
+  Temple UI director for Noche Live. Proposes and maintains screens from
+  canonical mockups: street hub/jugar/ceremony and the four live-night seats
+  (presenter, TV watch, casa QCM, sala Buzz). Use when changing ERB, CSS,
+  Stimulus, play-reel, sheets, ticks, ceremony, presenter dock, watch TV,
+  home, join, gold type, chrome, or when a screen drifts from
+  tmp/*-shots/temple-mockups/.
 ---
 
 # Noche Live UI
 
-Read this before writing or restyling any screen. A future change that reintroduces a **Hard don’t** is unfinished.
+You are the **temple UI director** who designed these screens. The PNGs in [MOCKUPS.md](MOCKUPS.md) are the spec — not mood boards, not a later polish pass. Open the matching mockup **before** editing. A round that works in the database but looks like Instagram Stories on a form, a black TikTok skin, or a stack of admin cards is unfinished.
 
-Stay warm white — never a black TikTok skin. **Ink for words. Gold for metal** (emblems, one CTA, trophies).
+**Ink for words. Gold for metal** (arches, borders, stars, one CTA, Buzz disc, score-as-metal). Luminous ivory marble, oculus light, gold-leaf on metal only. Shared `--temple-*` tokens. Never gold type on cream, never gold on the painting’s light-beam, never stacked gold headlines.
 
-**Do not treat the whole app as Reels.** TikTok itself has several layouts. Noche Live does too.
+Do **not** treat the whole app as Reels. Do **not** restore old `.gate` dashboards. Do not unwind peek-pass or overlay-contrast CSS.
 
-**Do not restore the old gate-card / dashboard screens.** Home, join, pick-team, lobby, fichas, roster, missionaries, rama / create-night gates, and presenter desk lists already shipped as stills and sheets. Never `git checkout` pre-reel views. Do not unwind peek-pass or overlay-contrast CSS. Non-quiz screens may use a clearer layout *later*; that is not a license to rewind to `.gate` cards.
+Family night: huge hits, sofa vs casa. Copy is i18n (es, pt-BR, en, fr) — noche-i18n.
 
-Family night still matters (huge hit targets, sofa vs casa). Questions, titles, and stand-up are **readable type**. Copy is I18n in es, pt-BR, en, and fr — see noche-i18n.
+## Spec first
+
+Read [MOCKUPS.md](MOCKUPS.md). Compare `tmp/*-shots/temple-themed/` to the mockup. Close chrome gaps. Product KEEP (mute, ink lockup, live scores) is listed there — do not violate a hard don’t to copy demo data.
+
+| Product | Mockup |
+|---|---|
+| `/` `#street_world` | `mockup-street-hub-temple-ui.png` |
+| `/jugar` ask | `mockup-street-jugar-temple-adventure.png` |
+| `/jugar` pack complete | `mockup-street-ceremony-temple-victory.png` |
+| `#night_presenter` | `mockup-night-presenter-temple.png` |
+| `#night_watch` 16:9 | `mockup-night-watch-temple.png` |
+| `#night_play` casa QCM | `mockup-night-casa-quiz-temple.png` |
+| `#night_play` sala Buzz | `mockup-night-sala-buzz-temple.png` |
+
+Street ≠ night. Do not put a 10-dot **level rail** on a live round. Do not put **story ticks** on the hub or jugar. Do not put Gran final / four seats on a street pack.
 
 ## Hard don’ts (never ship)
 
 | Don’t | Do |
 |---|---|
-| Gold type on cream, gold on the painting’s light-beam, stacked gold headlines | Ink (`--ink`) for titles, questions, stand-up, rank names. Cream overlay type only on a **local** scrim. Gold = emblem, **one** CTA, trophy, score-as-metal |
-| Word-card sheet beheading the still; fake gold grab-handle on a form that is not a drag-sheet | Live quiz: painting visible, **thin action dock**. If the sheet cannot be dragged, **no handle** |
-| Stories ticks on home, join, ceremony-as-form, fichas, roster, lobby, pick-team | Ticks = **live round timeline only** (play round, presenter stage during a round) |
-| Universal costume: ticks + LIVE 0 + X + mute + handle on every surface | One job per screen. Mute on live quiz only. X only where swipe-down exit needs a visible control (play round, presenter stage). **No X on home/join/ceremony/fichas/roster.** No LIVE chip |
-| Presenter: grado A, five equal pills, Lista/Fichas FABs, pause/end/next all gold | **One** sequential gold next. Pause / end / Lista / Fichas in overflow or desk |
-| Ceremony shouting Gran Final / ¡TODOS DE PIE! over **0–0**; “Este viernes” flyer under the result | One hero (name, emblem, score). Honest empty or tie. Prefer last-round still, not the theme flyer |
-| Home: night code or search form as the hero; Stories ticks on the street quiz; `/noches` dressed as a live reel | `/` is the street-quiz reel (`#street_quiz`). `/noches` is the paper night feed. Mute on the street quiz. Flag language control sits under mute. Noches live in the hamburger |
-| Join: iOS springboard tile (icon stacked over label); equal-weight presenter; next-card peek stealing the footer | **Entrar** as a real button (label **with** icon, row). Presenter / Solo ver as quieter links |
-| Watch: four headcounts + iOS score pills + LIVE 0 | Cinema: still + question + **one** scoreboard lower-third |
-| Full-screen milky veil over the painting | Cream type + **local** top/bottom scrims only |
+| Gold type on cream, gold on the light-beam, stacked gold headlines | Ink (`--ink`) on paper; cream overlay type only on a **local** scrim. Gold = emblem, **one** CTA, trophy, Buzz metal, score-as-metal |
+| Word-card sheet beheading the still; fake gold grab-handle on a non-drag form | Painting visible. No handle if the sheet cannot be dragged |
+| Stories ticks on home, join, ceremony-as-form, fichas, roster, lobby, pick-team | Ticks = **live round timeline only** (play + presenter stage) |
+| Universal costume: ticks + LIVE 0 + X + mute + handle on every surface | One job per screen. Mute on hub, jugar, live play, presenter. X only where swipe-down exit needs it (play, presenter). **No X on home/join/ceremony/fichas/roster.** No LIVE chip |
+| Presenter: grado A, five equal pills, Lista/Fichas FABs, pause/end/next all gold | **One** sequential gold next. Pause / end / Lista / Fichas in Más or desk |
+| Ceremony shouting Gran Final over **0–0**; “Este viernes” flyer under the result | One hero (name, emblem, score). Honest empty or tie |
+| Home: night code or search as the hero; Stories ticks on the hub | Hub mockup. `/noches` is the paper feed. Search and night code in the hamburger |
+| Join: iOS springboard tile; equal-weight presenter | **Entrar** as a real button. Presenter / Solo ver as `.quiet-link` |
+| Watch: four headcounts + iOS score pills + LIVE 0; phone sheet on the TV | Cinema 16:9: still + short caption + **one** scoreboard strip |
+| Casa wait-toy while the room buzzes; sala QCM instead of Buzz | Casa = pick; sala = slam. Same still, different sheet |
+| Flat yellow circle labeled Buzz | Gold **medallion** (metal disc, bell, navy Buzz on gold) |
+| Color-coded V/F or A/B choice marks on temple QCM | Rounded-rect, gold hairline; picked = gold border + star |
+| Full-screen milky veil | Cream type + **local** top/bottom scrims only |
 | Burger layers as four mystery discs | Labels on each layer, or one peel verb |
-| Timer as a yellow hairline | Timer as a readable object (fat numerals + thick bar) |
-| Copy “Solo esta noche” changed while tests still pin a Spanish literal | Use `t()`; update locale files **and** tests in the same change. Four languages: noche-i18n |
+| Timer as a yellow hairline | Timer as a readable object (fat numerals + thick gold bar) |
+| Copy “Solo esta noche” changed while tests pin the Spanish literal | `t()` + locales + tests. Four languages |
 
 ```erb
 <%# BAD — gold words on cream; Stories ticks on a form; tile CTA %>
 <h1 class="stand-up">GRAN FINAL</h1>
-<p class="round-title">La elección de Salomón</p>
 <button class="btn btn-gold picto-btn"><%= picto("door") %><span>Entrar</span></button>
 
 <%# GOOD — ink words; gold metal/CTA; row button %>
 <h1>Campeones</h1>
-<p class="round-title">La elección de Salomón</p>
 <button class="btn btn-gold"><%= picto("door") %>Entrar</button>
 ```
 
-## When the reel is required
+## Four live-night seats
 
-**Live quiz / live night** is a Stories reel: a picture fills the phone or TV, **thin** chrome floats, actions sit on a dock you can pull (watch has no sheet). Overlay contrast (cream type + local scrims) stays.
+One night, one still, four verbs. Chrome is celestial marble. Implementation uses `#night_play` / `#night_watch` / `#night_presenter` and `story` + `sheet` — that is **how** we ship the mockup, not a competing look.
 
-| Surface | Shape |
-|---|---|
-| Play round (including burger finale) | `.play-reel`: `.play-shot` + thin `.play-chrome` (ticks + timer + score) + `.play-sheet` dock |
-| Presenter **stage during a round** | `.console.is-stage`: `.stage-shot` + overlay + peek `.desk-sheet`. One gold next in `.stage-dock` |
-| TV /watch **during a round** | `.watch.is-board`: `.watch-shot` + thin chrome (code) + caption + **one** `.watch-board` lower-third. No sheet, no presence HUD |
+| Seat | Verb | Shape |
+|---|---|---|
+| Presentador | One gold next (Cerrar buzzer, Revelar…) | Stage: still + cream caption + dock. Marble desk **peek** (Lista / Fichas, Respuestas / Marcador) |
+| Equipo en sala | Slam | Three-band phone: cream head (ticks + timer) + still + ivory sheet with gold **Buzz** medallion |
+| Jugador en casa | Grade A/B pick | Same three-band head; sheet is QCM rounded-rects, picked gold + star |
+| Espectador | Opt-in Solo ver | 16:9 cinema: still + short cream caption + one marble score strip |
 
-Rank-up and ceremony stay in-night (still + sheet/caption). Ceremony is **one hero**, not a mid-round form and not a Friday poster.
+Watch has **no sheet**. Presenter is **not** the player three-band. Casa and sala share a head; they must not share a verb.
+
+Join / lobby / pick-team keep shipped layouts, same arched marble sheet — strip Story residue (ticks, LIVE 0, décor X, fake handle). Ceremony / finale: gold arch, ink score hero, marble podium. `scored_finale?` before any coronation shout.
 
 ```text
-REEL (live quiz only)
-  .play-shot     the screen is a picture — faces must remain visible
-  .play-chrome   ticks + readable timer + score — not LIVE 0 + five pills + décor X
-  .play-sheet    question / buzz / choices; mid/peek so the painting shows
-                 handle only if the sheet is actually draggable
+PLAY (casa or sala)
+  .play-shot     round painting — faces visible
+  .play-chrome   ticks + star bookends + timer object + score pill — no LIVE 0
+  .play-sheet    ivory arch + apex star; QCM or Buzz; mid/peek
 
-PRESENTER STAGE (during a round)
-  .stage-reel    shot + overlay
-  .stage-dock    ONE gold next action
-  desk           answers/score when summoned; Lista/Fichas live here or in Más
+PRESENTER
+  .stage-shot    same painting
+  .stage-dock    ONE gold next + quiet Más
+  .stage-desk    peek; summon for answers/score
 
-WATCH (during a round)
-  .watch-shot    full-bleed still
-  .watch-caption question / shout over a bottom scrim
-  .watch-board   emblem + score, one strip
+WATCH
+  .watch-shot    full-bleed 16:9
+  .watch-caption short scrim, cream type
+  .watch-board   one strip, gold hairline, wrapping names
 ```
 
-A live round without a full-bleed still and a thin dock is unfinished. It is not a stack of admin cards.
-
 ```erb
-<%# BAD — dashboard night for a live round %>
+<%# BAD — dashboard night %>
 <section class="play-card">
   <header class="team-bar">…</header>
   <%= button_to "Buzz", …, class: "btn btn-gold" %>
 </section>
 
-<%# GOOD — live quiz / play round %>
+<%# GOOD — live seat %>
 <section class="play-card play-reel" data-controller="story">
   <div class="play-shot"><%= render "shared/story_pages", … %></div>
   <div class="play-chrome">…ticks, timer, score…</div>
-  <div class="play-sheet" data-controller="sheet">…</div>
+  <div class="play-sheet" data-controller="sheet">…QCM or Buzz medallion…</div>
 </section>
 ```
 
-Do **not** put a live round in a padded `.play-card` with a `.team-bar` on the chrome. Score lives in `.score-pop`. Ticks sit at the **very top**, and only while a round is the job.
+Do **not** put a live round in a padded `.play-card` with a `.team-bar` on the chrome. Score lives in `.story-score` / `.score-pop`. Ticks sit at the very top, only while a round is the job.
+
+## Street kit
+
+Mobile game loop, not a night. Same marble language. Adventure stills, not chapel pews.
+
+| Surface | Shape |
+|---|---|
+| Hub `/` | Hall canvas. Player card, 3-node rope map, MAPA, LIGA top 3, gold Jugar, 5-tab dock. **No reel.** Wide window = **phone-width column** (390) centered on the hall; gear / mute / trophy pin to that column, not the browser corners. |
+| Jugar ask | Cream head + level rail + still + ivory QCM sheet (4 choices). Mute stays. |
+| Pack ceremony | Hall + god rays + ivory stele in a **double gold arch** on a marble plinth (not stacked cards) + chest + Volver / Desafiar |
+| Cards | `.street-card` `.is-player` `.is-pack` `.is-rival` `.is-duel`. Marble, gold border, ink titles |
+| Duels | Async `/desafio/:token`. Face-to-face after both finish |
+
+Hub pack stills are thumbnails on the rope, not full-bleed. Wizard is an inline marble panel, not a blocking veil.
 
 ## When the reel is not required
 
-**Everywhere else** may pick the best layout **in the future** — a gate card, a form, a desk, a feed. That freedom is for *new* work.
+Hub, `/noches`, fichas, roster, gates, presenter **lists** are not shot+sheet quizzes. You may design a clearer layout for *new* work in that family — still temple marble, still not `.gate` cards, still not a fake reel.
 
-What is on disk **now** stays (still + sheet wrapper is OK), except **home**, which is the street-quiz reel, and **`/noches`**, which is the paper night feed:
+**Noches (`/noches`)** — paper feed. Ink wordmark. Quién somos + Buscar. Próximamente + last 10 nights. Paintings on **cards**. No X, ticks, gold, mute.
 
-- Home (`#street_quiz`: still-first pack QCM, no ticks, no X, no story swipe)
-- Nights (`/noches`, `home-paper`: title, Quién somos, Buscar, upcoming + past)
-- Join / name, pick-team, lobby waiting
-- Fichas, roster, missionaries
-- Rama / create-night gates, presenter claim / wait
-- Presenter desk lists
+**Buscar** — form is the job. Listed Benidorm shows without typing.
 
-If you touch one of them: **strip Story residue** (ticks, LIVE 0, décor X, fake handle). Do **not** peel the still off and drop a paper `.gate` card. Do **not** force shot + sheet onto a *new* non-quiz screen just because play is a reel.
+**Join** — Entrar is a pill. Presenter / Solo ver quiet. Guest may keep `Solo esta noche` if tests pin it.
+
+**Rama** — emblem, name, chapel pin (Maps, no embed), grid. **One** gold CTA (Entrar *or* Abrir la noche). Live: Solo ver quiet.
+
+If you touch a non-quiz screen: strip Story residue. Do not peel the still off and drop a paper `.gate` card.
 
 ## Canvas
 
@@ -120,115 +149,76 @@ If you touch one of them: **strip Story residue** (ticks, LIVE 0, décor X, fake
 |---|---|
 | `--paper` | Page background |
 | `--surface` | Cards and sheets |
-| `--ink` | Text on paper (titles, questions, stand-up) |
-| `--muted` / `--parchment` | Secondary text |
-| `--line` | Hairline borders |
-| `--gold` | **Metal and one CTA** — not headlines |
+| `--ink` | Text on paper |
+| `--muted` / `--parchment` | Secondary |
+| `--line` | Hairlines |
+| `--gold` | Metal and one CTA — not headlines |
+| `--temple-marble`, `--temple-ivory`, `--temple-oculus`, `--temple-gold-leaf`, `--temple-gold-border`, `--temple-gold-hairline`, `--temple-star` | Celestial chrome |
 | `--fire` | Alerts, streaks |
-| `--story-type` | Overlay captions on stills (with `--story-shadow`) |
+| `--story-type` / `--story-shadow` | Overlay on stills |
 
-Navy is a **secondary button fill**, never the page. No new palette, no dark mode, no CSS framework.
+Navy is a **secondary button fill**, never the page. No new palette, no dark mode, no CSS framework. 8px scale. Padding `--space-6` phone, `--space-7` presenter/watch. Stacks use **gap**. Never `margin: 4px`.
 
-Use the 8px scale. Card / sheet padding is `--space-6` on phone, `--space-7` on presenter/watch desks. Stacks use **gap**. Never one-off `margin: 4px`.
+## Overlay contrast
 
-## Overlay contrast (chrome on stills)
-
-Applies to chrome **on stills**: play, watch, presenter stage. Keep this system. Do not replace it with ink-on-paper veils or a milky full-screen wash.
-
-Overlay copy on the still is **cream**, not `--ink` and not `--gold`. Soft vertical scrims sit only under chrome (top) and watch/presenter captions (bottom).
+Chrome **on stills** (play, watch, presenter): cream type + local scrims. Do not replace with ink-on-paper veils or a milky wash.
 
 | Token | Role |
 |---|---|
-| `--story-type` | Overlay captions |
-| `--story-type-soft` | Secondary overlay copy |
-| `--story-shadow` | Halo so cream reads on gold or night stills |
+| `--story-type` / `--story-type-soft` | Overlay captions |
 | `--scrim-top` | `.play-chrome` / `.watch-chrome` / `.stage-chrome` |
-| `--scrim-bottom` | `.watch-caption` / `.stage-caption` — short, local |
-| `--scrim-board` | `.watch-board` strip only — never a second tall wash |
+| `--scrim-bottom` | `.watch-caption` / `.stage-caption` — short |
+| `--scrim-board` | `.watch-board` only — never a second tall wash |
 
-The pull-up sheet and presenter desk stay `--paper` / `--ink`. Do not pick colors per illustration.
+Player sheets and the presenter desk stay `--paper` / `--ink`.
 
-## Gestures (live reel only)
+## Gestures (live play + presenter only)
 
 Already on `story` + `sheet`. Do not invent a second swipe engine.
 
 | Gesture | Result |
 |---|---|
-| Swipe down | Leave the night (`story#exit`) |
+| Swipe down | Leave (`story#exit`) |
 | Swipe left / right, tap edges | Previous / next round |
 | Swipe up | Open the sheet |
-| Drag sheet grip | Snap `peek` → `mid` → `open` — omit the grip if the sheet is not a drag dock |
+| Drag grip | `peek` → `mid` → `open` — omit grip if not a drag dock |
 
-Keep the Spanish skip line tests assert (`Desliza abajo…`). On a live reel, the drawing must **peek** above the sheet (`peek` / `mid`). A sheet that covers the still is unfinished.
+Keep the Spanish skip line tests assert. Drawing must **peek** above the sheet. Watch does not swipe.
 
-Watch is a picture board for the TV, not a reel you swipe. Stills are full-bleed. No sheet. No card stack.
+Street jugar next/prev: swipe or tap the **painting** (right advances after answering). No `story` swipe on hub.
 
 ## Motion
 
-`<body data-controller="stage press motion">`.
-
-- **Press**: add a pressable class (`.btn`, `.choice-btn`, `.team-pick`, `.buzz`, `.emblem-choice`, `.choice-chip`, `.story-tick`, `.picture-card`, `.quiet-link`) so `press_controller.js` ripples.
-- **Screens**: keep `<meta name="view-transition" content="same-origin">`.
-- **Live updates**: stable ids `#night_play`, `#night_watch`, `#night_presenter`.
-- **Arrive**: `.is-arriving` / `@keyframes arrive`.
-
-Honor `prefers-reduced-motion`. Never `animation: none` globally except in that media query.
+`<body data-controller="stage press motion">`. Pressable: `.btn`, `.choice-btn`, `.team-pick`, `.buzz`, `.emblem-choice`, `.choice-chip`, `.story-tick`, `.picture-card`, `.quiet-link`. View Transitions meta. Stable ids `#night_play`, `#night_watch`, `#night_presenter`. Honor `prefers-reduced-motion`. Street ceremonies/duels: `street_motion_controller`.
 
 ## Controls
 
 | Class | Use |
 |---|---|
-| `.btn.btn-gold` | The **one** primary action on that screen |
+| `.btn.btn-gold` | The **one** primary action |
 | `.btn.btn-navy` | Strong secondary |
-| `.btn.btn-ghost` | Tertiary / cancel |
-| `.quiet-link` | Presenter / Solo ver / overflow text actions |
-| `.btn-tiny` | Compact chrome; still ≥ 44×44 if it is the only hit |
-| `.buzz` | Round-level slam only, on the sheet |
-| `.story-tick` | Round dots — live round only |
-| `.play-sheet-grip` | Sheet handle — only if draggable |
-| `.picto-btn` | Avoid for primary doors (it stacks icon over label like an app tile) |
+| `.btn.btn-ghost` | Tertiary |
+| `.quiet-link` | Más, Presenter, Solo ver |
+| `.buzz` | Sala slam — medallion, on the sheet |
+| `.story-tick` | Live round dots only |
+| `.play-sheet-grip` | Only if draggable |
+| `.picto-btn` | Avoid for primary doors |
 
-On the phone column, the primary button is full width **inside the sheet**, label beside a small icon. In `.console-actions` and `.cluster` they shrink to content.
-
-## Surfaces
-
-**Home** — street quiz reel (`#street_quiz`, `.play-reel.is-quiz.is-street`). Pack title + `3 / 10` in ink on the sheet. One gold **Siguiente** after a tap. Scripture is a `.quiet-link`. No ticks, no X, no `story` swipe. Mute stays visible. Flag language control sits under mute. **Noches** (`/noches`) live in the hamburger. Search stays `/buscar`.
-
-**Noches (`/noches`)** — paper feed, not a reel. Ink wordmark (`Noche Live`). No full-bleed painting behind the page. Two quiet doors: Quién somos (`/nosotros`) and Buscar (`/buscar`). Then **Próximamente** and the last 10 finished nights. Paintings live **on night cards**. No X, no ticks, no gold, no mute.
-
-**Buscar** — dedicated place search. Form is the job of that page. Listed Benidorm shows without typing.
-
-**Join** — name screen for a night. `Entrar` is a pill, not a springboard tile. Presenter and Solo ver are `.quiet-link`. Guest play may keep the string `Solo esta noche` if tests pin it; do not use a trash/cup glyph. No X on the still.
-
-**Rama profile** — Instagram-like: emblem, name, chapel pin (Maps link, no embed), N noches, grid. **One** gold CTA. Live night → Entrar. Else if host → Abrir la noche. Never both gold. Live: Solo ver as `.quiet-link`. Host fichas / secreto stay quiet.
-
-**Play** — ticks, fat timer, score. No LIVE chip. Question and round title in ink on the sheet. Burger layers labeled. Mid/peek so Solomon’s face is not under the card.
-
-**Watch** — cinema. No sala/casa/en-vivo HUD. Lower-third = emblems + scores on a **short** board scrim; the caption scrim must not cover half the painting. Team names wrap (two lines), they do not ellipsis into “Casa de…”.
-
-**Presenter** — `presenter_next_action` is the only gold in the dock. Never print `Remoto: grado`. Phase is not a developer banner (`open` / `OPEN`).
-
-**Ceremony** — `scored_finale?` before any coronation shout. Champion = giant emblem, name, score. Tie = names + scores, no fake 1.º cards of zero. Empty = “La noche cierra.” still, no Gran Final skin. Do not park the result on `media/nights/*.jpg` if a round still exists (`ceremony_still_src`).
+Phone primary is full width **inside the sheet**.
 
 ## Checklist
 
-- [ ] Live quiz / watch-during-round / presenter-stage-during-round is shot + thin chrome (+ sheet on play)
+- [ ] Opened the mockup PNG for this surface (or documented why none exists)
+- [ ] Live seats match the four-seat kit (casa pick / sala Buzz / TV cinema / presenter one gold)
 - [ ] No gold headlines on cream or on the light-beam
-- [ ] Ticks only on a live round timeline
-- [ ] Home is the street-quiz reel (`#street_quiz`); `/noches` is paper (title, Quién somos, Buscar, upcoming + past nights); search is `/buscar`
-- [ ] Street quiz has no Story costume (ticks, LIVE 0, X, fake handle); mute is visible; flag language control sits under mute; one gold Siguiente after a tap
-- [ ] Join/ceremony/fichas/roster have no Story costume (ticks, LIVE 0, X, fake handle)
-- [ ] Play chrome has no LIVE chip
-- [ ] Painting visible (mid/peek); no handle if the sheet is not a drag dock
-- [ ] Watch caption + board scrims are local and short; names on the strip wrap
-- [ ] Presenter dock has one gold next; no grado A on stage
+- [ ] Ticks only on a live round; level rail only on jugar
+- [ ] Hub is the marble hall map; `/jugar` is three-band ask or hall ceremony; `/noches` is paper
+- [ ] No LIVE chip; mute where the kit says; no X on home/join/ceremony/fichas
+- [ ] Painting visible; no fake handle
+- [ ] Watch caption + board are short; names wrap
+- [ ] Presenter: one gold next; no grado A
 - [ ] Ceremony is one hero or an honest empty/tie
-- [ ] Watch is still + question + one scoreboard strip
-- [ ] Burger layers are labeled; timer is a readable object
-- [ ] You did **not** checkout or rewrite gates back to old `.gate` cards
-- [ ] Overlay chrome still uses cream type + local scrims (no paper veil)
-- [ ] Peek-pass / contrast CSS was not unwound
+- [ ] Did **not** checkout `.gate` cards; peek-pass / overlay contrast intact
 - [ ] Gestures stay on `story` / `sheet`
-- [ ] Padding uses gap tokens
-- [ ] Copy in tests still matches (or tests updated in this change); new strings exist in es, pt-BR, en, fr
-- [ ] Verify the flow in the browser (or curl + screenshots)
+- [ ] Gap tokens; `t()` + four locales; tests updated
+- [ ] Screenshots vs mockup (or curl) before done

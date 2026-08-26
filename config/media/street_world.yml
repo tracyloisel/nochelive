@@ -1,0 +1,40 @@
+# Visual lock for Noche Live street-quiz stills (adventure scenes).
+# UI chrome is temple celestial room; stills are biblical peril + grace outdoors.
+# Meetinghouse stills stay in chapel_world.yml for live night rounds.
+
+style: >
+  Warm cinematic gouache illustration for a family scripture adventure game.
+  Peril and grace: storm seas, desert journeys, covenant moments, divine light
+  breaking through clouds or fire. Vertical portrait composition. Modest ancient
+  Near Eastern or Book of Mormon clothing. Painterly, not photoreal. Ivory and
+  gold light in the scene — inspired by temple oculus warmth, never an interior
+  room. No text, no captions, no logos, no watermarks, no UI.
+
+place_never:
+  - Latter-day Saint temple interior
+  - celestial room
+  - ordinance room
+  - recommend desk
+  - Christus statue in a temple setting
+  - Catholic mass, crucifix, incense, gothic cathedral interiors
+  - clergy vestments, nuns, priests
+  - violence, blood, weapons that look real
+  - photoreal close-ups of young children
+  - brand names
+
+adventure: >
+  Biblical and Book of Mormon adventure stills: Jonah's storm, Moses at the sea,
+  Nephi's ship, Alma's people in the wilderness, Samuel the Lamanite on the wall.
+  Family-safe peril (waves, darkness, armies far away) always paired with grace
+  (light beam, calm after storm, covenant tenderness). Courtyards and thresholds
+  only when a building appears — never inside a modern temple.
+
+people: >
+  Multi-generational families in modest dress. Heroic but reverent. Spanish-speaking
+  Noche de Hogar energy in faces and gesture — not meetinghouse beige boredom.
+
+negative: >
+  temple interior, celestial room, ordinance room, crucifix, Christian cross,
+  Catholic mass, gothic cathedral interior, violence, guns, blood, gore,
+  text overlay, watermark, logo, screenshot, UI, blurry, extra fingers,
+  brand names, meetinghouse cultural hall, chapel pews

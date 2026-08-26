@@ -26,7 +26,7 @@ class Quizzes::AdvanceTest < ActiveSupport::TestCase
     done = Quizzes::Advance.call(run: @run.reload)
     assert done.done?
     assert @run.reload.finished?
-    assert done.complete.first
+    refute done.complete.first
     assert_equal @run.score, done.complete.score
   end
 

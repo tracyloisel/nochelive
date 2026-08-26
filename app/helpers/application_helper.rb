@@ -52,12 +52,32 @@ module ApplicationHelper
     night_still_src(night)
   end
 
+  def temple_hall_bg_src
+    %w[marble-hall temple-marble-hall].each do |base|
+      %w[jpg webp png].each do |ext|
+        rel = "media/temple/#{base}.#{ext}"
+        return "/#{rel}" if Rails.public_path.join(rel).file?
+      end
+    end
+
+    "/media/ui/temple-marble-hall.svg"
+  end
+
+  def street_ceremony_asset_src(name)
+    %w[jpg jpeg png webp svg].each do |ext|
+      rel = "media/temple/#{name}.#{ext}"
+      return "/#{rel}" if Rails.public_path.join(rel).file?
+    end
+
+    nil
+  end
+
   def story_reel(**kwargs, &block)
     render "shared/reel", **kwargs, body: capture(&block)
   end
 
-  def chrome_menu(open: false, &block)
-    render "shared/chrome_menu", open: open, body: capture(&block)
+  def chrome_menu(open: false, icon: "gear", &block)
+    render "shared/chrome_menu", open: open, icon: icon, body: capture(&block)
   end
 
   def site_menu
@@ -258,14 +278,28 @@ module ApplicationHelper
     segments
   end
 
-  def street_grade_fx(question, correct)
-    pos = question.position.to_i
-    if correct
-      return "gold" if pos <= 3
-      return "reveal"
-    end
+  def street_next_rank(score)
+    Team::RANKS.find { |threshold, _, _| score < threshold }&.last || Team::RANKS.last.last
+  end
 
-    "shake" if pos >= 7 && pos <= 9
+  def street_rank_level(score)
+    idx = Team::RANKS.reverse.find_index { |threshold, _, _| score >= threshold }
+    idx ? idx + 1 : 1
+  end
+
+  def street_rank_progress(score)
+    current = Team::RANKS.reverse.find { |threshold, _, _| score >= threshold } || Team::RANKS.first
+    nxt = Team::RANKS.find { |threshold, _, _| score < threshold }
+    return 100 unless nxt
+
+    span = nxt[0] - current[0]
+    return 100 if span <= 0
+
+    (((score - current[0]) * 100) / span).clamp(0, 100)
+  end
+
+  def street_grade_fx(_question, correct)
+    correct ? "gold" : "shake"
   end
 
   def trail_step_mark(step)
@@ -687,5 +721,29 @@ module ApplicationHelper
 
     key = SCORE_REASON_KEYS[raw]
     key ? t(key) : raw
+  end
+
+  def street_next_rank(score)
+    Team::RANKS.find { |threshold, _, _| score < threshold }&.third || Team::RANKS.last.third
+  end
+
+  def street_rank_level(score)
+    idx = Team::RANKS.reverse.find_index { |threshold, _, _| score >= threshold }
+    idx ? idx + 1 : 1
+  end
+
+  def street_rank_progress(score)
+    current = Team::RANKS.reverse.find { |threshold, _, _| score >= threshold } || Team::RANKS.first
+    nxt = Team::RANKS.find { |threshold, _, _| score < threshold }
+    return 100 unless nxt
+
+    span = nxt[0] - current[0]
+    return 100 if span <= 0
+
+    (((score - current[0]) * 100) / span).clamp(0, 100)
+  end
+
+  def street_xp_cap(score)
+    Team::RANKS.find { |threshold, _, _| score < threshold }&.first
   end
 end

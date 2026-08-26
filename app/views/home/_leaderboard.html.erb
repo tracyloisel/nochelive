@@ -4,12 +4,24 @@
 <section class="street-board <%= local_assigns[:board_class] %>" aria-label="<%= title %>">
   <header class="street-board-head">
     <h3><%= title %></h3>
-    <% if board.your_rank %>
-      <p class="street-board-you"><%= t("street.board_you", rank: board.your_rank, score: board.your_score) %></p>
+    <% if board.your_rank && !local_assigns[:show_players] %>
+      <p class="street-board-you">
+        <% if board.players %>
+          <%= t("street.leaderboard_you", rank: board.your_rank, players: board.players, score: board.your_score) %>
+        <% else %>
+          <%= t("street.board_you", rank: board.your_rank, score: board.your_score) %>
+        <% end %>
+      </p>
+    <% end %>
+    <% if local_assigns[:show_players] && board.players %>
+      <p class="street-board-total quiet"><%= t("street.leaderboard_players", count: board.players) %></p>
     <% end %>
   </header>
   <ol class="street-board-rows">
     <% board.rows.each do |row| %>
+      <% if row.context %>
+        <li class="street-board-gap" aria-hidden="true"><%= t("street.leaderboard_gap") %></li>
+      <% end %>
       <li class="street-board-row <%= "is-you" if row.you %>">
         <span class="street-board-rank">#<%= row.rank %></span>
         <span class="street-board-name"><%= row.person.given_name %></span>

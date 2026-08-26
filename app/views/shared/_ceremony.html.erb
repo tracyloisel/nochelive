@@ -1,7 +1,13 @@
 <% you = local_assigns[:you] %>
 <% champs = night.scored_finale? ? night.first_place_teams : [] %>
 <% champ = night.scored_finale? ? night.champion : nil %>
-<div class="ceremony <%= "is-empty" unless night.scored_finale? %>">
+<div class="ceremony ceremony-temple <%= "is-empty" unless night.scored_finale? %>">
+  <div class="ceremony-column-scrim" aria-hidden="true"></div>
+  <div class="ceremony-arch-crown" aria-hidden="true">
+    <span class="ceremony-arch-star"><%= picto("star") %></span>
+    <span class="ceremony-arch-star is-center"><%= picto("star") %></span>
+    <span class="ceremony-arch-star"><%= picto("star") %></span>
+  </div>
   <% if champ %>
     <div class="ceremony-hero">
       <span class="emblem emblem-xl emblem-<%= champ.emblem %>"><%= render "shared/emblem", key: champ.emblem %></span>

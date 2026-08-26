@@ -1,0 +1,42 @@
+<% duel = local_assigns[:duel] %>
+<% you = local_assigns[:you] %>
+<% opponent = you.id == duel.challenger_person_id ? duel.opponent_person : duel.challenger_person %>
+<% your_score = you.id == duel.challenger_person_id ? duel.challenger_score : duel.opponent_score %>
+<% their_score = you.id == duel.challenger_person_id ? duel.opponent_score : duel.challenger_score %>
+<% you_won = duel.winner_person&.id == you.id %>
+<% tie = duel.challenger_score == duel.opponent_score %>
+
+<section class="street-card is-duel" data-controller="street-motion" data-street-motion-sequence-value="duelReveal">
+  <p class="street-duel-result-kicker"><%= t("street.duel_title") %></p>
+  <div class="street-duel-result-faces">
+  <div class="street-duel-side <%= "is-winner" if you_won && !tie %><%= " is-loser" if !you_won && !tie %>">
+    <p class="street-duel-label"><%= t("street.duel_you") %></p>
+    <% src = avatar_mark(you) %>
+    <% if src %><img src="<%= src %>" alt="" class="avatar-img" width="56" height="56"><% end %>
+    <p class="street-duel-score"><%= your_score %></p>
+    <%= render "street_hub/stars", count: Quizzes::Stars.call(score: your_score.to_i) %>
+    <% if you_won && !tie %><p class="street-duel-winner"><%= t("street.duel_winner") %></p><% end %>
+  </div>
+  <div class="street-duel-vs-mark" aria-hidden="true"><%= t("street.duel_vs") %></div>
+  <div class="street-duel-side <%= "is-winner" if !you_won && !tie && opponent %><%= " is-loser" if you_won && !tie && opponent %>">
+    <p class="street-duel-label"><%= opponent&.given_name || "—" %></p>
+    <% if opponent %>
+      <% src = avatar_mark(opponent) %>
+      <% if src %><img src="<%= src %>" alt="" class="avatar-img" width="56" height="56"><% end %>
+    <% end %>
+    <p class="street-duel-score"><%= their_score %></p>
+    <%= render "street_hub/stars", count: Quizzes::Stars.call(score: their_score.to_i) %>
+    <% if !you_won && !tie && opponent %><p class="street-duel-winner"><%= t("street.duel_winner") %></p><% end %>
+  </div>
+  </div>
+  <% if tie %>
+    <p class="street-duel-tie"><%= t("street.duel_tie") %></p>
+  <% end %>
+  <footer class="street-duel-foot">
+    <%= link_to t("street.ceremony_back_map"), root_path, class: "btn btn-gold" %>
+    <% if you_won %>
+      <% share = Quizzes::ShareCard.call(person: you, ward: you.ward, pack_id: duel.pack_id, score: your_score) %>
+      <%= render "street_hub/share_card", share:, person: you, cta_class: "btn-ghost" %>
+    <% end %>
+  </footer>
+</section>

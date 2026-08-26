@@ -4,6 +4,6 @@
 <% chrome = capture do %>
   <%= render "shared/reel_chrome", night: night, ticks: false, live: false %>
 <% end %>
-<%= story_reel shot: shot, chrome: chrome, snap: "mid", mid: 0.40, handle: false, reel_class: "is-finale peak" do %>
+<%= story_reel shot: shot, chrome: chrome, snap: "mid", mid: 0.40, handle: false, reel_class: "is-finale is-ceremony-immersive peak" do %>
   <%= render "shared/ceremony", night: night, you: team %>
 <% end %>

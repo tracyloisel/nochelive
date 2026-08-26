@@ -33,6 +33,7 @@ end
 load_dotenv
 
 SHOTS_PATH = File.join(ROOT, "config/media/story_challenges.yml")
+WORLD_PATH = File.join(ROOT, "config/media/chapel_world.yml")
 OUT_ROOT = File.join(ROOT, "public/media/stories")
 API = "https://openrouter.ai/api/v1"
 IMAGE_MODEL = ENV.fetch("OPENROUTER_IMAGE_MODEL", "black-forest-labs/flux.2-flex")
@@ -83,13 +84,19 @@ rescue Net::ReadTimeout, Net::OpenTimeout, Errno::ECONNRESET, Errno::ETIMEDOUT =
   request(url, payload, timeout: timeout, retries: retries - 1)
 end
 
-def compose_prompt(spec, shot)
+def compose_prompt(world, spec, shot)
+  style = world.fetch("style").to_s.strip
+  people = world["people"].to_s.strip
+  negative = [world.fetch("negative"), spec["negative"]].compact.map(&:to_s).map(&:strip).reject(&:empty?).join(", ")
+
   <<~PROMPT
-    #{spec.fetch("style").to_s.strip}
+    #{style}
+
+    #{("PEOPLE: #{people}" if !people.empty?)}
 
     SCENE: #{shot.to_s.strip}
 
-    Avoid: #{spec.fetch("negative").to_s.strip}
+    Avoid: #{negative}
   PROMPT
 end
 
@@ -129,6 +136,7 @@ OptionParser.new do |opts|
 end.parse!
 
 spec = YAML.safe_load_file(SHOTS_PATH)
+world = YAML.safe_load_file(WORLD_PATH)
 shots = spec.fetch("rounds")
 ids = if all || only.nil?
   shots.keys
@@ -138,6 +146,7 @@ end
 unknown = ids - shots.keys
 abort "Unknown rounds: #{unknown.join(", ")}" if unknown.any?
 
+puts "world=#{WORLD_PATH.delete_prefix("#{ROOT}/")}"
 puts "image model=#{IMAGE_MODEL}"
 puts "rounds=#{ids.join(", ")}"
 
@@ -148,6 +157,6 @@ ids.each do |round_id|
     next
   end
   puts "#{round_id} …"
-  generate_still(compose_prompt(spec, shots.fetch(round_id)), dest)
+  generate_still(compose_prompt(world, spec, shots.fetch(round_id)), dest)
   puts "  wrote #{dest.delete_prefix("#{ROOT}/")}"
 end

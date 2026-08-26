@@ -1,0 +1,52 @@
+<% if local_assigns[:profile_gate] %>
+  <aside id="profile_gate" class="street-wizard" role="dialog" aria-modal="true" aria-labelledby="profile-gate-title">
+    <div class="street-wizard-panel">
+      <% if gate_ward.blank? %>
+        <h1 id="profile-gate-title"><%= t("street.gate_ward_title") %></h1>
+        <p class="lede"><%= t("street.gate_ward_lede") %></p>
+        <% if featured_ward %>
+          <%= button_to street_ward_pick_path, params: { code: featured_ward.code }, class: "btn btn-gold picto-btn" do %>
+            <%= picto("star") %><%= featured_ward.name %>
+          <% end %>
+        <% end %>
+        <%= link_to t("home.menu_search"), search_path, class: "quiet-link" %>
+      <% else %>
+        <h1 id="profile-gate-title"><%= t("street.gate_profile_title") %></h1>
+        <p class="lede"><%= t("street.gate_profile_lede", ward: gate_ward.name) %></p>
+
+        <% if gate_people.any? %>
+          <ul class="team-list person-list profile-gate-people">
+            <% gate_people.each do |person| %>
+              <li>
+                <%= button_to street_profile_path, params: { person_id: person.id }, class: "team-pick person-pick is-here" do %>
+                  <%= render "people/card", person: person, show_year: false %>
+                <% end %>
+              </li>
+            <% end %>
+          </ul>
+        <% end %>
+
+        <%= form_with url: street_profile_path, method: :post, class: "join-form profile-gate-new" do %>
+          <label for="gate_name"><%= t("join.who") %></label>
+          <input id="gate_name" name="name" maxlength="24" required autocomplete="given-name" class="code-input" placeholder="Pili">
+          <%= render "shared/year_field", required: true %>
+          <fieldset class="emblem-pick avatar-pick profile-gate-avatars">
+            <legend><%= t("join.animal") %></legend>
+            <% Player::AVATARS.first(6).each do |key| %>
+              <label class="emblem-choice avatar-choice">
+                <input type="radio" name="avatar_key" value="<%= key %>" <%= "checked" if key == "delfin" %>>
+                <% src = avatar_mark(key) %>
+                <% if src %><img src="<%= src %>" alt="" class="avatar-img"><% end %>
+              </label>
+            <% end %>
+          </fieldset>
+          <button type="submit" class="btn btn-gold picto-btn"><%= picto("plus") %><%= t("street.gate_create") %></button>
+        <% end %>
+
+        <%= button_to street_profile_path, params: { guest: 1 }, class: "btn btn-ghost" do %>
+          <%= t("street.continue_guest") %>
+        <% end %>
+      <% end %>
+    </div>
+  </aside>
+<% end %>

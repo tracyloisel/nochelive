@@ -1,0 +1,20 @@
+# frozen_string_literal: true
+
+pending_challenge:
+  challenger_person: pili
+  ward: demo
+  pack_id: coronas
+  token: pending-challenge-token
+  status: pending
+  expires_at: <%= 7.days.from_now %>
+
+pili_vs_carmen:
+  challenger_person: pili
+  opponent_person: carmen_garcia
+  ward: demo
+  pack_id: coronas
+  token: pili-vs-carmen-token
+  status: opponent_done
+  challenger_score: 82
+  opponent_score: 90
+  expires_at: <%= 7.days.from_now %>

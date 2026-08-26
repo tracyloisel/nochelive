@@ -15,3 +15,30 @@ open_coronas:
   score: 0
   opened_at: <%= Time.zone.parse("2026-08-25 12:00:00") %>
   status: open
+
+carmen_milagros:
+  device_digest: <%= Digest::SHA256.hexdigest("carmen-device") %>
+  person: carmen_garcia
+  pack_id: milagros
+  position: 10
+  score: 120
+  opened_at: <%= Time.zone.parse("2026-08-20 18:00:00") %>
+  status: finished
+
+pili_coronas:
+  device_digest: <%= Digest::SHA256.hexdigest("pili-tablet") %>
+  person: pili
+  pack_id: coronas
+  position: 10
+  score: 95
+  opened_at: <%= Time.zone.parse("2026-08-21 18:00:00") %>
+  status: finished
+
+carmen_coronas:
+  device_digest: <%= Digest::SHA256.hexdigest("carmen-device") %>
+  person: carmen_garcia
+  pack_id: coronas
+  position: 10
+  score: 88
+  opened_at: <%= Time.zone.parse("2026-08-22 18:00:00") %>
+  status: finished

@@ -1,0 +1,25 @@
+<% rival = local_assigns[:rival] %>
+<% standings = local_assigns[:standings] %>
+
+<nav class="street-friend-rail" aria-label="<%= t("street.card_rivals") %>">
+  <% if rival %>
+    <article class="street-card is-rival is-compact">
+      <% src = avatar_mark(rival.person) %>
+      <% if src %><img src="<%= src %>" alt="" class="avatar-img" width="32" height="32"><% end %>
+      <span class="street-card-name"><%= rival.person.given_name %></span>
+      <span class="street-card-rank-num">#<%= rival.rank %></span>
+      <span class="street-card-score"><%= rival.score %></span>
+      <% if rival.gap.to_i > 0 %>
+        <span class="street-rival-gap"><%= t("street.card_rival_gap", gap: rival.gap) %></span>
+      <% end %>
+    </article>
+  <% end %>
+  <button type="button"
+          class="street-card is-invite"
+          data-action="street-share#invite"
+          data-street-share-url-value="<%= root_url(rama: current_ward&.code) %>"
+          data-street-share-text-value="<%= t("street.share_invite") %>"
+          data-street-share-copied-value="<%= t("street.share_copied") %>">
+    <span class="street-invite-icon" aria-hidden="true"><%= picto("plus") %></span><%= t("street.card_invite") %>
+  </button>
+</nav>

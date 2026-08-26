@@ -1,5 +1,8 @@
 <details class="home-code">
-  <summary class="quiet-link"><%= t("home.night_code") %></summary>
+  <summary class="home-menu-row">
+    <span class="home-menu-ico" aria-hidden="true"><%= picto("door") %></span>
+    <span class="home-menu-label"><%= t("home.night_code") %></span>
+  </summary>
   <p class="lede"><%= t("home.night_code_hint") %></p>
   <%= form_with url: join_path, method: :post, class: "join-form home-join" do %>
     <label for="code"><%= t("home.code") %></label>

@@ -109,11 +109,28 @@ class ActionDispatch::IntegrationTest
       follow_redirect! if response.redirect?
     end
 
+    def start_street_play!(pack_id = "coronas")
+      post street_pack_start_path(pack_id)
+      follow_redirect!
+    end
+
     def sign_in_presenter(night, token: nil)
       token ||= presenter_token_for(night)
       night.update!(presenter_token_digest: GameSession.digest_token(token)) unless night.presenter_token_matches?(token)
       get presenter_gate_path(night.code, token: token)
       follow_redirect! if response.redirect?
+    end
+
+    def start_street_jugar!(guest: true, pack_id: "coronas")
+      sign_in_congregation
+      get root_path
+      if guest
+        post street_profile_path, params: { guest: 1 }
+        follow_redirect!
+      end
+      post street_pack_start_path(pack_id)
+      follow_redirect!
+      QuizRun.open_runs.order(:id).last
     end
 
   def presenter_token_for(night)

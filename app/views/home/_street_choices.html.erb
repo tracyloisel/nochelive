@@ -6,7 +6,6 @@
           class: "choice-btn choice-#{mark[:tone]}",
           form: { data: { turbo_stream: true } },
           data: { choice_key: choice_key(choice) } do %>
-      <span class="choice-mark" aria-hidden="true"><%= picto(mark[:shape]) %></span>
       <span class="word"><%= street.question.choice_copy(choice) %></span>
     <% end %>
   <% end %>

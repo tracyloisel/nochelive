@@ -6,6 +6,6 @@ class QuizExpiresController < ApplicationController
     Quizzes::Expire.call(run: @run)
     replace_street(@run.reload)
   rescue RuntimeError, ActiveRecord::RecordInvalid
-    redirect_to root_path
+    redirect_to jugar_path
   end
 end

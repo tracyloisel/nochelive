@@ -1,20 +1,18 @@
 ---
-description: Warm-white UI. Ink for words, gold for metal. Live quiz is a still-first reel; other screens keep what shipped. Never restore old .gate dashboards.
+description: Temple UI director. Mockups are the spec. Ink for words, gold for metal. Never restore old .gate dashboards.
 alwaysApply: true
 ---
 
 # UI soul (required)
 
-Noche Live is a **warm white, tactile** product. A **live round** without a full-bleed still and a thin action dock is unfinished. It is not a black TikTok skin, not Instagram Stories on a form, and not a stack of admin cards.
+Noche Live is a **warm white, tactile, temple celestial** product. You are the UI director who proposed the screens in `tmp/street-shots/temple-mockups/` and `tmp/night-shots/temple-mockups/`. Those PNGs are the spec. A live round without a full-bleed still and the matching seat chrome is unfinished. It is not a black TikTok skin, not Instagram Stories on a form, and not a stack of admin cards.
 
-- Canvas: warm white (`--paper`). **Ink for words** (titles, questions, stand-up). **Gold for metal** (emblems, one CTA, trophies). Never gold type on cream, never gold on the painting’s light-beam, never stacked gold headlines. No dark navy pages. 8px gap scale (`--space-6` / `--space-7`).
-- **Live quiz only** (play round, burger finale, TV /watch during a round, presenter stage during a round): still-first reel. Painting visible. Thin chrome (ticks + timer + score — no LIVE chip). Watch = cinema (still + question + one **short** scoreboard lower-third), no sheet. Overlay contrast (local short scrims, cream type — never a milky veil or a bottom wash that eats the painting). Swipe is `story` + `sheet`. If the sheet cannot be dragged, no fake grab-handle. Timer is a readable object. Burger layers are labeled.
-- **Everything else** (home, join, pick-team, lobby, fichas, roster, gates, presenter lists): keep the layout that is on disk. Strip Story residue (ticks, LIVE 0, décor X, mute, fake handle). You may design a clearer layout later. Do **not** force every screen into shot+sheet. Do **not** restore the old `.gate` / dashboard cards. Do not unwind peek-pass or overlay-contrast CSS.
-- **Home:** street quiz on `/` (`#street_quiz`). Congregation posters live on `/noches` without a query (Benidorm first). Search and night code live in the hamburger, not on the painting. Language is a flag control under mute. Add-rama is menu-only (`/ramas/anadir`). Cookie rama → profile.
-- **Join:** name on a still. Entrar as a real button (label with icon, not a springboard tile). Presenter / Solo ver as quieter links. High-contrast inputs. No next-card peek stealing the footer.
-- **Presenter:** one sequential gold next action. Pause/end/Lista/Fichas in overflow or desk. No “Remoto: grado A” on stage.
-- **Ceremony:** one hero (name, emblem, score). Honest empty or tie. No “Este viernes” flyer, no 0–0 coronation shout.
-- Family night: large hits, sofa vs casa. Questions and titles are readable type. Copy is **valid and validated** in español, brésilien (`pt-BR`), English, français — `.cursor/skills/noche-i18n/SKILL.md`.
-- Motion: press scale + ripple (`press`). Turbo swaps use View Transitions (`motion`). Honor `prefers-reduced-motion`.
-- Do not add a CSS framework, a new palette, or dark mode.
-- When touching `app/views`, `app/assets/stylesheets`, or Stimulus UI, follow `.cursor/skills/noche-ui/SKILL.md`.
+- Canvas: warm white (`--paper`) + **temple celestial chrome** (live night + street): luminous ivory marble, oculus light, gold leaf on metal only (arches, borders, stars, one CTA, Buzz disc). **Ink for words. Gold for metal.** Never gold type on cream, never gold on the painting’s light-beam, never stacked gold headlines. No dark navy pages. 8px gap scale (`--space-6` / `--space-7`).
+- **Four live seats, one still** (`tmp/night-shots/temple-mockups/`): presentador = stage + cream caption + **one** gold next + marble desk peek (`mockup-night-presenter-temple.png`). Sala = cream temple head (story ticks + timer object) + still + ivory sheet with a gold **Buzz medallion** (`mockup-night-sala-buzz-temple.png`). Casa = same head; sheet is QCM rounded-rects, picked = gold border + star (`mockup-night-casa-quiz-temple.png`). TV = 16:9 cinema, still + short caption + one scoreboard strip (`mockup-night-watch-temple.png`). No LIVE chip. Overlay = cream type + local scrims. Swipe is `story` + `sheet`. No fake grab-handle. Burger layers labeled.
+- **Street** (`tmp/street-shots/temple-mockups/`): hub `/` `#street_world` = marble hall, **phone-width column** on every viewport (chrome pins to the column, not the browser corners), player card, 3-node rope map (lock above / current XL / check below), MAPA, LIGA top 3, gold Jugar, 5-tab dock — **no reel** (`mockup-street-hub-temple-ui.png`). `/jugar` ask = cream head + level rail + adventure still + ivory QCM sheet (`mockup-street-jugar-temple-adventure.png`). Pack ceremony = hall + god rays + double gold arch + chest + plinth (`mockup-street-ceremony-temple-victory.png`). Street ≠ night (no Gran final, no four seats, no story ticks on jugar).
+- **Product KEEP vs painting:** mute + flag stay; lockup is **ink** (never gold “NOCHE LIVE” on cream); scores/names are live fixtures; night ticks ≠ street level rail. See `.cursor/skills/noche-ui/MOCKUPS.md`.
+- **Everything else** (join, pick-team, lobby, fichas, roster, gates, presenter lists, `/noches`): keep shipped layouts; strip Story residue (ticks, LIVE 0, décor X, fake handle). Do **not** force shot+sheet onto a new non-quiz screen. Do **not** restore `.gate` cards. Do not unwind peek-pass or overlay-contrast CSS.
+- **Join:** Entrar as a real button. Presenter / Solo ver quieter. **Presenter:** one sequential gold next; Lista/Fichas/pause in Más or desk; no “Remoto: grado A”. **Ceremony / finale (night):** gold arch, ink score hero, marble podium; honest empty or tie; no “Este viernes” flyer, no 0–0 coronation shout.
+- Family night: large hits, sofa vs casa. Copy valid in es, pt-BR, en, fr — `.cursor/skills/noche-i18n/SKILL.md`.
+- Motion: press + ripple (`press`); View Transitions (`motion`); `prefers-reduced-motion`. No CSS framework, no new palette, no dark mode.
+- When touching `app/views`, `app/assets/stylesheets`, or Stimulus UI, follow `.cursor/skills/noche-ui/SKILL.md` (open the PNG first).

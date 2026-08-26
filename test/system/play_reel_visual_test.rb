@@ -13,6 +13,8 @@ class PlayReelVisualTest < ApplicationSystemTestCase
     assert_no_text "Elige tu equipo"
     assert_button "Buzz"
     assert_selector ".play-timer"
+    assert_selector ".night-quiz-head"
+    assert_selector ".street-quiz-lockup-name", text: "Noche Live"
     assert_selector ".play-sheet"
     assert_selector ".story-close"
     assert_selector ".story-ticks"
@@ -29,25 +31,17 @@ class PlayReelVisualTest < ApplicationSystemTestCase
     lang_top = page.evaluate_script("document.querySelector('.lang-switch').getBoundingClientRect().top")
     mute_bottom = page.evaluate_script("document.querySelector('.mute').getBoundingClientRect().bottom")
     sheet_top = page.evaluate_script("document.querySelector('.play-sheet').getBoundingClientRect().top")
-    chrome_bottom = page.evaluate_script("document.querySelector('.play-chrome').getBoundingClientRect().bottom")
+    head_bottom = page.evaluate_script("document.querySelector('.night-quiz-head').getBoundingClientRect().bottom")
     ticks_top = page.evaluate_script("document.querySelector('.story-ticks').getBoundingClientRect().top")
     assert mute_top < 80, "mute should sit at the top of the play reel"
     assert lang_top >= mute_bottom - 1, "language flags should sit under mute"
-    assert ticks_top < 36, "round ticks should sit at the very top, like a story"
+    assert ticks_top < 140, "round ticks sit in the cream temple head"
     tick_h = page.evaluate_script("document.querySelector('.story-tick').getBoundingClientRect().height")
     assert tick_h >= 40, "round ticks should be easy to tap"
-    title_top = page.evaluate_script("document.querySelector('.story-night').getBoundingClientRect().top")
     score_top = page.evaluate_script("document.querySelector('.story-score').getBoundingClientRect().top")
-    assert (title_top - score_top).abs < 24, "score pill should sit on the night title row"
-    gap = page.evaluate_script(<<~JS)
-      (function() {
-        var title = document.querySelector(".story-night").getBoundingClientRect();
-        var score = document.querySelector(".story-score").getBoundingClientRect();
-        return score.left - title.right;
-      })();
-    JS
-    assert gap >= 0 && gap < 20, "score pill should sit immediately after the night title"
-    assert chrome_bottom < 240, "story chrome should stay a thin overlay over the drawing"
+    shot_top = page.evaluate_script("document.querySelector('.play-shot').getBoundingClientRect().top")
+    assert score_top >= shot_top - 8, "score pill should sit on the still"
+    assert head_bottom < 280, "cream temple head should stay a thin band"
     assert sheet_top > 80, "the illustration should peek above the question card"
     shot("01-buzz-open-844")
     page.current_window.resize_to(390, 667)
@@ -130,7 +124,7 @@ class PlayReelVisualTest < ApplicationSystemTestCase
       })()
     JS
     assert_operator peek, :>=, 0.38
-    assert_operator peek, :<=, 0.47
+    assert_operator peek, :<=, 0.62
     shot("06-quiz-four-asking")
 
     click_button "Fuego"

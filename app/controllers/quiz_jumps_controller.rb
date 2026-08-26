@@ -6,6 +6,6 @@ class QuizJumpsController < ApplicationController
     street = Quizzes::Jump.call(run: @run, position: params[:position])
     replace_street(street.run)
   rescue RuntimeError, ActiveRecord::RecordInvalid
-    redirect_to root_path
+    redirect_to jugar_path
   end
 end

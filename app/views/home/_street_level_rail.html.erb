@@ -1,0 +1,25 @@
+<% run = local_assigns[:run] %>
+<% pack = local_assigns[:pack] %>
+
+<nav class="street-level-rail" aria-label="<%= t("street.world_level_rail", n: run.position, total: pack.questions.size) %>" data-controller="street-level-rail">
+  <span class="street-level-star" aria-hidden="true"><%= picto("star") %></span>
+  <% pack.questions.size.times do |i| %>
+    <% pos = i + 1 %>
+    <% state = if pos < run.position
+      :filled
+    elsif pos == run.position && !run.finished?
+      :current
+    elsif pos == run.position && run.settled? && run.current_answer&.correct? == false
+      :miss
+    elsif pos <= run.position
+      :filled
+    else
+      :future
+    end %>
+    <span class="street-level-dot <%= state %>" aria-hidden="true"><%= picto("star") if state == :current %></span>
+    <% unless i == pack.questions.size - 1 %>
+      <span class="street-level-line <%= "is-filled" if pos < run.position %>" aria-hidden="true"></span>
+    <% end %>
+  <% end %>
+  <span class="street-level-star" aria-hidden="true"><%= picto("star") %></span>
+</nav>

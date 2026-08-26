@@ -1,0 +1,60 @@
+<% content_for :title, t("street.leaderboard_title") %>
+<% content_for :body_class, "is-kid is-street-hub" %>
+<%= chrome_menu { site_menu } %>
+
+<section id="street_world" class="street-world street-leaderboard-page">
+  <header class="street-leaderboard-head">
+    <h1><%= t("street.leaderboard_title") %></h1>
+    <% if @board.your_rank %>
+      <p class="street-leaderboard-you">
+        <%= t("street.leaderboard_you", rank: @board.your_rank, players: @board.players, score: @board.your_score) %>
+      </p>
+    <% end %>
+  </header>
+
+  <nav class="street-leaderboard-tabs" aria-label="<%= t("street.leaderboard_scope") %>">
+    <%= link_to t("street.board_total"),
+          street_leaderboard_path(q: @q.presence),
+          class: "street-leaderboard-tab#{' is-active' unless @pack_id}" %>
+    <% QuizDefinition.catalog.pack_ids.each do |pack_id| %>
+      <%= link_to QuizDefinition.catalog.find_pack(pack_id).copy(:title),
+            street_leaderboard_path(pack_id:, q: @q.presence),
+            class: "street-leaderboard-tab#{' is-active' if @pack_id == pack_id}" %>
+    <% end %>
+  </nav>
+
+  <%= form_with url: street_leaderboard_path(pack_id: @pack_id, page: 1), method: :get, class: "street-leaderboard-search" do %>
+    <label for="leaderboard_q" class="quiet"><%= t("street.leaderboard_search") %></label>
+    <input id="leaderboard_q" name="q" type="search" value="<%= @q %>" maxlength="24" class="code-input">
+    <button type="submit" class="btn btn-ghost"><%= t("street.leaderboard_search_btn") %></button>
+  <% end %>
+
+  <% if @board.rows.any? %>
+    <%= render "home/leaderboard",
+          board: @board,
+          title: @pack_id ? t("street.board_pack", pack: QuizDefinition.catalog.find_pack(@pack_id).copy(:title)) : t("street.board_total"),
+          show_players: true %>
+  <% else %>
+    <p class="quiet"><%= t("street.leaderboard_empty") %></p>
+  <% end %>
+
+  <% if @board.pages > 1 %>
+    <nav class="street-leaderboard-pages" aria-label="<%= t("street.leaderboard_pages") %>">
+      <% if @page > 1 %>
+        <%= link_to t("street.leaderboard_prev"),
+              street_leaderboard_path(pack_id: @pack_id, page: @page - 1, q: @q.presence),
+              class: "btn btn-ghost" %>
+      <% end %>
+      <span class="quiet"><%= t("street.leaderboard_page", page: @page, pages: @board.pages) %></span>
+      <% if @page < @board.pages %>
+        <%= link_to t("street.leaderboard_next"),
+              street_leaderboard_path(pack_id: @pack_id, page: @page + 1, q: @q.presence),
+              class: "btn btn-ghost" %>
+      <% end %>
+    </nav>
+  <% end %>
+
+  <footer class="street-world-dock">
+    <%= link_to t("street.leaderboard_back"), root_path, class: "btn btn-gold" %>
+  </footer>
+</section>
