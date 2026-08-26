@@ -260,10 +260,10 @@ class StreetLeaderboardsControllerTest < ActionDispatch::IntegrationTest
     get ward_leaderboard_path("RAMA")
     assert_response :success
     assert_select ".street-leaderboard-page"
-    assert_select ".street-hub-kicker", text: I18n.t("street.leaderboard_kicker")
-    assert_select ".street-leaderboard-ward", text: "Rama Benidorm"
+    assert_select ".street-hub-kicker", text: "Rama Benidorm"
+    assert_select ".street-leaderboard-ward", count: 0
     assert_select "a.street-leaderboard-ward-back[href=?]", ward_profile_path("RAMA"),
-          text: I18n.t("ward.add_see", name: "Rama Benidorm")
+          text: I18n.t("street.leaderboard_back_ward")
     assert_select "form.street-leaderboard-search[action=?]", ward_leaderboard_path("RAMA")
     assert_select ".street-liga-entry", text: /Pili/
     assert_select ".street-liga-entry", text: /Marta/, count: 0

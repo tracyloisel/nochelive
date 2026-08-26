@@ -34,9 +34,14 @@ class WardProfilesControllerTest < ActionDispatch::IntegrationTest
     assert_select ".rama-night-missionaries", text: /Élder Soto/
     assert_select ".rama-night-missionaries", text: /Hermana Clark/
     assert_select ".rama-night-role", text: I18n.t("presenter.missionaries")
-    assert_select ".rama-cta a.quiet-link[href=?]", ward_leaderboard_path("RAMA"),
-          text: I18n.t("street.league_see_all")
+    assert_select "a.rama-liga.street-league[href=?]", ward_leaderboard_path("RAMA")
+    assert_select ".rama-liga .street-league-head h2", text: I18n.t("street.world_league")
+    assert_select ".rama-liga-empty", text: I18n.t("street.leaderboard_empty_ward")
+    assert_select ".rama-liga .street-league-all", text: I18n.t("street.league_see_all")
+    assert_select ".rama-stats", text: /#{Regexp.escape(I18n.t("street.leaderboard_players", count: 0))}/
+    assert_select ".rama-cta a.quiet-link[href=?]", ward_leaderboard_path("RAMA"), count: 0
     assert_select ".rama-cta .btn.btn-gold", count: 1
+    assert_select ".btn.btn-gold", count: 1
   end
 
   test "host without a live night gets Abrir la noche as the gold CTA" do
@@ -46,8 +51,41 @@ class WardProfilesControllerTest < ActionDispatch::IntegrationTest
     assert_select ".btn.btn-gold", text: /Abrir la noche/
     assert_select ".btn.btn-gold", count: 1
     assert_select ".btn.btn-gold", text: /Entrar/, count: 0
-    assert_select ".rama-cta a.quiet-link[href=?]", ward_leaderboard_path("BLANK"),
-          text: I18n.t("street.league_see_all")
+    assert_select ".rama-cta a.quiet-link[href=?]", ward_leaderboard_path("BLANK"), count: 0
+    assert_select "a.rama-liga.street-league[href=?]", ward_leaderboard_path("BLANK")
+    assert_select ".rama-liga-empty", text: I18n.t("street.leaderboard_empty_ward")
+  end
+
+  test "rama liga tile shows this ward podium" do
+    pili = people(:pili)
+    QuizRun.create!(
+      device_digest: "rama-liga-pili",
+      person: pili,
+      pack_id: "coronas",
+      position: 10,
+      score: 55,
+      status: "finished",
+      opened_at: Time.current
+    )
+    marta = wards(:blank).people.create!(given_name: "Marta", avatar_key: "gato", favorite_year: 1999)
+    QuizRun.create!(
+      device_digest: "rama-liga-marta",
+      person: marta,
+      pack_id: "coronas",
+      position: 10,
+      score: 99,
+      status: "finished",
+      opened_at: Time.current
+    )
+
+    get ward_profile_path("RAMA")
+    assert_response :success
+    assert_select "a.rama-liga.street-league[href=?]", ward_leaderboard_path("RAMA")
+    assert_select ".rama-liga .street-league-slot", text: /Pili/
+    assert_select ".rama-liga .street-league-slot", text: /Marta/, count: 0
+    assert_select ".rama-liga-empty", count: 0
+    assert_select ".rama-stats", text: /#{Regexp.escape(I18n.t("street.leaderboard_players", count: 1))}/
+    assert_select ".btn.btn-gold", count: 1
   end
 
   test "congregation cookie does not open fichas" do
