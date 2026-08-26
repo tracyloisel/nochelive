@@ -14,10 +14,6 @@
 
   <div class="street-leaderboard-sheet">
     <div class="street-leaderboard-tools">
-    <% if @visit %>
-      <%= link_to t("street.leaderboard_back_ward"), ward_profile_path(@board_ward.code),
-            class: "quiet-link street-leaderboard-ward-back" %>
-    <% end %>
     <%= form_with url: liga_path_for, method: :get, class: "street-leaderboard-search",
           data: { controller: "liga-search", action: "input->liga-search#queue keydown.esc->liga-search#clearOnEscape" } do %>
       <div class="street-leaderboard-search-row<%= " is-filled" if @q.present? %>">
@@ -68,6 +64,10 @@
           <span class="street-leaderboard-duels-n" aria-label="<%= t("street.duel_incoming") %>"><%= @duel_incoming %></span>
         <% end %>
       <% end %>
+    <% end %>
+    <% if @visit %>
+      <%= link_to t("street.leaderboard_back_ward"), ward_profile_path(@board_ward.code),
+            class: "quiet-link street-leaderboard-ward-back" %>
     <% end %>
 
     <% if you && @board.your_rank && !you_on_page && @board.your_page %>

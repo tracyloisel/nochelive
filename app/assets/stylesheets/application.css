@@ -3207,7 +3207,8 @@ fieldset.place:has(.picture-card) { grid-template-columns: 1fr 1fr; }
 .rama-page .rama-stats,
 .rama-page .rama-pin,
 .rama-page .rama-cta .quiet-link,
-.rama-page .rama-night-copy {
+.rama-page .rama-night-copy,
+.rama-page .rama-liga {
   text-shadow: var(--temple-type-halo);
 }
 .rama-page .rama-cta .btn { min-height: 2.75rem; }
@@ -3225,6 +3226,83 @@ fieldset.place:has(.picture-card) { grid-template-columns: 1fr 1fr; }
 .rama-cta { display: flex; flex-direction: column; gap: var(--space-3); width: 100%; align-items: center; }
 .rama-cta .btn { width: 100%; }
 .rama-cta .quiet-link { text-align: center; }
+.rama-page .rama-liga {
+  width: 100%;
+  flex-shrink: 0;
+  padding: var(--space-3) var(--space-3) var(--space-4);
+  border-radius: var(--radius-l);
+  border: 1.5px solid var(--temple-gold-border, color-mix(in srgb, var(--gold-deep) 48%, transparent));
+  background: linear-gradient(180deg, #fffef9 0%, var(--temple-marble, var(--surface)) 100%);
+  box-shadow: var(--street-card-shadow);
+  color: inherit;
+  text-decoration: none;
+}
+.rama-page .rama-liga .street-league-head {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 0.05rem 0.15rem 0;
+}
+.rama-page .rama-liga .street-league-head h2 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  width: 100%;
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: var(--type-min);
+  letter-spacing: 0.14em;
+}
+.rama-page .rama-liga .street-league-head h2::before,
+.rama-page .rama-liga .street-league-head h2::after {
+  flex: 1 1 2.2rem;
+  width: auto;
+  max-width: 4.2rem;
+  height: 0.42rem;
+  margin-inline: 0;
+}
+.rama-page .rama-liga .street-league-panel {
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.rama-page .rama-liga .street-league-meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+  color: var(--muted);
+  text-align: center;
+}
+.rama-page .rama-liga .street-league-all {
+  color: var(--ink);
+  font-weight: 650;
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+.rama-liga-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  margin: var(--space-3) 0 0;
+  color: var(--ink);
+  font-size: var(--type-ui);
+  font-weight: 650;
+  text-align: center;
+  line-height: 1.35;
+}
+.rama-liga-empty-mark {
+  display: grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  color: var(--gold-deep);
+}
+.rama-liga-empty-mark .picto { width: 1.5rem; height: 1.5rem; }
 .rama-nights {
   list-style: none; margin: 0; padding: 0;
   display: flex; flex-direction: column; gap: var(--space-6);
@@ -9122,13 +9200,6 @@ a.street-leaderboard-duels {
   min-height: 2.25rem;
 }
 a.street-leaderboard-duels:hover { color: var(--ink); }
-.street-leaderboard-ward {
-  margin: 0;
-  text-align: center;
-  color: var(--ink);
-  font-size: var(--type-ui);
-  font-weight: 700;
-}
 a.street-leaderboard-ward-back {
   align-self: center;
   color: color-mix(in srgb, var(--ink) 68%, transparent);
