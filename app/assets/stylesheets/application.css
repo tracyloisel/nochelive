@@ -17368,10 +17368,12 @@ body.is-street-play #street_quiz.is-overlay .quiz-next {
 }
 body.is-street-play #street_quiz.is-overlay .quiz-sheet {
   position: relative;
+  display: flex;
+  flex-direction: column;
   left: auto;
   right: auto;
   bottom: auto;
-  max-height: 42dvh;
+  max-height: min(58dvh, calc(100dvh - 6rem));
   overflow: visible;
   padding: var(--space-4) var(--space-4) var(--space-3);
   border: 1px solid var(--quiz-border);
@@ -17432,9 +17434,16 @@ body.is-street-play #street_quiz.is-overlay .choices,
 body.is-street-play #street_quiz.is-overlay .quiz-bars {
   display: flex;
   flex-direction: column;
+  min-height: 0;
   gap: 0.45rem;
-  max-height: 28dvh;
+  max-height: none;
   overflow: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+body.is-street-play #street_quiz.is-overlay .quiz-board {
+  min-height: 0;
+  overflow: hidden;
 }
 body.is-street-play #street_quiz.is-overlay .choice-btn,
 body.is-street-play #street_quiz.is-overlay .quiz-bar {
