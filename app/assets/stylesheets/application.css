@@ -6995,6 +6995,7 @@ body.is-street-play #street_quiz.is-settled .play-sheet.is-arriving {
     transform: translateY(var(--sheet-shift, 0px));
   }
 }
+
 @keyframes quiz-mark-in {
   from { opacity: 0; transform: scale(0.45); }
   to { opacity: 1; transform: none; }
@@ -15697,6 +15698,16 @@ body.is-street-hub:has(.street-world.is-game-hub[data-hub-theme="light"]:not(.is
   box-shadow: 0 0 10px color-mix(in srgb, var(--gold-primary) 55%, transparent);
 }
 .hub-dot:focus-visible { outline: 2px solid var(--gold-highlight); outline-offset: -2px; }
+@media (max-width: 719px) {
+  .hub-dots {
+    position: relative;
+    left: auto;
+    bottom: auto;
+    width: max-content;
+    margin: var(--space-2) auto 0;
+    transform: none;
+  }
+}
 .street-world.is-game-hub .hub-panel:not(.hub-live) .hub-kicker {
   color: var(--gold-deep);
 }
@@ -19952,9 +19963,39 @@ body:has(#street_quien) .chrome-drawer .lang-switch.is-drawer > summary {
 }
 .hub-play.is-cta-arriving { animation: btn-pop 240ms var(--ease-out) both; }
 
-/* Keep every carousel layer stable at rest. Animating a transformed image
-   beneath clipped copy can blank the whole composited tile in Safari. */
-.hub-slide-still { animation: none !important; }
+/* Keep every carousel layer stable. Animating the hero or its clipped layers
+   can briefly blank/repaint the tile in mobile Safari and Chromium. */
+.street-world.is-game-hub .hub-hero,
+.street-world.is-game-hub.is-opening .hub-hero,
+.street-world.is-game-hub .hub-voyage,
+.street-world.is-game-hub .hub-slide,
+.street-world.is-game-hub .hub-slide-still,
+.street-world.is-game-hub .hub-slide-copy,
+.street-world.is-game-hub .hub-slide-copy-top,
+.street-world.is-game-hub .hub-hero-continue,
+.street-world.is-game-hub .hub-hero-title,
+.street-world.is-game-hub .hub-hero-meta,
+.street-world.is-game-hub .hub-hero-lede,
+.street-world.is-game-hub .hub-hero-actions,
+.street-world.is-game-hub .hub-play,
+.street-world.is-game-hub .hub-reward,
+.street-world.is-game-hub .hub-reward-chest,
+.street-world.is-game-hub .hub-dots,
+.street-world.is-game-hub .hub-dot,
+.street-world.is-game-hub .hub-dot::before {
+  animation: none !important;
+  transition: none !important;
+}
+.street-world.is-game-hub .hub-hero,
+.street-world.is-game-hub.is-opening .hub-hero,
+.street-world.is-game-hub.is-opening .hub-hero-continue,
+.street-world.is-game-hub.is-opening .hub-hero-title,
+.street-world.is-game-hub.is-opening .hub-hero-meta,
+.street-world.is-game-hub.is-opening .hub-hero-lede,
+.street-world.is-game-hub.is-opening .hub-hero-actions {
+  opacity: 1 !important;
+  transform: none !important;
+}
 .hub-play { position: relative; isolation: isolate; overflow: hidden !important; }
 
 /* The portal starts in the current painting; peripheral UI yields once. */
@@ -22630,5 +22671,105 @@ body {
   .street-world.is-game-hub .hub-panel-row {
     gap: var(--space-2);
     margin-inline: var(--space-2);
+  }
+}
+
+/* Hub rivalry hero ---------------------------------------------------------
+   A live duel carries more tension and more variable copy than the utility
+   tiles around it. Give it the full phone row so names and scores read as a
+   face-off, instead of allowing the two-column grid to break words apart. */
+@media (max-width: 719px) {
+  .street-world.is-game-hub .hub-panel-row > .hub-challenge { grid-column: 1 / -1; }
+  .street-world.is-game-hub .hub-panel-row > .hub-online { grid-column: 1 / -1; }
+  .street-world.is-game-hub .hub-panel-row > .hub-progress { grid-column: 1 / -1; }
+  .street-world.is-game-hub .hub-panel-row > .hub-community { grid-column: 1 / -1; }
+
+  .street-world.is-game-hub .hub-online {
+    min-height: 0;
+    padding: var(--space-4);
+    border-radius: 1.75rem;
+  }
+
+  .street-world.is-game-hub .hub-online-empty {
+    min-height: 2.75rem;
+    margin-block: var(--space-2);
+  }
+
+  .street-world.is-game-hub .hub-online-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin: var(--space-3) 0;
+  }
+
+  .street-world.is-game-hub .hub-online-row {
+    grid-template-columns: 2.75rem minmax(0, 1fr) 0.65rem;
+    min-height: 2.75rem;
+  }
+
+  .street-world.is-game-hub .hub-online-face {
+    width: 2.75rem;
+    height: 2.75rem;
+  }
+
+  .street-world.is-game-hub .hub-online-ranking,
+  .street-world.is-game-hub:not(.street-leaderboard-page) a.hub-online-ranking {
+    align-self: flex-end;
+    width: auto;
+    min-width: 9rem;
+  }
+
+  .street-world.is-game-hub a.hub-challenge,
+  .street-world.is-game-hub a.hub-challenge.is-scored {
+    min-height: 11.5rem;
+    padding: var(--space-4);
+    border-radius: 1.75rem;
+  }
+
+  .street-world.is-game-hub a.hub-challenge.is-scored {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      "head"
+      "rival"
+      "score"
+      "foot";
+    align-items: center;
+    row-gap: var(--space-3);
+  }
+
+  .street-world.is-game-hub a.hub-challenge.is-scored .hub-challenge-head { grid-area: head; }
+  .street-world.is-game-hub a.hub-challenge.is-scored .hub-challenge-who { grid-area: rival; }
+  .street-world.is-game-hub a.hub-challenge.is-scored .hub-challenge-score { grid-area: score; }
+  .street-world.is-game-hub a.hub-challenge.is-scored .hub-challenge-foot {
+    grid-area: foot;
+    padding-top: var(--space-2);
+    border-top: 1px solid color-mix(in srgb, var(--text-primary) 12%, transparent);
+  }
+
+  .street-world.is-game-hub .hub-challenge-name,
+  .street-world.is-game-hub .hub-challenge-sub,
+  .street-world.is-game-hub .hub-challenge-foot {
+    overflow-wrap: normal;
+    word-break: normal;
+  }
+
+  .street-world.is-game-hub a.hub-challenge .hub-challenge-name {
+    font-size: clamp(1.2rem, 5vw, 1.55rem);
+    text-wrap: balance;
+  }
+
+  .street-world.is-game-hub .hub-challenge-face {
+    width: 3.25rem;
+    height: 3.25rem;
+  }
+
+  .street-world.is-game-hub .hub-challenge-pts {
+    min-width: 2rem;
+    font-size: clamp(1.25rem, 6vw, 1.65rem);
+  }
+
+  .street-world.is-game-hub .hub-challenge-bar {
+    min-width: 4.5rem;
+    height: 0.85rem;
   }
 }
