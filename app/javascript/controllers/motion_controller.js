@@ -24,7 +24,9 @@ export default class extends Controller {
   }
 
   onFrame(event) {
-    if (event.target.id === "scripture_reader") return
+    // The community pulse refreshes every five seconds. A document-level view
+    // transition for that background update makes unrelated hub chrome blink.
+    if (event.target.id === "scripture_reader" || event.target.id === "street_pulse") return
     event.detail.render = this.wrap(event.detail.render)
   }
 
