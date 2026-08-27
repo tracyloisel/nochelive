@@ -25,10 +25,16 @@
             <% end %>
           </span>
           <div class="hub-online-meta">
-            <span class="hub-online-name"><%= row.name %></span>
-            <span class="hub-online-stats"><%= t("hub.online_meta", count: row.crowns, crowns: row.crowns) %></span>
+            <span class="hub-online-name-line">
+              <span class="hub-online-name"><%= row.name %></span>
+              <span class="hub-online-presence"><%= street_live_dot(true) %></span>
+            </span>
+            <span class="hub-online-stats"
+                  aria-label="<%= t("hub.online_meta", count: row.crowns, crowns: row.crowns) %>">
+              <span aria-hidden="true"><%= number_with_delimiter(row.crowns) %></span>
+              <span aria-hidden="true"><%= picto("crown") %></span>
+            </span>
           </div>
-          <span class="hub-online-presence"><%= street_live_dot(true) %></span>
         </li>
       <% end %>
     </ul>

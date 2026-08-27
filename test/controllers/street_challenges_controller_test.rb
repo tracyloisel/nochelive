@@ -18,9 +18,13 @@ class StreetChallengesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select "body.is-paper-hall"
     assert_select "#street_desafio.hall-paper"
+    assert_select "body.is-duel-show"
+    assert_select ".street-duel-arena"
+    assert_select ".street-duel-moment"
     assert_select ".hall-sheet"
     assert_select "h1", text: I18n.t("street.duel_title")
     assert_select ".street-desafio-faces"
+    assert_select ".street-duel-vs-mark", text: I18n.t("street.duel_vs")
     assert_select ".gate", count: 0
     assert_select ".btn-gold", text: I18n.t("street.duel_share_again")
     assert_select ".picto-btn", count: 0

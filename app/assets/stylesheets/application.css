@@ -11521,6 +11521,152 @@ a.street-hub-tile-go.quiet-link {
 .street-duel-accept { width: 100%; justify-content: center; }
 .street-duel-banner .street-duel-accept { width: auto; justify-content: flex-end; }
 .street-desafio-faces { margin: var(--space-4) 0 var(--space-3); }
+
+/* Défi share page — one rivalry, one next move. */
+body.is-duel-show {
+  --street-hub-col: min(42rem, 100vw);
+}
+body.is-duel-show .sky {
+  background:
+    linear-gradient(180deg, rgba(255, 251, 235, .1) 0%, rgba(61, 39, 10, .16) 100%),
+    url("/media/temple/desafio-celestial-court-v2.png") 50% 50% / cover fixed;
+}
+body.is-duel-show .sky::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 70% 36% at 50% 12%, rgba(255,255,255,.76), transparent 70%),
+    linear-gradient(90deg, rgba(88,52,10,.12), transparent 22% 78%, rgba(88,52,10,.12));
+}
+.street-duel-show {
+  justify-content: flex-start;
+  gap: clamp(1rem, 3vh, 1.8rem);
+  padding-top: max(4.75rem, calc(env(safe-area-inset-top) + 4rem));
+  background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,248,224,.18));
+}
+.street-duel-show > .home-brand {
+  filter: drop-shadow(0 2px 10px rgba(255,255,255,.8));
+}
+.street-duel-show .street-duel-arena {
+  width: min(100%, 34rem);
+  margin: 0 auto;
+  gap: var(--space-5);
+  padding: clamp(2.15rem, 7vw, 3.25rem) clamp(1rem, 5vw, 2.2rem) clamp(1.35rem, 5vw, 2.3rem);
+  border-radius: clamp(2rem, 9vw, 3.6rem) clamp(2rem, 9vw, 3.6rem) 1.65rem 1.65rem;
+  background:
+    radial-gradient(ellipse 80% 24% at 50% 0%, rgba(255,255,255,.98), transparent 74%),
+    linear-gradient(180deg, rgba(255,253,247,.98), rgba(247,241,225,.96));
+  box-shadow: 0 24px 60px rgba(61,38,6,.22), inset 0 1px 0 white;
+}
+.street-duel-arena-head {
+  display: grid;
+  justify-items: center;
+  gap: .45rem;
+}
+.street-duel-arena-head h1 {
+  margin: 0;
+  font: 700 clamp(1.7rem, 7vw, 2.45rem)/1.05 var(--font-display);
+  text-wrap: balance;
+}
+.street-duel-arena-kicker {
+  display: flex;
+  align-items: center;
+  gap: .65rem;
+  color: var(--muted);
+  font-size: .78rem;
+  font-weight: 800;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+}
+.street-duel-arena-kicker .picto { width: .7rem; height: .7rem; color: var(--gold-deep); }
+.street-duel-arena .street-desafio-faces {
+  width: 100%;
+  margin: 0;
+  gap: clamp(.6rem, 3vw, 1.3rem);
+}
+.street-duel-arena .street-duel-face { min-width: 0; gap: .55rem; }
+.street-duel-arena .street-duel-face .avatar-img,
+.street-duel-arena .street-duel-face-slot {
+  width: clamp(4.6rem, 22vw, 6.7rem);
+  height: clamp(4.6rem, 22vw, 6.7rem);
+  border-width: 3px;
+  background-color: var(--navy);
+  box-shadow: 0 10px 22px rgba(32,24,12,.16), 0 0 0 5px rgba(255,255,255,.78);
+}
+.street-duel-arena .street-duel-face .avatar-img { object-fit: cover; transform: scale(1.08); }
+.street-duel-arena .street-duel-face-name {
+  max-width: 9rem;
+  font: 700 clamp(.95rem, 4vw, 1.22rem)/1.15 var(--font-display);
+  overflow-wrap: anywhere;
+}
+.street-duel-arena .street-duel-vs { gap: .55rem; padding: 0; }
+.street-duel-arena .street-duel-vs-mark {
+  display: grid;
+  place-items: center;
+  width: clamp(3.1rem, 13vw, 4.25rem);
+  aspect-ratio: 1;
+  padding: 0;
+  border-radius: 50%;
+  border: 2px solid var(--temple-gold-border);
+  background: linear-gradient(145deg, #fffef7, #ead9a8);
+  box-shadow: 0 6px 14px rgba(102,71,11,.16), inset 0 1px 0 white;
+  font-size: clamp(1rem, 5vw, 1.45rem);
+}
+.street-duel-clash-line {
+  width: 1px;
+  height: 1.7rem;
+  background: linear-gradient(var(--gold-deep), transparent);
+}
+.street-duel-moment {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: var(--space-3);
+  width: 100%;
+  padding: var(--space-4);
+  border: 1px solid color-mix(in srgb, var(--gold-deep) 38%, transparent);
+  border-radius: 1.35rem;
+  background: rgba(255,255,255,.48);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.9);
+}
+.street-duel-moment::before {
+  content: "";
+  position: absolute;
+  top: -.38rem;
+  left: 50%;
+  width: .76rem;
+  height: .76rem;
+  transform: translateX(-50%);
+  clip-path: var(--temple-star4);
+  background: var(--temple-gold-leaf);
+}
+.street-duel-callout { margin: 0; color: var(--muted); font-size: var(--type-ui); line-height: 1.35; text-wrap: balance; }
+.street-duel-score-to-beat { display: grid; grid-template-columns: auto auto; align-items: center; justify-content: center; gap: .05rem .45rem; }
+.street-duel-score-to-beat > span { color: var(--gold-deep); }
+.street-duel-score-to-beat > span .picto { width: 1.35rem; height: 1.35rem; }
+.street-duel-score-to-beat strong { color: var(--ink); font: 750 clamp(2.4rem, 11vw, 3.5rem)/1 var(--font-display); }
+.street-duel-score-to-beat p { grid-column: 1 / -1; margin: .25rem 0 0; color: var(--muted); font-size: var(--type-min); }
+.street-duel-status-mark { display: grid; place-items: center; width: 3.2rem; height: 3.2rem; border-radius: 50%; color: var(--gold-deep); background: color-mix(in srgb, var(--gold) 12%, white); }
+.street-duel-status-mark .picto { width: 1.45rem; height: 1.45rem; }
+.street-duel-arena .street-duel-inbox-card-actions { display: grid; justify-items: center; gap: var(--space-2); width: 100%; }
+.street-duel-arena .street-duel-inbox-card-actions form { width: 100%; }
+.street-duel-arena .street-duel-accept { min-height: 3.5rem; font-size: 1.02rem; }
+.street-duel-arena > .hall-sheet-foot { margin-top: 0; }
+.street-duel-arena .street-card.is-duel { width: 100%; margin: 0; border: 0; padding: 0; background: transparent; box-shadow: none; }
+
+@media (min-width: 720px) {
+  .street-duel-show { padding-bottom: 4rem; }
+  .street-duel-show .street-duel-arena { padding-inline: 3rem; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .street-duel-show .street-duel-arena { animation: duel-arena-rise 520ms var(--ease-out) both; }
+  .street-duel-show .street-duel-face.is-you { animation: duel-home-in 420ms var(--ease-out) 180ms both; }
+  .street-duel-show .street-duel-face:not(.is-you) { animation: duel-away-in 420ms var(--ease-out) 180ms both; }
+  .street-duel-show .street-duel-vs-mark { animation: duel-vs-in 420ms cubic-bezier(.2,1.3,.35,1) 360ms both; }
+}
+@keyframes duel-arena-rise { from { opacity: 0; transform: translateY(20px) scale(.985); } }
 .hall-sheet .street-card.is-duel {
   margin: var(--space-4) 0;
   padding: var(--space-4);
@@ -15209,9 +15355,15 @@ body.is-street-hub:has(.street-world.is-game-hub[data-hub-theme="light"]:not(.is
   pointer-events: none;
   background:
     linear-gradient(90deg,
-      color-mix(in srgb, var(--surface-primary) 88%, transparent) 0%,
-      color-mix(in srgb, var(--surface-primary) 58%, transparent) 42%,
-      color-mix(in srgb, var(--surface-primary) 18%, transparent) 100%);
+      color-mix(in srgb, var(--surface-primary) 98%, transparent) 0%,
+      color-mix(in srgb, var(--surface-primary) 94%, transparent) 34%,
+      color-mix(in srgb, var(--surface-primary) 68%, transparent) 52%,
+      color-mix(in srgb, var(--surface-primary) 18%, transparent) 76%,
+      transparent 100%),
+    linear-gradient(180deg,
+      color-mix(in srgb, var(--surface-primary) 24%, transparent) 0%,
+      transparent 48%,
+      color-mix(in srgb, var(--surface-secondary) 30%, transparent) 100%);
 }
 .street-world.is-game-hub[data-hub-theme="dark"] .hub-slide::after {
   background:
@@ -15572,63 +15724,98 @@ body.is-street-hub:has(.street-world.is-game-hub[data-hub-theme="light"]:not(.is
 .hub-play-form { flex: 0 0 auto; width: auto; margin: 0; }
 .hub-play-form .hub-play { width: auto; }
 .hub-reward {
-  --hub-reward-paper: var(--temple-ivory, #fffdf9);
-  flex: 0 1 7.5rem;
+  --hub-reward-surface: color-mix(in srgb, var(--surface-primary) 86%, transparent);
+  --hub-reward-edge: color-mix(in srgb, var(--gold-highlight) 58%, transparent);
+  --hub-reward-copy: var(--text-primary);
+  position: relative;
+  isolation: isolate;
+  flex: 0 0 clamp(8.25rem, 29vw, 9.25rem);
   display: flex;
   align-items: center;
-  gap: 0.12rem;
+  gap: 0.2rem;
   min-width: 0;
-  max-width: 7.5rem;
-  min-height: 2.45rem;
-  padding: 0.05rem 0.55rem 0.05rem 0.06rem;
-  border: 0;
+  min-height: 3rem;
+  padding: 0.22rem 0.55rem 0.22rem 0;
+  border: 1px solid var(--hub-reward-edge);
   border-radius: var(--radius-pill);
-  background: var(--hub-reward-paper);
-  box-shadow: 0 6px 14px color-mix(in srgb, var(--ink) 12%, transparent);
-  color: var(--gold-deep);
+  background:
+    linear-gradient(105deg, color-mix(in srgb, var(--gold-highlight) 10%, transparent), transparent 38%),
+    var(--hub-reward-surface);
+  box-shadow:
+    0 0.5rem 1.1rem color-mix(in srgb, var(--ink) 16%, transparent),
+    inset 0 1px 0 color-mix(in srgb, var(--gold-highlight) 30%, transparent);
+  color: var(--hub-reward-copy);
   font-family: var(--font-ui);
   font-weight: 700;
+  backdrop-filter: blur(14px) saturate(1.08);
+  overflow: visible;
+}
+.street-world.is-game-hub[data-hub-theme="dark"] .hub-reward {
+  --hub-reward-surface: color-mix(in srgb, var(--surface-secondary) 82%, transparent);
+  --hub-reward-copy: var(--text-primary);
+  box-shadow:
+    0 0.55rem 1.35rem color-mix(in srgb, var(--surface-primary) 56%, transparent),
+    0 0 1.15rem color-mix(in srgb, var(--gold-primary) 10%, transparent),
+    inset 0 1px 0 color-mix(in srgb, var(--gold-highlight) 24%, transparent);
+}
+.hub-reward::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0.16rem;
+  border-radius: inherit;
+  border: 1px solid color-mix(in srgb, var(--gold-highlight) 17%, transparent);
+  pointer-events: none;
 }
 .hub-reward .picto-chest { width: 2.25rem; height: 2.25rem; flex-shrink: 0; }
 .hub-reward-chest {
-  width: 2.7rem;
-  height: 2rem;
+  width: 3.35rem;
+  height: 2.45rem;
+  margin-left: -0.28rem;
   flex-shrink: 0;
   object-fit: contain;
   object-position: center bottom;
+  filter: drop-shadow(0 0.3rem 0.24rem color-mix(in srgb, var(--ink) 24%, transparent));
 }
 .hub-reward-copy {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 0.02rem;
+  gap: 0.12rem;
   min-width: 0;
-  padding-block: 0.12rem;
+  padding-block: 0.14rem;
 }
 .hub-reward-label {
   font-style: normal;
-  font-size: 0.6rem;
-  font-weight: 700;
-  letter-spacing: 0.09em;
+  font-size: 0.56rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
   line-height: 1.1;
   text-transform: uppercase;
-  color: var(--gold-deep);
+  color: var(--hub-reward-copy);
+  opacity: 0.72;
+  white-space: nowrap;
 }
 .hub-reward-copy strong,
 .hub-reward-value {
   display: inline-flex;
   align-items: center;
-  gap: 0.16rem;
-  font-size: 1.05rem;
-  font-weight: 800;
-  letter-spacing: 0.01em;
+  gap: 0.28rem;
+  font-family: var(--font-display);
+  font-size: clamp(1.12rem, 4vw, 1.35rem);
+  font-weight: 750;
+  letter-spacing: 0;
   line-height: 1;
-  color: var(--gold-primary, var(--gold));
+  color: var(--gold-deep);
 }
 .hub-reward-copy .picto-crown {
-  width: 0.88rem;
-  height: 0.88rem;
-  color: var(--gold-primary, var(--gold));
+  width: 1.22rem;
+  height: 1.22rem;
+  padding: 0.2rem;
+  border-radius: 50%;
+  background: var(--gold-primary);
+  color: var(--text-on-gold);
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--gold-highlight) 68%, transparent);
 }
 .hub-reward-copy .picto-crown path,
 .hub-reward-copy .picto-crown rect,
@@ -16397,7 +16584,7 @@ body.is-street-hub:has(.street-world.is-game-hub[data-hub-theme="light"]:not(.is
 }
 .street-world.is-game-hub .hub-online-row {
   display: grid;
-  grid-template-columns: 3.35rem minmax(0, 1fr) 0.9rem;
+  grid-template-columns: 3.35rem minmax(0, 1fr);
   align-items: center;
   gap: var(--space-3);
   min-height: 3.65rem;
@@ -16421,8 +16608,15 @@ body.is-street-hub:has(.street-world.is-game-hub[data-hub-theme="light"]:not(.is
 .street-world.is-game-hub .hub-online-meta {
   min-width: 0;
 }
+.street-world.is-game-hub .hub-online-name-line {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  gap: var(--space-2);
+}
 .street-world.is-game-hub .hub-online-name {
   display: block;
+  min-width: 0;
   overflow: hidden;
   color: var(--hub-online-text);
   font-family: var(--font-display);
@@ -16433,7 +16627,9 @@ body.is-street-hub:has(.street-world.is-game-hub[data-hub-theme="light"]:not(.is
   white-space: nowrap;
 }
 .street-world.is-game-hub .hub-online-stats {
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 0.28rem;
   margin-top: 0.14rem;
   overflow: hidden;
   color: var(--hub-online-muted);
@@ -16442,8 +16638,15 @@ body.is-street-hub:has(.street-world.is-game-hub[data-hub-theme="light"]:not(.is
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+.street-world.is-game-hub .hub-online-stats .picto-crown {
+  display: block;
+  width: 0.82rem;
+  height: 0.82rem;
+  color: var(--gold-primary);
+}
 .street-world.is-game-hub .hub-online-presence {
-  display: grid;
+  display: inline-grid;
+  flex: 0 0 auto;
   place-items: center;
 }
 .street-world.is-game-hub .hub-online-presence .street-live-dot {
@@ -19517,7 +19720,7 @@ body.is-returning-from-quiz .hub-reward-chest {
   gap: var(--space-2);
 }
 .street-world.is-game-hub .hub-online-row {
-  grid-template-columns: 3rem minmax(0, 1fr) 0.8rem;
+  grid-template-columns: 3rem minmax(0, 1fr);
   gap: var(--space-2);
   min-height: 3rem;
 }
@@ -20929,6 +21132,19 @@ body.is-street-profile .home-menu {
 
 /* La Parole — weekly scripture journey. Artwork chooses the atmosphere. */
 .hub-study {
+  --hub-study-surface: var(--surface-primary);
+  --hub-study-text: var(--text-primary);
+  --hub-study-muted: var(--text-secondary);
+  --hub-study-kicker: var(--gold-deep);
+  --hub-study-track: color-mix(in srgb, var(--text-primary) 16%, transparent);
+  --hub-study-wash: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--hub-study-surface) 98%, transparent) 0%,
+    color-mix(in srgb, var(--hub-study-surface) 94%, transparent) 38%,
+    color-mix(in srgb, var(--hub-study-surface) 72%, transparent) 56%,
+    color-mix(in srgb, var(--hub-study-surface) 18%, transparent) 78%,
+    transparent 100%
+  );
   position: relative;
   margin-inline: var(--space-3);
   margin-bottom: var(--space-3);
@@ -20942,21 +21158,34 @@ body.is-street-profile .home-menu {
   border: 1px solid var(--border-gold);
   border-radius: var(--radius-card, 1.4rem);
   background:
-    linear-gradient(90deg, rgba(5, 16, 31, .94) 0%, rgba(7, 23, 42, .80) 54%, rgba(7, 22, 39, .26) 100%),
+    var(--hub-study-wash),
     var(--study-art) 62% 46% / cover no-repeat;
   box-shadow: var(--shadow-card);
-  color: var(--text-on-dark-surface, #fff8e8);
+  color: var(--hub-study-text);
+}
+.street-world.is-game-hub[data-hub-theme="dark"] .hub-study {
+  --hub-study-surface: var(--surface-primary);
+  --hub-study-text: var(--text-primary);
+  --hub-study-muted: var(--text-secondary);
+  --hub-study-kicker: var(--gold-primary);
+  --hub-study-track: color-mix(in srgb, var(--text-primary) 22%, transparent);
+  --hub-study-wash: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--hub-study-surface) 94%, transparent) 0%,
+    color-mix(in srgb, var(--hub-study-surface) 80%, transparent) 54%,
+    color-mix(in srgb, var(--hub-study-surface) 26%, transparent) 100%
+  );
 }
 .hub-study::after { content: "✦"; position: absolute; right: 1rem; top: .65rem; color: var(--gold-highlight); font-size: 1.25rem; filter: drop-shadow(0 0 10px rgba(231,190,105,.6)); }
 .hub-study-copy { position: relative; z-index: 1; min-width: 0; }
-.hub-study .hub-kicker { color: var(--gold-highlight); }
-.hub-study h2 { margin: .3rem 0; color: var(--text-on-dark-surface, #fff8e8); font: 750 clamp(1.65rem, 6vw, 2.25rem)/.98 var(--font-display); }
-.hub-study-refs { max-width: 27rem; color: rgba(255,248,232,.78); font: 650 .72rem/1.3 var(--font-ui); }
+.hub-study .hub-kicker { color: var(--hub-study-kicker); }
+.hub-study h2 { margin: .3rem 0; color: var(--hub-study-text); font: 750 clamp(1.65rem, 6vw, 2.25rem)/.98 var(--font-display); }
+.hub-study-refs { max-width: 27rem; color: var(--hub-study-text); font: 650 .72rem/1.3 var(--font-ui); }
 .hub-study-progress { display: flex; align-items: center; gap: .55rem; margin-top: .9rem; }
-.hub-study-progress > span { width: min(11rem, 48vw); height: .35rem; overflow: hidden; border-radius: 1rem; background: rgba(255,255,255,.22); }
-.hub-study-progress i { display: block; height: 100%; border-radius: inherit; background: var(--gold-highlight); }
-.hub-study-progress strong { color: var(--gold-highlight); font-size: .78rem; }
-.hub-study-community { margin-top: .35rem; color: rgba(255,248,232,.72); font-size: .68rem; }
+.hub-study-progress > span { width: min(11rem, 48vw); height: .35rem; overflow: hidden; border-radius: 1rem; background: var(--hub-study-track); }
+.hub-study-progress i { display: block; height: 100%; border-radius: inherit; background: var(--gold-primary); }
+.hub-study-progress strong { color: var(--hub-study-text); font-size: .78rem; }
+.hub-study-community { margin-top: .35rem; color: var(--hub-study-muted); font-size: .68rem; }
 .hub-study-action.btn { position: relative; z-index: 1; min-height: 2.65rem; padding-inline: 1rem; white-space: nowrap; }
 
 .study-world,
@@ -22711,7 +22940,7 @@ body {
   }
 
   .street-world.is-game-hub .hub-online-row {
-    grid-template-columns: 2.75rem minmax(0, 1fr) 0.65rem;
+    grid-template-columns: 2.75rem minmax(0, 1fr);
     min-height: 2.75rem;
   }
 

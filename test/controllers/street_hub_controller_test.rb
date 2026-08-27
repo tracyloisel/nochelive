@@ -192,8 +192,11 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
     assert_select ".hub-online-row", count: 2
     assert_select ".hub-online-face img.avatar-img", count: 2
     assert_select ".hub-online-name", text: people(:carmen_garcia).given_name
-    assert_select ".hub-online-stats", text: I18n.t("hub.online_meta", count: 208, crowns: 208)
+    assert_select ".hub-online-stats[aria-label=?]", I18n.t("hub.online_meta", count: 208, crowns: 208) do
+      assert_select ".picto-crown", count: 1
+    end
     assert_select ".hub-online-presence .street-live-dot", count: 2
+    assert_select ".hub-online-name-line > .hub-online-name + .hub-online-presence", count: 2
     assert_select "a.hub-online-ranking[href=?]", street_leaderboard_path,
       text: /#{Regexp.escape(I18n.t("hub.see_ranking"))}/
     assert_select "a.hub-online-ranking .picto-podium"
@@ -208,6 +211,7 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
     assert_includes css, '.street-world.is-game-hub[data-hub-theme="light"] .hub-online'
     assert_includes css, '.street-world.is-game-hub[data-hub-theme="dark"] .hub-online'
     assert_includes css, ".street-world.is-game-hub .hub-online-presence .street-live-dot"
+    assert_includes css, ".street-world.is-game-hub .hub-online-name-line"
     assert_includes css, ".street-world.is-game-hub .hub-online-ranking"
     assert_match(/\.street-world\.is-game-hub \.hub-online \{[^}]+align-self: start/m, css)
     assert_match(/\.street-world\.is-game-hub \.hub-online-head \{[^}]+flex-direction: row/m, css)
@@ -459,8 +463,8 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
     sign_in_congregation
     post street_profile_path, params: { guest: 1 }
     follow_redirect!
-    assert_select ".hub-live[data-hub-live-theme=?]", "dark"
-    assert_select ".hub-live.is-celestial-dark[data-hub-live-atmosphere=?]", "glorious"
+    assert_select ".hub-live[data-hub-live-theme=?]", "light"
+    assert_select ".hub-live.is-celestial-light[data-hub-live-atmosphere=?]", "glorious"
     assert_select ".hub-live-badge", text: I18n.t("hub.live_chip")
     assert_select ".hub-live-when"
     assert_select ".hub-live-special", text: I18n.t("hub.live_special", theme: game_sessions(:elias).theme_title)
@@ -475,7 +479,7 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
     assert_includes response.body, "/media/nights/noche_live_stage_v2.png"
   end
 
-  test "hub live card keeps its dedicated Dark stage when the hub catalog is Light" do
+  test "hub live card uses Celestial Light with its dedicated stage" do
     Hubs::Backdrop.entries = [
       {
         "id" => "chapel-worship",
@@ -489,8 +493,8 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
     sign_in_congregation
     post street_profile_path, params: { guest: 1 }
     follow_redirect!
-    assert_select ".hub-live[data-hub-live-theme=?]", "dark"
-    assert_select ".hub-live.is-celestial-dark[data-hub-live-atmosphere=?]", "glorious"
+    assert_select ".hub-live[data-hub-live-theme=?]", "light"
+    assert_select ".hub-live.is-celestial-light[data-hub-live-atmosphere=?]", "glorious"
     assert_includes response.body, "/media/nights/noche_live_stage_v2.png"
     assert_select "a.hub-live-program[href=?]", ward_profile_path("RAMA")
   ensure

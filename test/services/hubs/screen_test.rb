@@ -113,7 +113,7 @@ class Hubs::ScreenTest < ActiveSupport::TestCase
     assert_equal :scheduled, screen.live.state
     assert_equal [ "Élder Oxxon", "Élder Manning" ], screen.live.hosts
     assert_equal "/media/nights/noche_live_stage_v2.png", screen.live.still
-    assert_equal "dark", screen.live.theme_mode
+    assert_equal "light", screen.live.theme_mode
     assert_equal "glorious", screen.live.theme_atmosphere
     refute_equal screen.backdrop.src, screen.live.still
     refute_equal screen.hero.still, screen.live.still
@@ -132,7 +132,7 @@ class Hubs::ScreenTest < ActiveSupport::TestCase
     night = game_sessions(:elias)
     screen = Hubs::Screen.call(device_digest: @digest, ward: @ward, at: night.starts_at - 3.days)
     assert_equal "/media/nights/noche_live_stage_v2.png", screen.live.still
-    assert_equal "dark", screen.live.theme_mode
+    assert_equal "light", screen.live.theme_mode
     assert_equal "glorious", screen.live.theme_atmosphere
     refute_equal screen.backdrop.src, screen.live.still
   ensure

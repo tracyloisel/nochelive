@@ -344,7 +344,7 @@ module Hubs
         # Its dedicated stage art deliberately stays independent from the hub
         # backdrop and the current street-quiz painting.
         if Rails.public_path.join(LIVE_STAGE_STILL).file?
-          return [ "/#{LIVE_STAGE_STILL}", "dark", "glorious" ]
+          return [ "/#{LIVE_STAGE_STILL}", "light", "glorious" ]
         end
         if Rails.public_path.join(CHAPEL_STILL).file?
           return [ "/#{CHAPEL_STILL}", "light", "peaceful" ]
