@@ -7,8 +7,8 @@
     <%= picto("compass") %>
     <span><%= t("hub.nav_adventure") %></span>
   <% end %>
-  <%= link_to helpers.study_program_path, class: item_class(:word, "is-word") do %>
-    <span class="street-hub-word-medallion"><%= picto("scripture-book") %></span>
+  <%= link_to helpers.study_program_path, class: item_class(:word) do %>
+    <%= picto("scripture-book") %>
     <span><%= t("hub.nav_word") %></span>
   <% end %>
   <%= link_to helpers.church_path, class: item_class(:church) do %>

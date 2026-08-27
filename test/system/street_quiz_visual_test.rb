@@ -10,6 +10,8 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
     sign_in_fixture_person_direct!(people(:pili))
     visit street_leaderboard_path
 
+    assert_no_horizontal_layout_overflow
+
     assert_selector ".street-leaderboard-page[data-controller~='liga-board']"
     assert_selector ".street-liga-scope"
     assert_selector ".street-liga-podium"
@@ -32,6 +34,8 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
     load Rails.root.join("db/seeds.rb")
     sign_in_fixture_person_direct!(people(:pili))
     visit street_challenges_path
+
+    assert_no_horizontal_layout_overflow
 
     assert_selector ".street-stake-rivalry"
     assert_selector ".street-duel-live-card"
@@ -152,10 +156,12 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
     assert_selector ".street-hub-nav a[href='/mapa']"
     assert_selector ".street-hub-nav a[href='/parole']"
     assert_selector ".street-hub-nav a[href='/iglesia']"
-    assert_selector ".street-hub-nav .street-hub-word-medallion .picto-scripture-book"
+    assert_selector ".street-hub-nav-item[href='/parole'] > .picto-scripture-book"
+    assert_no_selector ".street-hub-word-medallion"
     assert_no_selector ".street-hub-nav .picto-bell"
     assert_no_selector ".hub-shortcuts"
     assert_hub_chrome_on_column
+    assert_no_horizontal_layout_overflow
     shot("hub-league-phone")
     shot("hub-phone")
     open_hub_map_from_menu
@@ -258,6 +264,8 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
     page.current_window.resize_to(390, 844)
     sign_in_street_rival!
     visit street_challenge_path(street_duels(:pending_challenge).token)
+
+    assert_no_horizontal_layout_overflow
     assert_selector "body.is-paper-hall"
     assert_selector "#street_desafio .hall-sheet"
     assert_selector "h1", text: I18n.t("street.duel_title")
@@ -969,6 +977,32 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
       })()
     JS
     assert scrollable, "journey map should scroll past the first-fold nodes"
+  end
+
+  def assert_no_horizontal_layout_overflow
+    overflow = page.evaluate_script(<<~JS)
+      (function() {
+        var viewport = document.documentElement.clientWidth;
+        var offenders = Array.from(document.querySelectorAll("body *")).filter(function(el) {
+          if (el.matches(".skip, [aria-hidden='true']")) return false;
+          var style = getComputedStyle(el);
+          if (style.position === "fixed" || style.visibility === "hidden" || style.display === "none") return false;
+          var scrollParent = el.parentElement;
+          while (scrollParent && scrollParent !== document.body) {
+            var overflowX = getComputedStyle(scrollParent).overflowX;
+            if (overflowX === "auto" || overflowX === "scroll") return false;
+            scrollParent = scrollParent.parentElement;
+          }
+          var rect = el.getBoundingClientRect();
+          return rect.width > 0 && (rect.left < -2 || rect.right > viewport + 2);
+        });
+        return offenders.slice(0, 8).map(function(el) {
+          var rect = el.getBoundingClientRect();
+          return (el.id ? "#" + el.id : el.className || el.tagName) + " [" + rect.left.toFixed(1) + ", " + rect.right.toFixed(1) + "]";
+        });
+      })()
+    JS
+    assert_empty overflow, "layout content must fit the viewport: #{overflow.join(', ')}"
   end
 
   def assert_hub_shell_pinned

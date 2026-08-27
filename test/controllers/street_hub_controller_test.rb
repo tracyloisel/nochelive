@@ -410,7 +410,8 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
       assert_select "a[href=?]", street_profile_path, count: 1
       assert_select ".picto-meetinghouse", count: 1
       assert_select ".picto-compass", count: 1
-      assert_select ".street-hub-word-medallion .picto-scripture-book", count: 1
+      assert_select ".street-hub-nav-item[href='/parole'] > .picto-scripture-book", count: 1
+      assert_select ".street-hub-word-medallion", count: 0
       assert_select ".picto-church", count: 1
       assert_select ".picto-person", count: 1
       assert_select ".picto-bell", count: 0

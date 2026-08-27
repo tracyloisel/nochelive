@@ -16871,46 +16871,6 @@ body.is-street-hub:has(.street-world.is-game-hub[data-hub-theme="light"]:not(.is
 .street-world.is-game-hub[data-hub-theme="dark"] .street-hub-nav-item.is-active {
   color: var(--gold-primary);
 }
-.street-hub-nav-item.is-word {
-  color: var(--gold-deep, var(--gold-primary));
-}
-.street-hub-word-medallion {
-  position: absolute;
-  left: 50%;
-  top: -1.35rem;
-  width: 3.2rem;
-  height: 3.2rem;
-  display: grid;
-  place-items: center;
-  transform: translateX(-50%);
-  border-radius: 50%;
-  box-sizing: border-box;
-  background: color-mix(in srgb, var(--surface-primary) 96%, white);
-  color: var(--gold-deep, var(--gold-primary));
-  border: 1px solid color-mix(in srgb, var(--gold-primary) 48%, transparent);
-  box-shadow:
-    0 7px 17px color-mix(in srgb, var(--ink) 17%, transparent),
-    0 0 0 0.22rem color-mix(in srgb, var(--navigation-surface) 88%, transparent),
-    inset 0 1px 0 color-mix(in srgb, white 78%, transparent);
-}
-.street-hub-word-medallion .picto {
-  width: 1.82rem;
-  height: 1.82rem;
-}
-.street-world.is-game-hub[data-hub-theme="dark"] .street-hub-nav-item.is-word {
-  color: var(--gold-primary);
-}
-.street-world.is-game-hub[data-hub-theme="dark"] .street-hub-word-medallion {
-  background:
-    radial-gradient(circle at 38% 28%, color-mix(in srgb, var(--gold-primary) 12%, transparent), transparent 42%),
-    color-mix(in srgb, var(--surface-primary) 92%, transparent);
-  color: var(--gold-primary);
-  border-color: color-mix(in srgb, var(--gold-primary) 66%, transparent);
-  box-shadow:
-    0 10px 24px rgba(0, 0, 0, 0.48),
-    0 0 18px color-mix(in srgb, var(--gold-primary) 18%, transparent),
-    inset 0 1px 0 color-mix(in srgb, var(--gold-highlight) 22%, transparent);
-}
 @media (min-width: 720px) {
   .street-hub-nav-item { font-size: 0.74rem; }
 }
@@ -21691,10 +21651,8 @@ body.is-church-journey .street-world-dock {
   backdrop-filter: blur(22px) saturate(1.1);
 }
 body.is-church-journey .street-hub-nav-item { color: rgba(255,250,240,.78); }
-body.is-church-journey .street-hub-nav-item.is-active,
-body.is-church-journey .street-hub-nav-item.is-word { color: #f1cf70; }
+body.is-church-journey .street-hub-nav-item.is-active { color: #f1cf70; }
 body.is-church-journey .street-hub-nav-item.is-active .picto { filter: drop-shadow(0 0 8px rgba(241,207,112,.55)); }
-body.is-church-journey .street-hub-word-medallion { background: rgba(15,25,45,.86); border-color: rgba(241,207,112,.52); }
 
 /* About journey — the community artwork is the world, never the legacy temple hall. */
 .about-journey {
@@ -22463,5 +22421,214 @@ body {
   body {
     --street-play-col: min(calc(100vw - 3rem), 52rem);
     --street-ceremony-col: min(calc(100vw - 3rem), 52rem);
+  }
+}
+
+/* ============================================================
+   Phone containment contract
+
+   Game chrome may paint outside a card, but layout content must always size
+   from the usable viewport.  In particular, grid items default to min-width:
+   auto; long French names and labels were therefore widening the hub and the
+   duel board behind the clipped viewport on real Android browsers.
+   ============================================================ */
+.street-world,
+.street-world > *,
+.street-hub-feed,
+.street-hub-feed > *,
+.hub-panel-row,
+.hub-panel-row > *,
+.street-duel-board,
+.street-duel-board > *,
+.street-leaderboard-sheet,
+.street-board,
+.street-board > * {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.street-world.is-game-hub .hub-panel-row {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.street-world.is-game-hub .hub-panel-row > .hub-panel,
+.street-world.is-game-hub .hub-challenge-who-copy,
+.street-world.is-game-hub .hub-online-meta {
+  min-width: 0;
+}
+
+.street-world.is-game-hub .hub-challenge-name,
+.street-world.is-game-hub .hub-challenge-sub,
+.street-world.is-game-hub .hub-challenge-foot,
+.street-world.is-game-hub .hub-online-name,
+.street-world.is-game-hub .hub-online-empty {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+.street-duel-hero {
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.street-duel-hero-fighter,
+.street-duel-live-player,
+.street-duel-section,
+.street-stake-rivalry {
+  min-width: 0;
+}
+
+.street-duel-hero-fighter strong,
+.street-duel-live-player strong,
+.street-duel-h2h-person strong {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+.street-duel-active-rail {
+  width: 100%;
+  max-width: 100%;
+  overscroll-behavior-inline: contain;
+}
+
+.street-duel-active-rail > *,
+.street-duel-live-card {
+  max-width: 100%;
+}
+
+.street-duel-result-faces {
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+}
+
+.street-duel-side {
+  min-width: 0;
+  padding-inline: var(--space-2);
+}
+
+.street-duel-side strong,
+.street-duel-side .street-duel-face-name {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  text-align: center;
+}
+
+.street-leaderboard-page .street-liga-podium {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  max-width: 100%;
+}
+
+.street-leaderboard-page .street-liga-podium-slot,
+.street-leaderboard-page .street-liga-player-trigger,
+.street-leaderboard-page .street-board-who,
+.street-leaderboard-page .street-board-name {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.street-leaderboard-page .street-liga-podium-name,
+.street-leaderboard-page .street-board-name {
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 430px) {
+  body.is-duels .street-duel-inbox {
+    padding-inline: var(--space-2);
+  }
+
+  .street-duel-hero {
+    gap: var(--space-2);
+    padding-inline: var(--space-2);
+  }
+
+  .street-duel-hero-avatar {
+    width: clamp(4rem, 20vw, 5rem);
+    height: clamp(4rem, 20vw, 5rem);
+  }
+
+  .street-duel-hero-vs {
+    font-size: clamp(2rem, 9vw, 2.7rem);
+  }
+
+  .street-duel-launch {
+    width: 100%;
+    min-width: 0;
+    padding-inline: var(--space-3);
+    white-space: normal;
+    text-align: center;
+  }
+
+  .street-duel-hero-rule {
+    font-size: var(--type-min);
+    line-height: 1.3;
+  }
+
+  .street-duel-active-rail {
+    grid-auto-columns: minmax(0, 100%);
+  }
+
+  .street-duel-live-card {
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  }
+
+  .street-duel-mini-avatar {
+    width: 2.65rem;
+    height: 2.65rem;
+  }
+
+  .street-duel-live-player b {
+    font-size: 1.45rem;
+  }
+
+  .street-duel-live-player strong {
+    overflow: hidden;
+    font-size: .82rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .street-duel-progress {
+    gap: clamp(.15rem, 1vw, .28rem);
+  }
+
+  .street-duel-progress i {
+    width: clamp(.38rem, 1.8vw, .55rem);
+    height: clamp(.38rem, 1.8vw, .55rem);
+  }
+
+  .street-duel-result-faces {
+    gap: var(--space-1);
+  }
+
+  .street-duel-side {
+    padding-inline: var(--space-1);
+  }
+
+  .street-leaderboard-page .street-liga-podium {
+    gap: var(--space-1);
+    padding-inline: 0;
+  }
+
+  .street-leaderboard-page .street-liga-podium-name {
+    font-size: clamp(.78rem, 3.5vw, 1rem);
+    line-height: 1.05;
+    text-align: center;
+  }
+}
+
+@media (max-width: 360px) {
+  .quiz-hud:not(.is-guest):not(.is-quiz) {
+    grid-template-columns: minmax(5.7rem, 1fr) minmax(2.8rem, .5fr) max-content 1.9rem;
+    padding-inline: .3rem;
+  }
+
+  .quiz-hud:not(.is-guest):not(.is-quiz) .quiz-hud-avatar {
+    width: 2.2rem;
+    height: 2.2rem;
+  }
+
+  .street-world.is-game-hub .hub-panel-row {
+    gap: var(--space-2);
+    margin-inline: var(--space-2);
   }
 }
