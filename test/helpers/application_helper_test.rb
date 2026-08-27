@@ -1,6 +1,15 @@
 require "test_helper"
+require "mini_magick"
 
 class ApplicationHelperTest < ActionView::TestCase
+  test "compact_number abbreviates large community totals" do
+    assert_equal "999", compact_number(999)
+    assert_equal "3.5K", compact_number(3_500)
+    assert_equal "12K", compact_number(12_000)
+    assert_equal "1.3M", compact_number(1_250_000)
+    assert_equal "2B", compact_number(2_000_000_000)
+  end
+
   test "challenge media is empty until files exist" do
     night = create_night
     round = night.round_runs.find_by!(yaml_round_id: "scavenger_harp")
@@ -181,6 +190,7 @@ class ApplicationHelperTest < ActionView::TestCase
     assert_includes picto("fire"), "picto-fire"
     assert_includes picto("crown"), "picto-crown"
     assert_includes picto("scroll"), "picto-scroll"
+    assert_includes picto("scripture-book"), "picto-scripture-book"
     assert_includes picto("arrow"), "picto-arrow"
     assert_includes picto("whatsapp"), "picto-whatsapp"
     assert_includes picto("instagram"), "picto-instagram"
@@ -304,12 +314,41 @@ class ApplicationHelperTest < ActionView::TestCase
   end
 
   test "street_ceremony_asset_src finds temple PNGs" do
+    assert_equal "/media/temple/reward-chest.png", street_ceremony_asset_src("reward-chest")
     assert_equal "/media/temple/ceremony-chest.png", street_ceremony_asset_src("ceremony-chest")
     assert_equal "/media/temple/ceremony-star.png", street_ceremony_asset_src("ceremony-star")
     assert_equal "/media/temple/ceremony-lockup-mark.png", street_ceremony_asset_src("ceremony-lockup-mark")
     assert_equal "/media/temple/ceremony-laurel.png", street_ceremony_asset_src("ceremony-laurel")
     assert_equal "/media/temple/marble-hall-victory.jpg", street_ceremony_asset_src("marble-hall-victory")
+    assert_equal "/media/temple/ceremony-gateway.jpg", street_ceremony_asset_src("ceremony-gateway")
     assert_nil street_ceremony_asset_src("missing-ornament")
+  end
+
+  test "hub reward chest is a genuinely transparent PNG" do
+    image = MiniMagick::Image.open(Rails.public_path.join("media/temple/reward-chest.png"))
+
+    assert_match(/a/, image["%[channels]"])
+    assert_equal "false", image["%[opaque]"].downcase
+    assert_match(/,0\)\z/, image["%[pixel:p{0,0}]"])
+  end
+
+  test "street_clock formats total seconds" do
+    assert_equal "00:00", street_clock(0)
+    assert_equal "04:32", street_clock(272)
+    assert_equal "00:00", street_clock(-3)
+  end
+
+  test "ceremony_board_rows keeps three then you if you sit off the podium" do
+    row = ->(rank, you, context) {
+      Quizzes::Leaderboard::Row.new(rank:, person: people(:pili), score: 80, you:, context:)
+    }
+    board = Quizzes::Leaderboard::Board.new(
+      rows: [ row.call(1, false, nil), row.call(2, false, nil), row.call(3, false, nil), row.call(8, true, :you) ]
+    )
+    names = ceremony_board_rows(board)
+    assert_equal 4, names.size
+    assert names.last.you
+    assert_equal :you, names.last.context
   end
 
   test "presenter next action is a single sequential verb" do
@@ -389,6 +428,18 @@ class ApplicationHelperTest < ActionView::TestCase
     end
   end
 
+  test "street hit shout replaces praise on a streak milestone" do
+    digest = GameSession.digest_token("helper-hit-shout")
+    frame = Quizzes::Draw.call(device_digest: digest)
+    run = frame.run
+    quiet = Struct.new(:shout_key).new(nil)
+    assert_equal street_praise_line(run, frame.question), street_hit_shout(run, frame.question, quiet)
+    assert_equal I18n.t("quiz.streak_two"), street_hit_shout(run, frame.question, Struct.new(:shout_key).new("two"))
+    I18n.with_locale(:fr) do
+      assert_equal I18n.t("quiz.streak_ten"), street_hit_shout(run, frame.question, Struct.new(:shout_key).new("ten"))
+    end
+  end
+
   test "street choices shuffle per run question" do
     digest = GameSession.digest_token("helper-shuffle")
     frame = Quizzes::Draw.call(device_digest: digest)
@@ -405,7 +456,7 @@ class ApplicationHelperTest < ActionView::TestCase
     digest = GameSession.digest_token("helper-street")
     frame = Quizzes::Draw.call(device_digest: digest)
     ask = street_audio_data(frame.run, frame.question)
-    assert_equal "question_change", ask[:stage_sfx_value]
+    assert_equal "celestial_breath", ask[:stage_sfx_value]
     assert_nil ask[:stage_bed_value]
     assert_match(/:ask\z/, ask[:stage_sfx_token_value])
 
@@ -498,5 +549,30 @@ class ApplicationHelperTest < ActionView::TestCase
     assert_equal "Avinguda Alfonso Puchades, 27", ward_street(wards(:demo))
     assert_nil ward_street(wards(:blank))
     assert_equal "Calle del Prado 1", ward_street(Wards::Search::Hit.new(chapel_address: "Calle del Prado 1"))
+  end
+
+  test "hub_live_when uses weekday plus time past 48 hours" do
+    starts = Time.zone.parse("2026-08-29 19:00")
+    live = Hubs::Screen::Live.new(state: :scheduled, starts_at: starts)
+    copy = hub_live_when(live, now: starts - 3.days)
+    assert_includes copy, "19:00"
+    refute_match(/\d{2}:\d{2}:\d{2}/, copy)
+  end
+
+  test "hub_live_when keeps weekday when the clock is also on" do
+    starts = Time.zone.parse("2026-08-27 19:00")
+    live = Hubs::Screen::Live.new(state: :imminent, starts_at: starts)
+    copy = hub_live_when(live, now: starts - 8.hours)
+    assert_includes copy, "19:00"
+  end
+
+  test "hub_live_when speaks 19h in French" do
+    starts = Time.zone.parse("2026-08-29 19:00")
+    live = Hubs::Screen::Live.new(state: :scheduled, starts_at: starts)
+    I18n.with_locale(:fr) do
+      copy = hub_live_when(live, now: starts - 3.days)
+      assert_match(/samedi 19h/i, copy)
+      refute_includes copy, "19:00"
+    end
   end
 end

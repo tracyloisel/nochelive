@@ -1,12 +1,34 @@
 import { Controller } from "@hotwired/stimulus"
+import { haptic } from "haptics"
+
+const ENTER_LOCK_MS = 550
+const TURN_LOCK_MS = 220
+const SCORE_MS = 380
+const FLY_HOLD_MS = 280
+const FLY_MS = 520
+const ANSWER_COMMIT_MS = 140
+const ADVANCE_COMMIT_MS = 160
+
+let overlaySession = false
+
+document.addEventListener("turbo:load", () => {
+  if (!document.getElementById("street_quiz")?.classList.contains("is-overlay")) overlaySession = false
+})
 
 export default class extends Controller {
+  static targets = [ "score", "crown", "gain" ]
   static values = {
     playUrl: String,
     correct: String,
     nextImage: String,
     sfx: String,
-    rewindUrl: String
+    rewindUrl: String,
+    fromScore: Number,
+    toScore: Number,
+    comboGrew: Boolean,
+    comboBroke: Boolean,
+    comboShout: String,
+    comboSfx: String
   }
 
   connect() {
@@ -15,29 +37,42 @@ export default class extends Controller {
     this.prefetch()
     this.holdSheet()
     this.delayStreetSheet()
+    this.enterOverlay()
+    this.payoffScore()
+    this.payoffCombo()
     if (this.street()) window.NocheLiveAudio?.playFrom?.(document)
   }
 
   pick(event) {
     const button = event.target.closest(".choice-btn")
     if (!button) return
-    if (this.element.classList.contains("is-locked")) {
+    if (this.element.classList.contains("is-entering") || this.element.classList.contains("is-turning") || this.element.classList.contains("is-locked")) {
       event.preventDefault()
       event.stopPropagation()
       return
     }
     this.element.classList.add("is-locked")
     button.classList.add("is-picked")
+    haptic("tap")
     this.releaseStreetAsk()
     const key = button.dataset.choiceKey
     const correct = this.correctValue
     if (key && correct) {
       if (key === correct) {
         button.classList.add("is-right")
+        haptic("success")
       } else {
         button.classList.add("is-wrong")
+        haptic("miss")
         this.element.querySelector(`[data-choice-key="${CSS.escape(correct)}"]`)?.classList.add("is-right")
       }
+    }
+    if (this.overlay() && !this.reduced()) {
+      const form = button.closest("form")
+      if (!form) return
+      event.preventDefault()
+      this.element.classList.add("is-committing")
+      window.setTimeout(() => form.requestSubmit(button), ANSWER_COMMIT_MS)
     }
   }
 
@@ -48,7 +83,17 @@ export default class extends Controller {
     event.detail?.formSubmission?.submitter?.classList.add("is-picked")
   }
 
-  next() {
+  next(event) {
+    if (this.overlay()) {
+      if (this.reduced() || this.element.classList.contains("is-advancing")) return
+      const button = event?.currentTarget
+      const form = button?.closest("form")
+      if (!form) return
+      event.preventDefault()
+      this.element.classList.add("is-advancing")
+      window.setTimeout(() => form.requestSubmit(button), ADVANCE_COMMIT_MS)
+      return
+    }
     if (this.street()) return
     this.element.classList.add("is-leaving")
   }
@@ -90,7 +135,7 @@ export default class extends Controller {
         return
       }
       fill.style.width = "0%"
-      const duration = street ? 640 : 300
+      const duration = street ? 520 : 300
       const delay = street ? index * 70 : 0
       fill.style.transition = `width ${duration}ms cubic-bezier(0.22, 1, 0.36, 1) ${delay}ms`
       requestAnimationFrame(() => {
@@ -124,6 +169,10 @@ export default class extends Controller {
     return this.element.id === "street_quiz" || !!this.element.closest("#street_quiz")
   }
 
+  overlay() {
+    return this.street() && this.element.classList.contains("is-overlay")
+  }
+
   releaseStreetAsk() {
     if (!this.street()) return
     window.NocheLiveAudio?.releaseAsk?.()
@@ -138,7 +187,7 @@ export default class extends Controller {
   }
 
   delayStreetSheet() {
-    if (!this.street()) return
+    if (!this.street() || this.overlay()) return
     if (this.element.classList.contains("is-settled")) return
     const sheet = this.element.querySelector(".play-sheet")
     if (!sheet) return
@@ -148,6 +197,126 @@ export default class extends Controller {
       sheet.classList.add("is-arriving")
       window.setTimeout(() => sheet.classList.remove("is-arriving"), 420)
     }, delay)
+  }
+
+  enterOverlay() {
+    if (!this.overlay() || this.element.classList.contains("is-settled")) return
+    if (this.element.classList.contains("is-ceremony")) return
+    if (this.reduced()) {
+      overlaySession = true
+      return
+    }
+    if (overlaySession) {
+      this.element.classList.add("is-turning")
+      window.setTimeout(() => this.element.classList.remove("is-turning"), TURN_LOCK_MS)
+      return
+    }
+    overlaySession = true
+    this.element.classList.add("is-entering")
+    window.setTimeout(() => this.element.classList.remove("is-entering"), ENTER_LOCK_MS)
+  }
+
+  payoffScore() {
+    if (!this.overlay() || !this.hasScoreTarget) return
+    if (this.element.classList.contains("is-ceremony") && !this.ceremonyPayoffArmed) {
+      this.ceremonyPayoffArmed = true
+      if (this.reduced()) {
+        this.payoffScore()
+        return
+      }
+      window.setTimeout(() => this.payoffScore(), 900)
+      return
+    }
+    const from = Number(this.fromScoreValue)
+    const to = Number(this.toScoreValue)
+    if (!Number.isFinite(from) || !Number.isFinite(to) || from === to) {
+      this.scoreTarget.textContent = String(to || from || 0)
+      return
+    }
+    this.scoreTarget.textContent = String(from)
+    if (this.reduced() || !this.hasGainTarget) {
+      this.landScore(from, to)
+      if (this.hasGainTarget) this.gainTarget.classList.add("is-gone")
+      return
+    }
+    window.setTimeout(() => this.flyGain(from, to), FLY_HOLD_MS)
+  }
+
+  flyGain(from, to) {
+    const gain = this.gainTarget
+    const destEl = this.hasCrownTarget ? this.crownTarget : this.scoreTarget
+    const start = gain.getBoundingClientRect()
+    const dest = destEl.getBoundingClientRect()
+    gain.classList.add("is-gone")
+    const flyer = gain.cloneNode(true)
+    flyer.removeAttribute("data-quiz-target")
+    flyer.classList.add("quiz-score-fly")
+    flyer.classList.remove("is-gone")
+    flyer.setAttribute("aria-hidden", "true")
+    this.element.appendChild(flyer)
+    flyer.style.left = `${start.left}px`
+    flyer.style.top = `${start.top}px`
+    void flyer.offsetWidth
+    this.sparkTrail(start, dest)
+    requestAnimationFrame(() => {
+      const dx = dest.left + dest.width / 2 - (start.left + start.width / 2)
+      const dy = dest.top + dest.height / 2 - (start.top + start.height / 2)
+      flyer.style.transform = `translate(${dx}px, ${dy}px) scale(0.55)`
+      flyer.style.opacity = "0.2"
+    })
+    window.setTimeout(() => {
+      flyer.remove()
+      this.landScore(from, to)
+    }, FLY_MS)
+  }
+
+  sparkTrail(start, dest) {
+    const midX = (start.left + dest.left) / 2
+    const midY = Math.min(start.top, dest.top) - 36
+    ;[ 0.2, 0.4, 0.6, 0.8 ].forEach((t, index) => {
+      const spark = document.createElement("span")
+      spark.className = "quiz-score-spark"
+      spark.setAttribute("aria-hidden", "true")
+      const x = (1 - t) * (1 - t) * start.left + 2 * (1 - t) * t * midX + t * t * dest.left
+      const y = (1 - t) * (1 - t) * start.top + 2 * (1 - t) * t * midY + t * t * dest.top
+      spark.style.left = `${x}px`
+      spark.style.top = `${y}px`
+      spark.style.animationDelay = `${index * 45}ms`
+      this.element.appendChild(spark)
+      window.setTimeout(() => spark.remove(), FLY_MS + 80)
+    })
+  }
+
+  landScore(from, to) {
+    this.hasCrownTarget && this.crownTarget.classList.add("is-land")
+    this.tweenScore(from, to)
+  }
+
+  tweenScore(from, to) {
+    if (!this.hasScoreTarget) return
+    if (this.reduced()) {
+      this.scoreTarget.textContent = String(to)
+      return
+    }
+    const start = performance.now()
+    const step = (now) => {
+      const t = Math.min(1, (now - start) / SCORE_MS)
+      const eased = 1 - Math.pow(1 - t, 3)
+      this.scoreTarget.textContent = String(Math.round(from + (to - from) * eased))
+      if (t < 1) requestAnimationFrame(step)
+    }
+    requestAnimationFrame(step)
+  }
+
+  payoffCombo() {
+    if (!this.overlay() || this.element.classList.contains("is-ceremony")) return
+    if (this.comboGrewValue && this.hasComboSfxValue && this.comboSfxValue) {
+      window.setTimeout(() => window.NocheLiveAudio?.play?.(this.comboSfxValue), 180)
+    }
+    const shout = this.hasComboShoutValue ? this.comboShoutValue : ""
+    if (shout === "ten") haptic("legend")
+    else if (shout === "five" || shout === "three") haptic("blaze")
+    else if (shout) haptic("reward")
   }
 
   reduced() {

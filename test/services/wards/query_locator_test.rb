@@ -12,9 +12,15 @@ class Wards::QueryLocatorTest < ActiveSupport::TestCase
     assert_equal "Benidorm", attrs[:city]
     assert_match(/Alfonso Puchades/, attrs[:chapel_address])
     assert_equal "Elche Spain Stake", attrs[:stake_name]
+    assert_equal "527556", attrs[:stake_unit_id]
     assert_in_delta 38.54202, attrs[:latitude], 0.0001
     assert_in_delta(-0.12452, attrs[:longitude], 0.0001)
     assert_nil attrs[:contact]
+    refute attrs[:locator_payload].key?("contact")
+    assert_equal "527556", attrs[:locator_payload].dig("parent", "id")
+    assert_equal "INTERNAL", attrs[:locator_payload]["provider"]
+    assert_equal "es", attrs[:locator_payload].dig("language", "code")
+    assert_equal "+34 966 00 00 00", attrs[:locator_payload].dig("phones", 0, "number")
   end
 
   test "collapses extra spaces in congregation names" do
@@ -36,6 +42,7 @@ class Wards::QueryLocatorTest < ActiveSupport::TestCase
     assert_empty Wards::QueryLocator.call(query: "Madrid")
     assert_empty Wards::QueryLocator.near(latitude: 40.4, longitude: -3.7)
     assert_nil Wards::QueryLocator.details(church_unit_id: "333239")
+    assert_empty Wards::QueryLocator.details_for(church_unit_ids: [ "333239" ])
   end
 
   test "walks Church text search through a fake transport" do
@@ -60,5 +67,23 @@ class Wards::QueryLocatorTest < ActiveSupport::TestCase
     assert_equal 1, rows.size
     assert_equal "333239", rows.first[:church_unit_id]
     assert_equal "Benidorm Branch", rows.first[:name]
+    assert_equal "527556", rows.first[:stake_unit_id]
+  end
+
+  test "batch-reads Church unit details through a fake transport" do
+    madrid = file_fixture("maps_ward_madrid.json").read
+    benidorm = file_fixture("maps_ward_benidorm.json").read
+    Wards::QueryLocator.transport = lambda do |_url, params|
+      ids = params[:ids].to_s
+      rows = []
+      rows.concat(JSON.parse(madrid)) if ids.include?("999001")
+      rows.concat(JSON.parse(benidorm)) if ids.include?("333239")
+      rows.to_json
+    end
+
+    rows = Wards::QueryLocator.details_for(church_unit_ids: [ "WARD:999001", "333239" ])
+    assert_equal [ "999001", "333239" ], rows.map { |row| row[:church_unit_id] }
+    assert_equal "520001", rows.first[:stake_unit_id]
+    assert_equal "527556", rows.last[:stake_unit_id]
   end
 end

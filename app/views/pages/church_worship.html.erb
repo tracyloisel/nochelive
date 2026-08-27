@@ -1,16 +1,62 @@
 <% content_for :title, t("church.worship_title") %>
-<% content_for :body_class, "is-kid is-paper-hall" %>
+<% content_for :body_class, "is-kid is-church-journey" %>
 <%= chrome_menu { site_menu } %>
-<section class="home-paper">
-  <%= render "pages/head", kicker: t("church.kicker") %>
-  <%= render layout: "pages/story", locals: { still: "worship", title: t("church.worship_title") } do %>
-    <p class="lede"><%= t("church.worship_lede") %></p>
-    <p class="lede"><%= t("church.worship_first") %></p>
-  <% end %>
-  <div class="paper-foot">
-    <%= link_to church_maps_url, class: "btn btn-gold", target: "_blank", rel: "noreferrer" do %>
-      <%= picto("pin") %><%= t("church.worship_cta") %>
-    <% end %>
-    <%= render "pages/other_doors", except: :worship %>
-  </div>
+<section class="church-worship church-scene--worship" style="--church-scene: url('/media/church/journey/worship-v2.png')">
+  <header class="church-worship-hero">
+    <div class="church-scene-head">
+      <%= link_to church_path, class: "church-back", aria: { label: t("church.back") } do %><%= picto("arrow") %><% end %>
+      <span><%= t("church.kicker") %></span><span class="church-chapter">4 / 4</span>
+    </div>
+    <div class="church-worship-intro">
+      <p class="church-scene-kicker"><%= t("church.worship_hint") %></p>
+      <h1><%= t("church.worship_title") %></h1>
+      <p class="lede"><%= t("church.worship_lede") %></p>
+    </div>
+  </header>
+
+  <main class="worship-story">
+    <section class="worship-overview" aria-labelledby="worship-overview-title">
+      <p class="church-scene-kicker"><%= t("church.worship.overview_kicker") %></p>
+      <h2 id="worship-overview-title"><%= t("church.worship.overview_title") %></h2>
+      <p class="lede"><%= t("church.worship.overview_body") %></p>
+      <ol class="worship-schedule">
+        <% [["temple", "sacrament"], ["people", "classes"]].each_with_index do |(icon, key), index| %>
+          <li>
+            <span class="worship-time" aria-hidden="true"><%= format("%02d", index + 1) %></span>
+            <span class="worship-schedule-icon" aria-hidden="true"><%= picto(icon) %></span>
+            <div><h3><%= t("church.worship.schedule.#{key}_title") %></h3><p><%= t("church.worship.schedule.#{key}_body") %></p></div>
+          </li>
+        <% end %>
+      </ol>
+    </section>
+
+    <section class="worship-sacrament" aria-labelledby="worship-sacrament-title">
+      <span class="worship-sacrament-emblem" aria-hidden="true"><%= picto("star8") %></span>
+      <p class="church-scene-kicker"><%= t("church.worship.center_kicker") %></p>
+      <h2 id="worship-sacrament-title"><%= t("church.worship.center_title") %></h2>
+      <p class="lede"><%= t("church.worship.center_body") %></p>
+      <div class="worship-symbols" aria-hidden="true"><span><%= picto("book") %></span><i></i><span><%= picto("sparkle") %></span></div>
+    </section>
+
+    <section class="worship-first-visit" aria-labelledby="worship-first-title">
+      <div class="worship-first-heading">
+        <p class="church-scene-kicker"><%= t("church.worship.first_kicker") %></p>
+        <h2 id="worship-first-title"><%= t("church.worship.first_title") %></h2>
+        <p class="lede"><%= t("church.worship.first_body") %></p>
+      </div>
+      <div class="worship-reassurances">
+        <% [["person", "wear"], ["people", "alone"], ["hands", "give"]].each do |icon, key| %>
+          <article><span aria-hidden="true"><%= picto(icon) %></span><h3><%= t("church.worship.reassurances.#{key}_title") %></h3><p><%= t("church.worship.reassurances.#{key}_body") %></p></article>
+        <% end %>
+      </div>
+      <div class="worship-actions">
+        <%= link_to church_maps_url, class: "btn btn-gold worship-map-cta", target: "_blank", rel: "noreferrer" do %><%= picto("pin") %><span><%= t("church.worship_cta") %></span><%= picto("arrow") %><% end %>
+        <%= link_to church_meet_path, class: "worship-meet-link" do %><%= picto("people") %><span><%= t("church.meet_title") %></span><% end %>
+      </div>
+      <%= link_to t("church.worship.source"), church_worship_url, class: "quiet-link worship-source", target: "_blank", rel: "noreferrer" %>
+    </section>
+
+    <%= render "pages/church_chapter_paths", current: :worship %>
+  </main>
+  <%= render Navigation::DockComponent.new(active: :church) %>
 </section>

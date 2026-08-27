@@ -6,26 +6,24 @@ class StreetPlaysControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to root_path
   end
 
-  test "jugar shows reel with level rail" do
+  test "jugar shows overlay hud" do
     sign_in_congregation
     post street_profile_path, params: { guest: 1 }
     follow_redirect!
     post street_pack_start_path("coronas")
     follow_redirect!
-    assert_select "#street_quiz.play-reel.is-street"
-    assert_select ".street-quiz-head"
-    assert_select "a.street-quiz-lockup[href=?][aria-label=?]", root_path, I18n.t("street.lockup_hub") do
-      assert_select ".street-quiz-lockup-name", text: "Noche Live"
-      assert_select ".street-quiz-lockup-tag", text: "LIVE"
-    end
+    assert_select "#street_quiz.play-reel.is-street.is-overlay"
+    assert_select ".quiz-hud"
+    assert_select ".quiz-hud-streak"
+    assert_select ".quiz-hud-score .picto-crown"
+    assert_select ".quiz-hud-rail"
+    assert_select ".street-quiz-head", count: 0
+    assert_select "a.street-quiz-lockup", count: 0
     assert_select ".street-quiz-apex"
-    assert_select ".street-quiz-card"
+    assert_select ".quiz-sheet"
     assert_select ".street-score"
-    assert_select ".street-shot-rival"
-    assert_select ".street-shot-rival-name", text: /Carmen/
-    assert_select ".street-shot-rival-more", text: I18n.t("street.shot_rival_more", count: 1)
-    assert_select ".street-shot-rival.is-live .street-live-dot", count: 0
-    assert_select ".street-level-rail"
+    assert_select ".street-shot-rival", count: 0
+    assert_select ".street-level-rail", count: 0
     assert_select ".street-back-map", count: 0
     assert_select ".street-map", count: 0
     assert_select "a.home-menu-row[href=?]", street_map_path, text: I18n.t("street.ceremony_back_map")
@@ -36,7 +34,7 @@ class StreetPlaysControllerTest < ActionDispatch::IntegrationTest
     assert_select ".chrome-tools", count: 0
   end
 
-  test "jugar rival chip shows a live dot when Carmen is online" do
+  test "jugar ask leaves the timer band free of a chase chip" do
     freeze_time
     sign_in_congregation
     post street_profile_path, params: { guest: 1 }
@@ -44,10 +42,11 @@ class StreetPlaysControllerTest < ActionDispatch::IntegrationTest
     post street_pack_start_path("coronas")
     follow_redirect!
     PersonDevice.where(person: people(:carmen_garcia)).update_all(last_seen_at: Time.current)
+    QuizRun.order(:id).last.update!(position: 4, ends_at: 20.seconds.from_now)
 
     get jugar_path
-    assert_select ".street-shot-rival.is-live .street-live-dot"
-    assert_select ".street-shot-rival-more", text: I18n.t("street.shot_rival_more", count: 1)
+    assert_select ".play-timer"
+    assert_select ".street-shot-rival", count: 0
   end
 
   test "short timed ask does not start warn or hot" do

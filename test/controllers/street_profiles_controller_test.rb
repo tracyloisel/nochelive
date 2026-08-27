@@ -68,10 +68,44 @@ class StreetProfilesControllerTest < ActionDispatch::IntegrationTest
     }
     assert_redirected_to root_path
     follow_redirect!
-    assert_select ".street-card-name", text: "Nuevo"
+    assert_select ".quiz-hud-name", text: "Nuevo"
     assert_select ".toast-slot .banner[data-controller=banner]",
           text: I18n.t("flashes.street_signed_in", name: "Nuevo")
     assert_select ".banner-mark .picto-star8"
+  end
+
+  test "create assigns an avatar when the quick form does not choose one" do
+    assert_difference("Person.count", 1) do
+      post street_profile_path, params: { name: "Avatar auto" }
+    end
+
+    assert_includes Player::AVATARS, Person.order(:id).last.avatar_key
+  end
+
+  test "signed-in player can change name and avatar from the profile" do
+    pili = people(:pili)
+    post street_profile_path, params: { person_id: pili.id, favorite_year: pili.favorite_year }
+    follow_redirect!
+
+    get street_profile_path(edit: 1)
+    assert_response :success
+    assert_select "form.profile-edit-form[action=?]", street_profile_path
+    assert_select "input[name=name][value=?]", pili.given_name
+    assert_select "input[name=avatar_key]", count: Player::AVATARS.size
+
+    patch street_profile_path, params: { name: "Pilar", avatar_key: "colibri" }
+    assert_redirected_to street_profile_path
+    assert_equal "Pilar", pili.reload.given_name
+    assert_equal "colibri", pili.avatar_key
+  end
+
+  test "profile update only works for a signed-in device profile" do
+    pili = people(:pili)
+
+    patch street_profile_path, params: { name: "Intruso", avatar_key: "gato" }
+
+    assert_redirected_to street_profile_path
+    assert_not_equal "Intruso", pili.reload.given_name
   end
 
   test "guest clears the street profile and closes the gate" do
@@ -81,12 +115,13 @@ class StreetProfilesControllerTest < ActionDispatch::IntegrationTest
       favorite_year: 2010
     }
     follow_redirect!
-    assert_select ".street-card-name", text: "Nuevo"
+    assert_select ".quiz-hud-name", text: "Nuevo"
 
     post street_profile_path, params: { guest: 1 }
     assert_redirected_to root_path
     follow_redirect!
-    assert_select ".street-card-name", text: I18n.t("street.pick_profile")
+    assert_select ".quiz-hud.is-guest"
+    assert_select ".quiz-hud-name", text: I18n.t("hub.guest_invite")
     assert_select "#profile_gate", count: 0
     assert_select "#street_world"
   end
@@ -100,7 +135,7 @@ class StreetProfilesControllerTest < ActionDispatch::IntegrationTest
     }
     assert_redirected_to root_path
     follow_redirect!
-    assert_select ".street-card-name", text: pili.given_name
+    assert_select ".quiz-hud-name", text: pili.given_name
     assert_select "#profile_gate", count: 0
   end
 

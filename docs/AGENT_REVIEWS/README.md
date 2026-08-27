@@ -1,30 +1,45 @@
-# Night director reviews
+# Conseil Noche reviews
 
 This folder is **live**. It is not an archive of fake Cursor personas.
 
-The shipping gate is the Cursor skill [noche-night](../../.cursor/skills/noche-night/SKILL.md) (always-on rule: `night-soul`). These markdown files are the **written verdict** after a slice so the next agent can see what already passed.
+The shipping charter is [noche-conseil](../../.cursor/skills/noche-conseil/SKILL.md) (**PRIORITY** over conflicting UI/night sentences). Always-on: `conseil-soul`. Agents, in order:
 
-Copy has its own council seat: [noche-i18n](../../.cursor/skills/noche-i18n/SKILL.md) (`i18n-soul`). A string is unfinished until it is **valid and validated** in **español**, **brésilien** (`pt-BR`), **English**, and **français**.
+1. Game Experience — [noche-night](../../.cursor/skills/noche-night/SKILL.md) (`night-soul`)
+2. UI Design — [noche-ui](../../.cursor/skills/noche-ui/SKILL.md) (`ui-soul`)
+3. Art Direction — [noche-art](../../.cursor/skills/noche-art/SKILL.md)
+4. Hub Theme Engine — [noche-hub-theme](../../.cursor/skills/noche-hub-theme/SKILL.md) (`hub-theme`, when `/` atmosphere / tokens / artwork manifests move)
+
+Then score ten dimensions /10. **Any score < 8 is rework.** Do not defend the shipped webapp. Build the game. Never a user dark-mode toggle. Never a duplicated Home.
+
+Copy has its own seat: [noche-i18n](../../.cursor/skills/noche-i18n/SKILL.md) (`i18n-soul`). A string is unfinished until it is **valid and validated** in **español**, **brésilien** (`pt-BR`), **English**, and **français**. Heard: [noche-sfx](../../.cursor/skills/noche-sfx/SKILL.md).
 
 ## How to review
 
-1. Apply the skill **in the change** (YAML, remote, finale, watch, presenter). VETO there, not in a leftover doc.
+1. Apply the charter **in the change**. VETO there, not in a leftover doc. Feeling first: if the player only “accesses a feature,” stop.
 2. Copy [TEMPLATE.md](TEMPLATE.md) to `NNN-short-slug.md` (next integer after the last file).
-3. Fill **Four seats**, **Tension**, **Finale**, verdict. If copy moved, fill **Languages**. Optional `## Evidence` (sound, reliability, UI) is extra, not a new agent.
+3. Fill **Feeling**, **1 Experience → 2 UI → 3 Art**, **Theme engine** if `/` atmosphere moved, **Four seats** (or street seat), **scores**, verdict. If copy moved, fill **Languages**.
 4. Update `docs/GAME_QUALITY.md` only if a category actually moved.
 
-Do not invent a new “Gameplay Designer” agent. Do not rubber-stamp a slice by appending PASS under an old hat.
+Do not rubber-stamp a slice by appending PASS under an old hat.
 
-## What every file must answer
+## Absolute question
 
-> What does the presentador, the equipo en sala, the jugador en casa, and the espectador **do** — and can the last round still steal the crown?
+> Qu'est-ce que le joueur doit ressentir ici ?
+
+Curiosity, tension, pride, surprise, competition, joy, wonder, accomplishment, belonging — not “they can use the feature.”
+
+## What every live-night file must answer
+
+> What does the host, the chapel (phone = controller), the remote player, and the TV **do** — and can the last round still steal the crown?
 
 | Seat | Must have a verb |
 |---|---|
-| Presentador | One obvious gold next action |
-| Equipo en sala | Body or voice in the chapel |
-| Jugador en casa | Remote A or B, never “OK when the room is done” |
-| Espectador | Opt-in *Solo ver* on the TV, not a dumped casa player |
+| Host | One obvious gold next; knows what players see |
+| Chapel | Body or voice; phone is a controller |
+| Remote | A or B, *plays WITH them*, never “OK when the room is done” |
+| TV / Twitch | Opt-in spectacle. The phone controls; the TV tells |
+
+Street hub must answer: who am I, where am I, what now, what is happening around me.
 
 ## Index
 
@@ -84,5 +99,28 @@ Do not invent a new “Gameplay Designer” agent. Do not rubber-stamp a slice b
 | [055](055-street-hub-solid-header.md) | Hub header: solid ivory section above the feed |
 | [056](056-street-jugar-settled-rects.md) | Jugar settled: ivory rounded-rects, gold key, no ink poll fill |
 | [057](057-street-hub-pulse.md) | Hub dock: live house pulse instead of Continuer |
+| [058](058-street-rama-liga.md) | Rama card: marble liga tile → this chapel’s `/ramas/:code/liga` |
+| [059](059-hub-week-theme.md) | Game hub `/`: Screen + Backdrop, Light/Dark from artwork, dock, honest data |
+| [060](060-street-jugar-overlay.md) | Street `/jugar`: overlay HUD + still + glass sheet (mockup Dark), métier intact |
+| [061](061-jugar-hud-streak.md) | Street `/jugar` HUD: crown + real combo + score fly, points not multiplied |
+| [062](062-jugar-streak-shouts.md) | Street `/jugar`: streak shouts on the still (2 / 3 / 5 / 10), chip gone |
+| [063](063-hud-capsule.md) | One quiz-anatomy HUD capsule (ViewComponent) on hub, jugar, and street/paper chrome; guest creates a ficha in the rama |
+| [063](063-jugar-question-turn.md) | Street `/jugar`: Suivant still crossfade, HUD stays, no duplicate VT |
+| [064](064-hub-hero-cinematic.md) | Hub `/`: continue card is cinematic overlay (mockup Dark/Light), not a stacked strip |
+| [065](065-jugar-correct-bar.md) | Street `/jugar`: settled correct bar is gold wash + olive tick, not mint poll |
+| [066](066-street-ceremony-final-score.md) | Street `/jugar` pack-complete: overlay HUD + gateway medallion, 3-act ceremony |
+| [067](067-street-ceremony-think-time.md) | Street ceremony clock: sum of per-question think time, not pack wall clock |
+| [068](068-jugar-no-chase-chip.md) | Street `/jugar`: ask has no Carmen chase chip; timer owns the still |
+| [069](069-hub-live-card.md) | Hub `/`: next Noche Live card is a chapel ticket (LIVE, weekday, digit boxes, program) |
+| [070](070-ceremony-hud-air.md) | Street ceremony: shout breathes under the HUD |
+| [071](071-hub-reward-chest.md) | Hub `/`: Continuer reward is an ivory 3D-chest prize capsule |
+| [071](071-hub-live-dark.md) | Hub `/`: next Noche Live card Dark twin from the still (not a forced ivory ticket) |
+| [071](071-ceremony-breakpoints.md) | Street ceremony: HUD + stack pin to play column at 720 / 1024 / 1440 |
+| [072](072-hub-challenge-tile.md) | Hub `/`: Défi en cours tile — VS capsule (waiting) and live score bar (scored), Light and Dark |
+| [073](073-hub-community-tile.md) | Hub `/`: Notre communauté tile — 3 cols, gold/ink icons, live Pulse, two-line labels |
+| [075](075-hub-challenge-tile-finish.md) | Hub `/`: Défi tile finish — active seed, large VS arena, centered honest score bar |
+| [074](074-hub-reward-chest-finish.md) | Hub `/`: reward chest completed with transparent 3D asset and honest live +N |
+| [076](076-liga-defis-celestial-court.md) | Liga + Défis: one celestial court, same-stake rivalry, isolated live async matches |
+| [077](077-jugar-responsive-board.md) | Street `/jugar`: exact viewport matrix; compact portrait glass + cinematic landscape answer hand |
 
-Older files keep `## Evidence` blocks with the hat name from that slice. That is history, not a Cursor persona to revive. The four-seat table at the top is the night-director record.
+Older files keep `## Evidence` blocks with the hat name from that slice. That is history, not a Cursor persona to revive. From this charter on, the three-agent table and the /10 scores are the Conseil Noche record.

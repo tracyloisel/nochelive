@@ -22,8 +22,9 @@ export default class extends Controller {
     this.unlock()
   }
 
-  prepare() {
+  prepare(event) {
     this.dismissed = false
+    this.pendingReadingLink = event?.currentTarget?.closest("[data-scripture-reading-link]")
     this.lock()
     if (this.hasLoadingTarget) this.loadingTarget.hidden = false
   }
@@ -48,7 +49,10 @@ export default class extends Controller {
       this.unlock()
       return
     }
-    if (this.open()) this.afterOpen()
+    if (this.open()) {
+      this.afterOpen()
+      this.markPendingReadingOpened()
+    }
     else this.unlock()
   }
 
@@ -72,6 +76,25 @@ export default class extends Controller {
     if (focus) {
       focus.scrollIntoView({ block: "center", behavior: this.reduced() ? "auto" : "smooth" })
     }
+  }
+
+  markPendingReadingOpened() {
+    const link = this.pendingReadingLink
+    this.pendingReadingLink = null
+    if (!link || link.classList.contains("is-opened")) return
+
+    link.classList.add("is-opened")
+    const state = link.querySelector(".study-reading-state")
+    if (state) state.textContent = `✓ ${link.dataset.scriptureOpenedLabel}`
+
+    const progress = document.querySelector("[data-scripture-progress]")
+    if (!progress) return
+    const opened = Number(progress.dataset.openedCount || 0) + 1
+    const total = Number(progress.dataset.totalCount || 0)
+    progress.dataset.openedCount = opened
+    progress.textContent = progress.dataset.labelTemplate
+      .replace("__OPENED__", opened)
+      .replace("__TOTAL__", total)
   }
 
   open() {

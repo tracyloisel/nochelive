@@ -1,0 +1,91 @@
+<% quiz = @run.study_quiz_version %>
+<% content_for :title, t("study.title") %>
+<% content_for :body_class, "is-study-run" %>
+<% revealing = @answer && params[:reveal].to_s == @answer.id.to_s %>
+<main id="study_run"
+      class="study-play<%= " is-complete" if @run.completed? %><%= " is-reveal is-reveal-correct" if revealing && @answer.correct? %><%= " is-reveal is-reveal-wrong" if revealing && !@answer.correct? %>"
+      data-controller="study-run"
+      data-study-run-reveal-value="<%= revealing %>"
+      data-study-run-correct-value="<%= revealing && @answer.correct? %>"
+      data-action="turbo:submit-start->study-run#submitStart"
+      style="--study-art:url('<%= @run.completed? ? quiz.content.fetch("ceremony_artwork") : quiz.content.fetch("artwork") %>')">
+  <%= chrome_menu(hud: true) { site_menu } %>
+  <% if @run.completed? %>
+    <section class="study-ceremony">
+      <header class="study-ceremony-hero">
+        <p class="study-kicker"><%= t("study.completed_kicker") %></p>
+        <h1><%= t("study.completed_title") %></h1>
+        <div class="study-medallion" aria-label="<%= t("study.your_journey") %> : <%= @run.score %>/10">
+          <img src="/media/study/ceremony-medallion-v2.png" alt="" aria-hidden="true">
+          <span class="study-medallion-copy" aria-hidden="true">
+            <span><%= t("study.your_journey") %></span>
+            <strong class="study-medallion-score"><b><%= @run.score %></b><i>/</i><b>10</b></strong>
+          </span>
+        </div>
+      </header>
+      <blockquote><%= quiz.content.dig("light", I18n.locale.to_s) || quiz.content.dig("light", "fr") %></blockquote>
+      <%= link_to t("study.view_annual_program"), study_program_path, class: "btn btn-gold" %>
+      <section class="study-validated-program" aria-labelledby="study-validated-program-title">
+        <p class="study-kicker"><%= t("study.validated_program_kicker") %></p>
+        <h2 id="study-validated-program-title"><%= @run.study_unit.study_program.title %></h2>
+        <p class="study-validated-week"><%= @run.study_unit.display_title %></p>
+        <div class="study-annual-progress" aria-label="<%= t("study.annual_progress", completed: @completed_week_count, total: @program_week_count) %>">
+          <span><i style="width:<%= @program_week_count.positive? ? (@completed_week_count.fdiv(@program_week_count) * 100).clamp(0, 100) : 0 %>%"></i></span>
+          <strong><%= t("study.annual_progress", completed: @completed_week_count, total: @program_week_count) %></strong>
+        </div>
+      </section>
+      <section class="study-finishers" aria-labelledby="study-finishers-title">
+        <p class="study-kicker"><%= t("study.fellow_finishers_kicker") %></p>
+        <h2 id="study-finishers-title"><%= t("study.fellow_finishers_title", count: @fellow_finishers_total) %></h2>
+        <% if @fellow_finishers.any? %>
+          <%= render "finisher_group", people: @stake_finishers, title: t("study.same_stake_finishers", stake: @current_stake_name, count: @same_stake_finishers_total) if @stake_finishers.any? %>
+          <%= render "finisher_group", people: @other_finishers, title: (@current_stake_name ? t("study.other_finishers") : t("study.finishers_list")) if @other_finishers.any? %>
+          <% if @finishers_pages > 1 %>
+            <nav class="study-finishers-pagination" aria-label="<%= t("study.finishers_pagination") %>">
+              <% if @finishers_page > 1 %><%= link_to t("study.previous_finishers"), study_run_path(@run, finishers_page: @finishers_page - 1, anchor: "study-finishers-title"), class: "btn btn-ghost" %><% end %>
+              <span><%= t("study.finishers_page", page: @finishers_page, pages: @finishers_pages) %></span>
+              <% if @more_finishers %><%= link_to t("study.load_more_finishers"), study_run_path(@run, finishers_page: @finishers_page + 1, anchor: "study-finishers-title"), class: "btn btn-ghost study-finishers-more" %><% end %>
+            </nav>
+          <% end %>
+        <% else %>
+          <p class="study-finishers-empty"><%= t("study.fellow_finishers_empty") %></p>
+        <% end %>
+      </section>
+    </section>
+  <% else %>
+    <% current_reading = quiz.reading_for(@question) %>
+    <header class="study-play-head">
+      <span><%= @question.fetch("scripture_ref") %></span>
+      <div><% 10.times do |index| %><i class="<%= "is-done" if index < @run.study_answers.size %><%= " is-new" if revealing && index == @run.study_answers.size - 1 %>"></i><% end %></div>
+      <b><%= @run.position %>/10</b>
+      <span class="study-play-score" aria-label="<%= t("study.your_journey") %> : <%= @run.score %>/10"><em aria-hidden="true">✦</em><strong><%= @run.score %></strong></span>
+      <% if revealing && @answer.correct? %><span class="study-score-gain" aria-hidden="true">+1</span><% end %>
+    </header>
+    <section class="study-question-sheet">
+      <p class="study-kicker"><%= @answer ? t("study.light_found") : t("study.question_kicker") %></p>
+      <h1><%= @question.fetch("question") %></h1>
+      <% if current_reading %>
+        <%= link_to scripture_path(current_reading["study"], cite: @question.fetch("scripture_ref"), study_unit_id: @run.study_unit.id), class: "study-question-reading",
+              data: { turbo_frame: "scripture_reader", action: "click->scripture#prepare" } do %>
+          <%= picto("book") %><span><%= t("study.read_reference", reference: @question.fetch("scripture_ref")) %></span><b>›</b>
+        <% end %>
+      <% end %>
+      <div class="study-choices">
+        <% @question.fetch("choices").each do |key, label| %>
+          <% state = if @answer then key == @question.fetch("correct_choice") ? " is-correct" : (key == @answer.choice_key ? " is-wrong" : " is-muted") else "" end %>
+          <% state += " is-picked" if revealing && key == @answer.choice_key %>
+          <% if @answer %>
+            <div class="study-choice<%= state %>"><b><%= key == @question.fetch("correct_choice") ? "✓" : key.upcase %></b><span><%= label %></span></div>
+          <% else %>
+            <%= button_to study_run_answers_path(@run), params: { choice: key }, class: "study-choice" do %><b><%= key.upcase %></b><span><%= label %></span><% end %>
+          <% end %>
+        <% end %>
+      </div>
+      <% if @answer %>
+        <div class="study-explanation"><strong><%= @question.fetch("scripture_ref") %></strong><p><%= @question.fetch("explanation") %></p></div>
+        <%= button_to @run.position == 10 ? t("study.finish") : t("study.next"), study_run_advance_path(@run), class: "btn btn-gold" %>
+      <% end %>
+    </section>
+  <% end %>
+  <%= render Navigation::DockComponent.new(active: :word) %>
+</main>

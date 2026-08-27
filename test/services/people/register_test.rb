@@ -1,6 +1,16 @@
 require "test_helper"
 
 class People::RegisterTest < ActiveSupport::TestCase
+  test "assigns an avatar when none is chosen" do
+    person = People::Register.call(
+      ward: wards(:demo),
+      given_name: "Sorpresa",
+      device_token: "automatic-avatar-device"
+    )
+
+    assert_includes Player::AVATARS, person.avatar_key
+  end
+
   setup { @ward = wards(:demo) }
 
   test "creates a ficha and attaches the device" do

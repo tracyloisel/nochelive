@@ -26,10 +26,7 @@ module Quizzes
 
         nxt = locked.position + 1
         question = locked.pack.question_at(nxt)
-        locked.update!(
-          position: nxt,
-          ends_at: question.timed? ? question.duration.seconds.from_now : nil
-        )
+        locked.update!(position: nxt, **AskClock.opening_attrs(question))
         Draw.frame(locked.reload)
       end
     end

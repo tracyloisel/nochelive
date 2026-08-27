@@ -7,6 +7,6 @@
   <button type="submit" class="btn btn-gold"><%= picto("check") %><%= t("join.yes_name", name: person.given_name) %></button>
 <% end %>
 
-<%= link_to street_profile_path(fresh: 1), class: "quiet-link" do %>
+<%= link_to street_profile_path(new_profile: 1), class: "quiet-link" do %>
   <%= t("join.not_me") %>
 <% end %>

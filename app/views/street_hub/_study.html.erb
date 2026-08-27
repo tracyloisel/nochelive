@@ -1,0 +1,27 @@
+<% if week&.published_quiz %>
+  <% quiz = week.published_quiz %>
+  <% runs = StudyRun.joins(:study_quiz_version).where(
+       study_quiz_versions: { study_unit_id: week.id },
+       device_digest: street_device_digest,
+       person_id: current_street_person&.id
+     ) %>
+  <% run = runs.completed.order(completed_at: :desc).first || runs.open.order(updated_at: :desc).first %>
+  <% progress = run ? run.study_answers.count : 0 %>
+  <article class="hub-study" style="--study-art: url('<%= quiz.content.fetch("artwork") %>')">
+    <div class="hub-study-copy">
+      <p class="hub-kicker"><%= t("study.home_kicker") %></p>
+      <h2><%= t("study.psalms_theme") %></h2>
+      <p class="hub-study-refs"><%= week.scripture_refs.first %></p>
+      <div class="hub-study-progress" aria-label="<%= t("study.progress", n: progress, total: 10) %>">
+        <span><i style="width:<%= progress * 10 %>%"></i></span>
+        <strong><%= progress %>/10</strong>
+      </div>
+      <p class="hub-study-community"><%= t("study.people_advancing", count: StudyRun.joins(study_quiz_version: :study_unit).where(study_units: { id: week.id }).distinct.count(:person_id)) %></p>
+    </div>
+    <% if run %>
+      <%= link_to t("study.continue"), study_run_path(run), class: "btn btn-navy hub-study-action" %>
+    <% else %>
+      <%= link_to t("study.discover"), study_unit_path(week), class: "btn btn-navy hub-study-action" %>
+    <% end %>
+  </article>
+<% end %>

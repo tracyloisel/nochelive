@@ -19,6 +19,6 @@
   <% end %>
 </ul>
 
-<%= link_to street_profile_path(fresh: 1, name: @given_name), class: "btn btn-ghost" do %>
+<%= link_to street_profile_path(new_profile: 1, name: @given_name), class: "btn btn-ghost" do %>
   <%= picto("plus") %><%= t("join.new_person") %>
 <% end %>

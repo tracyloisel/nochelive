@@ -1,25 +1,26 @@
 <% content_for :title, t("street.profile_title") %>
-<% content_for :body_class, "is-kid is-paper-hall" %>
-<%= chrome_menu { site_menu } %>
+<% content_for :body_class, "is-kid is-paper-hall is-street-profile" %>
+<%= chrome_menu(face: false, hud: false) { site_menu } %>
 
-<%= paper_hall id: "street_quien", kicker: t("street.profile_title"), extra_class: "street-quien", sheet_class: "street-quien-sheet" do %>
-    <% if @person && @screen != :welcome %>
-      <div class="street-quien-session">
-        <p class="eyebrow"><%= t("street.signed_in_as") %> <strong><%= @person.given_name %></strong></p>
-        <%= render "street_profiles/ward_switch" %>
-        <% unless @screen == :form %>
-          <%= button_to street_profile_path, params: { guest: 1 }, class: "quiet-link" do %>
-            <%= t("street.sign_out") %>
-          <% end %>
-        <% end %>
-      </div>
+<section id="street_quien" class="profile-world">
+  <div class="profile-rays" aria-hidden="true"></div>
+  <header class="profile-stage">
+    <span class="profile-star" aria-hidden="true"><%= picto("star8") %></span>
+    <p class="profile-brand">Noche Live</p>
+    <h1><%= @screen == :edit ? t("street.edit_profile_title") : (@screen == :device ? t("join.device_title") : t("street.quick_profile_title")) %></h1>
+    <% if current_ward %>
+      <p class="profile-rama"><%= picto("church") %><%= current_ward.name %></p>
     <% end %>
+  </header>
 
+  <main class="profile-panel <%= "is-edit" if @screen == :edit %>">
     <% case @screen %>
+    <% when :edit %>
+      <%= render "street_profiles/edit", person: @person %>
     <% when :welcome %>
       <%= render "street_profiles/welcome", person: @welcome_person %>
     <% when :device %>
-      <%= render "street_profiles/device_people", people: @listed_people %>
+      <%= render "street_profiles/device_people", people: @listed_people, current_person: @person %>
     <% when :homonyms %>
       <%= render "street_profiles/homonyms", cards: @homonym_cards %>
     <% when :claim %>
@@ -28,19 +29,14 @@
       <%= render "street_profiles/form" %>
     <% end %>
 
-    <nav class="street-quien-foot hall-sheet-foot">
-      <% if @person && @screen == :welcome %>
-        <%= button_to street_profile_path, params: { guest: 1 }, class: "quiet-link" do %>
-          <%= t("street.sign_out") %>
+    <nav class="profile-actions">
+      <% if @person %>
+        <%= button_to street_profile_path, params: { logout: 1 }, class: "quiet-link street-sign-out" do %>
+          <%= picto("door") %><%= t("street.sign_out") %>
         <% end %>
-      <% elsif @screen == :form %>
-        <%= button_to street_profile_path, params: { guest: 1 }, class: "quiet-link", formnovalidate: true do %>
-          <%= t("street.continue_guest") %>
-        <% end %>
-      <% end %>
-
-      <%= link_to root_path, class: "quiet-link" do %>
-        <%= t("street.back_quiz") %>
       <% end %>
     </nav>
-<% end %>
+  </main>
+</section>
+
+<%= render Navigation::DockComponent.new(active: :profile) %>

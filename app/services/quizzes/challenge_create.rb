@@ -10,79 +10,82 @@ module Quizzes
       end
     end
 
-    def self.call(challenger_person:, ward:, pack_id:, run: nil, opponent_person: nil)
-      new(challenger_person:, ward:, pack_id:, run:, opponent_person:).call
+    def self.call(challenger_person:, ward:, pack_id:, device_digest: nil, run: nil, opponent_person: nil)
+      new(challenger_person:, ward:, pack_id:, device_digest:, run:, opponent_person:).call
     end
 
-    def initialize(challenger_person:, ward:, pack_id:, run: nil, opponent_person: nil)
+    def initialize(challenger_person:, ward:, pack_id:, device_digest: nil, run: nil, opponent_person: nil)
       @challenger = challenger_person
       @ward = ward
       @pack_id = pack_id.to_s
       @run = run
+      @digest = device_digest.to_s.presence || @run&.device_digest
       @opponent = opponent_person
     end
 
     def call
       raise ArgumentError, "unknown pack" unless QuizDefinition.catalog.pack_ids.include?(@pack_id)
       raise Denied, :self if @opponent && @opponent.id == @challenger.id
-      raise Denied, :ward if @opponent && @opponent.ward_id != @ward.id
-      raise Denied, :score if @opponent && !@run&.finished?
-      raise Denied, :played if already_played?
+      raise Denied, :stake if @opponent && !StakeScope.allowed?(challenger_ward: @ward, opponent_ward: @opponent.ward)
 
       existing = find_existing
       if existing
-        attach_run!(existing)
+        ensure_challenger_run!(existing)
         return Result.new(duel: existing.reload, share_url: share_path_for(existing))
       end
 
-      finished = @run&.finished?
-      duel = StreetDuel.create!(
-        challenger_person: @challenger,
-        opponent_person: @opponent,
-        ward: @ward,
-        pack_id: @pack_id,
-        token: SecureRandom.urlsafe_base64(12),
-        status: finished ? "challenger_done" : "pending",
-        challenger_run: finished ? @run : nil,
-        challenger_score: finished ? @run.score : nil,
-        expires_at: 7.days.from_now
-      )
+      duel = ApplicationRecord.transaction do
+        row = StreetDuel.create!(
+          challenger_person: @challenger,
+          opponent_person: @opponent,
+          ward: @ward,
+          challenger_ward: @ward,
+          opponent_ward: @opponent&.ward,
+          stake_unit_id: @ward.stake_unit_id,
+          pack_id: @pack_id,
+          token: SecureRandom.urlsafe_base64(12),
+          status: "pending",
+          expires_at: 7.days.from_now
+        )
+        ensure_challenger_run!(row)
+        row.reload
+      end
       Quizzes::ChallengeNotify.call(duel:) if @opponent
       Result.new(duel:, share_url: share_path_for(duel))
     end
 
     private
 
-      def already_played?
-        return false unless @opponent
-
-        StreetDuel.where(status: "resolved", pack_id: @pack_id).where(
-          "(challenger_person_id = :a AND opponent_person_id = :b) OR (challenger_person_id = :b AND opponent_person_id = :a)",
-          a: @challenger.id, b: @opponent.id
-        ).exists?
-      end
-
       def find_existing
-        scope = StreetDuel.active.not_expired.where(
-          challenger_person_id: @challenger.id,
-          pack_id: @pack_id
-        )
+        scope = StreetDuel.active.not_expired.where(pack_id: @pack_id)
         if @opponent
-          scope.find_by(opponent_person_id: @opponent.id)
+          scope.where(
+            "(challenger_person_id = :a AND opponent_person_id = :b) OR (challenger_person_id = :b AND opponent_person_id = :a)",
+            a: @challenger.id, b: @opponent.id
+          ).first
         else
-          scope.find_by(opponent_person_id: nil)
+          scope.find_by(challenger_person_id: @challenger.id, opponent_person_id: nil)
         end
       end
 
-      def attach_run!(duel)
-        return unless @run&.finished?
+      def ensure_challenger_run!(duel)
         return if duel.challenger_run_id.present?
 
-        duel.update!(
-          challenger_run: @run,
-          challenger_score: @run.score,
-          status: duel.pending? ? "challenger_done" : duel.status
+        if @run&.finished?
+          @run.update!(street_duel: duel)
+          duel.update!(challenger_run: @run, challenger_score: @run.score, status: "challenger_done")
+          return
+        end
+        raise ArgumentError, "device required" if @digest.blank?
+
+        frame = StartPack.call(
+          device_digest: @digest,
+          person_id: @challenger.id,
+          pack_id: @pack_id,
+          challenge: true,
+          street_duel: duel
         )
+        duel.update!(challenger_run: frame.run)
       end
 
       def share_path_for(duel)

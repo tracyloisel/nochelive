@@ -2,8 +2,14 @@
   {
     "id": "999001",
     "type": "WARD",
+    "identifiers": {
+      "unitNumber": 999001,
+      "unitUuid": "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
+      "orgId": 99001
+    },
     "name": "Madrid 1st Ward",
     "nameDisplay": "Madrid 1st Ward",
+    "typeDisplay": "Ward / Branch",
     "organizationType": { "code": "WARD" },
     "address": {
       "street1": "Calle del Prado 1",
@@ -14,13 +20,18 @@
     },
     "coordinates": [-3.7038, 40.4168],
     "parent": {
+      "id": "520001",
       "type": "STAKE",
+      "identifiers": { "unitNumber": 520001, "orgId": 12001 },
       "name": "Madrid Spain Stake",
       "nameDisplay": "Madrid Spain Stake"
     },
     "facility": {
       "name": "Madrid Chapel"
     },
-    "identifiers": { "unitNumber": 999001 }
+    "contact": {
+      "type": "INDIVIDUAL",
+      "name": "Fixture Bishop"
+    }
   }
 ]

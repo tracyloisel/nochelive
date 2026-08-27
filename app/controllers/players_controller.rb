@@ -2,6 +2,7 @@ class PlayersController < ApplicationController
   before_action :set_night
 
   def new
+    forget_player if current_player&.participant? && current_player.person.blank?
     if current_player
       redirect_to(current_player.spectator? ? night_watch_path(@night.code) : night_play_path(@night.code))
       return
@@ -22,6 +23,7 @@ class PlayersController < ApplicationController
   end
 
   def create
+    forget_player if current_player&.participant? && current_player.person.blank?
     if current_player
       redirect_to night_play_path(@night.code)
       return
@@ -60,7 +62,7 @@ class PlayersController < ApplicationController
       role = params[:role] == "spectator" ? "spectator" : "participant"
       location = params[:location] == "remote" ? "remote" : "room"
 
-      if role == "spectator" || params[:guest].present? || (params[:person_id].blank? && params[:favorite_year].blank?)
+      if role == "spectator"
         return Players::Join.call(
           night: @night,
           name: params[:name],
@@ -95,7 +97,7 @@ class PlayersController < ApplicationController
 
       given = params[:name].to_s.strip
       cards = People::Recognize.call(ward: @night.ward, given_name: given)
-      if cards.any? && params[:soy_nueva].blank? && params[:favorite_year].present?
+      if cards.any? && params[:soy_nueva].blank?
         @homonym_cards = cards
         raise People::Error.new(:homonym, I18n.t("errors.people.homonym"))
       end

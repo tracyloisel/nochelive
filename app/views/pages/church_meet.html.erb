@@ -1,17 +1,39 @@
 <% content_for :title, t("church.meet_title") %>
-<% content_for :body_class, "is-kid is-paper-hall" %>
+<% content_for :body_class, "is-kid is-church-journey" %>
 <%= chrome_menu { site_menu } %>
-<section class="home-paper">
-  <%= render "pages/head", kicker: t("church.kicker") %>
-  <%= render layout: "pages/story", locals: { still: "meet", title: t("church.meet_title") } do %>
-    <p class="lede"><%= t("church.meet_lede") %></p>
-    <p class="lede"><%= t("church.meet_expect") %></p>
-    <p class="lede"><%= t("church.meet_note") %></p>
-  <% end %>
-  <div class="paper-foot">
+<section class="church-meet" style="--church-scene: url('/media/church/journey/meet-v2.png')">
+  <header class="church-meet-hero">
+    <div class="church-scene-head">
+      <%= link_to church_path, class: "church-back", aria: { label: t("church.back") } do %><%= picto("arrow") %><% end %>
+      <span><%= t("church.kicker") %></span><span class="church-chapter">1 / 4</span>
+    </div>
+    <div class="church-meet-intro">
+      <p class="church-scene-kicker"><%= t("church.meet_hint") %></p>
+      <h1><%= t("church.meet_title") %></h1>
+      <p class="lede"><%= t("church.meet_lede") %></p>
+    </div>
+  </header>
+
+  <div class="church-meet-thread" aria-hidden="true"><span></span><%= picto("star8") %><span></span></div>
+
+  <main class="church-meet-story">
+    <article class="church-meet-card">
+      <span class="church-meet-pair" aria-hidden="true">
+        <i><%= picto("person") %></i><i><%= picto("person") %></i>
+      </span>
+      <div class="church-meet-card-heading">
+        <p class="church-scene-kicker">01</p>
+        <h2><%= t("church.meet_title") %></h2>
+      </div>
+    <div class="church-meet-notes">
+      <div class="church-meet-note"><span aria-hidden="true">01</span><p class="lede"><%= t("church.meet_expect") %></p></div>
+      <div class="church-meet-note"><span aria-hidden="true">02</span><p class="lede"><%= t("church.meet_note") %></p></div>
+    </div>
     <%= link_to church_visit_url, class: "btn btn-gold", target: "_blank", rel: "noreferrer" do %>
-      <%= picto("door") %><%= t("church.meet_cta") %>
+      <%= picto("door") %><span><%= t("church.meet_cta") %></span><%= picto("arrow") %>
     <% end %>
-    <%= render "pages/other_doors", except: :meet %>
-  </div>
+    </article>
+    <%= render "pages/church_chapter_paths", current: :meet %>
+  </main>
+  <%= render Navigation::DockComponent.new(active: :church) %>
 </section>

@@ -3,8 +3,8 @@ require "test_helper"
 class Platform::PulseTest < ActiveSupport::TestCase
   setup do
     QuizAnswer.delete_all
-    PersonDevice.update_all(last_seen_at: 1.hour.ago)
-    Player.update_all(last_seen_at: 1.hour.ago)
+    PersonDevice.update_all(last_seen_at: Time.zone.local(2025, 1, 1))
+    Player.update_all(last_seen_at: Time.zone.local(2025, 1, 1))
   end
 
   test "counts this month's answers and players including guests" do

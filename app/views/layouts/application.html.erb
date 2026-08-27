@@ -18,7 +18,7 @@
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
     <style>:root {
       --temple-hall-bg: url("<%= temple_hall_bg_src %>");
-      --temple-ceremony-hall-bg: url("<%= street_ceremony_asset_src("marble-hall-victory") || temple_hall_bg_src %>");
+      --temple-ceremony-hall-bg: url("<%= street_ceremony_asset_src("ceremony-gateway") || street_ceremony_asset_src("marble-hall-victory") || temple_hall_bg_src %>");
     }</style>
     <%= javascript_importmap_tags %>
   </head>
@@ -46,7 +46,7 @@
     </main>
     <div id="live_pulses" class="live-pulses" aria-live="polite"></div>
     <script>window.NocheSfx = <%= Sfx.catalog.to_json.html_safe %>;</script>
-    <% tick = Sfx.path_for("tick") %>
+    <% tick = Sfx.versioned_path_for("tick") %>
     <% if tick %>
       <audio id="noche_sfx_gate" class="sfx-gate" preload="auto" playsinline webkit-playsinline="true" src="<%= tick %>"></audio>
     <% end %>

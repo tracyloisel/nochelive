@@ -1,15 +1,17 @@
-<% src = church_still_src(still) %>
-<%= link_to path, class: "paper-door" do %>
+<% src = local_assigns[:art].presence || church_still_src(still) %>
+<%= link_to path, class: [ "paper-door", ("is-cinematic" if local_assigns[:art].present?) ], style: ("--portal-art: url('#{src}'); --portal-order: #{local_assigns[:chapter].to_i}" if local_assigns[:art].present?) do %>
   <% if src.present? %>
     <figure class="paper-door-still">
       <img class="night-poster" src="<%= src %>" alt="" loading="<%= local_assigns.fetch(:loading, "lazy") %>" decoding="async">
     </figure>
   <% end %>
   <span class="paper-door-copy">
+    <% if local_assigns[:chapter].present? %><span class="paper-door-chapter" aria-hidden="true"><%= format("%02d", chapter) %></span><% end %>
     <span class="paper-door-ico" aria-hidden="true"><%= picto(icon) %></span>
     <span class="paper-door-words">
       <strong><%= title %></strong>
       <span class="paper-door-hint"><%= hint %></span>
     </span>
+    <% if local_assigns[:art].present? %><span class="paper-door-enter" aria-hidden="true"><%= picto("arrow") %></span><% end %>
   </span>
 <% end %>

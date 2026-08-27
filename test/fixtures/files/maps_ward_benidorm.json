@@ -2,26 +2,77 @@
   {
     "id": "333239",
     "type": "WARD",
+    "identifiers": {
+      "facilityId": "5002959-01-01",
+      "structureId": "5002959-01",
+      "propertyId": 5002959,
+      "unitUuid": "e0edb1b7-fc07-4ecf-bfaf-d5d91d174b7e",
+      "unitNumber": 333239,
+      "orgId": 14073
+    },
     "name": "Benidorm Branch",
     "nameDisplay": "Benidorm Branch",
-    "organizationType": { "code": "BRANCH" },
+    "typeDisplay": "Ward / Branch",
+    "organizationType": {
+      "id": 8,
+      "code": "BRANCH",
+      "display": "Branch"
+    },
     "address": {
       "street1": "Alfonso Puchades 27",
       "city": "BENIDORM",
       "postalCode": "03502",
       "country": "Spain",
-      "countryCode2": "ES"
+      "countryId": 231,
+      "countryCode2": "ES",
+      "countryCode3": "ESP",
+      "formatted": "Alfonso Puchades 27, Benidorm 03502, Spain"
+    },
+    "phones": [
+      {
+        "number": "+34 966 00 00 00",
+        "type": "MAIN"
+      }
+    ],
+    "website": "https://local.churchofjesuschrist.org/u/333239",
+    "contact": {
+      "id": "contact-fixture",
+      "type": "INDIVIDUAL",
+      "name": "Fixture President",
+      "nameDisplay": "Branch President",
+      "contactable": true
+    },
+    "hours": {
+      "code": "Su 10:00-12:00"
+    },
+    "timeZone": {
+      "id": "Europe/Madrid",
+      "code": "CET"
+    },
+    "language": {
+      "id": 2,
+      "code": "es",
+      "display": "Spanish"
     },
     "coordinates": [-0.12452, 38.54202],
-    "parent": {
-      "type": "STAKE",
-      "name": "Elche Spain Stake",
-      "nameDisplay": "Elche Spain Stake"
-    },
     "facility": {
+      "id": "5002959-01-01",
+      "type": "MEETINGHOUSE",
       "name": "Benidorm Chapel",
       "nameDisplay": "Benidorm Chapel"
     },
-    "identifiers": { "unitNumber": 333239 }
+    "parent": {
+      "id": "527556",
+      "type": "STAKE",
+      "identifiers": {
+        "unitUuid": "c1793d17-e733-44ce-8301-fa063cccebbe",
+        "unitNumber": 527556,
+        "orgId": 12447
+      },
+      "name": "Elche Spain Stake",
+      "nameDisplay": "Elche Spain Stake",
+      "typeDisplay": "Stake / District"
+    },
+    "provider": "INTERNAL"
   }
 ]

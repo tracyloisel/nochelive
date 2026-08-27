@@ -13,6 +13,7 @@ class Quizzes::DrawTest < ActiveSupport::TestCase
     assert_equal "ungio_david", frame.question.id
     refute frame.question.timed?
     assert_nil frame.run.ends_at
+    assert frame.run.asked_at
   end
 
   test "returns the open run instead of starting another" do

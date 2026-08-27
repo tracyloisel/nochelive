@@ -19,7 +19,9 @@
         },
         "coordinates": [-0.12452, 38.54202],
         "parent": {
+          "id": "527556",
           "type": "STAKE",
+          "identifiers": { "unitNumber": 527556 },
           "name": "Elche Spain Stake",
           "nameDisplay": "Elche Spain Stake"
         },

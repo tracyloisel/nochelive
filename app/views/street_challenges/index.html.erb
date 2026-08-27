@@ -1,103 +1,167 @@
 <% content_for :title, t("street.duel_inbox") %>
-<% content_for :body_class, "is-kid is-street-hub" %>
-<%= chrome_menu { site_menu } %>
+<% content_for :body_class, "is-kid is-street-hub is-duels" %>
+<% pack = QuizDefinition.catalog.find_pack(@pack_id) %>
+<% active = (@inbox.incoming + @inbox.waiting).uniq { |item| item.duel.id } %>
+<% home = @rivalry.home %>
+<% away = @rivalry.away %>
+<% total = [home.score + (away&.score || 0), 1].max %>
+<% home_pct = ((home.score.to_f / total) * 100).round %>
+<%= chrome_menu(face: true) { site_menu } %>
 
 <section id="street_world"
-         class="street-world street-leaderboard-page street-duel-inbox"
+         class="street-world street-leaderboard-page street-duel-inbox is-duel-enter"
+         data-controller="duel-board liga-board"
+         data-liga-board-create-url-value="<%= street_challenges_path(format: :json) %>"
+         data-liga-board-pack-id-value="<%= @pack_id %>"
          style="view-transition-name: street-world">
-  <%= render "pages/head", kicker: t("street.duel_inbox_kicker") %>
+  <header class="street-liga-head street-duel-title">
+    <%= link_to street_leaderboard_path, class: "street-liga-sibling-link street-duel-back" do %>
+      <%= picto("podium") %><%= t("street.leaderboard_screen_title") %>
+    <% end %>
+    <h1><%= t("street.duel_inbox_kicker") %></h1>
+    <span class="street-liga-title-star" aria-hidden="true"><%= picto("star8") %></span>
+    <div class="street-liga-title-rule" aria-hidden="true"></div>
+  </header>
 
-  <article class="hall-sheet street-duel-inbox-sheet">
-    <span class="hall-sheet-apex street-quien-apex" aria-hidden="true"><%= picto("star4") %></span>
-    <p class="lede street-duel-inbox-lede"><%= t("street.duel_inbox_lede") %></p>
-
-    <section class="street-duel-inbox-block" aria-labelledby="duel_incoming">
-      <h2 id="duel_incoming"><%= t("street.duel_incoming") %></h2>
-      <% if @inbox.incoming.any? %>
-        <ul class="street-duel-inbox-list">
-          <% @inbox.incoming.each do |item| %>
-            <li><%= render "street_challenges/item", item: item %></li>
-          <% end %>
-        </ul>
-      <% else %>
-        <p class="street-duel-inbox-empty"><%= t("street.duel_empty_incoming") %></p>
-      <% end %>
+  <main class="street-duel-board">
+    <section class="street-duel-hero">
+      <div class="street-duel-hero-fighter is-you">
+        <span class="street-duel-hero-avatar">
+          <% if (src = avatar_mark(current_street_person)) %><img src="<%= src %>" alt="" class="avatar-img"><% else %><span class="avatar-fallback"><%= current_street_person.given_name.first %></span><% end %>
+          <i><%= picto("crown") %></i>
+        </span>
+        <strong><%= current_street_person.given_name %></strong>
+        <b><%= picto("crown") %> <%= @board.your_score %></b>
+      </div>
+      <div class="street-duel-hero-vs" aria-hidden="true">VS</div>
+      <a href="#duel-rivals" class="street-duel-hero-fighter is-pick">
+        <span class="street-duel-hero-avatar"><%= picto("person") %></span>
+        <strong><%= t("street.duel_choose_opponent") %></strong>
+      </a>
+      <a href="#duel-rivals" class="btn btn-gold street-duel-launch"><span aria-hidden="true">⚔</span><%= t("street.duel_launch") %><span aria-hidden="true">✦</span></a>
+      <p class="street-duel-hero-rule"><%= picto("scroll") %> <%= t("street.duel_live_rule") %></p>
     </section>
 
-    <section class="street-duel-inbox-block" aria-labelledby="duel_recent">
-      <h2 id="duel_recent"><%= t("street.duel_recent") %></h2>
-      <% if @inbox.recent.any? %>
-        <ul class="street-duel-inbox-list">
-          <% @inbox.recent.each do |item| %>
-            <li><%= render "street_challenges/item", item: item %></li>
-          <% end %>
-        </ul>
-      <% else %>
-        <p class="street-duel-inbox-empty"><%= t("street.duel_empty_recent") %></p>
-      <% end %>
-    </section>
-
-    <section class="street-duel-inbox-block" aria-labelledby="duel_outgoing">
-      <h2 id="duel_outgoing"><%= t("street.duel_outgoing") %></h2>
-      <% if @inbox.waiting.any? %>
-        <ul class="street-duel-inbox-list">
-          <% @inbox.waiting.each do |item| %>
-            <li><%= render "street_challenges/item", item: item %></li>
-          <% end %>
-        </ul>
-      <% else %>
-        <p class="street-duel-inbox-empty"><%= t("street.duel_empty_outgoing") %></p>
-      <% end %>
-    </section>
-
-    <section class="street-duel-inbox-block" aria-labelledby="duel_pick">
-      <h2 id="duel_pick"><%= t("street.duel_pick") %></h2>
-      <% if @playable_pack_ids.any? %>
-        <%= form_with url: street_challenges_path, method: :get, class: "street-leaderboard-search street-duel-inbox-search" do %>
-          <div class="street-leaderboard-search-row<%= " is-filled" if @q.present? %>">
-            <label class="visually-hidden" for="duel_q"><%= t("street.duel_search_rivals") %></label>
-            <input id="duel_q"
-                   name="q"
-                   type="search"
-                   value="<%= @q %>"
-                   maxlength="24"
-                   autocomplete="off"
-                   class="street-leaderboard-query"
-                   placeholder="<%= t("street.duel_search_rivals") %>">
-            <button type="submit" class="street-leaderboard-search-go" aria-label="<%= t("street.leaderboard_search_btn") %>">
-              <%= picto("search") %>
-            </button>
-          </div>
-          <label class="street-leaderboard-filter street-duel-inbox-pack">
-            <span class="visually-hidden"><%= t("street.duel_pick_pack") %></span>
-            <select name="pack_id" class="street-leaderboard-select" onchange="this.form.requestSubmit()">
-              <% @playable_pack_ids.each do |pack_id| %>
-                <% pack = QuizDefinition.catalog.find_pack(pack_id) %>
-                <% best = @pack_bests[pack_id] %>
-                <option value="<%= pack_id %>" <%= "selected" if @pack_id == pack_id %>>
-                  <%= best ? t("street.duel_pack_with_score", pack: pack.copy(:title), score: best) : pack.copy(:title) %>
-                </option>
-              <% end %>
-            </select>
-          </label>
-        <% end %>
-
-        <% if @rivals.any? %>
-          <ul class="street-duel-inbox-rivals">
-            <% @rivals.each do |row| %>
-              <li><%= render "street_challenges/rival", row: row, pack_id: @pack_id, incoming_action: @incoming_action %></li>
+    <section class="street-duel-section street-duel-active">
+      <header><h2><span aria-hidden="true">⚔</span><%= t("street.duel_active") %></h2><span><%= t("street.duel_see_all") %> ›</span></header>
+      <% if active.any? %>
+        <div class="street-duel-active-rail">
+          <% active.each do |item| %>
+            <% duel = item.duel %>
+            <% other = item.other %>
+            <% mine = current_street_person.id == duel.challenger_person_id ? duel.challenger_run : duel.opponent_run %>
+            <% theirs = current_street_person.id == duel.challenger_person_id ? duel.opponent_run : duel.challenger_run %>
+            <%= link_to(item.phase == :play ? jugar_path : street_challenge_path(duel.token), class: "street-duel-live-card #{'is-your-turn' if item.phase == :play}") do %>
+              <div class="street-duel-live-player">
+                <span class="street-duel-mini-avatar"><% if (src = avatar_mark(current_street_person)) %><img src="<%= src %>" alt=""><% else %><%= current_street_person.given_name.first %><% end %></span>
+                <strong><%= current_street_person.given_name %></strong><b><%= mine&.score.to_i %></b>
+              </div>
+              <span class="street-duel-card-vs">VS</span>
+              <div class="street-duel-live-player">
+                <span class="street-duel-mini-avatar"><% if other && (src = avatar_mark(other)) %><img src="<%= src %>" alt=""><% else %>?<% end %></span>
+                <strong><%= other&.given_name || "?" %></strong><b><%= theirs&.score.to_i %></b>
+              </div>
+              <p><strong><%= item.pack.copy(:title) %></strong></p>
+              <div class="street-duel-progress" aria-label="<%= mine&.position.to_i %>/10">
+                <% 10.times do |index| %><i class="<%= 'is-done' if index < mine&.position.to_i %>"></i><% end %><b><%= mine&.position.to_i %>/10</b>
+              </div>
+              <em><%= item.phase == :play ? t("street.duel_your_turn") : t("street.duel_waiting_short") %></em>
             <% end %>
-          </ul>
-        <% else %>
-          <p class="street-duel-inbox-empty"><%= t("street.duel_empty_rivals") %></p>
-        <% end %>
+          <% end %>
+        </div>
       <% else %>
-        <p class="street-duel-inbox-empty"><%= t("street.duel_need_score") %></p>
+        <p class="street-duel-empty"><%= t("street.duel_empty_active") %></p>
       <% end %>
     </section>
 
-    <nav class="hall-sheet-foot">
-      <%= link_to t("street.duel_inbox_back"), street_leaderboard_path, class: "quiet-link" %>
-    </nav>
-  </article>
+    <section id="duel-rivals" class="street-duel-section street-duel-pick">
+      <header><h2><span aria-hidden="true">♟</span><%= t("street.duel_parish_players") %></h2><span><%= t("street.duel_see_all") %> ›</span></header>
+      <p><%= t("street.duel_pick_pack_readout", pack: pack.copy(:title)) %></p>
+      <ul>
+        <% @rivals.first(4).each do |rival| %>
+          <li class="<%= "is-other-ward" if rival.ward != current_ward %>">
+            <button type="button" class="street-duel-rival-button" <%= "disabled" if rival.state == :waiting %> data-action="liga-board#openChallenge" data-person-id="<%= rival.person.id %>" data-person-name="<%= rival.person.display_name %>" data-person-score="<%= rival.score %>" data-person-rank="<%= rival.rank %>" data-person-live="<%= rival.live %>">
+              <span class="street-card-avatar"><% if (src = avatar_mark(rival.person)) %><img src="<%= src %>" alt="" class="avatar-img"><% else %><span class="avatar-fallback"><%= rival.person.given_name.first %></span><% end %><%= street_live_dot(rival.live) %></span>
+              <% rival_rank = Team::RANKS.reverse.find { |threshold, _, _| rival.score.to_i >= threshold } || Team::RANKS.first %>
+              <span><strong><%= rival.person.display_name %></strong><small><%= t("ranks.#{rival_rank.second}") %></small></span>
+              <span class="street-duel-rival-score"><%= picto("crown") %><%= rival.score %></span>
+              <b><%= rival.state == :waiting ? t("street.duel_waiting_short") : t("street.duel_send") %></b>
+            </button>
+          </li>
+        <% end %>
+      </ul>
+    </section>
+
+    <div class="street-duel-lower-grid">
+    <section class="street-duel-section street-duel-history">
+      <header><h2><span aria-hidden="true">◴</span><%= t("street.duel_your_recent") %></h2></header>
+      <% if @inbox.recent.any? %><ul><% @inbox.recent.first(3).each do |item| %><% won = item.duel.winner_person&.id == current_street_person.id %><% delta = item.role == :challenger ? item.duel.challenger_delta : item.duel.opponent_delta %><li class="<%= won ? "is-win" : "is-finished" %>"><span><%= won ? picto("trophy") : picto("check") %></span><strong><%= won ? t("street.duel_victory") : t("street.duel_finished") %></strong><small><%= item.other&.display_name %></small><b><%= delta.to_i.positive? ? "+#{delta}" : delta %></b></li><% end %></ul><% else %><p class="street-duel-empty"><%= t("street.duel_empty_recent") %></p><% end %>
+    </section>
+
+    <section class="street-stake-rivalry" data-duel-board-target="rivalry">
+      <p class="street-duel-section-kicker"><%= t("street.stake_rivalry") %></p>
+      <% if away %>
+        <div class="street-stake-faces">
+          <article class="is-home">
+            <span class="street-stake-emblem"><%= picto("temple") %></span>
+            <strong><%= home.ward.name %></strong>
+            <b data-duel-board-target="count" data-count-to="<%= home.score %>">0</b>
+          </article>
+          <span class="street-stake-vs">VS</span>
+          <article class="is-away">
+            <span class="street-stake-emblem"><%= picto("temple") %></span>
+            <strong><%= away.ward.name %></strong>
+            <b data-duel-board-target="count" data-count-to="<%= away.score %>">0</b>
+          </article>
+        </div>
+        <div class="street-stake-meter" style="--stake-home: <%= home_pct %>%">
+          <span class="is-home"></span><span class="is-away"></span>
+        </div>
+        <p class="street-stake-lead" data-duel-board-target="lead">
+          <% if @rivalry.leader %>
+            <%= t("street.stake_leads", ward: @rivalry.leader.ward.name, score: @rivalry.lead) %>
+          <% else %>
+            <%= t("street.stake_tied") %>
+          <% end %>
+        </p>
+        <div class="street-stake-stats">
+          <span><b><%= @rivalry.total_duels %></b><small><%= t("street.stake_duels_played") %></small></span>
+          <span><b><%= @rivalry.contributors %></b><small><%= t("street.stake_contributors") %></small></span>
+          <span><b><%= @rivalry.home_win_rate %>%</b><small><%= t("street.stake_win_rate") %></small></span>
+        </div>
+      <% else %>
+        <div class="street-stake-empty">
+          <%= picto("temple") %>
+          <h2><%= t("street.stake_waiting_title") %></h2>
+          <p><%= t("street.stake_waiting") %></p>
+        </div>
+      <% end %>
+    </section>
+    <% if @head_to_head %>
+      <section class="street-duel-section street-duel-h2h" data-duel-board-target="reveal">
+        <header><h2><%= t("street.duel_personal_rivalry") %></h2></header>
+        <div class="street-duel-h2h-faces">
+          <span class="street-duel-h2h-person"><span class="street-duel-h2h-avatar"><% if (src = avatar_mark(current_street_person)) %><img src="<%= src %>" alt=""><% else %><%= current_street_person.given_name.first %><% end %></span><strong><%= current_street_person.given_name %></strong></span>
+          <b><%= @head_to_head.you_wins %></b><span class="street-duel-h2h-swords">⚔</span><b><%= @head_to_head.their_wins %></b>
+          <span class="street-duel-h2h-person"><span class="street-duel-h2h-avatar"><% if (src = avatar_mark(@head_to_head.person)) %><img src="<%= src %>" alt=""><% else %><%= @head_to_head.person.given_name.first %><% end %></span><strong><%= @head_to_head.person.given_name %></strong></span>
+        </div>
+        <p><span><%= t("street.duel_wins") %></span><span><%= t("street.duel_losses") %></span></p>
+      </section>
+    <% end %>
+    </div>
+  </main>
+
+  <dialog class="street-liga-dialog street-liga-challenge-dialog" data-liga-board-target="challenge">
+    <form method="dialog" class="street-liga-dialog-sheet">
+      <button class="street-liga-dialog-close" value="cancel" aria-label="<%= t("chrome.close_menu") %>">×</button>
+      <div class="street-liga-versus"><span><%= current_street_person.given_name %></span><b>⚔</b><span data-liga-board-target="opponentName"></span></div>
+      <h2><%= t("street.duel_challenge_person") %> <span data-liga-board-target="challengeTitle"></span></h2>
+      <p><span data-liga-board-target="opponentMeta"></span> · <%= picto("crown") %></p>
+      <dl><div><dt><%= t("street.duel_pack") %></dt><dd><%= pack.copy(:title) %></dd></div><div><dt><%= t("street.duel_format") %></dt><dd><%= t("street.duel_ten_questions") %></dd></div></dl>
+      <p class="street-liga-challenge-success" data-liga-board-target="success" hidden><%= picto("check") %> <%= t("street.duel_sent") %></p>
+      <footer><button value="cancel" class="btn btn-ghost"><%= t("street.cancel") %></button><button type="button" class="btn btn-gold" data-liga-board-target="send" data-action="liga-board#sendChallenge"><%= t("street.duel_send") %></button></footer>
+    </form>
+  </dialog>
+
+  <%= render Navigation::DockComponent.new(active: :home) %>
 </section>

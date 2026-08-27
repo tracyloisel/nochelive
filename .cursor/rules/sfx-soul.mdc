@@ -9,7 +9,7 @@ Noche Live is a **heard** product. A live moment without a named cue is unfinish
 
 - One name in game logic (`round_open`, `buzzer_hit`). Never a file path.
 - Recordings are `public/sfx/<name>.mp3` generated offline with OpenRouter (`script/generate_sfx.rb`). No WAV, no TTS, no request-time generation.
-- Family chapel quiz: instrumental, gold-warm, no vocals, no horror, no stadium roar.
+- Family chapel quiz: instrumental, gold-warm, no vocals, no horror, no stadium roar. Payoff without named SFX (and haptic when the phone is the controller) is unfinished.
 - Playback is `stage_controller.js`: one-shots, `timer_tension` bed, ticks from round `ends_at` on `#night_play` / `#night_watch` / `#night_presenter` / `#street_quiz`. Mute is **Sonido**, not `prefers-reduced-motion`. Street quiz uses one `data-stage-*` trigger (not `quiz_controller#cue`).
 - Presenter open / close / reveal / next question are **pulses** so phones hear them. Do not also fire the same stinger from `stage_sfx`.
 - When touching SFX, pulses, `Sfx`, `stage_controller`, or `sfx.yml`, follow `.cursor/skills/noche-sfx/SKILL.md`.

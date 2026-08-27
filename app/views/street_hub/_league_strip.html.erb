@@ -3,6 +3,7 @@
 <% path = local_assigns.fetch(:path, street_leaderboard_path) %>
 <% empty_ok = local_assigns[:empty_ok] %>
 <% extra_class = local_assigns[:league_class] %>
+<% extended = local_assigns[:extended] %>
 <% return if board.blank? %>
 <% return if board.rows.empty? && !empty_ok %>
 
@@ -14,7 +15,7 @@
     <% if board.players %>
       <p class="street-league-meta quiet">
         <%= t("street.leaderboard_players", count: board.players) %>
-        <span class="street-league-all"><%= t("street.league_see_all") %></span>
+        <span class="street-league-all"><%= extended ? t("ward.see_full_ranking") : t("street.league_see_all") %></span>
       </p>
     <% end %>
   </header>
@@ -39,6 +40,22 @@
         </div>
       <% end %>
     </div>
+    <% if extended && board.rows.size > 3 %>
+      <div class="street-league-runners">
+        <% board.rows.drop(3).first(2).each do |row| %>
+          <% src = avatar_mark(row.person) %>
+          <div class="street-league-runner<%= " is-you" if row.you %>">
+            <b class="street-league-runner-rank"><%= row.rank %></b>
+            <span class="street-league-face <%= "is-live" if row.live %>">
+              <% if src %><img src="<%= src %>" alt="" class="avatar-img street-league-avatar"><% else %><span class="avatar-fallback street-league-avatar"><%= row.person.given_name.to_s.first %></span><% end %>
+            </span>
+            <strong><%= row.person.given_name %></strong>
+            <span class="street-league-runner-score"><%= number_with_delimiter(row.score) %><%= picto("crown") %></span>
+            <%= street_live_dot(row.live) %>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
   <% else %>
     <p class="rama-liga-empty">
       <span class="rama-liga-empty-mark" aria-hidden="true"><%= picto("podium") %></span>

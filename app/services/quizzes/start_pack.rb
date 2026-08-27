@@ -2,15 +2,16 @@ module Quizzes
   class StartPack
     class Locked < StandardError; end
 
-    def self.call(device_digest:, pack_id:, person_id: nil, challenge: false)
-      new(device_digest:, pack_id:, person_id:, challenge:).call
+    def self.call(device_digest:, pack_id:, person_id: nil, challenge: false, street_duel: nil)
+      new(device_digest:, pack_id:, person_id:, challenge:, street_duel:).call
     end
 
-    def initialize(device_digest:, pack_id:, person_id: nil, challenge: false)
+    def initialize(device_digest:, pack_id:, person_id: nil, challenge: false, street_duel: nil)
       @digest = device_digest.to_s
       @pack_id = pack_id.to_s
       @person_id = person_id
       @challenge = challenge
+      @street_duel = street_duel
       raise ArgumentError, "device required" if @digest.blank?
     end
 
@@ -33,7 +34,7 @@ module Quizzes
     private
 
       def scoped
-        QuizRun.where(device_digest: @digest, person_id: @person_id)
+        QuizRun.adventure.where(device_digest: @digest, person_id: @person_id)
       end
 
       def create_run
@@ -47,7 +48,8 @@ module Quizzes
           score: 0,
           status: "open",
           opened_at: Time.current,
-          ends_at: question.timed? ? question.duration.seconds.from_now : nil
+          street_duel: @street_duel,
+          **AskClock.opening_attrs(question)
         )
       end
   end

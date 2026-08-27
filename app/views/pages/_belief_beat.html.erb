@@ -1,5 +1,9 @@
-<article class="belief-beat">
+<article class="belief-beat<%= " is-even" if local_assigns[:index].to_i.even? %>" style="--belief-order: <%= local_assigns[:index].to_i %>">
+  <% if local_assigns[:index].present? %><span class="belief-index" aria-hidden="true"><%= format("%02d", index) %></span><% end %>
   <%= render "shared/hall_still", src: church_still_src(still), loading: local_assigns.fetch(:loading, "lazy") %>
-  <h3><%= title %></h3>
-  <p class="lede"><%= body %></p>
+  <div class="belief-beat-copy">
+    <span class="belief-star" aria-hidden="true"><%= picto("star8") %></span>
+    <h3><%= title %></h3>
+    <p class="lede"><%= body %></p>
+  </div>
 </article>

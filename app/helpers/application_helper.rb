@@ -120,6 +120,9 @@ module ApplicationHelper
   end
 
   def church_still_src(name)
+    belief_rel = "media/church/beliefs/#{name}-v2.png"
+    return "/#{belief_rel}" if Rails.public_path.join(belief_rel).file?
+
     rel = "media/church/#{name}.jpg"
     "/#{rel}" if Rails.public_path.join(rel).file?
   end
@@ -148,10 +151,32 @@ module ApplicationHelper
     )
   end
 
-  def chrome_menu(open: false, icon: "menu", face: nil, tools: nil, &block)
+  def chrome_menu(open: false, icon: "menu", face: nil, tools: nil, hud: nil, bar: nil, &block)
     face = chrome_face? if face.nil?
     tools = chrome_tools_in_drawer? if tools.nil?
-    render "shared/chrome_menu", open: open, icon: icon, face: face, tools: tools, body: capture(&block)
+    hud = chrome_hud?(face) if hud.nil?
+    bar = chrome_hud_bar if hud && bar.nil?
+    face = false if hud
+    render "shared/chrome_menu", open: open, icon: icon, face: face, tools: tools, hud: hud, bar: bar, body: capture(&block)
+  end
+
+  def chrome_hud?(face)
+    return false unless face
+    return false unless request
+    css = content_for(:body_class).to_s
+    return false if css.include?("is-street-play")
+
+    true
+  end
+
+  def chrome_hud_bar
+    Huds::Present.call(
+      person: current_street_person,
+      ward: current_ward,
+      device_digest: street_device_digest
+    )
+  rescue NoMethodError
+    Huds::Present.call(device_digest: "hud")
   end
 
   def site_menu(tools: chrome_tools_in_drawer?)
@@ -164,7 +189,7 @@ module ApplicationHelper
 
   def chrome_tools_in_drawer?
     css = content_for(:body_class).to_s
-    css.include?("is-street-hub") || css.include?("is-paper-hall") || css.include?("is-street-play")
+    css.include?("is-street-hub") || css.include?("is-paper-hall") || css.include?("is-street-play") || css.include?("is-study") || css.include?("is-church-journey")
   end
 
   def street_duel_ping?
@@ -330,7 +355,7 @@ module ApplicationHelper
       }
     end
 
-    sfx = extra_sfx.presence || (question.slam? ? "round_start" : "question_change")
+    sfx = extra_sfx.presence || (question.slam? ? "round_start" : "celestial_breath")
     timed = question.timed? && run.ends_at.present?
     {
       stage_sfx_value: sfx,
@@ -340,6 +365,20 @@ module ApplicationHelper
       stage_timer_end_value: timed ? run.ends_at.iso8601 : nil,
       stage_timer_duration_value: timed ? question.duration.to_i : nil
     }
+  end
+
+  def street_clock(seconds)
+    total = [ seconds.to_i, 0 ].max
+    format("%02d:%02d", total / 60, total % 60)
+  end
+
+  def ceremony_board_rows(board)
+    rows = Array(board&.rows)
+    top = rows.reject(&:context).first(3)
+    you = rows.find { |row| row.you && row.context }
+    return top if you.blank? || top.any?(&:you)
+
+    top + [ you ]
   end
 
   def street_choice_seed(run, question)
@@ -352,6 +391,11 @@ module ApplicationHelper
     seed = 0
     "#{run.id}:#{question.id}".each_byte { |byte| seed = (seed * 33 + byte) & 0x7fffffff }
     lines[seed % lines.size]
+  end
+
+  def street_hit_shout(run, question, combo)
+    key = combo&.shout_key
+    key.present? ? I18n.t("quiz.streak_#{key}") : street_praise_line(run, question)
   end
 
   def street_shuffled_choices(run, question)
@@ -863,5 +907,48 @@ module ApplicationHelper
 
     left = cap - score.to_i
     left.positive? ? left : nil
+  end
+
+  def hub_live_when(live, now: Time.current)
+    starts = live.starts_at
+    return if starts.blank? || live.state.to_sym == :playing
+
+    t("hub.live_when", day: I18n.l(starts, format: "%A").capitalize, time: hub_live_clock_time(starts))
+  end
+
+  def hub_live_clock_time(starts)
+    case I18n.locale.to_s
+    when "fr", "pt-BR"
+      starts.min.zero? ? I18n.l(starts, format: "%Hh") : I18n.l(starts, format: "%Hh%M")
+    when "en"
+      I18n.l(starts, format: "%l:%M%P").strip.sub(/:00(?=[ap]m\z)/i, "")
+    else
+      I18n.l(starts, format: "%H:%M")
+    end
+  end
+
+  def compact_number(value, decimals: 1)
+    return value if value.nil? || value.to_s == "0"
+    n = value.to_f
+    return "0" if n.zero?
+
+    abs_n = n.abs
+    if abs_n >= 1_000_000_000
+      suffix = "B"
+      divisor = 1_000_000_000
+    elsif abs_n >= 1_000_000
+      suffix = "M"
+      divisor = 1_000_000
+    elsif abs_n >= 1_000
+      suffix = "K"
+      divisor = 1_000
+    else
+      return number_with_delimiter(value.to_i)
+    end
+
+    formatted = (n / divisor).round(decimals)
+    # Remove trailing zero if decimals specified (e.g., 3.0K → 3K, but 3.5K stays)
+    formatted = formatted.to_i if formatted == formatted.to_i
+    "#{formatted}#{suffix}"
   end
 end

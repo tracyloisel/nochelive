@@ -44,6 +44,32 @@ class Wards::SyncDirectoryTest < ActiveSupport::TestCase
     assert_equal "Rama Benidorm", demo.name
   end
 
+  test "stores the locator payload and stake unit id" do
+    attrs = Wards::QueryLocator.attrs_from(JSON.parse(file_fixture("maps_ward_madrid.json").read).first)
+    Wards::SyncDirectory.call(rows: [ attrs ])
+    ward = Ward.find_by!(church_unit_id: "999001")
+
+    assert_equal "520001", ward.stake_unit_id
+    assert_equal "Madrid Spain Stake", ward.stake_name
+    refute ward.locator_payload.key?("contact")
+    assert_equal "Madrid Chapel", ward.locator_payload.dig("facility", "name")
+  end
+
+  test "does not wipe a stored payload when the import row has none" do
+    attrs = Wards::QueryLocator.attrs_from(JSON.parse(file_fixture("maps_ward_madrid.json").read).first)
+    Wards::SyncDirectory.call(rows: [ attrs ])
+    Wards::SyncDirectory.call(rows: [ {
+      church_unit_id: "999001",
+      name: "Madrid 1st Ward",
+      city: "Madrid",
+      country_code: "ES"
+    } ])
+
+    ward = Ward.find_by!(church_unit_id: "999001")
+    assert_equal "520001", ward.stake_unit_id
+    assert_equal "WARD", ward.locator_payload["type"]
+  end
+
   test "is idempotent on church_unit_id" do
     Wards::SyncDirectory.call(rows: @rows)
     before = Ward.listed.count

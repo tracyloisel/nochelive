@@ -1,10 +1,15 @@
 # Game Vision — Noche Live
 
-Noche Live is a **live biblical adventure party game** for a family or church *Noche de Hogar*. People in the room and people at home play the **same night**.
+Noche Live is a **premium mobile video game**: biblical adventure, live game show, and parish community — not a webapp with game décor.
+
+People in the room and people at home play the **same night**. Chapel phones are controllers. The TV tells. Remote players play *with* them.
 
 It is not a quiz app with a church skin.
 It is not a livestream with a few buttons.
-It is a **shared room** where teams shout, buzz, move, guess, and come back from behind.
+It is not a SaaS dashboard.
+It is a **shared adventure** where teams shout, buzz, move, guess, and come back from behind.
+
+**Décor tells the story. UI adapts.** Celestial Light or Celestial Dark follows the artwork and the moment — never a user theme toggle. Gold is the signature. Charter: `.cursor/skills/noche-conseil/SKILL.md` (**PRIORITY**). Hub worlds: `.cursor/skills/noche-hub-theme/SKILL.md`.
 
 ## The feeling we protect
 
@@ -31,11 +36,11 @@ Never optimize for: "the leaderboard updated."
 
 ## Player-first test
 
-After every slice, the only question that matters:
+After every slice:
 
-> What will the player remember from this?
+> What must the player **feel** here? What will they remember?
 
-If the honest answer is a UI or a database event, the slice is not done.
+If the honest answer is “they can access the feature,” a UI, or a database event, the slice is not done.
 
 ## Personas (must all work)
 
@@ -61,4 +66,4 @@ A design that only works for Carlos fails.
 
 A family can buzz, throw at Goliath, become a statue, mime Jonah (or live the storm at home), almost say Jezabel, run for a pot that sounds like a harp, tap the kings in time, freeze when the music stops, shout prophet names, judge who showed wisdom, stand for the last word, rise to Rey, and hear a child’s name on the wall. The night is playable end to end. The next memory is a playtest.
 
-Shipping gate and written verdicts: `.cursor/skills/noche-night/SKILL.md` and `docs/AGENT_REVIEWS/`. The 15-category table in `docs/GAME_QUALITY.md` is history, not the gate.
+Shipping charter: `.cursor/skills/noche-conseil/SKILL.md` (Experience → UI → Art; any score **< 8/10** is rework). Written verdicts: `docs/AGENT_REVIEWS/`. The 15-category table in `docs/GAME_QUALITY.md` is history, not the gate.

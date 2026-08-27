@@ -40,4 +40,10 @@ class Quizzes::SubmitTest < ActiveSupport::TestCase
     @run.update!(status: "finished")
     assert_raises(RuntimeError) { Quizzes::Submit.call(run: @run, choice_key: @question.correct_choice) }
   end
+
+  test "records think time from asked_at" do
+    @run.update!(asked_at: 3.seconds.ago, opened_at: 1.hour.ago)
+    answer = Quizzes::Submit.call(run: @run, choice_key: @question.correct_choice)
+    assert_in_delta 3000, answer.duration_ms, 200
+  end
 end

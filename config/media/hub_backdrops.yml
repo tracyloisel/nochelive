@@ -1,0 +1,49 @@
+# Curated quiz artwork for the Hub. The Home draws a new still on each visit
+# (without immediately repeating it); every still carries its own theme.
+# Other callers may still match tags or use the deterministic weekly fallback.
+backdrops:
+  - id: moises-mer-rouge
+    image: quizzes/jehova/mar_rojo.jpg
+    tags: [moises, jehova, exodo, dramatic]
+    theme:
+      mode: dark
+      atmosphere: dramatic
+      accent: gold
+  - id: eden-lumiere
+    image: quizzes/moises/eden_adan.jpg
+    tags: [moises, creacion, eden, peaceful]
+    theme:
+      mode: light
+      atmosphere: peaceful
+      accent: gold
+  - id: coronas-ungido
+    # The hub background sets the royal world; the hero keeps David's anointing.
+    # Keeping those two shots distinct prevents the home from looking like one
+    # poster repeated behind and inside the adventure card.
+    image: quizzes/coronas/salomon_templo.jpg
+    tags: [coronas, reyes_y_profetas, kings_and_prophets, reyes, profetas, dramatic]
+    theme:
+      mode: dark
+      atmosphere: solemn
+      accent: gold
+  - id: nazareno-belen
+    image: quizzes/nazareno/nacio_belen.jpg
+    tags: [nazareno, belen, peaceful, glorious]
+    theme:
+      mode: light
+      atmosphere: glorious
+      accent: gold
+  - id: elias-carmel
+    image: quizzes/profetas/elias_siete.jpg
+    tags: [profetas, elias, pruebas_profetas, dramatic]
+    theme:
+      mode: dark
+      atmosphere: dramatic
+      accent: gold
+  - id: moises-cielo
+    image: quizzes/moises/cielo_tierra.jpg
+    tags: [moises, creacion, peaceful, glorious]
+    theme:
+      mode: light
+      atmosphere: glorious
+      accent: gold

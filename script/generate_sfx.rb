@@ -34,7 +34,7 @@ end
 load_dotenv
 
 SPEC_PATH = File.join(ROOT, "config/media/sfx.yml")
-OUT_ROOT = File.join(ROOT, "public", "sfx")
+OUT_ROOT = File.expand_path(ENV.fetch("SFX_OUT_ROOT", File.join(ROOT, "public", "sfx")), ROOT)
 API = "https://openrouter.ai/api/v1"
 AUDIO_MODEL = ENV.fetch("OPENROUTER_AUDIO_MODEL", "google/lyria-3-clip-preview")
 

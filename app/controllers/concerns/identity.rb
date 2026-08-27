@@ -4,7 +4,7 @@ module Identity
   included do
     helper_method :current_player, :current_team, :current_person, :current_ward, :current_street_person,
                   :street_people_on_device, :street_guest?, :hosted_ward, :presenter_for?, :ward_presenter?, :ward_host?,
-                  :current_locale, :locale_path_for
+                  :current_locale, :locale_path_for, :street_device_digest
   end
 
   private
@@ -48,13 +48,12 @@ module Identity
     def current_street_person
       return @current_street_person if defined?(@current_street_person)
 
-      ward = current_ward
       person_id = signed_cookie(:noche_street_person)
-      return @current_street_person = nil unless ward && person_id
+      return @current_street_person = nil unless person_id
 
-      person = ward.people.find_by(id: person_id)
+      person = Person.find_by(id: person_id)
       return @current_street_person = nil unless person
-      return @current_street_person = nil unless street_people_on_device.exists?(id: person.id)
+      return @current_street_person = nil unless PersonDevice.exists?(person:, device_token: device_token)
 
       @current_street_person = person
     end
@@ -107,6 +106,10 @@ module Identity
       token
     end
 
+    def street_device_digest
+      GameSession.digest_token(device_token)
+    end
+
     def people_on_device
       return Person.none unless @night
 
@@ -116,6 +119,12 @@ module Identity
     def remember_player(player)
       cookies.signed[:noche_player] = { value: player.id, expires: 2.days, httponly: true, same_site: :lax }
       cookies.signed[:noche_client] = { value: player.client_token, expires: 2.days, httponly: true, same_site: :lax }
+    end
+
+    def forget_player
+      cookies.delete(:noche_player)
+      cookies.delete(:noche_client)
+      @current_player = nil
     end
 
     def remember_device(token = nil)
@@ -201,12 +210,31 @@ module Identity
     end
 
     def require_player
-      redirect_to night_name_path(@night.code) unless current_player
+      player = current_player
+      if player&.participant? && (player.person.blank? || player.person.ward_id != @night.ward_id)
+        forget_player
+        redirect_to night_name_path(@night.code), alert: I18n.t("flashes.profile_required")
+        return
+      end
+
+      redirect_to night_name_path(@night.code) unless player
     end
 
     def require_team
+      unless current_player&.participant? && current_player.person.present?
+        redirect_to(current_player&.spectator? ? night_watch_path(@night.code) : night_name_path(@night.code))
+        return
+      end
+
       return if current_team
       redirect_to night_play_path(@night.code)
+    end
+
+    def require_participant_profile
+      return if current_player&.participant? && current_player.person.present?
+
+      destination = current_player&.spectator? ? night_watch_path(@night.code) : night_name_path(@night.code)
+      redirect_to destination, alert: I18n.t("flashes.profile_required")
     end
 
     def require_presenter
@@ -235,6 +263,16 @@ module Identity
       return if current_ward
 
       redirect_to root_path
+    end
+
+    def require_street_identity
+      person = current_street_person
+      unless person
+        redirect_to street_profile_path(quick: 1), alert: I18n.t("flashes.profile_required")
+        return
+      end
+
+      remember_ward(person.ward) if person.ward && current_ward&.id != person.ward_id
     end
 
     def require_ward_presenter

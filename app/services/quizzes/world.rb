@@ -1,11 +1,47 @@
 module Quizzes
   class World
+    CATEGORY_MAP = {
+      "coronas" => "rois",
+      "placas" => "sagesse",
+      "hermanas" => "sagesse",
+      "abish" => "heros",
+      "profetas" => "prophetes",
+      "jehova" => "sagesse",
+      "nazareno" => "heros",
+      "moises" => "prophetes",
+      "abraham" => "heros",
+      "kolob" => "sagesse",
+      "premortal" => "sagesse",
+      "exaltacion" => "sagesse",
+      "jose" => "heros",
+      "inicios" => "sagesse",
+      "pruebas_profetas" => "prophetes",
+      "pruebas_heroes" => "heros",
+      "milagros" => "heros"
+    }.freeze
+
+    TIER_BOUNDARIES = [
+      { key: "debutant", start: 0, end: 9, color: "green" },
+      { key: "apprenti", start: 10, end: 19, color: "blue" },
+      { key: "disciple", start: 20, end: 29, color: "purple" },
+      { key: "maitre", start: 30, end: 39, color: "orange", collapsed: true },
+      { key: "legende", start: 40, end: 49, color: "red", collapsed: true }
+    ].freeze
+
+    TIER_COLORS = {
+      debutant: "green", apprenti: "blue", disciple: "purple",
+      maitre: "orange", legende: "red"
+    }.freeze
+
+    TIER_ORDER = { debutant: 0, apprenti: 1, disciple: 2, maitre: 3, legende: 4 }
+
     PackView = Struct.new(
       :id, :pack, :state, :stars, :best_score, :open_run_id, :index, :trail,
-      keyword_init: true
+      :category, keyword_init: true
     )
     Path = Struct.new(:finished, :current, :locked, keyword_init: true)
     Result = Struct.new(:packs, :current_pack_id, :current_run, :path, keyword_init: true)
+    Tier = Struct.new(:key, :start, :end, :color, :collapsed, :label_key, :packs, :flags, keyword_init: true)
 
     def self.call(device_digest:, person_id: nil)
       new(device_digest:, person_id:).call
@@ -30,10 +66,22 @@ module Quizzes
       Result.new(packs:, current_pack_id:, current_run:, path: build_path(packs, current_pack_id))
     end
 
+    def self.category_for(pack_id)
+      CATEGORY_MAP[pack_id.to_s]
+    end
+
+    def self.tier_for(index)
+      TIER_BOUNDARIES.reverse_each.find { |t| index >= t[:start] && index <= t[:end] }
+    end
+
+    def self.tier_label_key(tier_key)
+      "street.#{tier_key}_label"
+    end
+
     private
 
       def scoped
-        QuizRun.where(device_digest: @digest, person_id: @person_id)
+        QuizRun.adventure.where(device_digest: @digest, person_id: @person_id)
       end
 
       def finished_by_pack
@@ -74,6 +122,7 @@ module Quizzes
         else
           []
         end
+        tier = self.class.tier_for(index)
         PackView.new(
           id: pack_id,
           pack:,
@@ -82,7 +131,8 @@ module Quizzes
           best_score: fin&.dig(:run)&.score,
           open_run_id: open&.id,
           index:,
-          trail:
+          trail:,
+          category: self.class.category_for(pack_id)
         )
       end
 

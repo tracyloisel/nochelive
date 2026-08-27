@@ -114,6 +114,8 @@ module Wards
         }.tap do |row|
           row[:name] = attrs[:name].to_s.first(Ward::NAME_MAX) unless keep_name
           row[:church_unit_id] = attrs[:church_unit_id] if attrs[:church_unit_id].present?
+          row[:stake_unit_id] = attrs[:stake_unit_id] if attrs[:stake_unit_id].present?
+          row[:locator_payload] = attrs[:locator_payload] if attrs[:locator_payload].present?
         end
       end
   end

@@ -1,78 +1,97 @@
 require "test_helper"
 
 class PagesControllerTest < ActionDispatch::IntegrationTest
-  test "church hub is a paper hall with four illustrated doors" do
+  test "church hub is a cinematic journey with four doors and a dock" do
     get church_path
     assert_response :success
-    assert_select "body.is-paper-hall"
-    assert_select ".home-paper"
-    assert_select "h1", text: "Noche Live"
-    assert_select "a.street-hub-lockup-wordmark[href=?]", root_path
-    assert_select ".street-hub-kicker", text: I18n.t("church.kicker")
-    assert_select "p.lede.paper-lede", text: I18n.t("church.lede")
+    assert_select "body.is-church-journey"
+    assert_select ".church-landing[style*='threshold-v2.png']"
+    assert_select ".church-landing h1", text: I18n.t("church.invite")
     assert_select "a.paper-door[href=?]", church_meet_path
     assert_select "a.paper-door[href=?]", church_beliefs_path
     assert_select "a.paper-door[href=?]", church_missionaries_path
     assert_select "a.paper-door[href=?]", church_worship_path
     assert_select ".paper-door-hint", text: I18n.t("church.beliefs_hint")
-    assert_select "a.paper-door[href=?] img[src=?]", church_beliefs_path, "/media/church/beliefs.jpg"
+    assert_select ".home-menu.is-hud .quiz-hud"
+    assert_select ".street-world-dock .street-hub-nav-item", count: 5
+    assert_select ".street-hub-nav-item.is-active[href=?]", church_path
     assert_select ".btn.btn-gold", count: 0
     assert_select ".story-ticks", count: 0
     assert_select ".chrome-drawer a.home-menu-row[href=?]", church_path
   end
 
-  test "meet missionaries keeps the title with the still" do
+  test "meet missionaries opens as a cinematic chapter" do
     get church_meet_path
     assert_response :success
-    assert_select ".paper-story .hall-still img[src=?]", "/media/church/meet.jpg"
-    assert_select ".paper-story h2.paper-page-title", text: I18n.t("church.meet_title")
-    assert_select "section.home-paper > h2.paper-page-title", count: 0
+    assert_select ".church-meet[style*='meet-v2.png']"
+    assert_select ".church-meet-hero h1", text: I18n.t("church.meet_title")
+    assert_select ".church-meet-story .church-meet-card"
     assert_select "a.btn.btn-gold[href=?]", PagesController::VISIT_URL
     assert_select "a.btn.btn-gold[href*='gclid']", count: 0
     assert_select "p.lede", text: I18n.t("church.meet_expect")
-    assert_select ".paper-other-doors a.btn.btn-navy", count: 3
-    assert_select ".paper-other-doors a.btn.btn-navy[href=?]", church_beliefs_path
-    assert_select "a", text: I18n.t("church.back"), count: 0
+    assert_select ".missionary-chapter-path.is-back[href=?]", church_worship_path
+    assert_select ".missionary-chapter-home[href=?]", church_path
+    assert_select ".missionary-chapter-path.is-next[href=?]", church_beliefs_path
+    assert_select ".missionary-path-progress i.is-current:nth-child(1)"
+    assert_select ".home-menu.is-hud .quiz-hud"
+    assert_select ".street-hub-nav-item.is-active[href=?]", church_path
   end
 
   test "beliefs page carries Come Unto Christ topics and a local visit door" do
     get church_beliefs_path
     assert_response :success
-    assert_select ".paper-story h2.paper-page-title", text: I18n.t("church.beliefs_title")
-    assert_select "section.home-paper > h2.paper-page-title", count: 0
+    assert_select ".church-beliefs[style*='beliefs-v2.png']"
+    assert_select ".church-beliefs h1", text: I18n.t("church.beliefs_title")
     assert_select ".belief-beat h3", text: I18n.t("church.belief.christ_title")
     assert_select ".belief-beat h3", text: I18n.t("church.belief.word_title")
     assert_select ".belief-q", count: 5
     assert_select ".belief-q summary", text: I18n.t("church.belief.faq.denomination.q")
     assert_select "a.btn.btn-gold[href=?]", church_meet_path
-    assert_select "a.quiet-link[href=?]", PagesController::BELIEVE_URL
+    assert_select ".church-beliefs-invitation .belief-invitation-back", count: 0
+    assert_select ".church-beliefs-invitation .belief-official-link", count: 0
     assert_select "a[href*='gclid']", count: 0
-    assert_select ".paper-other-doors a.btn.btn-navy", count: 3
-    assert_select "a", text: I18n.t("church.back"), count: 0
+    assert_select ".missionary-chapter-path.is-back[href=?]", church_meet_path
+    assert_select ".missionary-chapter-home[href=?]", church_path
+    assert_select ".missionary-chapter-path.is-next[href=?]", church_missionaries_path
+    assert_select ".missionary-path-progress i.is-current:nth-child(2)"
+    assert_select ".home-menu.is-hud .quiz-hud"
+    assert_select ".street-hub-nav-item.is-active[href=?]", church_path
     assert_select ".story-ticks", count: 0
   end
 
   test "missionaries keeps the title with the still" do
     get church_missionaries_path
     assert_response :success
-    assert_select ".paper-story .hall-still img[src=?]", "/media/church/missionaries.jpg"
-    assert_select ".paper-story h2.paper-page-title", text: I18n.t("church.missionaries_title")
-    assert_select "section.home-paper > h2.paper-page-title", count: 0
-    assert_select "a.btn.btn-gold[href=?]", PagesController::VISIT_URL
-    assert_select ".paper-other-doors a.btn.btn-navy", count: 3
-    assert_select "a", text: I18n.t("church.back"), count: 0
+    assert_select ".church-scene--missionaries[style*='missionaries-v2.png']"
+    assert_select ".church-missionaries h1", text: I18n.t("church.missionaries_title")
+    assert_select ".missionary-act", count: 3
+    assert_select ".missionary-gift", count: 3
+    assert_select ".missionary-steps li", count: 3
+    assert_select "a.btn.btn-gold[href^=?]", PagesController::MISSION_URL
+    assert_select ".missionary-chapter-path.is-back[href=?]", church_beliefs_path
+    assert_select ".missionary-chapter-home[href=?]", church_path
+    assert_select ".missionary-chapter-path.is-next[href=?]", church_worship_path
+    assert_select ".missionary-path-progress i.is-current:nth-child(3)"
+    assert_select ".home-menu.is-hud .quiz-hud"
+    assert_select ".street-hub-nav-item.is-active[href=?]", church_path
   end
 
   test "worship keeps the title with the still and links to the map" do
     get church_worship_path
     assert_response :success
-    assert_select ".paper-story .hall-still img[src=?]", "/media/church/worship.jpg"
-    assert_select ".paper-story h2.paper-page-title", text: I18n.t("church.worship_title")
-    assert_select "section.home-paper > h2.paper-page-title", count: 0
+    assert_select ".church-scene--worship[style*='worship-v2.png']"
+    assert_select ".church-worship h1", text: I18n.t("church.worship_title")
+    assert_select ".worship-schedule li", count: 2
+    assert_select ".worship-reassurances article", count: 3
     assert_select "a.btn.btn-gold[href=?]", PagesController::MAPS_URL
-    assert_select "p.lede", text: I18n.t("church.worship_first")
-    assert_select ".paper-other-doors a.btn.btn-navy", count: 3
-    assert_select "a", text: I18n.t("church.back"), count: 0
+    assert_select ".worship-source[href^=?]", PagesController::WORSHIP_URL
+    assert_select ".worship-meet-link[href=?]", church_meet_path
+    assert_select ".missionary-chapter-path.is-back[href=?]", church_missionaries_path
+    assert_select ".missionary-chapter-home[href=?]", church_path
+    assert_select ".missionary-chapter-path.is-next[href=?]", church_meet_path
+    assert_select ".missionary-path-progress i.is-current:nth-child(4)"
+    assert_select ".home-menu.is-hud .quiz-hud"
+    assert_select ".street-hub-nav-item.is-active[href=?]", church_path
   end
 
   test "legal names Tracy Loisel and Render on a charter sheet" do
@@ -116,31 +135,34 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
   test "stats is a public carta with four marble chapters" do
     get platform_stats_path
     assert_response :success
-    assert_select "body.is-paper-hall"
-    assert_select "#stats_charter.is-charter.is-stats"
-    assert_select ".hall-sheet.charter-sheet h1", text: I18n.t("stats.title")
+    assert_select "body.is-paper-hall.is-stats"
+    assert_select "#stats_page.stats-page"
+    assert_select ".home-menu.is-hud .quiz-hud", count: 1
+    assert_select ".stats-header h1", text: I18n.t("stats.title")
+    assert_select ".stats-header-lede", text: I18n.t("stats.lede")
     assert_select "section.stats-chapter h2", count: 4
-    assert_select "section.stats-chapter h2", text: I18n.t("stats.house.title")
-    assert_select "section.stats-chapter h2", text: I18n.t("stats.path.title")
-    assert_select "section.stats-chapter h2", text: I18n.t("stats.meet.title")
-    assert_select "section.stats-chapter h2", text: I18n.t("stats.world.title")
+    assert_select "section.stats-chapter h2 .stats-chapter-num", count: 4
+    assert_select "section.stats-chapter h2", text: /La casa/
+    assert_select "section.stats-chapter h2", text: /El camino/
+    assert_select "section.stats-chapter h2", text: /Encuentros/
+    assert_select "section.stats-chapter h2", text: /Liga mundial/
     assert_select ".stats-tile"
     assert_select ".stats-langs"
-    assert_select ".stats-share.is-path"
+    assert_select ".stats-path-circle"
+    assert_select ".stats-path-svg"
+    assert_select ".stats-world-list"
+    assert_select "nav.street-hub-nav.street-world-dock .street-hub-nav-item", count: 5
+    assert_select "nav.street-world-dock a.street-hub-nav-item.is-active[href=?]", root_path, count: 1
+    assert_select ".stats-about[href=?]", about_path
+    assert_select ".stats-about .stats-about-title", text: I18n.t("stats.about.title")
     assert_select "dl.paper-facts", count: 0
-    assert_select ".stats-podium"
-    assert_select ".stats-podium-name", text: "Carmen"
-    assert_select ".stats-podium-name", text: /García/, count: 0
-    assert_select ".is-stats", text: /1833/, count: 0
+    assert_select ".stats-world-name", text: "Carmen"
+    assert_select ".stats-world-name", text: /García/, count: 0
+    assert_select ".stats-page", text: /1833/, count: 0
     assert_select ".street-liga-podium", count: 0
     assert_select ".story-ticks", count: 0
     assert_select ".btn.btn-gold", count: 0
-    assert_select ".chrome-drawer a.home-menu-row[href=?]", platform_stats_path, text: I18n.t("stats.menu")
-    assert_select "a.quiet-link[href=?]", about_path, text: I18n.t("home.who")
-    get about_path
-    assert_select "a.quiet-link[href=?]", platform_stats_path
-    get legal_path
-    assert_select "a.quiet-link[href=?]", platform_stats_path
+    assert_select "nav.street-hub-nav.street-world-dock a[href=?]", platform_stats_path, count: 0
   end
 
   test "stats shows an honest empty world when no pack is finished" do

@@ -1,163 +1,132 @@
-<% content_for :title, @visit ? "#{@board_ward.name} · #{t("street.leaderboard_kicker")}" : t("street.leaderboard_title") %>
-<% content_for :body_class, "is-kid is-street-hub" %>
-<% pack_title = @pack_id ? QuizDefinition.catalog.find_pack(@pack_id).copy(:title) : nil %>
-<% board_title = pack_title ? t("street.board_pack", pack: pack_title) : t("street.board_total") %>
+<% content_for :title, t("street.leaderboard_screen_title") %>
+<% content_for :body_class, "is-kid is-street-hub is-liga" %>
+<% pack = @pack_id && QuizDefinition.catalog.find_pack(@pack_id) %>
+<% board_title = pack ? t("street.board_pack", pack: pack.copy(:title)) : t("street.board_total") %>
 <% you = @you %>
-<% you_on_page = @board.rows.any? { |row| row.you && !row.context } %>
 <% liga_empty = @q.present? ? t("street.leaderboard_empty_search") : (@visit ? t("street.leaderboard_empty_ward") : t("street.leaderboard_empty")) %>
-<%= chrome_menu { site_menu } %>
-
 <section id="street_world"
-         class="street-world street-leaderboard-page"
+         class="street-world street-leaderboard-page is-liga-enter"
+         data-controller="liga-board"
+         data-liga-board-create-url-value="<%= street_challenges_path(format: :json) %>"
+         data-liga-board-pack-id-value="<%= @duel_pack_id %>"
          style="view-transition-name: street-world">
-  <%= render "pages/head", kicker: @visit ? @board_ward.name : t("street.leaderboard_kicker") %>
+  <%= chrome_menu(hud: true) { site_menu } %>
+
+  <header class="street-liga-head leaderboard-title">
+    <div class="street-liga-title-rule" aria-hidden="true"></div>
+    <h1><%= t("street.leaderboard_screen_title") %></h1>
+    <%= link_to ward_profile_path(@board_ward.code), class: "street-liga-rama-back" do %>
+      <%= picto("arrow") %>
+      <span><%= t("street.leaderboard_back_ward") %></span>
+    <% end %>
+    <span class="street-liga-title-star" aria-hidden="true"><%= picto("star8") %></span>
+  </header>
+
+  <nav class="street-liga-scope leaderboard-controls" aria-label="<%= t("street.leaderboard_scope") %>">
+    <%= link_to liga_path_for(q: @q.presence), class: ("is-active" unless @stake_scope), aria: { current: ("page" unless @stake_scope) } do %>
+      <%= picto("temple") %>
+      <span><%= @board_ward.name %></span>
+    <% end %>
+    <%= link_to liga_path_for(scope: "stake", q: @q.presence), class: ("is-active" if @stake_scope), aria: { current: ("page" if @stake_scope) } do %>
+      <%= picto("scroll") %>
+      <span><%= t("street.leaderboard_scope_stake") %></span>
+    <% end %>
+  </nav>
 
   <div class="street-leaderboard-sheet">
-    <div class="street-leaderboard-tools">
-    <%= form_with url: liga_path_for, method: :get, class: "street-leaderboard-search",
-          data: { controller: "liga-search", action: "input->liga-search#queue keydown.esc->liga-search#clearOnEscape" } do %>
-      <div class="street-leaderboard-search-row<%= " is-filled" if @q.present? %>">
-        <label for="leaderboard_q" class="visually-hidden"><%= t("street.leaderboard_search") %></label>
-        <input id="leaderboard_q"
-               name="q"
-               type="search"
-               value="<%= @q %>"
-               maxlength="24"
-               autocomplete="off"
-               enterkeyhint="search"
-               class="street-leaderboard-query"
-               placeholder="<%= t("street.leaderboard_search_hint") %>"
-               data-action="input->liga-search#queue"
-               <%= "autofocus" if @q.present? %>>
-        <% if @q.present? %>
-          <%= link_to liga_path_for(pack_id: @pack_id),
-                class: "street-leaderboard-search-clear",
-                aria: { label: t("street.leaderboard_search_clear") } do %>
-            <%= picto("cross") %>
-          <% end %>
-        <% end %>
-        <button type="submit" class="street-leaderboard-search-go" aria-label="<%= t("street.leaderboard_search_btn") %>">
-          <%= picto("search") %>
-        </button>
-      </div>
-      <label class="street-leaderboard-filter">
-        <span class="visually-hidden"><%= t("street.leaderboard_scope") %></span>
-        <span class="street-leaderboard-filter-mark" aria-hidden="true"><%= picto("podium") %></span>
-        <select name="pack_id"
-                class="street-leaderboard-select"
-                data-action="change->liga-search#queue">
-          <option value="" <%= "selected" unless @pack_id %>><%= t("street.leaderboard_scope_all") %></option>
-          <% QuizDefinition.catalog.pack_ids.each do |pack_id| %>
-            <option value="<%= pack_id %>" <%= "selected" if @pack_id == pack_id %>>
-              <%= QuizDefinition.catalog.find_pack(pack_id).copy(:title) %>
-            </option>
-          <% end %>
-        </select>
-      </label>
-    <% end %>
-
-    <% unless @visit && you.blank? %>
-      <%= link_to street_challenges_path(pack_id: @pack_id),
-            class: "quiet-link street-leaderboard-duels" do %>
-        <%= t("street.duel_inbox") %>
-        <% if @duel_incoming.to_i.positive? %>
-          <span class="street-leaderboard-duels-n" aria-label="<%= t("street.duel_incoming") %>"><%= @duel_incoming %></span>
-        <% end %>
-      <% end %>
-    <% end %>
-    <% if @visit %>
-      <%= link_to t("street.leaderboard_back_ward"), ward_profile_path(@board_ward.code),
-            class: "quiet-link street-leaderboard-ward-back" %>
-    <% end %>
-
-    <% if you && @board.your_rank && !you_on_page && @board.your_page %>
-      <%= link_to liga_path_for(pack_id: @pack_id, page: @board.your_page, q: @q.presence, anchor: "liga-you"),
-            class: "street-leaderboard-you-card" do %>
-        <span class="street-board-rank"><%= @board.your_rank %></span>
-        <% src = avatar_mark(you) %>
-        <span class="street-card-avatar">
-          <% if src %>
-            <img src="<%= src %>" alt="" class="avatar-img" width="48" height="48">
-          <% else %>
-            <span class="avatar-fallback" aria-hidden="true"><%= you.given_name.to_s.first %></span>
-          <% end %>
-          <%= street_live_dot(@board.your_live) %>
-        </span>
-        <div class="street-card-meta">
-          <p class="street-card-name"><%= you.given_name %></p>
-          <p class="street-board-answered"><%= t("street.leaderboard_answered", count: @board.your_answered) %></p>
-          <p class="street-leaderboard-you"><%= t("street.leaderboard_you", rank: @board.your_rank, players: @board.players, score: @board.your_score) %></p>
-          <span class="visually-hidden"><%= t("street.leaderboard_you_jump") %></span>
+    <div class="street-leaderboard-tools leaderboard-controls">
+      <%= form_with url: liga_path_for, method: :get, class: "street-leaderboard-search",
+            data: { controller: "liga-search", action: "input->liga-search#queue keydown.esc->liga-search#clearOnEscape" } do %>
+        <div class="street-leaderboard-search-row<%= " is-filled" if @q.present? %>">
+          <label for="leaderboard_q" class="visually-hidden"><%= t("street.leaderboard_search") %></label>
+          <span class="street-liga-search-mark" aria-hidden="true"><%= picto("search") %></span>
+          <input id="leaderboard_q"
+                 name="q"
+                 type="search"
+                 value="<%= @q %>"
+                 maxlength="24"
+                 autocomplete="off"
+                 enterkeyhint="search"
+                 class="street-leaderboard-query"
+                 placeholder="<%= t("street.leaderboard_search_member") %>"
+                 data-action="focus->liga-board#searchFocus blur->liga-board#searchBlur input->liga-search#queue">
+          <input type="hidden" name="pack_id" value="<%= @pack_id %>">
+          <% if @stake_scope %><input type="hidden" name="scope" value="stake"><% end %>
         </div>
-        <p class="street-card-score">
-          <%= picto("crown") %><%= number_with_delimiter(@board.your_score) %>
-        </p>
       <% end %>
-    <% end %>
+      <%= link_to street_challenges_path, class: "street-liga-sibling-link", data: { action: "liga-board#leaveForChallenges" } do %>
+        <span aria-hidden="true">⚔</span><%= t("street.duel_inbox") %>
+        <% if @duel_incoming.to_i.positive? %><b><%= @duel_incoming %></b><% end %>
+      <% end %>
     </div>
 
-    <% if @board.rows.any? %>
-      <%= render "home/leaderboard",
-            board: @board,
-            title: board_title,
-            board_class: "is-liga",
-            show_players: true,
-            show_avatars: true,
-            compact_head: true,
-            podium: @q.blank? && @page == 1 %>
-    <% else %>
-      <p class="street-leaderboard-empty<%= " is-search" if @q.present? %>">
-        <span class="street-leaderboard-empty-mark" aria-hidden="true"><%= picto(@q.present? ? "search" : "podium") %></span>
-        <%= liga_empty %>
-      </p>
-    <% end %>
+    <p class="street-liga-lede">
+      <%= t(pack ? "street.leaderboard_basis_pack" : (@stake_scope ? "street.leaderboard_basis_stake" : "street.leaderboard_basis_total"), pack: pack&.copy(:title)) %>
+      <%= picto("crown") %>
+    </p>
+
+    <div class="street-liga-board-wrap" data-liga-board-target="board">
+      <% if @board.rows.any? %>
+        <%= render "home/leaderboard",
+              board: @board,
+              title: board_title,
+              board_class: "is-liga",
+              show_players: true,
+              show_avatars: true,
+              show_ward: @stake_scope,
+              compact_head: true,
+              podium: @page == 1 && @q.blank? %>
+      <% else %>
+        <p class="street-leaderboard-empty<%= " is-search" if @q.present? %>">
+          <span class="street-leaderboard-empty-mark" aria-hidden="true"><%= picto(@q.present? ? "search" : "podium") %></span>
+          <%= liga_empty %>
+        </p>
+      <% end %>
+    </div>
 
     <% if @board.pages > 1 %>
-      <% pages = @board.pages %>
-      <% from = pages <= 5 ? 1 : [1, @page - 2].max %>
-      <% to = pages <= 5 ? pages : [pages, @page + 2].min %>
       <nav class="street-leaderboard-pages" aria-label="<%= t("street.leaderboard_pages") %>">
-        <span class="visually-hidden"><%= t("street.leaderboard_page", page: @page, pages: pages) %></span>
-        <% if @page > 1 %>
-          <%= link_to liga_path_for(pack_id: @pack_id, page: @page - 1, q: @q.presence),
-                class: "street-leaderboard-page-link is-step",
-                aria: { label: t("street.leaderboard_prev") } do %>
-            <span aria-hidden="true">‹</span>
-          <% end %>
-        <% end %>
-        <% if from > 1 %>
-          <%= link_to "1", liga_path_for(pack_id: @pack_id, page: 1, q: @q.presence),
-                class: "street-leaderboard-page-link",
-                aria: { label: t("street.leaderboard_page", page: 1, pages: pages) } %>
-          <% if from > 2 %>
-            <span class="street-leaderboard-page-gap" aria-hidden="true"><%= t("street.leaderboard_gap") %></span>
-          <% end %>
-        <% end %>
-        <% from.upto(to) do |n| %>
+        <% 1.upto(@board.pages) do |n| %>
           <% if n == @page %>
             <span class="street-leaderboard-page-link is-current" aria-current="page"><%= n %></span>
           <% else %>
-            <%= link_to n, liga_path_for(pack_id: @pack_id, page: n, q: @q.presence),
-                  class: "street-leaderboard-page-link",
-                  aria: { label: t("street.leaderboard_page", page: n, pages: pages) } %>
-          <% end %>
-        <% end %>
-        <% if to < pages %>
-          <% if to < pages - 1 %>
-            <span class="street-leaderboard-page-gap" aria-hidden="true"><%= t("street.leaderboard_gap") %></span>
-          <% end %>
-          <%= link_to pages, liga_path_for(pack_id: @pack_id, page: pages, q: @q.presence),
-                class: "street-leaderboard-page-link",
-                aria: { label: t("street.leaderboard_page", page: pages, pages: pages) } %>
-        <% end %>
-        <% if @page < pages %>
-          <%= link_to liga_path_for(pack_id: @pack_id, page: @page + 1, q: @q.presence),
-                class: "street-leaderboard-page-link is-step",
-                aria: { label: t("street.leaderboard_next") } do %>
-            <span aria-hidden="true">›</span>
+            <%= link_to n, liga_path_for(pack_id: @pack_id, scope: ("stake" if @stake_scope), page: n, q: @q.presence),
+                  class: "street-leaderboard-page-link" %>
           <% end %>
         <% end %>
       </nav>
     <% end %>
   </div>
+
+  <% if you && @board.your_rank %>
+    <%= link_to liga_path_for(pack_id: @pack_id, scope: ("stake" if @stake_scope), page: @board.your_page, anchor: "liga-you"),
+          class: "street-liga-you-bar",
+          data: { liga_board_target: "youBar" } do %>
+      <span class="street-liga-you-trophy"><%= picto("trophy") %></span>
+      <span><small><%= t("street.leaderboard_your_position") %></small><strong><%= t("street.leaderboard_position", rank: @board.your_rank, players: @board.players) %></strong></span>
+      <b><%= number_with_delimiter(@board.your_score) %> <%= picto("crown") %></b>
+      <i aria-hidden="true">›</i>
+    <% end %>
+  <% end %>
+
+  <dialog class="street-liga-dialog street-liga-challenge-dialog" data-liga-board-target="challenge">
+    <form method="dialog" class="street-liga-dialog-sheet">
+      <button class="street-liga-dialog-close" value="cancel" aria-label="<%= t("chrome.close_menu") %>">×</button>
+      <div class="street-liga-versus">
+        <span class="street-liga-challenger"><%= you&.given_name %></span>
+        <b>⚔</b>
+        <span data-liga-board-target="opponentName"></span>
+      </div>
+      <h2 data-liga-board-target="challengeTitle"></h2>
+      <p><span data-liga-board-target="opponentMeta"></span> · <%= picto("crown") %></p>
+      <p><%= t("street.duel_live_rule") %></p>
+      <p class="street-liga-challenge-success" data-liga-board-target="success" hidden><%= picto("check") %> <%= t("street.duel_sent") %></p>
+      <footer>
+        <button value="cancel" class="btn btn-ghost"><%= t("street.cancel") %></button>
+        <button type="button" class="btn btn-gold" data-liga-board-target="send" data-action="liga-board#sendChallenge"><%= t("street.duel_send") %></button>
+      </footer>
+    </form>
+  </dialog>
+
+  <%= render Navigation::DockComponent.new(active: :home) %>
 </section>

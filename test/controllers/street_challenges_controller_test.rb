@@ -150,45 +150,47 @@ class StreetChallengesControllerTest < ActionDispatch::IntegrationTest
     assert_equal carmen.id, duel.reload.opponent_person_id
   end
 
-  test "inbox lists waiting and recent duels on the marble sheet" do
+  test "challenge board shows stake hero active matches rivals and history" do
     get street_challenges_path
     assert_response :success
     assert_select ".street-duel-inbox"
-    assert_select "article.hall-sheet.street-duel-inbox-sheet"
-    assert_select "#street_duel_ping"
-    assert_select "turbo-cable-stream-source"
-    assert_select ".street-hub-kicker", text: I18n.t("street.duel_inbox_kicker")
-    assert_select "a.street-hub-lockup-wordmark[href=?]", root_path
-    assert_select ".street-duel-inbox-lede", text: I18n.t("street.duel_inbox_lede")
-    assert_select ".street-duel-inbox-card-name", text: I18n.t("street.share_guest")
-    assert_select ".street-duel-inbox-card-score", text: I18n.t("street.duel_waiting_link")
-    assert_select ".street-duel-inbox-card-name", text: I18n.t("street.duel_they_won", name: people(:carmen_garcia).display_name)
-    assert_select ".street-duel-inbox-rival-state", text: I18n.t("street.duel_lost_badge")
-    assert_select ".street-duel-inbox-rival-go", text: I18n.t("street.duel_send")
-    assert_select ".street-hub-nav", count: 0
-    assert_select ".street-world-dock", count: 0
-    assert_select "a.quiet-link", text: I18n.t("street.duel_inbox_back")
-    html = response.body
-    assert_operator html.index("id=\"duel_recent\""), :<, html.index("id=\"duel_outgoing\"")
+    assert_select ".street-stake-rivalry"
+    assert_select "h1", text: I18n.t("street.duel_inbox_kicker")
+    assert_select ".street-duel-live-card"
+    assert_select ".street-duel-pick"
+    assert_select ".street-duel-history"
+    assert_select ".street-hub-nav", count: 1
+    assert_select ".street-world-dock", count: 1
+    assert_select "a.street-duel-back[href=?]", street_leaderboard_path
   end
 
-  test "inbox puts live rivals first and keeps a finished pair off challenge" do
+  test "player without a ward is asked to choose one then returns to challenges" do
+    reset!
+    post street_profile_path, params: { name: "Noa", avatar_key: "delfin" }
+    assert_redirected_to root_path
+
+    get street_challenges_path
+    assert_redirected_to search_path(cambiar: 1)
+    assert_equal I18n.t("flashes.ward_required_challenges"), flash[:alert]
+
+    post street_ward_pick_path, params: { code: wards(:demo).code }
+    assert_redirected_to street_challenges_path
+  end
+
+  test "challenge board puts live rivals first" do
     PersonDevice.create!(person: people(:carmen_lopez), device_token: "lopez-live-inbox", last_seen_at: Time.current)
     get street_challenges_path
     assert_response :success
-    assert_select ".street-duel-inbox-rivals li:first-child .street-duel-inbox-rival-name", text: people(:carmen_lopez).display_name
+    assert_select ".street-duel-pick li:first-child", text: /#{Regexp.escape(people(:carmen_lopez).display_name)}/
     assert_select ".street-live-dot"
-    names = css_select(".street-duel-inbox-rival-name").map { |node| node.text.strip }
-    assert_equal people(:carmen_lopez).display_name, names.first
-    assert_select ".street-duel-inbox-rival.is-settled .street-duel-inbox-rival-name", text: people(:carmen_garcia).display_name
+    assert_select ".street-duel-rival-button", text: /#{Regexp.escape(people(:carmen_garcia).display_name)}/
   end
 
-  test "named rematch on a resolved pack is denied" do
+  test "named rematch on a resolved pack starts a new live duel" do
     carmen = people(:carmen_garcia)
     post street_challenges_path, params: { opponent_id: carmen.id, pack_id: "coronas" }
     assert_redirected_to street_challenges_path
-    follow_redirect!
-    assert_select ".banner", text: I18n.t("street.duel_played")
+    assert StreetDuel.active.where(challenger_person: people(:pili), opponent_person: carmen, pack_id: "coronas").exists?
   end
 
   test "opponent can decline a named challenge" do
@@ -231,7 +233,9 @@ class StreetChallengesControllerTest < ActionDispatch::IntegrationTest
     duel = StreetDuel.order(:id).last
     assert_equal carmen.id, duel.opponent_person_id
     assert_equal people(:pili).id, duel.challenger_person_id
-    assert_equal 58, duel.challenger_score
+    assert_nil duel.challenger_score
+    assert duel.challenger_run.open?
+    assert_equal duel.id, duel.challenger_run.street_duel_id
     follow_redirect!
     assert_select ".banner", text: I18n.t(
       "street.duel_named",

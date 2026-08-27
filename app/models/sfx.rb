@@ -1,4 +1,6 @@
 class Sfx
+  require "digest"
+
   CUES = %w[
     round_start
     buzzer_hit
@@ -15,7 +17,13 @@ class Sfx
     round_open
     round_lock
     question_change
+    celestial_breath
+    duel_send
+    stake_gain
     reveal
+    study_light
+    study_miss
+    study_turn
   ].freeze
 
   PULSE = {
@@ -50,7 +58,7 @@ class Sfx
   PULSE_SOLO = %w[lock reveal score open advance miss].freeze
 
   def self.catalog
-    CUES.index_with { |name| path_for(name) }.compact
+    CUES.index_with { |name| versioned_path_for(name) }.compact
   end
 
   def self.known?(name)
@@ -67,6 +75,13 @@ class Sfx
   def self.path_for(name)
     file = file_for(name)
     "/sfx/#{file.basename}" if file
+  end
+
+  def self.versioned_path_for(name)
+    file = file_for(name)
+    return unless file
+
+    "#{path_for(name)}?v=#{Digest::SHA256.file(file).hexdigest[0, 12]}"
   end
 
   def self.for_pulse(kind, source = nil)

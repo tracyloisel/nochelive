@@ -1,89 +1,60 @@
 <% pack_view = local_assigns[:pack_view] %>
-<% role = local_assigns[:role] %>
 <% unlock_pack_id = local_assigns[:unlock_pack_id] %>
-<% unlocking = unlock_pack_id == pack_view.id && (role == :locked || pack_view.state == :locked) %>
 <% historial = local_assigns[:historial] %>
-<% thumb = street_still_src(pack_view.pack.question_at(1)) %>
-<% state_class = unlocking ? "is-unlocking is-locked" : "is-#{pack_view.state}" %>
-<% state_class = "#{state_class} is-current" if role == :current && !state_class.include?("is-current") %>
-<% locked = unlocking || role == :locked || pack_view.state == :locked %>
-<% tap_label = if role == :finished && pack_view.state == :finished
-     t("street.pack_replay")
-   elsif pack_view.open_run_id.present?
-     t("street.world_continue")
-   else
-     t("street.world_play")
-   end %>
+<% role = local_assigns[:role] %>
+
+<% role = :current if pack_view.id == @world.current_pack_id %>
+<% role = :finished if pack_view.state == :finished %>
+<% role = :locked if pack_view.state == :locked %>
+<% unlocking = unlock_pack_id == pack_view.id && (role == :locked || pack_view.state == :locked) %>
+<% pack_number = pack_view.index + 1 %>
+<% has_coffret = (pack_number % 10).zero? %>
 
 <article id="pack-<%= pack_view.id %>"
-         class="street-card is-pack is-node is-<%= role %> <%= state_class %>"
+         class="mapa-node is-<%= role %><%= " is-unlocking" if unlocking %>"
          data-pack-id="<%= pack_view.id %>"
+         data-category="<%= pack_view.category %>"
+         data-hub-map-target="node"
+         data-action="click:hub-map#tapNode keydown.enter:hub-map#tapNode keydown.space:hub-map#tapNode"
+         <%= %(tabindex="0" role="button" aria-label="#{j(t("street.mapa_locked_hint", pack: [pack_number - 1, 1].max))}").html_safe if role == :locked %>
          <%= %(data-controller="street-motion" data-street-motion-sequence-value="packUnlock").html_safe if unlocking %>>
+
   <% if role == :current %>
-    <span class="street-pack-beacon" aria-hidden="true"><%= picto("star4") %></span>
+    <span class="mapa-node-beacon" aria-hidden="true"><%= picto("star4") %></span>
   <% end %>
 
-  <div class="street-pack-chip">
-    <div class="street-pack-thumb">
-      <% if thumb %>
-        <img src="<%= thumb %>" alt="">
-      <% end %>
-      <% if role == :finished || pack_view.state == :finished %>
-        <span class="street-pack-check" aria-hidden="true"><%= picto("check") %></span>
-      <% end %>
-      <% if unlocking || role == :locked || pack_view.state == :locked %>
-        <span class="street-pack-lock" aria-hidden="true"><%= picto("lock") %></span>
-      <% end %>
-    </div>
+  <div class="mapa-node-circle">
+    <span class="mapa-node-number"><%= pack_number %></span>
 
-    <div class="street-pack-meta">
-      <p class="street-pack-kicker"><%= t("street.pack_ordinal", n: pack_view.index + 1) %></p>
-      <h3 class="street-pack-title"><%= pack_view.pack.copy(:title) %></h3>
-    <div class="street-pack-stars" aria-label="<%= t("street.card_stars", count: pack_view.stars) %>">
-      <% 3.times do |i| %>
-        <span class="street-star <%= "is-filled" if i < pack_view.stars %>"><%= picto("star") %></span>
-      <% end %>
-    </div>
-    <% if role == :current %>
-      <p class="street-pack-coronas-label"><%= t("street.coronas_label") %></p>
+    <% if role == :finished || pack_view.state == :finished %>
+      <span class="mapa-node-check" aria-hidden="true"><%= picto("check") %></span>
+    <% elsif role == :locked || pack_view.state == :locked %>
+      <span class="mapa-node-lock" aria-hidden="true"><%= picto("lock") %></span>
     <% end %>
-    <% if role == :finished && pack_view.state == :finished %>
-      <p class="street-pack-replay-hint" aria-hidden="true"><%= t("street.pack_replay") %></p>
-    <% end %>
-    <% if role == :locked || pack_view.state == :locked %>
-      <p class="street-pack-soon"><%= t("street.pack_coming_soon") %></p>
-    <% end %>
-    <% if pack_view.best_score && role != :locked %>
-      <p class="street-pack-best"><%= t("street.card_best", score: pack_view.best_score) %></p>
-    <% end %>
-    <% if historial && pack_view.trail.any? && pack_view.state.in?(%i[finished open current]) %>
-      <details class="street-pack-history" id="historial">
-        <summary><%= t("street.history_menu") %></summary>
-        <ol class="street-pack-trail">
-          <% pack_view.trail.select(&:question?).each do |step| %>
-            <li class="<%= step.state %>">
-              <% if step.jumpable? && step.run_id %>
-                <%= button_to quiz_jump_path(step.run_id),
-                      params: { position: step.position },
-                      class: "quiet-link",
-                      form: { data: { turbo_stream: true } } do %>
-                  <%= trail_step_label(step) %>
-                <% end %>
-              <% else %>
-                <span><%= trail_step_label(step) %></span>
-              <% end %>
-            </li>
-          <% end %>
-        </ol>
-      </details>
-    <% end %>
-    </div>
   </div>
-  <% unless locked %>
-    <%= button_to street_pack_start_path(pack_view.id),
-          class: "street-pack-replay quiet-link",
-          form: { class: "street-pack-replay-form", data: { turbo: false } } do %>
-      <span class="visually-hidden"><%= tap_label %></span>
+
+  <div class="mapa-node-stars" aria-label="<%= t("street.card_stars", count: pack_view.stars) %>">
+      <% 3.times do |i| %>
+        <span class="mapa-star <%= "is-filled" if i < pack_view.stars %>"><%= picto("star") %></span>
+      <% end %>
+  </div>
+
+  <% if has_coffret %>
+    <span class="mapa-node-coffret" aria-hidden="true" data-coffret-index="<%= pack_number %>">
+      <%= picto("mapa-chest") %>
+    </span>
+  <% end %>
+
+  <% if role == :locked %>
+    <span class="mapa-lock-hint" role="status"><%= t("street.mapa_locked_hint", pack: [pack_number - 1, 1].max) %></span>
+  <% end %>
+
+  <% if role != :locked %>
+    <% path = pack_view.open_run_id ? jugar_path : street_pack_start_path(pack_view.id) %>
+    <% if pack_view.open_run_id %>
+      <%= link_to "", path, class: "mapa-node-hit", aria: { label: pack_view.pack.copy(:title) }, data: { turbo: false } %>
+    <% else %>
+      <%= button_to "", path, class: "mapa-node-hit", form: { data: { turbo: false } }, aria: { label: pack_view.pack.copy(:title) } %>
     <% end %>
   <% end %>
 </article>

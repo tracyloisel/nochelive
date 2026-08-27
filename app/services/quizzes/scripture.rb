@@ -29,7 +29,8 @@ module Quizzes
       path = study.to_s
       return false if path.blank?
 
-      QuizDefinition.catalog.all_questions.any? { |question| question.scripture.study == path }
+      QuizDefinition.catalog.all_questions.any? { |question| question.scripture.study == path } ||
+        StudyQuizVersion.known_scripture_study?(path)
     end
   end
 end

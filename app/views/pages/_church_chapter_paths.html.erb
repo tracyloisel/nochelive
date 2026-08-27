@@ -1,0 +1,28 @@
+<%
+  chapters = [
+    { key: :meet, path: church_meet_path, title: t("church.meet_title") },
+    { key: :beliefs, path: church_beliefs_path, title: t("church.beliefs_title") },
+    { key: :missionaries, path: church_missionaries_path, title: t("church.missionaries_title") },
+    { key: :worship, path: church_worship_path, title: t("church.worship_title") }
+  ]
+  current_index = chapters.index { |chapter| chapter[:key] == current } || 0
+  previous_chapter = chapters[(current_index - 1) % chapters.length]
+  next_chapter = chapters[(current_index + 1) % chapters.length]
+%>
+<nav class="missionary-chapter-paths <%= "is-light" if current == :worship %>" aria-label="<%= t("church.doors") %>">
+  <div class="missionary-path-progress" aria-hidden="true">
+    <% chapters.each_with_index do |_chapter, index| %><i class="<%= "is-current" if index == current_index %>"></i><% end %>
+  </div>
+  <%= link_to previous_chapter[:path], class: "missionary-chapter-path is-back" do %>
+    <span class="missionary-path-arrow"><%= picto("arrow") %></span>
+    <span class="missionary-path-copy"><small><%= format("%02d / %02d", chapters.index(previous_chapter) + 1, chapters.length) %></small><strong><%= previous_chapter[:title] %></strong></span>
+  <% end %>
+  <%= link_to church_path, class: "missionary-chapter-home" do %>
+    <span class="missionary-home-emblem"><%= picto("church-temple") %></span>
+    <span><%= t("church.kicker") %></span>
+  <% end %>
+  <%= link_to next_chapter[:path], class: "missionary-chapter-path is-next" do %>
+    <span class="missionary-path-copy"><small><%= format("%02d / %02d", chapters.index(next_chapter) + 1, chapters.length) %></small><strong><%= next_chapter[:title] %></strong></span>
+    <span class="missionary-path-arrow"><%= picto("arrow") %></span>
+  <% end %>
+</nav>

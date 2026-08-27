@@ -1,20 +1,15 @@
 <% content_for :title, @changing_ward ? t("street.change_ward") : t("home.menu_search") %>
-<% content_for :body_class, "is-kid is-paper-hall" %>
+<% content_for :body_class, "is-kid is-paper-hall is-rama-search" %>
 <%= chrome_menu { site_menu } %>
-<section class="home-paper">
-  <header class="home-brand">
-    <div class="street-hub-lockup">
-      <div class="street-hub-lockup-wordmark">
-        <span class="street-hub-lockup-star" aria-hidden="true"><%= picto("star8") %></span>
-        <h1 class="street-hub-lockup-name"><%= @changing_ward ? t("street.change_ward") : t("home.menu_search") %></h1>
-      </div>
-      <p class="street-temple-pill street-temple-hub-title">
-        <span class="street-hub-rule" aria-hidden="true"></span>
-        <span class="street-hub-kicker"><%= t("home.search_page") %></span>
-        <span class="street-hub-rule" aria-hidden="true"></span>
-      </p>
-    </div>
+<section class="home-paper rama-search-scene">
+  <header class="rama-search-intro">
+    <span class="rama-search-sigil" aria-hidden="true"><%= picto("star8") %></span>
+    <p class="rama-search-kicker"><%= t("home.search_page") %></p>
+    <h1><%= @changing_ward ? t("street.change_ward") : t("home.menu_search") %></h1>
+    <p class="lede home-search-lede"><%= @changing_ward ? t("street.change_ward_lede") : t("home.lede") %></p>
   </header>
-  <p class="lede home-search-lede"><%= @changing_ward ? t("street.change_ward_lede") : t("home.lede") %></p>
-  <%= render "street_hub/ward_picker", pick: (@changing_ward ? "rama" : nil), cambiar: @changing_ward %>
+  <div class="rama-search-sheet">
+    <span class="rama-search-apex" aria-hidden="true"><%= picto("star8") %></span>
+    <%= render "street_hub/ward_picker", pick: (@changing_ward ? "rama" : nil), cambiar: @changing_ward %>
+  </div>
 </section>

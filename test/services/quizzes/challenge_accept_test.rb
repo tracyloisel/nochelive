@@ -14,6 +14,7 @@ class Quizzes::ChallengeAcceptTest < ActiveSupport::TestCase
     assert frame.run.open?
     assert_equal @carmen.id, @duel.reload.opponent_person_id
     assert_equal frame.run.id, @duel.opponent_run_id
+    assert_equal @duel.id, frame.run.street_duel_id
   end
 
   test "does not reuse an in-progress pack run so scores stay comparable" do

@@ -1,29 +1,77 @@
 <% content_for :title, t("home.who") %>
-<% content_for :body_class, "is-kid is-paper-hall" %>
+<% content_for :body_class, "is-kid is-church-journey is-about-journey" %>
 <%= chrome_menu { site_menu } %>
 
-<%= paper_hall id: "ward_add", kicker: t("home.who"), extra_class: "is-about" do %>
-  <% portrait = about_portrait_src %>
-  <% if portrait %>
-    <figure class="about-face">
-      <img src="<%= portrait %>" alt="<%= t("about.portrait_alt") %>" width="640" height="640">
-      <figcaption>
-        <strong>Tracy Loisel</strong>
-        <span><%= t("about.role") %></span>
-      </figcaption>
-      <%= render "reach" %>
-    </figure>
-  <% end %>
-  <h1><%= t("about.title") %></h1>
-  <p class="lede"><%= t("about.gift") %></p>
-  <p class="lede"><%= t("about.born") %></p>
-  <%= render "shared/hall_still", src: night_poster_src("reyes_y_profetas") %>
-  <p class="lede"><%= t("about.source") %></p>
-  <%= link_to t("about.github"), source_repo_url, class: "quiet-link", target: "_blank", rel: "noreferrer" %>
-  <p class="lede"><%= t("about.purse") %></p>
-  <p class="lede"><%= t("about.association") %></p>
-  <p class="lede"><%= t("about.disclaimer") %></p>
-  <nav class="hall-sheet-foot">
-    <%= link_to t("stats.title"), platform_stats_path, class: "quiet-link" %>
-  </nav>
-<% end %>
+<section id="ward_add" class="about-journey">
+  <header class="about-journey-hero" style="--about-scene: url('/media/about/community-origin-v1.png')">
+    <div class="church-scene-atmosphere" aria-hidden="true"><i></i><i></i><i></i></div>
+    <div class="about-journey-intro">
+      <p class="church-scene-kicker"><%= t("about.eyebrow") %></p>
+      <h1><%= t("about.title") %></h1>
+      <p class="lede"><%= t("about.declaration") %></p>
+    </div>
+    <p class="about-journey-caption"><span aria-hidden="true">01</span><%= t("about.origin_caption") %></p>
+  </header>
+
+  <div class="about-journey-thread" aria-hidden="true"><span></span><%= picto("star8") %><span></span></div>
+
+  <main class="about-journey-story">
+    <section class="about-journey-act is-origin">
+      <span class="about-journey-number" aria-hidden="true">01</span>
+      <div class="about-journey-copy">
+        <p class="church-scene-kicker"><%= t("about.origin_caption") %></p>
+        <h2><%= t("about.origin_title") %></h2>
+        <p class="lede"><%= t("about.gift") %></p>
+        <p class="lede"><%= t("about.born") %></p>
+      </div>
+    </section>
+
+    <section class="about-journey-act is-open">
+      <span class="about-journey-number" aria-hidden="true">02</span>
+      <span class="about-journey-emblem" aria-hidden="true"><%= picto("sparkle") %></span>
+      <div class="about-journey-copy">
+        <p class="church-scene-kicker"><%= t("about.github") %></p>
+        <h2><%= t("about.open_title") %></h2>
+        <p class="lede"><%= t("about.source") %></p>
+        <%= link_to source_repo_url, class: "btn btn-gold about-github", target: "_blank", rel: "noreferrer" do %>
+          <%= picto("sparkle") %><span><%= t("about.github") %></span><%= picto("arrow") %>
+        <% end %>
+      </div>
+    </section>
+
+    <section class="about-journey-act is-promise">
+      <span class="about-journey-number" aria-hidden="true">03</span>
+      <div class="about-journey-copy">
+        <p class="church-scene-kicker"><%= t("about.promise_title") %></p>
+        <h2><%= t("about.promise_title") %></h2>
+        <p class="lede"><%= t("about.purse") %></p>
+        <p class="lede"><%= t("about.association") %></p>
+        <p class="about-journey-disclaimer"><%= t("about.disclaimer") %></p>
+      </div>
+    </section>
+
+    <% portrait = about_portrait_src %>
+    <% if portrait %>
+      <section class="about-journey-maker">
+        <figure class="about-face">
+          <img src="<%= portrait %>" alt="<%= t("about.portrait_alt") %>" width="640" height="640">
+          <figcaption>
+            <strong>Tracy Loisel</strong>
+            <span><%= t("about.role") %></span>
+          </figcaption>
+        </figure>
+        <div class="about-maker-copy">
+          <p class="church-scene-kicker"><%= t("about.reach") %></p>
+          <h2><%= t("about.contact_title") %></h2>
+          <%= render "reach" %>
+        </div>
+      </section>
+    <% end %>
+
+    <nav class="about-journey-foot">
+      <%= link_to t("stats.title"), platform_stats_path, class: "quiet-link" %>
+    </nav>
+  </main>
+
+  <%= render Navigation::DockComponent.new(active: nil) %>
+</section>

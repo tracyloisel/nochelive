@@ -1,0 +1,434 @@
+- generic [active] [ref=e1]:
+  - link "Aller au jeu" [ref=e2] [cursor=pointer]:
+    - /url: "#main"
+  - main [ref=e4]:
+    - main [ref=e5]:
+      - navigation "Menu":
+        - generic "Garde ta progression" [ref=e6]:
+          - link "Garde ta progression" [ref=e7] [cursor=pointer]:
+            - /url: /ficha?fresh=1
+            - generic [ref=e12]:
+              - paragraph [ref=e13]: Garde ta progression
+              - paragraph [ref=e14]: Crée ton profil gratuitement
+          - link "Créer mon profil" [ref=e16] [cursor=pointer]:
+            - /url: /ficha?fresh=1
+        - button "Menu" [ref=e18] [cursor=pointer]
+      - generic [ref=e22]:
+        - generic [ref=e23]: ✦
+        - heading "La Parole" [level=1] [ref=e24]
+        - paragraph [ref=e25]: Lire · Comprendre · Devenir
+      - navigation "La Parole" [ref=e26]:
+        - link "Mon parcours" [ref=e27] [cursor=pointer]:
+          - /url: /parole/historique
+      - generic [ref=e34]:
+        - paragraph [ref=e35]: Cette semaine
+        - heading "Trouver refuge en Dieu" [level=2] [ref=e36]
+        - paragraph [ref=e37]: Psaumes 49-51 ; 61-66 ; 69-72 ; 77-78 ; 85-86
+        - link "Commencer" [ref=e38] [cursor=pointer]:
+          - /url: /parole/semaines/49
+      - generic [ref=e39]:
+        - generic [ref=e40]:
+          - generic [ref=e41]:
+            - paragraph [ref=e42]: Programme annuel
+            - heading "Viens et suis-moi — Ancien Testament 2026" [level=2] [ref=e43]
+          - strong [ref=e44]: "52"
+        - region "Semaines du programme" [ref=e45]:
+          - link "29/12 Introduction à l’Ancien Testament 29 décembre – 4 janvier ›" [ref=e46] [cursor=pointer]:
+            - /url: /parole/semaines/16
+            - time [ref=e47]: 29/12
+            - generic [ref=e48]:
+              - strong [ref=e49]: Introduction à l’Ancien Testament
+              - generic [ref=e50]: 29 décembre – 4 janvier
+            - generic [ref=e51]: ›
+          - link "05/01 Moïse 1 ; Abraham 3 5 –11 janvier ›" [ref=e52] [cursor=pointer]:
+            - /url: /parole/semaines/17
+            - time [ref=e53]: 05/01
+            - generic [ref=e54]:
+              - strong [ref=e55]: Moïse 1 ; Abraham 3
+              - generic [ref=e56]: 5 –11 janvier
+            - generic [ref=e57]: ›
+          - link "12/01 Genèse 1-2 ; Moïse 2-3 ; Abraham 4-5 12 – 18 janvier ›" [ref=e58] [cursor=pointer]:
+            - /url: /parole/semaines/18
+            - time [ref=e59]: 12/01
+            - generic [ref=e60]:
+              - strong [ref=e61]: Genèse 1-2 ; Moïse 2-3 ; Abraham 4-5
+              - generic [ref=e62]: 12 – 18 janvier
+            - generic [ref=e63]: ›
+          - link "19/01 Genèse 3-4 ; Moïse 4-5 19 – 25 janvier ›" [ref=e64] [cursor=pointer]:
+            - /url: /parole/semaines/19
+            - time [ref=e65]: 19/01
+            - generic [ref=e66]:
+              - strong [ref=e67]: Genèse 3-4 ; Moïse 4-5
+              - generic [ref=e68]: 19 – 25 janvier
+            - generic [ref=e69]: ›
+          - link "26/01 Genèse 5 ; Moïse 6 26 janvier – 1er février ›" [ref=e70] [cursor=pointer]:
+            - /url: /parole/semaines/20
+            - time [ref=e71]: 26/01
+            - generic [ref=e72]:
+              - strong [ref=e73]: Genèse 5 ; Moïse 6
+              - generic [ref=e74]: 26 janvier – 1er février
+            - generic [ref=e75]: ›
+          - link "02/02 Moïse 7 2 – 8 février ›" [ref=e76] [cursor=pointer]:
+            - /url: /parole/semaines/21
+            - time [ref=e77]: 02/02
+            - generic [ref=e78]:
+              - strong [ref=e79]: Moïse 7
+              - generic [ref=e80]: 2 – 8 février
+            - generic [ref=e81]: ›
+          - link "09/02 Genèse 6-11 ; Moïse 8 9 – 15 février ›" [ref=e82] [cursor=pointer]:
+            - /url: /parole/semaines/22
+            - time [ref=e83]: 09/02
+            - generic [ref=e84]:
+              - strong [ref=e85]: Genèse 6-11 ; Moïse 8
+              - generic [ref=e86]: 9 – 15 février
+            - generic [ref=e87]: ›
+          - link "16/02 Genèse 12-17 ; Abraham 1-2 16 – 22 février ›" [ref=e88] [cursor=pointer]:
+            - /url: /parole/semaines/23
+            - time [ref=e89]: 16/02
+            - generic [ref=e90]:
+              - strong [ref=e91]: Genèse 12-17 ; Abraham 1-2
+              - generic [ref=e92]: 16 – 22 février
+            - generic [ref=e93]: ›
+          - link "23/02 Genèse 18-23 23 février – 1er mars ›" [ref=e94] [cursor=pointer]:
+            - /url: /parole/semaines/7
+            - time [ref=e95]: 23/02
+            - generic [ref=e96]:
+              - strong [ref=e97]: Genèse 18-23
+              - generic [ref=e98]: 23 février – 1er mars
+            - generic [ref=e99]: ›
+          - link "02/03 Genèse 24-33 2 – 8 mars ›" [ref=e100] [cursor=pointer]:
+            - /url: /parole/semaines/24
+            - time [ref=e101]: 02/03
+            - generic [ref=e102]:
+              - strong [ref=e103]: Genèse 24-33
+              - generic [ref=e104]: 2 – 8 mars
+            - generic [ref=e105]: ›
+          - link "09/03 Genèse 37-41 9 – 15 mars ›" [ref=e106] [cursor=pointer]:
+            - /url: /parole/semaines/25
+            - time [ref=e107]: 09/03
+            - generic [ref=e108]:
+              - strong [ref=e109]: Genèse 37-41
+              - generic [ref=e110]: 9 – 15 mars
+            - generic [ref=e111]: ›
+          - link "16/03 Genèse 42-50 16 – 22 mars ›" [ref=e112] [cursor=pointer]:
+            - /url: /parole/semaines/26
+            - time [ref=e113]: 16/03
+            - generic [ref=e114]:
+              - strong [ref=e115]: Genèse 42-50
+              - generic [ref=e116]: 16 – 22 mars
+            - generic [ref=e117]: ›
+          - link "23/03 Exode 1-6 23 – 29 mars ›" [ref=e118] [cursor=pointer]:
+            - /url: /parole/semaines/27
+            - time [ref=e119]: 23/03
+            - generic [ref=e120]:
+              - strong [ref=e121]: Exode 1-6
+              - generic [ref=e122]: 23 – 29 mars
+            - generic [ref=e123]: ›
+          - link "30/03 Pâques 30 mars – 5 avril ›" [ref=e124] [cursor=pointer]:
+            - /url: /parole/semaines/28
+            - time [ref=e125]: 30/03
+            - generic [ref=e126]:
+              - strong [ref=e127]: Pâques
+              - generic [ref=e128]: 30 mars – 5 avril
+            - generic [ref=e129]: ›
+          - link "06/04 Exode 7-13 6 – 12 avril ›" [ref=e130] [cursor=pointer]:
+            - /url: /parole/semaines/29
+            - time [ref=e131]: 06/04
+            - generic [ref=e132]:
+              - strong [ref=e133]: Exode 7-13
+              - generic [ref=e134]: 6 – 12 avril
+            - generic [ref=e135]: ›
+          - link "13/04 Exode 14-18 13 – 19 avril ›" [ref=e136] [cursor=pointer]:
+            - /url: /parole/semaines/30
+            - time [ref=e137]: 13/04
+            - generic [ref=e138]:
+              - strong [ref=e139]: Exode 14-18
+              - generic [ref=e140]: 13 – 19 avril
+            - generic [ref=e141]: ›
+          - link "20/04 Exode 19-20 ; 24 ; 31-34 20 – 26 avril ›" [ref=e142] [cursor=pointer]:
+            - /url: /parole/semaines/31
+            - time [ref=e143]: 20/04
+            - generic [ref=e144]:
+              - strong [ref=e145]: Exode 19-20 ; 24 ; 31-34
+              - generic [ref=e146]: 20 – 26 avril
+            - generic [ref=e147]: ›
+          - link "27/04 Exode 35-40 ; Lévitique 1 ; 4 ; 16 ; 19 27 avril – 3 mai ›" [ref=e148] [cursor=pointer]:
+            - /url: /parole/semaines/32
+            - time [ref=e149]: 27/04
+            - generic [ref=e150]:
+              - strong [ref=e151]: Exode 35-40 ; Lévitique 1 ; 4 ; 16 ; 19
+              - generic [ref=e152]: 27 avril – 3 mai
+            - generic [ref=e153]: ›
+          - link "04/05 Nombres 11-14 ; 20-24 ; 27 4 – 10 mai ›" [ref=e154] [cursor=pointer]:
+            - /url: /parole/semaines/33
+            - time [ref=e155]: 04/05
+            - generic [ref=e156]:
+              - strong [ref=e157]: Nombres 11-14 ; 20-24 ; 27
+              - generic [ref=e158]: 4 – 10 mai
+            - generic [ref=e159]: ›
+          - link "11/05 Deutéronome 6-8 ; 15 ; 18 ; 29-30 ; 34 11 – 17 mai ›" [ref=e160] [cursor=pointer]:
+            - /url: /parole/semaines/34
+            - time [ref=e161]: 11/05
+            - generic [ref=e162]:
+              - strong [ref=e163]: Deutéronome 6-8 ; 15 ; 18 ; 29-30 ; 34
+              - generic [ref=e164]: 11 – 17 mai
+            - generic [ref=e165]: ›
+          - link "18/05 Josué 1-8 ; 23-24 18 – 24 mai ›" [ref=e166] [cursor=pointer]:
+            - /url: /parole/semaines/35
+            - time [ref=e167]: 18/05
+            - generic [ref=e168]:
+              - strong [ref=e169]: Josué 1-8 ; 23-24
+              - generic [ref=e170]: 18 – 24 mai
+            - generic [ref=e171]: ›
+          - link "25/05 Juges 2-4 ; 6-8 ; 13-16 25 – 31 mai ›" [ref=e172] [cursor=pointer]:
+            - /url: /parole/semaines/36
+            - time [ref=e173]: 25/05
+            - generic [ref=e174]:
+              - strong [ref=e175]: Juges 2-4 ; 6-8 ; 13-16
+              - generic [ref=e176]: 25 – 31 mai
+            - generic [ref=e177]: ›
+          - link "01/06 Ruth ; 1 Samuel 1-7 1er – 7 juin ›" [ref=e178] [cursor=pointer]:
+            - /url: /parole/semaines/37
+            - time [ref=e179]: 01/06
+            - generic [ref=e180]:
+              - strong [ref=e181]: Ruth ; 1 Samuel 1-7
+              - generic [ref=e182]: 1er – 7 juin
+            - generic [ref=e183]: ›
+          - link "08/06 1 Samuel 8-10 ; 13 ; 15-16 8 – 14 juin ›" [ref=e184] [cursor=pointer]:
+            - /url: /parole/semaines/38
+            - time [ref=e185]: 08/06
+            - generic [ref=e186]:
+              - strong [ref=e187]: 1 Samuel 8-10 ; 13 ; 15-16
+              - generic [ref=e188]: 8 – 14 juin
+            - generic [ref=e189]: ›
+          - link "15/06 1 Samuel 17-18 ; 24-26 ; 2 Samuel 5-7 15 – 21 juin ›" [ref=e190] [cursor=pointer]:
+            - /url: /parole/semaines/39
+            - time [ref=e191]: 15/06
+            - generic [ref=e192]:
+              - strong [ref=e193]: 1 Samuel 17-18 ; 24-26 ; 2 Samuel 5-7
+              - generic [ref=e194]: 15 – 21 juin
+            - generic [ref=e195]: ›
+          - link "22/06 2 Samuel 11-12 ; 1 Rois 3 ; 6-9 ; 11 22 – 28 juin ›" [ref=e196] [cursor=pointer]:
+            - /url: /parole/semaines/40
+            - time [ref=e197]: 22/06
+            - generic [ref=e198]:
+              - strong [ref=e199]: 2 Samuel 11-12 ; 1 Rois 3 ; 6-9 ; 11
+              - generic [ref=e200]: 22 – 28 juin
+            - generic [ref=e201]: ›
+          - link "29/06 1 Rois 12-13 ; 17-22 29 juin – 5 juillet ›" [ref=e202] [cursor=pointer]:
+            - /url: /parole/semaines/41
+            - time [ref=e203]: 29/06
+            - generic [ref=e204]:
+              - strong [ref=e205]: 1 Rois 12-13 ; 17-22
+              - generic [ref=e206]: 29 juin – 5 juillet
+            - generic [ref=e207]: ›
+          - link "06/07 2 Rois 2-7 6 – 12 juillet ›" [ref=e208] [cursor=pointer]:
+            - /url: /parole/semaines/42
+            - time [ref=e209]: 06/07
+            - generic [ref=e210]:
+              - strong [ref=e211]: 2 Rois 2-7
+              - generic [ref=e212]: 6 – 12 juillet
+            - generic [ref=e213]: ›
+          - link "13/07 2 Rois 16-25 13 – 19 juillet ›" [ref=e214] [cursor=pointer]:
+            - /url: /parole/semaines/43
+            - time [ref=e215]: 13/07
+            - generic [ref=e216]:
+              - strong [ref=e217]: 2 Rois 16-25
+              - generic [ref=e218]: 13 – 19 juillet
+            - generic [ref=e219]: ›
+          - link "20/07 2 Chroniques 14-20 ; 26 ; 30 20 – 26 juillet ›" [ref=e220] [cursor=pointer]:
+            - /url: /parole/semaines/44
+            - time [ref=e221]: 20/07
+            - generic [ref=e222]:
+              - strong [ref=e223]: 2 Chroniques 14-20 ; 26 ; 30
+              - generic [ref=e224]: 20 – 26 juillet
+            - generic [ref=e225]: ›
+          - link "27/07 Esdras 1 ; 3-7 ; Néhémie 2 ; 4-6 ; 8 27 juillet – 2 août ›" [ref=e226] [cursor=pointer]:
+            - /url: /parole/semaines/45
+            - time [ref=e227]: 27/07
+            - generic [ref=e228]:
+              - strong [ref=e229]: Esdras 1 ; 3-7 ; Néhémie 2 ; 4-6 ; 8
+              - generic [ref=e230]: 27 juillet – 2 août
+            - generic [ref=e231]: ›
+          - link "03/08 Esther 3 – 9 août ›" [ref=e232] [cursor=pointer]:
+            - /url: /parole/semaines/46
+            - time [ref=e233]: 03/08
+            - generic [ref=e234]:
+              - strong [ref=e235]: Esther
+              - generic [ref=e236]: 3 – 9 août
+            - generic [ref=e237]: ›
+          - link "10/08 Job 1-3 ; 12-14 ; 19 ; 21-24 ; 38-40 ; 42 10 – 16 août ›" [ref=e238] [cursor=pointer]:
+            - /url: /parole/semaines/47
+            - time [ref=e239]: 10/08
+            - generic [ref=e240]:
+              - strong [ref=e241]: Job 1-3 ; 12-14 ; 19 ; 21-24 ; 38-40 ; 42
+              - generic [ref=e242]: 10 – 16 août
+            - generic [ref=e243]: ›
+          - link "17/08 Psaumes 1-2 ; 8 ; 19-33 ; 40 ; 46 17 – 23 août ›" [ref=e244] [cursor=pointer]:
+            - /url: /parole/semaines/48
+            - time [ref=e245]: 17/08
+            - generic [ref=e246]:
+              - strong [ref=e247]: Psaumes 1-2 ; 8 ; 19-33 ; 40 ; 46
+              - generic [ref=e248]: 17 – 23 août
+            - generic [ref=e249]: ›
+          - link "24/08 Psaumes 49-51 ; 61-66 ; 69-72 ; 77-78 ; 85-86 Cette semaine ✦" [ref=e250] [cursor=pointer]:
+            - /url: /parole/semaines/49
+            - time [ref=e251]: 24/08
+            - generic [ref=e252]:
+              - strong [ref=e253]: Psaumes 49-51 ; 61-66 ; 69-72 ; 77-78 ; 85-86
+              - generic [ref=e254]: Cette semaine
+            - generic [ref=e255]: ✦
+          - link "31/08 Psaumes 102-103 ; 110 ; 116-119 ; 127-128 ; 135-139 ; 146-150 31 août – 6 septembre ✦" [ref=e256] [cursor=pointer]:
+            - /url: /parole/semaines/50
+            - time [ref=e257]: 31/08
+            - generic [ref=e258]:
+              - strong [ref=e259]: Psaumes 102-103 ; 110 ; 116-119 ; 127-128 ; 135-139 ; 146-150
+              - generic [ref=e260]: 31 août – 6 septembre
+            - generic [ref=e261]: ✦
+          - link "07/09 Proverbes 1-4 ; 15-16 ; 22 ; 31 ; Ecclésiaste 1-3 ; 11-12 7 – 13 septembre ✦" [ref=e262] [cursor=pointer]:
+            - /url: /parole/semaines/51
+            - time [ref=e263]: 07/09
+            - generic [ref=e264]:
+              - strong [ref=e265]: Proverbes 1-4 ; 15-16 ; 22 ; 31 ; Ecclésiaste 1-3 ; 11-12
+              - generic [ref=e266]: 7 – 13 septembre
+            - generic [ref=e267]: ✦
+          - link "14/09 Ésaïe 1-12 14 – 20 septembre ✦" [ref=e268] [cursor=pointer]:
+            - /url: /parole/semaines/52
+            - time [ref=e269]: 14/09
+            - generic [ref=e270]:
+              - strong [ref=e271]: Ésaïe 1-12
+              - generic [ref=e272]: 14 – 20 septembre
+            - generic [ref=e273]: ✦
+          - link "21/09 Ésaïe 13-14 ; 22 ; 24-30 ; 35 21 – 27 septembre ✦" [ref=e274] [cursor=pointer]:
+            - /url: /parole/semaines/53
+            - time [ref=e275]: 21/09
+            - generic [ref=e276]:
+              - strong [ref=e277]: Ésaïe 13-14 ; 22 ; 24-30 ; 35
+              - generic [ref=e278]: 21 – 27 septembre
+            - generic [ref=e279]: ✦
+          - link "28/09 Ésaïe 40-49 28 septembre – 4 octobre ✦" [ref=e280] [cursor=pointer]:
+            - /url: /parole/semaines/54
+            - time [ref=e281]: 28/09
+            - generic [ref=e282]:
+              - strong [ref=e283]: Ésaïe 40-49
+              - generic [ref=e284]: 28 septembre – 4 octobre
+            - generic [ref=e285]: ✦
+          - link "05/10 Ésaïe 50-57 5 – 11 octobre ›" [ref=e286] [cursor=pointer]:
+            - /url: /parole/semaines/55
+            - time [ref=e287]: 05/10
+            - generic [ref=e288]:
+              - strong [ref=e289]: Ésaïe 50-57
+              - generic [ref=e290]: 5 – 11 octobre
+            - generic [ref=e291]: ›
+          - link "12/10 Ésaïe 58-66 12 – 18 octobre ›" [ref=e292] [cursor=pointer]:
+            - /url: /parole/semaines/56
+            - time [ref=e293]: 12/10
+            - generic [ref=e294]:
+              - strong [ref=e295]: Ésaïe 58-66
+              - generic [ref=e296]: 12 – 18 octobre
+            - generic [ref=e297]: ›
+          - link "19/10 Jérémie 1-3 ; 7 ; 16-18 ; 20 19 – 25 octobre ›" [ref=e298] [cursor=pointer]:
+            - /url: /parole/semaines/57
+            - time [ref=e299]: 19/10
+            - generic [ref=e300]:
+              - strong [ref=e301]: Jérémie 1-3 ; 7 ; 16-18 ; 20
+              - generic [ref=e302]: 19 – 25 octobre
+            - generic [ref=e303]: ›
+          - link "26/10 Jérémie 31-33 ; 36-39 ; Lamentations 1 ; 3 26 octobre – 1er novembre ›" [ref=e304] [cursor=pointer]:
+            - /url: /parole/semaines/58
+            - time [ref=e305]: 26/10
+            - generic [ref=e306]:
+              - strong [ref=e307]: Jérémie 31-33 ; 36-39 ; Lamentations 1 ; 3
+              - generic [ref=e308]: 26 octobre – 1er novembre
+            - generic [ref=e309]: ›
+          - link "02/11 Ézéchiel 1-3 ; 33-34 ; 36-37 ; 47 2 – 8 novembre ›" [ref=e310] [cursor=pointer]:
+            - /url: /parole/semaines/59
+            - time [ref=e311]: 02/11
+            - generic [ref=e312]:
+              - strong [ref=e313]: Ézéchiel 1-3 ; 33-34 ; 36-37 ; 47
+              - generic [ref=e314]: 2 – 8 novembre
+            - generic [ref=e315]: ›
+          - link "09/11 Daniel 1-7 9 – 15 novembre ›" [ref=e316] [cursor=pointer]:
+            - /url: /parole/semaines/60
+            - time [ref=e317]: 09/11
+            - generic [ref=e318]:
+              - strong [ref=e319]: Daniel 1-7
+              - generic [ref=e320]: 9 – 15 novembre
+            - generic [ref=e321]: ›
+          - link "16/11 Osée 1-6 ; 10-14 ; Joël 16 – 22 novembre ›" [ref=e322] [cursor=pointer]:
+            - /url: /parole/semaines/61
+            - time [ref=e323]: 16/11
+            - generic [ref=e324]:
+              - strong [ref=e325]: Osée 1-6 ; 10-14 ; Joël
+              - generic [ref=e326]: 16 – 22 novembre
+            - generic [ref=e327]: ›
+          - link "23/11 Amos ; Abdias ; Jonas 23 – 29 novembre ›" [ref=e328] [cursor=pointer]:
+            - /url: /parole/semaines/62
+            - time [ref=e329]: 23/11
+            - generic [ref=e330]:
+              - strong [ref=e331]: Amos ; Abdias ; Jonas
+              - generic [ref=e332]: 23 – 29 novembre
+            - generic [ref=e333]: ›
+          - link "30/11 Michée, Nahum, Habacuc, Sophonie 30 novembre – 6 décembre ›" [ref=e334] [cursor=pointer]:
+            - /url: /parole/semaines/14
+            - time [ref=e335]: 30/11
+            - generic [ref=e336]:
+              - strong [ref=e337]: Michée, Nahum, Habacuc, Sophonie
+              - generic [ref=e338]: 30 novembre – 6 décembre
+            - generic [ref=e339]: ›
+          - link "07/12 Aggée 1-2 ; Zacharie 1-4 ; 7-14 7 – 13 décembre ›" [ref=e340] [cursor=pointer]:
+            - /url: /parole/semaines/63
+            - time [ref=e341]: 07/12
+            - generic [ref=e342]:
+              - strong [ref=e343]: Aggée 1-2 ; Zacharie 1-4 ; 7-14
+              - generic [ref=e344]: 7 – 13 décembre
+            - generic [ref=e345]: ›
+          - link "14/12 Malachie 14 – 20 décembre ›" [ref=e346] [cursor=pointer]:
+            - /url: /parole/semaines/64
+            - time [ref=e347]: 14/12
+            - generic [ref=e348]:
+              - strong [ref=e349]: Malachie
+              - generic [ref=e350]: 14 – 20 décembre
+            - generic [ref=e351]: ›
+          - link "21/12 Noël 21 – 27 décembre ›" [ref=e352] [cursor=pointer]:
+            - /url: /parole/semaines/65
+            - time [ref=e353]: 21/12
+            - generic [ref=e354]:
+              - strong [ref=e355]: Noël
+              - generic [ref=e356]: 21 – 27 décembre
+            - generic [ref=e357]: ›
+      - generic [ref=e358]:
+        - generic [ref=e359]:
+          - paragraph [ref=e360]: Ressources permanentes
+          - heading "Annexes du programme" [level=2] [ref=e361]
+        - link "A Pour les parents – Préparer vos enfants à rester toute leur vie sur le chemin des alliances avec Dieu ↗" [ref=e362] [cursor=pointer]:
+          - /url: https://www.churchofjesuschrist.org/study/manual/come-follow-me-for-home-and-church-old-testament-2026/53-appendix-a?lang=fra
+          - generic [ref=e363]: A
+          - generic [ref=e364]: Pour les parents – Préparer vos enfants à rester toute leur vie sur le chemin des alliances avec Dieu
+          - generic [ref=e365]: ↗
+        - link "B Pour la Primaire – Préparer les enfants à rester toute leur vie sur le chemin des alliances avec Dieu ↗" [ref=e366] [cursor=pointer]:
+          - /url: https://www.churchofjesuschrist.org/study/manual/come-follow-me-for-home-and-church-old-testament-2026/54-appendix-b?lang=fra
+          - generic [ref=e367]: B
+          - generic [ref=e368]: Pour la Primaire – Préparer les enfants à rester toute leur vie sur le chemin des alliances avec Dieu
+          - generic [ref=e369]: ↗
+        - link "C Pour la Primaire – Instructions pour la période de chant et la présentation des enfants à la réunion de Sainte-Cène ↗" [ref=e370] [cursor=pointer]:
+          - /url: https://www.churchofjesuschrist.org/study/manual/come-follow-me-for-home-and-church-old-testament-2026/55-appendix-c?lang=fra
+          - generic [ref=e371]: C
+          - generic [ref=e372]: Pour la Primaire – Instructions pour la période de chant et la présentation des enfants à la réunion de Sainte-Cène
+          - generic [ref=e373]: ↗
+        - link "D Pour les collèges de la prêtrise d’Aaron et les classes des Jeunes Filles – Ordre du jour de la réunion ↗" [ref=e374] [cursor=pointer]:
+          - /url: https://www.churchofjesuschrist.org/study/manual/come-follow-me-for-home-and-church-old-testament-2026/56-appendix-d?lang=fra
+          - generic [ref=e375]: D
+          - generic [ref=e376]: Pour les collèges de la prêtrise d’Aaron et les classes des Jeunes Filles – Ordre du jour de la réunion
+          - generic [ref=e377]: ↗
+      - navigation "Accueil" [ref=e378]:
+        - link "Accueil" [ref=e379] [cursor=pointer]:
+          - /url: /
+        - link "Aventure" [ref=e385] [cursor=pointer]:
+          - /url: /mapa
+        - link "Live" [ref=e392] [cursor=pointer]:
+          - /url: /buscar
+        - link "Église" [ref=e398] [cursor=pointer]:
+          - /url: /iglesia
+        - link "Profil" [ref=e403] [cursor=pointer]:
+          - /url: /ficha

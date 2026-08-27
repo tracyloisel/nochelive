@@ -7,14 +7,15 @@ module Quizzes
     Row = Struct.new(:rank, :person, :score, :answered, :you, :context, :live, keyword_init: true)
     Board = Struct.new(:rows, :your_rank, :your_score, :your_answered, :your_live, :your_page, :pack_id, :players, :page, :pages, keyword_init: true)
 
-    def self.call(ward:, pack_id: nil, person: nil, limit: LIMIT_MINI, offset: 0, q: nil, include_you: false)
-      new(ward:, pack_id:, person:, limit:, offset:, q:, include_you:).call
+    def self.call(ward:, wards: nil, pack_id: nil, person: nil, limit: LIMIT_MINI, offset: 0, q: nil, include_you: false)
+      new(ward:, wards:, pack_id:, person:, limit:, offset:, q:, include_you:).call
     end
 
-    def self.pack_best_totals(ward: nil)
-      scope = QuizRun.finished
-      if ward
-        scope = scope.joins(:person).where(people: { ward_id: ward.id })
+    def self.pack_best_totals(ward: nil, wards: nil)
+      scope = QuizRun.adventure.finished
+      if wards || ward
+        ward_ids = wards ? wards.select(:id) : ward.id
+        scope = scope.joins(:person).where(people: { ward_id: ward_ids })
       else
         scope = scope.where.not(person_id: nil)
       end
@@ -24,8 +25,9 @@ module Quizzes
       totals
     end
 
-    def initialize(ward:, pack_id: nil, person: nil, limit: LIMIT_MINI, offset: 0, q: nil, include_you: false)
+    def initialize(ward:, wards: nil, pack_id: nil, person: nil, limit: LIMIT_MINI, offset: 0, q: nil, include_you: false)
       @ward = ward
+      @wards = wards
       @pack_id = pack_id
       @person = person
       @limit = limit
@@ -91,7 +93,7 @@ module Quizzes
         key = Person.name_key(query)
         return [] if key.blank?
 
-        @ward.people.where("given_name_key LIKE :key OR family_name_key LIKE :key", key: "#{key}%").pluck(:id)
+        people_scope.where("given_name_key LIKE :key OR family_name_key LIKE :key", key: "#{key}%").pluck(:id)
       end
 
       def build_rows(slice, people_by_id, answered_by_id, live_ids, offset:)
@@ -140,7 +142,7 @@ module Quizzes
         return {} if person_ids.empty?
 
         QuizAnswer.joins(:quiz_run)
-          .where(quiz_runs: { person_id: person_ids })
+          .where(quiz_runs: { person_id: person_ids, street_duel_id: nil })
           .group("quiz_runs.person_id")
           .count
       end
@@ -148,7 +150,7 @@ module Quizzes
       def load_people(person_ids)
         return {} if person_ids.empty?
 
-        @ward.people.where(id: person_ids).index_by(&:id)
+        people_scope.includes(:ward).where(id: person_ids).index_by(&:id)
       end
 
       def page_number
@@ -178,16 +180,24 @@ module Quizzes
       end
 
       def pack_scores
-        QuizRun.finished
+        QuizRun.adventure.finished
           .joins(:person)
-          .where(people: { ward_id: @ward.id }, pack_id: @pack_id)
+          .where(people: { ward_id: ward_ids }, pack_id: @pack_id)
           .group(:person_id)
           .maximum(:score)
           .transform_values(&:to_i)
       end
 
       def total_scores
-        self.class.pack_best_totals(ward: @ward)
+        self.class.pack_best_totals(ward: @ward, wards: @wards)
+      end
+
+      def people_scope
+        Person.where(ward_id: ward_ids)
+      end
+
+      def ward_ids
+        @wards ? @wards.select(:id) : @ward.id
       end
   end
 end

@@ -1,0 +1,81 @@
+<% content_for :title, t("study.history") %><% content_for :body_class, "is-study-history" %>
+<main id="study_history" class="study-paper" data-controller="study-timeline"><%= chrome_menu(hud: true) { site_menu } %><header><p class="study-kicker"><%= t("study.path_in_word") %></p><h1><%= t("study.journey") %></h1><p class="study-journey-total"><strong><%= @completed_count %></strong><span><%= t("study.journey_progress", completed: @completed_count, total: @weeks.size) %></span></p></header>
+  <section class="study-scripture-progress" aria-labelledby="study-scripture-progress-title">
+    <header>
+      <p class="study-kicker"><%= t("study.scripture_progress_kicker") %></p>
+      <h2 id="study-scripture-progress-title"><%= t("study.scripture_progress_title") %></h2>
+    </header>
+    <div class="study-scripture-seals">
+      <% {
+        old_testament: "/media/study/scripture-covers/old-testament-v1.png",
+        new_testament: "/media/study/scripture-covers/new-testament-v1.png",
+        book_of_mormon: "/media/study/scripture-covers/book-of-mormon-v1.png",
+        doctrine_and_covenants: "/media/study/scripture-covers/doctrine-covenants-v1.png"
+      }.each do |collection, cover| %>
+        <% count = @chapters_by_collection.fetch(collection) %>
+        <article class="study-scripture-seal <%= "has-progress" if count.positive? %>">
+          <span class="study-scripture-book" aria-hidden="true">
+            <%= image_tag cover, alt: "", loading: "lazy" %>
+            <b><%= t("study.collection_marks.#{collection}") %></b>
+          </span>
+          <strong><%= count %></strong>
+          <p><%= t("study.collections.#{collection}") %></p>
+          <small><%= t("study.chapters_studied", count: count) %></small>
+        </article>
+      <% end %>
+    </div>
+  </section>
+  <% if @current_week %>
+    <% current_run = @runs_by_unit_id[@current_week.id] %>
+    <% current_progress = current_run ? current_run.study_answers.size : 0 %>
+    <% current_complete = current_run&.completed? %>
+    <% current_quiz = @current_week.published_quiz %>
+    <section class="study-now <%= current_complete ? "is-complete" : (current_run ? "is-progress" : "is-new") %>"
+             style="--study-current-art:url('<%= current_quiz&.content&.fetch("artwork", "/media/study/psalms-refuge-2026.png") %>')"
+             <% if current_complete %>
+             data-controller="street-share"
+             data-street-share-url-value="<%= study_unit_url(@current_week) %>"
+             data-street-share-title-value="<%= t("study.share_title") %>"
+             data-street-share-text-value="<%= t("study.share_message", title: @current_week.theme) %>"
+             data-street-share-copied-value="<%= t("study.share_copied") %>"
+             <% end %>>
+      <div class="study-now-copy">
+        <p class="study-kicker"><%= t("study.current_week") %></p>
+        <h2><%= current_complete ? t("study.week_complete_title") : t("study.week_invitation_title") %></h2>
+        <p><%= current_complete ? t("study.week_complete_lede") : t("study.week_invitation_lede") %></p>
+        <span class="study-now-reference"><%= @current_week.scripture_refs.first %></span>
+      </div>
+      <div class="study-now-progress" aria-label="<%= t("study.progress", n: current_progress, total: 10) %>">
+        <span><i style="width:<%= current_progress * 10 %>%"></i></span><strong><%= current_progress %>/10</strong>
+      </div>
+      <% if current_complete %>
+        <button type="button" class="btn btn-gold" data-action="street-share#share"><%= t("study.share_light") %></button>
+        <%= link_to t("study.review_journey"), study_run_path(current_run), class: "quiet-link" %>
+      <% else %>
+        <%= link_to(current_run ? t("study.continue") : t("study.receive_light"), current_run ? study_run_path(current_run) : study_unit_path(@current_week), class: "btn btn-gold") %>
+      <% end %>
+      <%= link_to t("study.see_in_timeline"), "#study-week-#{@current_week.id}", class: "study-now-timeline", data: { action: "study-timeline#center" } %>
+    </section>
+  <% end %>
+  <% if @weeks.any? %>
+    <div class="study-history-list study-timeline" role="region" tabindex="0" aria-label="<%= t("study.timeline_label") %>" data-study-timeline-target="container">
+      <% @weeks.each do |week| %>
+        <% run = @runs_by_unit_id[week.id] %>
+        <% state = if run&.completed? then "complete" elsif run then "progress" elsif week == @current_week then "current" elsif week.starts_on && week.starts_on > Date.current then "upcoming" else "available" end %>
+        <% status = case state when "complete" then t("study.status_completed") when "progress" then t("study.status_in_progress") when "current" then t("study.status_this_week") when "upcoming" then t("study.status_upcoming") else t("study.status_available") end %>
+        <%= link_to(run ? study_run_path(run) : study_unit_path(week), id: "study-week-#{week.id}", class: "study-history-card is-#{state}", data: ({ study_timeline_target: "current" } if week == @current_week)) do %>
+          <article>
+            <span class="study-timeline-mark" aria-hidden="true"><%= state == "complete" ? "✓" : (state == "current" ? "✦" : "") %></span>
+            <time><%= l(week.starts_on, format: "%d/%m") if week.starts_on %></time>
+            <h2><%= week.title.split(":", 2).last.strip %></h2>
+            <p><%= status %><% if run %> · <%= run.study_answers.size %>/10<% end %></p>
+            <% if run&.completed? %><strong><%= run.score %>/10</strong><% end %>
+            <b aria-hidden="true">›</b>
+          </article>
+        <% end %>
+      <% end %>
+    </div>
+  <% else %><p><%= t("study.no_history") %></p><% end %>
+  <%= link_to t("study.back_program"), study_program_path, class: "btn btn-gold" %>
+  <%= render Navigation::DockComponent.new(active: :word) %>
+</main>

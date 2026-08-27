@@ -56,4 +56,64 @@ class Quizzes::CompleteTest < ActiveSupport::TestCase
     Quizzes::Complete.call(run: run.reload)
     assert_equal QuizDefinition.catalog.pack_ids.second, Quizzes::Complete.unlock_pack_id(run.reload)
   end
+
+  test "summary records answered correct streak duration and last gain" do
+    digest = GameSession.digest_token("complete-stats")
+    run = Quizzes::Draw.call(device_digest: digest).run
+    10.times do
+      Quizzes::Submit.call(run: run.reload, choice_key: run.question.correct_choice)
+      Quizzes::Advance.call(run: run.reload)
+    end
+    run.reload
+    assert run.finished?
+    summary = Quizzes::Complete.summary(run)
+    assert_equal 10, summary.answered
+    assert_equal 10, summary.correct
+    assert_equal 10, summary.max_streak
+    assert_equal QuizDefinition::CURVE_POINTS.sum, summary.base_score
+    assert_equal 4, summary.fire_count
+    assert_equal 20, summary.fire_percent
+    assert_equal 21, summary.fire_bonus
+    assert_equal 124, summary.score
+    assert summary.duration_s >= 0
+    assert summary.last_gain.positive?
+    assert_equal "legend", summary.shout_key
+  end
+
+  test "ceremony time is the sum of think times not the wall clock" do
+    digest = GameSession.digest_token("complete-think-time")
+    run = Quizzes::Draw.call(device_digest: digest).run
+    run.update!(opened_at: 1.hour.ago, asked_at: 5.seconds.ago)
+    Quizzes::Submit.call(run:, choice_key: run.question.correct_choice)
+    Quizzes::Advance.call(run: run.reload)
+    run.reload.update!(asked_at: 7.seconds.ago)
+    Quizzes::Submit.call(run:, choice_key: run.question.correct_choice)
+    summary = Quizzes::Complete.summary(run.reload)
+    assert_in_delta 12, summary.duration_s, 1
+    assert summary.duration_s < 60
+  end
+
+  test "legacy answers without duration_ms keep wall-clock time" do
+    digest = GameSession.digest_token("complete-legacy-time")
+    opened = Time.zone.parse("2026-08-27 15:00:00")
+    run = QuizRun.create!(
+      device_digest: digest,
+      pack_id: "coronas",
+      position: 10,
+      score: 40,
+      status: "finished",
+      opened_at: opened
+    )
+    travel_to opened + 9.minutes do
+      run.quiz_answers.create!(
+        device_digest: digest,
+        pack_id: "coronas",
+        question_id: run.question.id,
+        choice_key: "x",
+        correct: true
+      )
+    end
+    summary = Quizzes::Complete.summary(run.reload)
+    assert_equal 540, summary.duration_s
+  end
 end

@@ -34,4 +34,4 @@ Full suite must stay at **≥ 90%** line coverage (`coverage/index.html`). YAML 
 
 ## Game memory
 
-See `docs/GAME_VISION.md`, `docs/GAME_QUALITY.md`, and `docs/AGENT_REVIEWS/`.
+See `docs/GAME_VISION.md`, `.cursor/skills/noche-conseil/SKILL.md` (Conseil Noche, PRIORITY), `docs/GAME_QUALITY.md`, and `docs/AGENT_REVIEWS/`.

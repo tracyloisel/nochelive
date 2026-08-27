@@ -11,7 +11,7 @@
 <small>
   <% bits = [] %>
   <% bits << person.family_name if person.family_name.present? %>
-  <% bits << person.favorite_year.to_s if show_year %>
+  <% bits << person.profile_stamp if show_year %>
   <% bits << person.last_ward_team.name if person.last_ward_team %>
   <% bits << hint if local_assigns[:hint].present? %>
   <%= bits.join(" · ") %>

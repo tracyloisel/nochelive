@@ -1,0 +1,34 @@
+<% progress = local_assigns[:progress] %>
+<section class="hub-panel hub-progress" data-controller="hub-progress">
+  <p class="hub-kicker"><%= t("hub.progress") %></p>
+  <div class="hub-progress-summary">
+    <p class="hub-progress-meta" id="hub_progress_caption"><%= t("hub.packs_unlocked", count: progress.unlocked) %></p>
+    <p class="hub-progress-count" aria-hidden="true"><%= progress.unlocked %> / <%= progress.total %></p>
+  </div>
+  <div class="hub-progress-meter"
+       role="progressbar"
+       aria-labelledby="hub_progress_caption"
+       aria-valuenow="<%= progress.unlocked %>"
+       aria-valuemin="0"
+       aria-valuemax="<%= progress.total %>">
+    <span style="--hub-pack-progress: <%= progress.total.positive? ? (progress.unlocked * 100.0 / progress.total).round(2) : 0 %>%"></span>
+  </div>
+  <ol class="hub-progress-path"
+      data-hub-progress-target="path"
+      data-action="scroll->hub-progress#syncEdges"
+      aria-label="<%= t("hub.progress") %>"
+      tabindex="0">
+    <% Array(progress.nodes).each do |node| %>
+      <li class="hub-progress-node is-<%= node.state %><%= " is-focus" if node.focus %>"
+          data-hub-progress-target="node"
+          <%= 'aria-current="step"' if node.focus %>>
+        <span class="hub-progress-mark" aria-hidden="true">
+          <% if node.still.present? %>
+            <%= image_tag node.still, alt: "", loading: "lazy" %>
+          <% end %>
+        </span>
+        <span class="hub-progress-label"><%= node.title %></span>
+      </li>
+    <% end %>
+  </ol>
+</section>

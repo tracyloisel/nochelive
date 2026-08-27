@@ -1,6 +1,6 @@
 class QuizAdvancesController < ApplicationController
   include StreetQuiz
-  before_action :load_street_run
+  before_action :require_street_identity, :load_street_run
 
   def create
     street = Quizzes::Advance.call(run: @run)

@@ -24,7 +24,12 @@ module Quizzes
       ApplicationRecord.transaction do
         duel = lock_duel_for(run)
         return Result.new(duel: nil, winner: nil, tie: false) unless duel
-        return result_for(duel) if duel.resolved?
+        if duel.resolved?
+          if duel.challenger_delta.nil? || duel.opponent_delta.nil?
+            duel.update!(delta_attrs(duel.challenger_score.to_i, duel.opponent_score.to_i))
+          end
+          return result_for(duel.reload)
+        end
 
         attrs = score_attrs(duel, run)
         return result_for(duel) if attrs.empty? && run
@@ -36,6 +41,7 @@ module Quizzes
           attrs[:status] = "resolved"
           attrs[:challenger_score] = challenger_score
           attrs[:opponent_score] = opponent_score
+          attrs.merge!(delta_attrs(challenger_score, opponent_score))
         elsif attrs[:challenger_score] && duel.pending?
           attrs[:status] = "challenger_done"
         elsif attrs[:opponent_score] && (duel.pending? || duel.challenger_done?)
@@ -43,6 +49,7 @@ module Quizzes
         end
 
         duel.update!(attrs) if attrs.any?
+        run&.update!(street_duel: duel) if run&.street_duel_id != duel.id
         result_for(duel.reload)
       end
     end
@@ -103,6 +110,16 @@ module Quizzes
         return unless run&.finished?
 
         run.score
+      end
+
+      def delta_attrs(challenger_score, opponent_score)
+        if challenger_score == opponent_score
+          { challenger_delta: 1, opponent_delta: 1 }
+        elsif challenger_score > opponent_score
+          { challenger_delta: 12, opponent_delta: -3 }
+        else
+          { challenger_delta: -3, opponent_delta: 12 }
+        end
       end
 
       def result_for(duel)

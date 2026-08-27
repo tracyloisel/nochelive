@@ -1,0 +1,92 @@
+module Quizzes
+  class HitStreak
+    Result = Struct.new(:count, :grew, :broke, :shout_key, :sfx, :tier, keyword_init: true)
+    SHOUTS = { 2 => "two", 3 => "three", 5 => "five", 10 => "ten" }.freeze
+
+    def self.call(run:)
+      new(run:).call
+    end
+
+    def self.max_count(run:)
+      new(run:).max_count
+    end
+
+    def initialize(run:)
+      @run = run
+    end
+
+    def call
+      sequence = verdicts(upto)
+      count = tail(sequence)
+      last = sequence.last
+      grew = live_settle? && last == true
+      broke = live_settle? && last == false && tail(sequence[0...-1]) > 0
+      Result.new(
+        count:,
+        grew:,
+        broke:,
+        shout_key: grew ? SHOUTS[count] : nil,
+        sfx: cue_for(count, grew),
+        tier: tier_for(count)
+      )
+    end
+
+    def max_count
+      best = 0
+      current = 0
+      verdicts(upto).each do |ok|
+        if ok == true
+          current += 1
+          best = current if current > best
+        else
+          current = 0
+        end
+      end
+      best
+    end
+
+    private
+
+      def live_settle?
+        @run.settled? && !@run.finished?
+      end
+
+      def upto
+        @run.settled? || @run.finished? ? @run.position : @run.position - 1
+      end
+
+      def verdicts(upto)
+        return [] if upto < 1
+
+        pack = @run.pack
+        answers = @run.quiz_answers.index_by(&:question_id)
+        (1..upto).map { |index| answers[pack.question_at(index).id]&.correct }
+      end
+
+      def tail(list)
+        count = 0
+        Array(list).reverse_each do |ok|
+          break unless ok == true
+
+          count += 1
+        end
+        count
+      end
+
+      def cue_for(count, grew)
+        return unless grew
+        return "chest" if count == 10
+        return "fire_whoosh" if count == 3 || count == 5
+      end
+
+      def tier_for(count)
+        return "legend" if count >= 10
+        return "blaze" if count >= 5
+        return "hot" if count >= 3
+        return "glow" if count >= 2
+        return "spark" if count >= 1
+
+        "idle"
+      end
+  end
+end

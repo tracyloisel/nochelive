@@ -11,6 +11,7 @@ demo:
   postal_code: "03502"
   country_code: ES
   listed: true
+  stake_unit_id: "527556"
   presenter_token_digest: <%= Digest::SHA256.hexdigest("rama-demo") %>
 
 blank:

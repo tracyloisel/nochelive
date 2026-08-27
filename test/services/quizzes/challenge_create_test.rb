@@ -6,7 +6,8 @@ class Quizzes::ChallengeCreateTest < ActiveSupport::TestCase
     result = Quizzes::ChallengeCreate.call(
       challenger_person: person,
       ward: person.ward,
-      pack_id: "placas"
+      pack_id: "placas",
+      device_digest: GameSession.digest_token("create-pending")
     )
     assert result.duel.pending?
     assert_equal "placas", result.duel.pack_id
@@ -18,12 +19,14 @@ class Quizzes::ChallengeCreateTest < ActiveSupport::TestCase
     first = Quizzes::ChallengeCreate.call(
       challenger_person: person,
       ward: person.ward,
-      pack_id: "placas"
+      pack_id: "placas",
+      device_digest: GameSession.digest_token("reuse-open")
     )
     second = Quizzes::ChallengeCreate.call(
       challenger_person: person,
       ward: person.ward,
-      pack_id: "placas"
+      pack_id: "placas",
+      device_digest: GameSession.digest_token("reuse-open")
     )
     assert_equal first.duel.id, second.duel.id
   end
@@ -91,7 +94,8 @@ class Quizzes::ChallengeCreateTest < ActiveSupport::TestCase
     anon = Quizzes::ChallengeCreate.call(
       challenger_person: person,
       ward: person.ward,
-      pack_id: "placas"
+      pack_id: "placas",
+      device_digest: GameSession.digest_token("anon-open")
     )
     run = QuizRun.create!(
       device_digest: GameSession.digest_token("named-reuse"),
@@ -123,7 +127,7 @@ class Quizzes::ChallengeCreateTest < ActiveSupport::TestCase
     assert_equal named.duel.id, again.duel.id
   end
 
-  test "denies self, other ward, and a missing score" do
+  test "denies self and a person outside the stake but needs no finished score" do
     person = people(:pili)
     carmen = people(:carmen_garcia)
     outsider = wards(:blank).people.create!(given_name: "Fora", avatar_key: "gato", favorite_year: 2011)
@@ -157,32 +161,30 @@ class Quizzes::ChallengeCreateTest < ActiveSupport::TestCase
         opponent_person: outsider
       )
     end
-    assert_equal :ward, error.code
+    assert_equal :stake, error.code
 
-    error = assert_raises(Quizzes::ChallengeCreate::Denied) do
-      Quizzes::ChallengeCreate.call(
-        challenger_person: person,
-        ward: person.ward,
-        pack_id: "placas",
-        opponent_person: carmen
-      )
-    end
-    assert_equal :score, error.code
+    result = Quizzes::ChallengeCreate.call(
+      challenger_person: person,
+      ward: person.ward,
+      pack_id: "placas",
+      device_digest: GameSession.digest_token("named-no-score"),
+      opponent_person: carmen
+    )
+    assert result.duel.challenger_run.open?
+    assert_equal result.duel.id, result.duel.challenger_run.street_duel_id
   end
 
-  test "denies a rematch on a pack already played against that person" do
+  test "allows a rematch after the previous duel resolved" do
     person = people(:pili)
     carmen = people(:carmen_garcia)
     run = quiz_runs(:pili_coronas)
-    error = assert_raises(Quizzes::ChallengeCreate::Denied) do
-      Quizzes::ChallengeCreate.call(
-        challenger_person: person,
-        ward: person.ward,
-        pack_id: "coronas",
-        run:,
-        opponent_person: carmen
-      )
-    end
-    assert_equal :played, error.code
+    result = Quizzes::ChallengeCreate.call(
+      challenger_person: person,
+      ward: person.ward,
+      pack_id: "coronas",
+      run:,
+      opponent_person: carmen
+    )
+    refute_equal street_duels(:pili_vs_carmen).id, result.duel.id
   end
 end

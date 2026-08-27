@@ -1,0 +1,2600 @@
+---
+quizzes:
+- source_page: '35'
+  status: published
+  content:
+    key: psalms-refuge-2026
+    artwork: "/media/study/psalms-refuge-2026.png"
+    ceremony_artwork: "/media/study/word-gateway-2026.png"
+    light:
+      fr: Dieu demeure un refuge quand tout le reste paraît instable.
+      es: Dios sigue siendo un refugio cuando todo lo demás parece inestable.
+      en: God remains a refuge when everything else feels uncertain.
+      pt-BR: Deus continua sendo um refúgio quando tudo o mais parece incerto.
+    readings:
+    - study: ot/ps/49
+      labels:
+        fr: Psaume 49
+        es: Salmo 49
+        en: Psalm 49
+        pt-BR: Salmo 49
+    - study: ot/ps/50
+      labels:
+        fr: Psaume 50
+        es: Salmo 50
+        en: Psalm 50
+        pt-BR: Salmo 50
+    - study: ot/ps/51
+      labels:
+        fr: Psaume 51
+        es: Salmo 51
+        en: Psalm 51
+        pt-BR: Salmo 51
+    - study: ot/ps/61
+      labels:
+        fr: Psaume 61
+        es: Salmo 61
+        en: Psalm 61
+        pt-BR: Salmo 61
+    - study: ot/ps/62
+      labels:
+        fr: Psaume 62
+        es: Salmo 62
+        en: Psalm 62
+        pt-BR: Salmo 62
+    - study: ot/ps/66
+      labels:
+        fr: Psaume 66
+        es: Salmo 66
+        en: Psalm 66
+        pt-BR: Salmo 66
+    - study: ot/ps/69
+      labels:
+        fr: Psaume 69
+        es: Salmo 69
+        en: Psalm 69
+        pt-BR: Salmo 69
+    - study: ot/ps/72
+      labels:
+        fr: Psaume 72
+        es: Salmo 72
+        en: Psalm 72
+        pt-BR: Salmo 72
+    - study: ot/ps/77
+      labels:
+        fr: Psaume 77
+        es: Salmo 77
+        en: Psalm 77
+        pt-BR: Salmo 77
+    - study: ot/ps/85
+      labels:
+        fr: Psaume 85
+        es: Salmo 85
+        en: Psalm 85
+        pt-BR: Salmo 85
+    questions:
+    - key: riches_cannot_redeem
+      scripture_ref: Psaumes 49:7-9, 15
+      correct_choice: c
+      locales:
+        fr:
+          question: Selon le Psaume 49, qu’est-ce que la richesse ne peut pas acheter ?
+          choices:
+            a: Une longue réputation
+            b: L’amitié des puissants
+            c: Le rachat d’une âme
+            d: Une maison plus sûre
+          explanation: Aucune richesse ne peut racheter une âme. Le psalmiste place son espérance en Dieu, qui peut délivrer de la mort.
+        es:
+          question: Según el Salmo 49, ¿qué no puede comprar la riqueza?
+          choices:
+            a: Una reputación duradera
+            b: La amistad de los poderosos
+            c: El rescate de un alma
+            d: Una casa más segura
+          explanation: Ninguna riqueza puede rescatar un alma. El salmista pone su esperanza en Dios, que puede librar de la muerte.
+        en:
+          question: According to Psalm 49, what can wealth not buy?
+          choices:
+            a: A lasting reputation
+            b: The friendship of the powerful
+            c: The redemption of a soul
+            d: A safer home
+          explanation: No amount of wealth can redeem a soul. The psalmist trusts God, who can deliver from death.
+        pt-BR:
+          question: Segundo o Salmo 49, o que a riqueza não pode comprar?
+          choices:
+            a: Uma reputação duradoura
+            b: A amizade dos poderosos
+            c: A redenção de uma alma
+            d: Uma casa mais segura
+          explanation: Nenhuma riqueza pode redimir uma alma. O salmista deposita a esperança em Deus, que pode livrar da morte.
+    - key: god_owns_all
+      scripture_ref: Psaumes 50:10-12
+      correct_choice: b
+      locales:
+        fr:
+          question: Pourquoi Dieu dit-il qu’il n’a pas besoin que l’homme le nourrisse ?
+          choices:
+            a: Il ne reçoit aucun sacrifice
+            b: Le monde et tout ce qu’il contient lui appartiennent
+            c: Il ne s’intéresse qu’aux prières
+            d: Les animaux ne lui appartiennent pas
+          explanation: Dieu possède déjà toute la création. Ce qu’il recherche n’est pas une transaction, mais une reconnaissance sincère et une alliance vécue.
+        es:
+          question: "¿Por qué dice Dios que no necesita que el ser humano lo alimente?"
+          choices:
+            a: No recibe sacrificios
+            b: El mundo y todo lo que contiene le pertenecen
+            c: Solo le interesan las oraciones
+            d: Los animales no le pertenecen
+          explanation: Dios ya posee toda la creación. No busca una transacción, sino gratitud sincera y una alianza vivida.
+        en:
+          question: Why does God say He does not need people to feed Him?
+          choices:
+            a: He accepts no offerings
+            b: The world and everything in it belong to Him
+            c: He cares only about prayers
+            d: The animals do not belong to Him
+          explanation: God already owns all creation. He seeks no transaction, but sincere gratitude and a covenant lived faithfully.
+        pt-BR:
+          question: Por que Deus diz que não precisa que o ser humano o alimente?
+          choices:
+            a: Ele não recebe ofertas
+            b: O mundo e tudo o que nele há pertencem a Ele
+            c: Ele só se importa com orações
+            d: Os animais não pertencem a Ele
+          explanation: Deus já possui toda a criação. Ele não busca uma troca, mas gratidão sincera e uma aliança vivida.
+    - key: clean_heart
+      scripture_ref: Psaumes 51:10-12
+      correct_choice: c
+      locales:
+        fr:
+          question: Que demande principalement David à Dieu après avoir reconnu son péché ?
+          choices:
+            a: D’oublier ses ennemis
+            b: De lui donner un nouveau royaume
+            c: De créer en lui un cœur pur
+            d: De cacher sa faute aux autres
+          explanation: David ne demande pas seulement que sa faute disparaisse. Il supplie Dieu de le transformer intérieurement et de lui rendre la joie du salut.
+        es:
+          question: "¿Qué pide principalmente David a Dios después de reconocer su pecado?"
+          choices:
+            a: Olvidar a sus enemigos
+            b: Darle un reino nuevo
+            c: Crear en él un corazón limpio
+            d: Ocultar su falta a los demás
+          explanation: David no pide solo que desaparezca su culpa. Suplica a Dios que lo transforme por dentro y le devuelva el gozo de la salvación.
+        en:
+          question: What does David chiefly ask God for after acknowledging his sin?
+          choices:
+            a: To forget his enemies
+            b: To give him a new kingdom
+            c: To create a clean heart in him
+            d: To hide his fault from others
+          explanation: David asks for more than the removal of guilt. He pleads for inner transformation and the restored joy of salvation.
+        pt-BR:
+          question: O que Davi pede principalmente a Deus depois de reconhecer seu pecado?
+          choices:
+            a: Esquecer seus inimigos
+            b: Dar-lhe um novo reino
+            c: Criar nele um coração puro
+            d: Esconder sua culpa dos outros
+          explanation: Davi não pede apenas que a culpa desapareça. Ele suplica por transformação interior e pela alegria renovada da salvação.
+    - key: rock_higher
+      scripture_ref: Psaumes 61:1-4
+      correct_choice: a
+      locales:
+        fr:
+          question: Où le psalmiste demande-t-il à Dieu de le conduire lorsque son cœur est abattu ?
+          choices:
+            a: Sur le rocher trop élevé pour lui
+            b: Dans la maison d’un roi
+            c: Au milieu d’une armée
+            d: Loin de toute responsabilité
+          explanation: L’image du rocher enseigne que Dieu peut nous établir dans une sécurité que nous ne pouvons pas atteindre par nos seules forces.
+        es:
+          question: "¿Adónde pide el salmista que Dios lo guíe cuando su corazón desfallece?"
+          choices:
+            a: A la roca más alta que él
+            b: A la casa de un rey
+            c: En medio de un ejército
+            d: Lejos de toda responsabilidad
+          explanation: La roca enseña que Dios puede establecernos en una seguridad que no alcanzamos solo con nuestras fuerzas.
+        en:
+          question: Where does the psalmist ask God to lead him when his heart is overwhelmed?
+          choices:
+            a: To the rock higher than he is
+            b: To a king’s house
+            c: Into the middle of an army
+            d: Away from every responsibility
+          explanation: The rock teaches that God can establish us in a safety we cannot reach through our own strength alone.
+        pt-BR:
+          question: Para onde o salmista pede que Deus o conduza quando seu coração desfalece?
+          choices:
+            a: À rocha mais alta do que ele
+            b: À casa de um rei
+            c: Ao meio de um exército
+            d: Para longe de toda responsabilidade
+          explanation: A rocha ensina que Deus pode nos firmar numa segurança que não alcançamos apenas com nossa própria força.
+    - key: wait_in_silence
+      scripture_ref: Psaumes 62:1-2, 5-8
+      correct_choice: d
+      locales:
+        fr:
+          question: Quelle attitude le Psaume 62 associe-t-il à la confiance en Dieu ?
+          choices:
+            a: Multiplier les paroles
+            b: Ne jamais montrer sa faiblesse
+            c: Contrôler toutes les circonstances
+            d: Attendre en silence et répandre son cœur devant lui
+          explanation: 'La foi réunit ici le silence confiant et la parole honnête : attendre Dieu, puis ouvrir pleinement son cœur devant lui.'
+        es:
+          question: "¿Qué actitud relaciona el Salmo 62 con la confianza en Dios?"
+          choices:
+            a: Multiplicar las palabras
+            b: No mostrar nunca debilidad
+            c: Controlar todas las circunstancias
+            d: Esperar en silencio y derramar el corazón ante Él
+          explanation: 'La fe une el silencio confiado y la sinceridad: esperar en Dios y abrir completamente el corazón ante Él.'
+        en:
+          question: What attitude does Psalm 62 connect with trusting God?
+          choices:
+            a: Using more words
+            b: Never showing weakness
+            c: Controlling every circumstance
+            d: Waiting quietly and pouring out one’s heart before Him
+          explanation: 'Faith joins quiet trust with honest speech: waiting for God, then opening the whole heart before Him.'
+        pt-BR:
+          question: Que atitude o Salmo 62 relaciona à confiança em Deus?
+          choices:
+            a: Multiplicar as palavras
+            b: Nunca mostrar fraqueza
+            c: Controlar todas as circunstâncias
+            d: Esperar em silêncio e derramar o coração diante Dele
+          explanation: 'A fé une silêncio confiante e sinceridade: esperar em Deus e abrir completamente o coração diante Dele.'
+    - key: refined_through_trial
+      scripture_ref: Psaumes 66:10-12
+      correct_choice: b
+      locales:
+        fr:
+          question: À quoi le Psaume 66 compare-t-il les épreuves traversées par le peuple ?
+          choices:
+            a: À une route sans destination
+            b: À l’argent éprouvé par le feu
+            c: À une fête interrompue
+            d: À une dette impossible à payer
+          explanation: 'L’épreuve n’est pas présentée comme la fin du peuple : Dieu le fait passer par le feu et l’eau, puis le conduit vers l’abondance.'
+        es:
+          question: "¿Con qué compara el Salmo 66 las pruebas que atravesó el pueblo?"
+          choices:
+            a: Con un camino sin destino
+            b: Con la plata refinada por el fuego
+            c: Con una fiesta interrumpida
+            d: Con una deuda imposible de pagar
+          explanation: 'La prueba no es el final: Dios hace pasar a su pueblo por fuego y agua y después lo lleva a la abundancia.'
+        en:
+          question: What does Psalm 66 compare the people’s trials to?
+          choices:
+            a: A road with no destination
+            b: Silver refined by fire
+            c: An interrupted celebration
+            d: A debt that cannot be paid
+          explanation: 'Trial is not the people’s ending: God brings them through fire and water and then into abundance.'
+        pt-BR:
+          question: A que o Salmo 66 compara as provações enfrentadas pelo povo?
+          choices:
+            a: A uma estrada sem destino
+            b: À prata refinada pelo fogo
+            c: A uma festa interrompida
+            d: A uma dívida impossível de pagar
+          explanation: 'A provação não é o fim: Deus conduz seu povo pelo fogo e pela água e depois o leva à abundância.'
+    - key: suffering_servant
+      scripture_ref: Psaumes 69:20-21
+      correct_choice: c
+      locales:
+        fr:
+          question: Quel détail du Psaume 69 rappelle particulièrement la Passion de Jésus-Christ ?
+          choices:
+            a: Une couronne offerte au roi
+            b: Une armée venue le défendre
+            c: Du fiel et du vinaigre donnés dans sa souffrance
+            d: Une fuite secrète hors de la ville
+          explanation: Les chrétiens reconnaissent dans ces paroles un écho puissant de la souffrance du Sauveur et du vinaigre qui lui fut présenté sur la croix.
+        es:
+          question: "¿Qué detalle del Salmo 69 recuerda especialmente la Pasión de Jesucristo?"
+          choices:
+            a: Una corona ofrecida al rey
+            b: Un ejército que vino a defenderlo
+            c: Hiel y vinagre ofrecidos en su sufrimiento
+            d: Una huida secreta de la ciudad
+          explanation: Los cristianos reconocen aquí un poderoso eco del sufrimiento del Salvador y del vinagre que le ofrecieron en la cruz.
+        en:
+          question: Which detail in Psalm 69 especially recalls the Passion of Jesus Christ?
+          choices:
+            a: A crown offered to the king
+            b: An army coming to defend him
+            c: Gall and vinegar offered in suffering
+            d: A secret escape from the city
+          explanation: Christians hear here a powerful echo of the Savior’s suffering and the vinegar offered to Him on the cross.
+        pt-BR:
+          question: Que detalhe do Salmo 69 lembra especialmente a Paixão de Jesus Cristo?
+          choices:
+            a: Uma coroa oferecida ao rei
+            b: Um exército vindo defendê-lo
+            c: Fel e vinagre oferecidos em seu sofrimento
+            d: Uma fuga secreta da cidade
+          explanation: Os cristãos reconhecem aqui um poderoso eco do sofrimento do Salvador e do vinagre oferecido a Ele na cruz.
+    - key: righteous_king
+      scripture_ref: Psaumes 72:1-4, 12-14
+      correct_choice: a
+      locales:
+        fr:
+          question: Comment reconnaît-on le roi juste décrit dans le Psaume 72 ?
+          choices:
+            a: Il défend le pauvre et délivre celui qui n’a aucun secours
+            b: Il agrandit d’abord son palais
+            c: Il évite les personnes qui souffrent
+            d: Il réserve la justice aux puissants
+          explanation: Le règne juste se reconnaît à la manière dont les plus vulnérables sont traités. Ce portrait nourrit aussi l’espérance du règne parfait du Christ.
+        es:
+          question: "¿Cómo se reconoce al rey justo descrito en el Salmo 72?"
+          choices:
+            a: Defiende al pobre y libra al que no tiene ayuda
+            b: Primero amplía su palacio
+            c: Evita a quienes sufren
+            d: Reserva la justicia para los poderosos
+          explanation: Un reino justo se reconoce por el trato a los más vulnerables. Este retrato también alimenta la esperanza en el reinado perfecto de Cristo.
+        en:
+          question: How is the righteous king in Psalm 72 recognized?
+          choices:
+            a: He defends the poor and delivers those with no helper
+            b: He first enlarges his palace
+            c: He avoids those who suffer
+            d: He reserves justice for the powerful
+          explanation: A righteous reign is known by its treatment of the vulnerable. This portrait also nourishes hope in Christ’s perfect reign.
+        pt-BR:
+          question: Como se reconhece o rei justo descrito no Salmo 72?
+          choices:
+            a: Ele defende o pobre e livra quem não tem auxílio
+            b: Primeiro amplia seu palácio
+            c: Evita os que sofrem
+            d: Reserva a justiça aos poderosos
+          explanation: Um reinado justo é reconhecido pelo cuidado com os vulneráveis. Esse retrato também nutre a esperança no reinado perfeito de Cristo.
+    - key: remember_gods_works
+      scripture_ref: Psaumes 77:7-14
+      correct_choice: d
+      locales:
+        fr:
+          question: Que fait le psalmiste lorsque ses questions lui font douter de la bonté de Dieu ?
+          choices:
+            a: Il nie avoir peur
+            b: Il abandonne toute prière
+            c: Il cherche un signe spectaculaire
+            d: Il se souvient des œuvres de Dieu
+          explanation: Se souvenir ne supprime pas immédiatement la souffrance, mais replace la crise présente dans l’histoire de la fidélité de Dieu.
+        es:
+          question: "¿Qué hace el salmista cuando sus preguntas le hacen dudar de la bondad de Dios?"
+          choices:
+            a: Niega tener miedo
+            b: Abandona toda oración
+            c: Busca una señal espectacular
+            d: Recuerda las obras de Dios
+          explanation: Recordar no elimina de inmediato el sufrimiento, pero sitúa la crisis presente dentro de la historia de la fidelidad de Dios.
+        en:
+          question: What does the psalmist do when his questions make him doubt God’s goodness?
+          choices:
+            a: He denies being afraid
+            b: He abandons prayer
+            c: He looks for a spectacular sign
+            d: He remembers God’s works
+          explanation: Remembering does not instantly remove suffering, but it places the present crisis inside the story of God’s faithfulness.
+        pt-BR:
+          question: O que o salmista faz quando suas perguntas o levam a duvidar da bondade de Deus?
+          choices:
+            a: Nega estar com medo
+            b: Abandona toda oração
+            c: Procura um sinal espetacular
+            d: Lembra-se das obras de Deus
+          explanation: Lembrar não elimina imediatamente o sofrimento, mas coloca a crise presente dentro da história da fidelidade de Deus.
+    - key: mercy_and_truth_meet
+      scripture_ref: Psaumes 85:10-13
+      correct_choice: b
+      locales:
+        fr:
+          question: Quelle rencontre magnifique le Psaume 85 associe-t-il au salut de Dieu ?
+          choices:
+            a: La puissance et la célébrité
+            b: La bonté et la vérité, la justice et la paix
+            c: Le silence et l’oubli
+            d: La richesse et l’autorité
+          explanation: Le salut de Dieu ne sacrifie ni la vérité ni la miséricorde. En lui, la justice et la paix peuvent enfin s’embrasser.
+        es:
+          question: "¿Qué encuentro hermoso relaciona el Salmo 85 con la salvación de Dios?"
+          choices:
+            a: El poder y la fama
+            b: La misericordia y la verdad, la justicia y la paz
+            c: El silencio y el olvido
+            d: La riqueza y la autoridad
+          explanation: La salvación de Dios no sacrifica ni la verdad ni la misericordia. En Él, la justicia y la paz pueden abrazarse.
+        en:
+          question: What beautiful meeting does Psalm 85 associate with God’s salvation?
+          choices:
+            a: Power and fame
+            b: Mercy and truth, righteousness and peace
+            c: Silence and forgetfulness
+            d: Wealth and authority
+          explanation: God’s salvation sacrifices neither truth nor mercy. In Him, righteousness and peace can finally embrace.
+        pt-BR:
+          question: Que belo encontro o Salmo 85 associa à salvação de Deus?
+          choices:
+            a: Poder e fama
+            b: Misericórdia e verdade, justiça e paz
+            c: Silêncio e esquecimento
+            d: Riqueza e autoridade
+          explanation: A salvação de Deus não sacrifica nem a verdade nem a misericórdia. Nele, justiça e paz podem finalmente se abraçar.
+- source_page: '36'
+  status: published
+  content:
+    key: psalms-praise-2026
+    artwork: "/media/study/psalms-refuge-2026.png"
+    ceremony_artwork: "/media/study/word-gateway-2026.png"
+    light:
+      fr: Le Dieu qui me connaît et me relève est digne de toute ma louange.
+      es: El Dios que me conoce y me levanta merece toda mi alabanza.
+      en: The God who knows me and lifts me up is worthy of all my praise.
+      pt-BR: O Deus que me conhece e me levanta é digno de todo o meu louvor.
+    readings:
+    - study: ot/ps/102
+      labels:
+        fr: Psaume 102
+        es: Salmo 102
+        en: Psalm 102
+        pt-BR: Salmo 102
+    - study: ot/ps/103
+      labels:
+        fr: Psaume 103
+        es: Salmo 103
+        en: Psalm 103
+        pt-BR: Salmo 103
+    - study: ot/ps/110
+      labels:
+        fr: Psaume 110
+        es: Salmo 110
+        en: Psalm 110
+        pt-BR: Salmo 110
+    - study: ot/ps/116
+      labels:
+        fr: Psaume 116
+        es: Salmo 116
+        en: Psalm 116
+        pt-BR: Salmo 116
+    - study: ot/ps/118
+      labels:
+        fr: Psaume 118
+        es: Salmo 118
+        en: Psalm 118
+        pt-BR: Salmo 118
+    - study: ot/ps/119
+      labels:
+        fr: Psaume 119
+        es: Salmo 119
+        en: Psalm 119
+        pt-BR: Salmo 119
+    - study: ot/ps/127
+      labels:
+        fr: Psaume 127
+        es: Salmo 127
+        en: Psalm 127
+        pt-BR: Salmo 127
+    - study: ot/ps/139
+      labels:
+        fr: Psaume 139
+        es: Salmo 139
+        en: Psalm 139
+        pt-BR: Salmo 139
+    - study: ot/ps/146
+      labels:
+        fr: Psaume 146
+        es: Salmo 146
+        en: Psalm 146
+        pt-BR: Salmo 146
+    - study: ot/ps/150
+      labels:
+        fr: Psaume 150
+        es: Salmo 150
+        en: Psalm 150
+        pt-BR: Salmo 150
+    questions:
+    - key: afflicted_prayer
+      scripture_ref: Psaumes 102:1-2
+      correct_choice: b
+      locales:
+        fr:
+          question: Quand il est dans la détresse, que demande le psalmiste ?
+          choices:
+            a: D’être laissé seul
+            b: Que sa prière parvienne à Dieu
+            c: De devenir roi
+            d: D’oublier Jérusalem
+          explanation: Il supplie l’Éternel d’écouter et de lui répondre sans tarder.
+        es:
+          question: "¿Qué pide el salmista cuando está angustiado?"
+          choices:
+            a: Que lo dejen solo
+            b: Que su oración llegue a Dios
+            c: Llegar a ser rey
+            d: Olvidar Jerusalén
+          explanation: Suplica al Señor que lo escuche y le responda sin tardar.
+        en:
+          question: What does the psalmist ask for when he is in distress?
+          choices:
+            a: To be left alone
+            b: For his prayer to reach God
+            c: To become king
+            d: To forget Jerusalem
+          explanation: He pleads with the Lord to hear him and answer without delay.
+        pt-BR:
+          question: O que o salmista pede quando está angustiado?
+          choices:
+            a: Que o deixem sozinho
+            b: Que sua oração chegue a Deus
+            c: Que ele se torne rei
+            d: Que ele esqueça Jerusalém
+          explanation: Ele suplica ao Senhor que o ouça e responda sem demora.
+    - key: compassionate_father
+      scripture_ref: Psaumes 103:8-13
+      correct_choice: c
+      locales:
+        fr:
+          question: À quoi le Psaume 103 compare-t-il la compassion de Dieu ?
+          choices:
+            a: À la force d’une armée
+            b: À la richesse d’un roi
+            c: À la tendresse d’un père
+            d: À la vitesse du vent
+          explanation: Comme un père a compassion de ses enfants, l’Éternel a compassion de ceux qui le craignent.
+        es:
+          question: "¿Con qué compara el Salmo 103 la compasión de Dios?"
+          choices:
+            a: Con la fuerza de un ejército
+            b: Con la riqueza de un rey
+            c: Con la ternura de un padre
+            d: Con la velocidad del viento
+          explanation: Como un padre se compadece de sus hijos, el Señor se compadece de quienes lo honran.
+        en:
+          question: What does Psalm 103 compare God’s compassion to?
+          choices:
+            a: The strength of an army
+            b: A king’s wealth
+            c: A father’s tender care
+            d: The speed of the wind
+          explanation: As a father has compassion on his children, the Lord has compassion on those who honor Him.
+        pt-BR:
+          question: A que o Salmo 103 compara a compaixão de Deus?
+          choices:
+            a: À força de um exército
+            b: À riqueza de um rei
+            c: Ao carinho de um pai
+            d: À velocidade do vento
+          explanation: Como um pai se compadece dos filhos, o Senhor se compadece daqueles que o honram.
+    - key: right_hand
+      scripture_ref: Psaumes 110:1-4
+      correct_choice: a
+      locales:
+        fr:
+          question: Où l’Éternel invite-t-il le Seigneur du psalmiste à s’asseoir ?
+          choices:
+            a: À sa droite
+            b: Devant le temple
+            c: Sur le mont Carmel
+            d: Près de l’arche
+          explanation: Ce psaume royal annonce celui qui siège à la droite de Dieu et règne avec puissance.
+        es:
+          question: "¿Dónde invita el Señor a sentarse al Señor del salmista?"
+          choices:
+            a: A su derecha
+            b: Delante del templo
+            c: En el monte Carmelo
+            d: Junto al arca
+          explanation: Este salmo real anuncia al que se sienta a la derecha de Dios y reina con poder.
+        en:
+          question: Where does the Lord invite the psalmist’s Lord to sit?
+          choices:
+            a: At His right hand
+            b: In front of the temple
+            c: On Mount Carmel
+            d: Beside the ark
+          explanation: This royal psalm points to the One who sits at God’s right hand and reigns with power.
+        pt-BR:
+          question: Onde o Senhor convida o Senhor do salmista a se sentar?
+          choices:
+            a: À sua direita
+            b: Diante do templo
+            c: No monte Carmelo
+            d: Ao lado da arca
+          explanation: Este salmo real anuncia aquele que se assenta à direita de Deus e reina com poder.
+    - key: cup_salvation
+      scripture_ref: Psaumes 116:12-17
+      correct_choice: d
+      locales:
+        fr:
+          question: Que prend le psalmiste pour répondre aux bienfaits de l’Éternel ?
+          choices:
+            a: Une couronne
+            b: Une épée
+            c: Une tablette de pierre
+            d: La coupe du salut
+          explanation: Il prend la coupe du salut, invoque l’Éternel et accomplit ses vœux.
+        es:
+          question: "¿Qué toma el salmista para responder a las bondades del Señor?"
+          choices:
+            a: Una corona
+            b: Una espada
+            c: Una tabla de piedra
+            d: La copa de la salvación
+          explanation: Toma la copa de la salvación, invoca al Señor y cumple sus promesas.
+        en:
+          question: What does the psalmist take up in response to the Lord’s goodness?
+          choices:
+            a: A crown
+            b: A sword
+            c: A stone tablet
+            d: The cup of salvation
+          explanation: He takes the cup of salvation, calls on the Lord, and keeps his promises.
+        pt-BR:
+          question: O que o salmista toma para agradecer as bondades do Senhor?
+          choices:
+            a: Uma coroa
+            b: Uma espada
+            c: Uma tábua de pedra
+            d: O cálice da salvação
+          explanation: Ele toma o cálice da salvação, invoca o Senhor e cumpre suas promessas.
+    - key: rejected_stone
+      scripture_ref: Psaumes 118:22-24
+      correct_choice: b
+      locales:
+        fr:
+          question: Que devient la pierre rejetée par ceux qui bâtissaient ?
+          choices:
+            a: Une pierre oubliée
+            b: La pierre principale de l’angle
+            c: Une borne du désert
+            d: Une idole
+          explanation: 'L’Éternel fait de la pierre rejetée la pierre principale : une image accomplie en Jésus-Christ.'
+        es:
+          question: "¿En qué se convierte la piedra que rechazaron los constructores?"
+          choices:
+            a: En una piedra olvidada
+            b: En la principal piedra angular
+            c: En un mojón del desierto
+            d: En un ídolo
+          explanation: El Señor convierte la piedra rechazada en la principal piedra angular, una imagen que se cumple en Jesucristo.
+        en:
+          question: What becomes of the stone the builders rejected?
+          choices:
+            a: It is forgotten
+            b: It becomes the chief cornerstone
+            c: It marks a desert boundary
+            d: It becomes an idol
+          explanation: The Lord makes the rejected stone the chief cornerstone, a picture fulfilled in Jesus Christ.
+        pt-BR:
+          question: O que acontece com a pedra rejeitada pelos construtores?
+          choices:
+            a: Ela é esquecida
+            b: Ela se torna a principal pedra angular
+            c: Ela vira um marco no deserto
+            d: Ela se torna um ídolo
+          explanation: O Senhor faz da pedra rejeitada a principal pedra angular, uma imagem que se cumpre em Jesus Cristo.
+    - key: lamp_word
+      scripture_ref: Psaumes 119:105
+      correct_choice: c
+      locales:
+        fr:
+          question: Dans le Psaume 119, à quoi la parole de Dieu est-elle comparée ?
+          choices:
+            a: À une couronne
+            b: À une muraille
+            c: À une lampe
+            d: À une trompette
+          explanation: La parole de Dieu est une lampe à nos pieds et une lumière sur notre sentier.
+        es:
+          question: En el Salmo 119, ¿a qué se compara la palabra de Dios?
+          choices:
+            a: A una corona
+            b: A una muralla
+            c: A una lámpara
+            d: A una trompeta
+          explanation: La palabra de Dios es lámpara para nuestros pies y luz para nuestro camino.
+        en:
+          question: In Psalm 119, what is God’s word compared to?
+          choices:
+            a: A crown
+            b: A wall
+            c: A lamp
+            d: A trumpet
+          explanation: God’s word is a lamp for our feet and a light for our path.
+        pt-BR:
+          question: No Salmo 119, a que a palavra de Deus é comparada?
+          choices:
+            a: A uma coroa
+            b: A uma muralha
+            c: A uma lâmpada
+            d: A uma trombeta
+          explanation: A palavra de Deus é lâmpada para os nossos pés e luz para o nosso caminho.
+    - key: builds_house
+      scripture_ref: Psaumes 127:1-2
+      correct_choice: a
+      locales:
+        fr:
+          question: Sans qui ceux qui bâtissent une maison travaillent-ils en vain ?
+          choices:
+            a: Sans l’Éternel
+            b: Sans un architecte royal
+            c: Sans une armée
+            d: Sans Salomon
+          explanation: Le psaume rappelle que nos efforts trouvent leur solidité lorsque l’Éternel bâtit avec nous.
+        es:
+          question: "¿Sin quién trabajan en vano los que construyen una casa?"
+          choices:
+            a: Sin el Señor
+            b: Sin un arquitecto real
+            c: Sin un ejército
+            d: Sin Salomón
+          explanation: El salmo recuerda que nuestros esfuerzos son firmes cuando el Señor edifica con nosotros.
+        en:
+          question: Without whom do those who build a house labor in vain?
+          choices:
+            a: Without the Lord
+            b: Without a royal architect
+            c: Without an army
+            d: Without Solomon
+          explanation: The psalm reminds us that our work stands firm when the Lord builds with us.
+        pt-BR:
+          question: Sem quem os que constroem uma casa trabalham em vão?
+          choices:
+            a: Sem o Senhor
+            b: Sem um arquiteto real
+            c: Sem um exército
+            d: Sem Salomão
+          explanation: O salmo lembra que nossos esforços ficam firmes quando o Senhor edifica conosco.
+    - key: known_completely
+      scripture_ref: Psaumes 139:1-6, 23-24
+      correct_choice: d
+      locales:
+        fr:
+          question: Que connaît Dieu de la personne qui prie dans le Psaume 139 ?
+          choices:
+            a: Seulement ses paroles
+            b: Seulement ses bonnes actions
+            c: Uniquement son avenir
+            d: Ses pensées et toutes ses voies
+          explanation: Dieu nous connaît profondément ; nous pouvons lui demander de sonder notre cœur et de nous conduire.
+        es:
+          question: "¿Qué conoce Dios de la persona que ora en el Salmo 139?"
+          choices:
+            a: Solo sus palabras
+            b: Solo sus buenas obras
+            c: Solamente su futuro
+            d: Sus pensamientos y todos sus caminos
+          explanation: Dios nos conoce profundamente; podemos pedirle que examine nuestro corazón y nos guíe.
+        en:
+          question: What does God know about the person praying in Psalm 139?
+          choices:
+            a: Only their words
+            b: Only their good deeds
+            c: Only their future
+            d: Their thoughts and all their ways
+          explanation: God knows us deeply; we can ask Him to search our hearts and lead us.
+        pt-BR:
+          question: O que Deus conhece sobre a pessoa que ora no Salmo 139?
+          choices:
+            a: Apenas suas palavras
+            b: Apenas suas boas ações
+            c: Somente seu futuro
+            d: Seus pensamentos e todos os seus caminhos
+          explanation: Deus nos conhece profundamente; podemos pedir que examine nosso coração e nos guie.
+    - key: help_oppressed
+      scripture_ref: Psaumes 146:5-9
+      correct_choice: b
+      locales:
+        fr:
+          question: Qui l’Éternel secourt-il selon le Psaume 146 ?
+          choices:
+            a: Uniquement les puissants
+            b: Les opprimés, les affamés et les étrangers
+            c: Seulement les rois
+            d: Ceux qui n’ont jamais souffert
+          explanation: Sa fidélité se voit dans son soin concret des personnes vulnérables.
+        es:
+          question: "¿A quiénes ayuda el Señor según el Salmo 146?"
+          choices:
+            a: Solo a los poderosos
+            b: A los oprimidos, hambrientos y extranjeros
+            c: Solo a los reyes
+            d: A quienes nunca han sufrido
+          explanation: Su fidelidad se ve en el cuidado concreto que brinda a las personas vulnerables.
+        en:
+          question: Whom does the Lord help in Psalm 146?
+          choices:
+            a: Only the powerful
+            b: The oppressed, the hungry, and the stranger
+            c: Only kings
+            d: Those who have never suffered
+          explanation: His faithfulness is seen in His practical care for vulnerable people.
+        pt-BR:
+          question: Quem o Senhor ajuda, segundo o Salmo 146?
+          choices:
+            a: Somente os poderosos
+            b: Os oprimidos, os famintos e os estrangeiros
+            c: Somente os reis
+            d: Quem nunca sofreu
+          explanation: Sua fidelidade aparece no cuidado concreto com as pessoas vulneráveis.
+    - key: everything_breathes
+      scripture_ref: Psaumes 150:1-6
+      correct_choice: c
+      locales:
+        fr:
+          question: Qui le dernier verset des Psaumes invite-t-il à louer l’Éternel ?
+          choices:
+            a: Les prêtres seulement
+            b: Les musiciens seulement
+            c: Tout ce qui respire
+            d: Israël seulement
+          explanation: 'Le recueil s’achève par une invitation universelle : que tout ce qui respire loue l’Éternel.'
+        es:
+          question: "¿A quiénes invita a alabar al Señor el último versículo de los Salmos?"
+          choices:
+            a: Solo a los sacerdotes
+            b: Solo a los músicos
+            c: A todo lo que respira
+            d: Solo a Israel
+          explanation: 'El libro termina con una invitación universal: que todo lo que respira alabe al Señor.'
+        en:
+          question: Whom does the final verse of Psalms invite to praise the Lord?
+          choices:
+            a: Only priests
+            b: Only musicians
+            c: Everything that has breath
+            d: Only Israel
+          explanation: 'The book ends with a universal invitation: let everything that has breath praise the Lord.'
+        pt-BR:
+          question: Quem o último versículo dos Salmos convida a louvar o Senhor?
+          choices:
+            a: Somente os sacerdotes
+            b: Somente os músicos
+            c: Tudo o que respira
+            d: Somente Israel
+          explanation: 'O livro termina com um convite universal: tudo o que respira louve o Senhor.'
+- source_page: '37'
+  status: published
+  content:
+    key: wisdom-paths-2026
+    artwork: "/media/study/psalms-refuge-2026.png"
+    ceremony_artwork: "/media/study/word-gateway-2026.png"
+    light:
+      fr: La sagesse commence lorsque je fais confiance à Dieu plus qu’à ma seule compréhension.
+      es: La sabiduría comienza cuando confío en Dios más que en mi propio entendimiento.
+      en: Wisdom begins when I trust God more than my own understanding.
+      pt-BR: A sabedoria começa quando confio em Deus mais do que no meu próprio entendimento.
+    readings:
+    - study: ot/prov/1
+      labels:
+        fr: Proverbes 1
+        es: Proverbios 1
+        en: Proverbs 1
+        pt-BR: Provérbios 1
+    - study: ot/prov/3
+      labels:
+        fr: Proverbes 3
+        es: Proverbios 3
+        en: Proverbs 3
+        pt-BR: Provérbios 3
+    - study: ot/prov/4
+      labels:
+        fr: Proverbes 4
+        es: Proverbios 4
+        en: Proverbs 4
+        pt-BR: Provérbios 4
+    - study: ot/prov/15
+      labels:
+        fr: Proverbes 15
+        es: Proverbios 15
+        en: Proverbs 15
+        pt-BR: Provérbios 15
+    - study: ot/prov/16
+      labels:
+        fr: Proverbes 16
+        es: Proverbios 16
+        en: Proverbs 16
+        pt-BR: Provérbios 16
+    - study: ot/prov/22
+      labels:
+        fr: Proverbes 22
+        es: Proverbios 22
+        en: Proverbs 22
+        pt-BR: Provérbios 22
+    - study: ot/prov/31
+      labels:
+        fr: Proverbes 31
+        es: Proverbios 31
+        en: Proverbs 31
+        pt-BR: Provérbios 31
+    - study: ot/eccl/1
+      labels:
+        fr: Ecclésiaste 1
+        es: Eclesiastés 1
+        en: Ecclesiastes 1
+        pt-BR: Eclesiastes 1
+    - study: ot/eccl/3
+      labels:
+        fr: Ecclésiaste 3
+        es: Eclesiastés 3
+        en: Ecclesiastes 3
+        pt-BR: Eclesiastes 3
+    - study: ot/eccl/12
+      labels:
+        fr: Ecclésiaste 12
+        es: Eclesiastés 12
+        en: Ecclesiastes 12
+        pt-BR: Eclesiastes 12
+    questions:
+    - key: wisdom_begins
+      scripture_ref: Proverbes 1:7
+      correct_choice: a
+      locales:
+        fr:
+          question: Quel est le commencement de la connaissance ?
+          choices:
+            a: La crainte de l’Éternel
+            b: La richesse
+            c: L’âge
+            d: Le pouvoir
+          explanation: La sagesse biblique commence par le respect profond de Dieu et le désir de l’écouter.
+        es:
+          question: "¿Cuál es el principio del conocimiento?"
+          choices:
+            a: El temor del Señor
+            b: La riqueza
+            c: La edad
+            d: El poder
+          explanation: La sabiduría bíblica comienza con un profundo respeto por Dios y el deseo de escucharlo.
+        en:
+          question: What is the beginning of knowledge?
+          choices:
+            a: Reverence for the Lord
+            b: Wealth
+            c: Age
+            d: Power
+          explanation: Biblical wisdom begins with deep respect for God and a desire to listen to Him.
+        pt-BR:
+          question: Qual é o princípio do conhecimento?
+          choices:
+            a: O temor do Senhor
+            b: A riqueza
+            c: A idade
+            d: O poder
+          explanation: A sabedoria bíblica começa com profundo respeito por Deus e o desejo de ouvi-Lo.
+    - key: trust_paths
+      scripture_ref: Proverbes 3:5-6
+      correct_choice: c
+      locales:
+        fr:
+          question: Que devons-nous faire plutôt que nous appuyer sur notre seule sagesse ?
+          choices:
+            a: Ne jamais décider
+            b: Suivre la foule
+            c: Nous confier en l’Éternel de tout notre cœur
+            d: Attendre un signe spectaculaire
+          explanation: Lorsque nous reconnaissons Dieu dans nos voies, il peut aplanir nos sentiers.
+        es:
+          question: "¿Qué debemos hacer en vez de apoyarnos solo en nuestra propia sabiduría?"
+          choices:
+            a: No decidir nunca
+            b: Seguir a la mayoría
+            c: Confiar en el Señor de todo corazón
+            d: Esperar una señal espectacular
+          explanation: Cuando reconocemos a Dios en nuestros caminos, Él puede enderezar nuestras sendas.
+        en:
+          question: What should we do instead of relying only on our own wisdom?
+          choices:
+            a: Never make a decision
+            b: Follow the crowd
+            c: Trust the Lord with all our heart
+            d: Wait for a spectacular sign
+          explanation: When we acknowledge God in our ways, He can make our paths straight.
+        pt-BR:
+          question: O que devemos fazer em vez de confiar apenas na nossa própria sabedoria?
+          choices:
+            a: Nunca tomar uma decisão
+            b: Seguir a maioria
+            c: Confiar no Senhor de todo o coração
+            d: Esperar um sinal espetacular
+          explanation: Quando reconhecemos Deus em nossos caminhos, Ele pode endireitar nossas veredas.
+    - key: guard_heart
+      scripture_ref: Proverbes 4:23
+      correct_choice: b
+      locales:
+        fr:
+          question: Qu’est-ce que Proverbes 4 nous demande de garder plus que toute autre chose ?
+          choices:
+            a: Nos possessions
+            b: Notre cœur
+            c: Notre réputation
+            d: Nos secrets
+          explanation: Du cœur viennent les sources de la vie ; nos désirs orientent nos choix.
+        es:
+          question: "¿Qué nos pide Proverbios 4 que guardemos por encima de todo?"
+          choices:
+            a: Nuestras posesiones
+            b: Nuestro corazón
+            c: Nuestra reputación
+            d: Nuestros secretos
+          explanation: Del corazón mana la vida; nuestros deseos orientan nuestras decisiones.
+        en:
+          question: What does Proverbs 4 tell us to guard above everything else?
+          choices:
+            a: Our possessions
+            b: Our heart
+            c: Our reputation
+            d: Our secrets
+          explanation: Life flows from the heart; our desires shape our choices.
+        pt-BR:
+          question: O que Provérbios 4 nos manda guardar acima de tudo?
+          choices:
+            a: Nossos bens
+            b: Nosso coração
+            c: Nossa reputação
+            d: Nossos segredos
+          explanation: Do coração procedem as fontes da vida; nossos desejos orientam nossas escolhas.
+    - key: gentle_answer
+      scripture_ref: Proverbes 15:1
+      correct_choice: d
+      locales:
+        fr:
+          question: Qu’est-ce qui calme la fureur ?
+          choices:
+            a: Une menace
+            b: Le silence méprisant
+            c: Une réponse plus forte
+            d: Une réponse douce
+          explanation: La douceur peut interrompre l’escalade, tandis qu’une parole dure excite la colère.
+        es:
+          question: "¿Qué calma la ira?"
+          choices:
+            a: Una amenaza
+            b: El silencio desdeñoso
+            c: Una respuesta más fuerte
+            d: Una respuesta suave
+          explanation: La suavidad puede detener una pelea, mientras que una palabra hiriente enciende la ira.
+        en:
+          question: What turns anger away?
+          choices:
+            a: A threat
+            b: Scornful silence
+            c: A louder answer
+            d: A gentle answer
+          explanation: Gentleness can stop a quarrel from growing, while a harsh word stirs up anger.
+        pt-BR:
+          question: O que acalma a ira?
+          choices:
+            a: Uma ameaça
+            b: O silêncio com desprezo
+            c: Uma resposta mais alta
+            d: Uma resposta branda
+          explanation: A brandura pode impedir que uma briga cresça, enquanto uma palavra dura atiça a ira.
+    - key: plans_directed
+      scripture_ref: Proverbes 16:3, 9
+      correct_choice: a
+      locales:
+        fr:
+          question: Qui dirige finalement les pas, même lorsque l’homme forme des projets ?
+          choices:
+            a: L’Éternel
+            b: Le hasard
+            c: Le roi
+            d: La richesse
+          explanation: Nous pouvons préparer notre voie tout en remettant nos œuvres à l’Éternel.
+        es:
+          question: "¿Quién dirige finalmente los pasos, aunque hagamos nuestros propios planes?"
+          choices:
+            a: El Señor
+            b: La casualidad
+            c: El rey
+            d: La riqueza
+          explanation: Podemos preparar nuestro camino y, al mismo tiempo, encomendar nuestras obras al Señor.
+        en:
+          question: Who ultimately directs our steps, even when we make our own plans?
+          choices:
+            a: The Lord
+            b: Chance
+            c: The king
+            d: Wealth
+          explanation: We can plan our way while still entrusting our work to the Lord.
+        pt-BR:
+          question: Quem dirige nossos passos no fim, mesmo quando fazemos nossos planos?
+          choices:
+            a: O Senhor
+            b: O acaso
+            c: O rei
+            d: A riqueza
+          explanation: Podemos planejar nosso caminho e, ao mesmo tempo, confiar nossas obras ao Senhor.
+    - key: good_name
+      scripture_ref: Proverbes 22:1-2
+      correct_choice: c
+      locales:
+        fr:
+          question: Qu’est-ce qui vaut mieux que de grandes richesses ?
+          choices:
+            a: Une grande maison
+            b: Une longue vie
+            c: Une bonne renommée
+            d: Une place au palais
+          explanation: Le caractère et la faveur acquise par la droiture valent plus que l’argent.
+        es:
+          question: "¿Qué vale más que muchas riquezas?"
+          choices:
+            a: Una casa grande
+            b: Una vida larga
+            c: Un buen nombre
+            d: Un lugar en el palacio
+          explanation: El carácter y la estima que nace de la rectitud valen más que el dinero.
+        en:
+          question: What is worth more than great riches?
+          choices:
+            a: A large house
+            b: A long life
+            c: A good name
+            d: A place in the palace
+          explanation: Character and the respect earned through goodness are worth more than money.
+        pt-BR:
+          question: O que vale mais do que muitas riquezas?
+          choices:
+            a: Uma casa grande
+            b: Uma vida longa
+            c: Um bom nome
+            d: Um lugar no palácio
+          explanation: O caráter e o respeito conquistado pela retidão valem mais do que dinheiro.
+    - key: open_hand
+      scripture_ref: Proverbes 31:8-9, 20
+      correct_choice: b
+      locales:
+        fr:
+          question: Pour qui la femme vertueuse ouvre-t-elle sa main ?
+          choices:
+            a: Pour les riches
+            b: Pour le pauvre et l’indigent
+            c: Pour les soldats
+            d: Pour elle seule
+          explanation: Sa sagesse devient compassion, justice et service envers les personnes dans le besoin.
+        es:
+          question: "¿A quién tiende la mano la mujer virtuosa?"
+          choices:
+            a: A los ricos
+            b: Al pobre y al necesitado
+            c: A los soldados
+            d: Solo a sí misma
+          explanation: Su sabiduría se convierte en compasión, justicia y servicio a quienes pasan necesidad.
+        en:
+          question: To whom does the woman of noble character reach out?
+          choices:
+            a: The rich
+            b: The poor and needy
+            c: Soldiers
+            d: Only herself
+          explanation: Her wisdom becomes compassion, justice, and service to people in need.
+        pt-BR:
+          question: A quem a mulher virtuosa estende a mão?
+          choices:
+            a: Aos ricos
+            b: Ao pobre e ao necessitado
+            c: Aos soldados
+            d: Somente a si mesma
+          explanation: Sua sabedoria se transforma em compaixão, justiça e serviço a quem precisa.
+    - key: vanity
+      scripture_ref: Ecclésiaste 1:2-4
+      correct_choice: d
+      locales:
+        fr:
+          question: Quel mot résume d’abord la fragilité des choses terrestres dans l’Ecclésiaste ?
+          choices:
+            a: Victoire
+            b: Sécurité
+            c: Abondance
+            d: Vanité
+          explanation: Le Prédicateur constate que ce qui est terrestre, isolé de Dieu, est passager et ne suffit pas.
+        es:
+          question: "¿Qué palabra resume al principio de Eclesiastés lo frágiles que son las cosas terrenales?"
+          choices:
+            a: Victoria
+            b: Seguridad
+            c: Abundancia
+            d: Vanidad
+          explanation: El Predicador observa que lo terrenal, separado de Dios, es pasajero y no basta.
+        en:
+          question: What word does Ecclesiastes first use to sum up how fleeting earthly things are?
+          choices:
+            a: Victory
+            b: Security
+            c: Abundance
+            d: Vanity
+          explanation: The Teacher sees that earthly things, apart from God, are temporary and cannot satisfy us.
+        pt-BR:
+          question: Que palavra Eclesiastes usa no início para resumir como as coisas terrenas são passageiras?
+          choices:
+            a: Vitória
+            b: Segurança
+            c: Abundância
+            d: Vaidade
+          explanation: O Pregador percebe que as coisas terrenas, separadas de Deus, passam e não bastam.
+    - key: season_everything
+      scripture_ref: Ecclésiaste 3:1-8
+      correct_choice: a
+      locales:
+        fr:
+          question: Qu’y a-t-il pour toute chose sous les cieux ?
+          choices:
+            a: Un temps et une saison
+            b: Une réponse facile
+            c: Un seul chemin
+            d: Une récompense immédiate
+          explanation: La vie comporte des saisons différentes ; la sagesse apprend à les recevoir devant Dieu.
+        es:
+          question: "¿Qué hay para cada cosa debajo del cielo?"
+          choices:
+            a: Un tiempo y una ocasión
+            b: Una respuesta fácil
+            c: Un solo camino
+            d: Una recompensa inmediata
+          explanation: La vida tiene distintas etapas; la sabiduría aprende a vivirlas delante de Dios.
+        en:
+          question: What is there for everything under heaven?
+          choices:
+            a: A time and a season
+            b: An easy answer
+            c: Only one path
+            d: An immediate reward
+          explanation: Life has different seasons; wisdom learns to receive each one before God.
+        pt-BR:
+          question: O que há para cada coisa debaixo do céu?
+          choices:
+            a: Um tempo e uma ocasião
+            b: Uma resposta fácil
+            c: Um único caminho
+            d: Uma recompensa imediata
+          explanation: A vida tem fases diferentes; a sabedoria aprende a vivê-las diante de Deus.
+    - key: whole_duty
+      scripture_ref: Ecclésiaste 12:13-14
+      correct_choice: c
+      locales:
+        fr:
+          question: Quelle conclusion l’Ecclésiaste donne-t-il à toute sa recherche ?
+          choices:
+            a: Accumule des biens
+            b: Évite toute joie
+            c: Crains Dieu et garde ses commandements
+            d: Cherche seulement la connaissance
+          explanation: Le sens durable ne vient pas de ce qui passe, mais d’une vie tournée vers Dieu.
+        es:
+          question: "¿Qué conclusión da Eclesiastés a toda su búsqueda?"
+          choices:
+            a: Acumula bienes
+            b: Evita toda alegría
+            c: Teme a Dios y guarda sus mandamientos
+            d: Busca solo conocimiento
+          explanation: El sentido duradero no viene de lo pasajero, sino de una vida orientada hacia Dios.
+        en:
+          question: What conclusion does Ecclesiastes reach after its long search?
+          choices:
+            a: Gather possessions
+            b: Avoid all joy
+            c: Revere God and keep His commandments
+            d: Seek knowledge alone
+          explanation: Lasting meaning is not found in what passes away, but in a life turned toward God.
+        pt-BR:
+          question: A que conclusão Eclesiastes chega depois de toda a sua busca?
+          choices:
+            a: Acumule bens
+            b: Evite toda alegria
+            c: Tema a Deus e guarde Seus mandamentos
+            d: Busque apenas conhecimento
+          explanation: O sentido duradouro não vem do que passa, mas de uma vida voltada para Deus.
+- source_page: '38'
+  status: published
+  content:
+    key: isaiah-salvation-2026
+    artwork: "/media/study/psalms-refuge-2026.png"
+    ceremony_artwork: "/media/study/word-gateway-2026.png"
+    light:
+      fr: Jésus-Christ me lave, m’éclaire et devient mon salut.
+      es: Jesucristo me limpia, me ilumina y se convierte en mi salvación.
+      en: Jesus Christ cleanses me, gives me light, and becomes my salvation.
+      pt-BR: Jesus Cristo me purifica, me ilumina e Se torna minha salvação.
+    readings:
+    - study: ot/isa/1
+      labels:
+        fr: Ésaïe 1
+        es: Isaías 1
+        en: Isaiah 1
+        pt-BR: Isaías 1
+    - study: ot/isa/2
+      labels:
+        fr: Ésaïe 2
+        es: Isaías 2
+        en: Isaiah 2
+        pt-BR: Isaías 2
+    - study: ot/isa/5
+      labels:
+        fr: Ésaïe 5
+        es: Isaías 5
+        en: Isaiah 5
+        pt-BR: Isaías 5
+    - study: ot/isa/6
+      labels:
+        fr: Ésaïe 6
+        es: Isaías 6
+        en: Isaiah 6
+        pt-BR: Isaías 6
+    - study: ot/isa/7
+      labels:
+        fr: Ésaïe 7
+        es: Isaías 7
+        en: Isaiah 7
+        pt-BR: Isaías 7
+    - study: ot/isa/8
+      labels:
+        fr: Ésaïe 8
+        es: Isaías 8
+        en: Isaiah 8
+        pt-BR: Isaías 8
+    - study: ot/isa/9
+      labels:
+        fr: Ésaïe 9
+        es: Isaías 9
+        en: Isaiah 9
+        pt-BR: Isaías 9
+    - study: ot/isa/10
+      labels:
+        fr: Ésaïe 10
+        es: Isaías 10
+        en: Isaiah 10
+        pt-BR: Isaías 10
+    - study: ot/isa/11
+      labels:
+        fr: Ésaïe 11
+        es: Isaías 11
+        en: Isaiah 11
+        pt-BR: Isaías 11
+    - study: ot/isa/12
+      labels:
+        fr: Ésaïe 12
+        es: Isaías 12
+        en: Isaiah 12
+        pt-BR: Isaías 12
+    questions:
+    - key: scarlet_white
+      scripture_ref: Ésaïe 1:16-18
+      correct_choice: b
+      locales:
+        fr:
+          question: Que peuvent devenir des péchés rouges comme le cramoisi ?
+          choices:
+            a: Invisibles
+            b: Blancs comme la neige
+            c: Légers comme le vent
+            d: Durs comme la pierre
+          explanation: L’Éternel invite son peuple à se repentir et promet une purification complète.
+        es:
+          question: "¿En qué pueden convertirse los pecados rojos como el carmesí?"
+          choices:
+            a: En algo invisible
+            b: En algo blanco como la nieve
+            c: En algo ligero como el viento
+            d: En algo duro como la piedra
+          explanation: El Señor invita a Su pueblo a arrepentirse y promete limpiarlo por completo.
+        en:
+          question: What can sins that are red like crimson become?
+          choices:
+            a: Invisible
+            b: White as snow
+            c: Light as the wind
+            d: Hard as stone
+          explanation: The Lord invites His people to repent and promises to make them completely clean.
+        pt-BR:
+          question: Em que podem se tornar os pecados vermelhos como o carmesim?
+          choices:
+            a: Invisíveis
+            b: Brancos como a neve
+            c: Leves como o vento
+            d: Duros como a pedra
+          explanation: O Senhor convida Seu povo ao arrependimento e promete purificá-lo por completo.
+    - key: mountain_house
+      scripture_ref: Ésaïe 2:2-5
+      correct_choice: a
+      locales:
+        fr:
+          question: Pourquoi les nations montent-elles à la maison de l’Éternel ?
+          choices:
+            a: Pour apprendre ses voies
+            b: Pour choisir un roi
+            c: Pour cacher leurs armes
+            d: Pour compter leurs richesses
+          explanation: Elles viennent recevoir la parole de Dieu, marcher dans ses sentiers et rechercher la paix.
+        es:
+          question: "¿Por qué suben las naciones a la casa del Señor?"
+          choices:
+            a: Para aprender Sus caminos
+            b: Para elegir un rey
+            c: Para esconder sus armas
+            d: Para contar sus riquezas
+          explanation: Van a recibir la palabra de Dios, andar por Sus sendas y buscar la paz.
+        en:
+          question: Why do the nations go up to the house of the Lord?
+          choices:
+            a: To learn His ways
+            b: To choose a king
+            c: To hide their weapons
+            d: To count their riches
+          explanation: They come to receive God’s word, walk in His paths, and seek peace.
+        pt-BR:
+          question: Por que as nações sobem à casa do Senhor?
+          choices:
+            a: Para aprender Seus caminhos
+            b: Para escolher um rei
+            c: Para esconder suas armas
+            d: Para contar suas riquezas
+          explanation: Elas vêm receber a palavra de Deus, andar em Suas veredas e buscar a paz.
+    - key: vineyard_fruit
+      scripture_ref: Ésaïe 5:1-7
+      correct_choice: d
+      locales:
+        fr:
+          question: Quel fruit la vigne soigneusement cultivée produit-elle ?
+          choices:
+            a: Des figues
+            b: Du blé
+            c: De bonnes grappes
+            d: Des raisins sauvages
+          explanation: La vigne représente un peuple comblé de soins mais qui ne produit pas la justice attendue.
+        es:
+          question: "¿Qué fruto produce la viña cuidada con tanto esmero?"
+          choices:
+            a: Higos
+            b: Trigo
+            c: Uvas buenas
+            d: Uvas silvestres
+          explanation: La viña representa a un pueblo muy cuidado que no produce la justicia esperada.
+        en:
+          question: What fruit does the carefully tended vineyard produce?
+          choices:
+            a: Figs
+            b: Wheat
+            c: Good grapes
+            d: Wild grapes
+          explanation: The vineyard represents a people who received great care but did not produce the justice God sought.
+        pt-BR:
+          question: Que fruto a vinha cultivada com tanto cuidado produz?
+          choices:
+            a: Figos
+            b: Trigo
+            c: Uvas boas
+            d: Uvas bravas
+          explanation: A vinha representa um povo muito bem cuidado que não produz a justiça esperada.
+    - key: holy_call
+      scripture_ref: Ésaïe 6:1-8
+      correct_choice: c
+      locales:
+        fr:
+          question: Que répond Ésaïe lorsque l’Éternel demande qui envoyer ?
+          choices:
+            a: Envoie le roi
+            b: Je ne peux pas parler
+            c: Me voici, envoie-moi
+            d: Attends encore
+          explanation: Purifié par Dieu, Ésaïe accepte librement son appel de prophète.
+        es:
+          question: "¿Qué responde Isaías cuando el Señor pregunta a quién enviar?"
+          choices:
+            a: Envía al rey
+            b: No sé hablar
+            c: Aquí estoy, envíame a mí
+            d: Espera un poco más
+          explanation: Después de ser purificado por Dios, Isaías acepta libremente su llamamiento profético.
+        en:
+          question: How does Isaiah answer when the Lord asks whom He should send?
+          choices:
+            a: Send the king
+            b: I cannot speak
+            c: Here I am; send me
+            d: Wait a little longer
+          explanation: After God cleanses him, Isaiah freely accepts his prophetic call.
+        pt-BR:
+          question: O que Isaías responde quando o Senhor pergunta quem deve enviar?
+          choices:
+            a: Envie o rei
+            b: Não sei falar
+            c: Eis-me aqui; envia-me
+            d: Espere mais um pouco
+          explanation: Depois de ser purificado por Deus, Isaías aceita livremente seu chamado profético.
+    - key: immanuel
+      scripture_ref: Ésaïe 7:14
+      correct_choice: a
+      locales:
+        fr:
+          question: Quel nom porte l’enfant annoncé comme signe ?
+          choices:
+            a: Emmanuel
+            b: Samuel
+            c: Élie
+            d: David
+          explanation: Emmanuel signifie Dieu avec nous et oriente notre espérance vers Jésus-Christ.
+        es:
+          question: "¿Qué nombre recibe el niño anunciado como señal?"
+          choices:
+            a: Emanuel
+            b: Samuel
+            c: Elías
+            d: David
+          explanation: Emanuel significa Dios con nosotros y dirige nuestra esperanza hacia Jesucristo.
+        en:
+          question: What name is given to the child promised as a sign?
+          choices:
+            a: Immanuel
+            b: Samuel
+            c: Elijah
+            d: David
+          explanation: Immanuel means God with us and points our hope toward Jesus Christ.
+        pt-BR:
+          question: Que nome recebe a criança anunciada como sinal?
+          choices:
+            a: Emanuel
+            b: Samuel
+            c: Elias
+            d: Davi
+          explanation: Emanuel significa Deus conosco e dirige nossa esperança para Jesus Cristo.
+    - key: sanctuary
+      scripture_ref: Ésaïe 8:13-14
+      correct_choice: d
+      locales:
+        fr:
+          question: Que devient l’Éternel pour ceux qui le sanctifient ?
+          choices:
+            a: Une armée
+            b: Un juge lointain
+            c: Un secret
+            d: Un sanctuaire
+          explanation: Au milieu de la peur, le Seigneur lui-même peut être notre lieu saint et sûr.
+        es:
+          question: "¿Qué llega a ser el Señor para quienes lo santifican?"
+          choices:
+            a: Un ejército
+            b: Un juez lejano
+            c: Un secreto
+            d: Un santuario
+          explanation: En medio del temor, el propio Señor puede ser nuestro lugar santo y seguro.
+        en:
+          question: What does the Lord become for those who honor Him as holy?
+          choices:
+            a: An army
+            b: A distant judge
+            c: A secret
+            d: A sanctuary
+          explanation: In the middle of fear, the Lord Himself can be our holy and safe place.
+        pt-BR:
+          question: O que o Senhor Se torna para aqueles que O santificam?
+          choices:
+            a: Um exército
+            b: Um juiz distante
+            c: Um segredo
+            d: Um santuário
+          explanation: Em meio ao medo, o próprio Senhor pode ser nosso lugar santo e seguro.
+    - key: child_titles
+      scripture_ref: Ésaïe 9:5-6
+      correct_choice: b
+      locales:
+        fr:
+          question: Quel titre appartient à l’enfant promis par Ésaïe ?
+          choices:
+            a: Prince de Babylone
+            b: Prince de la paix
+            c: Chef des archers
+            d: Gardien du palais
+          explanation: L’enfant promis est aussi Conseiller admirable, Dieu puissant et Prince de la paix.
+        es:
+          question: "¿Qué título pertenece al niño prometido por Isaías?"
+          choices:
+            a: Príncipe de Babilonia
+            b: Príncipe de Paz
+            c: Jefe de los arqueros
+            d: Guardián del palacio
+          explanation: El niño prometido también es Admirable Consejero, Dios Fuerte y Príncipe de Paz.
+        en:
+          question: Which title belongs to the child Isaiah promised?
+          choices:
+            a: Prince of Babylon
+            b: Prince of Peace
+            c: Chief of the archers
+            d: Keeper of the palace
+          explanation: The promised child is also Wonderful Counselor, Mighty God, and Prince of Peace.
+        pt-BR:
+          question: Que título pertence à criança prometida por Isaías?
+          choices:
+            a: Príncipe da Babilônia
+            b: Príncipe da Paz
+            c: Chefe dos arqueiros
+            d: Guardião do palácio
+          explanation: A criança prometida também é Maravilhoso Conselheiro, Deus Forte e Príncipe da Paz.
+    - key: remnant_returns
+      scripture_ref: Ésaïe 10:20-22
+      correct_choice: c
+      locales:
+        fr:
+          question: Vers qui le reste d’Israël reviendra-t-il avec sincérité ?
+          choices:
+            a: Vers l’Assyrie
+            b: Vers ses richesses
+            c: Vers le Dieu puissant
+            d: Vers l’Égypte
+          explanation: La prophétie promet qu’un reste cessera de s’appuyer sur ses oppresseurs et reviendra à Dieu.
+        es:
+          question: "¿A quién volverá sinceramente el remanente de Israel?"
+          choices:
+            a: A Asiria
+            b: A sus riquezas
+            c: Al Dios Fuerte
+            d: A Egipto
+          explanation: La profecía promete que un remanente dejará de apoyarse en sus opresores y volverá a Dios.
+        en:
+          question: To whom will the remnant of Israel sincerely return?
+          choices:
+            a: Assyria
+            b: Their wealth
+            c: The Mighty God
+            d: Egypt
+          explanation: The prophecy promises that a remnant will stop relying on its oppressors and return to God.
+        pt-BR:
+          question: A quem o remanescente de Israel voltará com sinceridade?
+          choices:
+            a: À Assíria
+            b: Às suas riquezas
+            c: Ao Deus Forte
+            d: Ao Egito
+          explanation: A profecia promete que um remanescente deixará de confiar em seus opressores e voltará para Deus.
+    - key: peaceable_kingdom
+      scripture_ref: Ésaïe 11:1-9
+      correct_choice: a
+      locales:
+        fr:
+          question: Dans le royaume paisible, qui demeure avec l’agneau ?
+          choices:
+            a: Le loup
+            b: Le faucon
+            c: Le cheval
+            d: Le chameau
+          explanation: Cette image annonce le règne juste du Messie, où la violence cède devant la paix.
+        es:
+          question: En el reino de paz, ¿quién habita con el cordero?
+          choices:
+            a: El lobo
+            b: El halcón
+            c: El caballo
+            d: El camello
+          explanation: Esta imagen anuncia el reinado justo del Mesías, donde la violencia cede ante la paz.
+        en:
+          question: In the peaceable kingdom, who lives with the lamb?
+          choices:
+            a: The wolf
+            b: The hawk
+            c: The horse
+            d: The camel
+          explanation: This picture points to the Messiah’s righteous reign, where violence gives way to peace.
+        pt-BR:
+          question: No reino de paz, quem vive com o cordeiro?
+          choices:
+            a: O lobo
+            b: O falcão
+            c: O cavalo
+            d: O camelo
+          explanation: Essa imagem anuncia o reinado justo do Messias, no qual a violência dá lugar à paz.
+    - key: god_salvation
+      scripture_ref: Ésaïe 12:1-6
+      correct_choice: d
+      locales:
+        fr:
+          question: Pourquoi le peuple peut-il puiser de l’eau avec joie ?
+          choices:
+            a: Les ennemis ont fui
+            b: La ville est riche
+            c: Le désert a disparu
+            d: Dieu est son salut
+          explanation: Quand Dieu devient notre force et notre chant, nous puisons avec joie aux sources du salut.
+        es:
+          question: "¿Por qué puede el pueblo sacar agua con alegría?"
+          choices:
+            a: Los enemigos huyeron
+            b: La ciudad es rica
+            c: El desierto desapareció
+            d: Dios es su salvación
+          explanation: Cuando Dios se convierte en nuestra fuerza y nuestra canción, sacamos agua con gozo de las fuentes de la salvación.
+        en:
+          question: Why can the people draw water with joy?
+          choices:
+            a: Their enemies have fled
+            b: The city is wealthy
+            c: The desert has vanished
+            d: God is their salvation
+          explanation: When God becomes our strength and song, we joyfully draw water from the wells of salvation.
+        pt-BR:
+          question: Por que o povo pode tirar água com alegria?
+          choices:
+            a: Os inimigos fugiram
+            b: A cidade é rica
+            c: O deserto desapareceu
+            d: Deus é sua salvação
+          explanation: Quando Deus Se torna nossa força e nosso cântico, tiramos água com alegria das fontes da salvação.
+- source_page: '39'
+  status: published
+  content:
+    key: isaiah-marvellous-work-2026
+    artwork: "/media/study/psalms-refuge-2026.png"
+    ceremony_artwork: "/media/study/word-gateway-2026.png"
+    light:
+      fr: Dieu accomplit une œuvre merveilleuse et ouvre un chemin de sainteté et de joie.
+      es: Dios realiza una obra maravillosa y abre un camino de santidad y alegría.
+      en: God is doing a marvelous work and opening a path of holiness and joy.
+      pt-BR: Deus realiza uma obra maravilhosa e abre um caminho de santidade e alegria.
+    readings:
+    - study: ot/isa/13
+      labels:
+        fr: Ésaïe 13
+        es: Isaías 13
+        en: Isaiah 13
+        pt-BR: Isaías 13
+    - study: ot/isa/14
+      labels:
+        fr: Ésaïe 14
+        es: Isaías 14
+        en: Isaiah 14
+        pt-BR: Isaías 14
+    - study: ot/isa/22
+      labels:
+        fr: Ésaïe 22
+        es: Isaías 22
+        en: Isaiah 22
+        pt-BR: Isaías 22
+    - study: ot/isa/24
+      labels:
+        fr: Ésaïe 24
+        es: Isaías 24
+        en: Isaiah 24
+        pt-BR: Isaías 24
+    - study: ot/isa/25
+      labels:
+        fr: Ésaïe 25
+        es: Isaías 25
+        en: Isaiah 25
+        pt-BR: Isaías 25
+    - study: ot/isa/26
+      labels:
+        fr: Ésaïe 26
+        es: Isaías 26
+        en: Isaiah 26
+        pt-BR: Isaías 26
+    - study: ot/isa/28
+      labels:
+        fr: Ésaïe 28
+        es: Isaías 28
+        en: Isaiah 28
+        pt-BR: Isaías 28
+    - study: ot/isa/29
+      labels:
+        fr: Ésaïe 29
+        es: Isaías 29
+        en: Isaiah 29
+        pt-BR: Isaías 29
+    - study: ot/isa/30
+      labels:
+        fr: Ésaïe 30
+        es: Isaías 30
+        en: Isaiah 30
+        pt-BR: Isaías 30
+    - study: ot/isa/35
+      labels:
+        fr: Ésaïe 35
+        es: Isaías 35
+        en: Isaiah 35
+        pt-BR: Isaías 35
+    questions:
+    - key: day_lord
+      scripture_ref: Ésaïe 13:6-11
+      correct_choice: c
+      locales:
+        fr:
+          question: Pourquoi Ésaïe appelle-t-il le peuple à se lamenter ?
+          choices:
+            a: Une famine ordinaire approche
+            b: Le roi est absent
+            c: Le jour de l’Éternel est proche
+            d: Le temple va fermer
+          explanation: Le jour de l’Éternel expose l’orgueil et le mal ; l’avertissement appelle à la repentance.
+        es:
+          question: "¿Por qué Isaías llama al pueblo a lamentarse?"
+          choices:
+            a: Se acerca una hambruna común
+            b: El rey está ausente
+            c: El día del Señor está cerca
+            d: El templo va a cerrar
+          explanation: El día del Señor deja al descubierto el orgullo y la maldad; la advertencia invita al arrepentimiento.
+        en:
+          question: Why does Isaiah call the people to mourn?
+          choices:
+            a: An ordinary famine is coming
+            b: The king is away
+            c: The day of the Lord is near
+            d: The temple is about to close
+          explanation: The day of the Lord exposes pride and evil; the warning is a call to repent.
+        pt-BR:
+          question: Por que Isaías chama o povo a lamentar?
+          choices:
+            a: Uma fome comum se aproxima
+            b: O rei está ausente
+            c: O dia do Senhor está perto
+            d: O templo vai fechar
+          explanation: O dia do Senhor revela o orgulho e a maldade; o aviso é um convite ao arrependimento.
+    - key: morning_star_fall
+      scripture_ref: Ésaïe 14:12-15
+      correct_choice: b
+      locales:
+        fr:
+          question: Qu’arrive-t-il à l’astre brillant qui veut s’élever au-dessus de Dieu ?
+          choices:
+            a: Il reçoit une couronne
+            b: Il est précipité
+            c: Il devient prophète
+            d: Il bâtit Sion
+          explanation: L’orgueil cherche à prendre la place de Dieu mais conduit finalement à la chute.
+        es:
+          question: "¿Qué le sucede al astro brillante que quiere elevarse por encima de Dios?"
+          choices:
+            a: Recibe una corona
+            b: Es derribado
+            c: Se convierte en profeta
+            d: Edifica Sión
+          explanation: El orgullo quiere ocupar el lugar de Dios, pero al final conduce a la caída.
+        en:
+          question: What happens to the shining star that wants to rise above God?
+          choices:
+            a: It receives a crown
+            b: It is brought down
+            c: It becomes a prophet
+            d: It builds Zion
+          explanation: Pride tries to take God’s place, but in the end it leads to a fall.
+        pt-BR:
+          question: O que acontece com a estrela brilhante que quer se elevar acima de Deus?
+          choices:
+            a: Ela recebe uma coroa
+            b: Ela é derrubada
+            c: Ela se torna profeta
+            d: Ela edifica Sião
+          explanation: O orgulho quer ocupar o lugar de Deus, mas no fim leva à queda.
+    - key: key_david
+      scripture_ref: Ésaïe 22:20-23
+      correct_choice: a
+      locales:
+        fr:
+          question: Quelle clé est placée sur l’épaule d’Éliakim ?
+          choices:
+            a: La clé de la maison de David
+            b: La clé de Babylone
+            c: La clé du trésor d’Égypte
+            d: La clé de la prison
+          explanation: 'La clé symbolise une autorité confiée : ce qu’il ouvre, personne ne le ferme.'
+        es:
+          question: "¿Qué llave se pone sobre el hombro de Eliaquim?"
+          choices:
+            a: La llave de la casa de David
+            b: La llave de Babilonia
+            c: La llave del tesoro de Egipto
+            d: La llave de la cárcel
+          explanation: 'La llave simboliza una autoridad confiada: lo que él abre, nadie lo cierra.'
+        en:
+          question: What key is placed on Eliakim’s shoulder?
+          choices:
+            a: The key of the house of David
+            b: The key of Babylon
+            c: The key to Egypt’s treasure
+            d: The prison key
+          explanation: 'The key represents entrusted authority: what he opens, no one shuts.'
+        pt-BR:
+          question: Que chave é colocada sobre o ombro de Eliaquim?
+          choices:
+            a: A chave da casa de Davi
+            b: A chave da Babilônia
+            c: A chave do tesouro do Egito
+            d: A chave da prisão
+          explanation: 'A chave representa uma autoridade confiada: o que ele abre, ninguém fecha.'
+    - key: everlasting_covenant
+      scripture_ref: Ésaïe 24:4-6
+      correct_choice: d
+      locales:
+        fr:
+          question: Qu’ont rompu les habitants de la terre selon Ésaïe 24 ?
+          choices:
+            a: Les murailles
+            b: Les instruments
+            c: Les routes
+            d: L’alliance éternelle
+          explanation: 'La crise décrite n’est pas seulement naturelle : elle révèle une alliance abandonnée.'
+        es:
+          question: "¿Qué han quebrantado los habitantes de la tierra según Isaías 24?"
+          choices:
+            a: Las murallas
+            b: Los instrumentos
+            c: Los caminos
+            d: El convenio eterno
+          explanation: 'La crisis no es solo natural: revela que se ha abandonado un convenio.'
+        en:
+          question: According to Isaiah 24, what have the people of the earth broken?
+          choices:
+            a: The walls
+            b: The instruments
+            c: The roads
+            d: The everlasting covenant
+          explanation: The crisis is not merely natural; it reveals a covenant that has been abandoned.
+        pt-BR:
+          question: Segundo Isaías 24, o que os habitantes da terra quebraram?
+          choices:
+            a: As muralhas
+            b: Os instrumentos
+            c: Os caminhos
+            d: O convênio eterno
+          explanation: A crise não é apenas natural; ela revela um convênio abandonado.
+    - key: death_swallowed
+      scripture_ref: Ésaïe 25:6-9
+      correct_choice: b
+      locales:
+        fr:
+          question: Qu’est-ce que le Seigneur engloutira pour toujours ?
+          choices:
+            a: Les montagnes
+            b: La mort
+            c: La mer
+            d: Les villes
+          explanation: Dieu essuiera les larmes de tous les visages ; cette victoire nourrit l’espérance de la résurrection.
+        es:
+          question: "¿Qué destruirá el Señor para siempre?"
+          choices:
+            a: Las montañas
+            b: La muerte
+            c: El mar
+            d: Las ciudades
+          explanation: Dios enjugará las lágrimas de todos los rostros; esta victoria alimenta la esperanza de la resurrección.
+        en:
+          question: What will the Lord swallow up forever?
+          choices:
+            a: The mountains
+            b: Death
+            c: The sea
+            d: The cities
+          explanation: God will wipe away every tear; this victory strengthens our hope in the Resurrection.
+        pt-BR:
+          question: O que o Senhor destruirá para sempre?
+          choices:
+            a: As montanhas
+            b: A morte
+            c: O mar
+            d: As cidades
+          explanation: Deus enxugará as lágrimas de todos os rostos; essa vitória fortalece a esperança na Ressurreição.
+    - key: perfect_peace
+      scripture_ref: Ésaïe 26:3-4
+      correct_choice: c
+      locales:
+        fr:
+          question: Qui Dieu garde-t-il dans une paix parfaite ?
+          choices:
+            a: Celui qui ne doute jamais
+            b: Celui qui possède beaucoup
+            c: Celui dont l’esprit s’appuie sur lui
+            d: Celui qui vit seul
+          explanation: La paix grandit lorsque notre esprit demeure tourné vers l’Éternel, le rocher des siècles.
+        es:
+          question: "¿A quién guarda Dios en completa paz?"
+          choices:
+            a: A quien nunca duda
+            b: A quien posee mucho
+            c: A quien mantiene su mente puesta en Él
+            d: A quien vive solo
+          explanation: La paz crece cuando nuestra mente permanece fija en el Señor, la roca eterna.
+        en:
+          question: Whom does God keep in perfect peace?
+          choices:
+            a: Someone who never doubts
+            b: Someone with many possessions
+            c: The person whose mind stays fixed on Him
+            d: Someone who lives alone
+          explanation: Peace grows as our minds remain fixed on the Lord, the everlasting rock.
+        pt-BR:
+          question: Quem Deus guarda em perfeita paz?
+          choices:
+            a: Quem nunca duvida
+            b: Quem possui muitas coisas
+            c: Quem mantém a mente firme Nele
+            d: Quem vive sozinho
+          explanation: A paz cresce quando nossa mente permanece firme no Senhor, a rocha eterna.
+    - key: cornerstone
+      scripture_ref: Ésaïe 28:16
+      correct_choice: a
+      locales:
+        fr:
+          question: Quelle pierre Dieu pose-t-il en Sion ?
+          choices:
+            a: Une pierre angulaire éprouvée
+            b: Une pierre sans valeur
+            c: Une statue royale
+            d: Une borne assyrienne
+          explanation: Jésus-Christ est la fondation sûre sur laquelle la foi peut bâtir sans fuir dans la peur.
+        es:
+          question: "¿Qué piedra pone Dios en Sión?"
+          choices:
+            a: Una piedra angular probada
+            b: Una piedra sin valor
+            c: Una estatua real
+            d: Un mojón asirio
+          explanation: Jesucristo es el fundamento seguro sobre el que la fe puede edificar sin huir atemorizada.
+        en:
+          question: What stone does God lay in Zion?
+          choices:
+            a: A tested cornerstone
+            b: A worthless stone
+            c: A royal statue
+            d: An Assyrian boundary stone
+          explanation: Jesus Christ is the sure foundation on which faith can build without fleeing in fear.
+        pt-BR:
+          question: Que pedra Deus coloca em Sião?
+          choices:
+            a: Uma pedra angular provada
+            b: Uma pedra sem valor
+            c: Uma estátua real
+            d: Um marco assírio
+          explanation: Jesus Cristo é o fundamento seguro sobre o qual a fé pode edificar sem fugir com medo.
+    - key: marvellous_work
+      scripture_ref: Ésaïe 29:13-14, 18
+      correct_choice: d
+      locales:
+        fr:
+          question: Que liront les sourds et que verront les aveugles dans l’œuvre merveilleuse ?
+          choices:
+            a: Les plans d’une ville
+            b: Les ordres du roi
+            c: Les signes du ciel
+            d: Les paroles du livre
+          explanation: Dieu promet une œuvre qui renverse la sagesse humaine et rend sa parole de nouveau accessible.
+        es:
+          question: En la obra maravillosa, ¿qué leerán los sordos y qué verán los ciegos?
+          choices:
+            a: Los planos de una ciudad
+            b: Las órdenes del rey
+            c: Las señales del cielo
+            d: Las palabras del libro
+          explanation: Dios promete una obra que supera la sabiduría humana y vuelve a poner Su palabra al alcance de todos.
+        en:
+          question: In the marvelous work, what will the deaf read and the blind see?
+          choices:
+            a: A city’s plans
+            b: The king’s orders
+            c: Signs in the sky
+            d: The words of the book
+          explanation: God promises a work that overturns human wisdom and makes His word accessible again.
+        pt-BR:
+          question: Na obra maravilhosa, o que os surdos lerão e os cegos verão?
+          choices:
+            a: As plantas de uma cidade
+            b: As ordens do rei
+            c: Os sinais do céu
+            d: As palavras do livro
+          explanation: Deus promete uma obra que supera a sabedoria humana e torna Sua palavra acessível novamente.
+    - key: voice_way
+      scripture_ref: Ésaïe 30:18-21
+      correct_choice: b
+      locales:
+        fr:
+          question: Que dira la voix derrière nous lorsque nous hésiterons ?
+          choices:
+            a: Retourne en arrière
+            b: Voici le chemin, marchez-y
+            c: Choisis le chemin le plus large
+            d: Attends sans agir
+          explanation: Le Seigneur enseigne avec patience et guide personnellement ceux qui reviennent à lui.
+        es:
+          question: "¿Qué dirá la voz detrás de nosotros cuando dudemos?"
+          choices:
+            a: Vuelve atrás
+            b: Este es el camino; andad por él
+            c: Escoge el camino más ancho
+            d: Espera sin hacer nada
+          explanation: El Señor enseña con paciencia y guía personalmente a quienes regresan a Él.
+        en:
+          question: What will the voice behind us say when we are unsure?
+          choices:
+            a: Turn back
+            b: This is the way; walk in it
+            c: Choose the widest road
+            d: Wait without acting
+          explanation: The Lord teaches patiently and personally guides those who return to Him.
+        pt-BR:
+          question: O que dirá a voz atrás de nós quando estivermos em dúvida?
+          choices:
+            a: Volte para trás
+            b: Este é o caminho; andem por ele
+            c: Escolham o caminho mais largo
+            d: Esperem sem agir
+          explanation: O Senhor ensina com paciência e guia pessoalmente aqueles que voltam para Ele.
+    - key: holy_way
+      scripture_ref: Ésaïe 35:1-10
+      correct_choice: c
+      locales:
+        fr:
+          question: Comment s’appelle la route sur laquelle les rachetés retournent avec joie ?
+          choices:
+            a: La voie des rois
+            b: La route du désert
+            c: La voie de la sainteté
+            d: Le chemin de Babylone
+          explanation: Dieu transforme le désert et ramène les rachetés à Sion avec une joie éternelle.
+        es:
+          question: "¿Cómo se llama el camino por el que los redimidos vuelven con alegría?"
+          choices:
+            a: El camino de los reyes
+            b: La ruta del desierto
+            c: El camino de la santidad
+            d: El camino de Babilonia
+          explanation: Dios transforma el desierto y lleva a los redimidos de regreso a Sión con alegría eterna.
+        en:
+          question: What is the road called where the redeemed return with joy?
+          choices:
+            a: The kings’ road
+            b: The desert road
+            c: The Way of Holiness
+            d: The road to Babylon
+          explanation: God transforms the desert and brings the redeemed home to Zion with everlasting joy.
+        pt-BR:
+          question: Como se chama o caminho pelo qual os redimidos voltam com alegria?
+          choices:
+            a: O caminho dos reis
+            b: A estrada do deserto
+            c: O Caminho de Santidade
+            d: O caminho da Babilônia
+          explanation: Deus transforma o deserto e leva os redimidos de volta a Sião com alegria eterna.
+- source_page: '40'
+  status: published
+  content:
+    key: isaiah-comfort-2026
+    artwork: "/media/study/psalms-refuge-2026.png"
+    ceremony_artwork: "/media/study/word-gateway-2026.png"
+    light:
+      fr: 'Le Seigneur ne m’oublie pas : il me fortifie, me rachète et me conduit par la main.'
+      es: 'El Señor no me olvida: me fortalece, me redime y me lleva de la mano.'
+      en: 'The Lord does not forget me: He strengthens me, redeems me, and leads me by the hand.'
+      pt-BR: 'O Senhor não Se esquece de mim: Ele me fortalece, me redime e me conduz pela mão.'
+    readings:
+    - study: ot/isa/40
+      labels:
+        fr: Ésaïe 40
+        es: Isaías 40
+        en: Isaiah 40
+        pt-BR: Isaías 40
+    - study: ot/isa/41
+      labels:
+        fr: Ésaïe 41
+        es: Isaías 41
+        en: Isaiah 41
+        pt-BR: Isaías 41
+    - study: ot/isa/42
+      labels:
+        fr: Ésaïe 42
+        es: Isaías 42
+        en: Isaiah 42
+        pt-BR: Isaías 42
+    - study: ot/isa/43
+      labels:
+        fr: Ésaïe 43
+        es: Isaías 43
+        en: Isaiah 43
+        pt-BR: Isaías 43
+    - study: ot/isa/44
+      labels:
+        fr: Ésaïe 44
+        es: Isaías 44
+        en: Isaiah 44
+        pt-BR: Isaías 44
+    - study: ot/isa/45
+      labels:
+        fr: Ésaïe 45
+        es: Isaías 45
+        en: Isaiah 45
+        pt-BR: Isaías 45
+    - study: ot/isa/46
+      labels:
+        fr: Ésaïe 46
+        es: Isaías 46
+        en: Isaiah 46
+        pt-BR: Isaías 46
+    - study: ot/isa/47
+      labels:
+        fr: Ésaïe 47
+        es: Isaías 47
+        en: Isaiah 47
+        pt-BR: Isaías 47
+    - study: ot/isa/48
+      labels:
+        fr: Ésaïe 48
+        es: Isaías 48
+        en: Isaiah 48
+        pt-BR: Isaías 48
+    - study: ot/isa/49
+      labels:
+        fr: Ésaïe 49
+        es: Isaías 49
+        en: Isaiah 49
+        pt-BR: Isaías 49
+    questions:
+    - key: eagles_strength
+      scripture_ref: Ésaïe 40:28-31
+      correct_choice: d
+      locales:
+        fr:
+          question: À quoi ressemble la force renouvelée de ceux qui espèrent en l’Éternel ?
+          choices:
+            a: À une muraille
+            b: À un torrent
+            c: À un lion endormi
+            d: Aux ailes des aigles
+          explanation: Dieu ne se fatigue pas ; il communique sa force à ceux qui se confient en lui.
+        es:
+          question: "¿A qué se parece la fuerza renovada de quienes esperan en el Señor?"
+          choices:
+            a: A una muralla
+            b: A un torrente
+            c: A un león dormido
+            d: A las alas de las águilas
+          explanation: Dios no se cansa; comparte Su fuerza con quienes confían en Él.
+        en:
+          question: What is the renewed strength of those who hope in the Lord like?
+          choices:
+            a: A wall
+            b: A rushing stream
+            c: A sleeping lion
+            d: Eagles’ wings
+          explanation: God never grows weary; He shares His strength with those who trust Him.
+        pt-BR:
+          question: A que se compara a força renovada daqueles que esperam no Senhor?
+          choices:
+            a: A uma muralha
+            b: A uma correnteza
+            c: A um leão adormecido
+            d: Às asas das águias
+          explanation: Deus não Se cansa; Ele compartilha Sua força com aqueles que confiam Nele.
+    - key: fear_not_hand
+      scripture_ref: Ésaïe 41:10, 13
+      correct_choice: a
+      locales:
+        fr:
+          question: Pourquoi Israël ne doit-il pas craindre ?
+          choices:
+            a: Dieu est avec lui et lui tient la main
+            b: Il ne connaîtra aucune épreuve
+            c: Son armée est invincible
+            d: Il possède toutes les richesses
+          explanation: 'L’assurance vient de la présence de Dieu : il fortifie, secourt et tient son peuple par la main.'
+        es:
+          question: "¿Por qué no debe temer Israel?"
+          choices:
+            a: Dios está con él y lo toma de la mano
+            b: Nunca tendrá pruebas
+            c: Su ejército es invencible
+            d: Posee todas las riquezas
+          explanation: 'La seguridad nace de la presencia de Dios: Él fortalece, ayuda y lleva de la mano a Su pueblo.'
+        en:
+          question: Why does Israel not need to fear?
+          choices:
+            a: God is with them and holds their hand
+            b: They will never face trials
+            c: Their army cannot be defeated
+            d: They own every treasure
+          explanation: 'Confidence comes from God’s presence: He strengthens, helps, and holds His people by the hand.'
+        pt-BR:
+          question: Por que Israel não precisa ter medo?
+          choices:
+            a: Deus está com ele e o segura pela mão
+            b: Ele nunca enfrentará provações
+            c: Seu exército é invencível
+            d: Ele possui todas as riquezas
+          explanation: 'A segurança vem da presença de Deus: Ele fortalece, ajuda e segura Seu povo pela mão.'
+    - key: bruised_reed
+      scripture_ref: Ésaïe 42:1-7
+      correct_choice: c
+      locales:
+        fr:
+          question: Que fait le serviteur choisi d’un roseau froissé ?
+          choices:
+            a: Il le jette
+            b: Il le cache
+            c: Il ne le brise pas
+            d: Il l’emploie comme arme
+          explanation: Le serviteur apporte la justice avec douceur ; les chrétiens reconnaissent ici le caractère de Jésus-Christ.
+        es:
+          question: "¿Qué hace el siervo escogido con una caña quebrada?"
+          choices:
+            a: La desecha
+            b: La esconde
+            c: No la rompe
+            d: La usa como arma
+          explanation: El siervo trae justicia con ternura; los cristianos reconocen aquí el carácter de Jesucristo.
+        en:
+          question: What does the chosen servant do with a bruised reed?
+          choices:
+            a: Throw it away
+            b: Hide it
+            c: He does not break it
+            d: Use it as a weapon
+          explanation: The servant brings justice gently; Christians recognize the character of Jesus Christ here.
+        pt-BR:
+          question: O que o servo escolhido faz com uma cana quebrada?
+          choices:
+            a: Joga fora
+            b: Esconde
+            c: Não a quebra
+            d: Usa como arma
+          explanation: O servo traz justiça com mansidão; os cristãos reconhecem aqui o caráter de Jesus Cristo.
+    - key: through_waters
+      scripture_ref: Ésaïe 43:1-4
+      correct_choice: b
+      locales:
+        fr:
+          question: Que promet Dieu lorsque son peuple traverse les eaux ?
+          choices:
+            a: Les eaux disparaîtront toujours
+            b: Il sera avec lui
+            c: Il n’aura plus peur
+            d: Il trouvera un bateau
+          explanation: Le rachat ne signifie pas l’absence d’épreuve, mais la présence fidèle de Dieu au milieu d’elle.
+        es:
+          question: "¿Qué promete Dios cuando Su pueblo pasa por las aguas?"
+          choices:
+            a: Las aguas siempre desaparecerán
+            b: Él estará con ellos
+            c: Ya no sentirán miedo
+            d: Encontrarán un barco
+          explanation: La redención no significa ausencia de pruebas, sino la presencia fiel de Dios en medio de ellas.
+        en:
+          question: What does God promise when His people pass through the waters?
+          choices:
+            a: The waters will always disappear
+            b: He will be with them
+            c: They will never feel afraid
+            d: They will find a boat
+          explanation: Redemption does not mean a life without trials; it means God’s faithful presence within them.
+        pt-BR:
+          question: O que Deus promete quando Seu povo passa pelas águas?
+          choices:
+            a: As águas sempre desaparecerão
+            b: Ele estará com eles
+            c: Eles nunca sentirão medo
+            d: Eles encontrarão um barco
+          explanation: Redenção não significa ausência de provações, mas a presença fiel de Deus em meio a elas.
+    - key: graven_palms
+      scripture_ref: Ésaïe 49:14-16
+      correct_choice: d
+      locales:
+        fr:
+          question: Où le Seigneur dit-il avoir gravé Sion ?
+          choices:
+            a: Sur une porte
+            b: Dans un livre
+            c: Sur une montagne
+            d: Sur ses mains
+          explanation: Même si une mère pouvait oublier son enfant, le Seigneur n’oublie pas son peuple.
+        es:
+          question: "¿Dónde dice el Señor que ha grabado a Sión?"
+          choices:
+            a: En una puerta
+            b: En un libro
+            c: En una montaña
+            d: En las palmas de Sus manos
+          explanation: Aunque una madre pudiera olvidar a su hijo, el Señor nunca olvida a Su pueblo.
+        en:
+          question: Where does the Lord say He has engraved Zion?
+          choices:
+            a: On a door
+            b: In a book
+            c: On a mountain
+            d: On the palms of His hands
+          explanation: Even if a mother could forget her child, the Lord will never forget His people.
+        pt-BR:
+          question: Onde o Senhor diz que gravou Sião?
+          choices:
+            a: Em uma porta
+            b: Em um livro
+            c: Em uma montanha
+            d: Nas palmas de Suas mãos
+          explanation: Mesmo que uma mãe pudesse esquecer seu filho, o Senhor nunca Se esquece de Seu povo.
+    - key: only_god
+      scripture_ref: Ésaïe 44:6-8
+      correct_choice: a
+      locales:
+        fr:
+          question: Qui l’Éternel déclare-t-il être en dehors de lui ?
+          choices:
+            a: Aucun autre Dieu
+            b: Un roi plus puissant
+            c: Un prophète caché
+            d: Un ange créateur
+          explanation: L’Éternel est le premier et le dernier ; les idoles ne peuvent prendre sa place.
+        es:
+          question: "¿Quién declara el Señor que existe fuera de Él?"
+          choices:
+            a: Ningún otro Dios
+            b: Un rey más poderoso
+            c: Un profeta escondido
+            d: Un ángel creador
+          explanation: El Señor es el primero y el último; los ídolos no pueden ocupar Su lugar.
+        en:
+          question: Who does the Lord declare exists besides Him?
+          choices:
+            a: No other God
+            b: A more powerful king
+            c: A hidden prophet
+            d: A creator angel
+          explanation: The Lord is the first and the last; idols cannot take His place.
+        pt-BR:
+          question: Quem o Senhor declara que existe além Dele?
+          choices:
+            a: Nenhum outro Deus
+            b: Um rei mais poderoso
+            c: Um profeta escondido
+            d: Um anjo criador
+          explanation: O Senhor é o primeiro e o último; os ídolos não podem ocupar Seu lugar.
+    - key: every_knee
+      scripture_ref: Ésaïe 45:22-23
+      correct_choice: c
+      locales:
+        fr:
+          question: Qui est invité à se tourner vers Dieu pour être sauvé ?
+          choices:
+            a: Juda seulement
+            b: Les prêtres seulement
+            c: Toutes les extrémités de la terre
+            d: Les rois seulement
+          explanation: Le salut offert par Dieu est universel ; devant lui tout genou fléchira.
+        es:
+          question: "¿Quién está invitado a volver a Dios para ser salvo?"
+          choices:
+            a: Solo Judá
+            b: Solo los sacerdotes
+            c: Todos los confines de la tierra
+            d: Solo los reyes
+          explanation: La salvación que Dios ofrece es universal; ante Él se doblará toda rodilla.
+        en:
+          question: Who is invited to turn to God and be saved?
+          choices:
+            a: Judah alone
+            b: Only the priests
+            c: All the ends of the earth
+            d: Only kings
+          explanation: God’s offer of salvation is universal; every knee will bow before Him.
+        pt-BR:
+          question: Quem é convidado a se voltar para Deus e ser salvo?
+          choices:
+            a: Somente Judá
+            b: Somente os sacerdotes
+            c: Todos os confins da terra
+            d: Somente os reis
+          explanation: A salvação que Deus oferece é universal; diante Dele todo joelho se dobrará.
+    - key: carried_old_age
+      scripture_ref: Ésaïe 46:3-4
+      correct_choice: b
+      locales:
+        fr:
+          question: Jusqu’à quel moment Dieu promet-il de porter son peuple ?
+          choices:
+            a: Jusqu’à sa première faute
+            b: Jusqu’à la vieillesse
+            c: Jusqu’à la frontière
+            d: Jusqu’au prochain roi
+          explanation: Celui qui nous a faits promet de nous soutenir et de nous sauver durant toute la vie.
+        es:
+          question: "¿Hasta cuándo promete Dios sostener a Su pueblo?"
+          choices:
+            a: Hasta su primer error
+            b: Hasta la vejez
+            c: Hasta la frontera
+            d: Hasta el siguiente rey
+          explanation: Quien nos creó promete sostenernos y salvarnos durante toda la vida.
+        en:
+          question: How long does God promise to carry His people?
+          choices:
+            a: Until their first mistake
+            b: Into old age
+            c: As far as the border
+            d: Until the next king
+          explanation: The One who made us promises to sustain and rescue us throughout our lives.
+        pt-BR:
+          question: Até quando Deus promete sustentar Seu povo?
+          choices:
+            a: Até o primeiro erro
+            b: Até a velhice
+            c: Até a fronteira
+            d: Até o próximo rei
+          explanation: Aquele que nos criou promete nos sustentar e salvar durante toda a vida.
+    - key: peace_river
+      scripture_ref: Ésaïe 48:17-18
+      correct_choice: d
+      locales:
+        fr:
+          question: À quoi aurait ressemblé la paix d’Israël s’il avait écouté les commandements ?
+          choices:
+            a: À une tour
+            b: À une flamme
+            c: À une rosée
+            d: À un fleuve
+          explanation: Le Rédempteur enseigne ce qui est utile et conduit son peuple sur le chemin à suivre.
+        es:
+          question: "¿A qué se habría parecido la paz de Israel si hubiera escuchado los mandamientos?"
+          choices:
+            a: A una torre
+            b: A una llama
+            c: Al rocío
+            d: A un río
+          explanation: El Redentor enseña lo que nos hace bien y guía a Su pueblo por el camino correcto.
+        en:
+          question: What would Israel’s peace have been like if the people had listened to the commandments?
+          choices:
+            a: A tower
+            b: A flame
+            c: The dew
+            d: A river
+          explanation: The Redeemer teaches what is good for us and leads His people in the way they should go.
+        pt-BR:
+          question: Como seria a paz de Israel se o povo tivesse ouvido os mandamentos?
+          choices:
+            a: Como uma torre
+            b: Como uma chama
+            c: Como o orvalho
+            d: Como um rio
+          explanation: O Redentor ensina o que é bom para nós e guia Seu povo pelo caminho certo.
+    - key: light_nations
+      scripture_ref: Ésaïe 49:5-6
+      correct_choice: a
+      locales:
+        fr:
+          question: Que doit devenir le serviteur pour porter le salut jusqu’aux extrémités de la terre ?
+          choices:
+            a: Une lumière pour les nations
+            b: Un roi de Babylone
+            c: Un mur autour d’Israël
+            d: Un juge secret
+          explanation: 'La mission du serviteur dépasse une seule nation : le salut de Dieu doit atteindre toute la terre.'
+        es:
+          question: "¿Qué debe llegar a ser el siervo para llevar la salvación hasta los confines de la tierra?"
+          choices:
+            a: Una luz para las naciones
+            b: Un rey de Babilonia
+            c: Una muralla alrededor de Israel
+            d: Un juez secreto
+          explanation: 'La misión del siervo va más allá de una sola nación: la salvación de Dios debe llegar a toda la tierra.'
+        en:
+          question: What must the servant become to carry salvation to the ends of the earth?
+          choices:
+            a: A light to the nations
+            b: A king of Babylon
+            c: A wall around Israel
+            d: A secret judge
+          explanation: 'The servant’s mission reaches beyond one nation: God’s salvation is meant for the whole earth.'
+        pt-BR:
+          question: O que o servo deve se tornar para levar a salvação aos confins da terra?
+          choices:
+            a: Uma luz para as nações
+            b: Um rei da Babilônia
+            c: Uma muralha ao redor de Israel
+            d: Um juiz secreto
+          explanation: 'A missão do servo vai além de uma única nação: a salvação de Deus deve chegar a toda a terra.'

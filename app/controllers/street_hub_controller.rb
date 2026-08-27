@@ -4,13 +4,8 @@ class StreetHubController < ApplicationController
   def index
     remember_device
     touch_street_presence
-    clear_street_guest if params[:ficha].present?
     @world = Quizzes::World.call(device_digest: street_digest, person_id: current_street_person&.id)
-    @profile_gate = params[:ficha].present? || (current_street_person.blank? && !street_guest?)
-    @gate_ward = current_ward
-    @gate_people = @gate_ward ? street_people_on_device.to_a : []
-    assign_profile_identity if @profile_gate && @gate_ward
-    @featured_ward = Ward.find_by(code: Ward::FEATURED_CODE) unless @gate_ward
+    @profile_gate = false
     @streak = Quizzes::Streak.call(person_id: current_street_person&.id)
     @standings = if current_ward && current_street_person
       Quizzes::Standings.call(ward: current_ward, person: current_street_person)
@@ -21,8 +16,18 @@ class StreetHubController < ApplicationController
     @challenge = load_challenge
     @pending_duel = @challenge&.duel
     @open_run = preferred_open_run
-    @pulse = Platform::Pulse.call unless @profile_gate
-    assign_ward_picker if @profile_gate && @gate_ward.blank?
+    @pulse = Platform::Pulse.call
+    @screen = Hubs::Screen.call(
+      device_digest: street_digest,
+      person: current_street_person,
+      ward: current_ward,
+      challenge: @challenge,
+      open_run: @open_run,
+      random_backdrop: true,
+      previous_backdrop_id: session[:hub_backdrop_id]
+    )
+    session[:hub_backdrop_id] = @screen.backdrop.id
+    @study_week = StudyProgram.order(year: :desc).first&.current_week
   end
 
   def map
@@ -31,6 +36,12 @@ class StreetHubController < ApplicationController
     @world = Quizzes::World.call(device_digest: street_digest, person_id: current_street_person&.id)
     @open_run = QuizRun.open_runs.where(device_digest: street_digest, person_id: current_street_person&.id).order(:id).last
     @unlock_pack_id = unlock_pack_id_param
+    @screen = Hubs::Screen.call(
+      device_digest: street_digest,
+      person: current_street_person,
+      ward: current_ward,
+      open_run: @open_run
+    )
   end
 
   private

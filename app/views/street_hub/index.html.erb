@@ -1,64 +1,40 @@
 <% content_for :title, "Noche Live" %>
-<% content_for :body_class, "is-kid is-street-hub" %>
-<%= chrome_menu { site_menu } %>
-
+<% content_for :body_class, "is-kid is-street-hub is-game-hub-page" %>
+<% screen = @screen %>
+<% art = screen.backdrop %>
+<% content_for :head do %>
+  <link rel="preload" as="image" href="<%= art.src %>">
+<% end %>
 <section id="street_world"
-         class="street-world<%= " is-profile-gate" if @profile_gate %>"
-         data-controller="street-share"
+         class="street-world is-game-hub<%= " is-returning-from-quiz" if params[:rank_up].present? %>"
+         data-controller="street-share hub-scroll"
          data-street-share-copied-value="<%= t("street.share_copied") %>"
+         data-hub-theme="<%= art.theme.mode %>"
+         data-hub-atmosphere="<%= art.theme.atmosphere %>"
+         data-hub-accent="<%= art.theme.accent %>"
          <% if params[:rank_up].present? %>
          data-stage-sfx-value="level_up"
          data-stage-sfx-token-value="hub:rank_up:<%= current_street_person&.id || "guest" %>"
          data-stage-fx-value="level"
          <% end %>
-         style="view-transition-name: street-world">
-  <%= render "street_hub/profile_wizard",
-        profile_gate: @profile_gate,
-        gate_ward: @gate_ward,
-        gate_screen: @gate_screen,
-        gate_person: @gate_person,
-        gate_people: @gate_people,
-        featured_ward: @featured_ward %>
-
-  <header class="street-hub-brand">
-    <%= render "shared/street_hub_lockup" %>
-  </header>
+         style="--hub-art: url('<%= art.src %>'); view-transition-name: street-world">
+  <%= chrome_menu(
+        hud: true,
+        bar: Huds::Present.from_screen(screen: screen, rank_up: params[:rank_up].present?)
+      ) { site_menu } %>
 
   <div class="street-hub-feed">
-    <% if @challenge&.phase == :result && current_street_person %>
-      <%= render "street_hub/duel_result",
-            duel: @challenge.duel,
-            you: current_street_person,
-            compact: true,
-            map_path: street_map_path %>
-    <% elsif @challenge %>
-      <%= render "street_hub/duel_banner", duel: @challenge.duel, challenge: @challenge %>
-    <% end %>
+    <%= render "street_hub/hero", screen: screen %>
+    <%= render "street_hub/study", week: @study_week %>
+    <%= render "street_hub/live", live: screen.live %>
 
-    <%= render "street_hub/player_card",
-          person: current_street_person,
-          standings: @standings,
-          streak: @streak,
-          rank_up: params[:rank_up].present? %>
-
-    <%= render "street_hub/map_door", world: @world, open_run: @open_run %>
-
-    <% if @standings %>
-      <%= render "street_hub/league_strip", board: @standings.total_board, rank_title: @standings.rank_title %>
-    <% end %>
+    <div class="hub-panel-row">
+      <%= render "street_hub/challenge", challenge: screen.challenge, screen: @challenge %>
+      <%= render "street_hub/online", rows: screen.online, count: screen.online_count %>
+      <%= render "street_hub/progress", progress: screen.progress %>
+      <%= render "street_hub/community", community: screen.community, pulse: @pulse %>
+    </div>
   </div>
 
-  <% unless @profile_gate %>
-    <footer class="street-world-dock">
-      <%= turbo_frame_tag "street_pulse",
-            src: street_pulse_path,
-            data: {
-              controller: "street-pulse",
-              street_pulse_src_value: street_pulse_path,
-              street_pulse_interval_value: 5000
-            } do %>
-        <%= render "street_hub/pulse", pulse: @pulse %>
-      <% end %>
-    </footer>
-  <% end %>
+  <%= render Navigation::DockComponent.new(active: :home, live: screen.live) %>
 </section>

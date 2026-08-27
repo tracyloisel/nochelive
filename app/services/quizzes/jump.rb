@@ -24,18 +24,15 @@ module Quizzes
         raise "Not yet answered" if @position < locked.position && answer.nil?
         raise "Not yet reached" if @position > locked.position
 
-        locked.update!(
-          position: @position,
-          ends_at: answer || locked.finished? ? nil : timer_for(question)
-        )
+        attrs = { position: @position }
+        if answer || locked.finished?
+          attrs[:ends_at] = nil
+        else
+          attrs.merge!(AskClock.opening_attrs(question))
+        end
+        locked.update!(attrs)
         Draw.frame(locked.reload)
       end
     end
-
-    private
-
-      def timer_for(question)
-        question.timed? ? question.duration.seconds.from_now : nil
-      end
   end
 end

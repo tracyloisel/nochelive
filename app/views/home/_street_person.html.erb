@@ -1,5 +1,5 @@
 <% if current_street_person %>
-  <%= link_to street_profile_path, class: "street-person" do %>
+  <%= link_to street_profile_path(edit: 1), class: "street-person" do %>
     <% src = avatar_mark(current_street_person) %>
     <% if src %>
       <img src="<%= src %>" alt="" class="avatar-img" width="28" height="28">

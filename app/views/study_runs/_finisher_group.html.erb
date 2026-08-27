@@ -1,0 +1,13 @@
+<section class="study-finisher-group">
+  <h3><%= title %></h3>
+  <div class="study-finisher-list">
+    <% people.each do |person| %>
+      <article class="study-finisher">
+        <span class="study-finisher-avatar">
+          <% if (src = avatar_mark(person)) %><img src="<%= src %>" alt=""><% else %><span aria-hidden="true"><%= person.given_name.to_s.first %></span><% end %>
+        </span>
+        <span><strong><%= person.given_name %></strong><small><%= person.ward&.name || t("study.fellow_finisher_no_ward") %></small></span>
+      </article>
+    <% end %>
+  </div>
+</section>

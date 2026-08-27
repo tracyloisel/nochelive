@@ -7,6 +7,8 @@ class Quizzes::ChallengeResolveTest < ActiveSupport::TestCase
     assert result.duel.resolved?
     assert_equal people(:carmen_garcia), result.winner
     refute result.tie
+    assert_equal(-3, result.duel.challenger_delta)
+    assert_equal 12, result.duel.opponent_delta
   end
 
   test "tie has no winner" do
@@ -16,6 +18,8 @@ class Quizzes::ChallengeResolveTest < ActiveSupport::TestCase
     assert result.duel.resolved?
     assert_nil result.winner
     assert result.tie
+    assert_equal 1, result.duel.challenger_delta
+    assert_equal 1, result.duel.opponent_delta
   end
 
   test "after_run! waits for the second score" do

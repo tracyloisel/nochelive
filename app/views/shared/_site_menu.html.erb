@@ -3,7 +3,6 @@
 <nav class="home-menu-nav" aria-label="<%= t("chrome.menu") %>">
   <% if tools %>
     <div class="home-menu-block">
-      <p class="home-menu-kicker"><%= t("chrome.sound_lang") %></p>
       <button type="button"
               class="home-menu-row mute"
               data-action="stage#toggleMute"
@@ -17,6 +16,7 @@
           <%= picto("sound-off") %>
         </span>
         <span class="home-menu-label word"><%= t("chrome.sound_on") %></span>
+        <span class="home-menu-row-caret" aria-hidden="true"><%= picto("arrow") %></span>
       </button>
       <%= render "shared/lang_switch", drawer: true %>
     </div>
@@ -36,6 +36,10 @@
             label: in_run ? t("street.ceremony_back_map") : t("street.world_map") %>
     <% end %>
     <%= render "shared/menu_row",
+          path: study_program_path,
+          icon: "scroll",
+          label: t("study.title") %>
+    <%= render "shared/menu_row",
           path: jugar_path,
           icon: "sparkle",
           label: t("street.menu_play") %>
@@ -52,10 +56,6 @@
   <div class="home-menu-block">
     <p class="home-menu-kicker"><%= t("home.ward_menu") %></p>
     <div class="home-menu-list">
-      <%= render "shared/menu_row",
-            path: nights_path,
-            icon: "sofa",
-            label: t("home.nights_menu") %>
       <%= render "shared/night_code" %>
     </div>
   </div>

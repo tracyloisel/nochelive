@@ -1,42 +1,126 @@
-<% content_for :title, t("street.world_map") %>
-<% content_for :body_class, "is-kid is-street-hub" %>
-<%= chrome_menu { site_menu } %>
+<% content_for :title, t("street.mapa_title") %>
+<% content_for :body_class, "is-kid is-street-hub is-street-map-page" %>
+
+<% packs = @world.packs %>
+<% finished = packs.count { |p| p.state == :finished } %>
+<% total_packs = packs.size %>
+<% questions_per_pack = QuizDefinition::QUESTIONS_PER_PACK %>
+<% rewards = (total_packs / 10).ceil %>
+<% current_tier = Quizzes::World.tier_for(
+  (@open_run&.pack_id && packs.find { |p| p.id == @open_run.pack_id })&.index ||
+  (@world.current_pack_id && packs.find { |p| p.id == @world.current_pack_id })&.index ||
+  packs.rindex { |p| p.state == :finished } || 0
+) %>
+<% current_tier_key = current_tier&.fetch(:key) %>
+<% active_category = @world.current_pack_id ? Quizzes::World.category_for(@world.current_pack_id) : "rois" %>
 
 <section id="street_world"
          class="street-world street-map-page"
-         data-controller="street-hub street-share"
+         data-controller="street-share hub-map"
          data-street-share-copied-value="<%= t("street.share_copied") %>"
-         data-street-hub-current-pack-value="<%= @world.current_pack_id %>"
+         data-hub-map-category-value="<%= @world.current_pack_id ? Quizzes::World.category_for(@world.current_pack_id) : "all" %>"
+         data-hub-map-current-pack-id-value="<%= @world.current_pack_id %>"
+         data-hub-map-finished-count-value="<%= finished %>"
+         data-hub-map-total-packs-value="<%= total_packs %>"
          <% if params[:rank_up].present? %>
          data-stage-sfx-value="level_up"
          data-stage-sfx-token-value="map:rank_up:<%= current_street_person&.id || "guest" %>"
          data-stage-fx-value="level"
          <% end %>
          style="view-transition-name: street-world">
-  <header class="street-hub-brand">
-    <%= render "shared/street_hub_lockup" %>
+
+  <%= chrome_menu(
+        hud: true,
+        bar: Huds::Present.from_screen(screen: @screen, rank_up: params[:rank_up].present?)
+      ) { site_menu } %>
+
+  <header class="mapa-header">
+    <h1 class="mapa-title"><%= t("street.mapa_title") %></h1>
+    <p class="mapa-subtitle"><%= t("street.mapa_subtitle", total: total_packs, q: questions_per_pack) %></p>
+    <div class="mapa-stats-row">
+      <div class="mapa-stat-item">
+        <span class="mapa-stat-icon"><%= picto("mapa-pack-box") %></span>
+        <span class="mapa-stat-value"><%= total_packs %></span>
+        <span class="mapa-stat-label"><%= t("street.stat_packs") %></span>
+      </div>
+      <div class="mapa-stat-item">
+        <span class="mapa-stat-icon"><%= picto("mapa-question") %></span>
+        <span class="mapa-stat-value"><%= questions_per_pack %></span>
+        <span class="mapa-stat-label"><%= t("street.stat_questions") %></span>
+      </div>
+      <div class="mapa-stat-item">
+        <span class="mapa-stat-icon"><%= picto("mapa-crown") %></span>
+        <span class="mapa-stat-value"><%= finished %><span class="mapa-stat-divider">/</span><%= total_packs %></span>
+        <span class="mapa-stat-label"><%= t("street.stat_completed") %></span>
+      </div>
+      <div class="mapa-stat-item">
+        <span class="mapa-stat-icon"><%= picto("mapa-chest") %></span>
+        <span class="mapa-stat-value"><%= rewards %></span>
+        <span class="mapa-stat-label"><%= t("street.stat_rewards") %></span>
+      </div>
+    </div>
   </header>
 
-  <%= link_to t("street.world_map_close"), root_path, class: "quiet-link street-map-close" %>
-  <%= render "street_hub/map_path", world: @world, unlock_pack_id: @unlock_pack_id %>
+  <nav class="mapa-tabs" role="tablist">
+    <button class="mapa-tab<%= " is-active" if active_category == "rois" %>"
+            data-category="rois" data-action="hub-map#filter" role="tab" aria-selected="true">
+      <span class="mapa-tab-icon"><%= picto("mapa-crown") %></span>
+      <span class="mapa-tab-label"><%= t("street.category_rois") %></span>
+    </button>
+    <button class="mapa-tab<%= " is-active" if active_category == "prophetes" %>"
+            data-category="prophetes" data-action="hub-map#filter" role="tab" aria-selected="false">
+      <span class="mapa-tab-icon"><%= picto("mapa-key") %></span>
+      <span class="mapa-tab-label"><%= t("street.category_prophetes") %></span>
+    </button>
+    <button class="mapa-tab<%= " is-active" if active_category == "sagesse" %>"
+            data-category="sagesse" data-action="hub-map#filter" role="tab" aria-selected="false">
+      <span class="mapa-tab-icon"><%= picto("mapa-tree") %></span>
+      <span class="mapa-tab-label"><%= t("street.category_sagesse") %></span>
+    </button>
+    <button class="mapa-tab<%= " is-active" if active_category == "heros" %>"
+            data-category="heros" data-action="hub-map#filter" role="tab" aria-selected="false">
+      <span class="mapa-tab-icon"><%= picto("mapa-shield-cross") %></span>
+      <span class="mapa-tab-label"><%= t("street.category_heros") %></span>
+    </button>
+  </nav>
 
-  <footer class="street-world-dock">
-    <div class="street-world-dock-cta">
-      <% if @open_run %>
-        <%= link_to jugar_path, class: "btn btn-gold street-play-cta" do %>
-          <span class="street-cta-star" aria-hidden="true"><%= picto("star8") %></span>
-          <span class="street-cta-label"><%= t("street.world_continue") %></span>
-          <span class="street-cta-star" aria-hidden="true"><%= picto("star8") %></span>
-        <% end %>
-      <% elsif @world.current_pack_id %>
-        <%= button_to street_pack_start_path(@world.current_pack_id),
-              class: "btn btn-gold street-play-cta",
-              form: { data: { turbo: false } } do %>
-          <span class="street-cta-star" aria-hidden="true"><%= picto("star8") %></span>
-          <span class="street-cta-label"><%= t("street.world_play") %></span>
-          <span class="street-cta-star" aria-hidden="true"><%= picto("star8") %></span>
-        <% end %>
-      <% end %>
+  <div class="mapa-progression">
+    <% Quizzes::World::TIER_BOUNDARIES.each do |tier_def| %>
+      <% tier_packs = packs.select { |p| Quizzes::World.tier_for(p.index)&.fetch(:key) == tier_def[:key] } %>
+      <% next if tier_packs.empty? && !tier_def[:collapsed] %>
+      <% collapsed = tier_def[:collapsed] %>
+      <% tier_label_key = Quizzes::World.tier_label_key(tier_def[:key]) %>
+      <% flag_icon = case tier_def[:key]
+        when "debutant" then "flag-green"
+        when "apprenti" then "flag-blue"
+        when "disciple" then "flag-purple"
+        when "maitre" then "flag-orange"
+        when "legende" then "flag-red"
+        end %>
+      <%= render "street_hub/map_tier",
+            tier: tier_def,
+            packs: tier_packs,
+            collapsed: collapsed,
+            category: active_category,
+            unlock_pack_id: @unlock_pack_id,
+            flag_icon: flag_icon,
+            tier_label_key: tier_label_key %>
+    <% end %>
+  </div>
+
+  <footer class="mapa-footer">
+    <div class="mapa-progress">
+      <div class="mapa-progress-bar">
+        <div class="mapa-progress-fill" style="width: <%= finished > 0 ? (finished.to_f / total_packs * 100).round : 0 %>%"></div>
+      </div>
+      <span class="mapa-progress-label"><%= t("street.mapa_progress_label", finished: finished, total: total_packs) %></span>
     </div>
+    <%= link_to street_leaderboard_path, class: "mapa-footer-cta" do %>
+      <span class="mapa-cta-icon"><%= picto("mapa-trophy") %></span>
+      <span class="mapa-cta-label"><%= t("street.mapa_view_leaderboard") %></span>
+      <span class="mapa-cta-arrow">&#8250;</span>
+    <% end %>
   </footer>
+
+  <%= render Navigation::DockComponent.new(active: :adventure, live: @screen.live) %>
 </section>

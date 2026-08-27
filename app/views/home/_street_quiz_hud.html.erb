@@ -1,0 +1,11 @@
+<%= render Hud::BarComponent.new(
+      bar: Huds::Present.quiz(
+        person: current_street_person,
+        pack: pack,
+        run: run,
+        street: street,
+        question: question,
+        quiz_standings: quiz_standings,
+        combo: local_assigns[:combo]
+      )
+    ) %>

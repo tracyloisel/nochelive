@@ -1,0 +1,88 @@
+<% live = local_assigns[:live] %>
+<% ward_missing = live.state == :ward_missing %>
+<% empty = live.state == :none || ward_missing %>
+<% still = live.still.presence unless empty %>
+<% hosts = Array(live.hosts).compact_blank %>
+<% theme = %w[light dark].include?(live.theme_mode.to_s) ? live.theme_mode : "light" %>
+<% atmosphere = %w[peaceful dramatic solemn glorious].include?(live.theme_atmosphere.to_s) ? live.theme_atmosphere : "peaceful" %>
+<article class="hub-live hub-panel is-<%= live.state %> is-celestial-<%= theme %><%= " is-empty" if empty %><%= " is-still" if still %>"
+         data-hub-live-theme="<%= theme %>"
+         data-hub-live-atmosphere="<%= atmosphere %>"
+         data-controller="hub-countdown"
+         data-hub-countdown-state-value="<%= live.state %>"
+         <% if still %>
+         style="--hub-live-still: url('<%= still %>')"
+         <% end %>
+         <% if live.starts_at %>
+         data-hub-countdown-starts-at-value="<%= live.starts_at.iso8601 %>"
+         <% end %>>
+  <% if empty %>
+    <% if ward_missing %>
+      <div class="hub-live-ward-mark" aria-hidden="true"><%= picto("church") %></div>
+      <div class="hub-live-empty-copy">
+        <p class="hub-kicker"><%= t("hub.next_live") %></p>
+        <p class="hub-live-ward-title"><%= t("hub.pick_ward_title") %></p>
+        <p class="hub-live-empty"><%= t("hub.pick_ward_live") %></p>
+        <ul class="hub-live-ward-promises" aria-label="<%= t("hub.pick_ward_benefits") %>">
+          <li><%= t("hub.pick_ward_live_benefit") %></li>
+          <li><%= t("hub.pick_ward_challenge_benefit") %></li>
+          <li><%= t("hub.pick_ward_ranking_benefit") %></li>
+        </ul>
+      </div>
+    <% else %>
+      <div class="hub-live-empty-copy">
+        <p class="hub-kicker"><%= t("hub.next_live") %></p>
+        <p class="hub-live-empty"><%= t("home.empty_upcoming") %></p>
+      </div>
+    <% end %>
+    <%= link_to(ward_missing ? live.ward_pick_path : live.program_path, class: "hub-live-program#{ " is-ward-pick" if ward_missing }") do %>
+      <%= picto(ward_missing ? "arrow" : "calendar") %>
+      <span><%= t(ward_missing ? "hub.pick_ward_cta" : "hub.see_program") %></span>
+    <% end %>
+  <% else %>
+    <div class="hub-live-body">
+      <header class="hub-live-head">
+        <span class="hub-live-badge<%= " is-live" if live.state == :playing %>"
+              data-hub-countdown-target="badge"
+              data-live-label="<%= t("hub.live_chip") %>"><%= t("hub.live_chip") %></span>
+        <p class="hub-kicker"><%= t("hub.next_live") %></p>
+      </header>
+      <% when_copy = hub_live_when(live) %>
+      <% if when_copy.present? %>
+        <p class="hub-live-when" data-hub-countdown-target="when"><%= when_copy %></p>
+      <% else %>
+        <p class="hub-live-when is-clock-only" data-hub-countdown-target="when" hidden></p>
+      <% end %>
+      <p class="hub-live-special"><%= t("hub.live_special", theme: live.title) %></p>
+      <% if hosts.any? %>
+        <p class="hub-live-hosts"><%= t("hub.live_hosts", names: hosts.to_sentence) %></p>
+      <% end %>
+      <div class="hub-live-clock<%= " is-on" unless live.state == :playing %>" data-hub-countdown-target="clock">
+        <div class="hub-live-unit">
+          <span class="hub-live-digit" data-hub-countdown-target="hours">00</span>
+          <small><%= t("hub.hours") %></small>
+        </div>
+        <span class="hub-live-colon" aria-hidden="true">:</span>
+        <div class="hub-live-unit">
+          <span class="hub-live-digit" data-hub-countdown-target="minutes">00</span>
+          <small><%= t("hub.min") %></small>
+        </div>
+        <span class="hub-live-colon" aria-hidden="true">:</span>
+        <div class="hub-live-unit">
+          <span class="hub-live-digit" data-hub-countdown-target="seconds">00</span>
+          <small><%= t("hub.sec") %></small>
+        </div>
+      </div>
+      <% if live.join_path %>
+        <%= link_to t("hub.live_join"), live.join_path,
+              class: "btn btn-gold hub-live-join",
+              data: { hub_countdown_target: "join" },
+              hidden: live.state != :playing %>
+      <% end %>
+    </div>
+    <%= link_to live.program_path, class: "hub-live-program" do %>
+      <%= picto("calendar") %>
+      <span><%= t("hub.see_program") %></span>
+    <% end %>
+  <% end %>
+</article>

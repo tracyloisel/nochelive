@@ -7,12 +7,10 @@ export default class extends Controller {
   }
 
   queue(event) {
-    if (event.target.matches("select")) {
-      this.submit()
-      return
-    }
+    const value = event.target.value.trim()
+    if (value.length === 1) return
     window.clearTimeout(this.timer)
-    this.timer = window.setTimeout(() => this.submit(), 320)
+    this.timer = window.setTimeout(() => this.submit(), 220)
   }
 
   clearOnEscape(event) {

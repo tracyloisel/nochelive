@@ -1,16 +1,18 @@
-<h1><%= t("join.device_title") %></h1>
-<p class="lede"><%= t("join.device_lede") %></p>
+<p class="profile-invite"><%= t("join.device_lede") %></p>
 
 <ul class="team-list person-list">
   <% people.each do |person| %>
     <li>
-      <%= button_to street_profile_path, params: { person_id: person.id }, class: "team-pick person-pick is-here" do %>
-        <%= render "people/card", person: person, show_year: false %>
+      <%= button_to street_profile_path, params: { person_id: person.id }, class: ["team-pick", "person-pick", "is-here", ("is-current" if person.id == local_assigns[:current_person]&.id)] do %>
+        <%= render "people/card", person: person, show_year: false, hint: person.ward&.name %>
+        <% if person.id == local_assigns[:current_person]&.id %>
+          <span class="person-current" aria-label="<%= t("street.current_profile") %>"><%= picto("check") %></span>
+        <% end %>
       <% end %>
     </li>
   <% end %>
 </ul>
 
-<%= link_to local_assigns.fetch(:someone_else_path) { street_profile_path(fresh: 1) }, class: "btn btn-ghost" do %>
-  <%= picto("plus") %><%= t("join.none_of_these") %>
+<%= link_to local_assigns.fetch(:someone_else_path) { street_profile_path(new_profile: 1) }, class: "btn btn-ghost" do %>
+  <%= picto("plus") %><%= t("join.add_profile") %>
 <% end %>

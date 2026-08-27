@@ -65,7 +65,7 @@ end
 
 def generate_image(prompt, dest, aspect_ratio:)
   ext = File.extname(dest).delete(".").downcase
-  format = ext == "jpg" ? "jpeg" : (ext.presence || "jpeg")
+  format = ext == "jpg" || ext.empty? ? "jpeg" : ext
   result = request("#{API}/images", {
     model: IMAGE_MODEL,
     prompt: prompt,
@@ -125,6 +125,29 @@ assets = {
       empty doorway, no figure. Empty center aisle — no people, no furniture, no UI,
       no cards, no HUD, no buttons, no text, no letters, no logos. Painterly classical,
       ivory stone, sacred grandeur, very bright whites and golds. Not dark.
+    PROMPT
+  },
+  "reward-chest.png" => {
+    aspect_ratio: "1:1",
+    prompt: <<~PROMPT
+      Isolated premium AAA mobile-game UI prop, 3D product render, not a photograph,
+      not a flat SVG icon, not a cartoon.
+      Subject: one CLOSED wooden treasure chest, lid fully shut, no opening, no coins
+      spilling, no inner glow, no sparkles, no fire, no hanging padlock ring.
+      Camera: eye-level, slight 3/4 angle facing toward the right, as if the chest sits
+      on a table in front of the viewer. NOT top-down, NOT a high angle, NOT isometric.
+      The front face is clearly visible plus a sliver of the right side. Horizon at
+      mid-chest. Lid is a low rounded dome.
+      Materials: dark warm walnut wood planks with visible grain; thick polished brass
+      and gold metal bands wrapping the body and the lid; round brass rivets; a
+      prominent circular brass latch plate in the center of the front; metal has
+      specular highlights.
+      Lighting: soft studio key from the upper left, small soft contact shadow directly
+      under the chest with translucent edges.
+      Background: fully transparent alpha, clean knockout around the entire silhouette;
+      no gray or white matte, no floor plane, no wall, no pedestal, no marble, no room,
+      no gradient, no vignette, no scenery.
+      Do not add text, letters, numbers, logos, UI, people, weapons, or a second object.
     PROMPT
   },
   "ceremony-chest.png" => {

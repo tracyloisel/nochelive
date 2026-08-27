@@ -1,11 +1,15 @@
 <div class="choices">
   <% street_shuffled_choices(street.run, street.question).each_with_index do |choice, index| %>
     <% mark = choice_mark(index) %>
+    <% letter = ("A".ord + index).chr %>
     <%= button_to quiz_answers_path(street.run),
           params: { choice: choice_key(choice) },
           class: "choice-btn choice-#{mark[:tone]}",
           form: { data: { turbo_stream: true } },
           data: { choice_key: choice_key(choice) } do %>
+      <% if local_assigns[:letters] %>
+        <span class="quiz-letter" aria-hidden="true"><%= letter %></span>
+      <% end %>
       <span class="word"><%= street.question.choice_copy(choice) %></span>
     <% end %>
   <% end %>

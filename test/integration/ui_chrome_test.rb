@@ -15,8 +15,7 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     assert_select "audio#noche_sfx_gate[playsinline]"
     assert_select "audio#noche_sfx_gate[src='/sfx/tick.mp3']"
     assert_select "#street_world"
-    assert_select "a.street-hub-lockup-wordmark[href=?]", root_path
-    assert_select ".street-hub-lockup-star"
+    assert_select ".hub-hero"
     assert_select ".home-paper", count: 0
     assert_select "nav.home-menu"
     assert_select ".home-menu-btn .picto-menu"
@@ -29,7 +28,6 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     assert_select ".home-menu-kicker", text: I18n.t("home.about_menu")
     assert_select ".home-menu-kicker", text: I18n.t("home.program"), count: 0
     assert_select ".chrome-drawer a.home-menu-row[href=?]", jugar_path, text: I18n.t("street.menu_play")
-    assert_select ".chrome-drawer a.home-menu-row[href=?]", nights_path, text: I18n.t("home.nights_menu")
     assert_select ".chrome-drawer a.home-menu-row[href=?]", search_path
     assert_select ".chrome-drawer a.home-menu-row[href=?]", street_history_path
     assert_select ".chrome-drawer a.home-menu-row[href=?]", street_map_path, text: I18n.t("street.world_map")
@@ -47,13 +45,18 @@ class UiChromeTest < ActionDispatch::IntegrationTest
 
     start_street_jugar!
     get jugar_path
-    assert_select "#street_quiz.play-reel.is-quiz.is-street"
+    assert_select "#street_quiz.play-reel.is-quiz.is-street.is-overlay"
     assert_select "a.home-menu-row[href=?]", street_map_path, text: I18n.t("street.ceremony_back_map")
+    assert_select "a.home-menu-row[href=?]", root_path, text: I18n.t("street.nav_hub")
     assert_select ".play-sheet-grip", count: 0
-    assert_select ".street-quiz-head"
+    assert_select ".quiz-hud"
+    assert_select ".quiz-hud-streak"
+    assert_select ".quiz-hud-score .picto-crown"
     assert_select ".street-quiz-apex"
-    assert_select ".street-quiz-card"
-    assert_select ".street-level-rail"
+    assert_select ".quiz-sheet"
+    assert_select ".street-shot-rival", count: 0
+    assert_select ".quiz-hud-rail"
+    assert_select ".street-quiz-head", count: 0
     assert_select "#street_quiz .btn.btn-gold", count: 0
     assert_select ".home-menu.is-split .chrome-face"
     assert_select ".home-menu.is-split .home-menu-btn"
@@ -122,6 +125,12 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     assert_includes css, "--type-min:"
     assert_includes css, "--street-play-col:"
     assert_includes css, "--street-ceremony-col:"
+    assert_includes css, "--hub-progress-complete:"
+    assert_includes css, ".street-world.is-game-hub .street-hub-feed"
+    assert_includes css, "scroll-padding-top: var(--space-4);"
+    assert_includes css, "grid-template-columns: repeat(4, minmax(0, 1fr));"
+    assert_includes css, ".street-world.is-game-hub[data-hub-theme=\"dark\"] .hub-progress"
+    assert_includes css, ".hub-progress-node.is-focus .hub-progress-mark::before"
     assert_includes css, ":root, body {"
     refute_includes css, "body.is-street-hub:has(#street_world.is-profile-gate)"
     refute_includes css, ".street-map-path-title::after"
@@ -134,6 +143,17 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     assert_includes motion, "wrapStreet"
     assert_includes css, "view-transition-name: street-sheet"
     assert_includes css, "view-transition-name: street-score"
+    assert_includes css, "view-transition-name: street-still"
+    assert_includes css, "view-transition-name: street-hud"
+    show = Rails.root.join("app/views/street_plays/show.html.erb").read
+    refute_includes show, "view-transition-name: street-quiz"
+    quiz_js = Rails.root.join("app/javascript/controllers/quiz_controller.js").read
+    assert_includes quiz_js, "overlaySession"
+    assert_includes quiz_js, "is-turning"
+    assert_includes quiz_js, "is-committing"
+    assert_includes quiz_js, "is-advancing"
+    assert_includes css, "#street_quiz.is-overlay.is-committing"
+    assert_includes css, "#street_quiz.is-overlay.is-advancing"
     assert_includes css, ".play-reel.is-street .street-score"
     assert_includes css, ".play-reel.is-street.is-quiz .play-sheet-body"
     assert_includes css, "padding: calc(var(--space-5) + var(--space-1)) var(--space-5)"
@@ -163,6 +183,8 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     refute_includes css, "0% { opacity: 0.38; }"
     refute_includes css, "animation-duration: 0.68s;"
     assert_includes css, ".street-praise"
+    assert_includes css, ".street-praise.is-streak"
+    refute_includes css, ".quiz-streak-shout"
     assert_includes css, "container-name: street-shot"
     assert_includes css, "clamp(1.5rem, 9cqi, 2.55rem)"
     refute_includes css, "clamp(3.9rem, 20vw, 6.1rem)"
@@ -189,6 +211,15 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     assert_includes css, "@media (orientation: landscape) and (max-height: 500px)"
     refute_includes css, "linear-gradient(180deg, var(--paper) 0%, transparent 28%)"
     assert_includes css, "--sky:"
+    assert_includes css, "--surface-glass-soft"
+    assert_includes css, "--surface-glass-medium"
+    assert_includes css, "--surface-glass-strong"
+    assert_includes css, "#street_quiz.is-overlay"
+    assert_includes css, "body.is-street-play #street_quiz.is-overlay .quiz-bar.is-correct"
+    assert_includes css, "body.is-street-play #street_quiz.is-overlay .quiz-bar.is-correct .quiz-fill"
+    assert_includes css, "body.is-street-play #street_quiz.is-overlay .quiz-flag.is-yes .picto path"
+    refute_includes css, "#3d9a5c"
+    refute_includes css, "#6fde95"
   end
 
   test "watch screen is a still-first cinema board" do

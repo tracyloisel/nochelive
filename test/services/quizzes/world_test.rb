@@ -15,6 +15,13 @@ class Quizzes::WorldTest < ActiveSupport::TestCase
     assert_equal world.packs.second.id, world.path.locked.id
   end
 
+  test "every catalog pack has a map category and tier" do
+    world = Quizzes::World.call(device_digest: GameSession.digest_token("world-map-taxonomy"))
+
+    assert world.packs.all? { |pack| pack.category.in?(%w[rois prophetes sagesse heros]) }
+    assert world.packs.all? { |pack| Quizzes::World.tier_for(pack.index).present? }
+  end
+
   test "finishing pack unlocks next" do
     digest = GameSession.digest_token("world-finish")
     run = Quizzes::StartPack.call(device_digest: digest, pack_id: "coronas").run

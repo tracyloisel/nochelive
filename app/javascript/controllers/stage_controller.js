@@ -16,6 +16,9 @@ const FALLBACK_CUES = [
   "round_open",
   "round_lock",
   "question_change",
+  "celestial_breath",
+  "duel_send",
+  "stake_gain",
   "reveal"
 ]
 
@@ -34,16 +37,19 @@ const BED_OUT_MS = 380
 const BED_DUCK_MS = 110
 const BED_UNDUCK_MS = 280
 const TICK_CUES = new Set(["tick", "tick_low"])
-const HIT_CUES = new Set(["buzzer_hit", "fire_whoosh", "chest", "correct_gold", "wrong_soft"])
+const HIT_CUES = new Set(["buzzer_hit", "fire_whoosh", "chest", "correct_gold", "wrong_soft", "duel_send", "stake_gain", "study_light", "study_miss", "study_turn"])
 const BED_CUE = "timer_tension"
 const GESTURES = ["pointerdown", "touchstart", "keydown", "click"]
 
 const store = window.NocheLiveAudio = window.NocheLiveAudio || {
   context: null,
   buffers: {},
+  bufferPaths: {},
   loading: {},
+  loadingPaths: {},
   pending: [],
   pool: {},
+  poolPaths: {},
   out: null,
   liveVoices: [],
   stingerVoice: null,
@@ -80,7 +86,10 @@ try {
 store.pending ||= []
 store.pool ||= {}
 store.buffers ||= {}
+store.bufferPaths ||= {}
 store.loading ||= {}
+store.loadingPaths ||= {}
+store.poolPaths ||= {}
 store.liveVoices ||= []
 store.fadeGen = store.fadeGen || 0
 store.stingerEl = store.stingerEl || null
@@ -176,8 +185,16 @@ function unlockWebSync() {
 }
 
 function voiceEl(name) {
+  const path = cuePath(name)
+  if (store.poolPaths[name] !== path) {
+    ;(store.pool[name] || []).forEach((el) => {
+      try { el.pause() } catch (_error) { /* already stopped */ }
+    })
+    store.pool[name] = []
+    store.poolPaths[name] = path
+  }
   const pool = (store.pool[name] ||= [])
-  if (!pool[0]) pool[0] = makeAudio(cuePath(name))
+  if (!pool[0]) pool[0] = makeAudio(path)
   return pool[0]
 }
 
@@ -227,23 +244,33 @@ function decodeBuffer(ctx, raw) {
 }
 
 function loadBuffer(name) {
+  const path = cuePath(name)
+  if (store.bufferPaths[name] !== path) {
+    delete store.buffers[name]
+    delete store.loading[name]
+    store.bufferPaths[name] = path
+    store.loadingPaths[name] = path
+  }
   if (store.buffers[name]) return Promise.resolve(store.buffers[name])
-  if (store.loading[name]) return store.loading[name]
+  if (store.loading[name] && store.loadingPaths[name] === path) return store.loading[name]
   const ctx = ensureContext()
   if (!ctx || !name) return Promise.resolve(null)
-  const job = fetch(cuePath(name), { credentials: "same-origin" })
+  store.loadingPaths[name] = path
+  const job = fetch(path, { credentials: "same-origin" })
     .then((res) => {
       if (!res.ok) throw new Error("sfx")
       return res.arrayBuffer()
     })
     .then((raw) => decodeBuffer(ctx, raw))
     .then((buf) => {
+      if (store.loadingPaths[name] !== path) return null
       store.buffers[name] = buf
+      store.bufferPaths[name] = path
       delete store.loading[name]
       return buf
     })
     .catch(() => {
-      delete store.loading[name]
+      if (store.loadingPaths[name] === path) delete store.loading[name]
       return null
     })
   store.loading[name] = job

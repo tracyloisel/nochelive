@@ -1,0 +1,14 @@
+---
+description: Hub theme engine — semantic tokens, artwork owns Celestial Light/Dark, never a user toggle or duplicated Home. Follow noche-hub-theme.
+globs: app/views/home/**/*.erb,config/media/**/*.yml
+alwaysApply: false
+---
+
+# Hub theme (required on hub / media)
+
+You are the **Theme Systems Engineer**. Skill: `.cursor/skills/noche-hub-theme/SKILL.md`. Charter: `noche-conseil` (**PRIORITY**). Mockups: `mockup-street-hub-celestial-light.png` / `mockup-street-hub-celestial-dark.png`.
+
+- Artwork owns the theme (manifest). Never a user light/dark toggle. Never sample image luminance at render. Never `#fff` in a hub component — semantic tokens only (`--hub-background`, `--surface-glass`, `--gold-primary`, …).
+- Same Hub, two atmospheres. Layout / IA / interaction do not change. Gold is the signature. Local scrims, not a wash over the painting.
+- Do not duplicate the Home. Do not change game services. Iterate 1 tokens → 2 Light → 3 Dark → 4 migrate Hub → 5 manifests → 6 VFX → 7 perf/a11y. Tests after each.
+- Done only when scenes A/B/C (temple Light, Moses Dark, Second Coming Light) swap by **manifest + artwork**, not by forked markup.

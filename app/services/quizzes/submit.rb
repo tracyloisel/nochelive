@@ -28,7 +28,8 @@ module Quizzes
           pack_id: locked.pack_id,
           question_id: question.id,
           choice_key: @choice_key.presence,
-          correct: correct
+          correct: correct,
+          duration_ms: AskClock.elapsed_ms(locked, question:)
         )
         locked.increment!(:score, question.points) if correct
         answer

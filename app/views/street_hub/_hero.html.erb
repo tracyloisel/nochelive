@@ -1,0 +1,112 @@
+<% hero = screen.hero %>
+<% voyage = screen.voyage %>
+<% reward_chest_src = street_ceremony_asset_src("reward-chest") %>
+<% play_inner = capture do %>
+  <span><%= t("street.world_play") %></span>
+  <%= picto("arrow") %>
+<% end %>
+<article class="hub-hero street-card is-map-door"
+         data-controller="hub-voyage hub-portal"
+         data-hub-portal-target="hero"
+         aria-label="<%= t("hub.continue") %>">
+  <div class="hub-hero-stage">
+    <div class="hub-voyage" data-hub-voyage-target="track">
+      <% [ voyage.previous, voyage.current, voyage.next ].compact.each do |slide| %>
+        <% current = slide.kind == :current %>
+        <% kicker = current ? hero.kicker : slide.kicker %>
+        <% pack_name = current ? hero.title : slide.title %>
+        <% lede = current ? hero.lede : slide.lede %>
+        <% step_n = current ? hero.step_n : slide.step_n %>
+        <% step_total = current ? hero.step_total : slide.step_total %>
+        <% reward = current ? hero.reward : slide.reward %>
+        <% play_method = current ? hero.method : slide.method %>
+        <% play_path = current ? hero.path : slide.path %>
+        <% still = current ? hero.still : slide.still %>
+        <section class="hub-slide is-<%= slide.kind %><%= " is-locked" if slide.state == :locked %>"
+                 data-kind="<%= slide.kind %>">
+          <% if still %>
+            <img src="<%= still %>"
+                 alt=""
+                 class="hub-slide-still"
+                 <% if current %>data-hub-hero-target="still" data-hub-portal-target="still" style="view-transition-name: portal-hero"<% end %>
+                 <% if current %>fetchpriority="high"<% else %>loading="lazy"<% end %>>
+          <% end %>
+          <div class="hub-slide-copy">
+            <div class="hub-slide-copy-top">
+              <p class="hub-kicker hub-hero-continue"><%= t("hub.continue") %></p>
+              <h2 class="hub-hero-title street-map-door-kicker"><%= kicker %></h2>
+              <div class="hub-hero-meta">
+                <p class="hub-hero-step street-map-door-step"><%= t("hub.step", n: step_n, total: step_total) %></p>
+                <p class="hub-hero-name street-map-door-pack"><%= pack_name %></p>
+              </div>
+              <p class="hub-hero-lede street-map-door-lede"><%= lede %></p>
+            </div>
+            <div class="hub-hero-actions">
+              <% if play_path.present? %>
+                <% if play_method == :get %>
+                  <%= link_to play_path,
+                        class: "hub-play street-map-door-play btn btn-gold",
+                        data: {
+                          action: "click->hub-portal#launch",
+                          hub_hero_target: "play",
+                          hub_portal_target: "play",
+                          stage_sfx_value: "chest"
+                        } do %>
+                    <%= play_inner %>
+                  <% end %>
+                <% else %>
+                  <%= button_to play_path,
+                        class: "hub-play street-map-door-play btn btn-gold",
+                        form: {
+                          data: {
+                            turbo: false,
+                            action: "submit->hub-portal#launch"
+                          },
+                          class: "hub-play-form"
+                        },
+                        data: {
+                          hub_hero_target: "play",
+                          hub_portal_target: "play",
+                          stage_sfx_value: "chest"
+                        } do %>
+                    <%= play_inner %>
+                  <% end %>
+                <% end %>
+              <% else %>
+                <p class="hub-slide-wait">
+                  <%= picto("lock") %>
+                  <span><%= t("hub.voyage_next") %></span>
+                </p>
+              <% end %>
+              <% if reward.to_i.positive? %>
+                <span class="hub-reward">
+                  <% if reward_chest_src %>
+                    <img src="<%= reward_chest_src %>"
+                         alt=""
+                         width="141"
+                         height="94"
+                         class="hub-reward-chest"
+                         <% if current %>data-hub-hero-target="chest"<% end %>>
+                  <% else %>
+                    <%= picto("chest") %>
+                  <% end %>
+                  <span class="hub-reward-copy">
+                    <em class="hub-reward-label"><%= t("hub.reward") %></em>
+                    <strong class="hub-reward-value">
+                      <span>+<%= reward %></span>
+                      <%= picto("crown") %>
+                    </strong>
+                  </span>
+                </span>
+              <% end %>
+            </div>
+          </div>
+        </section>
+      <% end %>
+    </div>
+    <%= link_to street_map_path, class: "hub-hero-info", aria: { label: t("hub.info") } do %>
+      <%= picto("info") %>
+    <% end %>
+    <div class="hub-dots" data-hub-voyage-target="dots"></div>
+  </div>
+</article>

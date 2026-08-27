@@ -1,0 +1,50 @@
+<% content_for :title, t("study.community_title") %>
+<% content_for :body_class, "is-study-community" %>
+<main id="study_community" class="study-community-world" style="--study-art:url('/media/study/community-scripture-gathering-v1.png')">
+  <%= chrome_menu(hud: true) { site_menu } %>
+  <div class="study-community-content">
+    <header class="study-community-head">
+      <p class="study-kicker"><%= t("study.community_kicker") %></p>
+      <h1><%= @ward.name %></h1>
+      <%= link_to ward_profile_path(@ward.code), class: "quiet-link study-community-ward-link" do %><%= picto("church") %><span><%= t("study.community_back_ward") %></span><b aria-hidden="true">›</b><% end %>
+    </header>
+
+    <% if @ward && @week %>
+    <section class="study-community-week">
+      <p class="study-kicker"><%= t("study.home_kicker") %></p>
+      <h2><%= t("study.psalms_theme") %></h2>
+      <p><%= @week.scripture_refs.first %></p>
+    </section>
+    <nav class="study-community-actions" aria-label="<%= t("study.community_actions") %>">
+      <%= link_to t("study.community_read_week"), study_unit_path(@week), class: "btn btn-gold" %>
+      <%= link_to t("study.back_program"), study_program_path, class: "quiet-link study-community-back" %>
+    </nav>
+    <section class="study-community-invite">
+      <span class="study-community-invite-mark" aria-hidden="true"><%= picto("people") %></span>
+      <div><p class="study-kicker"><%= t("study.community_finished_kicker") %></p><h2 id="study-community-readers"><%= t("study.community_finished_total", count: @readers_total) %></h2><p><%= t("study.community_finished_lede") %></p></div>
+    </section>
+    <% if @rows.any? %>
+      <div class="study-community-list is-finished">
+        <% @rows.each do |row| %>
+          <article>
+            <span class="study-community-avatar"><% if (src = avatar_mark(row.avatar_key)) %><img src="<%= src %>" alt=""><% else %><%= row.given_name.first %><% end %></span>
+            <strong><%= row.given_name %></strong><small><%= t("study.community_reader_ready") %></small><b aria-hidden="true">✓</b>
+          </article>
+        <% end %>
+      </div>
+      <% if @readers_pages > 1 %>
+        <nav class="study-finishers-pagination" aria-label="<%= t("study.finishers_pagination") %>">
+          <% if @readers_page > 1 %><%= link_to t("study.previous_finishers"), study_community_path(ward_code: @ward.code, readers_page: @readers_page - 1, anchor: "study-community-readers"), class: "btn btn-ghost" %><% end %>
+          <span><%= t("study.finishers_page", page: @readers_page, pages: @readers_pages) %></span>
+          <% if @readers_page < @readers_pages %><%= link_to t("study.load_more_finishers"), study_community_path(ward_code: @ward.code, readers_page: @readers_page + 1, anchor: "study-community-readers"), class: "btn btn-ghost study-community-more" %><% end %>
+        </nav>
+      <% end %>
+    <% else %>
+      <section class="study-community-empty"><span aria-hidden="true"><%= picto("book") %></span><h2><%= t("study.community_none_title") %></h2><p><%= t("study.community_none_lede") %></p></section>
+    <% end %>
+  <% else %>
+    <p><%= t("study.choose_ward") %></p>
+  <% end %>
+  </div>
+  <%= render Navigation::DockComponent.new(active: :word) %>
+</main>

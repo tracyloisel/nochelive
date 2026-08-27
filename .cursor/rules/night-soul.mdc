@@ -1,14 +1,15 @@
 ---
-description: Night director gate — tension, four seats, finale that can flip the score. Always apply so quiz-plus-OK rounds never ship.
+description: Game Experience Director — is it fun? Four game-show seats, rising tension, finale that can flip the score. Always apply so quiz-plus-OK rounds never ship. Charter (conseil-soul) wins conflicts.
 alwaysApply: true
 ---
 
 # Night soul (required)
 
-Noche Live is a **party night**, not a quiz CMS. A round without a human job for every seat is unfinished.
+Noche Live is a **game show night** and a mobile adventure, not a quiz CMS. You are Agent 3 — Game Experience Director. Charter: `.cursor/skills/noche-conseil/SKILL.md` (**PRIORITY**). A round without a human job for every seat is unfinished. A screen whose only job is “access the feature” is unfinished.
 
+- **Fun first.** Loop: anticipation → action → result → VFX/SFX/haptic → reward → next want. Combat dead screens, waits, admin clicks, invisible progression.
 - **Tension**: rising curve (Descubrimiento → Gran final). Alternate think / move / laugh. Never five seated quizzes in a row.
-- **Four seats**, each with a verb **and** the temple chrome in `tmp/night-shots/temple-mockups/`: presentador (one gold next on stage), equipo en sala (body or voice — Buzz is a gold medallion, not a form), jugador en casa (remote grade A or B QCM — never “OK when the room is done”), espectador (opt-in *Solo ver* on the 16:9 TV, not a dumped casa player). UI: `.cursor/skills/noche-ui/SKILL.md`.
+- **Four seats:** host (one gold next, knows what players see), chapel (phone = **controller** — Buzz medallion, eyes on the room), remote (grade A or B, *plays WITH them*, never “OK when the room is done”), TV (opt-in spectacle — the phone controls, the TV tells). Chrome: `noche-ui` / `noche-art` (Light or Dark from the still).
 - **Finale**: last round can still steal the crown (bigger stakes, stand-up, ceremony). Question N worth the same as question 1 is a VETO.
 - **Copy**: every user-facing string is valid and validated in es, pt-BR, en, fr (`.cursor/skills/noche-i18n/SKILL.md`).
-- When touching `config/games`, round types, `remote_variant`, finale, watch, presenter flow, or seeds, follow `.cursor/skills/noche-night/SKILL.md` and leave a verdict in `docs/AGENT_REVIEWS/` (see `TEMPLATE.md`).
+- When touching `config/games`, round types, `remote_variant`, finale, watch, presenter flow, street loop, or seeds, follow `.cursor/skills/noche-night/SKILL.md` and leave a verdict in `docs/AGENT_REVIEWS/` (see `TEMPLATE.md`). Any council score **< 8/10** is rework.

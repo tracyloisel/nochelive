@@ -5,10 +5,10 @@ class StreetWardPicksControllerTest < ActionDispatch::IntegrationTest
     dest = extra_ward(7, listed: true)
     post street_ward_pick_path, params: { code: dest.code }
     assert_redirected_to root_path
+    assert_equal I18n.t("flashes.street_ward_selected_guest", ward: dest.name), flash[:notice]
     follow_redirect!
     assert_select "a.home-menu-row[href=?]", search_path(cambiar: 1), count: 0
-    assert_select ".street-quien-ward", text: /#{Regexp.escape(I18n.t("street.ward_here", name: dest.city))}/
-    assert_select ".street-card-name", text: I18n.t("street.pick_profile")
+    assert_select ".banner", text: I18n.t("flashes.street_ward_selected_guest", ward: dest.name)
   end
 
   test "signed-in player keeps points on the new rama board" do
@@ -23,7 +23,7 @@ class StreetWardPicksControllerTest < ActionDispatch::IntegrationTest
     assert_equal I18n.t("flashes.street_ward_changed", ward: dest.name), flash[:notice]
     follow_redirect!
     assert_equal dest.id, pili.reload.ward_id
-    assert_select ".street-card-name", text: "Pili"
+    assert_select ".quiz-hud-name", text: "Pili"
     assert_select "a.home-menu-row[href=?]", search_path(cambiar: 1), count: 0
 
     get street_leaderboard_path
@@ -72,6 +72,6 @@ class StreetWardPicksControllerTest < ActionDispatch::IntegrationTest
     assert ward.listed?
     assert_equal 0, ward.people.count
     assert_select "a.home-menu-row[href=?]", search_path(cambiar: 1), count: 0
-    assert_select ".street-quien-ward", text: /#{Regexp.escape(I18n.t("street.ward_here", name: ward.city))}/
+    assert_select ".banner", text: I18n.t("flashes.street_ward_selected_guest", ward: ward.name)
   end
 end

@@ -1,0 +1,37 @@
+<% tier = local_assigns[:tier] %>
+<% packs = local_assigns[:packs] %>
+<% collapsed = local_assigns[:collapsed] %>
+<% category = local_assigns[:category] %>
+<% unlock_pack_id = local_assigns[:unlock_pack_id] %>
+<% flag_icon = local_assigns[:flag_icon] %>
+<% tier_label_key = local_assigns[:tier_label_key] %>
+<% tier_key = tier[:key] %>
+
+<div class="mapa-tier<%= " is-collapsed" if collapsed %>"
+     data-tier-key="<%= tier_key %>"
+     data-hub-map-target="tier">
+  <div class="mapa-tier-header">
+    <div class="mapa-tier-flag <%= flag_icon %>">
+      <span class="mapa-tier-flag-pole" aria-hidden="true"></span>
+    </div>
+    <div class="mapa-tier-copy">
+      <h2 class="mapa-tier-title"><%= t(tier_label_key) %></h2>
+      <p class="mapa-tier-range"><%= t("street.tier_range", from: tier[:start] + 1, to: tier[:end] + 1) %></p>
+    </div>
+    <% if collapsed %>
+      <button class="mapa-tier-expand" aria-label="<%= t("street.tier_expand") %>" aria-expanded="false" data-hub-map-target="expandBtn" data-action="hub-map#toggleTier">
+        <span aria-hidden="true">⌄</span>
+      </button>
+    <% end %>
+  </div>
+  <div class="mapa-tier-content<%= " is-collapsed" if collapsed %>">
+    <div class="mapa-tier-path">
+      <% packs.each_with_index do |pack_view, idx| %>
+        <%= render "street_hub/map_node",
+              pack_view: pack_view,
+              unlock_pack_id: unlock_pack_id,
+              historial: false %>
+      <% end %>
+    </div>
+  </div>
+</div>

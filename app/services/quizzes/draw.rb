@@ -29,10 +29,13 @@ module Quizzes
     end
 
     def call
-      open = scoped.open_runs.order(:id).last
+      duel = duel_scope.open_runs.order(:id).last
+      return self.class.frame(duel, ward: @ward) if duel
+
+      open = adventure_scope.open_runs.order(:id).last
       return self.class.frame(open, ward: @ward) if open
 
-      last = scoped.order(:id).last
+      last = adventure_scope.order(:id).last
       return self.class.frame(last, ward: @ward) if last&.finished?
 
       self.class.frame(start_pack(next_pack_id(last)), ward: @ward)
@@ -44,8 +47,12 @@ module Quizzes
 
     private
 
-      def scoped
-        QuizRun.where(device_digest: @digest, person_id: @person_id)
+      def adventure_scope
+        QuizRun.adventure.where(device_digest: @digest, person_id: @person_id)
+      end
+
+      def duel_scope
+        QuizRun.duel_runs.where(device_digest: @digest, person_id: @person_id)
       end
 
       def next_pack_id(last)
@@ -67,7 +74,7 @@ module Quizzes
           score: 0,
           status: "open",
           opened_at: Time.current,
-          ends_at: question.timed? ? question.duration.seconds.from_now : nil
+          **AskClock.opening_attrs(question)
         )
       end
   end

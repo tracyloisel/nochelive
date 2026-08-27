@@ -1,0 +1,16 @@
+---
+description: Conseil Noche charter is PRIORITY. Noche Live is a premium mobile game — Celestial Light/Dark from artwork, gold signature, three-agent review. Wins conflicts with ui-soul / night-soul / mockups.
+alwaysApply: true
+---
+
+# Game soul (PRIORITY)
+
+This charter **supersedes** any conflicting sentence in `ui-soul`, `night-soul`, `noche-ui`, mockups, or “keep the shipped layout.” Skill: `.cursor/skills/noche-conseil/SKILL.md`.
+
+Noche Live is a **premium mobile video game**, not a webapp decorated as a game. Do not build a better dashboard. Build the game.
+
+- **Feeling first.** If the player only “accesses a feature,” the design is unfinished. Want curiosity, tension, pride, surprise, competition, joy, wonder, accomplishment, belonging.
+- **Décor tells the story. UI adapts.** Celestial Light **or** Celestial Dark follows the artwork and the narrative moment — never a user theme toggle. **Gold** is the constant signature. Dark is required for Sinai, Flood, Gethsemane, crucifixion, Bethlehem night — not a flat black social skin. Hub worlds: `noche-hub-theme` (semantic tokens + manifests; same Home).
+- **Conseil (in order):** Game Experience (`noche-night`) → UI Design (`noche-ui`) → Art Direction (`noche-art`). Hub theme engine (`noche-hub-theme`) when `/` atmosphere moves. Score ten dimensions /10; any **< 8** is rework. Copy: `noche-i18n`. Heard: `noche-sfx`.
+- **Live is a game show:** Host / Chapel (phone = controller) / Remote (more context — *I play WITH them*) / TV (spectacle — the phone controls, the TV tells).
+- Hub must answer in under two seconds: who am I, where am I, what now, what is happening around me.

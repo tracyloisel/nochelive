@@ -1,0 +1,34 @@
+<% question = street.question %>
+<% answer = street.answer %>
+<% tally_rows = street_shuffled_tally(street.run, question, street.tally) %>
+<div class="quiz-board is-settled <%= "is-right" if answer&.correct? %> <%= "is-wrong" unless answer&.correct? %>">
+  <% if street.settled? %>
+    <p class="quiz-explain"><%= question.copy(:answer) %></p>
+  <% end %>
+  <div class="quiz-bars choices" aria-label="<%= t("quiz.crowd") %>">
+    <% tally_rows.each_with_index do |row, index| %>
+      <% letter = ("A".ord + index).chr %>
+      <% picked = row.key == answer.choice_key.to_s %>
+      <% label = question.choice_copy({ "key" => row.key, "label" => row.label }) %>
+      <div class="quiz-bar <%= "is-correct is-right" if row.correct %> <%= "is-picked" if picked %> <%= "is-wrong is-miss" if picked && !row.correct %>"
+           role="img"
+           aria-label="<%= label %>, <%= row.percent %>%">
+        <span class="quiz-fill" data-share="<%= row.percent %>"></span>
+        <span class="quiz-letter <%= row.correct ? "is-yes" : "is-no" %>" aria-hidden="true">
+          <% if row.correct %>
+            <%= picto("tick") %>
+          <% else %>
+            <%= picto("cross") %>
+          <% end %>
+        </span>
+        <span class="quiz-flag <%= row.correct ? "is-yes" : "is-no" %>" aria-hidden="true">
+          <%= picto(row.correct ? "tick" : "cross") %>
+        </span>
+        <span class="word"><%= label %></span>
+        <span class="quiz-meta">
+          <span class="quiz-pct"><%= row.percent %>%</span>
+        </span>
+      </div>
+    <% end %>
+  </div>
+</div>

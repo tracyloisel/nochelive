@@ -10,15 +10,17 @@ Rails.application.routes.draw do
   post "desafio/:token/decline", to: "street_challenges#decline", as: :street_challenge_decline
   get "desafios", to: "street_challenges#index", as: :street_challenges
   post "desafios", to: "street_challenges#create"
-  get "noches", to: "nights#index", as: :nights
   post "quiz/:quiz_run_id/answers", to: "quiz_answers#create", as: :quiz_answers
   post "quiz/:quiz_run_id/advance", to: "quiz_advances#create", as: :quiz_advance
   post "quiz/:quiz_run_id/rewind", to: "quiz_rewinds#create", as: :quiz_rewind
   post "quiz/:quiz_run_id/jump", to: "quiz_jumps#create", as: :quiz_jump
   post "quiz/:quiz_run_id/expire", to: "quiz_expires#create", as: :quiz_expire
-  get "quien", to: "street_profiles#show", as: :street_profile
-  post "quien", to: "street_profiles#create"
+  get "ficha", to: "street_profiles#show", as: :street_profile
+  post "ficha", to: "street_profiles#create"
+  patch "ficha", to: "street_profiles#update"
+  get "quien", to: redirect("/ficha")
   post "rama", to: "street_ward_picks#create", as: :street_ward_pick
+  post "invited", to: "street_guests#create", as: :street_guest
   get "camino", to: redirect("/mapa#historial")
   get "home", to: redirect("/"), as: :legacy_home
   get "camino/historial", to: "street_histories#show", as: :street_history
@@ -38,6 +40,14 @@ Rails.application.routes.draw do
   get "pulso", to: "street_pulses#show", as: :street_pulse
   get "buscar", to: "searches#show", as: :search
   get "escrituras/*study", to: "scriptures#show", as: :scripture, format: false
+  get "parole", to: "study_programs#show", as: :study_program
+  get "parole/historique", to: "study_histories#show", as: :study_history
+  get "parole/paroisse/:ward_code", to: "study_communities#show", as: :study_community
+  get "parole/semaines/:id", to: "study_units#show", as: :study_unit
+  post "parole/semaines/:study_unit_id/commencer", to: "study_runs#create", as: :study_run_start
+  get "parole/parcours/:id", to: "study_runs#show", as: :study_run
+  post "parole/parcours/:study_run_id/reponses", to: "study_answers#create", as: :study_run_answers
+  post "parole/parcours/:study_run_id/suivant", to: "study_advances#create", as: :study_run_advance
   resources :wards, only: [ :new, :create ]
   get "ramas/anadir", to: "ward_adds#show", as: :add_ward
   get "ramas/entrar", to: "ward_gates#show", as: :ward_gate

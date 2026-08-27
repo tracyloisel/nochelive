@@ -1,6 +1,8 @@
 class StreetPlaysController < ApplicationController
   include StreetQuiz
 
+  before_action :require_street_identity
+
   def show
     remember_device
     touch_street_presence
@@ -18,9 +20,6 @@ class StreetPlaysController < ApplicationController
         person: current_street_person,
         pack_id: @run.pack_id
       )
-    end
-    @rival = if current_ward
-      Quizzes::Rival.call(ward: current_ward, person: current_street_person, pack_id: @run.pack_id)
     end
     @duel = Quizzes::Complete.duel_for(@run)
     @play_context = :jugar

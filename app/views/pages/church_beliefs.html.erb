@@ -1,18 +1,23 @@
 <% content_for :title, t("church.beliefs_title") %>
-<% content_for :body_class, "is-kid is-paper-hall" %>
+<% content_for :body_class, "is-kid is-church-journey" %>
 <%= chrome_menu { site_menu } %>
-<section class="home-paper is-beliefs">
-  <%= render "pages/head", kicker: t("church.kicker") %>
-  <%= render layout: "pages/story", locals: { still: nil, title: t("church.beliefs_title") } do %>
+<section class="church-beliefs" style="--church-scene: url('/media/church/journey/beliefs-v2.png')">
+  <div class="church-beliefs-hero">
+    <div class="church-scene-head"><%= link_to church_path, class: "church-back", aria: { label: t("church.back") } do %><%= picto("arrow") %><% end %><span><%= t("church.kicker") %></span><span class="church-chapter">2 / 4</span></div>
+    <div class="church-beliefs-intro"><p class="church-scene-kicker"><%= t("church.beliefs_hint") %></p><h1><%= t("church.beliefs_title") %></h1>
     <p class="lede"><%= t("church.beliefs_lede") %></p>
-  <% end %>
+    </div>
+  </div>
+  <div class="belief-passage" aria-hidden="true"><span></span><%= picto("star8") %><span></span></div>
   <div class="belief-stack">
-    <%= render "pages/belief_beat", still: "christ", title: t("church.belief.christ_title"), body: t("church.belief.christ_body"), loading: "eager" %>
-    <%= render "pages/belief_beat", still: "father", title: t("church.belief.father_title"), body: t("church.belief.father_body") %>
-    <%= render "pages/belief_beat", still: "plan", title: t("church.belief.plan_title"), body: t("church.belief.plan_body") %>
-    <%= render "pages/belief_beat", still: "word", title: t("church.belief.word_title"), body: t("church.belief.word_body") %>
-    <%= render "pages/belief_beat", still: "restored", title: t("church.belief.church_title"), body: t("church.belief.church_body") %>
-    <article class="belief-beat">
+    <%= render "pages/belief_beat", index: 1, still: "christ", title: t("church.belief.christ_title"), body: t("church.belief.christ_body"), loading: "eager" %>
+    <%= render "pages/belief_beat", index: 2, still: "father", title: t("church.belief.father_title"), body: t("church.belief.father_body") %>
+    <%= render "pages/belief_beat", index: 3, still: "plan", title: t("church.belief.plan_title"), body: t("church.belief.plan_body") %>
+    <%= render "pages/belief_beat", index: 4, still: "word", title: t("church.belief.word_title"), body: t("church.belief.word_body") %>
+    <%= render "pages/belief_beat", index: 5, still: "restored", title: t("church.belief.church_title"), body: t("church.belief.church_body") %>
+    <article class="belief-finale">
+      <span class="belief-finale-emblem" aria-hidden="true"><%= picto("star8") %></span>
+      <p class="church-scene-kicker">06</p>
       <h3><%= t("church.belief.christlike_title") %></h3>
       <p class="lede"><%= t("church.belief.christlike_body") %></p>
     </article>
@@ -26,11 +31,21 @@
       </details>
     <% end %>
   </section>
-  <div class="paper-foot">
-    <%= link_to church_meet_path, class: "btn btn-gold" do %>
-      <%= picto("door") %><%= t("church.meet_cta") %>
-    <% end %>
-    <%= link_to t("church.official"), church_believe_url, class: "quiet-link", target: "_blank", rel: "noreferrer" %>
-    <%= render "pages/other_doors", except: :beliefs %>
+  <section class="church-beliefs-invitation" aria-labelledby="belief-invitation-title">
+    <div class="belief-invitation-copy">
+      <span class="belief-invitation-emblem" aria-hidden="true"><%= picto("door") %></span>
+      <p class="church-scene-kicker"><%= t("church.meet_hint") %></p>
+      <h2 id="belief-invitation-title"><%= t("church.meet_title") %></h2>
+      <p class="lede"><%= t("church.meet_lede") %></p>
+      <div class="belief-invitation-actions">
+        <%= link_to church_meet_path, class: "btn btn-gold belief-invitation-cta" do %>
+          <%= picto("door") %><span><%= t("church.meet_cta") %></span><%= picto("arrow") %>
+        <% end %>
+      </div>
+    </div>
+  </section>
+  <div class="church-beliefs-paths">
+    <%= render "pages/church_chapter_paths", current: :beliefs %>
   </div>
+  <%= render Navigation::DockComponent.new(active: :church) %>
 </section>

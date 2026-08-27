@@ -13,6 +13,8 @@ class Quizzes::AdvanceTest < ActiveSupport::TestCase
     assert_equal 2, nxt.run.position
     assert_equal "piedras_arroyo", nxt.question.id
     assert nxt.asking?
+    assert nxt.run.asked_at
+    assert_in_delta Time.current, nxt.run.asked_at, 2
   end
 
   test "refuses to skip an unanswered question" do

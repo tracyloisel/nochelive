@@ -35,6 +35,13 @@ module Wards
       new(query: "").detail(church_unit_id)
     end
 
+    def self.details_for(church_unit_ids:)
+      ids = Array(church_unit_ids).map { |id| id.to_s.sub(/\AWARD:/i, "").strip }.reject(&:blank?).uniq
+      return [] if ids.empty?
+
+      new(query: "").details_for(ids)
+    end
+
     def self.attrs_from(row)
       new(query: "").attrs_from(row)
     end
@@ -74,6 +81,12 @@ module Wards
       nil
     end
 
+    def details_for(ids)
+      fetch_units(ids).filter_map { |row| attrs_from(row) }
+    rescue StandardError
+      []
+    end
+
     def attrs_from(row)
       return unless row.is_a?(Hash)
       return unless row["type"].to_s.upcase == "WARD"
@@ -99,8 +112,10 @@ module Wards
         country_code: address["countryCode2"].to_s.upcase.presence,
         country_name: address["country"].to_s.strip.first(80).presence,
         stake_name: (parent["nameDisplay"] || parent["name"]).to_s.strip.first(80).presence,
+        stake_unit_id: stake_unit_id_from(parent),
         latitude: coords[1],
-        longitude: coords[0]
+        longitude: coords[0],
+        locator_payload: sanitized_payload(row)
       }
     end
 
@@ -141,6 +156,17 @@ module Wards
         return raw.titleize if raw.match?(/\A[\p{Lu}0-9\s.'-]+\z/)
 
         raw
+      end
+
+      def stake_unit_id_from(parent)
+        id = parent.dig("identifiers", "unitNumber") || parent["id"]
+        id.to_s.strip.presence
+      end
+
+      def sanitized_payload(row)
+        payload = row.deep_dup.deep_stringify_keys
+        payload.delete("contact")
+        payload
       end
 
       def maps_get(path, params)

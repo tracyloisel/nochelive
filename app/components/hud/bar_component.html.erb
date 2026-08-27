@@ -1,0 +1,127 @@
+<header class="quiz-hud<%= " is-guest" if guest? %><%= " is-quiz" if quiz? %><%= " is-rank-up" if bar.rank_up %>"
+        aria-label="<%= aria_label %>"
+        data-controller="hub-streak">
+  <% if guest? && !quiz? %>
+    <%= link_to who_path, class: "quiz-hud-who is-guest", aria: { label: t("hub.guest_invite") } do %>
+      <span class="quiz-hud-avatar is-guest"><%= picto("profile-spark") %></span>
+      <div class="quiz-hud-meta">
+        <p class="quiz-hud-name"><%= t("hub.guest_invite") %></p>
+        <p class="quiz-hud-rank"><%= t("hub.guest_in_ward") %></p>
+      </div>
+    <% end %>
+    <div class="quiz-hud-pack is-invite">
+      <%= link_to who_path, class: "quiz-hud-cta" do %>
+        <span class="quiz-hud-cta-long"><%= t("hub.guest_cta") %></span>
+        <span class="quiz-hud-cta-short"><%= t("hub.guest_cta_short") %></span>
+        <%= picto("arrow") %>
+      <% end %>
+    </div>
+  <% else %>
+    <% if quiz? %>
+      <%= link_to who_path, class: "quiz-hud-who", aria: { label: t("hub.nav_home") } do %>
+        <span class="quiz-hud-avatar<%= " is-guest" if guest? %>">
+          <% if bar.avatar_key.present? && (src = avatar_mark(bar.avatar_key)) %>
+            <img src="<%= src %>" alt="" class="avatar-img" width="40" height="40">
+          <% else %>
+            <%= picto("person") %>
+          <% end %>
+        </span>
+        <div class="quiz-hud-meta">
+          <p class="quiz-hud-name"><%= bar.name.presence || t("hub.pick_ficha") %></p>
+          <% if bar.rank_key.present? %>
+            <p class="quiz-hud-rank"><%= rank_name(bar.rank_key) %><% if bar.done? && bar.level.present? %><span class="quiz-hud-level"><%= bar.level %></span><% end %></p>
+          <% end %>
+        </div>
+      <% end %>
+    <% else %>
+      <%= link_to who_path, class: "quiz-hud-who", aria: { label: t("hub.nav_home") } do %>
+        <span class="quiz-hud-avatar">
+          <% if bar.avatar_key.present? && (src = avatar_mark(bar.avatar_key)) %>
+            <img src="<%= src %>" alt="" class="avatar-img" width="40" height="40">
+          <% else %>
+            <%= picto("person") %>
+          <% end %>
+        </span>
+        <div class="quiz-hud-meta">
+          <p class="quiz-hud-name"><%= bar.name %></p>
+          <% if bar.rank_key.present? %>
+            <p class="quiz-hud-rank">
+              <span><%= rank_name(bar.rank_key) %></span>
+              <% if bar.level.present? %><span class="quiz-hud-level"><%= bar.level %></span><% end %>
+            </p>
+          <% end %>
+          <% if bar.xp_progress.present? %>
+            <span class="quiz-hud-xp"
+                  role="progressbar"
+                  aria-label="<%= t("hub.rank_progress") %>"
+                  aria-valuenow="<%= bar.xp_progress %>"
+                  aria-valuemin="0"
+                  aria-valuemax="100">
+              <i style="--hud-xp-progress: <%= bar.xp_progress %>%"></i>
+            </span>
+          <% end %>
+        </div>
+      <% end %>
+    <% end %>
+    <% if quiz? && bar.level.present? && !bar.done? %>
+      <span class="quiz-hud-level"><%= bar.level %></span>
+    <% end %>
+    <% if bar.pack_title.present? %>
+      <div class="quiz-hud-pack">
+        <div class="quiz-hud-pack-copy">
+          <p class="quiz-hud-title"><%= bar.pack_title %></p>
+          <% if bar.progress_n.present? && bar.progress_total.to_i.positive? %>
+            <p class="quiz-hud-progress quiz-progress"><%= t("quiz.progress", n: bar.progress_n, total: bar.progress_total) %></p>
+          <% end %>
+          <% if bar.dots.present? %>
+            <nav class="quiz-hud-rail" aria-hidden="true">
+              <% bar.dots.each do |state| %>
+                <span class="quiz-hud-dot <%= state %>"></span>
+              <% end %>
+            </nav>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+    <div class="quiz-hud-stats">
+      <% if quiz? %>
+        <p class="street-score quiz-hud-score"
+           data-quiz-target="crown"
+           aria-hidden="true">
+          <%= picto("crown") %>
+          <span class="quiz-hud-score-stack">
+            <span data-quiz-target="score"><%= bar.score %></span>
+            <% if bar.last_gain.to_i.positive? %>
+              <span class="quiz-hud-gain" data-quiz-target="gain">+<%= bar.last_gain %></span>
+            <% end %>
+          </span>
+        </p>
+        <p class="quiz-hud-streak<%= " is-break" if bar.combo&.broke %><%= " is-grew" if bar.combo&.grew %><%= " is-shout" if bar.combo&.shout_key %>"
+           data-tier="<%= bar.combo&.tier || "idle" %>"
+           data-hub-streak-target="streak"
+           aria-label="<%= t("quiz.combo", count: bar.combo&.count.to_i) %>">
+          <%= picto("fire") %>
+          <span class="quiz-hud-streak-stack">
+            <span class="quiz-hud-streak-num"><%= bar.combo&.count.to_i %></span>
+            <% if bar.done? && bar.combo&.count.to_i.positive? %>
+              <span class="quiz-hud-streak-tag"><%= t("quiz.combo_tag") %></span>
+            <% end %>
+          </span>
+        </p>
+      <% else %>
+        <p class="quiz-hud-score" aria-label="<%= t("hub.crowns") %>">
+          <%= picto("crown") %>
+          <span><%= number_with_delimiter(bar.crowns.to_i) %></span>
+        </p>
+        <p class="quiz-hud-streak<%= " is-idle" if bar.streak.to_i.zero? %>"
+           data-tier="<%= bar.streak.to_i.positive? ? "spark" : "idle" %>"
+           data-hub-streak-target="streak"
+           aria-label="<%= t("street.card_streak", days: bar.streak.to_i) %>">
+          <%= picto("fire") %>
+          <span class="quiz-hud-streak-num"><%= bar.streak.to_i %></span>
+        </p>
+      <% end %>
+    </div>
+  <% end %>
+  <span class="quiz-hud-menu" aria-hidden="true"></span>
+</header>

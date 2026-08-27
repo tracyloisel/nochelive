@@ -1,0 +1,64 @@
+<% content_for :title, @unit.theme %>
+<% content_for :body_class, "is-study-unit" %>
+<main id="study_unit" class="study-world study-unit-world" style="--study-art:url('<%= @quiz&.content&.fetch("artwork", "/media/study/psalms-refuge-2026.png") %>')">
+  <%= chrome_menu(hud: true) { site_menu } %>
+  <section class="study-unit-sheet">
+    <p class="study-kicker"><%= @unit.week? ? t("study.week_label") : t("study.resource_label") %></p>
+    <h1><%= @unit == @unit.study_program.current_week ? t("study.psalms_theme") : @unit.title.split(":", 2).last.strip %></h1>
+    <p class="study-unit-refs"><%= @unit.scripture_refs.join(" · ") %></p>
+    <% if @quiz %>
+      <blockquote><%= @quiz.content.dig("light", I18n.locale.to_s) || @quiz.content.dig("light", "fr") %></blockquote>
+      <% if @quiz.readings.any? %>
+        <section class="study-reading-gate" aria-labelledby="study-reading-title">
+          <div class="study-reading-gate-head">
+            <span aria-hidden="true"><%= picto("book") %></span>
+            <div>
+              <p class="study-kicker"><%= t("study.read_before_kicker") %></p>
+              <h2 id="study-reading-title"><%= t("study.read_before_title") %></h2>
+              <% if current_street_person %>
+                <p class="study-reading-progress"
+                   data-scripture-progress
+                   data-opened-count="<%= @opened_reading_references.size %>"
+                   data-total-count="<%= @quiz.readings.size %>"
+                   data-label-template="<%= t("study.readings_opened", opened: "__OPENED__", total: "__TOTAL__") %>">
+                  <%= t("study.readings_opened", opened: @opened_reading_references.size, total: @quiz.readings.size) %>
+                </p>
+              <% end %>
+            </div>
+          </div>
+          <p><%= t("study.read_before_lede") %></p>
+          <div class="study-reading-list">
+            <% @quiz.readings.each do |reading| %>
+              <% opened = @opened_reading_references.include?(reading["study"]) %>
+              <% reading_data = { turbo_frame: "scripture_reader", action: "click->scripture#prepare" } %>
+              <% if current_street_person %>
+                <% reading_data[:scripture_reading_link] = true %>
+                <% reading_data[:scripture_opened_label] = t("study.already_opened") %>
+              <% end %>
+              <%= link_to scripture_path(reading["study"], cite: reading["label"], study_unit_id: @unit.id),
+                    class: "study-reading-link#{" is-opened" if opened}",
+                    data: reading_data do %>
+                <%= picto("book") %><span><%= reading["label"] %></span>
+                <span class="study-reading-state"><%= opened ? "✓ #{t("study.already_opened")}" : "›" %></span>
+              <% end %>
+            <% end %>
+          </div>
+        </section>
+      <% end %>
+      <% progress = @run ? @run.study_answers.count : 0 %>
+      <div class="study-ten"><% 10.times do |index| %><i class="<%= "is-done" if index < progress %>"></i><% end %></div>
+      <% if @run %>
+        <%= link_to study_run_path(@run), class: "btn btn-gold study-unit-continue" do %>
+          <span><%= t("study.continue") %></span><%= picto("arrow") %>
+        <% end %>
+      <% else %>
+        <%= button_to t("study.begin_journey"), study_run_start_path(@unit), class: "btn btn-gold" %>
+      <% end %>
+    <% else %>
+      <p class="study-awaiting"><%= t("study.awaiting_quiz") %></p>
+      <%= link_to t("study.official_source"), @unit.source_url, target: "_blank", rel: "noopener", class: "btn btn-navy" %>
+    <% end %>
+    <%= link_to t("study.back_program"), study_program_path, class: "quiet-link" %>
+  </section>
+  <%= render Navigation::DockComponent.new(active: :word) %>
+</main>

@@ -1,13 +1,19 @@
 <% content_for :title, t("church.title") %>
-<% content_for :body_class, "is-kid is-paper-hall" %>
+<% content_for :body_class, "is-kid is-church-journey" %>
 <%= chrome_menu { site_menu } %>
-<section class="home-paper">
-  <%= render "pages/head", kicker: t("church.kicker") %>
-  <p class="lede paper-lede"><%= t("church.lede") %></p>
-  <nav class="paper-doors" aria-label="<%= t("church.doors") %>">
+<section class="church-landing" style="--church-scene: url('/media/church/journey/threshold-v2.png')">
+  <div class="church-scene-atmosphere" aria-hidden="true"><i></i><i></i><i></i></div>
+  <header class="church-landing-copy">
+    <p class="church-scene-kicker"><%= t("church.kicker") %></p>
+    <h1><%= t("church.invite") %></h1>
+    <p><%= t("church.lede") %></p>
+  </header>
+  <nav class="church-portals" aria-label="<%= t("church.doors") %>">
     <%= render "pages/door",
           path: church_meet_path,
           still: "meet",
+          art: "/media/church/journey/meet-v2.png",
+          chapter: 1,
           icon: "people",
           title: t("church.meet_title"),
           hint: t("church.meet_hint"),
@@ -15,20 +21,27 @@
     <%= render "pages/door",
           path: church_beliefs_path,
           still: "beliefs",
+          art: "/media/church/journey/beliefs-v2.png",
+          chapter: 2,
           icon: "star8",
           title: t("church.beliefs_title"),
           hint: t("church.beliefs_hint") %>
     <%= render "pages/door",
           path: church_missionaries_path,
           still: "missionaries",
+          art: "/media/church/journey/missionaries-v2.png",
+          chapter: 3,
           icon: "person",
           title: t("church.missionaries_title"),
           hint: t("church.missionaries_hint") %>
     <%= render "pages/door",
           path: church_worship_path,
           still: "worship",
+          art: "/media/church/journey/worship-v2.png",
+          chapter: 4,
           icon: "temple",
           title: t("church.worship_title"),
           hint: t("church.worship_hint") %>
   </nav>
+  <%= render Navigation::DockComponent.new(active: :church) %>
 </section>

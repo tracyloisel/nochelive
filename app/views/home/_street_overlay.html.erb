@@ -1,0 +1,75 @@
+<div class="play-shot quiz-world">
+  <% if still %>
+    <div class="challenge-media">
+      <img src="<%= still %>" alt="" class="challenge-story">
+    </div>
+  <% end %>
+
+  <%= render "home/street_quiz_hud",
+        street: street,
+        run: run,
+        question: question,
+        pack: pack,
+        quiz_standings: quiz_standings,
+        combo: combo %>
+
+  <% if street.asking? && question.timed? %>
+    <%= render "play/timer", round: run, expire_url: quiz_expire_path(run) %>
+  <% end %>
+
+  <% if street.settled? %>
+    <% if street.answer&.correct? %>
+      <% shout = street_hit_shout(run, question, combo) %>
+      <p class="street-praise<%= " is-streak is-#{combo.tier}" if combo&.shout_key %>"
+         role="status"
+         aria-label="<%= shout %> <%= t("street.points_gained", points: question.points) %>">
+        <span class="street-praise-line"><%= shout %></span>
+        <span class="street-praise-pts" data-quiz-target="gain" aria-hidden="true">+<%= question.points %></span>
+      </p>
+    <% else %>
+      <p class="street-praise is-miss" role="status">
+        <span class="street-praise-line"><%= t("quiz.almost") %></span>
+      </p>
+    <% end %>
+  <% end %>
+
+  <div class="quiz-dock">
+    <% if street.settled? %>
+      <div class="street-shot-actions">
+        <% if question.scripture %>
+          <%= link_to scripture_path(question.scripture.study, cite: question.scripture.cite),
+                class: "quiz-scripture",
+                aria: { label: "#{t("quiz.read")} #{question.scripture.cite}" },
+                data: { turbo_frame: "scripture_reader", action: "click->scripture#prepare" } do %>
+            <%= picto("scroll") %>
+            <span class="quiz-read"><%= t("quiz.read") %></span>
+            <span class="quiz-cite"><%= question.scripture.cite %></span>
+          <% end %>
+        <% else %>
+          <span></span>
+        <% end %>
+        <%= button_to quiz_advance_path(run),
+              class: "btn btn-gold quiz-next",
+              form: { data: { turbo_stream: true }, class: "quiz-next-form" },
+              data: { action: "click->quiz#next" } do %>
+          <%= t("quiz.next") %><%= picto("arrow") %>
+        <% end %>
+      </div>
+    <% end %>
+
+    <div class="quiz-sheet">
+      <span class="street-quiz-apex quiz-sheet-apex" aria-hidden="true"><%= picto("star4") %></span>
+      <p class="quiz-kicker">
+        <%= picto("scroll") %>
+        <span><%= t("quiz.from_the_book", title: pack.copy(:title)) %></span>
+      </p>
+      <p class="prompt quiz-prompt"><%= question.copy(:question) %></p>
+      <% if street.asking? %>
+        <%= render "home/street_choices", street: street, letters: true %>
+      <% else %>
+        <%= render "home/street_overlay_results", street: street, pack: pack, run: run %>
+      <% end %>
+      <span class="quiz-sheet-chevron" aria-hidden="true"></span>
+    </div>
+  </div>
+</div>

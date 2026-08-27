@@ -6,6 +6,7 @@ class Quizzes::StartPackTest < ActiveSupport::TestCase
     frame = Quizzes::StartPack.call(device_digest: digest, pack_id: "coronas")
     assert frame.run.open?
     assert_equal "coronas", frame.run.pack_id
+    assert frame.run.asked_at
   end
 
   test "open pack resumes the same run" do

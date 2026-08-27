@@ -1,4 +1,25 @@
 class Ward < ApplicationRecord
+  def sunday_schedule
+    hours = locator_payload&.dig("hours")
+    return [] unless hours.is_a?(Hash)
+
+    sunday = Array(hours["days"]).find { |day| day.dig("day", "code") == "SUNDAY" }
+    range = Array(sunday&.dig("hours", "ranges")).first
+    start_time = hours.dig("primary", "hour", "code").presence || range&.dig("start", "code").presence
+    finish_time = range&.dig("finish", "code").presence
+
+    if start_time.blank?
+      match = hours["code"].to_s.match(/\bSu\s+(\d{1,2}:\d{2})(?:-(\d{1,2}:\d{2}))?/)
+      start_time = match&.[](1)
+      finish_time ||= match&.[](2)
+    end
+
+    [
+      ({ "label_key" => "sacrament_meeting", "time" => short_time(start_time) } if start_time.present?),
+      ({ "label_key" => "sunday_meetings", "time" => "#{short_time(start_time)}–#{short_time(finish_time)}" } if start_time.present? && finish_time.present?)
+    ].compact
+  end
+
   FEATURED_CITY = "benidorm"
   FEATURED_CODE = "RAMA"
   UNIT_KINDS = %w[ward branch].freeze
@@ -18,9 +39,17 @@ class Ward < ApplicationRecord
   validates :emblem, inclusion: { in: Team::EMBLEMS.keys }
   validates :country_code, format: { with: /\A[A-Z]{2}\z/ }, allow_blank: true
   validates :unit_kind, inclusion: { in: UNIT_KINDS }, allow_blank: true
-  validates :chapel_name, :chapel_address, :city, :region, :postal_code, :stake_name, :country_name, length: { maximum: 80 }, allow_blank: true
+  validates :chapel_name, :chapel_address, :city, :region, :postal_code, :stake_name, :stake_unit_id, :country_name, length: { maximum: 80 }, allow_blank: true
 
   attr_accessor :presenter_token
+
+  private
+
+    def short_time(value)
+      value.to_s.sub(/:00\z/, "").sub(/\A(\d):/, '0\\1:')
+    end
+
+  public
 
   def self.normalize_code(value)
     GameSession.normalize_code(value)

@@ -23,8 +23,13 @@ module Quizzes
         raise Taken, "duel resolved" if locked.resolved? || locked.declined?
         raise Taken, "cannot challenge yourself" if locked.challenger_person_id == @opponent.id
         raise Taken, "duel taken" if locked.opponent_person_id.present? && locked.opponent_person_id != @opponent.id
+        unless StakeScope.allowed?(challenger_ward: locked.challenger_ward || locked.ward, opponent_ward: @opponent.ward)
+          raise Taken, "opponent outside stake"
+        end
 
-        locked.update!(opponent_person: @opponent) if locked.opponent_person_id.nil?
+        if locked.opponent_person_id.nil?
+          locked.update!(opponent_person: @opponent, opponent_ward: @opponent.ward)
+        end
 
         existing = locked.opponent_run
         return Draw.frame(existing) if existing&.open? || existing&.finished?
@@ -33,7 +38,8 @@ module Quizzes
           device_digest: @digest,
           person_id: @opponent.id,
           pack_id: locked.pack_id,
-          challenge: true
+          challenge: true,
+          street_duel: locked
         )
         locked.update!(opponent_run: frame.run)
         frame

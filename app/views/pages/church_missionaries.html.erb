@@ -1,16 +1,69 @@
 <% content_for :title, t("church.missionaries_title") %>
-<% content_for :body_class, "is-kid is-paper-hall" %>
+<% content_for :body_class, "is-kid is-church-journey" %>
 <%= chrome_menu { site_menu } %>
-<section class="home-paper">
-  <%= render "pages/head", kicker: t("church.kicker") %>
-  <%= render layout: "pages/story", locals: { still: "missionaries", title: t("church.missionaries_title") } do %>
-    <p class="lede"><%= t("church.missionaries_lede") %></p>
-    <p class="lede"><%= t("church.missionaries_pair") %></p>
-  <% end %>
-  <div class="paper-foot">
-    <%= link_to church_visit_url, class: "btn btn-gold", target: "_blank", rel: "noreferrer" do %>
-      <%= picto("door") %><%= t("church.meet_cta") %>
-    <% end %>
-    <%= render "pages/other_doors", except: :missionaries %>
-  </div>
+<section class="church-missionaries church-scene--missionaries" style="--church-scene: url('/media/church/journey/missionaries-v2.png')">
+  <header class="church-missionaries-hero">
+    <div class="church-scene-head">
+      <%= link_to church_path, class: "church-back", aria: { label: t("church.back") } do %><%= picto("arrow") %><% end %>
+      <span><%= t("church.kicker") %></span><span class="church-chapter">3 / 4</span>
+    </div>
+    <div class="church-missionaries-intro">
+      <p class="church-scene-kicker"><%= t("church.missionaries_hint") %></p>
+      <h1><%= t("church.missionaries_title") %></h1>
+      <p class="lede"><%= t("church.missionaries_lede") %></p>
+    </div>
+  </header>
+
+  <div class="missionary-thread" aria-hidden="true"><span></span><%= picto("star8") %><span></span></div>
+
+  <main class="missionary-story">
+    <article class="missionary-act is-call">
+      <span class="missionary-act-number" aria-hidden="true">01</span>
+      <div class="missionary-act-emblem" aria-hidden="true"><%= picto("person") %></div>
+      <div class="missionary-act-copy">
+        <p class="church-scene-kicker"><%= t("church.mission.call_kicker") %></p>
+        <h2><%= t("church.mission.call_title") %></h2>
+        <p class="lede"><%= t("church.mission.call_body") %></p>
+      </div>
+    </article>
+
+    <section class="missionary-act is-grace" aria-labelledby="mission-grace-title">
+      <span class="missionary-act-number" aria-hidden="true">02</span>
+      <div class="missionary-act-copy">
+        <p class="church-scene-kicker"><%= t("church.mission.grace_kicker") %></p>
+        <h2 id="mission-grace-title"><%= t("church.mission.grace_title") %></h2>
+        <p class="lede"><%= t("church.mission.grace_body") %></p>
+      </div>
+      <div class="missionary-gifts">
+        <% [["star8", "christ"], ["flame", "spirit"], ["people", "companion"]].each_with_index do |(icon, key), index| %>
+          <article class="missionary-gift" style="--gift-order:<%= index %>">
+            <span aria-hidden="true"><%= picto(icon) %></span>
+            <h3><%= t("church.mission.gifts.#{key}_title") %></h3>
+            <p><%= t("church.mission.gifts.#{key}_body") %></p>
+          </article>
+        <% end %>
+      </div>
+    </section>
+
+    <section class="missionary-act is-path" aria-labelledby="mission-path-title">
+      <span class="missionary-act-number" aria-hidden="true">03</span>
+      <div class="missionary-act-copy">
+        <p class="church-scene-kicker"><%= t("church.mission.path_kicker") %></p>
+        <h2 id="mission-path-title"><%= t("church.mission.path_title") %></h2>
+        <p class="lede"><%= t("church.mission.path_body") %></p>
+      </div>
+      <ol class="missionary-steps">
+        <% %w[prepare bishop call].each_with_index do |key, index| %>
+          <li><span><%= format("%02d", index + 1) %></span><div><h3><%= t("church.mission.steps.#{key}_title") %></h3><p><%= t("church.mission.steps.#{key}_body") %></p></div></li>
+        <% end %>
+      </ol>
+      <%= link_to church_mission_url, class: "btn btn-gold missionary-serve-cta", target: "_blank", rel: "noreferrer" do %>
+        <%= picto("door") %><span><%= t("church.mission.cta") %></span><%= picto("arrow") %>
+      <% end %>
+      <%= link_to t("church.mission.source"), church_preach_url, class: "quiet-link missionary-source", target: "_blank", rel: "noreferrer" %>
+    </section>
+
+    <%= render "pages/church_chapter_paths", current: :missionaries %>
+  </main>
+  <%= render Navigation::DockComponent.new(active: :church) %>
 </section>

@@ -18,6 +18,10 @@ class Wards::EnsureTest < ActiveSupport::TestCase
       assert ward.listed?
       assert_equal "Madrid 1st Ward", ward.name
       assert_equal "999001", ward.church_unit_id
+      assert_equal "520001", ward.stake_unit_id
+      assert_equal "Madrid Spain Stake", ward.stake_name
+      assert_nil ward.locator_payload["contact"]
+      assert_equal "520001", ward.locator_payload.dig("parent", "id")
       assert_in_delta 40.4168, ward.latitude, 0.001
       assert_equal 0, ward.people.count
     end
@@ -35,7 +39,22 @@ class Wards::EnsureTest < ActiveSupport::TestCase
     assert_equal "RAMA", demo.code
     assert_equal "Rama Benidorm", demo.name
     assert_equal "333239", demo.church_unit_id
+    assert_equal "527556", demo.stake_unit_id
+    assert_equal "Elche Spain Stake", demo.stake_name
+    refute demo.locator_payload.key?("contact")
     assert_equal 1, Ward.where("LOWER(city) = ?", "benidorm").count
+  end
+
+  test "refreshes locator payload on a rama already stored" do
+    extra_ward(21, listed: true, church_unit_id: "999001", city: "Madrid")
+    Wards::QueryLocator.forced_details = Wards::QueryLocator.attrs_from(
+      JSON.parse(file_fixture("maps_ward_madrid.json").read).first
+    )
+
+    ward = Wards::Ensure.call(church_unit_id: "999001")
+    assert_equal "520001", ward.stake_unit_id
+    assert_equal "Madrid 1st Ward", ward.name
+    assert_equal "WARD", ward.locator_payload["type"]
   end
 
   test "rejects a unit the locator does not know" do

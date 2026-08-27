@@ -1,9 +1,11 @@
 <% board = local_assigns[:board] %>
 <% return if board.blank? || board.rows.empty? %>
 <% show_avatars = local_assigns[:show_avatars] %>
+<% show_ward = local_assigns[:show_ward] %>
 <% podium = local_assigns[:podium] %>
 <% podium_rows = podium ? board.rows.select { |row| !row.context && row.rank.to_i.between?(1, 3) } : [] %>
 <% list_rows = podium ? board.rows.reject { |row| !row.context && row.rank.to_i.between?(1, 3) } : board.rows %>
+<% liga = local_assigns[:board_class].to_s.include?("liga") %>
 
 <section class="street-board <%= local_assigns[:board_class] %>" aria-label="<%= title %>">
   <header class="street-board-head">
@@ -26,7 +28,19 @@
     <ol class="street-liga-podium <%= "is-solo" if podium_rows.size == 1 %> <%= "is-pair" if podium_rows.size == 2 %>">
       <% podium_rows.each do |row| %>
         <li class="street-liga-podium-slot street-liga-entry <%= "is-you" if row.you %> <%= "is-live" if row.live %> is-medal-<%= row.rank %>"
+            data-liga-person-id="<%= row.person.id %>"
+            data-liga-rank="<%= row.rank %>"
+            data-liga-score="<%= row.score %>"
             <% if row.you && !row.context %>id="liga-you"<% end %>>
+          <button type="button"
+                  class="street-liga-player-trigger"
+                  <%= "disabled" if row.you || !liga %>
+                  data-action="liga-board#openChallenge"
+                  data-person-id="<%= row.person.id %>"
+                  data-person-name="<%= row.person.display_name %>"
+                  data-person-score="<%= row.score %>"
+                  data-person-rank="<%= row.rank %>"
+                  data-person-live="<%= row.live %>">
           <span class="street-liga-podium-face">
             <span class="street-liga-medal-badge" aria-hidden="true"><%= row.rank %></span>
             <span class="street-liga-podium-avatar">
@@ -40,8 +54,12 @@
             </span>
           </span>
           <span class="street-liga-podium-name"><%= row.person.given_name %></span>
+          <% if show_ward %><span class="street-liga-player-ward"><%= row.person.ward.name %></span><% end %>
           <span class="street-board-answered"><%= t("street.leaderboard_answered", count: row.answered) %></span>
           <span class="street-liga-podium-score"><%= picto("crown") %><%= number_with_delimiter(row.score) %></span>
+          <% if liga && !row.you %><span class="street-liga-challenge-label"><span aria-hidden="true">⚔</span><%= t("street.duel_send") %></span><% end %>
+          </button>
+          <span class="street-liga-plinth" aria-hidden="true"></span>
         </li>
       <% end %>
     </ol>
@@ -54,7 +72,19 @@
           <li class="street-board-gap" aria-hidden="true"><%= t("street.leaderboard_gap") %></li>
         <% end %>
         <li class="street-board-row street-liga-entry <%= "is-you" if row.you %> <%= "is-live" if row.live %> <%= "is-medal-#{row.rank}" if row.rank.to_i.between?(1, 3) %>"
+            data-liga-person-id="<%= row.person.id %>"
+            data-liga-rank="<%= row.rank %>"
+            data-liga-score="<%= row.score %>"
             <% if row.you && !row.context %>id="liga-you"<% end %>>
+          <button type="button"
+                  class="street-liga-player-trigger"
+                  <%= "disabled" if row.you || !liga %>
+                  data-action="liga-board#openChallenge"
+                  data-person-id="<%= row.person.id %>"
+                  data-person-name="<%= row.person.display_name %>"
+                  data-person-score="<%= row.score %>"
+                  data-person-rank="<%= row.rank %>"
+                  data-person-live="<%= row.live %>">
           <span class="street-board-rank"><%= show_avatars ? row.rank : "##{row.rank}" %></span>
           <% if show_avatars %>
             <% src = avatar_mark(row.person) %>
@@ -69,9 +99,12 @@
           <% end %>
           <span class="street-board-who">
             <span class="street-board-name"><%= street_live_dot(row.live) unless show_avatars %><%= row.person.given_name %></span>
+            <% if show_ward %><span class="street-liga-player-ward"><%= row.person.ward.name %></span><% end %>
             <span class="street-board-answered"><%= t("street.leaderboard_answered", count: row.answered) %></span>
           </span>
+          <% if liga && !row.you %><span class="street-liga-challenge-label"><span aria-hidden="true">⚔</span><%= t("street.duel_send") %></span><% end %>
           <span class="street-board-score"><% if show_avatars %><%= picto("crown") %><% end %><%= number_with_delimiter(row.score) %></span>
+          </button>
         </li>
       <% end %>
     </ol>

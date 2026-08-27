@@ -25,4 +25,28 @@ class WardTest < ActiveSupport::TestCase
     assert_equal Ward::NAME_MAX, ward.name.length
     assert_match(/\A[A-Z0-9]{5}\z/, Ward.generate_import_code)
   end
+
+  test "reads Sunday worship hours from the official locator payload" do
+    ward = wards(:demo)
+    ward.locator_payload = {
+      "hours" => {
+        "primary" => { "hour" => { "code" => "10:00:00" } },
+        "days" => [
+          { "day" => { "code" => "SUNDAY" }, "hours" => { "ranges" => [ { "start" => { "code" => "10:00:00" }, "finish" => { "code" => "12:00:00" } } ] } }
+        ]
+      }
+    }
+
+    assert_equal [
+      { "label_key" => "sacrament_meeting", "time" => "10:00" },
+      { "label_key" => "sunday_meetings", "time" => "10:00–12:00" }
+    ], ward.sunday_schedule
+  end
+
+  test "falls back to the compact Church locator hours code" do
+    ward = wards(:demo)
+    ward.locator_payload = { "hours" => { "code" => "Su 09:30-11:30" } }
+
+    assert_equal [ "09:30", "09:30–11:30" ], ward.sunday_schedule.pluck("time")
+  end
 end

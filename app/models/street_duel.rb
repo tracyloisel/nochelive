@@ -5,8 +5,11 @@ class StreetDuel < ApplicationRecord
   belongs_to :challenger_person, class_name: "Person"
   belongs_to :opponent_person, class_name: "Person", optional: true
   belongs_to :ward
+  belongs_to :challenger_ward, class_name: "Ward", optional: true
+  belongs_to :opponent_ward, class_name: "Ward", optional: true
   belongs_to :challenger_run, class_name: "QuizRun", optional: true
   belongs_to :opponent_run, class_name: "QuizRun", optional: true
+  has_many :quiz_runs, dependent: :nullify
 
   validates :pack_id, :token, :status, :expires_at, presence: true
   validates :status, inclusion: { in: STATUSES }

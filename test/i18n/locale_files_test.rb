@@ -55,6 +55,24 @@ class LocaleFilesTest < ActiveSupport::TestCase
     end
   end
 
+  test "street combo copy has no score multiplier sign" do
+    shouts = %w[quiz.streak_two quiz.streak_three quiz.streak_five quiz.streak_ten]
+    %i[es en fr pt-BR].each do |locale|
+      I18n.with_locale(locale) do
+        line = I18n.t("quiz.combo", count: 3)
+        assert line.present?, locale.to_s
+        refute_includes line, "×"
+        refute_includes line, "x3"
+        shouts.each do |key|
+          shout = I18n.t(key)
+          assert shout.present?, "#{locale} #{key}"
+          refute_match(/\bSTRIKE\b/i, shout)
+          refute_includes shout, "×"
+        end
+      end
+    end
+  end
+
   test "street praises are a shouted list in every locale" do
     %i[es en fr pt-BR].each do |locale|
       I18n.with_locale(locale) do

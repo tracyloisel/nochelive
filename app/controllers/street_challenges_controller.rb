@@ -6,25 +6,28 @@ class StreetChallengesController < ApplicationController
   def index
     remember_device
     touch_street_presence
-    ward = current_ward
     person = current_street_person
-    unless ward
-      redirect_to root_path
-      return
-    end
     unless person
       session[:street_return] = "desafios"
       redirect_to root_path(ficha: 1)
       return
     end
+    unless person.ward
+      session[:street_return] = "desafios"
+      redirect_to search_path(cambiar: 1), alert: I18n.t("flashes.ward_required_challenges")
+      return
+    end
 
-    @inbox = Quizzes::ChallengeInbox.call(person:)
+    remember_ward(person.ward) unless current_ward&.id == person.ward_id
+    ward = person.ward
+
     @q = params[:q].to_s.strip
-    @pack_id = pack_id_param
-    @playable_pack_ids = playable_pack_ids_for(person)
-    @pack_id = @playable_pack_ids.first if @pack_id.blank? || @playable_pack_ids.exclude?(@pack_id)
-    @pack_bests = pack_bests_for(person, @playable_pack_ids)
-    @rivals = Quizzes::ChallengeRivals.call(ward:, person:, pack_id: @pack_id, q: @q)
+    @pack_id = Quizzes::World.call(device_digest: street_digest, person_id: person.id).current_pack_id
+    @board = Quizzes::ChallengeBoard.call(ward:, person:, pack_id: @pack_id)
+    @inbox = @board.inbox
+    @rivals = @board.rivals
+    @rivalry = @board.rivalry
+    @head_to_head = @board.head_to_head
     @incoming_action = @inbox.incoming.any? { |item| item.phase == :accept || item.phase == :play }
   end
 
@@ -38,13 +41,21 @@ class StreetChallengesController < ApplicationController
   def create
     remember_device
     person = current_street_person
-    ward = current_ward
+    ward = person&.ward
     html = request.format.html?
-    unless person && ward
+    unless person
       return redirect_to root_path(ficha: 1), alert: I18n.t("street.duel_sign_in") if html
 
       return render json: { error: I18n.t("street.duel_sign_in") }, status: :unauthorized
     end
+    unless ward
+      session[:street_return] = "desafios"
+      return redirect_to search_path(cambiar: 1), alert: I18n.t("flashes.ward_required_challenges") if html
+
+      return render json: { error: I18n.t("flashes.ward_required_challenges") }, status: :unprocessable_entity
+    end
+
+    remember_ward(ward) unless current_ward&.id == ward.id
 
     opponent = opponent_from_params(ward)
     if html && opponent.nil?
@@ -53,13 +64,11 @@ class StreetChallengesController < ApplicationController
     end
 
     pack_id = params[:pack_id].presence || params[:pack].presence
-    run = pack_id && QuizRun.finished.where(person_id: person.id, pack_id:).order(:id).last
-
     result = Quizzes::ChallengeCreate.call(
       challenger_person: person,
       ward:,
-      pack_id: pack_id || run&.pack_id || Quizzes::World.call(device_digest: street_digest, person_id: person.id).current_pack_id,
-      run:,
+      pack_id: pack_id || Quizzes::World.call(device_digest: street_digest, person_id: person.id).current_pack_id,
+      device_digest: street_digest,
       opponent_person: opponent
     )
     session[:pending_duel_token] = result.duel.token unless opponent
@@ -79,6 +88,7 @@ class StreetChallengesController < ApplicationController
     alert = {
       self: I18n.t("street.duel_self"),
       ward: I18n.t("street.duel_ward"),
+      stake: I18n.t("street.duel_ward"),
       score: I18n.t("street.duel_score"),
       played: I18n.t("street.duel_played")
     }[error.code] || I18n.t("street.duel_create_failed")
@@ -93,6 +103,12 @@ class StreetChallengesController < ApplicationController
       session[:pending_duel_token] = @duel.token
       clear_street_guest
       redirect_to root_path(desafio: @duel.token, ficha: 1), alert: I18n.t("street.duel_sign_in")
+      return
+    end
+    unless person.ward
+      session[:pending_duel_token] = @duel.token
+      session[:street_return] = "desafios"
+      redirect_to search_path(cambiar: 1), alert: I18n.t("flashes.ward_required_challenges")
       return
     end
 
@@ -136,7 +152,7 @@ class StreetChallengesController < ApplicationController
       id = params[:opponent_id].presence
       return unless id
 
-      ward.people.find_by(id:)
+      Quizzes::StakeScope.people_for(ward:).find_by(id:)
     end
 
     def pack_id_param

@@ -1,11 +1,12 @@
 class StreetProfilesController < ApplicationController
   include StreetQuiz
 
-  before_action :load_gate_ward, only: [ :show, :create ]
+  before_action :load_gate_ward, only: [ :show, :create, :update ]
 
   def show
     device_token
-    @people_on_device = street_people_on_device.to_a
+    session[:street_return] = "ward_picker" if params[:ward_next].present?
+    @people_on_device = Person.on_device_anywhere(device_token).to_a
     @person = current_street_person
     if params[:person_id].present? && current_ward
       person = current_ward.people.find_by(id: params[:person_id])
@@ -18,23 +19,20 @@ class StreetProfilesController < ApplicationController
 
   def create
     device_token
-    @people_on_device = street_people_on_device.to_a
+    @people_on_device = Person.on_device_anywhere(device_token).to_a
     ward = current_ward
-    raise People::Error.new(:ward, I18n.t("errors.people.ward")) unless ward
 
-    if params[:guest].present?
-      if session[:pending_duel_token].present?
-        redirect_to root_path(ficha: 1, desafio: session[:pending_duel_token]), alert: I18n.t("street.duel_sign_in")
-        return
-      end
+    if params[:logout].present?
       clear_street_person
-      remember_street_guest
-      redirect_to root_path, notice: I18n.t("flashes.street_guest")
+      forget_player
+      redirect_to root_path, notice: I18n.t("flashes.signed_out")
       return
     end
 
     if params[:person_id].present?
-      person = ward.people.find(params[:person_id])
+      person = @people_on_device.find { |row| row.id == params[:person_id].to_i }
+      person ||= ward&.people&.find(params[:person_id])
+      raise People::Error.new(:missing, I18n.t("errors.people.missing")) unless person
       unless @people_on_device.any? { |row| row.id == person.id }
         person = People::Claim.call(
           ward: ward,
@@ -44,12 +42,13 @@ class StreetProfilesController < ApplicationController
         )
       end
       remember_street_person(person)
+      remember_ward(person.ward) if person.ward
       enter_street!(person)
       return
     end
 
     given = params[:name].to_s.strip
-    cards = People::Recognize.call(ward: ward, given_name: given) if given.present? && params[:soy_nueva].blank?
+    cards = People::Recognize.call(ward: ward, given_name: given) if ward && given.present? && params[:soy_nueva].blank?
     if cards&.size == 1 && params[:favorite_year].present?
       person = cards.first.person
       if person.favorite_year == params[:favorite_year].to_i
@@ -75,7 +74,7 @@ class StreetProfilesController < ApplicationController
       ward: ward,
       given_name: given,
       family_name: params[:family_name],
-      avatar_key: params[:avatar_key].presence || "delfin",
+      avatar_key: params[:avatar_key].presence,
       favorite_year: params[:favorite_year],
       device_token: device_token
     )
@@ -93,6 +92,31 @@ class StreetProfilesController < ApplicationController
     render :show, status: :unprocessable_entity
   end
 
+  def update
+    person = current_street_person
+    unless person
+      redirect_to street_profile_path, alert: I18n.t("flashes.profile_required")
+      return
+    end
+
+    person.assign_attributes(
+      given_name: params[:name].to_s.strip,
+      avatar_key: params[:avatar_key]
+    )
+
+    if person.save
+      person.players.update_all(name: person.given_name, avatar_key: person.avatar_key, updated_at: Time.current)
+      redirect_to street_profile_path, notice: I18n.t("flashes.profile_updated")
+    else
+      device_token
+      @people_on_device = Person.on_device_anywhere(device_token).to_a
+      @person = person
+      @screen = :edit
+      flash.now[:alert] = person.errors.full_messages.to_sentence
+      render :show, status: :unprocessable_entity
+    end
+  end
+
   private
 
     def load_gate_ward
@@ -102,14 +126,29 @@ class StreetProfilesController < ApplicationController
     end
 
     def enter_street!(person)
+      if (pack_id = session.delete(:pending_street_pack_id)).present?
+        frame = Quizzes::StartPack.call(device_digest: street_digest, person_id: person.id, pack_id: pack_id)
+        session[:street_play_run_id] = frame.run.id
+        redirect_to jugar_path, notice: I18n.t("flashes.street_signed_in", name: person.given_name)
+        return
+      end
+
       if redirect_pending_duel!(person)
         return
       end
-      if session.delete(:street_return) == "desafios"
+
+      street_return = session.delete(:street_return)
+      if street_return == "ward_picker"
+        redirect_to search_path(cambiar: 1), notice: I18n.t("flashes.street_signed_in", name: person.given_name)
+        return
+      end
+      if street_return == "desafios"
         redirect_to street_challenges_path, notice: I18n.t("flashes.street_signed_in", name: person.given_name)
         return
       end
 
+      # A player profile is useful on its own. Ward discovery is a separate,
+      # explicit invitation and must not block the hub or a pending game.
       redirect_to root_path, notice: I18n.t("flashes.street_signed_in", name: person.given_name)
     end
 
@@ -133,14 +172,28 @@ class StreetProfilesController < ApplicationController
     end
 
     def assign_screen(error = nil)
-      return unless current_ward
+      if @person && params[:edit].present?
+        @screen = :edit
+        return
+      end
+
+      unless current_ward
+        @screen = :form
+        return
+      end
 
       @homonym_cards ||= People::Recognize.call(ward: current_ward, given_name: @given_name) if @given_name.present?
+
+      if params[:new_profile].blank? && @people_on_device.any? && error.blank? && @claim_person.blank? && @homonym_cards.blank?
+        @screen = :device
+        @listed_people = @people_on_device
+        return
+      end
 
       gate = StreetProfiles::Screen.call(
         people_on_device: @people_on_device,
         current_person: @person,
-        fresh: params[:fresh].present?,
+        fresh: params[:new_profile].present?,
         not_me: params[:not_me].present?,
         claim_person: @claim_person,
         homonyms: error&.code == :homonym || (params[:soy_nueva].blank? && @homonym_cards.present? && params[:favorite_year].present? && params[:person_id].blank?),

@@ -1,9 +1,9 @@
-<h1><%= @needs_family ? t("join.family") : t("street.create_title") %></h1>
+<h2><%= @needs_family ? t("join.family") : t("street.create_title") %></h2>
 <% unless @needs_family %>
-  <p class="lede"><%= t("street.create_lede") %></p>
+  <p class="lede"><%= t(current_ward ? "street.profile_one_step" : "street.quick_profile_lede", ward: current_ward&.name) %></p>
 <% end %>
 
-<%= form_with url: street_profile_path, method: :post, class: "join-form profile-gate-new" do %>
+<%= form_with url: street_profile_path(quick: params[:quick].presence, ward_next: params[:ward_next].presence), method: :post, class: "join-form profile-gate-new" do %>
   <% if @needs_family %>
     <input type="hidden" name="name" value="<%= @given_name %>">
     <input type="hidden" name="avatar_key" value="<%= @avatar_key.presence || "delfin" %>">
@@ -16,25 +16,7 @@
     <label for="name"><%= t("street.create_who") %></label>
     <input id="name" name="name" maxlength="24" required autocomplete="given-name" class="code-input" placeholder="Pili" value="<%= @given_name %>">
 
-    <div class="join-ficha">
-      <fieldset class="emblem-pick avatar-pick">
-        <legend><%= t("street.create_animal") %></legend>
-        <% Player::AVATARS.each do |key| %>
-          <label class="emblem-choice avatar-choice">
-            <input type="radio" name="avatar_key" value="<%= key %>" <%= "checked" if key == (@avatar_key.presence || "delfin") %>>
-            <% src = avatar_mark(key) %>
-            <% if src %>
-              <span class="avatar-seal" aria-hidden="true">
-                <img src="<%= src %>" alt="" class="avatar-img avatar-img-lg">
-              </span>
-            <% end %>
-            <em><%= avatar_name(key) %></em>
-          </label>
-        <% end %>
-      </fieldset>
-
-      <%= render "shared/year_field", value: @favorite_year, required: true %>
-      <button type="submit" class="btn btn-gold"><%= picto("check") %><%= t("join.save_ficha") %></button>
-    </div>
+    <button type="submit" class="btn btn-gold"><%= picto("arrow") %><%= t("street.quick_profile_cta") %></button>
+    <p class="profile-later"><%= t("street.avatar_automatic") %></p>
   <% end %>
 <% end %>

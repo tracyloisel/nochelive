@@ -18,4 +18,15 @@ class Quizzes::ExpireTest < ActiveSupport::TestCase
     assert_equal kept.id, Quizzes::Expire.call(run: run.reload).id
     assert kept.reload.correct?
   end
+
+  test "a timed miss records the question clock" do
+    digest = GameSession.digest_token("expire-timed")
+    run = Quizzes::Draw.call(device_digest: digest).run
+    question = run.pack.question_at(4)
+    asked = 20.seconds.ago
+    run.update!(position: 4, asked_at: asked, ends_at: asked + question.duration.seconds)
+    answer = Quizzes::Expire.call(run: run.reload)
+    refute answer.correct?
+    assert_in_delta 20_000, answer.duration_ms, 200
+  end
 end

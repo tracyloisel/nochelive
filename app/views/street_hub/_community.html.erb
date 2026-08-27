@@ -1,0 +1,44 @@
+<% community = local_assigns[:community] %>
+<% pulse = local_assigns[:pulse] %>
+<% stats = [
+     [ "people", community.players_this_month, "hub.players_month", "hub.players_month_a", "hub.players_month_b" ],
+     [ "chat", community.questions, "hub.questions_answered", "hub.questions_answered_a", "hub.questions_answered_b" ],
+     [ "temple", community.wards, "hub.wards_join", "hub.wards_join_a", "hub.wards_join_b" ]
+   ] %>
+<section class="hub-panel hub-community"
+         data-controller="hub-counter"
+         data-hub-counter-target="community">
+  <p class="hub-kicker"><%= t("hub.community") %></p>
+  <% if pulse %>
+    <%= turbo_frame_tag "street_pulse",
+          src: street_pulse_path,
+          data: {
+            controller: "street-pulse",
+            street_pulse_src_value: street_pulse_path,
+            street_pulse_interval_value: 5000
+          } do %>
+      <%= render "street_hub/pulse", pulse: pulse %>
+    <% end %>
+  <% end %>
+  <ul class="hub-community-stats">
+    <% stats.each_with_index do |stat, index| %>
+      <% icon, value, full_key, line_a, line_b = stat %>
+      <li>
+        <span class="hub-community-mark" aria-hidden="true">
+          <img class="hub-community-mark-gold" src="/media/ui/community-<%= icon %>-gold.png" alt="" width="32" height="32">
+          <img class="hub-community-mark-ink" src="/media/ui/community-<%= icon %>-ink.png" alt="" width="32" height="32">
+        </span>
+        <strong class="hub-community-n is-counter"
+                data-target-value="<%= value %>"
+                data-reveal-once="true"
+                data-session-key="hub-community-<%= icon %>-revealed">
+          <%= compact_number(value) %>
+        </strong>
+        <span class="hub-community-label" aria-label="<%= t(full_key) %>">
+          <span><%= t(line_a) %></span>
+          <span><%= t(line_b) %></span>
+        </span>
+      </li>
+    <% end %>
+  </ul>
+</section>

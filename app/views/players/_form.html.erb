@@ -31,26 +31,9 @@
       </label>
     </fieldset>
 
-    <button type="submit" name="guest" value="1" class="btn btn-gold" formnovalidate><%= t("join.guest") %></button>
+    <input type="hidden" name="avatar_key" value="delfin">
+    <button type="submit" class="btn btn-gold"><%= picto("arrow") %><%= t("join.create_and_join") %></button>
     <button type="submit" name="role" value="spectator" class="quiet-link" formnovalidate><%= t("join.spectate") %></button>
-
-    <div class="join-ficha">
-      <fieldset class="emblem-pick avatar-pick">
-        <legend><%= t("join.animal") %></legend>
-        <% Player::AVATARS.each do |key| %>
-          <label class="emblem-choice avatar-choice">
-            <input type="radio" name="avatar_key" value="<%= key %>" <%= "checked" if key == (@avatar_key.presence || "delfin") %>>
-            <% src = avatar_mark(key) %>
-            <% if src %>
-              <img src="<%= src %>" alt="" class="avatar-img avatar-img-lg">
-            <% end %>
-            <em><%= avatar_name(key) %></em>
-          </label>
-        <% end %>
-      </fieldset>
-
-      <%= render "shared/year_field", value: @favorite_year, required: true %>
-      <button type="submit" class="btn btn-navy"><%= t("join.save_ficha") %></button>
-    </div>
+    <p class="profile-later"><%= t("join.profile_belongs", ward: night.ward.name) %></p>
   <% end %>
 <% end %>

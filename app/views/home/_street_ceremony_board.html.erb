@@ -1,0 +1,21 @@
+<% rows = Array(local_assigns[:rows]) %>
+<section class="street-ceremony-board" aria-label="<%= title %>">
+  <header class="street-ceremony-board-head">
+    <%= picto(icon) %>
+    <h3><%= title %></h3>
+  </header>
+  <% if rows.any? %>
+    <ol class="street-ceremony-best-rows">
+      <% rows.each do |row| %>
+        <li class="street-ceremony-best-row <%= "is-you" if row.you %>">
+          <span class="street-ceremony-medal is-rank-<%= row.rank %>"><%= row.rank %></span>
+          <%= picto("temple") %>
+          <span class="street-ceremony-best-name"><%= row.person.given_name %></span>
+          <span class="street-ceremony-best-score"><%= row.score %></span>
+        </li>
+      <% end %>
+    </ol>
+  <% else %>
+    <p class="street-ceremony-empty"><%= empty %></p>
+  <% end %>
+</section>

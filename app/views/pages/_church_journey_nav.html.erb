@@ -1,0 +1,13 @@
+<nav class="church-journey-nav" aria-label="<%= t("church.doors") %>">
+  <% [
+    [ :home, church_path, "door", "church.kicker" ],
+    [ :meet, church_meet_path, "people", "church.meet_title" ],
+    [ :beliefs, church_beliefs_path, "star8", "church.beliefs_title" ],
+    [ :missionaries, church_missionaries_path, "person", "church.missionaries_title" ],
+    [ :worship, church_worship_path, "temple", "church.worship_title" ]
+  ].each do |key, path, icon, title_key| %>
+    <%= link_to path, class: [ "church-journey-step", ("is-active" if local_assigns.fetch(:active) == key) ], aria: { current: ("page" if local_assigns.fetch(:active) == key) } do %>
+      <%= picto(icon) %><span><%= t(title_key) %></span>
+    <% end %>
+  <% end %>
+</nav>

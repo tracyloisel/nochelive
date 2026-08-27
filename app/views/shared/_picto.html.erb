@@ -20,6 +20,11 @@
   <% when "person" %>
     <circle cx="32" cy="20" r="10.5" fill="none" stroke="currentColor" stroke-width="3.2"/>
     <path d="M14 56c1.8-12 8.4-16.5 18-16.5S50.2 44 52 56" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"/>
+  <% when "profile-spark" %>
+    <circle cx="27" cy="21" r="9" fill="none" stroke="currentColor" stroke-width="3.4"/>
+    <path d="M11.5 54c1.7-11.2 7.5-16 15.5-16s13.8 4.8 15.5 16" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round"/>
+    <path d="M47 7.5 49.8 15l7.7 2.8-7.7 2.8L47 28l-2.8-7.4-7.7-2.8 7.7-2.8Z" fill="currentColor"/>
+    <path d="M44.2 36.8c4.2-2.2 7.1-5.4 8.9-9.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" opacity=".58"/>
   <% when "people" %>
     <circle cx="22" cy="22" r="8" fill="#d4a017"/>
     <path d="M8 54c2-12 8-17 14-17s12 5 14 17" fill="#1a2744"/>
@@ -41,6 +46,11 @@
     <rect x="28.5" y="30" width="7" height="20" fill="#f6f3ec"/>
     <rect x="39" y="30" width="7" height="20" fill="#f6f3ec"/>
     <rect x="8" y="50" width="48" height="6" fill="#1a2744"/>
+  <% when "church-temple" %>
+    <path d="M32 5v9M28.5 8.5h7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+    <path d="M25 24V17l7-5 7 5v7M15 49V28l17-9 17 9v21" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linejoin="round"/>
+    <path d="M10 49h44M13 55h38M23 49V34h18v15M29 49V38h6v11" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M19 31h5M40 31h5" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"/>
   <% when "check" %>
     <circle cx="32" cy="32" r="24" fill="#d4a017"/>
     <path d="M18 33 l10 10 18-20" fill="none" stroke="#1a2744" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
@@ -148,6 +158,79 @@
     <polygon points="32,6 36,26 56,32 36,38 32,58 28,38 8,32 28,26" fill="#d4a017"/>
     <circle cx="50" cy="16" r="4" fill="#f2c14e"/>
     <circle cx="14" cy="48" r="3" fill="#f2c14e"/>
+  <% when "stats-house" %>
+    <g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M8 25 32 9l24 16H8Z"/>
+      <path d="M12 27h40M15 50h34M9 56h46"/>
+      <path d="M18 28v22M27 28v22M37 28v22M46 28v22"/>
+      <path d="M6 60h52"/>
+    </g>
+  <% when "stats-player" %>
+    <circle cx="32" cy="19" r="12" fill="currentColor"/>
+    <path d="M11 56c1.4-14.5 9-21 21-21s19.6 6.5 21 21Z" fill="currentColor"/>
+  <% when "stats-parish" %>
+    <path d="M10 56h44M15 56V30l17-13 17 13v26M24 56V42h16v14M21 33h22" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M32 5v15M26 11h12" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+    <rect x="18" y="37" width="6" height="8" rx="1" fill="currentColor"/>
+    <rect x="40" y="37" width="6" height="8" rx="1" fill="currentColor"/>
+  <% when "stats-globe" %>
+    <g fill="none" stroke="currentColor" stroke-width="3.3" stroke-linecap="round">
+      <circle cx="32" cy="32" r="25"/>
+      <path d="M7 32h50M11 20h42M11 44h42M32 7c9 8 13 16 13 25S41 49 32 57M32 7c-9 8-13 16-13 25s4 17 13 25M32 7v50"/>
+    </g>
+  <% when "stats-language" %>
+    <g fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M8 12h34v28H23L13 49v-9H8Z"/>
+      <path d="M26 40h30v18l-8-6H34"/>
+      <path d="M17 22h17M25.5 18v4c0 7-4 12-9 14M20 27c2 4 6 7 11 9"/>
+      <path d="m40 47 5-13 5 13M42 42h6"/>
+    </g>
+  <% when "stats-path" %>
+    <path d="M4 54c12-2 15-10 19-19 4-10 8-18 25-27-7 8-11 15-11 21 0 7-7 9-12 13-5 4-7 8-9 12Z" fill="currentColor" opacity=".72"/>
+    <path d="M12 54c10-7 15-13 18-21 4-11 10-17 26-25-11 10-14 17-14 23 0 8-8 10-14 14-4 3-7 6-9 9Z" fill="currentColor"/>
+    <path d="M21 50c5-7 10-11 14-14 6-5 4-11 8-16" fill="none" stroke="var(--paper, #f6f3ec)" stroke-width="2.2" stroke-linecap="round" stroke-dasharray="4 5"/>
+  <% when "stats-question" %>
+    <g fill="none" stroke="currentColor" stroke-width="3.3" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="14" y="14" width="36" height="44" rx="4"/>
+      <path d="M25 14v-4h14v4M23 18h18"/>
+      <path d="M25 31c0-5 3-8 8-8s8 3 8 7c0 7-9 7-9 14M32 51h.1"/>
+    </g>
+  <% when "stats-correct" %>
+    <circle cx="32" cy="32" r="24" fill="#3aa566"/>
+    <path d="m18 33 9 9 19-21" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <% when "stats-wrong" %>
+    <circle cx="32" cy="32" r="24" fill="#df493e"/>
+    <path d="m22 22 20 20M42 22 22 42" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round"/>
+  <% when "stats-duel" %>
+    <g fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round">
+      <path d="m11 12 35 35M53 12 18 47"/>
+      <path d="m8 9 9 3-6 6ZM56 9l-9 3 6 6ZM15 44l5 5-7 7-5-5ZM49 44l-5 5 7 7 5-5Z"/>
+    </g>
+  <% when "stats-night" %>
+    <g fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="9" y="13" width="46" height="43" rx="4"/>
+      <path d="M9 25h46M20 7v12M44 7v12"/>
+    </g>
+    <polygon points="32,31 35,39 44,39 37,44 40,52 32,47 24,52 27,44 20,39 29,39" fill="currentColor"/>
+  <% when "stats-team" %>
+    <circle cx="32" cy="18" r="9" fill="currentColor"/>
+    <circle cx="14" cy="25" r="7" fill="currentColor" opacity=".82"/>
+    <circle cx="50" cy="25" r="7" fill="currentColor" opacity=".82"/>
+    <path d="M17 55c1-13 6-19 15-19s14 6 15 19ZM2 55c1-10 5-15 12-15 4 0 7 2 9 5-2 3-3 6-3 10ZM62 55c-1-10-5-15-12-15-4 0-7 2-9 5 2 3 3 6 3 10Z" fill="currentColor"/>
+  <% when "stats-trophy" %>
+    <path d="M18 10h28v17c0 11-6 18-14 18s-14-7-14-18Z" fill="currentColor"/>
+    <path d="M18 16h-8v7c0 8 5 13 12 13M46 16h8v7c0 8-5 13-12 13" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M32 44v8M22 57h20" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round"/>
+    <path d="M27 16h10l-2 13h-6Z" fill="var(--paper, #f6f3ec)" opacity=".72"/>
+  <% when "stats-crown" %>
+    <path d="m8 24 11 23h27l10-23-14 10-10-22-10 22Z" fill="currentColor"/>
+    <path d="M16 49h33v6H16Z" fill="currentColor"/>
+    <circle cx="8" cy="22" r="3.5" fill="currentColor"/>
+    <circle cx="32" cy="10" r="3.5" fill="currentColor"/>
+    <circle cx="56" cy="22" r="3.5" fill="currentColor"/>
+    <path d="M22 40h20" stroke="var(--paper, #f6f3ec)" stroke-width="2.5" stroke-linecap="round" opacity=".72"/>
+  <% when "stats-chevron" %>
+    <path d="m22 10 22 22-22 22" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
   <% when "trophy" %>
     <rect x="20" y="40" width="24" height="8" fill="#1a2744"/>
     <rect x="26" y="48" width="12" height="8" fill="#1a2744"/>
@@ -161,11 +244,44 @@
     <path d="M10 28 L20 44 H44 L54 28 L40 36 L32 16 L24 36z" fill="#d4a017"/>
     <rect x="16" y="44" width="32" height="8" rx="2" fill="#1a2744"/>
     <circle cx="32" cy="16" r="4" fill="#f2c14e"/>
+  <% when "calendar" %>
+    <rect x="12" y="14" width="40" height="40" rx="6" fill="none" stroke="currentColor" stroke-width="4"/>
+    <path d="M12 26h40" stroke="currentColor" stroke-width="4"/>
+    <path d="M22 8v14 M42 8v14" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="32" cy="42" r="4.5" fill="currentColor"/>
   <% when "scroll" %>
     <rect x="16" y="12" width="32" height="40" rx="6" fill="#f6f3ec" stroke="#1a2744" stroke-width="3"/>
     <path d="M22 22h20 M22 32h20 M22 42h12" stroke="#d4a017" stroke-width="3" stroke-linecap="round"/>
     <circle cx="16" cy="16" r="5" fill="#d4a017"/>
     <circle cx="48" cy="48" r="5" fill="#d4a017"/>
+  <% when "book" %>
+    <path d="M8 14c8-2 16 0 24 6v32c-8-6-16-8-24-6z" fill="#fffaf0" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M56 14c-8-2-16 0-24 6v32c8-6 16-8 24-6z" fill="#fffaf0" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M32 20v32M16 24c4 0 8 1 11 3M48 24c-4 0-8 1-11 3" fill="none" stroke="#d4a017" stroke-width="3" stroke-linecap="round"/>
+  <% when "scripture-book" %>
+    <path d="M7 15.5c8.8-2.3 17.1-.2 25 6.2v31.8C24.1 47.1 15.8 45 7 47.3Z" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linejoin="round"/>
+    <path d="M57 15.5c-8.8-2.3-17.1-.2-25 6.2v31.8c7.9-6.4 16.2-8.5 25-6.2Z" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linejoin="round"/>
+    <path d="M32 21.7v31.8M14 24.5c4.6-.1 8.8 1.1 12.6 3.5M50 24.5c-4.6-.1-8.8 1.1-12.6 3.5" fill="none" stroke="currentColor" stroke-width="2.7" stroke-linecap="round"/>
+    <path d="M45.5 31.2 47.2 35l4.1 1.1-3.2 2.7.4 4.2-3.6-2.2-3.8 1.7 1-4-2.8-3 4.1-.3Z" fill="currentColor"/>
+    <path d="M22 18.2v17.2l3.8-2.7 3.8 2.7V20.3" fill="currentColor" opacity=".72"/>
+  <% when "scripture-ot" %>
+    <path d="M13 9h38a5 5 0 0 1 5 5v41H18A10 10 0 0 1 8 45V14a5 5 0 0 1 5-5Z" fill="currentColor"/>
+    <path d="M18 15h31v32H18a7 7 0 0 0-7 7" fill="none" stroke="#fffaf0" stroke-width="2.5"/>
+    <path d="M25 21h8l-2 17h-8ZM39 21h8l-2 17h-8Z" fill="#d4a017"/>
+  <% when "scripture-nt" %>
+    <path d="M13 9h38a5 5 0 0 1 5 5v41H18A10 10 0 0 1 8 45V14a5 5 0 0 1 5-5Z" fill="currentColor"/>
+    <path d="M18 15h31v32H18a7 7 0 0 0-7 7" fill="none" stroke="#fffaf0" stroke-width="2.5"/>
+    <path d="M32 19v24M23 27h18" stroke="#d4a017" stroke-width="5" stroke-linecap="round"/>
+  <% when "scripture-bofm" %>
+    <path d="M13 9h38a5 5 0 0 1 5 5v41H18A10 10 0 0 1 8 45V14a5 5 0 0 1 5-5Z" fill="currentColor"/>
+    <path d="M18 15h31v32H18a7 7 0 0 0-7 7" fill="none" stroke="#fffaf0" stroke-width="2.5"/>
+    <circle cx="35" cy="30" r="11" fill="none" stroke="#d4a017" stroke-width="3"/>
+    <path d="m28 35 7-15 7 15-7-4Z" fill="#d4a017"/>
+  <% when "scripture-dc" %>
+    <path d="M13 9h38a5 5 0 0 1 5 5v41H18A10 10 0 0 1 8 45V14a5 5 0 0 1 5-5Z" fill="currentColor"/>
+    <path d="M18 15h31v32H18a7 7 0 0 0-7 7" fill="none" stroke="#fffaf0" stroke-width="2.5"/>
+    <circle cx="31" cy="28" r="7" fill="none" stroke="#d4a017" stroke-width="4"/>
+    <path d="M37 33l10 10M42 38l-4 4M46 42l-4 4" fill="none" stroke="#d4a017" stroke-width="4" stroke-linecap="round"/>
   <% when "dancer" %>
     <circle cx="32" cy="12" r="7" fill="#d4a017"/>
     <path d="M32 20 L20 36 L28 36 L24 56 L32 44 L40 56 L36 36 L44 36Z" fill="#1a2744"/>
@@ -213,6 +329,20 @@
     </g>
     <circle cx="32" cy="32" r="5.1" fill="#f6f3ec"/>
     <circle cx="32" cy="32" r="5.1" fill="none" stroke="currentColor" stroke-width="3.2"/>
+  <% when "info" %>
+    <circle cx="32" cy="32" r="22" fill="none" stroke="currentColor" stroke-width="3"/>
+    <circle cx="32" cy="20" r="3.1" fill="currentColor"/>
+    <rect x="29.4" y="28" width="5.2" height="20" rx="2.6" fill="currentColor"/>
+  <% when "meetinghouse" %>
+    <path d="M11 27 32 12l21 15" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M16 27h32v25H16z" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M12 52h40M22 29v23m20-23v23M29 38h6v14" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+  <% when "church" %>
+    <path d="M13 54h38M18 54V30l14-12 14 12v24M26 54V40h12v14" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M26 22V12h12v10M32 8v4M20 31h24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <% when "broadcast" %>
+    <circle cx="32" cy="32" r="5" fill="currentColor"/>
+    <path d="M23 23a12.7 12.7 0 0 0 0 18M41 23a12.7 12.7 0 0 1 0 18M15 15a24 24 0 0 0 0 34M49 15a24 24 0 0 1 0 34" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="round"/>
   <% when "compass" %>
     <circle cx="32" cy="32" r="22" fill="none" stroke="currentColor" stroke-width="3"/>
     <circle cx="32" cy="32" r="3.5" fill="currentColor"/>
@@ -236,6 +366,22 @@
     <circle cx="44" cy="18" r="8" fill="#f2c14e"/>
     <path d="M6 44 Q20 28 32 40 T58 36 V54 H6Z" fill="#d4a017"/>
     <rect x="8" y="50" width="48" height="8" fill="#1a2744"/>
+  <% when "mapa-crown" %>
+    <path d="M9 20 21 31 32 10l11 21 12-11-5 30H14Z" fill="currentColor"/><path d="M14 50h36" stroke="currentColor" stroke-width="5" stroke-linecap="round"/>
+  <% when "mapa-pack-box" %>
+    <rect x="13" y="12" width="38" height="42" rx="5" fill="none" stroke="currentColor" stroke-width="4"/><path d="M19 8v48M45 8v48M26 33h12M32 27v12" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"/>
+  <% when "mapa-question" %>
+    <circle cx="32" cy="32" r="23" fill="currentColor"/><path d="M25 25c1-9 15-10 15-1 0 7-8 7-8 14" fill="none" stroke="#fff8e8" stroke-width="4" stroke-linecap="round"/><circle cx="32" cy="46" r="2.5" fill="#fff8e8"/>
+  <% when "mapa-chest" %>
+    <path d="M11 28c0-11 7-18 21-18s21 7 21 18" fill="currentColor" opacity=".75"/><rect x="8" y="27" width="48" height="28" rx="5" fill="currentColor"/><path d="M8 35h48M22 27v28M42 27v28" stroke="#fff1cf" stroke-width="2"/><rect x="27" y="31" width="10" height="13" rx="2" fill="#fff1cf"/>
+  <% when "mapa-key" %>
+    <circle cx="42" cy="18" r="8" fill="none" stroke="currentColor" stroke-width="5"/><path d="M36 24 10 50m8-8 6 6m1-15 6 6" stroke="currentColor" stroke-width="6" stroke-linecap="round"/>
+  <% when "mapa-tree" %>
+    <path d="M32 10c-13 0-21 9-18 20-8 8 0 19 11 15 2 7 13 7 15 0 11 4 19-7 11-15 3-11-6-20-19-20Z" fill="currentColor" opacity=".75"/><path d="M32 20v34M20 29l12 9 12-10M17 54h30" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+  <% when "mapa-shield-cross" %>
+    <path d="M32 7 52 14v17c0 13-8 21-20 27C20 52 12 44 12 31V14Z" fill="currentColor"/><path d="M32 19v25M22 31h20" stroke="#fff8e8" stroke-width="4" stroke-linecap="round"/>
+  <% when "mapa-trophy" %>
+    <path d="M18 10h28v13c0 11-6 18-14 18s-14-7-14-18Z" fill="currentColor"/><path d="M18 16H9c0 12 5 17 13 17m24-17h9c0 12-5 17-13 17M32 41v9m-11 4h22" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
   <% else %>
     <polygon points="32,8 38,24 56,24 42,36 48,54 32,42 16,54 22,36 8,24 26,24" fill="#d4a017"/>
   <% end %>

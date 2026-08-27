@@ -207,26 +207,7 @@ class NightTempleVisualTest < ApplicationSystemTestCase
     shot("play-lobby-wait")
   end
 
-  test "noches paper feed sits on the marble hall" do
-    page.current_window.resize_to(390, 844)
-    visit nights_path
-    assert_selector "body.is-paper-hall"
-    assert_selector ".home-paper"
-    assert_selector ".street-hub-lockup-star"
-    assert_selector "h1", text: "Noche Live"
-    assert_selector ".street-hub-kicker", text: /#{Regexp.escape(I18n.t("home.nights"))}/i
-    assert_selector ".home-doors a.btn-gold", text: I18n.t("church.invite")
-    assert_selector ".night-still .night-poster"
-    assert_no_selector ".home-doors a", text: I18n.t("home.who")
-    assert_no_selector ".home-doors a", text: I18n.t("home.search_page")
-    assert_no_selector ".story-ticks"
-    sleep 0.4
-    shot("noches-phone")
-
-    page.current_window.resize_to(1280, 844)
-    sleep 0.3
-    shot("noches-desktop")
-
+  test "search paper surface sits on the marble hall" do
     page.current_window.resize_to(390, 844)
     visit search_path
     assert_selector "body.is-paper-hall"

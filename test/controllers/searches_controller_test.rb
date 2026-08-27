@@ -7,12 +7,14 @@ class SearchesControllerTest < ActionDispatch::IntegrationTest
     get search_path
     assert_response :success
     assert_select "h1", text: I18n.t("home.menu_search")
-    assert_select "body.is-paper-hall"
-    assert_select ".home-paper"
-    assert_select ".street-hub-lockup-star"
-    assert_select ".street-hub-kicker", text: I18n.t("home.search_page")
+    assert_select "body.is-paper-hall.is-rama-search"
+    assert_select ".home-paper.rama-search-scene"
+    assert_select ".rama-search-sheet"
+    assert_select ".rama-search-sigil"
+    assert_select ".rama-search-kicker", text: I18n.t("home.search_page")
     assert_select ".play-reel", count: 0
-    assert_select ".ward-picker-query"
+    assert_select ".ward-picker-query[placeholder=?]", I18n.t("street.gate_search_ph")
+    assert_not_includes response.body, "Benidorm, tu pueblo"
     assert_select ".ward-picker-wait", text: I18n.t("home.search_wait")
     assert_select "button.ward-picker-locate", text: I18n.t("street.gate_locate")
     assert_select ".chrome-drawer a[href=?]", search_path
@@ -53,11 +55,14 @@ class SearchesControllerTest < ActionDispatch::IntegrationTest
 
     get search_path, params: { q: "Madrid" }
     assert_select ".ward-hit", count: 0
-    assert_select "p.lede.home-empty", text: I18n.t("home.empty")
+    assert_select ".ward-picker-missing", text: /#{Regexp.escape(I18n.t("home.empty"))}/
 
     get search_path, params: { q: "zzz" }
     assert_select ".ward-hit", count: 0
-    assert_select "p.lede.home-empty", text: I18n.t("home.empty")
+    assert_select ".ward-picker-missing", text: /#{Regexp.escape(I18n.t("home.empty"))}/
+    assert_select ".ward-picker-missing h2", text: I18n.t("street.gate_missing_title")
+    assert_select "a.btn-navy[href=?]", "https://maps.churchofjesuschrist.org/"
+    assert_select "form[action=?]", street_guest_path
 
     get search_path, params: { q: "RAMA" }
     assert_select ".ward-hit", text: /Rama Benidorm/
