@@ -18,6 +18,8 @@ class ApplicationController < ActionController::Base
     def redirect_to_canonical_host
       return unless Rails.env.production? && request.get?
       return if request.path == "/up"
+      return if controller_name == "identity_transfers"
+      return if request.host == IdentityTransfersController::SOURCE_HOST && cookies.signed[:noche_device].present?
 
       canonical_host = Rails.configuration.x.app_host.to_s.split(":").first
       return if canonical_host.blank? || request.host == canonical_host
