@@ -42,6 +42,7 @@ class Rounds::FinaleStealTest < ActiveSupport::TestCase
     daniel = add_player(@night, name: "Daniel", location: "remote")
     assert @round.finale_steal_open?
     Answers::Submit.call(round: @round, team: daniel.team, player: daniel, body: "double")
+    Answers::GradeChoices.call(round: @round)
     assert daniel.team.reload.score_events.where(kind: "correct", round_run: @round).exists?
   end
 
