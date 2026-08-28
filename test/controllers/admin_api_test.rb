@@ -192,9 +192,86 @@ class AdminApiTest < ActionDispatch::IntegrationTest
     assert_response :unprocessable_entity
   end
 
+  test "drafts previews and explicitly approves notification copy without sending" do
+    assert_no_difference("NotificationDelivery.count") do
+      post admin_api_notification_editorials_path,
+           params: {
+             editorial_key: "message.night-tomorrow.v1",
+             proposal_type: "message",
+             payload: {
+               notification_kind: "night_tomorrow",
+               translations: editorial_translations("Noche Live", "Rendez-vous à %{time}.")
+             }
+           },
+           headers: auth_headers,
+           as: :json
+    end
+
+    assert_response :created
+    id = response.parsed_body.dig("proposal", "id")
+
+    get preview_admin_api_notification_editorial_path(id), headers: auth_headers
+    assert_response :success
+    assert_equal false, response.parsed_body.fetch("delivery_enabled")
+    assert_equal "Rendez-vous à 19:30.", response.parsed_body.dig("preview", "locales", "fr", "body")
+    assert_equal "exact_noche_live_entry", response.parsed_body.dig("preview", "locales", "fr", "destination_rule")
+
+    post approval_preview_admin_api_notification_editorial_path(id), headers: auth_headers, as: :json
+    assert_response :success
+    confirmation = response.parsed_body.fetch("confirmation")
+    assert_match(/does not enable or send/, response.parsed_body.dig("approval", "effect"))
+
+    post approve_admin_api_notification_editorial_path(id),
+         params: { confirmation: },
+         headers: auth_headers,
+         as: :json
+    assert_response :success
+    assert_equal "approved", response.parsed_body.dig("proposal", "status")
+    assert_equal false, response.parsed_body.fetch("delivery_enabled")
+
+    patch admin_api_notification_editorial_path(id),
+          params: { payload: { notification_kind: "night_tomorrow" } },
+          headers: auth_headers,
+          as: :json
+    assert_response :unprocessable_entity
+  end
+
+  test "previews a dated verse in all four locales without scheduling it" do
+    assert_no_difference("NotificationDelivery.count") do
+      post admin_api_notification_editorials_path,
+           params: {
+             editorial_key: "verse.2026-09-01",
+             proposal_type: "verse",
+             payload: {
+               publish_on: "2026-09-01",
+               study: "nt/john/3",
+               verse: 16,
+               theme: "love"
+             }
+           },
+           headers: auth_headers,
+           as: :json
+    end
+
+    assert_response :created
+    id = response.parsed_body.dig("proposal", "id")
+    get preview_admin_api_notification_editorial_path(id), headers: auth_headers
+
+    assert_response :success
+    locales = response.parsed_body.dig("preview", "locales")
+    assert_equal NotificationEditorialProposal::LOCALES.sort, locales.keys.sort
+    assert_match %r{\A/fr/}, locales.dig("fr", "destination")
+  end
+
   private
 
     def auth_headers
       { "Authorization" => "Bearer #{TOKEN}" }
+    end
+
+    def editorial_translations(title, body)
+      NotificationEditorialProposal::LOCALES.to_h do |locale|
+        [ locale, { title: "#{title} #{locale}", body: } ]
+      end
     end
 end

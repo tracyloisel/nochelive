@@ -28,6 +28,19 @@ function result(value: unknown) {
   return { content: [{ type: "text" as const, text: JSON.stringify(value, null, 2) }] }
 }
 
+const messageKinds = [
+  "daily_verse", "study_reading", "duel_invitation", "duel_reminder",
+  "duel_result_won", "duel_result_finished", "duel_result_tie",
+  "night_tomorrow", "night_starting_soon"
+] as const
+const translationSchema = z.object({ title: z.string().min(1).max(80), body: z.string().min(1).max(180) })
+const translationsSchema = z.object({
+  es: translationSchema,
+  "pt-BR": translationSchema,
+  fr: translationSchema,
+  en: translationSchema
+})
+
 function createServer() {
   const server = new McpServer({ name: "nochelive-admin", version: "0.1.0" })
 
@@ -119,6 +132,83 @@ function createServer() {
     method: "POST",
     body: JSON.stringify({ confirmation })
   })))
+
+  server.registerTool("list_notification_editorials", {
+    description: "List notification message and verse proposals with their draft or approved status. This never sends or enables notifications.",
+    inputSchema: {
+      proposal_type: z.enum(["message", "verse"]).optional(),
+      status: z.enum(["draft", "approved"]).optional()
+    }
+  }, async (input) => {
+    const query = new URLSearchParams()
+    for (const [key, value] of Object.entries(input)) if (value) query.set(key, value)
+    return result(await api(`/internal/admin/notification_editorials?${query}`))
+  })
+
+  server.registerTool("draft_notification_message", {
+    description: "Create a four-language notification message draft. Placeholders must match the selected message kind. This does not approve, send, or enable it.",
+    inputSchema: {
+      editorial_key: z.string().regex(/^[a-z0-9][a-z0-9._:-]*$/),
+      notification_kind: z.enum(messageKinds),
+      translations: translationsSchema
+    }
+  }, async ({ editorial_key, notification_kind, translations }) => result(await api(
+    "/internal/admin/notification_editorials",
+    {
+      method: "POST",
+      body: JSON.stringify({
+        editorial_key,
+        proposal_type: "message",
+        payload: { notification_kind, translations }
+      })
+    }
+  )))
+
+  server.registerTool("draft_notification_verse", {
+    description: "Create a dated scripture proposal and derive its canonical citation and destination in all four locales. This does not approve, send, or enable it.",
+    inputSchema: {
+      editorial_key: z.string().regex(/^[a-z0-9][a-z0-9._:-]*$/),
+      publish_on: z.string().describe("YYYY-MM-DD local publication date"),
+      study: z.string().describe("Canonical scripture study path, for example nt/john/3"),
+      verse: z.number().int().positive(),
+      theme: z.string().min(1).max(80)
+    }
+  }, async ({ editorial_key, ...payload }) => result(await api(
+    "/internal/admin/notification_editorials",
+    { method: "POST", body: JSON.stringify({ editorial_key, proposal_type: "verse", payload }) }
+  )))
+
+  server.registerTool("edit_notification_editorial_draft", {
+    description: "Replace the payload of an existing draft. Approved proposals are immutable and must be superseded by a new editorial key.",
+    inputSchema: {
+      id: z.number().int().positive(),
+      payload: z.record(z.string(), z.unknown())
+    }
+  }, async ({ id, payload }) => result(await api(
+    `/internal/admin/notification_editorials/${id}`,
+    { method: "PATCH", body: JSON.stringify({ payload }) }
+  )))
+
+  server.registerTool("preview_notification_editorial", {
+    description: "Render the exact four-language notification copy, canonical citations, and sample deep links for review. No push is sent.",
+    inputSchema: { id: z.number().int().positive() }
+  }, async ({ id }) => result(await api(`/internal/admin/notification_editorials/${id}/preview`)))
+
+  server.registerTool("preview_notification_editorial_approval", {
+    description: "Review the exact immutable proposal and obtain a short-lived one-use confirmation token. This still does not send or enable notifications.",
+    inputSchema: { id: z.number().int().positive() }
+  }, async ({ id }) => result(await api(
+    `/internal/admin/notification_editorials/${id}/approval_preview`,
+    { method: "POST", body: "{}" }
+  )))
+
+  server.registerTool("approve_notification_editorial", {
+    description: "Approve exactly one previously previewed editorial proposal using its short-lived confirmation. Approval never enables delivery or sends a push.",
+    inputSchema: { id: z.number().int().positive(), confirmation: z.string().min(20) }
+  }, async ({ id, confirmation }) => result(await api(
+    `/internal/admin/notification_editorials/${id}/approve`,
+    { method: "POST", body: JSON.stringify({ confirmation }) }
+  )))
 
   return server
 }

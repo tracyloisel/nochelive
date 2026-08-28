@@ -198,6 +198,34 @@ Edit the schedule, presenter language, broadcast delay, deployed event poster, o
 
 Starting, pausing, resuming, and finishing a night are intentionally not exposed by these two scheduling tools.
 
+## Notification editorial workshop
+
+The notification tools are deliberately separate from delivery. They can create drafts, render exact four-language previews, and approve an immutable proposal. They cannot enable web push or send a notification.
+
+The safe sequence is:
+
+1. `draft_notification_message` or `draft_notification_verse`;
+2. `preview_notification_editorial` and review all four locales and destinations;
+3. edit the draft if necessary with `edit_notification_editorial_draft`, then preview again;
+4. `preview_notification_editorial_approval` to receive a 15-minute, one-use confirmation;
+5. `approve_notification_editorial` only after the displayed digest and complete preview are accepted.
+
+Use `list_notification_editorials` at any time to see what is still a draft and what has been approved. Approved entries are immutable; corrections use a new `editorial_key` so the audit trail remains honest.
+
+Message drafts require exact placeholder sets:
+
+| Message kind | Required body placeholders |
+|---|---|
+| `daily_verse` | `%{reference}` |
+| `study_reading` | `%{title}` |
+| `duel_invitation`, `duel_reminder` | `%{name}`, `%{pack}` |
+| `duel_result_won`, `duel_result_finished`, `duel_result_tie` | `%{name}`, `%{pack}` |
+| `night_tomorrow`, `night_starting_soon` | `%{time}` |
+
+Verse drafts require a local publication date, canonical `study` path, verse number, and theme. Preview derives the citation and exact scripture deep link independently for Español, Português, Français, and English. An invalid reference is rejected. No approved entry for a date must ultimately mean no editorial delivery.
+
+Actual test pushes and production activation are intentionally not exposed in this first workshop. They require a separate, explicitly confirmed test-recipient workflow after the copy and calendar have been approved.
+
 ## Expected errors
 
 - `401 Unauthorized`: the token is absent, different from Render, or too short.

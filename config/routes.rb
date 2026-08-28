@@ -9,6 +9,11 @@ Rails.application.routes.draw do
     end
     post "profile_merges/preview", to: "profile_merges#preview"
     post "profile_merges", to: "profile_merges#create"
+    resources :notification_editorials, only: %i[index create update] do
+      get :preview, on: :member
+      post :approval_preview, on: :member
+      post :approve, on: :member
+    end
   end
 
   get "up" => "rails/health#show", as: :rails_health_check
