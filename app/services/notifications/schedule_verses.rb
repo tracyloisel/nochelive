@@ -12,7 +12,7 @@ module Notifications
     end
 
     def call
-      return [] unless Notifications::Feature.enabled?
+      return [] unless Notifications::Feature.delivery_enabled?
 
       deliveries = []
       NotificationPreference.where(verses_enabled: true).includes(person: :web_push_subscriptions).find_each do |preference|

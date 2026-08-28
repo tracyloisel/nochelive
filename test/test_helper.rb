@@ -86,9 +86,10 @@ module ActiveSupport
       Notifications::Sender.transport = nil if defined?(Notifications::Sender)
     end
 
-    def with_web_push_enabled(vapid: true)
-      previous = %w[WEB_PUSH_ENABLED VAPID_PUBLIC_KEY VAPID_PRIVATE_KEY VAPID_SUBJECT].to_h { |key| [ key, ENV[key] ] }
+    def with_web_push_enabled(vapid: true, delivery: true)
+      previous = %w[WEB_PUSH_ENABLED WEB_PUSH_DELIVERY_ENABLED VAPID_PUBLIC_KEY VAPID_PRIVATE_KEY VAPID_SUBJECT].to_h { |key| [ key, ENV[key] ] }
       ENV["WEB_PUSH_ENABLED"] = "true"
+      ENV["WEB_PUSH_DELIVERY_ENABLED"] = delivery.to_s
       if vapid
         ENV["VAPID_PUBLIC_KEY"] = "test-public"
         ENV["VAPID_PRIVATE_KEY"] = "test-private"

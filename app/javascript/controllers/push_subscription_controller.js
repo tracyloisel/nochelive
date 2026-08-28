@@ -9,7 +9,7 @@ export default class extends Controller {
 
   static values = {
     subscriptionUrl: String, preferencesUrl: String, promptUrl: String, publicKey: String,
-    personName: String, category: String, context: String, automatic: Boolean,
+    category: String, context: String, automatic: Boolean,
     challengesActive: Boolean, versesActive: Boolean, nightsActive: Boolean, loadingText: String, allowedText: String,
     defaultText: String, deniedText: String, unsupportedText: String, installText: String,
     savedText: String, disabledDeviceText: String, failedText: String, reassignText: String,
@@ -231,7 +231,6 @@ export default class extends Controller {
   }
 
   async updateVerseChoice() {
-    this.updateVerseCta()
     if (!this.versesActiveValue) return
 
     this.setBusy(true)
@@ -251,15 +250,6 @@ export default class extends Controller {
     } finally {
       this.setBusy(false)
     }
-  }
-
-  updateVerseCta() {
-    if (!this.hasFrequencyTarget || !this.hasTimeTarget) return
-    const label = this.frequencyTarget.selectedOptions[0]?.dataset.label || this.frequencyTarget.selectedOptions[0]?.textContent || ""
-    this.enableVersesTargets.forEach((button) => {
-      const template = button.dataset.template
-      if (template) button.textContent = template.replace("__FREQUENCY__", label).replace("__TIME__", this.timeTarget.value)
-    })
   }
 
   async record(result, category = this.categoryValue) {

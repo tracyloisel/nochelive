@@ -8,7 +8,6 @@
          data-push-subscription-preferences-url-value="<%= notifications_preferences_path %>"
          data-push-subscription-prompt-url-value="<%= notifications_prompt_state_path %>"
          data-push-subscription-public-key-value="<%= Notifications::Feature.public_key %>"
-         data-push-subscription-person-name-value="<%= person.given_name %>"
          data-push-subscription-context-value="profile"
          data-push-subscription-automatic-value="false"
          data-push-subscription-challenges-active-value="<%= preference.challenges_enabled? %>"
@@ -28,49 +27,56 @@
          data-push-subscription-device-expired-text-value="<%= t("notifications.settings.device_expired") %>">
   <header class="push-settings-head">
     <span class="push-settings-emblem" aria-hidden="true"><%= picto("bell") %></span>
-    <div><p class="push-kicker"><%= t("notifications.settings.kicker") %></p>
-      <h2 id="push_settings_title"><%= t("notifications.settings.title", name: person.given_name) %></h2>
+    <div class="push-settings-intro"><p class="push-kicker"><%= t("notifications.settings.kicker") %></p>
+      <h2 id="push_settings_title"><%= t("notifications.settings.title") %></h2>
       <p><%= t("notifications.settings.lede") %></p></div>
   </header>
   <section class="push-device-card">
-    <span aria-hidden="true"><%= picto("phone") %></span>
+    <span class="push-device-signal" aria-hidden="true"></span>
     <div><h3><%= t("notifications.settings.device_title") %></h3>
       <p data-push-subscription-target="status" aria-live="polite"><%= t("notifications.settings.device_loading") %></p></div>
   </section>
-  <h3 class="push-categories-title"><%= t("notifications.settings.categories_title", name: person.given_name) %></h3>
+  <h3 class="push-categories-title"><%= t("notifications.settings.categories_title") %></h3>
   <div class="push-category-list">
-    <article class="push-category-card is-nights">
+    <article class="push-category-card is-nights" aria-labelledby="push_nights_title">
       <span class="push-category-icon" aria-hidden="true"><%= picto("bell") %></span>
-      <div><h4><%= t("notifications.settings.nights_title") %></h4><p><%= t("notifications.settings.nights_hint") %></p></div>
-      <button type="button" class="btn btn-ghost push-setting-action" data-category="nights" <%= "hidden" if preference.nights_enabled? && device_subscribed %>
-              data-push-subscription-target="enableNights controls" data-action="push-subscription#enable"><%= t("notifications.settings.nights_enable", name: person.given_name) %></button>
-      <button type="button" class="quiet-link push-setting-action" data-category="nights" <%= "hidden" unless preference.nights_enabled? %>
-              data-push-subscription-target="disableNights controls" data-action="push-subscription#disableCategory"><%= t("notifications.settings.nights_disable", name: person.given_name) %></button>
+      <div class="push-category-copy"><h4 id="push_nights_title"><%= t("notifications.settings.nights_title") %></h4><p id="push_nights_hint"><%= t("notifications.settings.nights_hint") %></p></div>
+      <button type="button" class="push-setting-action push-setting-toggle is-off" role="switch" aria-checked="false" aria-describedby="push_nights_hint"
+              aria-label="<%= t("notifications.settings.nights_enable") %>" data-category="nights" <%= "hidden" if preference.nights_enabled? && device_subscribed %>
+              data-push-subscription-target="enableNights controls" data-action="push-subscription#enable"><span class="push-toggle-track" aria-hidden="true"></span><span><%= t("notifications.settings.activate") %></span></button>
+      <button type="button" class="push-setting-action push-setting-toggle is-on" role="switch" aria-checked="true" aria-describedby="push_nights_hint"
+              aria-label="<%= t("notifications.settings.nights_disable") %>" data-category="nights" <%= "hidden" unless preference.nights_enabled? %>
+              data-push-subscription-target="disableNights controls" data-action="push-subscription#disableCategory"><span class="push-toggle-track" aria-hidden="true"></span><span><%= t("notifications.settings.enabled") %></span></button>
     </article>
-    <article class="push-category-card is-challenges">
+    <article class="push-category-card is-challenges" aria-labelledby="push_challenges_title">
       <span class="push-category-icon" aria-hidden="true"><%= picto("swords") %></span>
-      <div><h4><%= t("notifications.settings.challenges_title") %></h4><p><%= t("notifications.settings.challenges_hint") %></p></div>
-      <button type="button" class="btn btn-ghost push-setting-action" data-category="challenges" <%= "hidden" if preference.challenges_enabled? && device_subscribed %>
-              data-push-subscription-target="enableChallenges controls" data-action="push-subscription#enable"><%= t("notifications.settings.challenges_enable", name: person.given_name) %></button>
-      <button type="button" class="quiet-link push-setting-action" data-category="challenges" <%= "hidden" unless preference.challenges_enabled? %>
-              data-push-subscription-target="disableChallenges controls" data-action="push-subscription#disableCategory"><%= t("notifications.settings.challenges_disable", name: person.given_name) %></button>
+      <div class="push-category-copy"><h4 id="push_challenges_title"><%= t("notifications.settings.challenges_title") %></h4><p id="push_challenges_hint"><%= t("notifications.settings.challenges_hint") %></p></div>
+      <button type="button" class="push-setting-action push-setting-toggle is-off" role="switch" aria-checked="false" aria-describedby="push_challenges_hint"
+              aria-label="<%= t("notifications.settings.challenges_enable") %>" data-category="challenges" <%= "hidden" if preference.challenges_enabled? && device_subscribed %>
+              data-push-subscription-target="enableChallenges controls" data-action="push-subscription#enable"><span class="push-toggle-track" aria-hidden="true"></span><span><%= t("notifications.settings.activate") %></span></button>
+      <button type="button" class="push-setting-action push-setting-toggle is-on" role="switch" aria-checked="true" aria-describedby="push_challenges_hint"
+              aria-label="<%= t("notifications.settings.challenges_disable") %>" data-category="challenges" <%= "hidden" unless preference.challenges_enabled? %>
+              data-push-subscription-target="disableChallenges controls" data-action="push-subscription#disableCategory"><span class="push-toggle-track" aria-hidden="true"></span><span><%= t("notifications.settings.enabled") %></span></button>
     </article>
-    <article class="push-category-card is-verses">
+    <article class="push-category-card is-verses" aria-labelledby="push_verses_title">
       <span class="push-category-icon" aria-hidden="true"><%= picto("book") %></span>
-      <div><h4><%= t("notifications.settings.verses_title") %></h4><p><%= t("notifications.settings.verses_hint") %></p></div>
+      <div class="push-category-copy"><h4 id="push_verses_title"><%= t("notifications.settings.verses_title") %></h4><p id="push_verses_hint"><%= t("notifications.settings.verses_hint") %></p></div>
+      <button type="button" class="push-setting-action push-setting-toggle is-off" role="switch" aria-checked="false" aria-describedby="push_verses_hint"
+              aria-label="<%= t("notifications.settings.verses_enable") %>"
+              data-category="verses" <%= "hidden" if preference.verses_enabled? && device_subscribed %>
+              data-push-subscription-target="enableVerses controls" data-action="push-subscription#enable"><span class="push-toggle-track" aria-hidden="true"></span><span><%= t("notifications.settings.activate") %></span></button>
+      <button type="button" class="push-setting-action push-setting-toggle is-on" role="switch" aria-checked="true" aria-describedby="push_verses_hint"
+              aria-label="<%= t("notifications.settings.verses_disable") %>" data-category="verses" <%= "hidden" unless preference.verses_enabled? %>
+              data-push-subscription-target="disableVerses controls" data-action="push-subscription#disableCategory"><span class="push-toggle-track" aria-hidden="true"></span><span><%= t("notifications.settings.enabled") %></span></button>
       <div class="push-verse-options">
         <label><span><%= t("notifications.settings.frequency") %></span><select data-push-subscription-target="frequency controls" data-action="change->push-subscription#updateVerseChoice">
-          <% NotificationPreference::VERSE_FREQUENCIES.each do |frequency| %><option value="<%= frequency %>" data-label="<%= t("notifications.frequency.#{frequency}") %>" <%= "selected" if frequency == preference.verse_frequency %>><%= t("notifications.settings.#{frequency == 'daily' ? 'daily' : 'three_weekly'}") %></option><% end %>
+          <% NotificationPreference::VERSE_FREQUENCIES.each do |frequency| %><option value="<%= frequency %>" <%= "selected" if frequency == preference.verse_frequency %>><%= t("notifications.settings.#{frequency == 'daily' ? 'daily' : 'three_weekly'}") %></option><% end %>
         </select></label>
         <label><span><%= t("notifications.settings.time") %></span><input type="time" value="<%= local_time %>" data-push-subscription-target="time controls" data-action="change->push-subscription#updateVerseChoice"></label>
       </div>
-      <button type="button" class="btn btn-ghost push-setting-action" data-category="verses" <%= "hidden" if preference.verses_enabled? && device_subscribed %>
-              data-template="<%= t("notifications.settings.verses_enable", name: person.given_name, frequency: "__FREQUENCY__", time: "__TIME__") %>"
-              data-push-subscription-target="enableVerses controls" data-action="push-subscription#enable"><%= t("notifications.settings.verses_enable", name: person.given_name, frequency: t("notifications.frequency.#{preference.verse_frequency}"), time: local_time) %></button>
-      <button type="button" class="quiet-link push-setting-action" data-category="verses" <%= "hidden" unless preference.verses_enabled? %>
-              data-push-subscription-target="disableVerses controls" data-action="push-subscription#disableCategory"><%= t("notifications.settings.verses_disable", name: person.given_name) %></button>
     </article>
   </div>
+  <p class="push-settings-foot"><%= t("notifications.settings.change_anytime") %></p>
   <button type="button" class="btn btn-gold push-install-settings" hidden
           data-push-subscription-target="install controls"
           data-action="push-subscription#rememberInstall pwa-install#install"><%= t("notifications.prompt.install_cta") %></button>

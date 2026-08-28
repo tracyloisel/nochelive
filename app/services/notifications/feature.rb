@@ -6,6 +6,10 @@ module Notifications
       ActiveModel::Type::Boolean.new.cast(ENV.fetch("WEB_PUSH_ENABLED", "false"))
     end
 
+    def delivery_enabled?
+      enabled? && ActiveModel::Type::Boolean.new.cast(ENV.fetch("WEB_PUSH_DELIVERY_ENABLED", "false"))
+    end
+
     def vapid_configured?
       public_key.present? && private_key.present? && subject.present?
     end

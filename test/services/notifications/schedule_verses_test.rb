@@ -45,6 +45,14 @@ class Notifications::ScheduleVersesTest < ActiveSupport::TestCase
     end
   end
 
+  test "does not schedule editorial content while delivery approval is locked" do
+    with_web_push_enabled(delivery: false) do
+      assert_no_difference -> { NotificationDelivery.count } do
+        Notifications::ScheduleVerses.call(now: Time.find_zone!("Europe/Madrid").local(2026, 8, 31, 8, 5))
+      end
+    end
+  end
+
   test "reconstructs delayed content from the stored destination" do
     entry = Notifications::VerseCatalog.entries.first
     delivery = NotificationDelivery.create!(

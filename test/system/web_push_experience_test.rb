@@ -29,17 +29,38 @@ class WebPushExperienceTest < ApplicationSystemTestCase
 
       assert_selector ".push-settings"
       assert_text I18n.t("notifications.settings.device_default")
-      assert_selector "button[data-category=challenges]", text: person.given_name
+      assert_selector "button[data-category=challenges][role=switch][aria-checked=false]"
+      assert_no_text person.given_name, exact: true
 
-      find("button[data-category=nights]", text: person.given_name).click
+      scroll_to(find(".push-settings"))
+      assert_settings_layout
+      page.save_screenshot(SHOT_DIR.join("settings-default-390x844.png"))
+
+      page.current_window.resize_to(768, 1024)
+      scroll_to(find(".push-settings"))
+      assert_selector ".push-category-list > .push-category-card", count: 3
+      assert_settings_layout
+      page.save_screenshot(SHOT_DIR.join("settings-default-768x1024.png"))
+
+      page.current_window.resize_to(1440, 900)
+      scroll_to(find(".push-settings"))
+      assert_selector ".push-category-list > .push-category-card", count: 3
+      assert_settings_layout
+      page.save_screenshot(SHOT_DIR.join("settings-default-1440x900.png"))
+
+      page.current_window.resize_to(390, 844)
+      scroll_to(find(".push-settings"))
+
+      find("button[data-category=nights][aria-checked=false]").click
       assert_text I18n.t("notifications.settings.saved")
       assert_equal 1, page.evaluate_script("window.__pushPermissionRequests")
       assert person.notification_preference.reload.nights_enabled?
       refute person.notification_preference.challenges_enabled?
       refute person.notification_preference.verses_enabled?
 
-      find("button[data-category=challenges]", text: person.given_name).click
+      find("button[data-category=challenges][aria-checked=false]").click
       assert_text I18n.t("notifications.settings.saved")
+      assert_selector "button[data-category=challenges][aria-checked=true]"
       assert_equal 1, page.evaluate_script("window.__pushPermissionRequests")
       assert person.notification_preference.reload.challenges_enabled?
       refute person.notification_preference.verses_enabled?
@@ -47,15 +68,15 @@ class WebPushExperienceTest < ApplicationSystemTestCase
 
       select I18n.t("notifications.settings.daily"), from: I18n.t("notifications.settings.frequency")
       fill_in I18n.t("notifications.settings.time"), with: "07:30"
-      assert_selector "button[data-category=verses]", text: /07:30/
-      find("button[data-category=verses]", text: /07:30/).click
-      assert_selector "button[data-category=verses]", text: I18n.t("notifications.settings.verses_disable", name: person.given_name)
+      assert_field I18n.t("notifications.settings.time"), with: "07:30"
+      find("button[data-category=verses][aria-checked=false]").click
+      assert_selector "button[data-category=verses][aria-checked=true]"
       assert person.notification_preference.reload.verses_enabled?
       assert_equal "daily", person.notification_preference.verse_frequency
       assert_equal 1, page.evaluate_script("window.__pushPermissionRequests")
 
-      find("button[data-category=challenges]", text: I18n.t("notifications.settings.challenges_disable", name: person.given_name)).click
-      assert_selector "button[data-category=challenges]", text: I18n.t("notifications.settings.challenges_enable", name: person.given_name)
+      find("button[data-category=challenges][aria-checked=true]").click
+      assert_selector "button[data-category=challenges][aria-checked=false]"
       refute person.notification_preference.reload.challenges_enabled?
       assert person.notification_preference.verses_enabled?
 
@@ -238,6 +259,37 @@ class WebPushExperienceTest < ApplicationSystemTestCase
         media: "screen",
         features: [ { name: "prefers-reduced-motion", value: "reduce" } ]
       )
+    end
+
+    def assert_settings_layout
+      metrics = page.evaluate_script(<<~JS)
+        (() => {
+          const root = document.documentElement;
+          const list = document.querySelector(".push-category-list");
+          const cards = [...document.querySelectorAll(".push-category-card")];
+          const controls = [...document.querySelectorAll(".push-setting-toggle:not([hidden])")];
+          const listRect = list.getBoundingClientRect();
+          const cardRects = cards.map((card) => card.getBoundingClientRect());
+          const controlRects = controls.map((control) => control.getBoundingClientRect());
+          return {
+            noHorizontalOverflow: root.scrollWidth <= window.innerWidth,
+            singleColumn: new Set(cardRects.map((rect) => Math.round(rect.left))).size === 1,
+            cardsContained: cardRects.every((rect) => rect.left >= listRect.left - 1 && rect.right <= listRect.right + 1),
+            controlsContained: controlRects.every((rect) => cardRects.some((card) => rect.left >= card.left - 1 && rect.right <= card.right + 1)),
+            controlsReachable: controlRects.every((rect) => rect.height >= 44),
+            controlsCompact: controlRects.every((rect) => rect.height <= 48),
+            cardCount: cards.length
+          };
+        })()
+      JS
+
+      assert_equal 3, metrics.fetch("cardCount")
+      assert metrics.fetch("noHorizontalOverflow"), "notification settings overflow horizontally"
+      assert metrics.fetch("singleColumn"), "notification categories must remain one measured column"
+      assert metrics.fetch("cardsContained"), "a notification category escapes the settings folio"
+      assert metrics.fetch("controlsContained"), "a notification switch escapes its category"
+      assert metrics.fetch("controlsReachable"), "notification switches must retain a 44px target"
+      assert metrics.fetch("controlsCompact"), "notification switches must not grow into multiline CTAs"
     end
 
     def create_final_study_run(person)

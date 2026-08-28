@@ -51,7 +51,7 @@ module Notifications
       end
 
       def deliverable?
-        return false unless Notifications::Feature.enabled? && Notifications::Feature.vapid_configured?
+        return false unless Notifications::Feature.delivery_enabled? && Notifications::Feature.vapid_configured?
         return false unless @delivery.web_push_subscription&.active?
         preference = @delivery.person.notification_preference
         return false unless preference&.enabled_for?(@delivery.kind)

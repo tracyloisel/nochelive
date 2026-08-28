@@ -23,6 +23,29 @@ class Notifications::DeliveryTest < ActiveSupport::TestCase
     end
   end
 
+  test "editorial lock prevents new jobs and cancels already queued work" do
+    duel = street_duels(:pili_vs_carmen)
+    calls = 0
+    Notifications::Sender.transport = ->(**) { calls += 1 }
+
+    with_web_push_enabled(delivery: false) do
+      assert_no_difference -> { NotificationDelivery.count } do
+        Notifications::Enqueue.call(
+          person: people(:carmen_garcia), kind: "duel_result", subject: duel,
+          destination: "/desafio/#{duel.token}", dedupe_token: "editorial-lock"
+        )
+      end
+      assert_no_enqueued_jobs only: NotificationDeliveryJob
+
+      delivery = notification_deliveries(:carmen_duel_result)
+      delivery.update!(status: "queued", sent_at: nil)
+      Notifications::Deliver.call(delivery:)
+      assert delivery.reload.cancelled?
+    end
+
+    assert_equal 0, calls
+  end
+
   test "marks a successful push sent and a second execution is inert" do
     delivery = notification_deliveries(:carmen_duel_result)
     delivery.update!(status: "queued", sent_at: nil)

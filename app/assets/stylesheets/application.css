@@ -1036,47 +1036,122 @@ body.is-reading-push-settings .profile-panel.is-edit .btn-gold {
   pointer-events: none;
 }
 
-.push-settings { padding: clamp(1.25rem, 4vw, 2rem); }
-.push-settings-head { display: flex; align-items: flex-start; gap: 1rem; }
+.push-settings {
+  width: min(calc(100% - 2rem), 38rem);
+  padding: clamp(1.2rem, 4vw, 2rem);
+}
+.push-settings-head {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 1rem;
+  align-items: center;
+}
 .push-settings-head p { margin-bottom: 0; }
+.push-settings-intro { min-width: 0; }
 
 .push-device-card {
   display: flex;
-  gap: .9rem;
+  gap: .85rem;
   align-items: center;
   margin-top: 1.35rem;
-  padding: 1rem;
-  background: color-mix(in srgb, var(--ink) 5%, transparent);
-  border: 1px solid var(--line);
+  padding: .85rem 1rem;
+  background: color-mix(in srgb, var(--gold) 7%, transparent);
+  border: 1px solid color-mix(in srgb, var(--gold) 22%, var(--line));
   border-radius: 1rem;
 }
 
-.push-device-card > span { width: 2.25rem; color: var(--gold); }
-.push-device-card .picto { width: 2rem; height: 2rem; }
+.push-device-signal {
+  flex: 0 0 auto;
+  width: .62rem;
+  height: .62rem;
+  margin-inline: .2rem;
+  background: var(--gold);
+  border-radius: 50%;
+  box-shadow: 0 0 0 .3rem color-mix(in srgb, var(--gold) 15%, transparent);
+}
 .push-device-card h3,
 .push-device-card p { margin: 0; }
-.push-device-card p { margin-top: .15rem; color: var(--muted); }
+.push-device-card h3 { font-size: .95rem; }
+.push-device-card p { margin-top: .15rem; color: var(--muted); font-size: var(--type-min, .875rem); line-height: 1.35; }
 
 .push-categories-title { margin: 1.6rem 0 .75rem; font-size: 1rem; }
-.push-category-list { display: grid; gap: .85rem; }
+.push-category-list {
+  overflow: hidden;
+  background: color-mix(in srgb, var(--surface) 88%, var(--paper));
+  border: 1px solid var(--line);
+  border-radius: 1.25rem;
+}
 
 .push-category-card {
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  gap: .8rem;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: .85rem;
+  align-items: center;
   padding: 1rem;
-  background: color-mix(in srgb, var(--surface) 88%, var(--paper));
-  border: 1px solid var(--line);
-  border-radius: 1.2rem;
+  background: transparent;
 }
 
+.push-category-card + .push-category-card { border-top: 1px solid var(--line); }
+.push-category-card .push-category-icon { width: 2.75rem; height: 2.75rem; }
+.push-category-card .push-category-icon .picto { width: 1.45rem; height: 1.45rem; }
+.push-category-copy { min-width: 0; }
 .push-category-card h4 { margin: .1rem 0 0; font-size: 1.05rem; }
 .push-category-card p { font-size: var(--type-min, .875rem); }
-.push-category-card .push-setting-action,
-.push-verse-options { grid-column: 1 / -1; }
-.push-category-card .btn { width: 100%; min-height: 3.25rem; white-space: normal; }
+.push-setting-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .4rem;
+  min-height: 2.75rem;
+  padding: .45rem .7rem;
+  color: var(--ink);
+  background: color-mix(in srgb, white 76%, var(--paper));
+  border: 1px solid color-mix(in srgb, var(--ink) 18%, transparent);
+  border-radius: 999px;
+  font: inherit;
+  font-size: .82rem;
+  font-weight: 800;
+  line-height: 1;
+  cursor: pointer;
+  transition: border-color 160ms ease, background 160ms ease, box-shadow 160ms ease;
+}
+.push-setting-toggle:hover { border-color: color-mix(in srgb, var(--gold) 66%, var(--ink)); }
+.push-setting-toggle:focus-visible { outline: 3px solid color-mix(in srgb, var(--gold) 40%, transparent); outline-offset: 2px; }
+.push-setting-toggle.is-on {
+  color: color-mix(in srgb, var(--ink) 92%, black);
+  background: color-mix(in srgb, var(--gold) 15%, white);
+  border-color: color-mix(in srgb, var(--gold) 58%, var(--ink));
+}
+.push-toggle-track {
+  position: relative;
+  flex: 0 0 auto;
+  width: 2rem;
+  height: 1.1rem;
+  padding: .13rem;
+  background: color-mix(in srgb, var(--ink) 20%, var(--paper));
+  border-radius: 999px;
+}
+.push-toggle-track::after {
+  content: "";
+  display: block;
+  width: .84rem;
+  height: .84rem;
+  background: white;
+  border-radius: 50%;
+  box-shadow: 0 1px 3px color-mix(in srgb, var(--ink) 35%, transparent);
+  transition: transform 160ms ease;
+}
+.push-setting-toggle.is-on .push-toggle-track { background: var(--gold-deep, var(--gold)); }
+.push-setting-toggle.is-on .push-toggle-track::after { transform: translateX(.9rem); }
 
-.push-verse-options { display: grid; grid-template-columns: minmax(0, 1fr) 8.5rem; gap: .65rem; }
+.push-verse-options {
+  grid-column: 2 / -1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 8.5rem;
+  gap: .65rem;
+  width: 100%;
+  margin-top: .1rem;
+}
 .push-verse-options label { display: grid; gap: .3rem; color: var(--muted); font-size: var(--type-min, .875rem); font-weight: 700; }
 .push-verse-options select,
 .push-verse-options input {
@@ -1088,6 +1163,14 @@ body.is-reading-push-settings .profile-panel.is-edit .btn-gold {
   border: 1px solid var(--line);
   border-radius: .8rem;
   font: inherit;
+}
+
+.push-settings-foot {
+  margin: 1rem .25rem 0;
+  color: var(--muted);
+  font-size: var(--type-min, .875rem);
+  line-height: 1.4;
+  text-align: center;
 }
 
 .push-settings > .push-reassign,
@@ -1126,8 +1209,19 @@ body.is-study-run .push-invitation-mark {
   .push-invitation { grid-template-columns: auto minmax(0, 1fr) minmax(15rem, .65fr); align-items: center; }
   .push-invitation-actions { grid-column: 3; }
   .push-feedback { grid-column: 2 / -1; }
-  .push-category-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .street-world.is-game-hub .street-hub-feed > .push-invitation { grid-column: 2 / 5; }
+}
+
+@media (max-width: 520px) {
+  .push-settings { width: min(calc(100% - 1rem), 38rem); padding: 1.1rem; }
+  .push-settings-head { align-items: start; }
+  .push-category-card { gap: .7rem; padding: .9rem .8rem; }
+  .push-category-card .push-category-icon { width: 2.5rem; height: 2.5rem; }
+  .push-category-card h4 { font-size: 1rem; }
+  .push-category-card p { font-size: .78rem; line-height: 1.35; }
+  .push-setting-toggle { min-width: 2.75rem; padding-inline: .45rem; }
+  .push-setting-toggle > span:last-child { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .push-verse-options { grid-column: 1 / -1; }
 }
 
 @media (min-width: 1200px) {

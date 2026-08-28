@@ -16,7 +16,7 @@ module Notifications
     end
 
     def call
-      return [] unless Notifications::Feature.enabled?
+      return [] unless Notifications::Feature.delivery_enabled?
 
       REMINDERS.flat_map do |kind, advance|
         due_nights(advance).flat_map { |night| enqueue_night(night, kind) }

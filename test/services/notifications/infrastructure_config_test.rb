@@ -11,9 +11,17 @@ class Notifications::InfrastructureConfigTest < ActiveSupport::TestCase
     assert_equal "bundle exec bin/jobs", workers.first.fetch("startCommand")
     assert_equal 60, workers.first.fetch("maxShutdownDelaySeconds")
     assert_empty services.select { |service| service["type"] == "cron" }
-    %w[DATABASE_URL RAILS_MASTER_KEY WEB_PUSH_ENABLED VAPID_PUBLIC_KEY VAPID_PRIVATE_KEY VAPID_SUBJECT].each do |key|
+    %w[DATABASE_URL RAILS_MASTER_KEY WEB_PUSH_ENABLED WEB_PUSH_DELIVERY_ENABLED VAPID_PUBLIC_KEY VAPID_PRIVATE_KEY VAPID_SUBJECT].each do |key|
       assert workers.first.fetch("envVars").any? { |row| row["key"] == key }, key
     end
+
+    push_flags = services.filter_map do |service|
+      next unless %w[web worker].include?(service["type"])
+
+      service.fetch("envVars").select { |row| %w[WEB_PUSH_ENABLED WEB_PUSH_DELIVERY_ENABLED].include?(row["key"]) }
+    end.flatten
+    assert_equal 4, push_flags.size
+    assert push_flags.all? { |row| row["value"] == "false" }, "push must remain locked until editorial approval"
   end
 
   test "Solid Queue gives transactional notifications precedence and owns recurrence" do

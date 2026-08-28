@@ -15,7 +15,7 @@ module Notifications
     end
 
     def call
-      return [] unless Notifications::Feature.enabled?
+      return [] unless Notifications::Feature.delivery_enabled?
       preference = @person.notification_preference
       return [] unless preference&.enabled_for?(@kind)
 

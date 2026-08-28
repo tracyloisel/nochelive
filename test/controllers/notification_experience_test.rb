@@ -15,7 +15,7 @@ class NotificationExperienceTest < ActionDispatch::IntegrationTest
   test "the ficha exposes granular voluntary settings with no preselected category" do
     with_web_push_enabled do
       sign_in_congregation
-      person = create_street_profile!(name: "Réglages Push")
+      create_street_profile!(name: "Réglages Push")
       get street_profile_path(edit: 1)
 
       assert_response :success
@@ -24,16 +24,17 @@ class NotificationExperienceTest < ActionDispatch::IntegrationTest
       assert_select "[data-push-subscription-challenges-active-value='false']"
       assert_select "[data-push-subscription-verses-active-value='false']"
       assert_select "[data-push-subscription-nights-active-value='false']"
-      assert_select "button[data-category='nights']", text: /#{Regexp.escape(person.given_name)}/
-      assert_select "button[data-category='challenges']", text: /#{Regexp.escape(person.given_name)}/
-      assert_select "button[data-category='verses'][data-template*='__FREQUENCY__'][data-template*='__TIME__']"
+      assert_select ".push-setting-toggle[role='switch'][aria-checked='false']", count: 3
+      assert_select ".push-setting-toggle[role='switch'][aria-checked='true']", count: 3
+      assert_select ".push-setting-toggle", text: /Réglages Push/, count: 0
+      assert_select ".push-verse-options", count: 1
     end
   end
 
   test "the hamburger opens a dedicated notification settings screen" do
     with_web_push_enabled do
       sign_in_congregation
-      person = create_street_profile!(name: "Menu Notifications")
+      create_street_profile!(name: "Menu Notifications")
 
       get root_path
       assert_response :success
@@ -44,7 +45,7 @@ class NotificationExperienceTest < ActionDispatch::IntegrationTest
       assert_select "#notification_settings h1", text: I18n.t("notifications.settings.menu")
       assert_select ".push-settings[data-controller='push-subscription']"
       assert_select ".push-category-card", count: 3
-      assert_select "[data-push-subscription-person-name-value='#{person.given_name}']"
+      assert_select ".push-category-list > .push-category-card", count: 3
     end
   end
 
@@ -113,15 +114,27 @@ class NotificationExperienceTest < ActionDispatch::IntegrationTest
   end
 
   test "settings disappear completely while the rollout flag is off" do
-    sign_in_congregation
-    create_street_profile!(name: "Flag Off")
-    get street_profile_path(edit: 1)
+    with_web_push_disabled do
+      sign_in_congregation
+      create_street_profile!(name: "Flag Off")
+      get street_profile_path(edit: 1)
 
-    assert_response :success
-    assert_select ".push-settings", count: 0
-    assert_select ".push-invitation", count: 0
+      assert_response :success
+      assert_select ".push-settings", count: 0
+      assert_select ".push-invitation", count: 0
 
-    get notification_settings_path
-    assert_response :not_found
+      get notification_settings_path
+      assert_response :not_found
+    end
+  end
+
+  private
+
+  def with_web_push_disabled
+    previous = ENV["WEB_PUSH_ENABLED"]
+    ENV["WEB_PUSH_ENABLED"] = "false"
+    yield
+  ensure
+    previous.nil? ? ENV.delete("WEB_PUSH_ENABLED") : ENV["WEB_PUSH_ENABLED"] = previous
   end
 end
