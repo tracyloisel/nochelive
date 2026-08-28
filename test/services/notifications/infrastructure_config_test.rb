@@ -18,9 +18,10 @@ class Notifications::InfrastructureConfigTest < ActiveSupport::TestCase
 
   test "Solid Queue gives transactional notifications precedence and owns recurrence" do
     queue_config = YAML.safe_load(ERB.new(Rails.root.join("config/queue.yml").read).result, aliases: true)
-    queues = queue_config.dig("production", "workers", 0, "queues").split(",")
+    queues = queue_config.dig("production", "workers", 0, "queues")
     recurring = YAML.safe_load_file(Rails.root.join("config/recurring.yml")).fetch("production")
 
+    assert_instance_of Array, queues
     assert_equal "notifications_transactional", queues.first
     assert_includes queues, "notifications_editorial"
     assert_includes queues, "maintenance"
