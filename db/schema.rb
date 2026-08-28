@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_28_231000) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_28_235000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -26,6 +26,27 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_28_231000) do
     t.index ["round_run_id", "team_id"], name: "index_answers_on_round_run_id_and_team_id", unique: true
     t.index ["round_run_id"], name: "index_answers_on_round_run_id"
     t.index ["team_id"], name: "index_answers_on_team_id"
+  end
+
+  create_table "audience_reactions", force: :cascade do |t|
+    t.string "audience_digest", null: false
+    t.datetime "created_at", null: false
+    t.string "mark", null: false
+    t.bigint "round_run_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["round_run_id", "audience_digest", "created_at"], name: "index_audience_reactions_on_round_audience_time"
+    t.index ["round_run_id"], name: "index_audience_reactions_on_round_run_id"
+  end
+
+  create_table "audience_responses", force: :cascade do |t|
+    t.datetime "answered_at", null: false
+    t.string "audience_digest", null: false
+    t.string "choice", null: false
+    t.datetime "created_at", null: false
+    t.bigint "round_run_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["round_run_id", "audience_digest"], name: "index_audience_responses_on_round_run_id_and_audience_digest", unique: true
+    t.index ["round_run_id"], name: "index_audience_responses_on_round_run_id"
   end
 
   create_table "ballots", force: :cascade do |t|
@@ -72,11 +93,13 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_28_231000) do
   end
 
   create_table "game_sessions", force: :cascade do |t|
+    t.integer "broadcast_delay_ms", default: 0, null: false
     t.string "code", null: false
     t.datetime "created_at", null: false
     t.string "presenter_device_digest"
     t.string "presenter_locale", default: "es", null: false
     t.string "presenter_token_digest", null: false
+    t.string "public_token", null: false
     t.datetime "season_applied_at"
     t.datetime "starts_at", null: false
     t.string "status", default: "lobby", null: false
@@ -86,6 +109,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_28_231000) do
     t.bigint "ward_id", null: false
     t.index ["code"], name: "index_game_sessions_active_code", unique: true, where: "((status)::text <> 'finished'::text)"
     t.index ["code"], name: "index_game_sessions_on_code"
+    t.index ["public_token"], name: "index_game_sessions_on_public_token", unique: true
     t.index ["starts_at"], name: "index_game_sessions_on_starts_at"
     t.index ["ward_id"], name: "index_game_sessions_on_ward_id"
   end
@@ -282,7 +306,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_28_231000) do
     t.datetime "updated_at", null: false
     t.integer "xp", default: 0, null: false
     t.index ["game_session_id"], name: "index_score_events_on_game_session_id"
-    t.index ["round_run_id", "team_id", "kind"], name: "index_score_events_unique_round_kind", unique: true, where: "((round_run_id IS NOT NULL) AND ((kind)::text = ANY ((ARRAY['correct'::character varying, 'fastest_buzz'::character varying, 'rapid_tap'::character varying, 'participation'::character varying])::text[])))"
+    t.index ["round_run_id", "team_id", "kind"], name: "index_score_events_unique_round_kind", unique: true, where: "((round_run_id IS NOT NULL) AND ((kind)::text = ANY (ARRAY[('correct'::character varying)::text, ('fastest_buzz'::character varying)::text, ('rapid_tap'::character varying)::text, ('participation'::character varying)::text])))"
     t.index ["round_run_id"], name: "index_score_events_on_round_run_id"
     t.index ["team_id"], name: "index_score_events_on_team_id"
   end
@@ -308,6 +332,23 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_28_231000) do
     t.datetime "updated_at", null: false
     t.index ["reads_count", "reference"], name: "index_scripture_chapter_stats_on_reads_count_and_reference"
     t.index ["reference"], name: "index_scripture_chapter_stats_on_reference", unique: true
+  end
+
+  create_table "scripture_highlights", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "end_offset", null: false
+    t.integer "end_verse", null: false
+    t.string "locale", null: false
+    t.bigint "person_id", null: false
+    t.string "reference", null: false
+    t.text "selected_text"
+    t.integer "start_offset", null: false
+    t.integer "start_verse", null: false
+    t.datetime "updated_at", null: false
+    t.index ["person_id", "reference", "locale", "start_verse", "end_verse", "start_offset", "end_offset"], name: "index_scripture_highlights_on_person_and_range", unique: true
+    t.index ["person_id"], name: "index_scripture_highlights_on_person_id"
+    t.index ["reference", "locale"], name: "index_scripture_highlights_on_reference_and_locale"
+    t.check_constraint "start_verse > 0 AND end_verse >= start_verse AND start_offset >= 0 AND end_offset >= 0", name: "scripture_highlights_valid_range"
   end
 
   create_table "solid_cable_messages", force: :cascade do |t|
@@ -539,6 +580,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_28_231000) do
   add_foreign_key "answers", "players"
   add_foreign_key "answers", "round_runs"
   add_foreign_key "answers", "teams"
+  add_foreign_key "audience_reactions", "round_runs"
+  add_foreign_key "audience_responses", "round_runs"
   add_foreign_key "ballots", "players"
   add_foreign_key "ballots", "round_runs"
   add_foreign_key "ballots", "teams"
@@ -572,6 +615,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_28_231000) do
   add_foreign_key "score_events", "round_runs"
   add_foreign_key "score_events", "teams"
   add_foreign_key "scripture_chapter_reads", "people", on_delete: :nullify
+  add_foreign_key "scripture_highlights", "people", on_delete: :cascade
   add_foreign_key "street_duels", "people", column: "challenger_person_id"
   add_foreign_key "street_duels", "people", column: "opponent_person_id"
   add_foreign_key "street_duels", "quiz_runs", column: "challenger_run_id"

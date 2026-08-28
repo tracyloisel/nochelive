@@ -87,3 +87,7 @@ PASS
 ## Night director
 
 Yes: the journey exposes visible achievement and a concrete next chapter instead of presenting a dashboard count.
+
+## Follow-up — direct map door (2026-08-28)
+
+The tile header now exposes one explicit, 44px-high `Ouvrir la carte` action with a compass. It routes to `/mapa` while leaving the horizontal chapter rail scrollable and the Parole journey independently interactive. The same semantic tokens carry the affordance in Celestial Light and Dark; keyboard focus, press feedback, and reduced motion are covered. Conseil scores remain at least 8/10: this closes the only clarity gap between seeing progress and entering the adventure map. Focused evidence: 390 × 844 browser check, no horizontal overflow, successful click to `/mapa`, no console warnings or errors; controller test: 1 run, 43 assertions, 0 failures.

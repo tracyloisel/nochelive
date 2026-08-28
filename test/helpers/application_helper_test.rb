@@ -24,12 +24,12 @@ class ApplicationHelperTest < ActionView::TestCase
 
   test "story art follows the yaml image, not chapel slideshows" do
     round = round_runs(:salomon)
-    assert_equal "/media/stories/salomon_wisdom.jpg", challenge_story(round)
+    assert_equal "/media/stories/salomon_wisdom_night_portrait.png", challenge_story(round)
     assert_equal "/media/stories/scavenger_harp.jpg", challenge_story(round_runs(:scavenger_harp))
-    assert_equal "stories/salomon_wisdom.jpg", round.definition.presentation["image"]
+    assert_equal "stories/salomon_wisdom_night_portrait.png", round.definition.presentation["image"]
 
     render partial: "shared/challenge_media", locals: { round: round }
-    assert_includes rendered, "/media/stories/salomon_wisdom.jpg"
+    assert_includes rendered, "/media/stories/salomon_wisdom_night_portrait.png"
     assert_not_includes rendered, "slideshow"
     assert_not_includes rendered, "/media/challenges/"
   end
@@ -193,6 +193,8 @@ class ApplicationHelperTest < ActionView::TestCase
     assert_includes picto("scripture-book"), "picto-scripture-book"
     assert_includes picto("arrow"), "picto-arrow"
     assert_includes picto("whatsapp"), "picto-whatsapp"
+    assert_includes picto("share"), "picto-share"
+    assert_includes picto("copy"), "picto-copy"
     assert_includes picto("instagram"), "picto-instagram"
     menu = picto("menu")
     assert_includes menu, "picto-menu"
@@ -393,7 +395,7 @@ class ApplicationHelperTest < ActionView::TestCase
   test "night poster and status captions" do
     assert_equal "/media/nights/reyes_y_profetas.jpg", night_poster_src(game_sessions(:david))
     assert_equal "/media/nights/reyes_y_profetas.jpg", night_poster_src("reyes_y_profetas")
-    assert_equal "/media/stories/salomon_wisdom.jpg", night_still_src(game_sessions(:david))
+    assert_equal "/media/stories/salomon_wisdom_night_portrait.png", night_still_src(game_sessions(:david))
     assert_equal "/media/nights/reyes_y_profetas.jpg", night_still_src(nil)
     assert_equal "En juego", night_status_caption(game_sessions(:david))
     assert_equal "En el vestíbulo", night_status_caption(game_sessions(:elias))

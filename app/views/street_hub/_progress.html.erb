@@ -1,6 +1,14 @@
 <% progress = local_assigns[:progress] %>
 <section class="hub-panel hub-progress" data-controller="hub-progress">
-  <p class="hub-kicker"><%= t("hub.progress") %></p>
+  <%= link_to street_map_path,
+        class: "hub-progress-map-link",
+        aria: { label: t("street.world_map_open") } do %>
+    <span class="hub-kicker"><%= t("hub.progress") %></span>
+    <span class="hub-progress-map-action" aria-hidden="true">
+      <span><%= t("street.world_map_open") %></span>
+      <%= picto("compass") %>
+    </span>
+  <% end %>
   <div class="hub-progress-summary">
     <p class="hub-progress-meta" id="hub_progress_caption"><%= t("hub.packs_unlocked", count: progress.unlocked) %></p>
     <p class="hub-progress-count" aria-hidden="true"><%= progress.unlocked %> / <%= progress.total %></p>

@@ -9,6 +9,7 @@
 /tmp/storage/*
 !/tmp/storage/.keep
 /node_modules
+**/node_modules
 /public/assets
 /config/master.key
 /config/credentials/*.key

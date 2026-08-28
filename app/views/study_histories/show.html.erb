@@ -1,0 +1,182 @@
+<% content_for :title, t("study.history") %>
+<% content_for :body_class, "is-study-history is-celestial-light" %>
+<% page_hud(hud: true, theme: "celestial-light") { site_menu } %>
+<main id="study_history" class="study-paper" data-controller="study-timeline">
+  <nav class="study-path-nav study-history-nav" aria-label="<%= t("study.title") %>">
+    <%= link_to study_program_path do %><%= picto("book") %><span><%= t("study.title") %></span><% end %>
+    <% if current_street_person&.ward %>
+      <%= link_to study_community_path(ward_code: current_street_person.ward.code) do %><%= picto("people") %><span><%= t("study.ward") %></span><% end %>
+    <% end %>
+  </nav>
+
+  <header class="study-history-head">
+    <p class="study-kicker"><%= t("study.path_in_word") %></p>
+    <h1><%= t("study.journey") %></h1>
+    <p class="study-journey-total">
+      <strong><%= @completed_count %></strong>
+      <span><%= t("study.journey_progress", count: @completed_count, total: @weeks.size) %></span>
+    </p>
+  </header>
+
+  <% if current_street_person.nil? %>
+    <%= link_to street_profile_path(fresh: 1), class: "study-profile-invite study-history-profile-invite" do %>
+      <span class="study-profile-invite-mark"><%= picto("person") %></span>
+      <span>
+        <strong><%= t("study.profile_invite_title") %></strong>
+        <small><%= t("study.profile_invite_lede") %></small>
+      </span>
+      <b><%= t("study.profile_invite_cta") %></b><i aria-hidden="true">›</i>
+    <% end %>
+  <% end %>
+
+  <section class="study-scripture-progress" aria-labelledby="study-scripture-progress-title">
+    <header>
+      <p class="study-kicker"><%= t("study.scripture_progress_kicker") %></p>
+      <h2 id="study-scripture-progress-title"><%= t("study.scripture_progress_title") %></h2>
+    </header>
+    <div class="study-scripture-seals">
+      <% {
+        old_testament: "/media/study/scripture-covers/old-testament-v1.png",
+        new_testament: "/media/study/scripture-covers/new-testament-v1.png",
+        book_of_mormon: "/media/study/scripture-covers/book-of-mormon-v1.png",
+        doctrine_and_covenants: "/media/study/scripture-covers/doctrine-covenants-v1.png"
+      }.each do |collection, cover| %>
+        <% count = @chapters_by_collection.fetch(collection) %>
+        <article class="study-scripture-seal<%= " has-progress" if count.positive? %>">
+          <span class="study-scripture-book" aria-hidden="true">
+            <%= image_tag cover, alt: "", loading: "lazy" %>
+            <b><%= t("study.collection_marks.#{collection}") %></b>
+          </span>
+          <strong><%= count %></strong>
+          <p><%= t("study.collections.#{collection}") %></p>
+          <small><%= t("study.chapters_studied", count:) %></small>
+        </article>
+      <% end %>
+    </div>
+  </section>
+
+  <% if @weeks.any? %>
+    <section class="study-history-timeline" aria-labelledby="study-history-timeline-title">
+      <header>
+        <p class="study-kicker"><%= t("study.annual_program") %></p>
+        <h2 id="study-history-timeline-title"><%= @program.display_title %></h2>
+      </header>
+      <div class="study-history-list study-timeline" role="region" tabindex="0" aria-label="<%= t("study.timeline_label") %>" data-study-timeline-target="container">
+        <% @weeks.each do |week| %>
+          <% run = @runs_by_unit_id[week.id] %>
+          <% state = if run&.completed? then "complete" elsif run then "progress" elsif week == @current_week then "current" elsif week.starts_on && week.starts_on > Date.current then "upcoming" else "available" end %>
+          <% status = case state when "complete" then t("study.status_completed") when "progress" then t("study.status_in_progress") when "current" then t("study.status_this_week") when "upcoming" then t("study.status_upcoming") else t("study.status_available") end %>
+          <%= link_to(run ? study_run_path(run) : study_unit_path(week), id: "study-week-#{week.id}", class: "study-history-card is-#{state}", data: ({ study_timeline_target: "current" } if week == @current_week)) do %>
+            <article>
+              <span class="study-timeline-mark" aria-hidden="true"><%= state == "complete" ? "✓" : (state == "current" ? "✦" : "") %></span>
+              <time><%= l(week.starts_on, format: "%d/%m") if week.starts_on %></time>
+              <h3><%= week.display_heading %></h3>
+              <p><%= status %><% if run %> · <%= run.study_answers.size %>/10<% end %></p>
+              <% if run&.completed? %><strong><%= run.score %>/10</strong><% end %>
+              <b aria-hidden="true">›</b>
+            </article>
+          <% end %>
+        <% end %>
+      </div>
+    </section>
+  <% else %>
+    <p class="study-history-empty"><%= t("study.no_history") %></p>
+  <% end %>
+
+  <section class="study-highlights"
+           aria-labelledby="study-highlights-title"
+           data-controller="study-highlight-share study-highlight-library"
+           data-study-highlight-library-limit-value="8"
+           data-study-highlight-library-more-template-value="<%= t("study.highlights_more", count: "__COUNT__") %>"
+           data-study-highlight-library-less-value="<%= t("study.highlights_less") %>"
+           data-study-highlight-library-results-template-value="<%= t("study.highlight_results", count: "__COUNT__") %>">
+    <header>
+      <div>
+        <p class="study-kicker"><%= t("study.highlights_kicker") %></p>
+        <h2 id="study-highlights-title"><%= t("study.highlights_title") %></h2>
+      </div>
+      <strong aria-label="<%= t("study.highlights_count", count: @highlighted_passages.size) %>"><%= @highlighted_passages.size %></strong>
+    </header>
+    <% if @highlighted_passages.any? %>
+      <div class="study-highlight-tools">
+        <label class="study-highlight-search">
+          <span class="visually-hidden"><%= t("study.highlight_search_label") %></span>
+          <span aria-hidden="true"><%= picto("search") %></span>
+          <input type="search"
+                 autocomplete="off"
+                 placeholder="<%= t("study.highlight_search_placeholder") %>"
+                 data-study-highlight-library-target="query"
+                 data-action="input->study-highlight-library#search">
+        </label>
+        <div class="study-highlight-filters" role="group" aria-label="<%= t("study.highlight_filters_label") %>">
+          <button type="button" class="is-active" aria-pressed="true" data-study-highlight-library-target="filter" data-action="study-highlight-library#filter" data-collection="all"><%= t("study.highlight_filter_all") %></button>
+          <% %i[old_testament new_testament book_of_mormon doctrine_and_covenants].each do |collection| %>
+            <button type="button" aria-pressed="false" data-study-highlight-library-target="filter" data-action="study-highlight-library#filter" data-collection="<%= collection %>"><%= t("study.collections.#{collection}") %></button>
+          <% end %>
+        </div>
+        <p class="study-highlight-results" aria-live="polite" data-study-highlight-library-target="results"></p>
+      </div>
+      <div id="study-highlight-list" class="study-highlight-list">
+        <%= render partial: "highlighted_passage", collection: @highlighted_passages, as: :passage %>
+      </div>
+      <div class="study-highlights-filter-empty" data-study-highlight-library-target="empty" hidden>
+        <span aria-hidden="true"><%= picto("search") %></span>
+        <p><%= t("study.highlight_no_results") %></p>
+      </div>
+      <button type="button"
+              class="study-highlights-more"
+              data-study-highlight-library-target="more"
+              data-action="study-highlight-library#toggleMore"
+              aria-controls="study-highlight-list"></button>
+    <% else %>
+      <div class="study-highlights-empty">
+        <span aria-hidden="true"><%= picto("book") %></span>
+        <div><h3><%= t("study.highlights_empty_title") %></h3><p><%= t("study.highlights_empty_lede") %></p></div>
+      </div>
+    <% end %>
+
+    <dialog class="scripture-share-dialog study-highlight-share-dialog"
+            tabindex="-1"
+            data-study-highlight-share-target="dialog"
+            data-action="click->study-highlight-share#closeOnBackdrop close->study-highlight-share#closed"
+            aria-labelledby="study-highlight-share-title">
+      <section class="scripture-share-panel">
+        <header>
+          <h2 id="study-highlight-share-title" data-study-highlight-share-target="title"><%= t("quiz.scripture_share") %></h2>
+          <button type="button"
+                  class="scripture-share-close"
+                  data-action="study-highlight-share#close"
+                  aria-label="<%= t("quiz.scripture_share_close") %>">
+            <%= picto("close") %>
+          </button>
+        </header>
+        <div class="scripture-share-options">
+          <button type="button" class="scripture-share-option" data-action="study-highlight-share#copyLink">
+            <span class="scripture-share-option-mark" aria-hidden="true"><%= picto("copy") %></span>
+            <span><%= t("quiz.scripture_copy_link") %></span>
+          </button>
+          <a class="scripture-share-option"
+             href="https://wa.me/"
+             target="_blank"
+             rel="noopener"
+             data-study-highlight-share-target="whatsapp">
+            <span class="scripture-share-option-mark" aria-hidden="true"><%= picto("whatsapp") %></span>
+            <span><%= t("quiz.scripture_share_whatsapp") %></span>
+          </a>
+          <a class="scripture-share-option"
+             href="https://twitter.com/intent/tweet"
+             target="_blank"
+             rel="noopener"
+             data-study-highlight-share-target="x">
+            <span class="scripture-share-option-mark scripture-share-x-mark" aria-hidden="true">X</span>
+            <span><%= t("quiz.scripture_share_x") %></span>
+          </a>
+        </div>
+        <p class="scripture-share-status" role="status" data-study-highlight-share-target="copyStatus" hidden><%= t("quiz.scripture_link_copied") %></p>
+      </section>
+    </dialog>
+  </section>
+
+  <%= link_to t("study.back_program"), study_program_path, class: "btn btn-gold study-history-back" %>
+  <% page_dock(active: :word) %>
+</main>

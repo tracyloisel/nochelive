@@ -1,24 +1,42 @@
-<% content_for :title, t("join.title") %>
-<% content_for :body_class, "is-kid is-paper-hall" %>
-<% page_hud { site_menu } %>
+<% content_for :title, t("join.live_title", ward: @night.ward.name) %>
+<% content_for :body_class, "is-night-entry is-celestial-dark" %>
+<% content_for :head do %><meta name="theme-color" content="#061223"><% end %>
 
-<%= paper_hall id: "night_join", kicker: t("join.title"), extra_class: "night-join" do %>
-    <% case @screen %>
-    <% when :welcome %>
-      <%= render "players/welcome", night: @night, person: @people_on_device.first %>
-    <% when :device %>
-      <%= render "players/device_people", night: @night, people: @people_on_device %>
-    <% when :homonyms %>
-      <%= render "players/homonyms", night: @night, cards: @homonym_cards %>
-    <% when :claim %>
-      <%= render "players/claim", night: @night, person: @claim_person %>
-    <% else %>
-      <%= render "players/form", night: @night %>
-    <% end %>
+<section class="night-entry" id="night_join">
+  <div class="night-entry-art" aria-hidden="true">
+    <%= image_tag night_still_src(@night), alt: "" %>
+  </div>
+  <div class="night-entry-scrim" aria-hidden="true"></div>
 
-    <nav class="hall-sheet-foot">
-      <%= link_to presenter_gate_path(@night.code), class: "quiet-link" do %>
-        <%= t("join.presenter_link") %>
+  <header class="night-entry-head">
+    <div class="night-entry-wordmark"><%= picto("star8") %><span>Noche Live</span></div>
+    <p><%= t("join.ward_live", ward: @night.ward.name) %><span aria-hidden="true"></span></p>
+  </header>
+
+  <div class="night-entry-spacer"></div>
+
+  <div class="night-entry-panel-wrap">
+    <article class="night-entry-panel">
+      <span class="night-entry-apex" aria-hidden="true"><%= picto("star4") %></span>
+      <% case @screen %>
+      <% when :welcome %>
+        <%= render "players/welcome", night: @night, person: @people_on_device.first %>
+      <% when :device %>
+        <%= render "players/device_people", night: @night, people: @people_on_device %>
+      <% when :homonyms %>
+        <%= render "players/homonyms", night: @night, cards: @homonym_cards %>
+      <% when :claim %>
+        <%= render "players/claim", night: @night, person: @claim_person %>
+      <% else %>
+        <%= render "players/form", night: @night %>
       <% end %>
+
+      <p class="night-entry-promise"><%= t("join.no_code") %></p>
+      <p class="night-entry-profile"><%= picto("lock") %><%= t("join.profile_later") %></p>
+    </article>
+
+    <nav class="night-entry-foot">
+      <%= link_to t("join.presenter_link"), presenter_gate_path(@night.code), class: "quiet-link" %>
     </nav>
-<% end %>
+  </div>
+</section>

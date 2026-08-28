@@ -2,19 +2,12 @@ class RoundForwardsController < ApplicationController
   before_action :set_night, :require_player, :require_team
 
   def create
-    round = @night.round_runs.find(params[:round_run_id])
-    Rounds::Forward.call(round:, team: current_team)
+    # Compatibility endpoint for clients that still render the former
+    # "Siguiente" control. Participants never advance the shared stage:
+    # presenter timing is authoritative for room, Casa, Public and TV.
     respond_to do |format|
-      format.turbo_stream do
-        render turbo_stream: turbo_stream.replace(
-          "night_play",
-          partial: "play/frame",
-          locals: { night: @night.reload, team: current_team.reload, player: current_player }
-        )
-      end
+      format.turbo_stream { head :no_content }
       format.html { redirect_to night_play_path(@night.code) }
     end
-  rescue RuntimeError
-    redirect_to night_play_path(@night.code)
   end
 end

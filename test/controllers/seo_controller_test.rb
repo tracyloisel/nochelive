@@ -17,6 +17,8 @@ class SeoControllerTest < ActionDispatch::IntegrationTest
     assert_includes response.body, "/es/biblia/2-samuel/2/1"
     assert_includes response.body, "/pt-br/biblia/2-samuel/2/1"
     assert_includes response.body, "/en/bible/2-samuel/2/1"
+    assert_includes response.body, "/fr/bible/1-rois/21/2-3"
+    assert_includes response.body, "/es/biblia/1-reyes/21/2-3"
     assert_includes response.body, "/es/santos-de-los-ultimos-dias/benidorm"
     assert_includes response.body, "/fr/saints-des-derniers-jours/benidorm"
     assert_includes response.body, "/en/latter-day-saints/benidorm"

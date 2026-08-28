@@ -8,6 +8,14 @@ class IdentityTransferTest < ActiveSupport::TestCase
     assert_raises(IdentityTransfer::InvalidToken) { IdentityTransfer.consume!(token) }
   end
 
+  test "a token can be inspected before a confirmed merge without consuming it" do
+    token = IdentityTransfer.issue!("signed" => { "noche_device" => "device-token" })
+
+    assert_equal "device-token", IdentityTransfer.fetch!(token).dig("signed", "noche_device")
+    assert_equal 1, IdentityTransfer.count
+    assert_equal "device-token", IdentityTransfer.consume!(token).dig("signed", "noche_device")
+  end
+
   test "an expired token cannot be consumed" do
     token = IdentityTransfer.issue!("signed" => { "noche_device" => "device-token" })
     IdentityTransfer.update_all(expires_at: 1.minute.ago)

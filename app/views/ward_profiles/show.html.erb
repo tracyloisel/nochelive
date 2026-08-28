@@ -61,7 +61,7 @@
         <div class="rama-word-copy">
           <p class="rama-kicker"><%= t("ward.word_kicker") %></p>
           <h2><%= t("study.psalms_theme") %></h2>
-          <p class="rama-word-refs"><%= @study_week.scripture_refs.first %></p>
+          <p class="rama-word-refs"><%= @study_week.display_scripture_refs.first %></p>
           <div class="rama-word-progress" aria-label="<%= t("study.progress", n: @study_progress, total: 10) %>">
             <span><i style="width:<%= @study_progress * 10 %>%"></i></span><strong><%= @study_progress %>/10</strong>
           </div>

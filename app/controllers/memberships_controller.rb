@@ -1,5 +1,5 @@
 class MembershipsController < ApplicationController
-  before_action :set_night, :require_player, :require_participant_profile
+  before_action :set_night, :require_player
 
   def create
     team = @night.teams.find(params[:team_id])

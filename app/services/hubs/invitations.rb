@@ -35,6 +35,7 @@ module Hubs
         StreetDuel
           .joins(:viral_events)
           .where(challenger_person_id: @person.id, viral_events: { name: "invite_share_completed" })
+          .where.not(status: "archived")
           .where("street_duels.expires_at > :at OR street_duels.status = :resolved", at: @at, resolved: "resolved")
           .includes(:opponent_person)
           .preload(:viral_events)

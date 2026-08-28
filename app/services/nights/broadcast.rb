@@ -14,6 +14,7 @@ module Nights
       replace_play
       replace_watch
       replace_presenter
+      refresh_audience
     end
 
     private
@@ -62,6 +63,10 @@ module Nights
           locals: { night: @night, pulse: @pulse }
         )
       end
+    end
+
+    def refresh_audience
+      Turbo::StreamsChannel.broadcast_refresh_to(@night.audience_stream)
     end
 
     def publish_pulse

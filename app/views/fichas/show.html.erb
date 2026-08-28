@@ -40,19 +40,42 @@
       <button type="submit" class="btn btn-gold"><%= t("fichas.save") %></button>
     <% end %>
 
-    <% if @others.any? %>
+    <% if @merge_cards.any? %>
       <article class="merge-card">
         <h2><%= t("fichas.merge") %></h2>
         <p class="quiet"><%= t("fichas.merge_hint") %></p>
-        <%= form_with url: ficha_merge_path_for(@person), class: "join-form" do %>
-          <label for="source_id"><%= t("fichas.other_goes") %></label>
-          <select id="source_id" name="source_id">
-            <% @others.each do |other| %>
-              <option value="<%= other.id %>"><%= other.display_name %> · <%= other.favorite_year %></option>
-            <% end %>
-          </select>
-          <button type="submit" class="btn btn-navy" data-turbo-confirm="<%= t("fichas.merge_confirm", name: @person.display_name) %>"><%= t("fichas.merge_into") %></button>
-        <% end %>
+        <div class="ficha-merge-current">
+          <%= render "people/card", person: @person, show_year: false %>
+          <small><%= t("street.merge_points", count: @profile_score) %> · <%= t("street.merge_since", date: l(@person.created_at.to_date)) %></small>
+        </div>
+        <ul class="ficha-merge-list person-list">
+          <% @merge_cards.each do |card| %>
+            <% oldest = [@person, card.person].min_by { |person| [person.created_at, person.id] } %>
+            <li class="team-pick person-pick">
+              <%= render "people/card", person: card.person, show_year: false %>
+              <small><%= t("street.merge_points", count: card.score) %> · <%= t("street.merge_since", date: l(card.person.created_at.to_date)) %></small>
+              <%= form_with url: ficha_merge_path_for(@person),
+                            class: "join-form ficha-merge-form",
+                            data: {
+                              controller: "profile-merge",
+                              action: "turbo:submit-start->profile-merge#start turbo:submit-end->profile-merge#finish"
+                            } do %>
+                <input type="hidden" name="source_id" value="<%= card.person.id %>">
+                <p class="hint"><%= t("fichas.merge_keeps", name: oldest.display_name, date: l(oldest.created_at.to_date)) %></p>
+                <button type="submit" class="btn btn-navy" data-profile-merge-target="button" data-turbo-confirm="<%= t("fichas.merge_confirm", name: oldest.display_name) %>"><%= t("fichas.merge_pair") %></button>
+                <aside class="profile-merge-overlay" hidden data-profile-merge-target="overlay" role="status" aria-live="assertive">
+                  <div class="profile-merge-motion" aria-hidden="true">
+                    <span class="profile-merge-orb is-current"><%= @person.given_name.to_s.first %></span>
+                    <span class="profile-merge-spark">✦</span>
+                    <span class="profile-merge-orb is-keeper"><%= card.person.given_name.to_s.first %></span>
+                  </div>
+                  <strong><%= t("street.merging_title") %></strong>
+                  <p><%= t("street.merging_lede") %></p>
+                </aside>
+              <% end %>
+            </li>
+          <% end %>
+        </ul>
       </article>
     <% end %>
 

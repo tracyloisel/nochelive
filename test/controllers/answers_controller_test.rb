@@ -13,28 +13,32 @@ class AnswersControllerTest < ActionDispatch::IntegrationTest
     assert Answer.exists?(round_run: round, body: "wisdom")
   end
 
-  test "true false auto scores" do
+  test "true false choices are graded only at reveal" do
     round = round_runs(:rey_o_profeta)
     round.update!(phase: "open")
     sign_in_as_participant(@night, name: "Sofía", team: teams(:casa))
     post night_round_run_answer_path(@night.code, round), params: { choice: "false" }
+    assert_not teams(:casa).reload.score_events.where(kind: "correct", round_run: round).exists?
+    Rounds::Reveal.call(round: round)
     assert teams(:casa).reload.score_events.where(kind: "correct", round_run: round).exists?
 
     miss = round_runs(:elias_carmel)
     miss.update!(phase: "open")
     post night_round_run_answer_path(@night.code, miss), params: { choice: "wrong" }
+    assert_not teams(:casa).reload.score_events.where(kind: "incorrect", round_run: miss).exists?
+    Rounds::Reveal.call(round: miss)
     assert teams(:casa).reload.score_events.where(kind: "incorrect", round_run: miss).exists?
   end
 
-  test "choice answer returns quiz bars as turbo stream" do
+  test "choice answer returns a locked state without revealing the tally" do
     round = round_runs(:rey_o_profeta)
     round.update!(phase: "open")
     sign_in_as_participant(@night, name: "Sofía", team: teams(:casa))
     post night_round_run_answer_path(@night.code, round), params: { choice: "false" }, as: :turbo_stream
     assert_response :success
-    assert_match "quiz-bar", response.body
-    assert_match "Siguiente", response.body
-    assert_match "¡Correcto!", response.body
+    assert_match "play-sent", response.body
+    assert_no_match "quiz-bar", response.body
+    assert_no_match "¡Correcto!", response.body
   end
 
   test "taboo miss does not auto score" do
@@ -88,7 +92,9 @@ class AnswersControllerTest < ActionDispatch::IntegrationTest
     post night_round_run_answer_path(@night.code, round), params: { choice: "wisdom" }
     home = seat_of(@night, "Sofía")
     assert Answer.exists?(round_run: round, team: home, body: "wisdom")
-    assert home.score_events.where(kind: "correct", round_run: round).exists?
+    assert_not home.score_events.where(kind: "correct", round_run: round).exists?
+    Rounds::Reveal.call(round: round)
+    assert home.reload.score_events.where(kind: "correct", round_run: round).exists?
     assert_not Buzz.exists?(round_run: round, team: home)
   end
 

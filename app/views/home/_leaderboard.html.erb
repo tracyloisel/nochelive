@@ -55,6 +55,7 @@
           </span>
           <span class="street-liga-podium-name"><%= row.person.given_name %></span>
           <% if show_ward %><span class="street-liga-player-ward"><%= row.person.ward.name %></span><% end %>
+          <span class="street-board-joined"><%= t("street.leaderboard_joined", date: l(row.person.created_at.to_date)) %></span>
           <span class="street-board-answered"><%= t("street.leaderboard_answered", count: row.answered) %></span>
           <span class="street-liga-podium-score"><%= picto("crown") %><%= number_with_delimiter(row.score) %></span>
           <% if liga && !row.you %><span class="street-liga-challenge-label"><span aria-hidden="true">⚔</span><%= t("street.duel_send") %></span><% end %>
@@ -100,6 +101,7 @@
           <span class="street-board-who">
             <span class="street-board-name"><%= street_live_dot(row.live) unless show_avatars %><%= row.person.given_name %></span>
             <% if show_ward %><span class="street-liga-player-ward"><%= row.person.ward.name %></span><% end %>
+            <span class="street-board-joined"><%= t("street.leaderboard_joined", date: l(row.person.created_at.to_date)) %></span>
             <span class="street-board-answered"><%= t("street.leaderboard_answered", count: row.answered) %></span>
           </span>
           <% if liga && !row.you %><span class="street-liga-challenge-label"><span aria-hidden="true">⚔</span><%= t("street.duel_send") %></span><% end %>

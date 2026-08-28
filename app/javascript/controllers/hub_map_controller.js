@@ -8,7 +8,12 @@ export default class extends Controller {
   connect() {
     this.element.classList.add("is-entering")
     requestAnimationFrame(() => requestAnimationFrame(() => this.element.classList.add("is-ready")))
-    window.setTimeout(() => this.focusCurrent(), 650)
+    this.focusTimer = window.setTimeout(() => this.focusCurrent(), 650)
+  }
+
+  disconnect() {
+    window.clearTimeout(this.focusTimer)
+    window.clearTimeout(this.hintTimer)
   }
 
   filter(event) {
@@ -47,6 +52,14 @@ export default class extends Controller {
   focusCurrent() {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
     const current = this.nodeTargets.find((node) => node.dataset.packId === this.currentPackIdValue)
-    current?.scrollIntoView({ behavior: "smooth", block: "center" })
+    if (!current) return
+
+    const hudBottom = document.querySelector(".home-menu.is-hud")?.getBoundingClientRect().bottom || 0
+    const dockTop = document.querySelector(".navigation-dock")?.getBoundingClientRect().top || window.innerHeight
+    const rect = current.getBoundingClientRect()
+    const breathingRoom = 16
+    const alreadyVisible = rect.top >= hudBottom + breathingRoom && rect.bottom <= dockTop - breathingRoom
+
+    if (!alreadyVisible) current.scrollIntoView({ behavior: "smooth", block: "center" })
   }
 }

@@ -1,4 +1,4 @@
-<% story = challenge_story(round) %>
+<% story = challenge_story(round, cinema: local_assigns[:cinema]) %>
 <% clip_rel = challenge_clip(round) %>
 <% clip_src = clip_rel && (clip_rel.start_with?("/") ? clip_rel : "/#{clip_rel}") %>
 <% burger = round&.definition&.layered_finale? %>

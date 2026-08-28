@@ -3,10 +3,13 @@
 <main id="study_unit" class="study-world study-unit-world" style="--study-art:url('<%= @quiz&.content&.fetch("artwork", "/media/study/psalms-refuge-2026.png") %>')">
   <% page_hud(hud: true) { site_menu } %>
   <%= render "study_programs/lockup" %>
+  <nav class="study-path-nav" aria-label="<%= t("study.title") %>">
+    <%= link_to study_history_path do %><%= picto("stats-path") %><span><%= t("study.my_journey") %></span><% end %>
+  </nav>
   <section class="study-unit-sheet">
     <p class="study-kicker"><%= @unit.week? ? t("study.week_label") : t("study.resource_label") %></p>
-    <h1><%= @unit == @unit.study_program.current_week ? t("study.psalms_theme") : @unit.title.split(":", 2).last.strip %></h1>
-    <p class="study-unit-refs"><%= @unit.scripture_refs.join(" · ") %></p>
+    <h1><%= @unit == @unit.study_program.current_week ? t("study.psalms_theme") : @unit.display_heading %></h1>
+    <p class="study-unit-refs"><%= @unit.display_scripture_refs.join(" · ") %></p>
     <% if @quiz %>
       <blockquote><%= @quiz.content.dig("light", I18n.locale.to_s) || @quiz.content.dig("light", "fr") %></blockquote>
       <% if @quiz.readings.any? %>

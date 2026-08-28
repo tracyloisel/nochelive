@@ -10,7 +10,7 @@ class LivePresenceTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select ".watch-board .score-strip"
     assert_select ".watch-board .score-strip .emblem"
-    assert_select ".watch-chrome .watch-mark"
+    assert_select ".watch-chrome .watch-wordmark", text: /Noche Live/
     assert_select ".presence-stat", count: 0
     assert_select ".story-audience", count: 0
     assert_select "#live_pulses"

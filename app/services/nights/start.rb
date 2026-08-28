@@ -37,16 +37,18 @@ module Nights
       def allocate_night(definition, token)
         night = nil
         8.times do
-          night = GameSession.create!(
-            ward: @ward,
-            code: GameSession.generate_code,
-            status: "lobby",
-            theme_id: definition.theme.id,
-            theme_title: definition.theme.title,
-            starts_at: Time.current,
-            presenter_locale: Locale.cast(I18n.locale),
-            presenter_token_digest: GameSession.digest_token(token)
-          )
+          GameSession.transaction(requires_new: true) do
+            night = GameSession.create!(
+              ward: @ward,
+              code: GameSession.generate_code,
+              status: "lobby",
+              theme_id: definition.theme.id,
+              theme_title: definition.theme.title,
+              starts_at: Time.current,
+              presenter_locale: Locale.cast(I18n.locale),
+              presenter_token_digest: GameSession.digest_token(token)
+            )
+          end
           night.presenter_token = token
           break
         rescue ActiveRecord::RecordNotUnique

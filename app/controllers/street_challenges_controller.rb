@@ -181,6 +181,10 @@ class StreetChallengesController < ApplicationController
 
     def load_duel
       @duel = StreetDuel.find_by!(token: params[:token])
+      if @duel.archived?
+        redirect_to root_path, alert: I18n.t("street.duel_not_found")
+        return
+      end
       return unless @duel.expired? && !@duel.resolved? && !@duel.declined?
 
       redirect_to root_path, alert: I18n.t("street.duel_expired")

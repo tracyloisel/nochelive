@@ -46,7 +46,7 @@
       <header class="team-bar">
         <span class="emblem emblem-<%= team.emblem %>"><%= render "shared/emblem", key: team.emblem %></span>
         <div>
-          <p class="eyebrow"><%= night.code %></p>
+          <p class="eyebrow"><%= t("play.your_team") %></p>
           <h1><%= team.name %></h1>
         </div>
         <div class="who">
@@ -75,14 +75,30 @@
     <span class="night-quiz-apex" aria-hidden="true"><%= picto("star4") %></span>
     <div class="play-sheet-body" data-sheet-target="body">
       <div class="lobby-wait" role="status">
+        <p class="eyebrow"><%= t("play.lobby_kicker") %></p>
         <span class="emblem emblem-<%= team.emblem %> bob"><%= render "shared/emblem", key: team.emblem %></span>
+        <h1 class="lobby-title"><%= t("play.lobby_title") %></h1>
+        <p class="lobby-team-name"><%= seat_label %></p>
+        <% teammates = team.players.select(&:participant?) %>
+        <% if teammates.any? %>
+          <div class="lobby-teammates" aria-label="<%= t("play.lobby_teammates") %>">
+            <% teammates.first(6).each do |member| %>
+              <span class="lobby-teammate">
+                <%= render "shared/avatar", player: member %>
+                <span><%= member.name %></span>
+              </span>
+            <% end %>
+          </div>
+        <% end %>
         <p class="prompt"><%= t("play.wait_open") %></p>
         <p class="lobby-presence">
+          <%= picto("tick") %>
           <%= t("play.teams", count: night.teams.chapel.count) %>
           <% if night.teams.solos.any? %>
             · <%= t("play.remote_teams", count: night.teams.solos.count) %>
           <% end %>
         </p>
+        <p class="lobby-resume"><%= picto("sparkle") %><span><%= t("play.lobby_resume") %></span></p>
       </div>
     </div>
   </div>

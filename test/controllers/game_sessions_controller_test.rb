@@ -14,14 +14,11 @@ class GameSessionsControllerTest < ActionDispatch::IntegrationTest
     assert_difference -> { GameSession.count }, 1 do
       post game_sessions_path
     end
+    night = GameSession.order(:id).last
+    assert_redirected_to presenter_console_path(night.code)
     follow_redirect!
-    assert_response :success
-    assert_select "body.is-paper-hall"
-    assert_select "#night_created.hall-paper"
-    assert_select ".hall-sheet"
-    assert_select ".hall-still"
-    assert_select ".btn.btn-gold", count: 1
-    assert_select ".play-reel", count: 0
+    assert_select "body.is-presenter.is-celestial-dark"
+    assert_select ".console.is-stage"
   end
 
   test "open rama can enter the live night from the profile" do
@@ -50,6 +47,6 @@ class GameSessionsControllerTest < ActionDispatch::IntegrationTest
 
     night = GameSession.order(:id).last
     get created_game_session_path(night, token: "nope")
-    assert_redirected_to root_path
+    assert_redirected_to presenter_console_path(night.code)
   end
 end

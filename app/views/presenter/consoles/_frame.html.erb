@@ -1,5 +1,6 @@
 <% round = night.current_round_run %>
 <% live_index = night.round_runs.find_index { |tick| round && tick.id == round.id }.to_i %>
+<% lobby_presence = Presences::Snapshot.call(night: night) if night.lobby? %>
 <%= tag.section class: [ "console", "is-stage", ("is-ceremony-immersive" if night.finished?) ],
                 id: "night_presenter",
                 data: stage_audio_data(round, night: night, pulse: local_assigns[:pulse]).merge(
@@ -33,13 +34,41 @@
           <% end %>
         </div>
         <div class="stage-bar">
-          <p class="code-chip"><%= night.code %></p>
+          <p class="code-chip"><%= t("presenter.live_now") %></p>
         </div>
       </header>
 
       <div class="stage-caption">
         <% if night.finished? %>
           <p class="eyebrow"><%= t("presenter.night_end") %></p>
+        <% elsif night.lobby? %>
+          <p class="eyebrow"><%= t("presenter.lobby_kicker") %></p>
+          <h1 class="stage-title stage-lobby-title"><span><%= t("presenter.lobby_title") %></span></h1>
+          <p class="lede stage-lobby-lede"><%= t("presenter.lobby_lede") %></p>
+          <div class="presenter-ready-grid" role="list" aria-label="<%= t("presenter.lobby_status") %>">
+            <div class="presenter-ready-item is-ready" role="listitem">
+              <%= picto("broadcast") %>
+              <span><strong><%= t("presenter.tv_ready") %></strong><small><%= t("presenter.tv_ready_hint") %></small></span>
+            </div>
+            <div class="presenter-ready-item" role="listitem">
+              <%= picto("people") %>
+              <span><strong><%= t("presenter.lobby_teams", count: night.teams.chapel.count) %></strong><small><%= t("presenter.lobby_room", count: lobby_presence.room) %></small></span>
+            </div>
+            <div class="presenter-ready-item" role="listitem">
+              <%= picto("house") %>
+              <span><strong><%= t("presenter.casa_ready") %></strong><small><%= t("presenter.lobby_casa", count: lobby_presence.remote) %></small></span>
+            </div>
+          </div>
+          <% if night.teams.chapel.any? %>
+            <ul class="presenter-ready-teams" aria-label="<%= t("presenter.lobby_teams_label") %>">
+              <% night.teams.chapel.order(:name).each do |team| %>
+                <li>
+                  <span class="emblem emblem-<%= team.emblem %>"><%= render "shared/emblem", key: team.emblem %></span>
+                  <span><%= team.name %></span>
+                </li>
+              <% end %>
+            </ul>
+          <% end %>
         <% elsif round %>
           <p class="eyebrow"><%= t("chrome.round_of", n: round.position, total: night.round_runs.size) %></p>
           <h1 class="stage-title">
@@ -63,7 +92,15 @@
               <p class="lede"><%= burger_host_value_line(night, round) %></p>
             <% end %>
           <% else %>
-            <p class="lede"><%= round_prompt(round) %></p>
+            <% if round.revealed? %>
+              <p class="eyebrow presenter-reveal-kicker"><%= t("watch.reveal") %></p>
+              <p class="presenter-reveal-answer"><%= round.definition.copy(:answer) %></p>
+              <% if round.definition.reference.present? %>
+                <p class="quiet presenter-reveal-ref"><%= round.definition.copy(:reference) %></p>
+              <% end %>
+            <% else %>
+              <p class="lede"><%= round_prompt(round) %></p>
+            <% end %>
           <% end %>
           <% if round.definition.mime? && round.definition.story_path? %>
             <p class="lede"><%= t("presenter.jonah_home") %></p>
@@ -87,8 +124,15 @@
               <%= button_to t("presenter.end_night"), presenter_finish_path(night.code), class: "btn btn-ghost btn-tiny", form: { data: { turbo_confirm: t("presenter.end_confirm") } } %>
               <%= link_to t("presenter.list"), presenter_roster_path(night.code), class: "quiet-link" %>
               <%= link_to t("presenter.fichas"), presenter_fichas_path(night.code), class: "quiet-link" %>
+              <%= link_to t("presenter.open_tv"), night_watch_path(night.code), class: "quiet-link", target: "_blank", rel: "noopener" %>
+              <%= link_to t("presenter.open_public"), night_public_path(night.public_token), class: "quiet-link", target: "_blank", rel: "noopener" %>
             </div>
           </details>
+          <% if night.lobby? %>
+            <%= link_to night_watch_path(night.code), class: "presenter-tv-link", target: "_blank", rel: "noopener" do %>
+              <%= picto("broadcast") %><span><%= t("presenter.open_tv") %></span>
+            <% end %>
+          <% end %>
         </nav>
       <% end %>
     </div>

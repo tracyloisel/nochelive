@@ -15,12 +15,12 @@ module Quizzes
 
     def call
       raise Expired, "duel expired" if @duel.expired?
-      raise Taken, "duel resolved" if @duel.resolved? || @duel.declined?
+      raise Taken, "duel resolved" if @duel.resolved? || @duel.declined? || @duel.archived?
 
       ApplicationRecord.transaction do
         locked = StreetDuel.lock.find(@duel.id)
         raise Expired, "duel expired" if locked.expired?
-        raise Taken, "duel resolved" if locked.resolved? || locked.declined?
+        raise Taken, "duel resolved" if locked.resolved? || locked.declined? || locked.archived?
         raise Taken, "cannot challenge yourself" if locked.challenger_person_id == @opponent.id
         raise Taken, "duel taken" if locked.opponent_person_id.present? && locked.opponent_person_id != @opponent.id
         unless StakeScope.allowed?(challenger_ward: locked.challenger_ward || locked.ward, opponent_ward: @opponent.ward)

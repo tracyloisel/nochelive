@@ -31,7 +31,9 @@ rounds:
       xp: 20
       streak: true
     presentation:
-      image: stories/salomon_wisdom.jpg
+      image: stories/salomon_wisdom_night_portrait.png
+      image_wide: stories/salomon_wisdom_night_wide.png
+      theme: celestial_dark
       intro_vfx: glow
     sfx:
       intro: round_start

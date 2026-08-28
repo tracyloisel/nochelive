@@ -32,12 +32,4 @@
     <span class="quiz-chip is-fire"><%= t("chrome.streak", count: team.streak) %></span>
   <% end %>
 </div>
-<% if definition.choice? %>
-  <%= button_to t("play.next"),
-        night_round_run_forward_path(night.code, round),
-        class: "btn btn-gold quiz-next",
-        form: { data: { turbo_stream: true } },
-        data: { action: "click->quiz#next" } %>
-<% else %>
-  <%= render "shared/wait", message: t("play.wait_reveal") %>
-<% end %>
+<%= render "shared/wait", message: t("play.next_automatic") %>

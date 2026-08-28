@@ -50,11 +50,11 @@ class PlayAndWatchControllerTest < ActionDispatch::IntegrationTest
     assert_select ".hint", text: /primero/
     assert_select ".prompt", text: /pidió|Salomón/
     assert_select ".play-round > .art", count: 0
-    assert_select ".challenge-story[src='/media/stories/salomon_wisdom.jpg']"
+    assert_select ".challenge-story[src='/media/stories/salomon_wisdom_night_portrait.png']"
     assert_select "[data-controller=slideshow]", count: 0
   end
 
-  test "choice verdict shows bars and siguiente without waiting" do
+  test "choice stays locked until the shared reveal" do
     round_runs(:salomon).update_columns(phase: "completed")
     round = round_runs(:rey_o_profeta)
     round.update_columns(phase: "open", opened_at: Time.current)
@@ -62,26 +62,26 @@ class PlayAndWatchControllerTest < ActionDispatch::IntegrationTest
     post night_round_run_answer_path(@night.code, round), params: { choice: "false" }
     get night_play_path(@night.code)
     assert_select ".quiz-board"
-    assert_select ".quiz-verdict", text: /¡Correcto!/
-    assert_select ".quiz-bar", count: 2
-    assert_select ".quiz-bar .quiz-meta .quiz-pct"
-    assert_select ".quiz-next", text: /Siguiente/
-    assert_select ".quiz-answer", text: /Elías fue profeta/
+    assert_select ".play-sent"
+    assert_select ".quiz-verdict", count: 0
+    assert_select ".quiz-bar", count: 0
     assert_select ".reveal", count: 0
     assert_select ".wait", count: 0
     assert_select ".play-reel.is-quiz"
 
     round.update_columns(phase: "revealed", revealed_at: Time.current)
+    Answers::GradeChoices.call(round: round)
     get night_play_path(@night.code)
     assert_select ".quiz-board"
     assert_select ".quiz-bar"
+    assert_select ".quiz-verdict", text: /¡Correcto!/
     assert_select ".reveal", count: 0
     assert_select ".wait-toy", count: 0
   end
 
-  test "watch creates a spectator" do
+  test "watch stays anonymous and does not create a player" do
     round_runs(:salomon).update_column(:opened_at, Time.current)
-    assert_difference -> { @night.players.where(role: "spectator").count }, 1 do
+    assert_no_difference -> { @night.players.where(role: "spectator").count } do
       get night_watch_path(@night.code)
     end
     assert_response :success
@@ -123,14 +123,13 @@ class PlayAndWatchControllerTest < ActionDispatch::IntegrationTest
     assert_select ".play-timer.is-low"
   end
 
-  test "pick team is a reel" do
+  test "participant is seated automatically without a pick-team screen" do
     sign_in_as_participant(@night, name: "Sofía")
     get night_play_path(@night.code)
-    assert_select ".play-reel.is-pick"
+    assert_not_nil seat_of(@night, "Sofía")
+    assert_select ".play-reel.is-pick", count: 0
     assert_select ".play-shot .challenge-story"
-    assert_select ".play-sheet h1", text: /Elige tu equipo/
-    assert_select ".play-chrome > .team-bar", count: 0
-    assert_select ".picto-btn", count: 0
+    assert_select ".play-shot-seat"
   end
 
   test "lobby is a reel" do

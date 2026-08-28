@@ -11,10 +11,16 @@ class GameSession < ApplicationRecord
   has_many :missionaries, -> { order(:id) }, dependent: :destroy
   has_many :presenter_claims, dependent: :destroy
   has_many :presenter_blocks, dependent: :destroy
+  has_many :audience_responses, through: :round_runs
+  has_many :audience_reactions, through: :round_runs
 
   validates :code, :status, :theme_id, :theme_title, :presenter_token_digest, :starts_at, presence: true
   validates :status, inclusion: { in: STATUSES }
   validates :presenter_locale, inclusion: { in: Locale::AVAILABLE }
+  validates :public_token, presence: true, uniqueness: true
+  validates :broadcast_delay_ms, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 30_000 }
+
+  before_validation :assign_public_token, on: :create
 
   scope :live, -> { where.not(status: "finished") }
   scope :finished, -> { where(status: "finished") }
@@ -148,6 +154,7 @@ class GameSession < ApplicationRecord
   def watch_stream = [ self, :watch ]
   def team_stream(team) = [ self, :team, team ]
   def player_stream(player) = [ self, :player, player ]
+  def audience_stream = [ self, :audience ]
 
   def participants
     players.participants
@@ -156,4 +163,10 @@ class GameSession < ApplicationRecord
   def broadcast_state(pulse: nil)
     Nights::Broadcast.call(night: self, pulse: pulse)
   end
+
+  private
+
+    def assign_public_token
+      self.public_token ||= SecureRandom.urlsafe_base64(18)
+    end
 end

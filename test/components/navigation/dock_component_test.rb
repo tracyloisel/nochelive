@@ -10,6 +10,9 @@ class Navigation::DockComponentTest < ViewComponent::TestCase
     assert_selector "a.navigation-dock__item.is-active", text: I18n.t("hub.nav_profile")
     assert_selector "a.navigation-dock__item.is-active[aria-current='page']", count: 1
     assert_selector "a.navigation-dock__item:not(.is-active)[aria-current]", count: 0
+    assert_selector "svg.navigation-dock__icon", count: 5
+    assert_selector ".navigation-dock__icon .navigation-dock__icon-metal", minimum: 5
+    assert_selector ".navigation-dock__icon .navigation-dock__icon-jewel", count: 5
     parole = Rails.application.routes.url_helpers.study_program_path
     assert_selector "a.navigation-dock__item[href='#{parole}'] > .picto-scripture-book"
     assert_no_selector ".street-hub-word-medallion"

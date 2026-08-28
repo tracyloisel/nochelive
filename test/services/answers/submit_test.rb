@@ -34,6 +34,8 @@ class Answers::SubmitTest < ActiveSupport::TestCase
   test "remote answers a buzzer QCM while the round is open" do
     home = teams(:daniel_home)
     Answers::Submit.call(round: @round, team: home, player: players(:daniel), body: "wisdom")
+    assert_not home.reload.score_events.where(round_run: @round).exists?
+    Rounds::Reveal.call(round: @round)
     assert home.reload.score_events.where(kind: "correct", round_run: @round).exists?
   end
 
@@ -47,6 +49,8 @@ class Answers::SubmitTest < ActiveSupport::TestCase
     Buzz.accept!(round_run: @round, team: @team, player: @player)
     @round.lock!
     Answers::Submit.call(round: @round, team: @team, player: @player, body: "wisdom")
+    assert_not @team.reload.score_events.where(round_run: @round).exists?
+    Rounds::Reveal.call(round: @round)
     assert @team.reload.score_events.where(kind: "correct", round_run: @round).exists?
   end
 
@@ -54,6 +58,8 @@ class Answers::SubmitTest < ActiveSupport::TestCase
     Buzz.accept!(round_run: @round, team: @team, player: @player)
     @round.lock!
     Answers::Submit.call(round: @round, team: @team, player: @player, body: "riches")
+    assert_not @team.reload.score_events.where(round_run: @round).exists?
+    Rounds::Reveal.call(round: @round)
     assert @team.reload.score_events.where(kind: "incorrect", round_run: @round).exists?
   end
 
@@ -119,21 +125,21 @@ class Answers::SubmitTest < ActiveSupport::TestCase
     assert_not teams(:daniel_home).score_events.where(kind: "correct", round_run: round).exists?
   end
 
-  test "graded QCM pulses score not a buzzer slam" do
+  test "QCM submission pulses a locked answer without leaking its grade" do
     Buzz.accept!(round_run: @round, team: @team, player: @player)
     @round.lock!
     pulses = capture_pulses(@round.game_session) do
       Answers::Submit.call(round: @round, team: @team, player: @player, body: "wisdom")
     end
-    assert_equal [ "score" ], pulses.map { |pulse| pulse&.fetch(:kind, nil) }
+    assert_equal [ "answer" ], pulses.map { |pulse| pulse&.fetch(:kind, nil) }
   end
 
-  test "remote QCM miss pulses miss" do
+  test "remote QCM submission does not leak a miss before reveal" do
     home = teams(:daniel_home)
     pulses = capture_pulses(@round.game_session) do
       Answers::Submit.call(round: @round, team: home, player: players(:daniel), body: "riches")
     end
-    assert_equal [ "miss" ], pulses.map { |pulse| pulse&.fetch(:kind, nil) }
+    assert_equal [ "answer" ], pulses.map { |pulse| pulse&.fetch(:kind, nil) }
   end
 
   test "scavenger first shout pulses found once" do

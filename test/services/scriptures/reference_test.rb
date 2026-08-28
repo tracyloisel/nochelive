@@ -36,6 +36,17 @@ class Scriptures::ReferenceTest < ActiveSupport::TestCase
     assert references.any? { |reference| reference.citation == "Juan 20:16" }
   end
 
+  test "keeps selected verse ranges in public path options and sitemap passages" do
+    passage = Scriptures::Reference.indexable_passages.find do |item|
+      item.reference.study == "ot/1-kgs/21" && item.reference.verse == 2 && item.to == 3
+    end
+
+    assert passage
+    assert_equal "1 Reyes 21:2–3", passage.citation
+    assert_equal "2-3", Scriptures::Reference.passage_path_options(passage.reference, :fr, to: passage.to)[:verse]
+    assert_equal "1-rois", Scriptures::Reference.passage_path_options(passage.reference, :fr, to: passage.to)[:book]
+  end
+
 
   test "covers the complete standard works requested for public SEO" do
     bible = Scriptures::Reference::BOOKS.values.select { |book| book[:corpus] == :bible }

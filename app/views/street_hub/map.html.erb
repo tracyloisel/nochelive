@@ -10,14 +10,17 @@
 <% finished = packs.count { |p| p.state == :finished } %>
 <% total_packs = packs.size %>
 <% questions_per_pack = QuizDefinition::QUESTIONS_PER_PACK %>
-<% rewards = (total_packs / 10).ceil %>
-<% current_tier = Quizzes::World.tier_for(
-  (@open_run&.pack_id && packs.find { |p| p.id == @open_run.pack_id })&.index ||
-  (@world.current_pack_id && packs.find { |p| p.id == @world.current_pack_id })&.index ||
-  packs.rindex { |p| p.state == :finished } || 0
-) %>
-<% current_tier_key = current_tier&.fetch(:key) %>
-<% active_category = @world.current_pack_id ? Quizzes::World.category_for(@world.current_pack_id) : "rois" %>
+<% total_rewards = total_packs / 10 %>
+<% play_pack_id = @open_run&.pack_id.presence || @world.current_pack_id %>
+<% play_pack = packs.find { |pack| pack.id == play_pack_id } || packs.first %>
+<% play_pack_number = play_pack ? play_pack.index + 1 : 1 %>
+<% play_step_line = if @open_run.present? && play_pack && @open_run.pack_id == play_pack.id
+  t("street.pack_here", n: play_pack_number, q: @open_run.position, total: play_pack.pack.questions.size)
+else
+  t("street.pack_step", n: play_pack_number)
+end %>
+<% progress_percent = total_packs.positive? ? (finished.to_f / total_packs * 100).round : 0 %>
+<% active_category = play_pack&.category || "rois" %>
 
 <section id="street_world"
          class="street-world street-map-page"
@@ -35,50 +38,79 @@
          style="view-transition-name: street-world">
 
   <header class="mapa-header">
-    <h1 class="mapa-title"><%= t("street.mapa_title") %></h1>
-    <p class="mapa-subtitle"><%= t("street.mapa_subtitle", total: total_packs, q: questions_per_pack) %></p>
-    <div class="mapa-stats-row">
-      <div class="mapa-stat-item">
-        <span class="mapa-stat-icon"><%= picto("mapa-pack-box") %></span>
-        <span class="mapa-stat-value"><%= total_packs %></span>
-        <span class="mapa-stat-label"><%= t("street.stat_packs") %></span>
-      </div>
-      <div class="mapa-stat-item">
-        <span class="mapa-stat-icon"><%= picto("mapa-question") %></span>
-        <span class="mapa-stat-value"><%= questions_per_pack %></span>
-        <span class="mapa-stat-label"><%= t("street.stat_questions") %></span>
-      </div>
-      <div class="mapa-stat-item">
-        <span class="mapa-stat-icon"><%= picto("mapa-crown") %></span>
-        <span class="mapa-stat-value"><%= finished %><span class="mapa-stat-divider">/</span><%= total_packs %></span>
-        <span class="mapa-stat-label"><%= t("street.stat_completed") %></span>
-      </div>
-      <div class="mapa-stat-item">
-        <span class="mapa-stat-icon"><%= picto("mapa-chest") %></span>
-        <span class="mapa-stat-value"><%= rewards %></span>
-        <span class="mapa-stat-label"><%= t("street.stat_rewards") %></span>
+    <div class="mapa-heading">
+      <span class="mapa-heading-mark" aria-hidden="true"><%= picto("compass") %></span>
+      <div>
+        <h1 class="mapa-title"><%= t("street.mapa_title") %></h1>
+        <p class="mapa-subtitle"><%= t("street.mapa_subtitle", total: total_packs, q: questions_per_pack) %></p>
       </div>
     </div>
+
+    <% if play_pack %>
+      <article class="mapa-mission" aria-labelledby="mapa_mission_title">
+        <span class="mapa-mission-medallion" aria-hidden="true">
+          <%= picto("mapa-crown") %>
+          <strong><%= play_pack_number %></strong>
+        </span>
+
+        <div class="mapa-mission-copy">
+          <p class="mapa-mission-kicker"><%= play_pack.pack.copy(:kicker) %></p>
+          <h2 id="mapa_mission_title"><%= play_pack.pack.copy(:title) %></h2>
+          <p class="mapa-mission-step"><%= play_step_line %></p>
+        </div>
+
+        <% continue_inner = capture do %>
+          <span><%= t("hub.continue") %></span>
+          <%= picto("arrow") %>
+        <% end %>
+        <% if @open_run.present? && @open_run.pack_id == play_pack.id %>
+          <%= link_to jugar_path, class: "mapa-continue", data: { turbo: false } do %>
+            <%= continue_inner %>
+          <% end %>
+        <% else %>
+          <%= button_to street_pack_start_path(play_pack.id),
+                class: "mapa-continue",
+                form: { class: "mapa-continue-form", data: { turbo: false } } do %>
+            <%= continue_inner %>
+          <% end %>
+        <% end %>
+
+        <div class="mapa-mission-progress"
+             role="progressbar"
+             aria-label="<%= t("street.mapa_progress_label", finished: finished, total: total_packs) %>"
+             aria-valuenow="<%= finished %>"
+             aria-valuemin="0"
+             aria-valuemax="<%= total_packs %>">
+          <span class="mapa-mission-rail" aria-hidden="true"><i style="width: <%= progress_percent %>%"></i></span>
+          <span class="mapa-mission-progress-copy"><strong><%= finished %></strong>/<%= total_packs %> <%= t("street.stat_completed") %></span>
+        </div>
+
+        <div class="mapa-mission-rewards">
+          <%= picto("mapa-chest") %>
+          <span><strong><%= total_rewards %></strong> <%= t("street.stat_rewards") %></span>
+        </div>
+      </article>
+    <% end %>
   </header>
 
   <nav class="mapa-tabs" role="tablist">
     <button class="mapa-tab<%= " is-active" if active_category == "rois" %>"
-            data-category="rois" data-action="hub-map#filter" role="tab" aria-selected="true">
+            data-category="rois" data-action="hub-map#filter" role="tab" aria-selected="<%= active_category == "rois" %>">
       <span class="mapa-tab-icon"><%= picto("mapa-crown") %></span>
       <span class="mapa-tab-label"><%= t("street.category_rois") %></span>
     </button>
     <button class="mapa-tab<%= " is-active" if active_category == "prophetes" %>"
-            data-category="prophetes" data-action="hub-map#filter" role="tab" aria-selected="false">
+            data-category="prophetes" data-action="hub-map#filter" role="tab" aria-selected="<%= active_category == "prophetes" %>">
       <span class="mapa-tab-icon"><%= picto("mapa-key") %></span>
       <span class="mapa-tab-label"><%= t("street.category_prophetes") %></span>
     </button>
     <button class="mapa-tab<%= " is-active" if active_category == "sagesse" %>"
-            data-category="sagesse" data-action="hub-map#filter" role="tab" aria-selected="false">
+            data-category="sagesse" data-action="hub-map#filter" role="tab" aria-selected="<%= active_category == "sagesse" %>">
       <span class="mapa-tab-icon"><%= picto("mapa-tree") %></span>
       <span class="mapa-tab-label"><%= t("street.category_sagesse") %></span>
     </button>
     <button class="mapa-tab<%= " is-active" if active_category == "heros" %>"
-            data-category="heros" data-action="hub-map#filter" role="tab" aria-selected="false">
+            data-category="heros" data-action="hub-map#filter" role="tab" aria-selected="<%= active_category == "heros" %>">
       <span class="mapa-tab-icon"><%= picto("mapa-shield-cross") %></span>
       <span class="mapa-tab-label"><%= t("street.category_heros") %></span>
     </button>
@@ -111,7 +143,7 @@
   <footer class="mapa-footer">
     <div class="mapa-progress">
       <div class="mapa-progress-bar">
-        <div class="mapa-progress-fill" style="width: <%= finished > 0 ? (finished.to_f / total_packs * 100).round : 0 %>%"></div>
+        <div class="mapa-progress-fill" style="width: <%= progress_percent %>%"></div>
       </div>
       <span class="mapa-progress-label"><%= t("street.mapa_progress_label", finished: finished, total: total_packs) %></span>
     </div>

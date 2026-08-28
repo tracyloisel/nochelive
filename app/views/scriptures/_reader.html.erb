@@ -1,9 +1,25 @@
+<% initial_focus = Array(@chapter&.focus) %>
+<% public_reference = Scriptures::Reference.from_study(
+     study: @study, locale: I18n.locale, verse: initial_focus.first || @chapter&.verses&.first&.number
+   ) if @chapter %>
+<% share_base_url = scripture_chapter_url(
+     **Scriptures::Reference.chapter_path_options(public_reference, I18n.locale)
+   ) if public_reference %>
+
 <aside class="scripture-veil"
        role="dialog"
        aria-modal="true"
        aria-labelledby="scripture-title"
        data-stage-bed-value="study_refuge"
-       <% if @chapter %>data-scripture-reference="<%= @study %>" data-scripture-read-url="<%= scripture_reads_path %>"<% end %>>
+       <% if @chapter %>
+         data-scripture-reference="<%= @study %>"
+         data-scripture-locale="<%= I18n.locale %>"
+         data-scripture-read-url="<%= scripture_reads_path %>"
+         <% if current_street_person %>data-scripture-highlight-url="<%= scripture_highlights_path %>"<% end %>
+         data-scripture-share-url="<%= share_base_url %>"
+         data-scripture-share-title-template="<%= t("quiz.scripture_share_title", reference: "__REFERENCE__") %>"
+         data-scripture-share-message-template="<%= t("quiz.scripture_share_message", reference: "__REFERENCE__") %>"
+       <% end %>>
   <div class="scripture-sheet">
     <header class="scripture-head">
       <button type="button"
@@ -33,9 +49,11 @@
         <% @chapter.verses.each do |verse| %>
           <% focused = @chapter.focus.include?(verse.number) %>
           <p class="scripture-verse <%= "is-focus" if focused %>"
+             data-scripture-target="verse"
+             data-scripture-verse-number="<%= verse.number %>"
              <% if focused && verse.number == @chapter.focus.first %>data-scripture-focus<% end %>>
-            <span class="scripture-verse-n"><%= verse.number %></span>
-            <%= verse.text %>
+            <span class="scripture-verse-n" aria-hidden="true"><%= verse.number %></span>
+            <span data-scripture-verse-text><%= verse.text %></span>
           </p>
           <%= render "scriptures/illustration", illustration: illustrations[verse.number] if illustrations[verse.number] %>
         <% end %>
@@ -49,4 +67,69 @@
       <%= link_to t("quiz.scripture_open_site"), @source_url, class: "quiet-link", target: "_blank", rel: "noopener" %>
     </footer>
   </div>
+
+  <% if @chapter %>
+    <script type="application/json" data-scripture-profile-highlights><%= raw json_escape(Array(@scripture_highlights).to_json) %></script>
+
+    <button type="button"
+            class="scripture-share-trigger"
+            data-scripture-target="shareTrigger"
+            data-action="pointerdown->scripture#preserveSelection click->scripture#openShare"
+            aria-label="<%= t("quiz.scripture_share") %>"
+            hidden>
+      <%= picto("share") %>
+    </button>
+
+    <dialog class="scripture-share-dialog"
+            tabindex="-1"
+            data-scripture-target="shareDialog"
+            data-action="click->scripture#closeShareOnBackdrop close->scripture#shareClosed"
+            aria-labelledby="scripture-share-title">
+      <section class="scripture-share-panel">
+        <header>
+          <h2 id="scripture-share-title" data-scripture-target="selection"><%= t("quiz.scripture_share") %></h2>
+          <button type="button"
+                  class="scripture-share-close"
+                  data-action="scripture#closeShare"
+                  aria-label="<%= t("quiz.scripture_share_close") %>">
+            <%= picto("close") %>
+          </button>
+        </header>
+        <div class="scripture-share-options">
+          <button type="button" class="scripture-share-option" data-action="scripture#copyLink">
+            <span class="scripture-share-option-mark" aria-hidden="true"><%= picto("copy") %></span>
+            <span><%= t("quiz.scripture_copy_link") %></span>
+          </button>
+          <a class="scripture-share-option"
+             href="https://wa.me/"
+             target="_blank"
+             rel="noopener"
+             data-scripture-target="whatsapp">
+            <span class="scripture-share-option-mark" aria-hidden="true"><%= picto("whatsapp") %></span>
+            <span><%= t("quiz.scripture_share_whatsapp") %></span>
+          </a>
+          <a class="scripture-share-option"
+             href="https://twitter.com/intent/tweet"
+             target="_blank"
+             rel="noopener"
+             data-scripture-target="x">
+            <span class="scripture-share-option-mark scripture-share-x-mark" aria-hidden="true">X</span>
+            <span><%= t("quiz.scripture_share_x") %></span>
+          </a>
+          <button type="button"
+                  class="scripture-share-option scripture-share-remove"
+                  data-scripture-target="deleteHighlight"
+                  data-action="scripture#removeHighlight"
+                  hidden>
+            <span class="scripture-share-option-mark scripture-share-remove-mark" aria-hidden="true">×</span>
+            <span><%= t("quiz.scripture_remove_highlight") %></span>
+          </button>
+        </div>
+        <p class="scripture-share-status"
+           role="status"
+           data-scripture-target="copyStatus"
+           hidden><%= t("quiz.scripture_link_copied") %></p>
+      </section>
+    </dialog>
+  <% end %>
 </aside>

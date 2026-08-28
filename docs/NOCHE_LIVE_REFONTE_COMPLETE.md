@@ -32,6 +32,7 @@ La priorité absolue est l’élimination des frictions. Un code de session, une
 - le joueur en salle utilise son téléphone comme un contrôleur et regarde la salle ;
 - le joueur à distance dispose d’une expérience autonome de niveau A ou B ;
 - le présentateur contrôle tout le rythme avec une seule action principale ;
+- le spectateur derrière Twitch peut comprendre l’enjeu et rester captivé sans second écran ;
 - le spectateur mobile peut suivre et réagir sans devenir un faux joueur ;
 - la TV reste un spectacle 16:9 sans commandes tactiles ni feuilles de formulaire ;
 - chaque révélation apporte feedback, score, VFX, SFX et progression sans clic administratif ;
@@ -300,8 +301,14 @@ Référence : `mockup-night-spectator-mobile-celestial-dark.png`.
 
 - scène et question ;
 - classement compact ;
+- choix de réponse personnel pour les manches compatibles du lot 1 ;
 - réactions discrètes, accessibles au pouce ;
-- aucun choix de réponse, aucun XP, aucune équipe implicite.
+- aucune incidence sur le score officiel, aucun XP, aucune équipe implicite.
+
+Le téléphone spectateur est un **compagnon facultatif**. Il ne doit jamais être
+nécessaire pour comprendre le direct. Une personne qui regarde uniquement
+Twitch doit recevoir la totalité de l’histoire, de l’enjeu, du suspense et du
+résultat sur le flux vidéo.
 
 #### TV
 
@@ -407,6 +414,183 @@ Référence : `mockup-night-spectator-finale.png`.
 - podium et victoire ;
 - contribution exprimée par les réactions, jamais par de faux XP ;
 - une sortie claire.
+
+### 6.7 Contrat de rétention du spectateur distant
+
+Le spectateur n’est ni un joueur Casa sans points, ni un participant en attente.
+Son verbe est **regarder un spectacle qui évolue**. La question de conception
+n’est donc pas « que peut-il toucher ? », mais « pourquoi veut-il voir les trente
+prochaines secondes ? ».
+
+Deux situations doivent fonctionner séparément :
+
+1. **Twitch seul** — aucune application ouverte, aucune connexion, aucun geste requis ;
+2. **Twitch + compagnon mobile** — réactions et signaux sociaux facultatifs, sans avantage compétitif.
+
+#### Promesse Twitch seul
+
+À n’importe quel instant, le flux doit permettre de reconstruire rapidement :
+
+- qui s’affronte ;
+- ce qu’il faut accomplir maintenant ;
+- ce qui peut être gagné ou perdu ;
+- combien de temps il reste ;
+- ce qui vient d’arriver ;
+- pourquoi la prochaine révélation mérite d’être attendue.
+
+Le flux utilise une grammaire éditoriale continue :
+
+- **accroche** de manche de 3 à 6 secondes : image, enjeu, valeur en points ;
+- **action** visible : question, défi, corps, voix ou décision des équipes ;
+- **montée** : timer, réponses reçues ou duel resserré, sans révéler le résultat ;
+- **respiration présentateur** très courte, préparée par une cue claire ;
+- **payoff** : réponse, réaction humaine, VFX/SFX et mouvement du classement ;
+- **hameçon suivant** : annonce concrète de la prochaine scène ou du risque à venir.
+
+Le direct ne doit pas afficher un écran techniquement exact mais narrativement
+inerte. Toute attente supérieure à 8 secondes doit être occupée par au moins un
+élément utile : progression des réponses, réaction de salle, rappel d’enjeu,
+comparaison entre équipes, replay très court ou préparation de la révélation.
+
+#### Présence humaine
+
+La rétention ne peut pas reposer uniquement sur le HUD. Le conducteur doit
+préserver les visages, les voix et les réactions de la salle :
+
+- réaction d’une équipe après un verrouillage ;
+- hésitation ou confiance avant la révélation ;
+- célébration et déception bienveillante après le résultat ;
+- intervention concise du présentateur entre deux états système ;
+- retour régulier sur la rivalité ou la remontée en cours.
+
+Le tableau de scores raconte une histoire : leader menacé, égalité, remontée,
+balle de match. Il ne se contente pas d’énumérer des nombres.
+
+#### Public interactif — lot 1 « Joue avec le direct »
+
+Le premier lot transforme le compagnon mobile en participation facultative,
+sans transformer le spectateur en joueur Casa et sans modifier le score officiel.
+La boucle cible est :
+
+> ouvrir → répondre → attendre avec tension → découvrir son résultat → se comparer au public → vouloir répondre à la suivante
+
+##### Entrée sans friction
+
+- le lien partagé avec le flux ouvre directement le mode Public de la soirée active ;
+- aucun code, compte ou choix d’équipe ;
+- pseudonyme temporaire automatique, avec prénom facultatif ;
+- identité locale anonyme suffisamment stable pour conserver la série pendant la soirée ;
+- reprise automatique de la phase diffusée après fermeture, verrouillage ou perte de réseau.
+
+##### Réponse en parallèle
+
+Pour les manches compatibles :
+
+- la question et ses choix apparaissent sur le compagnon ;
+- un toucher valide A, B, C ou D sans bouton de confirmation ;
+- la réponse est personnelle mais n’attribue aucune équipe ;
+- elle ne modifie jamais le score officiel, l’ordre des équipes ou les règles ;
+- après validation, l’écran passe immédiatement à un état verrouillé vivant ;
+- une manche non compatible conserve réactions et contexte sans fabriquer un faux QCM.
+
+##### Réactions contextuelles
+
+- trois réactions maximum sont proposées selon la phase ;
+- leur cadence est limitée pour empêcher spam et pollution visuelle ;
+- elles peuvent devenir une manifestation agrégée sur la TV : vague lumineuse,
+  niveau d’encouragement ou émotion dominante ;
+- aucune réaction individuelle, identité ou message libre n’est projeté sans modération.
+
+##### Retour instantané
+
+Après la cue de révélation diffusée, le compagnon montre :
+
+- bonne ou mauvaise réponse ;
+- part du public ayant trouvé ;
+- répartition agrégée des choix ;
+- nombre de spectateurs ayant participé ;
+- série personnelle locale, par exemple « 3 bonnes réponses de suite ».
+
+Le lot 1 ne crée ni XP persistant, ni classement public global, ni profil
+spectateur obligatoire. La série locale disparaît à la fin de la soirée ou reste
+sur l’appareil selon la politique de données ; elle n’a aucune valeur compétitive.
+
+##### Attente vivante
+
+L’état verrouillé ou intermanche utilise au moins un élément utile :
+
+- « Réponse enregistrée » et progression de participation agrégée ;
+- rappel du classement officiel ;
+- résultat précédent ;
+- série personnelle locale ;
+- réaction dominante du public ;
+- annonce de la prochaine manche ;
+- indication honnête de l’action en salle, par exemple « La salle choisit maintenant ».
+
+Il n’affiche jamais uniquement « Attends le présentateur » et ne demande aucun
+bouton « OK » ou « Continuer ».
+
+##### Quatre écrans du lot 1
+
+1. **Arrivée** — entrer directement dans le public de la soirée active ;
+2. **Question** — contexte court, timer aligné au flux et choix A–D ;
+3. **Réponse verrouillée** — confirmation, tension et réactions ;
+4. **Révélation** — résultat personnel, répartition du public, série et prochain enjeu.
+
+Chaque écran définit les états `idle`, `pressed`, `loading`, `locked`, `success`,
+`failure`, `offline`, `resumed` et `closed` avec une seule action évidente.
+
+#### Public interactif — lot 2 différé
+
+Le second lot pourra ajouter, après validation des usages du lot 1 :
+
+- pronostics avant une manche ;
+- votes déterminant le prochain défi ;
+- choix de bonus ou handicap encadré par le présentateur ;
+- mini-défis pendant les transitions ;
+- XP persistant et profil facultatif ;
+- classement public et récompenses hebdomadaires.
+
+Ces fonctions sont différées car elles touchent l’équilibrage, la modération,
+les règles de la soirée et le conducteur du présentateur.
+
+#### Latence Twitch
+
+La diffusion vidéo peut arriver plusieurs secondes après l’état serveur. Le
+compagnon spectateur ne doit donc jamais annoncer la révélation avant le flux.
+
+- le serveur conserve un `broadcast_delay_ms` par canal ;
+- la question Public s’ouvre selon la phase diffusée et non selon l’état serveur brut ;
+- les réactions restent ouvertes sur une fenêtre alignée avec la diffusion ;
+- le résultat et le classement mobile sont retardés jusqu’à la cue broadcast ;
+- une dérive de latence désactive proprement l’action plutôt que de spoiler ;
+- une reconnexion rejoint la phase diffusée, pas nécessairement la phase serveur brute.
+
+#### Règles de rythme
+
+- aucune transition administrative visible ;
+- aucune attente « le présentateur prépare la suite » sans matière de spectacle ;
+- un nouvel enjeu, changement ou payoff perceptible toutes les 15 à 30 secondes ;
+- une manche complète vise 60 à 120 secondes selon son intensité ;
+- après chaque révélation, le prochain enjeu est amorcé avant que l’attention ne retombe ;
+- la finale annonce clairement ce qui peut encore basculer.
+
+#### Mesure de réussite
+
+Le plan est validé seulement si les métriques distinguent le public du nombre de
+joueurs :
+
+- rétention spectateur à 1, 5, 15 et 30 minutes ;
+- départs pendant lobby, attente, verrouillage, révélation et intermanche ;
+- durée médiane de visionnage Twitch ;
+- taux d’ouverture du compagnon, sans en faire un objectif obligatoire ;
+- taux de réaction et délai de première réaction ;
+- retour après interruption ou verrouillage du téléphone ;
+- écart de synchronisation entre cue serveur et cue réellement diffusée.
+
+Le test qualitatif décisif est réalisé avec une personne qui ne connaît ni les
+joueurs ni les règles : après cinq minutes, elle doit pouvoir nommer le leader,
+l’enjeu actuel et la raison pour laquelle elle veut voir la prochaine révélation.
 
 ---
 
@@ -1052,7 +1236,26 @@ Le pixel-perfect n’autorise pas :
 - retour après perte de réseau ;
 - absence de fuite de la bonne réponse.
 
-### 18.3 Tests visuels
+### 18.3 Tests de rétention Twitch
+
+- suivre une soirée complète avec uniquement le flux vidéo, sans téléphone ;
+- rejoindre le flux au milieu de chaque phase et identifier l’enjeu en moins de 10 secondes ;
+- entrer dans le Public sans compte, code ou équipe ;
+- répondre en un toucher à une manche compatible puis vérifier le verrouillage idempotent ;
+- vérifier qu’une réponse Public ne modifie jamais le score officiel ;
+- afficher résultat personnel, répartition agrégée et série locale uniquement après la cue broadcast ;
+- conserver la série locale pendant une reconnexion puis appliquer sa politique d’expiration ;
+- rendre un état d’attente vivant pour les manches compatibles et incompatibles ;
+- limiter les réactions et n’exposer à la TV que leur agrégat modéré ;
+- mesurer les écrans ou silences narrativement morts de plus de 8 secondes ;
+- vérifier qu’aucune donnée mobile ne précède la cue réellement diffusée ;
+- simuler 3, 8 et 15 secondes de latence, puis une dérive pendant une manche ;
+- verrouiller puis rouvrir le compagnon mobile à chaque phase ;
+- vérifier qu’une réaction agrégée ne modifie jamais score ou classement ;
+- faire tester le flux à une personne extérieure qui ne connaît ni les équipes ni les règles ;
+- contrôler la compréhension du leader, de l’enjeu et de la prochaine attente après cinq minutes.
+
+### 18.4 Tests visuels
 
 - captures de tous les viewports de la matrice ;
 - Light et Dark ;
@@ -1066,7 +1269,7 @@ Le pixel-perfect n’autorise pas :
 - mode mouvement réduit ;
 - zoom 200 %.
 
-### 18.4 Tests de performance
+### 18.5 Tests de performance
 
 - poids des artworks portrait et paysage ;
 - LCP de la première scène ;
@@ -1076,7 +1279,7 @@ Le pixel-perfect n’autorise pas :
 - mémoire après quinze manches ;
 - comportement de la TV après plusieurs heures.
 
-### 18.5 Répétition humaine
+### 18.6 Répétition humaine
 
 Organiser une soirée test avec :
 

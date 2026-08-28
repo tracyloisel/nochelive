@@ -15,6 +15,7 @@ class StreetProfilesController < ApplicationController
       end
     end
     assign_screen
+    assign_merge_candidates if @screen == :edit
   end
 
   def create
@@ -112,6 +113,7 @@ class StreetProfilesController < ApplicationController
       @people_on_device = Person.on_device_anywhere(device_token).to_a
       @person = person
       @screen = :edit
+      assign_merge_candidates
       flash.now[:alert] = person.errors.full_messages.to_sentence
       render :show, status: :unprocessable_entity
     end
@@ -218,5 +220,9 @@ class StreetProfilesController < ApplicationController
       @screen = gate.name
       @welcome_person = gate.person
       @listed_people = gate.people
+    end
+
+    def assign_merge_candidates
+      @merge_candidates = People::MergeCandidates.call(person: @person, device_token: device_token)
     end
 end

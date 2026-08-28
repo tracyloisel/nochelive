@@ -8,7 +8,7 @@ class NightFlowTest < ActionDispatch::IntegrationTest
 
     get night_name_path(night.code)
     assert_response :success
-    assert_select "h1", text: /llama/
+    assert_select "h1", text: /Entra a la noche/
 
     post night_players_path(night.code), params: { name: "Lucía", location: "room" }
     assert_equal 1, night.players.count
@@ -24,7 +24,7 @@ class NightFlowTest < ActionDispatch::IntegrationTest
     follow_redirect!
     get night_watch_path(night.code)
     assert_response :success
-    assert_select ".watch-mark"
+    assert_select ".watch-wordmark", text: /Noche Live/
     assert_select "form[action*='buzz']", count: 0
   end
 
@@ -56,7 +56,8 @@ class NightFlowTest < ActionDispatch::IntegrationTest
     end
 
     get presenter_console_path(night.code)
-    assert_select ".code-chip", text: night.code
+    assert_select ".code-chip", text: /En directo/
+    assert_select ".code-chip", text: night.code, count: 0
   end
 
   test "buzzer flow awards first place to one team" do

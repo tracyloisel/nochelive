@@ -18,6 +18,8 @@ class RoundRun < ApplicationRecord
   has_many :pose_holds, dependent: :destroy
   has_many :ballots, dependent: :destroy
   has_many :cheers, dependent: :destroy
+  has_many :audience_responses, dependent: :destroy
+  has_many :audience_reactions, dependent: :destroy
 
   validates :yaml_round_id, :position, :phase, presence: true
   validates :phase, inclusion: { in: PHASES }

@@ -1,0 +1,68 @@
+<% content_for :title, t("identity_migration.conflict_title") %>
+<% content_for :body_class, "is-identity-transfer-claim is-celestial-light" %>
+
+<dialog class="identity-transfer-modal identity-merge-modal"
+        open
+        aria-modal="true"
+        aria-labelledby="identity_merge_title"
+        aria-describedby="identity_merge_hint"
+        data-controller="identity-transfer"
+        data-action="cancel->identity-transfer#keepOpen">
+  <section class="identity-transfer-card identity-merge-card">
+    <span class="identity-transfer-apex" aria-hidden="true"><%= picto("star4") %></span>
+    <span class="identity-transfer-emblem identity-merge-emblem" aria-hidden="true">
+      <%= picto("hands") %>
+    </span>
+    <p class="identity-transfer-kicker">Noche Live</p>
+    <h2 id="identity_merge_title"><%= t("identity_migration.conflict_title") %></h2>
+    <p id="identity_merge_hint" class="identity-transfer-hint"><%= t("identity_migration.conflict_hint") %></p>
+
+    <div class="identity-merge-profiles">
+      <article class="identity-merge-profile is-legacy">
+        <p><%= t("identity_migration.old_profile") %></p>
+        <%= render "people/card",
+                   person: @source_person,
+                   show_year: false,
+                   hint: "#{t("identity_migration.profile_points", count: @source_score)} · #{t("identity_migration.profile_since", date: l(@source_person.created_at.to_date))}" %>
+      </article>
+
+      <span class="identity-merge-join" aria-hidden="true"><%= picto("sparkle") %></span>
+
+      <article class="identity-merge-profile is-current">
+        <p><%= t("identity_migration.current_profile") %></p>
+        <%= render "people/card",
+                   person: @target_person,
+                   show_year: false,
+                   hint: "#{t("identity_migration.profile_points", count: @target_score)} · #{t("identity_migration.profile_since", date: l(@target_person.created_at.to_date))}" %>
+      </article>
+    </div>
+
+    <% if @merge_error.present? || !@mergeable %>
+      <p class="identity-merge-error" role="alert"><%= @merge_error || t("identity_migration.cannot_merge") %></p>
+    <% else %>
+      <%= button_to identity_transfer_merge_path,
+                    params: { token: @token },
+                    class: "btn btn-gold identity-transfer-cta identity-merge-cta",
+                    form: {
+                      class: "identity-transfer-form",
+                      data: {
+                        turbo: false,
+                        action: "submit->identity-transfer#submit",
+                        identity_transfer_target: "form"
+                      }
+                    },
+                    data: { identity_transfer_target: "button" },
+                    autofocus: true do %>
+        <span><%= t("identity_migration.merge_action") %></span>
+        <span class="identity-transfer-cta-arrow" aria-hidden="true"><%= picto("arrow") %></span>
+        <span class="identity-transfer-spinner" aria-hidden="true"></span>
+      <% end %>
+      <p class="identity-merge-note"><%= t("identity_migration.merge_note") %></p>
+    <% end %>
+
+    <%= link_to t("identity_migration.keep_current"),
+                root_path,
+                class: "quiet-link identity-merge-keep",
+                autofocus: !@mergeable %>
+  </section>
+</dialog>

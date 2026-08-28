@@ -20,6 +20,10 @@ class StreetLeaderboardsControllerTest < ActionDispatch::IntegrationTest
     assert_select ".street-liga-filters-dialog", count: 0
     assert_select ".street-leaderboard-select", count: 0
     assert_select ".street-liga-podium"
+    assert_select ".street-liga-entry .street-board-joined", minimum: 1
+    assert_select ".street-liga-entry[data-liga-person-id=?] .street-board-joined",
+                  people(:pili).id.to_s,
+                  text: I18n.t("street.leaderboard_joined", date: I18n.l(people(:pili).created_at.to_date))
     assert_select ".street-liga-challenge-label", text: /#{Regexp.escape(I18n.t("street.duel_send"))}/, minimum: 1
     assert_select ".street-liga-you-bar"
     assert_select ".home-menu.is-hud .quiz-hud"
@@ -29,6 +33,16 @@ class StreetLeaderboardsControllerTest < ActionDispatch::IntegrationTest
     css = Rails.root.join("app/assets/stylesheets/application.css").read
     assert_match(/\.navigation-dock \{[^}]*left: 0;[^}]*right: 0;[^}]*width: auto;/m, css)
     refute_includes css, "--navigation-dock-width"
+    assert_select "a[href^=?]", ward_fichas_path, count: 0
+  end
+
+  test "ward presenter can open profile management from the leaderboard" do
+    sign_in_ward
+
+    get street_leaderboard_path(q: "Carmen")
+
+    assert_response :success
+    assert_select "a[href=?]", ward_fichas_path(q: "Carmen"), text: I18n.t("fichas.leaderboard_manage")
   end
 
   test "player without a ward is asked to choose one then returns to the leaderboard" do

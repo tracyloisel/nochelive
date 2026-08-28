@@ -1,4 +1,6 @@
 class StudyUnitsController < ApplicationController
+  include StudyIdentity
+
   def show
     remember_device
     @unit = StudyUnit.find(params[:id])
@@ -9,11 +11,7 @@ class StudyUnitsController < ApplicationController
       Set.new
     end
     @run = if @quiz
-      runs = StudyRun.joins(:study_quiz_version).where(
-        study_quiz_versions: { study_unit_id: @unit.id },
-        device_digest: street_device_digest,
-        person_id: current_street_person&.id
-      )
+      runs = study_runs_for_identity.joins(:study_quiz_version).where(study_quiz_versions: { study_unit_id: @unit.id })
       runs.completed.order(completed_at: :desc).first || runs.open.order(updated_at: :desc).first
     end
   end

@@ -1,5 +1,5 @@
 class StreetDuel < ApplicationRecord
-  STATUSES = %w[pending challenger_done opponent_done resolved declined].freeze
+  STATUSES = %w[pending challenger_done opponent_done resolved declined archived].freeze
   ACTIVE = %w[pending challenger_done opponent_done].freeze
 
   belongs_to :challenger_person, class_name: "Person"
@@ -24,6 +24,7 @@ class StreetDuel < ApplicationRecord
   def opponent_done? = status == "opponent_done"
   def resolved? = status == "resolved"
   def declined? = status == "declined"
+  def archived? = status == "archived"
   def expired? = expires_at <= Time.current
   def active? = ACTIVE.include?(status)
 

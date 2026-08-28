@@ -231,10 +231,23 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
     shot("hub-phone")
     open_hub_map_from_menu
     assert_selector ".street-map-page"
+    assert_selector ".mapa-mission"
+    assert_selector ".mapa-mission-progress[role='progressbar']"
+    assert_selector ".mapa-continue", text: I18n.t("hub.continue")
+    assert_no_selector ".mapa-stats-row"
+    assert_selector ".mapa-tab[aria-selected='true']", count: 1
     assert_selector ".mapa-node", count: QuizDefinition.catalog.pack_ids.size
     assert_selector ".mapa-node.is-current"
     assert_selector ".mapa-node.is-locked"
     assert_no_selector ".mapa-node.is-locked .mapa-node-hit"
+    sleep 0.8
+    assert_no_horizontal_layout_overflow
+    assert_operator page.evaluate_script("window.scrollY"), :<=, 8
+    map_title_gap = page.evaluate_script(<<~JS)
+      document.querySelector('.mapa-heading').getBoundingClientRect().top -
+        document.querySelector('.home-menu.is-hud').getBoundingClientRect().bottom
+    JS
+    assert_operator map_title_gap, :>=, 16
     shot("map-phone")
     find(".navigation-dock a[href='/']").click
     assert_selector ".street-card.is-map-door"

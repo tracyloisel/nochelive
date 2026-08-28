@@ -1,7 +1,7 @@
 <nav class="navigation-dock" aria-label="<%= t("hub.nav_home") %>">
   <% items.each do |item| %>
     <%= link_to item.path, class: item_class(item), aria: item_aria(item) do %>
-      <%= picto(item.icon) %>
+      <%= render "shared/dock_icon", name: item.icon %>
       <span><%= t(item.label_key) %></span>
     <% end %>
   <% end %>

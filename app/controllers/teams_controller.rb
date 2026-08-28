@@ -1,5 +1,5 @@
 class TeamsController < ApplicationController
-  before_action :set_night, :require_player, :require_participant_profile
+  before_action :set_night, :require_player
 
   def create
     team = Teams::Create.call(

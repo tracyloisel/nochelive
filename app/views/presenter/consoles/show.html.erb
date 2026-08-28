@@ -1,4 +1,4 @@
 <% content_for :title, "#{t("presenter.title")} · #{@night.code}" %>
-<% content_for :body_class, "is-presenter" %>
+<% content_for :body_class, "is-presenter is-celestial-dark" %>
 <%= turbo_stream_from @night.presenter_stream %>
 <%= render "presenter/consoles/frame", night: @night %>

@@ -108,8 +108,9 @@ class ActionDispatch::IntegrationTest
     return if location == "remote"
     return unless team
 
-    post night_team_memberships_path(night.code, team)
-    follow_redirect! while response.redirect?
+    player = night.players.find_by!(name: name)
+    player.team_membership&.destroy!
+    TeamMembership.create!(player: player, team: team)
   end
 
   def seat_of(night, name)

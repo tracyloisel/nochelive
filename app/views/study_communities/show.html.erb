@@ -13,7 +13,7 @@
     <section class="study-community-week">
       <p class="study-kicker"><%= t("study.home_kicker") %></p>
       <h2><%= t("study.psalms_theme") %></h2>
-      <p><%= @week.scripture_refs.first %></p>
+      <p><%= @week.display_scripture_refs.first %></p>
     </section>
     <nav class="study-community-actions" aria-label="<%= t("study.community_actions") %>">
       <%= link_to t("study.community_read_week"), study_unit_path(@week), class: "btn btn-gold" %>

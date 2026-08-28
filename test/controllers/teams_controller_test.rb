@@ -45,7 +45,8 @@ class TeamsAndMembershipsControllerTest < ActionDispatch::IntegrationTest
 
   test "chapel player cannot join a casa seat" do
     sign_in_as_participant(@night, name: "Sofía")
+    chapel = seat_of(@night, "Sofía")
     post night_team_memberships_path(@night.code, teams(:daniel_home))
-    assert_nil Player.order(:id).last.reload.team
+    assert_equal chapel, Player.order(:id).last.reload.team
   end
 end

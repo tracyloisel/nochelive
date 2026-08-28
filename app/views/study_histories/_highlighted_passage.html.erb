@@ -1,0 +1,27 @@
+<article class="study-highlight-card"
+         data-study-highlight-library-target="item"
+         data-collection="<%= passage[:collection] %>"
+         data-search-text="<%= [ passage[:citation], passage[:text] ].compact.join(" ") %>">
+  <span class="study-highlight-mark" aria-hidden="true">“</span>
+  <div>
+    <h3><%= passage[:citation] %></h3>
+    <blockquote><%= passage[:text].presence || t("study.highlight_excerpt_unavailable") %></blockquote>
+    <footer>
+      <span class="study-highlight-meta">
+        <time datetime="<%= passage[:record].updated_at.to_date.iso8601 %>"><%= l(passage[:record].updated_at.to_date) %></time>
+        <span class="study-highlight-readers"><%= t("study.highlight_reads", count: passage[:readers_count]) %></span>
+      </span>
+      <span class="study-highlight-actions">
+        <%= link_to passage[:path], class: "study-highlight-open" do %><%= t("study.highlight_open") %> <b aria-hidden="true">›</b><% end %>
+        <button type="button"
+                class="study-highlight-share"
+                data-action="study-highlight-share#open"
+                data-share-url="<%= passage[:path] %>"
+                data-share-title="<%= t("quiz.scripture_share_title", reference: passage[:citation]) %>"
+                data-share-message="<%= t("quiz.scripture_share_message", reference: passage[:citation]) %>">
+          <%= picto("share") %><span><%= t("study.highlight_share") %></span>
+        </button>
+      </span>
+    </footer>
+  </div>
+</article>

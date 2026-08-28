@@ -58,6 +58,11 @@
         <span aria-hidden="true">⚔</span><%= t("street.duel_inbox") %>
         <% if @duel_incoming.to_i.positive? %><b><%= @duel_incoming %></b><% end %>
       <% end %>
+      <% if ward_host?(@board_ward) %>
+        <%= link_to ward_fichas_path(q: @q.presence), class: "street-liga-sibling-link is-presenter" do %>
+          <%= picto("person") %><%= t("fichas.leaderboard_manage") %>
+        <% end %>
+      <% end %>
     </div>
 
     <p class="street-liga-lede">

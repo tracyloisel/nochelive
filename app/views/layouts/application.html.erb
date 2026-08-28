@@ -72,13 +72,47 @@
     </aside>
     <% identity_migration_available = request.host == IdentityTransfersController::SOURCE_HOST && cookies.signed[:noche_device].present? %>
     <% if identity_migration_available %>
-      <aside class="pwa-install-banner" aria-label="<%= t("identity_migration.action") %>">
-        <img src="/apple-touch-icon.png" width="52" height="52" alt="" class="pwa-install-banner-icon">
-        <%= button_to identity_transfer_path, class: "pwa-install-banner-copy" do %>
-          <strong><%= t("identity_migration.title") %></strong>
-          <span><%= t("identity_migration.hint") %></span>
+      <dialog class="identity-transfer-modal"
+              open
+              aria-modal="true"
+              aria-labelledby="identity_transfer_title"
+              aria-describedby="identity_transfer_hint"
+              data-controller="identity-transfer"
+              data-action="cancel->identity-transfer#keepOpen">
+        <section class="identity-transfer-card">
+          <span class="identity-transfer-apex" aria-hidden="true"><%= picto("star4") %></span>
+          <span class="identity-transfer-emblem" aria-hidden="true">
+            <img src="/apple-touch-icon.png" width="88" height="88" alt="">
+          </span>
+          <p class="identity-transfer-kicker">Noche Live</p>
+          <h2 id="identity_transfer_title"><%= t("identity_migration.title") %></h2>
+          <p id="identity_transfer_hint" class="identity-transfer-hint"><%= t("identity_migration.hint") %></p>
+          <div class="identity-transfer-route" aria-hidden="true">
+            <span><%= IdentityTransfersController::SOURCE_HOST %></span>
+            <%= picto("arrow") %>
+            <strong><%= IdentityTransfersController::TARGET_HOST %></strong>
+          </div>
+        <%= button_to identity_transfer_path,
+                      class: "btn btn-gold identity-transfer-cta",
+                      form: {
+                        class: "identity-transfer-form",
+                        data: {
+                          turbo: false,
+                          action: "submit->identity-transfer#submit",
+                          identity_transfer_target: "form"
+                        }
+                      },
+                      data: { identity_transfer_target: "button" },
+                      autofocus: true do %>
+          <span><%= t("identity_migration.action") %></span>
+          <span class="identity-transfer-cta-arrow" aria-hidden="true"><%= picto("arrow") %></span>
+          <span class="identity-transfer-spinner" aria-hidden="true"></span>
         <% end %>
-      </aside>
+        </section>
+        <span class="identity-transfer-star is-one" aria-hidden="true"><%= picto("star4") %></span>
+        <span class="identity-transfer-star is-two" aria-hidden="true"><%= picto("star4") %></span>
+        <span class="identity-transfer-star is-three" aria-hidden="true"><%= picto("star4") %></span>
+      </dialog>
     <% end %>
     <% unless identity_migration_available %>
       <aside class="pwa-install-banner"
@@ -99,11 +133,22 @@
     <dialog class="pwa-install-dialog"
             data-pwa-install-target="dialog"
             data-action="click->pwa-install#backdropClose close->pwa-install#closed"
-            aria-labelledby="pwa_install_title">
-      <div class="pwa-install-sheet">
-        <img src="/apple-touch-icon.png" width="72" height="72" alt="" class="pwa-install-icon">
-        <p class="home-menu-kicker"><%= t("pwa.kicker") %></p>
-        <h2 id="pwa_install_title"><%= t("pwa.ios_title") %></h2>
+            aria-labelledby="pwa_install_title"
+            aria-describedby="pwa_install_lede">
+      <div class="pwa-install-sheet"
+           data-pwa-install-target="sheet"
+           tabindex="-1">
+        <span class="pwa-install-apex" aria-hidden="true"><%= picto("star4") %></span>
+        <header class="pwa-install-hero">
+          <span class="pwa-install-emblem" aria-hidden="true">
+            <img src="/apple-touch-icon.png" width="72" height="72" alt="" class="pwa-install-icon">
+          </span>
+          <span class="pwa-install-heading">
+            <span class="pwa-install-kicker"><%= t("pwa.kicker") %></span>
+            <h2 id="pwa_install_title"><%= t("pwa.ios_title") %></h2>
+          </span>
+        </header>
+        <p id="pwa_install_lede" class="pwa-install-lede"><%= t("pwa.banner_hint") %></p>
         <p class="pwa-install-browser-hint" data-pwa-install-target="browserHint" hidden><%= t("pwa.ios_browser_hint") %></p>
         <ol class="pwa-install-steps">
           <li>
@@ -123,7 +168,12 @@
             <span class="pwa-install-step-copy"><span class="pwa-install-step-mark">4</span><span><%= t("pwa.ios_add") %></span></span>
           </li>
         </ol>
-        <button type="button" class="btn btn-navy" data-action="pwa-install#close"><%= t("pwa.done") %></button>
+        <footer class="pwa-install-footer">
+          <button type="button" class="btn btn-navy pwa-install-done" data-action="pwa-install#close">
+            <span><%= t("pwa.done") %></span>
+            <%= picto("check") %>
+          </button>
+        </footer>
       </div>
     </dialog>
     <turbo-frame id="scripture_reader" data-scripture-target="frame"></turbo-frame>

@@ -20,7 +20,10 @@ module Players
 
       if @person
         existing = @night.players.find_by(person_id: @person.id)
-        return existing if existing
+        if existing
+          seat(existing)
+          return existing
+        end
       end
 
       player = @night.players.create!(
@@ -34,7 +37,7 @@ module Players
         locale: @locale,
         last_seen_at: Time.current
       )
-      Teams::Seat.call(night: @night, player: player) if player.participant? && player.remote?
+      seat(player)
 
       if @person && @device_token.present?
         PersonDevice.find_or_create_by!(person: @person, device_token: @device_token) do |row|
@@ -54,6 +57,10 @@ module Players
 
       def safe_avatar
         Player::AVATARS.include?(@avatar_key.to_s) ? @avatar_key : "delfin"
+      end
+
+      def seat(player)
+        Teams::AutoSeat.call(night: @night, player: player) if player.participant?
       end
   end
 end

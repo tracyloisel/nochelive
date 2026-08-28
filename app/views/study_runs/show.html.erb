@@ -28,7 +28,7 @@
       <%= link_to t("study.view_annual_program"), study_program_path, class: "btn btn-gold" %>
       <section class="study-validated-program" aria-labelledby="study-validated-program-title">
         <p class="study-kicker"><%= t("study.validated_program_kicker") %></p>
-        <h2 id="study-validated-program-title"><%= @run.study_unit.study_program.title %></h2>
+        <h2 id="study-validated-program-title"><%= @run.study_unit.study_program.display_title %></h2>
         <p class="study-validated-week"><%= @run.study_unit.display_title %></p>
         <div class="study-annual-progress" aria-label="<%= t("study.annual_progress", completed: @completed_week_count, total: @program_week_count) %>">
           <span><i style="width:<%= @program_week_count.positive? ? (@completed_week_count.fdiv(@program_week_count) * 100).clamp(0, 100) : 0 %>%"></i></span>

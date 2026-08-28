@@ -1,39 +1,16 @@
-<h1><%= @needs_family ? t("join.family") : t("join.who") %></h1>
-<% unless @needs_family %>
-  <p class="lede"><%= t("join.lede") %></p>
+<p class="night-entry-kicker"><%= t("join.first_kicker") %></p>
+<h1><%= t("join.first_title") %></h1>
+<p class="lede"><%= t("join.first_lede") %></p>
+
+<%= form_with url: night_players_path(night.code), method: :post, class: "join-form night-entry-form" do %>
+  <input type="hidden" name="location" value="<%= params[:location] == "remote" ? "remote" : "room" %>">
+  <input type="hidden" name="avatar_key" value="delfin">
+  <label for="name"><%= t("join.name_label") %></label>
+  <div class="night-entry-input">
+    <input id="name" name="name" maxlength="24" required autofocus autocomplete="given-name" placeholder="Sofía" value="<%= @given_name %>">
+    <span aria-hidden="true"><%= picto("star4") %></span>
+  </div>
+  <button type="submit" class="btn night-entry-cta"><%= t("join.enter_play") %></button>
 <% end %>
 
-<%= form_with url: night_players_path(night.code), method: :post, class: "join-form" do %>
-  <% if @needs_family %>
-    <input type="hidden" name="name" value="<%= @given_name %>">
-    <input type="hidden" name="avatar_key" value="<%= @avatar_key.presence || "delfin" %>">
-    <input type="hidden" name="favorite_year" value="<%= @favorite_year %>">
-    <input type="hidden" name="location" value="<%= @location.presence || "room" %>">
-    <input type="hidden" name="soy_nueva" value="1">
-    <label for="family_name"><%= t("join.family") %></label>
-    <input id="family_name" name="family_name" maxlength="24" required class="code-input" placeholder="<%= t("join.family_ph") %>" value="<%= @family_name %>" autocomplete="family-name">
-    <button type="submit" class="btn btn-gold"><%= picto("check") %><%= t("join.save_ficha") %></button>
-  <% else %>
-    <label for="name"><%= t("join.who_rama") %></label>
-    <input id="name" name="name" maxlength="24" required autocomplete="given-name" class="code-input" placeholder="Pili" value="<%= @given_name %>">
-
-    <fieldset class="place">
-      <legend><%= t("join.where") %></legend>
-      <label class="choice-chip picture-card">
-        <input type="radio" name="location" value="room" <%= "checked" if @location != "remote" %>>
-        <%= picto("sofa", size: "lg") %>
-        <span class="word"><%= t("join.room") %></span>
-      </label>
-      <label class="choice-chip picture-card">
-        <input type="radio" name="location" value="remote" <%= "checked" if @location == "remote" %>>
-        <%= picto("house", size: "lg") %>
-        <span class="word"><%= t("join.home") %></span>
-      </label>
-    </fieldset>
-
-    <input type="hidden" name="avatar_key" value="delfin">
-    <button type="submit" class="btn btn-gold"><%= picto("arrow") %><%= t("join.create_and_join") %></button>
-    <button type="submit" name="role" value="spectator" class="quiet-link" formnovalidate><%= t("join.spectate") %></button>
-    <p class="profile-later"><%= t("join.profile_belongs", ward: night.ward.name) %></p>
-  <% end %>
-<% end %>
+<%= link_to t("join.spectate"), night_public_path(night.public_token), class: "night-entry-watch" %>

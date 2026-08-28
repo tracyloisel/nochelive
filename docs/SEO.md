@@ -17,9 +17,10 @@ Chaque page publique possède un titre, une description, une URL canonique, les 
 
 Trois piliers sont reliés depuis chaque page d’accueil localisée : jeux bibliques, activités chrétiennes et étude biblique. Chaque pilier possède une page longue traîne : quiz biblique, activités pour jeunes et étude des Psaumes.
 
-Les Écritures publiques ont trois niveaux crawlables : livre, chapitre et verset. Les corpus couverts sont la Bible complète (66 livres, 1 189 chapitres), le Livre de Mormon (15 livres, 239 chapitres) et Doctrine et Alliances (138 sections). Exemples :
+Les Écritures publiques ont trois niveaux crawlables : livre, chapitre et passage. Un passage accepte un verset ou une plage continue, ce qui donne aussi des liens de partage lisibles qui ouvrent directement la liseuse. Les corpus couverts sont la Bible complète (66 livres, 1 189 chapitres), le Livre de Mormon (15 livres, 239 chapitres) et Doctrine et Alliances (138 sections). Exemples :
 
 - `/fr/bible/2-samuel/2/1`
+- `/fr/bible/1-rois/21/2-3`
 - `/fr/livre-de-mormon/moroni/10/4`
 - `/fr/doctrine-et-alliances/sections/121/7`
 
@@ -29,7 +30,7 @@ Les cinq pages de découverte de l’Église disposent également d’URLs tradu
 
 ## Découverte
 
-`/sitemap.xml` contient chaque URL canonique dans un élément `<loc>` distinct, ses alternates linguistiques, tous les livres et chapitres des trois corpus, les passages utilisés par le jeu, les pages Église et les pages publiques des assemblées. Il est mis en cache publiquement pendant une heure. `public/robots.txt` annonce le sitemap et bloque uniquement les espaces techniques ou privés.
+`/sitemap.xml` contient chaque URL canonique dans un élément `<loc>` distinct, ses alternates linguistiques, tous les livres et chapitres des trois corpus, les passages (y compris les plages continues) utilisés par le jeu, les pages Église et les pages publiques des assemblées. Les plages choisies librement par un lecteur restent crawlables et canoniques, sans gonfler artificiellement le sitemap avec toutes les combinaisons possibles. Il est mis en cache publiquement pendant une heure. `public/robots.txt` annonce le sitemap et bloque uniquement les espaces techniques ou privés.
 
 ## Découverte par les agents IA
 

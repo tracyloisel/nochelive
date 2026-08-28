@@ -3,12 +3,12 @@ class PlayController < ApplicationController
 
   def show
     if current_player.spectator?
-      redirect_to night_watch_path(@night.code)
+      redirect_to night_public_path(@night.public_token)
       return
     end
 
-    if current_player&.participant? && current_player.remote? && current_team.nil?
-      Teams::Seat.call(night: @night, player: current_player)
+    if current_player&.participant? && current_team.nil?
+      Teams::AutoSeat.call(night: @night, player: current_player)
       current_player.reload
     end
     @player = current_player

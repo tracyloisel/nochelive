@@ -106,6 +106,12 @@ module Scriptures
       def citation = "#{book_label} #{chapter}"
       def study = "#{base_study}/#{chapter}"
     end
+    PassageResult = Data.define(:reference, :to) do
+      def citation
+        verses = reference.verse == to ? reference.verse.to_s : "#{reference.verse}–#{to}"
+        "#{reference.book_label} #{reference.chapter}:#{verses}"
+      end
+    end
 
     def self.resolve(locale:, section:, book:, chapter:, verse:)
       book_reference = resolve_book(locale:, section:, book:)
@@ -163,6 +169,12 @@ module Scriptures
       }
     end
 
+    def self.passage_path_options(reference, locale, to: reference.verse)
+      from = reference.verse
+      verse = from == to ? from : "#{from}-#{to}"
+      path_options(reference, locale).merge(verse:)
+    end
+
     def self.book_path_options(reference, locale)
       locale = locale.to_sym
       {
@@ -194,15 +206,25 @@ module Scriptures
     end
 
     def self.indexable_references
+      indexable_passages.map(&:reference)
+    end
+
+    def self.indexable_passages
       quiz_references = QuizDefinition.catalog.all_questions.filter_map do |question|
         study = question.scripture.study
-        next unless study.start_with?("ot/", "nt/")
+        next unless known_study?(study)
 
-        verse = Scriptures::Read.focus_verses(question.scripture.cite).first
-        from_study(study:, locale: :es, verse:) if verse
+        verses = Scriptures::Read.focus_verses(question.scripture.cite)
+        reference = from_study(study:, locale: :es, verse: verses.first) if verses.any?
+        PassageResult.new(reference:, to: verses.last) if reference
       end
-      manual = resolve(locale: "es", section: "biblia", book: "2-samuel", chapter: 2, verse: 1)
-      (quiz_references + [ manual ]).compact.uniq { |reference| [ reference.study, reference.verse ] }
+      manual = PassageResult.new(
+        reference: resolve(locale: "es", section: "biblia", book: "2-samuel", chapter: 2, verse: 1),
+        to: 1
+      )
+      (quiz_references + [ manual ]).compact.uniq do |passage|
+        [ passage.reference.study, passage.reference.verse, passage.to ]
+      end
     end
 
     def self.build(base_study:, book_data:, locale:, route_locale:, chapter:, verse:)

@@ -1,0 +1,42 @@
+<section class="profile-merge" aria-labelledby="profile-merge-title">
+  <p class="home-menu-kicker"><%= t("street.merge_kicker") %></p>
+  <h2 id="profile-merge-title"><%= t("street.merge_title") %></h2>
+  <p class="lede"><%= t("street.merge_lede") %></p>
+
+  <ul class="team-list person-list">
+    <% cards.each do |card| %>
+      <li class="team-pick person-pick <%= "is-here" if card.on_device %>">
+        <%= render "people/card", person: card.person, show_year: false %>
+        <small><%= t("street.merge_points", count: card.score) %> · <%= t("street.merge_since", date: l(card.person.created_at.to_date)) %></small>
+
+        <% if card.claimable %>
+          <%= form_with url: street_profile_merge_path,
+                        class: "join-form profile-merge-form",
+                        data: {
+                          controller: "profile-merge",
+                          action: "turbo:submit-start->profile-merge#start turbo:submit-end->profile-merge#finish"
+                        } do %>
+            <input type="hidden" name="person_id" value="<%= card.person.id %>">
+            <%= render "shared/year_field", required: true unless card.on_device %>
+            <p class="hint profile-merge-result"><%= t("street.merge_result") %></p>
+            <button type="submit" class="btn btn-navy" data-profile-merge-target="button" data-turbo-confirm="<%= t("street.merge_confirm", name: card.person.given_name) %>">
+              <%= picto("person") %><%= t("street.merge_action") %>
+            </button>
+
+            <aside class="profile-merge-overlay" hidden data-profile-merge-target="overlay" role="status" aria-live="assertive">
+              <div class="profile-merge-motion" aria-hidden="true">
+                <span class="profile-merge-orb is-current"><%= @person.given_name.to_s.first %></span>
+                <span class="profile-merge-spark">✦</span>
+                <span class="profile-merge-orb is-keeper"><%= card.person.given_name.to_s.first %></span>
+              </div>
+              <strong><%= t("street.merging_title") %></strong>
+              <p><%= t("street.merging_lede") %></p>
+            </aside>
+          <% end %>
+        <% else %>
+          <p class="hint"><%= t("street.merge_needs_help") %></p>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+</section>

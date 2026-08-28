@@ -13,7 +13,7 @@
     <div class="hub-study-copy">
       <p class="hub-kicker"><%= t("study.home_kicker") %></p>
       <h2><%= t("study.psalms_theme") %></h2>
-      <p class="hub-study-refs"><%= week.scripture_refs.first %></p>
+      <p class="hub-study-refs"><%= week.display_scripture_refs.first %></p>
       <div class="hub-study-progress" aria-label="<%= t("study.progress", n: progress, total: 10) %>">
         <span><i style="width:<%= progress * 10 %>%"></i></span>
         <strong><%= progress %>/10</strong>

@@ -10,7 +10,7 @@ class StudyProgramsController < ApplicationController
     @weeks = @program.study_units.weeks.includes(:study_quiz_versions)
     @appendices = @program.study_units.appendices
     @reflections = @program.study_units.where(kind: "reflection")
-    identity_runs = StudyRun.where(device_digest: street_device_digest, person_id: current_street_person&.id)
+    identity_runs = study_runs_for_identity
       .joins(study_quiz_version: :study_unit).merge(@program.study_units)
     @completed_unit_ids = identity_runs.completed.reorder(nil).distinct.pluck("study_units.id").to_set
     week_runs = identity_runs.where(study_units: { id: @week&.id }).reorder(nil)

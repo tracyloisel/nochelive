@@ -122,11 +122,11 @@ module ApplicationHelper
     "/#{rel}" if Rails.public_path.join(rel).file?
   end
 
-  def night_still_src(night = nil)
+  def night_still_src(night = nil, cinema: false)
     if night.is_a?(GameSession)
       round = night.current_round_run
       round ||= Array(night.round_runs).max_by { |run| run.position.to_i }
-      src = challenge_story(round) if round
+      src = challenge_story(round, cinema: cinema) if round
       return src if src.present?
       return night_poster_src(night)
     end
@@ -134,9 +134,12 @@ module ApplicationHelper
     night_poster_src(night.presence || "reyes_y_profetas")
   end
 
-  def ceremony_still_src(night)
+  def ceremony_still_src(night, cinema: false)
+    ceremony_rel = cinema ? "media/stories/salomon_wisdom_night_wide.png" : "media/stories/salomon_wisdom_night_portrait.png"
+    return "/#{ceremony_rel}" if Rails.public_path.join(ceremony_rel).file?
+
     Array(night&.round_runs).sort_by { |run| -run.position.to_i }.each do |run|
-      src = challenge_story(run)
+      src = challenge_story(run, cinema: cinema)
       return src if src.present?
     end
     night_still_src(night)
@@ -686,7 +689,7 @@ module ApplicationHelper
     rel if Rails.public_path.join(rel).file?
   end
 
-  def challenge_story(round)
+  def challenge_story(round, cinema: false)
     definition = round&.definition
     return unless definition
 
@@ -695,7 +698,8 @@ module ApplicationHelper
       return src if src
     end
 
-    yaml_rel = definition.presentation&.[]("image").presence
+    presentation = definition.presentation || {}
+    yaml_rel = (presentation["image_wide"] if cinema).presence || presentation["image"].presence
     if yaml_rel
       src = media_src(yaml_rel)
       return src if src

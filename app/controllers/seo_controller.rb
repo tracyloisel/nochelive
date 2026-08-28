@@ -29,10 +29,10 @@ class SeoController < ApplicationController
         )
       end)
     end
-    Scriptures::Reference.indexable_references.each do |reference|
+    Scriptures::Reference.indexable_passages.each do |passage|
       entries = localized_entries do |locale|
         scripture_passage_url(
-          **Scriptures::Reference.path_options(reference, locale),
+          **Scriptures::Reference.passage_path_options(passage.reference, locale, to: passage.to),
           **sitemap_url_options
         )
       end

@@ -16,14 +16,16 @@ class GameSessionsController < ApplicationController
     remember_presenter(@night)
     remember_ward_host(hosted_ward)
     Rails.logger.info("session=#{@night.code} event=created ward=#{hosted_ward.code}")
-    redirect_to created_game_session_path(@night, token: @night.presenter_token)
+    redirect_to presenter_console_path(@night.code)
   end
 
   def created
     @night = GameSession.find(params[:id])
-    unless presenter_for?(@night) && @night.presenter_token_matches?(params[:token].to_s)
+    unless presenter_for?(@night)
       redirect_to root_path, alert: I18n.t("flashes.bad_link")
       return
     end
+
+    redirect_to presenter_console_path(@night.code)
   end
 end

@@ -18,6 +18,7 @@ module Quizzes
       if @duel || @token
         duel = @duel || duel_from_token
         return unless duel
+        return if duel.archived?
         return if duel.expired? && !duel.resolved? && !duel.declined?
 
         return result_for(duel)

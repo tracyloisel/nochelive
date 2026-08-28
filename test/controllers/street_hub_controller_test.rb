@@ -1,6 +1,43 @@
 require "test_helper"
 
 class StreetHubControllerTest < ActionDispatch::IntegrationTest
+  test "home offers the installable app as a secondary hub tile" do
+    get root_path
+
+    assert_response :success
+    assert_select ".hub-panel-row > button.hub-panel.hub-install[hidden][aria-label=?]", I18n.t("pwa.install") do
+      assert_select "[data-pwa-install-target~='action'][data-pwa-install-target~='tile']"
+      assert_select "[data-action='pwa-install#install']"
+      assert_select "img[src='/apple-touch-icon.png']"
+      assert_select ".hub-kicker", text: I18n.t("pwa.kicker")
+      assert_select ".hub-install-copy strong", text: I18n.t("pwa.banner_title")
+      assert_select "#hub_install_hint", text: I18n.t("pwa.banner_hint")
+      assert_select ".hub-install-cta", text: /#{Regexp.escape(I18n.t("pwa.install"))}/
+      assert_select ".btn-gold", count: 0
+    end
+
+    assert_select "dialog.pwa-install-dialog[aria-labelledby='pwa_install_title'][aria-describedby='pwa_install_lede']" do
+      assert_select ".pwa-install-sheet[data-pwa-install-target~='sheet'][tabindex='-1']"
+      assert_select ".pwa-install-apex .picto-star4"
+      assert_select ".pwa-install-emblem img[src='/apple-touch-icon.png']"
+      assert_select "#pwa_install_title", text: I18n.t("pwa.ios_title")
+      assert_select "#pwa_install_lede", text: I18n.t("pwa.banner_hint")
+      assert_select ".pwa-install-steps li", count: 4
+      assert_select ".pwa-install-step-art", count: 4
+      assert_select "button.pwa-install-done", text: /#{Regexp.escape(I18n.t("pwa.done"))}/
+      assert_select ".pwa-install-done .picto-check"
+    end
+
+    controller = Rails.root.join("app/javascript/controllers/pwa_install_controller.js").read
+    assert_includes controller, "this.hasTileTarget"
+    assert_includes controller, "window.NocheInstallPrompt"
+    assert_includes controller, "this.isStandalone()"
+    assert_includes controller, "this.hideInstallUi()"
+    assert_includes controller, "this.resetGuidePosition()"
+    assert_includes controller, "this.dialogTarget.scrollTop = 0"
+    assert_includes controller, "this.sheetTarget.focus({ preventScroll: true })"
+  end
+
   test "home navigation uses place transitions instead of reward sounds" do
     get root_path
 
@@ -349,6 +386,10 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
     assert_select ".hub-online-ward-required", text: /#{Regexp.escape(I18n.t("hub.online_pick_ward"))}/
     assert_select ".hub-online-ranking[href=?]", search_path(cambiar: 1), text: I18n.t("hub.pick_ward_action")
     assert_select ".hub-progress .hub-kicker", text: I18n.t("hub.progress")
+    assert_select "a.hub-progress-map-link[href=?]", street_map_path do
+      assert_select ".hub-progress-map-action", text: I18n.t("street.world_map_open")
+      assert_select ".picto-compass", count: 1
+    end
     assert_select ".hub-progress-meta", text: I18n.t("hub.packs_unlocked", count: 1)
     assert_select ".hub-progress-count", text: "1 / #{QuizDefinition::PACK_COUNT}"
     assert_select ".hub-progress-meter[role=?][aria-valuenow=?][aria-valuemax=?]", "progressbar", "1", QuizDefinition::PACK_COUNT.to_s
@@ -421,13 +462,18 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select "#street_world.street-map-page"
     assert_select ".mapa-header .mapa-title", text: I18n.t("street.mapa_title")
-    assert_select ".mapa-stats-row .mapa-stat-item", count: 4
+    assert_select ".mapa-mission"
+    assert_select ".mapa-mission-progress[role=progressbar]"
+    assert_select ".mapa-continue", text: I18n.t("hub.continue")
+    assert_select ".mapa-stats-row", count: 0
     assert_select ".mapa-tabs .mapa-tab", count: 4
+    assert_select ".mapa-tabs .mapa-tab[aria-selected=true]", count: 1
     assert_select ".mapa-tier[data-tier-key=debutant]"
     assert_select ".mapa-tier[data-tier-key=apprenti]"
     assert_select ".mapa-tier.is-collapsed", count: 2
     assert_select ".mapa-node", count: QuizDefinition.catalog.pack_ids.size
     assert_select ".mapa-node.is-current .mapa-node-beacon"
+    assert_select ".mapa-node.is-current[aria-current=step]"
     assert_select ".mapa-node.is-locked .mapa-node-lock"
     assert_select ".mapa-footer-cta[href=?]", street_leaderboard_path
     assert_select "body > .home-menu.is-hud .quiz-hud"
@@ -445,6 +491,7 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
     assert_match(/\.home-menu\.is-hud \{[^}]*position: fixed;[^}]*left: env\(safe-area-inset-left\);[^}]*right: env\(safe-area-inset-right\);[^}]*max-width: none;[^}]*transform: none;/m, css)
     assert_match(/\.navigation-dock \{[^}]*position: fixed;[^}]*left: 0;[^}]*right: 0;[^}]*width: auto;/m, css)
     assert_match(/\.street-world\.street-map-page \{[^}]*padding: calc\(6rem \+ env\(safe-area-inset-top\)\)/m, css)
+    refute_includes css, "body.is-street-hub:has(.home-menu.is-hud) .street-map-page"
     refute_includes css, ".street-map-page > .home-menu"
   end
 

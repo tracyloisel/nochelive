@@ -262,27 +262,26 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     assert_select "body.is-watch.is-kid"
     assert_select ".watch.is-board"
     assert_select ".watch-shot"
-    assert_select ".watch-chrome .watch-mark"
+    assert_select ".watch-chrome .watch-wordmark", text: /Noche Live/
     assert_select ".watch-chrome .presence-stat", count: 0
     assert_select ".watch-chrome .live", count: 0
     assert_select ".watch-corner", count: 4
     assert_select ".watch-board .score-strip"
-    assert_select ".challenge-story[src='/media/stories/salomon_wisdom.jpg']"
+    assert_select ".challenge-story[src='/media/stories/salomon_wisdom_night_wide.png']"
     assert_select ".cheer-dock", count: 0
     assert_select "#street_duel_ping", count: 0
   end
 
-  test "name screen is a paper hall without Story costume" do
+  test "name screen is a frictionless night entry without Story costume" do
     get night_name_path(game_sessions(:david).code)
     assert_response :success
-    assert_select "body.is-paper-hall"
-    assert_select "h1", text: /llama/
-    assert_select ".picture-card", count: 2
-    assert_select ".picto-sofa"
-    assert_select ".picto-house"
+    assert_select "body.is-night-entry.is-celestial-dark"
+    assert_select "h1", text: /Entra a la noche/
+    assert_select "input[name=name]", count: 1
+    assert_select "input[name*='code']", count: 0
     assert_select "a.quiet-link", text: /Soy el presentador/
-    assert_select "#night_join.hall-paper"
-    assert_select ".hall-sheet"
+    assert_select "#night_join.night-entry"
+    assert_select ".night-entry-panel"
     assert_select ".play-reel", count: 0
     assert_select ".play-shot", count: 0
     assert_select ".play-sheet-grip", count: 0
@@ -300,8 +299,9 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     assert_select ".console.is-stage"
     assert_select ".stage-shot"
     assert_select ".stage-dock"
-    assert_select ".code-chip", text: "DAVID"
-    assert_select ".challenge-story[src='/media/stories/salomon_wisdom.jpg']"
+    assert_select ".code-chip", text: /En directo/
+    assert_select ".code-chip", text: "DAVID", count: 0
+    assert_select ".challenge-story[src='/media/stories/salomon_wisdom_night_wide.png']"
     assert_select ".story-close"
     assert_select ".console.is-stage[data-controller=story]"
     assert_select ".desk-sheet"

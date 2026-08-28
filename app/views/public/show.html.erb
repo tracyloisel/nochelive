@@ -1,0 +1,16 @@
+<% content_for :title, t("audience.title") %>
+<% content_for :body_class, "is-night-public is-celestial-dark" %>
+<% content_for :head do %>
+  <meta name="theme-color" content="#071425">
+  <meta name="robots" content="noindex,nofollow">
+<% end %>
+
+<%= turbo_stream_from @night.audience_stream %>
+<%= render "public/frame",
+  night: @night,
+  snapshot: @snapshot,
+  round: @round,
+  response: @response,
+  distribution: @distribution,
+  response_count: @response_count,
+  streak: @streak %>

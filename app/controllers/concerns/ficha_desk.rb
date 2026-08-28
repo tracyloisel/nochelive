@@ -17,7 +17,7 @@ module FichaDesk
 
   def show
     load_person
-    @others = people_scope.where.not(id: @person.id).limit(PER_PAGE)
+    assign_merge_cards
   end
 
   def update
@@ -32,15 +32,20 @@ module FichaDesk
     redirect_to ficha_path_for(@person), notice: I18n.t("flashes.ficha_saved")
     rescue People::Error => error
       flash.now[:alert] = error.message
-      @others = people_scope.where.not(id: @person.id).limit(PER_PAGE)
+      assign_merge_cards
       render "fichas/show", status: :unprocessable_entity
     end
 
   def merge
     load_person
-    source = @ward.people.find(params[:source_id])
-    People::Merge.call(keeper: @person, source:)
-    redirect_to ficha_path_for(@person), notice: I18n.t("flashes.fichas_merged", name: @person.display_name)
+    candidate = @ward.people.find(params[:source_id])
+    unless candidate.given_name_key == @person.given_name_key
+      raise People::Error.new(:merge_name, I18n.t("errors.people.merge_name"))
+    end
+
+    keeper, source = [ @person, candidate ].sort_by { |person| [ person.created_at, person.id ] }
+    People::Merge.call(keeper:, source:)
+    redirect_to ficha_path_for(keeper), notice: I18n.t("flashes.fichas_merged", name: keeper.display_name)
   rescue People::Error => error
     redirect_to ficha_path_for(@person), alert: error.message
   end
@@ -58,6 +63,11 @@ module FichaDesk
         scope = scope.where("given_name_key LIKE :key OR family_name_key LIKE :key", key: "#{key}%")
       end
       scope
+    end
+
+    def assign_merge_cards
+      @merge_cards = People::MergeCandidates.call(person: @person, device_token: nil)
+      @profile_score = Quizzes::Leaderboard.pack_best_totals(ward: @ward)[@person.id].to_i
     end
 
     def ficha_path_for(person)

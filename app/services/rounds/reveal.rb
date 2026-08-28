@@ -9,6 +9,7 @@ module Rounds
     end
 
     def call
+      Answers::GradeChoices.call(round: @round)
       @round.reveal! unless @round.revealed? || @round.completed?
       @round.game_session.broadcast_state(pulse: { kind: "reveal" })
       @round

@@ -2,9 +2,8 @@ class PlayersController < ApplicationController
   before_action :set_night
 
   def new
-    forget_player if current_player&.participant? && current_player.person.blank?
     if current_player
-      redirect_to(current_player.spectator? ? night_watch_path(@night.code) : night_play_path(@night.code))
+      redirect_to(current_player.spectator? ? night_public_path(@night.public_token) : night_play_path(@night.code))
       return
     end
 
@@ -23,7 +22,11 @@ class PlayersController < ApplicationController
   end
 
   def create
-    forget_player if current_player&.participant? && current_player.person.blank?
+    if params[:role] == "spectator"
+      redirect_to night_public_path(@night.public_token), status: :see_other
+      return
+    end
+
     if current_player
       redirect_to night_play_path(@night.code)
       return
@@ -36,11 +39,7 @@ class PlayersController < ApplicationController
     remember_ward(@night.ward)
     Rails.logger.info("session=#{@night.code} player=#{player.id} event=join role=#{player.role}")
 
-    if player.spectator?
-      redirect_to night_watch_path(@night.code)
-    else
-      redirect_to night_play_path(@night.code)
-    end
+    redirect_to night_play_path(@night.code)
   rescue People::Error => error
     flash.now[:alert] = error.message
     @given_name = params[:name]
@@ -59,20 +58,8 @@ class PlayersController < ApplicationController
   private
 
     def enter!
-      role = params[:role] == "spectator" ? "spectator" : "participant"
+      role = "participant"
       location = params[:location] == "remote" ? "remote" : "room"
-
-      if role == "spectator"
-        return Players::Join.call(
-          night: @night,
-          name: params[:name],
-          role: role,
-          location: location,
-          device_token: device_token,
-          avatar_key: params[:avatar_key],
-          locale: locale_preference
-        )
-      end
 
       if params[:person_id].present?
         person = @night.ward.people.find(params[:person_id])
@@ -95,29 +82,14 @@ class PlayersController < ApplicationController
         )
       end
 
-      given = params[:name].to_s.strip
-      cards = People::Recognize.call(ward: @night.ward, given_name: given)
-      if cards.any? && params[:soy_nueva].blank?
-        @homonym_cards = cards
-        raise People::Error.new(:homonym, I18n.t("errors.people.homonym"))
-      end
-
-      person = People::Register.call(
-        ward: @night.ward,
-        given_name: given,
-        family_name: params[:family_name],
-        avatar_key: params[:avatar_key].presence || "delfin",
-        favorite_year: params[:favorite_year],
-        device_token: device_token
-      )
       Players::Join.call(
         night: @night,
-        name: person.given_name,
+        name: params[:name],
         role: role,
         location: location,
         device_token: device_token,
-        person: person,
-        locale: person.locale.presence || locale_preference
+        avatar_key: params[:avatar_key],
+        locale: locale_preference
       )
     end
 

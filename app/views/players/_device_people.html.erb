@@ -14,3 +14,4 @@
 <%= link_to night_name_path(night.code, fresh: 1), class: "btn btn-ghost" do %>
   <%= picto("plus") %><%= t("join.other_person") %>
 <% end %>
+<%= link_to t("join.spectate"), night_public_path(night.public_token), class: "quiet-link" %>

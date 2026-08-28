@@ -36,6 +36,8 @@
   <button type="submit" class="btn btn-gold"><%= picto("check") %><%= t("street.save_profile") %></button>
 <% end %>
 
+<%= render "street_profiles/merge_candidates", cards: @merge_candidates if @merge_candidates.present? %>
+
 <%= link_to street_profile_path(not_me: 1), class: "quiet-link" do %>
   <%= picto("person") %><%= t("street.switch_profile") %>
 <% end %>

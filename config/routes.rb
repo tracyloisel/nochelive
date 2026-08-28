@@ -1,4 +1,16 @@
 Rails.application.routes.draw do
+  namespace :admin_api, path: "internal/admin", defaults: { format: :json } do
+    get :stats, to: "stats#index"
+    get :people_seen_today, to: "presences#index"
+    resources :wards, only: [ :index, :show ], param: :code do
+      post :rotate_presenter_token, on: :member
+      get :stats, on: :member
+      resources :nights, only: [ :create, :update ], param: :session_code, controller: "nights"
+    end
+    post "profile_merges/preview", to: "profile_merges#preview"
+    post "profile_merges", to: "profile_merges#create"
+  end
+
   get "up" => "rails/health#show", as: :rails_health_check
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
   get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
@@ -10,8 +22,12 @@ Rails.application.routes.draw do
       constraints: ->(request) { request.path.end_with?(".md") && request.params[:locale].match?(/\A(?:es|fr|en|pt-br)\z/) }
   post "migration/identity", to: "identity_transfers#create", as: :identity_transfer
   get "migration/identity/claim", to: "identity_transfers#claim", as: :identity_transfer_claim
+  post "migration/identity/merge", to: "identity_transfers#merge", as: :identity_transfer_merge
 
   root "street_hub#index"
+  get "public/:public_token", to: "public#show", as: :night_public
+  post "public/:public_token/rounds/:round_run_id/response", to: "audience_responses#create", as: :night_public_response
+  post "public/:public_token/rounds/:round_run_id/reaction", to: "audience_reactions#create", as: :night_public_reaction
   get "jugar", to: "street_plays#show", as: :jugar
   get "mapa", to: "street_hub#map", as: :street_map
   post "packs/:pack_id", to: "street_pack_starts#create", as: :street_pack_start
@@ -29,6 +45,7 @@ Rails.application.routes.draw do
   get "ficha", to: "street_profiles#show", as: :street_profile
   post "ficha", to: "street_profiles#create"
   patch "ficha", to: "street_profiles#update"
+  post "ficha/fusion", to: "street_profile_merges#create", as: :street_profile_merge
   get "quien", to: redirect("/ficha")
   post "rama", to: "street_ward_picks#create", as: :street_ward_pick
   get "camino", to: redirect("/mapa#historial")
@@ -66,7 +83,7 @@ Rails.application.routes.draw do
         locale: /es|fr|en|pt-br/,
         scripture_section: /bible|biblia|libro-de-mormon|livre-de-mormon|book-of-mormon|livro-de-mormon|doctrina-y-convenios|doctrine-et-alliances|doctrine-and-covenants|doutrina-e-convenios/,
         chapter: /[1-9]\d*/,
-        verse: /[1-9]\d*/
+        verse: /[1-9]\d*(?:-[1-9]\d*)?/
       }
   get ":locale/:scripture_section/:book/:chapter",
       to: "scriptures#chapter",
@@ -93,8 +110,11 @@ Rails.application.routes.draw do
   get ":locale", to: "discovery#show", as: :discovery_home, constraints: { locale: /es|fr|en|pt-br/ }
   get ":locale/*slug", to: "discovery#show", as: :discovery, constraints: { locale: /es|fr|en|pt-br/ }, format: false
   post "escrituras/lectures", to: "scripture_reads#create", as: :scripture_reads
+  post "escrituras/surlignages", to: "scripture_highlights#create", as: :scripture_highlights
+  delete "escrituras/surlignages/:id", to: "scripture_highlights#destroy", as: :scripture_highlight
   get "escrituras/*study", to: "scriptures#show", as: :scripture, format: false
   get "parole", to: "study_programs#show", as: :study_program
+  get "parole/historique", to: "study_histories#show", as: :study_history
   get "parole/paroisse/:ward_code", to: "study_communities#show", as: :study_community
   get "parole/semaines/:id", to: "study_units#show", as: :study_unit
   post "parole/semaines/:study_unit_id/commencer", to: "study_runs#create", as: :study_run_start

@@ -6,9 +6,11 @@ class StudyRunsController < ApplicationController
   def create
     unit = StudyUnit.find(params[:study_unit_id])
     quiz = unit.published_quiz or raise ActiveRecord::RecordNotFound
-    run = StudyRun.open.find_or_create_by!(
-      study_quiz_version: quiz, device_digest: street_device_digest, person_id: current_street_person&.id
-    ) { |record| record.opened_at = Time.current }
+    run = study_runs_for_identity.open.find_or_create_by!(study_quiz_version: quiz) do |record|
+      record.device_digest = street_device_digest
+      record.person = current_street_person
+      record.opened_at = Time.current
+    end
     redirect_to study_run_path(run)
   end
 
@@ -50,18 +52,14 @@ class StudyRunsController < ApplicationController
       @more_finishers = @finishers_page < @finishers_pages
 
       program = @run.study_unit.study_program
-      @completed_week_count = StudyRun.completed
-        .where(device_digest: @run.device_digest, person_id: @run.person_id)
+      @completed_week_count = study_runs_for_identity.completed
         .joins(study_quiz_version: :study_unit)
         .where(study_units: { study_program_id: program.id })
         .distinct.count("study_units.id")
       @program_week_count = program.study_units.weeks.count
     end
   rescue ActiveRecord::RecordNotFound
-    run = StudyRun.open.where(
-      device_digest: street_device_digest,
-      person_id: current_street_person&.id
-    ).order(updated_at: :desc).first
+    run = study_runs_for_identity.open.order(updated_at: :desc).first
 
     redirect_to(run ? study_run_path(run) : study_program_path)
   end

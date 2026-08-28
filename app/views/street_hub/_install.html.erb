@@ -1,0 +1,20 @@
+<button type="button"
+        class="hub-panel hub-install pwa-install-action"
+        data-pwa-install-target="action tile"
+        data-action="pwa-install#install"
+        aria-label="<%= t("pwa.install") %>"
+        aria-describedby="hub_install_hint"
+        hidden>
+  <span class="hub-install-emblem" aria-hidden="true">
+    <img src="/apple-touch-icon.png" width="72" height="72" alt="">
+  </span>
+  <span class="hub-install-copy">
+    <span class="hub-kicker"><%= t("pwa.kicker") %></span>
+    <strong><%= t("pwa.banner_title") %></strong>
+    <span id="hub_install_hint"><%= t("pwa.banner_hint") %></span>
+  </span>
+  <span class="hub-install-cta" aria-hidden="true">
+    <span><%= t("pwa.install") %></span>
+    <%= picto("arrow") %>
+  </span>
+</button>

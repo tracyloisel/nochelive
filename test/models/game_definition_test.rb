@@ -178,7 +178,7 @@ class GameDefinitionTest < ActiveSupport::TestCase
         end
       else
         rel = round.presentation.fetch("image")
-        assert_match(%r{\Astories/.+\.jpg\z}, rel)
+        assert_match(%r{\Astories/.+\.(?:jpg|png)\z}, rel)
         assert Rails.public_path.join("media/#{rel}").file?, "#{round.id} missing public/media/#{rel}"
       end
     end

@@ -2,9 +2,9 @@
 <%= tag.section class: [ "watch", "is-board", ("is-ceremony-immersive" if night.finished?) ], id: "night_watch", data: stage_audio_data(round, night: night, pulse: local_assigns[:pulse]) do %>
   <div class="watch-shot">
     <% if night.finished? %>
-      <%= render "shared/still", src: ceremony_still_src(night), icon: "trophy" %>
+      <%= render "shared/still", src: ceremony_still_src(night, cinema: true), icon: "trophy" %>
     <% elsif night.lobby? || round.nil? || round.pending? %>
-      <%= render "shared/still", src: night_still_src(night), poster: true %>
+      <%= render "shared/still", src: night_still_src(night, cinema: true), poster: true %>
     <% else %>
       <%= render "shared/challenge_media", round: round, cinema: true, pulse: local_assigns[:pulse] %>
     <% end %>
@@ -15,7 +15,18 @@
   </div>
 
   <div class="watch-chrome">
-    <p class="watch-mark"><%= night.code %></p>
+    <div class="watch-wordmark"><%= picto("star8") %><span>Noche Live</span></div>
+    <%= render "play/timer", round: round if round %>
+    <% reaction_counts = round&.audience_reactions&.recent&.group(:mark)&.count || {} %>
+    <% if reaction_counts.any? %>
+      <div class="watch-audience-reactions" aria-label="<%= t("audience.tv_reactions") %>">
+        <% { "applause" => "👏", "heart" => "♥", "crown" => "♛" }.each do |mark, glyph| %>
+          <% if reaction_counts[mark].to_i.positive? %>
+            <span><b aria-hidden="true"><%= glyph %></b><%= reaction_counts[mark] %></span>
+          <% end %>
+        <% end %>
+      </div>
+    <% end %>
   </div>
 
   <div class="watch-caption">
@@ -34,7 +45,14 @@
         <%= render "shared/round_icon", key: round.definition.icon %>
         <span><%= round.definition.copy(:title) %></span>
       </p>
-      <% if round.definition.taboo? && !round.revealed? %>
+      <% if round.revealed? %>
+        <div class="reveal">
+          <div class="put-down-art" aria-hidden="true"><%= picto("check", size: "lg") %></div>
+          <p class="eyebrow"><%= t("watch.reveal") %></p>
+          <p class="answer-line"><%= round.definition.copy(:answer) %></p>
+          <p class="ref"><%= round.definition.copy(:reference) if round.definition.reference.present? %></p>
+        </div>
+      <% elsif round.definition.taboo? %>
         <p class="prompt put-down"><%= t("watch.no_words") %></p>
         <ul class="forbidden">
           <% round.definition.forbidden_copy.each do |word| %>
@@ -128,14 +146,6 @@
             <%= render "shared/buzz_line", buzz: buzz %>
           <% end %>
         </ol>
-      <% end %>
-      <% if round.revealed? %>
-        <div class="reveal">
-          <div class="put-down-art" aria-hidden="true"><%= picto("check", size: "lg") %></div>
-          <p class="eyebrow"><%= t("watch.reveal") %></p>
-          <p class="answer-line"><%= round.definition.copy(:answer) %></p>
-          <p class="ref"><%= round.definition.copy(:reference) if round.definition.reference.present? %></p>
-        </div>
       <% end %>
     <% end %>
 

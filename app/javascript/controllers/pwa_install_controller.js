@@ -1,23 +1,29 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["action", "banner", "browserHint", "dialog"]
+  static targets = ["action", "banner", "browserHint", "dialog", "sheet", "tile"]
 
   static BANNER_SNOOZE_MS = 14 * 24 * 60 * 60 * 1000
 
   connect() {
-    this.deferredPrompt = null
+    this.deferredPrompt = window.NocheInstallPrompt || null
     this.beforeInstallPrompt = (event) => {
       event.preventDefault()
       this.deferredPrompt = event
+      window.NocheInstallPrompt = event
       this.showAction()
     }
-    this.installed = () => this.hideAction()
+    this.installed = () => {
+      this.deferredPrompt = null
+      window.NocheInstallPrompt = null
+      this.hideInstallUi()
+    }
 
     window.addEventListener("beforeinstallprompt", this.beforeInstallPrompt)
     window.addEventListener("appinstalled", this.installed)
 
     if (this.isStandalone()) return this.hideInstallUi()
+    if (this.deferredPrompt) this.showAction()
     if (this.isIos()) {
       this.showAction()
       this.showIosBanner()
@@ -33,23 +39,38 @@ export default class extends Controller {
     window.removeEventListener("appinstalled", this.installed)
   }
 
-  async install() {
+  async install(event) {
+    this.installTrigger = event?.currentTarget
+
     if (this.deferredPrompt) {
       await this.deferredPrompt.prompt()
       await this.deferredPrompt.userChoice
       this.deferredPrompt = null
+      window.NocheInstallPrompt = null
       this.hideAction()
       return
     }
 
-    this.openGuide()
+    this.openGuide(event)
   }
 
-  openGuide() {
+  openGuide(event) {
+    this.installTrigger = event?.currentTarget || this.installTrigger
     this.snoozeBanner()
     this.hideBanner()
     this.browserHintTargets.forEach((hint) => { hint.hidden = this.isSafari() })
-    if (this.hasDialogTarget) this.dialogTarget.showModal()
+    if (this.hasDialogTarget) {
+      this.dialogTarget.showModal()
+      this.resetGuidePosition()
+    }
+  }
+
+  resetGuidePosition() {
+    this.dialogTarget.scrollTop = 0
+    window.requestAnimationFrame(() => {
+      this.dialogTarget.scrollTop = 0
+      if (this.hasSheetTarget) this.sheetTarget.focus({ preventScroll: true })
+    })
   }
 
   dismissBanner() {
@@ -66,7 +87,8 @@ export default class extends Controller {
   }
 
   closed() {
-    this.actionTargets.forEach((action) => action.focus({ preventScroll: true }))
+    this.installTrigger?.focus({ preventScroll: true })
+    this.installTrigger = null
   }
 
   showAction() {
@@ -78,7 +100,7 @@ export default class extends Controller {
   }
 
   showIosBanner() {
-    if (window.location.pathname !== "/" || this.bannerSnoozed()) return
+    if (window.location.pathname !== "/" || this.hasTileTarget || this.bannerSnoozed()) return
     this.bannerTargets.forEach((banner) => { banner.hidden = false })
   }
 

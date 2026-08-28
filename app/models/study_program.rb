@@ -8,6 +8,10 @@ class StudyProgram < ApplicationRecord
   validates :year, numericality: { only_integer: true, greater_than: 2000 }
   validates :status, inclusion: { in: STATUSES }
 
+  def display_title(locale = I18n.locale)
+    I18n.t("study.program_titles.#{canon}", locale: Locale.i18n(locale), year:, default: title)
+  end
+
   def current_week(on: Date.current)
     study_units.weeks.find_by("starts_on <= ? AND ends_on >= ?", on, on)
   end
