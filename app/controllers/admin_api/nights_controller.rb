@@ -48,6 +48,7 @@ module AdminApi
         end
         attributes[:broadcast_delay_ms] = params[:broadcast_delay_ms] if params.key?(:broadcast_delay_ms)
         attributes[:missionary_names] = params[:missionary_names] if params.key?(:missionary_names)
+        attributes[:poster_path] = params[:poster_path].presence if params.key?(:poster_path)
         attributes
       end
 
@@ -62,6 +63,7 @@ module AdminApi
           theme_title: night.theme_title,
           presenter_locale: night.presenter_locale,
           broadcast_delay_ms: night.broadcast_delay_ms,
+          poster_path: night.poster_path,
           missionary_names: night.missionaries.order(:id).pluck(:name),
           paths: {
             players: "/s/#{night.code}/name",

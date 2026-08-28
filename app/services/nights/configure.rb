@@ -1,6 +1,6 @@
 module Nights
   class Configure
-    EDITABLE = %i[starts_at presenter_locale broadcast_delay_ms missionary_names].freeze
+    EDITABLE = %i[starts_at presenter_locale broadcast_delay_ms missionary_names poster_path].freeze
 
     def self.call(night:, attributes:, broadcast: true)
       new(night:, attributes:, broadcast:).call
@@ -23,7 +23,7 @@ module Nights
     private
 
       def night_attributes
-        @attributes.slice(:starts_at, :presenter_locale, :broadcast_delay_ms)
+        @attributes.slice(:starts_at, :presenter_locale, :broadcast_delay_ms, :poster_path)
       end
 
       def replace_missionaries!

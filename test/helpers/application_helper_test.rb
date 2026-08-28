@@ -406,6 +406,13 @@ class ApplicationHelperTest < ActionView::TestCase
     assert_nil night_poster_src("missing_theme")
   end
 
+  test "a session event poster takes priority over its theme poster" do
+    night = game_sessions(:elias)
+    night.poster_path = "/media/nights/events/benidorm-2026-08-29-reyes-profetas.jpg"
+
+    assert_equal night.poster_path, night_poster_src(night)
+  end
+
   test "home night path is the memory for a finished night" do
     assert_equal night_name_path("DAVID"), home_night_path_for(game_sessions(:david))
     assert_equal ward_memory_path("RAMA", "QUIT"), home_night_path_for(game_sessions(:cerrada))

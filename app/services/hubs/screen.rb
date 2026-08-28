@@ -342,6 +342,10 @@ module Hubs
       end
 
       def live_picture(night)
+        if night.poster_path.present? && (src = @helpers.night_poster_src(night)).present?
+          return [ src, live_mode(src, "light"), "peaceful" ]
+        end
+
         # The LIVE card advertises a game-show night, not another chapter still.
         # Its dedicated stage art deliberately stays independent from the hub
         # backdrop and the current street-quiz painting.

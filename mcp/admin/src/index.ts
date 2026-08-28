@@ -89,13 +89,14 @@ function createServer() {
   )))
 
   server.registerTool("edit_noche_live", {
-    description: "Edit the schedule, presenter language, broadcast delay, or missionary list of a Noche Live. It can only edit a session belonging to the supplied ward.",
+    description: "Edit the schedule, presenter language, broadcast delay, event poster, or missionary list of a Noche Live. It can only edit a session belonging to the supplied ward.",
     inputSchema: {
       ward_code: z.string(),
       session_code: z.string(),
       starts_at: z.string().optional().describe("ISO 8601 timestamp with timezone"),
       presenter_locale: z.enum(["es", "pt-BR", "fr", "en"]).optional(),
       broadcast_delay_ms: z.number().int().min(0).max(30000).optional(),
+      poster_path: z.string().regex(/^\/media\/nights\/events\/[a-z0-9][a-z0-9._-]*\.(?:jpe?g|png|webp)$/i).nullable().optional().describe("Deployed event poster path, or null to restore the theme poster"),
       missionary_names: z.array(z.string().min(1).max(32)).optional().describe("Complete replacement list; pass [] to remove all missionaries")
     }
   }, async ({ ward_code, session_code, ...input }) => result(await api(

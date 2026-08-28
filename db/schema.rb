@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_28_235940) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_28_235950) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -96,6 +96,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_28_235940) do
     t.integer "broadcast_delay_ms", default: 0, null: false
     t.string "code", null: false
     t.datetime "created_at", null: false
+    t.string "poster_path"
     t.string "presenter_device_digest"
     t.string "presenter_locale", default: "es", null: false
     t.string "presenter_token_digest", null: false

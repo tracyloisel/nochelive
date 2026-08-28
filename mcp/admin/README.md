@@ -182,7 +182,7 @@ The lifecycle remains manual: creation does not start the night.
 
 ### `edit_noche_live`
 
-Edit the schedule, presenter language, broadcast delay, or complete missionary list of an existing Noche Live. `ward_code` is mandatory even when the session code is known; the API rejects cross-rama edits. Omitted fields remain unchanged. Passing an empty `missionary_names` array removes all missionaries.
+Edit the schedule, presenter language, broadcast delay, deployed event poster, or complete missionary list of an existing Noche Live. `ward_code` is mandatory even when the session code is known; the API rejects cross-rama edits. Omitted fields remain unchanged. Passing an empty `missionary_names` array removes all missionaries. `poster_path` must point inside `/media/nights/events/`; pass `null` to restore the theme poster.
 
 > Décale la Noche Live DAVID de la rama RAMA à 20 h et garde seulement Sœur Martin.
 
@@ -191,6 +191,7 @@ Edit the schedule, presenter language, broadcast delay, or complete missionary l
   "ward_code": "RAMA",
   "session_code": "DAVID",
   "starts_at": "2026-08-30T20:00:00+02:00",
+  "poster_path": "/media/nights/events/benidorm-2026-08-29-reyes-profetas.jpg",
   "missionary_names": ["Sœur Martin"]
 }
 ```

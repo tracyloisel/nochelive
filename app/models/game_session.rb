@@ -19,6 +19,9 @@ class GameSession < ApplicationRecord
   validates :presenter_locale, inclusion: { in: Locale::AVAILABLE }
   validates :public_token, presence: true, uniqueness: true
   validates :broadcast_delay_ms, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 30_000 }
+  validates :poster_path,
+    format: { with: %r{\A/media/nights/events/[a-z0-9][a-z0-9._-]*\.(?:jpe?g|png|webp)\z}i },
+    allow_blank: true
 
   before_validation :assign_public_token, on: :create
 

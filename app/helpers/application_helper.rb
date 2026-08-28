@@ -64,6 +64,11 @@ module ApplicationHelper
   end
 
   def night_poster_src(night_or_theme)
+    if night_or_theme.is_a?(GameSession) && night_or_theme.poster_path.present?
+      custom_rel = night_or_theme.poster_path.delete_prefix("/")
+      return night_or_theme.poster_path if Rails.public_path.join(custom_rel).file?
+    end
+
     file_id = night_or_theme.respond_to?(:theme_file_id) ? night_or_theme.theme_file_id : night_or_theme.to_s
     file_id = "reyes_y_profetas" if file_id.blank? || file_id == "kings_and_prophets"
     rel = "media/nights/#{file_id}.jpg"

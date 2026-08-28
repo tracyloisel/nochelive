@@ -159,6 +159,7 @@ class AdminApiTest < ActionDispatch::IntegrationTest
           params: {
             starts_at: "2026-08-30T20:00:00+02:00",
             presenter_locale: "es",
+            poster_path: "/media/nights/events/benidorm-2026-08-29-reyes-profetas.jpg",
             missionary_names: [ "Sœur Martin" ]
           },
           headers: auth_headers,
@@ -167,6 +168,8 @@ class AdminApiTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_equal "es", night.reload.presenter_locale
     assert_equal 20, night.starts_at.in_time_zone("Europe/Madrid").hour
+    assert_equal "/media/nights/events/benidorm-2026-08-29-reyes-profetas.jpg", night.poster_path
+    assert_equal night.poster_path, response.parsed_body.dig("night", "poster_path")
     assert_equal [ "Sœur Martin" ], night.missionaries.pluck(:name)
   end
 
