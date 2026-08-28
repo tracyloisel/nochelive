@@ -329,6 +329,23 @@ class Hubs::ScreenTest < ActiveSupport::TestCase
     assert_equal Rails.application.routes.url_helpers.street_challenge_path(duel.token), tile.path
   end
 
+  test "challenge remains renderable while lifecycle methods are not deployed" do
+    duel = street_duels(:pili_vs_carmen)
+    duel.singleton_class.undef_method(:receipt_state) if duel.respond_to?(:receipt_state)
+    duel.singleton_class.undef_method(:rematch?) if duel.respond_to?(:rematch?)
+    challenge = Quizzes::ChallengeScreen.call(person: @pili, duel:)
+
+    tile = Hubs::Screen.call(
+      device_digest: @digest,
+      person: @pili,
+      ward: @ward,
+      challenge:
+    ).challenge
+
+    assert_nil tile.receipt_state
+    refute tile.rematch
+  end
+
   test "scored challenge keeps live duel numbers" do
     duel = street_duels(:pili_vs_carmen)
     challenge = Quizzes::ChallengeScreen.call(person: people(:carmen_garcia), duel:)

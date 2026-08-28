@@ -402,8 +402,8 @@ module Hubs
           you_avatar_key: @person&.avatar_key,
           other_avatar_key: other&.avatar_key,
           other_streak: streak_for(other, duel),
-          receipt_state: duel.receipt_state,
-          rematch: duel.rematch?
+          receipt_state: (duel.receipt_state if duel.respond_to?(:receipt_state)),
+          rematch: duel.respond_to?(:rematch?) && duel.rematch?
         )
       end
 
