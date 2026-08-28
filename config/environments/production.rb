@@ -55,6 +55,8 @@ Rails.application.configure do
     /https:\/\/.*noche.*/
   ]
   config.hosts << /.*\.onrender\.com/ if ENV["RENDER"]
+  config.hosts << "nochelive.com"
+  config.hosts << "www.nochelive.com"
   config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
 
   # Ignore bad email addresses and do not raise email delivery errors.
