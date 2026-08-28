@@ -58,6 +58,11 @@ class StudyJourneyTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     assert_select "body.is-study-unit main.shell #study_unit.study-unit-world"
+    assert_select "#study_unit > .study-lockup" do
+      assert_select ".study-seal", text: "✦"
+      assert_select "h1", text: I18n.t("study.title")
+      assert_select "p", text: I18n.t("study.motto")
+    end
     assert_select "#study_unit .study-unit-sheet"
 
     css = Rails.root.join("app/assets/stylesheets/application.css").read
@@ -68,6 +73,7 @@ class StudyJourneyTest < ActionDispatch::IntegrationTest
     assert_match(/padding: 0/, fullscreen_shell)
     assert_match(/\.study-unit-sheet \{ width: min\(100%, 42rem\)/, css)
     assert_match(/\.study-unit-world \{[\s\S]*?--street-hub-col: 24\.375rem/, css)
+    assert_match(/\.study-unit-world \{[\s\S]*?padding-top: max\(5\.5rem/, css)
     assert_match(/@media \(min-width: 1024px\) \{[\s\S]*?\.study-unit-world \{ --street-hub-col: 44rem; \}/, css)
     assert_match(/body\.is-study-unit #study_unit > \.home-menu\.is-hud \{[\s\S]*?left: max\(env\(safe-area-inset-left\), var\(--space-4\)\);[\s\S]*?right: max\(env\(safe-area-inset-right\), var\(--space-4\)\);[\s\S]*?width: auto/, css)
     assert_match(/body\.is-study-unit #study_unit > \.street-world-dock \{[\s\S]*?width: 100%;[\s\S]*?max-width: none/, css)
@@ -202,7 +208,11 @@ class StudyJourneyTest < ActionDispatch::IntegrationTest
     get root_path
     assert_response :success
     assert_select ".hub-study-progress strong", text: "10/10"
-    assert_select ".hub-study-action[href='#{study_run_path(run)}']"
+    assert_select "a.hub-study[href='#{study_program_path}']" do
+      assert_select ".hub-study-action", text: I18n.t("study.continue")
+      assert_select ".hub-study-action[href]", count: 0
+    end
+    assert_select "a.hub-study a", count: 0
 
     get study_history_path
     assert_response :success

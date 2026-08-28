@@ -5,9 +5,14 @@
      [ "chat", community.questions, "hub.questions_answered", "hub.questions_answered_a", "hub.questions_answered_b" ],
      [ "temple", community.wards, "hub.wards_join", "hub.wards_join_a", "hub.wards_join_b" ]
    ] %>
-<section class="hub-panel hub-community"
-         data-controller="hub-counter"
-         data-hub-counter-target="community">
+<%= link_to platform_stats_path,
+      class: "hub-panel hub-community",
+      aria: { label: t("stats.menu") },
+      data: {
+        controller: "hub-counter",
+        hub_counter_target: "community",
+        turbo_frame: "_top"
+      } do %>
   <p class="hub-kicker"><%= t("hub.community") %></p>
   <% if pulse %>
     <%= turbo_frame_tag "street_pulse",
@@ -41,4 +46,4 @@
       </li>
     <% end %>
   </ul>
-</section>
+<% end %>

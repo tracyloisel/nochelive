@@ -16174,6 +16174,14 @@ body.is-street-hub:has(.street-world.is-game-hub[data-hub-theme="light"]:not(.is
   padding: var(--space-4) var(--space-3);
   background: var(--surface-primary);
 }
+.street-world.is-game-hub a.hub-challenge-empty {
+  color: var(--text-primary);
+  text-decoration: none;
+}
+.street-world.is-game-hub a.hub-challenge-empty:focus-visible {
+  outline: 3px solid var(--gold-highlight);
+  outline-offset: 3px;
+}
 .hub-challenge-empty-icon {
   width: 4.5rem;
   height: 4.5rem;
@@ -16186,6 +16194,59 @@ body.is-street-hub:has(.street-world.is-game-hub[data-hub-theme="light"]:not(.is
 .hub-challenge-empty-icon .picto {
   width: 3rem;
   height: 3rem;
+}
+.hub-challenge-empty-arena {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 7.5rem;
+  min-height: 4.5rem;
+  filter: drop-shadow(0 0.65rem 1rem color-mix(in srgb, var(--ink) 14%, transparent));
+}
+.hub-challenge-empty-face {
+  display: grid;
+  place-items: center;
+  width: 3.65rem;
+  height: 3.65rem;
+  overflow: hidden;
+  border: 2px solid var(--gold-primary);
+  border-radius: 50%;
+  background: var(--surface-secondary);
+  color: var(--gold-deep);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--gold-highlight) 22%, transparent);
+}
+.hub-challenge-empty-face.is-rival {
+  margin-left: -0.45rem;
+  border-color: color-mix(in srgb, var(--text-secondary) 58%, var(--gold-primary));
+  background: color-mix(in srgb, var(--surface-secondary) 82%, var(--text-secondary));
+  color: var(--text-secondary);
+}
+.hub-challenge-empty-face .avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.hub-challenge-empty-face .picto {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+.hub-challenge-empty-vs {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 2.15rem;
+  height: 2.15rem;
+  margin-inline: -0.5rem;
+  border: 1px solid var(--gold-deep);
+  border-radius: 50%;
+  background: linear-gradient(145deg, var(--gold-highlight), var(--gold-primary));
+  color: var(--text-on-gold);
+  font-family: var(--font-display);
+  font-size: 0.68rem;
+  font-weight: 850;
+  box-shadow: 0 0.3rem 0.8rem color-mix(in srgb, var(--gold-primary) 38%, transparent);
 }
 .hub-challenge-empty-body {
   flex: 1;
@@ -16554,6 +16615,14 @@ body.is-street-hub:has(.street-world.is-game-hub[data-hub-theme="light"]:not(.is
   padding: var(--space-4) var(--space-3) var(--space-3);
   background: var(--surface-primary);
   box-shadow: var(--shadow-card);
+}
+.street-world.is-game-hub a.hub-community {
+  color: var(--text-on-glass);
+  text-decoration: none;
+}
+.street-world.is-game-hub a.hub-community:focus-visible {
+  outline: 3px solid var(--gold-highlight);
+  outline-offset: 3px;
 }
 .street-world.is-game-hub[data-hub-theme="dark"] .hub-community {
   backdrop-filter: none;
@@ -19660,8 +19729,26 @@ body.is-returning-from-quiz .hub-reward-chest {
 }
 .street-world.is-game-hub .hub-challenge-empty {
   justify-content: flex-start;
-  gap: var(--space-2);
-  padding: var(--space-4) var(--space-3) var(--space-3);
+  gap: var(--space-3);
+  padding: var(--space-4);
+}
+.street-world.is-game-hub .hub-challenge-empty:not(.is-ward-required) {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-areas:
+    "arena copy"
+    "cta cta";
+  align-items: center;
+  text-align: left;
+}
+.street-world.is-game-hub .hub-challenge-empty-arena { grid-area: arena; }
+.street-world.is-game-hub .hub-challenge-empty:not(.is-ward-required) .hub-challenge-empty-body {
+  grid-area: copy;
+  align-items: flex-start;
+  justify-content: center;
+}
+.street-world.is-game-hub .hub-challenge-empty:not(.is-ward-required) .hub-challenge-empty-cta {
+  grid-area: cta;
 }
 .street-world.is-game-hub .hub-challenge-empty-icon {
   width: 3rem;
@@ -19684,6 +19771,11 @@ body.is-returning-from-quiz .hub-reward-chest {
   margin-top: auto;
   padding-inline: var(--space-3);
   font-size: var(--type-min);
+}
+.street-world.is-game-hub .hub-challenge-empty-cta .picto-arrow {
+  width: 1.15rem;
+  height: 1.15rem;
+  margin-left: auto;
 }
 .street-world.is-game-hub .hub-online {
   align-self: start;
@@ -21163,6 +21255,13 @@ body.is-street-profile .home-menu {
   box-shadow: var(--shadow-card);
   color: var(--hub-study-text);
 }
+a.hub-study {
+  text-decoration: none;
+}
+a.hub-study:focus-visible {
+  outline: 3px solid var(--gold-highlight);
+  outline-offset: 3px;
+}
 .street-world.is-game-hub[data-hub-theme="dark"] .hub-study {
   --hub-study-surface: var(--surface-primary);
   --hub-study-text: var(--text-primary);
@@ -21336,8 +21435,12 @@ body.is-study-unit #study_unit > .street-world-dock {
   width: 100%;
   max-width: none;
   display: block;
-  padding-top: clamp(16rem, 42vh, 24rem);
-  background-position: 50% 35%;
+  padding-top: max(5.5rem, calc(env(safe-area-inset-top) + 4.8rem));
+  background-position: 50% 26%;
+}
+.study-unit-world > .study-lockup {
+  width: min(100%, 42rem);
+  margin-bottom: 1.4rem;
 }
 .study-unit-sheet { padding: 1.7rem; border-radius: 2.4rem 2.4rem 1.4rem 1.4rem; }
 .study-unit-refs { color: var(--study-muted); font-size: .75rem; line-height: 1.35; }

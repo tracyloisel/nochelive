@@ -1,7 +1,9 @@
 <% challenge = local_assigns[:challenge] %>
-<% social_ward = current_street_person&.ward %>
+<% street_person = local_assigns.fetch(:street_person) { current_street_person } %>
+<% social_ward = street_person&.ward %>
 <% if !social_ward %>
-  <article class="hub-panel hub-rail hub-challenge is-empty hub-challenge-empty is-ward-required">
+  <%= link_to search_path(cambiar: 1),
+        class: "hub-panel hub-rail hub-challenge is-empty hub-challenge-empty is-ward-required" do %>
     <div class="hub-challenge-empty-icon" aria-hidden="true">
       <%= picto("church") %>
     </div>
@@ -9,8 +11,8 @@
       <p class="hub-challenge-empty-title"><%= t("hub.social_ward_title") %></p>
       <p class="hub-challenge-empty-hint"><%= t("hub.challenge_pick_ward") %></p>
     </div>
-    <%= link_to t("hub.pick_ward_action"), search_path(cambiar: 1), class: "hub-rail-go hub-challenge-empty-cta" %>
-  </article>
+    <span class="hub-rail-go hub-challenge-empty-cta"><%= t("hub.pick_ward_action") %></span>
+  <% end %>
 <% elsif challenge&.path %>
   <% scored = challenge.scored? %>
   <% rival = challenge.other_display_name.presence || challenge.other_name %>
@@ -79,14 +81,25 @@
     <% end %>
   <% end %>
 <% else %>
-  <article class="hub-panel hub-rail hub-challenge is-empty hub-challenge-empty">
-    <div class="hub-challenge-empty-icon" aria-hidden="true">
-      <%= picto("trophy") %>
+  <%= link_to street_challenges_path,
+        class: "hub-panel hub-rail hub-challenge is-empty hub-challenge-empty" do %>
+    <div class="hub-challenge-empty-arena" aria-hidden="true">
+      <span class="hub-challenge-empty-face is-you">
+        <% if (src = avatar_mark(street_person)) %>
+          <img src="<%= src %>" alt="" class="avatar-img" width="52" height="52">
+        <% else %>
+          <%= picto("person") %>
+        <% end %>
+      </span>
+      <span class="hub-challenge-empty-vs"><%= t("street.duel_vs") %></span>
+      <span class="hub-challenge-empty-face is-rival"><%= picto("person") %></span>
     </div>
     <div class="hub-challenge-empty-body">
       <p class="hub-challenge-empty-title"><%= t("hub.challenge_empty") %></p>
       <p class="hub-challenge-empty-hint"><%= t("hub.challenge_empty_hint") %></p>
     </div>
-    <%= link_to t("hub.challenge_them"), street_challenges_path, class: "hub-rail-go hub-challenge-empty-cta" %>
-  </article>
+    <span class="hub-rail-go hub-challenge-empty-cta">
+      <%= t("hub.challenge_them") %><%= picto("arrow") %>
+    </span>
+  <% end %>
 <% end %>

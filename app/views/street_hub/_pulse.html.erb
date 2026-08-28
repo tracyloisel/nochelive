@@ -1,18 +1,13 @@
 <% pulse = local_assigns.fetch(:pulse) %>
 <% players = t("street.pulse_players", count: pulse.players, formatted: number_with_delimiter(pulse.players)) %>
 <% questions = t("street.pulse_questions", count: pulse.questions, formatted: number_with_delimiter(pulse.questions)) %>
-<%= link_to platform_stats_path,
-      class: "street-pulse",
-      aria: { label: t("stats.menu") },
-      data: {
-        turbo_frame: "_top",
-        pulse_players: pulse.players,
-        pulse_questions: pulse.questions,
-        pulse_online: pulse.online
-      } do %>
+<div class="street-pulse"
+     data-pulse-players="<%= pulse.players %>"
+     data-pulse-questions="<%= pulse.questions %>"
+     data-pulse-online="<%= pulse.online %>">
   <p class="street-pulse-month"><%= t("street.pulse_month", players:, questions:) %></p>
   <p class="street-pulse-live">
     <span class="street-pulse-dot" aria-hidden="true"></span>
     <span><%= t("street.pulse_live", count: pulse.online, formatted: number_with_delimiter(pulse.online)) %></span>
   </p>
-<% end %>
+</div>

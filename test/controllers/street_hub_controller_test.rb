@@ -251,8 +251,11 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
     sign_in_congregation
     post street_profile_path, params: { guest: 1 }
     follow_redirect!
-    assert_select ".hub-community .hub-kicker", text: I18n.t("hub.community")
-    assert_select ".hub-community a.street-pulse[href=?]", platform_stats_path
+    assert_select "a.hub-community[href=?]", platform_stats_path do
+      assert_select ".hub-kicker", text: I18n.t("hub.community")
+      assert_select ".street-pulse"
+      assert_select "a", count: 0
+    end
     assert_select ".hub-community .street-pulse-live"
     assert_select ".hub-community .street-pulse-dot"
     assert_select ".hub-community-stats li", count: 3
@@ -438,10 +441,16 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
     assert_select ".home-menu.is-hud .quiz-hud-cta", text: I18n.t("hub.guest_cta")
     assert_select "a.quiz-hud-who.is-guest[href=?]", root_path(ficha: 1)
     assert_select ".hub-mini", count: 0
-    assert_select ".hub-rail.hub-challenge.is-empty"
+    assert_select "a.hub-rail.hub-challenge.is-empty[href=?]", street_challenges_path
     assert_select ".hub-online.is-empty", text: /#{Regexp.escape(I18n.t("hub.online_empty"))}/
     assert_select ".hub-online-ranking", text: I18n.t("hub.see_ranking")
     assert_select ".hub-rail-go", text: I18n.t("hub.challenge_them")
+    assert_select "a.hub-challenge .hub-rail-go a", count: 0
+    assert_select ".hub-challenge-empty-arena" do
+      assert_select ".hub-challenge-empty-face", count: 2
+      assert_select ".hub-challenge-empty-vs", text: I18n.t("street.duel_vs")
+    end
+    assert_select ".hub-challenge-empty-cta .picto-arrow"
     assert_select ".hub-progress .hub-kicker", text: I18n.t("hub.progress")
     assert_select ".hub-progress-meta", text: I18n.t("hub.packs_unlocked", count: 1)
     assert_select ".hub-progress-count", text: "1 / #{QuizDefinition::PACK_COUNT}"
