@@ -1,16 +1,20 @@
 require "test_helper"
+require "digest"
 
 class QuizDefinitionTest < ActiveSupport::TestCase
   LOCKED_PACK_IDS = %w[
     coronas placas hermanas abish profetas jehova nazareno moises abraham
     kolob premortal exaltacion jose inicios pruebas_profetas pruebas_heroes milagros
+    apocalipsis segunda_venida milenio
+    perdido_encontrado secretos_reino amar_projimo velar_servir sobre_roca
+    simbolos_mormon parabolas_profetas improbables
   ].freeze
 
   setup do
     QuizDefinition.reset!
   end
 
-  test "loads seventeen packs of ten questions on the curve" do
+  test "loads twenty-eight packs of ten questions on the curve" do
     catalog = QuizDefinition.catalog
     assert_equal QuizDefinition::PACK_COUNT, catalog.packs.size
     assert_equal LOCKED_PACK_IDS, catalog.pack_ids
@@ -87,6 +91,42 @@ class QuizDefinitionTest < ActiveSupport::TestCase
     assert_match(/1830|DyC 20/, text)
   end
 
+  test "last-days trilogy bridges the Bible and Book of Mormon" do
+    packs = %w[apocalipsis segunda_venida milenio].map { |id| QuizDefinition.catalog.find_pack(id) }
+
+    packs.each do |pack|
+      canons = pack.questions.map { |question| question.scripture.canon }
+      assert_includes canons, "bible", pack.id
+      assert_includes canons, "bom", pack.id
+    end
+
+    assert_match(/REY DE REYES/, packs[0].questions.last.answer)
+    assert_match(/nubes/, packs[1].questions.last.answer)
+    assert_match(/reveladas/, packs[2].questions.last.answer)
+  end
+
+  test "last-days trilogy has authored stills and celestial modes" do
+    modes = YAML.safe_load_file(Rails.root.join("config/media/quiz_stills.yml")).fetch("stills")
+    expected_modes = {
+      "apocalipsis" => "dark",
+      "segunda_venida" => "dark",
+      "milenio" => "light"
+    }
+
+    expected_modes.each do |pack_id, expected_mode|
+      QuizDefinition.catalog.find_pack(pack_id).questions.each do |question|
+        assert still_file(question).file?, question.presentation["image"]
+        assert_equal expected_mode, modes.fetch(question.presentation["image"]).fetch("mode")
+      end
+    end
+
+    stills = expected_modes.keys.flat_map do |pack_id|
+      QuizDefinition.catalog.find_pack(pack_id).questions.map { |question| still_file(question) }
+    end
+    digests = stills.map { |still| Digest::SHA256.file(still).hexdigest }
+    assert_equal stills.size, digests.uniq.size, "last-days question stills must be unique"
+  end
+
   test "copy in English returns English" do
     I18n.with_locale(:en) do
       pack = QuizDefinition.catalog.find_pack("coronas")
@@ -143,7 +183,7 @@ class QuizDefinitionTest < ActiveSupport::TestCase
     QuizDefinition.reset!
     second = QuizDefinition.catalog
     refute_same first, second
-    assert_equal 17, second.packs.size
+    assert_equal 28, second.packs.size
   end
 
   test "shuffled choices move the correct key away from first place" do
@@ -162,7 +202,10 @@ class QuizDefinitionTest < ActiveSupport::TestCase
   private
 
   def catalog_data
-    YAML.safe_load_file(Rails.root.join("config/quizzes/libre.yml")).deep_dup
+    packs = QuizDefinition::CATALOG_FILES.flat_map do |catalog_id|
+      YAML.safe_load_file(Rails.root.join("config/quizzes/#{catalog_id}.yml")).fetch("packs")
+    end
+    { "packs" => packs }.deep_dup
   end
 
   def still_file(question)

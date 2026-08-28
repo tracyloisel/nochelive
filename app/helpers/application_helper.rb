@@ -1009,4 +1009,14 @@ module ApplicationHelper
     formatted = formatted.to_i if formatted == formatted.to_i
     "#{formatted}#{suffix}"
   end
+
+  def scripture_read_count_label(count)
+    delimiter = case I18n.locale.to_s
+    when "fr" then "\u202F"
+    when "es", "pt-BR" then "."
+    else ","
+    end
+    formatted = number_with_delimiter(count.to_i, delimiter:)
+    t("seo.scripture.reads", count: count.to_i, formatted:)
+  end
 end

@@ -145,6 +145,12 @@ pt-BR:
       chapter_description: "Leia %{reference} inteiro, abra cada versículo e acompanhe o contexto. %{summary}"
       chapter_fallback: "Texto bíblico com navegação por versículos."
       chapters: "Capítulos"
+      order_label: "Ordenar os capítulos"
+      order_scripture: "Ordem das escrituras"
+      order_popular: "Mais lidos"
+      reads:
+        one: "%{formatted} leitura"
+        other: "%{formatted} leituras"
       open_chapter: "Abrir %{book} %{chapter}"
       read_chapter: "Ler %{reference}"
       chapter_navigation: "Capítulos anterior e seguinte"

@@ -8,6 +8,8 @@ export default class extends Controller {
   static targets = ["label", "bar"]
 
   connect() {
+    this.endAt = Date.parse(this.endValue)
+    if (this.askValue && window.matchMedia("(prefers-reduced-motion: reduce)").matches) this.releaseAsk()
     this.tick()
   }
 
@@ -28,9 +30,17 @@ export default class extends Controller {
     }
   }
 
+  releaseAsk() {
+    if (!this.askValue || !(this.durationValue > 0) || this.previewReleased) return
+    this.previewReleased = true
+    const previewRemaining = Math.max(0, this.endAt - Date.now() - (this.durationValue * 1000))
+    this.endAt -= previewRemaining
+  }
+
   tick() {
-    const remainMs = Math.max(0, Date.parse(this.endValue) - Date.now())
-    const remain = Math.ceil(remainMs / 1000)
+    const remainMs = Math.max(0, this.endAt - Date.now())
+    const rawRemain = Math.ceil(remainMs / 1000)
+    const remain = this.askValue && this.durationValue > 0 ? Math.min(this.durationValue, rawRemain) : rawRemain
     if (this.hasLabelTarget) this.labelTarget.textContent = remain
     if (this.hasBarTarget && this.durationValue > 0) {
       this.barTarget.style.transform = `scaleX(${Math.min(1, remainMs / (this.durationValue * 1000))})`

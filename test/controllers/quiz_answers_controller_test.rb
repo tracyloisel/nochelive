@@ -10,7 +10,7 @@ class QuizAnswersControllerTest < ActionDispatch::IntegrationTest
   test "jugar draws a street quiz and a tap settles the board" do
     get jugar_path
     assert_response :success
-    assert_select "#street_quiz.play-reel.is-quiz.is-street.is-overlay"
+    assert_select "#street_quiz.play-reel.is-quiz.is-street.is-overlay.is-art-preview"
     assert_select ".quiz-hud-rail"
     assert_select ".choice-btn"
     assert_select ".choice-btn .quiz-letter"
@@ -20,6 +20,7 @@ class QuizAnswersControllerTest < ActionDispatch::IntegrationTest
     question = run.question
     post quiz_answers_path(run), params: { choice: question.correct_choice }, as: :turbo_stream
     assert_response :success
+    assert_select "#street_quiz.is-art-preview", count: 0
     assert_select ".quiz-board.is-settled"
     assert_select ".quiz-bar .word"
     assert_select ".quiz-bar .quiz-meta .quiz-pct"

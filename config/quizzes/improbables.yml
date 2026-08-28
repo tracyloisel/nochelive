@@ -1,0 +1,206 @@
+packs:
+  - id: improbables
+    title: "Dios llama"
+    kicker: "Antes → después"
+    lede: "Sin hijos, olvidados, presos o con miedo: Dios los llamó donde nadie los esperaba."
+    questions:
+      - id: moises_boca
+        question: "¿Quién dijo que era «tardo en el habla y torpe de lengua»?"
+        choices:
+          - key: moises
+            label: "Moisés"
+          - key: jeremias
+            label: "Jeremías"
+          - key: gedeon
+            label: "Gedeón"
+        correct_choice: moises
+        answer: "Moisés. Dios prometió ayudarlo a hablar y le dio a Aarón como portavoz: su dificultad no anuló el llamamiento."
+        points: 5
+        duration: 0
+        intensity: 1
+        scripture:
+          canon: bible
+          cite: "Éxodo 4:10-16"
+          study: "ot/ex/4"
+        presentation:
+          image: quizzes/improbables/moises_boca.jpg
+      - id: abraham_sara
+        question: "¿A qué pareja sin hijos y ya anciana prometió Dios una descendencia incontable?"
+        choices:
+          - key: abraham_sara
+            label: "Abraham y Sara"
+          - key: isaac_rebeca
+            label: "Isaac y Rebeca"
+          - key: jacob_raquel
+            label: "Jacob y Raquel"
+        correct_choice: abraham_sara
+        answer: "A Abraham y Sara. Sara no podía tener hijos, pero Dios llamó a Abraham padre de muchas naciones."
+        points: 5
+        duration: 0
+        intensity: 1
+        scripture:
+          canon: bible
+          cite: "Génesis 11:30; 17:5-7, 15-19"
+          study: "ot/gen/17"
+        presentation:
+          image: quizzes/improbables/abraham_sara.jpg
+      - id: david_ovejas
+        question: "Cuando Samuel pidió ver a todos los hijos de Isaí, ¿quién seguía cuidando las ovejas?"
+        choices:
+          - key: david
+            label: "David"
+          - key: eliab
+            label: "Eliab"
+          - key: jonatan
+            label: "Jonatán"
+        correct_choice: david
+        answer: "David, el menor. Lo fueron a buscar al campo, y Samuel lo ungió en medio de sus hermanos."
+        points: 5
+        duration: 0
+        intensity: 2
+        scripture:
+          canon: bible
+          cite: "1 Samuel 16:11-13"
+          study: "ot/1-sam/16"
+        presentation:
+          image: quizzes/improbables/david_ovejas.jpg
+      - id: gedeon_menor
+        question: "¿Quién respondió al ángel: «mi familia es la más pobre… y yo el menor»?"
+        choices:
+          - key: gedeon
+            label: "Gedeón"
+          - key: sanson
+            label: "Sansón"
+          - key: jefte
+            label: "Jefté"
+        correct_choice: gedeon
+        answer: "Gedeón. Él se veía pequeño; el Señor lo llamó «varón esforzado y valiente» y lo envió a liberar Israel."
+        points: 8
+        duration: 20
+        intensity: 2
+        scripture:
+          canon: bible
+          cite: "Jueces 6:12-16"
+          study: "ot/judg/6"
+        presentation:
+          image: quizzes/improbables/gedeon_menor.jpg
+      - id: jose_carcel_palacio
+        question: "¿Quién salió de la cárcel para gobernar Egipto junto a Faraón?"
+        choices:
+          - key: jose
+            label: "José"
+          - key: daniel
+            label: "Daniel"
+          - key: mardoqueo
+            label: "Mardoqueo"
+        correct_choice: jose
+        answer: "José. Pasó del pozo y la prisión al palacio; Dios lo puso allí para preservar muchas vidas."
+        points: 8
+        duration: 20
+        intensity: 2
+        scripture:
+          canon: bible
+          cite: "Génesis 41:14, 39-41"
+          study: "ot/gen/41"
+        presentation:
+          image: quizzes/improbables/jose_carcel_palacio.jpg
+      - id: ester_huerfana_reina
+        question: "¿Qué huérfana llegó a ser reina y arriesgó la vida por su pueblo?"
+        choices:
+          - key: ester
+            label: "Ester"
+          - key: rut
+            label: "Rut"
+          - key: debora
+            label: "Débora"
+        correct_choice: ester
+        answer: "Ester. Criada por Mardoqueo, llegó al palacio y decidió presentarse ante el rey: «si perezco, que perezca»."
+        points: 8
+        duration: 20
+        intensity: 3
+        scripture:
+          canon: bible
+          cite: "Ester 2:7, 17; 4:16"
+          study: "ot/esth/4"
+        presentation:
+          image: quizzes/improbables/ester_huerfana_reina.jpg
+      - id: jeremias_joven
+        question: "¿Quién dijo «soy un niño» cuando Dios lo llamó profeta a las naciones?"
+        choices:
+          - key: jeremias
+            label: "Jeremías"
+          - key: samuel
+            label: "Samuel"
+          - key: timoteo
+            label: "Timoteo"
+        correct_choice: jeremias
+        answer: "Jeremías. Dios tocó su boca y puso sus palabras en ella: su juventud no le impidió cumplir la misión."
+        points: 12
+        duration: 15
+        intensity: 3
+        scripture:
+          canon: bible
+          cite: "Jeremías 1:6-10"
+          study: "ot/jer/1"
+        presentation:
+          image: quizzes/improbables/jeremias_joven.jpg
+      - id: pedro_negacion_pentecostes
+        question: "¿Qué pescador negó conocer a Jesús y después se levantó a predicar en Pentecostés?"
+        choices:
+          - key: pedro
+            label: "Pedro"
+          - key: andres
+            label: "Andrés"
+          - key: juan
+            label: "Juan"
+        correct_choice: pedro
+        answer: "Pedro. El que lloró después de negarlo anunció luego a Cristo con valor, y unas tres mil personas creyeron."
+        points: 12
+        duration: 15
+        intensity: 4
+        scripture:
+          canon: bible
+          cite: "Lucas 22:54-62; Hechos 2:14, 41"
+          study: "nt/acts/2"
+        presentation:
+          image: quizzes/improbables/pedro_negacion_pentecostes.jpg
+      - id: pablo_perseguidor_apostol
+        question: "¿Quién perseguía a la Iglesia antes de ser enviado a llevar el nombre de Jesús a las naciones?"
+        choices:
+          - key: pablo
+            label: "Pablo"
+          - key: bernabe
+            label: "Bernabé"
+          - key: esteban
+            label: "Esteban"
+        correct_choice: pablo
+        answer: "Saulo, también llamado Pablo. El perseguidor fue escogido para llevar el nombre de Jesús ante naciones y reyes."
+        points: 15
+        duration: 15
+        intensity: 4
+        scripture:
+          canon: bible
+          cite: "Hechos 8:3; 9:15; 13:9"
+          study: "nt/acts/9"
+        presentation:
+          image: quizzes/improbables/pablo_perseguidor_apostol.jpg
+      - id: rahab_fuera_linaje
+        question: "¿Qué mujer extranjera escondió a los espías en Jericó y aparece después en la genealogía de Jesús?"
+        choices:
+          - key: rahab
+            label: "Rahab"
+          - key: jezabel
+            label: "Jezabel"
+          - key: dalila
+            label: "Dalila"
+        correct_choice: rahab
+        answer: "Rahab. La extranjera de Jericó eligió la fe, fue acogida en Israel y su nombre entró en la historia de Jesús."
+        points: 25
+        duration: 15
+        intensity: 5
+        scripture:
+          canon: bible
+          cite: "Josué 2:1-21; Mateo 1:5"
+          study: "nt/matt/1"
+        presentation:
+          image: quizzes/improbables/rahab_fuera_linaje.jpg

@@ -15,11 +15,25 @@
 
   <section class="scripture-chapter-grid" aria-labelledby="scripture-chapters-title">
     <h2 id="scripture-chapters-title"><%= t("seo.scripture.chapters") %></h2>
+    <nav class="scripture-chapter-order" aria-label="<%= t("seo.scripture.order_label") %>">
+      <%= link_to t("seo.scripture.order_scripture"),
+            scripture_book_path(**Scriptures::Reference.book_path_options(@book, @book.locale)),
+            aria: { current: ("page" if @chapter_order == "scripture") } %>
+      <%= link_to t("seo.scripture.order_popular"),
+            scripture_book_path(**Scriptures::Reference.book_path_options(@book, @book.locale), order: "popular"),
+            aria: { current: ("page" if @chapter_order == "popular") } %>
+    </nav>
     <div>
       <% @chapters.each do |chapter| %>
         <% reference = Scriptures::Reference.resolve_chapter(locale: @book.route_locale, section: @book.section, book: @book.book, chapter:) %>
-        <%= link_to chapter, scripture_chapter_path(**Scriptures::Reference.chapter_path_options(reference, @book.locale)),
-              aria: { label: t("seo.scripture.open_chapter", book: @book.book_label, chapter:) } %>
+        <% reads_count = @chapter_reads.fetch(reference.study, 0) %>
+        <%= link_to scripture_chapter_path(**Scriptures::Reference.chapter_path_options(reference, @book.locale)),
+              aria: { label: t("seo.scripture.open_chapter", book: @book.book_label, chapter:) } do %>
+          <strong><%= chapter %></strong>
+          <% if reads_count.positive? %>
+            <small><%= scripture_read_count_label(reads_count) %></small>
+          <% end %>
+        <% end %>
       <% end %>
     </div>
   </section>

@@ -21,11 +21,13 @@ end %>
 <% last_gain = street.done? ? street.complete.last_gain.to_i : (street.settled? && street.answer&.correct? ? question.points : 0) %>
 <% from_score = last_gain.positive? ? [ run.score - last_gain, 0 ].max : run.score %>
 <% still = street.done? && jugar ? street_ceremony_asset_src("ceremony-gateway") : street_still_src(question) %>
+<% art_preview = overlay && street.asking? && run.asked_at.present? && run.asked_at.future? %>
 
 <%= tag.section id: "street_quiz",
       class: [
         "play-card", "play-reel", "is-quiz", "is-street",
         ("is-overlay" if overlay),
+        ("is-art-preview" if art_preview),
         ("is-settled" if street.settled?),
         ("is-done" if street.done?),
         ("is-ceremony" if overlay && street.done?),
@@ -46,11 +48,12 @@ end %>
         quiz_combo_broke_value: combo&.broke,
         quiz_combo_shout_value: combo&.shout_key,
         quiz_combo_sfx_value: combo&.sfx,
+        quiz_preview_end_value: (run.asked_at.iso8601(3) if art_preview),
         quiz_theme: chrome&.mode,
         quiz_atmosphere: chrome&.atmosphere,
         quiz_glass: chrome&.glass,
         intensity: question.intensity,
-        action: "pointerdown->story#start click->quiz#pick turbo:submit-start->quiz#lock"
+        action: "pointerdown->quiz#revealArt pointerdown->story#start click->quiz#pick turbo:submit-start->quiz#lock"
       ).compact do %>
   <% if overlay && street.done? %>
     <%= render "home/street_overlay_ceremony",

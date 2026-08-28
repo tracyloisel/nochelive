@@ -1276,3 +1276,303 @@ en:
             mostaza: "Mustard"
             trigo: "Wheat"
             arena: "Sand"
+    apocalipsis:
+      title: "Revelation"
+      kicker: "The Lamb wins"
+      lede: "Seals, the dragon, and Babylon: the vision ends not in fear, but in victory."
+      questions:
+        libro_siete_sellos:
+          question: "How many seals closed the book John saw?"
+          answer: "Seven seals. Only the Lamb was found worthy to open the book."
+          choices:
+            siete: "Seven"
+            tres: "Three"
+            doce: "Twelve"
+        miguel_dragon:
+          question: "In the battle in heaven, who fought against the dragon?"
+          answer: "Michael and his angels fought the dragon, who is called the Devil and Satan."
+          choices:
+            miguel: "Michael and his angels"
+            juan: "John and the seven elders"
+            moises: "Moses and Elijah"
+        bestia_numero:
+          question: "What number does John give for the beast?"
+          answer: "Six hundred sixty-six. John invites anyone with understanding to count that number."
+          choices:
+            seiscientos_sesenta_seis: "Six hundred sixty-six"
+            setecientos_setenta_siete: "Seven hundred seventy-seven"
+            ciento_cuarenta_cuatro: "One hundred forty-four"
+        angel_evangelio:
+          question: "What did the angel flying through the midst of heaven carry?"
+          answer: "He carried the everlasting gospel to preach to every nation, kindred, tongue, and people."
+          choices:
+            evangelio: "The everlasting gospel"
+            espada: "A sword of fire"
+            corona: "A crown of twelve stars"
+        santos_pocos:
+          question: "In Nephi’s vision, the Saints of the Lamb were…"
+          answer: "They were few because of wickedness, but they were upon all the face of the earth."
+          choices:
+            pocos: "Few, but spread across the whole earth"
+            escondidos: "Hidden in one city"
+            incontables: "More numerous than every people"
+        armas_rectitud:
+          question: "What were the Saints in Nephi’s vision armed with?"
+          answer: "The power of the Lamb came upon them; their weapons were righteousness and the power of God."
+          choices:
+            rectitud: "Righteousness and the power of God"
+            hierro: "Iron and chariots"
+            oro: "Gold and crowns"
+        obra_del_padre:
+          question: "When wars began among the nations, what would the Father begin?"
+          answer: "He would begin His work to prepare the fulfillment of His covenants with Israel."
+          choices:
+            convenios: "Preparing to fulfill His covenants"
+            diluvio: "Sending another flood"
+            torre: "Raising a tower"
+        juan_escribira:
+          question: "Who would write the rest of the vision Nephi saw?"
+          answer: "The angel showed John to Nephi and said he would write the rest of those things."
+          choices:
+            juan: "John, one of the Twelve"
+            pedro: "Peter"
+            isaias: "Isaiah"
+        babilonia_cae:
+          question: "What great city does the angel announce has fallen?"
+          answer: "Babylon has fallen. The vision announces the end of its power and deception."
+          choices:
+            babilonia: "Babylon"
+            jerusalen: "Jerusalem"
+            belen: "Bethlehem"
+        rey_de_reyes:
+          question: "What name does Christ bear when He appears as the victor?"
+          answer: "KING OF KINGS, AND LORD OF LORDS. The Lamb wins: that is how the vision ends."
+          choices:
+            rey_reyes: "King of Kings and Lord of Lords"
+            principe_egipto: "Prince of Egypt"
+            escriba: "Scribe of Jerusalem"
+    segunda_venida:
+      title: "The Return"
+      kicker: "Jesus will return"
+      lede: "The gospel, the trumpet, and the clouds: signs that call us to watch with hope."
+      questions:
+        mismo_modo:
+          question: "The angels said Jesus would return…"
+          answer: "He will return as the disciples saw Him go: from heaven."
+          choices:
+            mismo_modo: "As they had seen Him go into heaven"
+            secreto: "Without anyone being able to see Him"
+            nacer: "By being born again in Bethlehem"
+        evangelio_naciones:
+          question: "Before the end, where will the gospel of the kingdom be preached?"
+          answer: "In all the world, as a witness to every nation; then the end will come."
+          choices:
+            todo_mundo: "In all the world"
+            jerusalen: "Only in Jerusalem"
+            doce_ciudades: "In twelve cities"
+        nadie_dia_hora:
+          question: "Who knows the day and hour of the coming of the Son of Man?"
+          answer: "The Father alone. Jesus taught us to watch, not to calculate a date."
+          choices:
+            padre: "The Father"
+            angeles: "All the angels"
+            profetas: "All the prophets"
+        relampago_oriente:
+          question: "Jesus compared His coming to…"
+          answer: "Lightning crossing the sky from east to west: visible, sudden, and glorious."
+          choices:
+            relampago: "Lightning from east to west"
+            lluvia: "A gentle rain"
+            lampara: "A hidden lamp"
+        cuatro_vientos:
+          question: "From where will the angels gather the elect?"
+          answer: "They will gather them from the four winds, from one end of heaven to the other."
+          choices:
+            cuatro_vientos: "From the four winds"
+            un_valle: "From a single valley"
+            siete_templos: "From seven temples"
+        muertos_cristo:
+          question: "When the trump of God sounds, who will rise first?"
+          answer: "The dead in Christ will rise first; then the faithful will meet the Lord."
+          choices:
+            muertos_cristo: "The dead in Christ"
+            reyes: "The kings of the earth"
+            soldados: "The soldiers of Rome"
+        tierra_rollo:
+          question: "Moroni saw that at the Lord’s coming, the earth would be rolled together as…"
+          answer: "As a scroll, while the elements melt with fervent heat."
+          choices:
+            rollo: "A scroll"
+            tienda: "A tent"
+            manto: "A cloak"
+        nefi_rebano:
+          question: "When the Holy One of Israel reigns, how many shepherds will there be?"
+          answer: "One fold and one Shepherd. He will gather His children from the four quarters of the earth."
+          choices:
+            uno: "One"
+            doce: "Twelve"
+            setenta: "Seventy"
+        hasta_el_fin:
+          question: "In Bountiful, how far into the future did Jesus explain what would happen?"
+          answer: "Through His coming in glory and the great day when all will stand before God."
+          choices:
+            juicio: "Through the great day of judgment"
+            templo: "Through the building of the temple"
+            cosecha: "Through the next harvest"
+        nubes_gloria:
+          question: "How will the nations see the Son of Man coming?"
+          answer: "In the clouds of heaven, with power and great glory. His return will not be secret."
+          choices:
+            nubes_gloria: "In the clouds, with power and great glory"
+            barco: "In a boat from Galilee"
+            desierto: "Only in a secret place in the desert"
+    milenio:
+      title: "Millennium"
+      kicker: "A thousand years of peace"
+      lede: "The wolf, the Lamb, and a renewed earth: this is how Christ will reign."
+      questions:
+        dragon_atado:
+          question: "At the start of the Millennium, what happens to the dragon, who is Satan?"
+          answer: "He is bound so he cannot deceive the nations for a thousand years."
+          choices:
+            atado: "He is bound"
+            coronado: "He is crowned"
+            escondido: "He hides in the sea"
+        mil_anos_reino:
+          question: "How long will the Saints reign with Christ?"
+          answer: "A thousand years. That is where the word Millennium comes from."
+          choices:
+            mil: "A thousand years"
+            cien: "A hundred years"
+            siete: "Seven years"
+        primera_resurreccion:
+          question: "What does John call the resurrection of those who will reign with Christ?"
+          answer: "The first resurrection. The second death has no power over them."
+          choices:
+            primera: "The first resurrection"
+            secreta: "The secret resurrection"
+            ultima: "The last resurrection"
+        lobo_cordero_milenio:
+          question: "According to Isaiah, the wolf will dwell with…"
+          answer: "The lamb. Even a little child will lead animals that were once enemies."
+          choices:
+            cordero: "The lamb"
+            aguila: "The eagle"
+            caballo: "The horse"
+        conocimiento_mar:
+          question: "What will fill the earth as the waters cover the sea?"
+          answer: "The knowledge of the Lord. Nothing will hurt or destroy in His holy mountain."
+          choices:
+            conocimiento: "The knowledge of the Lord"
+            oro: "The gold of the nations"
+            nieve: "The winter snow"
+        casas_propias:
+          question: "In Isaiah’s vision, those who build houses…"
+          answer: "Will live in them; they will plant vineyards and eat their fruit. Their work will not be in vain."
+          choices:
+            moraran: "Will live in them"
+            abandonaran: "Will abandon them"
+            venderan: "Will sell them to the king"
+        santo_israel_reina:
+          question: "Who will reign with power and great glory, according to Nephi?"
+          answer: "The Holy One of Israel will reign with might, power, and great glory."
+          choices:
+            santo_israel: "The Holy One of Israel"
+            rey_babilonia: "The king of Babylon"
+            capitan_moron: "Captain Moroni"
+        un_rebano:
+          question: "When the Lord gathers His children, there will be…"
+          answer: "One fold and one Shepherd. His sheep will know Him and find pasture in Him."
+          choices:
+            uno: "One fold and one Shepherd"
+            doce: "Twelve folds without a shepherd"
+            dos: "Two rival kingdoms"
+        rectitud_sin_poder:
+          question: "Why will Satan have no power for many years?"
+          answer: "Because of the righteousness of the people: Satan will have no power over their hearts."
+          choices:
+            rectitud: "Because of the people’s righteousness"
+            cadena_hierro: "Only because of an iron chain"
+            ejercito: "Because of a larger army"
+        todo_revelado:
+          question: "In that day, what will happen to things that are secret and sealed?"
+          answer: "They will be revealed. Light defeats secrecy, and Satan will no longer have power over hearts."
+          choices:
+            reveladas: "They will be revealed"
+            olvidadas: "They will be forgotten"
+            destruidas: "They will be destroyed without being known"
+    improbables:
+      title: "God Calls"
+      kicker: "Before → after"
+      lede: "Childless, overlooked, imprisoned, or afraid: God called them where no one expected."
+      questions:
+        moises_boca:
+          question: "Who said he was ‘slow of speech and slow of tongue’?"
+          answer: "Moses. God promised to help him speak and gave him Aaron as a spokesman: his difficulty did not disqualify him from his calling."
+          choices:
+            moises: "Moses"
+            jeremias: "Jeremiah"
+            gedeon: "Gideon"
+        abraham_sara:
+          question: "Which childless, elderly couple did God promise countless descendants?"
+          answer: "Abraham and Sarah. Sarah could not have children, but God called Abraham the father of many nations."
+          choices:
+            abraham_sara: "Abraham and Sarah"
+            isaac_rebeca: "Isaac and Rebekah"
+            jacob_raquel: "Jacob and Rachel"
+        david_ovejas:
+          question: "When Samuel asked to see all of Jesse’s sons, who was still tending the sheep?"
+          answer: "David, the youngest. They called him in from the fields, and Samuel anointed him among his brothers."
+          choices:
+            david: "David"
+            eliab: "Eliab"
+            jonatan: "Jonathan"
+        gedeon_menor:
+          question: "Who answered the angel, ‘My clan is the weakest… and I am the least’?"
+          answer: "Gideon. He saw himself as small; the Lord called him a mighty warrior and sent him to deliver Israel."
+          choices:
+            gedeon: "Gideon"
+            sanson: "Samson"
+            jefte: "Jephthah"
+        jose_carcel_palacio:
+          question: "Who came out of prison to govern Egypt alongside Pharaoh?"
+          answer: "Joseph. He went from the pit and prison to the palace; God had placed him there to preserve many lives."
+          choices:
+            jose: "Joseph"
+            daniel: "Daniel"
+            mardoqueo: "Mordecai"
+        ester_huerfana_reina:
+          question: "Which orphaned young woman became queen and risked her life for her people?"
+          answer: "Esther. Raised by Mordecai, she entered the palace and chose to approach the king: ‘If I perish, I perish.’"
+          choices:
+            ester: "Esther"
+            rut: "Ruth"
+            debora: "Deborah"
+        jeremias_joven:
+          question: "Who said ‘I am only a child’ when God called him as a prophet to the nations?"
+          answer: "Jeremiah. God touched his mouth and put His words there: his youth did not keep him from fulfilling his mission."
+          choices:
+            jeremias: "Jeremiah"
+            samuel: "Samuel"
+            timoteo: "Timothy"
+        pedro_negacion_pentecostes:
+          question: "Which fisherman denied knowing Jesus, then stood to preach at Pentecost?"
+          answer: "Peter. The man who wept after denying Jesus later proclaimed Christ with courage, and about three thousand people believed."
+          choices:
+            pedro: "Peter"
+            andres: "Andrew"
+            juan: "John"
+        pablo_perseguidor_apostol:
+          question: "Who persecuted the Church before being sent to carry Jesus’s name to the nations?"
+          answer: "Saul, also called Paul. The persecutor was chosen to carry Jesus’s name before nations and kings."
+          choices:
+            pablo: "Paul"
+            bernabe: "Barnabas"
+            esteban: "Stephen"
+        rahab_fuera_linaje:
+          question: "Which foreign woman hid the spies in Jericho and later appeared in Jesus’s genealogy?"
+          answer: "Rahab. The outsider from Jericho chose faith, was welcomed into Israel, and her name entered the story of Jesus."
+          choices:
+            rahab: "Rahab"
+            jezabel: "Jezebel"
+            dalila: "Delilah"

@@ -1,0 +1,1442 @@
+packs:
+  - id: perdido_encontrado
+    title: "Perdido y hallado"
+    kicker: "Parábolas de Jesús"
+    lede: "Una oveja, una moneda y un hijo: la alegría de Dios cuando alguien vuelve."
+    questions:
+      - id: ovejas_cien
+        question: "El pastor tenía cien ovejas. ¿Cuántas se perdieron?"
+        choices:
+          - key: una
+            label: "Una"
+          - key: diez
+            label: "Diez"
+          - key: cincuenta
+            label: "Cincuenta"
+        correct_choice: una
+        answer: "Una. El pastor dejó las noventa y nueve para buscar la que se había perdido."
+        points: 5
+        duration: 0
+        intensity: 1
+        scripture:
+          canon: bible
+          cite: "Lucas 15:3-4"
+          study: "nt/luke/15"
+        presentation:
+          image: quizzes/perdido_encontrado/ovejas_cien.jpg
+      - id: hasta_encontrarla
+        question: "¿Hasta cuándo buscó el pastor a la oveja perdida?"
+        choices:
+          - key: encontrarla
+            label: "Hasta encontrarla"
+          - key: anochecer
+            label: "Hasta el anochecer"
+          - key: cansarse
+            label: "Hasta cansarse"
+        correct_choice: encontrarla
+        answer: "Hasta encontrarla. La búsqueda no terminó mientras la oveja siguiera perdida."
+        points: 5
+        duration: 0
+        intensity: 1
+        scripture:
+          canon: bible
+          cite: "Lucas 15:4"
+          study: "nt/luke/15"
+        presentation:
+          image: quizzes/perdido_encontrado/hasta_encontrarla.jpg
+      - id: hombros_gozoso
+        question: "Cuando encontró la oveja, el pastor la puso…"
+        choices:
+          - key: hombros
+            label: "Sobre sus hombros"
+          - key: corral
+            label: "Sola en el corral"
+          - key: carro
+            label: "En un carro"
+        correct_choice: hombros
+        answer: "Sobre sus hombros, gozoso. Después llamó a sus amigos para celebrarlo."
+        points: 5
+        duration: 0
+        intensity: 2
+        scripture:
+          canon: bible
+          cite: "Lucas 15:5-6"
+          study: "nt/luke/15"
+        presentation:
+          image: quizzes/perdido_encontrado/hombros_gozoso.jpg
+      - id: monedas_diez
+        question: "La mujer de la segunda parábola tenía…"
+        choices:
+          - key: diez
+            label: "Diez monedas"
+          - key: doce
+            label: "Doce monedas"
+          - key: cien
+            label: "Cien monedas"
+        correct_choice: diez
+        answer: "Diez monedas. Cuando perdió una, encendió una lámpara y buscó con cuidado."
+        points: 8
+        duration: 20
+        intensity: 2
+        scripture:
+          canon: bible
+          cite: "Lucas 15:8"
+          study: "nt/luke/15"
+        presentation:
+          image: quizzes/perdido_encontrado/monedas_diez.jpg
+      - id: lampara_escoba
+        question: "Para hallar su moneda, la mujer encendió una lámpara y…"
+        choices:
+          - key: barrio
+            label: "Barrió la casa"
+          - key: vendio
+            label: "Vendió la casa"
+          - key: espero
+            label: "Esperó junto a la puerta"
+        correct_choice: barrio
+        answer: "Barrió la casa y buscó con diligencia hasta encontrar la moneda."
+        points: 8
+        duration: 20
+        intensity: 2
+        scripture:
+          canon: bible
+          cite: "Lucas 15:8"
+          study: "nt/luke/15"
+        presentation:
+          image: quizzes/perdido_encontrado/lampara_escoba.jpg
+      - id: gozo_angeles
+        question: "Jesús comparó esa alegría con el gozo de los ángeles cuando…"
+        choices:
+          - key: arrepiente
+            label: "Un pecador se arrepiente"
+          - key: rey_nace
+            label: "Nace un rey"
+          - key: templo_abre
+            label: "Se abre un templo"
+        correct_choice: arrepiente
+        answer: "Cuando un pecador se arrepiente. El cielo celebra a quien regresa."
+        points: 8
+        duration: 20
+        intensity: 3
+        scripture:
+          canon: bible
+          cite: "Lucas 15:9-10"
+          study: "nt/luke/15"
+        presentation:
+          image: quizzes/perdido_encontrado/gozo_angeles.jpg
+      - id: parte_herencia
+        question: "¿Qué pidió el hijo menor a su padre?"
+        choices:
+          - key: herencia
+            label: "Su parte de la herencia"
+          - key: rebano
+            label: "Todo el rebaño"
+          - key: corona
+            label: "La corona familiar"
+        correct_choice: herencia
+        answer: "Pidió la parte de los bienes que le correspondía y partió a un país lejano."
+        points: 12
+        duration: 15
+        intensity: 3
+        scripture:
+          canon: bible
+          cite: "Lucas 15:11-13"
+          study: "nt/luke/15"
+        presentation:
+          image: quizzes/perdido_encontrado/parte_herencia.jpg
+      - id: pais_lejano
+        question: "En el país lejano, el hijo menor…"
+        choices:
+          - key: desperdicio
+            label: "Desperdició sus bienes"
+          - key: multiplico
+            label: "Multiplicó sus bienes"
+          - key: reino
+            label: "Fundó un reino"
+        correct_choice: desperdicio
+        answer: "Desperdició sus bienes. Cuando llegó el hambre, deseó incluso la comida de los cerdos."
+        points: 12
+        duration: 15
+        intensity: 4
+        scripture:
+          canon: bible
+          cite: "Lucas 15:13-16"
+          study: "nt/luke/15"
+        presentation:
+          image: quizzes/perdido_encontrado/pais_lejano.jpg
+      - id: padre_corrio
+        question: "Al ver regresar a su hijo, el padre…"
+        choices:
+          - key: corrio
+            label: "Corrió y lo abrazó"
+          - key: cerro
+            label: "Cerró la puerta"
+          - key: escondio
+            label: "Se escondió"
+        correct_choice: corrio
+        answer: "Sintió compasión, corrió hacia él, lo abrazó y preparó una fiesta."
+        points: 15
+        duration: 15
+        intensity: 4
+        scripture:
+          canon: bible
+          cite: "Lucas 15:20-24"
+          study: "nt/luke/15"
+        presentation:
+          image: quizzes/perdido_encontrado/padre_corrio.jpg
+      - id: muerto_revive
+        question: "¿Por qué dijo el padre que era necesario celebrar?"
+        choices:
+          - key: vuelto
+            label: "El perdido había vuelto"
+          - key: cosecha
+            label: "La cosecha había comenzado"
+          - key: deuda
+            label: "La deuda estaba pagada"
+        correct_choice: vuelto
+        answer: "Porque su hijo estaba muerto y había revivido; estaba perdido y había sido hallado."
+        points: 25
+        duration: 15
+        intensity: 5
+        scripture:
+          canon: bible
+          cite: "Lucas 15:31-32"
+          study: "nt/luke/15"
+        presentation:
+          image: quizzes/perdido_encontrado/muerto_revive.jpg
+
+  - id: secretos_reino
+    title: "Los secretos del Reino"
+    kicker: "Parábolas de Jesús"
+    lede: "Semillas, levadura y tesoros: el Reino empieza pequeño y vale más que todo."
+    questions:
+      - id: semilla_camino
+        question: "En la parábola del sembrador, la semilla junto al camino fue comida por…"
+        choices:
+          - key: aves
+            label: "Las aves"
+          - key: ovejas
+            label: "Las ovejas"
+          - key: langostas
+            label: "Las langostas"
+        correct_choice: aves
+        answer: "Las aves se la comieron. Jesús la comparó con quien oye la palabra y no la comprende."
+        points: 5
+        duration: 0
+        intensity: 1
+        scripture:
+          canon: bible
+          cite: "Mateo 13:3-4, 19"
+          study: "nt/matt/13"
+        presentation:
+          image: quizzes/secretos_reino/semilla_camino.jpg
+      - id: pedregales_raiz
+        question: "La semilla entre piedras se secó porque no tenía…"
+        choices:
+          - key: raiz
+            label: "Raíz"
+          - key: lluvia
+            label: "Color"
+          - key: espigas
+            label: "Espigas"
+        correct_choice: raiz
+        answer: "No tenía raíz. Recibió la palabra con gozo, pero no resistió la dificultad."
+        points: 5
+        duration: 0
+        intensity: 1
+        scripture:
+          canon: bible
+          cite: "Mateo 13:5-6, 20-21"
+          study: "nt/matt/13"
+        presentation:
+          image: quizzes/secretos_reino/pedregales_raiz.jpg
+      - id: buena_tierra
+        question: "¿Dónde produjo fruto la semilla?"
+        choices:
+          - key: buena
+            label: "En buena tierra"
+          - key: camino
+            label: "En el camino"
+          - key: espinos
+            label: "Entre espinos"
+        correct_choice: buena
+        answer: "En buena tierra. Representa a quien oye, comprende y deja que la palabra dé fruto."
+        points: 5
+        duration: 0
+        intensity: 2
+        scripture:
+          canon: bible
+          cite: "Mateo 13:8, 23"
+          study: "nt/matt/13"
+        presentation:
+          image: quizzes/secretos_reino/buena_tierra.jpg
+      - id: espinos_ahogan
+        question: "¿Qué ahogó la palabra representada por la semilla entre espinos?"
+        choices:
+          - key: afanes
+            label: "Los afanes y el engaño de las riquezas"
+          - key: frio
+            label: "El frío de la noche"
+          - key: silencio
+            label: "El silencio del campo"
+        correct_choice: afanes
+        answer: "Los afanes del mundo y el engaño de las riquezas hicieron que quedara sin fruto."
+        points: 8
+        duration: 20
+        intensity: 2
+        scripture:
+          canon: bible
+          cite: "Mateo 13:7, 22"
+          study: "nt/matt/13"
+        presentation:
+          image: quizzes/secretos_reino/espinos_ahogan.jpg
+      - id: mostaza_crece
+        question: "El Reino es como una semilla de mostaza que, al crecer…"
+        choices:
+          - key: grande
+            label: "Se hace mayor que las hortalizas"
+          - key: desaparece
+            label: "Desaparece bajo la tierra"
+          - key: piedra
+            label: "Se convierte en piedra"
+        correct_choice: grande
+        answer: "Aunque empieza diminuta, se hace grande y las aves vienen a sus ramas."
+        points: 8
+        duration: 20
+        intensity: 2
+        scripture:
+          canon: bible
+          cite: "Mateo 13:31-32"
+          study: "nt/matt/13"
+        presentation:
+          image: quizzes/secretos_reino/mostaza_crece.jpg
+      - id: levadura_masa
+        question: "La mujer escondió la levadura en…"
+        choices:
+          - key: harina
+            label: "Una gran cantidad de harina"
+          - key: aceite
+            label: "Una jarra de aceite"
+          - key: arena
+            label: "Un montón de arena"
+        correct_choice: harina
+        answer: "La mezcló con harina hasta que toda la masa quedó leudada. El Reino transforma desde dentro."
+        points: 8
+        duration: 20
+        intensity: 3
+        scripture:
+          canon: bible
+          cite: "Mateo 13:33"
+          study: "nt/matt/13"
+        presentation:
+          image: quizzes/secretos_reino/levadura_masa.jpg
+      - id: tesoro_campo
+        question: "Al hallar un tesoro escondido, el hombre lo volvió a esconder y…"
+        choices:
+          - key: compro
+            label: "Vendió todo y compró el campo"
+          - key: olvido
+            label: "Olvidó dónde estaba"
+          - key: entrego
+            label: "Lo entregó al rey"
+        correct_choice: compro
+        answer: "Lleno de alegría, vendió todo lo que tenía y compró aquel campo."
+        points: 12
+        duration: 15
+        intensity: 3
+        scripture:
+          canon: bible
+          cite: "Mateo 13:44"
+          study: "nt/matt/13"
+        presentation:
+          image: quizzes/secretos_reino/tesoro_campo.jpg
+      - id: mercader_perlas
+        question: "El mercader de la parábola buscaba…"
+        choices:
+          - key: perlas
+            label: "Buenas perlas"
+          - key: coronas
+            label: "Coronas antiguas"
+          - key: caballos
+            label: "Caballos veloces"
+        correct_choice: perlas
+        answer: "Buscaba buenas perlas. Cuando encontró una de gran valor, reconoció algo incomparable."
+        points: 12
+        duration: 15
+        intensity: 4
+        scripture:
+          canon: bible
+          cite: "Mateo 13:45-46"
+          study: "nt/matt/13"
+        presentation:
+          image: quizzes/secretos_reino/mercader_perlas.jpg
+      - id: vendio_todo
+        question: "¿Qué hizo el mercader para obtener la perla de gran precio?"
+        choices:
+          - key: todo
+            label: "Vendió todo lo que tenía"
+          - key: cambio
+            label: "La cambió por tres monedas"
+          - key: espero
+            label: "Esperó a que bajara el precio"
+        correct_choice: todo
+        answer: "Vendió todo lo que tenía y la compró. El Reino merece una decisión completa."
+        points: 15
+        duration: 15
+        intensity: 4
+        scripture:
+          canon: bible
+          cite: "Mateo 13:45-46"
+          study: "nt/matt/13"
+        presentation:
+          image: quizzes/secretos_reino/vendio_todo.jpg
+      - id: valor_reino
+        question: "¿Qué comparten el tesoro escondido y la perla de gran precio?"
+        choices:
+          - key: valor
+            label: "El Reino vale más que todo lo demás"
+          - key: miedo
+            label: "El Reino debe mantenerse en secreto"
+          - key: suerte
+            label: "El Reino se obtiene por suerte"
+        correct_choice: valor
+        answer: "Ambas parábolas muestran una alegría tan grande que vale la pena entregarlo todo por el Reino."
+        points: 25
+        duration: 15
+        intensity: 5
+        scripture:
+          canon: bible
+          cite: "Mateo 13:44-46"
+          study: "nt/matt/13"
+        presentation:
+          image: quizzes/secretos_reino/valor_reino.jpg
+
+  - id: amar_projimo
+    title: "Amar al prójimo"
+    kicker: "Parábolas de Jesús"
+    lede: "Un camino peligroso, una deuda imposible y una pregunta: ¿quién mostró misericordia?"
+    questions:
+      - id: camino_jerico
+        question: "El hombre de la parábola bajaba de Jerusalén a…"
+        choices:
+          - key: jerico
+            label: "Jericó"
+          - key: belen
+            label: "Belén"
+          - key: nazaret
+            label: "Nazaret"
+        correct_choice: jerico
+        answer: "Bajaba a Jericó cuando cayó en manos de ladrones, que lo dejaron herido."
+        points: 5
+        duration: 0
+        intensity: 1
+        scripture:
+          canon: bible
+          cite: "Lucas 10:30"
+          study: "nt/luke/10"
+        presentation:
+          image: quizzes/amar_projimo/camino_jerico.jpg
+      - id: pasaron_largo
+        question: "¿Quiénes vieron al herido y pasaron de largo?"
+        choices:
+          - key: sacerdote_levita
+            label: "Un sacerdote y un levita"
+          - key: pescadores
+            label: "Dos pescadores"
+          - key: soldados
+            label: "Dos soldados"
+        correct_choice: sacerdote_levita
+        answer: "Un sacerdote y un levita lo vieron, pero ambos pasaron por el otro lado."
+        points: 5
+        duration: 0
+        intensity: 1
+        scripture:
+          canon: bible
+          cite: "Lucas 10:31-32"
+          study: "nt/luke/10"
+        presentation:
+          image: quizzes/amar_projimo/pasaron_largo.jpg
+      - id: samaritano_compasion
+        question: "Cuando el samaritano vio al herido, sintió…"
+        choices:
+          - key: compasion
+            label: "Compasión"
+          - key: desprecio
+            label: "Desprecio"
+          - key: impaciencia
+            label: "Impaciencia"
+        correct_choice: compasion
+        answer: "Sintió compasión. Vendó sus heridas, lo llevó a una posada y cuidó de él."
+        points: 5
+        duration: 0
+        intensity: 2
+        scripture:
+          canon: bible
+          cite: "Lucas 10:33-34"
+          study: "nt/luke/10"
+        presentation:
+          image: quizzes/amar_projimo/samaritano_compasion.jpg
+      - id: aceite_vino
+        question: "¿Qué derramó el samaritano sobre las heridas?"
+        choices:
+          - key: aceite_vino
+            label: "Aceite y vino"
+          - key: agua_sal
+            label: "Agua y sal"
+          - key: leche_miel
+            label: "Leche y miel"
+        correct_choice: aceite_vino
+        answer: "Aceite y vino. Después puso al hombre sobre su cabalgadura y pagó la posada."
+        points: 8
+        duration: 20
+        intensity: 2
+        scripture:
+          canon: bible
+          cite: "Lucas 10:34-35"
+          study: "nt/luke/10"
+        presentation:
+          image: quizzes/amar_projimo/aceite_vino.jpg
+      - id: mostro_misericordia
+        question: "Para Jesús, ¿quién fue el prójimo del hombre herido?"
+        choices:
+          - key: misericordia
+            label: "El que mostró misericordia"
+          - key: cercano
+            label: "El que vivía más cerca"
+          - key: conocido
+            label: "El que ya lo conocía"
+        correct_choice: misericordia
+        answer: "El que mostró misericordia. Jesús concluyó: ve y haz tú lo mismo."
+        points: 8
+        duration: 20
+        intensity: 2
+        scripture:
+          canon: bible
+          cite: "Lucas 10:36-37"
+          study: "nt/luke/10"
+        presentation:
+          image: quizzes/amar_projimo/mostro_misericordia.jpg
+      - id: deuda_diez_mil
+        question: "En la parábola del siervo sin misericordia, su deuda era de…"
+        choices:
+          - key: diez_mil
+            label: "Diez mil talentos"
+          - key: cien
+            label: "Cien denarios"
+          - key: diez
+            label: "Diez monedas"
+        correct_choice: diez_mil
+        answer: "Diez mil talentos: una deuda enorme que el siervo no podía pagar."
+        points: 8
+        duration: 20
+        intensity: 3
+        scripture:
+          canon: bible
+          cite: "Mateo 18:23-25"
+          study: "nt/matt/18"
+        presentation:
+          image: quizzes/amar_projimo/deuda_diez_mil.jpg
+      - id: rey_perdono
+        question: "Al oír la súplica del siervo, el rey…"
+        choices:
+          - key: perdono
+            label: "Le perdonó la deuda"
+          - key: duplico
+            label: "Duplicó la deuda"
+          - key: ignoro
+            label: "Lo ignoró"
+        correct_choice: perdono
+        answer: "Tuvo compasión, lo dejó libre y le perdonó toda la deuda."
+        points: 12
+        duration: 15
+        intensity: 3
+        scripture:
+          canon: bible
+          cite: "Mateo 18:26-27"
+          study: "nt/matt/18"
+        presentation:
+          image: quizzes/amar_projimo/rey_perdono.jpg
+      - id: cien_denarios
+        question: "El compañero del siervo le debía…"
+        choices:
+          - key: cien
+            label: "Cien denarios"
+          - key: diez_mil
+            label: "Diez mil talentos"
+          - key: nada
+            label: "Nada"
+        correct_choice: cien
+        answer: "Cien denarios. A pesar de haber sido perdonado, el siervo exigió el pago y no tuvo compasión."
+        points: 12
+        duration: 15
+        intensity: 4
+        scripture:
+          canon: bible
+          cite: "Mateo 18:28-30"
+          study: "nt/matt/18"
+        presentation:
+          image: quizzes/amar_projimo/cien_denarios.jpg
+      - id: corazon_perdona
+        question: "¿Qué enseñanza cerró la parábola del siervo?"
+        choices:
+          - key: corazon
+            label: "Perdonar de corazón"
+          - key: cobrar
+            label: "Cobrar cada deuda"
+          - key: olvidar
+            label: "Olvidar a quien falla"
+        correct_choice: corazon
+        answer: "Quien ha recibido misericordia debe perdonar de corazón a su hermano."
+        points: 15
+        duration: 15
+        intensity: 4
+        scripture:
+          canon: bible
+          cite: "Mateo 18:32-35"
+          study: "nt/matt/18"
+        presentation:
+          image: quizzes/amar_projimo/corazon_perdona.jpg
+      - id: dos_deudores
+        question: "Dos deudores fueron perdonados: uno debía quinientos y otro cincuenta. ¿Quién amó más?"
+        choices:
+          - key: mas_perdonado
+            label: "Aquel a quien se perdonó más"
+          - key: menos_perdonado
+            label: "Aquel a quien se perdonó menos"
+          - key: ninguno
+            label: "Ninguno de los dos"
+        correct_choice: mas_perdonado
+        answer: "Aquel a quien se perdonó más. Reconocer la gracia recibida despierta un amor profundo."
+        points: 25
+        duration: 15
+        intensity: 5
+        scripture:
+          canon: bible
+          cite: "Lucas 7:41-43"
+          study: "nt/luke/7"
+        presentation:
+          image: quizzes/amar_projimo/dos_deudores.jpg
+
+  - id: velar_servir
+    title: "Velar y servir"
+    kicker: "Parábolas de Jesús"
+    lede: "Lámparas, talentos y una llegada inesperada: prepárate sirviendo con fidelidad."
+    questions:
+      - id: talentos_repartidos
+        question: "El señor repartió cinco, dos y un talento según…"
+        choices:
+          - key: capacidad
+            label: "La capacidad de cada siervo"
+          - key: edad
+            label: "La edad de cada siervo"
+          - key: azar
+            label: "El azar"
+        correct_choice: capacidad
+        answer: "A cada uno según su capacidad. Luego se fue lejos y les confió la responsabilidad."
+        points: 5
+        duration: 0
+        intensity: 1
+        scripture:
+          canon: bible
+          cite: "Mateo 25:14-15"
+          study: "nt/matt/25"
+        presentation:
+          image: quizzes/velar_servir/talentos_repartidos.jpg
+      - id: cinco_gano
+        question: "El siervo que recibió cinco talentos ganó…"
+        choices:
+          - key: cinco
+            label: "Otros cinco"
+          - key: uno
+            label: "Uno más"
+          - key: ninguno
+            label: "Ninguno"
+        correct_choice: cinco
+        answer: "Ganó otros cinco. El que recibió dos también duplicó lo que se le había confiado."
+        points: 5
+        duration: 0
+        intensity: 1
+        scripture:
+          canon: bible
+          cite: "Mateo 25:16-17"
+          study: "nt/matt/25"
+        presentation:
+          image: quizzes/velar_servir/cinco_gano.jpg
+      - id: uno_escondio
+        question: "¿Qué hizo el siervo con el único talento que recibió?"
+        choices:
+          - key: tierra
+            label: "Lo escondió en la tierra"
+          - key: negocio
+            label: "Abrió un negocio"
+          - key: regalo
+            label: "Lo regaló"
+        correct_choice: tierra
+        answer: "Cavó en la tierra y escondió el dinero de su señor por miedo."
+        points: 5
+        duration: 0
+        intensity: 2
+        scripture:
+          canon: bible
+          cite: "Mateo 25:18, 24-25"
+          study: "nt/matt/25"
+        presentation:
+          image: quizzes/velar_servir/uno_escondio.jpg
+      - id: buen_siervo
+        question: "¿Qué dijo el señor a los siervos que fueron fieles?"
+        choices:
+          - key: fiel
+            label: "Bien, buen siervo y fiel"
+          - key: tarde
+            label: "Habéis llegado tarde"
+          - key: basta
+            label: "No necesito vuestro trabajo"
+        correct_choice: fiel
+        answer: "Bien, buen siervo y fiel. Habían sido fieles en lo poco y recibirían más."
+        points: 8
+        duration: 20
+        intensity: 2
+        scripture:
+          canon: bible
+          cite: "Mateo 25:20-23"
+          study: "nt/matt/25"
+        presentation:
+          image: quizzes/velar_servir/buen_siervo.jpg
+      - id: cinco_prudentes
+        question: "De las diez vírgenes, ¿cuántas fueron prudentes?"
+        choices:
+          - key: cinco
+            label: "Cinco"
+          - key: diez
+            label: "Diez"
+          - key: dos
+            label: "Dos"
+        correct_choice: cinco
+        answer: "Cinco fueron prudentes y cinco insensatas. Todas esperaban la llegada del esposo."
+        points: 8
+        duration: 20
+        intensity: 2
+        scripture:
+          canon: bible
+          cite: "Mateo 25:1-2"
+          study: "nt/matt/25"
+        presentation:
+          image: quizzes/velar_servir/cinco_prudentes.jpg
+      - id: aceite_reserva
+        question: "Además de sus lámparas, las prudentes llevaron…"
+        choices:
+          - key: aceite
+            label: "Aceite en sus vasijas"
+          - key: pan
+            label: "Pan en sus cestas"
+          - key: agua
+            label: "Agua en sus cántaros"
+        correct_choice: aceite
+        answer: "Llevaron aceite de reserva. Las insensatas tenían lámparas, pero no estaban preparadas."
+        points: 8
+        duration: 20
+        intensity: 3
+        scripture:
+          canon: bible
+          cite: "Mateo 25:3-4"
+          study: "nt/matt/25"
+        presentation:
+          image: quizzes/velar_servir/aceite_reserva.jpg
+      - id: medianoche_clamor
+        question: "¿Cuándo se oyó el clamor de que llegaba el esposo?"
+        choices:
+          - key: medianoche
+            label: "A medianoche"
+          - key: amanecer
+            label: "Al amanecer"
+          - key: mediodia
+            label: "Al mediodía"
+        correct_choice: medianoche
+        answer: "A medianoche se oyó: ¡Aquí viene el esposo; salid a recibirle!"
+        points: 12
+        duration: 15
+        intensity: 3
+        scripture:
+          canon: bible
+          cite: "Mateo 25:5-6"
+          study: "nt/matt/25"
+        presentation:
+          image: quizzes/velar_servir/medianoche_clamor.jpg
+      - id: puerta_cerro
+        question: "Mientras las insensatas buscaban aceite…"
+        choices:
+          - key: cerro
+            label: "Llegó el esposo y se cerró la puerta"
+          - key: espero
+            label: "La fiesta esperó por ellas"
+          - key: amanecio
+            label: "Amaneció de inmediato"
+        correct_choice: cerro
+        answer: "El esposo llegó, las preparadas entraron a la boda y se cerró la puerta."
+        points: 12
+        duration: 15
+        intensity: 4
+        scripture:
+          canon: bible
+          cite: "Mateo 25:10-12"
+          study: "nt/matt/25"
+        presentation:
+          image: quizzes/velar_servir/puerta_cerro.jpg
+      - id: alimento_tiempo
+        question: "El siervo fiel da a la casa de su señor…"
+        choices:
+          - key: alimento
+            label: "El alimento a su tiempo"
+          - key: ordenes
+            label: "Órdenes sin descanso"
+          - key: silencio
+            label: "Silencio hasta su regreso"
+        correct_choice: alimento
+        answer: "Da el alimento a su tiempo. La fidelidad se demuestra cuidando a quienes se nos confían."
+        points: 15
+        duration: 15
+        intensity: 4
+        scripture:
+          canon: bible
+          cite: "Mateo 24:45"
+          study: "nt/matt/24"
+        presentation:
+          image: quizzes/velar_servir/alimento_tiempo.jpg
+      - id: hallado_haciendo
+        question: "¿Quién es bienaventurado cuando regresa el señor?"
+        choices:
+          - key: haciendo
+            label: "El siervo hallado haciendo su labor"
+          - key: escondido
+            label: "El siervo que se escondió"
+          - key: dormido
+            label: "El siervo que dejó todo para después"
+        correct_choice: haciendo
+        answer: "El que es hallado cumpliendo su labor. Velar significa servir fielmente mientras esperamos."
+        points: 25
+        duration: 15
+        intensity: 5
+        scripture:
+          canon: bible
+          cite: "Mateo 24:46-47"
+          study: "nt/matt/24"
+        presentation:
+          image: quizzes/velar_servir/hallado_haciendo.jpg
+
+  - id: sobre_roca
+    title: "Elegir dónde construir"
+    kicker: "Parábolas de Jesús"
+    lede: "Roca o arena, graneros o eternidad: tus decisiones revelan dónde está tu corazón."
+    questions:
+      - id: oye_hace
+        question: "Jesús comparó al hombre prudente con quien oye sus palabras y…"
+        choices:
+          - key: hace
+            label: "Las pone en práctica"
+          - key: repite
+            label: "Solo las repite"
+          - key: esconde
+            label: "Las mantiene escondidas"
+        correct_choice: hace
+        answer: "Las pone en práctica. Escuchar y actuar es construir una vida firme."
+        points: 5
+        duration: 0
+        intensity: 1
+        scripture:
+          canon: bible
+          cite: "Mateo 7:24"
+          study: "nt/matt/7"
+        presentation:
+          image: quizzes/sobre_roca/oye_hace.jpg
+      - id: fundamento_roca
+        question: "¿Sobre qué edificó su casa el hombre prudente?"
+        choices:
+          - key: roca
+            label: "Sobre la roca"
+          - key: arena
+            label: "Sobre la arena"
+          - key: madera
+            label: "Sobre madera"
+        correct_choice: roca
+        answer: "Sobre la roca. La casa tenía un fundamento capaz de resistir la tormenta."
+        points: 5
+        duration: 0
+        intensity: 1
+        scripture:
+          canon: bible
+          cite: "Mateo 7:24-25"
+          study: "nt/matt/7"
+        presentation:
+          image: quizzes/sobre_roca/fundamento_roca.jpg
+      - id: casa_resistio
+        question: "Cuando llegaron lluvia, ríos y vientos, la casa sobre la roca…"
+        choices:
+          - key: resistio
+            label: "No cayó"
+          - key: floto
+            label: "Flotó río abajo"
+          - key: desaparecio
+            label: "Desapareció"
+        correct_choice: resistio
+        answer: "No cayó, porque estaba fundada sobre la roca. La prueba reveló la fuerza del fundamento."
+        points: 5
+        duration: 0
+        intensity: 2
+        scripture:
+          canon: bible
+          cite: "Mateo 7:25"
+          study: "nt/matt/7"
+        presentation:
+          image: quizzes/sobre_roca/casa_resistio.jpg
+      - id: arena_ruina
+        question: "La casa del hombre que oyó pero no actuó estaba sobre arena y…"
+        choices:
+          - key: cayo
+            label: "Cayó con gran ruina"
+          - key: crecio
+            label: "Creció con la lluvia"
+          - key: brillo
+            label: "Brilló al amanecer"
+        correct_choice: cayo
+        answer: "Cayó, y fue grande su ruina. El conocimiento sin obediencia no sostiene la casa."
+        points: 8
+        duration: 20
+        intensity: 2
+        scripture:
+          canon: bible
+          cite: "Mateo 7:26-27"
+          study: "nt/matt/7"
+        presentation:
+          image: quizzes/sobre_roca/arena_ruina.jpg
+      - id: cosecha_abundante
+        question: "En la parábola del rico insensato, sus campos produjeron…"
+        choices:
+          - key: abundante
+            label: "Una cosecha abundante"
+          - key: espinos
+            label: "Solo espinos"
+          - key: nada
+            label: "Nada aquel año"
+        correct_choice: abundante
+        answer: "Una cosecha tan abundante que ya no tenía dónde guardar sus frutos."
+        points: 8
+        duration: 20
+        intensity: 2
+        scripture:
+          canon: bible
+          cite: "Lucas 12:16-17"
+          study: "nt/luke/12"
+        presentation:
+          image: quizzes/sobre_roca/cosecha_abundante.jpg
+      - id: graneros_mayores
+        question: "¿Qué decidió construir el hombre rico?"
+        choices:
+          - key: graneros
+            label: "Graneros más grandes"
+          - key: hospital
+            label: "Un lugar para los enfermos"
+          - key: pozo
+            label: "Un pozo para el pueblo"
+        correct_choice: graneros
+        answer: "Derribaría sus graneros para construir otros mayores y guardar allí todos sus bienes."
+        points: 8
+        duration: 20
+        intensity: 3
+        scripture:
+          canon: bible
+          cite: "Lucas 12:18"
+          study: "nt/luke/12"
+        presentation:
+          image: quizzes/sobre_roca/graneros_mayores.jpg
+      - id: esta_noche
+        question: "¿Qué le dijo Dios al rico que solo acumulaba para sí?"
+        choices:
+          - key: vida
+            label: "Esta noche se te pedirá la vida"
+          - key: premio
+            label: "Recibirás un premio"
+          - key: cosecha
+            label: "Tendrás otra cosecha"
+        correct_choice: vida
+        answer: "Esta noche se te pedirá la vida. Jesús invitó a ser rico para con Dios, no solo para uno mismo."
+        points: 12
+        duration: 15
+        intensity: 3
+        scripture:
+          canon: bible
+          cite: "Lucas 12:19-21"
+          study: "nt/luke/12"
+        presentation:
+          image: quizzes/sobre_roca/esta_noche.jpg
+      - id: fariseo_oraba
+        question: "En el templo, el fariseo oraba enumerando…"
+        choices:
+          - key: obras
+            label: "Sus propias buenas obras"
+          - key: pecados
+            label: "Sus pecados con humildad"
+          - key: necesidades
+            label: "Las necesidades del publicano"
+        correct_choice: obras
+        answer: "Enumeraba sus ayunos y diezmos mientras se comparaba con los demás."
+        points: 12
+        duration: 15
+        intensity: 4
+        scripture:
+          canon: bible
+          cite: "Lucas 18:9-12"
+          study: "nt/luke/18"
+        presentation:
+          image: quizzes/sobre_roca/fariseo_oraba.jpg
+      - id: publicano_pecho
+        question: "El publicano se golpeaba el pecho y decía…"
+        choices:
+          - key: misericordia
+            label: "Dios, sé propicio a mí, pecador"
+          - key: justo
+            label: "Dios, mira cuán justo soy"
+          - key: recompensa
+            label: "Dios, dame mi recompensa"
+        correct_choice: misericordia
+        answer: "Pidió misericordia sin compararse con nadie. Se presentó ante Dios con humildad."
+        points: 15
+        duration: 15
+        intensity: 4
+        scripture:
+          canon: bible
+          cite: "Lucas 18:13"
+          study: "nt/luke/18"
+        presentation:
+          image: quizzes/sobre_roca/publicano_pecho.jpg
+      - id: descendio_justificado
+        question: "¿Quién volvió a casa justificado?"
+        choices:
+          - key: publicano
+            label: "El publicano humilde"
+          - key: fariseo
+            label: "El fariseo orgulloso"
+          - key: ambos
+            label: "Ambos por igual"
+        correct_choice: publicano
+        answer: "El publicano. Quien se enaltece será humillado, y quien se humilla será enaltecido."
+        points: 25
+        duration: 15
+        intensity: 5
+        scripture:
+          canon: bible
+          cite: "Lucas 18:14"
+          study: "nt/luke/18"
+        presentation:
+          image: quizzes/sobre_roca/descendio_justificado.jpg
+
+  - id: simbolos_mormon
+    title: "Símbolos del Libro de Mormón"
+    kicker: "Alegorías únicas"
+    lede: "Olivos, una semilla y el árbol de la vida: imágenes que enseñan a venir a Cristo."
+    questions:
+      - id: olivo_cultivado
+        question: "Zenós comparó a la casa de Israel con…"
+        choices:
+          - key: olivo
+            label: "Un olivo cultivado"
+          - key: cedro
+            label: "Un cedro del Líbano"
+          - key: mostaza
+            label: "Un grano de mostaza"
+        correct_choice: olivo
+        answer: "Con un olivo cultivado que comenzó a secarse en la viña del Señor."
+        points: 5
+        duration: 0
+        intensity: 1
+        scripture:
+          canon: bom
+          cite: "Jacob 5:3"
+          study: "bofm/jacob/5"
+        presentation:
+          image: quizzes/simbolos_mormon/olivo_cultivado.jpg
+      - id: podar_cavar_nutrir
+        question: "Para salvar el olivo, el señor de la viña decidió…"
+        choices:
+          - key: cuidar
+            label: "Podarlo, cavar alrededor y nutrirlo"
+          - key: abandonar
+            label: "Abandonarlo de inmediato"
+          - key: ocultar
+            label: "Ocultarlo bajo una tienda"
+        correct_choice: cuidar
+        answer: "Lo podó, cavó alrededor y lo nutrió, esperando que brotaran ramas tiernas."
+        points: 5
+        duration: 0
+        intensity: 1
+        scripture:
+          canon: bom
+          cite: "Jacob 5:4-5"
+          study: "bofm/jacob/5"
+        presentation:
+          image: quizzes/simbolos_mormon/podar_cavar_nutrir.jpg
+      - id: ramas_silvestres
+        question: "¿Qué ramas fueron injertadas en el olivo cultivado?"
+        choices:
+          - key: silvestres
+            label: "Ramas de olivo silvestre"
+          - key: higuera
+            label: "Ramas de higuera"
+          - key: cedro
+            label: "Ramas de cedro"
+        correct_choice: silvestres
+        answer: "Ramas de olivo silvestre. La alegoría representa la dispersión y el recogimiento de Israel."
+        points: 5
+        duration: 0
+        intensity: 2
+        scripture:
+          canon: bom
+          cite: "Jacob 5:7-10"
+          study: "bofm/jacob/5"
+        presentation:
+          image: quizzes/simbolos_mormon/ramas_silvestres.jpg
+      - id: me_aflige_perder
+        question: "¿Qué sentimiento repite el señor de la viña por sus árboles?"
+        choices:
+          - key: aflige
+            label: "Me aflige perder este árbol"
+          - key: indiferente
+            label: "Me es indiferente su fruto"
+          - key: tarde
+            label: "Es demasiado tarde para cuidarlo"
+        correct_choice: aflige
+        answer: "Le aflige perderlos. Su trabajo paciente muestra el amor del Señor por su pueblo."
+        points: 8
+        duration: 20
+        intensity: 2
+        scripture:
+          canon: bom
+          cite: "Jacob 5:7, 11, 13, 32, 46-47"
+          study: "bofm/jacob/5"
+        presentation:
+          image: quizzes/simbolos_mormon/me_aflige_perder.jpg
+      - id: semilla_corazon
+        question: "Alma invitó al pueblo a dar lugar para plantar la palabra como una semilla en…"
+        choices:
+          - key: corazon
+            label: "El corazón"
+          - key: campo
+            label: "Un campo"
+          - key: vasija
+            label: "Una vasija"
+        correct_choice: corazon
+        answer: "En el corazón. La invitación era experimentar con la palabra, incluso empezando con un deseo."
+        points: 8
+        duration: 20
+        intensity: 2
+        scripture:
+          canon: bom
+          cite: "Alma 32:27-28"
+          study: "bofm/alma/32"
+        presentation:
+          image: quizzes/simbolos_mormon/semilla_corazon.jpg
+      - id: ensancha_ilumina
+        question: "Una buena semilla empieza a ensanchar el alma e iluminar…"
+        choices:
+          - key: entendimiento
+            label: "El entendimiento"
+          - key: ciudad
+            label: "Toda la ciudad"
+          - key: tesoro
+            label: "Un tesoro escondido"
+        correct_choice: entendimiento
+        answer: "Ilumina el entendimiento y empieza a ser deliciosa. Así se reconoce que la palabra es buena."
+        points: 8
+        duration: 20
+        intensity: 3
+        scripture:
+          canon: bom
+          cite: "Alma 32:28-30"
+          study: "bofm/alma/32"
+        presentation:
+          image: quizzes/simbolos_mormon/ensancha_ilumina.jpg
+      - id: nutrir_paciencia
+        question: "Para que la semilla llegue a ser un árbol, hay que nutrirla con fe, diligencia y…"
+        choices:
+          - key: paciencia
+            label: "Paciencia"
+          - key: riqueza
+            label: "Riqueza"
+          - key: secreto
+            label: "Secreto"
+        correct_choice: paciencia
+        answer: "Con paciencia, mirando hacia su fruto. Entonces puede crecer hasta dar vida eterna."
+        points: 12
+        duration: 15
+        intensity: 3
+        scripture:
+          canon: bom
+          cite: "Alma 32:41-43"
+          study: "bofm/alma/32"
+        presentation:
+          image: quizzes/simbolos_mormon/nutrir_paciencia.jpg
+      - id: fruto_dulce
+        question: "El fruto del árbol que vio Lehi era…"
+        choices:
+          - key: dulce
+            label: "Más dulce que todo lo dulce"
+          - key: amargo
+            label: "Amargo y oscuro"
+          - key: seco
+            label: "Seco y sin sabor"
+        correct_choice: dulce
+        answer: "Era sumamente dulce y llenó su alma de un gozo inmenso. Lehi deseó compartirlo con su familia."
+        points: 12
+        duration: 15
+        intensity: 4
+        scripture:
+          canon: bom
+          cite: "1 Nefi 8:10-12"
+          study: "bofm/1-ne/8"
+        presentation:
+          image: quizzes/simbolos_mormon/fruto_dulce.jpg
+      - id: barra_palabra
+        question: "¿Qué representa la barra de hierro que conduce al árbol?"
+        choices:
+          - key: palabra
+            label: "La palabra de Dios"
+          - key: poder
+            label: "El poder de los reyes"
+          - key: riqueza
+            label: "Las riquezas del mundo"
+        correct_choice: palabra
+        answer: "La palabra de Dios. Quienes se aferran a ella pueden atravesar los vapores de tinieblas."
+        points: 15
+        duration: 15
+        intensity: 4
+        scripture:
+          canon: bom
+          cite: "1 Nefi 15:23-24"
+          study: "bofm/1-ne/15"
+        presentation:
+          image: quizzes/simbolos_mormon/barra_palabra.jpg
+      - id: arbol_amor
+        question: "¿Qué representa el árbol de la vida en la visión de Nefi?"
+        choices:
+          - key: amor
+            label: "El amor de Dios"
+          - key: nacion
+            label: "Una nación poderosa"
+          - key: conocimiento
+            label: "El conocimiento sin fe"
+        correct_choice: amor
+        answer: "El amor de Dios, manifestado en Jesucristo. Nefi supo que era lo más deseable de todo."
+        points: 25
+        duration: 15
+        intensity: 5
+        scripture:
+          canon: bom
+          cite: "1 Nefi 11:21-25"
+          study: "bofm/1-ne/11"
+        presentation:
+          image: quizzes/simbolos_mormon/arbol_amor.jpg
+
+  - id: parabolas_profetas
+    title: "Las parábolas de los profetas"
+    kicker: "Antiguo Testamento"
+    lede: "Una oveja, árboles parlantes y dos grandes águilas: verdades que desarman a reyes."
+    questions:
+      - id: pobre_corderita
+        question: "En el relato de Natán, el hombre pobre solo tenía…"
+        choices:
+          - key: corderita
+            label: "Una corderita"
+          - key: vacas
+            label: "Siete vacas"
+          - key: viña
+            label: "Una gran viña"
+        correct_choice: corderita
+        answer: "Una corderita que crecía con sus hijos, comía de su pan y era para él como una hija."
+        points: 5
+        duration: 0
+        intensity: 1
+        scripture:
+          canon: bible
+          cite: "2 Samuel 12:1-3"
+          study: "ot/2-sam/12"
+        presentation:
+          image: quizzes/parabolas_profetas/pobre_corderita.jpg
+      - id: rico_tomo
+        question: "Para alimentar a un viajero, el hombre rico tomó…"
+        choices:
+          - key: pobre
+            label: "La corderita del pobre"
+          - key: rebaño
+            label: "Una oveja de su propio rebaño"
+          - key: pan
+            label: "Solo pan de su mesa"
+        correct_choice: pobre
+        answer: "Tomó la única corderita del pobre, aunque él tenía muchas ovejas y vacas."
+        points: 5
+        duration: 0
+        intensity: 1
+        scripture:
+          canon: bible
+          cite: "2 Samuel 12:4"
+          study: "ot/2-sam/12"
+        presentation:
+          image: quizzes/parabolas_profetas/rico_tomo.jpg
+      - id: tu_eres
+        question: "Después de que David condenó al rico, Natán le dijo…"
+        choices:
+          - key: tu
+            label: "Tú eres aquel hombre"
+          - key: busca
+            label: "Busca a aquel hombre"
+          - key: olvida
+            label: "Olvida esta historia"
+        correct_choice: tu
+        answer: "Tú eres aquel hombre. La parábola permitió que David viera su pecado antes de defenderse."
+        points: 5
+        duration: 0
+        intensity: 2
+        scripture:
+          canon: bible
+          cite: "2 Samuel 12:5-7"
+          study: "ot/2-sam/12"
+        presentation:
+          image: quizzes/parabolas_profetas/tu_eres.jpg
+      - id: arboles_olivo
+        question: "En la fábula de Jotam, los árboles pidieron primero que reinara…"
+        choices:
+          - key: olivo
+            label: "El olivo"
+          - key: espino
+            label: "El espino"
+          - key: cedro
+            label: "El cedro"
+        correct_choice: olivo
+        answer: "El olivo se negó a abandonar su aceite para dominar sobre los demás árboles."
+        points: 8
+        duration: 20
+        intensity: 2
+        scripture:
+          canon: bible
+          cite: "Jueces 9:7-9"
+          study: "ot/judg/9"
+        presentation:
+          image: quizzes/parabolas_profetas/arboles_olivo.jpg
+      - id: espino_rey
+        question: "¿Qué planta aceptó finalmente reinar sobre los árboles?"
+        choices:
+          - key: espino
+            label: "El espino"
+          - key: higuera
+            label: "La higuera"
+          - key: vid
+            label: "La vid"
+        correct_choice: espino
+        answer: "El espino aceptó y amenazó con fuego. Jotam denunciaba así el reinado peligroso de Abimelec."
+        points: 8
+        duration: 20
+        intensity: 2
+        scripture:
+          canon: bible
+          cite: "Jueces 9:10-15"
+          study: "ot/judg/9"
+        presentation:
+          image: quizzes/parabolas_profetas/espino_rey.jpg
+      - id: cardo_cedro
+        question: "En la parábola dirigida a Amasías, el cardo pidió al cedro del Líbano…"
+        choices:
+          - key: matrimonio
+            label: "Tu hija para mi hijo"
+          - key: sombra
+            label: "Sombra para mi jardín"
+          - key: madera
+            label: "Madera para mi casa"
+        correct_choice: matrimonio
+        answer: "Pidió su hija para su hijo. Una bestia pisoteó el cardo: una advertencia contra el orgullo temerario."
+        points: 8
+        duration: 20
+        intensity: 3
+        scripture:
+          canon: bible
+          cite: "2 Reyes 14:8-10"
+          study: "ot/2-kgs/14"
+        presentation:
+          image: quizzes/parabolas_profetas/cardo_cedro.jpg
+      - id: aguila_cedro
+        question: "En la parábola de Ezequiel, la gran águila arrancó…"
+        choices:
+          - key: copa
+            label: "La copa de un cedro"
+          - key: raiz
+            label: "La raíz de un olivo"
+          - key: fruto
+            label: "El fruto de una higuera"
+        correct_choice: copa
+        answer: "Arrancó la copa del cedro y la llevó a tierra de mercaderes. Representaba al rey de Babilonia."
+        points: 12
+        duration: 15
+        intensity: 3
+        scripture:
+          canon: bible
+          cite: "Ezequiel 17:1-4, 11-12"
+          study: "ot/ezek/17"
+        presentation:
+          image: quizzes/parabolas_profetas/aguila_cedro.jpg
+      - id: vid_segunda_aguila
+        question: "Aunque estaba bien plantada, la vid dirigió sus raíces hacia…"
+        choices:
+          - key: segunda
+            label: "Una segunda águila"
+          - key: desierto
+            label: "El desierto"
+          - key: montana
+            label: "La montaña"
+        correct_choice: segunda
+        answer: "Hacia una segunda águila. Representaba a Sedequías buscando ayuda de Egipto y quebrantando su pacto."
+        points: 12
+        duration: 15
+        intensity: 4
+        scripture:
+          canon: bible
+          cite: "Ezequiel 17:7-10, 15-18"
+          study: "ot/ezek/17"
+        presentation:
+          image: quizzes/parabolas_profetas/vid_segunda_aguila.jpg
+      - id: olla_jerusalen
+        question: "En la parábola de la olla, la ciudad representada era…"
+        choices:
+          - key: jerusalen
+            label: "Jerusalén"
+          - key: ninive
+            label: "Nínive"
+          - key: jerico
+            label: "Jericó"
+        correct_choice: jerusalen
+        answer: "Jerusalén, comparada con una olla corroída puesta al fuego durante el asedio."
+        points: 15
+        duration: 15
+        intensity: 4
+        scripture:
+          canon: bible
+          cite: "Ezequiel 24:1-6"
+          study: "ot/ezek/24"
+        presentation:
+          image: quizzes/parabolas_profetas/olla_jerusalen.jpg
+      - id: herrumbre_fuego
+        question: "¿Qué mostraba la herrumbre que no se desprendía de la olla?"
+        choices:
+          - key: maldad
+            label: "Una maldad no limpiada"
+          - key: riqueza
+            label: "Una riqueza escondida"
+          - key: hambre
+            label: "Una cosecha perdida"
+        correct_choice: maldad
+        answer: "La violencia y la maldad que permanecían. La imagen advertía que el juicio ya no podía posponerse."
+        points: 25
+        duration: 15
+        intensity: 5
+        scripture:
+          canon: bible
+          cite: "Ezequiel 24:6-14"
+          study: "ot/ezek/24"
+        presentation:
+          image: quizzes/parabolas_profetas/herrumbre_fuego.jpg

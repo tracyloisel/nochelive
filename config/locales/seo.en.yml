@@ -145,6 +145,12 @@ en:
       chapter_description: "Read all of %{reference}, open each verse, and follow the context. %{summary}"
       chapter_fallback: "Bible text with verse-by-verse navigation."
       chapters: "Chapters"
+      order_label: "Sort chapters"
+      order_scripture: "Scripture order"
+      order_popular: "Most read"
+      reads:
+        one: "%{formatted} read"
+        other: "%{formatted} reads"
       open_chapter: "Open %{book} %{chapter}"
       read_chapter: "Read %{reference}"
       chapter_navigation: "Previous and next chapters"

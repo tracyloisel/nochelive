@@ -145,6 +145,12 @@ es:
       chapter_description: "Lee %{reference} completo, abre cada versículo y sigue el contexto. %{summary}"
       chapter_fallback: "Texto bíblico con navegación por versículos."
       chapters: "Capítulos"
+      order_label: "Ordenar los capítulos"
+      order_scripture: "Orden de las Escrituras"
+      order_popular: "Más leídos"
+      reads:
+        one: "%{formatted} lectura"
+        other: "%{formatted} lecturas"
       open_chapter: "Abrir %{book} %{chapter}"
       read_chapter: "Leer %{reference}"
       chapter_navigation: "Capítulos anterior y siguiente"

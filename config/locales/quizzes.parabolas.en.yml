@@ -1,0 +1,527 @@
+en:
+  quizzes:
+    perdido_encontrado:
+      title: "Lost and found"
+      kicker: "Parables of Jesus"
+      lede: "A sheep, a coin, and a son: God's joy when someone comes home."
+      questions:
+        ovejas_cien:
+          question: "The shepherd had one hundred sheep. How many were lost?"
+          answer: "One. The shepherd left the other ninety-nine to look for the one that was lost."
+          choices:
+            una: "One"
+            diez: "Ten"
+            cincuenta: "Fifty"
+        hasta_encontrarla:
+          question: "How long did the shepherd look for the lost sheep?"
+          answer: "Until he found it. The search did not end while the sheep was still lost."
+          choices:
+            encontrarla: "Until he found it"
+            anochecer: "Until nightfall"
+            cansarse: "Until he got tired"
+        hombros_gozoso:
+          question: "When the shepherd found the sheep, he put it…"
+          answer: "On his shoulders, rejoicing. Then he called his friends together to celebrate."
+          choices:
+            hombros: "On his shoulders"
+            corral: "Alone in the sheepfold"
+            carro: "In a cart"
+        monedas_diez:
+          question: "The woman in the second parable had…"
+          answer: "Ten coins. When she lost one, she lit a lamp and searched carefully."
+          choices:
+            diez: "Ten coins"
+            doce: "Twelve coins"
+            cien: "One hundred coins"
+        lampara_escoba:
+          question: "To find her coin, the woman lit a lamp and…"
+          answer: "She swept the house and searched carefully until she found the coin."
+          choices:
+            barrio: "Swept the house"
+            vendio: "Sold the house"
+            espero: "Waited by the door"
+        gozo_angeles:
+          question: "Jesus compared that joy to the angels' joy when…"
+          answer: "A sinner repents. Heaven celebrates the one who returns."
+          choices:
+            arrepiente: "A sinner repents"
+            rey_nace: "A king is born"
+            templo_abre: "A temple opens"
+        parte_herencia:
+          question: "What did the younger son ask his father for?"
+          answer: "He asked for his share of the property, then left for a far country."
+          choices:
+            herencia: "His share of the inheritance"
+            rebano: "The whole flock"
+            corona: "The family crown"
+        pais_lejano:
+          question: "In the far country, the younger son…"
+          answer: "He wasted his wealth. When famine came, he even longed for the pigs' food."
+          choices:
+            desperdicio: "Wasted his wealth"
+            multiplico: "Multiplied his wealth"
+            reino: "Founded a kingdom"
+        padre_corrio:
+          question: "When the father saw his son returning, he…"
+          answer: "He felt compassion, ran to him, embraced him, and prepared a feast."
+          choices:
+            corrio: "Ran to embrace him"
+            cerro: "Closed the door"
+            escondio: "Hid himself"
+        muerto_revive:
+          question: "Why did the father say they had to celebrate?"
+          answer: "Because his son was dead and was alive again; he was lost and was found."
+          choices:
+            vuelto: "The lost son had returned"
+            cosecha: "The harvest had begun"
+            deuda: "The debt had been paid"
+    secretos_reino:
+      title: "Secrets of the Kingdom"
+      kicker: "Parables of Jesus"
+      lede: "Seeds, yeast, and treasure: the Kingdom starts small and is worth more than everything."
+      questions:
+        semilla_camino:
+          question: "In the parable of the sower, who ate the seed beside the road?"
+          answer: "The birds. Jesus compared it to someone who hears the word but does not understand it."
+          choices:
+            aves: "The birds"
+            ovejas: "The sheep"
+            langostas: "The locusts"
+        pedregales_raiz:
+          question: "The seed on rocky ground withered because it had no…"
+          answer: "Root. It received the word with joy but did not endure hardship."
+          choices:
+            raiz: "Root"
+            lluvia: "Color"
+            espigas: "Heads of grain"
+        buena_tierra:
+          question: "Where did the seed bear fruit?"
+          answer: "In good soil. It represents someone who hears, understands, and lets the word bear fruit."
+          choices:
+            buena: "In good soil"
+            camino: "On the path"
+            espinos: "Among thorns"
+        espinos_ahogan:
+          question: "What choked the word represented by the seed among thorns?"
+          answer: "The cares of the world and the deceitfulness of riches left it unfruitful."
+          choices:
+            afanes: "Cares and the deceitfulness of riches"
+            frio: "The cold of night"
+            silencio: "The silence of the field"
+        mostaza_crece:
+          question: "The Kingdom is like a mustard seed that, when it grows…"
+          answer: "Though it begins tiny, it grows large and the birds come to its branches."
+          choices:
+            grande: "Becomes larger than the garden plants"
+            desaparece: "Disappears underground"
+            piedra: "Turns into stone"
+        levadura_masa:
+          question: "The woman hid the yeast in…"
+          answer: "She mixed it into flour until all the dough was leavened. The Kingdom transforms from within."
+          choices:
+            harina: "A large amount of flour"
+            aceite: "A jar of oil"
+            arena: "A pile of sand"
+        tesoro_campo:
+          question: "After finding hidden treasure, the man hid it again and…"
+          answer: "Full of joy, he sold everything he owned and bought that field."
+          choices:
+            compro: "Sold everything and bought the field"
+            olvido: "Forgot where it was"
+            entrego: "Gave it to the king"
+        mercader_perlas:
+          question: "What was the merchant in the parable looking for?"
+          answer: "Fine pearls. When he found one of great value, he recognized something beyond comparison."
+          choices:
+            perlas: "Fine pearls"
+            coronas: "Ancient crowns"
+            caballos: "Fast horses"
+        vendio_todo:
+          question: "What did the merchant do to obtain the pearl of great price?"
+          answer: "He sold everything he had and bought it. The Kingdom calls for a wholehearted decision."
+          choices:
+            todo: "Sold everything he had"
+            cambio: "Traded three coins for it"
+            espero: "Waited for the price to drop"
+        valor_reino:
+          question: "What do the hidden treasure and the pearl of great price share?"
+          answer: "Both parables show a joy so great that the Kingdom is worth giving everything for."
+          choices:
+            valor: "The Kingdom is worth more than everything else"
+            miedo: "The Kingdom must be kept secret"
+            suerte: "The Kingdom is gained by luck"
+    amar_projimo:
+      title: "Love your neighbor"
+      kicker: "Parables of Jesus"
+      lede: "A dangerous road, an impossible debt, and one question: who showed mercy?"
+      questions:
+        camino_jerico:
+          question: "The man in the parable was traveling from Jerusalem down to…"
+          answer: "He was going to Jericho when robbers attacked him and left him wounded."
+          choices:
+            jerico: "Jericho"
+            belen: "Bethlehem"
+            nazaret: "Nazareth"
+        pasaron_largo:
+          question: "Who saw the wounded man and passed by on the other side?"
+          answer: "A priest and a Levite saw him, but both passed by on the other side."
+          choices:
+            sacerdote_levita: "A priest and a Levite"
+            pescadores: "Two fishermen"
+            soldados: "Two soldiers"
+        samaritano_compasion:
+          question: "When the Samaritan saw the wounded man, he felt…"
+          answer: "Compassion. He bandaged his wounds, took him to an inn, and cared for him."
+          choices:
+            compasion: "Compassion"
+            desprecio: "Contempt"
+            impaciencia: "Impatience"
+        aceite_vino:
+          question: "What did the Samaritan pour on the wounds?"
+          answer: "Oil and wine. Then he placed the man on his animal and paid the innkeeper."
+          choices:
+            aceite_vino: "Oil and wine"
+            agua_sal: "Water and salt"
+            leche_miel: "Milk and honey"
+        mostro_misericordia:
+          question: "According to Jesus, who became a neighbor to the wounded man?"
+          answer: "The one who showed mercy. Jesus concluded: go and do likewise."
+          choices:
+            misericordia: "The one who showed mercy"
+            cercano: "The one who lived closest"
+            conocido: "The one who already knew him"
+        deuda_diez_mil:
+          question: "In the parable of the unforgiving servant, his debt was…"
+          answer: "Ten thousand talents: an enormous debt the servant could not pay."
+          choices:
+            diez_mil: "Ten thousand talents"
+            cien: "One hundred denarii"
+            diez: "Ten coins"
+        rey_perdono:
+          question: "When the king heard the servant's plea, he…"
+          answer: "He felt compassion, released him, and forgave the entire debt."
+          choices:
+            perdono: "Forgave his debt"
+            duplico: "Doubled his debt"
+            ignoro: "Ignored him"
+        cien_denarios:
+          question: "The servant's fellow servant owed him…"
+          answer: "One hundred denarii. Even after being forgiven, the servant demanded payment without mercy."
+          choices:
+            cien: "One hundred denarii"
+            diez_mil: "Ten thousand talents"
+            nada: "Nothing"
+        corazon_perdona:
+          question: "What lesson closes the parable of the servant?"
+          answer: "Someone who has received mercy must forgive a brother or sister from the heart."
+          choices:
+            corazon: "Forgive from the heart"
+            cobrar: "Collect every debt"
+            olvidar: "Forget anyone who fails"
+        dos_deudores:
+          question: "Two debtors were forgiven: one owed five hundred, the other fifty. Who loved more?"
+          answer: "The one who was forgiven more. Recognizing the grace we have received awakens deep love."
+          choices:
+            mas_perdonado: "The one who was forgiven more"
+            menos_perdonado: "The one who was forgiven less"
+            ninguno: "Neither one"
+    velar_servir:
+      title: "Watch and serve"
+      kicker: "Parables of Jesus"
+      lede: "Lamps, talents, and an unexpected arrival: get ready by serving faithfully."
+      questions:
+        talentos_repartidos:
+          question: "The master entrusted five, two, and one talent according to…"
+          answer: "Each servant's ability. Then he left and placed this responsibility in their hands."
+          choices:
+            capacidad: "Each servant's ability"
+            edad: "Each servant's age"
+            azar: "Chance"
+        cinco_gano:
+          question: "The servant who received five talents earned…"
+          answer: "Five more. The servant who received two also doubled what had been entrusted to him."
+          choices:
+            cinco: "Five more"
+            uno: "One more"
+            ninguno: "None"
+        uno_escondio:
+          question: "What did the servant do with the one talent he received?"
+          answer: "Out of fear, he dug in the ground and hid his master's money."
+          choices:
+            tierra: "Hid it in the ground"
+            negocio: "Opened a business"
+            regalo: "Gave it away"
+        buen_siervo:
+          question: "What did the master say to the faithful servants?"
+          answer: "Well done, good and faithful servant. They had been faithful over a little and would receive more."
+          choices:
+            fiel: "Well done, good and faithful servant"
+            tarde: "You arrived too late"
+            basta: "I do not need your work"
+        cinco_prudentes:
+          question: "Of the ten young women, how many were wise?"
+          answer: "Five were wise and five were foolish. All were waiting for the bridegroom."
+          choices:
+            cinco: "Five"
+            diez: "Ten"
+            dos: "Two"
+        aceite_reserva:
+          question: "Along with their lamps, the wise women brought…"
+          answer: "Extra oil. The foolish women had lamps, but they were not prepared."
+          choices:
+            aceite: "Oil in containers"
+            pan: "Bread in baskets"
+            agua: "Water in jars"
+        medianoche_clamor:
+          question: "When did the cry announcing the bridegroom ring out?"
+          answer: "At midnight came the cry: here is the bridegroom; come out to meet him!"
+          choices:
+            medianoche: "At midnight"
+            amanecer: "At dawn"
+            mediodia: "At noon"
+        puerta_cerro:
+          question: "While the foolish women went to find oil…"
+          answer: "The bridegroom came, those who were ready entered the wedding, and the door was shut."
+          choices:
+            cerro: "The bridegroom came and the door was shut"
+            espero: "The feast waited for them"
+            amanecio: "Morning came immediately"
+        alimento_tiempo:
+          question: "The faithful servant gives the household…"
+          answer: "Their food at the right time. Faithfulness is shown by caring for those entrusted to us."
+          choices:
+            alimento: "Their food at the right time"
+            ordenes: "Nonstop orders"
+            silencio: "Silence until the master returns"
+        hallado_haciendo:
+          question: "Which servant is blessed when the master returns?"
+          answer: "The one the master finds doing the work. Watching means serving faithfully while we wait."
+          choices:
+            haciendo: "The servant found doing the work"
+            escondido: "The servant who hid"
+            dormido: "The servant who left everything for later"
+    sobre_roca:
+      title: "Choose where to build"
+      kicker: "Parables of Jesus"
+      lede: "Rock or sand, barns or eternity: your choices reveal where your heart is."
+      questions:
+        oye_hace:
+          question: "Jesus compared a wise man to someone who hears His words and…"
+          answer: "Puts them into practice. Hearing and acting is how we build a steady life."
+          choices:
+            hace: "Puts them into practice"
+            repite: "Only repeats them"
+            esconde: "Keeps them hidden"
+        fundamento_roca:
+          question: "What did the wise man build his house on?"
+          answer: "The rock. The house had a foundation strong enough to withstand the storm."
+          choices:
+            roca: "The rock"
+            arena: "The sand"
+            madera: "Wood"
+        casa_resistio:
+          question: "When rain, floods, and winds came, the house on the rock…"
+          answer: "It did not fall, because it was founded on rock. The test revealed the foundation's strength."
+          choices:
+            resistio: "Did not fall"
+            floto: "Floated downstream"
+            desaparecio: "Disappeared"
+        arena_ruina:
+          question: "The house of the man who heard but did not act stood on sand and…"
+          answer: "It fell, and great was its fall. Knowledge without obedience cannot hold up the house."
+          choices:
+            cayo: "Fell with a great crash"
+            crecio: "Grew in the rain"
+            brillo: "Shone at sunrise"
+        cosecha_abundante:
+          question: "In the parable of the rich fool, his land produced…"
+          answer: "Such an abundant crop that he no longer had room to store it."
+          choices:
+            abundante: "An abundant crop"
+            espinos: "Only thorns"
+            nada: "Nothing that year"
+        graneros_mayores:
+          question: "What did the rich man decide to build?"
+          answer: "He would tear down his barns, build larger ones, and store all his goods there."
+          choices:
+            graneros: "Larger barns"
+            hospital: "A shelter for the sick"
+            pozo: "A well for the village"
+        esta_noche:
+          question: "What did God tell the rich man who stored up only for himself?"
+          answer: "Your life will be required of you tonight. Jesus invited us to be rich toward God, not just ourselves."
+          choices:
+            vida: "Your life will be required tonight"
+            premio: "You will receive a prize"
+            cosecha: "You will have another harvest"
+        fariseo_oraba:
+          question: "In the temple, the Pharisee prayed by listing…"
+          answer: "He listed his fasting and tithing while comparing himself with everyone else."
+          choices:
+            obras: "His own good deeds"
+            pecados: "His sins with humility"
+            necesidades: "The tax collector's needs"
+        publicano_pecho:
+          question: "The tax collector beat his chest and said…"
+          answer: "He asked for mercy without comparing himself to anyone. He came before God humbly."
+          choices:
+            misericordia: "God, be merciful to me, a sinner"
+            justo: "God, look how righteous I am"
+            recompensa: "God, give me my reward"
+        descendio_justificado:
+          question: "Who went home justified?"
+          answer: "The tax collector. Whoever exalts himself will be humbled, and whoever humbles himself will be exalted."
+          choices:
+            publicano: "The humble tax collector"
+            fariseo: "The proud Pharisee"
+            ambos: "Both of them equally"
+    simbolos_mormon:
+      title: "Symbols in the Book of Mormon"
+      kicker: "Unique allegories"
+      lede: "Olive trees, a seed, and the tree of life: images that teach us to come to Christ."
+      questions:
+        olivo_cultivado:
+          question: "Zenos compared the house of Israel to…"
+          answer: "A tame olive tree that began to decay in the Lord's vineyard."
+          choices:
+            olivo: "A tame olive tree"
+            cedro: "A cedar of Lebanon"
+            mostaza: "A mustard seed"
+        podar_cavar_nutrir:
+          question: "To save the olive tree, the lord of the vineyard decided to…"
+          answer: "He pruned it, dug around it, and nourished it, hoping tender branches would grow."
+          choices:
+            cuidar: "Prune it, dig around it, and nourish it"
+            abandonar: "Abandon it immediately"
+            ocultar: "Hide it under a tent"
+        ramas_silvestres:
+          question: "What branches were grafted into the tame olive tree?"
+          answer: "Wild olive branches. The allegory represents the scattering and gathering of Israel."
+          choices:
+            silvestres: "Wild olive branches"
+            higuera: "Fig branches"
+            cedro: "Cedar branches"
+        me_aflige_perder:
+          question: "What feeling does the lord of the vineyard repeat about his trees?"
+          answer: "It grieves him to lose them. His patient work shows the Lord's love for His people."
+          choices:
+            aflige: "It grieves me to lose this tree"
+            indiferente: "Its fruit means nothing to me"
+            tarde: "It is too late to care for it"
+        semilla_corazon:
+          question: "Alma invited the people to make room to plant the word like a seed in…"
+          answer: "The heart. He invited them to try the word, even if they began with only a desire."
+          choices:
+            corazon: "The heart"
+            campo: "A field"
+            vasija: "A container"
+        ensancha_ilumina:
+          question: "A good seed begins to enlarge the soul and enlighten…"
+          answer: "It enlightens the understanding and begins to feel delicious. That is how we recognize the word is good."
+          choices:
+            entendimiento: "The understanding"
+            ciudad: "The whole city"
+            tesoro: "Hidden treasure"
+        nutrir_paciencia:
+          question: "For the seed to become a tree, it must be nourished with faith, diligence, and…"
+          answer: "With patience, looking forward to its fruit. Then it can grow and produce eternal life."
+          choices:
+            paciencia: "Patience"
+            riqueza: "Wealth"
+            secreto: "Secrecy"
+        fruto_dulce:
+          question: "The fruit on the tree Lehi saw was…"
+          answer: "It was exceedingly sweet and filled his soul with immense joy. Lehi wanted to share it with his family."
+          choices:
+            dulce: "Sweeter than anything sweet"
+            amargo: "Bitter and dark"
+            seco: "Dry and tasteless"
+        barra_palabra:
+          question: "What does the iron rod leading to the tree represent?"
+          answer: "The word of God. Those who hold fast to it can cross through the mists of darkness."
+          choices:
+            palabra: "The word of God"
+            poder: "The power of kings"
+            riqueza: "The riches of the world"
+        arbol_amor:
+          question: "What does the tree of life represent in Nephi's vision?"
+          answer: "The love of God, shown in Jesus Christ. Nephi learned it was the most desirable of all things."
+          choices:
+            amor: "The love of God"
+            nacion: "A powerful nation"
+            conocimiento: "Knowledge without faith"
+    parabolas_profetas:
+      title: "Parables of the prophets"
+      kicker: "Old Testament"
+      lede: "A lamb, talking trees, and two great eagles: truths that disarm kings."
+      questions:
+        pobre_corderita:
+          question: "In Nathan's story, the poor man had only…"
+          answer: "One little ewe lamb that grew up with his children, ate his food, and was like a daughter to him."
+          choices:
+            corderita: "One little ewe lamb"
+            vacas: "Seven cows"
+            viña: "A large vineyard"
+        rico_tomo:
+          question: "To feed a traveler, the rich man took…"
+          answer: "He took the poor man's only lamb, even though he owned many sheep and cattle."
+          choices:
+            pobre: "The poor man's lamb"
+            rebaño: "A sheep from his own flock"
+            pan: "Only bread from his table"
+        tu_eres:
+          question: "After David condemned the rich man, Nathan told him…"
+          answer: "You are the man. The parable allowed David to see his sin before he could defend himself."
+          choices:
+            tu: "You are the man"
+            busca: "Go find that man"
+            olvida: "Forget this story"
+        arboles_olivo:
+          question: "In Jotham's fable, which tree did the trees first ask to reign?"
+          answer: "The olive tree refused to give up its oil to rule over the other trees."
+          choices:
+            olivo: "The olive tree"
+            espino: "The thornbush"
+            cedro: "The cedar"
+        espino_rey:
+          question: "Which plant finally agreed to reign over the trees?"
+          answer: "The thornbush agreed and threatened them with fire. Jotham was exposing Abimelech's dangerous reign."
+          choices:
+            espino: "The thornbush"
+            higuera: "The fig tree"
+            vid: "The vine"
+        cardo_cedro:
+          question: "In the parable told to Amaziah, the thistle asked the cedar of Lebanon…"
+          answer: "It asked for the cedar's daughter for its son. A wild animal trampled the thistle: a warning against reckless pride."
+          choices:
+            matrimonio: "Give your daughter to my son"
+            sombra: "Give my garden shade"
+            madera: "Give me wood for my house"
+        aguila_cedro:
+          question: "In Ezekiel's parable, the great eagle broke off…"
+          answer: "It broke off the cedar's top and carried it to a land of merchants. It represented the king of Babylon."
+          choices:
+            copa: "The top of a cedar"
+            raiz: "The root of an olive tree"
+            fruto: "The fruit of a fig tree"
+        vid_segunda_aguila:
+          question: "Although it was well planted, the vine stretched its roots toward…"
+          answer: "A second eagle. It represented Zedekiah seeking Egypt's help and breaking his covenant."
+          choices:
+            segunda: "A second eagle"
+            desierto: "The desert"
+            montana: "The mountain"
+        olla_jerusalen:
+          question: "What city did the cooking pot represent?"
+          answer: "Jerusalem, compared to a corroded pot placed on the fire during the siege."
+          choices:
+            jerusalen: "Jerusalem"
+            ninive: "Nineveh"
+            jerico: "Jericho"
+        herrumbre_fuego:
+          question: "What did the corrosion that would not come off the pot represent?"
+          answer: "The violence and evil that remained. The image warned that judgment could no longer be postponed."
+          choices:
+            maldad: "Evil that had not been cleansed"
+            riqueza: "Hidden wealth"
+            hambre: "A lost harvest"

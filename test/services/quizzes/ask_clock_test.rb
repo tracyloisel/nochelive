@@ -6,7 +6,7 @@ class Quizzes::AskClockTest < ActiveSupport::TestCase
     refute question.timed?
     at = Time.zone.parse("2026-08-27 15:00:00")
     attrs = Quizzes::AskClock.opening_attrs(question, at:)
-    assert_equal at, attrs[:asked_at]
+    assert_equal at + 1.1.seconds, attrs[:asked_at]
     assert_nil attrs[:ends_at]
   end
 
@@ -15,8 +15,8 @@ class Quizzes::AskClockTest < ActiveSupport::TestCase
     assert question.timed?
     at = Time.zone.parse("2026-08-27 15:00:00")
     attrs = Quizzes::AskClock.opening_attrs(question, at:)
-    assert_equal at, attrs[:asked_at]
-    assert_equal at + 20.seconds, attrs[:ends_at]
+    assert_equal at + 1.1.seconds, attrs[:asked_at]
+    assert_in_delta (at + 21.1.seconds).to_f, attrs[:ends_at].to_f, 0.001
   end
 
   test "elapsed_ms is the think time since asked_at" do

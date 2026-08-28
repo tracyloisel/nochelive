@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_28_220000) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_28_231000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -287,6 +287,29 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_28_220000) do
     t.index ["team_id"], name: "index_score_events_on_team_id"
   end
 
+  create_table "scripture_chapter_reads", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "locale", null: false
+    t.bigint "person_id"
+    t.date "read_on", null: false
+    t.string "reader_digest", null: false
+    t.string "reference", null: false
+    t.datetime "updated_at", null: false
+    t.index ["person_id"], name: "index_scripture_chapter_reads_on_person_id"
+    t.index ["reference", "created_at"], name: "index_scripture_chapter_reads_on_reference_and_created_at"
+    t.index ["reference", "reader_digest", "read_on"], name: "index_scripture_reads_on_reference_reader_day", unique: true
+  end
+
+  create_table "scripture_chapter_stats", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "last_read_at"
+    t.bigint "reads_count", default: 0, null: false
+    t.string "reference", null: false
+    t.datetime "updated_at", null: false
+    t.index ["reads_count", "reference"], name: "index_scripture_chapter_stats_on_reads_count_and_reference"
+    t.index ["reference"], name: "index_scripture_chapter_stats_on_reference", unique: true
+  end
+
   create_table "solid_cable_messages", force: :cascade do |t|
     t.binary "channel", null: false
     t.bigint "channel_hash", null: false
@@ -548,6 +571,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_28_220000) do
   add_foreign_key "score_events", "game_sessions"
   add_foreign_key "score_events", "round_runs"
   add_foreign_key "score_events", "teams"
+  add_foreign_key "scripture_chapter_reads", "people", on_delete: :nullify
   add_foreign_key "street_duels", "people", column: "challenger_person_id"
   add_foreign_key "street_duels", "people", column: "opponent_person_id"
   add_foreign_key "street_duels", "quiz_runs", column: "challenger_run_id"

@@ -17,7 +17,18 @@ module Quizzes
       "inicios" => "sagesse",
       "pruebas_profetas" => "prophetes",
       "pruebas_heroes" => "heros",
-      "milagros" => "heros"
+      "milagros" => "heros",
+      "apocalipsis" => "prophetes",
+      "segunda_venida" => "prophetes",
+      "milenio" => "prophetes",
+      "perdido_encontrado" => "sagesse",
+      "secretos_reino" => "sagesse",
+      "amar_projimo" => "heros",
+      "velar_servir" => "sagesse",
+      "sobre_roca" => "sagesse",
+      "simbolos_mormon" => "sagesse",
+      "parabolas_profetas" => "prophetes",
+      "improbables" => "heros"
     }.freeze
 
     TIER_BOUNDARIES = [

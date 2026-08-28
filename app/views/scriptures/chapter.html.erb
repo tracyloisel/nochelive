@@ -16,6 +16,7 @@
   </header>
 
   <section class="scripture-seo-reading" aria-label="<%= t("seo.scripture.read_chapter", reference: @reference.citation) %>">
+    <% illustrations = Array(@scripture_illustrations).index_by(&:anchor_verse) %>
     <% @chapter.verses.each do |verse| %>
       <% verse_reference = Scriptures::Reference.resolve(locale: @reference.route_locale, section: @reference.section,
             book: @reference.book, chapter: @reference.chapter, verse: verse.number) %>
@@ -25,6 +26,7 @@
           <span class="scripture-verse-n"><%= verse.number %></span><%= verse.text %>
         <% end %>
       </p>
+      <%= render "scriptures/illustration", illustration: illustrations[verse.number] if illustrations[verse.number] %>
     <% end %>
   </section>
 

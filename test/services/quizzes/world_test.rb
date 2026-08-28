@@ -22,6 +22,12 @@ class Quizzes::WorldTest < ActiveSupport::TestCase
     assert world.packs.all? { |pack| Quizzes::World.tier_for(pack.index).present? }
   end
 
+  test "last-days trilogy lives on the prophets path" do
+    %w[apocalipsis segunda_venida milenio].each do |pack_id|
+      assert_equal "prophetes", Quizzes::World.category_for(pack_id)
+    end
+  end
+
   test "finishing pack unlocks next" do
     digest = GameSession.digest_token("world-finish")
     run = Quizzes::StartPack.call(device_digest: digest, pack_id: "coronas").run

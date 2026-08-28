@@ -1,5 +1,8 @@
 import { Controller } from "@hotwired/stimulus"
 
+const QUALIFIED_READ_MS = 10_000
+const QUALIFIED_SCROLL_RATIO = 0.5
+
 export default class extends Controller {
   static targets = [ "frame", "loading" ]
 
@@ -19,6 +22,7 @@ export default class extends Controller {
     this.frameTarget?.removeEventListener("turbo:frame-load", this.onFrameLoad)
     this.frameTarget?.removeEventListener("turbo:frame-missing", this.onMissing)
     window.removeEventListener("keydown", this.onKey)
+    this.stopReadTracking()
     this.unlock()
   }
 
@@ -32,6 +36,7 @@ export default class extends Controller {
   close(event) {
     event?.preventDefault()
     this.dismissed = true
+    this.stopReadTracking()
     this.hideLoading()
     this.unlock()
     if (this.hasFrameTarget && this.frameTarget.querySelector(".scripture-veil")) {
@@ -60,6 +65,7 @@ export default class extends Controller {
 
   onMissing(event) {
     event.preventDefault()
+    this.stopReadTracking()
     this.hideLoading()
     this.unlock()
   }
@@ -77,6 +83,93 @@ export default class extends Controller {
     const focus = document.querySelector("[data-scripture-focus]")
     if (focus) {
       focus.scrollIntoView({ block: "center", behavior: this.reduced() ? "auto" : "smooth" })
+    }
+    this.startReadTracking()
+  }
+
+  startReadTracking() {
+    this.stopReadTracking()
+    this.readVeil = document.querySelector(".scripture-veil[data-scripture-reference][data-scripture-read-url]")
+    this.readSheet = this.readVeil?.querySelector(".scripture-sheet")
+    if (!this.readVeil || !this.readSheet) return
+
+    this.readElapsed = 0
+    this.readLastTick = performance.now()
+    this.readProgressReached = false
+    this.readSending = false
+    this.readSent = false
+    this.onReadScroll = () => this.updateReadProgress()
+    this.readSheet.addEventListener("scroll", this.onReadScroll, { passive: true })
+    this.updateReadProgress()
+    this.readTimer = window.setInterval(() => this.trackReadTime(), 250)
+  }
+
+  stopReadTracking() {
+    if (this.readTimer) window.clearInterval(this.readTimer)
+    if (this.readSheet && this.onReadScroll) {
+      this.readSheet.removeEventListener("scroll", this.onReadScroll)
+    }
+    this.readTimer = null
+    this.readSheet = null
+    this.readVeil = null
+    this.onReadScroll = null
+  }
+
+  trackReadTime() {
+    const now = performance.now()
+    if (document.visibilityState === "visible" && this.open()) {
+      this.readElapsed += now - this.readLastTick
+    }
+    this.readLastTick = now
+    this.qualifyReadIfReady()
+  }
+
+  updateReadProgress() {
+    if (!this.readSheet) return
+
+    const scrollable = this.readSheet.scrollHeight - this.readSheet.clientHeight
+    const ratio = scrollable <= 1 ? 1 : this.readSheet.scrollTop / scrollable
+    this.readProgressReached ||= ratio >= QUALIFIED_SCROLL_RATIO
+    this.qualifyReadIfReady()
+  }
+
+  qualifyReadIfReady() {
+    if (this.readSent || this.readSending) return
+    if (!this.readProgressReached || this.readElapsed < QUALIFIED_READ_MS) return
+
+    this.recordRead()
+  }
+
+  async recordRead() {
+    this.readSending = true
+    const csrf = document.querySelector("meta[name='csrf-token']")?.content
+
+    try {
+      const response = await fetch(this.readVeil.dataset.scriptureReadUrl, {
+        method: "POST",
+        credentials: "same-origin",
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json",
+          ...(csrf ? { "X-CSRF-Token": csrf } : {})
+        },
+        body: JSON.stringify({ reference: this.readVeil.dataset.scriptureReference })
+      })
+      if (!response.ok) throw new Error(`Scripture read failed: ${response.status}`)
+
+      const payload = await response.json()
+      const count = this.readVeil.querySelector("[data-scripture-read-count]")
+      if (count && payload.reads_count > 0) {
+        count.textContent = payload.label
+        count.hidden = false
+      }
+      this.readSent = true
+      this.stopReadTracking()
+    } catch (_error) {
+      this.readSent = true
+      this.stopReadTracking()
+    } finally {
+      this.readSending = false
     }
   }
 

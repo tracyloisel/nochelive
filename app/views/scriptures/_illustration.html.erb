@@ -1,0 +1,12 @@
+<figure class="scripture-illustration" data-scripture-illustration data-after-verse="<%= illustration.anchor_verse %>">
+  <div class="scripture-illustration-frame">
+    <%= image_tag "/media/#{illustration.image}",
+          alt: illustration.alt,
+          loading: "lazy",
+          decoding: "async" %>
+  </div>
+  <figcaption>
+    <span class="scripture-illustration-cite"><%= illustration.citation %></span>
+    <span class="scripture-illustration-caption"><%= illustration.caption %></span>
+  </figcaption>
+</figure>

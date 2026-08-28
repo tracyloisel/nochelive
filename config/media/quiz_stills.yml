@@ -684,3 +684,534 @@ stills:
     mode: light
     atmosphere: peaceful
     glass: medium
+  quizzes/apocalipsis/libro_siete_sellos.jpg:
+    mode: dark
+    atmosphere: glorious
+    glass: strong
+  quizzes/apocalipsis/miguel_dragon.jpg:
+    mode: dark
+    atmosphere: dramatic
+    glass: strong
+  quizzes/apocalipsis/bestia_numero.jpg:
+    mode: dark
+    atmosphere: dramatic
+    glass: strong
+  quizzes/apocalipsis/angel_evangelio.jpg:
+    mode: dark
+    atmosphere: glorious
+    glass: medium
+  quizzes/apocalipsis/santos_pocos.jpg:
+    mode: dark
+    atmosphere: solemn
+    glass: strong
+  quizzes/apocalipsis/armas_rectitud.jpg:
+    mode: dark
+    atmosphere: glorious
+    glass: medium
+  quizzes/apocalipsis/obra_del_padre.jpg:
+    mode: dark
+    atmosphere: dramatic
+    glass: strong
+  quizzes/apocalipsis/juan_escribira.jpg:
+    mode: dark
+    atmosphere: solemn
+    glass: strong
+  quizzes/apocalipsis/babilonia_cae.jpg:
+    mode: dark
+    atmosphere: dramatic
+    glass: strong
+  quizzes/apocalipsis/rey_de_reyes.jpg:
+    mode: dark
+    atmosphere: glorious
+    glass: strong
+  quizzes/segunda_venida/mismo_modo.jpg:
+    mode: dark
+    atmosphere: glorious
+    glass: strong
+  quizzes/segunda_venida/evangelio_naciones.jpg:
+    mode: dark
+    atmosphere: glorious
+    glass: medium
+  quizzes/segunda_venida/nadie_dia_hora.jpg:
+    mode: dark
+    atmosphere: solemn
+    glass: medium
+  quizzes/segunda_venida/relampago_oriente.jpg:
+    mode: dark
+    atmosphere: dramatic
+    glass: strong
+  quizzes/segunda_venida/cuatro_vientos.jpg:
+    mode: dark
+    atmosphere: glorious
+    glass: strong
+  quizzes/segunda_venida/muertos_cristo.jpg:
+    mode: dark
+    atmosphere: glorious
+    glass: strong
+  quizzes/segunda_venida/tierra_rollo.jpg:
+    mode: dark
+    atmosphere: dramatic
+    glass: strong
+  quizzes/segunda_venida/nefi_rebano.jpg:
+    mode: dark
+    atmosphere: glorious
+    glass: medium
+  quizzes/segunda_venida/hasta_el_fin.jpg:
+    mode: dark
+    atmosphere: solemn
+    glass: strong
+  quizzes/segunda_venida/nubes_gloria.jpg:
+    mode: dark
+    atmosphere: glorious
+    glass: strong
+  quizzes/milenio/dragon_atado.jpg:
+    mode: light
+    atmosphere: peaceful
+    glass: medium
+  quizzes/milenio/mil_anos_reino.jpg:
+    mode: light
+    atmosphere: glorious
+    glass: medium
+  quizzes/milenio/primera_resurreccion.jpg:
+    mode: light
+    atmosphere: glorious
+    glass: medium
+  quizzes/milenio/lobo_cordero_milenio.jpg:
+    mode: light
+    atmosphere: peaceful
+    glass: soft
+  quizzes/milenio/conocimiento_mar.jpg:
+    mode: light
+    atmosphere: peaceful
+    glass: soft
+  quizzes/milenio/casas_propias.jpg:
+    mode: light
+    atmosphere: peaceful
+    glass: soft
+  quizzes/milenio/santo_israel_reina.jpg:
+    mode: light
+    atmosphere: glorious
+    glass: medium
+  quizzes/milenio/un_rebano.jpg:
+    mode: light
+    atmosphere: peaceful
+    glass: soft
+  quizzes/milenio/rectitud_sin_poder.jpg:
+    mode: light
+    atmosphere: glorious
+    glass: medium
+  quizzes/milenio/todo_revelado.jpg:
+    mode: light
+    atmosphere: glorious
+    glass: medium
+  quizzes/perdido_encontrado/ovejas_cien.jpg:
+    mode: light
+    atmosphere: peaceful
+    glass: soft
+  quizzes/perdido_encontrado/hasta_encontrarla.jpg:
+    mode: dark
+    atmosphere: dramatic
+    glass: medium
+  quizzes/perdido_encontrado/hombros_gozoso.jpg:
+    mode: light
+    atmosphere: glorious
+    glass: soft
+  quizzes/perdido_encontrado/monedas_diez.jpg:
+    mode: dark
+    atmosphere: solemn
+    glass: strong
+  quizzes/perdido_encontrado/lampara_escoba.jpg:
+    mode: dark
+    atmosphere: dramatic
+    glass: strong
+  quizzes/perdido_encontrado/gozo_angeles.jpg:
+    mode: light
+    atmosphere: glorious
+    glass: soft
+  quizzes/perdido_encontrado/parte_herencia.jpg:
+    mode: light
+    atmosphere: solemn
+    glass: medium
+  quizzes/perdido_encontrado/pais_lejano.jpg:
+    mode: dark
+    atmosphere: solemn
+    glass: strong
+  quizzes/perdido_encontrado/padre_corrio.jpg:
+    mode: light
+    atmosphere: glorious
+    glass: soft
+  quizzes/perdido_encontrado/muerto_revive.jpg:
+    mode: light
+    atmosphere: glorious
+    glass: soft
+  quizzes/secretos_reino/semilla_camino.jpg:
+    mode: light
+    atmosphere: peaceful
+    glass: soft
+  quizzes/secretos_reino/pedregales_raiz.jpg:
+    mode: light
+    atmosphere: solemn
+    glass: medium
+  quizzes/secretos_reino/buena_tierra.jpg:
+    mode: light
+    atmosphere: glorious
+    glass: soft
+  quizzes/secretos_reino/espinos_ahogan.jpg:
+    mode: dark
+    atmosphere: dramatic
+    glass: medium
+  quizzes/secretos_reino/mostaza_crece.jpg:
+    mode: light
+    atmosphere: peaceful
+    glass: soft
+  quizzes/secretos_reino/levadura_masa.jpg:
+    mode: light
+    atmosphere: peaceful
+    glass: soft
+  quizzes/secretos_reino/tesoro_campo.jpg:
+    mode: dark
+    atmosphere: glorious
+    glass: medium
+  quizzes/secretos_reino/mercader_perlas.jpg:
+    mode: light
+    atmosphere: glorious
+    glass: soft
+  quizzes/secretos_reino/vendio_todo.jpg:
+    mode: light
+    atmosphere: dramatic
+    glass: medium
+  quizzes/secretos_reino/valor_reino.jpg:
+    mode: light
+    atmosphere: glorious
+    glass: soft
+  quizzes/amar_projimo/camino_jerico.jpg:
+    mode: dark
+    atmosphere: dramatic
+    glass: strong
+  quizzes/amar_projimo/pasaron_largo.jpg:
+    mode: dark
+    atmosphere: solemn
+    glass: strong
+  quizzes/amar_projimo/samaritano_compasion.jpg:
+    mode: light
+    atmosphere: peaceful
+    glass: medium
+  quizzes/amar_projimo/aceite_vino.jpg:
+    mode: light
+    atmosphere: peaceful
+    glass: soft
+  quizzes/amar_projimo/mostro_misericordia.jpg:
+    mode: light
+    atmosphere: glorious
+    glass: soft
+  quizzes/amar_projimo/deuda_diez_mil.jpg:
+    mode: dark
+    atmosphere: dramatic
+    glass: strong
+  quizzes/amar_projimo/rey_perdono.jpg:
+    mode: light
+    atmosphere: glorious
+    glass: soft
+  quizzes/amar_projimo/cien_denarios.jpg:
+    mode: dark
+    atmosphere: dramatic
+    glass: strong
+  quizzes/amar_projimo/corazon_perdona.jpg:
+    mode: light
+    atmosphere: peaceful
+    glass: soft
+  quizzes/amar_projimo/dos_deudores.jpg:
+    mode: light
+    atmosphere: glorious
+    glass: soft
+  quizzes/velar_servir/talentos_repartidos.jpg:
+    mode: light
+    atmosphere: peaceful
+    glass: medium
+  quizzes/velar_servir/cinco_gano.jpg:
+    mode: light
+    atmosphere: glorious
+    glass: soft
+  quizzes/velar_servir/uno_escondio.jpg:
+    mode: dark
+    atmosphere: solemn
+    glass: strong
+  quizzes/velar_servir/buen_siervo.jpg:
+    mode: light
+    atmosphere: glorious
+    glass: soft
+  quizzes/velar_servir/cinco_prudentes.jpg:
+    mode: dark
+    atmosphere: peaceful
+    glass: medium
+  quizzes/velar_servir/aceite_reserva.jpg:
+    mode: dark
+    atmosphere: solemn
+    glass: strong
+  quizzes/velar_servir/medianoche_clamor.jpg:
+    mode: dark
+    atmosphere: dramatic
+    glass: strong
+  quizzes/velar_servir/puerta_cerro.jpg:
+    mode: dark
+    atmosphere: dramatic
+    glass: strong
+  quizzes/velar_servir/alimento_tiempo.jpg:
+    mode: light
+    atmosphere: peaceful
+    glass: soft
+  quizzes/velar_servir/hallado_haciendo.jpg:
+    mode: light
+    atmosphere: glorious
+    glass: soft
+  quizzes/sobre_roca/oye_hace.jpg:
+    mode: light
+    atmosphere: peaceful
+    glass: soft
+  quizzes/sobre_roca/fundamento_roca.jpg:
+    mode: light
+    atmosphere: dramatic
+    glass: medium
+  quizzes/sobre_roca/casa_resistio.jpg:
+    mode: dark
+    atmosphere: dramatic
+    glass: strong
+  quizzes/sobre_roca/arena_ruina.jpg:
+    mode: dark
+    atmosphere: dramatic
+    glass: strong
+  quizzes/sobre_roca/cosecha_abundante.jpg:
+    mode: light
+    atmosphere: peaceful
+    glass: soft
+  quizzes/sobre_roca/graneros_mayores.jpg:
+    mode: light
+    atmosphere: solemn
+    glass: medium
+  quizzes/sobre_roca/esta_noche.jpg:
+    mode: dark
+    atmosphere: solemn
+    glass: strong
+  quizzes/sobre_roca/fariseo_oraba.jpg:
+    mode: light
+    atmosphere: solemn
+    glass: medium
+  quizzes/sobre_roca/publicano_pecho.jpg:
+    mode: dark
+    atmosphere: solemn
+    glass: strong
+  quizzes/sobre_roca/descendio_justificado.jpg:
+    mode: light
+    atmosphere: glorious
+    glass: soft
+  quizzes/simbolos_mormon/olivo_cultivado.jpg:
+    mode: light
+    atmosphere: peaceful
+    glass: soft
+  quizzes/simbolos_mormon/podar_cavar_nutrir.jpg:
+    mode: light
+    atmosphere: peaceful
+    glass: soft
+  quizzes/simbolos_mormon/ramas_silvestres.jpg:
+    mode: light
+    atmosphere: dramatic
+    glass: medium
+  quizzes/simbolos_mormon/me_aflige_perder.jpg:
+    mode: dark
+    atmosphere: solemn
+    glass: strong
+  quizzes/simbolos_mormon/semilla_corazon.jpg:
+    mode: light
+    atmosphere: peaceful
+    glass: soft
+  quizzes/simbolos_mormon/ensancha_ilumina.jpg:
+    mode: light
+    atmosphere: glorious
+    glass: soft
+  quizzes/simbolos_mormon/nutrir_paciencia.jpg:
+    mode: light
+    atmosphere: peaceful
+    glass: soft
+  quizzes/simbolos_mormon/fruto_dulce.jpg:
+    mode: light
+    atmosphere: glorious
+    glass: soft
+  quizzes/simbolos_mormon/barra_palabra.jpg:
+    mode: dark
+    atmosphere: dramatic
+    glass: strong
+  quizzes/simbolos_mormon/arbol_amor.jpg:
+    mode: light
+    atmosphere: glorious
+    glass: soft
+  quizzes/parabolas_profetas/pobre_corderita.jpg:
+    mode: light
+    atmosphere: peaceful
+    glass: soft
+  quizzes/parabolas_profetas/rico_tomo.jpg:
+    mode: dark
+    atmosphere: solemn
+    glass: strong
+  quizzes/parabolas_profetas/tu_eres.jpg:
+    mode: dark
+    atmosphere: dramatic
+    glass: strong
+  quizzes/parabolas_profetas/arboles_olivo.jpg:
+    mode: light
+    atmosphere: peaceful
+    glass: medium
+  quizzes/parabolas_profetas/espino_rey.jpg:
+    mode: dark
+    atmosphere: dramatic
+    glass: strong
+  quizzes/parabolas_profetas/cardo_cedro.jpg:
+    mode: light
+    atmosphere: dramatic
+    glass: medium
+  quizzes/parabolas_profetas/aguila_cedro.jpg:
+    mode: dark
+    atmosphere: dramatic
+    glass: strong
+  quizzes/parabolas_profetas/vid_segunda_aguila.jpg:
+    mode: dark
+    atmosphere: dramatic
+    glass: strong
+  quizzes/parabolas_profetas/olla_jerusalen.jpg:
+    mode: dark
+    atmosphere: solemn
+    glass: strong
+  quizzes/parabolas_profetas/herrumbre_fuego.jpg:
+    mode: dark
+    atmosphere: dramatic
+    glass: strong
+  quizzes/improbables/moises_boca.jpg:
+    mode: dark
+    atmosphere: dramatic
+    glass: strong
+  quizzes/improbables/abraham_sara.jpg:
+    mode: dark
+    atmosphere: glorious
+    glass: medium
+  quizzes/improbables/david_ovejas.jpg:
+    mode: light
+    atmosphere: glorious
+    glass: soft
+  quizzes/improbables/gedeon_menor.jpg:
+    mode: dark
+    atmosphere: dramatic
+    glass: strong
+  quizzes/improbables/jose_carcel_palacio.jpg:
+    mode: dark
+    atmosphere: dramatic
+    glass: strong
+  quizzes/improbables/ester_huerfana_reina.jpg:
+    mode: light
+    atmosphere: solemn
+    glass: medium
+  quizzes/improbables/jeremias_joven.jpg:
+    mode: light
+    atmosphere: solemn
+    glass: medium
+  quizzes/improbables/pedro_negacion_pentecostes.jpg:
+    mode: light
+    atmosphere: glorious
+    glass: soft
+  quizzes/improbables/pablo_perseguidor_apostol.jpg:
+    mode: dark
+    atmosphere: dramatic
+    glass: strong
+  quizzes/improbables/rahab_fuera_linaje.jpg:
+    mode: dark
+    atmosphere: dramatic
+    glass: strong
+
+# Generation prompts for the new parable collection. The runtime reads only `stills`.
+packs:
+  perdido_encontrado:
+    ovejas_cien: "Wide Judean hills at sunrise, one tiny sheep separated from a distant flock of ninety-nine, compassionate shepherd noticing it."
+    hasta_encontrarla: "A shepherd searching rugged hills at blue hour with an oil lamp, following one set of hoofprints, determined and tender."
+    hombros_gozoso: "Joyful shepherd carrying a rescued sheep across his shoulders, warm dawn breaking through clouds, friends visible far below."
+    monedas_diez: "Ancient modest home at night, woman counting nine silver coins beside one empty place, single oil lamp, intimate suspense."
+    lampara_escoba: "Woman sweeping an ancient stone floor by lamplight, one lost silver coin catching a tiny gold glint beneath a woven mat."
+    gozo_angeles: "Symbolic luminous sky opening above a humble home, countless warm lights celebrating one returning traveler, reverent not literal angels."
+    parte_herencia: "Younger son receiving a small pouch from a sorrowful father in a sunlit courtyard, road to a far country behind him."
+    pais_lejano: "Lonely young traveler beside a pig enclosure during famine at stormy dusk, empty pouch, distant memory of a warm home."
+    padre_corrio: "Elderly father running down a golden road to embrace his returning son, robes moving, overwhelming compassion, home glowing behind."
+    muerto_revive: "Family feast in an open courtyard, father and restored son embraced at the center, lanterns and joyful neighbors, older brother at threshold."
+  secretos_reino:
+    semilla_camino: "Sower crossing a bright Galilean field, seeds falling onto a hard path as birds descend, sweeping cinematic landscape."
+    pedregales_raiz: "Tender green shoot rising among sunlit stones then wilting under fierce heat, shallow roots visibly gripping thin soil."
+    buena_tierra: "Abundant golden wheat rising from rich dark soil, sower in wonder, layered harvest fields glowing under celestial rays."
+    espinos_ahogan: "Young grain being overtaken by dark twisting thorns, distant glittering coins and crowded city blurred like temptations."
+    mostaza_crece: "Tiny mustard seed in a weathered hand matched with a flourishing mustard tree full of birds, dawn sky, visual transformation."
+    levadura_masa: "Woman kneading a large bowl of rising dough in a warm open-air kitchen, subtle golden expansion through the whole mass."
+    tesoro_campo: "Farmer kneeling in a twilight field as a buried clay chest opens with restrained golden light, astonishment and joy."
+    mercader_perlas: "Ancient pearl merchant in a sunlit market holding one luminous pearl, all other wares falling softly out of focus."
+    vendio_todo: "Merchant joyfully exchanging his final possessions across a market table while the single great pearl waits in warm light."
+    valor_reino: "Symbolic split scene joining hidden treasure beneath a field and one radiant pearl, both leading toward a golden horizon."
+  amar_projimo:
+    camino_jerico: "Steep road from Jerusalem to Jericho at ominous dusk, wounded traveler lying safely without blood, robbers disappearing far away."
+    pasaron_largo: "Wounded traveler at roadside while two respected religious men pass at a distance, long shadows, painful silence."
+    samaritano_compasion: "Samaritan kneeling beside wounded traveler with open compassionate posture, first sunlight entering the dark ravine."
+    aceite_vino: "Close respectful scene of hands bandaging a traveler's arm with cloth, small oil and wine vessels glowing in warm light."
+    mostro_misericordia: "Samaritan supporting recovered traveler into a welcoming roadside inn courtyard, innkeeper opening the gate, dawn of hope."
+    deuda_diez_mil: "Overwhelmed servant before a royal account table stacked with impossible ledgers and coin jars, deep blue hall and gold light."
+    rey_perdono: "Merciful king lifting a kneeling servant and sweeping away an enormous debt ledger, luminous open doorway, release and wonder."
+    cien_denarios: "Recently forgiven servant gripping a poorer man's cloak in a narrow shadowed street, tense but family-safe, coins scattered."
+    corazon_perdona: "Two estranged men choosing to embrace in a quiet courtyard, broken debt tablet set aside, soft sunrise and olive leaves."
+    dos_deudores: "Two debt tablets marked by very different stacks of coins dissolve into light as both forgiven people step forward gratefully."
+  velar_servir:
+    talentos_repartidos: "Ancient master entrusting three servants with five, two and one pouch of coins in a bright courtyard, responsibility and trust."
+    cinco_gano: "Faithful servant returning with doubled coin pouches and honest work goods, master welcoming him with proud joy."
+    uno_escondio: "Fearful servant burying one wrapped coin pouch beneath moonlit soil, long shadow, empty field and sealed opportunity."
+    buen_siervo: "Master placing a warm hand on a faithful servant's shoulder before an open celebratory courtyard, gold light and belonging."
+    cinco_prudentes: "Ten young women waiting with small oil lamps under a starry sky, five lamps steady and five beginning to dim."
+    aceite_reserva: "Five wise women calmly refilling glowing lamps from small oil vessels, deep celestial night and quiet readiness."
+    medianoche_clamor: "Midnight cry across an ancient village road, bridegroom procession appearing with lanterns, waiting women rising in surprise."
+    puerta_cerro: "Wedding courtyard doors closing as warm celebration glows within, unprepared lamps dark outside, solemn distance and no cruelty."
+    alimento_tiempo: "Faithful household steward distributing bread fairly to a multigenerational family in a bright open courtyard."
+    hallado_haciendo: "Returning master discovers steward actively caring for household at sunrise, surprise turning to celebration and trust."
+  sobre_roca:
+    oye_hace: "Traveler listening to a teacher on a hillside then setting a foundation stone with both hands, word becoming action."
+    fundamento_roca: "Ancient family home being built directly into a massive sunlit rock ledge, workers securing the strong foundation."
+    casa_resistio: "House on rock standing firm through cinematic rain and rushing water, warm lamp still shining inside, powerful dark storm."
+    arena_ruina: "Empty house foundation collapsing into rain-soaked sand beside a torrent, no people harmed, dramatic lesson in the storm."
+    cosecha_abundante: "Rich landowner surveying an overwhelming golden harvest filling every basket, bright abundance with a subtle uneasy shadow."
+    graneros_mayores: "Wealthy man planning enormous new barns while workers dismantle smaller ones, sunset light, abundance turning inward."
+    esta_noche: "Rich man alone before towering full barns beneath a vast starry night, feast untouched, sudden solemn beam of light."
+    fariseo_oraba: "Proud worshiper standing prominently in an ancient temple courtyard while a humble figure remains far behind, measured daylight."
+    publicano_pecho: "Humble tax collector alone at the edge of a temple courtyard, hand to chest, downcast eyes, one compassionate shaft of light."
+    descendio_justificado: "Humble man walking home down sunlit temple steps with peaceful face while morning light opens across the city."
+  simbolos_mormon:
+    olivo_cultivado: "Ancient cultivated olive tree beginning to wither in a vast vineyard, caring master approaching at dawn with pruning tools."
+    podar_cavar_nutrir: "Lord of the vineyard and servant carefully pruning, digging and nourishing an old olive tree, new tender shoots glowing."
+    ramas_silvestres: "Wild olive branches being skillfully grafted into a cultivated trunk, hands at work, vineyard stretching toward many lands."
+    me_aflige_perder: "Lord of the vineyard resting a sorrowful hand on a struggling olive trunk at night, many years of labor visible around him."
+    semilla_corazon: "Small seed held over the heart of a humble listener on a sunlit hill, symbolic warm light beginning within the chest."
+    ensancha_ilumina: "Person in quiet prayer as a seed of light expands through the heart and illuminates the face and understanding."
+    nutrir_paciencia: "Hands patiently watering a young sapling through changing weather, faith and diligence leading toward a fruiting tree."
+    fruto_dulce: "Lehi in a luminous wilderness tasting brilliant white-gold fruit from the tree of life and reaching toward his distant family."
+    barra_palabra: "Multigenerational travelers gripping an iron rod through thick dark mist, golden tree shining as their destination."
+    arbol_amor: "Magnificent tree of life overflowing with white-gold fruit beside living water, families arriving in wonder, Christlike light beyond."
+  parabolas_profetas:
+    pobre_corderita: "Poor ancient family sharing bread with one beloved little ewe lamb in a modest sunlit home, tenderness and closeness."
+    rico_tomo: "Powerful rich man choosing the poor family's single lamb while his own large flocks fill the background, moral darkness without violence."
+    tu_eres: "Prophet Nathan pointing with solemn courage toward shocked King David in a deep blue royal courtyard, truth cutting through shadow."
+    arboles_olivo: "Whimsical reverent fable scene of olive, fig and vine gathered like noble trees in council beneath a bright hilltop sky."
+    espino_rey: "Dark thornbush claiming a crown among majestic trees as distant sparks threaten cedar silhouettes, symbolic and family-safe."
+    cardo_cedro: "Tiny thistle proudly confronting a towering cedar of Lebanon while a distant wild animal approaches, witty scale contrast."
+    aguila_cedro: "Enormous multicolored eagle sweeping over Lebanon and lifting the top of a cedar toward a distant merchant city, prophetic grandeur."
+    vid_segunda_aguila: "Low spreading vine twisting its roots away from one great eagle toward another across a storm-dark political landscape."
+    olla_jerusalen: "Ancient corroded bronze cooking pot over a solemn fire with besieged Jerusalem silhouetted far behind, prophetic warning, no gore."
+    herrumbre_fuego: "Close symbolic bronze pot whose deep corrosion glows in refining fire, dark city giving way to a narrow beam of truth."
+  improbables:
+    moises_boca: "Hesitant Moses before the burning bush with Aaron beside him and Egypt in the distance, dark desert opening into sacred gold."
+    abraham_sara: "Elderly Abraham and Sarah outside their tent beneath countless stars, long waiting opening into quiet golden hope."
+    david_ovejas: "Young shepherd David called from the sheep as Samuel anoints him before his surprised older brothers."
+    gedeon_menor: "Ordinary Gideon hiding wheat in a stone winepress as a radiant messenger calls him to courage."
+    jose_carcel_palacio: "Joseph crossing from a dark Egyptian prison threshold into the light of Pharaoh’s court."
+    ester_huerfana_reina: "Esther gathering courage at the threshold of the Persian throne hall, modest past behind and dangerous mission ahead."
+    jeremias_joven: "Young Jeremiah holding a blank scroll as sacred light reaches his mouth and continues toward distant nations."
+    pedro_negacion_pentecostes: "Peter preaching boldly at Pentecost, with a subtle rooster and fading charcoal fire recalling his denial."
+    pablo_perseguidor_apostol: "Saul stopped on the Damascus road by overwhelming gold light, his authority papers falling as a new road opens."
+    rahab_fuera_linaje: "Rahab hiding the spies on Jericho’s wall while a scarlet cord descends toward the first light of dawn."

@@ -37,16 +37,17 @@ class Quizzes::DrawTest < ActiveSupport::TestCase
     assert frame.done?
   end
 
-  test "loops from milagros back to coronas" do
+  test "loops from the final catalog pack back to coronas" do
+    final_pack_id = QuizDefinition.catalog.pack_ids.last
     QuizRun.create!(
       device_digest: @digest,
-      pack_id: "milagros",
+      pack_id: final_pack_id,
       position: 10,
       score: 10,
       status: "finished",
       opened_at: Time.current
     )
-    frame = Quizzes::Advance.call(run: QuizRun.find_by!(device_digest: @digest, pack_id: "milagros"))
+    frame = Quizzes::Advance.call(run: QuizRun.find_by!(device_digest: @digest, pack_id: final_pack_id))
     assert_equal "coronas", frame.pack.id
     assert frame.run.open?
   end

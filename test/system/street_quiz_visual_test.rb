@@ -120,8 +120,13 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
     assert_selector ".home-menu.is-split .home-menu-btn"
     assert_no_selector ".chrome-tools"
     assert_jugar_chrome_on_column
+    page.execute_script("document.querySelector('#street_quiz')?.classList.add('is-art-preview')")
+    assert_equal "hidden", page.evaluate_script("getComputedStyle(document.querySelector('#street_quiz .quiz-dock')).visibility")
     sleep 0.5
     shot("01-ask-phone")
+    page.execute_script("document.querySelector('#street_quiz')?.classList.remove('is-art-preview')")
+    assert_equal "none", page.evaluate_script("getComputedStyle(document.querySelector('#street_quiz .quiz-sheet')).backdropFilter")
+    assert_equal "street-question-card", page.evaluate_script("getComputedStyle(document.querySelector('#street_quiz .quiz-sheet')).viewTransitionName")
   end
 
   test "jugar hub row returns to the hub" do

@@ -92,6 +92,7 @@ Rails.application.routes.draw do
       }
   get ":locale", to: "discovery#show", as: :discovery_home, constraints: { locale: /es|fr|en|pt-br/ }
   get ":locale/*slug", to: "discovery#show", as: :discovery, constraints: { locale: /es|fr|en|pt-br/ }, format: false
+  post "escrituras/lectures", to: "scripture_reads#create", as: :scripture_reads
   get "escrituras/*study", to: "scriptures#show", as: :scripture, format: false
   get "parole", to: "study_programs#show", as: :study_program
   get "parole/paroisse/:ward_code", to: "study_communities#show", as: :study_community

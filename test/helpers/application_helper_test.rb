@@ -338,6 +338,15 @@ class ApplicationHelperTest < ActionView::TestCase
     assert_equal "00:00", street_clock(-3)
   end
 
+  test "scripture read counts use native thousands separators and plurals" do
+    expected = { es: "1.284 lecturas", en: "1,284 reads", fr: "1 284 lectures", "pt-BR": "1.284 leituras" }
+
+    expected.each do |locale, label|
+      I18n.with_locale(locale) { assert_equal label, scripture_read_count_label(1_284) }
+    end
+    I18n.with_locale(:fr) { assert_equal "1 lecture", scripture_read_count_label(1) }
+  end
+
   test "ceremony_board_rows keeps three then you if you sit off the podium" do
     row = ->(rank, you, context) {
       Quizzes::Leaderboard::Row.new(rank:, person: people(:pili), score: 80, you:, context:)

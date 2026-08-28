@@ -1,0 +1,527 @@
+fr:
+  quizzes:
+    perdido_encontrado:
+      title: "Perdu et retrouvé"
+      kicker: "Paraboles de Jésus"
+      lede: "Une brebis, une pièce et un fils : la joie de Dieu lorsque quelqu’un revient."
+      questions:
+        ovejas_cien:
+          question: "Le berger avait cent brebis. Combien se sont perdues ?"
+          answer: "Une. Le berger a laissé les quatre-vingt-dix-neuf autres pour chercher celle qui était perdue."
+          choices:
+            una: "Une"
+            diez: "Dix"
+            cincuenta: "Cinquante"
+        hasta_encontrarla:
+          question: "Jusqu’à quand le berger a-t-il cherché la brebis perdue ?"
+          answer: "Jusqu’à ce qu’il la trouve. La recherche ne s’est pas arrêtée tant que la brebis était perdue."
+          choices:
+            encontrarla: "Jusqu’à ce qu’il la trouve"
+            anochecer: "Jusqu’à la tombée de la nuit"
+            cansarse: "Jusqu’à ce qu’il soit fatigué"
+        hombros_gozoso:
+          question: "Après avoir retrouvé la brebis, le berger l’a mise…"
+          answer: "Sur ses épaules, tout joyeux. Puis il a appelé ses amis pour célébrer."
+          choices:
+            hombros: "Sur ses épaules"
+            corral: "Seule dans l’enclos"
+            carro: "Dans une charrette"
+        monedas_diez:
+          question: "Dans la deuxième parabole, la femme possédait…"
+          answer: "Dix pièces. Lorsqu’elle en a perdu une, elle a allumé une lampe et l’a cherchée avec soin."
+          choices:
+            diez: "Dix pièces"
+            doce: "Douze pièces"
+            cien: "Cent pièces"
+        lampara_escoba:
+          question: "Pour retrouver sa pièce, la femme a allumé une lampe et…"
+          answer: "Elle a balayé la maison et cherché avec soin jusqu’à retrouver la pièce."
+          choices:
+            barrio: "A balayé la maison"
+            vendio: "A vendu la maison"
+            espero: "A attendu près de la porte"
+        gozo_angeles:
+          question: "Jésus compare cette joie à celle des anges lorsque…"
+          answer: "Un pécheur se repent. Le ciel célèbre celui qui revient."
+          choices:
+            arrepiente: "Un pécheur se repent"
+            rey_nace: "Un roi naît"
+            templo_abre: "Un temple ouvre ses portes"
+        parte_herencia:
+          question: "Qu’a demandé le fils cadet à son père ?"
+          answer: "Il a demandé la part des biens qui lui revenait, puis il est parti dans un pays lointain."
+          choices:
+            herencia: "Sa part d’héritage"
+            rebano: "Tout le troupeau"
+            corona: "La couronne familiale"
+        pais_lejano:
+          question: "Dans le pays lointain, le fils cadet…"
+          answer: "Il a gaspillé ses biens. Lorsque la famine est arrivée, il a même désiré la nourriture des cochons."
+          choices:
+            desperdicio: "A gaspillé ses biens"
+            multiplico: "A multiplié ses biens"
+            reino: "A fondé un royaume"
+        padre_corrio:
+          question: "En voyant son fils revenir, le père…"
+          answer: "Ému de compassion, il a couru vers lui, l’a serré dans ses bras et a préparé une fête."
+          choices:
+            corrio: "A couru le serrer dans ses bras"
+            cerro: "A fermé la porte"
+            escondio: "S’est caché"
+        muerto_revive:
+          question: "Pourquoi le père a-t-il dit qu’il fallait célébrer ?"
+          answer: "Parce que son fils était mort et était revenu à la vie ; il était perdu et il est retrouvé."
+          choices:
+            vuelto: "Celui qui était perdu est revenu"
+            cosecha: "La récolte avait commencé"
+            deuda: "La dette était payée"
+    secretos_reino:
+      title: "Les secrets du Royaume"
+      kicker: "Paraboles de Jésus"
+      lede: "Des graines, du levain et des trésors : le Royaume commence petit et vaut plus que tout."
+      questions:
+        semilla_camino:
+          question: "Dans la parabole du semeur, qui a mangé la semence tombée le long du chemin ?"
+          answer: "Les oiseaux. Jésus la compare à celui qui entend la parole sans la comprendre."
+          choices:
+            aves: "Les oiseaux"
+            ovejas: "Les brebis"
+            langostas: "Les sauterelles"
+        pedregales_raiz:
+          question: "La semence tombée sur le sol pierreux a séché parce qu’elle n’avait pas de…"
+          answer: "Racines. Elle a reçu la parole avec joie, mais n’a pas résisté à la difficulté."
+          choices:
+            raiz: "Racines"
+            lluvia: "Couleur"
+            espigas: "Épis"
+        buena_tierra:
+          question: "Où la semence a-t-elle porté du fruit ?"
+          answer: "Dans la bonne terre. Elle représente celui qui écoute, comprend et laisse la parole porter du fruit."
+          choices:
+            buena: "Dans la bonne terre"
+            camino: "Sur le chemin"
+            espinos: "Parmi les épines"
+        espinos_ahogan:
+          question: "Qu’est-ce qui a étouffé la parole représentée par la semence parmi les épines ?"
+          answer: "Les soucis du monde et l’attrait trompeur des richesses l’ont rendue stérile."
+          choices:
+            afanes: "Les soucis et l’attrait trompeur des richesses"
+            frio: "Le froid de la nuit"
+            silencio: "Le silence des champs"
+        mostaza_crece:
+          question: "Le Royaume ressemble à une graine de moutarde qui, en grandissant…"
+          answer: "Bien qu’elle commence toute petite, elle devient grande et les oiseaux viennent dans ses branches."
+          choices:
+            grande: "Dépasse les plantes du potager"
+            desaparece: "Disparaît sous terre"
+            piedra: "Se transforme en pierre"
+        levadura_masa:
+          question: "La femme a caché le levain dans…"
+          answer: "Elle l’a mélangé à la farine jusqu’à ce que toute la pâte lève. Le Royaume transforme de l’intérieur."
+          choices:
+            harina: "Une grande quantité de farine"
+            aceite: "Une jarre d’huile"
+            arena: "Un tas de sable"
+        tesoro_campo:
+          question: "Après avoir trouvé un trésor caché, l’homme l’a de nouveau dissimulé, puis…"
+          answer: "Rempli de joie, il a vendu tout ce qu’il possédait et acheté ce champ."
+          choices:
+            compro: "A tout vendu pour acheter le champ"
+            olvido: "A oublié où il était"
+            entrego: "L’a remis au roi"
+        mercader_perlas:
+          question: "Que cherchait le marchand de la parabole ?"
+          answer: "De belles perles. En découvrant une perle de grande valeur, il a reconnu quelque chose d’incomparable."
+          choices:
+            perlas: "De belles perles"
+            coronas: "Des couronnes anciennes"
+            caballos: "Des chevaux rapides"
+        vendio_todo:
+          question: "Qu’a fait le marchand pour obtenir la perle de grand prix ?"
+          answer: "Il a vendu tout ce qu’il possédait et l’a achetée. Le Royaume appelle à une décision entière."
+          choices:
+            todo: "Il a vendu tout ce qu’il possédait"
+            cambio: "Il l’a échangée contre trois pièces"
+            espero: "Il a attendu que son prix baisse"
+        valor_reino:
+          question: "Quel point commun unit le trésor caché et la perle de grand prix ?"
+          answer: "Les deux paraboles montrent une joie si grande qu’il vaut la peine de tout donner pour le Royaume."
+          choices:
+            valor: "Le Royaume vaut plus que tout le reste"
+            miedo: "Le Royaume doit rester secret"
+            suerte: "Le Royaume s’obtient par chance"
+    amar_projimo:
+      title: "Aimer son prochain"
+      kicker: "Paraboles de Jésus"
+      lede: "Une route dangereuse, une dette impossible et une question : qui a fait preuve de compassion ?"
+      questions:
+        camino_jerico:
+          question: "Dans la parabole, l’homme descendait de Jérusalem à…"
+          answer: "Il descendait à Jéricho lorsqu’il est tombé aux mains de brigands, qui l’ont laissé blessé."
+          choices:
+            jerico: "Jéricho"
+            belen: "Bethléhem"
+            nazaret: "Nazareth"
+        pasaron_largo:
+          question: "Qui a vu l’homme blessé et est passé de l’autre côté ?"
+          answer: "Un prêtre et un Lévite l’ont vu, mais tous deux sont passés de l’autre côté."
+          choices:
+            sacerdote_levita: "Un prêtre et un Lévite"
+            pescadores: "Deux pêcheurs"
+            soldados: "Deux soldats"
+        samaritano_compasion:
+          question: "En voyant l’homme blessé, le Samaritain a ressenti…"
+          answer: "De la compassion. Il a bandé ses plaies, l’a conduit dans une auberge et a pris soin de lui."
+          choices:
+            compasion: "De la compassion"
+            desprecio: "Du mépris"
+            impaciencia: "De l’impatience"
+        aceite_vino:
+          question: "Qu’a versé le Samaritain sur les blessures ?"
+          answer: "De l’huile et du vin. Puis il a placé l’homme sur sa monture et payé l’aubergiste."
+          choices:
+            aceite_vino: "De l’huile et du vin"
+            agua_sal: "De l’eau et du sel"
+            leche_miel: "Du lait et du miel"
+        mostro_misericordia:
+          question: "Pour Jésus, qui s’est montré le prochain de l’homme blessé ?"
+          answer: "Celui qui a fait preuve de compassion. Jésus a conclu : va, et toi aussi, fais de même."
+          choices:
+            misericordia: "Celui qui a fait preuve de compassion"
+            cercano: "Celui qui habitait le plus près"
+            conocido: "Celui qui le connaissait déjà"
+        deuda_diez_mil:
+          question: "Dans la parabole du serviteur impitoyable, sa dette s’élevait à…"
+          answer: "Dix mille talents : une dette immense que le serviteur ne pouvait pas rembourser."
+          choices:
+            diez_mil: "Dix mille talents"
+            cien: "Cent deniers"
+            diez: "Dix pièces"
+        rey_perdono:
+          question: "En entendant la supplication du serviteur, le roi…"
+          answer: "Ému de compassion, il l’a laissé partir et lui a remis toute sa dette."
+          choices:
+            perdono: "Lui a remis sa dette"
+            duplico: "A doublé sa dette"
+            ignoro: "L’a ignoré"
+        cien_denarios:
+          question: "Le compagnon du serviteur lui devait…"
+          answer: "Cent deniers. Malgré le pardon qu’il venait de recevoir, le serviteur a exigé le paiement sans compassion."
+          choices:
+            cien: "Cent deniers"
+            diez_mil: "Dix mille talents"
+            nada: "Rien"
+        corazon_perdona:
+          question: "Quel enseignement conclut la parabole du serviteur ?"
+          answer: "Celui qui a reçu compassion et pardon doit à son tour pardonner à son frère de tout son cœur."
+          choices:
+            corazon: "Pardonner de tout son cœur"
+            cobrar: "Réclamer chaque dette"
+            olvidar: "Oublier celui qui a mal agi"
+        dos_deudores:
+          question: "Deux débiteurs sont pardonnés : l’un devait cinq cents deniers, l’autre cinquante. Qui a aimé davantage ?"
+          answer: "Celui à qui l’on a remis la plus grande dette. Reconnaître la grâce reçue éveille un amour profond."
+          choices:
+            mas_perdonado: "Celui à qui l’on a pardonné davantage"
+            menos_perdonado: "Celui à qui l’on a pardonné le moins"
+            ninguno: "Aucun des deux"
+    velar_servir:
+      title: "Veiller et servir"
+      kicker: "Paraboles de Jésus"
+      lede: "Des lampes, des talents et une arrivée inattendue : prépare-toi en servant fidèlement."
+      questions:
+        talentos_repartidos:
+          question: "Le maître a confié cinq, deux et un talent selon…"
+          answer: "À chacun selon ses capacités. Puis il est parti et leur a confié cette responsabilité."
+          choices:
+            capacidad: "Les capacités de chaque serviteur"
+            edad: "L’âge de chaque serviteur"
+            azar: "Le hasard"
+        cinco_gano:
+          question: "Le serviteur qui avait reçu cinq talents en a gagné…"
+          answer: "Cinq autres. Celui qui en avait reçu deux a lui aussi doublé ce qui lui avait été confié."
+          choices:
+            cinco: "Cinq autres"
+            uno: "Un de plus"
+            ninguno: "Aucun"
+        uno_escondio:
+          question: "Qu’a fait le serviteur avec l’unique talent qu’il avait reçu ?"
+          answer: "Par peur, il a creusé la terre et y a caché l’argent de son maître."
+          choices:
+            tierra: "Il l’a caché dans la terre"
+            negocio: "Il a ouvert un commerce"
+            regalo: "Il l’a donné"
+        buen_siervo:
+          question: "Qu’a dit le maître aux serviteurs fidèles ?"
+          answer: "C’est bien, bon et fidèle serviteur. Ils avaient été fidèles en peu de chose et recevraient davantage."
+          choices:
+            fiel: "C’est bien, bon et fidèle serviteur"
+            tarde: "Vous êtes arrivés trop tard"
+            basta: "Je n’ai pas besoin de votre travail"
+        cinco_prudentes:
+          question: "Parmi les dix jeunes filles, combien étaient prévoyantes ?"
+          answer: "Cinq étaient prévoyantes et cinq insensées. Toutes attendaient l’arrivée du marié."
+          choices:
+            cinco: "Cinq"
+            diez: "Dix"
+            dos: "Deux"
+        aceite_reserva:
+          question: "En plus de leurs lampes, les jeunes filles prévoyantes ont emporté…"
+          answer: "Une réserve d’huile. Les autres avaient bien des lampes, mais elles n’étaient pas préparées."
+          choices:
+            aceite: "De l’huile dans des récipients"
+            pan: "Du pain dans des paniers"
+            agua: "De l’eau dans des cruches"
+        medianoche_clamor:
+          question: "Quand le cri annonçant l’arrivée du marié a-t-il retenti ?"
+          answer: "À minuit, on a crié : voici le marié, allez à sa rencontre !"
+          choices:
+            medianoche: "À minuit"
+            amanecer: "À l’aube"
+            mediodia: "À midi"
+        puerta_cerro:
+          question: "Pendant que les jeunes filles insensées cherchaient de l’huile…"
+          answer: "Le marié est arrivé, celles qui étaient prêtes sont entrées au mariage et la porte a été fermée."
+          choices:
+            cerro: "Le marié est arrivé et la porte a été fermée"
+            espero: "La fête les a attendues"
+            amanecio: "Le jour s’est immédiatement levé"
+        alimento_tiempo:
+          question: "Le serviteur fidèle donne aux gens de la maison…"
+          answer: "Leur nourriture au moment voulu. La fidélité se voit dans le soin porté à ceux qui nous sont confiés."
+          choices:
+            alimento: "Leur nourriture au moment voulu"
+            ordenes: "Des ordres sans répit"
+            silencio: "Le silence jusqu’au retour du maître"
+        hallado_haciendo:
+          question: "Quel serviteur est heureux lorsque son maître revient ?"
+          answer: "Celui que son maître trouve en train d’accomplir sa tâche. Veiller, c’est servir fidèlement en attendant."
+          choices:
+            haciendo: "Celui que son maître trouve à sa tâche"
+            escondido: "Celui qui s’est caché"
+            dormido: "Celui qui a tout remis au lendemain"
+    sobre_roca:
+      title: "Choisir où bâtir"
+      kicker: "Paraboles de Jésus"
+      lede: "Le roc ou le sable, les greniers ou l’éternité : tes choix révèlent où se trouve ton cœur."
+      questions:
+        oye_hace:
+          question: "Jésus compare l’homme prudent à celui qui écoute ses paroles et…"
+          answer: "Les met en pratique. Écouter et agir, c’est bâtir une vie solide."
+          choices:
+            hace: "Les met en pratique"
+            repite: "Se contente de les répéter"
+            esconde: "Les garde cachées"
+        fundamento_roca:
+          question: "Sur quoi l’homme prudent a-t-il bâti sa maison ?"
+          answer: "Sur le roc. La maison avait des fondations capables de résister à la tempête."
+          choices:
+            roca: "Sur le roc"
+            arena: "Sur le sable"
+            madera: "Sur du bois"
+        casa_resistio:
+          question: "Lorsque la pluie, les torrents et les vents sont arrivés, la maison sur le roc…"
+          answer: "Elle n’est pas tombée, car elle était fondée sur le roc. L’épreuve a révélé la solidité de ses fondations."
+          choices:
+            resistio: "N’est pas tombée"
+            floto: "A flotté au fil de l’eau"
+            desaparecio: "A disparu"
+        arena_ruina:
+          question: "La maison de l’homme qui avait écouté sans agir était sur le sable et…"
+          answer: "Elle est tombée, et sa ruine a été grande. La connaissance sans obéissance ne soutient pas la maison."
+          choices:
+            cayo: "S’est écroulée dans une grande ruine"
+            crecio: "A grandi sous la pluie"
+            brillo: "A brillé au lever du jour"
+        cosecha_abundante:
+          question: "Dans la parabole de l’homme riche insensé, ses terres ont produit…"
+          answer: "Une récolte si abondante qu’il n’avait plus de place pour entreposer ses produits."
+          choices:
+            abundante: "Une récolte abondante"
+            espinos: "Uniquement des épines"
+            nada: "Rien cette année-là"
+        graneros_mayores:
+          question: "Qu’a décidé de construire l’homme riche ?"
+          answer: "Il allait démolir ses greniers pour en bâtir de plus grands et y entasser tous ses biens."
+          choices:
+            graneros: "De plus grands greniers"
+            hospital: "Un refuge pour les malades"
+            pozo: "Un puits pour le village"
+        esta_noche:
+          question: "Qu’a dit Dieu au riche qui accumulait uniquement pour lui-même ?"
+          answer: "Cette nuit même, ta vie te sera redemandée. Jésus invite à être riche pour Dieu, pas seulement pour soi."
+          choices:
+            vida: "Cette nuit même, ta vie te sera redemandée"
+            premio: "Tu recevras une récompense"
+            cosecha: "Tu auras une autre récolte"
+        fariseo_oraba:
+          question: "Dans le temple, le pharisien priait en énumérant…"
+          answer: "Il énumérait ses jeûnes et ses dîmes tout en se comparant aux autres."
+          choices:
+            obras: "Ses propres bonnes actions"
+            pecados: "Ses péchés avec humilité"
+            necesidades: "Les besoins du collecteur d’impôts"
+        publicano_pecho:
+          question: "Le collecteur d’impôts se frappait la poitrine et disait…"
+          answer: "Il a demandé compassion sans se comparer à personne. Il s’est présenté humblement devant Dieu."
+          choices:
+            misericordia: "Ô Dieu, aie pitié de moi, qui suis pécheur"
+            justo: "Ô Dieu, regarde combien je suis juste"
+            recompensa: "Ô Dieu, donne-moi ma récompense"
+        descendio_justificado:
+          question: "Qui est rentré chez lui déclaré juste ?"
+          answer: "Le collecteur d’impôts. Celui qui s’élève sera abaissé, et celui qui s’abaisse sera élevé."
+          choices:
+            publicano: "L’humble collecteur d’impôts"
+            fariseo: "Le pharisien orgueilleux"
+            ambos: "Les deux de la même manière"
+    simbolos_mormon:
+      title: "Symboles du Livre de Mormon"
+      kicker: "Allégories uniques"
+      lede: "Des oliviers, une semence et l’arbre de vie : des images qui enseignent à venir au Christ."
+      questions:
+        olivo_cultivado:
+          question: "À quoi Zénos a-t-il comparé la maison d’Israël ?"
+          answer: "À un olivier cultivé qui commençait à dépérir dans la vigne du Seigneur."
+          choices:
+            olivo: "Un olivier cultivé"
+            cedro: "Un cèdre du Liban"
+            mostaza: "Une graine de moutarde"
+        podar_cavar_nutrir:
+          question: "Pour sauver l’olivier, le maître de la vigne a décidé de…"
+          answer: "Il l’a taillé, a bêché autour de lui et l’a nourri, espérant voir pousser de tendres branches."
+          choices:
+            cuidar: "Le tailler, bêcher autour et le nourrir"
+            abandonar: "L’abandonner immédiatement"
+            ocultar: "Le cacher sous une tente"
+        ramas_silvestres:
+          question: "Quelles branches ont été greffées sur l’olivier cultivé ?"
+          answer: "Des branches d’olivier sauvage. L’allégorie représente la dispersion et le rassemblement d’Israël."
+          choices:
+            silvestres: "Des branches d’olivier sauvage"
+            higuera: "Des branches de figuier"
+            cedro: "Des branches de cèdre"
+        me_aflige_perder:
+          question: "Quel sentiment le maître de la vigne exprime-t-il plusieurs fois au sujet de ses arbres ?"
+          answer: "Il est peiné à l’idée de les perdre. Son travail patient montre l’amour du Seigneur pour son peuple."
+          choices:
+            aflige: "Cela me peine de perdre cet arbre"
+            indiferente: "Son fruit m’est indifférent"
+            tarde: "Il est trop tard pour en prendre soin"
+        semilla_corazon:
+          question: "Alma a invité le peuple à faire de la place pour planter la parole comme une semence dans…"
+          answer: "Dans le cœur. Il les invitait à mettre la parole à l’épreuve, même en commençant par un simple désir."
+          choices:
+            corazon: "Le cœur"
+            campo: "Un champ"
+            vasija: "Un récipient"
+        ensancha_ilumina:
+          question: "Une bonne semence commence à épanouir l’âme et à éclairer…"
+          answer: "Elle éclaire l’intelligence et devient délicieuse. C’est ainsi que l’on reconnaît que la parole est bonne."
+          choices:
+            entendimiento: "L’intelligence"
+            ciudad: "Toute la ville"
+            tesoro: "Un trésor caché"
+        nutrir_paciencia:
+          question: "Pour que la semence devienne un arbre, il faut la nourrir avec foi, diligence et…"
+          answer: "Avec patience, en attendant son fruit. Elle pourra alors grandir jusqu’à produire la vie éternelle."
+          choices:
+            paciencia: "Patience"
+            riqueza: "Richesse"
+            secreto: "Secret"
+        fruto_dulce:
+          question: "Le fruit de l’arbre que Léhi a vu était…"
+          answer: "Il était extrêmement doux et a rempli son âme d’une joie immense. Léhi a désiré le partager avec sa famille."
+          choices:
+            dulce: "Plus doux que tout ce qui est doux"
+            amargo: "Amer et sombre"
+            seco: "Sec et sans goût"
+        barra_palabra:
+          question: "Que représente la barre de fer qui conduit à l’arbre ?"
+          answer: "La parole de Dieu. Ceux qui s’y accrochent peuvent traverser les brouillards de ténèbres."
+          choices:
+            palabra: "La parole de Dieu"
+            poder: "Le pouvoir des rois"
+            riqueza: "Les richesses du monde"
+        arbol_amor:
+          question: "Que représente l’arbre de vie dans la vision de Néphi ?"
+          answer: "L’amour de Dieu, manifesté en Jésus-Christ. Néphi a compris que c’était ce qu’il y avait de plus désirable."
+          choices:
+            amor: "L’amour de Dieu"
+            nacion: "Une nation puissante"
+            conocimiento: "La connaissance sans la foi"
+    parabolas_profetas:
+      title: "Les paraboles des prophètes"
+      kicker: "Ancien Testament"
+      lede: "Une brebis, des arbres qui parlent et deux grands aigles : des vérités qui désarment les rois."
+      questions:
+        pobre_corderita:
+          question: "Dans le récit de Nathan, le pauvre ne possédait que…"
+          answer: "Une petite brebis qui grandissait avec ses enfants, mangeait de son pain et était pour lui comme une fille."
+          choices:
+            corderita: "Une petite brebis"
+            vacas: "Sept vaches"
+            viña: "Une grande vigne"
+        rico_tomo:
+          question: "Pour nourrir un voyageur, l’homme riche a pris…"
+          answer: "Il a pris l’unique petite brebis du pauvre, alors qu’il possédait de nombreux moutons et bovins."
+          choices:
+            pobre: "La petite brebis du pauvre"
+            rebaño: "Une brebis de son propre troupeau"
+            pan: "Seulement du pain de sa table"
+        tu_eres:
+          question: "Après que David a condamné l’homme riche, Nathan lui a dit…"
+          answer: "Cet homme-là, c’est toi ! La parabole a permis à David de voir son péché avant de chercher à se défendre."
+          choices:
+            tu: "Cet homme-là, c’est toi"
+            busca: "Va trouver cet homme"
+            olvida: "Oublie cette histoire"
+        arboles_olivo:
+          question: "Dans la fable de Yotam, à quel arbre les arbres ont-ils d’abord demandé de régner ?"
+          answer: "L’olivier a refusé de renoncer à son huile pour dominer sur les autres arbres."
+          choices:
+            olivo: "L’olivier"
+            espino: "Le buisson d’épines"
+            cedro: "Le cèdre"
+        espino_rey:
+          question: "Quelle plante a finalement accepté de régner sur les arbres ?"
+          answer: "Le buisson d’épines a accepté et les a menacés de feu. Yotam dénonçait ainsi le règne dangereux d’Abimélec."
+          choices:
+            espino: "Le buisson d’épines"
+            higuera: "Le figuier"
+            vid: "La vigne"
+        cardo_cedro:
+          question: "Dans la parabole adressée à Amatsia, le chardon a demandé au cèdre du Liban…"
+          answer: "Il a demandé sa fille pour son fils. Une bête a écrasé le chardon : un avertissement contre l’orgueil téméraire."
+          choices:
+            matrimonio: "Ta fille pour mon fils"
+            sombra: "De l’ombre pour mon jardin"
+            madera: "Du bois pour ma maison"
+        aguila_cedro:
+          question: "Dans la parabole d’Ézéchiel, le grand aigle a arraché…"
+          answer: "Il a arraché la cime du cèdre et l’a emportée dans un pays de marchands. Il représentait le roi de Babylone."
+          choices:
+            copa: "La cime d’un cèdre"
+            raiz: "La racine d’un olivier"
+            fruto: "Le fruit d’un figuier"
+        vid_segunda_aguila:
+          question: "Bien qu’elle soit plantée dans une bonne terre, la vigne a dirigé ses racines vers…"
+          answer: "Vers un second aigle. Cela représentait Sédécias cherchant l’aide de l’Égypte et rompant son alliance."
+          choices:
+            segunda: "Un second aigle"
+            desierto: "Le désert"
+            montana: "La montagne"
+        olla_jerusalen:
+          question: "Dans la parabole de la marmite, quelle ville était représentée ?"
+          answer: "Jérusalem, comparée à une marmite rouillée placée sur le feu pendant le siège."
+          choices:
+            jerusalen: "Jérusalem"
+            ninive: "Ninive"
+            jerico: "Jéricho"
+        herrumbre_fuego:
+          question: "Que représentait la rouille qui ne se détachait pas de la marmite ?"
+          answer: "La violence et le mal qui demeuraient. L’image avertissait que le jugement ne pouvait plus être repoussé."
+          choices:
+            maldad: "Un mal qui n’avait pas été purifié"
+            riqueza: "Une richesse cachée"
+            hambre: "Une récolte perdue"

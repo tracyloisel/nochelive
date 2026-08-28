@@ -6,7 +6,13 @@ class ScripturesController < ApplicationController
     )
     return head :not_found unless @book
 
-    @chapters = (1..@book.chapters)
+    @chapters = (1..@book.chapters).to_a
+    chapter_references = @chapters.map { |chapter| "#{@book.base_study}/#{chapter}" }
+    @chapter_reads = ScriptureChapterStat.where(reference: chapter_references).pluck(:reference, :reads_count).to_h
+    @chapter_order = params[:order] == "popular" ? "popular" : "scripture"
+    if @chapter_order == "popular"
+      @chapters.sort_by! { |chapter| [ -@chapter_reads.fetch("#{@book.base_study}/#{chapter}", 0), chapter ] }
+    end
     configure_book_seo
   end
 
@@ -20,6 +26,7 @@ class ScripturesController < ApplicationController
     @chapter = Scriptures::Read.call(study: @reference.study, locale: @reference.locale, public: true)
     return head :service_unavailable unless @chapter
 
+    @scripture_illustrations = Scriptures::Illustrations.call(chapter: @chapter, locale: @reference.locale)
     @previous_chapter = chapter_neighbor(-1)
     @next_chapter = chapter_neighbor(1)
     configure_chapter_seo
@@ -63,6 +70,8 @@ class ScripturesController < ApplicationController
     @cite = params[:cite].to_s
     @source_url = Quizzes::Scripture.page_url(@study)
     @chapter = Scriptures::Read.call(study: @study, locale: I18n.locale, cite: @cite)
+    @scripture_illustrations = Scriptures::Illustrations.call(chapter: @chapter) if @chapter
+    @scripture_reads_count = ScriptureChapterStat.count_for(@study) if @chapter
     remember_study_reading if @chapter
     render :frame, layout: false if turbo_frame_request?
   end
@@ -86,9 +95,11 @@ class ScripturesController < ApplicationController
       description = t("seo.scripture.chapter_description", reference: @reference.citation,
         summary: @chapter.summary.presence || t("seo.scripture.chapter_fallback"))
       canonical = scripture_chapter_url(**Scriptures::Reference.chapter_path_options(@reference, @reference.locale))
+      image = scripture_illustration_url
       index_for_search!(title:, description:, canonical:,
+        image:,
         alternates: chapter_alternates(@reference),
-        structured_data: scripture_graph(title:, description:, canonical:, crumbs: [
+        structured_data: scripture_graph(title:, description:, canonical:, image:, crumbs: [
           corpus_crumb(@reference),
           [ @reference.book_label, scripture_book_url(**Scriptures::Reference.book_path_options(@reference, @reference.locale)) ],
           [ @reference.citation, canonical ]
@@ -141,15 +152,18 @@ class ScripturesController < ApplicationController
       options[:slug].present? ? discovery_url(**options) : discovery_home_url(locale: options[:locale])
     end
 
-    def scripture_graph(title:, description:, canonical:, crumbs:)
+    def scripture_graph(title:, description:, canonical:, crumbs:, image: nil)
+      page = {
+        "@type": "WebPage", name: title, description:, url: canonical,
+        inLanguage: I18n.locale.to_s,
+        isPartOf: { "@type": "WebSite", name: "Noche Live", url: discovery_page_url(:home, I18n.locale) }
+      }
+      page[:primaryImageOfPage] = { "@type": "ImageObject", contentUrl: image } if image
+
       {
         "@context": "https://schema.org",
         "@graph": [
-          {
-            "@type": "WebPage", name: title, description:, url: canonical,
-            inLanguage: I18n.locale.to_s,
-            isPartOf: { "@type": "WebSite", name: "Noche Live", url: discovery_page_url(:home, I18n.locale) }
-          },
+          page,
           {
             "@type": "BreadcrumbList",
             itemListElement: crumbs.each_with_index.map do |(name, item), index|
@@ -158,6 +172,11 @@ class ScripturesController < ApplicationController
           }
         ]
       }
+    end
+
+    def scripture_illustration_url
+      illustration = @scripture_illustrations&.first
+      "#{request.base_url}/media/#{illustration.image}" if illustration
     end
 
     def chapter_neighbor(offset)

@@ -3486,3 +3486,618 @@ packs:
           study: "nt/matt/17"
         presentation:
           image: quizzes/milagros/mostaza.jpg
+  - id: apocalipsis
+    title: "Apocalipsis"
+    kicker: "El Cordero vence"
+    lede: "Sellos, dragón y Babilonia: la visión no termina en miedo, sino en victoria."
+    questions:
+      - id: libro_siete_sellos
+        question: "¿Con cuántos sellos estaba cerrado el libro que vio Juan?"
+        choices:
+          - key: siete
+            label: "Siete"
+          - key: tres
+            label: "Tres"
+          - key: doce
+            label: "Doce"
+        correct_choice: siete
+        answer: "Siete sellos. Solo el Cordero fue hallado digno de abrir el libro."
+        points: 5
+        duration: 0
+        intensity: 1
+        scripture:
+          canon: bible
+          cite: "Apocalipsis 5:1-5"
+          study: "nt/rev/5"
+        presentation:
+          image: quizzes/apocalipsis/libro_siete_sellos.jpg
+      - id: miguel_dragon
+        question: "En la batalla del cielo, ¿quién luchó contra el dragón?"
+        choices:
+          - key: miguel
+            label: "Miguel y sus ángeles"
+          - key: juan
+            label: "Juan y los siete ancianos"
+          - key: moises
+            label: "Moisés y Elías"
+        correct_choice: miguel
+        answer: "Miguel y sus ángeles lucharon contra el dragón, que es llamado Diablo y Satanás."
+        points: 5
+        duration: 0
+        intensity: 1
+        scripture:
+          canon: bible
+          cite: "Apocalipsis 12:7-9"
+          study: "nt/rev/12"
+        presentation:
+          image: quizzes/apocalipsis/miguel_dragon.jpg
+      - id: bestia_numero
+        question: "¿Qué número da Juan para la bestia?"
+        choices:
+          - key: seiscientos_sesenta_seis
+            label: "Seiscientos sesenta y seis"
+          - key: setecientos_setenta_siete
+            label: "Setecientos setenta y siete"
+          - key: ciento_cuarenta_cuatro
+            label: "Ciento cuarenta y cuatro"
+        correct_choice: seiscientos_sesenta_seis
+        answer: "Seiscientos sesenta y seis. Juan invita al que tenga entendimiento a contar ese número."
+        points: 5
+        duration: 0
+        intensity: 2
+        scripture:
+          canon: bible
+          cite: "Apocalipsis 13:18"
+          study: "nt/rev/13"
+        presentation:
+          image: quizzes/apocalipsis/bestia_numero.jpg
+      - id: angel_evangelio
+        question: "¿Qué llevaba el ángel que volaba por en medio del cielo?"
+        choices:
+          - key: evangelio
+            label: "El Evangelio eterno"
+          - key: espada
+            label: "Una espada de fuego"
+          - key: corona
+            label: "Una corona de doce estrellas"
+        correct_choice: evangelio
+        answer: "Llevaba el Evangelio eterno para predicarlo a toda nación, tribu, lengua y pueblo."
+        points: 8
+        duration: 20
+        intensity: 2
+        scripture:
+          canon: bible
+          cite: "Apocalipsis 14:6"
+          study: "nt/rev/14"
+        presentation:
+          image: quizzes/apocalipsis/angel_evangelio.jpg
+      - id: santos_pocos
+        question: "En la visión de Nefi, los santos del Cordero eran…"
+        choices:
+          - key: pocos
+            label: "Pocos, pero extendidos por toda la tierra"
+          - key: escondidos
+            label: "Escondidos en una sola ciudad"
+          - key: incontables
+            label: "Más numerosos que todos los pueblos"
+        correct_choice: pocos
+        answer: "Eran pocos a causa de la iniquidad, pero estaban sobre toda la faz de la tierra."
+        points: 8
+        duration: 20
+        intensity: 2
+        scripture:
+          canon: bom
+          cite: "1 Nefi 14:12"
+          study: "bofm/1-ne/14"
+        presentation:
+          image: quizzes/apocalipsis/santos_pocos.jpg
+      - id: armas_rectitud
+        question: "¿Con qué estaban armados los santos que vio Nefi?"
+        choices:
+          - key: rectitud
+            label: "Rectitud y poder de Dios"
+          - key: hierro
+            label: "Hierro y carros"
+          - key: oro
+            label: "Oro y coronas"
+        correct_choice: rectitud
+        answer: "El poder del Cordero descendió sobre ellos; sus armas eran la rectitud y el poder de Dios."
+        points: 8
+        duration: 20
+        intensity: 3
+        scripture:
+          canon: bom
+          cite: "1 Nefi 14:14"
+          study: "bofm/1-ne/14"
+        presentation:
+          image: quizzes/apocalipsis/armas_rectitud.jpg
+      - id: obra_del_padre
+        question: "Cuando empezaran las guerras entre las naciones, ¿qué comenzaría el Padre?"
+        choices:
+          - key: convenios
+            label: "A preparar el cumplimiento de sus convenios"
+          - key: diluvio
+            label: "A enviar otro diluvio"
+          - key: torre
+            label: "A levantar una torre"
+        correct_choice: convenios
+        answer: "Comenzaría su obra para preparar el cumplimiento de los convenios hechos con Israel."
+        points: 12
+        duration: 15
+        intensity: 3
+        scripture:
+          canon: bom
+          cite: "1 Nefi 14:15-17"
+          study: "bofm/1-ne/14"
+        presentation:
+          image: quizzes/apocalipsis/obra_del_padre.jpg
+      - id: juan_escribira
+        question: "¿Quién escribiría el resto de la visión que Nefi contempló?"
+        choices:
+          - key: juan
+            label: "Juan, uno de los Doce"
+          - key: pedro
+            label: "Pedro"
+          - key: isaias
+            label: "Isaías"
+        correct_choice: juan
+        answer: "El ángel mostró a Nefi a Juan y dijo que él escribiría el resto de esas cosas."
+        points: 12
+        duration: 15
+        intensity: 4
+        scripture:
+          canon: bom
+          cite: "1 Nefi 14:19-27"
+          study: "bofm/1-ne/14"
+        presentation:
+          image: quizzes/apocalipsis/juan_escribira.jpg
+      - id: babilonia_cae
+        question: "¿Qué gran ciudad anuncia el ángel que ha caído?"
+        choices:
+          - key: babilonia
+            label: "Babilonia"
+          - key: jerusalen
+            label: "Jerusalén"
+          - key: belen
+            label: "Belén"
+        correct_choice: babilonia
+        answer: "Babilonia ha caído. La visión anuncia el fin de su poder y de sus engaños."
+        points: 15
+        duration: 15
+        intensity: 4
+        scripture:
+          canon: bible
+          cite: "Apocalipsis 18:2"
+          study: "nt/rev/18"
+        presentation:
+          image: quizzes/apocalipsis/babilonia_cae.jpg
+      - id: rey_de_reyes
+        question: "¿Qué nombre lleva Cristo cuando aparece como vencedor?"
+        choices:
+          - key: rey_reyes
+            label: "Rey de reyes y Señor de señores"
+          - key: principe_egipto
+            label: "Príncipe de Egipto"
+          - key: escriba
+            label: "Escriba de Jerusalén"
+        correct_choice: rey_reyes
+        answer: "REY DE REYES Y SEÑOR DE SEÑORES. El Cordero vence: ese es el final de la visión."
+        points: 25
+        duration: 15
+        intensity: 5
+        scripture:
+          canon: bible
+          cite: "Apocalipsis 19:11-16"
+          study: "nt/rev/19"
+        presentation:
+          image: quizzes/apocalipsis/rey_de_reyes.jpg
+  - id: segunda_venida
+    title: "El regreso"
+    kicker: "Jesús volverá"
+    lede: "El Evangelio, la trompeta y las nubes: señales para velar con esperanza."
+    questions:
+      - id: mismo_modo
+        question: "Los ángeles dijeron que Jesús volvería…"
+        choices:
+          - key: mismo_modo
+            label: "Como le habían visto ir al cielo"
+          - key: secreto
+            label: "Sin que nadie pudiera verlo"
+          - key: nacer
+            label: "Naciendo otra vez en Belén"
+        correct_choice: mismo_modo
+        answer: "Volverá como los discípulos le vieron subir: desde el cielo."
+        points: 5
+        duration: 0
+        intensity: 1
+        scripture:
+          canon: bible
+          cite: "Hechos 1:9-11"
+          study: "nt/acts/1"
+        presentation:
+          image: quizzes/segunda_venida/mismo_modo.jpg
+      - id: evangelio_naciones
+        question: "Antes del fin, ¿dónde se predicará el Evangelio del reino?"
+        choices:
+          - key: todo_mundo
+            label: "En todo el mundo"
+          - key: jerusalen
+            label: "Solo en Jerusalén"
+          - key: doce_ciudades
+            label: "En doce ciudades"
+        correct_choice: todo_mundo
+        answer: "En todo el mundo, para testimonio a todas las naciones; entonces vendrá el fin."
+        points: 5
+        duration: 0
+        intensity: 1
+        scripture:
+          canon: bible
+          cite: "Mateo 24:14"
+          study: "nt/matt/24"
+        presentation:
+          image: quizzes/segunda_venida/evangelio_naciones.jpg
+      - id: nadie_dia_hora
+        question: "¿Quién conoce el día y la hora de la venida del Hijo del Hombre?"
+        choices:
+          - key: padre
+            label: "El Padre"
+          - key: angeles
+            label: "Todos los ángeles"
+          - key: profetas
+            label: "Todos los profetas"
+        correct_choice: padre
+        answer: "Solo el Padre. Jesús enseñó a velar, no a calcular una fecha."
+        points: 5
+        duration: 0
+        intensity: 2
+        scripture:
+          canon: bible
+          cite: "Mateo 24:36, 42"
+          study: "nt/matt/24"
+        presentation:
+          image: quizzes/segunda_venida/nadie_dia_hora.jpg
+      - id: relampago_oriente
+        question: "Jesús comparó su venida con…"
+        choices:
+          - key: relampago
+            label: "Un relámpago de oriente a occidente"
+          - key: lluvia
+            label: "Una lluvia suave"
+          - key: lampara
+            label: "Una lámpara escondida"
+        correct_choice: relampago
+        answer: "Como el relámpago que cruza el cielo de oriente a occidente: visible, súbito y glorioso."
+        points: 8
+        duration: 20
+        intensity: 2
+        scripture:
+          canon: bible
+          cite: "Mateo 24:27"
+          study: "nt/matt/24"
+        presentation:
+          image: quizzes/segunda_venida/relampago_oriente.jpg
+      - id: cuatro_vientos
+        question: "¿Desde dónde reunirán los ángeles a los escogidos?"
+        choices:
+          - key: cuatro_vientos
+            label: "Desde los cuatro vientos"
+          - key: un_valle
+            label: "Desde un solo valle"
+          - key: siete_templos
+            label: "Desde siete templos"
+        correct_choice: cuatro_vientos
+        answer: "Los reunirán desde los cuatro vientos, de un extremo del cielo al otro."
+        points: 8
+        duration: 20
+        intensity: 2
+        scripture:
+          canon: bible
+          cite: "Mateo 24:30-31"
+          study: "nt/matt/24"
+        presentation:
+          image: quizzes/segunda_venida/cuatro_vientos.jpg
+      - id: muertos_cristo
+        question: "Cuando suene la trompeta de Dios, ¿quiénes resucitarán primero?"
+        choices:
+          - key: muertos_cristo
+            label: "Los muertos en Cristo"
+          - key: reyes
+            label: "Los reyes de la tierra"
+          - key: soldados
+            label: "Los soldados de Roma"
+        correct_choice: muertos_cristo
+        answer: "Los muertos en Cristo resucitarán primero; después los fieles recibirán al Señor."
+        points: 8
+        duration: 20
+        intensity: 3
+        scripture:
+          canon: bible
+          cite: "1 Tesalonicenses 4:16-17"
+          study: "nt/1-thes/4"
+        presentation:
+          image: quizzes/segunda_venida/muertos_cristo.jpg
+      - id: tierra_rollo
+        question: "Moroni vio que, al venir el Señor, la tierra se plegaría como…"
+        choices:
+          - key: rollo
+            label: "Un rollo"
+          - key: tienda
+            label: "Una tienda"
+          - key: manto
+            label: "Un manto"
+        correct_choice: rollo
+        answer: "Como un rollo, mientras los elementos se derriten con ardiente calor."
+        points: 12
+        duration: 15
+        intensity: 3
+        scripture:
+          canon: bom
+          cite: "Mormón 9:2"
+          study: "bofm/morm/9"
+        presentation:
+          image: quizzes/segunda_venida/tierra_rollo.jpg
+      - id: nefi_rebano
+        question: "Cuando el Santo de Israel reine, ¿cuántos pastores habrá?"
+        choices:
+          - key: uno
+            label: "Uno"
+          - key: doce
+            label: "Doce"
+          - key: setenta
+            label: "Setenta"
+        correct_choice: uno
+        answer: "Un solo rebaño y un solo Pastor. Él reunirá a sus hijos desde los cuatro extremos de la tierra."
+        points: 12
+        duration: 15
+        intensity: 4
+        scripture:
+          canon: bom
+          cite: "1 Nefi 22:24-25"
+          study: "bofm/1-ne/22"
+        presentation:
+          image: quizzes/segunda_venida/nefi_rebano.jpg
+      - id: hasta_el_fin
+        question: "En Abundancia, ¿hasta qué momento explicó Jesús lo que sucedería?"
+        choices:
+          - key: juicio
+            label: "Hasta el gran día del juicio"
+          - key: templo
+            label: "Hasta la construcción del templo"
+          - key: cosecha
+            label: "Hasta la siguiente cosecha"
+        correct_choice: juicio
+        answer: "Hasta su venida en gloria y el gran día en que todos comparezcan ante Dios."
+        points: 15
+        duration: 15
+        intensity: 4
+        scripture:
+          canon: bom
+          cite: "3 Nefi 26:3-4"
+          study: "bofm/3-ne/26"
+        presentation:
+          image: quizzes/segunda_venida/hasta_el_fin.jpg
+      - id: nubes_gloria
+        question: "¿Cómo verán las naciones venir al Hijo del Hombre?"
+        choices:
+          - key: nubes_gloria
+            label: "Sobre las nubes, con poder y gran gloria"
+          - key: barco
+            label: "En un barco desde Galilea"
+          - key: desierto
+            label: "Solo en un lugar secreto del desierto"
+        correct_choice: nubes_gloria
+        answer: "Sobre las nubes del cielo, con poder y gran gloria. Su regreso no será un secreto."
+        points: 25
+        duration: 15
+        intensity: 5
+        scripture:
+          canon: bible
+          cite: "Mateo 24:30"
+          study: "nt/matt/24"
+        presentation:
+          image: quizzes/segunda_venida/nubes_gloria.jpg
+  - id: milenio
+    title: "Milenio"
+    kicker: "Mil años de paz"
+    lede: "El lobo, el Cordero y una tierra renovada: así reinará Cristo."
+    questions:
+      - id: dragon_atado
+        question: "Al comenzar el Milenio, ¿qué sucede con el dragón, que es Satanás?"
+        choices:
+          - key: atado
+            label: "Es atado"
+          - key: coronado
+            label: "Es coronado"
+          - key: escondido
+            label: "Se esconde en el mar"
+        correct_choice: atado
+        answer: "Es atado para que no engañe a las naciones durante mil años."
+        points: 5
+        duration: 0
+        intensity: 1
+        scripture:
+          canon: bible
+          cite: "Apocalipsis 20:1-3"
+          study: "nt/rev/20"
+        presentation:
+          image: quizzes/milenio/dragon_atado.jpg
+      - id: mil_anos_reino
+        question: "¿Cuánto tiempo reinarán los santos con Cristo?"
+        choices:
+          - key: mil
+            label: "Mil años"
+          - key: cien
+            label: "Cien años"
+          - key: siete
+            label: "Siete años"
+        correct_choice: mil
+        answer: "Mil años. De ahí viene el nombre Milenio."
+        points: 5
+        duration: 0
+        intensity: 1
+        scripture:
+          canon: bible
+          cite: "Apocalipsis 20:4"
+          study: "nt/rev/20"
+        presentation:
+          image: quizzes/milenio/mil_anos_reino.jpg
+      - id: primera_resurreccion
+        question: "¿Cómo llama Juan a la resurrección de quienes reinarán con Cristo?"
+        choices:
+          - key: primera
+            label: "La primera resurrección"
+          - key: secreta
+            label: "La resurrección secreta"
+          - key: ultima
+            label: "La última resurrección"
+        correct_choice: primera
+        answer: "La primera resurrección. Sobre ellos la segunda muerte no tiene poder."
+        points: 5
+        duration: 0
+        intensity: 2
+        scripture:
+          canon: bible
+          cite: "Apocalipsis 20:5-6"
+          study: "nt/rev/20"
+        presentation:
+          image: quizzes/milenio/primera_resurreccion.jpg
+      - id: lobo_cordero_milenio
+        question: "Según Isaías, el lobo morará con…"
+        choices:
+          - key: cordero
+            label: "El cordero"
+          - key: aguila
+            label: "El águila"
+          - key: caballo
+            label: "El caballo"
+        correct_choice: cordero
+        answer: "Con el cordero. Hasta un niño pastoreará juntos a animales que antes eran enemigos."
+        points: 8
+        duration: 20
+        intensity: 2
+        scripture:
+          canon: bible
+          cite: "Isaías 11:6"
+          study: "ot/isa/11"
+        presentation:
+          image: quizzes/milenio/lobo_cordero_milenio.jpg
+      - id: conocimiento_mar
+        question: "¿Qué llenará la tierra como las aguas cubren el mar?"
+        choices:
+          - key: conocimiento
+            label: "El conocimiento del Señor"
+          - key: oro
+            label: "El oro de las naciones"
+          - key: nieve
+            label: "La nieve del invierno"
+        correct_choice: conocimiento
+        answer: "El conocimiento del Señor. No harán mal ni destruirán en su santo monte."
+        points: 8
+        duration: 20
+        intensity: 2
+        scripture:
+          canon: bible
+          cite: "Isaías 11:9"
+          study: "ot/isa/11"
+        presentation:
+          image: quizzes/milenio/conocimiento_mar.jpg
+      - id: casas_propias
+        question: "En la visión de Isaías, quienes edifiquen casas…"
+        choices:
+          - key: moraran
+            label: "Morarán en ellas"
+          - key: abandonaran
+            label: "Las abandonarán"
+          - key: venderan
+            label: "Las venderán al rey"
+        correct_choice: moraran
+        answer: "Morarán en ellas; plantarán viñas y comerán su fruto. Su trabajo no será en vano."
+        points: 8
+        duration: 20
+        intensity: 3
+        scripture:
+          canon: bible
+          cite: "Isaías 65:21-23"
+          study: "ot/isa/65"
+        presentation:
+          image: quizzes/milenio/casas_propias.jpg
+      - id: santo_israel_reina
+        question: "¿Quién reinará con poder y gran gloria, según Nefi?"
+        choices:
+          - key: santo_israel
+            label: "El Santo de Israel"
+          - key: rey_babilonia
+            label: "El rey de Babilonia"
+          - key: capitan_moron
+            label: "El capitán Moroni"
+        correct_choice: santo_israel
+        answer: "El Santo de Israel reinará con poder, fuerza y gran gloria."
+        points: 12
+        duration: 15
+        intensity: 3
+        scripture:
+          canon: bom
+          cite: "1 Nefi 22:24"
+          study: "bofm/1-ne/22"
+        presentation:
+          image: quizzes/milenio/santo_israel_reina.jpg
+      - id: un_rebano
+        question: "Cuando el Señor reúna a sus hijos, habrá…"
+        choices:
+          - key: uno
+            label: "Un rebaño y un Pastor"
+          - key: doce
+            label: "Doce rebaños sin pastor"
+          - key: dos
+            label: "Dos reinos enfrentados"
+        correct_choice: uno
+        answer: "Un rebaño y un Pastor. Sus ovejas lo conocerán y hallarán pastos en él."
+        points: 12
+        duration: 15
+        intensity: 4
+        scripture:
+          canon: bom
+          cite: "1 Nefi 22:25"
+          study: "bofm/1-ne/22"
+        presentation:
+          image: quizzes/milenio/un_rebano.jpg
+      - id: rectitud_sin_poder
+        question: "¿Por qué no tendrá Satanás poder durante muchos años?"
+        choices:
+          - key: rectitud
+            label: "Por la rectitud del pueblo"
+          - key: cadena_hierro
+            label: "Solo por una cadena de hierro"
+          - key: ejercito
+            label: "Por un ejército más grande"
+        correct_choice: rectitud
+        answer: "Por la rectitud del pueblo: Satanás no tendrá poder sobre sus corazones."
+        points: 15
+        duration: 15
+        intensity: 4
+        scripture:
+          canon: bom
+          cite: "1 Nefi 22:26"
+          study: "bofm/1-ne/22"
+        presentation:
+          image: quizzes/milenio/rectitud_sin_poder.jpg
+      - id: todo_revelado
+        question: "En aquel día, ¿qué ocurrirá con las cosas secretas y selladas?"
+        choices:
+          - key: reveladas
+            label: "Serán reveladas"
+          - key: olvidadas
+            label: "Serán olvidadas"
+          - key: destruidas
+            label: "Serán destruidas sin conocerse"
+        correct_choice: reveladas
+        answer: "Serán reveladas. La luz vence al secreto, y Satanás ya no tendrá poder sobre los corazones."
+        points: 25
+        duration: 15
+        intensity: 5
+        scripture:
+          canon: bom
+          cite: "2 Nefi 30:16-18"
+          study: "bofm/2-ne/30"
+        presentation:
+          image: quizzes/milenio/todo_revelado.jpg

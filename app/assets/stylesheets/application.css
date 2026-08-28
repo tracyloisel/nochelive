@@ -1198,6 +1198,33 @@ body.is-stats {
   font-family: var(--font-display);
 }
 
+.scripture-chapter-order {
+  display: inline-flex;
+  gap: var(--space-1);
+  padding: var(--space-1);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--paper);
+}
+
+.scripture-chapter-order a {
+  min-height: 2.75rem;
+  display: inline-flex;
+  align-items: center;
+  padding-inline: var(--space-4);
+  border-radius: 999px;
+  color: var(--muted);
+  font-size: var(--type-min);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.scripture-chapter-order a[aria-current="page"] {
+  background: var(--surface);
+  color: var(--ink);
+  box-shadow: 0 .2rem .8rem rgba(32, 26, 16, .08);
+}
+
 .scripture-chapter-grid > div {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(3.25rem, 1fr));
@@ -1208,13 +1235,26 @@ body.is-stats {
 .scripture-chapter-grid a {
   display: grid;
   place-items: center;
-  min-height: 3.25rem;
+  min-height: 4rem;
+  padding: var(--space-2);
   border: 1px solid var(--line);
   border-radius: var(--radius-m);
   color: var(--ink);
   font-family: var(--font-display);
   font-weight: 650;
   text-decoration: none;
+}
+
+.scripture-chapter-grid a strong {
+  font: inherit;
+}
+
+.scripture-chapter-grid a small {
+  color: var(--muted);
+  font-family: var(--font-ui);
+  font-size: .68rem;
+  font-weight: 650;
+  line-height: 1.2;
 }
 
 .scripture-verse-link {
@@ -6483,13 +6523,11 @@ body:has(.play-reel.is-finale) .sky {
 #night_presenter { view-transition-name: console; }
 #street_quiz { view-transition-name: street-quiz; }
 #street_quiz .play-shot { view-transition-name: street-shot; }
-#street_quiz .play-sheet { view-transition-name: street-sheet; }
 #street_quiz .street-score { view-transition-name: street-score; }
 #street_quiz.is-overlay .play-shot { view-transition-name: none; }
 #street_quiz.is-overlay .challenge-story { view-transition-name: street-still; }
 #street_quiz.is-overlay .quiz-hud { view-transition-name: street-hud; }
-#street_quiz.is-overlay .quiz-sheet { view-transition-name: street-sheet; }
-#street_quiz.is-overlay .quiz-dock { view-transition-name: street-dock; }
+#street_quiz.is-overlay .quiz-sheet { view-transition-name: street-question-card; }
 #street_quiz.is-overlay .street-praise { view-transition-name: street-praise; }
 ::view-transition-old(street-quiz),
 ::view-transition-new(street-quiz) { animation: none; }
@@ -6500,19 +6538,12 @@ body:has(.play-reel.is-finale) .sky {
 ::view-transition-new(street-still) { animation: quiz-vt-still-in 320ms var(--ease-out) both; }
 ::view-transition-old(street-praise) { animation: quiz-vt-still-out 180ms var(--ease-out) both; }
 ::view-transition-new(street-praise) { animation: quiz-vt-still-in 220ms var(--ease-out) both; }
-::view-transition-old(street-dock),
-::view-transition-new(street-dock) {
-  animation-duration: 200ms;
-  animation-timing-function: var(--ease-out);
-}
-::view-transition-group(street-sheet) {
-  animation-duration: 280ms;
-  animation-timing-function: var(--ease-out);
-}
-::view-transition-old(street-sheet),
-::view-transition-new(street-sheet) {
-  animation-duration: 240ms;
-  animation-timing-function: var(--ease-out);
+::view-transition-group(street-question-card) { animation-duration: 0.01ms; }
+::view-transition-old(street-question-card),
+::view-transition-new(street-question-card) {
+  animation: none;
+  opacity: 1;
+  mix-blend-mode: normal;
 }
 ::view-transition-group(street-score) {
   animation-duration: 240ms;
@@ -15632,7 +15663,7 @@ html.is-scripture-open .home-menu {
   top: 0;
   z-index: 1;
   display: grid;
-  grid-template-columns: 2.75rem 1fr 2.75rem;
+  grid-template-columns: 3rem minmax(0, 1fr) 3rem;
   align-items: start;
   gap: var(--space-3);
   margin: 0 calc(var(--space-5) * -1);
@@ -15640,9 +15671,15 @@ html.is-scripture-open .home-menu {
   background: linear-gradient(180deg, var(--temple-ivory, var(--paper)) 72%, transparent);
 }
 .scripture-close {
+  width: 3rem;
+  min-width: 3rem;
+  height: 3rem;
+  min-height: 3rem;
   border-color: var(--temple-gold-hairline, var(--line));
   background: var(--surface);
   color: var(--ink);
+  cursor: pointer;
+  touch-action: manipulation;
 }
 .scripture-head h1 {
   margin: 0;
@@ -18930,6 +18967,7 @@ body.is-street-play #street_quiz.is-overlay .street-praise {
   text-shadow: var(--story-shadow);
   animation: quiz-praise-in 420ms var(--ease-out) both;
 }
+body.is-street-play #street_quiz.is-overlay .street-praise.is-streak { animation: none; }
 body.is-street-play #street_quiz.is-overlay .street-praise.is-streak::before {
   background: radial-gradient(ellipse at center,
     color-mix(in srgb, #1c1915 88%, var(--fire, #e4572e)) 0%,
@@ -18957,7 +18995,6 @@ body.is-street-play #street_quiz.is-overlay .street-praise.is-streak.is-glow .st
   text-shadow:
     0 0 16px color-mix(in srgb, var(--fire) 45%, transparent),
     var(--story-shadow);
-  animation: quiz-streak-praise 480ms var(--ease-out) both;
 }
 body.is-street-play #street_quiz.is-overlay .street-praise.is-streak.is-hot .street-praise-line {
   font-size: clamp(2.45rem, 10.4vw, 3.45rem);
@@ -18965,7 +19002,6 @@ body.is-street-play #street_quiz.is-overlay .street-praise.is-streak.is-hot .str
     0 0 10px color-mix(in srgb, var(--fire) 85%, #fff 10%),
     0 0 28px color-mix(in srgb, var(--fire) 70%, transparent),
     var(--story-shadow);
-  animation: quiz-streak-praise 520ms var(--ease-out) both;
 }
 body.is-street-play #street_quiz.is-overlay .street-praise.is-streak.is-blaze .street-praise-line {
   font-size: clamp(2.55rem, 10.8vw, 3.6rem);
@@ -18974,7 +19010,6 @@ body.is-street-play #street_quiz.is-overlay .street-praise.is-streak.is-blaze .s
     0 0 28px color-mix(in srgb, var(--fire) 65%, transparent),
     0 0 22px color-mix(in srgb, var(--gold) 55%, transparent),
     var(--story-shadow);
-  animation: quiz-streak-praise 560ms var(--ease-out) both;
 }
 body.is-street-play #street_quiz.is-overlay .street-praise.is-streak.is-legend .street-praise-line {
   font-size: clamp(2.7rem, 11.4vw, 3.85rem);
@@ -18982,7 +19017,10 @@ body.is-street-play #street_quiz.is-overlay .street-praise.is-streak.is-legend .
     0 0 14px color-mix(in srgb, var(--gold) 80%, #fff),
     0 0 36px color-mix(in srgb, var(--gold) 75%, transparent),
     var(--story-shadow);
-  animation: quiz-legend-praise 720ms var(--ease-out) both;
+}
+body.is-street-play #street_quiz.is-overlay .street-praise.is-streak .street-praise-line {
+  transform-origin: center;
+  animation: quiz-streak-grow 420ms var(--ease-out) both;
 }
 body.is-street-play #street_quiz.is-overlay .street-praise-pts {
   display: block;
@@ -19035,6 +19073,12 @@ body.is-street-play #street_quiz.is-overlay .quiz-next {
   padding-inline: 1.1rem;
   animation: quiz-next-breathe 2.4s ease-in-out 1s infinite;
 }
+body.is-street-play #street_quiz.is-overlay.is-settled .street-shot-actions .quiz-scripture {
+  animation: quiz-action-from-left 360ms var(--ease-out) both;
+}
+body.is-street-play #street_quiz.is-overlay.is-settled .street-shot-actions .quiz-next-form {
+  animation: quiz-action-from-right 360ms var(--ease-out) both;
+}
 body.is-street-play #street_quiz.is-overlay .quiz-sheet {
   position: relative;
   display: flex;
@@ -19049,7 +19093,6 @@ body.is-street-play #street_quiz.is-overlay .quiz-sheet {
   border-radius: 1.55rem;
   background: var(--quiz-glass);
   box-shadow: var(--quiz-shadow);
-  backdrop-filter: blur(16px);
   color: var(--quiz-text);
 }
 body.is-street-play #street_quiz.is-overlay .quiz-sheet-apex {
@@ -19247,23 +19290,26 @@ body.is-street-play #street_quiz.is-overlay.is-advancing .street-praise {
   transition: opacity 120ms ease-in, transform 140ms ease-in;
 }
 body.is-street-play #street_quiz.is-overlay.is-locked .choice-btn,
-body.is-street-play #street_quiz.is-overlay.is-entering .choice-btn,
-body.is-street-play #street_quiz.is-overlay.is-turning .choice-btn { pointer-events: none; }
-body.is-street-play #street_quiz.is-overlay.is-entering .challenge-story { animation: quiz-still-in 300ms var(--ease-out) both; }
-body.is-street-play #street_quiz.is-overlay.is-entering .quiz-hud { animation: quiz-hud-in 250ms var(--ease-out) 120ms both; }
-body.is-street-play #street_quiz.is-overlay.is-entering .quiz-sheet { animation: quiz-sheet-in 350ms var(--ease-out) 220ms both; }
-body.is-street-play #street_quiz.is-overlay.is-entering .choice-btn:nth-child(1) { animation: quiz-choice-in 280ms var(--ease-out) 400ms both; }
-body.is-street-play #street_quiz.is-overlay.is-entering .choice-btn:nth-child(2) { animation: quiz-choice-in 280ms var(--ease-out) 470ms both; }
-body.is-street-play #street_quiz.is-overlay.is-entering .choice-btn:nth-child(3) { animation: quiz-choice-in 280ms var(--ease-out) 540ms both; }
-body.is-street-play #street_quiz.is-overlay.is-entering .choice-btn:nth-child(4) { animation: quiz-choice-in 280ms var(--ease-out) 610ms both; }
-@keyframes quiz-still-in {
-  from { opacity: 0; transform: scale(1.025); }
-  to { opacity: 1; transform: none; }
+body.is-street-play #street_quiz.is-overlay.is-art-preview .choice-btn,
+body.is-street-play #street_quiz.is-overlay.is-entering .choice-btn { pointer-events: none; }
+body.is-street-play #street_quiz.is-overlay.is-art-preview .quiz-dock {
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(1.25rem);
+  pointer-events: none;
 }
-@keyframes quiz-hud-in {
-  from { opacity: 0; transform: translateY(-8px); }
-  to { opacity: 1; transform: none; }
+body.is-street-play #street_quiz.is-overlay.is-art-preview .play-timer { opacity: 0; }
+body.is-street-play #street_quiz.is-overlay.is-art-preview .quiz-world::after {
+  background: linear-gradient(to bottom, rgba(8, 10, 18, 0.28) 0%, transparent 18%);
 }
+body.is-street-play #street_quiz.is-overlay.is-art-preview[data-quiz-theme="light"] .quiz-world::after {
+  background: linear-gradient(to bottom, rgba(246, 243, 236, 0.18) 0%, transparent 18%);
+}
+body.is-street-play #street_quiz.is-overlay.is-entering .quiz-sheet { animation: quiz-sheet-in 350ms var(--ease-out) both; }
+body.is-street-play #street_quiz.is-overlay.is-entering .choice-btn:nth-child(1) { animation: quiz-choice-in 280ms var(--ease-out) 260ms both; }
+body.is-street-play #street_quiz.is-overlay.is-entering .choice-btn:nth-child(2) { animation: quiz-choice-in 280ms var(--ease-out) 330ms both; }
+body.is-street-play #street_quiz.is-overlay.is-entering .choice-btn:nth-child(3) { animation: quiz-choice-in 280ms var(--ease-out) 400ms both; }
+body.is-street-play #street_quiz.is-overlay.is-entering .choice-btn:nth-child(4) { animation: quiz-choice-in 280ms var(--ease-out) 470ms both; }
 @keyframes quiz-sheet-in {
   from { opacity: 0; transform: translateY(24px); }
   to { opacity: 1; transform: none; }
@@ -19271,6 +19317,14 @@ body.is-street-play #street_quiz.is-overlay.is-entering .choice-btn:nth-child(4)
 @keyframes quiz-choice-in {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: none; }
+}
+@keyframes quiz-action-from-left {
+  from { opacity: 0; clip-path: inset(0 100% 0 0); }
+  to { opacity: 1; clip-path: inset(0); }
+}
+@keyframes quiz-action-from-right {
+  from { opacity: 0; clip-path: inset(0 0 0 100%); }
+  to { opacity: 1; clip-path: inset(0); }
 }
 @keyframes quiz-next-breathe {
   50% { box-shadow: 0 0 18px color-mix(in srgb, var(--gold) 42%, transparent); }
@@ -19301,15 +19355,10 @@ body.is-street-play #street_quiz.is-overlay.is-entering .choice-btn:nth-child(4)
   40% { transform: scale(0.86); filter: saturate(0.2); }
   100% { transform: none; filter: none; }
 }
-@keyframes quiz-streak-praise {
-  0% { transform: scale(0.82); opacity: 0; }
-  55% { transform: scale(1.08); opacity: 1; }
-  100% { transform: scale(1); opacity: 1; }
-}
-@keyframes quiz-legend-praise {
-  0% { transform: scale(0.72); opacity: 0; }
-  42% { transform: scale(1.12); opacity: 1; }
-  100% { transform: scale(1); opacity: 1; }
+@keyframes quiz-streak-grow {
+  0% { transform: scale(0.72); }
+  68% { transform: scale(1.08); }
+  100% { transform: scale(1); }
 }
 @keyframes quiz-flame-sparks {
   50% { transform: translateY(-3px); opacity: 0.65; }
@@ -20437,11 +20486,20 @@ body.is-street-play #street_quiz.is-overlay.is-ceremony.is-sequence-done :is(.st
 }
 
 @media (prefers-reduced-motion: reduce) {
+  body.is-street-play #street_quiz.is-overlay.is-art-preview .quiz-dock {
+    visibility: visible;
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+  }
+  body.is-street-play #street_quiz.is-overlay.is-art-preview .play-timer { opacity: 1; }
   body.is-street-play #street_quiz.is-overlay.is-entering .challenge-story,
   body.is-street-play #street_quiz.is-overlay.is-entering .quiz-hud,
   body.is-street-play #street_quiz.is-overlay.is-entering .quiz-sheet,
   body.is-street-play #street_quiz.is-overlay.is-entering .choice-btn { animation: none; }
   body.is-street-play #street_quiz.is-overlay .quiz-next,
+  body.is-street-play #street_quiz.is-overlay .quiz-scripture,
+  body.is-street-play #street_quiz.is-overlay .quiz-next-form,
   body.is-street-play #street_quiz.is-overlay .street-praise,
   body.is-street-play #street_quiz.is-overlay .street-praise-line,
   body.is-street-play #street_quiz.is-overlay .quiz-hud-score.is-land,
@@ -22059,6 +22117,60 @@ body:has(#street_quien) .chrome-drawer .lang-switch.is-drawer > summary {
   .street-world.is-game-hub .hub-panel-row {
     gap: clamp(var(--space-4), 2.2vw, var(--space-6));
   }
+
+  /* Ward invitation: the tablet/desktop feed can give this card a narrow
+     grid track even when the viewport itself is wide.  Keeping icon, copy and
+     CTA on one row made the copy wrap past the fixed visual rhythm and the
+     card's clipped edge.  Use a resilient two-row composition until the Live
+     card genuinely owns the full desktop row. */
+  .street-world.is-game-hub .hub-live.is-ward_missing {
+    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-areas:
+      "ward-mark ward-copy"
+      "ward-action ward-action";
+    align-content: center;
+    align-items: center;
+    row-gap: clamp(var(--space-3), 2vw, var(--space-5));
+    block-size: max-content;
+    min-block-size: 18rem;
+    padding: clamp(var(--space-4), 2.2vw, var(--space-6));
+  }
+
+  .street-world.is-game-hub .hub-live.is-ward_missing .hub-live-ward-mark {
+    grid-area: ward-mark;
+  }
+
+  .street-world.is-game-hub .hub-live.is-ward_missing .hub-live-empty-copy {
+    grid-area: ward-copy;
+    align-self: center;
+  }
+
+  .street-world.is-game-hub .hub-live.is-ward_missing .hub-live-program {
+    grid-area: ward-action;
+    justify-self: end;
+    width: min(100%, 22rem);
+    max-width: none;
+  }
+
+  .street-world.is-game-hub .hub-live.is-ward_missing .hub-live-ward-promises {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* A ward invitation without the Parole card owns the complete desktop row;
+   only then is the wide three-column composition spacious enough. */
+@media (min-width: 1200px) {
+  .street-world.is-game-hub .street-hub-feed:not(:has(> .hub-study)) > .hub-live.is-ward_missing {
+    grid-template-columns: auto minmax(20rem, 1fr) minmax(13rem, 18rem);
+    grid-template-areas: "ward-mark ward-copy ward-action";
+    column-gap: clamp(var(--space-4), 2.2vw, var(--space-6));
+    min-block-size: 14rem;
+  }
+
+  .street-world.is-game-hub .street-hub-feed:not(:has(> .hub-study)) > .hub-live.is-ward_missing .hub-live-program {
+    width: 100%;
+  }
 }
 
 /* Keep the adventure card visually separate from the floating player HUD. */
@@ -23663,12 +23775,91 @@ body.is-study-community .shell { width: 100%; max-width: none; min-height: 100dv
 .scripture-head { margin-inline: clamp(-2.5rem, -5vw, -1.25rem); padding-inline: clamp(1.25rem, 5vw, 2.5rem); padding-bottom: 1.1rem; background: linear-gradient(180deg, rgba(255,253,247,.98) 76%, transparent); }
 .scripture-head::after { content: "✦"; grid-column: 2; justify-self: center; margin-top: .35rem; color: var(--gold-deep); font-size: .75rem; }
 .scripture-head h1 { font-size: clamp(1.45rem, 5vw, 1.85rem); line-height: 1.08; }
-.scripture-close { border: 1px solid rgba(173,132,49,.42); border-radius: 50%; background: rgba(255,253,247,.92); box-shadow: 0 .35rem 1rem rgba(32,26,16,.1); }
+.scripture-head-copy { grid-column: 2; min-width: 0; text-align: center; }
+.scripture-read-count { margin: .35rem 0 0; color: var(--muted); font-size: var(--type-min); font-weight: 650; line-height: 1.25; }
+.scripture-close {
+  position: relative;
+  border: 1px solid rgba(173,132,49,.52);
+  border-radius: 50%;
+  background: rgba(255,253,247,.96);
+  box-shadow: 0 .35rem 1rem rgba(32,26,16,.1), inset 0 0 0 3px rgba(255,255,255,.72);
+  transition: transform var(--dur-press) var(--ease-out), border-color var(--dur-press) ease, box-shadow var(--dur-press) ease, background-color var(--dur-press) ease;
+}
+.scripture-close .picto { width: 1.5rem; height: 1.5rem; }
+.scripture-close .picto-close circle { fill: transparent; }
+.scripture-close .picto-close path { stroke: currentColor; stroke-width: 5; }
+.scripture-close:hover { border-color: var(--gold-deep); background: #fff; box-shadow: 0 .45rem 1.2rem rgba(32,26,16,.14), inset 0 0 0 3px rgba(255,255,255,.8); }
+.scripture-close:active,
+.scripture-close.is-pressed { transform: scale(.94); }
+.scripture-close:focus-visible { outline: 3px solid color-mix(in srgb, var(--gold-deep) 48%, transparent); outline-offset: 3px; }
 .scripture-summary { margin: .5rem 0 1.75rem; padding: 1rem 1.1rem; color: #5f625f; border-block: 1px solid rgba(173,132,49,.28); text-align: center; font-size: 1rem; line-height: 1.5; }
 .scripture-verse { margin-bottom: .9rem; padding: .45rem .55rem; font-size: clamp(1.12rem, 4.5vw, 1.3rem); line-height: 1.68; }
 .scripture-verse.is-focus { margin-inline: -.35rem; padding: .75rem .9rem; border: 1px solid rgba(184,139,44,.38); border-inline-start: 4px solid var(--gold-deep); border-radius: .2rem .85rem .85rem .2rem; background: linear-gradient(90deg, rgba(226,194,118,.24), rgba(255,255,255,.54)); box-shadow: 0 .4rem 1.2rem rgba(84,65,29,.08); }
 .scripture-verse-n { color: var(--gold-deep); font-size: .72rem; }
 .scripture-foot { margin-top: 2rem; padding: 1.25rem 0 2rem; }
+
+/* Passage paintings — a narrative breath in the text, never an image gallery. */
+.scripture-illustration {
+  position: relative;
+  margin-block: var(--space-6);
+  break-inside: avoid;
+}
+.scripture-illustration-frame {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border-block: 1px solid var(--temple-gold-hairline, var(--line));
+  background: var(--temple-marble, var(--surface));
+}
+.scripture-illustration-frame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  box-shadow: inset 0 0 0 1px var(--temple-gold-hairline, var(--line));
+}
+.scripture-illustration img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+.scripture-illustration figcaption {
+  display: grid;
+  gap: var(--space-1);
+  padding: var(--space-3) var(--space-4) 0;
+  color: var(--ink);
+  text-align: center;
+}
+.scripture-illustration-cite {
+  color: var(--gold-deep);
+  font-family: var(--font-ui);
+  font-size: var(--type-min);
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.scripture-illustration-caption {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-style: italic;
+  line-height: 1.45;
+}
+.scripture-sheet .scripture-illustration {
+  margin-inline: clamp(-2.5rem, -5vw, -1.25rem);
+}
+.scripture-sheet .scripture-illustration figcaption {
+  margin-inline: clamp(1.25rem, 5vw, 2.5rem);
+}
+.scripture-seo-reading .scripture-illustration {
+  width: min(28rem, 100%);
+  margin-inline: auto;
+}
+.scripture-seo-reading .scripture-illustration-frame {
+  border: 1px solid var(--temple-gold-hairline, var(--line));
+  border-radius: var(--radius-l);
+}
 
 @media (max-width: 430px) {
   .hub-study { grid-template-columns: 1fr; min-height: 13.5rem; }
@@ -25484,6 +25675,10 @@ body {
 
   .street-world.is-game-hub .street-hub-feed > .hub-live {
     grid-column: 10 / span 4;
+  }
+
+  .street-world.is-game-hub .street-hub-feed:not(:has(> .hub-study)) > .hub-live {
+    grid-column: 2 / 14;
   }
 
 }

@@ -1,19 +1,13 @@
 import { Controller } from "@hotwired/stimulus"
 import { haptic } from "haptics"
 
-const ENTER_LOCK_MS = 550
-const TURN_LOCK_MS = 220
+const ART_PREVIEW_MS = 1100
+const ENTER_LOCK_MS = 700
 const SCORE_MS = 380
 const FLY_HOLD_MS = 280
 const FLY_MS = 520
 const ANSWER_COMMIT_MS = 140
 const ADVANCE_COMMIT_MS = 160
-
-let overlaySession = false
-
-document.addEventListener("turbo:load", () => {
-  if (!document.getElementById("street_quiz")?.classList.contains("is-overlay")) overlaySession = false
-})
 
 export default class extends Controller {
   static targets = [ "score", "crown", "gain" ]
@@ -28,7 +22,8 @@ export default class extends Controller {
     comboGrew: Boolean,
     comboBroke: Boolean,
     comboShout: String,
-    comboSfx: String
+    comboSfx: String,
+    previewEnd: String
   }
 
   connect() {
@@ -43,10 +38,15 @@ export default class extends Controller {
     if (this.street()) window.NocheLiveAudio?.playFrom?.(document)
   }
 
+  disconnect() {
+    window.clearTimeout(this.artPreviewTimer)
+    window.clearTimeout(this.enterTimer)
+  }
+
   pick(event) {
     const button = event.target.closest(".choice-btn")
     if (!button) return
-    if (this.element.classList.contains("is-entering") || this.element.classList.contains("is-turning") || this.element.classList.contains("is-locked")) {
+    if (this.element.classList.contains("is-art-preview") || this.element.classList.contains("is-entering") || this.element.classList.contains("is-locked")) {
       event.preventDefault()
       event.stopPropagation()
       return
@@ -202,18 +202,31 @@ export default class extends Controller {
   enterOverlay() {
     if (!this.overlay() || this.element.classList.contains("is-settled")) return
     if (this.element.classList.contains("is-ceremony")) return
+    if (!this.element.classList.contains("is-art-preview")) return
     if (this.reduced()) {
-      overlaySession = true
+      this.releaseAskCountdown()
+      this.element.classList.remove("is-art-preview")
       return
     }
-    if (overlaySession) {
-      this.element.classList.add("is-turning")
-      window.setTimeout(() => this.element.classList.remove("is-turning"), TURN_LOCK_MS)
-      return
-    }
-    overlaySession = true
+    const previewEnd = this.hasPreviewEndValue ? Date.parse(this.previewEndValue) : NaN
+    const delay = Number.isFinite(previewEnd) ? Math.max(0, previewEnd - Date.now()) : ART_PREVIEW_MS
+    this.artPreviewTimer = window.setTimeout(() => this.revealArt(), delay)
+  }
+
+  revealArt() {
+    if (!this.element.classList.contains("is-art-preview")) return
+    window.clearTimeout(this.artPreviewTimer)
+    this.element.classList.remove("is-art-preview")
+    this.releaseAskCountdown()
     this.element.classList.add("is-entering")
-    window.setTimeout(() => this.element.classList.remove("is-entering"), ENTER_LOCK_MS)
+    this.enterTimer = window.setTimeout(() => this.element.classList.remove("is-entering"), ENTER_LOCK_MS)
+  }
+
+  releaseAskCountdown() {
+    const timer = this.element.querySelector("[data-controller~='countdown']")
+    if (!timer) return
+    const countdown = this.application.getControllerForElementAndIdentifier(timer, "countdown")
+    countdown?.releaseAsk()
   }
 
   payoffScore() {

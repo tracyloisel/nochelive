@@ -1276,3 +1276,303 @@ pt-BR:
             mostaza: "Mostarda"
             trigo: "Trigo"
             arena: "Areia"
+    apocalipsis:
+      title: "Apocalipse"
+      kicker: "O Cordeiro vence"
+      lede: "Selos, o dragão e Babilônia: a visão não termina em medo, mas em vitória."
+      questions:
+        libro_siete_sellos:
+          question: "Quantos selos fechavam o livro que João viu?"
+          answer: "Sete selos. Somente o Cordeiro foi considerado digno de abrir o livro."
+          choices:
+            siete: "Sete"
+            tres: "Três"
+            doce: "Doze"
+        miguel_dragon:
+          question: "Na batalha no céu, quem lutou contra o dragão?"
+          answer: "Miguel e seus anjos lutaram contra o dragão, chamado Diabo e Satanás."
+          choices:
+            miguel: "Miguel e seus anjos"
+            juan: "João e os sete anciãos"
+            moises: "Moisés e Elias"
+        bestia_numero:
+          question: "Que número João dá à besta?"
+          answer: "Seiscentos e sessenta e seis. João convida quem tem entendimento a calcular esse número."
+          choices:
+            seiscientos_sesenta_seis: "Seiscentos e sessenta e seis"
+            setecientos_setenta_siete: "Setecentos e setenta e sete"
+            ciento_cuarenta_cuatro: "Cento e quarenta e quatro"
+        angel_evangelio:
+          question: "O que levava o anjo que voava pelo meio do céu?"
+          answer: "Levava o evangelho eterno para anunciá-lo a toda nação, tribo, língua e povo."
+          choices:
+            evangelio: "O evangelho eterno"
+            espada: "Uma espada de fogo"
+            corona: "Uma coroa de doze estrelas"
+        santos_pocos:
+          question: "Na visão de Néfi, os santos do Cordeiro eram…"
+          answer: "Eram poucos por causa da iniquidade, mas estavam sobre toda a face da Terra."
+          choices:
+            pocos: "Poucos, mas espalhados por toda a Terra"
+            escondidos: "Escondidos em uma única cidade"
+            incontables: "Mais numerosos que todos os povos"
+        armas_rectitud:
+          question: "Com que armas estavam armados os santos que Néfi viu?"
+          answer: "O poder do Cordeiro desceu sobre eles; suas armas eram a retidão e o poder de Deus."
+          choices:
+            rectitud: "Retidão e o poder de Deus"
+            hierro: "Ferro e carros"
+            oro: "Ouro e coroas"
+        obra_del_padre:
+          question: "Quando começassem as guerras entre as nações, o que o Pai começaria?"
+          answer: "Ele começaria Sua obra para preparar o cumprimento dos convênios feitos com Israel."
+          choices:
+            convenios: "A preparar o cumprimento de Seus convênios"
+            diluvio: "A enviar outro dilúvio"
+            torre: "A erguer uma torre"
+        juan_escribira:
+          question: "Quem escreveria o restante da visão que Néfi contemplou?"
+          answer: "O anjo mostrou João a Néfi e disse que ele escreveria o restante daquelas coisas."
+          choices:
+            juan: "João, um dos Doze"
+            pedro: "Pedro"
+            isaias: "Isaías"
+        babilonia_cae:
+          question: "Que grande cidade o anjo anuncia que caiu?"
+          answer: "Babilônia caiu. A visão anuncia o fim de seu poder e de seus enganos."
+          choices:
+            babilonia: "Babilônia"
+            jerusalen: "Jerusalém"
+            belen: "Belém"
+        rey_de_reyes:
+          question: "Que nome Cristo traz quando aparece como vencedor?"
+          answer: "REI DOS REIS E SENHOR DOS SENHORES. O Cordeiro vence: esse é o fim da visão."
+          choices:
+            rey_reyes: "Rei dos Reis e Senhor dos Senhores"
+            principe_egipto: "Príncipe do Egito"
+            escriba: "Escriba de Jerusalém"
+    segunda_venida:
+      title: "O Retorno"
+      kicker: "Jesus voltará"
+      lede: "O evangelho, a trombeta e as nuvens: sinais para vigiar com esperança."
+      questions:
+        mismo_modo:
+          question: "Os anjos disseram que Jesus voltaria…"
+          answer: "Ele voltará como os discípulos O viram subir: do céu."
+          choices:
+            mismo_modo: "Como O tinham visto ir para o céu"
+            secreto: "Sem que ninguém pudesse vê-Lo"
+            nacer: "Nascendo outra vez em Belém"
+        evangelio_naciones:
+          question: "Antes do fim, onde o evangelho do reino será pregado?"
+          answer: "No mundo inteiro, como testemunho a todas as nações; então virá o fim."
+          choices:
+            todo_mundo: "No mundo inteiro"
+            jerusalen: "Somente em Jerusalém"
+            doce_ciudades: "Em doze cidades"
+        nadie_dia_hora:
+          question: "Quem conhece o dia e a hora da vinda do Filho do Homem?"
+          answer: "Somente o Pai. Jesus ensinou a vigiar, não a calcular uma data."
+          choices:
+            padre: "O Pai"
+            angeles: "Todos os anjos"
+            profetas: "Todos os profetas"
+        relampago_oriente:
+          question: "Jesus comparou Sua vinda a…"
+          answer: "Um relâmpago que cruza o céu do leste ao oeste: visível, repentino e glorioso."
+          choices:
+            relampago: "Um relâmpago do leste ao oeste"
+            lluvia: "Uma chuva suave"
+            lampara: "Uma lâmpada escondida"
+        cuatro_vientos:
+          question: "De onde os anjos reunirão os escolhidos?"
+          answer: "Eles os reunirão dos quatro ventos, de uma extremidade do céu à outra."
+          choices:
+            cuatro_vientos: "Dos quatro ventos"
+            un_valle: "De um único vale"
+            siete_templos: "De sete templos"
+        muertos_cristo:
+          question: "Quando soar a trombeta de Deus, quem ressuscitará primeiro?"
+          answer: "Os mortos em Cristo ressuscitarão primeiro; depois os fiéis encontrarão o Senhor."
+          choices:
+            muertos_cristo: "Os mortos em Cristo"
+            reyes: "Os reis da Terra"
+            soldados: "Os soldados de Roma"
+        tierra_rollo:
+          question: "Morôni viu que, na vinda do Senhor, a Terra se enrolaria como…"
+          answer: "Como um pergaminho, enquanto os elementos se derretem com intenso calor."
+          choices:
+            rollo: "Um pergaminho"
+            tienda: "Uma tenda"
+            manto: "Um manto"
+        nefi_rebano:
+          question: "Quando o Santo de Israel reinar, quantos pastores haverá?"
+          answer: "Um só rebanho e um só Pastor. Ele reunirá Seus filhos dos quatro cantos da Terra."
+          choices:
+            uno: "Um"
+            doce: "Doze"
+            setenta: "Setenta"
+        hasta_el_fin:
+          question: "Em Abundância, até que momento Jesus explicou o que aconteceria?"
+          answer: "Até Sua vinda em glória e o grande dia em que todos comparecerão diante de Deus."
+          choices:
+            juicio: "Até o grande dia do julgamento"
+            templo: "Até a construção do templo"
+            cosecha: "Até a próxima colheita"
+        nubes_gloria:
+          question: "Como as nações verão o Filho do Homem vir?"
+          answer: "Nas nuvens do céu, com poder e grande glória. Seu retorno não será secreto."
+          choices:
+            nubes_gloria: "Nas nuvens, com poder e grande glória"
+            barco: "Em um barco vindo da Galileia"
+            desierto: "Somente em um lugar secreto no deserto"
+    milenio:
+      title: "Milênio"
+      kicker: "Mil anos de paz"
+      lede: "O lobo, o Cordeiro e uma Terra renovada: assim Cristo reinará."
+      questions:
+        dragon_atado:
+          question: "No início do Milênio, o que acontece com o dragão, que é Satanás?"
+          answer: "Ele é amarrado para não enganar as nações durante mil anos."
+          choices:
+            atado: "É amarrado"
+            coronado: "É coroado"
+            escondido: "Esconde-se no mar"
+        mil_anos_reino:
+          question: "Por quanto tempo os santos reinarão com Cristo?"
+          answer: "Mil anos. É daí que vem o nome Milênio."
+          choices:
+            mil: "Mil anos"
+            cien: "Cem anos"
+            siete: "Sete anos"
+        primera_resurreccion:
+          question: "Como João chama a ressurreição daqueles que reinarão com Cristo?"
+          answer: "A primeira ressurreição. A segunda morte não tem poder sobre eles."
+          choices:
+            primera: "A primeira ressurreição"
+            secreta: "A ressurreição secreta"
+            ultima: "A última ressurreição"
+        lobo_cordero_milenio:
+          question: "Segundo Isaías, o lobo morará com…"
+          answer: "O cordeiro. Até uma criança guiará animais que antes eram inimigos."
+          choices:
+            cordero: "O cordeiro"
+            aguila: "A águia"
+            caballo: "O cavalo"
+        conocimiento_mar:
+          question: "O que encherá a Terra como as águas cobrem o mar?"
+          answer: "O conhecimento do Senhor. Não farão mal nem destruirão em Seu santo monte."
+          choices:
+            conocimiento: "O conhecimento do Senhor"
+            oro: "O ouro das nações"
+            nieve: "A neve do inverno"
+        casas_propias:
+          question: "Na visão de Isaías, aqueles que construírem casas…"
+          answer: "Morarão nelas; plantarão vinhas e comerão seu fruto. Seu trabalho não será em vão."
+          choices:
+            moraran: "Morarão nelas"
+            abandonaran: "Vão abandoná-las"
+            venderan: "Vão vendê-las ao rei"
+        santo_israel_reina:
+          question: "Quem reinará com poder e grande glória, segundo Néfi?"
+          answer: "O Santo de Israel reinará com força, poder e grande glória."
+          choices:
+            santo_israel: "O Santo de Israel"
+            rey_babilonia: "O rei da Babilônia"
+            capitan_moron: "Capitão Morôni"
+        un_rebano:
+          question: "Quando o Senhor reunir Seus filhos, haverá…"
+          answer: "Um rebanho e um Pastor. Suas ovelhas O conhecerão e Nele encontrarão pasto."
+          choices:
+            uno: "Um rebanho e um Pastor"
+            doce: "Doze rebanhos sem pastor"
+            dos: "Dois reinos rivais"
+        rectitud_sin_poder:
+          question: "Por que Satanás não terá poder durante muitos anos?"
+          answer: "Por causa da retidão do povo: Satanás não terá poder sobre o coração deles."
+          choices:
+            rectitud: "Por causa da retidão do povo"
+            cadena_hierro: "Somente por causa de uma corrente de ferro"
+            ejercito: "Por causa de um exército maior"
+        todo_revelado:
+          question: "Naquele dia, o que acontecerá às coisas secretas e seladas?"
+          answer: "Serão reveladas. A luz vencerá o segredo, e Satanás não terá mais poder sobre os corações."
+          choices:
+            reveladas: "Serão reveladas"
+            olvidadas: "Serão esquecidas"
+            destruidas: "Serão destruídas sem serem conhecidas"
+    improbables:
+      title: "Deus chama"
+      kicker: "Antes → depois"
+      lede: "Sem filhos, esquecidos, presos ou com medo: Deus os chamou onde ninguém esperava."
+      questions:
+        moises_boca:
+          question: "Quem disse ser «pesado de boca e pesado de língua»?"
+          answer: "Moisés. Deus prometeu ajudá-lo a falar e lhe deu Arão como porta-voz: sua dificuldade não anulou o chamado."
+          choices:
+            moises: "Moisés"
+            jeremias: "Jeremias"
+            gedeon: "Gideão"
+        abraham_sara:
+          question: "A que casal, já idoso e sem filhos, Deus prometeu uma descendência incontável?"
+          answer: "A Abraão e Sara. Sara não podia ter filhos, mas Deus chamou Abraão de pai de muitas nações."
+          choices:
+            abraham_sara: "Abraão e Sara"
+            isaac_rebeca: "Isaque e Rebeca"
+            jacob_raquel: "Jacó e Raquel"
+        david_ovejas:
+          question: "Quando Samuel pediu para ver todos os filhos de Jessé, quem ainda cuidava das ovelhas?"
+          answer: "Davi, o mais novo. Foram buscá-lo no campo, e Samuel o ungiu no meio de seus irmãos."
+          choices:
+            david: "Davi"
+            eliab: "Eliabe"
+            jonatan: "Jônatas"
+        gedeon_menor:
+          question: "Quem respondeu ao anjo: «Minha família é a mais pobre… e eu sou o menor»?"
+          answer: "Gideão. Ele se via pequeno; o Senhor o chamou de homem valente e o enviou para libertar Israel."
+          choices:
+            gedeon: "Gideão"
+            sanson: "Sansão"
+            jefte: "Jefté"
+        jose_carcel_palacio:
+          question: "Quem saiu da prisão para governar o Egito ao lado de Faraó?"
+          answer: "José. Ele passou do poço e da prisão para o palácio; Deus o colocou ali para preservar muitas vidas."
+          choices:
+            jose: "José"
+            daniel: "Daniel"
+            mardoqueo: "Mardoqueu"
+        ester_huerfana_reina:
+          question: "Qual órfã se tornou rainha e arriscou a vida pelo seu povo?"
+          answer: "Ester. Criada por Mardoqueu, ela chegou ao palácio e decidiu se apresentar ao rei: «Se perecer, pereci.»"
+          choices:
+            ester: "Ester"
+            rut: "Rute"
+            debora: "Débora"
+        jeremias_joven:
+          question: "Quem disse «Sou apenas uma criança» quando Deus o chamou como profeta às nações?"
+          answer: "Jeremias. Deus tocou sua boca e colocou nela Suas palavras: sua juventude não o impediu de cumprir a missão."
+          choices:
+            jeremias: "Jeremias"
+            samuel: "Samuel"
+            timoteo: "Timóteo"
+        pedro_negacion_pentecostes:
+          question: "Qual pescador negou conhecer Jesus e depois se levantou para pregar no Pentecostes?"
+          answer: "Pedro. Aquele que chorou depois de negar Jesus anunciou Cristo com coragem, e cerca de três mil pessoas creram."
+          choices:
+            pedro: "Pedro"
+            andres: "André"
+            juan: "João"
+        pablo_perseguidor_apostol:
+          question: "Quem perseguia a Igreja antes de ser enviado para levar o nome de Jesus às nações?"
+          answer: "Saulo, também chamado Paulo. O perseguidor foi escolhido para levar o nome de Jesus perante nações e reis."
+          choices:
+            pablo: "Paulo"
+            bernabe: "Barnabé"
+            esteban: "Estêvão"
+        rahab_fuera_linaje:
+          question: "Qual estrangeira escondeu os espias em Jericó e depois apareceu na genealogia de Jesus?"
+          answer: "Raabe. A estrangeira de Jericó escolheu a fé, foi acolhida em Israel e seu nome entrou na história de Jesus."
+          choices:
+            rahab: "Raabe"
+            jezabel: "Jezabel"
+            dalila: "Dalila"

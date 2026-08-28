@@ -1,11 +1,13 @@
 module Quizzes
   class AskClock
     UNTIMED_CAP_MS = 1_800_000
+    ART_PREVIEW_MS = 1_100
 
     def self.opening_attrs(question, at: Time.current)
+      asked_at = at + ART_PREVIEW_MS.fdiv(1000).seconds
       {
-        asked_at: at,
-        ends_at: question.timed? ? at + question.duration.seconds : nil
+        asked_at: asked_at,
+        ends_at: question.timed? ? asked_at + question.duration.seconds : nil
       }
     end
 

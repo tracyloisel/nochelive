@@ -1276,3 +1276,303 @@ fr:
             mostaza: "Moutarde"
             trigo: "Blé"
             arena: "Sable"
+    apocalipsis:
+      title: "Apocalypse"
+      kicker: "L’Agneau vainqueur"
+      lede: "Sceaux, dragon et Babylone : la vision ne s’achève pas dans la peur, mais dans la victoire."
+      questions:
+        libro_siete_sellos:
+          question: "Combien de sceaux fermaient le livre que Jean a vu ?"
+          answer: "Sept sceaux. Seul l’Agneau a été trouvé digne d’ouvrir le livre."
+          choices:
+            siete: "Sept"
+            tres: "Trois"
+            doce: "Douze"
+        miguel_dragon:
+          question: "Dans la bataille céleste, qui a combattu le dragon ?"
+          answer: "Michel et ses anges ont combattu le dragon, appelé le Diable et Satan."
+          choices:
+            miguel: "Michel et ses anges"
+            juan: "Jean et les sept anciens"
+            moises: "Moïse et Élie"
+        bestia_numero:
+          question: "Quel nombre Jean donne-t-il à la bête ?"
+          answer: "Six cent soixante-six. Jean invite celui qui a de l’intelligence à calculer ce nombre."
+          choices:
+            seiscientos_sesenta_seis: "Six cent soixante-six"
+            setecientos_setenta_siete: "Sept cent soixante-dix-sept"
+            ciento_cuarenta_cuatro: "Cent quarante-quatre"
+        angel_evangelio:
+          question: "Que portait l’ange qui volait au milieu du ciel ?"
+          answer: "Il portait l’Évangile éternel pour l’annoncer à toute nation, tribu, langue et peuple."
+          choices:
+            evangelio: "L’Évangile éternel"
+            espada: "Une épée de feu"
+            corona: "Une couronne de douze étoiles"
+        santos_pocos:
+          question: "Dans la vision de Néphi, les saints de l’Agneau étaient…"
+          answer: "Ils étaient peu nombreux à cause de l’iniquité, mais présents sur toute la surface de la terre."
+          choices:
+            pocos: "Peu nombreux, mais présents partout sur terre"
+            escondidos: "Cachés dans une seule ville"
+            incontables: "Plus nombreux que tous les peuples"
+        armas_rectitud:
+          question: "De quelles armes les saints vus par Néphi étaient-ils armés ?"
+          answer: "Le pouvoir de l’Agneau est descendu sur eux ; leurs armes étaient la justice et le pouvoir de Dieu."
+          choices:
+            rectitud: "La justice et le pouvoir de Dieu"
+            hierro: "Le fer et les chars"
+            oro: "L’or et les couronnes"
+        obra_del_padre:
+          question: "Quand les guerres commenceraient entre les nations, qu’est-ce que le Père commencerait ?"
+          answer: "Il commencerait son œuvre pour préparer l’accomplissement des alliances faites avec Israël."
+          choices:
+            convenios: "À préparer l’accomplissement de ses alliances"
+            diluvio: "À envoyer un nouveau déluge"
+            torre: "À élever une tour"
+        juan_escribira:
+          question: "Qui écrirait le reste de la vision contemplée par Néphi ?"
+          answer: "L’ange a montré Jean à Néphi et lui a dit qu’il écrirait la suite de ces choses."
+          choices:
+            juan: "Jean, l’un des Douze"
+            pedro: "Pierre"
+            isaias: "Ésaïe"
+        babilonia_cae:
+          question: "Quelle grande ville l’ange annonce-t-il comme tombée ?"
+          answer: "Babylone est tombée. La vision annonce la fin de son pouvoir et de ses tromperies."
+          choices:
+            babilonia: "Babylone"
+            jerusalen: "Jérusalem"
+            belen: "Bethléhem"
+        rey_de_reyes:
+          question: "Quel nom le Christ porte-t-il lorsqu’il apparaît en vainqueur ?"
+          answer: "ROI DES ROIS ET SEIGNEUR DES SEIGNEURS. L’Agneau est vainqueur : voilà la fin de la vision."
+          choices:
+            rey_reyes: "Roi des rois et Seigneur des seigneurs"
+            principe_egipto: "Prince d’Égypte"
+            escriba: "Scribe de Jérusalem"
+    segunda_venida:
+      title: "Le retour"
+      kicker: "Jésus reviendra"
+      lede: "L’Évangile, la trompette et les nuées : des signes pour veiller avec espérance."
+      questions:
+        mismo_modo:
+          question: "Les anges ont dit que Jésus reviendrait…"
+          answer: "Il reviendra comme les disciples l’ont vu monter : depuis le ciel."
+          choices:
+            mismo_modo: "Comme ils l’avaient vu aller au ciel"
+            secreto: "Sans que personne puisse le voir"
+            nacer: "En naissant de nouveau à Bethléhem"
+        evangelio_naciones:
+          question: "Avant la fin, où l’Évangile du royaume sera-t-il annoncé ?"
+          answer: "Dans le monde entier, pour servir de témoignage à toutes les nations ; alors viendra la fin."
+          choices:
+            todo_mundo: "Dans le monde entier"
+            jerusalen: "Seulement à Jérusalem"
+            doce_ciudades: "Dans douze villes"
+        nadie_dia_hora:
+          question: "Qui connaît le jour et l’heure de la venue du Fils de l’Homme ?"
+          answer: "Le Père seul. Jésus a enseigné à veiller, pas à calculer une date."
+          choices:
+            padre: "Le Père"
+            angeles: "Tous les anges"
+            profetas: "Tous les prophètes"
+        relampago_oriente:
+          question: "Jésus a comparé sa venue à…"
+          answer: "À l’éclair qui traverse le ciel de l’est à l’ouest : visible, soudain et glorieux."
+          choices:
+            relampago: "Un éclair de l’est à l’ouest"
+            lluvia: "Une pluie légère"
+            lampara: "Une lampe cachée"
+        cuatro_vientos:
+          question: "D’où les anges rassembleront-ils les élus ?"
+          answer: "Ils les rassembleront des quatre vents, d’une extrémité du ciel à l’autre."
+          choices:
+            cuatro_vientos: "Des quatre vents"
+            un_valle: "D’une seule vallée"
+            siete_templos: "De sept temples"
+        muertos_cristo:
+          question: "Quand la trompette de Dieu sonnera, qui ressuscitera en premier ?"
+          answer: "Les morts en Christ ressusciteront d’abord ; ensuite les fidèles rencontreront le Seigneur."
+          choices:
+            muertos_cristo: "Les morts en Christ"
+            reyes: "Les rois de la terre"
+            soldados: "Les soldats de Rome"
+        tierra_rollo:
+          question: "Moroni a vu qu’à la venue du Seigneur, la terre serait repliée comme…"
+          answer: "Comme un rouleau, tandis que les éléments fondront dans une chaleur ardente."
+          choices:
+            rollo: "Un rouleau"
+            tienda: "Une tente"
+            manto: "Un manteau"
+        nefi_rebano:
+          question: "Quand le Saint d’Israël régnera, combien y aura-t-il de bergers ?"
+          answer: "Un seul troupeau et un seul Berger. Il rassemblera ses enfants des quatre coins de la terre."
+          choices:
+            uno: "Un"
+            doce: "Douze"
+            setenta: "Soixante-dix"
+        hasta_el_fin:
+          question: "À Abondance, jusqu’à quel moment Jésus a-t-il expliqué ce qui arriverait ?"
+          answer: "Jusqu’à sa venue en gloire et au grand jour où tous comparaîtront devant Dieu."
+          choices:
+            juicio: "Jusqu’au grand jour du jugement"
+            templo: "Jusqu’à la construction du temple"
+            cosecha: "Jusqu’à la prochaine récolte"
+        nubes_gloria:
+          question: "Comment les nations verront-elles venir le Fils de l’Homme ?"
+          answer: "Sur les nuées du ciel, avec puissance et grande gloire. Son retour ne sera pas secret."
+          choices:
+            nubes_gloria: "Sur les nuées, avec puissance et grande gloire"
+            barco: "Dans un bateau venu de Galilée"
+            desierto: "Seulement dans un endroit secret du désert"
+    milenio:
+      title: "Millénium"
+      kicker: "Mille ans de paix"
+      lede: "Le loup, l’Agneau et une terre renouvelée : ainsi régnera le Christ."
+      questions:
+        dragon_atado:
+          question: "Au début du Millénium, qu’arrive-t-il au dragon, qui est Satan ?"
+          answer: "Il est lié afin de ne plus tromper les nations pendant mille ans."
+          choices:
+            atado: "Il est lié"
+            coronado: "Il est couronné"
+            escondido: "Il se cache dans la mer"
+        mil_anos_reino:
+          question: "Pendant combien de temps les saints régneront-ils avec le Christ ?"
+          answer: "Mille ans. C’est de là que vient le mot Millénium."
+          choices:
+            mil: "Mille ans"
+            cien: "Cent ans"
+            siete: "Sept ans"
+        primera_resurreccion:
+          question: "Comment Jean appelle-t-il la résurrection de ceux qui régneront avec le Christ ?"
+          answer: "La première résurrection. Sur eux, la seconde mort n’a aucun pouvoir."
+          choices:
+            primera: "La première résurrection"
+            secreta: "La résurrection secrète"
+            ultima: "La dernière résurrection"
+        lobo_cordero_milenio:
+          question: "Selon Ésaïe, le loup habitera avec…"
+          answer: "Avec l’agneau. Même un enfant conduira ensemble des animaux autrefois ennemis."
+          choices:
+            cordero: "L’agneau"
+            aguila: "L’aigle"
+            caballo: "Le cheval"
+        conocimiento_mar:
+          question: "Qu’est-ce qui remplira la terre comme les eaux couvrent la mer ?"
+          answer: "La connaissance de l’Éternel. On ne fera ni mal ni destruction sur sa montagne sainte."
+          choices:
+            conocimiento: "La connaissance de l’Éternel"
+            oro: "L’or des nations"
+            nieve: "La neige de l’hiver"
+        casas_propias:
+          question: "Dans la vision d’Ésaïe, ceux qui bâtiront des maisons…"
+          answer: "Y habiteront ; ils planteront des vignes et en mangeront le fruit. Leur travail ne sera pas vain."
+          choices:
+            moraran: "Y habiteront"
+            abandonaran: "Les abandonneront"
+            venderan: "Les vendront au roi"
+        santo_israel_reina:
+          question: "Qui régnera avec puissance et grande gloire, selon Néphi ?"
+          answer: "Le Saint d’Israël régnera avec puissance, force et grande gloire."
+          choices:
+            santo_israel: "Le Saint d’Israël"
+            rey_babilonia: "Le roi de Babylone"
+            capitan_moron: "Le capitaine Moroni"
+        un_rebano:
+          question: "Quand le Seigneur rassemblera ses enfants, il y aura…"
+          answer: "Un troupeau et un Berger. Ses brebis le connaîtront et trouveront en lui leur pâturage."
+          choices:
+            uno: "Un troupeau et un Berger"
+            doce: "Douze troupeaux sans berger"
+            dos: "Deux royaumes ennemis"
+        rectitud_sin_poder:
+          question: "Pourquoi Satan n’aura-t-il aucun pouvoir pendant de nombreuses années ?"
+          answer: "À cause de la justice du peuple : Satan n’aura aucun pouvoir sur son cœur."
+          choices:
+            rectitud: "À cause de la justice du peuple"
+            cadena_hierro: "Seulement à cause d’une chaîne de fer"
+            ejercito: "À cause d’une armée plus grande"
+        todo_revelado:
+          question: "En ce jour-là, qu’arrivera-t-il aux choses secrètes et scellées ?"
+          answer: "Elles seront révélées. La lumière triomphera du secret et Satan n’aura plus de pouvoir sur les cœurs."
+          choices:
+            reveladas: "Elles seront révélées"
+            olvidadas: "Elles seront oubliées"
+            destruidas: "Elles seront détruites sans être connues"
+    improbables:
+      title: "Dieu appelle"
+      kicker: "Avant → après"
+      lede: "Sans enfant, oubliés, prisonniers ou saisis de peur : Dieu les a appelés là où personne ne les attendait."
+      questions:
+        moises_boca:
+          question: "Qui a dit avoir « la bouche et la langue embarrassées » ?"
+          answer: "Moïse. Dieu lui a promis de l’aider à parler et lui a donné Aaron comme porte-parole : sa difficulté n’a pas annulé son appel."
+          choices:
+            moises: "Moïse"
+            jeremias: "Jérémie"
+            gedeon: "Gédéon"
+        abraham_sara:
+          question: "À quel couple, sans enfant et déjà âgé, Dieu a-t-il promis une descendance innombrable ?"
+          answer: "À Abraham et Sara. Sara ne pouvait pas avoir d’enfant, mais Dieu a appelé Abraham père d’une multitude de nations."
+          choices:
+            abraham_sara: "Abraham et Sara"
+            isaac_rebeca: "Isaac et Rébecca"
+            jacob_raquel: "Jacob et Rachel"
+        david_ovejas:
+          question: "Quand Samuel a demandé à voir tous les fils d’Isaï, qui gardait encore les brebis ?"
+          answer: "David, le plus jeune. On est allé le chercher aux champs, et Samuel l’a oint au milieu de ses frères."
+          choices:
+            david: "David"
+            eliab: "Éliab"
+            jonatan: "Jonathan"
+        gedeon_menor:
+          question: "Qui a répondu à l’ange : « Ma famille est la plus pauvre… et je suis le plus petit » ?"
+          answer: "Gédéon. Il se voyait petit ; l’Éternel l’a appelé vaillant héros et l’a envoyé délivrer Israël."
+          choices:
+            gedeon: "Gédéon"
+            sanson: "Samson"
+            jefte: "Jephthé"
+        jose_carcel_palacio:
+          question: "Qui est sorti de prison pour gouverner l’Égypte aux côtés de Pharaon ?"
+          answer: "Joseph. Il est passé de la citerne et de la prison au palais ; Dieu l’avait placé là pour préserver de nombreuses vies."
+          choices:
+            jose: "Joseph"
+            daniel: "Daniel"
+            mardoqueo: "Mardochée"
+        ester_huerfana_reina:
+          question: "Quelle orpheline est devenue reine et a risqué sa vie pour son peuple ?"
+          answer: "Esther. Élevée par Mardochée, elle est entrée au palais puis a décidé de se présenter au roi : « Si je dois périr, je périrai. »"
+          choices:
+            ester: "Esther"
+            rut: "Ruth"
+            debora: "Débora"
+        jeremias_joven:
+          question: "Qui a dit « Je ne suis qu’un enfant » quand Dieu l’a appelé comme prophète pour les nations ?"
+          answer: "Jérémie. Dieu a touché sa bouche et y a mis ses paroles : sa jeunesse ne l’a pas empêché d’accomplir sa mission."
+          choices:
+            jeremias: "Jérémie"
+            samuel: "Samuel"
+            timoteo: "Timothée"
+        pedro_negacion_pentecostes:
+          question: "Quel pêcheur a renié Jésus avant de se lever pour prêcher à la Pentecôte ?"
+          answer: "Pierre. Celui qui avait pleuré après son reniement a ensuite annoncé le Christ avec courage, et environ trois mille personnes ont cru."
+          choices:
+            pedro: "Pierre"
+            andres: "André"
+            juan: "Jean"
+        pablo_perseguidor_apostol:
+          question: "Qui persécutait l’Église avant d’être envoyé porter le nom de Jésus aux nations ?"
+          answer: "Saul, aussi appelé Paul. Le persécuteur a été choisi pour porter le nom de Jésus devant les nations et les rois."
+          choices:
+            pablo: "Paul"
+            bernabe: "Barnabas"
+            esteban: "Étienne"
+        rahab_fuera_linaje:
+          question: "Quelle étrangère a caché les espions à Jéricho avant d’apparaître dans la généalogie de Jésus ?"
+          answer: "Rahab. Cette étrangère de Jéricho a choisi la foi, a été accueillie en Israël et son nom est entré dans l’histoire de Jésus."
+          choices:
+            rahab: "Rahab"
+            jezabel: "Jézabel"
+            dalila: "Dalila"

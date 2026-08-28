@@ -1,0 +1,527 @@
+pt-BR:
+  quizzes:
+    perdido_encontrado:
+      title: "Perdido e encontrado"
+      kicker: "Parábolas de Jesus"
+      lede: "Uma ovelha, uma moeda e um filho: a alegria de Deus quando alguém volta para casa."
+      questions:
+        ovejas_cien:
+          question: "O pastor tinha cem ovelhas. Quantas se perderam?"
+          answer: "Uma. O pastor deixou as outras noventa e nove para procurar aquela que estava perdida."
+          choices:
+            una: "Uma"
+            diez: "Dez"
+            cincuenta: "Cinquenta"
+        hasta_encontrarla:
+          question: "Até quando o pastor procurou a ovelha perdida?"
+          answer: "Até encontrá-la. A busca não terminou enquanto a ovelha continuava perdida."
+          choices:
+            encontrarla: "Até encontrá-la"
+            anochecer: "Até o anoitecer"
+            cansarse: "Até ficar cansado"
+        hombros_gozoso:
+          question: "Quando encontrou a ovelha, o pastor a colocou…"
+          answer: "Sobre os ombros, cheio de alegria. Depois chamou os amigos para comemorar."
+          choices:
+            hombros: "Sobre os ombros"
+            corral: "Sozinha no curral"
+            carro: "Em uma carroça"
+        monedas_diez:
+          question: "A mulher da segunda parábola tinha…"
+          answer: "Dez moedas. Quando perdeu uma, acendeu uma lamparina e procurou com cuidado."
+          choices:
+            diez: "Dez moedas"
+            doce: "Doze moedas"
+            cien: "Cem moedas"
+        lampara_escoba:
+          question: "Para encontrar a moeda, a mulher acendeu uma lamparina e…"
+          answer: "Varreu a casa e procurou com cuidado até encontrar a moeda."
+          choices:
+            barrio: "Varreu a casa"
+            vendio: "Vendeu a casa"
+            espero: "Esperou junto à porta"
+        gozo_angeles:
+          question: "Jesus comparou essa alegria à alegria dos anjos quando…"
+          answer: "Um pecador se arrepende. O céu comemora aquele que volta."
+          choices:
+            arrepiente: "Um pecador se arrepende"
+            rey_nace: "Nasce um rei"
+            templo_abre: "Um templo abre as portas"
+        parte_herencia:
+          question: "O que o filho mais novo pediu ao pai?"
+          answer: "Pediu a parte dos bens que lhe cabia e depois partiu para um país distante."
+          choices:
+            herencia: "Sua parte da herança"
+            rebano: "Todo o rebanho"
+            corona: "A coroa da família"
+        pais_lejano:
+          question: "No país distante, o filho mais novo…"
+          answer: "Desperdiçou seus bens. Quando veio a fome, desejou até a comida dos porcos."
+          choices:
+            desperdicio: "Desperdiçou seus bens"
+            multiplico: "Multiplicou seus bens"
+            reino: "Fundou um reino"
+        padre_corrio:
+          question: "Ao ver o filho voltando, o pai…"
+          answer: "Sentiu compaixão, correu até ele, abraçou-o e preparou uma festa."
+          choices:
+            corrio: "Correu para abraçá-lo"
+            cerro: "Fechou a porta"
+            escondio: "Escondeu-se"
+        muerto_revive:
+          question: "Por que o pai disse que era preciso comemorar?"
+          answer: "Porque seu filho estava morto e reviveu; estava perdido e foi encontrado."
+          choices:
+            vuelto: "Quem estava perdido voltou"
+            cosecha: "A colheita havia começado"
+            deuda: "A dívida havia sido paga"
+    secretos_reino:
+      title: "Os segredos do Reino"
+      kicker: "Parábolas de Jesus"
+      lede: "Sementes, fermento e tesouros: o Reino começa pequeno e vale mais que tudo."
+      questions:
+        semilla_camino:
+          question: "Na parábola do semeador, quem comeu a semente que caiu à beira do caminho?"
+          answer: "As aves. Jesus a comparou a quem ouve a palavra, mas não a compreende."
+          choices:
+            aves: "As aves"
+            ovejas: "As ovelhas"
+            langostas: "Os gafanhotos"
+        pedregales_raiz:
+          question: "A semente que caiu no terreno pedregoso secou porque não tinha…"
+          answer: "Raiz. Recebeu a palavra com alegria, mas não resistiu às dificuldades."
+          choices:
+            raiz: "Raiz"
+            lluvia: "Cor"
+            espigas: "Espigas"
+        buena_tierra:
+          question: "Onde a semente deu fruto?"
+          answer: "Em boa terra. Ela representa quem ouve, compreende e deixa a palavra dar fruto."
+          choices:
+            buena: "Em boa terra"
+            camino: "No caminho"
+            espinos: "Entre os espinhos"
+        espinos_ahogan:
+          question: "O que sufocou a palavra representada pela semente entre os espinhos?"
+          answer: "As preocupações do mundo e o engano das riquezas fizeram com que ela ficasse sem fruto."
+          choices:
+            afanes: "As preocupações e o engano das riquezas"
+            frio: "O frio da noite"
+            silencio: "O silêncio do campo"
+        mostaza_crece:
+          question: "O Reino é como uma semente de mostarda que, ao crescer…"
+          answer: "Embora comece minúscula, cresce muito e as aves vêm para seus ramos."
+          choices:
+            grande: "Torna-se maior que as hortaliças"
+            desaparece: "Desaparece debaixo da terra"
+            piedra: "Transforma-se em pedra"
+        levadura_masa:
+          question: "A mulher escondeu o fermento em…"
+          answer: "Misturou-o à farinha até toda a massa ficar fermentada. O Reino transforma de dentro para fora."
+          choices:
+            harina: "Uma grande quantidade de farinha"
+            aceite: "Uma jarra de azeite"
+            arena: "Um monte de areia"
+        tesoro_campo:
+          question: "Ao encontrar um tesouro escondido, o homem tornou a escondê-lo e…"
+          answer: "Cheio de alegria, vendeu tudo o que tinha e comprou aquele campo."
+          choices:
+            compro: "Vendeu tudo e comprou o campo"
+            olvido: "Esqueceu onde ele estava"
+            entrego: "Entregou-o ao rei"
+        mercader_perlas:
+          question: "O que o negociante da parábola procurava?"
+          answer: "Pérolas de grande valor. Quando encontrou uma extraordinária, reconheceu algo incomparável."
+          choices:
+            perlas: "Pérolas de grande valor"
+            coronas: "Coroas antigas"
+            caballos: "Cavalos velozes"
+        vendio_todo:
+          question: "O que o negociante fez para obter a pérola de grande valor?"
+          answer: "Vendeu tudo o que tinha e a comprou. O Reino pede uma decisão de todo o coração."
+          choices:
+            todo: "Vendeu tudo o que tinha"
+            cambio: "Trocou-a por três moedas"
+            espero: "Esperou o preço baixar"
+        valor_reino:
+          question: "O que o tesouro escondido e a pérola de grande valor têm em comum?"
+          answer: "As duas parábolas mostram uma alegria tão grande que vale a pena entregar tudo pelo Reino."
+          choices:
+            valor: "O Reino vale mais que todo o resto"
+            miedo: "O Reino deve permanecer em segredo"
+            suerte: "O Reino é obtido por sorte"
+    amar_projimo:
+      title: "Amar o próximo"
+      kicker: "Parábolas de Jesus"
+      lede: "Uma estrada perigosa, uma dívida impossível e uma pergunta: quem mostrou misericórdia?"
+      questions:
+        camino_jerico:
+          question: "O homem da parábola descia de Jerusalém para…"
+          answer: "Descia para Jericó quando caiu nas mãos de ladrões, que o deixaram ferido."
+          choices:
+            jerico: "Jericó"
+            belen: "Belém"
+            nazaret: "Nazaré"
+        pasaron_largo:
+          question: "Quem viu o homem ferido e passou pelo outro lado?"
+          answer: "Um sacerdote e um levita o viram, mas os dois passaram pelo outro lado."
+          choices:
+            sacerdote_levita: "Um sacerdote e um levita"
+            pescadores: "Dois pescadores"
+            soldados: "Dois soldados"
+        samaritano_compasion:
+          question: "Quando o samaritano viu o homem ferido, sentiu…"
+          answer: "Compaixão. Enfaixou as feridas, levou-o a uma hospedaria e cuidou dele."
+          choices:
+            compasion: "Compaixão"
+            desprecio: "Desprezo"
+            impaciencia: "Impaciência"
+        aceite_vino:
+          question: "O que o samaritano derramou sobre as feridas?"
+          answer: "Azeite e vinho. Depois colocou o homem sobre seu animal e pagou ao hospedeiro."
+          choices:
+            aceite_vino: "Azeite e vinho"
+            agua_sal: "Água e sal"
+            leche_miel: "Leite e mel"
+        mostro_misericordia:
+          question: "Para Jesus, quem se tornou o próximo do homem ferido?"
+          answer: "Aquele que mostrou misericórdia. Jesus concluiu: vá e faça o mesmo."
+          choices:
+            misericordia: "Aquele que mostrou misericórdia"
+            cercano: "Aquele que morava mais perto"
+            conocido: "Aquele que já o conhecia"
+        deuda_diez_mil:
+          question: "Na parábola do servo impiedoso, a dívida dele era de…"
+          answer: "Dez mil talentos: uma dívida enorme que o servo não podia pagar."
+          choices:
+            diez_mil: "Dez mil talentos"
+            cien: "Cem denários"
+            diez: "Dez moedas"
+        rey_perdono:
+          question: "Ao ouvir o pedido do servo, o rei…"
+          answer: "Sentiu compaixão, deixou-o ir e perdoou toda a dívida."
+          choices:
+            perdono: "Perdoou a dívida"
+            duplico: "Dobrou a dívida"
+            ignoro: "Ignorou o servo"
+        cien_denarios:
+          question: "O companheiro do servo lhe devia…"
+          answer: "Cem denários. Mesmo depois de ser perdoado, o servo exigiu o pagamento sem misericórdia."
+          choices:
+            cien: "Cem denários"
+            diez_mil: "Dez mil talentos"
+            nada: "Nada"
+        corazon_perdona:
+          question: "Que ensinamento encerra a parábola do servo?"
+          answer: "Quem recebeu misericórdia deve perdoar de coração a seu irmão ou sua irmã."
+          choices:
+            corazon: "Perdoar de coração"
+            cobrar: "Cobrar cada dívida"
+            olvidar: "Esquecer quem falhou"
+        dos_deudores:
+          question: "Dois devedores foram perdoados: um devia quinhentos, o outro cinquenta. Quem amou mais?"
+          answer: "Aquele que recebeu o maior perdão. Reconhecer a graça recebida desperta um amor profundo."
+          choices:
+            mas_perdonado: "Aquele que recebeu o maior perdão"
+            menos_perdonado: "Aquele que recebeu o menor perdão"
+            ninguno: "Nenhum dos dois"
+    velar_servir:
+      title: "Vigiar e servir"
+      kicker: "Parábolas de Jesus"
+      lede: "Lâmpadas, talentos e uma chegada inesperada: prepare-se servindo com fidelidade."
+      questions:
+        talentos_repartidos:
+          question: "O senhor confiou cinco, dois e um talento de acordo com…"
+          answer: "A capacidade de cada servo. Depois partiu e deixou essa responsabilidade nas mãos deles."
+          choices:
+            capacidad: "A capacidade de cada servo"
+            edad: "A idade de cada servo"
+            azar: "O acaso"
+        cinco_gano:
+          question: "O servo que recebeu cinco talentos ganhou…"
+          answer: "Outros cinco. O que recebeu dois também dobrou aquilo que lhe havia sido confiado."
+          choices:
+            cinco: "Outros cinco"
+            uno: "Mais um"
+            ninguno: "Nenhum"
+        uno_escondio:
+          question: "O que o servo fez com o único talento que recebeu?"
+          answer: "Por medo, cavou no chão e escondeu o dinheiro de seu senhor."
+          choices:
+            tierra: "Escondeu-o no chão"
+            negocio: "Abriu um negócio"
+            regalo: "Deu-o de presente"
+        buen_siervo:
+          question: "O que o senhor disse aos servos fiéis?"
+          answer: "Muito bem, servo bom e fiel. Eles haviam sido fiéis no pouco e receberiam mais."
+          choices:
+            fiel: "Muito bem, servo bom e fiel"
+            tarde: "Vocês chegaram tarde demais"
+            basta: "Não preciso do trabalho de vocês"
+        cinco_prudentes:
+          question: "Das dez moças, quantas eram prudentes?"
+          answer: "Cinco eram prudentes e cinco insensatas. Todas esperavam a chegada do noivo."
+          choices:
+            cinco: "Cinco"
+            diez: "Dez"
+            dos: "Duas"
+        aceite_reserva:
+          question: "Além das lâmpadas, as moças prudentes levaram…"
+          answer: "Azeite de reserva. As insensatas tinham lâmpadas, mas não estavam preparadas."
+          choices:
+            aceite: "Azeite em vasilhas"
+            pan: "Pão em cestas"
+            agua: "Água em jarros"
+        medianoche_clamor:
+          question: "Quando se ouviu o grito anunciando a chegada do noivo?"
+          answer: "À meia-noite se ouviu: o noivo está chegando; saiam para encontrá-lo!"
+          choices:
+            medianoche: "À meia-noite"
+            amanecer: "Ao amanhecer"
+            mediodia: "Ao meio-dia"
+        puerta_cerro:
+          question: "Enquanto as moças insensatas procuravam azeite…"
+          answer: "O noivo chegou, as que estavam preparadas entraram na festa, e a porta foi fechada."
+          choices:
+            cerro: "O noivo chegou, e a porta foi fechada"
+            espero: "A festa esperou por elas"
+            amanecio: "O dia amanheceu imediatamente"
+        alimento_tiempo:
+          question: "O servo fiel dá às pessoas da casa…"
+          answer: "O alimento no tempo certo. A fidelidade aparece no cuidado com aqueles que nos são confiados."
+          choices:
+            alimento: "O alimento no tempo certo"
+            ordenes: "Ordens sem descanso"
+            silencio: "Silêncio até a volta do senhor"
+        hallado_haciendo:
+          question: "Qual servo é feliz quando o senhor retorna?"
+          answer: "Aquele que o senhor encontra trabalhando. Vigiar é servir fielmente enquanto esperamos."
+          choices:
+            haciendo: "O servo encontrado fazendo seu trabalho"
+            escondido: "O servo que se escondeu"
+            dormido: "O servo que deixou tudo para depois"
+    sobre_roca:
+      title: "Escolher onde construir"
+      kicker: "Parábolas de Jesus"
+      lede: "Rocha ou areia, celeiros ou eternidade: suas escolhas revelam onde está seu coração."
+      questions:
+        oye_hace:
+          question: "Jesus comparou o homem prudente a quem ouve Suas palavras e…"
+          answer: "Coloca-as em prática. Ouvir e agir é construir uma vida firme."
+          choices:
+            hace: "Coloca-as em prática"
+            repite: "Apenas as repete"
+            esconde: "Mantém tudo escondido"
+        fundamento_roca:
+          question: "Sobre o que o homem prudente construiu sua casa?"
+          answer: "Sobre a rocha. A casa tinha um alicerce capaz de resistir à tempestade."
+          choices:
+            roca: "Sobre a rocha"
+            arena: "Sobre a areia"
+            madera: "Sobre madeira"
+        casa_resistio:
+          question: "Quando chegaram a chuva, os rios e os ventos, a casa sobre a rocha…"
+          answer: "Não caiu, porque estava alicerçada na rocha. A provação revelou a força do alicerce."
+          choices:
+            resistio: "Não caiu"
+            floto: "Flutuou rio abaixo"
+            desaparecio: "Desapareceu"
+        arena_ruina:
+          question: "A casa do homem que ouviu, mas não agiu, estava sobre a areia e…"
+          answer: "Caiu, e foi grande sua queda. O conhecimento sem obediência não sustenta a casa."
+          choices:
+            cayo: "Caiu com grande ruína"
+            crecio: "Cresceu com a chuva"
+            brillo: "Brilhou ao amanhecer"
+        cosecha_abundante:
+          question: "Na parábola do rico insensato, os campos dele produziram…"
+          answer: "Uma colheita tão abundante que já não havia onde guardar tudo."
+          choices:
+            abundante: "Uma colheita abundante"
+            espinos: "Somente espinhos"
+            nada: "Nada naquele ano"
+        graneros_mayores:
+          question: "O que o homem rico decidiu construir?"
+          answer: "Derrubaria seus celeiros, construiria outros maiores e guardaria ali todos os seus bens."
+          choices:
+            graneros: "Celeiros maiores"
+            hospital: "Um abrigo para os doentes"
+            pozo: "Um poço para o povoado"
+        esta_noche:
+          question: "O que Deus disse ao rico que acumulava somente para si?"
+          answer: "Esta noite sua vida será exigida. Jesus nos convidou a ser ricos para com Deus, não só para nós mesmos."
+          choices:
+            vida: "Esta noite sua vida será exigida"
+            premio: "Você receberá um prêmio"
+            cosecha: "Você terá outra colheita"
+        fariseo_oraba:
+          question: "No templo, o fariseu orava enumerando…"
+          answer: "Enumerava seus jejuns e dízimos enquanto se comparava com os outros."
+          choices:
+            obras: "Suas próprias boas obras"
+            pecados: "Seus pecados com humildade"
+            necesidades: "As necessidades do cobrador de impostos"
+        publicano_pecho:
+          question: "O cobrador de impostos batia no peito e dizia…"
+          answer: "Pediu misericórdia sem se comparar com ninguém. Apresentou-se diante de Deus com humildade."
+          choices:
+            misericordia: "Deus, tem misericórdia de mim, pecador"
+            justo: "Deus, olha como sou justo"
+            recompensa: "Deus, dá-me minha recompensa"
+        descendio_justificado:
+          question: "Quem voltou para casa justificado?"
+          answer: "O cobrador de impostos. Quem se exalta será humilhado, e quem se humilha será exaltado."
+          choices:
+            publicano: "O humilde cobrador de impostos"
+            fariseo: "O fariseu orgulhoso"
+            ambos: "Os dois da mesma forma"
+    simbolos_mormon:
+      title: "Símbolos do Livro de Mórmon"
+      kicker: "Alegorias únicas"
+      lede: "Oliveiras, uma semente e a árvore da vida: imagens que ensinam a vir a Cristo."
+      questions:
+        olivo_cultivado:
+          question: "Zenos comparou a casa de Israel a…"
+          answer: "Uma oliveira cultivada que começou a definhar na vinha do Senhor."
+          choices:
+            olivo: "Uma oliveira cultivada"
+            cedro: "Um cedro do Líbano"
+            mostaza: "Uma semente de mostarda"
+        podar_cavar_nutrir:
+          question: "Para salvar a oliveira, o senhor da vinha decidiu…"
+          answer: "Podou-a, cavou ao redor e a nutriu, esperando que brotassem ramos novos e tenros."
+          choices:
+            cuidar: "Podá-la, cavar ao redor e nutri-la"
+            abandonar: "Abandoná-la imediatamente"
+            ocultar: "Escondê-la debaixo de uma tenda"
+        ramas_silvestres:
+          question: "Que ramos foram enxertados na oliveira cultivada?"
+          answer: "Ramos de oliveira brava. A alegoria representa a dispersão e a coligação de Israel."
+          choices:
+            silvestres: "Ramos de oliveira brava"
+            higuera: "Ramos de figueira"
+            cedro: "Ramos de cedro"
+        me_aflige_perder:
+          question: "Que sentimento o senhor da vinha repete a respeito de suas árvores?"
+          answer: "Ele se aflige com a possibilidade de perdê-las. Seu trabalho paciente mostra o amor do Senhor por Seu povo."
+          choices:
+            aflige: "Aflige-me perder esta árvore"
+            indiferente: "Seu fruto não importa para mim"
+            tarde: "É tarde demais para cuidar dela"
+        semilla_corazon:
+          question: "Alma convidou o povo a dar lugar para plantar a palavra como uma semente no…"
+          answer: "Coração. O convite era experimentar a palavra, mesmo começando apenas com um desejo."
+          choices:
+            corazon: "Coração"
+            campo: "Campo"
+            vasija: "Vaso"
+        ensancha_ilumina:
+          question: "Uma boa semente começa a expandir a alma e iluminar…"
+          answer: "Ilumina o entendimento e começa a ser deliciosa. Assim reconhecemos que a palavra é boa."
+          choices:
+            entendimiento: "O entendimento"
+            ciudad: "A cidade inteira"
+            tesoro: "Um tesouro escondido"
+        nutrir_paciencia:
+          question: "Para a semente se tornar uma árvore, é preciso nutri-la com fé, diligência e…"
+          answer: "Com paciência, aguardando seu fruto. Assim ela pode crescer até produzir vida eterna."
+          choices:
+            paciencia: "Paciência"
+            riqueza: "Riqueza"
+            secreto: "Segredo"
+        fruto_dulce:
+          question: "O fruto da árvore que Leí viu era…"
+          answer: "Era extremamente doce e encheu sua alma de imensa alegria. Leí desejou compartilhá-lo com a família."
+          choices:
+            dulce: "Mais doce que tudo o que é doce"
+            amargo: "Amargo e escuro"
+            seco: "Seco e sem sabor"
+        barra_palabra:
+          question: "O que representa a barra de ferro que conduz à árvore?"
+          answer: "A palavra de Deus. Quem se apega a ela pode atravessar as névoas de escuridão."
+          choices:
+            palabra: "A palavra de Deus"
+            poder: "O poder dos reis"
+            riqueza: "As riquezas do mundo"
+        arbol_amor:
+          question: "O que a árvore da vida representa na visão de Néfi?"
+          answer: "O amor de Deus, manifestado em Jesus Cristo. Néfi soube que era a coisa mais desejável de todas."
+          choices:
+            amor: "O amor de Deus"
+            nacion: "Uma nação poderosa"
+            conocimiento: "Conhecimento sem fé"
+    parabolas_profetas:
+      title: "As parábolas dos profetas"
+      kicker: "Antigo Testamento"
+      lede: "Uma cordeirinha, árvores que falam e duas grandes águias: verdades que desarmam reis."
+      questions:
+        pobre_corderita:
+          question: "No relato de Natã, o homem pobre tinha apenas…"
+          answer: "Uma cordeirinha que crescia com seus filhos, comia de seu pão e era para ele como uma filha."
+          choices:
+            corderita: "Uma cordeirinha"
+            vacas: "Sete vacas"
+            viña: "Uma grande vinha"
+        rico_tomo:
+          question: "Para alimentar um viajante, o homem rico tomou…"
+          answer: "Tomou a única cordeirinha do pobre, embora tivesse muitas ovelhas e bois."
+          choices:
+            pobre: "A cordeirinha do pobre"
+            rebaño: "Uma ovelha de seu próprio rebanho"
+            pan: "Somente pão de sua mesa"
+        tu_eres:
+          question: "Depois de Davi condenar o homem rico, Natã lhe disse…"
+          answer: "Você é esse homem. A parábola fez Davi enxergar seu pecado antes que pudesse se defender."
+          choices:
+            tu: "Você é esse homem"
+            busca: "Procure esse homem"
+            olvida: "Esqueça esta história"
+        arboles_olivo:
+          question: "Na fábula de Jotão, qual árvore foi convidada primeiro para reinar?"
+          answer: "A oliveira se recusou a abandonar seu azeite para dominar sobre as outras árvores."
+          choices:
+            olivo: "A oliveira"
+            espino: "O espinheiro"
+            cedro: "O cedro"
+        espino_rey:
+          question: "Que planta finalmente aceitou reinar sobre as árvores?"
+          answer: "O espinheiro aceitou e as ameaçou com fogo. Jotão denunciava assim o reinado perigoso de Abimeleque."
+          choices:
+            espino: "O espinheiro"
+            higuera: "A figueira"
+            vid: "A videira"
+        cardo_cedro:
+          question: "Na parábola dirigida a Amazias, o espinheiro pediu ao cedro do Líbano…"
+          answer: "Pediu a filha do cedro para seu filho. Um animal pisoteou o espinheiro: um alerta contra o orgulho imprudente."
+          choices:
+            matrimonio: "Dê sua filha ao meu filho"
+            sombra: "Dê sombra ao meu jardim"
+            madera: "Dê madeira para minha casa"
+        aguila_cedro:
+          question: "Na parábola de Ezequiel, a grande águia arrancou…"
+          answer: "Arrancou a copa do cedro e a levou a uma terra de comerciantes. Ela representava o rei da Babilônia."
+          choices:
+            copa: "A copa de um cedro"
+            raiz: "A raiz de uma oliveira"
+            fruto: "O fruto de uma figueira"
+        vid_segunda_aguila:
+          question: "Embora estivesse bem plantada, a videira estendeu as raízes em direção a…"
+          answer: "Uma segunda águia. Representava Zedequias buscando a ajuda do Egito e quebrando seu convênio."
+          choices:
+            segunda: "Uma segunda águia"
+            desierto: "O deserto"
+            montana: "A montanha"
+        olla_jerusalen:
+          question: "Na parábola da panela, qual cidade era representada?"
+          answer: "Jerusalém, comparada a uma panela corroída colocada no fogo durante o cerco."
+          choices:
+            jerusalen: "Jerusalém"
+            ninive: "Nínive"
+            jerico: "Jericó"
+        herrumbre_fuego:
+          question: "O que representava a corrosão que não saía da panela?"
+          answer: "A violência e a maldade que permaneciam. A imagem alertava que o julgamento não podia mais ser adiado."
+          choices:
+            maldad: "Uma maldade que não havia sido purificada"
+            riqueza: "Uma riqueza escondida"
+            hambre: "Uma colheita perdida"

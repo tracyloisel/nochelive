@@ -2,12 +2,13 @@ class QuizDefinition
   class Error < StandardError; end
 
   CANONS = %w[bible bom dc pgp].freeze
-  PACK_COUNT = 17
+  PACK_COUNT = 28
   QUESTIONS_PER_PACK = 10
   CURVE_POINTS = [ 5, 5, 5, 8, 8, 8, 12, 12, 15, 25 ].freeze
   CURVE_DURATION = [ 0, 0, 0, 20, 20, 20, 15, 15, 15, 15 ].freeze
   CURVE_INTENSITY = [ 1, 1, 2, 2, 2, 3, 3, 4, 4, 5 ].freeze
   CATALOG_ID = "libre"
+  CATALOG_FILES = %w[libre parabolas improbables].freeze
   STUDY_PREFIXES = {
     "bible" => %w[ot/ nt/],
     "bom" => %w[bofm/],
@@ -71,6 +72,16 @@ class QuizDefinition
   end
 
   def self.load(id = CATALOG_ID)
+    if id == CATALOG_ID
+      packs = CATALOG_FILES.flat_map do |catalog_id|
+        path = Rails.root.join("config/quizzes/#{catalog_id}.yml")
+        raise Error, "Unknown quiz catalog #{catalog_id}" unless path.exist?
+
+        Array(YAML.safe_load_file(path)["packs"])
+      end
+      return new("packs" => packs)
+    end
+
     path = Rails.root.join("config/quizzes/#{id}.yml")
     raise Error, "Unknown quiz catalog #{id}" unless path.exist?
 
