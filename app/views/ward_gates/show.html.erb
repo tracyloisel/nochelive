@@ -1,6 +1,6 @@
 <% content_for :title, t("ward.gate_title") %>
 <% content_for :body_class, "is-kid is-paper-hall" %>
-<%= chrome_menu { site_menu } %>
+<% page_hud { site_menu } %>
 
 <%= paper_hall id: "ward_gate", kicker: t("presenter.title") do %>
   <h1><%= t("ward.open_title") %></h1>

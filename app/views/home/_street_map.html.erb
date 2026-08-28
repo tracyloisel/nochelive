@@ -6,7 +6,7 @@
 <nav class="street-map" aria-label="<%= t("street.trail") %>">
   <div class="street-map-head">
     <p class="street-map-title"><%= t("street.trail") %></p>
-    <%= link_to street_history_path, class: "quiet-link street-map-more" do %>
+    <%= link_to street_map_path(anchor: "historial"), class: "quiet-link street-map-more" do %>
       <%= t("street.history_menu") %><%= picto("arrow") %>
     <% end %>
   </div>

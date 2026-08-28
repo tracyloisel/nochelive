@@ -13,7 +13,7 @@ class ScripturesControllerTest < ActionDispatch::IntegrationTest
     get scripture_path("ot/1-sam/16", cite: "1 Samuel 16:13")
 
     assert_response :success
-    assert_select ".scripture-veil[role=dialog]"
+    assert_select ".scripture-veil[role=dialog][data-stage-bed-value=study_refuge]"
     assert_select "#scripture-title", text: "1 Samuel 16"
     assert_select ".scripture-summary", text: /Jehová escoge a David/
     assert_select ".scripture-verse", count: 3
@@ -29,7 +29,7 @@ class ScripturesControllerTest < ActionDispatch::IntegrationTest
         headers: { "Turbo-Frame" => "scripture_reader" }
 
     assert_response :success
-    assert_select "turbo-frame#scripture_reader .scripture-veil"
+    assert_select "turbo-frame#scripture_reader .scripture-veil[data-stage-bed-value=study_refuge]"
     assert_select "body", count: 0
   end
 
@@ -69,5 +69,33 @@ class ScripturesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_includes uri.to_s, "lang=fra"
     assert_includes uri.to_s, "uri=%2Fscriptures%2Fot%2F1-sam%2F16"
+  end
+
+  test "serves an indexable localized page for 2 Samuel 2 verse 1" do
+    Scriptures::Read.fetcher = ->(*) { file_fixture("scripture_2_sam_2.json").read }
+
+    get scripture_passage_path(
+      locale: "fr", scripture_section: "bible", book: "2-samuel", chapter: 2, verse: 1
+    )
+
+    assert_response :success
+    assert_select "html[lang=fr]"
+    assert_select "title", text: /2 Samuel 2:1/
+    assert_select "meta[name=description][content*='2 Samuel 2:1']", count: 1
+    assert_select "link[rel=canonical][href$='/fr/bible/2-samuel/2/1']", count: 1
+    assert_select "link[rel=alternate][hreflang=fr]", count: 1
+    assert_select "link[rel=alternate][hreflang=es]", count: 1
+    assert_select "link[rel=alternate][hreflang=pt-br]", count: 1
+    assert_select "link[rel=alternate][hreflang=en]", count: 1
+    assert_select "script[type='application/ld+json']", count: 1
+    assert_select "h1", text: "2 Samuel 2:1"
+    assert_select ".scripture-verse.is-focus", text: /David consulta/
+    assert_select ".home-menu.is-hud .quiz-hud", count: 1
+    assert_select ".navigation-dock .navigation-dock__item.is-active", text: I18n.t("hub.nav_word", locale: :fr)
+    assert_select ".scripture-seo-foot a[href*='churchofjesuschrist.org']", count: 1
+    assert_select ".scripture-seo-foot .btn.btn-gold", text: "Apprends la bible en t'amusant"
+    assert_select ".home-menu .mute", count: 0
+    assert_select ".home-menu .lang-switch", count: 0
+    assert_select ".chrome-tools", count: 0
   end
 end

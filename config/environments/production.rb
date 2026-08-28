@@ -63,7 +63,7 @@ Rails.application.configure do
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
   # config.action_mailer.raise_delivery_errors = false
 
-  host = ENV["APP_HOST"].presence || ENV["RENDER_EXTERNAL_HOSTNAME"].presence || "nochelive.onrender.com"
+  host = ENV["APP_HOST"].presence || "nochelive.com"
   config.x.app_host = host
   config.action_mailer.default_url_options = { host: host, protocol: "https" }
 

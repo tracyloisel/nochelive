@@ -24,6 +24,8 @@ class Hubs::ScreenTest < ActiveSupport::TestCase
     assert_nil screen.challenge
     assert_equal [], screen.online
     assert screen.backdrop.theme.mode.in?(%w[light dark])
+    assert_operator screen.progress.study_completed, :>=, 0
+    assert_operator screen.progress.study_total, :>=, screen.progress.study_completed
   end
 
 
@@ -113,13 +115,13 @@ class Hubs::ScreenTest < ActiveSupport::TestCase
     assert_equal :scheduled, screen.live.state
     assert_equal [ "Élder Oxxon", "Élder Manning" ], screen.live.hosts
     assert_equal "/media/nights/noche_live_stage_v2.png", screen.live.still
-    assert_equal "light", screen.live.theme_mode
-    assert_equal "glorious", screen.live.theme_atmosphere
+    assert_equal screen.backdrop.theme.mode, screen.live.theme_mode
+    assert_equal screen.backdrop.theme.atmosphere, screen.live.theme_atmosphere
     refute_equal screen.backdrop.src, screen.live.still
     refute_equal screen.hero.still, screen.live.still
   end
 
-  test "dedicated live stage stays independent from a tagged hub backdrop" do
+  test "dedicated live stage keeps its art and follows a Light hub backdrop" do
     Hubs::Backdrop.entries = [
       {
         "id" => "chapel-worship",
@@ -133,7 +135,28 @@ class Hubs::ScreenTest < ActiveSupport::TestCase
     screen = Hubs::Screen.call(device_digest: @digest, ward: @ward, at: night.starts_at - 3.days)
     assert_equal "/media/nights/noche_live_stage_v2.png", screen.live.still
     assert_equal "light", screen.live.theme_mode
-    assert_equal "glorious", screen.live.theme_atmosphere
+    assert_equal "peaceful", screen.live.theme_atmosphere
+    refute_equal screen.backdrop.src, screen.live.still
+  ensure
+    Hubs::Backdrop.reset!
+  end
+
+  test "dedicated live stage follows a Dark hub backdrop" do
+    Hubs::Backdrop.entries = [
+      {
+        "id" => "kings-at-night",
+        "image" => "quizzes/coronas/ungio_david.jpg",
+        "tags" => [ "reyes_y_profetas" ],
+        "theme" => { "mode" => "dark", "atmosphere" => "solemn", "accent" => "gold" }
+      }
+    ]
+    game_sessions(:david).update!(status: "finished")
+    night = game_sessions(:elias)
+    screen = Hubs::Screen.call(device_digest: @digest, ward: @ward, at: night.starts_at - 3.days)
+
+    assert_equal "/media/nights/noche_live_stage_v2.png", screen.live.still
+    assert_equal "dark", screen.live.theme_mode
+    assert_equal "solemn", screen.live.theme_atmosphere
     refute_equal screen.backdrop.src, screen.live.still
   ensure
     Hubs::Backdrop.reset!
@@ -270,6 +293,8 @@ class Hubs::ScreenTest < ActiveSupport::TestCase
     screen = Hubs::Screen.call(device_digest: @digest, person: @pili, ward: @ward, challenge:)
     tile = screen.challenge
     refute tile.scored?
+    assert_equal :waiting, tile.phase
+    assert_equal :accept, tile.waiting_for
     assert_equal "Carmen", tile.other_name
     assert_equal "Carmen García", tile.other_display_name
     assert_equal "tortuga", tile.you_avatar_key

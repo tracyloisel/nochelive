@@ -73,6 +73,33 @@ class Platform::StatsTest < ActiveSupport::TestCase
     assert_operator Team.solos.count, :>=, 2
   end
 
+  test "counts each shared invitation once through the viral journey" do
+    sent = street_duels(:pending_challenge)
+    completed = street_duels(:pili_vs_carmen)
+    [ sent, completed ].each do |duel|
+      ViralEvent.create!(name: "invite_share_completed", device_digest: "stats-sender", street_duel: duel)
+    end
+    ViralEvent.create!(name: "invite_share_completed", device_digest: "stats-reminder", street_duel: sent)
+    ViralEvent.create!(name: "invite_link_opened", device_digest: "stats-friend", street_duel: sent)
+
+    stats = Platform::Stats.call
+
+    assert_equal 2, stats.invitations_sent
+    assert_equal 1, stats.invitations_opened
+    assert_equal 1, stats.friends_joined
+    assert_equal 1, stats.invitation_duels_completed
+    assert_in_delta 0.5, stats.invitation_share, 0.001
+  end
+
+  test "invitation conversion is zero when nobody has shared" do
+    ViralEvent.delete_all
+
+    stats = Platform::Stats.call
+
+    assert_equal 0, stats.invitations_sent
+    assert_equal 0.0, stats.invitation_share
+  end
+
   test "world top 20 sums each person's best pack and skips guests" do
     carmen = people(:carmen_garcia)
     worse = QuizRun.create!(
@@ -99,11 +126,29 @@ class Platform::StatsTest < ActiveSupport::TestCase
     assert_equal 1, row.rank
     assert_equal 120 + 88 + 40, row.score
     assert_equal "Carmen", row.person.given_name
-    assert_equal "Rama Benidorm", row.ward_name
-    assert_equal "ES", row.country
+    assert_equal wards(:demo), row.ward
     assert_nil(stats.world.find { |entry| entry.person.blank? })
     assert_operator stats.world.size, :<=, Platform::Stats::WORLD_LIMIT
     assert_not_equal worse.score + 120, row.score
     assert placas.finished?
+  end
+
+  test "world ranking skips profiles without a ward" do
+    orphan = people(:pili)
+    orphan.update!(ward: nil)
+    QuizRun.create!(
+      device_digest: "stats-orphan",
+      person: orphan,
+      pack_id: "orphan-pack",
+      position: 10,
+      score: 999,
+      status: "finished",
+      opened_at: Time.current
+    )
+
+    stats = Platform::Stats.call
+
+    assert_not stats.world.any? { |row| row.person == orphan }
+    assert_equal (1..stats.world.size).to_a, stats.world.map(&:rank)
   end
 end

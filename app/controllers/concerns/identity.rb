@@ -167,6 +167,10 @@ module Identity
     end
 
     def current_locale
+      if request.get? && params[:locale].present?
+        return Locale.i18n(params[:locale])
+      end
+
       Locale.i18n(locale_preference)
     end
 

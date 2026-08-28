@@ -48,9 +48,14 @@ class Quizzes::HitStreakTest < ActiveSupport::TestCase
   test "milestones shout two three five ten without multiplying score" do
     expected = {
       2 => { shout: "two", sfx: nil, tier: "glow" },
-      3 => { shout: "three", sfx: "fire_whoosh", tier: "hot" },
-      5 => { shout: "five", sfx: "fire_whoosh", tier: "blaze" },
-      10 => { shout: "ten", sfx: "chest", tier: "legend" }
+      3 => { shout: "three", sfx: nil, tier: "hot" },
+      4 => { shout: nil, sfx: nil, tier: "hot" },
+      5 => { shout: "five", sfx: nil, tier: "blaze" },
+      6 => { shout: nil, sfx: nil, tier: "blaze" },
+      7 => { shout: nil, sfx: nil, tier: "blaze" },
+      8 => { shout: nil, sfx: nil, tier: "blaze" },
+      9 => { shout: nil, sfx: nil, tier: "blaze" },
+      10 => { shout: "ten", sfx: nil, tier: "legend" }
     }
     points = 0
     10.times do |index|
@@ -61,16 +66,18 @@ class Quizzes::HitStreakTest < ActiveSupport::TestCase
       combo = Quizzes::HitStreak.call(run: @run.reload)
       assert_equal n, combo.count
       assert combo.grew
-      if expected[n]
-        assert_equal expected[n][:shout], combo.shout_key, "shout at #{n}"
-        assert_equal expected[n][:tier], combo.tier, "tier at #{n}"
-        if expected[n][:sfx]
-          assert_equal expected[n][:sfx], combo.sfx, "sfx at #{n}"
+      row = expected[n]
+      if row
+        if row[:shout]
+          assert_equal row[:shout], combo.shout_key, "shout at #{n}"
         else
-          assert_nil combo.sfx, "sfx at #{n}"
+          assert_nil combo.shout_key, "no shout at #{n}"
         end
+        assert_equal row[:tier], combo.tier, "tier at #{n}"
+        assert_nil combo.sfx, "streak stays silent at #{n}"
       else
         assert_nil combo.shout_key, "no shout at #{n}"
+        assert_nil combo.sfx, "no streak sfx at #{n}"
       end
       Quizzes::Advance.call(run: @run.reload) unless n == 10
     end

@@ -33,8 +33,12 @@ class StudyJourneyTest < ActionDispatch::IntegrationTest
     assert_select ".study-current", text: /#{Regexp.escape(I18n.t("study.psalms_theme"))}/
     assert_select ".study-path-nav", count: 0
     assert_select "a.study-profile-invite[href='#{street_profile_path(fresh: 1)}']", text: /#{Regexp.escape(I18n.t("study.profile_invite_cta"))}/
-    assert_select ".street-world-dock .street-hub-nav-item.is-active[href='#{street_map_path}']"
+    assert_select ".navigation-dock .navigation-dock__item.is-active[href='#{study_program_path}']"
     assert_select ".study-appendix-row", count: 4
+
+    css = Rails.root.join("app/assets/stylesheets/application.css").read
+    assert_match(/\.study-world > \*/, css)
+    refute_match(/\.study-world > :not\(\.navigation-dock\)/, css)
 
     person = people(:pili)
     sign_in_congregation(person.ward)
@@ -44,13 +48,13 @@ class StudyJourneyTest < ActionDispatch::IntegrationTest
     get study_program_path
     assert_response :success
     assert_select ".study-profile-invite", count: 0
-    assert_select ".study-path-nav a[href='#{study_history_path}']", text: I18n.t("study.journey")
     assert_select ".study-path-nav a[href='#{study_community_path(ward_code: person.ward.code)}']", text: I18n.t("study.ward")
+  end
 
-    get study_history_path
-    assert_response :success
-    assert_select ".study-now.is-new"
-    assert_select ".study-now .btn[href='#{study_unit_path(@unit)}']", text: I18n.t("study.receive_light")
+  test "history page is not routed" do
+    assert_raises(ActionController::RoutingError) do
+      Rails.application.routes.recognize_path("/parole/historique", method: :get)
+    end
   end
 
   test "week page keeps its paper column inside a fullscreen artwork scene" do
@@ -75,8 +79,26 @@ class StudyJourneyTest < ActionDispatch::IntegrationTest
     assert_match(/\.study-unit-world \{[\s\S]*?--street-hub-col: 24\.375rem/, css)
     assert_match(/\.study-unit-world \{[\s\S]*?padding-top: max\(5\.5rem/, css)
     assert_match(/@media \(min-width: 1024px\) \{[\s\S]*?\.study-unit-world \{ --street-hub-col: 44rem; \}/, css)
-    assert_match(/body\.is-study-unit #study_unit > \.home-menu\.is-hud \{[\s\S]*?left: max\(env\(safe-area-inset-left\), var\(--space-4\)\);[\s\S]*?right: max\(env\(safe-area-inset-right\), var\(--space-4\)\);[\s\S]*?width: auto/, css)
-    assert_match(/body\.is-study-unit #study_unit > \.street-world-dock \{[\s\S]*?width: 100%;[\s\S]*?max-width: none/, css)
+    assert_match(/\.home-menu\.is-hud \{[^}]*position: fixed;[^}]*left: env\(safe-area-inset-left\);[^}]*right: env\(safe-area-inset-right\);[^}]*width: auto;[^}]*transform: none;/m, css)
+    assert_match(/\.navigation-dock \{[^}]*position: fixed;[^}]*left: 0;[^}]*right: 0;[^}]*transform: none;[^}]*width: auto;/m, css)
+    assert_select "body > .home-menu.is-hud", count: 1
+    assert_select "body > .navigation-dock", count: 1
+    assert_select "#study_unit > .home-menu", count: 0
+    assert_select "#study_unit > .navigation-dock", count: 0
+  end
+
+  test "study refuge bed follows the active journey and leaves before ceremony" do
+    post study_run_start_path(@unit)
+    run = StudyRun.last
+
+    get study_run_path(run)
+    assert_response :success
+    assert_select "#study_run[data-stage-bed-value=study_refuge]"
+
+    run.update!(status: "completed", position: 10, completed_at: Time.current)
+    get study_run_path(run)
+    assert_response :success
+    assert_select "#study_run[data-stage-bed-value]", count: 0
   end
 
   test "guest can answer and advance through an immutable quiz version" do
@@ -98,8 +120,9 @@ class StudyJourneyTest < ActionDispatch::IntegrationTest
 
     get study_run_path(run)
     assert_response :success
+    assert_select "#study_run[data-stage-bed-value=study_refuge]"
     assert_select ".home-menu.is-hud .quiz-hud", count: 1
-    assert_select ".street-world-dock .street-hub-nav-item.is-active[href='#{street_map_path}']", count: 1
+    assert_select ".navigation-dock .navigation-dock__item.is-active[href='#{study_program_path}']", count: 1
     assert_select ".study-choice", count: 4
     assert_select "a.study-question-reading[data-turbo-frame=scripture_reader]", count: 1
 
@@ -176,10 +199,11 @@ class StudyJourneyTest < ActionDispatch::IntegrationTest
 
     get study_run_path(run)
     assert_response :success
+    assert_select "#study_run[data-stage-bed-value]", count: 0
     assert_select ".study-ceremony blockquote + a.btn.btn-gold[href='#{study_program_path}']", text: I18n.t("study.view_annual_program")
     assert_select ".study-validated-program", text: /#{Regexp.escape(@program.title)}/
     assert_select ".study-validated-program", text: /#{Regexp.escape(@unit.scripture_refs.first)}/
-    assert_select "#study-finishers-title", text: I18n.t("study.fellow_finishers_title", count: 2)
+    assert_select "#study-finishers-title", text: I18n.t("study.finishers_title", count: 2)
     assert_select ".study-finisher", count: 2
     assert_select ".study-finisher", text: /#{Regexp.escape(fellow_one.given_name)}/, count: 1
     assert_select ".study-finisher", text: /#{Regexp.escape(fellow_two.given_name)}/, count: 1
@@ -214,21 +238,24 @@ class StudyJourneyTest < ActionDispatch::IntegrationTest
     end
     assert_select "a.hub-study a", count: 0
 
-    get study_history_path
+  end
+
+  test "completed journey celebrates and lists the first finisher" do
+    sign_in_congregation
+    person = people(:pili)
+    post street_profile_path, params: { person_id: person.id, favorite_year: person.favorite_year }
+    follow_redirect!
+
+    post study_run_start_path(@unit)
+    run = StudyRun.last
+    run.update!(status: "completed", position: 10, score: 10, completed_at: Time.current)
+
+    get study_run_path(run)
+
     assert_response :success
-    assert_select ".study-now.is-complete"
-    assert_select ".study-scripture-seal", count: 4
-    assert_select ".study-scripture-seal.has-progress", count: 1
-    assert_select ".study-scripture-seal.has-progress", text: /10/
-    assert_select ".study-scripture-book img[src*='old-testament-v1.png']", count: 1
-    assert_select ".study-scripture-book img[src*='new-testament-v1.png']", count: 1
-    assert_select ".study-scripture-book img[src*='book-of-mormon-v1.png']", count: 1
-    assert_select ".study-scripture-book img[src*='doctrine-covenants-v1.png']", count: 1
-    assert_select ".study-now button[data-action='street-share#share']", text: I18n.t("study.share_light")
-    assert_select ".study-now[data-street-share-url-value='#{study_unit_url(@unit)}']"
-    assert_select "#study_history .study-history-card.is-complete", count: 1
-    assert_select ".study-journey-total", text: /1/
-    assert_select ".street-world-dock .street-hub-nav-item.is-active[href='#{street_map_path}']"
+    assert_select "#study-finishers-title", text: I18n.t("study.first_finisher_title")
+    assert_select ".study-finisher", count: 1
+    assert_select ".study-finisher strong", text: person.given_name, count: 1
   end
 
   test "completed journey paginates fellow finishers by cumulative groups of one hundred" do
@@ -255,7 +282,7 @@ class StudyJourneyTest < ActionDispatch::IntegrationTest
 
     get study_run_path(run)
     assert_response :success
-    assert_select "#study-finishers-title", text: I18n.t("study.fellow_finishers_title", count: 101)
+    assert_select "#study-finishers-title", text: I18n.t("study.finishers_title", count: 101)
     assert_select ".study-finisher", count: 100
     assert_select "a.study-finishers-more[href='#{study_run_path(run, finishers_page: 2, anchor: "study-finishers-title")}']", text: I18n.t("study.load_more_finishers")
 
@@ -293,7 +320,7 @@ class StudyJourneyTest < ActionDispatch::IntegrationTest
 
     css = Rails.root.join("app/assets/stylesheets/application.css").read
     assert_match(/body\.is-study-community \.shell \{[^}]*width: 100%;[^}]*max-width: none/m, css)
-    assert_match(/body\.is-study-community #study_community > \.home-menu\.is-hud \{[^}]*left:[^}]*right:[^}]*width: auto/m, css)
+    assert_match(/\.home-menu\.is-hud \{[^}]*position: fixed;[^}]*left: env\(safe-area-inset-left\);[^}]*right: env\(safe-area-inset-right\);[^}]*width: auto;[^}]*max-width: none;/m, css)
   end
 
   test "ward conversation page paginates completed readers one hundred at a time" do

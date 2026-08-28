@@ -50,7 +50,14 @@
     </footer>
   <% elsif !compact %>
     <footer class="street-duel-foot">
-      <%= link_to t("street.ceremony_back_map"), map_path, class: "btn btn-gold" %>
+      <% if opponent %>
+        <%= button_to street_challenges_path,
+              params: { opponent_id: opponent.id, pack_id: duel.pack_id, source: "result-rematch" },
+              class: "btn btn-gold street-duel-rematch" do %>
+          <img src="/media/social/icon-rematch-medallion-v1.png" alt="" class="street-action-medallion" width="42" height="42"><%= t("street.duel_rematch") %>
+        <% end %>
+      <% end %>
+      <%= link_to t("street.ceremony_back_map"), map_path, class: "quiet-link" %>
       <% if share %>
         <%= render "street_hub/share_card", share:, person: you, cta_class: "btn-ghost" %>
       <% end %>

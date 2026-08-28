@@ -13,7 +13,7 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     assert_includes response.body, "timer_tension"
     assert_includes response.body, "/sfx/tick.mp3"
     assert_select "audio#noche_sfx_gate[playsinline]"
-    assert_select "audio#noche_sfx_gate[src='/sfx/tick.mp3']"
+    assert_select "audio#noche_sfx_gate[src^='/sfx/tick.mp3']"
     assert_select "#street_world"
     assert_select ".hub-hero"
     assert_select ".home-paper", count: 0
@@ -21,15 +21,15 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     assert_select ".home-menu-btn .picto-menu"
     assert_select ".home-menu-btn .picto-cross"
     assert_select ".chrome-drawer .home-menu-nav"
-    assert_select ".chrome-face.is-guest"
-    assert_select ".chrome-face.is-guest .picto-person"
+    assert_select ".quiz-hud-who.is-guest"
+    assert_select ".quiz-hud-avatar.is-guest"
     assert_select ".home-menu-kicker", text: I18n.t("home.ward_menu")
     assert_select ".home-menu-kicker", text: I18n.t("church.menu")
     assert_select ".home-menu-kicker", text: I18n.t("home.about_menu")
     assert_select ".home-menu-kicker", text: I18n.t("home.program"), count: 0
     assert_select ".chrome-drawer a.home-menu-row[href=?]", jugar_path, text: I18n.t("street.menu_play")
     assert_select ".chrome-drawer a.home-menu-row[href=?]", search_path
-    assert_select ".chrome-drawer a.home-menu-row[href=?]", street_history_path
+    assert_select ".chrome-drawer a.home-menu-row[href=?]", street_map_path(anchor: "historial")
     assert_select ".chrome-drawer a.home-menu-row[href=?]", street_map_path, text: I18n.t("street.world_map")
     assert_select ".chrome-drawer a.home-menu-row[href=?]", platform_stats_path, text: I18n.t("stats.menu")
     assert_select ".chrome-drawer .place-input", count: 0
@@ -90,6 +90,8 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     assert_includes css, ".chrome-tools"
     assert_includes css, ".scripture-veil[hidden]"
     assert_includes css, "--paper:"
+    assert_includes css, "body.is-celestial-dark"
+    assert_includes css, "--text-on-glass: var(--text-primary)"
     assert_includes css, ".street-live-dot"
     assert_includes css, "--space-4:"
     assert_includes css, "--dur-press:"
@@ -162,7 +164,7 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     assert_includes css, "@keyframes pack-pulse"
     assert_includes css, "street-sheet-rise"
     assert_includes css, ".hall-sheet"
-    assert_includes css, ".hall-sheet.charter-sheet"
+    assert_includes css, ".charter-journey-hero"
     assert_includes css, ".play-timer"
     assert_includes css, ".timer-halo"
     assert_includes css, "animation: timer-halo-beat 0.76s linear both;"

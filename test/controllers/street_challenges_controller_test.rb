@@ -24,6 +24,7 @@ class StreetChallengesControllerTest < ActionDispatch::IntegrationTest
     assert_select ".hall-sheet"
     assert_select "h1", text: I18n.t("street.duel_title")
     assert_select ".street-desafio-faces"
+    assert_select ".street-duel-sigil img[src='/media/social/icon-challenge-medallion-v1.png']"
     assert_select ".street-duel-vs-mark", text: I18n.t("street.duel_vs")
     assert_select ".gate", count: 0
     assert_select ".btn-gold", text: I18n.t("street.duel_share_again")
@@ -50,6 +51,81 @@ class StreetChallengesControllerTest < ActionDispatch::IntegrationTest
     body = JSON.parse(response.body)
     assert body["token"].present?
     assert body["url"].present?
+  end
+
+  test "ceremony share turns the completed score into the challenge to beat" do
+    person = people(:pili)
+    run = QuizRun.create!(
+      device_digest: GameSession.digest_token("ceremony-share-score"),
+      person:,
+      pack_id: "placas",
+      position: 10,
+      score: 87,
+      status: "finished",
+      opened_at: 5.minutes.ago
+    )
+
+    post street_challenges_path, params: { pack_id: "placas", run_id: run.id }, as: :json
+
+    assert_response :success
+    duel = StreetDuel.find_by!(token: JSON.parse(response.body).fetch("token"))
+    assert_equal run.id, duel.challenger_run_id
+    assert_equal 87, duel.challenger_score
+    assert duel.challenger_done?
+  end
+
+  test "ceremony share cannot attach another player's score" do
+    run = QuizRun.create!(
+      device_digest: GameSession.digest_token("another-player-score"),
+      person: people(:carmen_garcia),
+      pack_id: "placas",
+      position: 10,
+      score: 99,
+      status: "finished",
+      opened_at: 5.minutes.ago
+    )
+
+    assert_no_difference("StreetDuel.count") do
+      post street_challenges_path, params: { pack_id: "placas", run_id: run.id }, as: :json
+    end
+
+    assert_response :unprocessable_entity
+  end
+
+  test "opening a shared challenge records acquisition and shows the score to beat" do
+    duel = street_duels(:pending_challenge)
+    duel.update!(challenger_score: 75, status: "challenger_done")
+    reset!
+
+    assert_difference("ViralEvent.where(name: 'invite_link_opened').count", 1) do
+      get street_challenge_path(duel.token, src: "native")
+    end
+
+    assert_response :success
+    assert_select ".street-duel-score-to-beat", text: /75/
+    event = ViralEvent.order(:id).last
+    assert_equal "native", event.source
+    assert_equal duel.id, event.street_duel_id
+  end
+
+  test "a fresh invitee creates a ficha before accepting and playing" do
+    duel = street_duels(:pending_challenge)
+    duel.update!(challenger_score: 75, status: "challenger_done")
+    reset!
+
+    get street_challenge_path(duel.token, src: "native")
+    assert_response :success
+    assert_select ".street-duel-no-account", text: I18n.t("street.duel_profile_required")
+
+    post street_challenge_accept_path(duel.token)
+    assert_redirected_to street_profile_path(quick: 1, fresh: 1)
+
+    post street_profile_path, params: { name: "Noemi", avatar_key: "delfin", soy_nueva: 1 }
+    assert_redirected_to jugar_path
+    assert_equal "Noemi", duel.reload.opponent_person.given_name
+    assert_equal duel.ward_id, duel.opponent_person.ward_id
+    assert ViralEvent.where(street_duel: duel, name: "invitee_registered").exists?
+    assert ViralEvent.where(street_duel: duel, name: "challenge_started").exists?
   end
 
   test "create share url uses the request host" do
@@ -148,7 +224,7 @@ class StreetChallengesControllerTest < ActionDispatch::IntegrationTest
     sign_in_congregation
     get root_path
     post street_challenge_accept_path(duel.token)
-    assert_redirected_to root_path(desafio: duel.token, ficha: 1)
+    assert_redirected_to street_profile_path(quick: 1, fresh: 1)
     post street_profile_path, params: { person_id: carmen.id, favorite_year: carmen.favorite_year }
     assert_redirected_to jugar_path
     assert_equal carmen.id, duel.reload.opponent_person_id
@@ -163,8 +239,7 @@ class StreetChallengesControllerTest < ActionDispatch::IntegrationTest
     assert_select ".street-duel-live-card"
     assert_select ".street-duel-pick"
     assert_select ".street-duel-history"
-    assert_select ".street-hub-nav", count: 1
-    assert_select ".street-world-dock", count: 1
+    assert_select ".navigation-dock", count: 1
     assert_select "a.street-duel-back[href=?]", street_leaderboard_path
   end
 
@@ -192,7 +267,9 @@ class StreetChallengesControllerTest < ActionDispatch::IntegrationTest
 
   test "named rematch on a resolved pack starts a new live duel" do
     carmen = people(:carmen_garcia)
-    post street_challenges_path, params: { opponent_id: carmen.id, pack_id: "coronas" }
+    assert_difference("ViralEvent.where(name: 'rematch_started').count", 1) do
+      post street_challenges_path, params: { opponent_id: carmen.id, pack_id: "coronas", source: "result-rematch" }
+    end
     assert_redirected_to street_challenges_path
     assert StreetDuel.active.where(challenger_person: people(:pili), opponent_person: carmen, pack_id: "coronas").exists?
   end
@@ -252,7 +329,7 @@ class StreetChallengesControllerTest < ActionDispatch::IntegrationTest
     reset!
     sign_in_congregation
     get street_challenges_path
-    assert_redirected_to root_path(ficha: 1)
+    assert_redirected_to street_profile_path(quick: 1, fresh: 1)
   end
 
   test "ceremony turbo stream shows the duel result when both have finished" do
@@ -285,5 +362,8 @@ class StreetChallengesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select ".street-card.is-duel"
     assert_select ".street-duel-score", text: "75"
+    assert_select ".street-duel-rematch", text: I18n.t("street.duel_rematch")
+    assert_select ".street-ceremony-generated-world img[src='/media/social/duel-ceremony-gateway-v1.png']"
+    assert_select ".street-ceremony-victory-icon[src='/media/social/icon-victory-medallion-v1.png']"
   end
 end

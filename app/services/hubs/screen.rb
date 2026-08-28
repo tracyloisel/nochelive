@@ -23,7 +23,7 @@ module Hubs
     CHAPEL_STILL = "media/church/worship.jpg"
     LIVE_WINDOW = 14.days
     Challenge = Struct.new(
-      :phase, :other_name, :other_display_name, :you_score, :other_score, :token, :play_path, :path,
+      :phase, :waiting_for, :other_name, :other_display_name, :you_score, :other_score, :token, :play_path, :path,
       :you_avatar_key, :other_avatar_key, :other_streak, keyword_init: true
     ) do
       def scored?
@@ -34,7 +34,11 @@ module Hubs
       :person_id, :name, :avatar_key, :level, :crowns, :playing_title, :action, keyword_init: true
     )
     ProgressNode = Struct.new(:title, :still, :state, :focus, keyword_init: true)
-    Progress = Struct.new(:finished, :unlocked, :total, :current_n, :current_title, :current_pack_still, :nodes, keyword_init: true)
+    Progress = Struct.new(
+      :finished, :unlocked, :total, :current_n, :current_title, :current_pack_still, :nodes,
+      :study_completed, :study_total,
+      keyword_init: true
+    )
     MapProgress = Struct.new(:total_packs, :questions_per_pack, :finished, :completed_packs, :rewards, :tiers, :current_tier_key, :finished_count, keyword_init: true)
     Community = Struct.new(:players_this_month, :questions, :wards, keyword_init: true)
     Result = Struct.new(
@@ -344,7 +348,8 @@ module Hubs
         # Its dedicated stage art deliberately stays independent from the hub
         # backdrop and the current street-quiz painting.
         if Rails.public_path.join(LIVE_STAGE_STILL).file?
-          return [ "/#{LIVE_STAGE_STILL}", "light", "glorious" ]
+          theme_mode, theme_atmosphere = backdrop_live_theme
+          return [ "/#{LIVE_STAGE_STILL}", theme_mode, theme_atmosphere ]
         end
         if Rails.public_path.join(CHAPEL_STILL).file?
           return [ "/#{CHAPEL_STILL}", "light", "peaceful" ]
@@ -377,6 +382,7 @@ module Hubs
         play_path = screen.phase == :play ? @helpers.jugar_path : nil
         Challenge.new(
           phase: screen.phase,
+          waiting_for: screen.waiting_for,
           other_name: other&.given_name,
           other_display_name: other&.display_name,
           you_score:,
@@ -454,6 +460,18 @@ module Hubs
 
       def build_progress
         packs = @world.packs
+        study_program = StudyProgram.order(year: :desc).first
+        study_total = study_program ? study_program.study_units.weeks.count : 0
+        study_completed = if study_program
+          study_runs
+            .completed
+            .joins(study_quiz_version: :study_unit)
+            .where(study_units: { study_program_id: study_program.id })
+            .distinct
+            .count("study_units.id")
+        else
+          0
+        end
         finished = packs.count { |pack| pack.state == :finished }
         playing = current_pack
         still_src = playing&.pack ? still_src(playing.pack) : nil
@@ -468,8 +486,14 @@ module Hubs
           current_n: packs.any? ? focus_index + 1 : 0,
           current_title: playing&.pack&.copy(:title),
           current_pack_still: still_src,
-          nodes: progress_nodes(packs, focus_index)
+          nodes: progress_nodes(packs, focus_index),
+          study_completed:,
+          study_total:
         )
+      end
+
+      def study_runs
+        StudyRun.where(device_digest: @digest, person_id: @person&.id)
       end
 
       def progress_nodes(packs, focus_index)

@@ -1,7 +1,7 @@
 <% person = current_street_person %>
-<%= link_to root_path(ficha: 1),
+<%= link_to(person ? street_profile_path(edit: 1) : street_profile_path(fresh: 1),
       class: [ "chrome-face", "quiet-link", ("is-guest" unless person) ],
-      aria: { label: person ? t("street.face_label") : t("street.pick_profile") } do %>
+      aria: { label: person ? t("street.face_label") : t("street.pick_profile") }) do %>
   <% if person %>
     <% src = avatar_mark(person) %>
     <% if src %>

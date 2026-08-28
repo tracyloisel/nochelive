@@ -2,6 +2,7 @@
 <% you = local_assigns[:viewer] || current_street_person %>
 <div class="street-duel-inbox-card-actions">
   <%= button_to street_challenge_accept_path(duel.token), class: "btn btn-gold street-duel-accept", authenticity_token: csrf do %>
+    <img src="/media/social/icon-challenge-medallion-v1.png" alt="" class="street-action-medallion" width="42" height="42">
     <%= t("street.duel_accept") %>
   <% end %>
   <% if you && duel.opponent_person_id == you.id %>

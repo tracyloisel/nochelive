@@ -473,6 +473,7 @@ class ApplicationHelperTest < ActionView::TestCase
     run = Quizzes::Draw.call(device_digest: digest).run
     run.update!(position: 4, ends_at: 20.seconds.from_now)
     ask = street_audio_data(run, run.question)
+    assert_nil ask[:stage_sfx_value]
     assert_equal "timer_tension", ask[:stage_bed_value]
     assert ask[:stage_timer_end_value].present?
 
@@ -489,7 +490,7 @@ class ApplicationHelperTest < ActionView::TestCase
     run = Quizzes::Draw.call(device_digest: digest).run
     run.update!(position: 10, ends_at: 15.seconds.from_now)
     slam = street_audio_data(run, run.question)
-    assert_equal "round_start", slam[:stage_sfx_value]
+    assert_nil slam[:stage_sfx_value]
     assert_equal "timer_tension", slam[:stage_bed_value]
     assert slam[:stage_timer_end_value].present?
     assert_equal 15, slam[:stage_timer_duration_value]
@@ -525,6 +526,12 @@ class ApplicationHelperTest < ActionView::TestCase
 
   test "street play keeps mute and language in the hamburger" do
     content_for(:body_class, "is-kid is-street-play")
+    assert chrome_tools_in_drawer?
+    assert chrome_face?
+  end
+
+  test "church videos keeps mute and language in the hamburger" do
+    content_for(:body_class, "is-kid is-church-videos")
     assert chrome_tools_in_drawer?
     assert chrome_face?
   end

@@ -1,12 +1,22 @@
 <% content_for :title, t("street.duel_inbox") %>
 <% content_for :body_class, "is-kid is-street-hub is-duels" %>
+<style>
+  body.is-street-hub.is-duels:has(.street-duel-inbox) .sky {
+    background:
+      linear-gradient(180deg, rgba(255,255,255,.05) 0%, rgba(250,244,224,.18) 46%, rgba(27,44,66,.18) 100%),
+      url("/media/temple/desafio-celestial-arena-v3.png") 50% 32% / cover no-repeat fixed;
+  }
+  @media (max-width: 520px) {
+    body.is-street-hub.is-duels:has(.street-duel-inbox) .sky { background-position: 50% 18%; background-attachment: scroll; }
+  }
+</style>
 <% pack = QuizDefinition.catalog.find_pack(@pack_id) %>
 <% active = (@inbox.incoming + @inbox.waiting).uniq { |item| item.duel.id } %>
 <% home = @rivalry.home %>
 <% away = @rivalry.away %>
 <% total = [home.score + (away&.score || 0), 1].max %>
 <% home_pct = ((home.score.to_f / total) * 100).round %>
-<%= chrome_menu(face: true) { site_menu } %>
+<% page_hud(face: true) { site_menu } %>
 
 <section id="street_world"
          class="street-world street-leaderboard-page street-duel-inbox is-duel-enter"
@@ -19,12 +29,14 @@
       <%= picto("podium") %><%= t("street.leaderboard_screen_title") %>
     <% end %>
     <h1><%= t("street.duel_inbox_kicker") %></h1>
+    <p class="street-duel-title-lede"><%= t("street.duel_inbox_lede") %></p>
     <span class="street-liga-title-star" aria-hidden="true"><%= picto("star8") %></span>
     <div class="street-liga-title-rule" aria-hidden="true"></div>
   </header>
 
   <main class="street-duel-board">
-    <section class="street-duel-hero">
+    <section class="street-duel-hero" aria-label="<%= t("street.duel_launch") %>">
+      <span class="street-duel-hero-sigil" aria-hidden="true"><%= picto("star8") %></span>
       <div class="street-duel-hero-fighter is-you">
         <span class="street-duel-hero-avatar">
           <% if (src = avatar_mark(current_street_person)) %><img src="<%= src %>" alt="" class="avatar-img"><% else %><span class="avatar-fallback"><%= current_street_person.given_name.first %></span><% end %>
@@ -42,7 +54,7 @@
       <p class="street-duel-hero-rule"><%= picto("scroll") %> <%= t("street.duel_live_rule") %></p>
     </section>
 
-    <section class="street-duel-section street-duel-active">
+    <section class="street-duel-section street-duel-active <%= "is-empty" if active.empty? %>">
       <header><h2><span aria-hidden="true">⚔</span><%= t("street.duel_active") %></h2><span><%= t("street.duel_see_all") %> ›</span></header>
       <% if active.any? %>
         <div class="street-duel-active-rail">
@@ -163,5 +175,5 @@
     </form>
   </dialog>
 
-  <%= render Navigation::DockComponent.new(active: :home) %>
+  <% page_dock(active: :home) %>
 </section>

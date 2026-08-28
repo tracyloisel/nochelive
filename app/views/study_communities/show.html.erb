@@ -1,7 +1,7 @@
 <% content_for :title, t("study.community_title") %>
 <% content_for :body_class, "is-study-community" %>
 <main id="study_community" class="study-community-world" style="--study-art:url('/media/study/community-scripture-gathering-v1.png')">
-  <%= chrome_menu(hud: true) { site_menu } %>
+  <% page_hud(hud: true) { site_menu } %>
   <div class="study-community-content">
     <header class="study-community-head">
       <p class="study-kicker"><%= t("study.community_kicker") %></p>
@@ -46,5 +46,5 @@
     <p><%= t("study.choose_ward") %></p>
   <% end %>
   </div>
-  <%= render Navigation::DockComponent.new(active: :word) %>
+  <% page_dock(active: :word) %>
 </main>

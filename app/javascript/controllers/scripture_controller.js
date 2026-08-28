@@ -36,6 +36,7 @@ export default class extends Controller {
     this.unlock()
     if (this.hasFrameTarget && this.frameTarget.querySelector(".scripture-veil")) {
       this.frameTarget.replaceChildren()
+      window.NocheLiveAudio?.playFrom?.(document)
       return
     }
     if (window.history.length > 1) history.back()
@@ -47,6 +48,7 @@ export default class extends Controller {
     if (this.dismissed) {
       this.frameTarget?.replaceChildren()
       this.unlock()
+      window.NocheLiveAudio?.playFrom?.(document)
       return
     }
     if (this.open()) {

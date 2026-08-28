@@ -13,18 +13,32 @@
         hub_counter_target: "community",
         turbo_frame: "_top"
       } do %>
-  <p class="hub-kicker"><%= t("hub.community") %></p>
-  <% if pulse %>
-    <%= turbo_frame_tag "street_pulse",
-          src: street_pulse_path,
-          data: {
-            controller: "street-pulse",
-            street_pulse_src_value: street_pulse_path,
-            street_pulse_interval_value: 5000
-          } do %>
-      <%= render "street_hub/pulse", pulse: pulse %>
-    <% end %>
-  <% end %>
+  <span class="hub-community-art" aria-hidden="true">
+    <img src="/media/ui/community-celestial-gathering-v1.webp"
+         alt=""
+         width="1400"
+         height="700"
+         loading="lazy"
+         decoding="async">
+  </span>
+  <span class="hub-community-glow" aria-hidden="true"></span>
+  <header class="hub-community-head">
+    <div class="hub-community-heading">
+      <p class="hub-kicker"><%= t("hub.community") %></p>
+      <% if pulse %>
+        <%= turbo_frame_tag "street_pulse",
+              src: street_pulse_path,
+              data: {
+                controller: "street-pulse",
+                street_pulse_src_value: street_pulse_path,
+                street_pulse_interval_value: 5000
+              } do %>
+          <%= render "street_hub/pulse", pulse: pulse %>
+        <% end %>
+      <% end %>
+    </div>
+    <span class="hub-community-go" aria-hidden="true"></span>
+  </header>
   <ul class="hub-community-stats">
     <% stats.each_with_index do |stat, index| %>
       <% icon, value, full_key, line_a, line_b = stat %>

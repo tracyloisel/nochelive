@@ -1,7 +1,7 @@
 <% content_for :title, @unit.theme %>
 <% content_for :body_class, "is-study-unit" %>
 <main id="study_unit" class="study-world study-unit-world" style="--study-art:url('<%= @quiz&.content&.fetch("artwork", "/media/study/psalms-refuge-2026.png") %>')">
-  <%= chrome_menu(hud: true) { site_menu } %>
+  <% page_hud(hud: true) { site_menu } %>
   <%= render "study_programs/lockup" %>
   <section class="study-unit-sheet">
     <p class="study-kicker"><%= @unit.week? ? t("study.week_label") : t("study.resource_label") %></p>
@@ -61,5 +61,5 @@
     <% end %>
     <%= link_to t("study.back_program"), study_program_path, class: "quiet-link" %>
   </section>
-  <%= render Navigation::DockComponent.new(active: :word) %>
+  <% page_dock(active: :word) %>
 </main>

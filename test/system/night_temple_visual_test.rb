@@ -12,7 +12,7 @@ class NightTempleVisualTest < ApplicationSystemTestCase
     shot("join-sheet")
     fill_in "¿Cómo te llaman en la rama?", with: "Pili"
     find("label.choice-chip", text: "En la sala").click
-    click_button "Solo esta noche"
+    click_button I18n.t("join.create_and_join")
     assert_text "Elige tu equipo"
     click_button "Casa de David"
     assert_button "Buzz"
@@ -38,7 +38,7 @@ class NightTempleVisualTest < ApplicationSystemTestCase
     visit night_name_path(game_sessions(:david).code)
     fill_in "¿Cómo te llaman en la rama?", with: "Casa"
     find("label.choice-chip", text: "En casa").click
-    click_button "Solo esta noche"
+    click_button I18n.t("join.create_and_join")
     assert_selector ".play-reel.is-quiz.is-night-live"
     assert_selector ".night-quiz-head"
     assert_selector ".night-quiz-head .story-close"
@@ -65,7 +65,7 @@ class NightTempleVisualTest < ApplicationSystemTestCase
     visit night_name_path(game_sessions(:david).code)
     fill_in "¿Cómo te llaman en la rama?", with: "Quiz"
     find("label.choice-chip", text: "En la sala").click
-    click_button "Solo esta noche"
+    click_button I18n.t("join.create_and_join")
     assert_text "Elige tu equipo"
     click_button "Casa de David"
     assert_selector ".play-reel.is-quiz"
@@ -172,7 +172,7 @@ class NightTempleVisualTest < ApplicationSystemTestCase
     visit night_name_path(game_sessions(:cerrada).code)
     fill_in "¿Cómo te llaman en la rama?", with: "Finale"
     find("label.choice-chip", text: "En la sala").click
-    click_button "Solo esta noche"
+    click_button I18n.t("join.create_and_join")
     click_button "Campeones"
     assert_selector ".play-reel.is-finale.is-ceremony-immersive"
     assert_selector ".ceremony-temple .ceremony-arch-crown"
@@ -191,7 +191,7 @@ class NightTempleVisualTest < ApplicationSystemTestCase
     visit night_name_path(game_sessions(:elias).code)
     fill_in "¿Cómo te llaman en la rama?", with: "Marta"
     find("label.choice-chip", text: "En la sala").click
-    click_button "Solo esta noche"
+    click_button I18n.t("join.create_and_join")
     click_button "Leones"
     assert_text "Esperad"
     assert_selector ".play-reel.is-lobby.is-night-live"

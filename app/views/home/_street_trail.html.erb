@@ -4,7 +4,7 @@
 <div class="street-trail-wrap">
   <div class="street-trail-head">
     <p class="street-trail-title"><%= t("street.trail") %></p>
-    <%= link_to street_history_path, class: "quiet-link street-trail-more" do %>
+    <%= link_to street_map_path(anchor: "historial"), class: "quiet-link street-trail-more" do %>
       <%= t("street.history_menu") %><%= picto("arrow") %>
     <% end %>
   </div>

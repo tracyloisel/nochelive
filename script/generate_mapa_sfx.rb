@@ -64,7 +64,7 @@ def request_stream(payload)
   req = Net::HTTP::Post.new(uri)
   req["Authorization"] = "Bearer #{api_key}"
   req["Content-Type"] = "application/json"
-  req["HTTP-Referer"] = "https://noche.live"
+  req["HTTP-Referer"] = "https://nochelive.com"
   req["X-Title"] = "Noche Live mapa SFX"
   req["Accept"] = "text/event-stream"
   req.body = JSON.generate(payload)
@@ -108,7 +108,7 @@ def request_json(payload)
   req = Net::HTTP::Post.new(uri)
   req["Authorization"] = "Bearer #{api_key}"
   req["Content-Type"] = "application/json"
-  req["HTTP-Referer"] = "https://noche.live"
+  req["HTTP-Referer"] = "https://nochelive.com"
   req["X-Title"] = "Noche Live mapa SFX"
   req.body = JSON.generate(payload.merge(stream: false))
   res = http.request(req)

@@ -18,6 +18,7 @@ module People
         @source.lock!
         move_players!
         move_devices!
+        move_viral_events!
         @keeper.last_ward_team ||= @source.last_ward_team
         @keeper.save!
         @source.destroy!
@@ -45,6 +46,10 @@ module People
             row.update!(person: @keeper)
           end
         end
+      end
+
+      def move_viral_events!
+        @source.viral_events.update_all(person_id: @keeper.id, updated_at: Time.current)
       end
   end
 end

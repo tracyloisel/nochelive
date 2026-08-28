@@ -55,7 +55,7 @@ def request(payload)
   req = Net::HTTP::Post.new(uri)
   req["Authorization"] = "Bearer #{api_key}"
   req["Content-Type"] = "application/json"
-  req["HTTP-Referer"] = "https://noche.live"
+  req["HTTP-Referer"] = "https://nochelive.com"
   req["X-Title"] = "Noche Live marks"
   req.body = JSON.generate(payload)
   res = http.request(req)

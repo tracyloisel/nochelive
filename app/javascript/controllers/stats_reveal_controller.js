@@ -135,7 +135,8 @@ export default class extends Controller {
         if (i === 0) this.#startChapter(chapter, "house")
         if (i === 1) this.#startChapter(chapter, "path", delay + ANIM_DURATION + 100)
         if (i === 2) this.#startChapter(chapter, "meet", delay + ANIM_DURATION + ANIM_DELAY + ANIM_DURATION)
-        if (i === 3) this.#startChapter(chapter, "world", delay + ANIM_DURATION + ANIM_DELAY * 2 + ANIM_DURATION)
+        if (i === 3) this.#startChapter(chapter, "invitations")
+        if (i === 4) this.#startChapter(chapter, "world", delay + ANIM_DURATION + ANIM_DELAY * 2 + ANIM_DURATION)
       }, 800 + delay)
     })
   }
@@ -144,6 +145,7 @@ export default class extends Controller {
     if (type === "house") this.#animateHouse(chapter)
     else if (type === "path") this.#animatePath(chapter, startDelay)
     else if (type === "meet") this.#animateMeet(chapter)
+    else if (type === "invitations") this.#animateMeet(chapter)
     else if (type === "world") this.#animateWorld(chapter)
   }
 

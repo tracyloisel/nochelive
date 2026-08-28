@@ -2,6 +2,9 @@ class StreetHubController < ApplicationController
   include StreetQuiz
 
   def index
+    if params[:utm_source] == "organic" && params[:utm_medium] == "seo"
+      Rails.logger.info("event=seo_game_entry campaign=#{params[:utm_campaign].to_s.parameterize}")
+    end
     remember_device
     touch_street_presence
     @world = Quizzes::World.call(device_digest: street_digest, person_id: current_street_person&.id)
@@ -28,6 +31,7 @@ class StreetHubController < ApplicationController
     )
     session[:hub_backdrop_id] = @screen.backdrop.id
     @study_week = StudyProgram.order(year: :desc).first&.current_week
+    @invitations = Hubs::Invitations.call(person: current_street_person)
   end
 
   def map

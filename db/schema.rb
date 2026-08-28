@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_28_200000) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_28_220000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -88,6 +88,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_28_200000) do
     t.index ["code"], name: "index_game_sessions_on_code"
     t.index ["starts_at"], name: "index_game_sessions_on_starts_at"
     t.index ["ward_id"], name: "index_game_sessions_on_ward_id"
+  end
+
+  create_table "identity_transfers", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.text "encrypted_payload", null: false
+    t.datetime "expires_at", null: false
+    t.string "token_digest", null: false
+    t.datetime "updated_at", null: false
+    t.index ["expires_at"], name: "index_identity_transfers_on_expires_at"
+    t.index ["token_digest"], name: "index_identity_transfers_on_token_digest", unique: true
   end
 
   create_table "missionaries", force: :cascade do |t|
@@ -442,6 +452,21 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_28_200000) do
     t.index ["ward_team_id"], name: "index_teams_on_ward_team_id"
   end
 
+  create_table "viral_events", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "device_digest", null: false
+    t.string "name", null: false
+    t.bigint "person_id"
+    t.jsonb "properties", default: {}, null: false
+    t.string "source"
+    t.bigint "street_duel_id"
+    t.datetime "updated_at", null: false
+    t.index ["name", "created_at"], name: "index_viral_events_on_name_and_created_at"
+    t.index ["person_id"], name: "index_viral_events_on_person_id"
+    t.index ["street_duel_id", "name", "created_at"], name: "index_viral_events_on_duel_funnel"
+    t.index ["street_duel_id"], name: "index_viral_events_on_street_duel_id"
+  end
+
   create_table "ward_teams", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "emblem", null: false
@@ -542,5 +567,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_28_200000) do
   add_foreign_key "team_memberships", "teams"
   add_foreign_key "teams", "game_sessions"
   add_foreign_key "teams", "ward_teams"
+  add_foreign_key "viral_events", "people"
+  add_foreign_key "viral_events", "street_duels"
   add_foreign_key "ward_teams", "wards"
 end

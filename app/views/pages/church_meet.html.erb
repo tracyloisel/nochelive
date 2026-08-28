@@ -1,6 +1,6 @@
 <% content_for :title, t("church.meet_title") %>
 <% content_for :body_class, "is-kid is-church-journey" %>
-<%= chrome_menu { site_menu } %>
+<% page_hud { site_menu } %>
 <section class="church-meet" style="--church-scene: url('/media/church/journey/meet-v2.png')">
   <header class="church-meet-hero">
     <div class="church-scene-head">
@@ -35,5 +35,5 @@
     </article>
     <%= render "pages/church_chapter_paths", current: :meet %>
   </main>
-  <%= render Navigation::DockComponent.new(active: :church) %>
+  <% page_dock(active: :church) %>
 </section>

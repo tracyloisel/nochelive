@@ -14,8 +14,8 @@ module Scriptures
     Chapter = Struct.new(:title, :summary, :verses, :source_url, :study, :focus, keyword_init: true)
     Verse = Struct.new(:number, :text, keyword_init: true)
 
-    def self.call(study:, locale: I18n.locale, cite: nil, cache: Rails.cache)
-      new(study:, locale:, cite:, cache:).call
+    def self.call(study:, locale: I18n.locale, cite: nil, cache: Rails.cache, public: false)
+      new(study:, locale:, cite:, cache:, public:).call
     end
 
     class << self
@@ -51,15 +51,16 @@ module Scriptures
       res.body if res.is_a?(Net::HTTPSuccess)
     end
 
-    def initialize(study:, locale: I18n.locale, cite: nil, cache: Rails.cache)
+    def initialize(study:, locale: I18n.locale, cite: nil, cache: Rails.cache, public: false)
       @study = study.to_s.strip.sub(%r{\A/+}, "")
       @locale = locale
       @cite = cite
       @cache = cache
+      @public = public
     end
 
     def call
-      return unless Quizzes::Scripture.known_study?(@study)
+      return unless Quizzes::Scripture.known_study?(@study) || (@public && Scriptures::Reference.known_study?(@study))
 
       chapter = load_chapter
       return unless chapter

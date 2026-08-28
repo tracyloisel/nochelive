@@ -1,6 +1,6 @@
 <% content_for :title, t("street.duel_title") %>
 <% content_for :body_class, "is-kid is-paper-hall is-duel-show" %>
-<%= chrome_menu { site_menu } %>
+<% page_hud { site_menu } %>
 
 <% pack_title = @pack.copy(:title) %>
 <% share_text = t("street.duel_share_text", name: @challenger.display_name, pack: pack_title) %>
@@ -9,6 +9,9 @@
 
 <%= paper_hall id: "street_desafio", kicker: t("street.duel_title"), extra_class: "street-duel-show is-#{phase}", sheet_class: "street-duel-arena" do %>
   <header class="street-duel-arena-head">
+    <span class="street-duel-sigil" aria-hidden="true">
+      <img src="/media/social/icon-challenge-medallion-v1.png" alt="" width="88" height="88">
+    </span>
     <span class="street-duel-arena-kicker"><%= picto("sparkle") %><%= pack_title %><%= picto("sparkle") %></span>
     <h1><%= t("street.duel_title") %></h1>
   </header>
@@ -58,7 +61,10 @@
                 class="btn btn-gold"
                 data-controller="street-share"
                 data-action="street-share#invite"
-                data-street-share-url-value="<%= street_challenge_url(@duel.token) %>"
+                data-street-share-url-value="<%= street_challenge_url(@duel.token, src: "native") %>"
+                data-street-share-duel-token-value="<%= @duel.token %>"
+                data-street-share-source-value="duel-waiting"
+                data-street-share-endpoint-value="<%= viral_events_path %>"
                 data-street-share-text-value="<%= share_text %>"
                 data-street-share-copied-value="<%= t("street.share_copied") %>">
           <%= t("street.duel_share_again") %>
@@ -79,6 +85,9 @@
         </div>
       <% end %>
       <%= render "street_challenges/reply", duel: @duel %>
+      <% unless current_street_person %>
+        <p class="street-duel-no-account"><%= t("street.duel_profile_required") %></p>
+      <% end %>
     <% end %>
   </section>
   <nav class="hall-sheet-foot">

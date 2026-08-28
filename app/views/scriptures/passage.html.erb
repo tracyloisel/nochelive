@@ -1,0 +1,54 @@
+<% content_for :body_class, "is-kid is-scripture-passage" %>
+
+<% page_hud(hud: true, tools: false) { site_menu(tools: false) } %>
+<article class="scripture-seo-page">
+  <nav class="seo-breadcrumbs" aria-label="<%= t("seo.scripture.breadcrumbs") %>">
+    <%= link_to scripture_corpus_label(@reference), scripture_corpus_path(@reference) %>
+    <span aria-hidden="true">/</span>
+    <%= link_to @reference.book_label, scripture_book_path(**Scriptures::Reference.book_path_options(@reference, @reference.locale)) %>
+    <span aria-hidden="true">/</span>
+    <%= link_to @reference.chapter, scripture_chapter_path(**Scriptures::Reference.chapter_path_options(@reference, @reference.locale)) %>
+    <span aria-hidden="true">/</span>
+    <span aria-current="page"><%= @reference.verse %></span>
+  </nav>
+  <header class="scripture-seo-head">
+    <p class="scripture-seo-kicker"><%= t("seo.scripture.kicker") %></p>
+    <h1><%= @reference.citation %></h1>
+    <% if @chapter.summary.present? %><p><%= @chapter.summary %></p><% end %>
+  </header>
+
+  <section class="scripture-seo-reading" aria-labelledby="scripture-reading-title">
+    <h2 id="scripture-reading-title"><%= t("seo.scripture.reading_title", reference: @reference.citation) %></h2>
+    <% @context.each do |verse| %>
+      <p class="scripture-verse <%= "is-focus" if verse.number == @reference.verse %>">
+        <span class="scripture-verse-n"><%= verse.number %></span><%= verse.text %>
+      </p>
+    <% end %>
+  </section>
+
+  <nav class="scripture-seo-neighbors" aria-label="<%= t("seo.scripture.verse_navigation") %>">
+    <% if @previous_verse %>
+      <% previous_reference = Scriptures::Reference.resolve(locale: @reference.route_locale, section: @reference.section,
+            book: @reference.book, chapter: @reference.chapter, verse: @previous_verse.number) %>
+      <%= link_to t("seo.scripture.previous_verse", reference: previous_reference.citation),
+            scripture_passage_path(**Scriptures::Reference.path_options(previous_reference, @reference.locale)) %>
+    <% end %>
+    <% if @next_verse %>
+      <% next_reference = Scriptures::Reference.resolve(locale: @reference.route_locale, section: @reference.section,
+            book: @reference.book, chapter: @reference.chapter, verse: @next_verse.number) %>
+      <%= link_to t("seo.scripture.next_verse", reference: next_reference.citation),
+            scripture_passage_path(**Scriptures::Reference.path_options(next_reference, @reference.locale)) %>
+    <% end %>
+  </nav>
+
+  <section class="scripture-seo-about">
+    <h2><%= t("seo.scripture.about_title", reference: @reference.citation) %></h2>
+    <p><%= t("seo.scripture.about_body", reference: @reference.citation, book: @reference.book_label, chapter: @reference.chapter, verse: @reference.verse) %></p>
+  </section>
+
+  <footer class="scripture-seo-foot">
+    <%= link_to t("seo.scripture.source"), @chapter.source_url, target: "_blank", rel: "noopener", class: "quiet-link" %>
+    <%= link_to t("seo.scripture.play"), jugar_path, class: "btn btn-gold" %>
+  </footer>
+</article>
+<% page_dock(active: :word) %>

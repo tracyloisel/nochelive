@@ -160,6 +160,22 @@ class StreetProfilesController < ApplicationController
       return false unless duel
 
       Quizzes::ChallengeAccept.call(duel:, opponent_person: person, device_digest: street_digest)
+      Quizzes::ViralTrack.call(
+        name: "invitee_registered",
+        device_digest: street_digest,
+        duel:,
+        person:,
+        source: "invite",
+        properties: { pack_id: duel.pack_id }
+      )
+      Quizzes::ViralTrack.call(
+        name: "challenge_started",
+        device_digest: street_digest,
+        duel:,
+        person:,
+        source: "invite",
+        properties: { pack_id: duel.pack_id, role: "opponent" }
+      )
       session.delete(:pending_duel_token)
       redirect_to jugar_path, notice: I18n.t("flashes.street_signed_in", name: person.given_name)
       true

@@ -1,6 +1,6 @@
 <% content_for :title, night_title(@night) %>
 <% content_for :body_class, "is-kid is-paper-hall" %>
-<%= chrome_menu { site_menu } %>
+<% page_hud { site_menu } %>
 
 <%= paper_hall id: "ward_memory", kicker: @ward.name do %>
   <%= render "shared/hall_still", src: ceremony_still_src(@night) %>

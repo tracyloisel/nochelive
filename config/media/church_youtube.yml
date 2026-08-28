@@ -1,0 +1,39 @@
+artwork:
+  src: /media/church/videos/celestial-video-sanctuary-v1.webp
+  theme:
+    mode: dark
+    atmosphere: sanctuary
+    accent: gold
+
+featured_playlists:
+  es:
+    - PL27339DE7B0837012
+    - PLFDD05D13D74978D0
+    - PLD68DBD93671935E7
+    - PL75AE9E0550DBAD93
+  pt-BR:
+    - PL31F32E21D67DE8AE
+    - PLDCD6C70A45E2CCDF
+    - PLE6604AE46FC911FF
+    - PLs6Xki82zjab0ZyJ1O6KQpedX-dM_NMzM
+  fr:
+    - PLK-wt8EdZqtnl0iP3wyFWACLAFbMaejYf
+    - PL8E1F2F1CBE58946A
+    - PLC8EAFACE59892017
+  en:
+    - PL4A73DDEE675FBC39
+    - PL9B0692E0D672DC72
+
+channels:
+  es:
+    for_handle: "@IglesiadeJesucristoESP"
+    public_url: "https://www.youtube.com/@IglesiadeJesucristoESP"
+  pt-BR:
+    for_handle: "@IgrejadeJesusCristoPOR"
+    public_url: "https://www.youtube.com/@IgrejadeJesusCristoPOR"
+  fr:
+    id: "UC3CbfUXOgoOsD7srESW98mA"
+    public_url: "https://www.youtube.com/channel/UC3CbfUXOgoOsD7srESW98mA"
+  en:
+    for_handle: "@churchofjesuschrist"
+    public_url: "https://www.youtube.com/@churchofjesuschrist"

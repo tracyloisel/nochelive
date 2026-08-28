@@ -29,8 +29,8 @@
               screen: local_assigns[:gate_screen],
               person: local_assigns[:gate_person],
               people: gate_people,
-              not_me_path: root_path(ficha: 1, not_me: 1),
-              someone_else_path: root_path(ficha: 1, fresh: 1) %>
+              not_me_path: street_profile_path(not_me: 1),
+              someone_else_path: street_profile_path(new_profile: 1) %>
       </div>
     </aside>
   <% end %>

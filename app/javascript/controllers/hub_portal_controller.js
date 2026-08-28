@@ -16,7 +16,9 @@ export default class extends Controller {
     this.playTarget?.classList.add("is-launch")
 
     if (navigator.vibrate) navigator.vibrate(18)
-    window.NocheLiveAudio?.play?.("chest")
+    // The Home opens a place; it does not award a chest for navigation.
+    // Keep this as one short transition cue so it survives the 360 ms portal.
+    window.NocheLiveAudio?.play?.("celestial_breath", 0.68)
 
     const navigate = () => destination ? window.location.assign(destination) : HTMLFormElement.prototype.submit.call(form)
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {

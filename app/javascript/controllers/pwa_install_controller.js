@@ -1,7 +1,9 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["action", "dialog"]
+  static targets = ["action", "banner", "browserHint", "dialog"]
+
+  static BANNER_SNOOZE_MS = 14 * 24 * 60 * 60 * 1000
 
   connect() {
     this.deferredPrompt = null
@@ -15,8 +17,11 @@ export default class extends Controller {
     window.addEventListener("beforeinstallprompt", this.beforeInstallPrompt)
     window.addEventListener("appinstalled", this.installed)
 
-    if (this.isStandalone()) return this.hideAction()
-    if (this.isIos()) this.showAction()
+    if (this.isStandalone()) return this.hideInstallUi()
+    if (this.isIos()) {
+      this.showAction()
+      this.showIosBanner()
+    }
 
     if ("serviceWorker" in navigator) {
       navigator.serviceWorker.register("/service-worker.js", { scope: "/" })
@@ -37,7 +42,19 @@ export default class extends Controller {
       return
     }
 
+    this.openGuide()
+  }
+
+  openGuide() {
+    this.snoozeBanner()
+    this.hideBanner()
+    this.browserHintTargets.forEach((hint) => { hint.hidden = this.isSafari() })
     if (this.hasDialogTarget) this.dialogTarget.showModal()
+  }
+
+  dismissBanner() {
+    this.snoozeBanner()
+    this.hideBanner()
   }
 
   close() {
@@ -60,8 +77,40 @@ export default class extends Controller {
     this.actionTargets.forEach((action) => { action.hidden = true })
   }
 
+  showIosBanner() {
+    if (window.location.pathname !== "/" || this.bannerSnoozed()) return
+    this.bannerTargets.forEach((banner) => { banner.hidden = false })
+  }
+
+  hideBanner() {
+    this.bannerTargets.forEach((banner) => { banner.hidden = true })
+  }
+
+  hideInstallUi() {
+    this.hideAction()
+    this.hideBanner()
+  }
+
+  snoozeBanner() {
+    try { localStorage.setItem("noche:pwa-install-snoozed-at", Date.now().toString()) } catch (_) {}
+  }
+
+  bannerSnoozed() {
+    try {
+      const snoozedAt = Number(localStorage.getItem("noche:pwa-install-snoozed-at"))
+      return snoozedAt > 0 && Date.now() - snoozedAt < this.constructor.BANNER_SNOOZE_MS
+    } catch (_) {
+      return false
+    }
+  }
+
   isIos() {
-    return /iphone|ipad|ipod/i.test(navigator.userAgent)
+    return /iphone|ipad|ipod/i.test(navigator.userAgent) ||
+      (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1)
+  }
+
+  isSafari() {
+    return /safari/i.test(navigator.userAgent) && !/crios|fxios|edgios|opios/i.test(navigator.userAgent)
   }
 
   isStandalone() {

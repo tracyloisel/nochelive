@@ -2,6 +2,12 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
   get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
+  get "sitemap.xml", to: "seo#sitemap", defaults: { format: :xml }, as: :sitemap
+  get "llms.txt", to: "agent_discovery#llms", defaults: { format: :text }, as: :llms
+  get "agent/:locale/index.md", to: "agent_discovery#page", defaults: { slug: "", format: :md },
+      constraints: { locale: /es|fr|en|pt-br/ }
+  get "agent/:locale/*slug", to: "agent_discovery#page", defaults: { format: :md },
+      constraints: ->(request) { request.path.end_with?(".md") && request.params[:locale].match?(/\A(?:es|fr|en|pt-br)\z/) }
   post "migration/identity", to: "identity_transfers#create", as: :identity_transfer
   get "migration/identity/claim", to: "identity_transfers#claim", as: :identity_transfer_claim
 
@@ -14,6 +20,7 @@ Rails.application.routes.draw do
   post "desafio/:token/decline", to: "street_challenges#decline", as: :street_challenge_decline
   get "desafios", to: "street_challenges#index", as: :street_challenges
   post "desafios", to: "street_challenges#create"
+  post "viral-events", to: "viral_events#create", as: :viral_events
   post "quiz/:quiz_run_id/answers", to: "quiz_answers#create", as: :quiz_answers
   post "quiz/:quiz_run_id/advance", to: "quiz_advances#create", as: :quiz_advance
   post "quiz/:quiz_run_id/rewind", to: "quiz_rewinds#create", as: :quiz_rewind
@@ -24,10 +31,9 @@ Rails.application.routes.draw do
   patch "ficha", to: "street_profiles#update"
   get "quien", to: redirect("/ficha")
   post "rama", to: "street_ward_picks#create", as: :street_ward_pick
-  post "invited", to: "street_guests#create", as: :street_guest
   get "camino", to: redirect("/mapa#historial")
+  get "camino/historial", to: redirect("/mapa#historial")
   get "home", to: redirect("/"), as: :legacy_home
-  get "camino/historial", to: "street_histories#show", as: :street_history
   get "liga", to: "street_leaderboards#show", as: :street_leaderboard
   post "presence", to: "street_presences#create", as: :street_presence
   post "join", to: "joins#create"
@@ -38,14 +44,56 @@ Rails.application.routes.draw do
   get "iglesia/creencias", to: "pages#church_beliefs", as: :church_beliefs
   get "iglesia/mision", to: "pages#church_missionaries", as: :church_missionaries
   get "iglesia/adorar", to: "pages#church_worship", as: :church_worship
+  get "videos", to: "church_videos#index", as: :church_videos
+  get "videos/miniatures/:id", to: "church_video_thumbnails#show", as: :church_video_thumbnail,
+      constraints: { id: /[A-Za-z0-9_-]{11}/ }
   get "legal", to: "pages#legal", as: :legal
   get "privacidad", to: "pages#privacy", as: :privacy
   get "cifras", to: "pages#stats", as: :platform_stats
   get "pulso", to: "street_pulses#show", as: :street_pulse
   get "buscar", to: "searches#show", as: :search
+  get ":locale/:church_section(/:church_page)",
+      to: "pages#localized_church",
+      as: :localized_church,
+      constraints: {
+        locale: /es|fr|en|pt-br/,
+        church_section: /iglesia-de-jesucristo|eglise-de-jesus-christ|church-of-jesus-christ|igreja-de-jesus-cristo/
+      }
+  get ":locale/:scripture_section/:book/:chapter/:verse",
+      to: "scriptures#passage",
+      as: :scripture_passage,
+      constraints: {
+        locale: /es|fr|en|pt-br/,
+        scripture_section: /bible|biblia|libro-de-mormon|livre-de-mormon|book-of-mormon|livro-de-mormon|doctrina-y-convenios|doctrine-et-alliances|doctrine-and-covenants|doutrina-e-convenios/,
+        chapter: /[1-9]\d*/,
+        verse: /[1-9]\d*/
+      }
+  get ":locale/:scripture_section/:book/:chapter",
+      to: "scriptures#chapter",
+      as: :scripture_chapter,
+      constraints: {
+        locale: /es|fr|en|pt-br/,
+        scripture_section: /bible|biblia|libro-de-mormon|livre-de-mormon|book-of-mormon|livro-de-mormon|doctrina-y-convenios|doctrine-et-alliances|doctrine-and-covenants|doutrina-e-convenios/,
+        chapter: /[1-9]\d*/
+      }
+  get ":locale/:scripture_section/:book",
+      to: "scriptures#book",
+      as: :scripture_book,
+      constraints: {
+        locale: /es|fr|en|pt-br/,
+        scripture_section: /bible|biblia|libro-de-mormon|livre-de-mormon|book-of-mormon|livro-de-mormon|doctrina-y-convenios|doctrine-et-alliances|doctrine-and-covenants|doutrina-e-convenios/
+      }
+  get ":locale/:ward_section/:slug",
+      to: "ward_profiles#show",
+      as: :localized_ward_profile,
+      constraints: {
+        locale: /es|fr|en|pt-br/,
+        ward_section: /santos-de-los-ultimos-dias|saints-des-derniers-jours|latter-day-saints|santos-dos-ultimos-dias/
+      }
+  get ":locale", to: "discovery#show", as: :discovery_home, constraints: { locale: /es|fr|en|pt-br/ }
+  get ":locale/*slug", to: "discovery#show", as: :discovery, constraints: { locale: /es|fr|en|pt-br/ }, format: false
   get "escrituras/*study", to: "scriptures#show", as: :scripture, format: false
   get "parole", to: "study_programs#show", as: :study_program
-  get "parole/historique", to: "study_histories#show", as: :study_history
   get "parole/paroisse/:ward_code", to: "study_communities#show", as: :study_community
   get "parole/semaines/:id", to: "study_units#show", as: :study_unit
   post "parole/semaines/:study_unit_id/commencer", to: "study_runs#create", as: :study_run_start
@@ -120,5 +168,4 @@ Rails.application.routes.draw do
   post "/p/:session_code/fichas/:id/merge", to: "presenter/fichas#merge", as: :presenter_ficha_merge
   patch "/p/:session_code/people/:person_id/locale", to: "presenter/locales#update", as: :presenter_person_locale
   patch "/p/:session_code/players/:player_id/locale", to: "presenter/locales#update", as: :presenter_player_locale
-
 end

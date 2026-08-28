@@ -3,11 +3,13 @@ module Platform
     WORLD_LIMIT = 20
 
     Lang = Struct.new(:code, :count, :share, keyword_init: true)
-    WorldRow = Struct.new(:rank, :person, :ward_name, :country, :score, keyword_init: true)
+    WorldRow = Struct.new(:rank, :person, :ward, :score, keyword_init: true)
     Result = Struct.new(
       :people, :wards, :countries, :languages,
       :answers, :correct, :wrong, :path_share,
-      :duels, :nights, :teams, :world,
+      :duels, :nights, :teams,
+      :invitations_sent, :invitations_opened, :friends_joined, :invitation_duels_completed, :invitation_share,
+      :world,
       keyword_init: true
     )
 
@@ -21,6 +23,7 @@ module Platform
       answers = QuizAnswer.count
       correct = QuizAnswer.where(correct: true).count
 
+      invitation_stats = invitation_stats()
       Result.new(
         people:,
         wards: ward_ids.size,
@@ -33,6 +36,11 @@ module Platform
         duels: StreetDuel.count,
         nights: GameSession.count,
         teams: Team.chapel.count,
+        invitations_sent: invitation_stats[:sent],
+        invitations_opened: invitation_stats[:opened],
+        friends_joined: invitation_stats[:joined],
+        invitation_duels_completed: invitation_stats[:completed],
+        invitation_share: invitation_stats[:sent].positive? ? invitation_stats[:joined].to_f / invitation_stats[:sent] : 0.0,
         world: world_rows
       )
     end
@@ -53,19 +61,33 @@ module Platform
         end
       end
 
+      def invitation_stats
+        shared_ids = ViralEvent.where(name: "invite_share_completed").where.not(street_duel_id: nil).distinct.select(:street_duel_id)
+        shared = StreetDuel.where(id: shared_ids)
+        {
+          sent: shared.count,
+          opened: ViralEvent.where(name: "invite_link_opened", street_duel_id: shared_ids).distinct.count(:street_duel_id),
+          joined: shared.where.not(opponent_person_id: nil).count,
+          completed: shared.where(status: "resolved").count
+        }
+      end
+
       def world_rows
         ordered = Quizzes::Leaderboard.pack_best_totals.sort_by { |_, score| -score }.first(WORLD_LIMIT)
         people_by_id = Person.includes(:ward).where(id: ordered.map(&:first)).index_by(&:id)
-        ordered.each_with_index.filter_map do |(person_id, score), index|
+        ranked = ordered.filter_map do |person_id, score|
           person = people_by_id[person_id]
-          next unless person
+          next unless person&.ward
 
+          [ person, score ]
+        end
+
+        ranked.each_with_index.map do |(person, score), index|
           ward = person.ward
           WorldRow.new(
             rank: index + 1,
             person:,
-            ward_name: ward.name,
-            country: ward.country_name.presence || ward.country_code,
+            ward:,
             score:
           )
         end

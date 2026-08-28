@@ -62,7 +62,7 @@ class SearchesControllerTest < ActionDispatch::IntegrationTest
     assert_select ".ward-picker-missing", text: /#{Regexp.escape(I18n.t("home.empty"))}/
     assert_select ".ward-picker-missing h2", text: I18n.t("street.gate_missing_title")
     assert_select "a.btn-navy[href=?]", "https://maps.churchofjesuschrist.org/"
-    assert_select "form[action=?]", street_guest_path
+    assert_select "a.quiet-link[href=?]", root_path, text: I18n.t("street.gate_continue_without_ward")
 
     get search_path, params: { q: "RAMA" }
     assert_select ".ward-hit", text: /Rama Benidorm/

@@ -1,6 +1,6 @@
 <% content_for :title, t("street.world_play") %>
 <% content_for :body_class, "is-kid is-street-play" %>
-<%= chrome_menu { site_menu } %>
+<% page_hud { site_menu } %>
 
 <%= render "home/street",
       street: @street,

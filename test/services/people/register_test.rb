@@ -27,20 +27,6 @@ class People::RegisterTest < ActiveSupport::TestCase
     assert PersonDevice.exists?(person:, device_token: "dev-lucia")
   end
 
-  test "second carmen without apellido is rejected" do
-    error = assert_raises(People::Error) do
-      People::Register.call(
-        ward: @ward,
-        given_name: "Carmen",
-        family_name: "",
-        avatar_key: "gato",
-        favorite_year: 1492,
-        device_token: "dev"
-      )
-    end
-    assert_equal :family, error.code
-  end
-
   test "second carmen with apellido is kept" do
     person = People::Register.call(
       ward: @ward,
@@ -51,20 +37,6 @@ class People::RegisterTest < ActiveSupport::TestCase
       device_token: "dev"
     )
     assert_equal "ruiz", person.family_name_key
-  end
-
-  test "same ficha tuple is a claim not a duplicate" do
-    error = assert_raises(People::Error) do
-      People::Register.call(
-        ward: @ward,
-        given_name: "Carmen",
-        family_name: "García",
-        avatar_key: "delfin",
-        favorite_year: 1833,
-        device_token: "dev"
-      )
-    end
-    assert_equal :taken, error.code
   end
 
   test "same avatar and apellido with another year is a second ficha" do

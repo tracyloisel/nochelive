@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 <html lang="<%= I18n.locale.to_s.tr('_', '-') %>">
   <head>
-    <title><%= content_for(:title) || "Noche Live" %></title>
+    <title><%= seo_metadata[:title].presence || content_for(:title) || "Noche Live" %></title>
+    <%= seo_head_tags %>
     <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-visual">
     <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="Noche Live">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="application-name" content="Noche Live">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="theme-color" content="#f6f3ec">
@@ -43,9 +46,11 @@
         <% end %>
       </div>
     <% end %>
+    <%= yield :hud %>
     <main id="main" class="shell">
       <%= yield %>
     </main>
+    <%= yield :dock %>
     <div id="live_pulses" class="live-pulses" aria-live="polite"></div>
     <script>window.NocheSfx = <%= Sfx.catalog.to_json.html_safe %>;</script>
     <% tick = Sfx.versioned_path_for("tick") %>
@@ -65,13 +70,30 @@
         <p class="scripture-loading"><%= t("quiz.scripture_loading") %></p>
       </div>
     </aside>
-    <% if request.host == IdentityTransfersController::SOURCE_HOST && cookies.signed[:noche_device].present? %>
+    <% identity_migration_available = request.host == IdentityTransfersController::SOURCE_HOST && cookies.signed[:noche_device].present? %>
+    <% if identity_migration_available %>
       <aside class="pwa-install-banner" aria-label="<%= t("identity_migration.action") %>">
         <img src="/apple-touch-icon.png" width="52" height="52" alt="" class="pwa-install-banner-icon">
         <%= button_to identity_transfer_path, class: "pwa-install-banner-copy" do %>
           <strong><%= t("identity_migration.title") %></strong>
           <span><%= t("identity_migration.hint") %></span>
         <% end %>
+      </aside>
+    <% end %>
+    <% unless identity_migration_available %>
+      <aside class="pwa-install-banner"
+             data-pwa-install-target="banner"
+             aria-label="<%= t("pwa.install") %>"
+             hidden>
+        <img src="/apple-touch-icon.png" width="52" height="52" alt="" class="pwa-install-banner-icon">
+        <button type="button" class="pwa-install-banner-copy" data-action="pwa-install#openGuide">
+          <strong><%= t("pwa.banner_title") %></strong>
+          <span><%= t("pwa.banner_hint") %></span>
+        </button>
+        <button type="button"
+                class="pwa-install-banner-close"
+                data-action="pwa-install#dismissBanner"
+                aria-label="<%= t("pwa.not_now") %>">×</button>
       </aside>
     <% end %>
     <dialog class="pwa-install-dialog"
@@ -82,10 +104,24 @@
         <img src="/apple-touch-icon.png" width="72" height="72" alt="" class="pwa-install-icon">
         <p class="home-menu-kicker"><%= t("pwa.kicker") %></p>
         <h2 id="pwa_install_title"><%= t("pwa.ios_title") %></h2>
-        <ol>
-          <li><%= t("pwa.ios_share") %></li>
-          <li><%= t("pwa.ios_home") %></li>
-          <li><%= t("pwa.ios_add") %></li>
+        <p class="pwa-install-browser-hint" data-pwa-install-target="browserHint" hidden><%= t("pwa.ios_browser_hint") %></p>
+        <ol class="pwa-install-steps">
+          <li>
+            <img src="/media/pwa/ios-install-share-v1.png" width="96" height="96" alt="" class="pwa-install-step-art">
+            <span class="pwa-install-step-copy"><span class="pwa-install-step-mark">1</span><span><%= t("pwa.ios_share") %></span></span>
+          </li>
+          <li>
+            <img src="/media/pwa/ios-install-home-v1.png" width="96" height="96" alt="" class="pwa-install-step-art">
+            <span class="pwa-install-step-copy"><span class="pwa-install-step-mark">2</span><span><%= t("pwa.ios_home") %></span></span>
+          </li>
+          <li>
+            <img src="/media/pwa/ios-install-web-app-v1.png" width="96" height="96" alt="" class="pwa-install-step-art">
+            <span class="pwa-install-step-copy"><span class="pwa-install-step-mark">3</span><span><%= t("pwa.ios_web_app") %></span></span>
+          </li>
+          <li>
+            <img src="/media/pwa/ios-install-add-v1.png" width="96" height="96" alt="" class="pwa-install-step-art">
+            <span class="pwa-install-step-copy"><span class="pwa-install-step-mark">4</span><span><%= t("pwa.ios_add") %></span></span>
+          </li>
         </ol>
         <button type="button" class="btn btn-navy" data-action="pwa-install#close"><%= t("pwa.done") %></button>
       </div>

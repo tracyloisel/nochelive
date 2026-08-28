@@ -13,6 +13,25 @@ class PagesController < ApplicationController
   def church_beliefs; end
   def church_missionaries; end
   def church_worship; end
+  def localized_church
+    @church_page = Seo::ChurchPage.resolve(
+      locale: params[:locale], section: params[:church_section], slug: params[:church_page]
+    )
+    return head :not_found unless @church_page
+
+    title = t("seo.church.pages.#{@church_page.key}.title")
+    description = t("seo.church.pages.#{@church_page.key}.description")
+    canonical = localized_church_url(**Seo::ChurchPage.path_options(@church_page.key, @church_page.locale))
+    alternates = I18n.available_locales.to_h do |locale|
+      [ locale.to_s.downcase, localized_church_url(**Seo::ChurchPage.path_options(@church_page.key, locale)) ]
+    end
+    alternates["x-default"] = localized_church_url(**Seo::ChurchPage.path_options(@church_page.key, :es))
+    index_for_search!(title:, description:, canonical:, alternates:, structured_data: {
+      "@context": "https://schema.org", "@type": "WebPage", name: title,
+      description:, url: canonical, inLanguage: @church_page.locale.to_s
+    })
+    render @church_page.key
+  end
   def legal; end
   def privacy; end
   def stats

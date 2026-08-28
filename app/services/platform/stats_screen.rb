@@ -3,7 +3,9 @@ module Platform
     Stats = Struct.new(
       :people, :wards, :countries, :languages,
       :answers, :correct, :wrong, :path_share,
-      :duels, :nights, :teams, :world,
+      :duels, :nights, :teams,
+      :invitations_sent, :invitations_opened, :friends_joined, :invitation_duels_completed, :invitation_share,
+      :world,
       keyword_init: true
     )
 

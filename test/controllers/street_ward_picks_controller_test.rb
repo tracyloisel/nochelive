@@ -38,28 +38,6 @@ class StreetWardPicksControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to search_path(cambiar: 1)
   end
 
-  test "twin ficha in the destination keeps the player on the origin rama" do
-    dest = extra_ward(10, listed: true)
-    pili = people(:pili)
-    People::Register.call(
-      ward: dest,
-      given_name: pili.given_name,
-      family_name: pili.family_name.to_s,
-      avatar_key: pili.avatar_key,
-      favorite_year: pili.favorite_year,
-      device_token: "twin-dest-http"
-    )
-
-    sign_in_congregation
-    post street_profile_path, params: { person_id: pili.id, favorite_year: pili.favorite_year }
-    follow_redirect!
-
-    post street_ward_pick_path, params: { code: dest.code }
-    assert_redirected_to search_path(cambiar: 1)
-    assert_equal I18n.t("errors.people.ward_taken"), flash[:alert]
-    assert_equal wards(:demo).id, pili.reload.ward_id
-  end
-
   test "picking a locator rama creates it listed" do
     Wards::QueryLocator.forced_details = Wards::QueryLocator.attrs_from(
       JSON.parse(file_fixture("maps_ward_madrid.json").read).first

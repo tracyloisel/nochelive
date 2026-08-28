@@ -39,7 +39,7 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
     assert_text "¿Cómo te llaman?"
     fill_in "¿Cómo te llaman en la rama?", with: name
     find("label.choice-chip", text: location == "remote" ? "En casa" : "En la sala").click
-    click_button "Solo esta noche"
+    click_button I18n.t("join.create_and_join")
     return if location == "remote"
 
     assert_text "Elige tu equipo"

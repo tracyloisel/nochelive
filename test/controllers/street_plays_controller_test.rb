@@ -1,15 +1,14 @@
 require "test_helper"
 
 class StreetPlaysControllerTest < ActionDispatch::IntegrationTest
-  test "jugar requires an open run" do
+  test "jugar requires a player profile" do
     get jugar_path
-    assert_redirected_to root_path
+    assert_redirected_to street_profile_path(quick: 1)
   end
 
   test "jugar shows overlay hud" do
     sign_in_congregation
-    post street_profile_path, params: { guest: 1 }
-    follow_redirect!
+    create_street_profile!
     post street_pack_start_path("coronas")
     follow_redirect!
     assert_select "#street_quiz.play-reel.is-street.is-overlay"
@@ -37,8 +36,7 @@ class StreetPlaysControllerTest < ActionDispatch::IntegrationTest
   test "jugar ask leaves the timer band free of a chase chip" do
     freeze_time
     sign_in_congregation
-    post street_profile_path, params: { guest: 1 }
-    follow_redirect!
+    create_street_profile!
     post street_pack_start_path("coronas")
     follow_redirect!
     PersonDevice.where(person: people(:carmen_garcia)).update_all(last_seen_at: Time.current)
@@ -52,8 +50,7 @@ class StreetPlaysControllerTest < ActionDispatch::IntegrationTest
   test "short timed ask does not start warn or hot" do
     freeze_time
     sign_in_congregation
-    post street_profile_path, params: { guest: 1 }
-    follow_redirect!
+    create_street_profile!
     start_street_play!("coronas")
     run = QuizRun.order(:id).last
 
@@ -77,8 +74,7 @@ class StreetPlaysControllerTest < ActionDispatch::IntegrationTest
   test "twenty-second street ask turns warn at eight seconds" do
     freeze_time
     sign_in_congregation
-    post street_profile_path, params: { guest: 1 }
-    follow_redirect!
+    create_street_profile!
     start_street_play!("coronas")
     run = QuizRun.order(:id).last
     run.update!(position: 4, ends_at: 20.seconds.from_now)
@@ -94,8 +90,7 @@ class StreetPlaysControllerTest < ActionDispatch::IntegrationTest
 
   test "jugar opens the pack tapped on the map when two runs are open" do
     sign_in_congregation
-    post street_profile_path, params: { guest: 1 }
-    follow_redirect!
+    create_street_profile!
     start_street_play!("coronas")
     first = QuizRun.open_runs.order(:id).last
     first.update!(position: 10)

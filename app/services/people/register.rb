@@ -19,6 +19,9 @@ module People
     def call
       raise Error.new(:name, I18n.t("errors.people.name")) if @given_name.blank?
       raise Error.new(:avatar, I18n.t("errors.people.avatar")) unless Player::AVATARS.include?(@avatar_key.to_s)
+      if @favorite_year.present? && !Person.valid_year?(@favorite_year)
+        raise Error.new(:year, I18n.t("errors.people.year"))
+      end
 
       ApplicationRecord.transaction do
         person = Person.create!(

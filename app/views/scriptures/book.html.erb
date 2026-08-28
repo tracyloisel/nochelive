@@ -1,0 +1,27 @@
+<% content_for :body_class, "is-kid is-scripture-passage" %>
+<% page_hud(hud: true, tools: false) { site_menu(tools: false) } %>
+
+<article class="scripture-seo-page scripture-book-page">
+  <nav class="seo-breadcrumbs" aria-label="<%= t("seo.scripture.breadcrumbs") %>">
+    <%= link_to scripture_corpus_label(@book), scripture_corpus_path(@book) %>
+    <span aria-hidden="true">/</span>
+    <span aria-current="page"><%= @book.book_label %></span>
+  </nav>
+  <header class="scripture-seo-head">
+    <p class="scripture-seo-kicker"><%= t("seo.scripture.kicker") %></p>
+    <h1><%= @book.book_label %></h1>
+    <p><%= t("seo.scripture.book_intro", book: @book.book_label, chapters: @book.chapters) %></p>
+  </header>
+
+  <section class="scripture-chapter-grid" aria-labelledby="scripture-chapters-title">
+    <h2 id="scripture-chapters-title"><%= t("seo.scripture.chapters") %></h2>
+    <div>
+      <% @chapters.each do |chapter| %>
+        <% reference = Scriptures::Reference.resolve_chapter(locale: @book.route_locale, section: @book.section, book: @book.book, chapter:) %>
+        <%= link_to chapter, scripture_chapter_path(**Scriptures::Reference.chapter_path_options(reference, @book.locale)),
+              aria: { label: t("seo.scripture.open_chapter", book: @book.book_label, chapter:) } %>
+      <% end %>
+    </div>
+  </section>
+</article>
+<% page_dock(active: :word) %>

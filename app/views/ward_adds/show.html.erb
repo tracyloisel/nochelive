@@ -1,6 +1,6 @@
 <% content_for :title, t("home.who") %>
 <% content_for :body_class, "is-kid is-church-journey is-about-journey" %>
-<%= chrome_menu { site_menu } %>
+<% page_hud { site_menu } %>
 
 <section id="ward_add" class="about-journey">
   <header class="about-journey-hero" style="--about-scene: url('/media/about/community-origin-v1.png')">
@@ -73,5 +73,5 @@
     </nav>
   </main>
 
-  <%= render Navigation::DockComponent.new(active: nil) %>
+  <% page_dock(active: nil) %>
 </section>

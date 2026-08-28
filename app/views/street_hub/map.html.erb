@@ -1,5 +1,10 @@
 <% content_for :title, t("street.mapa_title") %>
 <% content_for :body_class, "is-kid is-street-hub is-street-map-page" %>
+<% page_hud(
+     hud: true,
+     bar: Huds::Present.from_screen(screen: @screen, rank_up: params[:rank_up].present?)
+   ) { site_menu } %>
+<% page_dock(active: :adventure) %>
 
 <% packs = @world.packs %>
 <% finished = packs.count { |p| p.state == :finished } %>
@@ -28,11 +33,6 @@
          data-stage-fx-value="level"
          <% end %>
          style="view-transition-name: street-world">
-
-  <%= chrome_menu(
-        hud: true,
-        bar: Huds::Present.from_screen(screen: @screen, rank_up: params[:rank_up].present?)
-      ) { site_menu } %>
 
   <header class="mapa-header">
     <h1 class="mapa-title"><%= t("street.mapa_title") %></h1>
@@ -121,6 +121,4 @@
       <span class="mapa-cta-arrow">&#8250;</span>
     <% end %>
   </footer>
-
-  <%= render Navigation::DockComponent.new(active: :adventure, live: @screen.live) %>
 </section>

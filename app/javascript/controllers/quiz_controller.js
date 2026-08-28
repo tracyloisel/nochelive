@@ -310,9 +310,6 @@ export default class extends Controller {
 
   payoffCombo() {
     if (!this.overlay() || this.element.classList.contains("is-ceremony")) return
-    if (this.comboGrewValue && this.hasComboSfxValue && this.comboSfxValue) {
-      window.setTimeout(() => window.NocheLiveAudio?.play?.(this.comboSfxValue), 180)
-    }
     const shout = this.hasComboShoutValue ? this.comboShoutValue : ""
     if (shout === "ten") haptic("legend")
     else if (shout === "five" || shout === "three") haptic("blaze")

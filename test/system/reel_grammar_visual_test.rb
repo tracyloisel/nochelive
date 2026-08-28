@@ -28,7 +28,7 @@ class ReelGrammarVisualTest < ApplicationSystemTestCase
 
     fill_in "¿Cómo te llaman en la rama?", with: "Pili"
     find("label.choice-chip", text: "En la sala").click
-    click_button "Solo esta noche"
+    click_button I18n.t("join.create_and_join")
     assert_text "Elige tu equipo"
     assert_no_text "Guardar ficha"
     sleep 0.4
@@ -41,7 +41,7 @@ class ReelGrammarVisualTest < ApplicationSystemTestCase
     visit night_name_path(game_sessions(:elias).code)
     fill_in "¿Cómo te llaman en la rama?", with: "Marta"
     find("label.choice-chip", text: "En la sala").click
-    click_button "Solo esta noche"
+    click_button I18n.t("join.create_and_join")
     click_button "Leones"
     assert_text "Esperad"
     assert_selector ".play-reel.is-lobby"
@@ -56,7 +56,7 @@ class ReelGrammarVisualTest < ApplicationSystemTestCase
     visit night_name_path(game_sessions(:david).code)
     fill_in "¿Cómo te llaman en la rama?", with: "Rita"
     find("label.choice-chip", text: "En la sala").click
-    click_button "Solo esta noche"
+    click_button I18n.t("join.create_and_join")
     click_button "Leones de Judá"
     assert_text "Explorador"
     assert_text "Sois Rey"
@@ -69,7 +69,7 @@ class ReelGrammarVisualTest < ApplicationSystemTestCase
     visit night_name_path(game_sessions(:cerrada).code)
     fill_in "¿Cómo te llaman en la rama?", with: "Nico"
     find("label.choice-chip", text: "En la sala").click
-    click_button "Solo esta noche"
+    click_button I18n.t("join.create_and_join")
     click_button "Campeones"
     assert_text "¡Campeones gana la noche!"
     assert_selector ".play-reel.is-finale.is-ceremony-immersive"

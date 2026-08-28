@@ -5,11 +5,14 @@ const FALLBACK_CUES = [
   "buzzer_hit",
   "correct_gold",
   "wrong_soft",
+  "score_transfer",
+  "crown_chime",
   "royal_fanfare",
   "level_up",
   "chest",
   "dramatic_fire",
   "fire_whoosh",
+  "flame_gold",
   "timer_tension",
   "tick",
   "tick_low",
@@ -19,14 +22,19 @@ const FALLBACK_CUES = [
   "celestial_breath",
   "duel_send",
   "stake_gain",
-  "reveal"
+  "reveal",
+  "study_refuge",
+  "study_light",
+  "study_miss",
+  "study_turn"
 ]
 
 const TICK_GAIN = { tick: 0.38, tick_low: 0.52 }
-const BED_GAIN = 0.32
-const BED_DUCK = 0.10
-const BED_HIT_DUCK = 0.20
+const BED_GAIN = { timer_tension: 0.32, study_refuge: 0.14 }
+const BED_DUCK = { timer_tension: 0.10, study_refuge: 0.05 }
+const BED_HIT_DUCK = { timer_tension: 0.20, study_refuge: 0.08 }
 const HIT_GAIN = 0.78
+const HIT_CUE_GAIN = { correct_gold: 0.32, wrong_soft: 0.58 }
 const STING_GAIN = 0.80
 const CUT_MS = 240
 const RETRIGGER_MS = 260
@@ -37,8 +45,12 @@ const BED_OUT_MS = 380
 const BED_DUCK_MS = 110
 const BED_UNDUCK_MS = 280
 const TICK_CUES = new Set(["tick", "tick_low"])
-const HIT_CUES = new Set(["buzzer_hit", "fire_whoosh", "chest", "correct_gold", "wrong_soft", "duel_send", "stake_gain", "study_light", "study_miss", "study_turn"])
-const BED_CUE = "timer_tension"
+const HIT_CUES = new Set(["buzzer_hit", "fire_whoosh", "flame_gold", "chest", "correct_gold", "wrong_soft", "score_transfer", "crown_chime", "duel_send", "stake_gain", "study_light", "study_miss", "study_turn"])
+const BED_CUES = new Set(["timer_tension", "study_refuge"])
+const BED_IN = { timer_tension: BED_IN_MS, study_refuge: 1400 }
+const BED_OUT = { timer_tension: BED_OUT_MS, study_refuge: 900 }
+const STAGE_NODE_SELECTOR = "#night_play, #night_watch, #night_presenter, #street_quiz, #study_run, [data-stage-bed-value], [data-stage-sfx-value]"
+const SCRIPTURE_BED_SELECTOR = ".scripture-veil[data-stage-bed-value]"
 const GESTURES = ["pointerdown", "touchstart", "keydown", "click"]
 
 const store = window.NocheLiveAudio = window.NocheLiveAudio || {
@@ -203,7 +215,7 @@ function isTick(name) {
 }
 
 function isBed(name) {
-  return name === BED_CUE
+  return BED_CUES.has(name)
 }
 
 function isHit(name) {
@@ -340,9 +352,10 @@ function bedLive() {
 
 function bedTarget() {
   if (store.muted) return 0
-  if (store.stingCount > 0) return BED_DUCK
-  if (store.hitCount > 0) return BED_HIT_DUCK
-  return BED_GAIN
+  const name = store.bedName || store.desiredBed || "timer_tension"
+  if (store.stingCount > 0) return BED_DUCK[name] ?? BED_DUCK.timer_tension
+  if (store.hitCount > 0) return BED_HIT_DUCK[name] ?? BED_HIT_DUCK.timer_tension
+  return BED_GAIN[name] ?? BED_GAIN.timer_tension
 }
 
 function fadeEl(el, to, ms, done) {
@@ -591,7 +604,7 @@ function playCue(name, gainValue) {
   }
   if (tooSoon(name)) return
   if (isHit(name)) {
-    playHit(name, gainValue ?? HIT_GAIN)
+    playHit(name, gainValue ?? HIT_CUE_GAIN[name] ?? HIT_GAIN)
     return
   }
   playStinger(name, gainValue ?? STING_GAIN)
@@ -634,10 +647,11 @@ function hushAll() {
 
 function stopBed(immediate = false) {
   const el = store.bedEl
+  const name = store.bedName
   store.bedEl = null
   store.bedName = null
   if (!el) return
-  fadeEl(el, 0, immediate ? 0 : BED_OUT_MS, () => {
+  fadeEl(el, 0, immediate ? 0 : (BED_OUT[name] ?? BED_OUT_MS), () => {
     try { el.pause() } catch (_error) { /* ignore */ }
     try { el.currentTime = 0 } catch (_error) { /* ignore */ }
   })
@@ -663,7 +677,7 @@ function startBed(name) {
   store.bedName = name
   const rise = () => {
     if (store.bedEl !== el || store.muted) return
-    fadeEl(el, bedTarget(), BED_IN_MS)
+    fadeEl(el, bedTarget(), BED_IN[name] ?? BED_IN_MS)
   }
   const play = el.play()
   if (play && play.then) {
@@ -701,8 +715,12 @@ function syncBed(name) {
 }
 
 function stageNode(root) {
-  return root.querySelector("#night_play, #night_watch, #night_presenter, #street_quiz")
-    || root.querySelector("[data-stage-sfx-value]")
+  const scripture = root?.matches?.(SCRIPTURE_BED_SELECTOR)
+    ? root
+    : root?.querySelector?.(SCRIPTURE_BED_SELECTOR)
+  if (scripture) return scripture
+  if (root?.matches?.(STAGE_NODE_SELECTOR)) return root
+  return root?.querySelector?.(STAGE_NODE_SELECTOR)
 }
 
 function playFrom(root) {
@@ -911,6 +929,7 @@ export default class extends Controller {
       return
     }
     onGesture()
+    playFrom(document)
   }
 
   play(name, gainValue) {

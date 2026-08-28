@@ -2,7 +2,7 @@
 <% content_for :body_class, "is-kid is-paper-hall is-rama-profile" %>
 <% host = ward_host?(@ward) %>
 <% live = @featured_night %>
-<%= chrome_menu(face: false, hud: true) { site_menu } %>
+<% page_hud(face: false, hud: true) { site_menu } %>
 
 <main id="rama_profile" class="rama-page hall-paper">
   <section class="rama-hero hall-still" style="--rama-hero: url('/media/rama/chapel-celestial-light.png')">
@@ -10,7 +10,7 @@
       <span class="emblem emblem-xl emblem-<%= @ward.emblem %>"><%= render "shared/emblem", key: @ward.emblem %></span>
       <div>
         <p class="rama-kicker"><%= t("ward.my_parish") %></p>
-        <h1><%= @ward.name %></h1>
+        <h1><%= @ward_display_name || @ward.name %></h1>
         <% if @ward.maps_url %>
           <%= link_to @ward.maps_url, class: "rama-pin", target: "_blank", rel: "noreferrer" do %>
             <%= picto("pin") %><span><%= ward_place(@ward) %></span>
@@ -135,4 +135,4 @@
     <% if host %><nav class="rama-host-tools"><%= link_to t("night.fichas"), ward_fichas_path %><%= link_to t("ward.secret"), ward_gate_path %></nav><% end %>
   </div>
 </main>
-<%= render Navigation::DockComponent.new(active: :church, live: nil) %>
+<% page_dock(active: :church) %>

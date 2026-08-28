@@ -3,14 +3,14 @@ require "test_helper"
 class PlayersControllerTest < ActionDispatch::IntegrationTest
   setup { @night = game_sessions(:david) }
 
-  test "new asks for a name" do
+  test "new asks for a player profile" do
     get night_name_path(@night.code)
     assert_response :success
     assert_select "body.is-paper-hall"
     assert_select "#night_join.hall-paper"
     assert_select ".hall-sheet"
     assert_select "a.quiet-link", text: /Soy el presentador/
-    assert_select "button.btn-gold", text: /Solo esta noche/
+    assert_select "button.btn-gold", text: I18n.t("join.create_and_join")
     assert_select "button[name=role][value=spectator].quiet-link"
     assert_select ".choice-chip", count: 2
     assert_select ".play-reel", count: 0
@@ -41,12 +41,13 @@ class PlayersControllerTest < ActionDispatch::IntegrationTest
     assert_response :unprocessable_entity
   end
 
-  test "guest join still works with only a name" do
+  test "joining creates and links a persistent player profile" do
     assert_difference -> { @night.players.count }, 1 do
       post night_players_path(@night.code), params: { name: "Carlos", location: "room" }
     end
     player = @night.players.order(:id).last
-    assert_nil player.person_id
+    assert_not_nil player.person_id
+    assert_equal "Carlos", player.person.given_name
   end
 
   test "saving a ficha asks which carmen" do
@@ -76,11 +77,12 @@ class PlayersControllerTest < ActionDispatch::IntegrationTest
     assert_equal "Ruiz", player.person.family_name
   end
 
-  test "remote guest is seated alone" do
+  test "remote player is seated alone" do
     post night_players_path(@night.code), params: { name: "Carlos", location: "remote" }
     assert_redirected_to night_play_path(@night.code)
     player = @night.players.order(:id).last
     assert player.remote?
+    assert_not_nil player.person_id
     assert player.team.solo?
     assert_equal "Carlos", player.team.name
   end

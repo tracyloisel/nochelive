@@ -1,6 +1,6 @@
 <% content_for :title, t("church.title") %>
 <% content_for :body_class, "is-kid is-church-journey" %>
-<%= chrome_menu { site_menu } %>
+<% page_hud { site_menu } %>
 <section class="church-landing" style="--church-scene: url('/media/church/journey/threshold-v2.png')">
   <div class="church-scene-atmosphere" aria-hidden="true"><i></i><i></i><i></i></div>
   <header class="church-landing-copy">
@@ -43,5 +43,5 @@
           title: t("church.worship_title"),
           hint: t("church.worship_hint") %>
   </nav>
-  <%= render Navigation::DockComponent.new(active: :church) %>
+  <% page_dock(active: :church) %>
 </section>

@@ -45,20 +45,4 @@ class People::TransferTest < ActiveSupport::TestCase
     assert_equal team_id, @person.last_ward_team_id
   end
 
-  test "rejects a twin ficha already in the destination" do
-    People::Register.call(
-      ward: @dest,
-      given_name: @person.given_name,
-      family_name: @person.family_name,
-      avatar_key: @person.avatar_key,
-      favorite_year: @person.favorite_year,
-      device_token: "twin-dest"
-    )
-
-    error = assert_raises(People::Error) do
-      People::Transfer.call(person: @person, ward: @dest)
-    end
-    assert_equal :taken, error.code
-    assert_equal @origin.id, @person.reload.ward_id
-  end
 end

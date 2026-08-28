@@ -26,7 +26,7 @@ module Quizzes
         grew:,
         broke:,
         shout_key: grew ? SHOUTS[count] : nil,
-        sfx: cue_for(count, grew),
+        sfx: nil,
         tier: tier_for(count)
       )
     end
@@ -71,12 +71,6 @@ module Quizzes
           count += 1
         end
         count
-      end
-
-      def cue_for(count, grew)
-        return unless grew
-        return "chest" if count == 10
-        return "fire_whoosh" if count == 3 || count == 5
       end
 
       def tier_for(count)

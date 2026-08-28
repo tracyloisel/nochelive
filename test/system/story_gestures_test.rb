@@ -7,7 +7,7 @@ class StoryGesturesTest < ApplicationSystemTestCase
     visit night_name_path(game_sessions(:david).code)
     fill_in "¿Cómo te llaman en la rama?", with: "Pili"
     find("label.choice-chip", text: "En la sala").click
-    click_button "Solo esta noche"
+    click_button I18n.t("join.create_and_join")
     click_button "Casa de David"
     assert_selector ".play-reel[data-controller=story]"
     assert_selector ".story-close"
@@ -47,7 +47,7 @@ class StoryGesturesTest < ApplicationSystemTestCase
     visit night_name_path(game_sessions(:david).code)
     fill_in "¿Cómo te llaman en la rama?", with: "Pili"
     find("label.choice-chip", text: "En la sala").click
-    click_button "Solo esta noche"
+    click_button I18n.t("join.create_and_join")
     click_button "Casa de David"
     assert_selector ".play-reel"
 

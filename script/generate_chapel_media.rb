@@ -58,7 +58,7 @@ def request(method, url, payload = nil, timeout: 180)
   req = klass.new(uri)
   req["Authorization"] = "Bearer #{api_key}"
   req["Content-Type"] = "application/json"
-  req["HTTP-Referer"] = "https://noche.live"
+  req["HTTP-Referer"] = "https://nochelive.com"
   req["X-Title"] = "Noche Live chapel media"
   req.body = JSON.generate(payload) if payload
 

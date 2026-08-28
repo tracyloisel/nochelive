@@ -10,6 +10,7 @@ class StreetDuel < ApplicationRecord
   belongs_to :challenger_run, class_name: "QuizRun", optional: true
   belongs_to :opponent_run, class_name: "QuizRun", optional: true
   has_many :quiz_runs, dependent: :nullify
+  has_many :viral_events, dependent: :destroy
 
   validates :pack_id, :token, :status, :expires_at, presence: true
   validates :status, inclusion: { in: STATUSES }

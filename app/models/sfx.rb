@@ -6,11 +6,14 @@ class Sfx
     buzzer_hit
     correct_gold
     wrong_soft
+    score_transfer
+    crown_chime
     royal_fanfare
     level_up
     chest
     dramatic_fire
     fire_whoosh
+    flame_gold
     timer_tension
     tick
     tick_low
@@ -21,6 +24,7 @@ class Sfx
     duel_send
     stake_gain
     reveal
+    study_refuge
     study_light
     study_miss
     study_turn

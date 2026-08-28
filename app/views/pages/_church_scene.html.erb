@@ -10,5 +10,5 @@
     <h1><%= title %></h1>
     <%= yield %>
   </div>
-  <%= render Navigation::DockComponent.new(active: :church) %>
+  <% page_dock(active: :church) %>
 </section>

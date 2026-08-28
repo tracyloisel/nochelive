@@ -1,100 +1,45 @@
 require "test_helper"
 
 class StreetHubControllerTest < ActionDispatch::IntegrationTest
-  test "hub shows world map and profile wizard on first visit" do
+  test "home navigation uses place transitions instead of reward sounds" do
     get root_path
+
     assert_response :success
-    assert_select "#street_world.street-world.is-profile-gate"
-    assert_select "#profile_gate.street-wizard"
-    assert_select "#profile_gate[data-controller~=keyboard-inset]"
-    assert_select "#profile_gate[data-controller~=street-arrival]"
-    assert_select "#profile_gate .hall-sheet"
-    assert_select ".picto-btn", count: 0
-    assert_select "#profile_gate[role=dialog]", count: 0
-    assert_select "#ward_q"
-    assert_select "#ward_picker_results"
-    assert_select ".street-arrival-caption", text: I18n.t("street.gate_arrive")
-    assert_select "h1", text: I18n.t("street.gate_ward_title")
-    assert_select "p.lede", text: I18n.t("street.gate_ward_lede")
-    assert_select ".street-arrival-lockup", text: "Noche Live"
-    assert_select "#profile_gate .street-quien-rule"
-    assert_select "#profile_gate .hall-sheet-apex"
-    assert_no_match(/guardar tu progreso/, response.body)
-    assert_select "#ward_picker_results .ward-hit", count: 0
-    assert_select "#ward_picker_results .ward-hit.is-featured", count: 0
-    assert_select "button.ward-picker-locate", text: I18n.t("street.gate_locate")
-    assert_select "button.btn-gold", text: /Rama Benidorm/, count: 0
-    assert_select ".quiz-hud", count: 0
-    assert_select ".street-hub-feed"
-    assert_select ".hub-hero"
-    assert_select ".hub-hero-stage"
-    assert_select ".hub-slide-copy"
-    assert_select ".hub-hero-continue", text: I18n.t("hub.continue")
-    assert_select "h2.hub-hero-title.street-map-door-kicker",
-      text: QuizDefinition.catalog.find_pack("coronas").copy(:kicker)
-    assert_select ".street-map-door-step", text: I18n.t("hub.step", n: 1, total: 10)
-    assert_select ".hub-hero-name.street-map-door-pack",
-      text: QuizDefinition.catalog.find_pack("coronas").copy(:title)
-    assert_select ".street-map-door-lede", text: QuizDefinition.catalog.find_pack("coronas").copy(:lede)
-    assert_select ".hub-reward-label", text: I18n.t("hub.reward")
-    assert_select ".hub-reward img.hub-reward-chest[src=?]", "/media/temple/reward-chest.png"
-    assert_select ".hub-reward .picto-chest", count: 0
-    assert_select ".hub-reward-value", text: "+#{QuizDefinition::CURVE_POINTS.sum}"
-    assert_select ".hub-hero-info .picto-info"
-    assert_select ".street-card.is-map-door", count: 1
-    assert_select ".hub-play", text: I18n.t("street.world_play")
-    assert_select "a.street-map-door-open", count: 0
-    assert_select "#street_world .street-map-path", count: 0
-    assert_select "#street_world .street-card.is-pack", count: 0
-    assert_select ".street-pack-replay", count: 0
-    assert_select ".street-play-cta", count: 0
-    assert_select ".street-pulse", count: 0
-    assert_select ".street-world-dock", count: 0
-    assert_select ".street-pack-play", count: 0
-    assert_select ".street-pack-play-wrap", count: 0
-    assert_select ".street-hub-nav", count: 0
-    assert_select ".street-friend-rail", count: 0
-    assert_select ".street-map-legend", count: 0
-    assert_select ".street-pack-beacon", count: 0
-    assert_select ".street-hub-nav-item", count: 0
-    assert_select ".chrome-drawer .mute"
-    assert_select ".chrome-drawer .mute .word", text: I18n.t("chrome.sound_on")
-    assert_select ".chrome-drawer .lang-switch.is-drawer"
-    assert_select ".chrome-drawer .lang-opt", count: 4
-    assert_select ".chrome-tools", count: 0
-    assert_select "#street_quiz", count: 0
-    assert_select ".home-menu-btn .picto-menu"
-    assert_select ".home-menu.is-split .chrome-face.is-guest"
-    assert_select ".home-menu.is-split .chrome-face.is-guest .picto-person"
-    assert_select ".home-menu-nav"
-    assert_select ".home-menu-kicker", text: I18n.t("home.ward_menu")
-    assert_select ".home-menu-kicker", text: I18n.t("church.menu")
-    assert_select ".home-menu-kicker", text: I18n.t("home.about_menu")
-    assert_select ".home-menu-kicker", text: I18n.t("home.program"), count: 0
-    assert_select "a.home-menu-row[href=?]", root_path, count: 0
-    assert_select "a.home-menu-row[href=?]", jugar_path, text: I18n.t("street.menu_play")
-    assert_select "a.home-menu-row[href=?]", street_map_path, text: I18n.t("street.world_map")
-    assert_select "a.home-menu-row[href=?]", street_history_path, text: I18n.t("street.history_menu")
-    assert_select "a.home-menu-row[href=?]", street_leaderboard_path
-    assert_select "a.home-menu-row[href=?]", search_path
-    assert_select "a.home-menu-row[href=?]", search_path(cambiar: 1), count: 0
-    assert_select "a.home-menu-row[href=?]", church_path
-    assert_select "a.home-menu-row[href=?]", about_path
-    assert_select "a.home-menu-row[href=?]", platform_stats_path, text: I18n.t("stats.menu")
-    assert_select "a.home-menu-row[href=?]", legal_path
-    assert_select "a.home-menu-row[href=?]", privacy_path
-    assert_select ".home-menu-block" do |blocks|
-      church = blocks.find { |block| block.at_css(".home-menu-kicker")&.text&.strip == I18n.t("church.menu") }
-      about = blocks.find { |block| block.at_css(".home-menu-kicker")&.text&.strip == I18n.t("home.about_menu") }
-      assert church, "expected an Iglesia menu section"
-      assert about, "expected a Sobre este juego menu section"
-      church_hrefs = church.css("a.home-menu-row").map { |node| node["href"] }
-      about_hrefs = about.css("a.home-menu-row").map { |node| node["href"] }
-      assert_equal [ search_path, church_path ], church_hrefs
-      assert_equal [ about_path, platform_stats_path, legal_path, privacy_path ], about_hrefs
+    assert_select ".hub-play[data-stage-sfx-value]", count: 0
+
+    portal = Rails.root.join("app/javascript/controllers/hub_portal_controller.js").read
+    assert_includes portal, 'play?.("celestial_breath", 0.68)'
+    refute_includes portal, 'play?.("chest")'
+  end
+
+  test "home live countdown sounds only when the event actually starts" do
+    countdown = Rails.root.join("app/javascript/controllers/hub_countdown_controller.js").read
+
+    method = countdown[/handleLiveStart\(\) \{[\s\S]*?\n  \}/]
+    assert_includes method, 'play?.("round_open", 0.66)'
+    assert_equal 1, countdown.scan('play?.("round_open", 0.66)').size
+  end
+
+  test "player sees sent invitations and can nudge a waiting friend" do
+    duel = street_duels(:pending_challenge)
+    ViralEvent.create!(
+      name: "invite_share_completed",
+      device_digest: "sender-device",
+      street_duel: duel,
+      person: people(:pili)
+    )
+    sign_in_congregation
+    pili = people(:pili)
+    post street_profile_path, params: { person_id: pili.id, favorite_year: pili.favorite_year }
+    follow_redirect!
+
+    assert_select "article.hub-invitations:not(.is-empty)" do
+      assert_select ".hub-kicker", text: I18n.t("hub.invitations_title")
+      assert_select ".hub-invitation-row.is-sent", count: 1
+      assert_select "button.hub-invitation-remind[data-controller=street-share]", text: I18n.t("hub.invitation_remind")
+      assert_select "button[data-street-share-duel-token-value=?]", duel.token
+      assert_select "button[data-street-share-url-value*=?]", "/desafio/#{duel.token}"
     end
-    assert_select "details.home-code"
-    assert_select "details.home-code .code-input"
   end
 
   test "about menu lists cifras between who and legal" do
@@ -110,68 +55,31 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
 
   test "hub five-tab dock is in the game-hub CSS" do
     css = Rails.root.join("app/assets/stylesheets/application.css").read
-    assert_includes css, ".street-hub-nav"
-    assert_includes css, ".street-hub-nav-item"
+    assert_includes css, ".navigation-dock"
+    assert_includes css, ".navigation-dock__item"
+    assert_includes css, "grid-template-columns: repeat(2, minmax(0, 1fr))"
+    assert_includes css, ".street-hub-feed > .hub-hero"
+    assert_includes css, ".street-hub-feed > .hub-study"
+    assert_includes css, "row-gap: clamp(var(--space-5), 2.6vw, var(--space-7))"
+    assert_includes css, "grid-template-columns: repeat(6, minmax(0, 1fr))"
+    assert_includes css, ".hub-panel-row > .hub-invitations"
+    assert_includes css, "grid-column: span 3"
+    assert_includes css, ".hub-panel-row > .hub-videos"
+    assert_includes css, "grid-row: 3"
+    assert_includes css, "grid-template-columns: var(--hub-grid-gutter) repeat(12, minmax(0, 1fr)) var(--hub-grid-gutter)"
+    assert_includes css, "grid-column: 2 / 14"
+    assert_includes css, "grid-column: 2 / span 8"
+    assert_includes css, "grid-column: 10 / span 4"
   end
 
-  test "game hub HUD is the quiz capsule on the artwork" do
-    css = Rails.root.join("app/assets/stylesheets/application.css").read
-    hud = css[/body\.is-street-hub:has\(\.street-world\.is-game-hub:not\(\.is-profile-gate\)\) \.home-menu\.is-hud \{[^}]+\}/m]
-    assert hud, "expected the hub chrome HUD rule"
-    assert_includes css, ".street-world > .home-menu"
-    assert_includes css, ".home-menu.is-hud .quiz-hud"
-    assert_includes css, 'grid-template-areas: "who level pack stats menu"'
-    assert_includes css, ".quiz-hud-rank .quiz-hud-level"
-    assert_includes css, ".quiz-hud.is-guest"
-    assert_includes css, ".quiz-hud-cta"
-    refute_includes css, ".hub-mini.is-on .hub-mini-bar"
-    refute_includes css, ".hub-hud.is-away"
-    assert_includes css, ".hub-rail.is-empty"
-    assert_includes css, ".hub-live.is-empty"
-    assert_includes css, ".hub-live-digit"
-    assert_includes css, ".hub-live-colon"
-    assert_includes css, '[data-hub-live-theme="light"]'
-    assert_includes css, '[data-hub-live-theme="dark"]'
-    assert_includes css, ".hub-live.is-still::after"
-    light_theme = css[/\.hub-live\[data-hub-live-theme="light"\] \{[^}]+\}/m]
-    dark_theme = css[/\.hub-live\[data-hub-live-theme="dark"\] \{[^}]+\}/m]
-    assert light_theme, "expected Celestial Light live-card tokens"
-    assert dark_theme, "expected Celestial Dark live-card tokens"
-    assert_match(/--hub-live-art-wash:\s*linear-gradient\(\s*90deg,/, light_theme)
-    assert_match(/--hub-live-art-wash:\s*linear-gradient\(\s*90deg,/, dark_theme)
-    assert_match(/background:\s*var\(--hub-live-art-wash\)/, css)
-    refute_match(/\.street-world\.is-game-hub \.hub-live \{\s*--hub-live-paper: var\(--temple-ivory/, css)
-    assert_includes css, ".hub-panel"
-    assert_includes css, "grid-template-columns: 1fr 1fr"
-    assert_includes css, "--text-on-glass"
-    assert_includes css, "--text-on-gold"
-    assert_includes css, "--text-on-light-surface"
-    assert_includes css, "--text-on-dark-surface"
-    assert_includes css, ".street-world.is-game-hub .hub-community .street-pulse-month"
-    assert_match(/var\(--text-on-glass\)/, css[/\.street-world\.is-game-hub \.hub-community \.street-pulse-month[\s\S]+?color:[^;]+/])
-    assert_includes css, ".street-world.is-game-hub:not(.street-leaderboard-page) a.street-league"
-    assert_includes css, "a.hub-text-go"
-    reward = css[/\.hub-reward \{[^}]+\}/m]
-    assert reward, "expected .hub-reward prize pill"
-    assert_match(/--hub-reward-paper/, reward)
-    assert_match(/border-radius: var\(--radius-pill\)/, reward)
-    assert_match(/max-width: 7\.5rem/, reward)
-    assert_match(/min-height: 2\.45rem/, reward)
-    actions = css[/\.hub-hero-actions \{[^}]+\}/m]
-    assert actions, "expected centered hero actions"
-    assert_match(/align-items: center/, actions)
-    play = css[/\.street-world\.is-game-hub \.hub-play\.street-map-door-play,\n\.street-world\.is-game-hub \.hub-play \{[^}]+\}/m]
-    assert play, "expected dominant Jouer control"
-    assert_match(/min-width: 8\.1rem/, play)
-    assert_match(/min-height: 2\.85rem/, play)
-    chest = css[/\.hub-reward-chest \{[^}]+\}/m]
-    assert chest, "expected compact reward chest"
-    assert_match(/width: 2\.7rem/, chest)
-    assert_match(/height: 2rem/, chest)
-    refute_includes css, ".hub-hero.is-copy-arriving"
-    refute_match(/\.hub-reward \{[^}]+border: 1px solid var\(--border-gold\)/m, css)
-    refute_match(/\.hub-reward \{[^}]+var\(--text-primary\)/m, css)
-    refute_match(/\.street-world\.is-game-hub:not\(\.street-leaderboard-page\) a\.street-league[\s\S]{0,400}min-height:\s*5rem/, css)
+  test "hub artwork theme propagates to the shared HUD chrome" do
+    get root_path
+
+    assert_response :success
+    theme = css_select("#street_world").first["data-hub-theme"]
+    assert_includes %w[light dark], theme
+    assert_select "body.is-game-hub-page.is-celestial-#{theme}"
+    assert_select "body.is-game-hub-page > .home-menu.is-hud .quiz-hud"
   end
 
   test "online tile shows two real friends ranks crowns and leaderboard CTA" do
@@ -249,12 +157,10 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
 
   test "community tile shows live pulse, two-line labels, and gold/ink icons" do
     sign_in_congregation
-    post street_profile_path, params: { guest: 1 }
-    follow_redirect!
+    create_street_profile!
     assert_select "a.hub-community[href=?]", platform_stats_path do
       assert_select ".hub-kicker", text: I18n.t("hub.community")
       assert_select ".street-pulse"
-      assert_select "a", count: 0
     end
     assert_select ".hub-community .street-pulse-live"
     assert_select ".hub-community .street-pulse-dot"
@@ -404,65 +310,60 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
     assert_select "a.street-map-door-play"
     assert_select ".street-play-cta", count: 0
     assert_select "turbo-frame#street_pulse[src=?]", street_pulse_path
-    assert_select "a.street-pulse[href=?][data-turbo-frame=?]", platform_stats_path, "_top"
-    assert_select "a.street-pulse[aria-label=?]", I18n.t("stats.menu")
+    assert_select ".street-pulse"
     assert_select ".street-pulse-month"
     assert_select ".street-pulse-live"
-    assert_select ".street-hub-nav" do
-      assert_select "a.street-hub-nav-item", count: 5
+    assert_select ".navigation-dock" do
+      assert_select "a.navigation-dock__item", count: 5
       assert_select "a[href=?]", root_path, count: 1
       assert_select "a[href=?]", street_map_path, count: 1
       assert_select "a[href=?]", study_program_path, count: 1
       assert_select "a[href=?]", church_path, count: 1
-      assert_select "a[href=?]", street_profile_path, count: 1
+      assert_select "a[href=?]", street_profile_path(edit: 1), count: 1
       assert_select ".picto-meetinghouse", count: 1
       assert_select ".picto-compass", count: 1
-      assert_select ".street-hub-nav-item[href='/parole'] > .picto-scripture-book", count: 1
+      assert_select ".navigation-dock__item[href='/parole'] > .picto-scripture-book", count: 1
       assert_select ".street-hub-word-medallion", count: 0
       assert_select ".picto-church", count: 1
       assert_select ".picto-person", count: 1
       assert_select ".picto-bell", count: 0
     end
-    assert_select ".street-hub-nav-item.is-active", text: I18n.t("hub.nav_home")
+    assert_select ".navigation-dock__item.is-active", text: I18n.t("hub.nav_home")
     assert_select ".hub-shortcuts", count: 0
     assert_select ".hub-shortcut", count: 0
     assert_not_includes response.body, "Boutique"
     assert_not_includes response.body, "Missions"
   end
 
-  test "guest mode hides profile wizard and league" do
-    sign_in_congregation
-    post street_profile_path, params: { guest: 1 }
-    follow_redirect!
+  test "visitor mode shows the hub without player-only league data" do
+    get root_path
     assert_select "#profile_gate", count: 0
     assert_select ".street-league", count: 0
     assert_select ".hub-hero"
     assert_select ".home-menu.is-hud .quiz-hud.is-guest"
-    assert_select ".home-menu.is-hud .quiz-hud-cta", text: I18n.t("hub.guest_cta")
-    assert_select "a.quiz-hud-who.is-guest[href=?]", root_path(ficha: 1)
+    assert_select ".home-menu.is-hud .quiz-hud-cta-long", text: I18n.t("hub.guest_cta")
+    assert_select "a.quiz-hud-who.is-guest[href=?]", street_profile_path(fresh: 1)
     assert_select ".hub-mini", count: 0
-    assert_select "a.hub-rail.hub-challenge.is-empty[href=?]", street_challenges_path
-    assert_select ".hub-online.is-empty", text: /#{Regexp.escape(I18n.t("hub.online_empty"))}/
-    assert_select ".hub-online-ranking", text: I18n.t("hub.see_ranking")
-    assert_select ".hub-rail-go", text: I18n.t("hub.challenge_them")
-    assert_select "a.hub-challenge .hub-rail-go a", count: 0
-    assert_select ".hub-challenge-empty-arena" do
-      assert_select ".hub-challenge-empty-face", count: 2
-      assert_select ".hub-challenge-empty-vs", text: I18n.t("street.duel_vs")
-    end
-    assert_select ".hub-challenge-empty-cta .picto-arrow"
+    assert_select "a.hub-challenge.is-ward-required[href=?]", search_path(cambiar: 1)
+    assert_select ".hub-challenge-empty-hint", text: I18n.t("hub.challenge_pick_ward")
+    assert_select ".hub-online-ward-required", text: /#{Regexp.escape(I18n.t("hub.online_pick_ward"))}/
+    assert_select ".hub-online-ranking[href=?]", search_path(cambiar: 1), text: I18n.t("hub.pick_ward_action")
     assert_select ".hub-progress .hub-kicker", text: I18n.t("hub.progress")
     assert_select ".hub-progress-meta", text: I18n.t("hub.packs_unlocked", count: 1)
     assert_select ".hub-progress-count", text: "1 / #{QuizDefinition::PACK_COUNT}"
     assert_select ".hub-progress-meter[role=?][aria-valuenow=?][aria-valuemax=?]", "progressbar", "1", QuizDefinition::PACK_COUNT.to_s
+    if StudyProgram.order(year: :desc).first
+      assert_select "a.hub-progress-word[href=?]", study_program_path do
+        assert_select ".hub-progress-word-copy strong", text: I18n.t("study.title")
+      end
+    end
     assert_select ".hub-progress-path .hub-progress-mark img", count: 4
-    assert_select ".hub-progress-node[aria-current=?] .hub-progress-label", "step", text: QuizDefinition.catalog.packs.first.copy(:title)
+    assert_select ".hub-progress-path .hub-progress-status", count: 4
     assert_select "#street_world .street-map-path", count: 0
     assert_select ".street-friend-rail", count: 0
-    assert_select ".street-hub-nav"
+    assert_select ".navigation-dock"
     assert_select "turbo-frame#street_pulse"
-    assert_select "a.street-pulse[href=?][data-turbo-frame=?]", platform_stats_path, "_top"
-    assert_select "a.street-pulse[aria-label=?]", I18n.t("stats.menu")
+    assert_select ".street-pulse"
     assert_select ".street-play-cta", count: 0
   end
 
@@ -470,10 +371,8 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
     game_sessions(:david).update!(status: "finished")
     Missionaries::Add.call(night: game_sessions(:elias), name: "Élder Oxxon")
     sign_in_congregation
-    post street_profile_path, params: { guest: 1 }
-    follow_redirect!
-    assert_select ".hub-live[data-hub-live-theme=?]", "light"
-    assert_select ".hub-live.is-celestial-light[data-hub-live-atmosphere=?]", "glorious"
+    create_street_profile!
+    assert_select ".hub-live[data-hub-live-theme][data-hub-live-atmosphere]"
     assert_select ".hub-live-badge", text: I18n.t("hub.live_chip")
     assert_select ".hub-live-when"
     assert_select ".hub-live-special", text: I18n.t("hub.live_special", theme: game_sessions(:elias).theme_title)
@@ -488,7 +387,7 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
     assert_includes response.body, "/media/nights/noche_live_stage_v2.png"
   end
 
-  test "hub live card uses Celestial Light with its dedicated stage" do
+  test "hub live card follows Celestial Light with its dedicated stage" do
     Hubs::Backdrop.entries = [
       {
         "id" => "chapel-worship",
@@ -500,39 +399,20 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
     game_sessions(:david).update!(status: "finished")
     Missionaries::Add.call(night: game_sessions(:elias), name: "Élder Oxxon")
     sign_in_congregation
-    post street_profile_path, params: { guest: 1 }
-    follow_redirect!
+    create_street_profile!
     assert_select ".hub-live[data-hub-live-theme=?]", "light"
-    assert_select ".hub-live.is-celestial-light[data-hub-live-atmosphere=?]", "glorious"
+    assert_select ".hub-live.is-celestial-light[data-hub-live-atmosphere=?]", "peaceful"
     assert_includes response.body, "/media/nights/noche_live_stage_v2.png"
     assert_select "a.hub-live-program[href=?]", ward_profile_path("RAMA")
   ensure
     Hubs::Backdrop.reset!
   end
 
-  test "signed-in avatar reopens the wizard asking if this is you" do
-    sign_in_congregation
-    pili = people(:pili)
-    post street_profile_path, params: { person_id: pili.id, favorite_year: pili.favorite_year }
-    follow_redirect!
-    get root_path(ficha: 1)
-    assert_response :success
-    assert_select "#profile_gate"
-    assert_select "h1", text: I18n.t("join.welcome_title")
-    assert_select "#profile_gate .street-quien-ficha"
-    assert_select "#profile_gate .street-quien-rule"
-    assert_select "button.btn-gold", text: I18n.t("join.yes_name", name: pili.given_name)
-    assert_select "a.btn-ghost", text: I18n.t("join.not_me")
-    assert_select "a.quiet-link", text: I18n.t("street.stay_as", name: pili.given_name), count: 0
-    assert_select ".profile-gate-new", count: 0
-    assert_select "#gate_name", count: 0
-    assert_select ".chrome-face:not(.is-guest)"
-  end
-
-  test "camino redirects to the map historial anchor" do
-    get street_history_path
-    assert_response :success
+  test "legacy camino paths redirect to the map historial anchor" do
     get "/camino"
+    assert_redirected_to "/mapa#historial"
+
+    get "/camino/historial"
     assert_redirected_to "/mapa#historial"
   end
 
@@ -550,10 +430,22 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
     assert_select ".mapa-node.is-current .mapa-node-beacon"
     assert_select ".mapa-node.is-locked .mapa-node-lock"
     assert_select ".mapa-footer-cta[href=?]", street_leaderboard_path
-    assert_select ".home-menu.is-hud .quiz-hud"
-    assert_select ".street-world-dock .street-hub-nav-item.is-active[href=?]", street_map_path
+    assert_select "body > .home-menu.is-hud .quiz-hud"
+    assert_select "body > .navigation-dock .navigation-dock__item.is-active[href=?]", street_map_path
+    assert_select "#street_world .home-menu", count: 0
+    assert_select "#street_world .navigation-dock", count: 0
     assert_select "a.home-menu-row[href=?]", root_path, text: I18n.t("street.nav_hub")
     assert_select "a.home-menu-row[href=?]", street_map_path, count: 0
+
+    css = Rails.root.join("app/assets/stylesheets/application.css").read
+    map_body = css[/body\.is-street-map-page \{[^}]+\}/m]
+    refute_includes map_body, "--hud-inset"
+    refute_includes map_body, "--navigation-dock-width"
+    assert_includes css, "body.is-street-map-page .sky { background: none; }"
+    assert_match(/\.home-menu\.is-hud \{[^}]*position: fixed;[^}]*left: env\(safe-area-inset-left\);[^}]*right: env\(safe-area-inset-right\);[^}]*max-width: none;[^}]*transform: none;/m, css)
+    assert_match(/\.navigation-dock \{[^}]*position: fixed;[^}]*left: 0;[^}]*right: 0;[^}]*width: auto;/m, css)
+    assert_match(/\.street-world\.street-map-page \{[^}]*padding: calc\(6rem \+ env\(safe-area-inset-top\)\)/m, css)
+    refute_includes css, ".street-map-page > .home-menu"
   end
 
   test "unlock param wires packUnlock motion on a locked pack" do
@@ -562,9 +454,7 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select "#pack-#{next_pack}[data-street-motion-sequence-value='packUnlock']"
     assert_select "#pack-#{next_pack}.is-unlocking.is-locked"
-    assert_select "#pack-#{next_pack} .street-pack-replay-form", count: 0
-    assert_select ".street-pack-play", count: 0
-    assert_select ".street-pack-play-wrap", count: 0
+    assert_select "#pack-#{next_pack} .mapa-node-hit", count: 0
   end
 
   test "unlock param on the current pack does not replay the lock" do
@@ -598,7 +488,7 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
     post street_profile_path, params: { person_id: pili.id, favorite_year: pili.favorite_year }
     follow_redirect!
     assert_select "a.street-league[href=?]", street_leaderboard_path
-    assert_select "a.street-pulse[href=?][data-turbo-frame=?]", platform_stats_path, "_top"
+    assert_select ".street-pulse"
     assert_select ".street-play-cta", count: 0
     assert_select ".street-league-all", text: I18n.t("hub.see_ranking")
     assert_select ".home-menu.is-hud .quiz-hud-name", text: pili.given_name
@@ -613,133 +503,6 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test "ficha param reopens profile wizard for guest" do
-    sign_in_congregation
-    post street_profile_path, params: { guest: 1 }
-    follow_redirect!
-    assert_select "#profile_gate", count: 0
-
-    get root_path(ficha: 1)
-    assert_response :success
-    assert_select "#profile_gate.street-wizard"
-    assert_select "#profile_gate[data-controller~=keyboard-inset]"
-    assert_select ".profile-gate-new"
-    assert_select "#gate_name"
-    assert_select ".profile-gate-avatars .avatar-choice", count: Player::AVATARS.size
-    assert_select ".profile-gate-avatars .avatar-seal", count: Player::AVATARS.size
-    assert_select ".year-hint", text: I18n.t("join.year_hint")
-    assert_select ".street-quien-ward", text: /#{Regexp.escape(I18n.t("street.ward_here", name: wards(:demo).city))}/
-    assert_select ".street-quien-ward a.quiet-link", text: I18n.t("street.change_ward_short")
-    assert_select "a.quiet-link", text: I18n.t("street.change_ward"), count: 0
-    assert_select "button.quiet-link", text: I18n.t("street.continue_guest")
-    assert_select "#profile_gate .hall-sheet-apex .picto-star4"
-  end
-
-  test "wizard ivory sheet keeps the night quiz gold-leaf star above the card" do
-    css = Rails.root.join("app/assets/stylesheets/application.css").read
-    panel = css[/\.street-wizard-panel\.hall-sheet \{[^}]+\}/m]
-    assert panel, "expected .street-wizard-panel.hall-sheet rule"
-    refute_match(/overflow-y:\s*auto/, panel)
-    assert_match(/overflow:\s*visible/, panel)
-    star = css[/\.hall-sheet-apex::before,\n\.street-quien-apex::before \{[^}]+\}/m]
-    assert star, "expected paired apex ::before star"
-    assert_match(/clip-path: var\(--temple-star4\)/, star)
-    assert_match(/background: var\(--temple-gold-leaf\)/, star)
-    assert_match(/width: 1\.22rem/, star)
-    refute_match(/\.hall-sheet::after,\n\.street-quien-sheet::after/, css)
-    confirm = css[/#profile_gate \.street-wizard-panel\.hall-sheet:has\(\.street-quien-ficha\),\n\.street-quien-sheet:has\(\.street-quien-ficha\) \{[^}]+\}/m]
-    assert confirm, "expected open identity confirm sheet"
-    assert_match(/gap: var\(--space-5\)/, confirm)
-    assert_match(/background: transparent/, confirm)
-    create = css[/#profile_gate \.street-wizard-panel\.hall-sheet:has\(\.profile-gate-new\),\n\.street-quien-sheet:has\(\.profile-gate-new\) \{[^}]+\}/m]
-    assert create, "expected frosted ivory create profile sheet"
-    refute_match(/background:\s*transparent/, create)
-    assert_match(/--temple-ivory/, create)
-    assert_match(/backdrop-filter:\s*blur\(14px\)/, create)
-    assert_match(/box-shadow: var\(--street-card-shadow/, create)
-    refute_match(/\.street-quien-sheet:has\(\.profile-gate-new\) \.btn-ghost/, css)
-    refute_match(/body\.is-street-hub:has\(#street_world\.is-profile-gate\)/, css)
-    assert_match(/max-height:\s*none/, create)
-    gate = css[/\.street-world\.is-profile-gate \{[^}]+\}/m]
-    assert gate, "expected .street-world.is-profile-gate rule"
-    assert_match(/overflow:\s*visible/, gate)
-    assert_match(/height:\s*auto/, gate)
-    assert_match(/max-height:\s*none/, gate)
-    html_scroll = css[/html:has\(#profile_gate\),\nbody:has\(#profile_gate\) \{[^}]+\}/m]
-    assert html_scroll, "expected document scroll while the profile gate is open"
-    assert_match(/overflow-y:\s*auto/, html_scroll)
-    reduced = css.split("@media (prefers-reduced-transparency: reduce)", 2).last
-    assert reduced, "expected solid ivory fallback when transparency is reduced"
-    assert_match(/backdrop-filter:\s*none/, reduced)
-    assert_match(/--temple-ivory/, reduced)
-    wizard = css[/\.street-wizard \{[^}]+\}/m]
-    assert wizard, "expected .street-wizard rule"
-    assert_match(/var\(--chrome-head\)/, wizard)
-    refute_match(/keyboard-inset-height/, wizard)
-    refute_match(/body:has\(#profile_gate\) \{\s*padding-bottom: var\(--keyboard-inset/, css)
-    refute_match(/3\.75rem \+ env\(safe-area-inset-top\)/, wizard)
-    paper = css[/\.home-paper \{[^}]+\}/m]
-    assert paper, "expected .home-paper rule"
-    assert_match(/padding: max\(var\(--space-4\), env\(safe-area-inset-top\)\)/, paper)
-    world = css[/\.street-world \{[^}]+\}/m]
-    assert world, "expected .street-world rule"
-    assert_match(/padding: var\(--chrome-head\)/, world)
-    clearance = css[/#profile_gate\.street-wizard\.is-ready:has\(\.profile-gate-new\),\n#profile_gate\.street-wizard\.is-ready:has\(\.profile-gate-people\) \{[^}]+\}/m]
-    assert clearance, "expected create/device wizard to start below the chrome"
-    assert_match(/justify-content:\s*flex-start/, clearance)
-    refute_match(/padding-top/, clearance)
-    rama = css[/#profile_gate\.street-wizard\.is-ready:has\(#ward_q\) \{[^}]+\}/m]
-    assert rama, "expected rama picker to sit under the chrome, not the keyboard"
-    assert_match(/justify-content:\s*flex-start/, rama)
-  end
-
-  test "wizard asks not me before listing other device fichas then create" do
-    sign_in_congregation
-    pili = people(:pili)
-    carmen = people(:carmen_garcia)
-    post street_profile_path, params: { person_id: pili.id, favorite_year: pili.favorite_year }
-    follow_redirect!
-    token = PersonDevice.where(person: pili).order(:id).last.device_token
-    PersonDevice.create!(person: carmen, device_token: token, last_seen_at: Time.current)
-
-    get root_path(ficha: 1)
-    assert_select "h1", text: I18n.t("join.welcome_title")
-    assert_select "button.btn-gold", text: I18n.t("join.yes_name", name: pili.given_name)
-    assert_select "#gate_name", count: 0
-    assert_select ".profile-gate-people", count: 0
-
-    get root_path(ficha: 1, not_me: 1)
-    assert_select "h1", text: I18n.t("join.device_title")
-    assert_select ".profile-gate-people .person-pick", count: 1
-    assert_select ".profile-gate-people strong", text: carmen.given_name
-    assert_select "a.btn-ghost", text: I18n.t("join.none_of_these")
-    assert_select "#gate_name", count: 0
-
-    get root_path(ficha: 1, fresh: 1)
-    assert_select "h1", text: I18n.t("street.create_title")
-    assert_select "p.lede", text: I18n.t("street.create_lede")
-    assert_select "label", text: I18n.t("street.create_who")
-    assert_select "legend", text: I18n.t("street.create_animal")
-    assert_select "#gate_name"
-    assert_select ".profile-gate-new"
-    assert_select ".profile-gate-people", count: 0
-  end
-
-  test "unsigned device with one ficha asks is this you not create" do
-    sign_in_congregation
-    pili = people(:pili)
-    post street_profile_path, params: { person_id: pili.id, favorite_year: pili.favorite_year }
-    follow_redirect!
-    post street_profile_path, params: { guest: 1 }
-    follow_redirect!
-
-    get root_path(ficha: 1)
-    assert_response :success
-    assert_select "h1", text: I18n.t("join.welcome_title")
-    assert_select "button.btn-gold", text: I18n.t("join.yes_name", name: pili.given_name)
-    assert_select "#gate_name", count: 0
-  end
-
   test "rank_up param plays level_up once from stage_sfx" do
     get root_path(rank_up: 1)
     assert_response :success
@@ -750,8 +513,7 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
 
   test "finished pack is replayable without a gold node CTA" do
     sign_in_congregation
-    post street_profile_path, params: { guest: 1 }
-    follow_redirect!
+    create_street_profile!
     post street_pack_start_path("coronas")
     follow_redirect!
     run = QuizRun.open_runs.order(:id).last
@@ -761,13 +523,12 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
 
     get street_map_path
     assert_response :success
-    assert_select ".street-world .street-card.is-pack", count: QuizDefinition.catalog.pack_ids.size
-    assert_select "#pack-coronas.is-finished .street-pack-replay-form"
-    assert_select "#pack-coronas .street-pack-replay", text: I18n.t("street.pack_replay")
-    assert_select "#pack-#{QuizDefinition.catalog.pack_ids.second}.is-current .street-pack-replay-form"
-    assert_select ".street-pack-play", count: 0
-    assert_select ".street-card.is-pack.is-locked .street-pack-replay", count: 0
-    assert_select ".street-play-cta"
+    assert_select ".street-world .mapa-node", count: QuizDefinition.catalog.pack_ids.size
+    assert_select "#pack-coronas.is-finished form[action=?]", street_pack_start_path("coronas")
+    assert_select "#pack-coronas.is-finished button.mapa-node-hit"
+    assert_select "#pack-#{QuizDefinition.catalog.pack_ids.second}.is-current form[action=?]",
+      street_pack_start_path(QuizDefinition.catalog.pack_ids.second)
+    assert_select ".mapa-node.is-locked .mapa-node-hit", count: 0
 
     post street_pack_start_path("coronas")
     follow_redirect!
@@ -776,18 +537,6 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
     assert replay
     assert_equal "coronas", replay.pack_id
     assert_not_equal run.id, replay.id
-  end
-
-  test "pending duel banner from desafio param" do
-    duel = street_duels(:pending_challenge)
-    get root_path(desafio: duel.token)
-    assert_response :success
-    assert_select "a.hub-challenge.is-waiting[href=?]", street_challenge_path(duel.token)
-    assert_select ".hub-challenge-name.is-hero", text: people(:pili).given_name
-    assert_select ".hub-challenge-capsule"
-    assert_select ".hub-challenge-vs-disc", text: "VS"
-    assert_select ".street-duel-banner", count: 0
-    assert_select "form[action=?]", street_challenge_accept_path(duel.token), count: 0
   end
 
   test "challenger hub shows waiting after a scored challenge" do
@@ -799,6 +548,7 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
     get root_path
     assert_select "a.hub-challenge.is-waiting"
     assert_select ".hub-challenge-capsule"
+    assert_select ".hub-challenge-status.is-waiting"
     assert_select ".hub-challenge-face.is-gold img[src*='tortuga']"
     assert_select ".hub-challenge.is-scored", count: 0
     assert_select ".street-duel-banner", count: 0
@@ -824,6 +574,7 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
     assert_select ".hub-challenge-name.is-hero", text: people(:carmen_garcia).given_name
     assert_select ".hub-challenge-face.is-silver img[src*='delfin']"
     assert_select ".hub-challenge-go"
+    assert_select ".hub-challenge-status.is-waiting"
     assert_select ".street-duel-banner", count: 0
     assert_select "a.quiet-link", text: I18n.t("street.duel_inbox_open"), count: 0
   end
@@ -835,7 +586,7 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
     follow_redirect!
     get root_path
     assert_select ".quiz-hud-name", text: pili.given_name
-    assert_select ".quiz-hud-rank", text: I18n.t("ranks.guerrero")
+    assert_select ".quiz-hud-rank > span:first-child", text: I18n.t("ranks.guerrero")
     assert_select ".street-xp-caption", count: 0
     assert_select ".street-rank-banner", count: 0
   end
@@ -864,6 +615,8 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
     assert_includes css, ".hub-challenge-bar"
     assert_includes css, "--hub-challenge-capsule"
     assert_includes css, ".hub-challenge-vs-chip"
+    assert_includes css, "a.hub-challenge.is-waiting .hub-challenge-waiting-body"
+    assert_includes css, "a.hub-challenge.is-waiting .hub-challenge-status"
     refute_includes css, ".hub-vs-bar"
   end
 end

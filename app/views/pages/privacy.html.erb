@@ -1,84 +1,100 @@
 <% content_for :title, t("privacy.title") %>
-<% content_for :body_class, "is-kid is-paper-hall" %>
-<%= chrome_menu { site_menu } %>
-<%= charter_hall id: "privacy_charter", kicker: t("privacy.kicker") do %>
-  <h1><%= t("privacy.title") %></h1>
-  <p class="charter-updated"><%= t("privacy.updated") %></p>
+<% content_for :body_class, "is-kid is-church-journey is-charter-journey is-charter-privacy" %>
+<% page_hud { site_menu } %>
 
-  <section class="charter-block">
-    <h2><%= t("privacy.who.title") %></h2>
-    <p><%= t("privacy.who.body") %></p>
-  </section>
+<section id="privacy_charter" class="charter-journey charter-journey--privacy">
+  <header class="charter-journey-hero" style="--charter-scene: url('/media/legal/privacy-charter-celestial-light-v1.webp')">
+    <div class="church-scene-atmosphere" aria-hidden="true"><i></i><i></i><i></i></div>
+    <div class="charter-journey-intro">
+      <p class="church-scene-kicker"><%= t("privacy.kicker") %></p>
+      <h1><%= t("privacy.title") %></h1>
+      <p class="charter-journey-updated"><%= t("privacy.updated") %></p>
+    </div>
+  </header>
 
-  <section class="charter-block">
-    <h2><%= t("privacy.ask.title") %></h2>
-    <p><%= t("privacy.ask.body") %></p>
-    <p><%= t("privacy.ask.guest") %></p>
-  </section>
+  <div class="charter-journey-thread" aria-hidden="true"><span></span><%= picto("star8") %><span></span></div>
 
-  <section class="charter-block">
-    <h2><%= t("privacy.purpose.title") %></h2>
-    <p><%= t("privacy.purpose.body") %></p>
-    <p><%= t("privacy.purpose.basis") %></p>
-  </section>
+  <main class="charter-journey-story">
+    <section class="charter-journey-act">
+      <h2><%= t("privacy.who.title") %></h2>
+      <p><%= t("privacy.who.body") %></p>
+    </section>
 
-  <section class="charter-block">
-    <h2><%= t("privacy.cookies.title") %></h2>
-    <p><%= t("privacy.cookies.lede") %></p>
-    <p><%= t("privacy.cookies.third_parties") %></p>
-    <dl class="charter-cookies">
-      <% %w[device ward host person guest locale seat presenter session].each do |row| %>
-        <div>
-          <dt><%= t("privacy.cookies.rows.#{row}.name") %></dt>
-          <dd>
-            <span class="charter-ttl"><%= t("privacy.cookies.rows.#{row}.ttl") %></span>
-            <%= t("privacy.cookies.rows.#{row}.why") %>
-          </dd>
-        </div>
-      <% end %>
-    </dl>
-    <p><%= t("privacy.cookies.mute") %></p>
-  </section>
+    <section class="charter-journey-act">
+      <h2><%= t("privacy.ask.title") %></h2>
+      <p><%= t("privacy.ask.body") %></p>
+      <p><%= t("privacy.ask.guest") %></p>
+    </section>
 
-  <section class="charter-block">
-    <h2><%= t("privacy.server.title") %></h2>
-    <p><%= t("privacy.server.body") %></p>
-  </section>
+    <section class="charter-journey-act">
+      <h2><%= t("privacy.purpose.title") %></h2>
+      <p><%= t("privacy.purpose.body") %></p>
+      <p><%= t("privacy.purpose.basis") %></p>
+    </section>
 
-  <section class="charter-block">
-    <h2><%= t("privacy.location.title") %></h2>
-    <p><%= t("privacy.location.body") %></p>
-  </section>
+    <section class="charter-journey-act charter-journey-act--cookies">
+      <h2><%= t("privacy.cookies.title") %></h2>
+      <p><%= t("privacy.cookies.lede") %></p>
+      <p><%= t("privacy.cookies.third_parties") %></p>
+      <dl class="charter-cookies">
+        <% %w[device ward host person guest locale seat presenter session].each do |row| %>
+          <div>
+            <dt><%= t("privacy.cookies.rows.#{row}.name") %></dt>
+            <dd>
+              <span class="charter-ttl"><%= t("privacy.cookies.rows.#{row}.ttl") %></span>
+              <%= t("privacy.cookies.rows.#{row}.why") %>
+            </dd>
+          </div>
+        <% end %>
+      </dl>
+      <p><%= t("privacy.cookies.mute") %></p>
+    </section>
 
-  <section class="charter-block">
-    <h2><%= t("privacy.where.title") %></h2>
-    <p><%= t("privacy.where.body") %></p>
-    <p><%= t("privacy.where.church") %></p>
-  </section>
+    <section class="charter-journey-act">
+      <h2><%= t("privacy.youtube.title") %></h2>
+      <p><%= t("privacy.youtube.body") %></p>
+      <p><%= t("privacy.youtube.choice") %></p>
+    </section>
 
-  <section class="charter-block">
-    <h2><%= t("privacy.how_long.title") %></h2>
-    <p><%= t("privacy.how_long.body") %></p>
-  </section>
+    <section class="charter-journey-act">
+      <h2><%= t("privacy.server.title") %></h2>
+      <p><%= t("privacy.server.body") %></p>
+    </section>
 
-  <section class="charter-block">
-    <h2><%= t("privacy.kids.title") %></h2>
-    <p><%= t("privacy.kids.body") %></p>
-  </section>
+    <section class="charter-journey-act">
+      <h2><%= t("privacy.location.title") %></h2>
+      <p><%= t("privacy.location.body") %></p>
+    </section>
 
-  <section class="charter-block">
-    <h2><%= t("privacy.rights.title") %></h2>
-    <p><%= t("privacy.rights.body") %></p>
-    <p><%= t("privacy.rights.complain_html", aepd: link_to(t("privacy.rights.aepd"), "https://www.aepd.es", target: "_blank", rel: "noreferrer", class: "quiet-link")) %></p>
-  </section>
+    <section class="charter-journey-act">
+      <h2><%= t("privacy.where.title") %></h2>
+      <p><%= t("privacy.where.body") %></p>
+      <p><%= t("privacy.where.church") %></p>
+    </section>
 
-  <section class="charter-block">
-    <h2><%= t("privacy.write.title") %></h2>
-    <p><%= t("privacy.write.body") %></p>
-    <p><%= mail_to t("legal.email") %></p>
-  </section>
+    <section class="charter-journey-act">
+      <h2><%= t("privacy.how_long.title") %></h2>
+      <p><%= t("privacy.how_long.body") %></p>
+    </section>
 
-  <nav class="hall-sheet-foot">
-    <%= link_to t("privacy.legal_link"), legal_path, class: "quiet-link" %>
-  </nav>
-<% end %>
+    <section class="charter-journey-act">
+      <h2><%= t("privacy.kids.title") %></h2>
+      <p><%= t("privacy.kids.body") %></p>
+    </section>
+
+    <section class="charter-journey-act">
+      <h2><%= t("privacy.rights.title") %></h2>
+      <p><%= t("privacy.rights.body") %></p>
+      <p><%= t("privacy.rights.complain_html", aepd: link_to(t("privacy.rights.aepd"), "https://www.aepd.es", target: "_blank", rel: "noreferrer", class: "quiet-link")) %></p>
+    </section>
+
+    <section class="charter-journey-act">
+      <h2><%= t("privacy.write.title") %></h2>
+      <p><%= t("privacy.write.body") %></p>
+      <p><%= mail_to t("legal.email") %></p>
+    </section>
+
+  </main>
+
+  <% page_dock(active: nil) %>
+</section>

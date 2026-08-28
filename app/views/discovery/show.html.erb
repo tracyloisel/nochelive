@@ -1,0 +1,74 @@
+<% copy = t("seo.discovery.pages.#{@page.key}") %>
+<% content_for :body_class, "is-kid is-discovery" %>
+
+<article class="discovery-world">
+  <nav class="discovery-nav" aria-label="<%= t("seo.discovery.navigation") %>">
+    <%= link_to "Noche Live", discovery_page_path(:home), class: "discovery-brand" %>
+    <div>
+      <%= link_to t("seo.discovery.nav.games"), discovery_page_path(:bible_games) %>
+      <%= link_to t("seo.discovery.nav.activities"), discovery_page_path(:group_activities) %>
+      <%= link_to t("seo.discovery.nav.study"), discovery_page_path(:bible_study) %>
+    </div>
+    <div class="discovery-locales" aria-label="<%= t("locale.label") %>">
+      <% I18n.available_locales.each do |locale| %>
+        <%= link_to t("locale.names.#{locale}"),
+              discovery_page_path(@page.key, locale: locale),
+              lang: locale.to_s,
+              hreflang: locale.to_s.downcase,
+              aria: { current: ("page" if locale == @page.locale) } %>
+      <% end %>
+    </div>
+  </nav>
+
+  <% if @parent_key %>
+    <nav class="seo-breadcrumbs" aria-label="Breadcrumb">
+      <%= link_to t("seo.discovery.pages.home.card_title"), discovery_page_path(:home) %>
+      <span aria-hidden="true">›</span>
+      <% if @parent_key != :home %>
+        <%= link_to t("seo.discovery.pages.#{@parent_key}.card_title"), discovery_page_path(@parent_key) %>
+        <span aria-hidden="true">›</span>
+      <% end %>
+      <span aria-current="page"><%= t("seo.discovery.pages.#{@page.key}.card_title") %></span>
+    </nav>
+  <% end %>
+
+  <header class="discovery-hero">
+    <p class="discovery-kicker"><%= copy[:kicker] %></p>
+    <h1><%= copy[:h1] %></h1>
+    <p class="discovery-lede"><%= copy[:lede] %></p>
+    <div class="discovery-actions">
+      <%= link_to copy[:cta], root_path(utm_source: "organic", utm_medium: "seo", utm_campaign: @page.key), class: "btn btn-gold" %>
+      <%= link_to t("seo.discovery.secondary_cta"), localized_church_path(**Seo::ChurchPage.path_options(:church, @page.locale)), class: "btn btn-ghost" %>
+    </div>
+  </header>
+
+  <div class="discovery-chapters">
+    <% Array(copy[:sections]).each_with_index do |section, index| %>
+      <section class="discovery-chapter">
+        <span><%= format("%02d", index + 1) %></span>
+        <div>
+          <h2><%= section[:title] %></h2>
+          <p><%= section[:body] %></p>
+        </div>
+      </section>
+    <% end %>
+  </div>
+
+  <aside class="discovery-next" aria-labelledby="discovery-next-title">
+    <p class="discovery-kicker"><%= t("seo.discovery.keep_exploring") %></p>
+    <h2 id="discovery-next-title"><%= t("seo.discovery.next_title") %></h2>
+    <div class="discovery-related">
+      <% @related.each do |key| %>
+        <%= link_to discovery_page_path(key), class: "discovery-related-link" do %>
+          <strong><%= t("seo.discovery.pages.#{key}.card_title") %></strong>
+          <span><%= t("seo.discovery.pages.#{key}.card_body") %></span>
+        <% end %>
+      <% end %>
+    </div>
+  </aside>
+
+  <footer class="discovery-foot">
+    <%= link_to t("seo.discovery.enter_game"), root_path %>
+    <%= link_to t("seo.discovery.privacy"), privacy_path %>
+  </footer>
+</article>

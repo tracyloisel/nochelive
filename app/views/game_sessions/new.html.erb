@@ -1,6 +1,6 @@
 <% content_for :title, t("night.create_title") %>
 <% content_for :body_class, "is-kid is-paper-hall" %>
-<%= chrome_menu { site_menu } %>
+<% page_hud { site_menu } %>
 
 <%= paper_hall id: "night_open", kicker: t("presenter.title") do %>
   <% if @ward %>

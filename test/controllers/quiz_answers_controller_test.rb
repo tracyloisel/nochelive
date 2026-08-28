@@ -3,8 +3,7 @@ require "test_helper"
 class QuizAnswersControllerTest < ActionDispatch::IntegrationTest
   setup do
     sign_in_congregation
-    post street_profile_path, params: { guest: 1 }
-    follow_redirect!
+    create_street_profile!
     start_street_play!
   end
 
@@ -137,8 +136,13 @@ class QuizAnswersControllerTest < ActionDispatch::IntegrationTest
     assert_select ".street-ceremony-chest-img"
     assert_select ".street-ceremony-laurel"
     assert_select ".street-ceremony-map", text: I18n.t("street.ceremony_back_map")
-    assert_select ".street-challenge-btn"
-    assert_select ".street-ceremony-share", text: I18n.t("street.share_my_score")
+    assert_select ".street-ceremony-map .street-ceremony-map-icon"
+    assert_select ".street-ceremony-map .street-ceremony-button-label"
+    assert_select ".street-ceremony-afterplay"
+    assert_select ".street-ceremony-secondary-actions"
+    assert_select ".street-challenge-btn .street-ceremony-button-tail"
+    assert_select ".street-ceremony-actions > .street-ceremony-viral-cta[data-action='street-share#challenge'][data-street-share-run-id-value='#{run.id}']"
+    assert_select ".street-ceremony-share .street-ceremony-button-label", text: I18n.t("street.share_my_score")
     assert_select ".quiz-hud-gain"
     assert_select ".quiz-hud-streak-tag"
     assert_select ".quiz-hud-dot.is-done", count: 10

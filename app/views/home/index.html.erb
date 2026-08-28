@@ -1,6 +1,6 @@
 <% content_for :title, "Noche Live" %>
 <% content_for :body_class, "is-kid" %>
-<%= chrome_menu { site_menu } %>
+<% page_hud { site_menu } %>
 <%= render "home/profile_gate",
       profile_gate: @profile_gate,
       gate_ward: @gate_ward,

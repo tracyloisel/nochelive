@@ -48,8 +48,10 @@ module Quizzes
           attrs[:status] = "opponent_done" unless challenger_score
         end
 
+        was_resolved = duel.resolved?
         duel.update!(attrs) if attrs.any?
         run&.update!(street_duel: duel) if run&.street_duel_id != duel.id
+        track_completion(duel.reload, run) if !was_resolved && duel.resolved?
         result_for(duel.reload)
       end
     end
@@ -128,6 +130,33 @@ module Quizzes
 
       def tie?(duel)
         duel.resolved? && duel.challenger_score == duel.opponent_score
+      end
+
+      def track_completion(duel, run)
+        ViralTrack.call(
+          name: "challenge_completed",
+          device_digest: run&.device_digest || duel.opponent_run&.device_digest || duel.challenger_run&.device_digest,
+          duel:,
+          person: run&.person,
+          source: "duel",
+          properties: { pack_id: duel.pack_id, outcome: duel.winner_person ? "winner" : "tie" }
+        )
+
+        previous = StreetDuel.where(status: "resolved")
+          .where.not(id: duel.id)
+          .where("(challenger_person_id = :a AND opponent_person_id = :b) OR (challenger_person_id = :b AND opponent_person_id = :a)", a: duel.challenger_person_id, b: duel.opponent_person_id)
+          .where("updated_at <= ?", 7.days.ago)
+          .exists?
+        return unless previous
+
+        ViralTrack.call(
+          name: "pair_returned_d7",
+          device_digest: run&.device_digest || duel.opponent_run&.device_digest || duel.challenger_run&.device_digest,
+          duel:,
+          person: run&.person,
+          source: "duel",
+          properties: { pack_id: duel.pack_id }
+        )
       end
   end
 end

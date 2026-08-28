@@ -2,6 +2,49 @@ module ApplicationHelper
   TIMER_WARN_RATIO = 0.4
   TIMER_HOT_RATIO = 0.2
 
+  def seo_head_tags
+    seo = seo_metadata || {}
+    page_title = seo[:title].presence || content_for(:title).presence || "Noche Live"
+    tags = [ tag.meta(name: "robots", content: seo[:robots] || "noindex, nofollow") ]
+
+    if seo[:description].present?
+      tags << tag.meta(name: "description", content: seo[:description])
+      tags << tag.meta(property: "og:description", content: seo[:description])
+      tags << tag.meta(name: "twitter:description", content: seo[:description])
+    end
+    if seo[:canonical].present?
+      tags << tag.link(rel: "canonical", href: seo[:canonical])
+      tags << tag.meta(property: "og:url", content: seo[:canonical])
+    end
+
+    tags << tag.meta(property: "og:type", content: "website")
+    tags << tag.meta(property: "og:site_name", content: "Noche Live")
+    tags << tag.meta(property: "og:title", content: page_title)
+    tags << tag.meta(name: "twitter:card", content: "summary_large_image")
+    tags << tag.meta(name: "twitter:title", content: page_title)
+    if seo[:image].present?
+      tags << tag.meta(property: "og:image", content: seo[:image])
+      tags << tag.meta(name: "twitter:image", content: seo[:image])
+    end
+
+    seo.fetch(:alternates, {}).each do |locale, url|
+      tags << tag.link(rel: "alternate", hreflang: locale, href: url)
+    end
+    if seo[:structured_data].present?
+      tags << tag.script(json_escape(seo[:structured_data].to_json).html_safe, type: "application/ld+json")
+    end
+    if ENV["GOOGLE_SITE_VERIFICATION"].present?
+      tags << tag.meta(name: "google-site-verification", content: ENV["GOOGLE_SITE_VERIFICATION"])
+    end
+
+    safe_join(tags, "\n")
+  end
+
+  def discovery_page_path(key, locale: I18n.locale)
+    options = Seo::DiscoveryPage.path_options(key, locale)
+    options[:slug].present? ? discovery_path(**options) : discovery_home_path(locale: options[:locale])
+  end
+
   def play_timer_hot?(left, duration)
     duration = duration.to_i
     left = left.to_i
@@ -141,16 +184,6 @@ module ApplicationHelper
       body: capture(&block)
   end
 
-  def charter_hall(id:, kicker:, extra_class: nil, &block)
-    paper_hall(
-      id:,
-      kicker:,
-      extra_class: [ "is-charter", extra_class ].compact_blank.join(" "),
-      sheet_class: "charter-sheet",
-      &block
-    )
-  end
-
   def chrome_menu(open: false, icon: "menu", face: nil, tools: nil, hud: nil, bar: nil, &block)
     face = chrome_face? if face.nil?
     tools = chrome_tools_in_drawer? if tools.nil?
@@ -158,6 +191,14 @@ module ApplicationHelper
     bar = chrome_hud_bar if hud && bar.nil?
     face = false if hud
     render "shared/chrome_menu", open: open, icon: icon, face: face, tools: tools, hud: hud, bar: bar, body: capture(&block)
+  end
+
+  def page_hud(**options, &block)
+    content_for(:hud) { chrome_menu(**options, &block) }
+  end
+
+  def page_dock(active:)
+    content_for(:dock) { render Navigation::DockComponent.new(active:) }
   end
 
   def chrome_hud?(face)
@@ -189,7 +230,7 @@ module ApplicationHelper
 
   def chrome_tools_in_drawer?
     css = content_for(:body_class).to_s
-    css.include?("is-street-hub") || css.include?("is-paper-hall") || css.include?("is-street-play") || css.include?("is-study") || css.include?("is-church-journey")
+    css.include?("is-street-hub") || css.include?("is-paper-hall") || css.include?("is-street-play") || css.include?("is-study") || css.include?("is-church-journey") || css.include?("is-scripture-passage") || css.include?("is-church-videos")
   end
 
   def street_duel_ping?
@@ -355,8 +396,8 @@ module ApplicationHelper
       }
     end
 
-    sfx = extra_sfx.presence || (question.slam? ? "round_start" : "celestial_breath")
     timed = question.timed? && run.ends_at.present?
+    sfx = extra_sfx.presence || (timed ? nil : (question.slam? ? "round_start" : "celestial_breath"))
     {
       stage_sfx_value: sfx,
       stage_sfx_token_value: "#{run.id}:#{question.id}:ask",
@@ -794,6 +835,13 @@ module ApplicationHelper
 
   def picto(name, size: nil)
     render "shared/picto", name: name.to_s, size: size
+  end
+
+  def church_video_duration(value)
+    seconds = [ value.to_i, 0 ].max
+    hours, remainder = seconds.divmod(3600)
+    minutes, seconds = remainder.divmod(60)
+    hours.positive? ? format("%d:%02d:%02d", hours, minutes, seconds) : format("%d:%02d", minutes, seconds)
   end
 
   def locale_flag(code)

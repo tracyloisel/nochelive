@@ -1,0 +1,206 @@
+<% artwork = @artwork.fetch("src") %>
+<% art_theme = @artwork.fetch("theme") %>
+<% content_for :title, t("church_videos.title") %>
+<% content_for :body_class, "is-kid is-church-videos is-celestial-#{art_theme.fetch("mode")}" %>
+<% content_for :head do %>
+  <link rel="preload" as="image" href="<%= artwork %>">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta http-equiv="Content-Security-Policy" content="frame-src 'self' https://www.youtube-nocookie.com; child-src 'self' https://www.youtube-nocookie.com">
+<% end %>
+<% page_hud(hud: true, tools: true) { site_menu } %>
+<% page_dock(active: :church) %>
+
+<main class="church-video-world"
+      data-controller="church-video"
+      data-church-video-locale-value="<%= I18n.locale %>"
+      data-church-video-player-title-value="<%= t("church_videos.player_title") %>"
+      data-church-video-theme="<%= art_theme.fetch("mode") %>"
+      data-church-video-atmosphere="<%= art_theme.fetch("atmosphere") %>"
+      data-church-video-accent="<%= art_theme.fetch("accent") %>"
+      style="--church-video-art: url('<%= artwork %>')">
+  <header class="church-video-hero">
+    <div class="church-video-hero-copy">
+      <p class="church-video-kicker"><%= picto("video-library") %><%= t("church_videos.kicker") %></p>
+      <h1><%= t("church_videos.title") %></h1>
+      <p><%= t("church_videos.lede") %></p>
+      <% if @catalog.channel %>
+        <span class="church-video-channel"><%= t("church_videos.official_channel", channel: @catalog.channel.title) %></span>
+      <% end %>
+    </div>
+    <div class="church-video-hero-window" aria-hidden="true">
+      <img src="<%= artwork %>" alt="" width="1672" height="941" decoding="async">
+      <span><%= picto("play") %></span>
+    </div>
+  </header>
+
+  <section class="church-video-catalog" aria-labelledby="church-video-catalog-title">
+    <% if @catalog.available? %>
+      <%= form_with url: church_videos_path, method: :get, class: "church-video-search", html: { role: "search" } do |form| %>
+        <%= form.hidden_field :locale, value: I18n.locale %>
+        <span class="church-video-search-mark" aria-hidden="true"><%= picto("search") %></span>
+        <%= form.label :q, t("church_videos.search_label"), class: "visually-hidden" %>
+        <%= form.search_field :q,
+              value: @catalog.query,
+              placeholder: t("church_videos.search_placeholder"),
+              maxlength: ChurchVideos::Catalog::MAX_QUERY_LENGTH,
+              autocomplete: "off" %>
+        <% if @catalog.query.present? %>
+          <%= link_to t("church_videos.clear_search"), church_videos_path(locale: I18n.locale), class: "church-video-search-clear" %>
+        <% end %>
+        <%= form.submit t("church_videos.search_action"), class: "btn btn-gold", name: nil %>
+      <% end %>
+
+      <% if Array(@catalog.playlists).any? %>
+        <section class="church-video-playlists" aria-labelledby="church-video-playlists-title">
+          <header class="church-video-playlists-head">
+            <p class="church-video-kicker"><%= t("church_videos.playlists_kicker") %></p>
+            <h2 id="church-video-playlists-title"><%= t("church_videos.playlists_title") %></h2>
+          </header>
+          <div class="church-video-playlist-rail">
+            <% featured_playlists, other_playlists = @catalog.playlists.partition(&:featured) %>
+            <% featured_playlists.each do |playlist| %>
+              <%= render "church_videos/playlist_filter", playlist:, artwork: %>
+            <% end %>
+
+            <% all_active = @catalog.query.blank? && @catalog.active_playlist.blank? %>
+            <%= link_to church_videos_path(locale: I18n.locale),
+                  class: ["church-video-playlist", ("is-active" if all_active)].compact.join(" "),
+                  aria: { current: all_active ? "page" : nil } do %>
+              <span class="church-video-playlist-art">
+                <img src="<%= artwork %>" alt="" width="320" height="180" loading="lazy" decoding="async">
+                <span class="church-video-playlist-icon" aria-hidden="true"><%= picto("video-library") %></span>
+              </span>
+              <span class="church-video-playlist-copy">
+                <strong><%= t("church_videos.all_videos") %></strong>
+                <small><%= t("church_videos.latest_videos") %></small>
+              </span>
+            <% end %>
+
+            <% other_playlists.each do |playlist| %>
+              <%= render "church_videos/playlist_filter", playlist:, artwork: %>
+            <% end %>
+          </div>
+        </section>
+      <% end %>
+    <% end %>
+
+    <header class="church-video-catalog-head">
+      <div>
+        <% if @catalog.query.present? %>
+          <p class="church-video-kicker"><%= t("church_videos.search_results_kicker") %></p>
+          <h2 id="church-video-catalog-title"><%= t("church_videos.search_results_title", query: @catalog.query) %></h2>
+        <% elsif @catalog.active_playlist.present? %>
+          <p class="church-video-kicker"><%= t("church_videos.playlist_results_kicker") %></p>
+          <h2 id="church-video-catalog-title"><%= @catalog.active_playlist.title %></h2>
+        <% else %>
+          <p class="church-video-kicker"><%= t("church_videos.directory_kicker") %></p>
+          <h2 id="church-video-catalog-title"><%= t("church_videos.directory_title") %></h2>
+        <% end %>
+      </div>
+      <p class="church-video-privacy-note"><%= picto("shield") %><%= t("church_videos.privacy_note") %></p>
+    </header>
+
+    <% if @catalog.available? && @catalog.videos.any? %>
+      <div class="church-video-grid">
+        <% @catalog.videos.each do |video| %>
+          <article class="church-video-card">
+            <button type="button"
+                    class="church-video-trigger"
+                    aria-label="<%= t("church_videos.watch", title: video.title) %>"
+                    data-action="church-video#open"
+                    data-video-id="<%= video.id %>"
+                    data-video-title="<%= video.title %>">
+              <span class="church-video-thumb">
+                <%= image_tag church_video_thumbnail_path(video.id),
+                      alt: "",
+                      width: 320,
+                      height: 180,
+                      loading: "lazy",
+                      decoding: "async" %>
+                <span class="church-video-play" aria-hidden="true"><%= picto("play") %></span>
+                <% if video.duration_seconds.to_i.positive? %>
+                  <span class="church-video-duration"><%= church_video_duration(video.duration_seconds) %></span>
+                <% end %>
+              </span>
+              <span class="church-video-card-copy">
+                <strong><%= video.title %></strong>
+                <% if video.published_at %>
+                  <time datetime="<%= video.published_at.iso8601 %>"><%= video.published_at.strftime(t("church_videos.date_format")) %></time>
+                <% end %>
+              </span>
+            </button>
+          </article>
+        <% end %>
+      </div>
+
+      <% if @catalog.previous_page_token.present? || @catalog.next_page_token.present? %>
+        <nav class="church-video-pagination" aria-label="<%= t("church_videos.pagination") %>">
+          <% if @catalog.previous_page_token.present? %>
+            <%= link_to church_videos_path(page: @catalog.previous_page_token, playlist: @catalog.active_playlist&.id, q: @catalog.query.presence, locale: I18n.locale), class: "church-video-page-link is-previous" do %>
+              <%= picto("arrow") %><%= t("church_videos.previous") %>
+            <% end %>
+          <% end %>
+          <% if @catalog.next_page_token.present? %>
+            <%= link_to church_videos_path(page: @catalog.next_page_token, playlist: @catalog.active_playlist&.id, q: @catalog.query.presence, locale: I18n.locale), class: "church-video-page-link is-next" do %>
+              <%= t("church_videos.next") %><%= picto("arrow") %>
+            <% end %>
+          <% end %>
+        </nav>
+      <% end %>
+    <% elsif @catalog.available? %>
+      <div class="church-video-empty">
+        <%= picto(@catalog.query.present? ? "search" : "video-library") %>
+        <% if @catalog.query.present? %>
+          <h2><%= t("church_videos.no_results_title") %></h2>
+          <p><%= t("church_videos.no_results_body", query: @catalog.query) %></p>
+          <%= link_to t("church_videos.clear_search"), church_videos_path(locale: I18n.locale), class: "church-video-back" %>
+        <% else %>
+          <h2><%= t("church_videos.empty_title") %></h2>
+          <p><%= t("church_videos.empty_body") %></p>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="church-video-empty is-error">
+        <%= picto("hourglass") %>
+        <h2><%= t("church_videos.unavailable_title") %></h2>
+        <p><%= t("church_videos.unavailable_body") %></p>
+        <%= link_to t("church_videos.back_home"), root_path(locale: I18n.locale), class: "church-video-back" %>
+      </div>
+    <% end %>
+  </section>
+
+  <footer class="church-video-attribution">
+    <p><%= t("church_videos.attribution") %></p>
+    <nav aria-label="<%= t("church_videos.legal_links") %>">
+      <%= link_to t("church_videos.youtube_terms"), "https://www.youtube.com/t/terms", target: "_blank", rel: "noreferrer" %>
+      <%= link_to t("church_videos.google_privacy"), "https://policies.google.com/privacy", target: "_blank", rel: "noreferrer" %>
+      <%= link_to t("church_videos.our_privacy"), privacy_path(locale: I18n.locale) %>
+      <% if @catalog.channel %>
+        <%= link_to t("church_videos.open_channel"), @catalog.channel.public_url, target: "_blank", rel: "noreferrer" %>
+      <% end %>
+    </nav>
+  </footer>
+
+  <dialog class="church-video-dialog"
+          aria-labelledby="church-video-dialog-title"
+          data-church-video-target="dialog"
+          data-action="click->church-video#backdropClose close->church-video#onClose">
+    <div class="church-video-dialog-card">
+      <form method="dialog" class="church-video-dialog-close-form">
+        <button type="submit"
+                class="church-video-dialog-close"
+                aria-label="<%= t("church_videos.close") %>"><%= picto("close") %></button>
+      </form>
+      <div class="church-video-consent" data-church-video-target="consent">
+        <span class="church-video-consent-mark" aria-hidden="true"><%= picto("shield") %></span>
+        <p class="church-video-kicker"><%= t("church_videos.before_watching") %></p>
+        <h2 id="church-video-dialog-title" data-church-video-target="title"><%= t("church_videos.player_title") %></h2>
+        <p><%= t("church_videos.consent_body") %></p>
+        <button type="button" class="btn btn-gold" data-action="church-video#accept">
+          <%= picto("play") %><%= t("church_videos.accept_and_watch") %>
+        </button>
+      </div>
+      <div class="church-video-player" data-church-video-target="player" hidden></div>
+    </div>
+  </dialog>
+</main>

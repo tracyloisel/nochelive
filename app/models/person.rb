@@ -7,6 +7,7 @@ class Person < ApplicationRecord
   has_many :players, dependent: :nullify
   has_many :study_runs, dependent: :nullify
   has_many :reading_progresses, dependent: :destroy
+  has_many :viral_events, dependent: :nullify
 
   validates :given_name, :given_name_key, :avatar_key, presence: true
   validates :given_name, length: { minimum: 1, maximum: 24 }

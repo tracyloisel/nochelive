@@ -51,19 +51,21 @@ class SfxTest < ActiveSupport::TestCase
   end
 
   test "mix layers keep the bed and ticks off the event voice" do
-    bed_and_ticks = %w[timer_tension tick tick_low]
+    bed_and_ticks = %w[timer_tension study_refuge tick tick_low]
     events = Sfx::CUES - bed_and_ticks
     assert_equal bed_and_ticks.sort, (Sfx::CUES & bed_and_ticks).sort
     assert_includes events, "buzzer_hit"
     assert_includes events, "round_open"
     assert_includes events, "reveal"
     assert_not_includes events, "timer_tension"
+    assert_not_includes events, "study_refuge"
   end
 
   test "mixer lets hits overlay stingers and fades the bed instead of cutting" do
     js = Rails.root.join("app/javascript/controllers/stage_controller.js").read
-    hits = %w[buzzer_hit fire_whoosh chest correct_gold wrong_soft]
-    hits.each { |cue| assert_match(/HIT_CUES[\s\S]{0,200}#{cue}/, js) }
+    hits = %w[buzzer_hit correct_gold wrong_soft score_transfer crown_chime fire_whoosh flame_gold chest study_light study_miss study_turn]
+    hits.each { |cue| assert_match(/HIT_CUES[\s\S]{0,500}#{cue}/, js) }
+    assert_includes js, "correct_gold: 0.32"
     assert_includes js, "function playHit("
     assert_includes js, "function playStinger("
     assert_includes js, "decodeAudioData"
@@ -72,6 +74,10 @@ class SfxTest < ActiveSupport::TestCase
     assert_includes js, "function spawnVoice("
     assert_includes js, "BED_OUT_MS"
     assert_includes js, "BED_IN_MS"
+    assert_match(/BED_CUES[\s\S]{0,100}study_refuge/, js)
+    assert_match(/study_refuge: 0\.14/, js)
+    assert_match(/function stageNode\([\s\S]{0,220}SCRIPTURE_BED_SELECTOR[\s\S]{0,220}if \(scripture\) return scripture/, js)
+    assert_match(/toggleMute\([\s\S]*?onGesture\(\)\s+playFrom\(document\)/, js)
     cut = js[/const CUT_MS = (\d+)/, 1].to_i
     assert_operator cut, :>=, 180, "stinger crossfade must be long enough to hear the previous cue leave"
     retrigger = js[/const RETRIGGER_MS = (\d+)/, 1].to_i
@@ -97,6 +103,10 @@ class SfxTest < ActiveSupport::TestCase
     refute_match(/NocheLiveAudio/, ceremony_js)
     gen = Rails.root.join("script/generate_sfx.rb").read
     assert_includes gen, "areverse,afade"
+    quiz = Rails.root.join("app/javascript/controllers/quiz_controller.js").read
+    %w[answer_tap question_change score_transfer crown_chime].each do |cue|
+      refute_match(/play\?\.\("#{cue}"(?:,|\))/, quiz)
+    end
     board = Rails.root.join("app/views/play/_quiz_board.html.erb").read
     refute_includes board, "quiz-sfx"
     quiz = Rails.root.join("app/javascript/controllers/quiz_controller.js").read
@@ -108,5 +118,10 @@ class SfxTest < ActiveSupport::TestCase
     refute_includes stage, "turbo:before-stream-render"
     motion = Rails.root.join("app/javascript/controllers/motion_controller.js").read
     assert_includes motion.split("wrapStreet").last, "playFrom"
+    study = Rails.root.join("app/javascript/controllers/study_run_controller.js").read
+    assert_match(/correctValue \? "study_light" : "study_miss"/, study)
+    assert_match(/play\?\.\("study_turn", 0\.5\)/, study)
+    assert_includes study, 'dataset.studyRunRevealValue = "false"'
+    assert_includes study, "window.clearTimeout(this.feedbackTimer)"
   end
 end

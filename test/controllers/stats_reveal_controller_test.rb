@@ -13,7 +13,8 @@ class StatsRevealSystemTest < ActionDispatch::SystemTestCase
     assert_selector ".stats-langs"
     assert_selector ".stats-path-circle"
     assert_selector ".stats-path-svg circle"
-    assert_selector ".stats-dock .street-hub-nav-item", count: 5
+    assert_selector ".stats-invitations .stats-invitation-step", count: 4
+    assert_selector ".navigation-dock .navigation-dock__item", count: 5
     assert_selector ".stats-about"
     assert_selector ".stats-about .stats-about-title"
   end
@@ -39,10 +40,10 @@ class StatsRevealSystemTest < ActionDispatch::SystemTestCase
     assert_selector ".stats-meet .stats-tile:nth-child(2) [data-stat-current]", text: GameSession.count.to_s
   end
 
-  test "lang bar elements exist in DOM" do
+  test "language rows expose their counts to the reveal controller" do
     visit platform_stats_path
 
-    count = all(".stats-lang-bar").size
-    assert count >= 1, "Expected at least 1 lang bar in DOM, found #{count}"
+    assert_selector ".stats-lang[data-stat-value]", count: Locale::AVAILABLE.size
+    assert_selector ".stats-lang [data-stat-current]", count: Locale::AVAILABLE.size
   end
 end

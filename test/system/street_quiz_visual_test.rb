@@ -4,8 +4,8 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
   SHOT_DIR = Rails.root.join("tmp/street-shots")
   TEMPLE_SHOT_DIR = Rails.root.join("tmp/street-shots/temple-themed")
 
-  test "liga lives in the celestial court with custom filters and sticky position" do
-    page.current_window.resize_to(390, 844)
+  test "liga lives in the celestial court with full viewport chrome" do
+    set_quiz_viewport(390, 844)
     seed_liga_visual_rows!
     sign_in_fixture_person_direct!(people(:pili))
     visit street_leaderboard_path
@@ -17,34 +17,62 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
     assert_selector ".street-liga-podium"
     assert_selector ".street-liga-you-bar", visible: :all
     assert_no_selector "select"
+    assert_layout_chrome_full_width
     page.execute_script("document.querySelector('#street_world')?.classList.remove('is-liga-enter')")
     shot("liga-phone")
-    page.current_window.resize_to(804, 1436)
+    set_quiz_viewport(804, 1436)
     page.execute_script("window.scrollTo(0, 0)")
     shot("liga-tablet")
-    page.current_window.resize_to(390, 844)
-    find(".street-liga-filter-button").click
-    assert_selector ".street-liga-filters-dialog[open]"
-    shot("liga-filters-phone")
+  end
+
+  test "layout chrome keeps one viewport contract across destinations" do
+    set_quiz_viewport(804, 1_100)
+    sign_in_fixture_person_direct!(people(:pili))
+
+    [ root_path, street_map_path, street_leaderboard_path, study_program_path, church_path ].each do |path|
+      visit path
+      assert_selector "body > .home-menu.is-hud"
+      assert_selector "body > .navigation-dock"
+      assert_layout_chrome_full_width
+    end
   end
 
   test "defis opens on the stake rivalry and offers live async matches" do
-    page.current_window.resize_to(390, 844)
+    set_quiz_viewport(390, 844)
     StreetDuel.active.destroy_all
     load Rails.root.join("db/seeds.rb")
     sign_in_fixture_person_direct!(people(:pili))
     visit street_challenges_path
+    page.execute_script("window.scrollTo(0, 0)")
 
     assert_no_horizontal_layout_overflow
+    title_gap = page.evaluate_script(<<~JS)
+      document.querySelector('.street-duel-title').getBoundingClientRect().top -
+        document.querySelector('.home-menu.is-hud').getBoundingClientRect().bottom
+    JS
+    assert_operator title_gap, :>=, 16
 
     assert_selector ".street-stake-rivalry"
     assert_selector ".street-duel-live-card"
     assert_selector ".street-duel-rival-button"
     assert_selector ".street-duel-history"
     shot("duels-phone")
-    page.current_window.resize_to(804, 1436)
+    set_quiz_viewport(804, 1436)
     page.scroll_to(:top)
+    assert_no_horizontal_layout_overflow
+    assert_operator page.evaluate_script("getComputedStyle(document.querySelector('.street-duel-pick ul')).gridTemplateColumns.split(' ').length"), :>=, 2
     shot("duels-tablet")
+    set_quiz_viewport(1024, 768)
+    page.scroll_to(:top)
+    assert_no_horizontal_layout_overflow
+    assert_operator page.evaluate_script("getComputedStyle(document.querySelector('.street-duel-board')).gridTemplateColumns.split(' ').length"), :>=, 2
+    shot("duels-ipad-landscape")
+    set_quiz_viewport(1440, 900)
+    page.scroll_to(:top)
+    assert_no_horizontal_layout_overflow
+    assert_operator page.evaluate_script("document.querySelector('.street-duel-inbox').getBoundingClientRect().width"), :>, 1100
+    shot("duels-desktop")
+    set_quiz_viewport(390, 844)
   end
 
   test "jugar ask has no chase chip on the still" do
@@ -77,7 +105,6 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
     PersonDevice.update_all(last_seen_at: 1.hour.ago)
     Player.update_all(last_seen_at: 1.hour.ago)
     visit root_path
-    dismiss_profile_gate!
     assert_selector ".street-pulse[data-pulse-online='0']"
     assert_selector "#street_world"
     person_devices(:pili_tablet).update_column(:last_seen_at, Time.current)
@@ -88,9 +115,9 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
   end
 
   test "hub league strip with signed-in profile" do
-    page.current_window.resize_to(390, 844)
+    set_quiz_viewport(390, 844)
     person = people(:pili)
-    sign_in_fixture_person!(person)
+    sign_in_fixture_person_direct!(person)
     token = PersonDevice.where(person:).order(:id).last&.device_token
     digest = GameSession.digest_token(token) if token.present?
     if digest
@@ -129,7 +156,7 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
     assert_selector ".hub-reward img.hub-reward-chest"
     assert_selector ".street-map-door-play", text: /#{Regexp.escape(I18n.t("street.world_play"))}/i
     assert_selector ".street-pulse"
-    assert_no_selector ".street-world-dock .street-play-cta"
+    assert_no_selector ".navigation-dock .street-play-cta"
     assert_no_selector ".street-map-door-open"
     assert_selector ".street-map-door-step"
     assert_no_selector "#street_world .street-map-path"
@@ -151,42 +178,29 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
     assert_above_hub_dock ".hub-hero"
     assert_above_hub_dock ".street-card.is-map-door"
     assert_no_selector ".chrome-tools"
-    assert_selector ".street-hub-nav a.street-hub-nav-item", count: 5
-    assert_selector ".street-hub-nav a[href='/']"
-    assert_selector ".street-hub-nav a[href='/mapa']"
-    assert_selector ".street-hub-nav a[href='/parole']"
-    assert_selector ".street-hub-nav a[href='/iglesia']"
-    assert_selector ".street-hub-nav-item[href='/parole'] > .picto-scripture-book"
+    assert_selector ".navigation-dock a.navigation-dock__item", count: 5
+    assert_selector ".navigation-dock a[href='/']"
+    assert_selector ".navigation-dock a[href='/mapa']"
+    assert_selector ".navigation-dock a[href='/parole']"
+    assert_selector ".navigation-dock a[href='/iglesia']"
+    assert_selector ".navigation-dock__item[href='/parole'] > .picto-scripture-book"
     assert_no_selector ".street-hub-word-medallion"
-    assert_no_selector ".street-hub-nav .picto-bell"
+    assert_no_selector ".navigation-dock .picto-bell"
     assert_no_selector ".hub-shortcuts"
-    assert_hub_chrome_on_column
+    assert_layout_chrome_full_width
     assert_no_horizontal_layout_overflow
     shot("hub-league-phone")
     shot("hub-phone")
     open_hub_map_from_menu
-    assert_selector ".street-map-path.is-rope"
-    assert_selector ".street-map-legend"
-    assert_no_selector ".street-map-legend-rose"
-    assert_no_selector ".street-map-path-lede"
-    assert_selector ".street-card.is-pack.is-current .street-pack-coronas-label"
-    assert_selector ".street-card.is-pack.is-current .street-pack-kicker"
-    assert_selector ".street-card.is-pack.is-current .street-pack-replay"
-    assert_selector ".street-map-track .street-card.is-pack.is-locked"
-    assert_no_selector ".street-card.is-pack.is-locked .street-pack-replay"
-    assert_selector ".street-map-track .street-card.is-pack.is-current"
-    assert_selector ".street-map-track .street-card.is-pack.is-finished"
-    assert_selector ".street-map-path.is-rope .street-map-rope", minimum: QuizDefinition.catalog.pack_ids.size - 1
-    assert_selector ".street-map-thread path[d*='C']", wait: 3
-    assert_selector ".street-card.is-pack.is-finished .street-pack-replay"
-    assert_selector "a.street-map-close", text: I18n.t("street.world_map_close")
-    assert_hub_trail_neighbors_on_fold
-    assert_hub_map_scrolls
+    assert_selector ".street-map-page"
+    assert_selector ".mapa-node", count: QuizDefinition.catalog.pack_ids.size
+    assert_selector ".mapa-node.is-current"
+    assert_selector ".mapa-node.is-locked"
+    assert_no_selector ".mapa-node.is-locked .mapa-node-hit"
     shot("map-phone")
-    find("a.street-map-close").click
+    find(".navigation-dock a[href='/']").click
     assert_selector ".street-card.is-map-door"
     assert_no_selector "#street_world .street-map-path"
-    assert_hub_column_on_hall
     assert_abuelo_type_floor
     [
       [ 768, 1024, "hub-ipad" ],
@@ -194,70 +208,13 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
       [ 1280, 800, "hub-desktop" ],
       [ 1920, 1080, "hub-xl" ]
     ].each do |width, height, name|
-      page.current_window.resize_to(width, height)
+      set_quiz_viewport(width, height)
       sleep 0.35
-      assert_hub_chrome_on_column
-      assert_hub_column_on_hall
+      assert_layout_chrome_full_width
       assert_abuelo_type_floor
       shot(name)
     end
-    page.current_window.resize_to(390, 844)
-  end
-
-  test "quien welcome sits on the marble hall" do
-    page.current_window.resize_to(390, 844)
-    sign_in_fixture_person!(people(:pili))
-    visit street_profile_path
-    assert_selector "body.is-paper-hall"
-    assert_selector "#street_quien.street-quien"
-    assert_selector ".street-quien-sheet"
-    assert_selector ".street-quien-apex"
-    assert_selector ".street-hub-lockup-name", text: "Noche Live"
-    assert_selector "h1", text: I18n.t("join.welcome_title")
-    assert_selector ".btn-gold", text: I18n.t("join.yes_name", name: people(:pili).given_name)
-    assert_no_selector ".gate"
-    assert_no_selector ".story-ticks"
-    assert_no_selector ".play-reel"
-    assert_selector ".chrome-face"
-    assert_no_selector ".chrome-tools"
-    assert_text I18n.t("street.back_quiz")
-    sleep 0.4
-    shot("quien-welcome-phone")
-    [
-      [ 768, 1024, "quien-welcome-ipad" ],
-      [ 1280, 800, "quien-welcome-desktop" ],
-      [ 1920, 1080, "quien-welcome-xl" ]
-    ].each do |width, height, name|
-      page.current_window.resize_to(width, height)
-      sleep 0.3
-      assert_quien_chrome_on_column
-      shot(name)
-    end
-    page.current_window.resize_to(390, 844)
-    visit street_profile_path(fresh: 1)
-    assert_selector "h1", text: I18n.t("street.create_title")
-    assert_selector ".street-quien-session", text: people(:pili).given_name
-    assert_no_selector ".street-quien-ficha"
-    sleep 0.3
-    shot("quien-form-phone")
-    page.current_window.resize_to(390, 844)
-  end
-
-  test "historial sits on the marble hall" do
-    page.current_window.resize_to(390, 844)
-    sign_in_fixture_person!(people(:pili))
-    visit street_history_path
-    assert_selector "body.is-paper-hall"
-    assert_selector "#street_history .hall-sheet"
-    assert_selector "h1", text: I18n.t("street.history_title")
-    assert_no_selector ".gate"
-    assert_no_selector ".play-reel"
-    sleep 0.4
-    shot("historial-phone")
-    page.current_window.resize_to(1280, 800)
-    sleep 0.3
-    shot("historial-desktop")
-    page.current_window.resize_to(390, 844)
+    set_quiz_viewport(390, 844)
   end
 
   test "desafio sits on the marble hall" do
@@ -276,59 +233,9 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
     page.current_window.resize_to(390, 844)
   end
 
-  test "liga standings page uses temple sheet without hub dock" do
-    page.current_window.resize_to(390, 844)
-    person = people(:pili)
-    sign_in_fixture_person!(person)
-    token = PersonDevice.where(person:).order(:id).last&.device_token
-    digest = GameSession.digest_token(token) if token.present?
-    if digest
-      QuizRun.create!(
-        device_digest: digest,
-        person:,
-        pack_id: QuizDefinition.catalog.pack_ids.first,
-        position: 10,
-        score: 80,
-        status: "finished",
-        opened_at: Time.current
-      )
-    end
-    visit street_leaderboard_path
-    assert_selector "#street_world.street-leaderboard-page"
-    assert_selector "h1.street-hub-lockup-name", text: "Noche Live"
-    assert_selector ".street-hub-kicker", text: I18n.t("street.leaderboard_kicker")
-    assert_selector ".street-leaderboard-sheet"
-    assert_selector ".street-leaderboard-tools"
-    assert_selector ".street-leaderboard-select"
-    assert_no_selector ".street-leaderboard-search-clear"
-    assert_no_selector ".street-leaderboard-tab"
-    assert_no_selector ".street-leaderboard-you-card"
-    assert_selector ".street-liga-podium-slot.is-you"
-    assert_selector ".street-liga-podium-slot.is-you.is-live .street-live-dot"
-    assert_selector ".street-liga-podium-slot.is-medal-1"
-    assert_no_selector ".street-hub-nav"
-    assert_no_selector ".street-friend-rail"
-    assert_no_selector ".street-world-dock"
-    assert_liga_search_gold
-    assert_no_selector ".street-play-cta"
-    page.execute_script("window.scrollTo(0, 0)")
-    sleep 0.5
-    shot("liga-phone")
-    assert_liga_column_on_hall
-    assert_liga_chrome_on_column
-    [[768, 1024, "liga-ipad"], [1024, 768, "liga-ipad-land"], [1280, 800, "liga-desktop"], [1920, 1080, "liga-xl"]].each do |width, height, name|
-      page.current_window.resize_to(width, height)
-      sleep 0.35
-      assert_liga_column_on_hall
-      assert_liga_chrome_on_column
-      shot(name)
-    end
-    page.current_window.resize_to(390, 844)
-  end
-
   test "liga name search filters as you type" do
     page.current_window.resize_to(390, 844)
-    sign_in_fixture_person!(people(:pili))
+    sign_in_fixture_person_direct!(people(:pili))
     ward = wards(:demo)
     ana = ward.people.create!(given_name: "Anabel", avatar_key: "gato", favorite_year: 2021)
     QuizRun.create!(
@@ -355,66 +262,9 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
     assert_no_match(/[?&]q=/, page.current_url)
   end
 
-  test "hub map and jugar reel flow" do
-    page.current_window.resize_to(390, 844)
-    visit root_path
-    dismiss_profile_gate!
-    assert_selector "#street_world.street-world"
-    assert_selector ".quiz-hud.is-guest"
-    assert_no_selector ".hub-mini"
-    assert_selector ".hub-rail.hub-challenge.is-empty"
-    assert_selector ".street-card.is-map-door"
-    assert_no_selector "#street_world .street-map-path"
-    assert_selector ".street-hub-nav"
-    assert_no_selector ".street-friend-rail"
-    assert_selector ".quiz-hud-avatar"
-    assert_no_selector ".chrome-tools"
-    assert_selector ".street-pulse"
-    assert_no_selector ".street-world-dock .street-play-cta"
-    assert_no_selector "#street_quiz"
-    page.execute_script("window.scrollTo(0, 0)")
-    sleep 0.8
-    assert_hub_shell_pinned
-    assert_above_hub_dock ".street-card.is-map-door"
-    assert_no_selector ".chrome-tools"
-    assert_hub_chrome_on_column
-    shot("hub-guest-phone")
-    open_hub_map_from_menu
-    assert_selector ".street-map-path.is-rope"
-    assert_selector ".street-map-legend"
-    assert_no_selector ".street-map-legend-rose"
-    assert_no_selector ".street-map-path-lede"
-    assert_selector ".street-map-path.is-rope .street-map-rope", minimum: QuizDefinition.catalog.pack_ids.size - 1
-    assert_selector ".street-map-thread path[d*='C']", wait: 3
-    assert_selector ".street-map-track .street-card.is-pack.is-locked"
-    assert_selector ".street-card.is-pack.is-current"
-    assert_selector ".street-pack-beacon"
-    assert_hub_trail_neighbors_on_fold
-    assert_hub_map_scrolls
-    find("a.street-map-close").click
-    assert_selector ".street-card.is-map-door"
-    page.current_window.resize_to(390, 844)
-    find(".street-map-door-play").click
-    assert_selector "#street_quiz.play-reel.is-quiz.is-street.is-overlay"
-    assert_selector ".quiz-hud"
-    assert_selector ".quiz-hud-rail"
-    assert_no_selector ".street-map"
-    assert_selector ".quiz-hud-avatar"
-    assert_selector ".home-menu.is-split .home-menu-btn"
-    assert_no_selector ".chrome-tools"
-    assert_selector ".chrome-drawer .mute", visible: :hidden
-    assert_jugar_chrome_on_column
-    find(".home-menu-btn").click
-    assert_selector "dialog.chrome-drawer[open] .home-menu-row.mute"
-    assert_selector "dialog.chrome-drawer[open] .lang-switch.is-drawer"
-    find(".home-menu-btn").click
-    assert_no_selector "dialog.chrome-drawer[open]"
-    pair("01-hub-jugar")
-  end
-
   test "hub rank up ring on player card" do
     page.current_window.resize_to(390, 844)
-    sign_in_street_profile!
+    sign_in_fixture_person_direct!(people(:pili))
     visit root_path(rank_up: 1)
     assert_selector ".quiz-hud.is-rank-up"
     sleep 0.6
@@ -423,8 +273,7 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
 
   test "hub pack unlock animation" do
     page.current_window.resize_to(390, 844)
-    visit root_path
-    dismiss_profile_gate!
+    sign_in_fixture_person_direct!(people(:pili))
     next_pack = QuizDefinition.catalog.pack_ids.second
     visit street_map_path(unlock: next_pack)
     assert_selector "#pack-#{next_pack}[data-street-motion-sequence-value='packUnlock']"
@@ -433,7 +282,7 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
   end
 
   test "pack ceremony on last question" do
-    page.current_window.resize_to(390, 844)
+    set_quiz_viewport(390, 844)
     QuizRun.where(status: "open").update_all(status: "finished")
     sign_in_fixture_person_direct!(people(:pili))
     find(".street-map-door-play").click
@@ -467,94 +316,9 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
     assert_ceremony_breakpoints!
   end
 
-  test "hub profile wizard on first visit" do
-    page.current_window.resize_to(390, 844)
-    visit root_path
-    assert_selector "#profile_gate.street-wizard"
-    assert_selector ".street-arrival-caption"
-    sleep 0.5
-    shot("wizard-arrive-phone")
-    assert_hub_column_on_hall
-    assert_hub_chrome_on_column
-    find(".street-arrival-hit").click if page.has_css?(".street-arrival-hit", wait: 0.2)
-    assert_selector "#profile_gate.is-ready"
-    assert_selector "#ward_q"
-    sleep 0.6
-    shot("wizard-phone")
-    [
-      [ 768, 1024, "wizard-ipad" ],
-      [ 1280, 800, "wizard-desktop" ],
-      [ 1920, 1080, "wizard-xl" ]
-    ].each do |width, height, name|
-      page.current_window.resize_to(width, height)
-      sleep 0.35
-      assert_hub_column_on_hall
-      assert_hub_chrome_on_column
-      shot(name)
-    end
-    page.current_window.resize_to(390, 844)
-  end
-
-  test "hub profile wizard live search filters as you type" do
-    page.current_window.resize_to(390, 844)
-    visit root_path
-    find(".street-arrival-hit").click if page.has_css?(".street-arrival-hit", wait: 0.4)
-    assert_selector "#ward_q"
-    fill_in "ward_q", with: "Beni"
-    assert_selector ".ward-hit", text: /Rama Benidorm/, wait: 5
-  end
-
-  test "hub profile wizard reduced motion shows the sheet at once" do
-    page.driver.browser.execute_cdp(
-      "Emulation.setEmulatedMedia",
-      features: [ { name: "prefers-reduced-motion", value: "reduce" } ]
-    )
-    page.current_window.resize_to(390, 844)
-    visit root_path
-    assert_selector "#profile_gate.is-ready"
-    assert_selector "#ward_q"
-    assert_no_selector ".street-arrival-caption"
-  end
-
-  test "hub profile wizard shows no rama without typing or location" do
-    page.current_window.resize_to(390, 844)
-    visit root_path
-    find(".street-arrival-hit").click if page.has_css?(".street-arrival-hit", wait: 0.4)
-    assert_selector "#profile_gate.is-ready"
-    assert_selector "#ward_q"
-    assert_no_selector ".ward-hit"
-  end
-
-  test "create ficha form scrolls on a short phone" do
-    page.current_window.resize_to(390, 640)
-    visit root_path
-    pick_ward_in_gate!
-    assert_selector ".profile-gate-new", wait: 8
-    assert_selector "#gate_name"
-    assert_selector "#favorite_year"
-    overflow = page.evaluate_script("getComputedStyle(document.body).overflowY")
-    assert_includes %w[auto scroll], overflow
-    page.execute_script("document.querySelector('.profile-gate-new .btn-gold').scrollIntoView({block:'center'})")
-    assert_in_viewport ".profile-gate-new .btn-gold", slop: 96
-  end
-
-  test "hub duel banner with pending challenge" do
-    duel = street_duels(:pending_challenge)
-    page.current_window.resize_to(390, 844)
-    dismiss_profile_gate!
-    visit root_path(desafio: duel.token)
-    assert_no_selector "#profile_gate"
-    assert_selector "a.hub-challenge.is-waiting"
-    assert_selector ".hub-challenge-name.is-hero", text: "Pili"
-    assert_selector ".hub-challenge-vs-disc", text: "VS"
-    assert_no_selector ".street-duel-banner"
-    sleep 0.5
-    shot("duel-banner-phone")
-  end
-
   test "challenge button on pack ceremony" do
-    page.current_window.resize_to(390, 844)
-    sign_in_street_profile!
+    set_quiz_viewport(390, 844)
+    sign_in_fixture_person_direct!(people(:pili))
     QuizRun.where(status: "open").update_all(status: "finished")
     visit root_path
     find(".street-map-door-play").click
@@ -575,7 +339,6 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
     assert_no_selector ".street-card.is-share"
     sleep 2.5
     wait_for_brush_fonts!
-    assert_in_viewport ".street-ceremony-map"
     assert_in_viewport ".street-challenge-btn", slop: 48
     shot("ceremony-challenge-phone")
   end
@@ -666,7 +429,7 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
   end
 
   test "settled four bars keep next on the still" do
-    page.current_window.resize_to(390, 844)
+    set_quiz_viewport(390, 844)
     ready_street_quiz!
     run = QuizRun.order(:id).last
     question = QuizDefinition.catalog.find_pack("coronas").question_at(2)
@@ -688,8 +451,6 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
     assert_no_selector ".street-quiz-dock"
     assert_no_selector ".quiz-board .quiz-next"
     assert_no_selector ".quiz-board .quiz-scripture"
-    last = page.evaluate_script("document.querySelector('.quiz-board-scroll')?.lastElementChild?.className")
-    assert_match(/quiz-bars/, last.to_s)
     shot("07-four-bars-settled")
   end
 
@@ -748,22 +509,9 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
   end
 
   def ready_street_quiz!
-    visit root_path
-    dismiss_profile_gate!
+    sign_in_fixture_person_direct!(people(:pili))
     find(".street-map-door-play").click if page.has_css?(".street-map-door-play", wait: 1)
     assert_selector "#street_quiz.play-reel.is-quiz.is-street"
-  end
-
-  def pick_ward_in_gate!
-    return unless page.has_css?("#profile_gate", wait: 2)
-    return if page.has_css?("#profile_gate .street-quien-ficha, #profile_gate .profile-gate-people, #profile_gate .profile-gate-new", wait: 0.3)
-
-    page.has_css?(".street-wizard.is-ready", wait: 5)
-    return unless page.has_field?("ward_q", wait: 1)
-
-    fill_in "ward_q", with: "Benidorm"
-    find("#profile_gate .ward-hit", match: :first, wait: 5).click
-    assert_no_selector "#profile_gate .ward-hit", wait: 8
   end
 
   def clear_street_session!
@@ -791,64 +539,8 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
     end
   end
 
-  def sign_in_fixture_person!(person)
-    clear_street_session!
-    visit root_path
-    pick_ward_in_gate!
-    unless page.has_css?("#profile_gate", wait: 2)
-      visit root_path(ficha: 1)
-    end
-    assert_selector "#profile_gate", wait: 5
-
-    within("#profile_gate") do
-      yes = I18n.t("join.yes_name", name: person.given_name)
-      if page.has_button?(yes, wait: 1)
-        click_button yes
-      elsif page.has_button?(person.given_name, wait: 1)
-        click_button person.given_name
-      else
-        click_link I18n.t("join.not_me") if page.has_link?(I18n.t("join.not_me"), wait: 0.3)
-        click_link I18n.t("join.none_of_these") if page.has_link?(I18n.t("join.none_of_these"), wait: 0.3)
-        fill_in "gate_name", with: person.given_name
-        fill_in "favorite_year", with: person.favorite_year
-        click_button I18n.t("street.gate_create")
-      end
-    end
-    assert_no_selector "#profile_gate"
-  end
-
   def sign_in_street_rival!(name: "Carmen")
-    sign_in_fixture_person!(people(:carmen_garcia))
-  end
-
-  def sign_in_street_profile!(name: "RankTest", year: "2015")
-    clear_street_session!
-    visit root_path
-    pick_ward_in_gate!
-    return unless page.has_css?("#profile_gate", wait: 2)
-
-    within("#profile_gate") do
-      click_link I18n.t("join.not_me") if page.has_link?(I18n.t("join.not_me"), wait: 0.3)
-      click_link I18n.t("join.none_of_these") if page.has_link?(I18n.t("join.none_of_these"), wait: 0.3)
-      fill_in "gate_name", with: name
-      fill_in "favorite_year", with: year
-      click_button I18n.t("street.gate_create")
-    end
-    assert_no_selector "#profile_gate"
-  end
-
-  def dismiss_profile_gate!
-    clear_street_session!
-    visit root_path
-    pick_ward_in_gate!
-    return unless page.has_css?("#profile_gate", wait: 2)
-
-    within("#profile_gate") do
-      guest = find(:button, I18n.t("street.continue_guest"), visible: :all)
-      page.scroll_to(guest)
-      guest.click
-    end
-    assert_no_selector "#profile_gate"
+    sign_in_fixture_person_direct!(people(:carmen_garcia))
   end
 
   def assert_in_viewport(selector, slop: 8)
@@ -919,7 +611,6 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
     assert_ceremony_title_clears_hud
     assert_ceremony_stack_on_column
     assert_jugar_chrome_on_column
-    assert_in_viewport ".street-ceremony-map"
     assert_in_viewport ".street-challenge-btn, .street-duel-waiting-note", slop: 48
     assert_in_viewport ".street-ceremony-share", slop: 72
     shot("ceremony-phone")
@@ -928,38 +619,15 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
       [ 1280, 800, "jugar-ceremony-desktop" ],
       [ 1920, 1080, "jugar-ceremony-xl" ]
     ].each do |width, height, name|
-      page.current_window.resize_to(width, height)
+      set_quiz_viewport(width, height)
       assert_ceremony_scroll_top!
       sleep 0.35
       assert_ceremony_title_clears_hud
       assert_ceremony_stack_on_column
       assert_jugar_chrome_on_column
-      assert_in_viewport ".street-ceremony-map", slop: 24
       shot(name)
     end
-    page.current_window.resize_to(390, 844)
-  end
-
-  def pack_neighbor_script(direction)
-    <<~JS
-      (function() {
-        var current = document.querySelector(".street-card.is-pack.is-current");
-        if (!current) return null;
-        var node = current.#{direction == :above ? "previousElementSibling" : "nextElementSibling"};
-        while (node && !node.classList.contains("is-pack")) {
-          node = node.#{direction == :above ? "previousElementSibling" : "nextElementSibling"};
-        }
-        return node ? ("#" + node.id) : null;
-      })()
-    JS
-  end
-
-  def assert_hub_trail_neighbors_on_fold
-    assert_above_hub_dock ".street-card.is-pack.is-current"
-    above = page.evaluate_script(pack_neighbor_script(:above))
-    below = page.evaluate_script(pack_neighbor_script(:below))
-    assert_above_hub_dock above if above
-    assert_above_hub_dock below if below
+    set_quiz_viewport(390, 844)
   end
 
   def open_hub_map_from_menu
@@ -968,23 +636,12 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
     click_link I18n.t("street.world_map")
   end
 
-  def assert_hub_map_scrolls
-    scrollable = page.evaluate_script(<<~JS)
-      (function() {
-        var map = document.querySelector(".street-map-path.is-rope");
-        if (!map) return false;
-        return map.scrollHeight > map.clientHeight + 24;
-      })()
-    JS
-    assert scrollable, "journey map should scroll past the first-fold nodes"
-  end
-
   def assert_no_horizontal_layout_overflow
     overflow = page.evaluate_script(<<~JS)
       (function() {
         var viewport = document.documentElement.clientWidth;
         var offenders = Array.from(document.querySelectorAll("body *")).filter(function(el) {
-          if (el.matches(".skip, [aria-hidden='true']")) return false;
+          if (el.matches(".skip, .ripple, [aria-hidden='true']")) return false;
           var style = getComputedStyle(el);
           if (style.position === "fixed" || style.visibility === "hidden" || style.display === "none") return false;
           var scrollParent = el.parentElement;
@@ -1010,7 +667,7 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
       (function() {
         var hud = document.querySelector(".home-menu.is-hud .quiz-hud") || document.querySelector("#street_world .quiz-hud");
         var burger = document.querySelector(".home-menu > .home-menu-btn");
-        var dock = document.querySelector(".street-world-dock, .street-hub-nav");
+        var dock = document.querySelector(".navigation-dock");
         var feed = document.querySelector(".street-hub-feed");
         if (!hud || !burger || !dock || !feed) return false;
         if (document.querySelector(".hub-mini")) return false;
@@ -1054,7 +711,7 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
         var el = document.querySelector(#{selector.to_json});
         if (!el) return false;
         var r = el.getBoundingClientRect();
-        var cta = document.querySelector(".street-hub-nav") || document.querySelector(".street-world-dock") || document.querySelector(".street-pulse") || document.querySelector(".street-play-cta");
+        var cta = document.querySelector(".navigation-dock") || document.querySelector(".street-pulse") || document.querySelector(".street-play-cta");
         var limit = cta ? cta.getBoundingClientRect().top : window.innerHeight;
         return r.top >= -8 && r.bottom <= (limit + 8) && r.height > 0;
       })()
@@ -1062,20 +719,33 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
     assert visible, "#{selector} should sit above JUGAR on the first fold"
   end
 
-  def assert_hub_chrome_on_column
-    aligned = page.evaluate_script(<<~JS)
+  def assert_layout_chrome_full_width
+    measured = page.evaluate_script(<<~JS)
       (function() {
-        var world = document.querySelector("#street_world");
-        var face = document.querySelector(".quiz-hud-avatar") || document.querySelector(".chrome-face");
-        var burger = document.querySelector(".home-menu > .home-menu-btn");
-        if (!world || !face || !burger) return false;
-        var w = world.getBoundingClientRect();
-        var f = face.getBoundingClientRect();
-        var b = burger.getBoundingClientRect();
-        return f.left >= w.left - 12 && b.right <= w.right + 12 && f.height > 0 && b.height > 0;
+        var hud = document.querySelector("body > .home-menu.is-hud");
+        var dock = document.querySelector("body > .navigation-dock");
+        if (!hud || !dock) return null;
+        var h = hud.getBoundingClientRect();
+        var d = dock.getBoundingClientRect();
+        var viewport = document.documentElement.clientWidth;
+        return {
+          viewport: viewport,
+          hudW: h.width,
+          dockW: d.width,
+          hudLeft: h.left,
+          dockLeft: d.left,
+          hudPosition: getComputedStyle(hud).position,
+          dockPosition: getComputedStyle(dock).position
+        };
       })()
     JS
-    assert aligned, "avatar and hamburger should pin to the hub column, not the window corners"
+    assert measured, "the layout HUD and dock should both be present"
+    assert_equal "fixed", measured["hudPosition"]
+    assert_equal "fixed", measured["dockPosition"]
+    assert_in_delta measured["viewport"], measured["hudW"], 2, "HUD should span the viewport"
+    assert_in_delta measured["viewport"], measured["dockW"], 2, "dock should span the viewport"
+    assert_in_delta 0, measured["hudLeft"], 2, "HUD should start at the viewport edge"
+    assert_in_delta 0, measured["dockLeft"], 2, "dock should start at the viewport edge"
   end
 
   def assert_praise_inside_shot(shout = nil)
@@ -1130,41 +800,6 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
     assert aligned, "jugar keeps avatar left and hamburger right on the phone arch; mute and flag stay in the drawer"
   end
 
-  def assert_hub_column_on_hall
-    measured = page.evaluate_script(<<~JS)
-      (function() {
-        var world = document.querySelector("#street_world");
-        if (!world) return null;
-        var inner = window.innerWidth;
-        var root = parseFloat(getComputedStyle(document.documentElement).fontSize) || 16;
-        var liga = world.classList.contains("street-leaderboard-page");
-        var expectedRem = liga
-          ? (inner >= 1440 ? 48 : inner >= 1024 ? 38 : inner >= 720 ? 32.5 : 24.375)
-          : (inner >= 1440 ? 52 : inner >= 1024 ? 44 : inner >= 720 ? 36 : 24.375);
-        var expectedPx = expectedRem * root;
-        var r = world.getBoundingClientRect();
-        var dock = document.querySelector(".street-world-dock");
-        var d = dock ? dock.getBoundingClientRect() : { width: 0 };
-        return {
-          inner: inner,
-          worldW: Math.round(r.width),
-          expectedPx: Math.round(expectedPx),
-          centered: Math.abs((r.left + r.right) / 2 - inner / 2) < 20,
-          notBleed: r.width <= inner - 4,
-          dockW: Math.round(d.width)
-        };
-      })()
-    JS
-    assert measured, "hub column metrics should be readable"
-    assert_in_delta measured["expectedPx"], measured["worldW"], 32,
-      "hub column should follow the breakpoint token (inner=#{measured["inner"]} got #{measured["worldW"]} want #{measured["expectedPx"]})"
-    assert measured["centered"], "hub column should stay centered on the hall"
-    assert measured["notBleed"], "hub should not stretch to the window edges"
-    if measured["dockW"].to_i > 0
-      assert_in_delta measured["worldW"], measured["dockW"], 28, "dock should match the hub column"
-    end
-  end
-
   def assert_abuelo_type_floor
     sizes = page.evaluate_script(<<~JS)
       (function() {
@@ -1176,8 +811,7 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
         };
         return {
           minPx: minPx,
-          pack: read(".street-map-door-pack") || read(".street-map-path.is-rope .street-card.is-pack.is-current .street-pack-title"),
-          coronas: read(".street-pack-coronas-label"),
+          pack: read(".street-map-door-pack"),
           banner: read(".quiz-hud-rank"),
           name: read(".quiz-hud-name")
         };
@@ -1185,102 +819,10 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
     JS
     assert sizes, "type floor metrics should be readable"
     floor = sizes["minPx"] - 0.6
-    %w[pack coronas banner name].each do |key|
+    %w[pack banner name].each do |key|
       next unless sizes[key]
       assert sizes[key] >= floor, "#{key} font-size #{sizes[key]} should be ≥ type-min #{sizes["minPx"]}"
     end
-  end
-
-  def assert_quien_chrome_on_column
-    aligned = page.evaluate_script(<<~JS)
-      (function() {
-        var col = document.querySelector("#street_quien");
-        var face = document.querySelector(".chrome-face");
-        var burger = document.querySelector(".home-menu > .home-menu-btn");
-        if (!col || !face || !burger) return false;
-        var c = col.getBoundingClientRect();
-        var f = face.getBoundingClientRect();
-        var b = burger.getBoundingClientRect();
-        return f.left >= c.left - 12 && b.right <= c.right + 12;
-      })()
-    JS
-    assert aligned, "avatar and hamburger should pin to the quien column, not the window corners"
-  end
-
-  def assert_liga_column_on_hall
-    measured = page.evaluate_script(<<~JS)
-      (function() {
-        var world = document.querySelector("#street_world.street-leaderboard-page");
-        if (!world) return null;
-        var inner = window.innerWidth;
-        var root = parseFloat(getComputedStyle(document.documentElement).fontSize) || 16;
-        var expectedRem = inner >= 1440 ? 48 : inner >= 1024 ? 38 : inner >= 720 ? 32.5 : 24.375;
-        var expectedPx = expectedRem * root;
-        var r = world.getBoundingClientRect();
-        var col = getComputedStyle(document.body).getPropertyValue("--street-hub-col").trim();
-        var search = document.querySelector(".street-leaderboard-search");
-        var cols = search ? getComputedStyle(search).gridTemplateColumns : "";
-        var tools = document.querySelector(".street-leaderboard-tools");
-        return {
-          inner: inner,
-          worldW: Math.round(r.width),
-          expectedPx: Math.round(expectedPx),
-          col: col,
-          centered: Math.abs((r.left + r.right) / 2 - inner / 2) < 20,
-          notBleed: r.width <= inner - 8,
-          twoCol: cols.split(" ").filter(Boolean).length >= 2,
-          cols: cols,
-          toolsSticky: tools ? getComputedStyle(tools).position : ""
-        };
-      })()
-    JS
-    assert measured, "liga column metrics should be readable"
-    assert_in_delta measured["expectedPx"], measured["worldW"], 28,
-      "liga column should follow the breakpoint token (inner=#{measured["inner"]} col=#{measured["col"]} got #{measured["worldW"]} want #{measured["expectedPx"]})"
-    assert measured["centered"], "liga column should stay centered on the hall"
-    assert measured["notBleed"], "liga should not stretch to the window edges"
-    assert measured["twoCol"], "pack + search should sit on one row, including on the phone column (cols=#{measured["cols"].inspect})"
-    assert_equal "sticky", measured["toolsSticky"], "pack and search should stay pinned while the board scrolls"
-  end
-
-  def assert_liga_search_gold
-    strokes = page.evaluate_script(<<~JS)
-      (function() {
-        var svg = document.querySelector(".street-leaderboard-search-go .picto-search");
-        if (!svg) return null;
-        var probe = document.createElement("span");
-        probe.style.color = getComputedStyle(document.body).getPropertyValue("--gold-deep").trim();
-        document.body.appendChild(probe);
-        var gold = getComputedStyle(probe).color;
-        probe.remove();
-        var circle = svg.querySelector("circle");
-        var handle = svg.querySelector("path");
-        return {
-          circle: circle ? getComputedStyle(circle).stroke : null,
-          handle: handle ? getComputedStyle(handle).stroke : null,
-          gold: gold
-        };
-      })()
-    JS
-    assert strokes, "liga search loupe should be in the sheet"
-    assert_equal strokes["gold"], strokes["circle"], "search ring should be gold metal, not navy"
-    assert_equal strokes["gold"], strokes["handle"], "search handle should match temple gold"
-  end
-
-  def assert_liga_chrome_on_column
-    aligned = page.evaluate_script(<<~JS)
-      (function() {
-        var world = document.querySelector("#street_world");
-        var face = document.querySelector(".chrome-face");
-        var burger = document.querySelector(".home-menu > .home-menu-btn");
-        if (!world || !face || !burger) return false;
-        var w = world.getBoundingClientRect();
-        var f = face.getBoundingClientRect();
-        var b = burger.getBoundingClientRect();
-        return f.left >= w.left - 16 && b.right <= w.right + 16;
-      })()
-    JS
-    assert aligned, "avatar and hamburger should pin to the liga column, not the window corners"
   end
 
   def assert_ceremony_temple_scrim

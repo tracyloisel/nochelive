@@ -1,6 +1,6 @@
 <% content_for :title, t("ward.yours") %>
 <% content_for :body_class, "is-kid is-paper-hall" %>
-<%= chrome_menu { site_menu } %>
+<% page_hud { site_menu } %>
 
 <%= paper_hall id: "ward_new", kicker: t("ward.yours") do %>
   <%= render "shared/hall_still", src: night_poster_src("reyes_y_profetas") %>

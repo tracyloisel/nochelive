@@ -11,12 +11,8 @@
       <div class="ward-picker-missing-actions">
         <%= link_to t("street.gate_official_locator"), "https://maps.churchofjesuschrist.org/",
               class: "btn btn-navy", target: "_blank", rel: "noreferrer" %>
-        <% if current_street_person %>
-          <%= link_to t("street.gate_continue_without_ward"), root_path, class: "quiet-link" %>
-        <% else %>
-          <%= button_to t("street.gate_continue_without_ward"), street_guest_path,
-                class: "quiet-link", form: { data: { turbo_frame: "_top" } } %>
-        <% end %>
+        <%= link_to t("street.gate_continue_without_ward"), root_path,
+              class: "quiet-link", data: { turbo_frame: "_top" } %>
       </div>
     </section>
   <% elsif @search&.nearby? && listed.any? %>

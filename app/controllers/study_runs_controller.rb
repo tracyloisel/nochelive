@@ -22,24 +22,28 @@ class StudyRunsController < ApplicationController
         .where(study_quiz_version_id: @run.study_unit.study_quiz_versions.select(:id))
         .where.not(person_id: nil)
         .select(:person_id)
-      finishers = Person.where(id: finisher_ids).where.not(id: @run.person_id)
-      @fellow_finishers_total = finishers.count
-      @finishers_pages = [ (@fellow_finishers_total.to_f / FINISHERS_PAGE_SIZE).ceil, 1 ].max
+      finishers = Person.where(id: finisher_ids)
+      @finishers_total = finishers.count
+      @finishers_pages = [ (@finishers_total.to_f / FINISHERS_PAGE_SIZE).ceil, 1 ].max
       @finishers_page = params.fetch(:finishers_page, 1).to_i.clamp(1, @finishers_pages)
       stake_name = @run.person&.ward&.stake_name.presence
       @current_stake_name = stake_name
+      current_priority = Arel::Nodes::Case.new
+        .when(Person.arel_table[:id].eq(@run.person_id))
+        .then(0)
+        .else(1)
       priority = if stake_name
         quoted_stake = ActiveRecord::Base.connection.quote(stake_name)
         Arel.sql("CASE WHEN wards.stake_name = #{quoted_stake} THEN 0 ELSE 1 END")
       else
         Arel.sql("CASE WHEN wards.id IS NULL THEN 1 ELSE 0 END")
       end
-      @fellow_finishers = finishers.left_joins(:ward)
+      @finishers = finishers.left_joins(:ward)
         .includes(:ward)
-        .order(priority, "wards.name ASC", "people.given_name ASC", "people.family_name ASC", "people.id ASC")
+        .order(current_priority, priority, "wards.name ASC", "people.given_name ASC", "people.family_name ASC", "people.id ASC")
         .offset((@finishers_page - 1) * FINISHERS_PAGE_SIZE)
         .limit(FINISHERS_PAGE_SIZE)
-      @stake_finishers, @other_finishers = @fellow_finishers.partition do |person|
+      @stake_finishers, @other_finishers = @finishers.partition do |person|
         stake_name.present? && person.ward&.stake_name == stake_name
       end
       @same_stake_finishers_total = stake_name.present? ? finishers.joins(:ward).where(wards: { stake_name: }).count : 0

@@ -4,14 +4,14 @@
 <% board_title = pack ? t("street.board_pack", pack: pack.copy(:title)) : t("street.board_total") %>
 <% you = @you %>
 <% liga_empty = @q.present? ? t("street.leaderboard_empty_search") : (@visit ? t("street.leaderboard_empty_ward") : t("street.leaderboard_empty")) %>
+<% page_hud(hud: true) { site_menu } %>
+<% page_dock(active: :home) %>
 <section id="street_world"
          class="street-world street-leaderboard-page is-liga-enter"
          data-controller="liga-board"
          data-liga-board-create-url-value="<%= street_challenges_path(format: :json) %>"
          data-liga-board-pack-id-value="<%= @duel_pack_id %>"
          style="view-transition-name: street-world">
-  <%= chrome_menu(hud: true) { site_menu } %>
-
   <header class="street-liga-head leaderboard-title">
     <div class="street-liga-title-rule" aria-hidden="true"></div>
     <h1><%= t("street.leaderboard_screen_title") %></h1>
@@ -127,6 +127,4 @@
       </footer>
     </form>
   </dialog>
-
-  <%= render Navigation::DockComponent.new(active: :home) %>
 </section>

@@ -1,6 +1,25 @@
 require "test_helper"
 
 class Quizzes::ChallengeResolveTest < ActiveSupport::TestCase
+  test "records a completed challenge in the viral funnel" do
+    duel = street_duels(:pending_challenge)
+    challenger = QuizRun.create!(
+      device_digest: "challenger-funnel", person: duel.challenger_person, pack_id: duel.pack_id,
+      position: 10, score: 50, status: "finished", opened_at: 1.hour.ago
+    )
+    opponent = QuizRun.create!(
+      device_digest: "opponent-funnel", person: people(:carmen_garcia), pack_id: duel.pack_id,
+      position: 10, score: 60, status: "finished", opened_at: 30.minutes.ago, street_duel: duel
+    )
+    duel.update!(challenger_run: challenger, challenger_score: 50, opponent_person: opponent.person, opponent_run: opponent, status: "challenger_done")
+
+    assert_difference("ViralEvent.where(name: 'challenge_completed').count", 1) do
+      Quizzes::ChallengeResolve.after_run!(run: opponent)
+    end
+
+    assert_equal duel.id, ViralEvent.order(:id).last.street_duel_id
+  end
+
   test "resolves when both scores present" do
     duel = street_duels(:pili_vs_carmen)
     result = Quizzes::ChallengeResolve.call(duel:)

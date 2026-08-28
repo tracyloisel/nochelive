@@ -1,1 +1,27 @@
-# See https://www.robotstxt.org/robotstxt.html for documentation on how to use the robots.txt file
+User-agent: *
+Allow: /
+Disallow: /p/
+Disallow: /s/
+Disallow: /rails/
+Disallow: /game_sessions/
+Disallow: /ramas/fichas
+
+# OpenAI search and user-requested retrieval may read public content.
+# Training access remains governed by the general policy above.
+User-agent: OAI-SearchBot
+Allow: /
+Disallow: /p/
+Disallow: /s/
+Disallow: /rails/
+Disallow: /game_sessions/
+Disallow: /ramas/fichas
+
+User-agent: ChatGPT-User
+Allow: /
+Disallow: /p/
+Disallow: /s/
+Disallow: /rails/
+Disallow: /game_sessions/
+Disallow: /ramas/fichas
+
+Sitemap: https://nochelive.com/sitemap.xml

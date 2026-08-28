@@ -9,7 +9,7 @@ class StreetChallengesController < ApplicationController
     person = current_street_person
     unless person
       session[:street_return] = "desafios"
-      redirect_to root_path(ficha: 1)
+      redirect_to street_profile_path(quick: 1, fresh: 1)
       return
     end
     unless person.ward
@@ -35,6 +35,15 @@ class StreetChallengesController < ApplicationController
     @pack = QuizDefinition.catalog.find_pack(@duel.pack_id)
     @challenger = @duel.challenger_person
     @challenge = Quizzes::ChallengeScreen.call(duel: @duel, person: current_street_person)
+    remember_ward(@duel.challenger_ward || @duel.ward) if current_street_person.nil? && current_ward.nil?
+    Quizzes::ViralTrack.call(
+      name: "invite_link_opened",
+      device_digest: street_digest,
+      duel: @duel,
+      person: current_street_person,
+      source: params[:src],
+      properties: { pack_id: @duel.pack_id, role: @challenge&.role }
+    ) unless @challenge&.role == :challenger
     redirect_to jugar_path if @challenge&.phase == :play
   end
 
@@ -44,7 +53,7 @@ class StreetChallengesController < ApplicationController
     ward = person&.ward
     html = request.format.html?
     unless person
-      return redirect_to root_path(ficha: 1), alert: I18n.t("street.duel_sign_in") if html
+      return redirect_to street_profile_path(quick: 1, fresh: 1), alert: I18n.t("street.duel_sign_in") if html
 
       return render json: { error: I18n.t("street.duel_sign_in") }, status: :unauthorized
     end
@@ -63,14 +72,36 @@ class StreetChallengesController < ApplicationController
       return
     end
 
-    pack_id = params[:pack_id].presence || params[:pack].presence
+    pack_id = params[:pack_id].presence || params[:pack].presence || Quizzes::World.call(device_digest: street_digest, person_id: person.id).current_pack_id
+    completed_run = if params[:run_id].present?
+      QuizRun.finished.find_by(id: params[:run_id], person_id: person.id, pack_id:)
+    end
+    if params[:run_id].present? && completed_run.nil?
+      error = I18n.t("street.duel_score")
+      return redirect_to street_challenges_path, alert: error if html
+
+      return render json: { error: }, status: :unprocessable_entity
+    end
     result = Quizzes::ChallengeCreate.call(
       challenger_person: person,
       ward:,
-      pack_id: pack_id || Quizzes::World.call(device_digest: street_digest, person_id: person.id).current_pack_id,
+      pack_id:,
       device_digest: street_digest,
+      run: completed_run,
       opponent_person: opponent
     )
+    if opponent && StreetDuel.where(status: "resolved")
+        .where("(challenger_person_id = :me AND opponent_person_id = :them) OR (challenger_person_id = :them AND opponent_person_id = :me)", me: person.id, them: opponent.id)
+        .where.not(id: result.duel.id).exists?
+      Quizzes::ViralTrack.call(
+        name: "rematch_started",
+        device_digest: street_digest,
+        duel: result.duel,
+        person:,
+        source: params[:source],
+        properties: { pack_id: result.duel.pack_id }
+      )
+    end
     session[:pending_duel_token] = result.duel.token unless opponent
     pack_title = QuizDefinition.catalog.find_pack(result.duel.pack_id).copy(:title)
     respond_to do |format|
@@ -101,8 +132,9 @@ class StreetChallengesController < ApplicationController
     person = current_street_person
     unless person
       session[:pending_duel_token] = @duel.token
+      remember_ward(@duel.challenger_ward || @duel.ward)
       clear_street_guest
-      redirect_to root_path(desafio: @duel.token, ficha: 1), alert: I18n.t("street.duel_sign_in")
+      redirect_to street_profile_path(quick: 1, fresh: 1), alert: I18n.t("street.duel_sign_in")
       return
     end
     unless person.ward
@@ -113,6 +145,14 @@ class StreetChallengesController < ApplicationController
     end
 
     Quizzes::ChallengeAccept.call(duel: @duel, opponent_person: person, device_digest: street_digest)
+    Quizzes::ViralTrack.call(
+      name: "challenge_started",
+      device_digest: street_digest,
+      duel: @duel,
+      person:,
+      source: "invite",
+      properties: { pack_id: @duel.pack_id, role: "opponent" }
+    )
     session.delete(:pending_duel_token)
     redirect_to jugar_path
   rescue Quizzes::ChallengeAccept::Expired
@@ -125,7 +165,7 @@ class StreetChallengesController < ApplicationController
   def decline
     person = current_street_person
     unless person
-      redirect_to root_path(ficha: 1), alert: I18n.t("street.duel_sign_in")
+      redirect_to street_profile_path(quick: 1, fresh: 1), alert: I18n.t("street.duel_sign_in")
       return
     end
 

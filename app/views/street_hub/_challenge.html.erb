@@ -17,7 +17,7 @@
   <% scored = challenge.scored? %>
   <% rival = challenge.other_display_name.presence || challenge.other_name %>
   <%= link_to challenge.path,
-        class: "hub-panel hub-stack hub-challenge #{scored ? "is-scored" : "is-waiting"}",
+        class: "hub-panel hub-stack hub-challenge #{scored ? "is-scored" : "is-waiting is-phase-#{challenge.phase}"}",
         data: {
           controller: "hub-challenge",
           hub_challenge_target: "card",
@@ -58,25 +58,49 @@
       </div>
       <p class="hub-challenge-foot"><%= t("hub.finish_first") %></p>
     <% else %>
-      <% if challenge.other_name.present? %>
-        <p class="hub-challenge-name is-hero"><%= challenge.other_name %></p>
-      <% end %>
-      <div class="hub-challenge-capsule" aria-hidden="true">
-        <span class="hub-challenge-face is-gold">
-          <% if challenge.you_avatar_key && (src = avatar_mark(challenge.you_avatar_key)) %>
-            <img src="<%= src %>" alt="" class="avatar-img" width="40" height="40">
-          <% else %>
-            <%= picto("sparkle") %>
+      <% status_icon, status_copy = case challenge.phase
+         when :accept
+           [ "sparkle", t("street.duel_accept") ]
+         when :play
+           [ "fire", t("street.duel_your_turn") ]
+         when :waiting
+           copy = case challenge.waiting_for
+                  when :play then t("street.duel_playing_named", name: rival)
+                  when :accept then t("street.duel_waiting_named_short", name: rival)
+                  when :link then t("street.duel_waiting_link")
+                  else t("street.duel_waiting_short")
+                  end
+           [ "hourglass", copy ]
+         else
+           [ "hourglass", t("street.duel_waiting_short") ]
+         end %>
+      <div class="hub-challenge-waiting-body">
+        <div class="hub-challenge-capsule" aria-hidden="true">
+          <span class="hub-challenge-face is-gold">
+            <% if challenge.you_avatar_key && (src = avatar_mark(challenge.you_avatar_key)) %>
+              <img src="<%= src %>" alt="" class="avatar-img" width="40" height="40">
+            <% else %>
+              <%= picto("sparkle") %>
+            <% end %>
+          </span>
+          <span class="hub-challenge-vs-disc"><%= t("street.duel_vs") %></span>
+          <span class="hub-challenge-face is-silver">
+            <% if challenge.other_avatar_key && (src = avatar_mark(challenge.other_avatar_key)) %>
+              <img src="<%= src %>" alt="" class="avatar-img" width="40" height="40">
+            <% else %>
+              <%= picto("sparkle") %>
+            <% end %>
+          </span>
+        </div>
+        <div class="hub-challenge-waiting-copy">
+          <% if challenge.other_name.present? %>
+            <p class="hub-challenge-name is-hero"><%= challenge.other_name %></p>
           <% end %>
-        </span>
-        <span class="hub-challenge-vs-disc"><%= t("street.duel_vs") %></span>
-        <span class="hub-challenge-face is-silver">
-          <% if challenge.other_avatar_key && (src = avatar_mark(challenge.other_avatar_key)) %>
-            <img src="<%= src %>" alt="" class="avatar-img" width="40" height="40">
-          <% else %>
-            <%= picto("sparkle") %>
-          <% end %>
-        </span>
+          <p class="hub-challenge-status is-<%= challenge.phase %>">
+            <span aria-hidden="true"><%= picto(status_icon) %></span>
+            <%= status_copy %>
+          </p>
+        </div>
       </div>
     <% end %>
   <% end %>

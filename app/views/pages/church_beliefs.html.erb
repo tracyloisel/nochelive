@@ -1,6 +1,6 @@
 <% content_for :title, t("church.beliefs_title") %>
 <% content_for :body_class, "is-kid is-church-journey" %>
-<%= chrome_menu { site_menu } %>
+<% page_hud { site_menu } %>
 <section class="church-beliefs" style="--church-scene: url('/media/church/journey/beliefs-v2.png')">
   <div class="church-beliefs-hero">
     <div class="church-scene-head"><%= link_to church_path, class: "church-back", aria: { label: t("church.back") } do %><%= picto("arrow") %><% end %><span><%= t("church.kicker") %></span><span class="church-chapter">2 / 4</span></div>
@@ -47,5 +47,5 @@
   <div class="church-beliefs-paths">
     <%= render "pages/church_chapter_paths", current: :beliefs %>
   </div>
-  <%= render Navigation::DockComponent.new(active: :church) %>
+  <% page_dock(active: :church) %>
 </section>

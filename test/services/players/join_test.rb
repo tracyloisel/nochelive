@@ -3,19 +3,6 @@ require "test_helper"
 class Players::JoinTest < ActiveSupport::TestCase
   setup { @night = game_sessions(:elias) }
 
-  test "guest join has no person" do
-    player = Players::Join.call(
-      night: @night,
-      name: "Marta",
-      role: "participant",
-      location: "room",
-      device_token: "guest-phone",
-      avatar_key: "perro"
-    )
-    assert_nil player.person_id
-    assert_equal "perro", player.avatar_key
-  end
-
   test "joining with a person reuses the night player" do
     person = people(:pili)
     first = Players::Join.call(
@@ -38,16 +25,18 @@ class Players::JoinTest < ActiveSupport::TestCase
   end
 
   test "remote join seats a solo team" do
+    person = people(:pili)
     player = Players::Join.call(
       night: @night,
-      name: "Daniel",
+      name: person.given_name,
       role: "participant",
       location: "remote",
-      device_token: "casa-phone"
+      device_token: "casa-phone",
+      person:
     )
     assert player.remote?
     assert player.team.solo?
-    assert_equal "Daniel", player.team.name
+    assert_equal person.given_name, player.team.name
   end
 
   test "remote spectator is not seated" do
@@ -65,13 +54,14 @@ class Players::JoinTest < ActiveSupport::TestCase
     pulses = []
     original = GameSession.instance_method(:broadcast_state)
     GameSession.define_method(:broadcast_state) { |pulse: nil| pulses << pulse }
+    person = people(:pili)
     player = Players::Join.call(
       night: @night,
-      name: "Marta",
+      name: person.given_name,
       role: "participant",
       location: "room",
-      device_token: "guest-phone-2",
-      avatar_key: "perro"
+      device_token: "profile-phone-2",
+      person:
     )
     GameSession.define_method(:broadcast_state, original)
 

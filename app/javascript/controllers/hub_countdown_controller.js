@@ -60,6 +60,7 @@ export default class extends Controller {
   handleLiveStart() {
     clearInterval(this.timer)
     this.stateValue = "playing"
+    window.NocheLiveAudio?.play?.("round_open", 0.66)
     if (this.hasClockTarget) this.clockTarget.classList.remove("is-on")
     if (this.hasBadgeTarget) {
       this.badgeTarget.textContent = this.badgeTarget.dataset.liveLabel

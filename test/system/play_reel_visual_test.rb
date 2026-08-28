@@ -7,7 +7,7 @@ class PlayReelVisualTest < ApplicationSystemTestCase
     visit night_name_path(game_sessions(:david).code)
     fill_in "¿Cómo te llaman en la rama?", with: "Pili"
     find("label.choice-chip", text: "En la sala").click
-    click_button "Solo esta noche"
+    click_button I18n.t("join.create_and_join")
     assert_text "Elige tu equipo"
     click_button "Casa de David"
     assert_no_text "Elige tu equipo"
@@ -79,7 +79,7 @@ class PlayReelVisualTest < ApplicationSystemTestCase
     visit night_name_path(game_sessions(:david).code)
     fill_in "¿Cómo te llaman en la rama?", with: "Pili"
     find("label.choice-chip", text: "En la sala").click
-    click_button "Solo esta noche"
+    click_button I18n.t("join.create_and_join")
     assert_text "Elige tu equipo"
     click_button "Casa de David"
     assert_text "Elías fue un rey de Israel."
@@ -104,7 +104,7 @@ class PlayReelVisualTest < ApplicationSystemTestCase
     visit night_name_path(game_sessions(:david).code)
     fill_in "¿Cómo te llaman en la rama?", with: "Pili"
     find("label.choice-chip", text: "En la sala").click
-    click_button "Solo esta noche"
+    click_button I18n.t("join.create_and_join")
     click_button "Casa de David"
     assert_text "¿Qué bajó sobre el altar de Elías en el Carmelo?"
     assert_selector ".choice-btn", count: 4

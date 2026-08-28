@@ -1,7 +1,7 @@
 <% content_for :title, "Noche Live" %>
-<% content_for :body_class, "is-kid is-street-hub is-game-hub-page" %>
 <% screen = @screen %>
 <% art = screen.backdrop %>
+<% content_for :body_class, "is-kid is-street-hub is-game-hub-page is-celestial-#{art.theme.mode}" %>
 <% content_for :head do %>
   <link rel="preload" as="image" href="<%= art.src %>">
 <% end %>
@@ -18,7 +18,7 @@
          data-stage-fx-value="level"
          <% end %>
          style="--hub-art: url('<%= art.src %>'); view-transition-name: street-world">
-  <%= chrome_menu(
+  <% page_hud(
         hud: true,
         bar: Huds::Present.from_screen(screen: screen, rank_up: params[:rank_up].present?)
       ) { site_menu } %>
@@ -31,10 +31,12 @@
     <div class="hub-panel-row">
       <%= render "street_hub/challenge", challenge: screen.challenge, screen: @challenge %>
       <%= render "street_hub/online", rows: screen.online, count: screen.online_count %>
+      <%= render "street_hub/invitations", invitations: @invitations %>
       <%= render "street_hub/progress", progress: screen.progress %>
+      <%= render "street_hub/church_videos" %>
       <%= render "street_hub/community", community: screen.community, pulse: @pulse %>
     </div>
   </div>
 
-  <%= render Navigation::DockComponent.new(active: :home, live: screen.live) %>
+  <% page_dock(active: :home) %>
 </section>

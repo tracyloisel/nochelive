@@ -1,42 +1,53 @@
 <% content_for :title, t("legal.title") %>
-<% content_for :body_class, "is-kid is-paper-hall" %>
-<%= chrome_menu { site_menu } %>
-<%= charter_hall id: "legal_charter", kicker: t("legal.kicker") do %>
-  <h1><%= t("legal.title") %></h1>
-  <p class="charter-updated"><%= t("legal.updated") %></p>
+<% content_for :body_class, "is-kid is-church-journey is-charter-journey is-charter-legal" %>
+<% page_hud { site_menu } %>
 
-  <section class="charter-block">
-    <h2><%= t("legal.nature_title") %></h2>
-    <p><%= t("legal.nature") %></p>
-    <p><%= t("legal.status") %></p>
-  </section>
-
-  <dl class="paper-facts">
-    <div>
-      <dt><%= t("legal.editor") %></dt>
-      <dd><%= t("legal.editor_name") %></dd>
+<section id="legal_charter" class="charter-journey charter-journey--legal">
+  <header class="charter-journey-hero" style="--charter-scene: url('/media/legal/legal-charter-celestial-light-v1.webp')">
+    <div class="church-scene-atmosphere" aria-hidden="true"><i></i><i></i><i></i></div>
+    <div class="charter-journey-intro">
+      <p class="church-scene-kicker"><%= t("legal.kicker") %></p>
+      <h1><%= t("legal.title") %></h1>
+      <p class="charter-journey-updated"><%= t("legal.updated") %></p>
     </div>
-    <div>
-      <dt><%= t("legal.contact") %></dt>
-      <dd><%= mail_to t("legal.email") %></dd>
-    </div>
-    <div>
-      <dt><%= t("legal.host") %></dt>
-      <dd>
-        <%= t("legal.host_name") %><br>
-        <%= t("legal.host_address") %><br>
-        <%= link_to t("legal.host_site"), "https://render.com", target: "_blank", rel: "noreferrer", class: "quiet-link" %>
-      </dd>
-    </div>
-  </dl>
+  </header>
 
-  <section class="charter-block">
-    <h2><%= t("legal.law_title") %></h2>
-    <p><%= t("legal.law") %></p>
-  </section>
+  <div class="charter-journey-thread" aria-hidden="true"><span></span><%= picto("star8") %><span></span></div>
 
-  <nav class="hall-sheet-foot">
-    <%= link_to t("legal.privacy_link"), privacy_path, class: "quiet-link" %>
-    <%= link_to t("stats.title"), platform_stats_path, class: "quiet-link" %>
-  </nav>
-<% end %>
+  <main class="charter-journey-story">
+    <section class="charter-journey-act">
+      <h2><%= t("legal.nature_title") %></h2>
+      <p><%= t("legal.nature") %></p>
+      <p><%= t("legal.status") %></p>
+    </section>
+
+    <section class="charter-journey-act charter-journey-act--facts">
+      <dl class="paper-facts">
+        <div>
+          <dt><%= t("legal.editor") %></dt>
+          <dd><%= t("legal.editor_name") %></dd>
+        </div>
+        <div>
+          <dt><%= t("legal.contact") %></dt>
+          <dd><%= mail_to t("legal.email") %></dd>
+        </div>
+        <div>
+          <dt><%= t("legal.host") %></dt>
+          <dd>
+            <%= t("legal.host_name") %><br>
+            <%= t("legal.host_address") %><br>
+            <%= link_to t("legal.host_site"), "https://render.com", target: "_blank", rel: "noreferrer", class: "quiet-link" %>
+          </dd>
+        </div>
+      </dl>
+    </section>
+
+    <section class="charter-journey-act">
+      <h2><%= t("legal.law_title") %></h2>
+      <p><%= t("legal.law") %></p>
+    </section>
+
+  </main>
+
+  <% page_dock(active: nil) %>
+</section>

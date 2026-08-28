@@ -24,37 +24,58 @@ cues:
 
   correct_gold:
     kind: oneshot
-    max_seconds: 1.6
+    max_seconds: 0.70
     prompt: >
-      Isolated 1.15 second crystalline correct-answer release after the
-      timer_tension bed. A precise luminous glass-celesta strike, followed by
-      two distinct ascending crystal harmonics and one clear suspended high
-      resonance that gently resolves. Bright, pure and celestial, like light
-      passing through cut crystal; satisfying tension release on a phone
-      speaker. No wood, no pizzicato, no drum, no harp glissando, no casino
-      coins, no arcade jingle, no fanfare, no voice or choir. Brief clean tail,
-      then complete silence.
+      One single tiny muted celesta "ting" for a correct answer. Neutral,
+      restrained and almost insignificant, just enough to confirm the action
+      without interrupting the timer_tension atmosphere. Soft rounded attack,
+      short natural decay, no second note, interval, chord, shimmer, flourish,
+      celebration or jingle. No drum, coins, jackpot, arcade, brass, voice or
+      choir, then silence.
 
   wrong_soft:
     kind: oneshot
-    max_seconds: 1.0
+    max_seconds: 1.50
     prompt: >
-      Isolated 0.75 second unmistakable wrong-answer cue that musically says
-      “no, no” without any speech. Exactly two short frosted-crystal celesta
-      strikes: first note, a clear pause of about 140 milliseconds, then a
-      second lower note. DA — DAH, two syllables, firmly descending, instantly
-      readable as a gentle refusal. Same crystalline family as correct_gold,
-      but muted and restrained. No third note, no chord, no wood, no drum, no
-      harsh buzzer, no comedy, no ominous bass, no voice or choir, then silence.
+      Gentle wrong-answer cue: a 0.30 second gesture followed by a warm natural
+      decay of about one second. One soft felted-wood tone
+      bending slightly downward, a warm quiet "tum" that means not this one,
+      never failure. Close, tactile and restrained. No second note, buzzer,
+      comedy, ominous bass, voice or choir, then complete silence.
+
+  score_transfer:
+    kind: oneshot
+    max_seconds: 1.20
+    prompt: >
+      Score-to-crown movement: a 0.20 second gesture with a soft airy tail
+      decaying naturally for roughly 0.8 seconds. A very short warm-air
+      upward sweep carrying one faint brushed-gold particle. Luminous and
+      tactile, never magical, windy or cinematic. No impact, melody, coins,
+      voice or choir, then complete silence.
+
+  crown_chime:
+    kind: oneshot
+    max_seconds: 2.00
+    prompt: >
+      Score-complete resolution: a 0.26 second strike followed by a full warm
+      1.4 second resonant decay. One warm brushed-glass
+      celesta tone, the upper destination note of correct_gold's rising perfect
+      fourth. Calm, final and golden on a phone speaker. No chord, coins,
+      jackpot, flourish, voice or choir, then complete silence.
 
   royal_fanfare:
     kind: oneshot
-    max_seconds: 2.8
+    max_seconds: 4.00
     prompt: >
-      Isolated 2.4 second pack-complete ceremony. A small confident brass
-      triplet answered by a rising harp flourish and one luminous gold bell.
-      Proud family game-night pageant, intimate and noble, not a stadium,
-      not cinematic trailer music. No voice, then complete silence.
+      Pack-complete ceremony that must remain clearly audible for about three
+      seconds: a 1.35 second musical gesture followed by a sustained, rich and
+      smoothly fading two-second harmonic resonance. Do not end early or cut
+      after the initial notes. Begin with the same two-note
+      rising perfect-fourth celesta motif as correct_gold, expand into one warm
+      airy harmonic chord, then a single intimate gold bell and a tactile small
+      wooden chest opening. Celestial, noble and close, not a brass fanfare,
+      stadium, trailer, casino or jackpot. No coins, voice or choir, then
+      complete silence.
 
   level_up:
     kind: oneshot
@@ -81,11 +102,24 @@ cues:
 
   fire_whoosh:
     kind: oneshot
-    max_seconds: 1.2
+    max_seconds: 1.30
     prompt: >
-      Isolated 0.65 second streak-rise accent. A tight upward warm-air sweep,
-      one dry frame-drum pulse and a tiny gold spark at the crest. Energetic but
-      friendly, no explosion, no crackling fire bed, no voice, then silence.
+      Subtle streak-rise layer: a 0.24 second gesture followed by a gentle airy
+      decay, never an abrupt stop. One tiny close warm-air
+      flame breath rising into a pinhead high brushed-glass chime. Designed to
+      overlay correct_gold without masking it. No drum, explosion, crackling
+      fire, melody, voice or choir, then complete silence.
+
+  flame_gold:
+    kind: oneshot
+    max_seconds: 2.50
+    prompt: >
+      Three-answer streak milestone: a 0.44 second gesture followed by a full
+      warm two-second shimmer decay. A compact warm-air
+      flame bloom followed by three delicate ascending brushed-glass celesta
+      notes, built from the same rising-perfect-fourth Noche Live motif as
+      correct_gold. Energetic and golden but intimate. No drum, explosion,
+      crackling, casino, arcade, voice or choir, then complete silence.
 
   timer_tension:
     kind: loop
@@ -132,19 +166,22 @@ cues:
 
   question_change:
     kind: oneshot
-    max_seconds: 1.4
+    max_seconds: 1.20
     prompt: >
-      Isolated 1.1 second page-turn whoosh with a soft harp gliss.
-      Next question arrives. Warm gold, no voice, then silence.
+      Next-question transition: a 0.20 second gesture followed by a quiet,
+      smooth 0.8 second breath decay. One quiet parchment flick
+      wrapped in a short warm-air exhale. A clean breath between reward and
+      concentration. No harp, chime, melody, voice or tail, then silence.
 
   celestial_breath:
     kind: oneshot
-    max_seconds: 1.6
+    max_seconds: 1.50
     prompt: >
-      Isolated 0.8 second new-question arrival. A very soft parchment turn and
-      warm air inhale resolving into one delicate brushed-gold bell tone.
-      Curious, sacred and intimate without sounding magical or sleepy.
-      No choir, no voice, no continuing tail, then complete silence.
+      New-question arrival: a 0.34 second gesture followed by a subtle smooth
+      one-second shimmer decay. A very soft warm-air inhale
+      with a nearly imperceptible high brushed-glass shimmer. Curious, celestial
+      and intimate, immediately yielding to silence for reading. No parchment,
+      melody, bell strike, magic sparkle, voice or choir, then silence.
 
   duel_send:
     kind: oneshot
@@ -170,6 +207,28 @@ cues:
       Isolated 1.8 second results-reveal stinger: three rising harp
       notes and a small brass hit. Gentle quiz reveal for a family
       night, no stadium roar, no voice, then silence.
+
+  study_refuge:
+    kind: loop
+    master: focus_music
+    max_seconds: 30
+    prompt: >
+      Instrumental only, no vocals, no lyrics. Original 30 second seamless
+      ambient reading music built from warm sustained synthesizer pads and
+      real, slowly evolving harmony. Long legato suspended-major and add-nine
+      chords, one harmonic change at most every 12 to 16 seconds, with a soft
+      airy upper pad and a quiet continuous tonal center. Introspective,
+      spacious and mentally absorbing while remaining safe, warm and awake.
+      This must feel like long-form binaural reading music, not sound design,
+      white noise, a meditation bowl or a game soundtrack. No recognizable
+      melody, hook, arpeggio, ostinato, tempo, rhythmic grid, percussion,
+      heartbeat, kick, bass attack, low-frequency impact or repeating "boom".
+      No piano strikes, bells, chimes, wood, glass, choir, church organ, nature
+      sounds, suspense, sadness or dramatic swell. Every note enters and leaves
+      through very long fades; the harmony breathes without pulsing. Keep ample
+      spectral space for inner speech and reading. The binaural 10 Hz detail is
+      added separately in mastering. The first and final four seconds must
+      share the same pad and harmony for an invisible loop.
 
   study_light:
     kind: oneshot

@@ -1,0 +1,35 @@
+<li class="stats-world-row<%= " is-ranked" if ranked %><%= " is-champion" if row.rank == 1 %>"
+    data-place="<%= row.rank %>"
+    data-stat-world-row>
+  <span class="stats-world-badge" aria-hidden="true">
+    <% case row.rank %>
+    <% when 1 %>
+      <span class="stats-world-medal stats-world-medal-gold"><%= row.rank %></span>
+    <% when 2 %>
+      <span class="stats-world-medal stats-world-medal-silver"><%= row.rank %></span>
+    <% when 3 %>
+      <span class="stats-world-medal stats-world-medal-bronze"><%= row.rank %></span>
+    <% else %>
+      <span class="stats-world-rank"><%= row.rank %></span>
+    <% end %>
+  </span>
+
+  <span class="stats-world-avatar">
+    <% src = avatar_mark(row.person) %>
+    <% if src %>
+      <img src="<%= src %>" alt="" class="avatar-img" width="40" height="40">
+    <% else %>
+      <span class="avatar-fallback" aria-hidden="true"><%= row.person.given_name.to_s.first %></span>
+    <% end %>
+  </span>
+
+  <span class="stats-world-info">
+    <span class="stats-world-name"><%= row.person.given_name %></span>
+    <span class="stats-world-place"><%= t("stats.world.place", ward: row.ward.name, country: ward_country(row.ward)) %></span>
+  </span>
+
+  <span class="stats-world-score" data-stat-counter data-stat-value="<%= row.score %>">
+    <span class="stats-world-score-picto" aria-hidden="true"><%= picto("stats-crown") %></span>
+    <span class="stats-tile-current" data-stat-current>0</span>
+  </span>
+</li>

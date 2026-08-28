@@ -1,14 +1,13 @@
 <% content_for :title, t("study.title") %>
 <% content_for :body_class, "is-study-program" %>
 <main id="study_program" class="study-world" data-controller="study-timeline" style="--study-art:url('/media/study/psalms-refuge-2026.png')">
-  <%= chrome_menu(hud: true) { site_menu } %>
+  <% page_hud(hud: true) { site_menu } %>
   <%= render "study_programs/lockup" %>
-  <% if current_street_person %>
+  <% if current_street_person&.ward %>
     <nav class="study-path-nav" aria-label="<%= t("study.title") %>">
-      <%= link_to study_history_path do %><%= picto("compass") %><span><%= t("study.journey") %></span><% end %>
-      <% if current_street_person.ward %><%= link_to study_community_path(ward_code: current_street_person.ward.code) do %><%= picto("people") %><span><%= t("study.ward") %></span><% end %><% end %>
+      <%= link_to study_community_path(ward_code: current_street_person.ward.code) do %><%= picto("people") %><span><%= t("study.ward") %></span><% end %>
     </nav>
-  <% else %>
+  <% elsif current_street_person.nil? %>
     <%= link_to street_profile_path(fresh: 1), class: "study-profile-invite" do %>
       <span class="study-profile-invite-mark"><%= picto("person") %></span>
       <span><strong><%= t("study.profile_invite_title") %></strong><small><%= t("study.profile_invite_lede") %></small></span>
@@ -50,5 +49,5 @@
       <% end %>
     <% end %>
   </section>
-<%= render Navigation::DockComponent.new(active: :word) %>
+<% page_dock(active: :word) %>
 </main>

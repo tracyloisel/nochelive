@@ -1,7 +1,7 @@
 <% content_for :title, t("fichas.title", ward: @ward.name) %>
 <% content_for :body_class, "is-kid is-paper-hall" %>
 <% still_src = @night ? night_still_src(@night) : night_poster_src("reyes_y_profetas") %>
-<%= chrome_menu { site_menu } %>
+<% page_hud { site_menu } %>
 
 <%= paper_hall id: "ficha_index", kicker: "#{@ward.name} · #{@ward.code}" do %>
   <%= render "shared/hall_still", src: still_src %>

@@ -7,9 +7,10 @@
       data-controller="study-run"
       data-study-run-reveal-value="<%= revealing %>"
       data-study-run-correct-value="<%= revealing && @answer.correct? %>"
+      <% unless @run.completed? %>data-stage-bed-value="study_refuge"<% end %>
       data-action="turbo:submit-start->study-run#submitStart"
       style="--study-art:url('<%= @run.completed? ? quiz.content.fetch("ceremony_artwork") : quiz.content.fetch("artwork") %>')">
-  <%= chrome_menu(hud: true) { site_menu } %>
+  <% page_hud(hud: true) { site_menu } %>
   <% if @run.completed? %>
     <section class="study-ceremony">
       <header class="study-ceremony-hero">
@@ -36,8 +37,8 @@
       </section>
       <section class="study-finishers" aria-labelledby="study-finishers-title">
         <p class="study-kicker"><%= t("study.fellow_finishers_kicker") %></p>
-        <h2 id="study-finishers-title"><%= t("study.fellow_finishers_title", count: @fellow_finishers_total) %></h2>
-        <% if @fellow_finishers.any? %>
+        <h2 id="study-finishers-title"><%= @run.person && @finishers_total == 1 ? t("study.first_finisher_title") : t("study.finishers_title", count: @finishers_total) %></h2>
+        <% if @finishers.any? %>
           <%= render "finisher_group", people: @stake_finishers, title: t("study.same_stake_finishers", stake: @current_stake_name, count: @same_stake_finishers_total) if @stake_finishers.any? %>
           <%= render "finisher_group", people: @other_finishers, title: (@current_stake_name ? t("study.other_finishers") : t("study.finishers_list")) if @other_finishers.any? %>
           <% if @finishers_pages > 1 %>
@@ -48,7 +49,7 @@
             </nav>
           <% end %>
         <% else %>
-          <p class="study-finishers-empty"><%= t("study.fellow_finishers_empty") %></p>
+          <p class="study-finishers-empty"><%= t("study.finishers_empty") %></p>
         <% end %>
       </section>
     </section>
@@ -87,5 +88,5 @@
       <% end %>
     </section>
   <% end %>
-  <%= render Navigation::DockComponent.new(active: :word) %>
+  <% page_dock(active: :word) %>
 </main>

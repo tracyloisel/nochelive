@@ -138,13 +138,15 @@ class ActionDispatch::IntegrationTest
       follow_redirect! if response.redirect?
     end
 
-    def start_street_jugar!(guest: true, pack_id: "coronas")
+    def create_street_profile!(name: "Jugador Test", avatar_key: "delfin")
+      post street_profile_path, params: { name:, avatar_key: }
+      follow_redirect! if response.redirect?
+      Person.order(:id).last
+    end
+
+    def start_street_jugar!(pack_id: "coronas")
       sign_in_congregation
-      get root_path
-      if guest
-        post street_profile_path, params: { guest: 1 }
-        follow_redirect!
-      end
+      create_street_profile!
       post street_pack_start_path(pack_id)
       follow_redirect!
       QuizRun.open_runs.order(:id).last

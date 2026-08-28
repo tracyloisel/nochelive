@@ -1,6 +1,6 @@
 <% content_for :title, t("street.profile_title") %>
 <% content_for :body_class, "is-kid is-paper-hall is-street-profile" %>
-<%= chrome_menu(face: false, hud: false) { site_menu } %>
+<% page_hud(face: false, hud: false) { site_menu } %>
 
 <section id="street_quien" class="profile-world">
   <div class="profile-rays" aria-hidden="true"></div>
@@ -39,4 +39,4 @@
   </main>
 </section>
 
-<%= render Navigation::DockComponent.new(active: :profile) %>
+<% page_dock(active: :profile) %>

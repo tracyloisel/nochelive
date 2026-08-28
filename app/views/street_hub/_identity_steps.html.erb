@@ -1,8 +1,8 @@
 <% screen = local_assigns[:screen] %>
 <% person = local_assigns[:person] %>
 <% people = local_assigns[:people] || [] %>
-<% not_me_path = local_assigns.fetch(:not_me_path) { root_path(ficha: 1, not_me: 1) } %>
-<% someone_else_path = local_assigns.fetch(:someone_else_path) { root_path(ficha: 1, fresh: 1) } %>
+<% not_me_path = local_assigns.fetch(:not_me_path) { street_profile_path(not_me: 1) } %>
+<% someone_else_path = local_assigns.fetch(:someone_else_path) { street_profile_path(new_profile: 1) } %>
 
 <% case screen %>
 <% when :welcome %>
@@ -64,9 +64,6 @@
   <% end %>
 <% end %>
 
-<%= button_to street_profile_path, params: { guest: 1 }, class: "quiet-link" do %>
-  <%= t("street.continue_guest") %>
-<% end %>
 <% if current_street_person && screen != :welcome %>
   <%= link_to t("street.stay_as", name: current_street_person.given_name), root_path, class: "quiet-link" %>
 <% end %>

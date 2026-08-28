@@ -23,8 +23,12 @@ class StreetLeaderboardsControllerTest < ActionDispatch::IntegrationTest
     assert_select ".street-liga-challenge-label", text: /#{Regexp.escape(I18n.t("street.duel_send"))}/, minimum: 1
     assert_select ".street-liga-you-bar"
     assert_select ".home-menu.is-hud .quiz-hud"
-    assert_select ".street-world-dock"
-    assert_select ".street-world-dock .street-hub-nav-item.is-active[href=?]", root_path
+    assert_select ".navigation-dock"
+    assert_select ".navigation-dock .navigation-dock__item.is-active[href=?]", root_path
+
+    css = Rails.root.join("app/assets/stylesheets/application.css").read
+    assert_match(/\.navigation-dock \{[^}]*left: 0;[^}]*right: 0;[^}]*width: auto;/m, css)
+    refute_includes css, "--navigation-dock-width"
   end
 
   test "player without a ward is asked to choose one then returns to the leaderboard" do

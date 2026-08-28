@@ -7,15 +7,20 @@ export default class extends Controller {
   connect() {
     requestAnimationFrame(() => this.element.classList.add("is-ready"))
     if (!this.revealValue) return
+    this.element.dataset.studyRunRevealValue = "false"
 
     const url = new URL(window.location.href)
     url.searchParams.delete("reveal")
     window.history.replaceState(window.history.state, "", `${url.pathname}${url.search}${url.hash}`)
 
-    window.setTimeout(() => {
+    this.feedbackTimer = window.setTimeout(() => {
       haptic(this.correctValue ? "success" : "miss")
       window.NocheLiveAudio?.play?.(this.correctValue ? "study_light" : "study_miss", this.correctValue ? 0.68 : 0.42)
     }, 160)
+  }
+
+  disconnect() {
+    if (this.feedbackTimer) window.clearTimeout(this.feedbackTimer)
   }
 
   submitStart(event) {

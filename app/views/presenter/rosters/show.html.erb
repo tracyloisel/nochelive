@@ -1,6 +1,6 @@
 <% content_for :title, "#{t("presenter.list")} · #{@night.code}" %>
 <% content_for :body_class, "is-kid is-paper-hall" %>
-<%= chrome_menu { site_menu } %>
+<% page_hud { site_menu } %>
 
 <%= paper_hall id: "night_roster", kicker: "#{t("presenter.title")} · #{@night.code}" do %>
   <%= render "shared/hall_still", src: night_still_src(@night) %>
