@@ -237,6 +237,69 @@ Specify idle, pressed, loading, success, failure, locked, unlocked, completed, n
 
 Phone primary is full width **inside the sheet**. Mobile first: one hand, huge targets, readable at a distance, contrast on artwork, small screen, moving/pressured player, abuelo, child, outdoor brightness.
 
+## Production-quality verification and mandatory remediation
+
+For every player-facing interface change, implementation is not complete when the code compiles or the tests pass. It is complete only after the rendered experience has been inspected, corrected, and re-verified.
+
+Before declaring the work finished:
+
+1. Identify every player-visible decision:
+   - copy and translations;
+   - content selection rules;
+   - permission timing;
+   - notification frequency;
+   - destinations and deep links;
+   - defaults chosen on behalf of the player.
+2. Distinguish explicitly between:
+   - stakeholder-approved content and behavior;
+   - temporary proposals or placeholders;
+   - technical defaults that still require editorial approval.
+3. Render and personally inspect the real interface, with realistic content, at minimum on:
+   - 390 × 844;
+   - 768 × 1024;
+   - 1440 × 900;
+   - Celestial Light and Celestial Dark when both can occur.
+4. Verify observable quality:
+   - no overflow, clipping, truncation, orphaned cards, or accidental empty space;
+   - clear hierarchy and one obvious primary action;
+   - readable typography and touch targets of at least 44 × 44 px;
+   - keyboard, focus, reduced-motion, loading, empty, denied, error, and success states;
+   - no browser console errors or warnings caused by the change;
+   - permission requests happen only after a contextual player action;
+   - notification taps open the exact promised destination.
+5. Inspect screenshots visually. Automated assertions, DOM inspection, curl output, or a concept HTML page are not substitutes for looking at the final rendered UI.
+6. Remediate every issue found and repeat the inspection. Never report PASS while knowingly leaving a visual, interaction, accessibility, copy, or content-governance defect that would prevent an excellent production experience.
+7. Remove obsolete in-scope markup, JavaScript, CSS, locale keys, prototypes, and compatibility selectors encountered during the work, after verifying that they have no remaining callers. Preserve unrelated concurrent work.
+
+### Ship-blocking editorial gate
+
+Never enable or deploy player-visible messaging when its wording, content source, selection algorithm, timing, audience, frequency, or destination has not been explicitly approved.
+
+When approval is missing:
+
+- mark the feature `BLOCKED — editorial approval required`;
+- document the exact proposed messages and current selection behavior;
+- keep delivery disabled with a server-side fail-closed flag;
+- ensure already queued work also refuses delivery;
+- use `no approved content = no message`;
+- do not silently substitute AI selection, randomness, personalization, or a developer-authored rotation for human editorial approval.
+
+Translations being present in four locale files does not constitute approval.
+
+### Required completion evidence
+
+The final handoff must state:
+
+- viewports and theme families inspected;
+- screenshots reviewed;
+- interaction and permission flows exercised;
+- console result;
+- automated tests run and their results;
+- editorial approval status;
+- remaining known issues.
+
+If any required evidence is missing, or any ship-blocking item remains unresolved, the result is not production-ready and must not be described or deployed as such.
+
 ## Checklist
 
 - [ ] Opened the mockup PNG for this surface (or documented Light vs Dark from artwork)
@@ -256,3 +319,11 @@ Phone primary is full width **inside the sheet**. Mobile first: one hand, huge t
 - [ ] Gestures stay on `story` / `sheet`
 - [ ] Gap tokens; `t()` + four locales; tests updated
 - [ ] Screenshots vs mockup (or curl) before done
+- [ ] Personally inspected the rendered UI at 390, 768, and 1440 widths
+- [ ] No overflow, clipping, orphaned layout, or undersized touch target
+- [ ] Permission, denied, loading, empty, failure, and success flows exercised
+- [ ] Console clean; relevant automated tests pass
+- [ ] Copy, content source, selection rules, frequency, and destinations explicitly approved
+- [ ] Unapproved messaging remains fail-closed in production
+- [ ] Legacy code encountered in the edited scope removed after caller verification
+- [ ] Any issue found during review was remediated and re-verified
