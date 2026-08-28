@@ -65,6 +65,15 @@
         <p class="scripture-loading"><%= t("quiz.scripture_loading") %></p>
       </div>
     </aside>
+    <% if request.host == IdentityTransfersController::SOURCE_HOST && cookies.signed[:noche_device].present? %>
+      <aside class="pwa-install-banner" aria-label="<%= t("identity_migration.action") %>">
+        <img src="/apple-touch-icon.png" width="52" height="52" alt="" class="pwa-install-banner-icon">
+        <%= button_to identity_transfer_path, class: "pwa-install-banner-copy" do %>
+          <strong><%= t("identity_migration.title") %></strong>
+          <span><%= t("identity_migration.hint") %></span>
+        <% end %>
+      </aside>
+    <% end %>
     <dialog class="pwa-install-dialog"
             data-pwa-install-target="dialog"
             data-action="click->pwa-install#backdropClose close->pwa-install#closed"

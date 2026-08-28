@@ -89,6 +89,10 @@ es:
     burger_layers: "Capas del burger"
     close_menu: "Cerrar menú"
     sound_lang: "Sonido e idioma"
+  identity_migration:
+    title: "Noche Live tiene nueva casa"
+    hint: "Llévate tu perfil y continúa en nochelive.com."
+    action: "Continuar en nochelive.com"
   pwa:
     install: "Instalar Noche Live"
     kicker: "Tu aventura, siempre a mano"

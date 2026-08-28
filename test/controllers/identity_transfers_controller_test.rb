@@ -57,6 +57,21 @@ class IdentityTransfersControllerTest < ActionDispatch::IntegrationTest
     assert_response :not_found
   end
 
+  test "an identified visitor sees the migration action only on the Render domain" do
+    host! "nochelive.onrender.com"
+    set_signed_cookie(:noche_device, "device-token")
+
+    get root_path
+
+    assert_select "form[action='#{identity_transfer_path}'][method='post']"
+    assert_select "form[action='#{identity_transfer_path}'] strong", text: I18n.t("identity_migration.title")
+
+    host! "nochelive.com"
+    get root_path
+
+    assert_select "form[action='#{identity_transfer_path}']", count: 0
+  end
+
   private
 
     def set_signed_cookie(name, value)
