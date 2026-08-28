@@ -1,6 +1,6 @@
 # Web Push — versets, défis et Noches Live
 
-Statut : infrastructure déployée ; flow Noche Live en validation avant activation
+Statut : activé en production ; flow Noche Live en pilote physique
 Date : 2026-08-28  
 Périmètre : PWA Noche Live, fichas persistantes, aventure Street et défis asynchrones
 

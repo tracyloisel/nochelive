@@ -106,6 +106,19 @@ class Hubs::ScreenTest < ActiveSupport::TestCase
     assert_equal Rails.application.routes.url_helpers.night_name_path(night.code), screen.live.join_path
   end
 
+  test "a future night accidentally marked playing cannot hide the scheduled lobby" do
+    at = Time.current
+    game_sessions(:david).update!(status: "playing", starts_at: 20.hours.from_now)
+    scheduled = game_sessions(:elias)
+    scheduled.update!(status: "lobby", starts_at: 21.hours.from_now)
+
+    screen = Hubs::Screen.call(device_digest: @digest, ward: @ward, at:)
+
+    assert_equal :imminent, screen.live.state
+    assert_equal scheduled.starts_at, screen.live.starts_at
+    assert_nil screen.live.join_path
+  end
+
   test "live card names the elders and uses dedicated game show art" do
     game_sessions(:david).update!(status: "finished")
     night = game_sessions(:elias)

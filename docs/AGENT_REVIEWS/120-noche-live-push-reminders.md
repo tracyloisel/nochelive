@@ -118,6 +118,8 @@ Tests de ciblage, fuseau, déduplication, reprogrammation, état Live, branche e
 participant déjà entré. Captures vérifiées à 390×844, 768×1024 et 1440×900.
 En production, Solid Queue a chargé les quatre queues séparées puis exécuté les
 deux premiers `NightNotificationCoordinatorJob` sans erreur.
+Le Hub ignore aussi une session `playing` datée dans le futur afin qu'elle ne
+masque jamais le véritable lobby programmé ni son invitation de consentement.
 
 ## Night director
 

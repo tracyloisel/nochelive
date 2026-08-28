@@ -1,7 +1,7 @@
 # Web Push — recette appareils et ouverture progressive
 
-Statut : infrastructure déployée ; recette physique et événement pilote à exécuter
-Feature flag initial : `WEB_PUSH_ENABLED=false`
+Statut : infrastructure et feature flag déployés ; recette physique sur la Noche pilote en cours
+Feature flag actuel : `WEB_PUSH_ENABLED=true`
 
 ## Avant le pilote
 
@@ -10,7 +10,7 @@ Feature flag initial : `WEB_PUSH_ENABLED=false`
 - [ ] Vérifier que la clé privée n'apparaît ni dans les logs, ni dans le navigateur, ni dans une capture.
 - [x] Confirmer qu'il existe un seul scheduler : Solid Queue dans le worker, sans service Render cron.
 - [x] Observer `/up`, le démarrage du worker et le chargement de `config/recurring.yml`.
-- [ ] Activer `WEB_PUSH_ENABLED=true` sur web et worker uniquement pour les appareils internes.
+- [x] Activer `WEB_PUSH_ENABLED=true` sur web et worker pour le pilote Benidorm.
 
 ## Matrice minimale
 

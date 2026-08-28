@@ -237,11 +237,11 @@ module Hubs
 
         scope = GameSession.joins(:ward).merge(Ward.listed).includes(:missionaries)
         scope = scope.where(ward_id: @ward.id) if @ward
-        playing = scope.where(status: "playing").order(:starts_at, :id).first
+        playing = scope.where(status: "playing", starts_at: ..@at).order(starts_at: :desc, id: :desc).first
         return playing if playing
 
         window_end = (@at + LIVE_WINDOW).end_of_day
-        upcoming = scope.where.not(status: "finished")
+        upcoming = scope.where(status: "lobby")
           .where(starts_at: @at.beginning_of_day..window_end)
           .order(:starts_at, :id)
         ward_hit = @ward ? upcoming.find { |night| night.ward_id == @ward.id } : nil

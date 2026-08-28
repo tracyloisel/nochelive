@@ -45,6 +45,21 @@ class NotificationExperienceTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test "a future session incorrectly marked playing does not suppress the Noche consent" do
+    with_web_push_enabled do
+      game_sessions(:david).update!(status: "playing", starts_at: 20.hours.from_now)
+      game_sessions(:elias).update!(status: "lobby", starts_at: 21.hours.from_now)
+      sign_in_congregation
+      create_street_profile!(name: "Noche Prioritaire")
+
+      get root_path
+
+      assert_response :success
+      assert_select ".hub-live.is-imminent", count: 1
+      assert_select ".push-invitation.is-nights", count: 1
+    end
+  end
+
   test "a named challenge creates one contextual invitation only after the action" do
     with_web_push_enabled do
       sign_in_congregation
