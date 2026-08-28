@@ -76,7 +76,7 @@ class PlayAndWatchControllerTest < ActionDispatch::IntegrationTest
     assert_select ".quiz-bar"
     assert_select ".quiz-verdict", text: /¡Correcto!/
     assert_select ".reveal", count: 0
-    assert_select ".wait-toy", count: 0
+    assert_select ".wait-toy", count: 1
   end
 
   test "watch stays anonymous and does not create a player" do
