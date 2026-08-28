@@ -1,0 +1,72 @@
+<% preference = person.notification_settings %>
+<% local_time = preference.verse_local_time.strftime("%H:%M") %>
+<% device_subscribed = push_subscription_on_device?(person) %>
+
+<section class="push-settings" aria-labelledby="push_settings_title"
+         data-controller="push-subscription"
+         data-push-subscription-subscription-url-value="<%= notifications_subscription_path %>"
+         data-push-subscription-preferences-url-value="<%= notifications_preferences_path %>"
+         data-push-subscription-prompt-url-value="<%= notifications_prompt_state_path %>"
+         data-push-subscription-public-key-value="<%= Notifications::Feature.public_key %>"
+         data-push-subscription-person-name-value="<%= person.given_name %>"
+         data-push-subscription-context-value="profile"
+         data-push-subscription-automatic-value="false"
+         data-push-subscription-challenges-active-value="<%= preference.challenges_enabled? %>"
+         data-push-subscription-verses-active-value="<%= preference.verses_enabled? %>"
+         data-push-subscription-device-subscribed-value="<%= device_subscribed %>"
+         data-push-subscription-loading-text-value="<%= t("notifications.settings.device_loading") %>"
+         data-push-subscription-allowed-text-value="<%= t("notifications.settings.device_allowed") %>"
+         data-push-subscription-default-text-value="<%= t("notifications.settings.device_default") %>"
+         data-push-subscription-denied-text-value="<%= t("notifications.settings.device_denied") %>"
+         data-push-subscription-unsupported-text-value="<%= t("notifications.settings.device_unsupported") %>"
+         data-push-subscription-install-text-value="<%= t("notifications.settings.device_install") %>"
+         data-push-subscription-saved-text-value="<%= t("notifications.settings.saved") %>"
+         data-push-subscription-disabled-device-text-value="<%= t("notifications.settings.disabled_device") %>"
+         data-push-subscription-failed-text-value="<%= t("notifications.settings.failed") %>"
+         data-push-subscription-reassign-text-value="<%= t("notifications.settings.reassign", name: person.given_name) %>"
+         data-push-subscription-device-expired-text-value="<%= t("notifications.settings.device_expired") %>">
+  <header class="push-settings-head">
+    <span class="push-settings-emblem" aria-hidden="true"><%= picto("bell") %></span>
+    <div><p class="push-kicker"><%= t("notifications.settings.kicker") %></p>
+      <h2 id="push_settings_title"><%= t("notifications.settings.title", name: person.given_name) %></h2>
+      <p><%= t("notifications.settings.lede") %></p></div>
+  </header>
+  <section class="push-device-card">
+    <span aria-hidden="true"><%= picto("phone") %></span>
+    <div><h3><%= t("notifications.settings.device_title") %></h3>
+      <p data-push-subscription-target="status" aria-live="polite"><%= t("notifications.settings.device_loading") %></p></div>
+  </section>
+  <h3 class="push-categories-title"><%= t("notifications.settings.categories_title", name: person.given_name) %></h3>
+  <div class="push-category-list">
+    <article class="push-category-card is-challenges">
+      <span class="push-category-icon" aria-hidden="true"><%= picto("swords") %></span>
+      <div><h4><%= t("notifications.settings.challenges_title") %></h4><p><%= t("notifications.settings.challenges_hint") %></p></div>
+      <button type="button" class="btn btn-ghost push-setting-action" data-category="challenges" <%= "hidden" if preference.challenges_enabled? && device_subscribed %>
+              data-push-subscription-target="enableChallenges controls" data-action="push-subscription#enable"><%= t("notifications.settings.challenges_enable", name: person.given_name) %></button>
+      <button type="button" class="quiet-link push-setting-action" data-category="challenges" <%= "hidden" unless preference.challenges_enabled? %>
+              data-push-subscription-target="disableChallenges controls" data-action="push-subscription#disableCategory"><%= t("notifications.settings.challenges_disable", name: person.given_name) %></button>
+    </article>
+    <article class="push-category-card is-verses">
+      <span class="push-category-icon" aria-hidden="true"><%= picto("book") %></span>
+      <div><h4><%= t("notifications.settings.verses_title") %></h4><p><%= t("notifications.settings.verses_hint") %></p></div>
+      <div class="push-verse-options">
+        <label><span><%= t("notifications.settings.frequency") %></span><select data-push-subscription-target="frequency controls" data-action="change->push-subscription#updateVerseChoice">
+          <% NotificationPreference::VERSE_FREQUENCIES.each do |frequency| %><option value="<%= frequency %>" data-label="<%= t("notifications.frequency.#{frequency}") %>" <%= "selected" if frequency == preference.verse_frequency %>><%= t("notifications.settings.#{frequency == 'daily' ? 'daily' : 'three_weekly'}") %></option><% end %>
+        </select></label>
+        <label><span><%= t("notifications.settings.time") %></span><input type="time" value="<%= local_time %>" data-push-subscription-target="time controls" data-action="change->push-subscription#updateVerseChoice"></label>
+      </div>
+      <button type="button" class="btn btn-ghost push-setting-action" data-category="verses" <%= "hidden" if preference.verses_enabled? && device_subscribed %>
+              data-template="<%= t("notifications.settings.verses_enable", name: person.given_name, frequency: "__FREQUENCY__", time: "__TIME__") %>"
+              data-push-subscription-target="enableVerses controls" data-action="push-subscription#enable"><%= t("notifications.settings.verses_enable", name: person.given_name, frequency: t("notifications.frequency.#{preference.verse_frequency}"), time: local_time) %></button>
+      <button type="button" class="quiet-link push-setting-action" data-category="verses" <%= "hidden" unless preference.verses_enabled? %>
+              data-push-subscription-target="disableVerses controls" data-action="push-subscription#disableCategory"><%= t("notifications.settings.verses_disable", name: person.given_name) %></button>
+    </article>
+  </div>
+  <button type="button" class="btn btn-gold push-install-settings" hidden
+          data-push-subscription-target="install controls"
+          data-action="push-subscription#rememberInstall pwa-install#install"><%= t("notifications.prompt.install_cta") %></button>
+  <button type="button" class="btn btn-gold push-reassign" hidden data-push-subscription-target="reassign controls" data-action="push-subscription#confirmReassignment"><%= t("notifications.settings.reassign_cta", name: person.given_name) %></button>
+  <p class="push-feedback" data-push-subscription-target="feedback" role="status" hidden></p>
+  <button type="button" class="quiet-link push-disable-device" <%= "hidden" unless device_subscribed %>
+          data-push-subscription-target="disableDevice controls" data-action="push-subscription#disableDevice"><%= t("notifications.settings.disable_device") %></button>
+</section>

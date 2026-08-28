@@ -53,6 +53,12 @@ Rails.application.routes.draw do
   get "home", to: redirect("/"), as: :legacy_home
   get "liga", to: "street_leaderboards#show", as: :street_leaderboard
   post "presence", to: "street_presences#create", as: :street_presence
+  namespace :notifications do
+    resource :subscription, only: [ :create, :destroy ]
+    resource :preferences, only: [ :update ]
+    resource :prompt_state, only: [ :update ]
+    post "deliveries/:id/open", to: "deliveries#open", as: :delivery_open
+  end
   post "join", to: "joins#create"
   patch "locale", to: "locales#update"
   get "nosotros", to: "ward_adds#show", as: :about

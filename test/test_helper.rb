@@ -83,6 +83,20 @@ module ActiveSupport
       Wards::QueryLocator.forced_hits = nil
       Wards::QueryLocator.forced_details = nil
       Wards::QueryLocator.forced_near = nil
+      Notifications::Sender.transport = nil if defined?(Notifications::Sender)
+    end
+
+    def with_web_push_enabled(vapid: true)
+      previous = %w[WEB_PUSH_ENABLED VAPID_PUBLIC_KEY VAPID_PRIVATE_KEY VAPID_SUBJECT].to_h { |key| [ key, ENV[key] ] }
+      ENV["WEB_PUSH_ENABLED"] = "true"
+      if vapid
+        ENV["VAPID_PUBLIC_KEY"] = "test-public"
+        ENV["VAPID_PRIVATE_KEY"] = "test-private"
+        ENV["VAPID_SUBJECT"] = "mailto:test@nochelive.com"
+      end
+      yield
+    ensure
+      previous&.each { |key, value| value.nil? ? ENV.delete(key) : ENV[key] = value }
     end
 
     def peel_to_salsa(round)

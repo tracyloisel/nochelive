@@ -52,6 +52,7 @@ module Quizzes
         duel.update!(attrs) if attrs.any?
         run&.update!(street_duel: duel) if run&.street_duel_id != duel.id
         track_completion(duel.reload, run) if !was_resolved && duel.resolved?
+        Notifications::DuelResults.call(duel: duel.reload) if !was_resolved && duel.resolved?
         result_for(duel.reload)
       end
     end

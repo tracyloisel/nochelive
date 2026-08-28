@@ -118,6 +118,79 @@ pt-BR:
     ios_web_app: "Ative «Abrir como App da Web»."
     ios_add: "Toque em Adicionar."
     done: "Entendi"
+  notifications:
+    prompt:
+      challenges_kicker: "Não perca a resposta"
+      challenges_title: "Deixe seus desafios encontrarem você"
+      challenges_body: "%{name}, a Noche Live pode avisar quando alguém desafiar você, mesmo com o jogo fechado."
+      challenges_cta: "Avisar %{name} dos próximos desafios neste aparelho"
+      verses_kicker: "Uma palavra para o caminho"
+      verses_title: "Deixe a luz voltar"
+      verses_body: "%{name}, receba uma passagem %{frequency} às %{time}, sem interromper sua noite."
+      verses_cta: "Enviar uma passagem para %{name} %{frequency} às %{time} neste aparelho"
+      install_kicker: "Para manter o vínculo"
+      install_title: "Primeiro, leve a Noche Live para sua tela"
+      install_body: "Adicione o jogo à Tela de Início. Vamos falar das notificações outro dia, depois de um novo momento no jogo."
+      install_cta: "Instalar Noche Live neste aparelho"
+      not_now: "Agora não"
+    settings:
+      kicker: "Você decide"
+      title: "Notificações de %{name}"
+      lede: "Escolha cada tipo separadamente para este aparelho. Nada vem marcado."
+      device_title: "Este aparelho"
+      device_allowed: "O sistema permite notificações"
+      device_default: "O sistema ainda espera sua escolha"
+      device_denied: "O sistema bloqueou as notificações. Você pode mudar isso nos ajustes do aparelho."
+      device_unsupported: "Este navegador não recebe notificações Web Push."
+      device_install: "No iPhone e no iPad, primeiro instale Noche Live na Tela de Início."
+      device_loading: "Verificando este aparelho…"
+      device_expired: "A conexão deste aparelho expirou. Você pode reparar aqui."
+      categories_title: "O que %{name} quer receber"
+      challenges_title: "Desafios entre jogadores"
+      challenges_hint: "Um convite, o resultado e no máximo um lembrete útil."
+      challenges_on: "Seus desafios vão chegar neste aparelho."
+      challenges_enable: "Receber os próximos desafios de %{name} neste aparelho"
+      challenges_disable: "Parar de receber os desafios de %{name}"
+      verses_title: "Versículos e leituras"
+      verses_hint: "Uma passagem revisada que abre as escrituras direto."
+      verses_on: "Suas passagens vão chegar %{frequency} às %{time}."
+      verses_enable: "Receber uma passagem para %{name} %{frequency} às %{time} neste aparelho"
+      verses_disable: "Parar de receber as passagens de %{name}"
+      frequency: "Frequência"
+      daily: "todos os dias"
+      three_weekly: "três vezes por semana"
+      time: "Hora local"
+      disable_device: "Desativar as notificações neste aparelho"
+      disabled_device: "Este aparelho não vai mais receber notificações."
+      saved: "Sua escolha foi salva."
+      permission_denied: "Respeitamos sua escolha. Não vamos perguntar de novo automaticamente."
+      failed: "Não deu para salvar este aparelho. Tente novamente."
+      reassign: "Este aparelho avisa outro perfil no momento. Confirme se quer passar para %{name}."
+      reassign_cta: "Passar as notificações deste aparelho para %{name}"
+    frequency:
+      daily: "todos os dias"
+      three_weekly: "três vezes por semana"
+    push:
+      daily_verse:
+        title: "Uma luz para hoje"
+        body: "%{reference} está aberto para você."
+      study_reading:
+        title: "Seu caminho continua"
+        body: "Volte para %{title}."
+      duel_invitation:
+        title: "Um desafio espera você"
+        body: "%{name} desafiou você em %{pack}. Vai encarar?"
+      duel_reminder:
+        title: "Seu rival ainda espera"
+        body: "O desafio de %{name} em %{pack} ainda está aberto."
+      duel_result:
+        title: "Seu duelo já tem resultado"
+      won:
+        body: "Você venceu %{name} em %{pack}. Veja como terminou."
+      finished:
+        body: "O resultado contra %{name} em %{pack} está pronto."
+      tie:
+        body: "Empate com %{name} em %{pack}. A arena pede revanche."
   home:
     lede: "Onde fica a sua ala?"
     code: "Código da noite"
@@ -410,6 +483,13 @@ pt-BR:
       title: "Vídeos do YouTube"
       body: "A videoteca mostra títulos e miniaturas do canal oficial da Igreja. As miniaturas passam pela Noche Live. O player usa o domínio de privacidade aprimorada do YouTube e só carrega depois da sua escolha."
       choice: "Essa escolha fica apenas no armazenamento local deste navegador, com a chave noche_youtube_consent. Você pode retirá-la apagando os dados do site. Assistir a um vídeo não dá pontos nem muda o seu progresso."
+    push:
+      title: "As notificações que você escolhe"
+      body: "Se você pedir, guardamos de forma criptografada o endpoint e as chaves públicas da assinatura Web Push. Também guardamos o perfil e o aparelho vinculados, idioma, fuso horário, família do navegador, os tipos escolhidos, frequência, horário, datas de consentimento e o estado técnico de cada envio e abertura."
+      basis: "A base jurídica é o seu consentimento específico, conforme o artigo 6.1.a do RGPD. Desafios e versículos são escolhidos separadamente, nunca vêm marcados e cada escolha pode ser retirada com a mesma facilidade. A permissão do sistema só abre o canal técnico: sozinha, ela não autoriza nenhum envio."
+      screen: "Uma notificação pode aparecer na tela bloqueada. Por isso, o texto é curto e não revela uma leitura espiritual privada nem dados pessoais além do necessário. Ao tocar, você abre direto a passagem, a leitura ou o desafio correspondente."
+      providers: "A Render guarda a assinatura e a fila. Para entregar o aviso, o endpoint criptografado é usado com o serviço Push do navegador ou do sistema, que pode ser operado pela Apple, Google, Mozilla ou outro fornecedor do navegador. A Noche Live não vende esses dados nem usa para publicidade."
+      retention: "Guardamos a assinatura enquanto suas escolhas estiverem ativas. Um endpoint que informa que não existe mais é revogado na hora e apagado depois de 30 dias. Os registros técnicos de envio e abertura são apagados depois de 90 dias. Você pode desativar um tipo ou este aparelho no seu perfil."
     server:
       title: "Nos nossos servidores"
       body: "A ficha guarda nome, sobrenome se houver, ano favorito, avatar, idioma e ala. O aparelho fica ligado à ficha, com a última vez em que você apareceu na liga. As partidas, respostas e pontos do quiz da rua, e o seu lugar numa noite ao vivo, ficam guardados para o jogo."

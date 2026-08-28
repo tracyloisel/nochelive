@@ -28,6 +28,44 @@ services:
         value: "true"
       - key: APP_HOST
         value: nochelive.com
+      - key: WEB_PUSH_ENABLED
+        value: "false"
+      - key: VAPID_PUBLIC_KEY
+        sync: false
+      - key: VAPID_PRIVATE_KEY
+        sync: false
+      - key: VAPID_SUBJECT
+        sync: false
+
+  - type: worker
+    name: nochelive-jobs
+    runtime: ruby
+    plan: starter
+    region: frankfurt
+    buildCommand: bundle install
+    startCommand: bundle exec bin/jobs
+    maxShutdownDelaySeconds: 60
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: nochelive-db
+          property: connectionString
+      - key: RAILS_MASTER_KEY
+        sync: false
+      - key: RAILS_ENV
+        value: production
+      - key: RAILS_LOG_TO_STDOUT
+        value: true
+      - key: JOB_CONCURRENCY
+        value: "1"
+      - key: WEB_PUSH_ENABLED
+        value: "false"
+      - key: VAPID_PUBLIC_KEY
+        sync: false
+      - key: VAPID_PRIVATE_KEY
+        sync: false
+      - key: VAPID_SUBJECT
+        sync: false
 
 databases:
   - name: nochelive-db

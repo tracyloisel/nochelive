@@ -17,6 +17,7 @@ module People
         @keeper.lock!
         @source.lock!
         move_players!
+        move_notifications!
         move_devices!
         move_quiz_runs!
         move_study_runs!
@@ -97,6 +98,61 @@ module People
           else
             row.update!(person: @keeper)
           end
+        end
+      end
+
+      def move_notifications!
+        merge_notification_preferences!
+        merge_notification_prompt_states!
+        @source.web_push_subscriptions.update_all(person_id: @keeper.id, updated_at: Time.current)
+        @source.notification_deliveries.update_all(person_id: @keeper.id, updated_at: Time.current)
+        normalize_push_subscriptions!
+      end
+
+      def merge_notification_preferences!
+        source_preference = @source.notification_preference
+        return unless source_preference
+
+        keeper_preference = @keeper.notification_preference
+        unless keeper_preference
+          source_preference.update!(person: @keeper)
+          return
+        end
+
+        attributes = {
+          challenges_enabled: keeper_preference.challenges_enabled? || source_preference.challenges_enabled?,
+          challenges_enabled_at: [ keeper_preference.challenges_enabled_at, source_preference.challenges_enabled_at ].compact.min,
+          verses_enabled: keeper_preference.verses_enabled? || source_preference.verses_enabled?,
+          verses_enabled_at: [ keeper_preference.verses_enabled_at, source_preference.verses_enabled_at ].compact.min
+        }
+        if !keeper_preference.verses_enabled? && source_preference.verses_enabled?
+          attributes.merge!(source_preference.slice(:verse_frequency, :verse_local_time, :quiet_hours_start, :quiet_hours_end))
+        end
+        keeper_preference.update!(attributes)
+        source_preference.destroy!
+      end
+
+      def merge_notification_prompt_states!
+        @source.person_devices.includes(:notification_prompt_states).find_each do |source_device|
+          keeper_device = @keeper.person_devices.find_by(device_token: source_device.device_token)
+          next unless keeper_device
+
+          source_device.notification_prompt_states.each do |source_state|
+            keeper_state = keeper_device.notification_prompt_states.find_by(category: source_state.category)
+            if keeper_state
+              newest = [ keeper_state, source_state ].max_by(&:updated_at)
+              keeper_state.update!(newest.slice(:last_offered_at, :last_result, :snoozed_until, :offer_context)) if newest == source_state
+              source_state.destroy!
+            else
+              source_state.update!(person_device: keeper_device)
+            end
+          end
+        end
+      end
+
+      def normalize_push_subscriptions!
+        @keeper.web_push_subscriptions.active.group_by(&:device_token_digest).each_value do |subscriptions|
+          subscriptions.sort_by(&:updated_at).reverse.drop(1).each(&:revoke!)
         end
       end
 

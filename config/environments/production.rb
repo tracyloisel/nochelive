@@ -45,9 +45,9 @@ Rails.application.configure do
   # Don't log any deprecations.
   config.active_support.report_deprecations = false
 
-  # Single Render PostgreSQL. Cache and jobs stay in-process for the MVP.
+  # Single Render PostgreSQL. Solid Queue persists notification work on primary.
   config.cache_store = :memory_store
-  config.active_job.queue_adapter = :async
+  config.active_job.queue_adapter = :solid_queue
 
   config.action_cable.allowed_request_origins = [
     /https:\/\/.*\.onrender\.com/,

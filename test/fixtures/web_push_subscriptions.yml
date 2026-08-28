@@ -1,0 +1,23 @@
+# frozen_string_literal: true
+
+carmen_phone_push:
+  person: carmen_garcia
+  device_token_digest: <%= Notifications::Cipher.device_digest("carmen-phone") %>
+  endpoint_ciphertext: <%= Notifications::Cipher.encrypt("https://push.example.test/carmen") %>
+  endpoint_digest: <%= Notifications::Cipher.digest("https://push.example.test/carmen") %>
+  p256dh_ciphertext: <%= Notifications::Cipher.encrypt("carmen-p256dh") %>
+  auth_ciphertext: <%= Notifications::Cipher.encrypt("carmen-auth") %>
+  locale: es
+  time_zone: Europe/Madrid
+  user_agent_family: Chrome
+
+pili_tablet_push:
+  person: pili
+  device_token_digest: <%= Notifications::Cipher.device_digest("pili-tablet") %>
+  endpoint_ciphertext: <%= Notifications::Cipher.encrypt("https://push.example.test/pili") %>
+  endpoint_digest: <%= Notifications::Cipher.digest("https://push.example.test/pili") %>
+  p256dh_ciphertext: <%= Notifications::Cipher.encrypt("pili-p256dh") %>
+  auth_ciphertext: <%= Notifications::Cipher.encrypt("pili-auth") %>
+  locale: fr
+  time_zone: Europe/Paris
+  user_agent_family: Safari

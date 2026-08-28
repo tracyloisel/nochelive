@@ -118,6 +118,79 @@ en:
     ios_web_app: "Turn on “Open as Web App.”"
     ios_add: "Tap Add."
     done: "Got it"
+  notifications:
+    prompt:
+      challenges_kicker: "Don’t miss their answer"
+      challenges_title: "Let your challenges find you"
+      challenges_body: "%{name}, Noche Live can tell you when someone challenges you, even when it’s closed."
+      challenges_cta: "Send %{name} their next challenges on this device"
+      verses_kicker: "A word for the road"
+      verses_title: "Let the light return"
+      verses_body: "%{name}, receive a passage %{frequency} at %{time}, without interrupting your evening."
+      verses_cta: "Send %{name} a passage %{frequency} at %{time} on this device"
+      install_kicker: "Keep the connection"
+      install_title: "First, bring Noche Live to your Home Screen"
+      install_body: "Add it to your Home Screen. We’ll ask about notifications another day, after a new moment in the game."
+      install_cta: "Install Noche Live on this device"
+      not_now: "Not now"
+    settings:
+      kicker: "You’re in control"
+      title: "%{name}’s notifications"
+      lede: "Choose each kind separately for this device. Nothing is selected for you."
+      device_title: "This device"
+      device_allowed: "Notifications are allowed by the system"
+      device_default: "The system is still waiting for your choice"
+      device_denied: "The system has blocked notifications. You can change this in your device settings."
+      device_unsupported: "This browser cannot receive Web Push notifications."
+      device_install: "On iPhone and iPad, first install Noche Live on your Home Screen."
+      device_loading: "Checking this device…"
+      device_expired: "This device’s connection has expired. You can repair it here."
+      categories_title: "What %{name} wants to receive"
+      challenges_title: "Player challenges"
+      challenges_hint: "One invitation, the result, and at most one useful reminder."
+      challenges_on: "Your challenges will arrive on this device."
+      challenges_enable: "Receive %{name}’s next challenges on this device"
+      challenges_disable: "Stop receiving %{name}’s challenges"
+      verses_title: "Verses and readings"
+      verses_hint: "One verified passage that opens the scriptures directly."
+      verses_on: "Your passages will arrive %{frequency} at %{time}."
+      verses_enable: "Receive a passage for %{name} %{frequency} at %{time} on this device"
+      verses_disable: "Stop receiving %{name}’s passages"
+      frequency: "Frequency"
+      daily: "every day"
+      three_weekly: "three times a week"
+      time: "Local time"
+      disable_device: "Turn off notifications on this device"
+      disabled_device: "This device will no longer receive notifications."
+      saved: "Your choice is saved."
+      permission_denied: "We respect your choice. We won’t ask again automatically."
+      failed: "We couldn’t save this device. Please try again."
+      reassign: "This device currently notifies another profile. Confirm if you want to move it to %{name}."
+      reassign_cta: "Move this device’s notifications to %{name}"
+    frequency:
+      daily: "every day"
+      three_weekly: "three times a week"
+    push:
+      daily_verse:
+        title: "A light for today"
+        body: "%{reference} is open for you."
+      study_reading:
+        title: "Your journey continues"
+        body: "Return to %{title}."
+      duel_invitation:
+        title: "A challenge is waiting"
+        body: "%{name} challenged you in %{pack}. Ready to enter the arena?"
+      duel_reminder:
+        title: "Your rival is still waiting"
+        body: "%{name}’s challenge in %{pack} is still open."
+      duel_result:
+        title: "Your duel has a result"
+      won:
+        body: "You beat %{name} in %{pack}. See how it ended."
+      finished:
+        body: "Your result against %{name} in %{pack} is ready."
+      tie:
+        body: "You tied with %{name} in %{pack}. The arena wants a rematch."
   home:
     lede: "Find your ward and come play."
     code: "Night code"
@@ -410,6 +483,13 @@ en:
       title: "YouTube videos"
       body: "The video library shows titles and thumbnails from the Church’s official channel. Thumbnails pass through Noche Live. The player uses YouTube’s privacy-enhanced domain and loads only after you choose to continue."
       choice: "We remember that choice only in this browser’s local storage under noche_youtube_consent. You can withdraw it by clearing this site’s data. Watching a video never awards points or changes your progress."
+    push:
+      title: "Notifications you choose"
+      body: "If you ask for them, we store the Web Push endpoint and public subscription keys in encrypted form. We also keep the linked profile and device, language, time zone, browser family, the types you chose, frequency, time, consent dates, and the technical status of each delivery and open."
+      basis: "The legal basis is your specific consent under GDPR Article 6(1)(a). Challenges and verses are chosen separately, are never preselected, and each choice is as easy to withdraw as it was to give. System permission only opens the technical channel; by itself, it does not allow us to send you anything."
+      screen: "A notification may appear on your Lock Screen. Its text is therefore short and does not reveal private spiritual reading or more personal detail than needed. Tapping it opens the matching passage, reading, or challenge directly."
+      providers: "Render stores the subscription and the job queue. To deliver a notification, the encrypted endpoint is used with your browser or operating system’s push service, which may be operated by Apple, Google, Mozilla, or another browser provider. Noche Live does not sell this data or use it for advertising."
+      retention: "We keep a subscription while your choices remain active. An endpoint that reports it no longer exists is revoked immediately and deleted after 30 days. Technical delivery and open records are deleted after 90 days. You can turn off one type or this device from your profile."
     server:
       title: "On our servers"
       body: "A card stores name, family name if there is one, favourite year, avatar, language, and ward. The device is tied to the card, with the last time you were seen in the league. Street-quiz runs, answers, and points, and your seat in a live night, are stored for the game."

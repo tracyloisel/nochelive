@@ -20,6 +20,14 @@ class StudyRunsController < ApplicationController
     @question = @run.question unless @run.completed?
     @answer = @run.current_answer unless @run.completed?
     if @run.completed?
+      prompt_context = session.delete(:push_prompt_context)
+      if prompt_context == "study_completed" && @run.person
+        eligibility = Notifications::PromptEligibility.call(
+          person: @run.person, device_token: device_token,
+          category: "verses", context: prompt_context
+        )
+        @push_prompt = { category: "verses", context: prompt_context } if eligibility.eligible
+      end
       finisher_ids = StudyRun.completed
         .where(study_quiz_version_id: @run.study_unit.study_quiz_versions.select(:id))
         .where.not(person_id: nil)

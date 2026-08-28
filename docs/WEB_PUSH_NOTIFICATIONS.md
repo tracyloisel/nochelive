@@ -1,8 +1,10 @@
 # Web Push — versets et défis
 
-Statut : proposition d'implémentation  
+Statut : implémenté localement derrière `WEB_PUSH_ENABLED=false`, prêt pour validation sur appareils et déploiement autorisé
 Date : 2026-08-28  
 Périmètre : PWA Noche Live, fichas persistantes, aventure Street et défis asynchrones
+
+La configuration Render est écrite mais n'a pas été déployée. Le pilote et les essais sur appareils physiques restent volontairement séparés de l'implémentation locale ; voir [WEB_PUSH_DEVICE_TESTS.md](WEB_PUSH_DEVICE_TESTS.md).
 
 ## 1. Objectif
 
@@ -925,33 +927,33 @@ Les défis constituent le premier parcours de production : le domaine, les adver
 
 La fonctionnalité est terminée lorsque :
 
-- [ ] le Push est désactivé par défaut ;
-- [ ] l'onboarding, la création de ficha et le premier quiz restent sans demande Push ;
-- [ ] seules une action de défi, une lecture terminée ou la ficha peuvent rendre une proposition éligible ;
-- [ ] un invité sans ficha ne voit aucune proposition Push ;
-- [ ] la permission suit toujours une action explicite ;
-- [ ] aucune catégorie n'est précochée ou activée par un consentement générique ;
-- [ ] le CTA nomme le type, la fréquence éventuelle, la ficha et l'appareil concernés ;
-- [ ] un refus système ne marque aucune préférence comme active ;
-- [ ] `Pas maintenant` snooze la catégorie pendant 30 jours sur cet appareil ;
-- [ ] une seule catégorie est proposée par session et aucune invitation ne concurrence une cérémonie ou le Live ;
-- [ ] installation PWA et permission Push ne sont jamais enchaînées dans la même session ;
-- [ ] une souscription appartient clairement à une ficha et un appareil ;
-- [ ] versets et défis sont réglables séparément ;
-- [ ] chaque appui ouvre automatiquement la ressource exacte ;
-- [ ] aucune destination externe ne peut être injectée ;
-- [ ] les défis en ligne restent en Turbo et les absents reçoivent le Push ;
-- [ ] les notifications expirées ne partent pas ;
-- [ ] les doublons sont empêchés en base ;
-- [ ] les endpoints morts sont révoqués ;
-- [ ] les jobs survivent au redémarrage du web ;
-- [ ] un seul worker Render exécute jobs et scheduler Solid Queue, sans cron Render concurrent ;
-- [ ] les passages sont éditoriaux, vérifiés et localisés ;
-- [ ] la copie est native en `es`, `pt-BR`, `fr` et `en` ;
-- [ ] la politique de confidentialité décrit le nouveau traitement ;
-- [ ] les tests couvrent appareils partagés, fuseaux et deep links ;
-- [ ] la couverture reste à 90 % minimum ;
-- [ ] la review Conseil atteint 8/10 ou plus sur chaque dimension ;
+- [x] le Push est désactivé par défaut ;
+- [x] l'onboarding, la création de ficha et le premier quiz restent sans demande Push ;
+- [x] seules une action de défi, une lecture terminée ou la ficha peuvent rendre une proposition éligible ;
+- [x] un invité sans ficha ne voit aucune proposition Push ;
+- [x] la permission suit toujours une action explicite ;
+- [x] aucune catégorie n'est précochée ou activée par un consentement générique ;
+- [x] le CTA nomme le type, la fréquence éventuelle, la ficha et l'appareil concernés ;
+- [x] un refus système ne marque aucune préférence comme active ;
+- [x] `Pas maintenant` snooze la catégorie pendant 30 jours sur cet appareil ;
+- [x] une seule catégorie est proposée par session et aucune invitation ne concurrence une cérémonie ou le Live ;
+- [x] installation PWA et permission Push ne sont jamais enchaînées dans la même session ;
+- [x] une souscription appartient clairement à une ficha et un appareil ;
+- [x] versets et défis sont réglables séparément ;
+- [x] chaque appui ouvre automatiquement la ressource exacte ;
+- [x] aucune destination externe ne peut être injectée ;
+- [x] les défis en ligne restent en Turbo et les absents reçoivent le Push ;
+- [x] les notifications expirées ne partent pas ;
+- [x] les doublons sont empêchés en base ;
+- [x] les endpoints morts sont révoqués ;
+- [x] les jobs survivent au redémarrage du web ;
+- [x] un seul worker Render exécute jobs et scheduler Solid Queue, sans cron Render concurrent ;
+- [x] les passages sont éditoriaux, vérifiés et localisés ;
+- [x] la copie est native en `es`, `pt-BR`, `fr` et `en` ;
+- [x] la politique de confidentialité décrit le nouveau traitement ;
+- [x] les tests couvrent appareils partagés, fuseaux et deep links ;
+- [x] la couverture reste à 90 % minimum ;
+- [x] la review Conseil atteint 8/10 ou plus sur chaque dimension ;
 - [ ] le pilote ne révèle aucun doublon, fuite de profil ou pression excessive.
 
 ## 20. Estimation

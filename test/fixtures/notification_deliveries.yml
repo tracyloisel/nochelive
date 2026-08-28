@@ -1,0 +1,13 @@
+# frozen_string_literal: true
+
+carmen_duel_result:
+  web_push_subscription: carmen_phone_push
+  person: carmen_garcia
+  kind: duel_result
+  dedupe_key: duel_result:fixture:subscription:carmen
+  subject: pili_vs_carmen (StreetDuel)
+  destination: /desafio/pili-vs-carmen-token
+  status: sent
+  scheduled_for: <%= 1.hour.ago %>
+  sent_at: <%= 1.hour.ago %>
+  attempt_count: 1

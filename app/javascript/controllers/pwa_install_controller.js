@@ -40,6 +40,7 @@ export default class extends Controller {
   }
 
   async install(event) {
+    this.markInstallSession()
     this.installTrigger = event?.currentTarget
 
     if (this.deferredPrompt) {
@@ -55,6 +56,7 @@ export default class extends Controller {
   }
 
   openGuide(event) {
+    this.markInstallSession()
     this.installTrigger = event?.currentTarget || this.installTrigger
     this.snoozeBanner()
     this.hideBanner()
@@ -137,5 +139,9 @@ export default class extends Controller {
 
   isStandalone() {
     return window.matchMedia("(display-mode: standalone)").matches || navigator.standalone === true
+  }
+
+  markInstallSession() {
+    try { sessionStorage.setItem("noche:pwa-install-offered", "1") } catch (_) {}
   }
 }

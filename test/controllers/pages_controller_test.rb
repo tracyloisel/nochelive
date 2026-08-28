@@ -125,7 +125,7 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
     assert_select "#privacy_charter.charter-journey--privacy"
     assert_select ".charter-journey-hero[style*='privacy-charter-celestial-light-v1.webp']"
     assert_select ".charter-journey-intro h1", text: I18n.t("privacy.title")
-    assert_select ".charter-journey-story .charter-journey-act", count: 12
+    assert_select ".charter-journey-story .charter-journey-act", count: 13
     assert_select ".charter-journey-act h2", text: I18n.t("privacy.ask.title")
     assert_select ".charter-journey-act p", text: I18n.t("privacy.ask.body")
     assert_select ".charter-journey-act p", text: I18n.t("privacy.cookies.third_parties")
@@ -133,6 +133,9 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
     assert_select ".charter-journey-act h2", text: I18n.t("privacy.youtube.title")
     assert_select ".charter-journey-act p", text: I18n.t("privacy.youtube.body")
     assert_select ".charter-journey-act p", text: I18n.t("privacy.youtube.choice")
+    assert_select ".charter-journey-act h2", text: I18n.t("privacy.push.title")
+    assert_select ".charter-journey-act p", text: I18n.t("privacy.push.basis")
+    assert_select ".charter-journey-act p", text: I18n.t("privacy.push.retention")
     assert_select ".charter-cookies dt", text: "noche_device"
     assert_select ".charter-cookies dt", text: "noche_ward"
     assert_select ".charter-cookies dt", text: "noche_player, noche_client"

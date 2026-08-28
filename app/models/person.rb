@@ -10,6 +10,9 @@ class Person < ApplicationRecord
   has_many :scripture_chapter_reads, dependent: :nullify
   has_many :scripture_highlights, dependent: :destroy
   has_many :viral_events, dependent: :nullify
+  has_many :web_push_subscriptions, dependent: :destroy
+  has_one :notification_preference, dependent: :destroy
+  has_many :notification_deliveries, dependent: :destroy
 
   validates :given_name, :given_name_key, :avatar_key, presence: true
   validates :given_name, length: { minimum: 1, maximum: 24 }
@@ -64,6 +67,10 @@ class Person < ApplicationRecord
 
   def profile_stamp
     I18n.l(created_at, format: "%d/%m/%Y %H:%M")
+  end
+
+  def notification_settings
+    notification_preference || build_notification_preference
   end
 
   private

@@ -17,6 +17,9 @@ gem "stimulus-rails"
 # Reusable Ruby view components [https://viewcomponent.org]
 gem "view_component"
 
+# Standards-based Web Push payload encryption and VAPID authentication.
+gem "web-push", "~> 3.0"
+
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 # gem "bcrypt", "~> 3.1.7"
 

@@ -2,6 +2,7 @@ class PersonDevice < ApplicationRecord
   LIVE_WINDOW = 25.seconds
 
   belongs_to :person
+  has_many :notification_prompt_states, dependent: :destroy
 
   validates :device_token, presence: true
   validates :person_id, uniqueness: { scope: :device_token }

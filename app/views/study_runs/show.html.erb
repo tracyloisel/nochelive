@@ -90,3 +90,6 @@
   <% end %>
   <% page_dock(active: :word) %>
 </main>
+<% if @push_prompt %>
+  <%= render "notifications/prompt", person: @run.person, **@push_prompt %>
+<% end %>

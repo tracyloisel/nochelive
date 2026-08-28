@@ -11,7 +11,10 @@ module Quizzes
     def call
       opponent = @duel.opponent_person
       return unless opponent
-      return unless live?(opponent)
+      unless live?(opponent)
+        Notifications::DuelInvitation.call(duel: @duel)
+        return
+      end
 
       I18n.with_locale(Locale.i18n(opponent.locale)) do
         Turbo::StreamsChannel.broadcast_replace_to(

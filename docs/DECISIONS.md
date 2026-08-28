@@ -65,10 +65,12 @@ Rails otherwise looks for `buzzs` / `Buzze`. `as: :session` hid path helpers fro
 ## ADR-006 — Single PostgreSQL on Render
 
 Decision:
-Production uses one `DATABASE_URL`. Solid Cable tables live on primary. Cache and jobs stay in-process.
+Production uses one `DATABASE_URL`. Solid Cable and Solid Queue tables live on primary. Cache stays in-process. Notification jobs run persistently in one Render background worker; its Solid Queue supervisor also runs the recurring scheduler. There is no parallel Render cron service for these jobs.
 
 Why:
-A family night does not need three extra databases for the MVP.
+A family night does not need three extra databases or Redis for this volume. Invitations and scheduled verses must nevertheless survive a web restart and must not block Puma.
+
+Amended 2026-08-28 by the Web Push implementation. The earlier in-process job decision remains valid only for environments without notifications enabled.
 
 ## ADR-009 — Meetinghouse rooms, never a temple
 
@@ -156,5 +158,4 @@ Families outside Benidorm cannot play a street league if the mosaic is one row. 
 
 Rejected:
 Scraping Directory (login). Importing stakes as playable `Ward` rows. Hitting the locator at boot or in CI. Bulk world import as the join path. Autoplay SFX on first paint. Showing 150 countries under the empty search field. Dumping every listed rama as “suggestions”.
-
 

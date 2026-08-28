@@ -94,3 +94,7 @@
     <%= link_to t("street.ceremony_back_map"), street_map_path, class: "quiet-link" %>
   </nav>
 <% end %>
+
+<% if @push_prompt %>
+  <%= render "notifications/prompt", person: current_street_person, **@push_prompt %>
+<% end %>

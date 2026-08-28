@@ -1,0 +1,20 @@
+# frozen_string_literal: true
+
+carmen_notifications:
+  person: carmen_garcia
+  verses_enabled: false
+  verse_frequency: three_weekly
+  verse_local_time: "08:00:00"
+  challenges_enabled: true
+  challenges_enabled_at: <%= 2.days.ago %>
+  quiet_hours_start: "21:00:00"
+  quiet_hours_end: "08:00:00"
+
+pili_notifications:
+  person: pili
+  verses_enabled: false
+  verse_frequency: three_weekly
+  verse_local_time: "08:00:00"
+  challenges_enabled: false
+  quiet_hours_start: "21:00:00"
+  quiet_hours_end: "08:00:00"

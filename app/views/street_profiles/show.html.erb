@@ -39,4 +39,8 @@
   </main>
 </section>
 
+<% if @person && Notifications::Feature.enabled? %>
+  <%= render "notifications/settings", person: @person %>
+<% end %>
+
 <% page_dock(active: :profile) %>

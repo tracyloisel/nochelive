@@ -118,6 +118,79 @@ fr:
     ios_web_app: "Active « Ouvrir comme app web »."
     ios_add: "Touche Ajouter."
     done: "C’est fait"
+  notifications:
+    prompt:
+      challenges_kicker: "Ne manque pas sa réponse"
+      challenges_title: "Laisse tes défis te retrouver"
+      challenges_body: "%{name}, Noche Live peut te prévenir quand quelqu’un te défie, même quand le jeu est fermé."
+      challenges_cta: "Prévenir %{name} de ses prochains défis sur cet appareil"
+      verses_kicker: "Une parole pour la route"
+      verses_title: "Laisse la lumière revenir"
+      verses_body: "%{name}, reçois un passage %{frequency} à %{time}, sans interrompre ta soirée."
+      verses_cta: "Envoyer à %{name} un passage %{frequency} à %{time} sur cet appareil"
+      install_kicker: "Pour garder le lien"
+      install_title: "D’abord, emporte Noche Live sur ton écran"
+      install_body: "Ajoute le jeu à l’écran d’accueil. Nous reparlerons des notifications un autre jour, après un nouveau moment de jeu."
+      install_cta: "Installer Noche Live sur cet appareil"
+      not_now: "Pas maintenant"
+    settings:
+      kicker: "C’est toi qui décides"
+      title: "Notifications de %{name}"
+      lede: "Choisis chaque type séparément pour cet appareil. Rien n’est sélectionné à ta place."
+      device_title: "Cet appareil"
+      device_allowed: "Les notifications sont autorisées par le système"
+      device_default: "Le système attend encore ton choix"
+      device_denied: "Le système bloque les notifications. Tu peux changer ce choix dans les réglages de l’appareil."
+      device_unsupported: "Ce navigateur ne peut pas recevoir de notifications Web Push."
+      device_install: "Sur iPhone et iPad, installe d’abord Noche Live sur l’écran d’accueil."
+      device_loading: "Vérification de cet appareil…"
+      device_expired: "La connexion de cet appareil a expiré. Tu peux la réparer ici."
+      categories_title: "Ce que %{name} veut recevoir"
+      challenges_title: "Défis entre joueurs"
+      challenges_hint: "Une invitation, le résultat et au maximum un rappel utile."
+      challenges_on: "Tes défis arriveront sur cet appareil."
+      challenges_enable: "Recevoir les prochains défis de %{name} sur cet appareil"
+      challenges_disable: "Ne plus recevoir les défis de %{name}"
+      verses_title: "Versets et lectures"
+      verses_hint: "Un passage vérifié qui ouvre directement les Écritures."
+      verses_on: "Tes passages arriveront %{frequency} à %{time}."
+      verses_enable: "Recevoir un passage pour %{name} %{frequency} à %{time} sur cet appareil"
+      verses_disable: "Ne plus recevoir les passages de %{name}"
+      frequency: "Fréquence"
+      daily: "chaque jour"
+      three_weekly: "trois fois par semaine"
+      time: "Heure locale"
+      disable_device: "Désactiver les notifications sur cet appareil"
+      disabled_device: "Cet appareil ne recevra plus de notifications."
+      saved: "Ton choix est enregistré."
+      permission_denied: "Ton choix est respecté. Nous ne te le redemanderons pas automatiquement."
+      failed: "Nous n’avons pas pu enregistrer cet appareil. Réessaie."
+      reassign: "Cet appareil prévient actuellement une autre fiche. Confirme si tu veux le rattacher à %{name}."
+      reassign_cta: "Rattacher les notifications de cet appareil à %{name}"
+    frequency:
+      daily: "chaque jour"
+      three_weekly: "trois fois par semaine"
+    push:
+      daily_verse:
+        title: "Une lumière pour aujourd’hui"
+        body: "%{reference} est ouvert pour toi."
+      study_reading:
+        title: "Ton chemin continue"
+        body: "Reviens à %{title}."
+      duel_invitation:
+        title: "Un défi t’attend"
+        body: "%{name} te défie dans %{pack}. Tu entres dans l’arène ?"
+      duel_reminder:
+        title: "Ton rival t’attend encore"
+        body: "Le défi de %{name} dans %{pack} est toujours ouvert."
+      duel_result:
+        title: "Ton duel a son résultat"
+      won:
+        body: "Tu as battu %{name} dans %{pack}. Découvre le résultat."
+      finished:
+        body: "Le résultat contre %{name} dans %{pack} est prêt."
+      tie:
+        body: "Égalité avec %{name} dans %{pack}. L’arène appelle la revanche."
   home:
     lede: "Où est ta paroisse ?"
     code: "Code de la soirée"
@@ -410,6 +483,13 @@ fr:
       title: "Vidéos YouTube"
       body: "La vidéothèque affiche les titres et les miniatures de la chaîne officielle de l’Église. Les miniatures passent par Noche Live. Le lecteur utilise le domaine de confidentialité renforcée de YouTube et ne se charge qu’après ton accord."
       choice: "Ce choix reste uniquement dans le stockage local de ce navigateur, sous la clé noche_youtube_consent. Tu peux le retirer en effaçant les données du site. Regarder une vidéo ne rapporte aucun point et ne modifie pas ta progression."
+    push:
+      title: "Les notifications que tu choisis"
+      body: "Si tu les demandes, nous enregistrons sous forme chiffrée l’adresse de livraison et les clés publiques de l’abonnement Web Push. Nous gardons aussi la fiche et l’appareil liés, la langue, le fuseau horaire, la famille du navigateur, les types choisis, la fréquence, l’heure, les dates de consentement et l’état technique de chaque envoi et ouverture."
+      basis: "La base juridique est ton consentement spécifique, conformément à l’article 6, paragraphe 1, point a) du RGPD. Défis et versets sont choisis séparément, ne sont jamais présélectionnés et chaque choix se retire aussi facilement qu’il a été donné. L’autorisation du système ouvre seulement le canal technique : elle ne nous autorise pas, à elle seule, à t’envoyer quoi que ce soit."
+      screen: "Une notification peut apparaître sur l’écran verrouillé. Son texte reste donc court et ne révèle ni lecture spirituelle privée ni détail personnel inutile. Un appui ouvre directement le passage, la lecture ou le défi correspondant."
+      providers: "Render conserve l’abonnement et la file d’attente. Pour livrer le message, l’adresse chiffrée est utilisée avec le service Push du navigateur ou du système, qui peut être exploité par Apple, Google, Mozilla ou un autre fournisseur du navigateur. Noche Live ne vend pas ces données et ne les utilise pas pour la publicité."
+      retention: "Nous gardons l’abonnement tant que tes choix restent actifs. Une adresse signalée comme inexistante est révoquée immédiatement puis supprimée après 30 jours. Les journaux techniques d’envoi et d’ouverture sont supprimés après 90 jours. Tu peux désactiver un type ou cet appareil depuis ta fiche."
     server:
       title: "Chez nous"
       body: "La fiche garde le prénom, le nom s’il y en a un, l’année favorite, l’avatar, la langue et la paroisse. L’appareil est lié à la fiche, avec la dernière fois où on t’a vu dans la ligue. Les parties, réponses et points du quiz de rue, et ta place dans une soirée, sont gardés pour le jeu."

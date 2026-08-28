@@ -3,10 +3,19 @@ class ApplicationController < ActionController::Base
   include SeoMetadata
   allow_browser versions: :modern unless Rails.env.test?
   before_action :load_night_for_locale
+  before_action :acknowledge_notification_open
   before_action :redirect_to_canonical_host
   around_action :use_locale
 
   private
+
+    def acknowledge_notification_open
+      delivery_id = params[:nl_delivery]
+      return if delivery_id.blank? || !Notifications::Feature.enabled?
+
+      delivery = current_street_person&.notification_deliveries&.find_by(id: delivery_id)
+      Notifications::AcknowledgeOpen.call(delivery:, person: current_street_person, path: request.path) if delivery
+    end
 
     def load_night_for_locale
       code = params[:session_code]

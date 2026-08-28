@@ -185,6 +185,44 @@ class People::MergeTest < ActiveSupport::TestCase
     assert_not Person.exists?(source.id)
   end
 
+  test "merges notification consent subscriptions prompts and delivery history" do
+    keeper = people(:carmen_garcia)
+    source = people(:carmen_lopez)
+    source_device = source.person_devices.create!(device_token: "lopez-push-phone")
+    source_preference = source.create_notification_preference!(
+      verses_enabled: true, verses_enabled_at: 1.day.ago,
+      verse_frequency: "daily", verse_local_time: "07:30"
+    )
+    prompt = source_device.notification_prompt_states.create!(
+      category: "verses", last_result: "dismissed",
+      last_offered_at: 1.day.ago, snoozed_until: 29.days.from_now,
+      offer_context: "study_completed"
+    )
+    subscription = Notifications::Subscribe.call(
+      person: source, device_token: source_device.device_token,
+      subscription: {
+        endpoint: "https://push.example.test/merge-source",
+        keys: { p256dh: "merge-p256dh", auth: "merge-auth" }
+      },
+      locale: :fr, time_zone: "Europe/Paris"
+    )
+    delivery = NotificationDelivery.create!(
+      web_push_subscription: subscription, person: source,
+      kind: "daily_verse", dedupe_key: "merge-notification-history",
+      destination: "/fr/bible/genese/1", status: "sent", sent_at: 1.hour.ago
+    )
+
+    People::Merge.call(keeper:, source:)
+
+    assert keeper.notification_preference.reload.challenges_enabled?
+    assert keeper.notification_preference.verses_enabled?
+    assert_equal source_preference.verse_frequency, keeper.notification_preference.verse_frequency
+    assert_equal keeper, subscription.reload.person
+    assert_equal keeper, delivery.reload.person
+    assert_equal keeper, prompt.reload.person_device.person
+    assert_not Person.exists?(source.id)
+  end
+
   test "refuses to merge fichas from another rama" do
     error = assert_raises(People::Error) do
       People::Merge.call(keeper: people(:pili), source: wards(:blank).people.create!(

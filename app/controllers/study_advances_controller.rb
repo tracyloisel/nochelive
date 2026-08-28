@@ -7,6 +7,7 @@ class StudyAdvancesController < ApplicationController
 
     if @run.position == 10
       @run.update!(status: "completed", completed_at: Time.current)
+      session[:push_prompt_context] = "study_completed" if @run.person
     else
       @run.increment!(:position)
     end

@@ -29,12 +29,25 @@ class StreetChallengesController < ApplicationController
     @rivalry = @board.rivalry
     @head_to_head = @board.head_to_head
     @incoming_action = @inbox.incoming.any? { |item| item.phase == :accept || item.phase == :play }
+    prompt_context = session.delete(:push_prompt_context).presence || "challenge_inbox"
+    eligibility = Notifications::PromptEligibility.call(
+      person:, device_token: device_token, category: "challenges", context: prompt_context,
+      priority_blocked: @incoming_action
+    )
+    @push_prompt = { category: "challenges", context: prompt_context } if eligibility.eligible
   end
 
   def show
     @pack = QuizDefinition.catalog.find_pack(@duel.pack_id)
     @challenger = @duel.challenger_person
     @challenge = Quizzes::ChallengeScreen.call(duel: @duel, person: current_street_person)
+    if @challenge&.phase == :result && current_street_person
+      eligibility = Notifications::PromptEligibility.call(
+        person: current_street_person, device_token: device_token,
+        category: "challenges", context: "challenge_result"
+      )
+      @push_prompt = { category: "challenges", context: "challenge_result" } if eligibility.eligible
+    end
     remember_ward(@duel.challenger_ward || @duel.ward) if current_street_person.nil? && current_ward.nil?
     Quizzes::ViralTrack.call(
       name: "invite_link_opened",
@@ -90,6 +103,7 @@ class StreetChallengesController < ApplicationController
       run: completed_run,
       opponent_person: opponent
     )
+    session[:push_prompt_context] = "challenge_sent" if opponent
     if opponent && StreetDuel.where(status: "resolved")
         .where("(challenger_person_id = :me AND opponent_person_id = :them) OR (challenger_person_id = :them AND opponent_person_id = :me)", me: person.id, them: opponent.id)
         .where.not(id: result.duel.id).exists?

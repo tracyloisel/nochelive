@@ -1,0 +1,9 @@
+# frozen_string_literal: true
+
+pili_verses_snoozed:
+  person_device: pili_tablet
+  category: verses
+  last_offered_at: <%= 1.day.ago %>
+  last_result: dismissed
+  snoozed_until: <%= 29.days.from_now %>
+  offer_context: study_completed

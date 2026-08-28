@@ -4,7 +4,8 @@ module Identity
   included do
     helper_method :current_player, :current_team, :current_person, :current_ward, :current_street_person,
                   :street_people_on_device, :street_guest?, :hosted_ward, :presenter_for?, :ward_presenter?, :ward_host?,
-                  :current_locale, :locale_path_for, :street_device_digest, :audience_digest
+                  :current_locale, :locale_path_for, :street_device_digest, :audience_digest,
+                  :push_subscription_on_device?
   end
 
   private
@@ -108,6 +109,12 @@ module Identity
 
     def street_device_digest
       GameSession.digest_token(device_token)
+    end
+
+    def push_subscription_on_device?(person)
+      person.web_push_subscriptions.active.exists?(
+        device_token_digest: Notifications::Cipher.device_digest(device_token)
+      )
     end
 
     def audience_digest

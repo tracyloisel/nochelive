@@ -122,5 +122,6 @@ Street hub must answer: who am I, where am I, what now, what is happening around
 | [074](074-hub-reward-chest-finish.md) | Hub `/`: reward chest completed with transparent 3D asset and honest live +N |
 | [076](076-liga-defis-celestial-court.md) | Liga + Défis: one celestial court, same-stake rivalry, isolated live async matches |
 | [077](077-jugar-responsive-board.md) | Street `/jugar`: exact viewport matrix; compact portrait glass + cinematic landscape answer hand |
+| [119](119-web-push-notifications.md) | Web Push choisi : défi ou passage exact, consentement granulaire, Light/Dark et appareil partagé |
 
 Older files keep `## Evidence` blocks with the hat name from that slice. That is history, not a Cursor persona to revive. From this charter on, the three-agent table and the /10 scores are the Conseil Noche record.

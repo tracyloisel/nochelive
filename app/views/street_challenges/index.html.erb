@@ -163,6 +163,10 @@
     </div>
   </main>
 
+  <% if @push_prompt %>
+    <%= render "notifications/prompt", person: current_street_person, **@push_prompt %>
+  <% end %>
+
   <dialog class="street-liga-dialog street-liga-challenge-dialog" data-liga-board-target="challenge">
     <form method="dialog" class="street-liga-dialog-sheet">
       <button class="street-liga-dialog-close" value="cancel" aria-label="<%= t("chrome.close_menu") %>">×</button>

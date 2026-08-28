@@ -1,0 +1,29 @@
+entries:
+  - id: john-3-16
+    study: nt/john/3
+    verse: 16
+    theme: love
+  - id: psalms-23-1
+    study: ot/ps/23
+    verse: 1
+    theme: peace
+  - id: matthew-11-28
+    study: nt/matt/11
+    verse: 28
+    theme: rest
+  - id: proverbs-3-5
+    study: ot/prov/3
+    verse: 5
+    theme: trust
+  - id: moroni-10-4
+    study: bofm/moro/10
+    verse: 4
+    theme: seek
+  - id: isaiah-41-10
+    study: ot/isa/41
+    verse: 10
+    theme: courage
+  - id: doctrine-covenants-121-7
+    study: dc-testament/dc/121
+    verse: 7
+    theme: hope
