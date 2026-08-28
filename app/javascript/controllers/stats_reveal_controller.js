@@ -341,17 +341,22 @@ export default class extends Controller {
   }
 
   #animateCounter(el, target, duration) {
+    const current = el?.matches?.("[data-stat-current]")
+      ? el
+      : el?.querySelector?.("[data-stat-current]")
+
+    if (!current) return
+
     if (this.reduced()) {
-      el.textContent = this.#formatNumber(target)
+      current.textContent = this.#formatNumber(target)
       return
     }
-    if (!el?.hasAttribute("data-stat-current")) return
 
     const start = performance.now()
     const step = (now) => {
       const t = Math.min(1, (now - start) / duration)
       const eased = 1 - Math.pow(1 - t, 3)
-      el.textContent = this.#formatNumber(Math.round(target * eased))
+      current.textContent = this.#formatNumber(Math.round(target * eased))
       if (t < 1) {
         const id = requestAnimationFrame(step)
         this.#rafIds.push(id)

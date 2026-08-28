@@ -6,7 +6,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="application-name" content="Noche Live">
     <meta name="mobile-web-app-capable" content="yes">
-    <meta name="theme-color" content="#07152f">
+    <meta name="theme-color" content="#f6f3ec">
     <meta name="view-transition" content="same-origin">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -78,7 +78,7 @@
           <li><%= t("pwa.ios_home") %></li>
           <li><%= t("pwa.ios_add") %></li>
         </ol>
-        <button type="button" class="btn btn-gold" data-action="pwa-install#close"><%= t("pwa.done") %></button>
+        <button type="button" class="btn btn-navy" data-action="pwa-install#close"><%= t("pwa.done") %></button>
       </div>
     </dialog>
     <turbo-frame id="scripture_reader" data-scripture-target="frame"></turbo-frame>

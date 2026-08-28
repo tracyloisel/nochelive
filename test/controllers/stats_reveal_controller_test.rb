@@ -30,6 +30,15 @@ class StatsRevealSystemTest < ActionDispatch::SystemTestCase
     assert count2 >= 4, "Expected at least 4 stat current spans in DOM, found #{count2}"
   end
 
+  test "general counters reveal their server values" do
+    expected_people = Person.count.to_s
+
+    visit platform_stats_path
+
+    assert_selector ".stats-house .stats-tile:first-child [data-stat-current]", text: expected_people
+    assert_selector ".stats-meet .stats-tile:nth-child(2) [data-stat-current]", text: GameSession.count.to_s
+  end
+
   test "lang bar elements exist in DOM" do
     visit platform_stats_path
 
