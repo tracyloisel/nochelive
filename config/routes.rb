@@ -2,6 +2,8 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
   get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
+  post "migration/identity", to: "identity_transfers#create", as: :identity_transfer
+  get "migration/identity/claim", to: "identity_transfers#claim", as: :identity_transfer_claim
 
   root "street_hub#index"
   get "jugar", to: "street_plays#show", as: :jugar
