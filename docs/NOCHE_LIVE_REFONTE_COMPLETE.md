@@ -1406,3 +1406,74 @@ La refonte est terminée uniquement lorsque :
 - les anciennes portes n’ajoutent plus de friction et disposent d’un plan de retrait mesuré.
 
 Le résultat recherché n’est pas une interface plus jolie. C’est une soirée où les joueurs entrent sans réfléchir, comprennent immédiatement leur rôle, vivent ensemble le même récit et terminent avec l’envie de recommencer.
+
+---
+
+## 24. État d’implémentation — 28 août 2026
+
+Cette passe transforme le plan ci-dessus en produit. Les anciens mockups ont été
+remplacés par le contrat visuel de `tmp/night-shots/temple-mockups/`, complété par
+les trois écrans Public du lot 1 : question, réponse verrouillée et révélation.
+
+### 24.1 Livré
+
+- entrée standard sans code, sans création obligatoire de fiche et sans choix
+  d’équipe ; un prénom puis l’attribution automatique suffisent ;
+- retour reconnu en un toucher et compatibilité conservée pour les anciennes
+  portes profondes ;
+- équipe Casa individuelle et équilibrage des sièges salle, y compris deux
+  équipes de secours quand aucune équipe de branche n’est configurée ;
+- présentateur transformé en pupitre à verbe unique, avec état de préparation
+  TV / salle / Casa, commandes secondaires dans le pupitre et aucune exposition
+  du code de soirée ;
+- joueur salle et Casa en Celestial Dark issu de l’artwork, avec scène dominante,
+  panneau jouable, choix verrouillé et résultat commun au dévoilement ;
+- TV 16:9 hiérarchisée autour de la scène, du prompt ou de la réponse et d’un
+  score lisible jusqu’à cinq équipes ;
+- finale immersive commune aux joueur, présentateur et TV, avec artwork conservé,
+  podium, couronne et score appliqué uniquement au dévoilement final ;
+- nouveau diptyque Salomon portrait / paysage dans
+  `public/media/stories/salomon_wisdom_night_*` ;
+- Public interactif lot 1 anonyme : réponse personnelle idempotente, fenêtre
+  retardée anti-spoiler, verrouillage, répartition, série locale, réactions
+  limitées et agrégées sur la TV ;
+- reconnexion Public par rafraîchissement d’état au retour réseau ou visibilité,
+  sans créer de joueur, d’équipe, de fiche ni modifier le score officiel ;
+- autorité de progression rendue au présentateur : aucun bouton participant ne
+  peut avancer la manche partagée ;
+- langage de mouvement commun : entrée de scène, montée des panneaux, cascade
+  des choix, dévoilement doré, respiration du CTA présentateur et cérémonie ;
+- cues sonores nommés déjà reliés aux pulses d’ouverture, verrouillage,
+  dévoilement, score et finale ; mouvement réduit et son désactivable respectés ;
+- textes du nouveau parcours présents en espagnol, portugais brésilien, anglais
+  et français.
+
+### 24.2 Matrice vérifiée
+
+| Siège | Viewports contrôlés | Résultat |
+|---|---|---|
+| Joueur | 320×568, 390×844, 430×932, 768×1024, 1024×768, 844×390 | aucun overflow horizontal ; révélation et action visibles ; paysage en deux colonnes |
+| Présentateur | 320×568, 390×844, 430×932, 768×1024, 1024×768, 1440×900, 844×390 | CTA toujours accessible au-dessus du pupitre ; paysage réorganisé |
+| Public | 320×568, 390×844, 430×932, 768×1024, 1024×768, 1440×900, 844×390 | réactions persistantes ; panneau compact en paysage ; aucun overflow horizontal |
+| TV | 1024×768, 1280×720, 1920×1080, 2560×1440 | scène 16:9, cinq équipes visibles, safe zones respectées |
+
+Les corrections issues de cette matrice font partie du contrat : barre de
+réactions fixe sur petit mobile, composition Public dédiée aux écrans courts,
+pupitre présentateur superposé sans masquer le CTA et révélation joueur compacte
+en paysage. Les animations sont supprimées sous `prefers-reduced-motion`.
+
+### 24.3 Limites assumées du lot 1
+
+Le Public reste volontairement anonyme et local à la soirée. Il ne possède pas
+encore de profil persistant, d’XP globale, de classement inter-soirées, de bonus,
+de handicap ni de mini-défis de transition. Ces éléments restent dans le lot 2
+afin de ne pas réintroduire une inscription, une identité ou une économie avant
+d’avoir validé la boucle essentielle « regarder → agir → voir son impact ».
+
+### 24.4 Validation humaine restante
+
+La répétition multi-appareils décrite en 18.6 reste une validation terrain, pas
+une condition simulable par la suite automatisée. Elle doit mesurer le décalage
+réel Twitch, la compréhension à distance, le confort du présentateur et la
+rétention sur une soirée complète ; aucun résultat de répétition humaine n’est
+inventé dans ce document.
