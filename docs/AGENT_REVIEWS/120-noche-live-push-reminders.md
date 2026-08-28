@@ -2,7 +2,7 @@
 
 Reviewed: 2026-08-28
 Slice: Noche programmée → consentement choisi → rappel utile → entrée dans le lobby
-Tests: 1 005 runs, 15 227 assertions, 0 failure, 0 error, 93,37 % de couverture ; 5 tests Service Worker verts
+Tests: 1 005 runs, 15 227 assertions, 0 failure, 0 error, 93,37 % de couverture ; correctif de file : 5 runs, 39 assertions ; 5 tests Service Worker verts
 Charter: `.agents/skills/noche-conseil/SKILL.md` (PRIORITY)
 Experience: `.agents/skills/noche-night/SKILL.md`
 UI: `.agents/skills/noche-ui/SKILL.md`
@@ -116,6 +116,8 @@ PASS WITH NOTES
 
 Tests de ciblage, fuseau, déduplication, reprogrammation, état Live, branche et
 participant déjà entré. Captures vérifiées à 390×844, 768×1024 et 1440×900.
+En production, Solid Queue a chargé les quatre queues séparées puis exécuté les
+deux premiers `NightNotificationCoordinatorJob` sans erreur.
 
 ## Night director
 
