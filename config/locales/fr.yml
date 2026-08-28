@@ -89,6 +89,14 @@ fr:
     burger_layers: "Couches du burger"
     close_menu: "Fermer le menu"
     sound_lang: "Son et langue"
+  pwa:
+    install: "Installer Noche Live"
+    kicker: "Ton aventure, toujours à portée de main"
+    ios_title: "Ajoute Noche Live à ton écran"
+    ios_share: "Dans Safari, touche Partager."
+    ios_home: "Choisis « Sur l’écran d’accueil »."
+    ios_add: "Touche Ajouter."
+    done: "C’est fait"
   home:
     lede: "Où est ta paroisse ?"
     code: "Code de la soirée"

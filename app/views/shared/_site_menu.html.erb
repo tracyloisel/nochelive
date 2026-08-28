@@ -23,6 +23,15 @@
   <% end %>
 
   <div class="home-menu-list">
+    <button type="button"
+            class="home-menu-row pwa-install-action"
+            data-pwa-install-target="action"
+            data-action="pwa-install#install"
+            hidden>
+      <span class="home-menu-ico" aria-hidden="true"><%= picto("sparkle") %></span>
+      <span class="home-menu-label"><%= t("pwa.install") %></span>
+      <span class="home-menu-row-caret" aria-hidden="true"><%= picto("arrow") %></span>
+    </button>
     <% unless current_page?(root_path) %>
       <%= render "shared/menu_row",
             path: root_path,

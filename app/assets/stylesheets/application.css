@@ -1076,6 +1076,42 @@ body:has(.home-paper) .chrome-tools .mute {
   height: 2.75rem;
 }
 
+.pwa-install-dialog {
+  width: min(calc(100% - 2rem), 25rem);
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  color: var(--ink);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+.pwa-install-dialog::backdrop {
+  background: rgb(4 12 29 / 72%);
+  backdrop-filter: blur(5px);
+}
+.pwa-install-sheet {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-4);
+  padding: var(--space-6);
+  text-align: center;
+}
+.pwa-install-icon {
+  border-radius: 1.25rem;
+  box-shadow: 0 .5rem 1.5rem rgb(7 21 47 / 25%);
+}
+.pwa-install-sheet h2 { margin: 0; font-family: var(--font-display); }
+.pwa-install-sheet ol {
+  width: 100%;
+  margin: 0;
+  padding-inline-start: 1.5rem;
+  display: grid;
+  gap: var(--space-3);
+  text-align: start;
+}
+.pwa-install-sheet .btn { width: 100%; }
+.pwa-install-action { width: 100%; }
+
 .lang-switch {
   position: relative;
 }

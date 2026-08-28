@@ -89,6 +89,14 @@ en:
     burger_layers: "Burger layers"
     close_menu: "Close menu"
     sound_lang: "Sound and language"
+  pwa:
+    install: "Install Noche Live"
+    kicker: "Your adventure, always close"
+    ios_title: "Add Noche Live to your Home Screen"
+    ios_share: "Tap Share in Safari."
+    ios_home: "Choose “Add to Home Screen.”"
+    ios_add: "Tap Add."
+    done: "Got it"
   home:
     lede: "Find your ward and come play."
     code: "Night code"

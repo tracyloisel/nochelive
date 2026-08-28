@@ -89,6 +89,14 @@ pt-BR:
     burger_layers: "Camadas do burger"
     close_menu: "Fechar o menu"
     sound_lang: "Som e idioma"
+  pwa:
+    install: "Instalar Noche Live"
+    kicker: "Sua aventura, sempre por perto"
+    ios_title: "Adicione Noche Live à sua tela"
+    ios_share: "Toque em Compartilhar no Safari."
+    ios_home: "Escolha «Adicionar à Tela de Início»."
+    ios_add: "Toque em Adicionar."
+    done: "Entendi"
   home:
     lede: "Onde fica a sua ala?"
     code: "Código da noite"

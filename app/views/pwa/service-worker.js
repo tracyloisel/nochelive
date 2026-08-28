@@ -1,5 +1,12 @@
-// Add a service worker for processing Web Push notifications:
-//
+self.addEventListener("install", () => self.skipWaiting())
+
+self.addEventListener("activate", (event) => {
+  event.waitUntil(self.clients.claim())
+})
+
+self.addEventListener("fetch", () => {})
+
+// Ready for Web Push notifications:
 // self.addEventListener("push", async (event) => {
 //   const { title, options } = await event.data.json()
 //   event.waitUntil(self.registration.showNotification(title, options))
