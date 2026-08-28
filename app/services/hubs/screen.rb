@@ -24,7 +24,7 @@ module Hubs
     LIVE_WINDOW = 14.days
     Challenge = Struct.new(
       :phase, :waiting_for, :other_name, :other_display_name, :you_score, :other_score, :token, :play_path, :path,
-      :you_avatar_key, :other_avatar_key, :other_streak, keyword_init: true
+      :you_avatar_key, :other_avatar_key, :other_streak, :receipt_state, :rematch, keyword_init: true
     ) do
       def scored?
         !you_score.nil? && !other_score.nil?
@@ -342,7 +342,7 @@ module Hubs
       end
 
       def live_picture(night)
-        if night.poster_path.present? && (src = @helpers.night_poster_src(night)).present?
+        if (src = event_poster_src(night))
           return [ src, live_mode(src, "light"), "peaceful" ]
         end
 
@@ -364,6 +364,13 @@ module Hubs
         end
 
         [ nil, "light", "peaceful" ]
+      end
+
+      def event_poster_src(night)
+        return if night.poster_path.blank?
+
+        relative_path = night.poster_path.delete_prefix("/")
+        night.poster_path if Rails.public_path.join(relative_path).file?
       end
 
       def live_still?(src)
@@ -394,7 +401,9 @@ module Hubs
           path: play_path || @helpers.street_challenge_path(duel.token),
           you_avatar_key: @person&.avatar_key,
           other_avatar_key: other&.avatar_key,
-          other_streak: streak_for(other, duel)
+          other_streak: streak_for(other, duel),
+          receipt_state: duel.receipt_state,
+          rematch: duel.rematch?
         )
       end
 

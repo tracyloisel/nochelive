@@ -120,6 +120,8 @@ En production, Solid Queue a chargé les quatre queues séparées puis exécuté
 deux premiers `NightNotificationCoordinatorJob` sans erreur.
 Le Hub ignore aussi une session `playing` datée dans le futur afin qu'elle ne
 masque jamais le véritable lobby programmé ni son invitation de consentement.
+Le poster événementiel est résolu dans le service du Hub sans dépendre d'un
+helper de vue, y compris lors des coordinateurs et contrôles hors requête.
 
 ## Night director
 

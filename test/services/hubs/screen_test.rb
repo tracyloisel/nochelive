@@ -134,6 +134,18 @@ class Hubs::ScreenTest < ActiveSupport::TestCase
     refute_equal screen.hero.still, screen.live.still
   end
 
+  test "live card resolves an event poster without depending on a view helper" do
+    game_sessions(:david).update!(status: "finished")
+    night = game_sessions(:elias)
+    night.update!(poster_path: "/media/nights/events/benidorm-2026-08-29-reyes-profetas.jpg")
+
+    screen = Hubs::Screen.call(device_digest: @digest, ward: @ward, at: night.starts_at - 3.days)
+
+    assert_equal night.poster_path, screen.live.still
+    assert_equal "light", screen.live.theme_mode
+    assert_equal "peaceful", screen.live.theme_atmosphere
+  end
+
   test "dedicated live stage keeps its art and follows a Light hub backdrop" do
     Hubs::Backdrop.entries = [
       {
