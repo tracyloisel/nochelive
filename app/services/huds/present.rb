@@ -148,15 +148,13 @@ module Huds
 
       def hero_run(pack_view)
         return @open_run if @open_run && pack_view && @open_run.pack_id == pack_view.id
-        return unless pack_view&.open_run_id
-
-        QuizRun.find_by(id: pack_view.open_run_id)
+        pack_view&.open_run
       end
 
       def total_score
         return 0 unless @ward && @person
 
-        Quizzes::Standings.call(ward: @ward, person: @person).total_score.to_i
+        Quizzes::Leaderboard.total_score(person: @person)
       end
 
       def rank_key_for(score)

@@ -18,6 +18,7 @@ module Quizzes
     end
 
     def call
+      preload_runs_and_answers
       steps = []
       @pack_ids.each_with_index do |pack_id, idx|
         break if idx > @current_idx
@@ -51,7 +52,7 @@ module Quizzes
 
       def question_step(pack, position, run, pack_idx)
         question = pack.question_at(position)
-        answer = run.quiz_answers.find_by(question_id: question.id)
+        answer = @answers_by_run_and_question[[ run.id, question.id.to_s ]]
         state = if pack_idx < @current_idx
           answer&.correct? ? :correct : :wrong
         elsif position < run.position
@@ -79,10 +80,24 @@ module Quizzes
       end
 
       def finished_run_for(pack_id)
-        QuizRun.finished
-          .where(device_digest: @run.device_digest, person_id: @run.person_id, pack_id:)
-          .order(:id)
-          .last
+        @runs_by_pack[pack_id]
+      end
+
+      def preload_runs_and_answers
+        prior_pack_ids = @pack_ids.first(@current_idx)
+        prior_runs = if prior_pack_ids.empty?
+          []
+        else
+          QuizRun.finished
+            .where(device_digest: @run.device_digest, person_id: @run.person_id, pack_id: prior_pack_ids)
+            .order(:id)
+            .to_a
+        end
+        @runs_by_pack = prior_runs.index_by(&:pack_id)
+        @runs_by_pack[@run.pack_id] = @run
+        run_ids = @runs_by_pack.values.map(&:id)
+        @answers_by_run_and_question = QuizAnswer.where(quiz_run_id: run_ids)
+          .index_by { |answer| [ answer.quiz_run_id, answer.question_id.to_s ] }
       end
   end
 end

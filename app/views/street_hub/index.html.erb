@@ -25,7 +25,7 @@
 
   <div class="street-hub-feed">
     <%= render "street_hub/hero", screen: screen %>
-    <%= render "street_hub/study", week: @study_week %>
+    <%= render "street_hub/study", study: screen.study %>
     <%= render "street_hub/live", live: screen.live %>
     <%= render("notifications/prompt", person: current_street_person, **@push_prompt) if @push_prompt %>
 

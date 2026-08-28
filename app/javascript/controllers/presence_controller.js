@@ -7,7 +7,7 @@ export default class extends Controller {
     this.beat = this.beat.bind(this)
     this.onVis = this.onVis.bind(this)
     this.beat()
-    this.timer = setInterval(this.beat, 4000)
+    this.timer = setInterval(this.beat, 15000)
     document.addEventListener("visibilitychange", this.onVis)
   }
 

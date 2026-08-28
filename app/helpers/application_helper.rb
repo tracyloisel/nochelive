@@ -574,8 +574,8 @@ module ApplicationHelper
     t("lines.blessing")
   end
 
-  def vote_tally_line(round)
-    counts = round.ballots.group(:choice_team_id).count
+  def vote_tally_line(round, counts: nil)
+    counts ||= round.ballots.group(:choice_team_id).count
     return if counts.empty?
 
     top = counts.values.max

@@ -7,8 +7,9 @@ module Quizzes
     Row = Struct.new(:rank, :person, :score, :answered, :you, :context, :live, keyword_init: true)
     Board = Struct.new(:rows, :your_rank, :your_score, :your_answered, :your_live, :your_page, :pack_id, :players, :page, :pages, keyword_init: true)
 
-    def self.call(ward:, wards: nil, pack_id: nil, person: nil, limit: LIMIT_MINI, offset: 0, q: nil, include_you: false)
-      new(ward:, wards:, pack_id:, person:, limit:, offset:, q:, include_you:).call
+    def self.call(ward:, wards: nil, pack_id: nil, person: nil, limit: LIMIT_MINI, offset: 0, q: nil, include_you: false,
+      include_ward: false)
+      new(ward:, wards:, pack_id:, person:, limit:, offset:, q:, include_you:, include_ward:).call
     end
 
     def self.pack_best_totals(ward: nil, wards: nil)
@@ -25,7 +26,27 @@ module Quizzes
       totals
     end
 
-    def initialize(ward:, wards: nil, pack_id: nil, person: nil, limit: LIMIT_MINI, offset: 0, q: nil, include_you: false)
+    def self.total_scores(person_ids:)
+      ids = Array(person_ids).compact.uniq
+      return {} if ids.empty?
+
+      bests = QuizRun.adventure.finished
+        .where(person_id: ids)
+        .group(:person_id, :pack_id)
+        .maximum(:score)
+      bests.each_with_object(Hash.new(0)) do |((person_id, _pack_id), score), totals|
+        totals[person_id] += score.to_i
+      end
+    end
+
+    def self.total_score(person:)
+      return 0 unless person
+
+      total_scores(person_ids: [ person.id ])[person.id]
+    end
+
+    def initialize(ward:, wards: nil, pack_id: nil, person: nil, limit: LIMIT_MINI, offset: 0, q: nil, include_you: false,
+      include_ward: false)
       @ward = ward
       @wards = wards
       @pack_id = pack_id
@@ -34,6 +55,7 @@ module Quizzes
       @offset = offset
       @q = q
       @include_you = include_you
+      @include_ward = include_ward
     end
 
     def call
@@ -150,7 +172,9 @@ module Quizzes
       def load_people(person_ids)
         return {} if person_ids.empty?
 
-        people_scope.includes(:ward).where(id: person_ids).index_by(&:id)
+        scope = people_scope.where(id: person_ids)
+        scope = scope.includes(:ward) if @include_ward
+        scope.index_by(&:id)
       end
 
       def page_number

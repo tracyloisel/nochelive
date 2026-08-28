@@ -10,7 +10,8 @@ class StreetPulsesControllerTest < ActionDispatch::IntegrationTest
     assert_select ".street-pulse-live"
     assert_select "body", count: 0
     assert_select ".street-play-cta", count: 0
-    assert_match(/no-cache|no-store|max-age=0/, response.headers["Cache-Control"].to_s)
+    assert_match(/max-age=15/, response.headers["Cache-Control"].to_s)
+    assert_match(/public/, response.headers["Cache-Control"].to_s)
   end
 
   test "pulse numbers move when someone comes online" do

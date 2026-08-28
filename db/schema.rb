@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_28_235930) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_28_235940) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -111,6 +111,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_28_235930) do
     t.index ["code"], name: "index_game_sessions_on_code"
     t.index ["public_token"], name: "index_game_sessions_on_public_token", unique: true
     t.index ["starts_at"], name: "index_game_sessions_on_starts_at"
+    t.index ["ward_id", "status", "starts_at", "id"], name: "index_game_sessions_on_ward_schedule"
     t.index ["ward_id"], name: "index_game_sessions_on_ward_id"
   end
 
@@ -212,6 +213,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_28_235930) do
     t.datetime "updated_at", null: false
     t.index ["device_token", "person_id"], name: "index_person_devices_on_device_token_and_person_id", unique: true
     t.index ["device_token"], name: "index_person_devices_on_device_token"
+    t.index ["last_seen_at", "person_id"], name: "index_person_devices_on_live_presence"
     t.index ["person_id"], name: "index_person_devices_on_person_id"
   end
 
@@ -282,7 +284,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_28_235930) do
     t.string "question_id", null: false
     t.bigint "quiz_run_id", null: false
     t.datetime "updated_at", null: false
+    t.index ["created_at"], name: "index_quiz_answers_on_created_at"
     t.index ["device_digest", "pack_id", "question_id"], name: "idx_on_device_digest_pack_id_question_id_d4c3f03d57"
+    t.index ["pack_id", "question_id", "device_digest", "id"], name: "index_quiz_answers_on_tally_lookup"
     t.index ["quiz_run_id", "question_id"], name: "index_quiz_answers_on_quiz_run_id_and_question_id", unique: true
     t.index ["quiz_run_id"], name: "index_quiz_answers_on_quiz_run_id"
   end
@@ -306,6 +310,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_28_235930) do
     t.index ["device_digest", "person_id", "status"], name: "index_quiz_runs_on_device_person_status"
     t.index ["device_digest", "status"], name: "index_quiz_runs_on_device_digest_and_status"
     t.index ["device_digest"], name: "index_quiz_runs_on_device_digest"
+    t.index ["person_id", "pack_id", "score"], name: "index_quiz_runs_on_finished_adventure_scores", order: { score: :desc }, where: "(((status)::text = 'finished'::text) AND (street_duel_id IS NULL))"
     t.index ["person_id"], name: "index_quiz_runs_on_person_id"
     t.index ["street_duel_id"], name: "index_quiz_runs_on_street_duel_id"
   end
@@ -585,9 +590,11 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_28_235930) do
     t.string "token", null: false
     t.datetime "updated_at", null: false
     t.bigint "ward_id", null: false
+    t.index ["challenger_person_id", "status", "updated_at"], name: "index_street_duels_on_challenger_inbox", order: { updated_at: :desc }
     t.index ["challenger_person_id"], name: "index_street_duels_on_challenger_person_id"
     t.index ["challenger_run_id"], name: "index_street_duels_on_challenger_run_id"
     t.index ["challenger_ward_id"], name: "index_street_duels_on_challenger_ward_id"
+    t.index ["opponent_person_id", "status", "updated_at"], name: "index_street_duels_on_opponent_inbox", order: { updated_at: :desc }
     t.index ["opponent_person_id"], name: "index_street_duels_on_opponent_person_id"
     t.index ["opponent_run_id"], name: "index_street_duels_on_opponent_run_id"
     t.index ["opponent_ward_id"], name: "index_street_duels_on_opponent_ward_id"

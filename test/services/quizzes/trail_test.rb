@@ -30,4 +30,41 @@ class Quizzes::TrailTest < ActiveSupport::TestCase
     assert first.jumpable?
     assert second.jumpable?
   end
+
+  test "loads prior runs and answers in a constant query budget" do
+    pack_ids = QuizDefinition.catalog.pack_ids.first(5)
+    runs = pack_ids.map do |pack_id|
+      QuizRun.create!(
+        device_digest: @digest,
+        pack_id:,
+        position: QuizDefinition::QUESTIONS_PER_PACK,
+        score: 40,
+        status: "finished",
+        opened_at: Time.current
+      )
+    end
+    runs.each do |run|
+      question = run.pack.question_at(1)
+      run.quiz_answers.create!(
+        device_digest: @digest,
+        pack_id: run.pack_id,
+        question_id: question.id,
+        choice_key: question.correct_choice,
+        correct: true
+      )
+    end
+
+    assert_operator sql_queries { Quizzes::Trail.call(run: runs.last) }, :<=, 2
+  end
+
+  private
+
+    def sql_queries(&block)
+      count = 0
+      callback = lambda do |_name, _start, _finish, _id, payload|
+        count += 1 unless payload[:cached] || payload[:name].in?(%w[SCHEMA TRANSACTION])
+      end
+      ActiveSupport::Notifications.subscribed(callback, "sql.active_record", &block)
+      count
+    end
 end

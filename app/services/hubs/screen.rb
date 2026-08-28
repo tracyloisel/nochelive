@@ -39,20 +39,21 @@ module Hubs
       :study_completed, :study_total,
       keyword_init: true
     )
+    Study = Struct.new(:week, :quiz, :run, :progress, :players, keyword_init: true)
     MapProgress = Struct.new(:total_packs, :questions_per_pack, :finished, :completed_packs, :rewards, :tiers, :current_tier_key, :finished_count, keyword_init: true)
     Community = Struct.new(:players_this_month, :questions, :wards, keyword_init: true)
     Result = Struct.new(
-      :player, :hero, :voyage, :live, :challenge, :online, :online_count, :progress, :community, :backdrop,
+      :player, :hero, :voyage, :live, :challenge, :online, :online_count, :progress, :study, :community, :pulse, :backdrop,
       keyword_init: true
     )
 
     def self.call(device_digest:, person: nil, ward: nil, at: Time.current, challenge: nil, open_run: nil,
-      random_backdrop: false, previous_backdrop_id: nil)
-      new(device_digest:, person:, ward:, at:, challenge:, open_run:, random_backdrop:, previous_backdrop_id:).call
+      random_backdrop: false, previous_backdrop_id: nil, world: nil, pulse: nil)
+      new(device_digest:, person:, ward:, at:, challenge:, open_run:, random_backdrop:, previous_backdrop_id:, world:, pulse:).call
     end
 
     def initialize(device_digest:, person: nil, ward: nil, at: Time.current, challenge: nil, open_run: nil,
-      random_backdrop: false, previous_backdrop_id: nil)
+      random_backdrop: false, previous_backdrop_id: nil, world: nil, pulse: nil)
       @digest = device_digest.to_s
       @person = person
       @ward = ward
@@ -61,7 +62,8 @@ module Hubs
       @open_run = open_run
       @random_backdrop = random_backdrop
       @previous_backdrop_id = previous_backdrop_id
-      @world = Quizzes::World.call(device_digest: @digest, person_id: @person&.id)
+      @world = world || Quizzes::World.call(device_digest: @digest, person_id: @person&.id)
+      @pulse = pulse
       @helpers = Rails.application.routes.url_helpers
     end
 
@@ -75,23 +77,19 @@ module Hubs
         online: build_online,
         online_count: online_scope.count,
         progress: build_progress,
+        study: build_study,
         community: build_community,
+        pulse: pulse,
         backdrop:
       )
     end
 
     private
 
-      def standings
-        return @standings if defined?(@standings)
-
-        @standings = if @ward && @person
-          Quizzes::Standings.call(ward: @ward, person: @person)
-        end
-      end
-
       def total_score
-        standings&.total_score.to_i
+        return 0 unless @ward && @person
+
+        @total_score ||= Quizzes::Leaderboard.total_score(person: @person)
       end
 
       def current_pack
@@ -160,7 +158,7 @@ module Hubs
       def hero_run(pack_view)
         return @open_run if @open_run && @open_run.pack_id == pack_view.id
 
-        pack_view.open_run_id && QuizRun.find_by(id: pack_view.open_run_id)
+        pack_view.open_run
       end
 
       def remaining_points(pack, run)
@@ -214,7 +212,7 @@ module Hubs
       end
 
       def open_run_for(pack_view)
-        pack_view.open_run_id && QuizRun.find_by(id: pack_view.open_run_id)
+        pack_view.open_run
       end
 
       def slide_step(pack_view, run)
@@ -428,7 +426,7 @@ module Hubs
         return [] unless @ward && @person
 
         people = online_scope.order(:id).limit(2).to_a
-        scores = Quizzes::Leaderboard.pack_best_totals(ward: @ward)
+        scores = Quizzes::Leaderboard.total_scores(person_ids: people.map(&:id))
         runs = QuizRun.open_runs.where(person_id: people.map(&:id)).order(:id)
         run_by_person = runs.group_by(&:person_id).transform_values(&:last)
         can_challenge = QuizRun.finished.exists?(person_id: @person.id)
@@ -460,7 +458,7 @@ module Hubs
 
       def build_progress
         packs = @world.packs
-        study_program = StudyProgram.order(year: :desc).first
+        study_program = current_study_program
         study_total = study_program ? study_program.study_units.weeks.count : 0
         study_completed = if study_program
           study_runs
@@ -496,6 +494,33 @@ module Hubs
         StudyRun.where(device_digest: @digest, person_id: @person&.id)
       end
 
+      def current_study_program
+        @current_study_program ||= StudyProgram.order(year: :desc).first
+      end
+
+      def build_study
+        week = current_study_program&.current_week
+        quiz = week&.published_quiz
+        return unless week && quiz
+
+        runs = StudyRun.joins(:study_quiz_version).where(
+          study_quiz_versions: { study_unit_id: week.id },
+          device_digest: @digest,
+          person_id: @person&.id
+        )
+        run = runs.order(
+          Arel.sql("CASE study_runs.status WHEN 'completed' THEN 0 ELSE 1 END"),
+          completed_at: :desc,
+          updated_at: :desc
+        ).first
+        progress = run ? run.study_answers.count : 0
+        players = StudyRun.joins(:study_quiz_version)
+          .where(study_quiz_versions: { study_unit_id: week.id })
+          .distinct
+          .count(:person_id)
+        Study.new(week:, quiz:, run:, progress:, players:)
+      end
+
       def progress_nodes(packs, focus_index)
         return [] if packs.empty?
 
@@ -520,12 +545,15 @@ module Hubs
       end
 
       def build_community
-        pulse = Platform::Pulse.call
         Community.new(
           players_this_month: pulse.players,
           questions: pulse.questions,
           wards: Ward.listed.count
         )
+      end
+
+      def pulse
+        @pulse ||= Platform::Pulse.call
       end
   end
 end

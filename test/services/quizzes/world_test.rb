@@ -50,4 +50,31 @@ class Quizzes::WorldTest < ActiveSupport::TestCase
     placas = world.packs.find { |pack| pack.id == "placas" }
     assert_equal :open, placas.state
   end
+
+  test "query count stays constant as finished packs grow" do
+    digest = GameSession.digest_token("world-query-budget")
+    QuizDefinition.catalog.pack_ids.first(5).each_with_index do |pack_id, index|
+      QuizRun.create!(
+        device_digest: digest,
+        pack_id:,
+        position: QuizDefinition::QUESTIONS_PER_PACK,
+        score: 40 + index,
+        status: "finished",
+        opened_at: Time.current
+      )
+    end
+
+    assert_operator sql_queries { Quizzes::World.call(device_digest: digest) }, :<=, 2
+  end
+
+  private
+
+    def sql_queries(&block)
+      count = 0
+      callback = lambda do |_name, _start, _finish, _id, payload|
+        count += 1 unless payload[:cached] || payload[:name].in?(%w[SCHEMA TRANSACTION])
+      end
+      ActiveSupport::Notifications.subscribed(callback, "sql.active_record", &block)
+      count
+    end
 end

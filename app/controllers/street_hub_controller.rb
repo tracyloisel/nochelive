@@ -7,17 +7,8 @@ class StreetHubController < ApplicationController
     end
     remember_device
     touch_street_presence
-    @world = Quizzes::World.call(device_digest: street_digest, person_id: current_street_person&.id)
     @profile_gate = false
-    @streak = Quizzes::Streak.call(person_id: current_street_person&.id)
-    @standings = if current_ward && current_street_person
-      Quizzes::Standings.call(ward: current_ward, person: current_street_person)
-    end
-    @rival = if current_ward && current_street_person
-      Quizzes::Rival.call(ward: current_ward, person: current_street_person)
-    end
     @challenge = load_challenge
-    @pending_duel = @challenge&.duel
     @open_run = preferred_open_run
     @pulse = Platform::Pulse.call
     @screen = Hubs::Screen.call(
@@ -26,11 +17,11 @@ class StreetHubController < ApplicationController
       ward: current_ward,
       challenge: @challenge,
       open_run: @open_run,
+      pulse: @pulse,
       random_backdrop: true,
       previous_backdrop_id: session[:hub_backdrop_id]
     )
     session[:hub_backdrop_id] = @screen.backdrop.id
-    @study_week = StudyProgram.order(year: :desc).first&.current_week
     @invitations = Hubs::Invitations.call(person: current_street_person)
     @push_prompt = night_push_prompt
   end
@@ -39,13 +30,14 @@ class StreetHubController < ApplicationController
     remember_device
     touch_street_presence
     @world = Quizzes::World.call(device_digest: street_digest, person_id: current_street_person&.id)
-    @open_run = QuizRun.open_runs.where(device_digest: street_digest, person_id: current_street_person&.id).order(:id).last
+    @open_run = @world.current_run if @world.current_run&.open?
     @unlock_pack_id = unlock_pack_id_param
     @screen = Hubs::Screen.call(
       device_digest: street_digest,
       person: current_street_person,
       ward: current_ward,
-      open_run: @open_run
+      open_run: @open_run,
+      world: @world
     )
   end
 

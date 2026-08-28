@@ -15,9 +15,13 @@ module Quizzes
       scope = QuizRun.all
       scope = scope.where(person_id: @person_id) if @person_id
       scope = scope.where(device_digest: @device_digest) if @device_digest && @person_id.nil?
-      dates = scope.pluck(:opened_at).compact.map { |t| t.to_date }
-      dates += QuizAnswer.joins(:quiz_run).merge(scope).pluck("quiz_answers.created_at").map { |t| t.to_date }
-      days = consecutive_days_from(dates.uniq.sort.reverse)
+      run_dates = scope.where.not(opened_at: nil).select("DATE(quiz_runs.opened_at) AS activity_date")
+      answer_dates = QuizAnswer.joins(:quiz_run).merge(scope)
+        .select("DATE(quiz_answers.created_at) AS activity_date")
+      dates = QuizRun.connection.select_values(
+        "#{run_dates.to_sql} UNION #{answer_dates.to_sql} ORDER BY activity_date DESC"
+      ).map(&:to_date)
+      days = consecutive_days_from(dates)
       Result.new(days:)
     end
 

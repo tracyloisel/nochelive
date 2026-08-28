@@ -39,7 +39,8 @@ class StreetLeaderboardsController < ApplicationController
       person:,
       limit: Quizzes::Leaderboard::LIMIT_PAGE,
       offset:,
-      q: params[:q]
+      q: params[:q],
+      include_ward: @stake_scope
     )
     @page = page
     @q = params[:q].to_s.strip

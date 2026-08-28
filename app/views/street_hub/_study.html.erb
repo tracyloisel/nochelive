@@ -1,12 +1,7 @@
-<% if week&.published_quiz %>
-  <% quiz = week.published_quiz %>
-  <% runs = StudyRun.joins(:study_quiz_version).where(
-       study_quiz_versions: { study_unit_id: week.id },
-       device_digest: street_device_digest,
-       person_id: current_street_person&.id
-     ) %>
-  <% run = runs.completed.order(completed_at: :desc).first || runs.open.order(updated_at: :desc).first %>
-  <% progress = run ? run.study_answers.count : 0 %>
+<% study = local_assigns[:study] %>
+<% if study %>
+  <% week = study.week %>
+  <% quiz = study.quiz %>
   <%= link_to study_program_path,
         class: "hub-study",
         style: "--study-art: url('#{quiz.content.fetch("artwork")}')" do %>
@@ -14,13 +9,13 @@
       <p class="hub-kicker"><%= t("study.home_kicker") %></p>
       <h2><%= t("study.psalms_theme") %></h2>
       <p class="hub-study-refs"><%= week.display_scripture_refs.first %></p>
-      <div class="hub-study-progress" aria-label="<%= t("study.progress", n: progress, total: 10) %>">
-        <span><i style="width:<%= progress * 10 %>%"></i></span>
-        <strong><%= progress %>/10</strong>
+      <div class="hub-study-progress" aria-label="<%= t("study.progress", n: study.progress, total: 10) %>">
+        <span><i style="width:<%= study.progress * 10 %>%"></i></span>
+        <strong><%= study.progress %>/10</strong>
       </div>
-      <p class="hub-study-community"><%= t("study.people_advancing", count: StudyRun.joins(study_quiz_version: :study_unit).where(study_units: { id: week.id }).distinct.count(:person_id)) %></p>
+      <p class="hub-study-community"><%= t("study.people_advancing", count: study.players) %></p>
     </div>
-    <% if run %>
+    <% if study.run %>
       <span class="btn btn-navy hub-study-action"><%= t("study.continue") %></span>
     <% else %>
       <span class="btn btn-navy hub-study-action"><%= t("study.discover") %></span>

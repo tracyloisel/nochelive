@@ -47,7 +47,7 @@ module Quizzes
     TIER_ORDER = { debutant: 0, apprenti: 1, disciple: 2, maitre: 3, legende: 4 }
 
     PackView = Struct.new(
-      :id, :pack, :state, :stars, :best_score, :open_run_id, :index, :trail,
+      :id, :pack, :state, :stars, :best_score, :open_run_id, :open_run, :index, :trail,
       :category, keyword_init: true
     )
     Path = Struct.new(:finished, :current, :locked, keyword_init: true)
@@ -73,7 +73,7 @@ module Quizzes
         build_pack_view(pack_id, index, finished, open_runs, next_id)
       end
       current_pack_id = open_runs.keys.last || next_id || @pack_ids.reverse.find { |id| finished.key?(id) }
-      current_run = current_pack_id && (open_runs[current_pack_id] || scoped.where(pack_id: current_pack_id).order(:id).last)
+      current_run = current_pack_id && (open_runs[current_pack_id] || finished.dig(current_pack_id, :run))
       Result.new(packs:, current_pack_id:, current_run:, path: build_path(packs, current_pack_id))
     end
 
@@ -96,9 +96,12 @@ module Quizzes
       end
 
       def finished_by_pack
-        scoped.finished.group_by(&:pack_id).transform_values do |runs|
-          best = runs.max_by(&:score)
-          { run: best, stars: Stars.call(score: best.score) }
+        best_runs = scoped.finished
+          .select("DISTINCT ON (quiz_runs.pack_id) quiz_runs.*")
+          .order(Arel.sql("quiz_runs.pack_id ASC, quiz_runs.score DESC, quiz_runs.id DESC"))
+
+        best_runs.index_by(&:pack_id).transform_values do |run|
+          { run:, stars: Stars.call(score: run.score) }
         end
       end
 
@@ -126,13 +129,6 @@ module Quizzes
         else
           :available
         end
-        trail = if open
-          Trail.call(run: open)
-        elsif fin
-          Trail.call(run: fin[:run])
-        else
-          []
-        end
         tier = self.class.tier_for(index)
         PackView.new(
           id: pack_id,
@@ -141,8 +137,9 @@ module Quizzes
           stars: fin&.dig(:stars) || 0,
           best_score: fin&.dig(:run)&.score,
           open_run_id: open&.id,
+          open_run: open,
           index:,
-          trail:,
+          trail: [],
           category: self.class.category_for(pack_id)
         )
       end

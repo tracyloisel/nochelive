@@ -1,6 +1,8 @@
 <% round = night.current_round_run %>
 <% live_index = night.round_runs.find_index { |tick| round && tick.id == round.id }.to_i %>
 <% lobby_presence = Presences::Snapshot.call(night: night) if night.lobby? %>
+<% teams = night.teams.includes(:ward_team).to_a %>
+<% chapel_teams = teams.reject(&:solo?).sort_by(&:name) %>
 <%= tag.section class: [ "console", "is-stage", ("is-ceremony-immersive" if night.finished?) ],
                 id: "night_presenter",
                 data: stage_audio_data(round, night: night, pulse: local_assigns[:pulse]).merge(
@@ -52,16 +54,16 @@
             </div>
             <div class="presenter-ready-item" role="listitem">
               <%= picto("people") %>
-              <span><strong><%= t("presenter.lobby_teams", count: night.teams.chapel.count) %></strong><small><%= t("presenter.lobby_room", count: lobby_presence.room) %></small></span>
+              <span><strong><%= t("presenter.lobby_teams", count: chapel_teams.size) %></strong><small><%= t("presenter.lobby_room", count: lobby_presence.room) %></small></span>
             </div>
             <div class="presenter-ready-item" role="listitem">
               <%= picto("house") %>
               <span><strong><%= t("presenter.casa_ready") %></strong><small><%= t("presenter.lobby_casa", count: lobby_presence.remote) %></small></span>
             </div>
           </div>
-          <% if night.teams.chapel.any? %>
+          <% if chapel_teams.any? %>
             <ul class="presenter-ready-teams" aria-label="<%= t("presenter.lobby_teams_label") %>">
-              <% night.teams.chapel.order(:name).each do |team| %>
+              <% chapel_teams.each do |team| %>
                 <li>
                   <span class="emblem emblem-<%= team.emblem %>"><%= render "shared/emblem", key: team.emblem %></span>
                   <span><%= team.name %></span>
@@ -139,7 +141,15 @@
   </div>
 
   <% guests = night.ward ? night.players.participants.where(person_id: nil).to_a : [] %>
+  <% guest_people_by_key = if guests.any?
+       keys = guests.map { |player| Person.name_key(player.name) }.uniq
+       night.ward.people.where(given_name_key: keys).to_a.group_by(&:given_name_key)
+     else
+       {}
+     end %>
+  <% ward_has_people = guests.any? && night.ward.people.exists? %>
   <% play_desk = round&.live? || (round && !round.completed?) %>
+  <% vote_counts = play_desk && round.definition.vote? ? round.ballots.group(:choice_team_id).count : {} %>
   <% grades = play_desk ? round.score_events.select { |event| event.kind.in?(%w[correct incorrect]) }.index_by(&:team_id) : {} %>
   <% pending = play_desk ? round.answers.count { |answer| grades[answer.team_id].blank? } : 0 %>
   <% burger_quiet = play_desk && round.definition.layered_finale? && !round.phase.in?(%w[open locked answering revealed]) %>
@@ -266,7 +276,7 @@
               <li><%= word %></li>
             <% end %>
           </ul>
-          <% night.teams.each do |team| %>
+          <% teams.each do |team| %>
             <%= button_to t("presenter.guessed", name: team.name), presenter_scores_path(night.code), params: { team_id: team.id, round_run_id: round.id, kind: "correct" }, class: "btn btn-gold" %>
             <%= button_to t("presenter.said_word", name: team.name), presenter_scores_path(night.code), params: { team_id: team.id, round_run_id: round.id, kind: "incorrect" }, class: "btn btn-ghost" %>
           <% end %>
@@ -281,7 +291,7 @@
           <% else %>
             <p class="lede"><%= t("presenter.who_still") %></p>
           <% end %>
-          <% night.teams.each do |team| %>
+          <% teams.each do |team| %>
             <% caught = round.answers.find { |row| row.team_id == team.id } %>
             <p>
               <span><%= team.name %> · <span class="quiet"><%= caught ? "#{caught.body.to_i} ms" : t("presenter.in_room") %></span></span>
@@ -298,14 +308,14 @@
         <div class="hunt-desk">
           <p class="eyebrow"><%= t("presenter.judgment") %></p>
           <p class="lede"><%= round.definition.copy(:question) %></p>
-          <% if line = vote_tally_line(round) %>
+          <% if line = vote_tally_line(round, counts: vote_counts) %>
             <p class="shout"><%= line %></p>
           <% end %>
           <ul class="answer-list">
-            <% night.teams.order(:name).each do |team| %>
+            <% teams.sort_by(&:name).each do |team| %>
               <li>
                 <strong><%= team.name %></strong>
-                <p><%= t("presenter.votes", count: round.ballots.where(choice_team: team).count) %></p>
+                <p><%= t("presenter.votes", count: vote_counts[team.id].to_i) %></p>
               </li>
             <% end %>
           </ul>
@@ -333,7 +343,7 @@
               <% end %>
             </ol>
           <% end %>
-          <% night.teams.each do |team| %>
+          <% teams.each do |team| %>
             <% claimed = claims.any? { |claim| claim.team_id == team.id } %>
             <p>
               <span><%= team.name %> · <span class="quiet"><%= claimed ? t("presenter.already") : t("presenter.still_going") %></span></span>
@@ -355,7 +365,7 @@
               <% end %>
             </ol>
           <% end %>
-          <% night.teams.each do |team| %>
+          <% teams.each do |team| %>
             <% claimed = claims.any? { |claim| claim.team_id == team.id } %>
             <p>
               <span><%= team.name %> · <span class="quiet"><%= claimed ? t("presenter.they_have_it") : t("presenter.still_looking") %></span></span>
@@ -367,7 +377,7 @@
 
       <% if round.definition.physical? || round.definition.pose? || round.definition.mime? || round.definition.taboo? || round.definition.scavenger? || round.definition.freeze? || round.definition.category? %>
         <h3><%= t("presenter.room_points") %></h3>
-        <% night.teams.each do |team| %>
+        <% teams.each do |team| %>
           <%= render "presenter/consoles/team_score", night: night, team: team, filterable: true %>
         <% end %>
       <% end %>
@@ -380,7 +390,7 @@
     <% unless night.finished? %>
     <div class="desk-pane" id="desk_marcador" role="tabpanel" data-desk-target="pane" data-desk-pane="marcador" hidden>
       <aside class="desk-board" aria-label="<%= t("presenter.scoreboard") %>">
-        <% night.teams.order(cached_score: :desc).each do |team| %>
+        <% teams.sort_by { |team| [ -team.cached_score, team.name.to_s ] }.each do |team| %>
           <%= render "presenter/consoles/team_score", night: night, team: team %>
         <% end %>
       </aside>
@@ -402,7 +412,7 @@
           <p class="quiet"><%= t("presenter.guests_hint") %></p>
           <div class="desk-board">
             <% guests.each do |player| %>
-              <% matches = night.ward.people.named(player.name) %>
+              <% matches = guest_people_by_key.fetch(Person.name_key(player.name), []) %>
               <article class="desk-link">
                 <p class="desk-team-name"><%= t("presenter.no_ficha", name: player.name) %></p>
                 <% if matches.any? %>
@@ -412,7 +422,7 @@
                     <% end %>
                   </span>
                 <% end %>
-                <% if night.ward.people.any? %>
+                <% if ward_has_people %>
                   <%= form_with url: presenter_people_link_path(night.code), class: "desk-link-form" do %>
                     <input type="hidden" name="player_id" value="<%= player.id %>">
                     <label class="quiet" for="given_name_<%= player.id %>"><%= t("presenter.ficha") %></label>

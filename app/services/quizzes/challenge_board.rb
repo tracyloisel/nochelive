@@ -21,33 +21,37 @@ module Quizzes
         rivals: build_rivals,
         head_to_head: build_head_to_head,
         pack_id: @pack_id,
-        your_score: Leaderboard.pack_best_totals(ward: @ward)[@person.id].to_i
+        your_score: Leaderboard.total_score(person: @person)
       )
     end
 
     private
 
       def build_rivals
-        wards = StakeScope.wards_for(ward: @ward).includes(:people)
-        people = wards.flat_map(&:people).reject { |person| person.id == @person.id }
+        people = stake_wards.flat_map(&:people).reject { |person| person.id == @person.id }
         live_ids = PersonDevice.where(person_id: people.map(&:id)).live.distinct.pluck(:person_id).to_set
         states = active_states(people.map(&:id))
-        scores = wards.to_h { |ward| [ ward.id, pack_scores(ward) ] }
-        ranks = wards.to_h do |ward|
-          ordered = scores.fetch(ward.id).sort_by { |_, score| -score }.map(&:first)
+        scores = pack_scores_by_ward
+        ranks = stake_wards.to_h do |ward|
+          ordered = scores.fetch(ward.id, {}).sort_by { |_, score| -score }.map(&:first)
           [ ward.id, ordered.each_with_index.to_h { |id, index| [ id, index + 1 ] } ]
         end
+        wards_by_id = stake_wards.index_by(&:id)
 
         people.map do |person|
           Rival.new(
             person:,
-            ward: person.ward,
+            ward: wards_by_id.fetch(person.ward_id),
             score: scores.dig(person.ward_id, person.id).to_i,
             rank: ranks.dig(person.ward_id, person.id),
             live: live_ids.include?(person.id),
             state: states[person.id]
           )
         end.sort_by { |row| [ row.ward.id == @ward.id ? 0 : 1, row.live ? 0 : 1, -row.score, row.person.given_name_key ] }
+      end
+
+      def stake_wards
+        @stake_wards ||= StakeScope.wards_for(ward: @ward).includes(:people).to_a
       end
 
       def active_states(ids)
@@ -62,34 +66,47 @@ module Quizzes
           end
       end
 
-      def pack_scores(ward)
-        QuizRun.adventure.finished
+      def pack_scores_by_ward
+        bests = QuizRun.adventure.finished
           .joins(:person)
-          .where(people: { ward_id: ward.id }, pack_id: @pack_id)
-          .group(:person_id)
+          .where(people: { ward_id: stake_wards.map(&:id) }, pack_id: @pack_id)
+          .group("people.ward_id", :person_id)
           .maximum(:score)
-          .transform_values(&:to_i)
+        bests.each_with_object(Hash.new { |hash, ward_id| hash[ward_id] = {} }) do |((ward_id, person_id), score), scores|
+          scores[ward_id][person_id] = score.to_i
+        end
       end
 
       def build_head_to_head
-        duels = StreetDuel.where(status: "resolved")
+        recent = StreetDuel.where(status: "resolved")
           .where("challenger_person_id = :me OR opponent_person_id = :me", me: @person.id)
-          .includes(:challenger_person, :opponent_person)
           .order(updated_at: :desc)
-        other = duels.first && other_person(duels.first)
+          .first
+        other_id = if recent&.challenger_person_id == @person.id
+          recent.opponent_person_id
+        else
+          recent&.challenger_person_id
+        end
+        other = Person.find_by(id: other_id)
         return unless other
 
-        pair = duels.select { |duel| [ duel.challenger_person_id, duel.opponent_person_id ].include?(other.id) }
+        pair = StreetDuel.where(status: "resolved").where(
+          "(challenger_person_id = :me AND opponent_person_id = :other) OR " \
+          "(challenger_person_id = :other AND opponent_person_id = :me)",
+          me: @person.id,
+          other: other.id
+        )
+        you_wins, their_wins, ties = pair.pick(
+          Arel.sql("COUNT(*) FILTER (WHERE (challenger_person_id = #{@person.id} AND challenger_score > opponent_score) OR (opponent_person_id = #{@person.id} AND opponent_score > challenger_score))"),
+          Arel.sql("COUNT(*) FILTER (WHERE (challenger_person_id = #{other.id} AND challenger_score > opponent_score) OR (opponent_person_id = #{other.id} AND opponent_score > challenger_score))"),
+          Arel.sql("COUNT(*) FILTER (WHERE challenger_score = opponent_score)")
+        )
         HeadToHead.new(
           person: other,
-          you_wins: pair.count { |duel| duel.winner_person&.id == @person.id },
-          their_wins: pair.count { |duel| duel.winner_person&.id == other.id },
-          ties: pair.count { |duel| duel.challenger_score == duel.opponent_score }
+          you_wins: you_wins.to_i,
+          their_wins: their_wins.to_i,
+          ties: ties.to_i
         )
-      end
-
-      def other_person(duel)
-        duel.challenger_person_id == @person.id ? duel.opponent_person : duel.challenger_person
       end
   end
 end

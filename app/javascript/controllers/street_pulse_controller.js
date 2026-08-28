@@ -3,7 +3,7 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
   static values = {
     src: String,
-    interval: { type: Number, default: 5000 }
+    interval: { type: Number, default: 15000 }
   }
 
   connect() {

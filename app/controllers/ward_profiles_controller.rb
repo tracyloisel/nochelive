@@ -11,12 +11,14 @@ class WardProfilesController < ApplicationController
     remember_ward(@ward)
     configure_ward_seo
     @ward_display_name = params[:slug].present? ? t("seo.ward.heading", city: @ward.city.presence || @ward.name) : @ward.name
-    @live_night = @ward.live_night
-    @nights = @ward.game_sessions.includes(:missionaries, :players, teams: :players).order(starts_at: :desc).to_a
-    @featured_night = @nights.select(&:live?).min_by(&:starts_at)
-    @upcoming_nights = @nights.select { |night| night.live? && night != @featured_night }.sort_by(&:starts_at)
-    @past_nights = @nights.select(&:finished?).sort_by(&:starts_at).reverse
-    @last_finished_night = @past_nights.first
+    live_nights = @ward.game_sessions.live
+    @featured_night = live_nights.includes(:missionaries).order(:starts_at, :id).first
+    remaining_live = @featured_night ? live_nights.where.not(id: @featured_night.id) : live_nights
+    @upcoming_nights_count = remaining_live.count
+    @upcoming_nights = remaining_live.includes(:missionaries).order(:starts_at, :id).limit(3).to_a
+    @featured_participants_count = @featured_night&.players&.count.to_i
+    @last_finished_night = @ward.game_sessions.finished.order(starts_at: :desc, id: :desc).first
+    @last_finished_champion = unique_champion(@last_finished_night)
     @online_people = @ward.people
       .joins(:person_devices)
       .merge(PersonDevice.live)
@@ -47,6 +49,15 @@ class WardProfilesController < ApplicationController
   end
 
   private
+
+    def unique_champion(night)
+      return unless night
+
+      leaders = night.teams.order(cached_score: :desc, name: :asc).limit(2).to_a
+      return if leaders.empty? || (leaders.second && leaders.first.cached_score == leaders.second.cached_score)
+
+      leaders.first
+    end
 
     def configure_ward_seo
       city = @ward.city.presence || @ward.name
