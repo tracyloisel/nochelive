@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_28_235920) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_28_235930) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -160,6 +160,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_28_235920) do
     t.boolean "challenges_enabled", default: false, null: false
     t.datetime "challenges_enabled_at"
     t.datetime "created_at", null: false
+    t.boolean "nights_enabled", default: false, null: false
+    t.datetime "nights_enabled_at"
     t.bigint "person_id", null: false
     t.time "quiet_hours_end", default: "2000-01-01 08:00:00", null: false
     t.time "quiet_hours_start", default: "2000-01-01 21:00:00", null: false
@@ -359,7 +361,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_28_235920) do
     t.datetime "updated_at", null: false
     t.integer "xp", default: 0, null: false
     t.index ["game_session_id"], name: "index_score_events_on_game_session_id"
-    t.index ["round_run_id", "team_id", "kind"], name: "index_score_events_unique_round_kind", unique: true, where: "((round_run_id IS NOT NULL) AND ((kind)::text = ANY (ARRAY[('correct'::character varying)::text, ('fastest_buzz'::character varying)::text, ('rapid_tap'::character varying)::text, ('participation'::character varying)::text])))"
+    t.index ["round_run_id", "team_id", "kind"], name: "index_score_events_unique_round_kind", unique: true, where: "((round_run_id IS NOT NULL) AND ((kind)::text = ANY ((ARRAY['correct'::character varying, 'fastest_buzz'::character varying, 'rapid_tap'::character varying, 'participation'::character varying])::text[])))"
     t.index ["round_run_id"], name: "index_score_events_on_round_run_id"
     t.index ["team_id"], name: "index_score_events_on_team_id"
   end

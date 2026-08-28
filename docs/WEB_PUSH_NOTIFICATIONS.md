@@ -1,10 +1,10 @@
-# Web Push — versets et défis
+# Web Push — versets, défis et Noches Live
 
-Statut : implémenté localement derrière `WEB_PUSH_ENABLED=false`, prêt pour validation sur appareils et déploiement autorisé
+Statut : infrastructure déployée ; flow Noche Live en validation avant activation
 Date : 2026-08-28  
 Périmètre : PWA Noche Live, fichas persistantes, aventure Street et défis asynchrones
 
-La configuration Render est écrite mais n'a pas été déployée. Le pilote et les essais sur appareils physiques restent volontairement séparés de l'implémentation locale ; voir [WEB_PUSH_DEVICE_TESTS.md](WEB_PUSH_DEVICE_TESTS.md).
+Le web et le worker Solid Queue sont déployés sur Render. Les essais sur appareils physiques restent une étape distincte ; voir [WEB_PUSH_DEVICE_TESTS.md](WEB_PUSH_DEVICE_TESTS.md).
 
 ## 1. Objectif
 
@@ -14,6 +14,7 @@ Permettre à un joueur qui l'a explicitement demandé de recevoir :
 - une invitation lorsqu'un autre joueur lui lance un défi ;
 - le résultat d'un défi lorsque les deux joueurs ont terminé ;
 - au maximum un rappel utile pour un défi encore sans réponse.
+- deux rappels sobres pour une Noche Live programmée dans la paroisse choisie.
 
 Le Push ne doit pas devenir un canal promotionnel. Chaque notification doit donner une raison immédiate de revenir dans l'aventure biblique ou vers une personne réelle.
 
@@ -34,6 +35,7 @@ Un appui sur une notification ouvre automatiquement sa ressource, sans page d'ac
 | Défi reçu | `/desafio/:token` du duel concerné |
 | Résultat | État résolu du même duel |
 | Rappel de défi | Défi encore actionnable, jamais un défi expiré |
+| Noche Live | `/s/:session_code/name` de la soirée concernée |
 
 Le service worker doit :
 
@@ -110,7 +112,21 @@ Boucle :
 - Le rappel est annulé si le duel est accepté, refusé, résolu ou expiré.
 - Pas de relance quotidienne, pas de compte à rebours anxiogène.
 
-### 3.4 Hors MVP
+### 3.4 Noche Live programmée
+
+- Catégorie `Noches Live` désactivée par défaut et indépendante des versets et défis.
+- Destinataires : fichas de la paroisse concernée ayant choisi cette catégorie sur un appareil abonné.
+- Premier rappel la veille, si le consentement existait déjà au passage du coordinateur.
+- Second rappel 15 minutes avant, y compris après une activation trop tardive pour le rappel de la veille.
+- Aucun Push pendant une manche, une pause, une révélation ou la finale.
+- Aucun message libre du présentateur et aucune relance « ton équipe t'attend » sans liste fiable de joueurs attendus.
+- Un joueur déjà entré dans la session n'est plus notifié.
+- Une soirée finie, commencée en avance ou déplacée hors de la fenêtre est revalidée puis annulée avant livraison.
+- Le clic ouvre directement l'entrée de la session exacte : `/s/:session_code/name`.
+
+La clé d'idempotence contient la soirée, son horaire et le type de rappel. Une soirée réellement reprogrammée peut donc produire les nouveaux rappels utiles sans dupliquer ceux de l'ancien horaire.
+
+### 3.5 Hors MVP
 
 - Messages libres envoyés par un présentateur ou une paroisse.
 - Campagnes marketing et segmentation comportementale.
@@ -156,6 +172,7 @@ vivre quelque chose
 | Première visite, choix de paroisse, création de ficha | Aucune proposition |
 | Quiz Street générique terminé | Aucune proposition |
 | Début, question ou cérémonie d'une partie Live | Aucune proposition |
+| Carte d'une prochaine Noche Live de la paroisse active | Proposition `Noches Live`, seulement après la création de la ficha et hors action prioritaire |
 | Premier défi adressé envoyé à une personne | Proposition `Défis` après le retour de l'action principale |
 | Première ouverture volontaire de la boîte des défis | Proposition `Défis` si elle n'a jamais été traitée |
 | Premier défi adressé terminé ou résultat consulté | Deuxième moment éligible seulement si la première proposition n'a pas été affichée |
@@ -168,7 +185,7 @@ Une proposition automatique exige toutes les conditions suivantes :
 
 ```text
 ficha persistante active
-+ contexte correspondant à la catégorie
++ contexte correspondant à la catégorie (`défi`, `lecture` ou `prochaine Noche`)
 + catégorie encore inactive
 + permission système non refusée
 + aucun snooze actif
@@ -212,6 +229,19 @@ trois fois par semaine à 08:00.
 [ Recevoir ces versets sur cet appareil ]
 
 Changer la fréquence · Pas maintenant
+```
+
+À côté de la carte d'une prochaine Noche :
+
+```text
+LE DIRECT APPROCHE
+
+Noche Live peut prévenir Lucía la veille,
+puis 15 minutes avant la soirée.
+
+[ Me prévenir pour cette Noche Live ]
+
+Pas maintenant
 ```
 
 La carte reprend la famille Celestial Light ou Dark du moment. Elle ne transforme pas la cérémonie en formulaire et ne masque pas l'artwork. Une seule catégorie est proposée à la fois.
@@ -274,7 +304,7 @@ Après installation :
 - Une invitation déjà visible, un guide PWA, une cérémonie, un dialogue ou une action Live bloque la proposition.
 - Aucun timer, badge rouge ou formulation culpabilisante ne pousse à accepter.
 
-Le snooze est propre à la catégorie et au couple ficha/appareil. Dire `Pas maintenant` aux versets n'empêche donc pas une proposition ultérieure de défis, mais les deux ne peuvent pas apparaître dans la même session.
+Le snooze est propre à la catégorie et au couple ficha/appareil. Dire `Pas maintenant` aux versets n'empêche donc pas une proposition ultérieure de défis ou de Noche Live, mais deux propositions ne peuvent pas apparaître dans la même session.
 
 ### 4.7 États UI
 
@@ -283,7 +313,7 @@ Le snooze est propre à la catégorie et au couple ficha/appareil. Dire `Pas mai
 | Non éligible : invité ou onboarding | Aucune proposition ; réglage absent tant qu'il n'y a pas de ficha |
 | Non supporté | Explication courte dans la ficha, aucun CTA impossible |
 | Installation requise sur iOS | Une action principale pour installer la PWA, sans permission Push enchaînée |
-| Disponible, aucun type choisi | Choix séparé `Défis` ou `Versets`, sans catégorie précochée |
+| Disponible, aucun type choisi | Choix séparé `Noches Live`, `Défis` ou `Versets`, sans catégorie précochée |
 | Type choisi, permission inconnue | Une action dorée qui nomme précisément le type et la fréquence |
 | Demande en cours | État d'attente non cliquable |
 | Autorisé | Confirmation du type, de la ficha et de l'appareil concernés |
@@ -313,6 +343,7 @@ Cet appareil
 Notifications autorisées par le système
 
 Ce que Lucía veut recevoir
+Rappels Noche Live        Désactivé
 Défis entre joueurs       Désactivé
 Versets et lectures       Désactivé
 ```
@@ -323,6 +354,7 @@ Les préférences vivent dans la ficha :
 - fréquence : quotidien ou trois fois par semaine ;
 - heure locale ;
 - `Défis entre joueurs` : activé/désactivé ;
+- `Rappels Noche Live` : activé/désactivé ; rappel la veille et 15 minutes avant ;
 - bouton `Désactiver sur cet appareil`.
 
 Le MVP ne propose pas une grille de réglages complexe. Les règles initiales sont :
@@ -330,6 +362,7 @@ Le MVP ne propose pas une grille de réglages complexe. Les règles initiales so
 - aucune catégorie précochée ou activée par défaut ;
 - choisir `Défis` n'active pas les versets ;
 - choisir `Versets` n'active pas les défis ;
+- choisir `Noches Live` n'active ni les défis ni les versets ;
 - le choix `Versets` demande explicitement quotidien ou trois fois par semaine avant confirmation ;
 - l'heure proposée est 08:00 locale, modifiable avant confirmation ;
 - la plage silencieuse proposée est 21:00–08:00 ;
@@ -346,6 +379,7 @@ Exemples de sens attendus, à localiser nativement :
 ```text
 Défis :   « Recevoir mes prochains défis sur cet appareil »
 Versets : « Recevoir un verset trois fois par semaine à 08:00 »
+Noches :  « Me prévenir avant les prochaines Noches Live sur cet appareil »
 Arrêt :   « Ne plus recevoir mes défis »
 Appareil : « Désactiver les notifications sur cet appareil »
 ```
@@ -626,15 +660,15 @@ en:    Lucía challenged you. Ready to play?
 ### 12.1 État actuel
 
 - Rails 8.1 et Solid Queue sont déjà installés.
-- `config/recurring.yml` existe.
-- `bin/jobs` démarre Solid Queue.
-- La production configure encore `config.active_job.queue_adapter = :async`.
-- `render.yaml` ne déclare qu'un service web et PostgreSQL.
-- ADR-006 décide actuellement que les jobs restent en processus pour le MVP.
+- La production utilise `config.active_job.queue_adapter = :solid_queue`.
+- `bin/jobs` tourne dans le worker Render persistant `nochelive-jobs`.
+- Web, worker et tables Solid Queue partagent PostgreSQL.
+- `config/recurring.yml` planifie les coordinateurs dans ce worker.
+- Le feature flag conserve la maîtrise de l'ouverture utilisateur.
 
-L'adaptateur `:async` conserve les travaux en mémoire du processus web. Un redémarrage peut donc perdre une invitation ou un rendez-vous planifié.
+Un redémarrage Puma ne perd donc plus une invitation ou un rendez-vous planifié.
 
-### 12.2 Cible recommandée
+### 12.2 Topologie déployée
 
 - passer la production à `:solid_queue` ;
 - connecter les tables Solid Queue au PostgreSQL Render ;
@@ -644,7 +678,7 @@ L'adaptateur `:async` conserve les travaux en mémoire du processus web. Un red�
 - garder les envois HTTP hors du processus Puma ;
 - configurer un délai d'arrêt permettant aux petits lots en cours de finir proprement.
 
-Solid Queue stocke la file dans PostgreSQL : aucun Redis supplémentaire n'est requis pour ce volume. Le même superviseur exécute les jobs immédiats et planifie les tâches récurrentes ; un service cron Render séparé n'est donc pas nécessaire pour le MVP.
+Solid Queue stocke la file dans PostgreSQL : aucun Redis supplémentaire n'est requis pour ce volume. Le même superviseur exécute les jobs immédiats et planifie les tâches récurrentes ; un service cron Render séparé n'est donc pas nécessaire pour le MVP. Le coordinateur des Noches passe toutes les cinq minutes dans ce même scheduler.
 
 Topologie cible :
 
@@ -655,15 +689,15 @@ Topologie cible :
 | PostgreSQL | Oui | Données applicatives et file persistante |
 | `cron` | Non | Inutile tant que Solid Queue planifie le coordinateur dans le worker |
 
-Il n'existe donc pas un « worker » plus un « cron worker ». Il existe un seul service Render `worker` persistant. Son processus Solid Queue contient les workers de file et le scheduler récurrent. Le coordinateur de versets toutes les quinze minutes est déclaré une seule fois dans `config/recurring.yml`.
+Il n'existe donc pas un « worker » plus un « cron worker ». Il existe un seul service Render `worker` persistant. Son processus Solid Queue contient les workers de file et le scheduler récurrent. Les coordinateurs de versets (quinze minutes) et de Noches Live (cinq minutes) sont déclarés une seule fois dans `config/recurring.yml`.
 
 Un service Render `type: cron` ne sera envisagé que si une tâche future doit être isolée de Solid Queue et s'exécuter comme une commande ponctuelle. Dans ce cas, elle remplacera la planification Solid Queue correspondante ; les deux mécanismes ne doivent jamais planifier le même envoi.
 
 Référence : [Rails — Active Job Basics, Solid Queue et recurring tasks](https://guides.rubyonrails.org/active_job_basics.html).
 
-### 12.3 Décision d'architecture requise
+### 12.3 Décision d'architecture
 
-Avant le lot infrastructure, ajouter une ADR qui amende ADR-006 :
+ADR-006 a été amendée par l'implémentation :
 
 ```text
 Decision:
@@ -710,6 +744,8 @@ notifications_editorial      # versets et lectures
 maintenance                  # nettoyage
 ```
 
+Les rappels Noche Live utilisent la file transactionnelle : ils ont une durée de vie courte et ne doivent jamais arriver après le début de la soirée.
+
 ## 14. Sécurité et confidentialité
 
 - Consentement explicite, révocable et daté.
@@ -735,7 +771,7 @@ La notification peut être visible sur un écran verrouillé. Le corps doit donc
 Mesures first-party, sans outil publicitaire :
 
 - invitation de permission affichée ;
-- contexte de l'invitation : défi, lecture ou ficha ;
+- contexte de l'invitation : défi, lecture, prochaine Noche ou ficha ;
 - `Pas maintenant`, snooze et refus système ;
 - activation, refus et désactivation ;
 - souscriptions actives ;
@@ -780,6 +816,7 @@ Les ouvertures peuvent être enregistrées par le chemin de destination ou par u
 - invité, création de ficha et quiz générique sans proposition Push ;
 - déclencheur `Défis` seulement dans un contexte de défi ;
 - déclencheur `Versets` seulement après une lecture ou unité terminée ;
+- déclencheur `Noches Live` seulement depuis la carte d'une soirée future de la paroisse active ;
 - une seule proposition par session ;
 - `Pas maintenant` propre à la catégorie et à l'appareil ;
 - contenu dans la bonne locale ;
@@ -797,6 +834,8 @@ Les ouvertures peuvent être enregistrées par le chemin de destination ou par u
 - préférence désactivée entre création et exécution ;
 - duel expiré avant l'envoi ;
 - exécution double sans notification double ;
+- rappel Noche annulé si la session n'est plus au vestibule ou si le joueur a déjà rejoint ;
+- horaire reprogrammé produisant une nouvelle clé sans doubler l'ancien rappel ;
 - coordinateur autour d'un changement d'heure saisonnier.
 
 ### 16.4 Contrôleurs
@@ -815,6 +854,7 @@ Les ouvertures peuvent être enregistrées par le chemin de destination ou par u
 - application ouverte sur une autre page ;
 - fenêtre déjà ouverte sur la destination ;
 - destination localisée ;
+- rappel Noche ouvrant directement `/s/:session_code/name` ;
 - permission refusée ;
 - iOS non installé : installation proposée sans prompt Push ;
 - iOS installé : permission seulement lors d'un moment ultérieur ;

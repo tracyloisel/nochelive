@@ -1,7 +1,7 @@
 class NotificationPromptState < ApplicationRecord
-  CATEGORIES = %w[verses challenges].freeze
+  CATEGORIES = %w[verses challenges nights].freeze
   RESULTS = %w[dismissed selected system_denied activated].freeze
-  CONTEXTS = %w[challenge_sent challenge_inbox challenge_result study_completed profile].freeze
+  CONTEXTS = %w[challenge_sent challenge_inbox challenge_result study_completed live_upcoming profile].freeze
   SNOOZE = 30.days
 
   belongs_to :person_device

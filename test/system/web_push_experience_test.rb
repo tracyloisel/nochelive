@@ -31,6 +31,13 @@ class WebPushExperienceTest < ApplicationSystemTestCase
       assert_text I18n.t("notifications.settings.device_default")
       assert_selector "button[data-category=challenges]", text: person.given_name
 
+      find("button[data-category=nights]", text: person.given_name).click
+      assert_text I18n.t("notifications.settings.saved")
+      assert_equal 1, page.evaluate_script("window.__pushPermissionRequests")
+      assert person.notification_preference.reload.nights_enabled?
+      refute person.notification_preference.challenges_enabled?
+      refute person.notification_preference.verses_enabled?
+
       find("button[data-category=challenges]", text: person.given_name).click
       assert_text I18n.t("notifications.settings.saved")
       assert_equal 1, page.evaluate_script("window.__pushPermissionRequests")
@@ -83,6 +90,49 @@ class WebPushExperienceTest < ApplicationSystemTestCase
       assert_no_selector ".push-invitation", visible: true
       state = person.person_devices.last.notification_prompt_states.find_by!(category: "challenges")
       assert_in_delta 30.days.from_now.to_i, state.snoozed_until.to_i, 5
+    end
+  end
+
+  test "the upcoming live card asks once and activates only Noche Live reminders" do
+    with_web_push_enabled do
+      install_push_stubs
+      person = create_push_profile("Noche Push")
+      person.update!(ward: wards(:demo))
+      visit street_leaderboard_path
+      game_sessions(:david).update!(status: "finished")
+      game_sessions(:elias).update!(starts_at: 18.hours.from_now)
+
+      visit root_path
+
+      assert_selector ".hub-live.is-imminent"
+      assert_selector ".push-invitation.is-nights", visible: true
+      scroll_to(find(".push-invitation.is-nights"))
+      assert_selector ".push-invitation.is-nights .btn-gold", count: 1
+      assert_no_selector ".push-invitation.is-challenges", visible: true
+      assert_no_selector ".push-invitation.is-verses", visible: true
+      page.save_screenshot(SHOT_DIR.join("night-invitation-390x844.png"))
+
+      page.driver.browser.manage.window.resize_to(768, 1024)
+      scroll_to(find(".push-invitation.is-nights"))
+      assert_selector ".push-invitation.is-nights .push-primary", visible: true
+      page.save_screenshot(SHOT_DIR.join("night-invitation-768x1024.png"))
+
+      page.driver.browser.manage.window.resize_to(1440, 900)
+      scroll_to(find(".push-invitation.is-nights"))
+      assert_selector ".push-invitation.is-nights .push-primary", visible: true
+      page.save_screenshot(SHOT_DIR.join("night-invitation-1440x900.png"))
+
+      page.driver.browser.manage.window.resize_to(390, 844)
+      scroll_to(find(".push-invitation.is-nights"))
+
+      click_button I18n.t("notifications.prompt.nights_cta", name: person.given_name)
+
+      assert_text I18n.t("notifications.settings.saved")
+      assert_equal 1, page.evaluate_script("window.__pushPermissionRequests")
+      assert person.notification_preference.reload.nights_enabled?
+      refute person.notification_preference.challenges_enabled?
+      refute person.notification_preference.verses_enabled?
+      assert_equal root_path, URI.parse(page.current_url).path
     end
   end
 

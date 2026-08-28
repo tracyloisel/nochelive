@@ -128,6 +128,10 @@ fr:
       verses_title: "Laisse la lumière revenir"
       verses_body: "%{name}, reçois un passage %{frequency} à %{time}, sans interrompre ta soirée."
       verses_cta: "Envoyer à %{name} un passage %{frequency} à %{time} sur cet appareil"
+      nights_kicker: "Le direct approche"
+      nights_title: "Ne rate pas l’entrée en scène"
+      nights_body: "%{name}, Noche Live peut te prévenir la veille puis 15 minutes avant la soirée de ta paroisse."
+      nights_cta: "Prévenir %{name} pour cette Noche Live sur cet appareil"
       install_kicker: "Pour garder le lien"
       install_title: "D’abord, emporte Noche Live sur ton écran"
       install_body: "Ajoute le jeu à l’écran d’accueil. Nous reparlerons des notifications un autre jour, après un nouveau moment de jeu."
@@ -146,6 +150,11 @@ fr:
       device_loading: "Vérification de cet appareil…"
       device_expired: "La connexion de cet appareil a expiré. Tu peux la réparer ici."
       categories_title: "Ce que %{name} veut recevoir"
+      nights_title: "Rappels Noche Live"
+      nights_hint: "La veille puis 15 minutes avant. Aucun message pendant les manches."
+      nights_on: "Tes rappels Noche Live arriveront sur cet appareil."
+      nights_enable: "Prévenir %{name} avant les prochaines Noches Live sur cet appareil"
+      nights_disable: "Ne plus prévenir %{name} pour les Noches Live"
       challenges_title: "Défis entre joueurs"
       challenges_hint: "Une invitation, le résultat et au maximum un rappel utile."
       challenges_on: "Tes défis arriveront sur cet appareil."
@@ -177,6 +186,12 @@ fr:
       study_reading:
         title: "Ton chemin continue"
         body: "Reviens à %{title}."
+      night_tomorrow:
+        title: "Noche Live, c’est demain"
+        body: "Rendez-vous à %{time}. Appuie pour ouvrir l’entrée de ta soirée."
+      night_starting_soon:
+        title: "Noche Live commence bientôt"
+        body: "Rendez-vous à %{time}. Ton entrée est prête."
       duel_invitation:
         title: "Un défi t’attend"
         body: "%{name} te défie dans %{pack}. Tu entres dans l’arène ?"
@@ -486,8 +501,8 @@ fr:
     push:
       title: "Les notifications que tu choisis"
       body: "Si tu les demandes, nous enregistrons sous forme chiffrée l’adresse de livraison et les clés publiques de l’abonnement Web Push. Nous gardons aussi la fiche et l’appareil liés, la langue, le fuseau horaire, la famille du navigateur, les types choisis, la fréquence, l’heure, les dates de consentement et l’état technique de chaque envoi et ouverture."
-      basis: "La base juridique est ton consentement spécifique, conformément à l’article 6, paragraphe 1, point a) du RGPD. Défis et versets sont choisis séparément, ne sont jamais présélectionnés et chaque choix se retire aussi facilement qu’il a été donné. L’autorisation du système ouvre seulement le canal technique : elle ne nous autorise pas, à elle seule, à t’envoyer quoi que ce soit."
-      screen: "Une notification peut apparaître sur l’écran verrouillé. Son texte reste donc court et ne révèle ni lecture spirituelle privée ni détail personnel inutile. Un appui ouvre directement le passage, la lecture ou le défi correspondant."
+      basis: "La base juridique est ton consentement spécifique, conformément à l’article 6, paragraphe 1, point a) du RGPD. Défis, versets et rappels Noche Live sont choisis séparément, ne sont jamais présélectionnés et chaque choix se retire aussi facilement qu’il a été donné. L’autorisation du système ouvre seulement le canal technique : elle ne nous autorise pas, à elle seule, à t’envoyer quoi que ce soit."
+      screen: "Une notification peut apparaître sur l’écran verrouillé. Son texte reste donc court et ne révèle ni lecture spirituelle privée ni détail personnel inutile. Un appui ouvre directement le passage, la lecture, le défi ou l’entrée de la Noche Live correspondante."
       providers: "Render conserve l’abonnement et la file d’attente. Pour livrer le message, l’adresse chiffrée est utilisée avec le service Push du navigateur ou du système, qui peut être exploité par Apple, Google, Mozilla ou un autre fournisseur du navigateur. Noche Live ne vend pas ces données et ne les utilise pas pour la publicité."
       retention: "Nous gardons l’abonnement tant que tes choix restent actifs. Une adresse signalée comme inexistante est révoquée immédiatement puis supprimée après 30 jours. Les journaux techniques d’envoi et d’ouverture sont supprimés après 90 jours. Tu peux désactiver un type ou cet appareil depuis ta fiche."
     server:

@@ -1,26 +1,26 @@
 # Web Push — recette appareils et ouverture progressive
 
-Statut : à exécuter sur appareils physiques après déploiement autorisé
+Statut : infrastructure déployée ; recette physique et événement pilote à exécuter
 Feature flag initial : `WEB_PUSH_ENABLED=false`
 
 ## Avant le pilote
 
-- [ ] Déployer la migration et le service `nochelive-jobs` depuis `render.yaml`.
-- [ ] Renseigner les mêmes `VAPID_PUBLIC_KEY`, `VAPID_PRIVATE_KEY` et `VAPID_SUBJECT` sur le web et le worker.
+- [x] Déployer la migration et le service `nochelive-jobs` depuis `render.yaml`.
+- [x] Renseigner les mêmes `VAPID_PUBLIC_KEY`, `VAPID_PRIVATE_KEY` et `VAPID_SUBJECT` sur le web et le worker.
 - [ ] Vérifier que la clé privée n'apparaît ni dans les logs, ni dans le navigateur, ni dans une capture.
-- [ ] Confirmer qu'il existe un seul scheduler : Solid Queue dans le worker, sans service Render cron.
-- [ ] Observer `/up`, le démarrage du worker et le chargement de `config/recurring.yml`.
+- [x] Confirmer qu'il existe un seul scheduler : Solid Queue dans le worker, sans service Render cron.
+- [x] Observer `/up`, le démarrage du worker et le chargement de `config/recurring.yml`.
 - [ ] Activer `WEB_PUSH_ENABLED=true` sur web et worker uniquement pour les appareils internes.
 
 ## Matrice minimale
 
-| Appareil | Installation | Permission | Défi fermé → appui | App ouverte ailleurs | Verset localisé | Désabonnement |
-|---|---|---|---|---|---|---|
-| iPhone Safari, PWA écran d'accueil | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] |
-| iPad Safari, PWA écran d'accueil | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] |
-| Chrome Android | N/A | [ ] | [ ] | [ ] | [ ] | [ ] |
-| Chrome desktop | N/A | [ ] | [ ] | [ ] | [ ] | [ ] |
-| Safari macOS | N/A | [ ] | [ ] | [ ] | [ ] | [ ] |
+| Appareil | Installation | Permission | Défi fermé → appui | Noche → entrée exacte | App ouverte ailleurs | Verset localisé | Désabonnement |
+|---|---|---|---|---|---|---|---|
+| iPhone Safari, PWA écran d'accueil | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] |
+| iPad Safari, PWA écran d'accueil | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] |
+| Chrome Android | N/A | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] |
+| Chrome desktop | N/A | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] |
+| Safari macOS | N/A | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] |
 
 ## Parcours iPhone/iPad
 
@@ -40,6 +40,8 @@ Pour chaque ligne, tester app fermée, app ouverte sur une autre page et plusieu
 - [ ] Résultat : appui → même duel résolu.
 - [ ] Rappel : appui → duel encore actionnable ; aucun envoi après expiration.
 - [ ] Verset : appui → passage exact dans la langue de la notification.
+- [ ] Noche la veille : appui → `/s/:session_code/name` de la bonne soirée.
+- [ ] Noche 15 minutes avant : même entrée exacte, jamais le hub générique.
 - [ ] Destination invalide ou externe injectée en environnement de test → repli `/`.
 - [ ] Ficha différente active sur tablette partagée → aucun changement silencieux de ficha.
 - [ ] Fenêtre exacte déjà ouverte → focus sans doublon.
@@ -49,6 +51,7 @@ Pour chaque ligne, tester app fermée, app ouverte sur une autre page et plusieu
 
 - [ ] Défis seuls : aucun verset reçu.
 - [ ] Versets seuls : aucun défi reçu.
+- [ ] Noches seules : aucun verset ni défi reçu.
 - [ ] Changer fréquence/heure : libellé puis envoi suivant cohérents.
 - [ ] `Pas maintenant` : catégorie masquée trente jours sur cette ficha et cet appareil.
 - [ ] Un refus système bloque toutes les propositions automatiques sur l'appareil.
@@ -60,6 +63,8 @@ Pour chaque ligne, tester app fermée, app ouverte sur une autre page et plusieu
 ## Fiabilité et exploitation
 
 - [ ] Deux déclenchements du même événement créent une seule `NotificationDelivery`.
+- [ ] Un joueur déjà entré dans la session ne reçoit pas le rappel de 15 minutes.
+- [ ] Aucun Push ne part après le passage de la session à `playing`, `paused` ou `finished`.
 - [ ] Un redémarrage du web ne perd pas les jobs déjà persistés.
 - [ ] Un arrêt `SIGTERM` du worker respecte le délai de 60 secondes.
 - [ ] Une réponse 404/410 révoque l'endpoint ; 429/5xx déclenche les tentatives bornées.

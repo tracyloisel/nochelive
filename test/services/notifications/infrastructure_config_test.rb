@@ -26,6 +26,8 @@ class Notifications::InfrastructureConfigTest < ActiveSupport::TestCase
     assert_includes queues, "maintenance"
     assert_equal "VerseNotificationCoordinatorJob", recurring.dig("schedule_verse_notifications", "class")
     assert_equal "every 15 minutes", recurring.dig("schedule_verse_notifications", "schedule")
+    assert_equal "NightNotificationCoordinatorJob", recurring.dig("schedule_night_notifications", "class")
+    assert_equal "every 5 minutes", recurring.dig("schedule_night_notifications", "schedule")
     assert_equal "NotificationsCleanupJob", recurring.dig("clean_notification_records", "class")
     assert_includes Rails.root.join("config/environments/production.rb").read, "queue_adapter = :solid_queue"
   end

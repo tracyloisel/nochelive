@@ -10,6 +10,10 @@
 #     schedule: at 5am every day
 
 production:
+  schedule_night_notifications:
+    class: NightNotificationCoordinatorJob
+    queue: maintenance
+    schedule: every 5 minutes
   schedule_verse_notifications:
     class: VerseNotificationCoordinatorJob
     queue: maintenance

@@ -40,7 +40,14 @@ module Notifications
           I18n.t("notifications.push.daily_verse.body", reference: entry.citation(@locale))
         when "study_reading"
           I18n.t("notifications.push.study_reading.body", title: @delivery.subject&.display_heading(@locale))
+        when "night_tomorrow", "night_starting_soon"
+          I18n.t("notifications.push.#{@delivery.kind}.body", time: night_local_time)
         end
+      end
+
+      def night_local_time
+        zone = @delivery.web_push_subscription&.time_zone || "UTC"
+        I18n.l(@delivery.subject.starts_at.in_time_zone(zone), format: "%H:%M")
       end
 
       def duel_body

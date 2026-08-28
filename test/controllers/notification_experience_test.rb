@@ -20,11 +20,28 @@ class NotificationExperienceTest < ActionDispatch::IntegrationTest
 
       assert_response :success
       assert_select ".push-settings[data-controller='push-subscription']"
-      assert_select ".push-category-card", count: 2
+      assert_select ".push-category-card", count: 3
       assert_select "[data-push-subscription-challenges-active-value='false']"
       assert_select "[data-push-subscription-verses-active-value='false']"
+      assert_select "[data-push-subscription-nights-active-value='false']"
+      assert_select "button[data-category='nights']", text: /#{Regexp.escape(person.given_name)}/
       assert_select "button[data-category='challenges']", text: /#{Regexp.escape(person.given_name)}/
       assert_select "button[data-category='verses'][data-template*='__FREQUENCY__'][data-template*='__TIME__']"
+    end
+  end
+
+  test "an upcoming ward night offers its own consent only from the live context" do
+    with_web_push_enabled do
+      game_sessions(:david).update!(status: "finished")
+      sign_in_congregation
+      create_street_profile!(name: "Noche Demain")
+      get root_path
+
+      assert_response :success
+      assert_select ".hub-live.is-soon, .hub-live.is-imminent, .hub-live.is-scheduled", count: 1
+      assert_select ".push-invitation.is-nights", count: 1
+      assert_select ".push-invitation.is-challenges", count: 0
+      assert_select ".push-invitation.is-verses", count: 0
     end
   end
 

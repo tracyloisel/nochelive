@@ -6,6 +6,7 @@ class NotificationPromptStateTest < ActiveSupport::TestCase
 
     assert state.snoozed?
     refute NotificationPromptState.exists?(person_device: state.person_device, category: "challenges")
+    refute NotificationPromptState.exists?(person_device: state.person_device, category: "nights")
   end
 
   test "rejects unknown categories and contexts" do

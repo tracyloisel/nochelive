@@ -13,6 +13,7 @@
          data-push-subscription-automatic-value="false"
          data-push-subscription-challenges-active-value="<%= preference.challenges_enabled? %>"
          data-push-subscription-verses-active-value="<%= preference.verses_enabled? %>"
+         data-push-subscription-nights-active-value="<%= preference.nights_enabled? %>"
          data-push-subscription-device-subscribed-value="<%= device_subscribed %>"
          data-push-subscription-loading-text-value="<%= t("notifications.settings.device_loading") %>"
          data-push-subscription-allowed-text-value="<%= t("notifications.settings.device_allowed") %>"
@@ -38,6 +39,14 @@
   </section>
   <h3 class="push-categories-title"><%= t("notifications.settings.categories_title", name: person.given_name) %></h3>
   <div class="push-category-list">
+    <article class="push-category-card is-nights">
+      <span class="push-category-icon" aria-hidden="true"><%= picto("bell") %></span>
+      <div><h4><%= t("notifications.settings.nights_title") %></h4><p><%= t("notifications.settings.nights_hint") %></p></div>
+      <button type="button" class="btn btn-ghost push-setting-action" data-category="nights" <%= "hidden" if preference.nights_enabled? && device_subscribed %>
+              data-push-subscription-target="enableNights controls" data-action="push-subscription#enable"><%= t("notifications.settings.nights_enable", name: person.given_name) %></button>
+      <button type="button" class="quiet-link push-setting-action" data-category="nights" <%= "hidden" unless preference.nights_enabled? %>
+              data-push-subscription-target="disableNights controls" data-action="push-subscription#disableCategory"><%= t("notifications.settings.nights_disable", name: person.given_name) %></button>
+    </article>
     <article class="push-category-card is-challenges">
       <span class="push-category-icon" aria-hidden="true"><%= picto("swords") %></span>
       <div><h4><%= t("notifications.settings.challenges_title") %></h4><p><%= t("notifications.settings.challenges_hint") %></p></div>

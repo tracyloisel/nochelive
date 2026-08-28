@@ -64,6 +64,67 @@ class Notifications::DeliveryTest < ActiveSupport::TestCase
     assert_equal "no_longer_deliverable", delivery.error_code
   end
 
+  test "cancels a night reminder when the player already joined" do
+    night = game_sessions(:elias)
+    night.update!(starts_at: 15.minutes.from_now)
+    person = people(:carmen_garcia)
+    person.notification_preference.enable!("nights")
+    delivery = NotificationDelivery.create!(
+      web_push_subscription: web_push_subscriptions(:carmen_phone_push), person:,
+      kind: "night_starting_soon", dedupe_key: "joined-night-delivery",
+      subject: night, destination: "/s/#{night.code}/name", status: "queued"
+    )
+    night.players.create!(
+      person:, name: "Carmen", role: "participant", location: "room",
+      client_token: "delivery-joined", avatar_key: "delfin"
+    )
+    calls = 0
+    Notifications::Sender.transport = ->(**) { calls += 1 }
+
+    with_web_push_enabled { Notifications::Deliver.call(delivery:) }
+
+    assert_equal 0, calls
+    assert delivery.reload.cancelled?
+  end
+
+  test "delivers a night reminder only while the lobby is still timely" do
+    night = game_sessions(:elias)
+    night.update!(starts_at: 15.minutes.from_now)
+    person = people(:carmen_garcia)
+    person.notification_preference.enable!("nights")
+    delivery = NotificationDelivery.create!(
+      web_push_subscription: web_push_subscriptions(:carmen_phone_push), person:,
+      kind: "night_starting_soon", dedupe_key: "timely-night-delivery",
+      subject: night, destination: "/s/#{night.code}/name", status: "queued"
+    )
+    calls = 0
+    Notifications::Sender.transport = ->(**) { calls += 1 }
+
+    with_web_push_enabled { Notifications::Deliver.call(delivery:) }
+
+    assert_equal 1, calls
+    assert delivery.reload.sent?
+  end
+
+  test "cancels a night reminder after the event moves outside its delivery window" do
+    night = game_sessions(:elias)
+    night.update!(starts_at: 2.hours.from_now)
+    person = people(:carmen_garcia)
+    person.notification_preference.enable!("nights")
+    delivery = NotificationDelivery.create!(
+      web_push_subscription: web_push_subscriptions(:carmen_phone_push), person:,
+      kind: "night_starting_soon", dedupe_key: "rescheduled-night-delivery",
+      subject: night, destination: "/s/#{night.code}/name", status: "queued"
+    )
+    calls = 0
+    Notifications::Sender.transport = ->(**) { calls += 1 }
+
+    with_web_push_enabled { Notifications::Deliver.call(delivery:) }
+
+    assert_equal 0, calls
+    assert delivery.reload.cancelled?
+  end
+
   test "revokes expired endpoints without retry" do
     delivery = notification_deliveries(:carmen_duel_result)
     delivery.update!(status: "queued", sent_at: nil)

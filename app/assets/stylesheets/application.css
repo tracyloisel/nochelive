@@ -905,6 +905,12 @@ body.is-church-videos .shell {
   animation: noche-panel-rise 420ms cubic-bezier(.2, .8, .2, 1) both;
 }
 
+.street-world.is-game-hub .street-hub-feed > .push-invitation {
+  flex-shrink: 0;
+  height: max-content;
+  margin: var(--space-4, 1rem) auto var(--space-6, 1.5rem);
+}
+
 .push-invitation[hidden],
 .push-install[hidden],
 .push-install-settings[hidden],
@@ -1121,6 +1127,11 @@ body.is-study-run .push-invitation-mark {
   .push-invitation-actions { grid-column: 3; }
   .push-feedback { grid-column: 2 / -1; }
   .push-category-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .street-world.is-game-hub .street-hub-feed > .push-invitation { grid-column: 2 / 5; }
+}
+
+@media (min-width: 1200px) {
+  .street-world.is-game-hub .street-hub-feed > .push-invitation { grid-column: 2 / 14; }
 }
 
 @media (prefers-reduced-motion: reduce) {

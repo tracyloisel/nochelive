@@ -11,7 +11,8 @@ module Notifications
       render json: {
         status: "updated",
         verses_enabled: preference.verses_enabled?,
-        challenges_enabled: preference.challenges_enabled?
+        challenges_enabled: preference.challenges_enabled?,
+        nights_enabled: preference.nights_enabled?
       }
     rescue Notifications::UpdatePreferences::Error, ActiveRecord::RecordInvalid, ActionController::ParameterMissing
       render json: { error: "invalid_preferences" }, status: :unprocessable_entity

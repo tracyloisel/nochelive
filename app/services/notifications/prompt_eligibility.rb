@@ -6,6 +6,7 @@ module Notifications
       "challenge_inbox" => "challenges",
       "challenge_result" => "challenges",
       "study_completed" => "verses",
+      "live_upcoming" => "nights",
       "profile" => nil
     }.freeze
 
@@ -31,7 +32,7 @@ module Notifications
       return result(false, :priority_action) if @priority_blocked
 
       preference = @person.notification_settings
-      active = @category == "verses" ? preference.verses_enabled? : preference.challenges_enabled?
+      active = preference.public_send("#{@category}_enabled?")
       return result(false, :already_active) if active
 
       device = @person.person_devices.find_by(device_token: @device_token)

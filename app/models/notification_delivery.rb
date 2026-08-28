@@ -1,7 +1,12 @@
 class NotificationDelivery < ApplicationRecord
-  KINDS = %w[daily_verse study_reading duel_invitation duel_reminder duel_result].freeze
+  KINDS = %w[
+    daily_verse study_reading duel_invitation duel_reminder duel_result
+    night_tomorrow night_starting_soon
+  ].freeze
   STATUSES = %w[queued sending sent failed opened cancelled].freeze
-  TRANSITIONAL_KINDS = %w[duel_invitation duel_reminder duel_result].freeze
+  TRANSITIONAL_KINDS = %w[
+    duel_invitation duel_reminder duel_result night_tomorrow night_starting_soon
+  ].freeze
 
   belongs_to :web_push_subscription, optional: true
   belongs_to :person

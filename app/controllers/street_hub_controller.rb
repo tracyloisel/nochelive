@@ -32,6 +32,7 @@ class StreetHubController < ApplicationController
     session[:hub_backdrop_id] = @screen.backdrop.id
     @study_week = StudyProgram.order(year: :desc).first&.current_week
     @invitations = Hubs::Invitations.call(person: current_street_person)
+    @push_prompt = night_push_prompt
   end
 
   def map
@@ -49,6 +50,20 @@ class StreetHubController < ApplicationController
   end
 
   private
+
+    def night_push_prompt
+      return unless current_street_person
+      return unless @screen.live.state.in?(%i[scheduled soon imminent])
+
+      eligibility = Notifications::PromptEligibility.call(
+        person: current_street_person,
+        device_token: device_token,
+        category: "nights",
+        context: "live_upcoming",
+        priority_blocked: @challenge.present? || params[:rank_up].present?
+      )
+      { category: "nights", context: "live_upcoming" } if eligibility.eligible
+    end
 
     def assign_profile_identity
       gate = StreetProfiles::Screen.call(

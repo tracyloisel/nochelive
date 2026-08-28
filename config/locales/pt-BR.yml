@@ -128,6 +128,10 @@ pt-BR:
       verses_title: "Deixe a luz voltar"
       verses_body: "%{name}, receba uma passagem %{frequency} às %{time}, sem interromper sua noite."
       verses_cta: "Enviar uma passagem para %{name} %{frequency} às %{time} neste aparelho"
+      nights_kicker: "A transmissão está chegando"
+      nights_title: "Não perca a sua entrada"
+      nights_body: "%{name}, a Noche Live pode avisar no dia anterior e 15 minutos antes da noite da sua ala."
+      nights_cta: "Avisar %{name} desta Noche Live neste aparelho"
       install_kicker: "Para manter o vínculo"
       install_title: "Primeiro, leve a Noche Live para sua tela"
       install_body: "Adicione o jogo à Tela de Início. Vamos falar das notificações outro dia, depois de um novo momento no jogo."
@@ -146,6 +150,11 @@ pt-BR:
       device_loading: "Verificando este aparelho…"
       device_expired: "A conexão deste aparelho expirou. Você pode reparar aqui."
       categories_title: "O que %{name} quer receber"
+      nights_title: "Lembretes da Noche Live"
+      nights_hint: "No dia anterior e 15 minutos antes. Nenhum aviso durante as rodadas."
+      nights_on: "Seus lembretes da Noche Live vão chegar neste aparelho."
+      nights_enable: "Avisar %{name} antes das próximas Noches Live neste aparelho"
+      nights_disable: "Parar de avisar %{name} das Noches Live"
       challenges_title: "Desafios entre jogadores"
       challenges_hint: "Um convite, o resultado e no máximo um lembrete útil."
       challenges_on: "Seus desafios vão chegar neste aparelho."
@@ -177,6 +186,12 @@ pt-BR:
       study_reading:
         title: "Seu caminho continua"
         body: "Volte para %{title}."
+      night_tomorrow:
+        title: "Noche Live é amanhã"
+        body: "A gente se vê às %{time}. Toque para abrir a entrada da sua noite."
+      night_starting_soon:
+        title: "Noche Live começa em breve"
+        body: "A gente se vê às %{time}. Sua entrada está pronta."
       duel_invitation:
         title: "Um desafio espera você"
         body: "%{name} desafiou você em %{pack}. Vai encarar?"
@@ -486,8 +501,8 @@ pt-BR:
     push:
       title: "As notificações que você escolhe"
       body: "Se você pedir, guardamos de forma criptografada o endpoint e as chaves públicas da assinatura Web Push. Também guardamos o perfil e o aparelho vinculados, idioma, fuso horário, família do navegador, os tipos escolhidos, frequência, horário, datas de consentimento e o estado técnico de cada envio e abertura."
-      basis: "A base jurídica é o seu consentimento específico, conforme o artigo 6.1.a do RGPD. Desafios e versículos são escolhidos separadamente, nunca vêm marcados e cada escolha pode ser retirada com a mesma facilidade. A permissão do sistema só abre o canal técnico: sozinha, ela não autoriza nenhum envio."
-      screen: "Uma notificação pode aparecer na tela bloqueada. Por isso, o texto é curto e não revela uma leitura espiritual privada nem dados pessoais além do necessário. Ao tocar, você abre direto a passagem, a leitura ou o desafio correspondente."
+      basis: "A base jurídica é o seu consentimento específico, conforme o artigo 6.1.a do RGPD. Desafios, versículos e lembretes da Noche Live são escolhidos separadamente, nunca vêm marcados e cada escolha pode ser retirada com a mesma facilidade. A permissão do sistema só abre o canal técnico: sozinha, ela não autoriza nenhum envio."
+      screen: "Uma notificação pode aparecer na tela bloqueada. Por isso, o texto é curto e não revela uma leitura espiritual privada nem dados pessoais além do necessário. Ao tocar, você abre direto a passagem, a leitura, o desafio ou a entrada da Noche Live correspondente."
       providers: "A Render guarda a assinatura e a fila. Para entregar o aviso, o endpoint criptografado é usado com o serviço Push do navegador ou do sistema, que pode ser operado pela Apple, Google, Mozilla ou outro fornecedor do navegador. A Noche Live não vende esses dados nem usa para publicidade."
       retention: "Guardamos a assinatura enquanto suas escolhas estiverem ativas. Um endpoint que informa que não existe mais é revogado na hora e apagado depois de 30 dias. Os registros técnicos de envio e abertura são apagados depois de 90 dias. Você pode desativar um tipo ou este aparelho no seu perfil."
     server:

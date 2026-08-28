@@ -2,6 +2,7 @@
 <% frequency = t("notifications.frequency.#{preference.verse_frequency}") %>
 <% local_time = preference.verse_local_time.strftime("%H:%M") %>
 <% challenge = category.to_s == "challenges" %>
+<% night = category.to_s == "nights" %>
 <% device_subscribed = push_subscription_on_device?(person) %>
 
 <aside class="push-invitation is-<%= category %>" hidden aria-labelledby="push_invitation_<%= category %>_title"
@@ -16,6 +17,7 @@
        data-push-subscription-automatic-value="true"
        data-push-subscription-challenges-active-value="<%= preference.challenges_enabled? %>"
        data-push-subscription-verses-active-value="<%= preference.verses_enabled? %>"
+       data-push-subscription-nights-active-value="<%= preference.nights_enabled? %>"
        data-push-subscription-device-subscribed-value="<%= device_subscribed %>"
        data-push-subscription-loading-text-value="<%= t("notifications.settings.device_loading") %>"
        data-push-subscription-allowed-text-value="<%= t("notifications.settings.device_allowed") %>"
@@ -29,7 +31,7 @@
        data-push-subscription-reassign-text-value="<%= t("notifications.settings.reassign", name: person.given_name) %>"
        data-push-subscription-device-expired-text-value="<%= t("notifications.settings.device_expired") %>">
   <span class="push-invitation-glow" aria-hidden="true"></span>
-  <span class="push-invitation-mark" aria-hidden="true"><%= picto(challenge ? "swords" : "book") %></span>
+  <span class="push-invitation-mark" aria-hidden="true"><%= picto(night ? "bell" : (challenge ? "swords" : "book")) %></span>
   <div class="push-invitation-copy">
     <p class="push-kicker"><%= t("notifications.prompt.#{category}_kicker") %></p>
     <h2 id="push_invitation_<%= category %>_title"><%= t("notifications.prompt.#{category}_title") %></h2>

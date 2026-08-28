@@ -3,13 +3,14 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
   static targets = [
     "status", "feedback", "frequency", "time", "enableChallenges", "disableChallenges",
-    "enableVerses", "disableVerses", "reassign", "install", "disableDevice", "controls"
+    "enableVerses", "disableVerses", "enableNights", "disableNights", "reassign", "install",
+    "disableDevice", "controls"
   ]
 
   static values = {
     subscriptionUrl: String, preferencesUrl: String, promptUrl: String, publicKey: String,
     personName: String, category: String, context: String, automatic: Boolean,
-    challengesActive: Boolean, versesActive: Boolean, loadingText: String, allowedText: String,
+    challengesActive: Boolean, versesActive: Boolean, nightsActive: Boolean, loadingText: String, allowedText: String,
     defaultText: String, deniedText: String, unsupportedText: String, installText: String,
     savedText: String, disabledDeviceText: String, failedText: String, reassignText: String,
     deviceExpiredText: String, deviceSubscribed: Boolean
@@ -141,6 +142,7 @@ export default class extends Controller {
 
     if (category === "challenges") this.challengesActiveValue = true
     if (category === "verses") this.versesActiveValue = true
+    if (category === "nights") this.nightsActiveValue = true
     this.deviceSubscribedValue = true
     this.channelUnavailable = false
     this.setStatus(this.allowedTextValue)
@@ -159,6 +161,7 @@ export default class extends Controller {
       if (!response.ok) throw new Error("preference rejected")
       if (category === "challenges") this.challengesActiveValue = false
       if (category === "verses") this.versesActiveValue = false
+      if (category === "nights") this.nightsActiveValue = false
       this.showFeedback(this.savedTextValue)
       this.syncButtons()
     } catch (_) {
@@ -221,6 +224,8 @@ export default class extends Controller {
     this.disableChallengesTargets.forEach((button) => { button.hidden = !this.challengesActiveValue })
     this.enableVersesTargets.forEach((button) => { button.hidden = !canEnable || (this.versesActiveValue && this.deviceSubscribedValue) })
     this.disableVersesTargets.forEach((button) => { button.hidden = !this.versesActiveValue })
+    this.enableNightsTargets.forEach((button) => { button.hidden = !canEnable || (this.nightsActiveValue && this.deviceSubscribedValue) })
+    this.disableNightsTargets.forEach((button) => { button.hidden = !this.nightsActiveValue })
     this.installTargets.forEach((button) => { button.hidden = !this.installRequired })
     this.disableDeviceTargets.forEach((button) => { button.hidden = !this.deviceSubscribedValue })
   }

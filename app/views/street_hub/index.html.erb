@@ -27,6 +27,7 @@
     <%= render "street_hub/hero", screen: screen %>
     <%= render "street_hub/study", week: @study_week %>
     <%= render "street_hub/live", live: screen.live %>
+    <%= render("notifications/prompt", person: current_street_person, **@push_prompt) if @push_prompt %>
 
     <div class="hub-panel-row">
       <%= render "street_hub/challenge", challenge: screen.challenge, screen: @challenge %>

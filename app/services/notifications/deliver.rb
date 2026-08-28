@@ -61,7 +61,27 @@ module Notifications
         return duel.resolved? if @delivery.kind == "duel_result"
         return duel.active? if %w[duel_invitation duel_reminder].include?(@delivery.kind)
 
+        night = @delivery.subject if @delivery.subject_type == "GameSession"
+        return night_deliverable?(night) if @delivery.kind.start_with?("night_")
+
         true
+      end
+
+      def night_deliverable?(night)
+        return false unless night&.lobby? && night.starts_at.future?
+        return false unless @delivery.person.ward_id == night.ward_id
+        return false unless night_reminder_due?(night)
+
+        !night.players.exists?(person_id: @delivery.person_id)
+      end
+
+      def night_reminder_due?(night)
+        remaining = night.starts_at - Time.current
+        case @delivery.kind
+        when "night_tomorrow" then remaining.between?(22.hours, 25.hours)
+        when "night_starting_soon" then remaining.between?(0, 20.minutes)
+        else false
+        end
       end
 
       def ttl
@@ -69,6 +89,8 @@ module Notifications
           [ (@delivery.subject.expires_at - Time.current).to_i, 60 ].max.clamp(60, 7.days.to_i)
         elsif @delivery.kind == "daily_verse"
           12.hours.to_i
+        elsif @delivery.kind.start_with?("night_")
+          [ (@delivery.subject.starts_at - Time.current).to_i, 60 ].max.clamp(60, 1.day.to_i)
         else
           1.day.to_i
         end

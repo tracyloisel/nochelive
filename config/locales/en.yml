@@ -128,6 +128,10 @@ en:
       verses_title: "Let the light return"
       verses_body: "%{name}, receive a passage %{frequency} at %{time}, without interrupting your evening."
       verses_cta: "Send %{name} a passage %{frequency} at %{time} on this device"
+      nights_kicker: "The live show is getting close"
+      nights_title: "Don’t miss your entrance"
+      nights_body: "%{name}, Noche Live can remind you the day before and 15 minutes before your ward night."
+      nights_cta: "Remind %{name} about this Noche Live on this device"
       install_kicker: "Keep the connection"
       install_title: "First, bring Noche Live to your Home Screen"
       install_body: "Add it to your Home Screen. We’ll ask about notifications another day, after a new moment in the game."
@@ -146,6 +150,11 @@ en:
       device_loading: "Checking this device…"
       device_expired: "This device’s connection has expired. You can repair it here."
       categories_title: "What %{name} wants to receive"
+      nights_title: "Noche Live reminders"
+      nights_hint: "The day before and 15 minutes before. Nothing during the rounds."
+      nights_on: "Your Noche Live reminders will arrive on this device."
+      nights_enable: "Remind %{name} before upcoming Noche Live events on this device"
+      nights_disable: "Stop reminding %{name} about Noche Live events"
       challenges_title: "Player challenges"
       challenges_hint: "One invitation, the result, and at most one useful reminder."
       challenges_on: "Your challenges will arrive on this device."
@@ -177,6 +186,12 @@ en:
       study_reading:
         title: "Your journey continues"
         body: "Return to %{title}."
+      night_tomorrow:
+        title: "Noche Live is tomorrow"
+        body: "See you at %{time}. Tap to open your night’s entrance."
+      night_starting_soon:
+        title: "Noche Live starts soon"
+        body: "See you at %{time}. Your entrance is ready."
       duel_invitation:
         title: "A challenge is waiting"
         body: "%{name} challenged you in %{pack}. Ready to enter the arena?"
@@ -486,8 +501,8 @@ en:
     push:
       title: "Notifications you choose"
       body: "If you ask for them, we store the Web Push endpoint and public subscription keys in encrypted form. We also keep the linked profile and device, language, time zone, browser family, the types you chose, frequency, time, consent dates, and the technical status of each delivery and open."
-      basis: "The legal basis is your specific consent under GDPR Article 6(1)(a). Challenges and verses are chosen separately, are never preselected, and each choice is as easy to withdraw as it was to give. System permission only opens the technical channel; by itself, it does not allow us to send you anything."
-      screen: "A notification may appear on your Lock Screen. Its text is therefore short and does not reveal private spiritual reading or more personal detail than needed. Tapping it opens the matching passage, reading, or challenge directly."
+      basis: "The legal basis is your specific consent under GDPR Article 6(1)(a). Challenges, verses, and Noche Live reminders are chosen separately, are never preselected, and each choice is as easy to withdraw as it was to give. System permission only opens the technical channel; by itself, it does not allow us to send you anything."
+      screen: "A notification may appear on your Lock Screen. Its text is therefore short and does not reveal private spiritual reading or more personal detail than needed. Tapping it opens the matching passage, reading, challenge, or Noche Live entrance directly."
       providers: "Render stores the subscription and the job queue. To deliver a notification, the encrypted endpoint is used with your browser or operating system’s push service, which may be operated by Apple, Google, Mozilla, or another browser provider. Noche Live does not sell this data or use it for advertising."
       retention: "We keep a subscription while your choices remain active. An endpoint that reports it no longer exists is revoked immediately and deleted after 30 days. Technical delivery and open records are deleted after 90 days. You can turn off one type or this device from your profile."
     server:
