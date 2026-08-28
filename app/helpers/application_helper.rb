@@ -184,13 +184,14 @@ module ApplicationHelper
       body: capture(&block)
   end
 
-  def chrome_menu(open: false, icon: "menu", face: nil, tools: nil, hud: nil, bar: nil, &block)
+  def chrome_menu(open: false, icon: "menu", face: nil, tools: nil, hud: nil, bar: nil, theme: nil, &block)
     face = chrome_face? if face.nil?
     tools = chrome_tools_in_drawer? if tools.nil?
     hud = chrome_hud?(face) if hud.nil?
     bar = chrome_hud_bar if hud && bar.nil?
+    theme = normalize_hud_theme(theme || chrome_hud_theme)
     face = false if hud
-    render "shared/chrome_menu", open: open, icon: icon, face: face, tools: tools, hud: hud, bar: bar, body: capture(&block)
+    render "shared/chrome_menu", open: open, icon: icon, face: face, tools: tools, hud: hud, bar: bar, theme: theme, body: capture(&block)
   end
 
   def page_hud(**options, &block)
@@ -218,6 +219,15 @@ module ApplicationHelper
     )
   rescue NoMethodError
     Huds::Present.call(device_digest: "hud")
+  end
+
+  def chrome_hud_theme
+    match = content_for(:body_class).to_s.match(/\bis-celestial-(light|dark)\b/)
+    match ? "celestial-#{match[1]}" : "celestial-light"
+  end
+
+  def normalize_hud_theme(value)
+    Hud::BarComponent.normalize_theme(value)
   end
 
   def site_menu(tools: chrome_tools_in_drawer?)

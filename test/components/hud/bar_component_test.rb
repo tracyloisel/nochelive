@@ -6,7 +6,7 @@ class Hud::BarComponentTest < ViewComponent::TestCase
     bar = Huds::Present::Result.new(kind: :street, guest: true, dots: [])
     render_inline(Hud::BarComponent.new(bar:))
 
-    assert_selector ".quiz-hud.is-guest"
+    assert_selector ".quiz-hud.is-guest[data-hud-theme='celestial-light']"
     assert_selector ".quiz-hud-avatar.is-guest .picto-profile-spark"
     assert_text I18n.t("hub.guest_invite")
     assert_text I18n.t("hub.guest_in_ward")
@@ -14,6 +14,19 @@ class Hud::BarComponentTest < ViewComponent::TestCase
     assert_selector "a.quiz-hud-who.is-guest[href*='fresh=1']"
     assert_no_selector ".quiz-hud-rail"
     assert_no_selector ".quiz-hud-score"
+  end
+
+  test "HUD exposes only the two canonical celestial themes" do
+    bar = Huds::Present::Result.new(kind: :street, guest: true, dots: [])
+
+    render_inline(Hud::BarComponent.new(bar:, theme: "dark"))
+    assert_selector ".quiz-hud[data-hud-theme='celestial-dark']"
+
+    render_inline(Hud::BarComponent.new(bar:, theme: "celestial-light"))
+    assert_selector ".quiz-hud[data-hud-theme='celestial-light']"
+
+    render_inline(Hud::BarComponent.new(bar:, theme: "sepia"))
+    assert_selector ".quiz-hud[data-hud-theme='celestial-light']"
   end
 
   test "signed-in street HUD is the quiz capsule" do

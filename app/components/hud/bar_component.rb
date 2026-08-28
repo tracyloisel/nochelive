@@ -1,12 +1,21 @@
 module Hud
   class BarComponent < ViewComponent::Base
-    delegate :picto, :avatar_mark, :rank_name, :t, :link_to, :number_with_delimiter, to: :helpers
+    THEMES = %w[celestial-light celestial-dark].freeze
 
-    def initialize(bar:)
-      @bar = bar
+    def self.normalize_theme(value)
+      candidate = value.to_s.tr("_", "-")
+      candidate = "celestial-#{candidate}" if %w[light dark].include?(candidate)
+      THEMES.include?(candidate) ? candidate : "celestial-light"
     end
 
-    attr_reader :bar
+    delegate :picto, :avatar_mark, :rank_name, :t, :link_to, :number_with_delimiter, to: :helpers
+
+    def initialize(bar:, theme: "celestial-light")
+      @bar = bar
+      @theme = self.class.normalize_theme(theme)
+    end
+
+    attr_reader :bar, :theme
 
     def guest? = bar.guest?
     def quiz? = bar.quiz?

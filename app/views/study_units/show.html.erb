@@ -1,5 +1,5 @@
 <% content_for :title, @unit.theme %>
-<% content_for :body_class, "is-study-unit" %>
+<% content_for :body_class, "is-study-unit is-celestial-dark" %>
 <main id="study_unit" class="study-world study-unit-world" style="--study-art:url('<%= @quiz&.content&.fetch("artwork", "/media/study/psalms-refuge-2026.png") %>')">
   <% page_hud(hud: true) { site_menu } %>
   <%= render "study_programs/lockup" %>

@@ -11,7 +11,8 @@
         question: question,
         pack: pack,
         quiz_standings: quiz_standings,
-        combo: combo %>
+        combo: combo,
+        theme: chrome.mode %>
 
   <% if street.asking? && question.timed? %>
     <%= render "play/timer", round: run, expire_url: quiz_expire_path(run) %>

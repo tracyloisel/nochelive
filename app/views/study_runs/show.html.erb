@@ -1,6 +1,6 @@
 <% quiz = @run.study_quiz_version %>
 <% content_for :title, t("study.title") %>
-<% content_for :body_class, "is-study-run" %>
+<% content_for :body_class, "is-study-run is-celestial-dark" %>
 <% revealing = @answer && params[:reveal].to_s == @answer.id.to_s %>
 <main id="study_run"
       class="study-play<%= " is-complete" if @run.completed? %><%= " is-reveal is-reveal-correct" if revealing && @answer.correct? %><%= " is-reveal is-reveal-wrong" if revealing && !@answer.correct? %>"

@@ -1,4 +1,5 @@
 <nav class="home-menu<%= " is-split" if local_assigns[:face] || local_assigns[:hud] %><%= " is-hud" if local_assigns[:hud] %>"
+     <% if local_assigns[:hud] %>data-hud-theme="<%= theme %>"<% end %>
      data-controller="chrome-menu"
      data-chrome-menu-open-label-value="<%= t("chrome.menu") %>"
      data-chrome-menu-close-label-value="<%= t("chrome.close_menu") %>"
@@ -11,7 +12,7 @@
           tabindex="-1"
           aria-hidden="true"></button>
   <% if local_assigns[:hud] && local_assigns[:bar] %>
-    <%= render Hud::BarComponent.new(bar: bar) %>
+    <%= render Hud::BarComponent.new(bar: bar, theme: theme) %>
   <% elsif local_assigns[:face] %>
     <%= render "shared/chrome_face" %>
   <% end %>

@@ -29,7 +29,7 @@ backdrops:
     image: home/nazareno-belen.jpg
     tags: [nazareno, belen, peaceful, glorious]
     theme:
-      mode: light
+      mode: dark
       atmosphere: glorious
       accent: gold
   - id: elias-carmel

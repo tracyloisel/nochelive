@@ -62,6 +62,14 @@ class Hubs::BackdropTest < ActiveSupport::TestCase
     assert_match %r{/media/home/coronas-reino\.jpg\z}, picked.src
   end
 
+  test "Bethlehem night artwork always selects celestial dark" do
+    picked = Hubs::Backdrop.call(theme_id: "nazareno")
+
+    assert_equal "nazareno-belen", picked.id
+    assert_equal "dark", picked.theme.mode
+    assert_match %r{/media/home/nazareno-belen\.jpg\z}, picked.src
+  end
+
   test "pack_id override matches tags" do
     picked = Hubs::Backdrop.call(pack_id: "moises", at: Time.zone.local(2026, 1, 5, 12))
     assert_includes picked.tags, "moises"

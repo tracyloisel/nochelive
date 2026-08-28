@@ -79,7 +79,7 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
     theme = css_select("#street_world").first["data-hub-theme"]
     assert_includes %w[light dark], theme
     assert_select "body.is-game-hub-page.is-celestial-#{theme}"
-    assert_select "body.is-game-hub-page > .home-menu.is-hud .quiz-hud"
+    assert_select "body.is-game-hub-page > .home-menu.is-hud[data-hud-theme='celestial-#{theme}'] .quiz-hud[data-hud-theme='celestial-#{theme}']"
   end
 
   test "online tile shows two real friends ranks crowns and leaderboard CTA" do

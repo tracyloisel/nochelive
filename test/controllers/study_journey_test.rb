@@ -29,6 +29,8 @@ class StudyJourneyTest < ActionDispatch::IntegrationTest
     get study_program_path
 
     assert_response :success
+    assert_select "body.is-study-program.is-celestial-dark"
+    assert_select ".home-menu.is-hud[data-hud-theme='celestial-dark'] .quiz-hud[data-hud-theme='celestial-dark']"
     assert_select "#study_program"
     assert_select ".study-current", text: /#{Regexp.escape(I18n.t("study.psalms_theme"))}/
     assert_select ".study-path-nav", count: 0
@@ -61,7 +63,8 @@ class StudyJourneyTest < ActionDispatch::IntegrationTest
     get study_unit_path(@unit)
 
     assert_response :success
-    assert_select "body.is-study-unit main.shell #study_unit.study-unit-world"
+    assert_select "body.is-study-unit.is-celestial-dark main.shell #study_unit.study-unit-world"
+    assert_select ".home-menu.is-hud[data-hud-theme='celestial-dark'] .quiz-hud[data-hud-theme='celestial-dark']"
     assert_select "#study_unit > .study-lockup" do
       assert_select ".study-seal", text: "✦"
       assert_select "h1", text: I18n.t("study.title")
@@ -121,7 +124,7 @@ class StudyJourneyTest < ActionDispatch::IntegrationTest
     get study_run_path(run)
     assert_response :success
     assert_select "#study_run[data-stage-bed-value=study_refuge]"
-    assert_select ".home-menu.is-hud .quiz-hud", count: 1
+    assert_select ".home-menu.is-hud[data-hud-theme='celestial-dark'] .quiz-hud[data-hud-theme='celestial-dark']", count: 1
     assert_select ".navigation-dock .navigation-dock__item.is-active[href='#{study_program_path}']", count: 1
     assert_select ".study-choice", count: 4
     assert_select "a.study-question-reading[data-turbo-frame=scripture_reader]", count: 1

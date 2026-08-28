@@ -29,12 +29,45 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
     set_quiz_viewport(804, 1_100)
     sign_in_fixture_person_direct!(people(:pili))
 
-    [ root_path, street_map_path, street_leaderboard_path, study_program_path, church_path ].each do |path|
+    [
+      [ root_path, nil, "hub" ],
+      [ street_map_path, "celestial-light", "adventure" ],
+      [ street_leaderboard_path, "celestial-light", "league" ],
+      [ study_program_path, "celestial-light", "word" ],
+      [ church_path, "celestial-dark", "church" ],
+      [ ward_profile_path(wards(:demo).code), "celestial-dark", "ward" ]
+    ].each do |path, expected_theme, shot_name|
       visit path
       assert_selector "body > .home-menu.is-hud"
       assert_selector "body > .navigation-dock"
       assert_layout_chrome_full_width
+      assert_hud_theme_contract(expected_theme)
+      shot("hud-route-#{shot_name}")
     end
+  end
+
+  test "hub HUD renders the same anatomy in celestial light and dark" do
+    set_quiz_viewport(390, 844)
+    sign_in_fixture_person_direct!(people(:pili))
+    catalog = Array(YAML.safe_load_file(Hubs::Backdrop::CATALOG)["backdrops"])
+    worlds = {
+      "celestial-light" => catalog.find { |row| row["id"] == "eden-lumiere" },
+      "celestial-dark" => catalog.find { |row| row["id"] == "coronas-ungido" }
+    }
+
+    worlds.each do |theme, row|
+      Hubs::Backdrop.entries = [ row ]
+      visit root_path
+      assert_selector "body.is-#{theme}"
+      assert_hud_theme_contract(theme)
+      assert_selector ".quiz-hud-who"
+      assert_selector ".quiz-hud-pack"
+      assert_selector ".quiz-hud-stats"
+      assert_selector ".quiz-hud-menu"
+      shot("hud-#{theme}")
+    end
+  ensure
+    Hubs::Backdrop.reset!
   end
 
   test "defis opens on the stake rivalry and offers live async matches" do
@@ -746,6 +779,64 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
     assert_in_delta measured["viewport"], measured["dockW"], 2, "dock should span the viewport"
     assert_in_delta 0, measured["hudLeft"], 2, "HUD should start at the viewport edge"
     assert_in_delta 0, measured["dockLeft"], 2, "dock should start at the viewport edge"
+  end
+
+  def assert_hud_theme_contract(expected_theme = nil)
+    measured = page.evaluate_script(<<~JS)
+      (function() {
+        var menu = document.querySelector("body > .home-menu.is-hud");
+        var hud = menu && menu.querySelector(".quiz-hud");
+        if (!menu || !hud) return null;
+
+        var parseColor = function(value) {
+          var probe = document.createElement("span");
+          probe.style.color = value;
+          document.body.appendChild(probe);
+          var resolved = getComputedStyle(probe).color;
+          probe.remove();
+          var parts = resolved.match(/[\\d.]+/g).map(Number);
+          return { r: parts[0], g: parts[1], b: parts[2], a: parts[3] == null ? 1 : parts[3] };
+        };
+        var blend = function(color, under) {
+          return {
+            r: color.r * color.a + under * (1 - color.a),
+            g: color.g * color.a + under * (1 - color.a),
+            b: color.b * color.a + under * (1 - color.a)
+          };
+        };
+        var luminance = function(color) {
+          var channel = function(value) {
+            value = value / 255;
+            return value <= 0.04045 ? value / 12.92 : Math.pow((value + 0.055) / 1.055, 2.4);
+          };
+          return 0.2126 * channel(color.r) + 0.7152 * channel(color.g) + 0.0722 * channel(color.b);
+        };
+        var contrast = function(a, b) {
+          var la = luminance(a);
+          var lb = luminance(b);
+          return (Math.max(la, lb) + 0.05) / (Math.min(la, lb) + 0.05);
+        };
+        var style = getComputedStyle(hud);
+        var text = parseColor(style.color);
+        var glass = parseColor(style.getPropertyValue("--quiz-glass").trim());
+
+        return {
+          menuTheme: menu.dataset.hudTheme,
+          hudTheme: hud.dataset.hudTheme,
+          onBlack: contrast(text, blend(glass, 0)),
+          onWhite: contrast(text, blend(glass, 255))
+        };
+      })()
+    JS
+
+    assert measured, "the shared HUD must expose its theme and contrast tokens"
+    mode = find("body", visible: :all)[:class][/\bis-celestial-(light|dark)\b/, 1]
+    expected_theme ||= "celestial-#{mode}" if mode
+    assert_includes Hud::BarComponent::THEMES, expected_theme
+    assert_equal expected_theme, measured["menuTheme"]
+    assert_equal expected_theme, measured["hudTheme"]
+    assert_operator measured["onBlack"], :>=, 7.0, "#{expected_theme} HUD must remain AAA on a black artwork region"
+    assert_operator measured["onWhite"], :>=, 7.0, "#{expected_theme} HUD must remain AAA on a white artwork region"
   end
 
   def assert_praise_inside_shot(shout = nil)

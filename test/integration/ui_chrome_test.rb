@@ -23,6 +23,9 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     assert_select ".chrome-drawer .home-menu-nav"
     assert_select ".quiz-hud-who.is-guest"
     assert_select ".quiz-hud-avatar.is-guest"
+    hub_mode = css_select("body").first["class"][/\bis-celestial-(light|dark)\b/, 1]
+    assert_includes %w[light dark], hub_mode
+    assert_select ".home-menu.is-hud[data-hud-theme='celestial-#{hub_mode}'] .quiz-hud[data-hud-theme='celestial-#{hub_mode}']"
     assert_select ".home-menu-kicker", text: I18n.t("home.ward_menu")
     assert_select ".home-menu-kicker", text: I18n.t("church.menu")
     assert_select ".home-menu-kicker", text: I18n.t("home.about_menu")
@@ -50,6 +53,7 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     assert_select "a.home-menu-row[href=?]", root_path, text: I18n.t("street.nav_hub")
     assert_select ".play-sheet-grip", count: 0
     assert_select ".quiz-hud"
+    assert_select ".quiz-hud[data-hud-theme^='celestial-']"
     assert_select ".quiz-hud-streak"
     assert_select ".quiz-hud-score .picto-crown"
     assert_select ".street-quiz-apex"
@@ -91,6 +95,9 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     assert_includes css, ".scripture-veil[hidden]"
     assert_includes css, "--paper:"
     assert_includes css, "body.is-celestial-dark"
+    assert_includes css, '[data-hud-theme="celestial-light"]'
+    assert_includes css, '[data-hud-theme="celestial-dark"]'
+    assert_equal %w[celestial-dark celestial-light], css.scan(/\[data-hud-theme="([^"]+)"\]/).flatten.uniq.sort
     assert_includes css, "--text-on-glass: var(--text-primary)"
     assert_includes css, ".street-live-dot"
     assert_includes css, "--space-4:"
@@ -222,6 +229,20 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     assert_includes css, "body.is-street-play #street_quiz.is-overlay .quiz-flag.is-yes .picto path"
     refute_includes css, "#3d9a5c"
     refute_includes css, "#6fde95"
+  end
+
+  test "shared HUD has no page-specific legacy skins" do
+    css = Rails.root.join("app/assets/stylesheets/application.css").read
+    forbidden = css.scan(/([^{}]+)\{([^{}]*)\}/m).filter_map do |selector, declarations|
+      selector = selector.strip
+      next unless selector.include?("body.") && selector.include?(".quiz-hud")
+      next if selector.include?("#street_quiz")
+      next unless declarations.match?(/--(?:quiz|surface|text|border|gold|button|shadow)|(?:^|;)\s*(?:color|background|border-color|box-shadow|backdrop-filter)\s*:/m)
+
+      selector
+    end
+
+    assert_empty forbidden, "HUD palette must come only from data-hud-theme, not page selectors: #{forbidden.join(', ')}"
   end
 
   test "watch screen is a still-first cinema board" do

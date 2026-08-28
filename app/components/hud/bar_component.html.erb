@@ -1,5 +1,6 @@
 <header class="quiz-hud<%= " is-guest" if guest? %><%= " is-quiz" if quiz? %><%= " is-rank-up" if bar.rank_up %>"
         aria-label="<%= aria_label %>"
+        data-hud-theme="<%= theme %>"
         data-controller="hub-streak">
   <% if guest? && !quiz? %>
     <%= link_to who_path, class: "quiz-hud-who is-guest", aria: { label: t("hub.guest_invite") } do %>

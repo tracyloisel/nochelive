@@ -12,7 +12,9 @@ class StreetPlaysControllerTest < ActionDispatch::IntegrationTest
     post street_pack_start_path("coronas")
     follow_redirect!
     assert_select "#street_quiz.play-reel.is-street.is-overlay"
-    assert_select ".quiz-hud"
+    quiz_theme = css_select("#street_quiz").first["data-quiz-theme"]
+    assert_includes %w[light dark], quiz_theme
+    assert_select ".quiz-hud[data-hud-theme='celestial-#{quiz_theme}']"
     assert_select ".quiz-hud-streak"
     assert_select ".quiz-hud-score .picto-crown"
     assert_select ".quiz-hud-rail"

@@ -4,7 +4,7 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
   test "church hub is a cinematic journey with four doors and a dock" do
     get church_path
     assert_response :success
-    assert_select "body.is-church-journey"
+    assert_select "body.is-church-journey.is-celestial-dark"
     assert_select ".church-landing[style*='threshold-v2.png']"
     assert_select ".church-landing h1", text: I18n.t("church.invite")
     assert_select "a.paper-door[href=?]", church_meet_path
@@ -12,7 +12,7 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
     assert_select "a.paper-door[href=?]", church_missionaries_path
     assert_select "a.paper-door[href=?]", church_worship_path
     assert_select ".paper-door-hint", text: I18n.t("church.beliefs_hint")
-    assert_select ".home-menu.is-hud .quiz-hud"
+    assert_select ".home-menu.is-hud[data-hud-theme='celestial-dark'] .quiz-hud[data-hud-theme='celestial-dark']"
     assert_select ".navigation-dock .navigation-dock__item", count: 5
     assert_select ".navigation-dock__item.is-active[href=?]", church_path
     assert_select ".btn.btn-gold", count: 0
@@ -111,6 +111,7 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
     assert_select ".charter-journey-story a[href=?]", privacy_path, count: 0
     assert_select ".charter-journey-story a[href=?]", platform_stats_path, count: 0
     assert_select ".navigation-dock .navigation-dock__item", count: 5
+    assert_select ".home-menu.is-hud[data-hud-theme='celestial-light'] .quiz-hud[data-hud-theme='celestial-light']"
     assert_select ".hall-sheet", count: 0
     assert_select ".story-ticks", count: 0
     assert_select ".btn.btn-gold", count: 0
@@ -140,6 +141,7 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
     assert_select ".charter-journey-foot", count: 0
     assert_select ".charter-journey-story a[href=?]", legal_path, count: 0
     assert_select ".navigation-dock .navigation-dock__item", count: 5
+    assert_select ".home-menu.is-hud[data-hud-theme='celestial-light'] .quiz-hud[data-hud-theme='celestial-light']"
     assert_select ".hall-sheet", count: 0
     assert_select ".story-ticks", count: 0
     assert_select ".btn.btn-gold", count: 0
@@ -150,7 +152,7 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select "body.is-paper-hall.is-celestial-dark.is-stats"
     assert_select "#stats_page.stats-page"
-    assert_select ".home-menu.is-hud .quiz-hud", count: 1
+    assert_select ".home-menu.is-hud[data-hud-theme='celestial-dark'] .quiz-hud[data-hud-theme='celestial-dark']", count: 1
     assert_select ".stats-header h1", text: I18n.t("stats.title")
     assert_select ".stats-header-lede", text: I18n.t("stats.lede")
     assert_select "section.stats-chapter h2", count: 5

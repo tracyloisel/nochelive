@@ -6773,14 +6773,6 @@ body.is-rama-profile {
 body.is-rama-profile .sky { background: #f8f5ee; }
 body.is-rama-profile .shell { width: 100%; max-width: none; padding: 0; }
 body.is-rama-profile .home-menu:not(.is-hud) { left: auto; right: max(env(safe-area-inset-right), var(--street-hub-inset)); }
-body.is-rama-profile .home-menu.is-hud .quiz-hud {
-  --quiz-text: #fffaf0;
-  --quiz-muted: rgba(255,250,240,.76);
-  --quiz-glass: rgba(3,27,43,.68);
-  --quiz-border: rgba(231,190,69,.68);
-  --quiz-shadow: 0 .45rem 1.3rem rgba(0,0,0,.2);
-  backdrop-filter: blur(16px) saturate(1.12);
-}
 .rama-page {
   --rama-pad: 1.9rem;
   --rama-content-col: 78rem;
@@ -16088,6 +16080,55 @@ body.is-street-hub:has(.street-world.is-game-hub:not(.is-profile-gate)) .chrome-
 .street-world.is-game-hub .street-card::after {
   display: none;
 }
+
+/* Shared HUD palette contract. The bar is deliberately self-contained so page
+   tokens and route-specific artwork cannot invent a third skin by inheritance. */
+:where(.home-menu.is-hud, .quiz-hud)[data-hud-theme="celestial-light"] {
+  --surface-primary: #fffdf7;
+  --surface-secondary: #f3eee4;
+  --surface-glass: rgba(255, 253, 247, .94);
+  --text-primary: #142943;
+  --text-secondary: #53606d;
+  --text-muted: #68727d;
+  --text-on-glass: var(--text-primary);
+  --border-primary: rgba(174, 143, 85, .34);
+  --border-gold: rgba(174, 126, 28, .48);
+  --gold-primary: var(--gold);
+  --gold-highlight: #e5bd52;
+  --button-primary: linear-gradient(180deg, #f7dfa0 0%, #e5bd48 48%, #c89217 100%);
+  --button-primary-text: #151b25;
+  --shadow-card: 0 .7rem 1.8rem rgba(49, 37, 15, .18), inset 0 1px 0 rgba(255, 255, 255, .9);
+  --quiz-text: var(--text-primary);
+  --quiz-muted: var(--text-secondary);
+  --quiz-glass: var(--surface-glass);
+  --quiz-border: var(--border-gold);
+  --quiz-shadow: var(--shadow-card);
+  color-scheme: light;
+}
+
+:where(.home-menu.is-hud, .quiz-hud)[data-hud-theme="celestial-dark"] {
+  --surface-primary: #0a1627;
+  --surface-secondary: #07101e;
+  --surface-glass: rgba(5, 19, 36, .88);
+  --text-primary: #fff8e8;
+  --text-secondary: rgba(255, 248, 232, .78);
+  --text-muted: rgba(255, 248, 232, .64);
+  --text-on-glass: var(--text-primary);
+  --border-primary: rgba(231, 190, 105, .34);
+  --border-gold: rgba(231, 190, 105, .58);
+  --gold-primary: var(--gold);
+  --gold-highlight: #f2d98a;
+  --button-primary: linear-gradient(180deg, #f7dfa0 0%, #e5bd48 48%, #c89217 100%);
+  --button-primary-text: #151b25;
+  --shadow-card: 0 1rem 2.8rem rgba(0, 0, 0, .46), inset 0 1px 0 rgba(255, 248, 232, .08);
+  --quiz-text: var(--text-primary);
+  --quiz-muted: var(--text-secondary);
+  --quiz-glass: var(--surface-glass);
+  --quiz-border: var(--border-gold);
+  --quiz-shadow: var(--shadow-card);
+  color-scheme: dark;
+}
+
 .quiz-hud {
   display: grid;
   grid-template-columns: minmax(0, 1.15fr) auto minmax(5.75rem, 1.1fr) max-content 2.15rem;
@@ -16536,11 +16577,6 @@ a.quiz-hud-who {
   display: block;
 }
 .home-menu.is-hud .quiz-hud {
-  --quiz-text: var(--text-on-glass, var(--ink));
-  --quiz-muted: var(--text-secondary, var(--muted));
-  --quiz-glass: var(--surface-glass, var(--surface));
-  --quiz-border: var(--border-gold, color-mix(in srgb, var(--gold) 55%, transparent));
-  --quiz-shadow: var(--shadow-card, var(--shadow));
   width: 100%;
   pointer-events: auto;
 }
@@ -16563,22 +16599,6 @@ body.is-paper-hall:has(.home-menu.is-hud) .home-paper,
 body.is-street-hub:has(.home-menu.is-hud) .street-map-page,
 body.is-street-hub:has(.home-menu.is-hud) .street-world.is-game-hub:not(.is-profile-gate) {
   padding-top: calc(4.6rem + env(safe-area-inset-top));
-}
-body.is-street-hub:has(.street-world.is-game-hub:not(.is-profile-gate)) .home-menu.is-hud .home-menu-btn.quiet-link {
-  width: 2.15rem;
-  height: 2.15rem;
-  min-height: 2.15rem;
-  background: transparent;
-  border: 0;
-  box-shadow: none;
-  backdrop-filter: none;
-  border-radius: 0.55rem;
-}
-body.is-street-hub:has(.street-world.is-game-hub:not(.is-profile-gate)) .home-menu.is-hud .home-menu-btn .picto {
-  color: var(--text-on-glass, #f6f1e4);
-}
-body.is-street-hub:has(.street-world.is-game-hub[data-hub-theme="light"]:not(.is-profile-gate)) .home-menu.is-hud .home-menu-btn .picto {
-  color: var(--ink);
 }
 .street-world.is-game-hub .street-hub-feed {
   gap: 0;
@@ -18790,8 +18810,8 @@ body.is-street-play #street_quiz.is-overlay .quiz-hud-streak {
   border: 1px solid var(--quiz-border);
   box-shadow: none;
 }
-body.is-street-play #street_quiz.is-overlay[data-quiz-theme="light"] .quiz-hud .street-score.quiz-hud-score,
-body.is-street-play #street_quiz.is-overlay[data-quiz-theme="light"] .quiz-hud-streak {
+body.is-street-play #street_quiz.is-overlay .quiz-hud[data-hud-theme="celestial-light"] .street-score.quiz-hud-score,
+body.is-street-play #street_quiz.is-overlay .quiz-hud[data-hud-theme="celestial-light"] .quiz-hud-streak {
   background: color-mix(in srgb, var(--quiz-glass) 88%, white);
 }
 body.is-street-play #street_quiz.is-overlay .quiz-hud-score .picto,
@@ -20701,49 +20721,6 @@ body.is-street-hub:has(.street-duel-inbox) .sky {
 body.is-duels .street-duel-inbox {
   padding-top: max(5.75rem, calc(env(safe-area-inset-top) + 5rem));
   padding-bottom: calc(6rem + env(safe-area-inset-bottom));
-}
-body.is-duels .home-menu.is-hud .quiz-hud {
-  width: 100%;
-  max-width: 100%;
-  box-sizing: border-box;
-  position: relative;
-  isolation: isolate;
-  padding: .52rem .62rem;
-  border: 1px solid color-mix(in srgb, var(--gold-deep) 58%, #fff4ca);
-  border-radius: 1.35rem;
-  background:
-    linear-gradient(110deg, rgba(255,255,255,.96) 0 34%, rgba(255,248,226,.92) 50%, rgba(255,255,255,.97) 72%),
-    var(--paper);
-  box-shadow:
-    0 12px 34px rgba(69, 43, 9, .16),
-    0 2px 7px rgba(173, 123, 13, .1),
-    inset 0 1px 0 rgba(255,255,255,1),
-    inset 0 -1px 0 rgba(173,123,13,.12);
-  backdrop-filter: blur(26px) saturate(1.12);
-}
-body.is-duels .home-menu.is-hud .quiz-hud::before {
-  content: "";
-  position: absolute;
-  inset: 3px;
-  z-index: -1;
-  border: 1px solid rgba(255,255,255,.72);
-  border-radius: 1.12rem;
-  pointer-events: none;
-}
-body.is-duels .home-menu.is-hud .quiz-hud-avatar {
-  border: 2px solid var(--gold-deep);
-  box-shadow: 0 0 0 2px #f6df8d, 0 5px 12px rgba(71,43,5,.2);
-}
-body.is-duels .home-menu.is-hud .quiz-hud-level {
-  background: linear-gradient(145deg, #fff0a8 0%, var(--gold) 48%, #b67c05 100%);
-  border: 1px solid #fff1aa;
-  box-shadow: inset 0 1px 0 #fff8d7, 0 3px 8px rgba(139,91,0,.2);
-}
-body.is-duels .home-menu.is-hud .quiz-hud-score,
-body.is-duels .home-menu.is-hud .quiz-hud-streak {
-  background: linear-gradient(180deg, rgba(255,255,255,.95), rgba(248,239,215,.78));
-  border-color: color-mix(in srgb, var(--gold-deep) 42%, #f5dda0);
-  box-shadow: inset 0 1px 0 white, 0 3px 8px rgba(91,58,8,.08);
 }
 body.is-duels .street-duel-title { grid-template-columns: 1fr; min-height: 4.5rem; }
 body.is-duels .street-duel-title h1 { text-align: center; }
@@ -23311,30 +23288,6 @@ body.is-study-program #study_program {
   background-position: 50% 26%;
   background-size: cover;
 }
-body.is-study-program > .home-menu.is-hud .quiz-hud {
-  --surface-primary: var(--navy);
-  --surface-secondary: var(--navy-mid);
-  --surface-glass: color-mix(in srgb, var(--navy) 84%, transparent);
-  --text-on-glass: var(--story-type);
-  --text-secondary: color-mix(in srgb, var(--story-type) 72%, transparent);
-  --border-gold: color-mix(in srgb, var(--gold) 48%, transparent);
-  --gold-primary: var(--gold);
-  --gold-highlight: var(--gold-bright);
-  --button-primary: var(--temple-gold-leaf);
-  --button-primary-text: var(--ink);
-  --shadow-card: 0 18px 48px color-mix(in srgb, var(--navy) 48%, transparent);
-  max-width: none;
-}
-body.is-study-program > .home-menu.is-hud .quiz-hud.is-guest .quiz-hud-cta {
-  border-color: rgba(231,190,105,.42);
-  background: rgba(255,248,232,.1);
-  color: #fff8e8;
-}
-body.is-study-program > .home-menu.is-hud .home-menu-btn .picto,
-body.is-study-unit > .home-menu.is-hud .home-menu-btn .picto,
-body.is-study-community > .home-menu.is-hud .home-menu-btn .picto {
-  color: var(--story-type);
-}
 body.is-study-unit {
   background: #071526;
   overflow-x: hidden;
@@ -23471,13 +23424,6 @@ body.is-study-run .study-play.is-complete {
   scrollbar-gutter: stable;
   -webkit-overflow-scrolling: touch;
 }
-body.is-study-run .home-menu.is-hud .quiz-hud {
-  --quiz-text: #fff8e8;
-  --quiz-muted: rgba(255, 248, 232, .72);
-  --quiz-glass: rgba(5, 19, 36, .78);
-  --quiz-border: rgba(231, 190, 105, .46);
-  backdrop-filter: blur(16px) saturate(1.08);
-}
 .study-play-head { height: 9.5rem; padding: calc(max(1rem, env(safe-area-inset-top)) + 4.6rem) 1rem .7rem; display: grid; grid-template-columns: minmax(0,1fr) auto auto auto; align-items: center; gap: .7rem; background: linear-gradient(rgba(3,12,23,.84), transparent); }
 .study-play-head > span { color: #fff8e8; font: 800 .67rem var(--font-ui); }
 .study-play-head > div { display: flex; gap: .2rem; }
@@ -23587,7 +23533,6 @@ body.is-study-community .shell { width: 100%; max-width: none; min-height: 100dv
 .study-community-world { --street-hub-col: 100%; position: relative; isolation: isolate; width: 100%; max-width: none; min-height: 100dvh; padding: max(6rem, calc(env(safe-area-inset-top) + 5rem)) var(--study-community-inset) calc(8rem + env(safe-area-inset-bottom)); overflow: hidden; color: #fff8e8; background: #071526 var(--study-art) 50% 50% / cover fixed no-repeat; }
 .study-community-world::before { content: ""; position: absolute; z-index: -1; inset: 0; background: linear-gradient(180deg, rgba(3,13,26,.34) 0%, rgba(4,17,32,.58) 38%, rgba(4,17,32,.9) 76%, #061426 100%); pointer-events: none; }
 .study-community-content { width: min(100%, 42rem); margin-inline: auto; }
-body.is-study-community .home-menu.is-hud .quiz-hud { --quiz-text: #fff8e8; --quiz-muted: rgba(255,248,232,.72); --quiz-glass: rgba(5,19,36,.8); --quiz-border: rgba(231,190,105,.46); backdrop-filter: blur(16px) saturate(1.08); }
 .study-community-head { padding: clamp(2rem, 12vh, 8rem) 0 1.2rem; text-align: center; text-shadow: 0 2px 24px rgba(0,0,0,.68); }
 .study-community-head h1 { margin: .35rem 0 .6rem; color: #fff8e8; font: 780 clamp(2.5rem, 9vw, 4.6rem)/.92 var(--font-display); }
 .study-community-head .study-kicker, .study-community-week .study-kicker, .study-community-invite .study-kicker { color: var(--gold-highlight); }
@@ -23783,7 +23728,6 @@ body.is-street-map-page .sky { background: none; }
   box-shadow: 0 0 5rem rgba(112, 82, 31, .12);
 }
 .street-world.street-map-page::before { display: none; }
-body.is-street-map-page > .home-menu.is-hud .quiz-hud { color:var(--mapa-ink); background:rgba(255,252,246,.9); border-color:rgba(196,137,30,.28); box-shadow:0 .45rem 1.2rem rgba(74,49,17,.14); backdrop-filter:blur(16px); }
 .mapa-header { text-align: center; }
 .mapa-title {
   display: flex; align-items: center; gap: .8rem; justify-content: center;
