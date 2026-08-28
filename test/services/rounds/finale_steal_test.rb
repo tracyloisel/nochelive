@@ -24,6 +24,7 @@ class Rounds::FinaleStealTest < ActiveSupport::TestCase
     assert @round.reload.finale_steal_open?
 
     Answers::Submit.call(round: @round.reload, team: casa, player: daniel, body: "double")
+    Answers::GradeChoices.call(round: @round)
     assert casa.reload.score_events.where(kind: "correct", round_run: @round).exists?
   end
 
@@ -33,6 +34,7 @@ class Rounds::FinaleStealTest < ActiveSupport::TestCase
     Rounds::Lock.call(round: @round)
     assert @round.reload.finale_steal_open?
     Answers::Submit.call(round: @round, team: daniel.team, player: daniel, body: "double")
+    Answers::GradeChoices.call(round: @round)
     assert daniel.team.reload.score_events.where(kind: "correct", round_run: @round).exists?
   end
 

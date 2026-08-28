@@ -12,6 +12,7 @@ module Nights
     def call
       raise "Not the finale" unless @round.definition.finale?
 
+      Answers::GradeChoices.call(round: @round)
       @round.reveal! if @round.phase.in?(%w[open locked answering])
       @round.complete! if @round.may_complete?
       @night.update!(status: "finished")

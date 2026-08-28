@@ -66,7 +66,7 @@ class PlayAndWatchControllerTest < ActionDispatch::IntegrationTest
     assert_select ".quiz-verdict", count: 0
     assert_select ".quiz-bar", count: 0
     assert_select ".reveal", count: 0
-    assert_select ".wait", count: 0
+    assert_select ".wait", text: /Esperad/
     assert_select ".play-reel.is-quiz"
 
     round.update_columns(phase: "revealed", revealed_at: Time.current)

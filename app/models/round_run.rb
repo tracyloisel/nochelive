@@ -55,12 +55,17 @@ class RoundRun < ApplicationRecord
   end
 
   def anyone_correct?
+    return answers.includes(:player).any? { |answer| finale_correct_answer?(answer) } if definition.layered_finale?
+
     score_events.exists?(kind: "correct")
   end
 
   def chapel_correct?
     ids = room_team_ids
-    ids.any? && score_events.exists?(team_id: ids, kind: "correct")
+    return false if ids.empty?
+    return answers.includes(:player).where(team_id: ids).any? { |answer| finale_correct_answer?(answer) } if definition.layered_finale?
+
+    score_events.exists?(team_id: ids, kind: "correct")
   end
 
   def room_team_ids
@@ -78,10 +83,20 @@ class RoundRun < ApplicationRecord
 
     return true if locked?
 
-    room_incorrect = score_events.exists?(team_id: ids, kind: "incorrect")
+    room_answers = answers.includes(:player).where(team_id: ids)
+    room_incorrect = room_answers.any? { |answer| !finale_correct_answer?(answer) }
     return false unless room_incorrect
 
-    buzzes.none? { |buzz| ids.include?(buzz.team_id) && !scored?(buzz.team) }
+    buzzes.none? { |buzz| ids.include?(buzz.team_id) && !answers.exists?(team_id: buzz.team_id) }
+  end
+
+  def finale_correct_answer?(answer)
+    expected = if answer.player&.remote? && definition.variant_correct.present?
+      definition.variant_correct
+    else
+      definition.correct_choice
+    end
+    answer.body.to_s == expected.to_s
   end
 
   def accepting_buzzes?
