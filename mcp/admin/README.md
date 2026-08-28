@@ -42,10 +42,8 @@ Add the following configuration, adapting `cwd` if the repository moves:
 
 ```toml
 [mcp_servers.nochelive_admin]
-command = "npm"
-args = ["start"]
+command = "./bin/start"
 cwd = "/Users/tracyloisel/00-Codes/nochelive/mcp/admin"
-env_vars = ["NOCHE_ADMIN_API_TOKEN"]
 startup_timeout_sec = 20
 tool_timeout_sec = 60
 enabled = true
@@ -54,7 +52,7 @@ enabled = true
 NOCHE_ADMIN_API_URL = "https://nochelive.com"
 ```
 
-`env_vars` forwards `NOCHE_ADMIN_API_TOKEN` from the environment that launches Codex, so the secret does not need to appear in `config.toml`. After saving, restart Codex. In the desktop app, the equivalent flow is **Settings → MCP servers → Add server → STDIO**, then save and restart. Use `/mcp` to confirm that `nochelive_admin` is connected.
+The launcher reads `NOCHE_ADMIN_API_TOKEN` from the macOS Keychain item named `com.nochelive.admin-api-token`, so the secret does not appear in `config.toml`. After saving, restart Codex. In the desktop app, the equivalent flow is **Settings → MCP servers → Add server → STDIO**, then save and restart. Use `/mcp` to confirm that `nochelive_admin` is connected.
 
 Official reference: [OpenAI documentation — Model Context Protocol](https://developers.openai.com/codex/mcp).
 

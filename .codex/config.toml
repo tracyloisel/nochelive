@@ -1,0 +1,9 @@
+[mcp_servers.nochelive_admin]
+command = "./bin/start"
+cwd = "/Users/tracyloisel/00-Codes/nochelive/mcp/admin"
+startup_timeout_sec = 20
+tool_timeout_sec = 60
+enabled = true
+
+[mcp_servers.nochelive_admin.env]
+NOCHE_ADMIN_API_URL = "https://nochelive.com"

@@ -1,0 +1,12 @@
+#!/bin/zsh
+set -euo pipefail
+
+NOCHE_ADMIN_API_TOKEN="$(security find-generic-password \
+  -a "$(id -un)" \
+  -s com.nochelive.admin-api-token \
+  -w)"
+
+export NOCHE_ADMIN_API_TOKEN
+export NOCHE_ADMIN_API_URL="${NOCHE_ADMIN_API_URL:-https://nochelive.com}"
+
+exec npm start
