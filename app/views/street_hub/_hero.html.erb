@@ -21,13 +21,16 @@
         <% reward = current ? hero.reward : slide.reward %>
         <% play_method = current ? hero.method : slide.method %>
         <% play_path = current ? hero.path : slide.path %>
-        <% still = current ? hero.still : slide.still %>
+        <% still = media_src(current ? hero.still : slide.still) %>
         <section class="hub-slide is-<%= slide.kind %><%= " is-locked" if slide.state == :locked %>"
                  data-kind="<%= slide.kind %>">
           <% if still %>
             <img src="<%= still %>"
                  alt=""
+                 width="1024"
+                 height="1824"
                  class="hub-slide-still"
+                 decoding="async"
                  <% if current %>data-hub-hero-target="still" data-hub-portal-target="still" style="view-transition-name: portal-hero"<% end %>
                  <% if current %>fetchpriority="high"<% else %>loading="lazy"<% end %>>
           <% end %>
@@ -84,6 +87,7 @@
                          width="141"
                          height="94"
                          class="hub-reward-chest"
+                         decoding="async"
                          <% if current %>data-hub-hero-target="chest"<% end %>>
                   <% else %>
                     <%= picto("chest") %>

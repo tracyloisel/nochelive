@@ -1,4 +1,4 @@
-// Import and register all your controllers from the importmap via controllers/**/*_controller
+// Import controllers only when a matching data-controller enters the DOM.
 import { application } from "controllers/application"
-import { eagerLoadControllersFrom } from "@hotwired/stimulus-loading"
-eagerLoadControllersFrom("controllers", application)
+import { lazyLoadControllersFrom } from "@hotwired/stimulus-loading"
+lazyLoadControllersFrom("controllers", application)

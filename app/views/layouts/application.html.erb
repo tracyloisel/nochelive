@@ -19,7 +19,9 @@
     <link rel="manifest" href="<%= pwa_manifest_path(format: :json) %>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Fraunces:opsz,wght@9..144,500;9..144,650;9..144,700&family=Kalam:wght@700&display=swap" rel="stylesheet">
+    <% font_stylesheet = "https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Fraunces:opsz,wght@9..144,500;9..144,650;9..144,700&family=Kalam:wght@700&display=swap" %>
+    <link href="<%= font_stylesheet %>" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript><link href="<%= font_stylesheet %>" rel="stylesheet"></noscript>
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
     <style>:root {
       --temple-hall-bg: url("<%= temple_hall_bg_src %>");
@@ -55,7 +57,7 @@
     <script>window.NocheSfx = <%= Sfx.catalog.to_json.html_safe %>;</script>
     <% tick = Sfx.versioned_path_for("tick") %>
     <% if tick %>
-      <audio id="noche_sfx_gate" class="sfx-gate" preload="auto" playsinline webkit-playsinline="true" src="<%= tick %>"></audio>
+      <audio id="noche_sfx_gate" class="sfx-gate" preload="none" playsinline webkit-playsinline="true" src="<%= tick %>"></audio>
     <% end %>
     <%= render "shared/chrome_tools" unless chrome_tools_in_drawer? %>
     <% if current_street_person %>
@@ -135,6 +137,7 @@
             data-action="click->pwa-install#backdropClose close->pwa-install#closed"
             aria-labelledby="pwa_install_title"
             aria-describedby="pwa_install_lede">
+      <template data-pwa-install-target="guideTemplate">
       <div class="pwa-install-sheet"
            data-pwa-install-target="sheet"
            tabindex="-1">
@@ -152,19 +155,19 @@
         <p class="pwa-install-browser-hint" data-pwa-install-target="browserHint" hidden><%= t("pwa.ios_browser_hint") %></p>
         <ol class="pwa-install-steps">
           <li>
-            <img src="/media/pwa/ios-install-share-v1.png" width="96" height="96" alt="" class="pwa-install-step-art">
+            <img src="/media/pwa/ios-install-share-v1.webp" width="96" height="96" alt="" class="pwa-install-step-art" loading="lazy" decoding="async">
             <span class="pwa-install-step-copy"><span class="pwa-install-step-mark">1</span><span><%= t("pwa.ios_share") %></span></span>
           </li>
           <li>
-            <img src="/media/pwa/ios-install-home-v1.png" width="96" height="96" alt="" class="pwa-install-step-art">
+            <img src="/media/pwa/ios-install-home-v1.webp" width="96" height="96" alt="" class="pwa-install-step-art" loading="lazy" decoding="async">
             <span class="pwa-install-step-copy"><span class="pwa-install-step-mark">2</span><span><%= t("pwa.ios_home") %></span></span>
           </li>
           <li>
-            <img src="/media/pwa/ios-install-web-app-v1.png" width="96" height="96" alt="" class="pwa-install-step-art">
+            <img src="/media/pwa/ios-install-web-app-v1.webp" width="96" height="96" alt="" class="pwa-install-step-art" loading="lazy" decoding="async">
             <span class="pwa-install-step-copy"><span class="pwa-install-step-mark">3</span><span><%= t("pwa.ios_web_app") %></span></span>
           </li>
           <li>
-            <img src="/media/pwa/ios-install-add-v1.png" width="96" height="96" alt="" class="pwa-install-step-art">
+            <img src="/media/pwa/ios-install-add-v1.webp" width="96" height="96" alt="" class="pwa-install-step-art" loading="lazy" decoding="async">
             <span class="pwa-install-step-copy"><span class="pwa-install-step-mark">4</span><span><%= t("pwa.ios_add") %></span></span>
           </li>
         </ol>
@@ -175,6 +178,7 @@
           </button>
         </footer>
       </div>
+      </template>
     </dialog>
     <turbo-frame id="scripture_reader" data-scripture-target="frame"></turbo-frame>
   </body>

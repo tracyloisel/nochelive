@@ -62,7 +62,7 @@ class Sfx
   PULSE_SOLO = %w[lock reveal score open advance miss].freeze
 
   def self.catalog
-    CUES.index_with { |name| versioned_path_for(name) }.compact
+    @catalog ||= CUES.index_with { |name| build_versioned_path_for(name) }.compact.freeze
   end
 
   def self.known?(name)
@@ -82,11 +82,16 @@ class Sfx
   end
 
   def self.versioned_path_for(name)
+    catalog[name.to_s]
+  end
+
+  def self.build_versioned_path_for(name)
     file = file_for(name)
     return unless file
 
     "#{path_for(name)}?v=#{Digest::SHA256.file(file).hexdigest[0, 12]}"
   end
+  private_class_method :build_versioned_path_for
 
   def self.for_pulse(kind, source = nil)
     kind = kind.to_s

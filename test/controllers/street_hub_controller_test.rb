@@ -17,13 +17,14 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
     end
 
     assert_select "dialog.pwa-install-dialog[aria-labelledby='pwa_install_title'][aria-describedby='pwa_install_lede']" do
+      assert_select "template[data-pwa-install-target='guideTemplate']", count: 1
       assert_select ".pwa-install-sheet[data-pwa-install-target~='sheet'][tabindex='-1']"
       assert_select ".pwa-install-apex .picto-star4"
       assert_select ".pwa-install-emblem img[src='/apple-touch-icon.png']"
       assert_select "#pwa_install_title", text: I18n.t("pwa.ios_title")
       assert_select "#pwa_install_lede", text: I18n.t("pwa.banner_hint")
       assert_select ".pwa-install-steps li", count: 4
-      assert_select ".pwa-install-step-art", count: 4
+      assert_select ".pwa-install-step-art[src$='.webp'][loading='lazy'][decoding='async']", count: 4
       assert_select "button.pwa-install-done", text: /#{Regexp.escape(I18n.t("pwa.done"))}/
       assert_select ".pwa-install-done .picto-check"
     end
@@ -34,8 +35,28 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
     assert_includes controller, "this.isStandalone()"
     assert_includes controller, "this.hideInstallUi()"
     assert_includes controller, "this.resetGuidePosition()"
+    assert_includes controller, "this.ensureGuide()"
+    assert_includes controller, "content.cloneNode(true)"
     assert_includes controller, "this.dialogTarget.scrollTop = 0"
     assert_includes controller, "this.sheetTarget.focus({ preventScroll: true })"
+  end
+
+  test "home keeps non-critical code fonts audio and images off the render path" do
+    get root_path, headers: { "HTTP_ACCEPT" => "text/html,image/webp" }
+
+    assert_response :success
+    controller_preloads = css_select("link[rel='modulepreload']").filter_map { |node| node["href"] }
+      .grep(%r{/controllers/|/haptics})
+    assert_empty controller_preloads
+    assert_select "link[href*='fonts.googleapis.com'][rel='stylesheet'][media='print'][onload]", count: 1
+    assert_select "audio#noche_sfx_gate[preload='none']", count: 1
+    assert_select "#street_world[style*='.webp']", count: 1
+    assert_select ".hub-slide.is-current img.hub-slide-still[src$='.webp'][fetchpriority='high'][decoding='async']", count: 1
+    assert_select ".hub-reward-chest[src$='.webp']", minimum: 1
+
+    imports = Rails.root.join("app/javascript/controllers/index.js").read
+    assert_includes imports, "lazyLoadControllersFrom"
+    refute_includes imports, "eagerLoadControllersFrom"
   end
 
   test "home navigation uses place transitions instead of reward sounds" do

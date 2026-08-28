@@ -9,6 +9,7 @@ class SfxTest < ActiveSupport::TestCase
       assert_equal "/sfx/#{name}.mp3", Sfx.path_for(name)
     end
     assert_equal Sfx::CUES.size, Sfx.catalog.size
+    assert_same Sfx.catalog, Sfx.catalog, "catalog digests should be computed once per process"
     assert_match %r{\A/sfx/correct_gold\.mp3\?v=[0-9a-f]{12}\z}, Sfx.catalog.fetch("correct_gold")
     assert_equal Sfx.catalog.fetch("correct_gold"), Sfx.versioned_path_for("correct_gold")
     assert_not Sfx.known?("nope")

@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["action", "banner", "browserHint", "dialog", "sheet", "tile"]
+  static targets = ["action", "banner", "browserHint", "dialog", "guideTemplate", "sheet", "tile"]
 
   static BANNER_SNOOZE_MS = 14 * 24 * 60 * 60 * 1000
 
@@ -60,11 +60,19 @@ export default class extends Controller {
     this.installTrigger = event?.currentTarget || this.installTrigger
     this.snoozeBanner()
     this.hideBanner()
+    this.ensureGuide()
     this.browserHintTargets.forEach((hint) => { hint.hidden = this.isSafari() })
     if (this.hasDialogTarget) {
       this.dialogTarget.showModal()
       this.resetGuidePosition()
     }
+  }
+
+  ensureGuide() {
+    if (!this.hasGuideTemplateTarget || !this.hasDialogTarget || this.hasSheetTarget) return
+
+    this.dialogTarget.append(this.guideTemplateTarget.content.cloneNode(true))
+    this.guideTemplateTarget.remove()
   }
 
   resetGuidePosition() {

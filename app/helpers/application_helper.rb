@@ -66,13 +66,13 @@ module ApplicationHelper
   def night_poster_src(night_or_theme)
     if night_or_theme.is_a?(GameSession) && night_or_theme.poster_path.present?
       custom_rel = night_or_theme.poster_path.delete_prefix("/")
-      return night_or_theme.poster_path if Rails.public_path.join(custom_rel).file?
+      return media_src(custom_rel) if Rails.public_path.join(custom_rel).file?
     end
 
     file_id = night_or_theme.respond_to?(:theme_file_id) ? night_or_theme.theme_file_id : night_or_theme.to_s
     file_id = "reyes_y_profetas" if file_id.blank? || file_id == "kings_and_prophets"
     rel = "media/nights/#{file_id}.jpg"
-    "/#{rel}" if Rails.public_path.join(rel).file?
+    media_src(rel)
   end
 
   def ward_poster_src(ward)
@@ -154,7 +154,7 @@ module ApplicationHelper
     %w[marble-hall temple-marble-hall].each do |base|
       %w[jpg webp png].each do |ext|
         rel = "media/temple/#{base}.#{ext}"
-        return "/#{rel}" if Rails.public_path.join(rel).file?
+        return media_src(rel) if Rails.public_path.join(rel).file?
       end
     end
 
@@ -164,7 +164,7 @@ module ApplicationHelper
   def street_ceremony_asset_src(name)
     %w[jpg jpeg png webp svg].each do |ext|
       rel = "media/temple/#{name}.#{ext}"
-      return "/#{rel}" if Rails.public_path.join(rel).file?
+      return media_src(rel) if Rails.public_path.join(rel).file?
     end
 
     nil
@@ -172,10 +172,10 @@ module ApplicationHelper
 
   def church_still_src(name)
     belief_rel = "media/church/beliefs/#{name}-v2.png"
-    return "/#{belief_rel}" if Rails.public_path.join(belief_rel).file?
+    return media_src(belief_rel) if Rails.public_path.join(belief_rel).file?
 
     rel = "media/church/#{name}.jpg"
-    "/#{rel}" if Rails.public_path.join(rel).file?
+    media_src(rel)
   end
 
   def story_reel(**kwargs, &block)
@@ -741,6 +741,13 @@ module ApplicationHelper
 
   def media_src(rel)
     path = media_public_path(rel)
+    return unless path
+
+    webp = path.sub(/\.[^.]+\z/, ".webp")
+    if request&.headers&.[]("HTTP_ACCEPT").to_s.include?("image/webp") && Rails.public_path.join(webp).file?
+      path = webp
+    end
+
     "/#{path}" if path
   end
 

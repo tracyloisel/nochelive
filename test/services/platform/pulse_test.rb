@@ -44,6 +44,7 @@ class Platform::PulseTest < ActiveSupport::TestCase
       assert_equal 2, pulse.questions
       assert_equal 2, pulse.players
       assert_equal 0, pulse.online
+      assert_equal Ward.listed.count, pulse.wards
     end
   end
 

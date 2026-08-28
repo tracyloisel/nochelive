@@ -32,7 +32,7 @@
           <%= 'aria-current="step"' if node.focus %>>
         <span class="hub-progress-mark" aria-hidden="true">
           <% if node.still.present? %>
-            <%= image_tag node.still, alt: "", loading: "lazy" %>
+            <%= image_tag media_src(node.still), alt: "", width: 1024, height: 1824, loading: "lazy", decoding: "async" %>
           <% end %>
           <span class="hub-progress-status is-<%= node.state %>">
             <%= picto(node.state == :finished ? "check" : (node.focus ? "star" : "lock")) %>

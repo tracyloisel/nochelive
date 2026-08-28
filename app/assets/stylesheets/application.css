@@ -1740,11 +1740,12 @@ body.is-stats {
 /* Keep the Défis arena art direction last in the cascade. */
 body.is-street-hub:has(.street-duel-inbox) {
   --street-hub-col: min(calc(100vw - 2rem), 64rem);
+  --duel-arena-art: url("/media/temple/desafio-celestial-arena-v3.png");
 }
 body.is-street-hub:has(.street-duel-inbox) .sky {
   background:
     linear-gradient(180deg, rgba(255,255,255,.05) 0%, rgba(250,244,224,.18) 46%, rgba(27,44,66,.18) 100%),
-    url("/media/temple/desafio-celestial-arena-v3.png") 50% 32% / cover no-repeat fixed;
+    var(--duel-arena-art) 50% 32% / cover no-repeat fixed;
 }
 body.is-street-hub:has(.street-duel-inbox) .sky::after {
   content: "";
@@ -2182,12 +2183,13 @@ body.is-duels .street-duel-title h1 { color: var(--ink); font-size: clamp(2.25re
    glass board keeps one obvious verb and grows from phone to desktop. */
 body.is-street-hub:has(.street-duel-inbox) {
   --street-hub-col: min(calc(100vw - 2rem), 64rem);
+  --duel-arena-art: url("/media/temple/desafio-celestial-arena-v3.png");
 }
 
 body.is-street-hub:has(.street-duel-inbox) .sky {
   background:
     linear-gradient(180deg, rgba(255,255,255,.05) 0%, rgba(250,244,224,.18) 46%, rgba(27,44,66,.18) 100%),
-    url("/media/temple/desafio-celestial-arena-v3.png") 50% 32% / cover no-repeat fixed;
+    var(--duel-arena-art) 50% 32% / cover no-repeat fixed;
 }
 
 body.is-street-hub:has(.street-duel-inbox) .sky::after {
@@ -24818,13 +24820,14 @@ body.is-street-profile .home-menu:not(.is-hud) {
   padding: calc(var(--chrome-head) + var(--space-2)) var(--space-4) calc(7rem + env(safe-area-inset-bottom));
 }
 .profile-rays {
+  --profile-gathering-art: url("/media/profile/profile-gathering-celestial-light-v1.png");
   position: fixed;
   z-index: -1;
   inset: 0;
   overflow: hidden;
   background:
     linear-gradient(180deg, transparent 0 46%, color-mix(in srgb, var(--temple-ivory) 18%, transparent) 72%, color-mix(in srgb, var(--temple-ivory) 38%, transparent) 100%),
-    url("/media/profile/profile-gathering-celestial-light-v1.png") 50% 42% / cover no-repeat,
+    var(--profile-gathering-art) 50% 42% / cover no-repeat,
     var(--temple-ivory);
   pointer-events: none;
 }
@@ -25629,6 +25632,7 @@ body.is-study-history .shell {
   gap: 0;
 }
 .study-paper {
+  --study-gateway-art: url("/media/study/word-gateway-2026.png");
   --study-ink: #142943;
   --study-muted: #68727d;
   --study-line: rgba(174, 143, 85, .42);
@@ -25645,7 +25649,7 @@ body.is-study-history .shell {
   background:
     radial-gradient(circle at 50% -8rem, rgba(255,255,255,.98), transparent 28rem),
     linear-gradient(180deg, rgba(255,253,247,.96), rgba(232,228,216,.98)),
-    url("/media/study/word-gateway-2026.png") 50% 0 / cover fixed no-repeat;
+    var(--study-gateway-art) 50% 0 / cover fixed no-repeat;
   color: var(--study-ink);
 }
 .study-paper > header,
@@ -26202,6 +26206,7 @@ body.is-street-map-page {
 body.is-street-map-page .sky { background: none; }
 
 .street-world.street-map-page {
+  --street-map-art: url("/media/temple/mapa-celestial-path.png");
   width: min(100%, 50rem);
   max-width: 50rem;
   height: auto;
@@ -26214,7 +26219,7 @@ body.is-street-map-page .sky { background: none; }
   color: var(--mapa-ink);
   background:
     linear-gradient(rgba(255,255,255,.12), rgba(255,255,255,.28)),
-    url("/media/temple/mapa-celestial-path.png") center top / 100% auto repeat-y;
+    var(--street-map-art) center top / 100% auto repeat-y;
   box-shadow: 0 0 5rem rgba(112, 82, 31, .12);
 }
 .street-world.street-map-page::before { display: none; }
@@ -27367,6 +27372,7 @@ body.is-charter-journey .sky { background: var(--charter-bg); }
 .church-beliefs .belief-q summary { color:#fffaf0; }
 .church-beliefs .belief-q p { color:rgba(255,250,240,.76); }
 .church-beliefs-invitation {
+  --belief-invitation-art: url('/media/church/beliefs/invitation-v2.png');
   isolation:isolate;
   display:grid;
   align-items:end;
@@ -27376,7 +27382,7 @@ body.is-charter-journey .sky { background: var(--charter-bg); }
   overflow:hidden;
   border:1px solid rgba(248,220,134,.6);
   border-radius:clamp(1.4rem,5vw,2.35rem);
-  background:url('/media/church/beliefs/invitation-v2.png') 67% 50% / cover no-repeat;
+  background:var(--belief-invitation-art) 67% 50% / cover no-repeat;
   box-shadow:0 34px 70px rgba(0,0,0,.48),0 0 34px rgba(225,176,47,.12),inset 0 1px 0 rgba(255,255,255,.18);
 }
 .church-beliefs-invitation::before { content:""; position:absolute; inset:0; z-index:-1; background:linear-gradient(180deg,rgba(5,10,21,.08) 5%,rgba(5,10,21,.18) 35%,rgba(5,10,21,.88) 67%,#071020 100%),linear-gradient(90deg,rgba(5,10,21,.62),transparent 72%); }
@@ -29377,6 +29383,51 @@ body.is-night-public {
     right: .8rem;
     bottom: .65rem;
     width: calc(100% - 1.6rem);
+  }
+}
+
+/* Prefer compact artwork without removing the original fallback. */
+@supports (background-image: image-set(url("/favicon-32.png") 1x)) {
+  body.is-street-hub:has(.street-duel-inbox) {
+    --duel-arena-art: image-set(
+      url("/media/temple/desafio-celestial-arena-v3.webp") type("image/webp"),
+      url("/media/temple/desafio-celestial-arena-v3.png") type("image/png")
+    );
+  }
+
+  body.is-rama-search {
+    --rama-search-art: image-set(
+      url("/media/rama/celestial-parish-path-v1.webp") type("image/webp"),
+      url("/media/rama/celestial-parish-path-v1.png") type("image/png")
+    );
+  }
+
+  .profile-rays {
+    --profile-gathering-art: image-set(
+      url("/media/profile/profile-gathering-celestial-light-v1.webp") type("image/webp"),
+      url("/media/profile/profile-gathering-celestial-light-v1.png") type("image/png")
+    );
+  }
+
+  .study-paper {
+    --study-gateway-art: image-set(
+      url("/media/study/word-gateway-2026.webp") type("image/webp"),
+      url("/media/study/word-gateway-2026.png") type("image/png")
+    );
+  }
+
+  .street-world.street-map-page {
+    --street-map-art: image-set(
+      url("/media/temple/mapa-celestial-path.webp") type("image/webp"),
+      url("/media/temple/mapa-celestial-path.png") type("image/png")
+    );
+  }
+
+  .church-beliefs-invitation {
+    --belief-invitation-art: image-set(
+      url("/media/church/beliefs/invitation-v2.webp") type("image/webp"),
+      url("/media/church/beliefs/invitation-v2.png") type("image/png")
+    );
   }
 }
 

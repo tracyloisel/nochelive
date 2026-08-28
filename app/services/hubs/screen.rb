@@ -552,7 +552,7 @@ module Hubs
         Community.new(
           players_this_month: pulse.players,
           questions: pulse.questions,
-          wards: Ward.listed.count
+          wards: pulse.wards
         )
       end
 

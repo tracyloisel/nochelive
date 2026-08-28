@@ -1,9 +1,10 @@
 <% content_for :title, "Noche Live" %>
 <% screen = @screen %>
 <% art = screen.backdrop %>
+<% art_src = media_src(art.src) || art.src %>
 <% content_for :body_class, "is-kid is-street-hub is-game-hub-page is-celestial-#{art.theme.mode}" %>
 <% content_for :head do %>
-  <link rel="preload" as="image" href="<%= art.src %>">
+  <link rel="preload" as="image" href="<%= art_src %>" fetchpriority="high">
 <% end %>
 <section id="street_world"
          class="street-world is-game-hub<%= " is-returning-from-quiz" if params[:rank_up].present? %>"
@@ -17,7 +18,7 @@
          data-stage-sfx-token-value="hub:rank_up:<%= current_street_person&.id || "guest" %>"
          data-stage-fx-value="level"
          <% end %>
-         style="--hub-art: url('<%= art.src %>'); view-transition-name: street-world">
+         style="--hub-art: url('<%= art_src %>'); view-transition-name: street-world">
   <% page_hud(
         hud: true,
         bar: Huds::Present.from_screen(screen: screen, rank_up: params[:rank_up].present?)

@@ -1,10 +1,10 @@
 module Platform
   class Pulse
     CACHE_TTL = 15.seconds
-    Result = Struct.new(:players, :questions, :online, keyword_init: true)
+    Result = Struct.new(:players, :questions, :online, :wards, keyword_init: true)
 
     def self.call
-      Rails.cache.fetch("platform/pulse/v2", expires_in: CACHE_TTL) { new.call }
+      Rails.cache.fetch("platform/pulse/v3", expires_in: CACHE_TTL) { new.call }
     end
 
     def call
@@ -13,7 +13,8 @@ module Platform
       Result.new(
         players:,
         questions:,
-        online: live_count
+        online: live_count,
+        wards: Ward.listed.count
       )
     end
 
