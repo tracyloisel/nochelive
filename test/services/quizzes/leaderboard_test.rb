@@ -194,8 +194,7 @@ class Quizzes::LeaderboardTest < ActiveSupport::TestCase
       status: "finished",
       opened_at: Time.current
     )
-    PersonDevice.create!(person: @carmen, device_token: "live-carmen", last_seen_at: Time.current)
-    PersonDevice.create!(person: @pili, device_token: "stale-pili", last_seen_at: 2.minutes.ago)
+    mark_person_online(@carmen)
 
     board = Quizzes::Leaderboard.call(ward: @ward, pack_id: "placas", person: @pili, limit: 5)
 

@@ -2,7 +2,7 @@ require "test_helper"
 
 class Quizzes::ChallengeRivalsTest < ActiveSupport::TestCase
   test "live people sit above the rest" do
-    PersonDevice.create!(person: people(:carmen_lopez), device_token: "lopez-live-rivals", last_seen_at: Time.current)
+    mark_person_online(people(:carmen_lopez))
     rows = Quizzes::ChallengeRivals.call(
       ward: wards(:demo),
       person: people(:pili),

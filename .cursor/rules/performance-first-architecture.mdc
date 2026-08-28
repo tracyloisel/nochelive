@@ -1,0 +1,36 @@
+---
+description: Make performance and correct technology selection non-negotiable in every Noche Live change.
+alwaysApply: true
+---
+
+# Performance is a product feature
+
+Speed is the first product feature and an architecture constraint, not a cleanup phase.
+
+## Choose technology by state semantics
+
+- PostgreSQL: durable, transactional business state only.
+- Redis/Valkey with TTL: presence, coordination, rate limits, cache, and other ephemeral state.
+- WebSocket/Turbo Streams or SSE: server-driven realtime; never periodic HTTP or DB polling when events exist.
+- Solid Queue: durable work that must survive process restarts and belongs outside the request path.
+- Object storage plus CDN: immutable media and compiled assets; production app workers must not be the asset origin.
+
+## Protect hot paths
+
+- Browser idle state makes zero periodic HTTP requests unless a measured exception is documented.
+- Presence heartbeats execute zero SQL. Redis failure degrades to offline; it never falls back to DB churn.
+- Never query in a loop. List/render paths have a fixed, tested query budget.
+- Load only associations and columns that the response consumes. Do not add speculative `includes` or `eager_load`.
+- Use `preload` for independent association loads and joins only when SQL filtering/ordering requires them.
+- Every cache key has a namespace, TTL, invalidation owner, and stampede strategy.
+- Realtime commands are idempotent and safe across tabs, processes, reconnects, and duplicate delivery.
+- Keep rendering free of blocking remote calls, response buffering, and noncritical eager JS/CSS.
+
+## Evidence required before merge
+
+1. State the durability, consistency, latency, and fan-out needs and the chosen technology.
+2. Record query count and timing before/after; inspect `EXPLAIN (ANALYZE, BUFFERS)` for changed DB hot paths.
+3. Add regression tests for query/network budgets and graceful degradation.
+4. Document exceptions with measurements, owner, and removal date.
+
+Reject durable DB heartbeats, polling used as synchronization, unbounded queries, and infrastructure convenience that contradicts the data semantics.

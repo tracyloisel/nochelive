@@ -71,7 +71,30 @@ module ActiveSupport
       }.merge(attrs))
     end
 
+    def mark_person_online(person, connection_id: SecureRandom.uuid)
+      Presences::Registry.enter(
+        connection_id:,
+        person_id: person.id,
+        ward_id: person.ward_id,
+        role: "test"
+      ).entry
+    end
+
+    def mark_player_online(player, connection_id: SecureRandom.uuid)
+      Presences::Registry.enter(
+        connection_id:,
+        person_id: player.person_id,
+        ward_id: player.game_session.ward_id,
+        player_id: player.id,
+        night_id: player.game_session_id,
+        team_id: player.team&.id,
+        role: player.role,
+        location: player.location
+      ).entry
+    end
+
     setup do
+      Presences::Registry.reset!
       Wards::QueryLocator.transport = nil
       Wards::QueryLocator.forced_hits = nil
       Wards::QueryLocator.forced_details = nil

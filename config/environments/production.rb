@@ -19,7 +19,7 @@ Rails.application.configure do
   config.public_file_server.headers = { "cache-control" => "public, max-age=#{1.year.to_i}" }
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
-  # config.asset_host = "http://assets.example.com"
+  config.asset_host = config.x.asset_host if config.x.asset_host.present?
 
   # Store uploaded files on the local file system (see config/storage.yml for options).
   config.active_storage.service = :local
@@ -45,8 +45,22 @@ Rails.application.configure do
   # Don't log any deprecations.
   config.active_support.report_deprecations = false
 
-  # Single Render PostgreSQL. Solid Queue persists notification work on primary.
-  config.cache_store = :memory_store
+  # Redis/Valkey owns reconstructible cache and realtime state. PostgreSQL only
+  # persists durable application data and Solid Queue jobs.
+  redis_url = ENV["REDIS_URL"].presence
+  if redis_url
+    config.cache_store = :redis_cache_store, {
+      url: redis_url,
+      namespace: "nochelive:cache",
+      connect_timeout: 1,
+      read_timeout: 1,
+      write_timeout: 1
+    }
+  elsif ENV["SECRET_KEY_BASE_DUMMY"].present?
+    config.cache_store = :null_store
+  else
+    raise KeyError, "REDIS_URL is required in production"
+  end
   config.active_job.queue_adapter = :solid_queue
 
   config.action_cable.allowed_request_origins = [

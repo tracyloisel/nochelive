@@ -155,9 +155,7 @@ module Quizzes
       def live_person_ids(person_ids)
         return Set.new if person_ids.empty?
 
-        street = PersonDevice.where(person_id: person_ids).live.distinct.pluck(:person_id)
-        night = Player.where(person_id: person_ids).live.distinct.pluck(:person_id)
-        Set.new(street + night)
+        Presences::Registry.online_person_ids(among: person_ids)
       end
 
       def answer_counts(person_ids)

@@ -3,20 +3,20 @@ require "test_helper"
 class Presences::StreetHeartbeatTest < ActiveSupport::TestCase
   test "marks the person's device live" do
     device = person_devices(:pili_tablet)
-    device.update_column(:last_seen_at, 2.minutes.ago)
 
     Presences::StreetHeartbeat.call(person: people(:pili), device_token: device.device_token)
 
-    assert device.reload.live?
+    assert Presences::Registry.person_online?(people(:pili).id)
   end
 
-  test "ignores a token that is not this person's device" do
+  test "never rewrites the device row" do
     device = person_devices(:pili_tablet)
-    device.update_column(:last_seen_at, 2.minutes.ago)
+    seen_at = 2.minutes.ago.change(usec: 0)
+    device.update_column(:last_seen_at, seen_at)
 
-    Presences::StreetHeartbeat.call(person: people(:pili), device_token: "other-phone")
+    Presences::StreetHeartbeat.call(person: people(:pili), device_token: device.device_token)
 
-    assert_not device.reload.live?
+    assert_equal seen_at, device.reload.last_seen_at
   end
 
   test "does not rewrite a fresh heartbeat" do

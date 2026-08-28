@@ -4,9 +4,8 @@ class Presences::SnapshotTest < ActiveSupport::TestCase
   test "counts live room and remote participants" do
     lucia = players(:lucia)
     daniel = players(:daniel)
-    lucia.update_column(:last_seen_at, Time.current)
-    daniel.update_column(:last_seen_at, Time.current)
-    players(:ana).update_column(:last_seen_at, 2.minutes.ago)
+    mark_player_online(lucia)
+    mark_player_online(daniel)
 
     snapshot = Presences::Snapshot.call(night: game_sessions(:david))
     assert_equal 3, snapshot.joined

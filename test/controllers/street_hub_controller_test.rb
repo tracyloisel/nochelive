@@ -141,12 +141,8 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "online tile shows two real friends ranks crowns and leaderboard CTA" do
-    PersonDevice.where(person: people(:carmen_garcia)).update_all(last_seen_at: Time.current)
-    PersonDevice.create!(
-      person: people(:carmen_lopez),
-      device_token: "hub-online-carmen-lopez",
-      last_seen_at: Time.current
-    )
+    mark_person_online(people(:carmen_garcia))
+    mark_person_online(people(:carmen_lopez))
     sign_in_congregation
     pili = people(:pili)
     post street_profile_path, params: { person_id: pili.id, favorite_year: pili.favorite_year }
@@ -367,7 +363,8 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
     assert_select ".hub-play.btn"
     assert_select "a.street-map-door-play"
     assert_select ".street-play-cta", count: 0
-    assert_select "turbo-frame#street_pulse[src=?]", street_pulse_path
+    assert_select "turbo-frame#street_pulse:not([src])"
+    assert_select "turbo-cable-stream-source", minimum: 1
     assert_select ".street-pulse"
     assert_select ".street-pulse-month"
     assert_select ".street-pulse-live"

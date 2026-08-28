@@ -4,8 +4,8 @@ class LivePresenceTest < ActionDispatch::IntegrationTest
   setup { @night = game_sessions(:david) }
 
   test "watch shows a single scoreboard strip" do
-    players(:lucia).update_column(:last_seen_at, Time.current)
-    players(:daniel).update_column(:last_seen_at, Time.current)
+    mark_player_online(players(:lucia))
+    mark_player_online(players(:daniel))
     get night_watch_path(@night.code)
     assert_response :success
     assert_select ".watch-board .score-strip"
@@ -34,7 +34,8 @@ class LivePresenceTest < ActionDispatch::IntegrationTest
     assert_select ".play-chrome > .team-bar", count: 0
     assert_select "#night_presence"
     assert_select ".presence-team .presence-face"
-    assert_select "[data-controller=presence]"
+    assert_select "[data-controller=presence][data-presence-scope-value=night][data-presence-token-value]"
+    assert_select "[data-controller=presence][data-presence-url-value]", count: 0
   end
 
   test "join scavenger and category pulses use distinct pictures" do

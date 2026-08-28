@@ -123,8 +123,13 @@ function cueNames() {
   return names.length ? names : FALLBACK_CUES
 }
 
+function publicAssetUrl(path) {
+  const host = document.documentElement?.dataset?.assetHost || ""
+  return `${host}${path}`
+}
+
 function cuePath(name) {
-  return catalog()[name] || `/sfx/${name}.mp3`
+  return catalog()[name] || publicAssetUrl(`/sfx/${name}.mp3`)
 }
 
 function clampGain(value) {

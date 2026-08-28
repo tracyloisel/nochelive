@@ -31,6 +31,7 @@ module Nochelive
     config.i18n.default_locale = :es
     config.i18n.fallbacks = [ :es ]
     config.x.app_host = ENV["APP_HOST"].presence || "localhost:3000"
+    config.x.asset_host = ENV["ASSET_HOST"].presence&.chomp("/")
 
     # Configuration for the application, engines, and railties goes here.
     #

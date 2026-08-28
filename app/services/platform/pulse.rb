@@ -1,10 +1,10 @@
 module Platform
   class Pulse
-    CACHE_TTL = 15.seconds
+    CACHE_TTL = 5.minutes
     Result = Struct.new(:players, :questions, :online, :wards, keyword_init: true)
 
     def self.call
-      Rails.cache.fetch("platform/pulse/v3", expires_in: CACHE_TTL) { new.call }
+      new.call
     end
 
     def call
@@ -14,45 +14,31 @@ module Platform
         players:,
         questions:,
         online: live_count,
-        wards: Ward.listed.count
+        wards: Rails.cache.fetch("platform/pulse/wards", expires_in: CACHE_TTL) { Ward.listed.count }
       )
     end
 
     private
 
       def monthly_totals(range)
-        month = QuizAnswer.joins(:quiz_run).where(quiz_answers: { created_at: range })
-        identity = <<~SQL.squish
-          CASE
-            WHEN quiz_runs.person_id IS NOT NULL THEN 'person:' || quiz_runs.person_id::text
-            ELSE 'device:' || quiz_answers.device_digest
-          END
-        SQL
-        questions, players = month.pick(
-          Arel.sql("COUNT(*)"),
-          Arel.sql("COUNT(DISTINCT (#{identity}))")
-        )
-        [ questions.to_i, players.to_i ]
+        Rails.cache.fetch("platform/pulse/month/#{range.first.to_date}", expires_in: CACHE_TTL) do
+          month = QuizAnswer.joins(:quiz_run).where(quiz_answers: { created_at: range })
+          identity = <<~SQL.squish
+            CASE
+              WHEN quiz_runs.person_id IS NOT NULL THEN 'person:' || quiz_runs.person_id::text
+              ELSE 'device:' || quiz_answers.device_digest
+            END
+          SQL
+          questions, players = month.pick(
+            Arel.sql("COUNT(*)"),
+            Arel.sql("COUNT(DISTINCT (#{identity}))")
+          )
+          [ questions.to_i, players.to_i ]
+        end
       end
 
       def live_count
-        cutoff = Time.current - PersonDevice::LIVE_WINDOW
-        quoted_cutoff = ActiveRecord::Base.connection.quote(cutoff)
-        ActiveRecord::Base.connection.select_value(<<~SQL).to_i
-          SELECT COUNT(*)
-          FROM (
-            SELECT 'person:' || person_id::text AS identity
-            FROM person_devices
-            WHERE last_seen_at >= #{quoted_cutoff}
-            UNION
-            SELECT CASE
-              WHEN person_id IS NOT NULL THEN 'person:' || person_id::text
-              ELSE 'guest:' || id::text
-            END AS identity
-            FROM players
-            WHERE last_seen_at >= #{quoted_cutoff}
-          ) live_identities
-        SQL
+        Presences::Registry.live_count
       end
   end
 end

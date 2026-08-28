@@ -42,7 +42,7 @@ class Quizzes::RivalTest < ActiveSupport::TestCase
     QuizRun.create!(device_digest: "lead-live", person: lead, pack_id: "coronas", position: 10, score: 40, status: "finished", opened_at: Time.current)
     QuizRun.create!(device_digest: "chase-live", person: chase, pack_id: "coronas", position: 10, score: 80, status: "finished", opened_at: Time.current)
     QuizRun.create!(device_digest: "extra-live", person: extra, pack_id: "coronas", position: 10, score: 20, status: "finished", opened_at: Time.current)
-    PersonDevice.create!(person: chase, device_token: "chase-live-token", last_seen_at: Time.current)
+    mark_person_online(chase)
 
     rival = Quizzes::Rival.call(ward:, person: lead, pack_id: "coronas")
 

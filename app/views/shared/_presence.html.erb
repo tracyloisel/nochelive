@@ -48,7 +48,7 @@
   <% if team %>
     <div class="presence-team">
       <% team.players.select(&:participant?).each do |member| %>
-        <span class="presence-face <%= "is-live" if member.live? %>" title="<%= player_label(member, team.players) %>">
+        <span class="presence-face <%= "is-live" if snapshot.live_player_ids.include?(member.id) %>" title="<%= player_label(member, team.players) %>">
           <%= render "shared/avatar", player: member %>
         </span>
       <% end %>
@@ -65,7 +65,7 @@
           <span class="word"><%= row.team.name %></span>
           <span class="presence-faces">
             <% row.team.players.each do |member| %>
-              <span class="presence-face <%= "is-live" if member.live? %>" title="<%= player_label(member, row.team.players) %>">
+              <span class="presence-face <%= "is-live" if snapshot.live_player_ids.include?(member.id) %>" title="<%= player_label(member, row.team.players) %>">
                 <%= render "shared/avatar", player: member %>
               </span>
             <% end %>

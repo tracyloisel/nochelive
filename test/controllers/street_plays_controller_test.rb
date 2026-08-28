@@ -42,7 +42,7 @@ class StreetPlaysControllerTest < ActionDispatch::IntegrationTest
     create_street_profile!
     post street_pack_start_path("coronas")
     follow_redirect!
-    PersonDevice.where(person: people(:carmen_garcia)).update_all(last_seen_at: Time.current)
+    mark_person_online(people(:carmen_garcia))
     QuizRun.order(:id).last.update!(position: 4, ends_at: 20.seconds.from_now)
 
     get jugar_path

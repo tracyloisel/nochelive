@@ -29,8 +29,7 @@ module Quizzes
     private
 
       def live?(person)
-        PersonDevice.where(person_id: person.id).live.exists? ||
-          Player.where(person_id: person.id).live.exists?
+        Presences::Registry.person_online?(person.id)
       end
   end
 end

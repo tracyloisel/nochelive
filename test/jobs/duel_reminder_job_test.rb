@@ -30,7 +30,7 @@ class DuelReminderJobTest < ActiveJob::TestCase
       end
 
       duel.update!(status: "challenger_done", opponent_score: nil)
-      person_devices(:carmen_phone).update!(last_seen_at: Time.current)
+      mark_person_online(people(:carmen_garcia))
       assert_no_difference -> { NotificationDelivery.count } do
         DuelReminderJob.perform_now(duel)
       end

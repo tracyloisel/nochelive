@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+project="${GCS_PROJECT:-nochelive}"
+bucket="${GCS_ASSET_BUCKET:-nochelive-assets-prod}"
+asset_host="${ASSET_HOST:-https://${bucket}.storage.googleapis.com}"
+metrics_environment="gcs-skills gcs-skills/1.0 (skill:google-cloud-storage-basics)"
+bundle_bin="${BUNDLE_BIN:-bundle}"
+repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+
+gcloud_storage() {
+  CLOUDSDK_METRICS_ENVIRONMENT="${metrics_environment}" gcloud "$@"
+}
+
+cd "${repo_root}"
+
+ASSET_HOST="${asset_host}" RAILS_ENV=production SECRET_KEY_BASE_DUMMY=1 \
+  "${bundle_bin}" exec rails assets:precompile
+
+gcloud_storage storage rsync public/assets "gs://${bucket}/assets" \
+  --project="${project}" \
+  --recursive \
+  --exclude='(^|/)\.DS_Store$' \
+  --cache-control='public,max-age=31536000,immutable'
+
+for directory in media marks sfx; do
+  gcloud_storage storage rsync "public/${directory}" "gs://${bucket}/${directory}" \
+    --project="${project}" \
+    --recursive \
+    --exclude='(^|/)\.DS_Store$' \
+    --cache-control='public,max-age=2592000'
+done
+
+echo "Assets synchronized to ${asset_host} (no remote objects deleted)."

@@ -257,7 +257,7 @@ class StreetChallengesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "challenge board puts live rivals first" do
-    PersonDevice.create!(person: people(:carmen_lopez), device_token: "lopez-live-inbox", last_seen_at: Time.current)
+    mark_person_online(people(:carmen_lopez))
     get street_challenges_path
     assert_response :success
     assert_select ".street-duel-pick li:first-child", text: /#{Regexp.escape(people(:carmen_lopez).display_name)}/

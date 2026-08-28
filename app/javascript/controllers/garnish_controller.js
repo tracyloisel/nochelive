@@ -6,6 +6,11 @@ const SPRITES = {
   fry: "/media/burger/fry.jpg"
 }
 
+function publicAssetUrl(path) {
+  const host = document.documentElement?.dataset?.assetHost || ""
+  return `${host}${path}`
+}
+
 export default class extends Controller {
   static targets = ["rain"]
   static values = {
@@ -27,7 +32,7 @@ export default class extends Controller {
     const total = reduced ? 3 : this.countValue
     for (let i = 0; i < total; i += 1) {
       const img = document.createElement("img")
-      img.src = src
+      img.src = publicAssetUrl(src)
       img.alt = ""
       img.className = reduced ? "garnish-bit is-still" : "garnish-bit"
       img.style.left = `${Math.random() * 92}%`
@@ -44,7 +49,7 @@ export default class extends Controller {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
     for (let i = 0; i < 8; i += 1) {
       const img = document.createElement("img")
-      img.src = SPRITES.lettuce
+      img.src = publicAssetUrl(SPRITES.lettuce)
       img.alt = ""
       img.className = "garnish-bit is-burst"
       img.style.left = `${18 + Math.random() * 64}%`

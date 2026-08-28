@@ -12,6 +12,11 @@ services:
         fromDatabase:
           name: nochelive-db
           property: connectionString
+      - key: REDIS_URL
+        fromService:
+          name: nochelive-realtime
+          type: keyvalue
+          property: connectionString
       - key: RAILS_MASTER_KEY
         sync: false
       - key: GITHUB_TOKEN
@@ -28,6 +33,10 @@ services:
         value: "true"
       - key: APP_HOST
         value: nochelive.com
+      - key: ASSET_HOST
+        value: https://nochelive-assets-prod.storage.googleapis.com
+      - key: GCS_ASSET_BUCKET
+        value: nochelive-assets-prod
       - key: WEB_PUSH_ENABLED
         value: "false"
       - key: WEB_PUSH_DELIVERY_ENABLED
@@ -52,12 +61,21 @@ services:
         fromDatabase:
           name: nochelive-db
           property: connectionString
+      - key: REDIS_URL
+        fromService:
+          name: nochelive-realtime
+          type: keyvalue
+          property: connectionString
       - key: RAILS_MASTER_KEY
         sync: false
       - key: RAILS_ENV
         value: production
       - key: RAILS_LOG_TO_STDOUT
         value: true
+      - key: ASSET_HOST
+        value: https://nochelive-assets-prod.storage.googleapis.com
+      - key: GCS_ASSET_BUCKET
+        value: nochelive-assets-prod
       - key: JOB_CONCURRENCY
         value: "1"
       - key: WEB_PUSH_ENABLED
@@ -70,6 +88,14 @@ services:
         sync: false
       - key: VAPID_SUBJECT
         sync: false
+
+  - type: keyvalue
+    name: nochelive-realtime
+    plan: starter
+    region: frankfurt
+    maxmemoryPolicy: allkeys-lru
+    persistenceMode: off
+    ipAllowList: []
 
 databases:
   - name: nochelive-db

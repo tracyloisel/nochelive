@@ -17,7 +17,7 @@ class Notifications::DuelResultsTest < ActiveSupport::TestCase
 
   test "does not push a result to a player who is already present" do
     duel = street_duels(:pili_vs_carmen)
-    person_devices(:carmen_phone).update!(last_seen_at: Time.current)
+    mark_person_online(people(:carmen_garcia))
 
     with_web_push_enabled do
       assert_no_difference -> { NotificationDelivery.count } do

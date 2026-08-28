@@ -75,7 +75,7 @@ module Hubs
         live: build_live,
         challenge: build_challenge,
         online: build_online,
-        online_count: online_scope.count,
+        online_count: online_person_ids.size,
         progress: build_progress,
         study: build_study,
         community: build_community,
@@ -462,11 +462,13 @@ module Hubs
       def online_scope
         return Person.none unless @ward && @person
 
-        @online_scope ||= Person.where(ward_id: @ward.id)
-          .joins(:person_devices)
-          .merge(PersonDevice.live)
-          .where.not(id: @person.id)
-          .distinct
+        @online_scope ||= Person.where(ward_id: @ward.id, id: online_person_ids)
+      end
+
+      def online_person_ids
+        return Set.new unless @ward && @person
+
+        @online_person_ids ||= Presences::Registry.online_person_ids(ward_id: @ward.id).excluding(@person.id)
       end
 
       def build_progress

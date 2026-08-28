@@ -26,10 +26,10 @@ gem "web-push", "~> 3.0"
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: %i[ windows jruby ]
 
-# Use the database-backed adapters for Rails.cache, Active Job, and Action Cable
-gem "solid_cache"
+# Keep durable jobs in PostgreSQL; cache and Action Cable use Redis/Valkey.
 gem "solid_queue"
-gem "solid_cable"
+# Shared ephemeral state and Action Cable pub/sub in production.
+gem "redis", ">= 5.0", "< 6"
 
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", require: false

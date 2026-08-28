@@ -26,16 +26,12 @@ class Player < ApplicationRecord
   validates :name, length: { minimum: 1, maximum: 24 }
   before_validation :assign_avatar_key
 
-  LIVE_WINDOW = 25.seconds
   scope :participants, -> { where(role: "participant") }
-  scope :live, -> { where(last_seen_at: LIVE_WINDOW.ago..) }
 
   def participant? = role == "participant"
   def spectator? = role == "spectator"
   def remote? = location == "remote"
-  def live?
-    last_seen_at.present? && last_seen_at >= LIVE_WINDOW.ago
-  end
+  def live? = persisted? && Presences::Registry.player_online?(id, night_id: game_session_id)
 
   private
 

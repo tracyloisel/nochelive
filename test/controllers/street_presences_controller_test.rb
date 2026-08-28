@@ -6,12 +6,12 @@ class StreetPresencesControllerTest < ActionDispatch::IntegrationTest
     pili = people(:pili)
     post street_profile_path, params: { person_id: pili.id, favorite_year: pili.favorite_year }
     follow_redirect!
-    pili.person_devices.update_all(last_seen_at: 2.minutes.ago)
-    assert_not pili.person_devices.merge(PersonDevice.live).exists?
+    Presences::Registry.reset!
+    assert_not Presences::Registry.person_online?(pili.id)
 
     post street_presence_path
     assert_response :no_content
-    assert pili.person_devices.merge(PersonDevice.live).exists?
+    assert Presences::Registry.person_online?(pili.id)
   end
 
   test "guest heartbeat is a quiet no-op" do

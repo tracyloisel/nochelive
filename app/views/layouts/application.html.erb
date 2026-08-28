@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="<%= I18n.locale.to_s.tr('_', '-') %>">
+<html lang="<%= I18n.locale.to_s.tr('_', '-') %>" data-asset-host="<%= Rails.configuration.x.asset_host %>">
   <head>
     <title><%= seo_metadata[:title].presence || content_for(:title) || "Noche Live" %></title>
     <%= seo_head_tags %>
@@ -61,7 +61,10 @@
     <% end %>
     <%= render "shared/chrome_tools" unless chrome_tools_in_drawer? %>
     <% if current_street_person %>
-      <div hidden data-controller="presence" data-presence-url-value="<%= street_presence_path %>"></div>
+      <div hidden
+           data-controller="presence"
+           data-presence-scope-value="street"
+           data-presence-token-value="<%= current_street_person.signed_id(purpose: :street_presence, expires_in: 1.day) %>"></div>
     <% end %>
     <% if street_duel_ping? %>
       <%= turbo_stream_from current_street_person, :street_duel %>

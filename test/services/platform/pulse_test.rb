@@ -3,8 +3,6 @@ require "test_helper"
 class Platform::PulseTest < ActiveSupport::TestCase
   setup do
     QuizAnswer.delete_all
-    PersonDevice.update_all(last_seen_at: Time.zone.local(2025, 1, 1))
-    Player.update_all(last_seen_at: Time.zone.local(2025, 1, 1))
   end
 
   test "counts this month's answers and players including guests" do
@@ -68,9 +66,10 @@ class Platform::PulseTest < ActiveSupport::TestCase
   end
 
   test "online unites street devices and night seats without double-counting a ficha" do
-    person_devices(:pili_tablet).update_column(:last_seen_at, Time.current)
+    mark_person_online(people(:pili))
     lucia = players(:lucia)
-    lucia.update_columns(last_seen_at: Time.current, person_id: people(:pili).id)
+    lucia.update!(person_id: people(:pili).id)
+    mark_player_online(lucia.reload)
 
     pulse = Platform::Pulse.call
 
@@ -78,7 +77,7 @@ class Platform::PulseTest < ActiveSupport::TestCase
   end
 
   test "online counts a night guest without a ficha" do
-    players(:lucia).update_column(:last_seen_at, Time.current)
+    mark_player_online(players(:lucia))
 
     pulse = Platform::Pulse.call
 

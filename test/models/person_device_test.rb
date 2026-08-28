@@ -5,12 +5,12 @@ class PersonDeviceTest < ActiveSupport::TestCase
     assert_equal people(:pili), person_devices(:pili_tablet).person
   end
 
-  test "live window follows last_seen_at" do
+  test "live state follows the realtime registry, not last_seen_at" do
     device = person_devices(:pili_tablet)
-    device.update_column(:last_seen_at, Time.current)
+    entry = mark_person_online(device.person)
     assert device.live?
 
-    device.update_column(:last_seen_at, 1.minute.ago)
+    Presences::Registry.leave(entry)
     assert_not device.live?
   end
 end

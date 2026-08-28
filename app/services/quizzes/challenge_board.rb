@@ -29,7 +29,7 @@ module Quizzes
 
       def build_rivals
         people = stake_wards.flat_map(&:people).reject { |person| person.id == @person.id }
-        live_ids = PersonDevice.where(person_id: people.map(&:id)).live.distinct.pluck(:person_id).to_set
+        live_ids = Presences::Registry.online_person_ids(among: people.map(&:id))
         states = active_states(people.map(&:id))
         scores = pack_scores_by_ward
         ranks = stake_wards.to_h do |ward|

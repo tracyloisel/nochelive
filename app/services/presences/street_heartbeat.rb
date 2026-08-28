@@ -1,7 +1,5 @@
 module Presences
   class StreetHeartbeat
-    WRITE_INTERVAL = 12.seconds
-
     def self.call(person:, device_token:)
       new(person:, device_token:).call
     end
@@ -14,11 +12,17 @@ module Presences
     def call
       return unless @person && @device_token.present?
 
-      now = Time.current
-      @person.person_devices
-        .where(device_token: @device_token)
-        .where("last_seen_at IS NULL OR last_seen_at < ?", now - WRITE_INTERVAL)
-        .update_all(last_seen_at: now)
+      change = Registry.enter(
+        connection_id: "legacy:street:#{@person.id}:#{GameSession.digest_token(@device_token).first(16)}",
+        person_id: @person.id,
+        ward_id: @person.ward_id,
+        role: "street"
+      )
+      BroadcastChange.call(change)
+      change.entry
+    rescue Redis::BaseError => error
+      Rails.error.report(error, context: { component: "legacy_presence", scope: "street" })
+      nil
     end
   end
 end

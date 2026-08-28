@@ -37,7 +37,7 @@ module AdminApi
       answers = QuizAnswer.joins(:quiz_run).where(quiz_runs: { person_id: person_ids, street_duel_id: nil })
       render json: {
         ward: ward_json(ward).merge(
-          live_people: PersonDevice.where(person_id: person_ids).live.distinct.count(:person_id),
+          live_people: Presences::Registry.online_person_ids(ward_id: ward.id).size,
           players_with_points: scores.size,
           total_best_points: scores.values.sum,
           finished_quiz_runs: QuizRun.adventure.finished.where(person_id: person_ids).count,

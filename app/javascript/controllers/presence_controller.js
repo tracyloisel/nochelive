@@ -1,37 +1,59 @@
 import { Controller } from "@hotwired/stimulus"
+import { cable } from "@hotwired/turbo-rails"
 
 export default class extends Controller {
-  static values = { url: String }
+  static values = { scope: String, token: String }
 
   connect() {
-    this.beat = this.beat.bind(this)
+    this.active = true
+    this.heartbeat = this.heartbeat.bind(this)
     this.onVis = this.onVis.bind(this)
-    this.beat()
-    this.timer = setInterval(this.beat, 15000)
     document.addEventListener("visibilitychange", this.onVis)
+    this.subscribe()
   }
 
   disconnect() {
-    clearInterval(this.timer)
+    this.active = false
+    this.stopHeartbeat()
     document.removeEventListener("visibilitychange", this.onVis)
+    this.subscription?.unsubscribe()
+    this.subscription = null
   }
 
   onVis() {
-    if (!document.hidden) this.beat()
+    if (!document.hidden) this.heartbeat()
   }
 
-  beat() {
-    if (!this.urlValue || document.hidden) return
-    const token = document.querySelector("meta[name='csrf-token']")?.content
-    if (!token) return
-    fetch(this.urlValue, {
-      method: "POST",
-      headers: {
-        "X-CSRF-Token": token,
-        Accept: "text/plain",
-        "X-Requested-With": "XMLHttpRequest"
-      },
-      credentials: "same-origin"
-    }).catch(() => {})
+  async subscribe() {
+    const subscription = await cable.subscribeTo(
+      { channel: "PresenceChannel", scope: this.scopeValue, token: this.tokenValue },
+      {
+        connected: () => this.startHeartbeat(),
+        disconnected: () => this.stopHeartbeat(),
+        rejected: () => this.stopHeartbeat()
+      }
+    )
+    if (!this.active) {
+      subscription.unsubscribe()
+      return
+    }
+    this.subscription = subscription
+  }
+
+  startHeartbeat() {
+    if (!this.active) return
+    this.stopHeartbeat()
+    this.heartbeat()
+    this.timer = window.setInterval(this.heartbeat, 20000)
+  }
+
+  stopHeartbeat() {
+    window.clearInterval(this.timer)
+    this.timer = null
+  }
+
+  heartbeat() {
+    if (!this.active || document.hidden) return
+    this.subscription?.perform("heartbeat")
   }
 }

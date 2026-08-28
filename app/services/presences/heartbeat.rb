@@ -9,16 +9,22 @@ module Presences
     end
 
     def call
-      @player.update_column(:last_seen_at, Time.current)
       night = @player.game_session
-      snapshot = Snapshot.call(night: night)
-      digest = [ snapshot.live, snapshot.room, snapshot.remote, snapshot.joined ] +
-        snapshot.teams.flat_map { |row| [ row.team.id, row.joined, row.live ] }
-      key = "presence/#{night.id}"
-      previous = Rails.cache.read(key)
-      Rails.cache.write(key, digest, expires_in: 2.minutes)
-      Nights::BroadcastPresence.call(night: night) unless previous == digest
-      snapshot
+      change = Registry.enter(
+        connection_id: "legacy:night:#{@player.id}",
+        person_id: @player.person_id,
+        ward_id: night.ward_id,
+        player_id: @player.id,
+        night_id: night.id,
+        team_id: @player.team&.id,
+        role: @player.role,
+        location: @player.location
+      )
+      BroadcastChange.call(change)
+      Snapshot.call(night:)
+    rescue Redis::BaseError => error
+      Rails.error.report(error, context: { component: "legacy_presence", scope: "night" })
+      Snapshot.call(night: @player.game_session)
     end
   end
 end

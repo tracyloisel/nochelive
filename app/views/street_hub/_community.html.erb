@@ -26,15 +26,8 @@
     <div class="hub-community-heading">
       <p class="hub-kicker"><%= t("hub.community") %></p>
       <% if pulse %>
-        <%= turbo_frame_tag "street_pulse",
-              src: street_pulse_path,
-              data: {
-                controller: "street-pulse",
-                street_pulse_src_value: street_pulse_path,
-                street_pulse_interval_value: 15000
-              } do %>
-          <%= render "street_hub/pulse", pulse: pulse %>
-        <% end %>
+        <%= turbo_stream_from :street_presence, I18n.locale %>
+        <%= render "street_hub/pulse_frame", pulse: pulse %>
       <% end %>
     </div>
     <span class="hub-community-go" aria-hidden="true"></span>

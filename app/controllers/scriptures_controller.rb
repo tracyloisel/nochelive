@@ -199,7 +199,10 @@ class ScripturesController < ApplicationController
     def scripture_illustration_url(anchor = nil)
       illustrations = Array(@scripture_illustrations)
       illustration = anchor ? illustrations.min_by { |item| (item.anchor_verse - anchor).abs } : illustrations.first
-      "#{request.base_url}/media/#{illustration.image}" if illustration
+      return unless illustration
+
+      asset_host = Rails.configuration.x.asset_host.presence || request.base_url
+      "#{asset_host}/media/#{illustration.image}"
     end
 
     def passage_range(value)

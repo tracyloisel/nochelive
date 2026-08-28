@@ -1,5 +1,8 @@
 <% content_for :title, current_team&.name || t("join.pick_team") %>
 <% content_for :body_class, "is-kid is-play is-celestial-dark" %>
 <%= turbo_stream_from @night.player_stream(current_player) %>
-<div hidden data-controller="presence" data-presence-url-value="<%= night_presence_path(@night.code) %>"></div>
+<div hidden
+     data-controller="presence"
+     data-presence-scope-value="night"
+     data-presence-token-value="<%= current_player.signed_id(purpose: :night_presence, expires_in: 1.day) %>"></div>
 <%= render "play/frame", night: @night, team: current_team, player: current_player %>

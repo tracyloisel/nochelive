@@ -5,7 +5,8 @@ class Presences::HeartbeatTest < ActiveSupport::TestCase
     lucia = players(:lucia)
     lucia.update_column(:last_seen_at, nil)
     snapshot = Presences::Heartbeat.call(player: lucia)
-    assert lucia.reload.live?
+    assert lucia.live?
     assert_operator snapshot.live, :>=, 1
+    assert_nil lucia.reload.last_seen_at
   end
 end

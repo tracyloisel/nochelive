@@ -19,14 +19,13 @@ class WardProfilesController < ApplicationController
     @featured_participants_count = @featured_night&.players&.count.to_i
     @last_finished_night = @ward.game_sessions.finished.order(starts_at: :desc, id: :desc).first
     @last_finished_champion = unique_champion(@last_finished_night)
+    online_ids = Presences::Registry.online_person_ids(ward_id: @ward.id)
     @online_people = @ward.people
-      .joins(:person_devices)
-      .merge(PersonDevice.live)
-      .distinct
+      .where(id: online_ids)
       .order(:given_name)
       .limit(4)
       .to_a
-    @online_count = @ward.people.joins(:person_devices).merge(PersonDevice.live).distinct.count
+    @online_count = online_ids.size
     @study_week = StudyProgram.order(year: :desc).first&.current_week
     @study_community = Studies::Community.call(ward: @ward, week: @study_week)
     @study_run = if @study_week

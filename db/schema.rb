@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_28_235950) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_29_002000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -156,6 +156,21 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_28_235950) do
     t.index ["status", "scheduled_for"], name: "index_notification_deliveries_on_status_and_scheduled_for"
     t.index ["subject_type", "subject_id"], name: "index_notification_deliveries_on_subject"
     t.index ["web_push_subscription_id"], name: "index_notification_deliveries_on_web_push_subscription_id"
+  end
+
+  create_table "notification_editorial_proposals", force: :cascade do |t|
+    t.string "approval_content_digest"
+    t.datetime "approval_expires_at"
+    t.string "approval_token_digest"
+    t.datetime "approved_at"
+    t.datetime "created_at", null: false
+    t.string "editorial_key", null: false
+    t.jsonb "payload", default: {}, null: false
+    t.string "proposal_type", null: false
+    t.string "status", default: "draft", null: false
+    t.datetime "updated_at", null: false
+    t.index ["editorial_key"], name: "index_notification_editorial_proposals_on_editorial_key", unique: true
+    t.index ["proposal_type", "status"], name: "idx_on_proposal_type_status_43a8fcffb7"
   end
 
   create_table "notification_preferences", force: :cascade do |t|

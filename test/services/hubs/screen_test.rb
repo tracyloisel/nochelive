@@ -188,12 +188,8 @@ class Hubs::ScreenTest < ActiveSupport::TestCase
   end
 
   test "online rows expose real identity rank crowns and count without self" do
-    PersonDevice.where(person: people(:carmen_garcia)).update_all(last_seen_at: Time.current)
-    PersonDevice.create!(
-      person: people(:carmen_lopez),
-      device_token: "carmen-lopez-live",
-      last_seen_at: Time.current
-    )
+    mark_person_online(people(:carmen_garcia))
+    mark_person_online(people(:carmen_lopez))
     Quizzes::StartPack.call(device_digest: "carmen-live", person_id: people(:carmen_garcia).id, pack_id: "coronas")
     QuizRun.create!(
       device_digest: @digest,

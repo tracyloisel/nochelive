@@ -17,7 +17,7 @@ module Notifications
     end
 
     def self.live?(person)
-      PersonDevice.where(person:).live.exists? || Player.where(person:).live.exists?
+      Presences::Registry.person_online?(person.id)
     end
   end
 end

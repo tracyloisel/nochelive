@@ -18,11 +18,11 @@ class PlayerTest < ActiveSupport::TestCase
     assert_equal teams(:daniel_home), daniel.team
   end
 
-  test "live window follows last_seen_at" do
+  test "live state follows the realtime registry, not last_seen_at" do
     lucia = players(:lucia)
-    lucia.update_column(:last_seen_at, Time.current)
+    entry = mark_player_online(lucia)
     assert lucia.live?
-    lucia.update_column(:last_seen_at, 1.minute.ago)
+    Presences::Registry.leave(entry)
     assert_not lucia.live?
   end
 

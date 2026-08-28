@@ -4,11 +4,16 @@ Target stack:
 
 ```text
 Rails 8.1 + Hotwire + Turbo Streams + Stimulus
-Action Cable / Solid Cable
-PostgreSQL authoritative
+Action Cable + Redis/Valkey pub/sub
+PostgreSQL authoritative for durable domain state
+Redis/Valkey for cache, presence, and ephemeral coordination
+Solid Queue for durable background work
+GCS + CDN for immutable assets and media
 YAML game definitions in config/games/
-Render web service + managed PostgreSQL
+Render web + worker + managed PostgreSQL + managed Key Value
 ```
+
+The non-negotiable latency, query, realtime, and delivery boundaries are defined in [PERFORMANCE_ARCHITECTURE.md](PERFORMANCE_ARCHITECTURE.md).
 
 ## Layers (required)
 
@@ -49,7 +54,7 @@ The browser never decides:
 - current round
 - winners
 
-Turbo Streams distribute server state. A normal GET must reconstruct the current night.
+Turbo Streams distribute server state. A normal GET must reconstruct durable night state. Ephemeral presence is reconstructed from Redis TTL entries and may degrade to offline without writing to PostgreSQL.
 
 ## Domain (intended)
 

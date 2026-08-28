@@ -138,15 +138,19 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
     assert_no_selector "#street_quiz"
   end
 
-  test "hub pulse reloads live count without leaving the hub" do
+  test "hub pulse receives live count without polling or leaving the hub" do
     page.current_window.resize_to(390, 844)
-    PersonDevice.update_all(last_seen_at: 1.hour.ago)
-    Player.update_all(last_seen_at: 1.hour.ago)
+    Presences::Registry.reset!
     visit root_path
     assert_selector ".street-pulse[data-pulse-online='0']"
     assert_selector "#street_world"
-    person_devices(:pili_tablet).update_column(:last_seen_at, Time.current)
-    page.execute_script("document.querySelector('turbo-frame#street_pulse').reload()")
+    change = Presences::Registry.enter(
+      connection_id: "system-live-pulse",
+      person_id: people(:pili).id,
+      ward_id: people(:pili).ward_id,
+      role: "test"
+    )
+    Presences::BroadcastChange.call(change)
     assert_selector ".street-pulse[data-pulse-online='1']", wait: 5
     assert_selector "#street_world"
     assert_no_selector "#street_quiz"
@@ -1106,7 +1110,7 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
     if (m = color.to_s.match(/color\(\s*srgb\s+([\d.]+)\s+([\d.]+)\s+([\d.]+)/i))
       return m.captures.first(3).map { |n| (n.to_f * 255).round }
     end
-    [0, 0, 0]
+    [ 0, 0, 0 ]
   end
 
   def assert_apex_above_sheet!

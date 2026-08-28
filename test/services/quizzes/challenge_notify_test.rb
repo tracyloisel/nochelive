@@ -3,7 +3,7 @@ require "test_helper"
 class Quizzes::ChallengeNotifyTest < ActiveSupport::TestCase
   test "broadcasts when the named opponent is live" do
     carmen = people(:carmen_garcia)
-    person_devices(:carmen_phone).update!(last_seen_at: Time.current)
+    mark_person_online(carmen)
     duel = StreetDuel.create!(
       challenger_person: people(:pili),
       opponent_person: carmen,
@@ -19,7 +19,7 @@ class Quizzes::ChallengeNotifyTest < ActiveSupport::TestCase
 
   test "renders the ping partial for a live opponent" do
     carmen = people(:carmen_garcia)
-    person_devices(:carmen_phone).update!(last_seen_at: Time.current)
+    mark_person_online(carmen)
     duel = StreetDuel.create!(
       challenger_person: people(:pili),
       opponent_person: carmen,
@@ -65,7 +65,7 @@ class Quizzes::ChallengeNotifyTest < ActiveSupport::TestCase
 
   test "never queues a push while the opponent is live" do
     carmen = people(:carmen_garcia)
-    person_devices(:carmen_phone).update!(last_seen_at: Time.current)
+    mark_person_online(carmen)
     duel = StreetDuel.create!(
       challenger_person: people(:pili), opponent_person: carmen,
       ward: wards(:demo), pack_id: "placas", token: "notify-live-no-push",
