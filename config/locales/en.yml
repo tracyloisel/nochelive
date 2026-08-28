@@ -138,6 +138,7 @@ en:
       install_cta: "Install Noche Live on this device"
       not_now: "Not now"
     settings:
+      menu: "Notifications"
       kicker: "You’re in control"
       title: "%{name}’s notifications"
       lede: "Choose each kind separately for this device. Nothing is selected for you."

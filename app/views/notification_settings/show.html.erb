@@ -1,0 +1,19 @@
+<% content_for :title, t("notifications.settings.title", name: @person.given_name) %>
+<% content_for :body_class, "is-kid is-paper-hall is-street-profile is-notification-settings" %>
+<% page_hud(face: false, hud: false) { site_menu } %>
+
+<section id="notification_settings" class="profile-world">
+  <div class="profile-rays" aria-hidden="true"></div>
+  <header class="profile-stage">
+    <span class="profile-star" aria-hidden="true"><%= picto("bell") %></span>
+    <p class="profile-brand">Noche Live</p>
+    <h1><%= t("notifications.settings.menu") %></h1>
+    <% if current_ward %>
+      <p class="profile-rama"><%= picto("church") %><%= current_ward.name %></p>
+    <% end %>
+  </header>
+
+  <%= render "notifications/settings", person: @person %>
+</section>
+
+<% page_dock(active: :profile) %>

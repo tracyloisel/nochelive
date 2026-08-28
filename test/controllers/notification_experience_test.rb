@@ -30,6 +30,43 @@ class NotificationExperienceTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test "the hamburger opens a dedicated notification settings screen" do
+    with_web_push_enabled do
+      sign_in_congregation
+      person = create_street_profile!(name: "Menu Notifications")
+
+      get root_path
+      assert_response :success
+      assert_select "a.home-menu-row[href='#{notification_settings_path}']", text: I18n.t("notifications.settings.menu")
+
+      get notification_settings_path
+      assert_response :success
+      assert_select "#notification_settings h1", text: I18n.t("notifications.settings.menu")
+      assert_select ".push-settings[data-controller='push-subscription']"
+      assert_select ".push-category-card", count: 3
+      assert_select "[data-push-subscription-person-name-value='#{person.given_name}']"
+    end
+  end
+
+  test "notification settings return a player to the screen after creating a ficha" do
+    with_web_push_enabled do
+      sign_in_congregation
+
+      get notification_settings_path
+      assert_redirected_to street_profile_path
+
+      post street_profile_path, params: {
+        name: "Retour Notifications",
+        family_name: "Test",
+        favorite_year: 2000,
+        avatar_key: "tortuga",
+        soy_nueva: 1
+      }
+
+      assert_redirected_to notification_settings_path
+    end
+  end
+
   test "an upcoming ward night offers its own consent only from the live context" do
     with_web_push_enabled do
       game_sessions(:david).update!(status: "finished")
@@ -83,5 +120,8 @@ class NotificationExperienceTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select ".push-settings", count: 0
     assert_select ".push-invitation", count: 0
+
+    get notification_settings_path
+    assert_response :not_found
   end
 end

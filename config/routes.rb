@@ -46,6 +46,7 @@ Rails.application.routes.draw do
   post "ficha", to: "street_profiles#create"
   patch "ficha", to: "street_profiles#update"
   post "ficha/fusion", to: "street_profile_merges#create", as: :street_profile_merge
+  get "notifications", to: "notification_settings#show", as: :notification_settings
   get "quien", to: redirect("/ficha")
   post "rama", to: "street_ward_picks#create", as: :street_ward_pick
   get "camino", to: redirect("/mapa#historial")

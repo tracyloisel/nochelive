@@ -138,6 +138,7 @@ pt-BR:
       install_cta: "Instalar Noche Live neste aparelho"
       not_now: "Agora não"
     settings:
+      menu: "Notificações"
       kicker: "Você decide"
       title: "Notificações de %{name}"
       lede: "Escolha cada tipo separadamente para este aparelho. Nada vem marcado."

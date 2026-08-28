@@ -138,6 +138,7 @@ es:
       install_cta: "Instalar Noche Live en este dispositivo"
       not_now: "Ahora no"
     settings:
+      menu: "Notificaciones"
       kicker: "Tú decides"
       title: "Avisos de %{name}"
       lede: "Elige por separado lo que puede llegar a este dispositivo. Nada está marcado de antemano."

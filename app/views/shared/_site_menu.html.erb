@@ -38,6 +38,12 @@
             icon: "house",
             label: t("street.nav_hub") %>
     <% end %>
+    <% if Notifications::Feature.enabled? %>
+      <%= render "shared/menu_row",
+            path: notification_settings_path,
+            icon: "bell",
+            label: t("notifications.settings.menu") %>
+    <% end %>
     <% unless controller_name == "street_hub" && action_name == "map" %>
       <%= render "shared/menu_row",
             path: street_map_path,

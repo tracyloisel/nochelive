@@ -140,6 +140,10 @@ class StreetProfilesController < ApplicationController
       end
 
       street_return = session.delete(:street_return)
+      if street_return == "notification_settings"
+        redirect_to notification_settings_path, notice: I18n.t("flashes.street_signed_in", name: person.given_name)
+        return
+      end
       if street_return == "ward_picker"
         redirect_to search_path(cambiar: 1), notice: I18n.t("flashes.street_signed_in", name: person.given_name)
         return
