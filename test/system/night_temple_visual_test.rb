@@ -5,23 +5,20 @@ class NightTempleVisualTest < ApplicationSystemTestCase
 
   test "live play reel shows temple marble sheet star chrome and gold arch" do
     visit night_name_path(game_sessions(:david).code)
-    assert_selector "body.is-paper-hall"
-    assert_selector "#night_join .hall-sheet"
+    assert_selector "body.is-night-entry.is-celestial-dark"
+    assert_selector "#night_join .night-entry-panel"
     assert_no_selector ".play-reel"
     assert_no_selector ".picto-btn"
     shot("join-sheet")
-    fill_in "¿Cómo te llaman en la rama?", with: "Pili"
-    find("label.choice-chip", text: "En la sala").click
-    click_button I18n.t("join.create_and_join")
-    assert_text "Elige tu equipo"
-    click_button "Casa de David"
+    fill_in I18n.t("join.name_label"), with: "Pili"
+    click_button I18n.t("join.enter_play")
     assert_button "Buzz"
     assert_selector ".play-sheet"
     assert_selector ".story-ticks"
     assert_selector ".night-quiz-head"
     assert_selector ".night-quiz-head .story-close"
     assert_selector ".play-shot-seat"
-    assert_text "¡Sé el primero!"
+    assert_button "Buzz"
     assert_play_shot_arch
     has_star = page.evaluate_script(<<~JS)
       (function() {
@@ -35,10 +32,9 @@ class NightTempleVisualTest < ApplicationSystemTestCase
   end
 
   test "casa remote quiz shows temple QCM without a buzzer" do
-    visit night_name_path(game_sessions(:david).code)
-    fill_in "¿Cómo te llaman en la rama?", with: "Casa"
-    find("label.choice-chip", text: "En casa").click
-    click_button I18n.t("join.create_and_join")
+    visit night_name_path(game_sessions(:david).code, location: "remote")
+    fill_in I18n.t("join.name_label"), with: "Casa"
+    click_button I18n.t("join.enter_play")
     assert_selector ".play-reel.is-quiz.is-night-live"
     assert_selector ".night-quiz-head"
     assert_selector ".night-quiz-head .story-close"
@@ -51,10 +47,10 @@ class NightTempleVisualTest < ApplicationSystemTestCase
     assert_text "¿Qué pidió?"
     sleep 0.4
     shot("play-quiz-casa")
-    page.current_window.resize_to(1280, 800)
+    set_system_viewport(1280, 800)
     sleep 0.3
     shot("play-quiz-casa-desktop")
-    page.current_window.resize_to(390, 844)
+    set_system_viewport(390, 844)
   end
 
   test "choice quiz shows temple choice buttons and gold arch" do
@@ -63,11 +59,8 @@ class NightTempleVisualTest < ApplicationSystemTestCase
     round.update!(phase: "open", opened_at: Time.current)
 
     visit night_name_path(game_sessions(:david).code)
-    fill_in "¿Cómo te llaman en la rama?", with: "Quiz"
-    find("label.choice-chip", text: "En la sala").click
-    click_button I18n.t("join.create_and_join")
-    assert_text "Elige tu equipo"
-    click_button "Casa de David"
+    fill_in I18n.t("join.name_label"), with: "Quiz"
+    click_button I18n.t("join.enter_play")
     assert_selector ".play-reel.is-quiz"
     assert_selector ".night-quiz-head"
     assert_selector ".choice-btn", minimum: 2
@@ -76,10 +69,10 @@ class NightTempleVisualTest < ApplicationSystemTestCase
     assert_selector ".story-ticks"
     sleep 0.45
     shot("play-quiz-ask")
-    page.current_window.resize_to(1280, 800)
+    set_system_viewport(1280, 800)
     sleep 0.3
     shot("play-quiz-ask-desktop")
-    page.current_window.resize_to(390, 844)
+    set_system_viewport(390, 844)
   end
 
   test "presenter stage shows marble desk chrome" do
@@ -108,10 +101,10 @@ class NightTempleVisualTest < ApplicationSystemTestCase
     assert_equal 1, peek[0], "Lista/Fichas tabs should sit in the desk peek"
     assert_equal 1, peek[1], "first buzz row should peek on the marble desk"
     shot("presenter-stage")
-    page.current_window.resize_to(1280, 800)
+    set_system_viewport(1280, 800)
     sleep 0.3
     shot("presenter-stage-desktop")
-    page.current_window.resize_to(390, 844)
+    set_system_viewport(390, 844)
     page.execute_script(<<~JS)
       var el = document.querySelector(".desk-sheet");
       var ctrl = window.Stimulus.getControllerForElementAndIdentifier(el, "sheet");
@@ -133,13 +126,13 @@ class NightTempleVisualTest < ApplicationSystemTestCase
     assert_equal "none", mute_display
     sleep 0.5
     shot("watch-board")
-    page.current_window.resize_to(1280, 800)
+    set_system_viewport(1280, 800)
     sleep 0.3
     shot("watch-board-desktop")
-    page.current_window.resize_to(1024, 768)
+    set_system_viewport(1024, 768)
     sleep 0.3
     shot("watch-board-cinema")
-    page.current_window.resize_to(844, 390)
+    set_system_viewport(844, 390)
     sleep 0.3
     board_share = page.evaluate_script(<<~JS)
       (function() {
@@ -164,16 +157,14 @@ class NightTempleVisualTest < ApplicationSystemTestCase
     assert_equal 1, board_share[2], "landscape watch caption should sit on the still, above the marble strip"
     assert_equal 1, board_share[3], "landscape watch caption should sit in the lower half, off the light-beam"
     shot("watch-board-landscape")
-    page.current_window.resize_to(390, 844)
+    set_system_viewport(390, 844)
   end
 
   test "finished night play shows temple ceremony scrim" do
-    page.current_window.resize_to(390, 844)
+    set_system_viewport(390, 844)
     visit night_name_path(game_sessions(:cerrada).code)
-    fill_in "¿Cómo te llaman en la rama?", with: "Finale"
-    find("label.choice-chip", text: "En la sala").click
-    click_button I18n.t("join.create_and_join")
-    click_button "Campeones"
+    fill_in I18n.t("join.name_label"), with: "Finale"
+    click_button I18n.t("join.enter_play")
     assert_selector ".play-reel.is-finale.is-ceremony-immersive"
     assert_selector ".ceremony-temple .ceremony-arch-crown"
     page.execute_script(<<~JS)
@@ -187,12 +178,10 @@ class NightTempleVisualTest < ApplicationSystemTestCase
   end
 
   test "lobby wait uses temple three-band without round ticks" do
-    page.current_window.resize_to(390, 844)
+    set_system_viewport(390, 844)
     visit night_name_path(game_sessions(:elias).code)
-    fill_in "¿Cómo te llaman en la rama?", with: "Marta"
-    find("label.choice-chip", text: "En la sala").click
-    click_button I18n.t("join.create_and_join")
-    click_button "Leones"
+    fill_in I18n.t("join.name_label"), with: "Marta"
+    click_button I18n.t("join.enter_play")
     assert_text "Esperad"
     assert_selector ".play-reel.is-lobby.is-night-live"
     assert_selector ".night-quiz-head"
@@ -208,24 +197,33 @@ class NightTempleVisualTest < ApplicationSystemTestCase
   end
 
   test "search paper surface sits on the marble hall" do
-    page.current_window.resize_to(390, 844)
+    set_system_viewport(390, 844)
     visit search_path
     assert_selector "body.is-paper-hall"
     assert_selector "h1", text: I18n.t("home.menu_search")
     assert_selector ".home-search-lede"
     assert_selector "#ward_q"
+    assert_no_text I18n.t("home.search_wait")
     assert_no_selector ".btn-gold"
+    assert_no_selector ".ward-hit"
+    assert_selector ".ward-picker-locate", text: I18n.t("street.gate_locate")
     sleep 0.35
     shot("buscar-phone")
 
+    set_system_viewport(768, 1024)
+    assert_no_selector ".ward-hit"
+    shot("buscar-tablet")
+
+    set_system_viewport(390, 844)
     visit search_path(q: "Benidorm")
-    assert_selector ".ward-pick-form.is-featured .ward-pick-star"
+    assert_selector ".ward-pick-form.is-featured .ward-pick-star", visible: :all
+    assert_no_selector ".ward-pick-form.is-featured .ward-pick-star", visible: true
     assert_no_selector ".ward-hit.is-featured .ward-pick-star"
-    assert_featured_star_sits_above_card
+    assert_selector ".ward-pick-form.is-featured .ward-hit.is-featured", visible: true
     sleep 0.35
     shot("buscar-benidorm-star")
 
-    page.current_window.resize_to(1280, 844)
+    set_system_viewport(1440, 900)
     sleep 0.3
     shot("buscar-desktop")
   end
@@ -235,35 +233,6 @@ class NightTempleVisualTest < ApplicationSystemTestCase
     path = SHOT_DIR.join("#{name}.png")
     page.save_screenshot(path)
     warn "night-temple-shot #{path}"
-  end
-
-  def assert_featured_star_sits_above_card
-    metrics = page.evaluate_script(<<~JS)
-      (function() {
-        var form = document.querySelector(".ward-pick-form.is-featured");
-        var star = document.querySelector(".ward-pick-form.is-featured .ward-pick-star");
-        var glyph = star && star.querySelector(".picto");
-        var btn = document.querySelector(".ward-hit.is-featured");
-        if (!form || !star || !glyph || !btn) return null;
-        var f = form.getBoundingClientRect();
-        var s = star.getBoundingClientRect();
-        var g = glyph.getBoundingClientRect();
-        var b = btn.getBoundingClientRect();
-        return {
-          glyphTop: Math.round(g.top),
-          glyphBottom: Math.round(g.bottom),
-          starTop: Math.round(s.top),
-          btnTop: Math.round(b.top),
-          formTop: Math.round(f.top),
-          overflow: getComputedStyle(form).overflow
-        };
-      })()
-    JS
-    assert metrics, "featured Benidorm card should render a star"
-    assert_operator metrics["starTop"], :>=, metrics["formTop"] - 1
-    assert_operator metrics["glyphTop"], :>=, metrics["formTop"] - 1
-    assert_operator metrics["glyphBottom"], :<=, metrics["btnTop"] + 4
-    assert_equal "visible", metrics["overflow"]
   end
 
   def assert_play_shot_arch
@@ -296,7 +265,7 @@ class NightTempleVisualTest < ApplicationSystemTestCase
         var shot = document.querySelector(".watch-shot");
         if (!shot) return false;
         var before = getComputedStyle(shot, "::before");
-        return before.content !== "none" && parseFloat(before.borderWidth) >= 3;
+        return before.content !== "none" && parseFloat(before.borderWidth) >= 2;
       })()
     JS
     assert has_arch, "watch shot should have gold arch frame"

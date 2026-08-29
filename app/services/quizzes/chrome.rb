@@ -19,8 +19,24 @@ module Quizzes
       MODES.include?(raw) ? raw : nil
     end
 
-    def self.ceremony
-      Result.new(mode: "light", atmosphere: "glorious", glass: "soft", image: "ceremony-gateway")
+    def self.ceremony(outcomes: [])
+      result_states = Array(outcomes).compact.map(&:to_sym)
+      if result_states.include?(:ahead)
+        Result.new(
+          mode: "light", atmosphere: "glorious", glass: "soft",
+          image: "media/social/campus-duel-victory-friends-v1.png"
+        )
+      elsif result_states.include?(:behind)
+        Result.new(
+          mode: "dark", atmosphere: "dramatic", glass: "strong",
+          image: "media/social/campus-duel-rematch-storm-v1.png"
+        )
+      else
+        Result.new(
+          mode: "light", atmosphere: "glorious", glass: "soft",
+          image: "media/social/campus-ceremony-friends-v1.png"
+        )
+      end
     end
 
     def self.reset!

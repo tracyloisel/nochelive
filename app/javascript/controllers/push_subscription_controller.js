@@ -1,4 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
+import { http } from "platform/http/client"
 
 export default class extends Controller {
   static targets = [
@@ -32,6 +33,8 @@ export default class extends Controller {
   disconnect() {
     navigator.serviceWorker?.removeEventListener("message", this.messageHandler)
     this.settingsObserver?.disconnect()
+    if (this.completionTimer) window.clearTimeout(this.completionTimer)
+    if (this.hideTimer) window.clearTimeout(this.hideTimer)
     document.body.classList.remove("is-reading-push-settings")
   }
 
@@ -149,6 +152,7 @@ export default class extends Controller {
     this.showFeedback(this.savedTextValue)
     this.syncButtons()
     await this.record("activated", category)
+    this.completeAutomaticPrompt(category)
   }
 
   async disableCategory(event) {
@@ -262,15 +266,7 @@ export default class extends Controller {
   }
 
   request(url, options) {
-    return fetch(url, {
-      credentials: "same-origin",
-      headers: { "Content-Type": "application/json", "X-CSRF-Token": this.csrfToken() },
-      ...options
-    })
-  }
-
-  csrfToken() {
-    return document.querySelector("meta[name='csrf-token']")?.content || ""
+    return http.request(url, options, { accept: "application/json", json: options?.body != null })
   }
 
   applicationServerKey() {
@@ -295,12 +291,16 @@ export default class extends Controller {
 
   setBusy(busy) {
     this.element.classList.toggle("is-loading", busy)
+    this.element.setAttribute("aria-busy", busy.toString())
+    if (busy) this.element.dataset.state = "loading"
+    else if (this.element.dataset.state === "loading") this.element.dataset.state = "idle"
     this.controlsTargets.forEach((control) => { control.disabled = busy })
   }
 
   setStatus(message) { this.statusTargets.forEach((target) => { target.textContent = message }) }
 
   showFeedback(message) {
+    this.element.dataset.state = "success"
     this.feedbackTargets.forEach((target) => {
       target.hidden = false
       target.classList.remove("is-error")
@@ -309,6 +309,7 @@ export default class extends Controller {
   }
 
   showFailure(message) {
+    this.element.dataset.state = "failure"
     this.feedbackTargets.forEach((target) => {
       target.hidden = false
       target.classList.add("is-error")
@@ -316,12 +317,32 @@ export default class extends Controller {
     })
   }
 
+  completeAutomaticPrompt(category) {
+    if (!this.automaticValue || category !== "challenges") return
+
+    this.element.classList.add("is-complete")
+    this.completionTimer = window.setTimeout(() => this.hide(), 1600)
+  }
+
   showState(message) {
+    if (this.hideTimer) window.clearTimeout(this.hideTimer)
+    this.element.classList.remove("is-leaving")
+    this.element.removeAttribute("aria-hidden")
     this.element.hidden = false
     this.setStatus(message)
   }
 
-  hide() { this.element.hidden = true }
+  hide() {
+    if (this.element.hidden || this.element.classList.contains("is-leaving")) return
+
+    this.element.classList.add("is-leaving")
+    this.element.setAttribute("aria-hidden", "true")
+    this.hideTimer = window.setTimeout(() => {
+      this.element.hidden = true
+      this.element.classList.remove("is-leaving")
+      this.element.removeAttribute("aria-hidden")
+    }, 320)
+  }
 
   isIos() {
     return /iphone|ipad|ipod/i.test(navigator.userAgent) ||

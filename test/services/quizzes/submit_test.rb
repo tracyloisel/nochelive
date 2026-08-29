@@ -11,7 +11,11 @@ class Quizzes::SubmitTest < ActiveSupport::TestCase
   test "grades a correct pick and adds points" do
     answer = Quizzes::Submit.call(run: @run, choice_key: @question.correct_choice)
     assert answer.correct?
-    assert_equal @question.points, @run.reload.score
+    assert_equal 5, @run.reload.score
+    assert_equal 5, answer.base_points
+    assert_equal 0, answer.streak_bonus
+    assert_equal 5, answer.points_awarded
+    assert_equal 1, answer.streak_after
   end
 
   test "grades a miss without points" do
@@ -26,7 +30,7 @@ class Quizzes::SubmitTest < ActiveSupport::TestCase
     two = Quizzes::Submit.call(run: @run, choice_key: "nope")
     assert_equal one.id, two.id
     assert one.reload.correct?
-    assert_equal @question.points, @run.reload.score
+    assert_equal 5, @run.reload.score
   end
 
   test "a late tap is always wrong" do

@@ -28,9 +28,9 @@ class StreetWardPicksControllerTest < ActionDispatch::IntegrationTest
 
     get street_leaderboard_path
     assert_response :success
-    assert_select ".street-liga-entry.is-you", text: /Pili/
-    assert_select ".street-liga-entry", text: /95/
-    assert_select ".street-liga-entry", text: /Carmen/, count: 0
+    assert_select ".liga-court-podium-place.is-you", text: /Pili/
+    assert_select ".liga-court-podium-place.is-you", text: /95/
+    assert_select ".liga-court-podium-place", text: /Carmen/, count: 0
   end
 
   test "rejects a missing rama" do

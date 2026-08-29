@@ -1,6 +1,6 @@
 <% content_for :title, t("study.community_title") %>
 <% content_for :body_class, "is-study-community is-celestial-dark" %>
-<main id="study_community" class="study-community-world" style="--study-art:url('/media/study/community-scripture-gathering-v1.png')">
+<main id="study_community" class="study-community-world" style="--study-art:url('<%= media_src("media/study/community-scripture-gathering-v1.png") %>')">
   <% page_hud(hud: true) { site_menu } %>
   <div class="study-community-content">
     <header class="study-community-head">

@@ -10,12 +10,16 @@ class SearchesControllerTest < ActionDispatch::IntegrationTest
     assert_select "body.is-paper-hall.is-rama-search"
     assert_select ".home-paper.rama-search-scene"
     assert_select ".rama-search-sheet"
+    assert_select "link[href*='pages/search']"
     assert_select ".rama-search-sigil"
     assert_select ".rama-search-kicker", text: I18n.t("home.search_page")
     assert_select ".play-reel", count: 0
     assert_select ".ward-picker-query[placeholder=?]", I18n.t("street.gate_search_ph")
     assert_not_includes response.body, "Benidorm, tu pueblo"
     assert_select ".ward-picker-wait", text: I18n.t("home.search_wait")
+    assert_select "form.ward-picker-search[data-ward-search-location-unavailable-value=?]", I18n.t("home.search_location_unavailable")
+    assert_select "input[name=lat]"
+    assert_select "input[name=lng]"
     assert_select "button.ward-picker-locate", text: I18n.t("street.gate_locate")
     assert_select ".chrome-drawer a[href=?]", search_path
     assert_select ".ward-hit", count: 0
@@ -23,7 +27,7 @@ class SearchesControllerTest < ActionDispatch::IntegrationTest
     assert_select ".ward-hit", text: /Rama Extra/, count: 0
   end
 
-  test "nearby coords show one suggested rama" do
+  test "nearby coords launch a search without a text query" do
     Wards::QueryLocator.forced_near = [
       Wards::QueryLocator.attrs_from(JSON.parse(file_fixture("maps_ward_madrid.json").read).first)
     ]

@@ -5,7 +5,7 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
     get church_path
     assert_response :success
     assert_select "body.is-church-journey.is-celestial-dark"
-    assert_select ".church-landing[style*='threshold-v2.png']"
+    assert_select ".church-landing[style*=?]", generated_media_src("media/church/journey/threshold-v2.png", format: "webp")
     assert_select ".church-landing h1", text: I18n.t("church.invite")
     assert_select "a.paper-door[href=?]", church_meet_path
     assert_select "a.paper-door[href=?]", church_beliefs_path
@@ -17,13 +17,14 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
     assert_select ".navigation-dock__item.is-active[href=?]", church_path
     assert_select ".btn.btn-gold", count: 0
     assert_select ".story-ticks", count: 0
-    assert_select ".chrome-drawer a.home-menu-row[href=?]", church_path
+    assert_select ".chrome-drawer a.home-menu-invite[href=?]", street_challenges_path(anchor: "inviter")
+    assert_select ".chrome-drawer a.home-menu-row[href=?]", study_program_path
   end
 
   test "meet missionaries opens as a cinematic chapter" do
     get church_meet_path
     assert_response :success
-    assert_select ".church-meet[style*='meet-v2.png']"
+    assert_select ".church-meet[style*=?]", generated_media_src("media/church/journey/meet-v2.png", format: "webp")
     assert_select ".church-meet-hero h1", text: I18n.t("church.meet_title")
     assert_select ".church-meet-story .church-meet-card"
     assert_select "a.btn.btn-gold[href=?]", PagesController::VISIT_URL
@@ -40,7 +41,7 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
   test "beliefs page carries Come Unto Christ topics and a local visit door" do
     get church_beliefs_path
     assert_response :success
-    assert_select ".church-beliefs[style*='beliefs-v2.png']"
+    assert_select ".church-beliefs[style*=?]", generated_media_src("media/church/journey/beliefs-v2.png", format: "webp")
     assert_select ".church-beliefs h1", text: I18n.t("church.beliefs_title")
     assert_select ".belief-beat h3", text: I18n.t("church.belief.christ_title")
     assert_select ".belief-beat h3", text: I18n.t("church.belief.word_title")
@@ -62,7 +63,7 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
   test "missionaries keeps the title with the still" do
     get church_missionaries_path
     assert_response :success
-    assert_select ".church-scene--missionaries[style*='missionaries-v2.png']"
+    assert_select ".church-scene--missionaries[style*=?]", generated_media_src("media/church/journey/missionaries-v2.png", format: "webp")
     assert_select ".church-missionaries h1", text: I18n.t("church.missionaries_title")
     assert_select ".missionary-act", count: 3
     assert_select ".missionary-gift", count: 3
@@ -79,7 +80,7 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
   test "worship keeps the title with the still and links to the map" do
     get church_worship_path
     assert_response :success
-    assert_select ".church-scene--worship[style*='worship-v2.png']"
+    assert_select ".church-scene--worship[style*=?]", generated_media_src("media/church/journey/worship-v2.png", format: "webp")
     assert_select ".church-worship h1", text: I18n.t("church.worship_title")
     assert_select ".worship-schedule li", count: 2
     assert_select ".worship-reassurances article", count: 3
@@ -100,7 +101,7 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
     assert_select "body.is-church-journey.is-charter-journey.is-charter-legal"
     assert_select "body.is-paper-hall", count: 0
     assert_select "#legal_charter.charter-journey--legal"
-    assert_select ".charter-journey-hero[style*='legal-charter-celestial-light-v1.webp']"
+    assert_select ".charter-journey-hero[style*=?]", generated_media_src("media/legal/legal-charter-celestial-light-v1.webp", format: "webp")
     assert_select ".charter-journey-intro h1", text: I18n.t("legal.title")
     assert_select ".charter-journey-story .charter-journey-act", count: 3
     assert_select ".paper-facts", text: /Tracy Loisel/
@@ -123,7 +124,7 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
     assert_select "body.is-church-journey.is-charter-journey.is-charter-privacy"
     assert_select "body.is-paper-hall", count: 0
     assert_select "#privacy_charter.charter-journey--privacy"
-    assert_select ".charter-journey-hero[style*='privacy-charter-celestial-light-v1.webp']"
+    assert_select ".charter-journey-hero[style*=?]", generated_media_src("media/legal/privacy-charter-celestial-light-v1.webp", format: "webp")
     assert_select ".charter-journey-intro h1", text: I18n.t("privacy.title")
     assert_select ".charter-journey-story .charter-journey-act", count: 13
     assert_select ".charter-journey-act h2", text: I18n.t("privacy.ask.title")
@@ -166,7 +167,7 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
     assert_select "section.stats-chapter h2", text: /Invitaciones/
     assert_select "section.stats-chapter h2", text: /Liga mundial/
     assert_select ".stats-invitations"
-    assert_select ".stats-invitations-medallion img[src=?]", "/media/social/icon-share-medallion-v1.png"
+    assert_select ".stats-invitations-medallion img[src=?]", generated_media_src("media/social/icon-share-medallion-v1.png")
     assert_select ".stats-invitation-step", count: 4
     assert_select ".stats-invitations-conversion"
     assert_select ".stats-tile"

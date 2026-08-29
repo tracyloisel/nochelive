@@ -9,16 +9,17 @@ class LocalesControllerTest < ActionDispatch::IntegrationTest
     assert_select "html[lang=fr]"
     assert_select "#street_world"
     assert_select "nav.home-menu"
-    assert_select ".chrome-drawer a", text: /paroisse/
-    assert_select ".chrome-drawer a", text: /Qui sommes-nous/
-    assert_select ".chrome-drawer a", text: /Chercher/
+    assert_select ".chrome-drawer a", text: /Ma paroisse/
+    assert_select ".chrome-drawer a", text: /About us/
+    assert_select ".chrome-drawer a", text: /Inviter un ami/
+    assert_select ".chrome-drawer a[href='#{street_leaderboard_path}']", text: "Leaderboard"
     assert_select ".chrome-drawer a", text: /Jouer pour une autre paroisse/, count: 0
     assert_select ".home-search", count: 0
     assert_select ".chrome-tools", count: 0
     assert_select ".chrome-drawer .mute"
     assert_select ".chrome-drawer .mute .word", text: "Activé"
-    assert_select ".home-menu-kicker", text: /Paroisse/
-    assert_select ".home-menu-kicker", text: /Église de Jésus-Christ/
+    assert_select ".home-menu-kicker", text: /Mon espace/
+    assert_select ".home-menu-kicker", text: /Campus & défis/
     assert_select ".chrome-drawer .lang-switch.is-drawer"
     assert_select ".chrome-drawer .lang-switch.is-drawer > summary .picto-flag-fr"
     assert_select ".chrome-drawer .lang-opt.is-on .picto-flag-fr"

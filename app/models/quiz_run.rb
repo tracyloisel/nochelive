@@ -2,7 +2,6 @@ class QuizRun < ApplicationRecord
   STATUSES = %w[open finished].freeze
 
   belongs_to :person, optional: true
-  belongs_to :street_duel, optional: true
   has_many :quiz_answers, dependent: :destroy
 
   validates :device_digest, :pack_id, :status, :opened_at, presence: true
@@ -14,8 +13,6 @@ class QuizRun < ApplicationRecord
 
   scope :open_runs, -> { where(status: "open") }
   scope :finished, -> { where(status: "finished") }
-  scope :adventure, -> { where(street_duel_id: nil) }
-  scope :duel_runs, -> { where.not(street_duel_id: nil) }
 
   def pack
     QuizDefinition.catalog.find_pack(pack_id)

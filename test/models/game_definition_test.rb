@@ -173,13 +173,13 @@ class GameDefinitionTest < ActiveSupport::TestCase
     GameDefinition.default.rounds.each do |round|
       if round.layered_finale?
         round.layers.each do |layer|
-          assert Rails.public_path.join("media/#{layer['image']}").file?, "#{round.id} missing public/media/#{layer['image']}"
+          assert Frontend::MediaManifest.fetch_source("media/#{layer['image']}"), "#{round.id} missing media master #{layer['image']}"
           assert Rails.public_path.join("media/#{layer['clip']}").file?, "#{round.id} missing public/media/#{layer['clip']}" if layer["clip"].present?
         end
       else
         rel = round.presentation.fetch("image")
         assert_match(%r{\Astories/.+\.(?:jpg|png)\z}, rel)
-        assert Rails.public_path.join("media/#{rel}").file?, "#{round.id} missing public/media/#{rel}"
+        assert Frontend::MediaManifest.fetch_source("media/#{rel}"), "#{round.id} missing media master #{rel}"
       end
     end
   end

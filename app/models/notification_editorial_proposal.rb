@@ -13,11 +13,11 @@ class NotificationEditorialProposal < ApplicationRecord
   PLACEHOLDERS = {
     "daily_verse" => %w[reference],
     "study_reading" => %w[title],
-    "duel_invitation" => %w[name pack],
-    "duel_reminder" => %w[name pack],
-    "duel_result_won" => %w[name pack],
-    "duel_result_finished" => %w[name pack],
-    "duel_result_tie" => %w[name pack],
+    "duel_invitation" => %w[name],
+    "duel_reminder" => %w[name],
+    "duel_result_won" => %w[name],
+    "duel_result_finished" => %w[name],
+    "duel_result_tie" => %w[name],
     "night_tomorrow" => %w[time],
     "night_starting_soon" => %w[time]
   }.freeze

@@ -56,10 +56,14 @@ module Notifications
         preference = @delivery.person.notification_preference
         return false unless preference&.enabled_for?(@delivery.kind)
 
-        duel = @delivery.subject if @delivery.subject_type == "StreetDuel"
-        return false if duel&.expired?
-        return duel.resolved? if @delivery.kind == "duel_result"
-        return duel.active? if %w[duel_invitation duel_reminder].include?(@delivery.kind)
+        if %w[duel_invitation duel_reminder].include?(@delivery.kind)
+          invitation = @delivery.subject if @delivery.subject_type == "DuelInvitation"
+          return invitation&.available? || false
+        end
+        if @delivery.kind == "duel_result"
+          duel = @delivery.subject if @delivery.subject_type == "StreetDuel"
+          return duel&.resolved? || false
+        end
 
         night = @delivery.subject if @delivery.subject_type == "GameSession"
         return night_deliverable?(night) if @delivery.kind.start_with?("night_")
@@ -85,7 +89,7 @@ module Notifications
       end
 
       def ttl
-        if @delivery.subject_type == "StreetDuel"
+        if @delivery.subject_type.in?(%w[StreetDuel DuelInvitation])
           [ (@delivery.subject.expires_at - Time.current).to_i, 60 ].max.clamp(60, 7.days.to_i)
         elsif @delivery.kind == "daily_verse"
           12.hours.to_i

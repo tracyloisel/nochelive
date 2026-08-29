@@ -1,4 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
+import { http } from "platform/http/client"
 
 export default class extends Controller {
   static values = { url: String, goal: Number }
@@ -20,16 +21,13 @@ export default class extends Controller {
     this.element.classList.remove("is-holding")
     const held = Date.now() - this.started
     this.paint(held)
-    const token = document.querySelector('meta[name="csrf-token"]')?.content
-    fetch(this.urlValue, {
+    http.request(this.urlValue, {
       method: "POST",
       headers: {
-        "X-CSRF-Token": token,
-        "Content-Type": "application/x-www-form-urlencoded",
-        Accept: "text/html"
+        "Content-Type": "application/x-www-form-urlencoded"
       },
       body: `held_ms=${held}`
-    })
+    }, { accept: "text/html" }).catch(() => {})
   }
 
   paint(held = Date.now() - this.started) {

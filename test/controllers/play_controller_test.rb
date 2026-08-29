@@ -50,7 +50,7 @@ class PlayAndWatchControllerTest < ActionDispatch::IntegrationTest
     assert_select ".hint", text: /primero/
     assert_select ".prompt", text: /pidió|Salomón/
     assert_select ".play-round > .art", count: 0
-    assert_select ".challenge-story[src='/media/stories/salomon_wisdom_night_portrait.png']"
+    assert_select ".challenge-story[src=?]", generated_media_src("media/stories/salomon_wisdom_night_portrait.png")
     assert_select "[data-controller=slideshow]", count: 0
   end
 

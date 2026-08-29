@@ -18,7 +18,7 @@ class FichasControllerTest < ActionDispatch::IntegrationTest
     assert_select ".year-shout", "1833"
     assert_select ".merge-card .person-pick", text: /Carmen/
     assert_select ".merge-card .person-pick", text: /Pili/, count: 0
-    assert_select ".merge-card", text: /208 puntos/
+    assert_select ".merge-card", text: /#{Regexp.escape(I18n.t("street.merge_crowns", count: 208))}/
     assert_select "form[action=?] input[name=source_id][value=?]",
                   ward_ficha_merge_path(people(:carmen_garcia)), people(:carmen_lopez).id.to_s
   end

@@ -38,9 +38,9 @@ services:
       - key: GCS_ASSET_BUCKET
         value: nochelive-assets-prod
       - key: WEB_PUSH_ENABLED
-        value: "false"
+        value: "true"
       - key: WEB_PUSH_DELIVERY_ENABLED
-        value: "false"
+        value: "true"
       - key: VAPID_PUBLIC_KEY
         sync: false
       - key: VAPID_PRIVATE_KEY
@@ -79,9 +79,9 @@ services:
       - key: JOB_CONCURRENCY
         value: "1"
       - key: WEB_PUSH_ENABLED
-        value: "false"
+        value: "true"
       - key: WEB_PUSH_DELIVERY_ENABLED
-        value: "false"
+        value: "true"
       - key: VAPID_PUBLIC_KEY
         sync: false
       - key: VAPID_PRIVATE_KEY

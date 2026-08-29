@@ -1,6 +1,6 @@
 module Quizzes
   class Stars
-    MAX_SCORE = QuizDefinition::CURVE_POINTS.sum
+    MAX_SCORE = StreakReward.max_pack_score
 
     def self.call(score:)
       score = score.to_i

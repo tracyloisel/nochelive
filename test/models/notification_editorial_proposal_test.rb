@@ -18,6 +18,23 @@ class NotificationEditorialProposalTest < ActiveSupport::TestCase
     assert_includes proposal.errors[:payload].join, "en placeholders"
   end
 
+  test "duel copy names the friend without binding the invitation to a pack" do
+    proposal = NotificationEditorialProposal.new(
+      editorial_key: "message.duel-invitation.v1",
+      proposal_type: "message",
+      payload: {
+        "notification_kind" => "duel_invitation",
+        "translations" => translations("Une invitation du Campus", "%{name} aimerait apprendre avec toi.")
+      }
+    )
+
+    assert proposal.valid?
+
+    proposal.payload["translations"]["fr"]["body"] = "%{name} t'attend sur %{pack}."
+    assert_not proposal.valid?
+    assert_includes proposal.errors[:payload].join, "fr placeholders"
+  end
+
   test "approval is exact short-lived and single use" do
     proposal = create_message_proposal
     token = proposal.issue_approval!

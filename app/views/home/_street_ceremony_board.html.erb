@@ -1,17 +1,21 @@
 <% rows = Array(local_assigns[:rows]) %>
 <section class="street-ceremony-board" aria-label="<%= title %>">
   <header class="street-ceremony-board-head">
-    <%= picto(icon) %>
-    <h3><%= title %></h3>
+    <span class="street-ceremony-board-emblem" aria-hidden="true"><%= picto(icon) %></span>
+    <span>
+      <small class="street-ceremony-board-kicker"><%= t("street.ceremony_board_kicker") %></small>
+      <h3><%= title %></h3>
+    </span>
+    <span class="street-ceremony-board-finale" aria-hidden="true"><%= picto("sparkle") %></span>
   </header>
   <% if rows.any? %>
     <ol class="street-ceremony-best-rows">
-      <% rows.each do |row| %>
-        <li class="street-ceremony-best-row <%= "is-you" if row.you %>">
+      <% rows.each_with_index do |row, index| %>
+        <li class="street-ceremony-best-row <%= "is-you" if row.you %> <%= "is-leader" if row.rank == 1 %>" style="--rank-index: <%= index %>">
           <span class="street-ceremony-medal is-rank-<%= row.rank %>"><%= row.rank %></span>
-          <%= picto("temple") %>
+          <%= render "street_challenges/person", person: row.person %>
           <span class="street-ceremony-best-name"><%= row.person.given_name %></span>
-          <span class="street-ceremony-best-score"><%= row.score %></span>
+          <span class="street-ceremony-best-score" aria-label="<%= t("chrome.crowns", score: row.score) %>"><%= picto("crown") %><strong><%= row.score %></strong></span>
         </li>
       <% end %>
     </ol>

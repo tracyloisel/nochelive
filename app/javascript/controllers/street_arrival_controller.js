@@ -1,4 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
+import { audioLoader } from "platform/audio/loader"
 
 const DELAY = 1400
 
@@ -24,8 +25,7 @@ export default class extends Controller {
     if (this.element.classList.contains("is-ready")) return
     window.clearTimeout(this.timer)
     this.element.classList.add("is-ready")
-    const audio = window.NocheLiveAudio
-    if (audio?.unlocked && !audio.muted) audio.play?.("round_open")
+    if (audioLoader.unlocked() && !audioLoader.muted()) audioLoader.play("round_open")
   }
 
   reduced() {

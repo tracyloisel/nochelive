@@ -1,5 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 import { haptic } from "haptics"
+import { audioLoader } from "platform/audio/loader"
+import { motionDirector } from "runtime/motion/runtime"
 
 const EASE_OUT = [0.22, 1, 0.36, 1]
 const ANIM_DELAY = 80
@@ -15,11 +17,12 @@ export default class extends Controller {
   #observer = null
   #ran = false
   #phaseTimers = []
-  #rafIds = []
+  #controls = []
   #expanded = false
   #aboutPressed = false
 
   connect() {
+    motionDirector.setReducedMotion(this.reduced())
     if (this.reduced()) {
       this.instantReveal()
       return
@@ -53,7 +56,7 @@ export default class extends Controller {
       if (fullList) fullList.style.display = "block"
       details.classList.add("is-expanded")
       this.#animateWorld(fullList)
-      window.NocheLiveAudio?.play?.("question_change")
+      audioLoader.play("question_change")
     }
   }
 
@@ -68,8 +71,8 @@ export default class extends Controller {
     this.#observer?.disconnect()
     this.#phaseTimers.forEach((t) => window.clearTimeout(t))
     this.#phaseTimers = []
-    this.#rafIds.forEach((id) => window.cancelAnimationFrame(id))
-    this.#rafIds = []
+    this.#controls.forEach((controls) => controls.cancel?.())
+    this.#controls = []
   }
 
   #reveal() {
@@ -209,11 +212,11 @@ export default class extends Controller {
         spark.style.setProperty("--spark-x", `${to.left + to.width / 2 - from.left - from.width / 2}px`)
         spark.style.setProperty("--spark-y", `${to.top + to.height / 2 - from.top - from.height / 2}px`)
         heroTile.parentElement.appendChild(spark)
-        setTimeout(() => {
+        this.#phase(50, () => {
           spark.style.opacity = "1"
           spark.style.transform = `translateX(${spark.style.getPropertyValue("--spark-x")}) translateY(${spark.style.getPropertyValue("--spark-y")})`
-        }, 50)
-        setTimeout(() => spark.remove(), 800)
+        }, 0)
+        this.#phase(800, () => spark.remove(), 0)
       }
     }, 0)
 
@@ -243,20 +246,18 @@ export default class extends Controller {
     const targetDash = circumference - (circumference * targetPct / 100)
     const duration = 600
 
-    const start = performance.now()
-    const step = (now) => {
-      const t = Math.min(1, (now - start) / duration)
-      const eased = 1 - Math.pow(1 - t, 3)
-      const currentDash = circumference - (circumference * (targetPct / 100) * eased)
-      ring.style.strokeDashoffset = currentDash
-      pctEl.textContent = Math.round(targetPct * eased)
-      if (t < 1) requestAnimationFrame(step)
-    }
-    requestAnimationFrame(step)
+    const controls = motionDirector.count(0, targetPct, {
+      duration: duration / 1000,
+      onUpdate: (value) => {
+        ring.style.strokeDashoffset = circumference - (circumference * (value / 100))
+        pctEl.textContent = Math.round(value)
+      }
+    })
+    this.#controls.push(controls)
 
     // Gold chime on completion
     this.#phase(duration, () => {
-      window.NocheLiveAudio?.play?.("correct_gold")
+      audioLoader.play("correct_gold")
     }, 0)
   }
 
@@ -315,7 +316,7 @@ export default class extends Controller {
                     sheen.className = "stats-world-sheen"
                     sheen.setAttribute("aria-hidden", "true")
                     badge.appendChild(sheen)
-                    setTimeout(() => sheen.remove(), 800)
+                    this.#phase(800, () => sheen.remove(), 0)
                   }, 0)
                 }
               }, 0)
@@ -335,7 +336,7 @@ export default class extends Controller {
 
           // First rank chime
           if (i === 0) {
-            this.#phase(300, () => window.NocheLiveAudio?.play?.("stake_gain"), 0)
+            this.#phase(300, () => audioLoader.play("stake_gain"), 0)
           }
         }, 0)
       }, 0)
@@ -354,17 +355,11 @@ export default class extends Controller {
       return
     }
 
-    const start = performance.now()
-    const step = (now) => {
-      const t = Math.min(1, (now - start) / duration)
-      const eased = 1 - Math.pow(1 - t, 3)
-      current.textContent = this.#formatNumber(Math.round(target * eased))
-      if (t < 1) {
-        const id = requestAnimationFrame(step)
-        this.#rafIds.push(id)
-      }
-    }
-    requestAnimationFrame(step)
+    const controls = motionDirector.count(0, target, {
+      duration: duration / 1000,
+      onUpdate: (value) => { current.textContent = this.#formatNumber(Math.round(value)) }
+    })
+    this.#controls.push(controls)
   }
 
   #formatNumber(n) {

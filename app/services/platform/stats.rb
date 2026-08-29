@@ -62,13 +62,17 @@ module Platform
       end
 
       def invitation_stats
-        shared_ids = ViralEvent.where(name: "invite_share_completed").where.not(street_duel_id: nil).distinct.select(:street_duel_id)
-        shared = StreetDuel.where(id: shared_ids)
+        shared_ids = ViralEvent.where(name: "invite_share_handoff")
+          .where.not(duel_invitation_id: nil)
+          .distinct
+          .select(:duel_invitation_id)
+        shared = DuelInvitation.where(id: shared_ids)
         {
           sent: shared.count,
-          opened: ViralEvent.where(name: "invite_link_opened", street_duel_id: shared_ids).distinct.count(:street_duel_id),
-          joined: shared.where.not(opponent_person_id: nil).count,
-          completed: shared.where(status: "resolved").count
+          opened: ViralEvent.where(name: "invite_human_opened", duel_invitation_id: shared_ids)
+            .distinct.count(:duel_invitation_id),
+          joined: shared.where(status: "claimed").count,
+          completed: StreetDuel.where(origin_invitation_id: shared_ids, status: "resolved").count
         }
       end
 

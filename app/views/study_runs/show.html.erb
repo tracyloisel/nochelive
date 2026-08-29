@@ -1,6 +1,14 @@
 <% quiz = @run.study_quiz_version %>
 <% content_for :title, t("study.title") %>
 <% content_for :body_class, "is-study-run is-celestial-dark" %>
+<% enable_frontend_audio %>
+<% declare_frontend_resources(
+     context: "study.run",
+     styles: %w[shell study scripture],
+     controllers: %w[loading press stage study-run scripture-launcher],
+     audio: { unlock: true, cues: %w[study_refuge study_light study_miss study_turn], bed: (@run.completed? ? nil : "study_refuge") },
+     classes: { "style.shell" => "critical", "style.study" => "critical", "audio.study" => "interaction", "controller.scripture" => "interaction" }
+   ) %>
 <% revealing = @answer && params[:reveal].to_s == @answer.id.to_s %>
 <main id="study_run"
       class="study-play<%= " is-complete" if @run.completed? %><%= " is-reveal is-reveal-correct" if revealing && @answer.correct? %><%= " is-reveal is-reveal-wrong" if revealing && !@answer.correct? %>"
@@ -9,7 +17,7 @@
       data-study-run-correct-value="<%= revealing && @answer.correct? %>"
       <% unless @run.completed? %>data-stage-bed-value="study_refuge"<% end %>
       data-action="turbo:submit-start->study-run#submitStart"
-      style="--study-art:url('<%= @run.completed? ? quiz.content.fetch("ceremony_artwork") : quiz.content.fetch("artwork") %>')">
+      style="--study-art:url('<%= media_src(@run.completed? ? quiz.content.fetch("ceremony_artwork") : quiz.content.fetch("artwork")) %>')">
   <% page_hud(hud: true) { site_menu } %>
   <% if @run.completed? %>
     <section class="study-ceremony">
@@ -17,7 +25,7 @@
         <p class="study-kicker"><%= t("study.completed_kicker") %></p>
         <h1><%= t("study.completed_title") %></h1>
         <div class="study-medallion" aria-label="<%= t("study.your_journey") %> : <%= @run.score %>/10">
-          <img src="/media/study/ceremony-medallion-v2.png" alt="" aria-hidden="true">
+          <%= noche_media_picture("media/study/ceremony-medallion-v2.png", alt: "", loading: "eager") %>
           <span class="study-medallion-copy" aria-hidden="true">
             <span><%= t("study.your_journey") %></span>
             <strong class="study-medallion-score"><b><%= @run.score %></b><i>/</i><b>10</b></strong>
@@ -67,7 +75,7 @@
       <h1><%= @question.fetch("question") %></h1>
       <% if current_reading %>
         <%= link_to scripture_path(current_reading["study"], cite: @question.fetch("scripture_ref"), study_unit_id: @run.study_unit.id), class: "study-question-reading",
-              data: { turbo_frame: "scripture_reader", action: "click->scripture#prepare" } do %>
+              data: { turbo_frame: "scripture_reader", action: "click->scripture-launcher#prepare" } do %>
           <%= picto("book") %><span><%= t("study.read_reference", reference: @question.fetch("scripture_ref")) %></span><b>›</b>
         <% end %>
       <% end %>

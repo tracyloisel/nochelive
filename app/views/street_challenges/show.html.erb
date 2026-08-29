@@ -1,100 +1,126 @@
-<% content_for :title, t("street.duel_title") %>
-<% content_for :body_class, "is-kid is-paper-hall is-duel-show" %>
-<% page_hud { site_menu } %>
+<% invitation = @screen.invitation %>
+<% challenger = @screen.challenger %>
+<% token = invitation.public_token %>
+<% owner = current_street_person&.id == invitation.challenger_person_id %>
+<% recipient = current_street_person&.id == invitation.recipient_person_id %>
+<% receipt_url = if invitation.external? && !owner
+  street_challenge_opened_path(token, src: params[:src])
+elsif recipient
+  street_challenge_received_path(token)
+end %>
+<% content_for :title, t("duel_campus.invitation.title", name: challenger.given_name) %>
+<% content_for :body_class, "is-kid is-paper-hall is-duel-invitation" %>
+<% surface_stylesheet("duel_campus") %>
+<% declare_frontend_resources(
+     context: "duel.invitation",
+     styles: %w[shell duel_campus],
+     controllers: %w[loading press duel-invitation duel-motion],
+     media: { lcp: media_src("media/social/campus-invitation-friends-v1.png") },
+     motion: %w[invitation-enter],
+     classes: {
+       "style.duel_campus" => "critical",
+       "media.lcp" => "critical",
+       "controller.duel_invitation" => "contextual",
+       "controller.duel_motion" => "contextual",
+       "motion.invitation" => "contextual"
+     }
+   ) %>
+<% content_for :head do %>
+  <%= noche_picture_preload("media/social/campus-invitation-friends-v1.png") %>
+<% end %>
+<% page_hud(face: true) { site_menu } %>
 
-<% pack_title = @pack.copy(:title) %>
-<% share_text = t("street.duel_share_text", name: @challenger.display_name, pack: pack_title) %>
-<% phase = @challenge&.phase || :accept %>
-<% other = current_street_person&.id == @challenger.id ? @duel.opponent_person : @challenger %>
-
-<%= paper_hall id: "street_desafio", kicker: t("street.duel_title"), extra_class: "street-duel-show is-#{phase}", sheet_class: "street-duel-arena" do %>
-  <header class="street-duel-arena-head">
-    <span class="street-duel-sigil" aria-hidden="true">
-      <img src="/media/social/icon-challenge-medallion-v1.png" alt="" width="88" height="88">
-    </span>
-    <span class="street-duel-arena-kicker"><%= picto("sparkle") %><%= pack_title %><%= picto("sparkle") %></span>
-    <h1><%= t("street.duel_title") %></h1>
+<section class="duel-invitation<%= " has-dock" if current_street_person %>"
+         data-controller="duel-invitation duel-motion"
+         data-state="<%= @screen.state %>"
+         data-origin="<%= invitation.external? ? "cold" : "named" %>"
+         data-duel-invitation-receipt-url-value="<%= receipt_url %>"
+         data-duel-motion-sequence-value="invitation"
+         style="view-transition-name: street-world">
+  <header class="duel-invitation-hero">
+    <%= noche_media_picture("media/social/campus-invitation-friends-v1.png", alt: "", loading: "eager", fetchpriority: "high") %>
+    <span aria-hidden="true"></span>
+    <div>
+      <p><%= @screen.rematch ? t("duel_campus.invitation.rematch_kicker") : t("duel_campus.invitation.kicker") %></p>
+      <h1><%= t("duel_campus.invitation.title", name: challenger.given_name) %></h1>
+      <p><%= t("duel_campus.invitation.lede") %></p>
+    </div>
   </header>
 
-  <div class="street-duel-banner-faces street-desafio-faces" aria-label="<%= t("street.duel_challenge", name: @challenger.display_name, pack: pack_title) %>">
-    <div class="street-duel-face is-you">
-      <% if current_street_person %>
-        <% src = avatar_mark(current_street_person) %>
-        <% if src %><img src="<%= src %>" alt="" class="avatar-img" width="52" height="52"><% end %>
-      <% else %>
-        <span class="street-duel-face-slot" aria-hidden="true"><%= picto("sparkle") %></span>
-      <% end %>
-      <span class="street-duel-face-name"><%= t("street.duel_you") %></span>
+  <main class="duel-invitation-sheet" data-duel-motion-target="reveal">
+    <div class="duel-invitation-faces">
+      <%= render "street_challenges/person", person: challenger %>
+      <span class="duel-invitation-versus" aria-hidden="true"><%= picto("duel-scrolls") %></span>
+      <%= render "street_challenges/person", person: current_street_person unless owner %>
     </div>
-    <div class="street-duel-vs" aria-hidden="true">
-      <span class="street-duel-vs-mark"><%= t("street.duel_vs") %></span>
-      <span class="street-duel-clash-line"></span>
-    </div>
-    <div class="street-duel-face">
-      <% if other %>
-        <% src = avatar_mark(other) %>
-        <% if src %><img src="<%= src %>" alt="" class="avatar-img" width="52" height="52"><% end %>
-        <span class="street-duel-face-name"><%= other.display_name %></span>
-      <% else %>
-        <span class="street-duel-face-slot" aria-hidden="true"><%= picto("sparkle") %></span>
-        <span class="street-duel-face-name"><%= t("street.share_guest") %></span>
-      <% end %>
-    </div>
-  </div>
 
-  <section class="street-duel-moment" aria-live="polite">
-    <% if phase == :result && current_street_person %>
-      <%= render "street_hub/duel_result", duel: @duel, you: current_street_person %>
-    <% elsif phase == :waiting && @challenge&.role == :challenger %>
-      <span class="street-duel-status-mark"><%= picto("hourglass") %></span>
-      <% if @challenge.waiting_for == :play && other %>
-        <p class="lede"><%= t("street.duel_playing_named", name: other.display_name) %></p>
-      <% elsif @challenge.waiting_for == :accept && other %>
-        <p class="lede"><%= t("street.duel_waiting_named_short", name: other.display_name) %></p>
-      <% elsif @challenge.waiting_for == :link %>
-        <p class="lede"><%= t("street.duel_waiting_link") %></p>
-      <% else %>
-        <p class="lede"><%= t("street.duel_you_sent", pack: pack_title) %></p>
-      <% end %>
-      <% if @challenge.waiting_for == :link %>
-        <button type="button"
-                class="btn btn-gold"
-                data-controller="street-share"
-                data-action="street-share#invite"
-                data-street-share-url-value="<%= street_challenge_url(@duel.token, src: "native") %>"
-                data-street-share-duel-token-value="<%= @duel.token %>"
-                data-street-share-source-value="duel-waiting"
-                data-street-share-endpoint-value="<%= viral_events_path %>"
-                data-street-share-text-value="<%= share_text %>"
-                data-street-share-copied-value="<%= t("street.share_copied") %>">
-          <%= t("street.duel_share_again") %>
-        </button>
-      <% else %>
-        <%= link_to t("street.duel_inbox_open"), street_challenges_path, class: "quiet-link" %>
-      <% end %>
-    <% elsif phase == :taken %>
-      <span class="street-duel-status-mark"><%= picto("lock") %></span>
-      <p class="lede"><%= t("street.duel_taken") %></p>
-    <% else %>
-      <p class="street-duel-callout"><%= t("street.duel_challenge", name: @challenger.display_name, pack: pack_title) %></p>
-      <% if @duel.challenger_score %>
-        <div class="street-duel-score-to-beat">
-          <span><%= picto("crown") %></span>
-          <strong><%= @duel.challenger_score %></strong>
-          <p class="lede"><%= t("street.duel_beat_score", name: @challenger.display_name, score: @duel.challenger_score) %></p>
+    <time class="duel-campus-invitation-date is-detail" datetime="<%= invitation.expires_at.iso8601 %>"><%= picto("calendar") %><span><%= t("duel_campus.dates.expires", date: duel_calendar_date(invitation.expires_at)) %><small><%= t("duel_campus.deadline", time: duel_time_left(invitation.expires_at)) %></small></span></time>
+
+    <% if invitation.challenger_score %>
+      <p class="duel-invitation-score"><small><%= t("duel_campus.invitation.shared_score") %></small><strong><%= invitation.challenger_score %></strong><span class="duel-invitation-currency"><%= picto("crown") %><%= t("chrome.crowns_word") %></span></p>
+    <% end %>
+    <p class="duel-invitation-rule"><span aria-hidden="true">✦</span><%= t("duel_campus.invitation.any_pack") %></p>
+
+    <% case @screen.state %>
+    <% when :available %>
+      <% if owner %>
+        <%= render "street_challenges/receipt", invitation:, viewer: current_street_person %>
+        <% if invitation.external? %>
+          <div class="duel-invitation-actions">
+            <button type="button"
+                    class="btn btn-gold duel-campus-command duel-invitation-primary"
+                    data-controller="street-share"
+                    data-action="street-share#invite"
+                    data-street-share-url-value="<%= street_challenge_url(token, src: "share") %>"
+                    data-street-share-duel-token-value="<%= token %>"
+                    data-street-share-source-value="invitation"
+                    data-street-share-text-value="<%= t("duel_campus.share.text", name: challenger.given_name) %>">
+              <%= t("duel_campus.actions.share_again") %>
+            </button>
+          </div>
+        <% else %>
+          <p class="duel-invitation-wait"><%= t("duel_campus.invitation.waiting_named", name: invitation.recipient_person.given_name) %></p>
+        <% end %>
+      <% elsif @screen.state == :available %>
+        <div class="duel-invitation-actions">
+          <%= button_to t("duel_campus.actions.accept"), street_challenge_accept_path(token), class: "btn btn-gold duel-campus-command duel-invitation-primary" %>
+          <% if recipient %>
+            <%= button_to t("duel_campus.actions.decline"), street_challenge_decline_path(token), class: "btn btn-ghost" %>
+          <% end %>
         </div>
       <% end %>
-      <%= render "street_challenges/reply", duel: @duel %>
-      <% unless current_street_person %>
-        <p class="street-duel-no-account"><%= t("street.duel_profile_required") %></p>
+    <% when :claimed %>
+      <% if current_street_person && invitation.street_duel&.includes_person?(current_street_person) %>
+        <h2><%= t("duel_campus.invitation.now_active") %></h2>
+        <div class="duel-invitation-actions">
+          <%= link_to t("duel_campus.actions.open_duel"), street_duel_path(invitation.street_duel), class: "btn btn-gold duel-campus-command duel-invitation-primary" %>
+        </div>
+      <% else %>
+        <h2><%= t("duel_campus.invitation.already_claimed") %></h2>
+        <div class="duel-invitation-actions">
+          <%= link_to t("duel_campus.actions.visit_campus"), street_challenges_path, class: "btn btn-navy duel-campus-command duel-invitation-primary" %>
+        </div>
       <% end %>
+    <% when :expired, :revoked %>
+      <h2><%= t("duel_campus.invitation.expired") %></h2>
+      <p><%= t("duel_campus.invitation.expired_lede") %></p>
+      <div class="duel-invitation-actions">
+        <%= link_to t("duel_campus.actions.visit_campus"), street_challenges_path, class: "btn btn-navy duel-campus-command duel-invitation-primary" %>
+      </div>
+    <% when :declined %>
+      <h2><%= t("duel_campus.invitation.declined") %></h2>
+      <div class="duel-invitation-actions">
+        <%= link_to t("duel_campus.actions.visit_campus"), street_challenges_path, class: "btn btn-navy duel-campus-command duel-invitation-primary" %>
+      </div>
+    <% when :other_recipient %>
+      <h2><%= t("duel_campus.invitation.for_someone_else") %></h2>
+      <div class="duel-invitation-actions">
+        <%= link_to t("duel_campus.actions.visit_campus"), street_challenges_path, class: "btn btn-navy duel-campus-command duel-invitation-primary" %>
+      </div>
     <% end %>
-  </section>
-  <nav class="hall-sheet-foot">
-    <%= link_to t("street.ceremony_back_map"), street_map_path, class: "quiet-link" %>
-  </nav>
-<% end %>
 
-<% if @push_prompt %>
-  <%= render "notifications/prompt", person: current_street_person, **@push_prompt %>
-<% end %>
+    <footer><%= link_to t("duel_campus.actions.back"), owner ? street_challenges_path : root_path, class: "quiet-link" %></footer>
+  </main>
+
+  <% page_dock(active: :home) if current_street_person %>
+</section>

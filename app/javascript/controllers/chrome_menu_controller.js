@@ -1,22 +1,23 @@
 import { Controller } from "@hotwired/stimulus"
+import { EffectScope } from "platform/lifecycle/effect_scope"
 
 export default class extends Controller {
-  static targets = [ "panel", "button", "openIcon", "closeIcon", "veil" ]
+  static targets = [ "panel", "button", "heading" ]
   static values = {
     openLabel: String,
     closeLabel: String
   }
 
   connect() {
+    this.effectScope = new EffectScope()
     this.onCache = this.close.bind(this)
-    this.onEsc = this.escape.bind(this)
-    document.addEventListener("turbo:before-cache", this.onCache)
+    this.effectScope.listen(document, "turbo:before-cache", this.onCache)
     this.sync()
   }
 
   disconnect() {
-    document.removeEventListener("turbo:before-cache", this.onCache)
     this.close()
+    this.effectScope.dispose()
   }
 
   toggle() {
@@ -28,40 +29,38 @@ export default class extends Controller {
   }
 
   open() {
-    if (!this.panelTarget.open) this.panelTarget.show()
-    this.element.classList.add("is-open")
-    document.addEventListener("keydown", this.onEsc)
+    this.returnFocusTarget = document.activeElement
+    if (!this.panelTarget.open) this.panelTarget.showModal()
     this.sync()
+    this.effectScope.frame(() => this.headingTarget.focus({ preventScroll: true }))
   }
 
   close() {
-    if (this.panelTarget.open) this.panelTarget.close()
-    this.element.classList.remove("is-open")
-    document.removeEventListener("keydown", this.onEsc)
-    this.sync()
+    if (this.panelTarget.open) {
+      this.panelTarget.close()
+    } else {
+      this.finishClose()
+    }
   }
 
   onClose() {
-    this.element.classList.remove("is-open")
-    document.removeEventListener("keydown", this.onEsc)
+    this.finishClose()
+  }
+
+  finishClose() {
     this.sync()
+    const target = this.returnFocusTarget
+    this.returnFocusTarget = null
+    if (target?.isConnected) target.focus({ preventScroll: true })
   }
 
   backdropClose(event) {
     if (event.target === this.panelTarget) this.close()
   }
 
-  escape(event) {
-    if (event.key === "Escape") this.close()
-  }
-
   sync() {
     const open = this.panelTarget.open
     this.buttonTarget.setAttribute("aria-expanded", open ? "true" : "false")
     this.buttonTarget.setAttribute("aria-label", open ? this.closeLabelValue : this.openLabelValue)
-    this.buttonTarget.classList.toggle("is-open", open)
-    if (this.hasOpenIconTarget) this.openIconTarget.toggleAttribute("hidden", open)
-    if (this.hasCloseIconTarget) this.closeIconTarget.toggleAttribute("hidden", !open)
-    if (this.hasVeilTarget) this.veilTarget.toggleAttribute("hidden", !open)
   }
 }

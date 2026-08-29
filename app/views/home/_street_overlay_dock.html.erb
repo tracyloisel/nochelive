@@ -1,0 +1,15 @@
+<div id="street_quiz_dock" class="quiz-dock">
+  <%= render "home/street_overlay_timer", street:, run:, question: %>
+  <%= render "home/street_overlay_actions", street:, run:, question: %>
+
+  <div class="quiz-sheet">
+    <span class="street-quiz-apex quiz-sheet-apex" aria-hidden="true"><%= picto("star4") %></span>
+    <p class="quiz-kicker">
+      <%= picto("scroll") %>
+      <span><%= t("quiz.from_the_book", title: pack.copy(:title)) %></span>
+    </p>
+    <p class="prompt quiz-prompt"><%= question.copy(:question) %></p>
+    <%= render "home/street_overlay_answer_panel", street:, pack:, run: %>
+    <span class="quiz-sheet-chevron" aria-hidden="true"></span>
+  </div>
+</div>

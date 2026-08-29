@@ -34,7 +34,7 @@ class IdentityTransfersController < ApplicationController
     IdentityTransfer.consume!(params[:token])
     finish_without_conflict(payload:, source_person:, target_person:)
   rescue IdentityTransfer::InvalidToken
-    redirect_to_target alert: I18n.t("identity_migration.expired")
+    redirect_to_target
   end
 
   def merge
@@ -69,9 +69,9 @@ class IdentityTransfersController < ApplicationController
     remember_street_person(keeper)
     remember_ward(keeper.ward)
     restore_locale(payload) if cookies[Locale::COOKIE].blank?
-    redirect_to_target notice: I18n.t("identity_migration.merged")
+    redirect_to_target notice: migration_message("merged")
   rescue IdentityTransfer::InvalidToken
-    redirect_to_target alert: I18n.t("identity_migration.expired")
+    redirect_to_target
   rescue People::Error => error
     payload = IdentityTransfer.fetch!(params[:token])
     prepare_conflict(
@@ -154,7 +154,12 @@ class IdentityTransfersController < ApplicationController
         restore_cookies(payload)
       end
 
-      redirect_to_target
+      redirect_to_target notice: migration_message("completed")
+    end
+
+    def migration_message(key)
+      locale = cookies[Locale::COOKIE].presence || I18n.locale
+      I18n.t("identity_migration.#{key}", locale: Locale.i18n(locale))
     end
 
     def redirect_to_target(notice: nil, alert: nil)

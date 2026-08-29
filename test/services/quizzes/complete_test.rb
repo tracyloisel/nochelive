@@ -25,7 +25,6 @@ class Quizzes::CompleteTest < ActiveSupport::TestCase
     assert summary.standings
     assert summary.pack_board
     assert summary.total_board
-    assert summary.stars_earned.positive?
   end
 
   test "guest summary lists the rama pack board when the ward is known" do
@@ -70,14 +69,13 @@ class Quizzes::CompleteTest < ActiveSupport::TestCase
     assert_equal 10, summary.answered
     assert_equal 10, summary.correct
     assert_equal 10, summary.max_streak
-    assert_equal QuizDefinition::CURVE_POINTS.sum, summary.base_score
-    assert_equal 4, summary.fire_count
-    assert_equal 20, summary.fire_percent
-    assert_equal 21, summary.fire_bonus
-    assert_equal 124, summary.score
+    assert_equal 50, summary.base_score
+    assert_equal 39, summary.streak_bonus
+    assert_equal 89, summary.score
+    assert_equal 10, summary.last_gain
+    assert_equal 10, run.fire_count
+    assert_equal 39, run.fire_bonus
     assert summary.duration_s >= 0
-    assert summary.last_gain.positive?
-    assert_equal "legend", summary.shout_key
   end
 
   test "ceremony time is the sum of think times not the wall clock" do

@@ -22,16 +22,8 @@ module Hubs
     LIVE_STAGE_STILL = "media/nights/noche_live_stage_v2.png"
     CHAPEL_STILL = "media/church/worship.jpg"
     LIVE_WINDOW = 14.days
-    Challenge = Struct.new(
-      :phase, :waiting_for, :other_name, :other_display_name, :you_score, :other_score, :token, :play_path, :path,
-      :you_avatar_key, :other_avatar_key, :other_streak, :receipt_state, :rematch, keyword_init: true
-    ) do
-      def scored?
-        !you_score.nil? && !other_score.nil?
-      end
-    end
     OnlineRow = Struct.new(
-      :person_id, :name, :avatar_key, :level, :crowns, :playing_title, :action, keyword_init: true
+      :person_id, :name, :avatar_key, :level, :crowns, keyword_init: true
     )
     ProgressNode = Struct.new(:title, :still, :state, :focus, keyword_init: true)
     Progress = Struct.new(
@@ -43,22 +35,21 @@ module Hubs
     MapProgress = Struct.new(:total_packs, :questions_per_pack, :finished, :completed_packs, :rewards, :tiers, :current_tier_key, :finished_count, keyword_init: true)
     Community = Struct.new(:players_this_month, :questions, :wards, keyword_init: true)
     Result = Struct.new(
-      :player, :hero, :voyage, :live, :challenge, :online, :online_count, :progress, :study, :community, :pulse, :backdrop,
+      :player, :hero, :voyage, :live, :online, :online_count, :progress, :study, :community, :pulse, :backdrop,
       keyword_init: true
     )
 
-    def self.call(device_digest:, person: nil, ward: nil, at: Time.current, challenge: nil, open_run: nil,
+    def self.call(device_digest:, person: nil, ward: nil, at: Time.current, open_run: nil,
       random_backdrop: false, previous_backdrop_id: nil, world: nil, pulse: nil)
-      new(device_digest:, person:, ward:, at:, challenge:, open_run:, random_backdrop:, previous_backdrop_id:, world:, pulse:).call
+      new(device_digest:, person:, ward:, at:, open_run:, random_backdrop:, previous_backdrop_id:, world:, pulse:).call
     end
 
-    def initialize(device_digest:, person: nil, ward: nil, at: Time.current, challenge: nil, open_run: nil,
+    def initialize(device_digest:, person: nil, ward: nil, at: Time.current, open_run: nil,
       random_backdrop: false, previous_backdrop_id: nil, world: nil, pulse: nil)
       @digest = device_digest.to_s
       @person = person
       @ward = ward
       @at = at
-      @challenge = challenge
       @open_run = open_run
       @random_backdrop = random_backdrop
       @previous_backdrop_id = previous_backdrop_id
@@ -73,7 +64,6 @@ module Hubs
         hero: build_hero,
         voyage: build_voyage,
         live: build_live,
-        challenge: build_challenge,
         online: build_online,
         online_count: online_person_ids.size,
         progress: build_progress,
@@ -162,12 +152,9 @@ module Hubs
       end
 
       def remaining_points(pack, run)
-        curve = QuizDefinition::CURVE_POINTS
-        return curve.sum unless run&.open?
+        return Quizzes::StreakReward.max_pack_score(question_count: pack.questions.size) unless run&.open?
 
-        idx = run.position - 1
-        idx += 1 if run.settled?
-        curve.drop(idx).sum
+        Quizzes::StreakReward.remaining_potential(run:)
       end
 
       def still_src(pack)
@@ -176,6 +163,10 @@ module Hubs
 
         rel = image.to_s.delete_prefix("/")
         rel = "media/#{rel}" unless rel.start_with?("media/")
+        if (asset = Frontend::MediaManifest.fetch_source(rel))
+          return asset.fetch("variants").fetch("webp").last.fetch("src")
+        end
+
         "/#{rel}" if Rails.public_path.join(rel).file?
       end
 
@@ -279,6 +270,7 @@ module Hubs
             state: :ward_missing,
             program_path: ward_discovery_path,
             ward_pick_path: ward_discovery_path,
+            still: default_live_still,
             hosts: [],
             theme_mode:,
             theme_atmosphere:
@@ -292,6 +284,7 @@ module Hubs
           return Live.new(
             state: :none,
             program_path: program,
+            still: default_live_still,
             hosts: [],
             theme_mode:,
             theme_atmosphere:
@@ -349,17 +342,16 @@ module Hubs
         # The LIVE card advertises a game-show night, not another chapter still.
         # Its dedicated stage art deliberately stays independent from the hub
         # backdrop and the current street-quiz painting.
-        if Rails.public_path.join(LIVE_STAGE_STILL).file?
+        if (src = responsive_src(LIVE_STAGE_STILL))
           theme_mode, theme_atmosphere = backdrop_live_theme
-          return [ "/#{LIVE_STAGE_STILL}", theme_mode, theme_atmosphere ]
+          return [ src, theme_mode, theme_atmosphere ]
         end
-        if Rails.public_path.join(CHAPEL_STILL).file?
-          return [ "/#{CHAPEL_STILL}", "light", "peaceful" ]
+        if (src = responsive_src(CHAPEL_STILL))
+          return [ src, "light", "peaceful" ]
         end
 
         poster = "media/nights/#{night.theme_file_id}.jpg"
-        if Rails.public_path.join(poster).file?
-          src = "/#{poster}"
+        if (src = responsive_src(poster))
           return [ src, live_mode(src, "light"), "peaceful" ]
         end
 
@@ -370,7 +362,19 @@ module Hubs
         return if night.poster_path.blank?
 
         relative_path = night.poster_path.delete_prefix("/")
-        night.poster_path if Rails.public_path.join(relative_path).file?
+        responsive_src(relative_path)
+      end
+
+      def responsive_src(relative_path)
+        if (asset = Frontend::MediaManifest.fetch_source(relative_path))
+          return asset.fetch("variants").fetch("webp").last.fetch("src")
+        end
+
+        "/#{relative_path.delete_prefix('/')}" if Rails.public_path.join(relative_path.delete_prefix("/")).file?
+      end
+
+      def default_live_still
+        responsive_src(LIVE_STAGE_STILL) || responsive_src(CHAPEL_STILL)
       end
 
       def live_still?(src)
@@ -381,80 +385,19 @@ module Hubs
         Quizzes::Chrome.mode_for(src).presence || (Hubs::Backdrop::MODES.include?(fallback.to_s) ? fallback.to_s : "light")
       end
 
-      def build_challenge
-        screen = @challenge
-        return unless screen&.duel
-
-        duel = screen.duel
-        other = other_person(duel)
-        you_score, other_score = scores_for(duel)
-        play_path = screen.phase == :play ? @helpers.jugar_path : nil
-        Challenge.new(
-          phase: screen.phase,
-          waiting_for: screen.waiting_for,
-          other_name: other&.given_name,
-          other_display_name: other&.display_name,
-          you_score:,
-          other_score:,
-          token: duel.token,
-          play_path:,
-          path: play_path || @helpers.street_challenge_path(duel.token),
-          you_avatar_key: @person&.avatar_key,
-          other_avatar_key: other&.avatar_key,
-          other_streak: streak_for(other, duel),
-          receipt_state: (duel.receipt_state if duel.respond_to?(:receipt_state)),
-          rematch: duel.respond_to?(:rematch?) && duel.rematch?
-        )
-      end
-
-      def other_person(duel)
-        return duel.opponent_person if @person&.id == duel.challenger_person_id
-
-        duel.challenger_person
-      end
-
-      def scores_for(duel)
-        return [ nil, nil ] unless duel.challenger_score && duel.opponent_score
-        return [ duel.challenger_score, duel.opponent_score ] if @person&.id == duel.challenger_person_id
-
-        [ duel.opponent_score, duel.challenger_score ]
-      end
-
-      def streak_for(person, duel)
-        return unless person
-
-        run = if person.id == duel.challenger_person_id
-          duel.challenger_run
-        elsif person.id == duel.opponent_person_id
-          duel.opponent_run
-        end
-        run ||= QuizRun.finished.where(person_id: person.id, pack_id: duel.pack_id).order(:id).last
-        return unless run&.finished?
-
-        count = Quizzes::HitStreak.max_count(run:)
-        count if count >= 2
-      end
-
       def build_online
         return [] unless @ward && @person
 
         people = online_scope.order(:id).limit(2).to_a
         scores = Quizzes::Leaderboard.total_scores(person_ids: people.map(&:id))
-        runs = QuizRun.open_runs.where(person_id: people.map(&:id)).order(:id)
-        run_by_person = runs.group_by(&:person_id).transform_values(&:last)
-        can_challenge = QuizRun.finished.exists?(person_id: @person.id)
         people.map do |row|
-          run = run_by_person[row.id]
-          playing = run && QuizDefinition.catalog.find_pack(run.pack_id).copy(:title)
           crowns = scores[row.id].to_i
           OnlineRow.new(
             person_id: row.id,
             name: row.given_name,
             avatar_key: row.avatar_key,
             level: street_rank_level(crowns),
-            crowns:,
-            playing_title: playing,
-            action: can_challenge ? :challenge : :invite
+            crowns:
           )
         end
       end

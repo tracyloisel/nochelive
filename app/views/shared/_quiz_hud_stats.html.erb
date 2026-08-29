@@ -1,0 +1,54 @@
+<%= tag.div id: ("street_quiz_hud_stats" if bar.quiz?), class: "quiz-hud-stats" do %>
+  <% if bar.quiz? %>
+    <p class="street-score quiz-hud-score"
+       data-quiz-target="crown"
+       aria-hidden="true">
+      <%= picto("crown") %>
+      <span class="quiz-hud-score-stack">
+        <span data-quiz-target="score"><%= bar.score %></span>
+        <% if bar.done? && bar.last_gain.to_i.positive? %>
+          <span class="quiz-hud-gain" data-quiz-target="gain">+<%= bar.last_gain %></span>
+        <% end %>
+      </span>
+    </p>
+    <p class="quiz-hud-streak<%= " is-break" if bar.combo&.broke %><%= " is-grew" if bar.combo&.grew %><%= " is-shout" if bar.combo&.shout_key %>"
+       data-tier="<%= bar.combo&.tier || "idle" %>"
+       data-hub-streak-target="streak"
+       aria-label="<%= t("quiz.combo", count: bar.combo&.count.to_i) %>">
+      <img class="quiz-hud-streak-icon"
+           src="/media/streak/<%= bar.combo&.broke ? "living-fire-dormant-hud-v1.webp" : "living-fire-hud-v1.webp" %>"
+           srcset="/media/streak/<%= bar.combo&.broke ? "living-fire-dormant-v1@2x.webp" : "living-fire-hud-v1@2x.webp" %> 2x"
+           alt=""
+           width="64"
+           height="64"
+           decoding="async">
+      <span class="quiz-hud-streak-stack">
+        <span class="quiz-hud-streak-value">
+          <span class="quiz-hud-streak-multiplier" aria-hidden="true">×</span>
+          <span class="quiz-hud-streak-num"><%= bar.combo&.count.to_i %></span>
+        </span>
+        <% if bar.done? && bar.combo&.count.to_i.positive? %>
+          <span class="quiz-hud-streak-tag"><%= t("quiz.combo_tag") %></span>
+        <% end %>
+      </span>
+    </p>
+  <% else %>
+    <p class="quiz-hud-score" aria-label="<%= t("hub.crowns") %>">
+      <%= picto("crown") %>
+      <span><%= number_with_delimiter(bar.crowns.to_i) %></span>
+    </p>
+    <p class="quiz-hud-streak<%= " is-idle" if bar.streak.to_i.zero? %>"
+       data-tier="<%= bar.streak.to_i.positive? ? "spark" : "idle" %>"
+       data-hub-streak-target="streak"
+       aria-label="<%= t("street.card_streak", days: bar.streak.to_i) %>">
+      <img class="quiz-hud-streak-icon"
+           src="/media/streak/<%= bar.streak.to_i.zero? ? "living-fire-dormant-hud-v1.webp" : "living-fire-hud-v1.webp" %>"
+           srcset="/media/streak/<%= bar.streak.to_i.zero? ? "living-fire-dormant-v1@2x.webp" : "living-fire-hud-v1@2x.webp" %> 2x"
+           alt=""
+           width="64"
+           height="64"
+           decoding="async">
+      <span class="quiz-hud-streak-num"><%= bar.streak.to_i %></span>
+    </p>
+  <% end %>
+<% end %>

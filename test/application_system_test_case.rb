@@ -32,19 +32,29 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   setup do
     skip "Chrome is not available" unless self.class.chrome_binary
     Capybara.default_max_wait_time = 8
+    set_system_viewport(390, 844)
+  end
+
+  def set_system_viewport(width, height)
+    page.driver.browser.execute_cdp(
+      "Emulation.setDeviceMetricsOverride",
+      width:,
+      height:,
+      deviceScaleFactor: 1,
+      mobile: false
+    )
+  rescue NoMethodError
+    page.current_window.resize_to(width, height)
   end
 
   def join_night(code, name:, location: "room", team: nil, emblem: nil)
-    visit night_name_path(code)
-    assert_text "¿Cómo te llaman?"
-    fill_in "¿Cómo te llaman en la rama?", with: name
-    find("label.choice-chip", text: location == "remote" ? "En casa" : "En la sala").click
-    click_button I18n.t("join.create_and_join")
+    visit night_name_path(code, location: ("remote" if location == "remote"))
+    assert_text I18n.t("join.first_title")
+    fill_in I18n.t("join.name_label"), with: name
+    click_button I18n.t("join.enter_play")
     return if location == "remote"
 
-    assert_text "Elige tu equipo"
-    fill_in "Nombre del equipo", with: team
-    find("label.emblem-choice", text: Team::EMBLEMS.fetch(emblem)).click
-    click_button "Crear equipo"
+    assert_current_path night_play_path(code)
+    assert_selector ".play-reel"
   end
 end

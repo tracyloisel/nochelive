@@ -1,235 +1,255 @@
 class StreetChallengesController < ApplicationController
   include StreetQuiz
 
-  before_action :load_duel, only: [ :show, :accept, :decline ]
+  before_action :load_invitation, only: %i[show accept decline received opened]
+  before_action :require_campus_person, only: %i[index duel rematch]
+  before_action :load_member_duel, only: %i[duel rematch]
 
   def index
     remember_device
     touch_street_presence
-    person = current_street_person
-    unless person
-      session[:street_return] = "desafios"
-      redirect_to street_profile_path(quick: 1, fresh: 1)
-      return
-    end
-    unless person.ward
-      session[:street_return] = "desafios"
-      redirect_to search_path(cambiar: 1), alert: I18n.t("flashes.ward_required_challenges")
-      return
-    end
-
-    remember_ward(person.ward) unless current_ward&.id == person.ward_id
-    ward = person.ward
+    remember_ward(current_street_person.ward) if current_street_person.ward
 
     @q = params[:q].to_s.strip
-    @pack_id = Quizzes::World.call(device_digest: street_digest, person_id: person.id).current_pack_id
-    @board = Quizzes::ChallengeBoard.call(ward:, person:, pack_id: @pack_id)
-    @inbox = @board.inbox
-    @rivals = @board.rivals
-    @rivalry = @board.rivalry
-    @head_to_head = @board.head_to_head
-    @incoming_action = @inbox.incoming.any? { |item| item.phase == :accept || item.phase == :play }
-    prompt_context = session.delete(:push_prompt_context).presence || "challenge_inbox"
-    eligibility = Notifications::PromptEligibility.call(
-      person:, device_token: device_token, category: "challenges", context: prompt_context,
-      priority_blocked: @incoming_action
-    )
-    @push_prompt = { category: "challenges", context: prompt_context } if eligibility.eligible
+    @campus = Quizzes::DuelCampus.call(person: current_street_person)
+    @friends = Quizzes::DuelCampusFriends.call(person: current_street_person, q: @q)
+    @world = Quizzes::World.call(device_digest: street_digest, person_id: current_street_person.id)
+    @next_pack = @world.packs.find { |pack| pack.state.in?(%i[open current]) } ||
+      @world.packs.find { |pack| pack.state == :available } ||
+      @world.packs.reverse.find { |pack| pack.state == :finished }
+    @player_crowns = Quizzes::Complete.total_best(current_street_person)
+    Quizzes::DuelCampusVisit.call(person: current_street_person, device_digest: street_digest)
+    prompt_context = session.delete(:push_prompt_context).presence
+    if prompt_context
+      eligibility = Notifications::PromptEligibility.call(
+        person: current_street_person,
+        device_token:,
+        category: "challenges",
+        context: prompt_context,
+        priority_blocked: @campus.incoming.any?
+      )
+      @push_prompt = { category: "challenges", context: prompt_context } if eligibility.eligible
+    end
   end
 
   def show
-    @pack = QuizDefinition.catalog.find_pack(@duel.pack_id)
-    @challenger = @duel.challenger_person
-    @challenge = Quizzes::ChallengeScreen.call(duel: @duel, person: current_street_person)
-    if @challenge&.phase == :result && current_street_person
-      eligibility = Notifications::PromptEligibility.call(
-        person: current_street_person, device_token: device_token,
-        category: "challenges", context: "challenge_result"
-      )
-      @push_prompt = { category: "challenges", context: "challenge_result" } if eligibility.eligible
-    end
-    remember_ward(@duel.challenger_ward || @duel.ward) if current_street_person.nil? && current_ward.nil?
-    Quizzes::ViralTrack.call(
-      name: "invite_link_opened",
-      device_digest: street_digest,
-      duel: @duel,
+    remember_device
+    @screen = Quizzes::DuelInvitationScreen.call(
+      token: params[:token],
       person: current_street_person,
       source: params[:src],
-      properties: { pack_id: @duel.pack_id, role: @challenge&.role }
-    ) unless @challenge&.role == :challenger
-    redirect_to jugar_path if @challenge&.phase == :play
+      device_digest: street_digest
+    )
+    unless @screen
+      redirect_to root_path, alert: I18n.t("duel_campus.errors.not_found")
+      return
+    end
+
+    @campus = Quizzes::DuelCampus.call(person: current_street_person) if current_street_person
   end
 
   def create
     remember_device
     person = current_street_person
-    ward = person&.ward
-    html = request.format.html?
-    unless person
-      return redirect_to street_profile_path(quick: 1, fresh: 1), alert: I18n.t("street.duel_sign_in") if html
+    return challenge_error(I18n.t("duel_campus.errors.identity"), :unauthorized) unless person
 
-      return render json: { error: I18n.t("street.duel_sign_in") }, status: :unauthorized
+    opponent = opponent_from_params(person)
+    if params[:opponent_id].present? && opponent.nil?
+      return challenge_error(I18n.t("duel_campus.errors.scope"), :unprocessable_entity)
     end
-    unless ward
-      session[:street_return] = "desafios"
-      return redirect_to search_path(cambiar: 1), alert: I18n.t("flashes.ward_required_challenges") if html
-
-      return render json: { error: I18n.t("flashes.ward_required_challenges") }, status: :unprocessable_entity
-    end
-
-    remember_ward(ward) unless current_ward&.id == ward.id
-
-    opponent = opponent_from_params(ward)
-    if html && opponent.nil?
-      redirect_to street_challenges_path, alert: I18n.t("street.duel_pick")
-      return
-    end
-
-    pack_id = params[:pack_id].presence || params[:pack].presence || Quizzes::World.call(device_digest: street_digest, person_id: person.id).current_pack_id
-    completed_run = if params[:run_id].present?
-      QuizRun.finished.find_by(id: params[:run_id], person_id: person.id, pack_id:)
-    end
-    if params[:run_id].present? && completed_run.nil?
-      error = I18n.t("street.duel_score")
-      return redirect_to street_challenges_path, alert: error if html
-
-      return render json: { error: }, status: :unprocessable_entity
-    end
-    result = Quizzes::ChallengeCreate.call(
+    run = completed_run_from_params(person)
+    result = Quizzes::DuelInvitationCreate.call(
       challenger_person: person,
-      ward:,
-      pack_id:,
-      device_digest: street_digest,
-      run: completed_run,
-      opponent_person: opponent
+      recipient_person: opponent,
+      run:,
+      source: params[:source] || "campus",
+      channel: params[:channel]
     )
-    session[:push_prompt_context] = "challenge_sent" if opponent
-    if opponent && StreetDuel.where(status: "resolved")
-        .where("(challenger_person_id = :me AND opponent_person_id = :them) OR (challenger_person_id = :them AND opponent_person_id = :me)", me: person.id, them: opponent.id)
-        .where.not(id: result.duel.id).exists?
-      Quizzes::ViralTrack.call(
-        name: "rematch_started",
-        device_digest: street_digest,
-        duel: result.duel,
-        person:,
-        source: params[:source],
-        properties: { pack_id: result.duel.pack_id }
-      )
-    end
-    session[:pending_duel_token] = result.duel.token unless opponent
-    pack_title = QuizDefinition.catalog.find_pack(result.duel.pack_id).copy(:title)
+
+    return respond_with_existing_duel(result.duel) if result.duel
+
+    session[:push_prompt_context] = "duel_invitation_sent" if opponent
     respond_to do |format|
-      format.json { render json: { token: result.duel.token, url: street_challenge_url(result.duel.token) } }
-      format.html {
-        notice = opponent ? I18n.t("street.duel_named", name: opponent.display_name, pack: pack_title) : I18n.t("street.duel_you_sent", pack: pack_title)
+      format.json { render json: invitation_payload(result), status: result.reused ? :ok : :created }
+      format.html do
+        notice = if opponent
+          I18n.t("duel_campus.notices.named_sent", name: opponent.display_name)
+        else
+          I18n.t("duel_campus.notices.link_ready")
+        end
         redirect_to street_challenges_path, notice:
-      }
+      end
     end
-  rescue ArgumentError
-    return redirect_to street_challenges_path, alert: I18n.t("street.duel_not_found") if request.format.html?
+  rescue ActiveRecord::RecordNotFound
+    challenge_error(I18n.t("duel_campus.errors.score"), :unprocessable_entity)
+  rescue Quizzes::DuelInvitationCreate::Denied => error
+    challenge_error(
+      I18n.t("duel_campus.errors.#{error.code}", default: I18n.t("duel_campus.errors.create")),
+      :unprocessable_entity
+    )
+  end
 
-    render json: { error: I18n.t("street.duel_not_found") }, status: :unprocessable_entity
-  rescue Quizzes::ChallengeCreate::Denied => error
-    alert = {
-      self: I18n.t("street.duel_self"),
-      ward: I18n.t("street.duel_ward"),
-      stake: I18n.t("street.duel_ward"),
-      score: I18n.t("street.duel_score"),
-      played: I18n.t("street.duel_played")
-    }[error.code] || I18n.t("street.duel_create_failed")
-    return redirect_to street_challenges_path, alert: alert if request.format.html?
+  def received
+    person = current_street_person
+    return head :unauthorized unless person
 
-    render json: { error: alert }, status: :unprocessable_entity
+    acknowledged = Quizzes::DuelInvitationReceipt.call(
+      invitation: @invitation,
+      person:,
+      state: :seen,
+      device_digest: street_digest,
+      source: "invitation_page"
+    )
+    head acknowledged ? :no_content : :forbidden
+  end
+
+  def opened
+    acknowledged = Quizzes::DuelInvitationReceipt.call(
+      invitation: @invitation,
+      person: current_street_person,
+      state: :human_opened,
+      device_digest: street_digest,
+      source: params[:src] || "invitation_page",
+      channel: params[:channel]
+    )
+    head acknowledged ? :no_content : :forbidden
   end
 
   def accept
     person = current_street_person
     unless person
-      session[:pending_duel_token] = @duel.token
-      remember_ward(@duel.challenger_ward || @duel.ward)
+      session[:pending_duel_invitation_token] = params[:token]
       clear_street_guest
-      redirect_to street_profile_path(quick: 1, fresh: 1), alert: I18n.t("street.duel_sign_in")
-      return
-    end
-    unless person.ward
-      session[:pending_duel_token] = @duel.token
-      session[:street_return] = "desafios"
-      redirect_to search_path(cambiar: 1), alert: I18n.t("flashes.ward_required_challenges")
+      redirect_to street_profile_path(quick: 1, fresh: 1), alert: I18n.t("duel_campus.errors.identity")
       return
     end
 
-    Quizzes::ChallengeAccept.call(duel: @duel, opponent_person: person, device_digest: street_digest)
-    Quizzes::ViralTrack.call(
-      name: "challenge_started",
-      device_digest: street_digest,
-      duel: @duel,
+    result = Quizzes::DuelInvitationClaim.call(
+      invitation: @invitation,
       person:,
-      source: "invite",
-      properties: { pack_id: @duel.pack_id, role: "opponent" }
+      device_digest: street_digest
     )
-    session.delete(:pending_duel_token)
-    redirect_to jugar_path
-  rescue Quizzes::ChallengeAccept::Expired
-    session.delete(:pending_duel_token)
-    redirect_to root_path, alert: I18n.t("street.duel_expired")
-  rescue Quizzes::ChallengeAccept::Taken
-    redirect_to street_challenges_path, alert: I18n.t("street.duel_taken")
+    session.delete(:pending_duel_invitation_token)
+    if result.duel.run_for(person)&.finished?
+      redirect_to street_duel_path(result.duel), notice: I18n.t("duel_campus.notices.already_active")
+      return
+    end
+
+    frame = Quizzes::Draw.call(device_digest: street_digest, person_id: person.id, ward: person.ward)
+    session[:street_play_run_id] = frame.run.id
+    notice = result.created ? I18n.t("duel_campus.notices.accepted") : I18n.t("duel_campus.notices.already_active")
+    redirect_to jugar_path, notice:
+  rescue Quizzes::DuelInvitationClaim::Expired
+    session.delete(:pending_duel_invitation_token)
+    redirect_to street_challenges_path, alert: I18n.t("duel_campus.errors.expired")
+  rescue Quizzes::DuelInvitationClaim::Taken
+    redirect_to street_challenges_path, alert: I18n.t("duel_campus.errors.taken")
   end
 
   def decline
     person = current_street_person
     unless person
-      redirect_to street_profile_path(quick: 1, fresh: 1), alert: I18n.t("street.duel_sign_in")
+      redirect_to street_profile_path(quick: 1, fresh: 1), alert: I18n.t("duel_campus.errors.identity")
       return
     end
 
-    Quizzes::ChallengeDecline.call(duel: @duel, opponent_person: person)
-    redirect_to street_challenges_path, notice: I18n.t("street.duel_declined")
-  rescue Quizzes::ChallengeDecline::Expired
-    redirect_to root_path, alert: I18n.t("street.duel_expired")
-  rescue Quizzes::ChallengeDecline::Taken
-    redirect_to street_challenges_path, alert: I18n.t("street.duel_taken")
+    Quizzes::DuelInvitationDecline.call(invitation: @invitation, person:)
+    redirect_to street_challenges_path, notice: I18n.t("duel_campus.notices.declined")
+  rescue Quizzes::DuelInvitationDecline::Expired
+    redirect_to street_challenges_path, alert: I18n.t("duel_campus.errors.expired")
+  rescue Quizzes::DuelInvitationDecline::Taken
+    redirect_to street_challenges_path, alert: I18n.t("duel_campus.errors.taken")
+  end
+
+  def duel
+    campus = Quizzes::DuelCampus.call(person: current_street_person)
+    @item = (campus.results + campus.active).find { |item| item.duel.id == @duel.id }
+    if @duel.resolved?
+      Quizzes::DuelResultSeen.call(duel: @duel, person: current_street_person, device_digest: street_digest)
+    end
+  end
+
+  def rematch
+    unless @duel.resolved?
+      redirect_to street_duel_path(@duel), alert: I18n.t("duel_campus.errors.rematch")
+      return
+    end
+
+    opponent = @duel.other_person_for(current_street_person)
+    result = Quizzes::DuelInvitationCreate.call(
+      challenger_person: current_street_person,
+      recipient_person: opponent,
+      rematch_of_duel: @duel,
+      source: "duel_result",
+      channel: "noche"
+    )
+    notice = if result.duel
+      I18n.t("duel_campus.notices.already_active")
+    else
+      I18n.t("duel_campus.notices.rematch_sent", name: opponent.display_name)
+    end
+    redirect_to street_challenges_path, notice:
+  rescue Quizzes::DuelInvitationCreate::Denied
+    redirect_to street_duel_path(@duel), alert: I18n.t("duel_campus.errors.rematch")
   end
 
   private
 
-    def load_duel
-      @duel = StreetDuel.find_by!(token: params[:token])
-      if @duel.archived?
-        redirect_to root_path, alert: I18n.t("street.duel_not_found")
-        return
-      end
-      return unless @duel.expired? && !@duel.resolved? && !@duel.declined?
-
-      redirect_to root_path, alert: I18n.t("street.duel_expired")
-    rescue ActiveRecord::RecordNotFound
-      redirect_to root_path, alert: I18n.t("street.duel_not_found")
+    def load_invitation
+      @invitation = DuelInvitation.find_by_token(params[:token])
+      redirect_to(root_path, alert: I18n.t("duel_campus.errors.not_found")) unless @invitation
     end
 
-    def opponent_from_params(ward)
+    def require_campus_person
+      return if current_street_person
+
+      session[:street_return] = "desafios"
+      redirect_to street_profile_path(quick: 1, fresh: 1), alert: I18n.t("duel_campus.errors.identity")
+    end
+
+    def load_member_duel
+      @duel = StreetDuel.find(params[:id])
+      raise ActiveRecord::RecordNotFound unless @duel.includes_person?(current_street_person)
+    rescue ActiveRecord::RecordNotFound
+      redirect_to street_challenges_path, alert: I18n.t("duel_campus.errors.not_found")
+    end
+
+    def opponent_from_params(person)
       id = params[:opponent_id].presence
       return unless id
+      return unless person.ward
 
-      Quizzes::StakeScope.people_for(ward:).find_by(id:)
+      Quizzes::StakeScope.people_for(ward: person.ward).find_by(id:)
     end
 
-    def pack_id_param
-      id = params[:pack_id].presence
-      return nil unless id
-      return nil unless QuizDefinition.catalog.pack_ids.include?(id)
+    def completed_run_from_params(person)
+      id = params[:run_id].presence
+      return unless id
 
-      id
+      QuizRun.finished.find_by!(id:, person_id: person.id)
     end
 
-    def playable_pack_ids_for(person)
-      QuizDefinition.catalog.pack_ids.select do |pack_id|
-        QuizRun.finished.exists?(person_id: person.id, pack_id:)
+    def invitation_payload(result)
+      {
+        invitation_id: result.invitation.id,
+        token: result.token,
+        url: street_challenge_url(result.token),
+        state: result.invitation.receipt_state,
+        reused: result.reused
+      }
+    end
+
+    def respond_with_existing_duel(duel)
+      respond_to do |format|
+        format.json { render json: { duel_id: duel.id, url: street_duel_url(duel), state: "active", reused: true } }
+        format.html { redirect_to street_duel_path(duel), notice: I18n.t("duel_campus.notices.already_active") }
       end
     end
 
-    def pack_bests_for(person, pack_ids)
-      return {} if pack_ids.blank?
-
-      QuizRun.finished.where(person_id: person.id, pack_id: pack_ids).group(:pack_id).maximum(:score)
+    def challenge_error(message, status)
+      respond_to do |format|
+        format.json { render json: { error: message }, status: }
+        format.html { redirect_to street_challenges_path, alert: message }
+      end
     end
 end

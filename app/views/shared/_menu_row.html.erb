@@ -1,9 +1,0 @@
-<% path = local_assigns.fetch(:path) %>
-<% current = local_assigns.key?(:current) ? local_assigns[:current] : current_page?(path) %>
-<%= link_to path,
-      class: [ "home-menu-row", ("is-current" if current) ],
-      aria: { current: ("page" if current) } do %>
-  <span class="home-menu-ico" aria-hidden="true"><%= picto(icon) %></span>
-  <span class="home-menu-label"><%= label %></span>
-  <span class="home-menu-row-caret" aria-hidden="true"><%= picto("arrow") %></span>
-<% end %>

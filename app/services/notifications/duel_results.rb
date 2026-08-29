@@ -10,7 +10,7 @@ module Notifications
           person:,
           kind: "duel_result",
           subject: duel,
-          destination: Rails.application.routes.url_helpers.street_challenge_path(duel.token),
+          destination: Rails.application.routes.url_helpers.street_duel_path(duel),
           dedupe_token: "duel-#{duel.id}-person-#{person.id}"
         )
       end

@@ -1,4 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
+import { audioLoader } from "platform/audio/loader"
 
 // Enhanced countdown controller with seconds slide and LIVE state transition.
 export default class extends Controller {
@@ -60,7 +61,7 @@ export default class extends Controller {
   handleLiveStart() {
     clearInterval(this.timer)
     this.stateValue = "playing"
-    window.NocheLiveAudio?.play?.("round_open", 0.66)
+    audioLoader.play("round_open", 0.66)
     if (this.hasClockTarget) this.clockTarget.classList.remove("is-on")
     if (this.hasBadgeTarget) {
       this.badgeTarget.textContent = this.badgeTarget.dataset.liveLabel

@@ -124,5 +124,21 @@ Street hub must answer: who am I, where am I, what now, what is happening around
 | [077](077-jugar-responsive-board.md) | Street `/jugar`: exact viewport matrix; compact portrait glass + cinematic landscape answer hand |
 | [119](119-web-push-notifications.md) | Web Push choisi : défi ou passage exact, consentement granulaire, Light/Dark et appareil partagé |
 | [120](120-noche-live-push-reminders.md) | Noche programmée : consentement dédié, rappels J−1/H−15 et entrée directe dans le lobby |
+| [124](124-duel-campus-multi-engine.md) | Campus des Écritures : invitations séparées, multi-duels sur scores bruts, revanche libre et receipts sociaux honnêtes |
+| [125](125-defis-priorite-points.md) | Défis : prochain pack, points, urgence réelle et activité lisible du rival |
+| [126](126-course-amicale-live.md) | Course amicale : écart, égalité, dépassement et résultat confirmé pendant le quiz |
+| [127](127-street-quiz-harmony.md) | Quiz Street : ordre déterministe, silence audio et suppression du legacy `/jugar` |
+| [126](126-defis-campus-iconography.md) | Défis : retour du Campus et médaillons ImageGen pour lecture, points, urgence et rival |
+| [127](127-jugar-performance-streak-score.md) | Jugar : série réelle, total animé et gain sous le cri de bonne réponse |
+| [127](127-defis-campus-mission.md) | Défis : Campus immersif, HUD de scores, mission suivante et tickets de rivaux |
+| [128](128-defis-scripture-signs-dates.md) | Défis : couronnes, livres, parchemins, bâtons, dates et contrôles de mission compacts |
+| [130](130-defis-campus-headroom.md) | Défis : panorama Campus, zone de sécurité HUD et lecteurs replacés dans la scène |
+| [131](131-defis-outgoing-responsive.md) | Défis : invitations envoyées en grille 1 / 2 / 3 colonnes sans espace orphelin |
+| [133](133-jugar-timer-flame-streak-break.md) | Jugar : timer stable, tension continue, flammes croissantes et rupture de série audible |
+| [135](135-jugar-duel-motivation-motion.md) | Jugar : course amicale événementielle, puis rappel compact sans gêner le quiz |
+| [136](136-duel-quiz-dead-code-cut.md) | Quiz et carte : coupe franche des chaînes mortes, specs et assets legacy |
+| [137](137-defis-celestial-dark-campus.md) | Défis : Campus nocturne continu, verre Celestial Dark et HUD thémé sur toute la page |
+| [138](138-jugar-forged-streak.md) | Jugar : une seule flamme relie le HUD, le ×5 et sa perte |
+| [140](140-hub-empty-live-social-art.md) | Hub : les états sans paroisse retrouvent la scène Live et une vraie illustration d’amis |
 
 Older files keep `## Evidence` blocks with the hat name from that slice. That is history, not a Cursor persona to revive. From this charter on, the three-agent table and the /10 scores are the Conseil Noche record.

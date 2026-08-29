@@ -1,16 +1,9 @@
 <nav class="home-menu<%= " is-split" if local_assigns[:face] || local_assigns[:hud] %><%= " is-hud" if local_assigns[:hud] %>"
-     <% if local_assigns[:hud] %>data-hud-theme="<%= theme %>"<% end %>
+     data-hud-theme="<%= theme %>"
      data-controller="chrome-menu"
      data-chrome-menu-open-label-value="<%= t("chrome.menu") %>"
      data-chrome-menu-close-label-value="<%= t("chrome.close_menu") %>"
      aria-label="<%= t("chrome.menu") %>">
-  <button type="button"
-          class="chrome-drawer-veil"
-          data-chrome-menu-target="veil"
-          data-action="chrome-menu#close"
-          hidden
-          tabindex="-1"
-          aria-hidden="true"></button>
   <% if local_assigns[:hud] && local_assigns[:bar] %>
     <%= render Hud::BarComponent.new(bar: bar, theme: theme) %>
   <% elsif local_assigns[:face] %>
@@ -24,8 +17,7 @@
           aria-controls="chrome_drawer"
           aria-haspopup="dialog"
           aria-label="<%= t("chrome.menu") %>">
-    <span class="home-menu-icon" data-chrome-menu-target="openIcon"><%= picto("menu") %></span>
-    <span class="home-menu-icon" data-chrome-menu-target="closeIcon" hidden><%= picto("cross") %></span>
+    <span class="home-menu-icon"><%= picto("menu") %></span>
   </button>
   <dialog id="chrome_drawer"
           class="chrome-drawer"
@@ -34,7 +26,14 @@
           aria-labelledby="chrome_drawer_title"
           data-action="click->chrome-menu#backdropClose close->chrome-menu#onClose">
     <div class="chrome-drawer-sheet">
-      <h2 id="chrome_drawer_title" class="home-menu-kicker" tabindex="-1"><%= t("chrome.menu") %></h2>
+      <button type="button"
+              class="is-drawer-close"
+              data-action="chrome-menu#close"
+              aria-label="<%= t("chrome.close_menu") %>"><%= picto("cross") %></button>
+      <h2 id="chrome_drawer_title"
+          class="home-menu-kicker"
+          data-chrome-menu-target="heading"
+          tabindex="-1"><%= t("chrome.menu") %></h2>
       <%= body %>
     </div>
   </dialog>

@@ -13,23 +13,27 @@ class StreetPlaysControllerTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_select "#street_quiz.play-reel.is-street.is-overlay.is-art-preview"
     assert_select "#street_quiz[data-action*='pointerdown->quiz#revealArt']"
+    assert_select "#street_quiz[data-controller~=story]", count: 0
+    assert_select "#street_quiz[data-stage-bed-value=timer_tension][data-stage-bed-policy-value=continuous]"
+    assert_includes response.body, "celestial_breath"
+    assert_includes response.body, "street_wrong_soft"
+    assert_includes response.body, "street_royal_fanfare"
+    refute_includes response.body, "score_transfer"
     quiz_theme = css_select("#street_quiz").first["data-quiz-theme"]
     assert_includes %w[light dark], quiz_theme
     assert_select ".quiz-hud[data-hud-theme='celestial-#{quiz_theme}']"
+    assert_select ".home-menu[data-hud-theme='celestial-#{quiz_theme}'] .chrome-drawer"
     assert_select ".quiz-hud-streak"
     assert_select ".quiz-hud-score .picto-crown"
     assert_select ".quiz-hud-rail"
-    assert_select ".street-quiz-head", count: 0
-    assert_select "a.street-quiz-lockup", count: 0
     assert_select ".street-quiz-apex"
     assert_select ".quiz-sheet"
     assert_select ".street-score"
     assert_select ".street-shot-rival", count: 0
-    assert_select ".street-level-rail", count: 0
     assert_select ".street-back-map", count: 0
     assert_select ".street-map", count: 0
-    assert_select "a.home-menu-row[href=?]", street_map_path, text: I18n.t("street.ceremony_back_map")
-    assert_select "a.home-menu-row[href=?]", jugar_path, text: I18n.t("street.menu_play")
+    assert_select "a.home-menu-invite[href=?]", street_challenges_path(anchor: "inviter"), text: /#{Regexp.escape(I18n.t("hub_menu.invite_friend"))}/
+    assert_select "a.home-menu-row[href=?]", study_program_path, text: /#{Regexp.escape(I18n.t("study.title"))}/
     assert_select ".home-menu.is-split .chrome-face"
     assert_select ".chrome-drawer .mute"
     assert_select ".chrome-drawer .lang-switch.is-drawer"
@@ -46,8 +50,27 @@ class StreetPlaysControllerTest < ActionDispatch::IntegrationTest
     QuizRun.order(:id).last.update!(position: 4, ends_at: 20.seconds.from_now)
 
     get jugar_path
-    assert_select ".play-timer"
+    assert_select ".quiz-dock > .quiz-timer-slot > .play-timer"
     assert_select ".street-shot-rival", count: 0
+  end
+
+  test "jugar loads the Campus rail while challenges are active" do
+    sign_in_congregation
+    person = people(:pili)
+    post street_profile_path, params: { person_id: person.id, favorite_year: person.favorite_year }
+    follow_redirect! while response.redirect?
+    Quizzes::DuelInvitationClaim.call(
+      invitation: duel_invitations(:named_pili_invitation),
+      person: people(:carmen_garcia)
+    )
+    post street_pack_start_path("coronas")
+    follow_redirect!
+    run = QuizRun.open_runs.where(person:).order(:id).last
+
+    assert_select "link[href*='duel_campus']"
+    assert_select ".duel-quiz-rail.is-race-expanded.is-race-pending[aria-live=off][data-duel-race-run-value=?]", run.id.to_s
+    assert_select ".duel-quiz-rail[data-duel-race-race-value][data-duel-race-signature-value]"
+    assert_select ".duel-quiz-rail-count", text: /\d+/
   end
 
   test "short timed ask does not start warn or hot" do

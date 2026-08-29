@@ -43,14 +43,6 @@ class Quizzes::WorldTest < ActiveSupport::TestCase
     assert_equal :locked, world.path.locked.state
   end
 
-  test "an open challenge run is playable even if the pack is still locked on the map" do
-    digest = GameSession.digest_token("world-challenge-open")
-    Quizzes::StartPack.call(device_digest: digest, pack_id: "placas", challenge: true)
-    world = Quizzes::World.call(device_digest: digest)
-    placas = world.packs.find { |pack| pack.id == "placas" }
-    assert_equal :open, placas.state
-  end
-
   test "query count stays constant as finished packs grow" do
     digest = GameSession.digest_token("world-query-budget")
     QuizDefinition.catalog.pack_ids.first(5).each_with_index do |pack_id, index|

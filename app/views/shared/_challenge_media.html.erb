@@ -17,7 +17,7 @@
     <% if clip_src %>
       <video class="challenge-clip" autoplay loop muted playsinline poster="<%= story %>" src="<%= clip_src %>"></video>
     <% elsif story %>
-      <img src="<%= story %>" alt="" class="challenge-story">
+      <%= noche_media_picture(story, alt: "", class_name: "challenge-story", loading: (cinema ? "eager" : "lazy")) %>
     <% end %>
     <% if burger %>
       <div class="garnish" data-garnish-target="rain" aria-hidden="true"></div>

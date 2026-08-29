@@ -23,7 +23,7 @@
         <%= render "people/card",
                    person: @source_person,
                    show_year: false,
-                   hint: "#{t("identity_migration.profile_points", count: @source_score)} · #{t("identity_migration.profile_since", date: l(@source_person.created_at.to_date))}" %>
+                   hint: "#{t("identity_migration.profile_crowns", count: @source_score)} · #{t("identity_migration.profile_since", date: l(@source_person.created_at.to_date))}" %>
       </article>
 
       <span class="identity-merge-join" aria-hidden="true"><%= picto("sparkle") %></span>
@@ -33,7 +33,7 @@
         <%= render "people/card",
                    person: @target_person,
                    show_year: false,
-                   hint: "#{t("identity_migration.profile_points", count: @target_score)} · #{t("identity_migration.profile_since", date: l(@target_person.created_at.to_date))}" %>
+                   hint: "#{t("identity_migration.profile_crowns", count: @target_score)} · #{t("identity_migration.profile_since", date: l(@target_person.created_at.to_date))}" %>
       </article>
     </div>
 

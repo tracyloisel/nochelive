@@ -1,6 +1,16 @@
 require "test_helper"
 
 class Huds::PresentTest < ActiveSupport::TestCase
+  test "street HUD keeps a player's crowns without an active ward" do
+    person = people(:pili)
+    crowns = Quizzes::Complete.total_best(person)
+
+    assert_predicate crowns, :positive?
+    bar = Huds::Present.call(person:, ward: nil, device_digest: GameSession.digest_token("hud-without-ward"))
+
+    assert_equal crowns, bar.crowns
+  end
+
   test "quiz HUD on a finished pack shows all dots last gain and end combo" do
     digest = GameSession.digest_token("hud-ceremony")
     person = people(:pili)

@@ -7,7 +7,10 @@
       <span class="home-menu-ico" aria-hidden="true">
         <span class="lang-flag"><%= locale_flag(current) %></span>
       </span>
-      <span class="home-menu-label word"><%= t("locale.names.#{current}") %></span>
+      <span class="home-menu-row-copy">
+        <strong><%= t("locale.label") %></strong>
+        <small class="word"><%= t("locale.names.#{current}") %></small>
+      </span>
       <span class="home-menu-caret" aria-hidden="true"><%= picto("arrow") %></span>
     <% else %>
       <span class="lang-flag" aria-hidden="true"><%= locale_flag(current) %></span>

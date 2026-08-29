@@ -25,7 +25,8 @@ class Hubs::BackdropTest < ActiveSupport::TestCase
 
     assert_includes list.drop(1).map { |row| row["id"] }, picked.id
     refute_equal previous["id"], picked.id
-    assert_match %r{\A/media/home/}, picked.src
+    assert_match %r{\A/media/generated/hub/backdrop/}, picked.src
+    assert_equal "hub.backdrop.#{picked.id}", picked.media_key
     assert_includes %w[light dark], picked.theme.mode
   end
 
@@ -59,7 +60,7 @@ class Hubs::BackdropTest < ActiveSupport::TestCase
     picked = Hubs::Backdrop.tagged(theme_id: "kings_and_prophets")
     assert_equal "coronas-ungido", picked.id
     assert_equal "dark", picked.theme.mode
-    assert_match %r{/media/home/coronas-reino\.jpg\z}, picked.src
+    assert_match %r{\A/media/generated/hub/backdrop/coronas-ungido/.+\.webp\z}, picked.src
   end
 
   test "Bethlehem night artwork always selects celestial dark" do
@@ -67,13 +68,24 @@ class Hubs::BackdropTest < ActiveSupport::TestCase
 
     assert_equal "nazareno-belen", picked.id
     assert_equal "dark", picked.theme.mode
-    assert_match %r{/media/home/nazareno-belen\.jpg\z}, picked.src
+    assert_match %r{\A/media/generated/hub/backdrop/nazareno-belen/.+\.webp\z}, picked.src
+  end
+
+  test "creation sky artwork always selects celestial dark" do
+    creation_sky = Hubs::Backdrop.entries.find { |row| row["id"] == "moises-cielo" }
+    Hubs::Backdrop.entries = [ creation_sky ]
+
+    picked = Hubs::Backdrop.call
+
+    assert_equal "moises-cielo", picked.id
+    assert_equal "dark", picked.theme.mode
+    assert_match %r{\A/media/generated/hub/backdrop/moises-cielo/.+\.webp\z}, picked.src
   end
 
   test "pack_id override matches tags" do
     picked = Hubs::Backdrop.call(pack_id: "moises", at: Time.zone.local(2026, 1, 5, 12))
     assert_includes picked.tags, "moises"
-    assert_match %r{\A/media/home/}, picked.src
+    assert_match %r{\A/media/generated/hub/backdrop/}, picked.src
   end
 
   test "missing image falls back to the marble hall" do

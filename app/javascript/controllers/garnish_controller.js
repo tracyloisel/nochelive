@@ -1,9 +1,9 @@
 import { Controller } from "@hotwired/stimulus"
 
 const SPRITES = {
-  lettuce: "/media/burger/lettuce.jpg",
-  nugget: "/media/burger/nugget.jpg",
-  fry: "/media/burger/fry.jpg"
+  lettuce: "/media/burger/lettuce.webp",
+  nugget: "/media/burger/nugget.webp",
+  fry: "/media/burger/fry.webp"
 }
 
 function publicAssetUrl(path) {

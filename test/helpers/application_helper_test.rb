@@ -2,6 +2,30 @@ require "test_helper"
 require "mini_magick"
 
 class ApplicationHelperTest < ActionView::TestCase
+  test "responsive picture exposes width candidates and intrinsic dimensions" do
+    html = noche_picture(
+      "hub.backdrop.moises-mer-rouge",
+      role: :hub_backdrop,
+      alt: "",
+      class_name: "street-world-art",
+      loading: "eager",
+      fetchpriority: "high"
+    )
+
+    assert_includes html, "<picture"
+    assert_includes html, "image/avif"
+    assert_includes html, "390w"
+    assert_includes html, "768w"
+    assert_includes html, "941w"
+    assert_includes html, "1440w"
+    assert_includes html, "1672w"
+    assert_includes html, "(min-width: 768px)"
+    assert_includes html, 'sizes="100vw"'
+    assert_includes html, 'width="941"'
+    assert_includes html, 'height="1673"'
+    assert_includes html, 'fetchpriority="high"'
+  end
+
   test "compact_number abbreviates large community totals" do
     assert_equal "999", compact_number(999)
     assert_equal "3.5K", compact_number(3_500)
@@ -24,12 +48,12 @@ class ApplicationHelperTest < ActionView::TestCase
 
   test "story art follows the yaml image, not chapel slideshows" do
     round = round_runs(:salomon)
-    assert_equal "/media/stories/salomon_wisdom_night_portrait.png", challenge_story(round)
-    assert_equal "/media/stories/scavenger_harp.jpg", challenge_story(round_runs(:scavenger_harp))
+    assert_equal media_src("media/stories/salomon_wisdom_night_portrait.png"), challenge_story(round)
+    assert_equal media_src("media/stories/scavenger_harp.jpg"), challenge_story(round_runs(:scavenger_harp))
     assert_equal "stories/salomon_wisdom_night_portrait.png", round.definition.presentation["image"]
 
     render partial: "shared/challenge_media", locals: { round: round }
-    assert_includes rendered, "/media/stories/salomon_wisdom_night_portrait.png"
+    assert_includes rendered, "/media/generated/catalog/stories/salomon_wisdom_night_portrait/"
     assert_not_includes rendered, "slideshow"
     assert_not_includes rendered, "/media/challenges/"
   end
@@ -162,12 +186,12 @@ class ApplicationHelperTest < ActionView::TestCase
   test "burger clip and garnish follow the layer" do
     round = round_runs(:finale_prophet)
     round.update!(phase: "intro", layer_index: 0)
-    assert_equal "/media/burger/chariot.jpg", challenge_story(round)
+    assert_equal media_src("media/burger/chariot.jpg"), challenge_story(round)
     assert_equal "media/burger/chariot.mp4", burger_clip(round)
     assert_equal "fry", burger_garnish_kind(round)
 
     round.update!(layer_index: 2)
-    assert_equal "/media/burger/jordan.jpg", challenge_story(round)
+    assert_equal media_src("media/burger/jordan.jpg"), challenge_story(round)
     assert_equal "media/burger/jordan.mp4", burger_clip(round)
     assert_equal "lettuce", burger_garnish_kind(round)
     assert_equal 24, burger_garnish_count(round, cinema: true)
@@ -300,34 +324,18 @@ class ApplicationHelperTest < ActionView::TestCase
   end
 
   test "temple_hall_bg_src prefers OpenRouter hall photo when present" do
-    if Rails.public_path.join("media/temple/marble-hall.jpg").file?
-      assert_equal "/media/temple/marble-hall.jpg", temple_hall_bg_src
-      return
-    end
-
-    assert_equal "/media/ui/temple-marble-hall.svg", temple_hall_bg_src
-
-    hall = Rails.public_path.join("media/temple/temple-marble-hall.jpg")
-    FileUtils.mkdir_p(hall.dirname)
-    hall.write("fake")
-    assert_equal "/media/temple/temple-marble-hall.jpg", temple_hall_bg_src
-  ensure
-    hall&.delete if defined?(hall) && hall&.exist? && hall.basename.to_s == "temple-marble-hall.jpg"
+    assert_equal media_src("media/temple/marble-hall.jpg"), temple_hall_bg_src
   end
 
   test "street_ceremony_asset_src finds temple PNGs" do
-    assert_equal "/media/temple/reward-chest.png", street_ceremony_asset_src("reward-chest")
-    assert_equal "/media/temple/ceremony-chest.png", street_ceremony_asset_src("ceremony-chest")
-    assert_equal "/media/temple/ceremony-star.png", street_ceremony_asset_src("ceremony-star")
-    assert_equal "/media/temple/ceremony-lockup-mark.png", street_ceremony_asset_src("ceremony-lockup-mark")
-    assert_equal "/media/temple/ceremony-laurel.png", street_ceremony_asset_src("ceremony-laurel")
-    assert_equal "/media/temple/marble-hall-victory.jpg", street_ceremony_asset_src("marble-hall-victory")
-    assert_equal "/media/temple/ceremony-gateway.jpg", street_ceremony_asset_src("ceremony-gateway")
+    %w[reward-chest ceremony-chest marble-hall-victory ceremony-gateway].each do |name|
+      assert_match %r{\A/media/generated/catalog/temple/#{name}/.+\.webp\z}, street_ceremony_asset_src(name)
+    end
     assert_nil street_ceremony_asset_src("missing-ornament")
   end
 
   test "hub reward chest is a genuinely transparent PNG" do
-    image = MiniMagick::Image.open(Rails.public_path.join("media/temple/reward-chest.png"))
+    image = MiniMagick::Image.open(Rails.root.join("media/masters/media/temple/reward-chest.png"))
 
     assert_match(/a/, image["%[channels]"])
     assert_equal "false", image["%[opaque]"].downcase
@@ -362,6 +370,29 @@ class ApplicationHelperTest < ActionView::TestCase
     assert_equal :you, names.last.context
   end
 
+  test "street ceremony verdict names the duel consequence" do
+    complete = Struct.new(:score, :answered, :correct).new(76, 10, 8)
+    impact = Struct.new(:outcome, :other, :mine, :theirs).new(:behind, people(:pili), 76, 91)
+
+    I18n.with_locale(:fr) do
+      verdict = street_ceremony_verdict(complete:, impacts: [ impact ])
+      assert_equal :behind, verdict[:tone]
+      assert_equal "#{people(:pili).given_name} garde l’avantage", verdict[:title]
+      assert_equal "Ton score : 76 couronnes. Écart à combler : 15 couronnes.", verdict[:detail]
+    end
+  end
+
+  test "street ceremony verdict describes performance when no duel changed" do
+    complete = Struct.new(:score, :answered, :correct).new(124, 10, 10)
+
+    I18n.with_locale(:fr) do
+      verdict = street_ceremony_verdict(complete:, impacts: [])
+      assert_equal :perfect, verdict[:tone]
+      assert_equal "Sans faute !", verdict[:title]
+      assert_equal "Réponses justes : 10/10 · 124 couronnes", verdict[:detail]
+    end
+  end
+
   test "presenter next action is a single sequential verb" do
     night = game_sessions(:david)
     round = round_runs(:salomon)
@@ -384,7 +415,7 @@ class ApplicationHelperTest < ActionView::TestCase
   end
 
   test "about portrait is the circular tracy still" do
-    assert_equal "/media/about/tracy.png", about_portrait_src
+    assert_equal media_src("media/about/tracy.png"), about_portrait_src
   end
 
   test "about reach links open WhatsApp and Instagram" do
@@ -393,10 +424,10 @@ class ApplicationHelperTest < ActionView::TestCase
   end
 
   test "night poster and status captions" do
-    assert_equal "/media/nights/reyes_y_profetas.jpg", night_poster_src(game_sessions(:david))
-    assert_equal "/media/nights/reyes_y_profetas.jpg", night_poster_src("reyes_y_profetas")
-    assert_equal "/media/stories/salomon_wisdom_night_portrait.png", night_still_src(game_sessions(:david))
-    assert_equal "/media/nights/reyes_y_profetas.jpg", night_still_src(nil)
+    assert_equal media_src("media/nights/reyes_y_profetas.jpg"), night_poster_src(game_sessions(:david))
+    assert_equal media_src("media/nights/reyes_y_profetas.jpg"), night_poster_src("reyes_y_profetas")
+    assert_equal media_src("media/stories/salomon_wisdom_night_portrait.png"), night_still_src(game_sessions(:david))
+    assert_equal media_src("media/nights/reyes_y_profetas.jpg"), night_still_src(nil)
     assert_equal "En juego", night_status_caption(game_sessions(:david))
     assert_equal "En el vestíbulo", night_status_caption(game_sessions(:elias))
     assert_equal "Terminada", night_status_caption(game_sessions(:cerrada))
@@ -410,7 +441,7 @@ class ApplicationHelperTest < ActionView::TestCase
     night = game_sessions(:elias)
     night.poster_path = "/media/nights/events/benidorm-2026-08-29-reyes-profetas.jpg"
 
-    assert_equal night.poster_path, night_poster_src(night)
+    assert_equal media_src(night.poster_path), night_poster_src(night)
   end
 
   test "home night path is the memory for a finished night" do
@@ -470,7 +501,7 @@ class ApplicationHelperTest < ActionView::TestCase
     assert moved
   end
 
-  test "street audio uses one named cue and stops the bed when settled" do
+  test "street audio uses one named cue and keeps the overlay bed between questions" do
     digest = GameSession.digest_token("helper-street")
     frame = Quizzes::Draw.call(device_digest: digest)
     ask = street_audio_data(frame.run, frame.question)
@@ -478,12 +509,27 @@ class ApplicationHelperTest < ActionView::TestCase
     assert_nil ask[:stage_bed_value]
     assert_match(/:ask\z/, ask[:stage_sfx_token_value])
 
+    manual = street_audio_data(frame.run, frame.question, manual: true)
+    assert_equal "manual", manual[:stage_cue_policy_value]
+    assert_nil manual[:stage_fx_value]
+
+    continuous = street_audio_data(frame.run, frame.question, manual: true, ask_bed: "timer_tension")
+    assert_equal "timer_tension", continuous[:stage_bed_value]
+    assert_equal "continuous", continuous[:stage_bed_policy_value]
+    assert_nil continuous[:stage_timer_end_value]
+    assert_nil continuous[:stage_timer_duration_value]
+
     Quizzes::Submit.call(run: frame.run, choice_key: frame.question.correct_choice)
     settled = street_audio_data(frame.run.reload, frame.question)
     assert_equal "correct_gold", settled[:stage_sfx_value]
     assert_nil settled[:stage_fx_value]
     assert_nil settled[:stage_bed_value]
     assert_match(/:settled:correct\z/, settled[:stage_sfx_token_value])
+
+    continuous_settled = street_audio_data(frame.run.reload, frame.question, manual: true, ask_bed: "timer_tension")
+    assert_equal "timer_tension", continuous_settled[:stage_bed_value]
+    assert_equal "continuous", continuous_settled[:stage_bed_policy_value]
+    assert_nil continuous_settled[:stage_timer_end_value]
   end
 
   test "timed street settle clears the tension bed and tick timer" do
@@ -503,7 +549,37 @@ class ApplicationHelperTest < ActionView::TestCase
     assert_nil settled[:stage_timer_duration_value]
   end
 
-  test "street slam ask uses round_start and pack done uses royal_fanfare" do
+  test "street miss uses its isolated quiet cue" do
+    digest = GameSession.digest_token("helper-street-miss")
+    run = Quizzes::Draw.call(device_digest: digest).run
+    wrong_choice = run.question.choices.find { |choice| choice_key(choice) != run.question.correct_choice }
+
+    Quizzes::Submit.call(run:, choice_key: choice_key(wrong_choice))
+
+    settled = street_audio_data(run.reload, run.question)
+    assert_equal "street_wrong_soft", settled[:stage_sfx_value]
+    assert_nil settled[:stage_bed_value]
+  end
+
+  test "street streak break keeps the miss cue gentle" do
+    digest = GameSession.digest_token("helper-street-streak-break")
+    run = Quizzes::Draw.call(device_digest: digest).run
+    Quizzes::Submit.call(run:, choice_key: run.question.correct_choice)
+    Quizzes::Advance.call(run: run.reload)
+    run.reload
+    wrong_choice = run.question.choices.find { |choice| choice_key(choice) != run.question.correct_choice }
+    Quizzes::Submit.call(run:, choice_key: choice_key(wrong_choice))
+    combo = Quizzes::HitStreak.call(run: run.reload)
+
+    settled = street_audio_data(run, run.question, manual: true, combo:)
+
+    assert combo.broke
+    assert_equal 1, combo.broken_count
+    assert_equal "street_wrong_soft", settled[:stage_sfx_value]
+    assert_nil settled[:stage_bed_value]
+  end
+
+  test "street slam ask uses round_start and pack done uses its isolated fanfare" do
     digest = GameSession.digest_token("helper-slam")
     run = Quizzes::Draw.call(device_digest: digest).run
     run.update!(position: 10, ends_at: 15.seconds.from_now)
@@ -516,7 +592,7 @@ class ApplicationHelperTest < ActionView::TestCase
     Quizzes::Submit.call(run:, choice_key: run.question.correct_choice)
     Quizzes::Complete.call(run: run.reload)
     done = street_audio_data(run.reload, run.question)
-    assert_equal "royal_fanfare", done[:stage_sfx_value]
+    assert_equal "street_royal_fanfare", done[:stage_sfx_value]
     assert_equal "level", done[:stage_fx_value]
     assert_nil done[:stage_bed_value]
   end

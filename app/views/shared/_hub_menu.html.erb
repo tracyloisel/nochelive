@@ -1,0 +1,127 @@
+<% person = current_street_person %>
+<% ward = current_ward %>
+<% player = local_assigns.fetch(:player) %>
+<% profile_path = person ? street_profile_path(edit: 1) : street_profile_path(fresh: 1) %>
+<% ward_path = ward ? ward_profile_path(ward.code) : search_path %>
+
+<nav class="home-menu-nav home-menu-nav-hub" aria-label="<%= t("chrome.menu") %>">
+  <%= link_to profile_path,
+        class: [ "home-menu-me", "hub-menu-profile", ("is-guest" unless person) ],
+        aria: { label: person ? t("street.face_label") : t("street.pick_profile") } do %>
+    <span class="home-menu-face" aria-hidden="true">
+      <% if person && (src = avatar_mark(person)) %>
+        <img src="<%= src %>" alt="" class="avatar-img" width="44" height="44">
+      <% elsif person %>
+        <span class="avatar-fallback"><%= person.given_name.to_s.first %></span>
+      <% else %>
+        <span class="avatar-fallback"><%= picto("profile-spark") %></span>
+      <% end %>
+    </span>
+    <span class="home-menu-me-copy">
+      <strong><%= person&.given_name || t("hub.guest_invite") %></strong>
+      <small>
+        <% if person %>
+          <%= t("hub_menu.player_meta", rank: rank_name(player.rank_key), crowns: number_with_delimiter(player.crowns.to_i)) %>
+        <% else %>
+          <%= t("hub_menu.guest_meta") %>
+        <% end %>
+      </small>
+    </span>
+  <% end %>
+
+  <section class="home-menu-block" aria-labelledby="hub_menu_campus">
+    <p id="hub_menu_campus" class="home-menu-kicker"><%= t("hub_menu.campus") %></p>
+    <div class="home-menu-list">
+      <%= link_to street_challenges_path(anchor: "inviter"), class: "home-menu-row home-menu-invite" do %>
+        <span class="home-menu-ico" aria-hidden="true"><%= picto("duel-staffs") %></span>
+        <span class="home-menu-row-copy">
+          <strong><%= t("hub_menu.invite_friend") %></strong>
+          <small><%= t("hub_menu.invite_friend_hint") %></small>
+        </span>
+        <span class="home-menu-row-caret" aria-hidden="true"><%= picto("arrow") %></span>
+      <% end %>
+      <%= link_to street_leaderboard_path, class: "home-menu-row" do %>
+        <span class="home-menu-ico" aria-hidden="true"><%= picto("trophy") %></span>
+        <span class="home-menu-row-copy">
+          <strong><%= t("hub_menu.leaderboard") %></strong>
+        </span>
+        <span class="home-menu-row-caret" aria-hidden="true"><%= picto("arrow") %></span>
+      <% end %>
+    </div>
+  </section>
+
+  <section class="home-menu-block" aria-labelledby="hub_menu_space">
+    <p id="hub_menu_space" class="home-menu-kicker"><%= t("hub_menu.space") %></p>
+    <div class="home-menu-list">
+      <%= link_to study_program_path, class: "home-menu-row" do %>
+        <span class="home-menu-ico" aria-hidden="true"><%= picto("book") %></span>
+        <span class="home-menu-row-copy">
+          <strong><%= t("study.title") %></strong>
+          <small><%= t("hub_menu.word_hint") %></small>
+        </span>
+        <span class="home-menu-row-caret" aria-hidden="true"><%= picto("arrow") %></span>
+      <% end %>
+      <%= link_to ward_path, class: "home-menu-row" do %>
+        <span class="home-menu-ico" aria-hidden="true"><%= picto("church-temple") %></span>
+        <span class="home-menu-row-copy">
+          <strong><%= t("hub_menu.my_ward") %></strong>
+          <small><%= ward&.city.presence || ward&.name || t("hub_menu.choose_ward") %></small>
+        </span>
+        <span class="home-menu-row-caret" aria-hidden="true"><%= picto("arrow") %></span>
+      <% end %>
+      <% if Notifications::Feature.enabled? %>
+        <%= link_to notification_settings_path, class: "home-menu-row" do %>
+          <span class="home-menu-ico" aria-hidden="true"><%= picto("bell") %></span>
+          <span class="home-menu-row-copy">
+            <strong><%= t("notifications.settings.menu") %></strong>
+            <small><%= t("hub_menu.notifications_hint") %></small>
+          </span>
+          <span class="home-menu-row-caret" aria-hidden="true"><%= picto("arrow") %></span>
+        <% end %>
+      <% end %>
+    </div>
+  </section>
+
+  <section class="home-menu-block" aria-labelledby="hub_menu_settings">
+    <p id="hub_menu_settings" class="home-menu-kicker"><%= t("hub_menu.settings") %></p>
+    <div class="home-menu-list">
+      <button type="button"
+              class="home-menu-row mute"
+              data-controller="menu-sound"
+              data-action="menu-sound#toggle"
+              aria-pressed="false"
+              aria-label="<%= t("chrome.sound_on") %>"
+              data-sound-on="<%= t("chrome.sound_on") %>"
+              data-sound-off="<%= t("chrome.sound_off") %>">
+        <span class="home-menu-ico mute-ico" aria-hidden="true">
+          <%= picto("sound") %>
+          <%= picto("sound-off") %>
+        </span>
+        <span class="home-menu-row-copy">
+          <strong><%= t("chrome.sound") %></strong>
+          <small class="word"><%= t("chrome.sound_on") %></small>
+        </span>
+        <span class="home-menu-row-caret" aria-hidden="true"><%= picto("arrow") %></span>
+      </button>
+      <%= render "shared/lang_switch", drawer: true %>
+      <button type="button"
+              class="home-menu-row pwa-install-action"
+              data-pwa-install-target="action"
+              data-action="pwa-install#install"
+              hidden>
+        <span class="home-menu-ico" aria-hidden="true"><%= picto("sparkle") %></span>
+        <span class="home-menu-row-copy">
+          <strong><%= t("pwa.install") %></strong>
+          <small><%= t("hub_menu.install_hint") %></small>
+        </span>
+        <span class="home-menu-row-caret" aria-hidden="true"><%= picto("arrow") %></span>
+      </button>
+    </div>
+  </section>
+
+  <nav class="hub-menu-legal" aria-label="<%= t("hub_menu.legal_nav") %>">
+    <%= link_to t("hub_menu.about_us"), about_path %>
+    <%= link_to t("hub_menu.legal"), legal_path %>
+    <%= link_to t("hub_menu.privacy"), privacy_path %>
+  </nav>
+</nav>

@@ -5,11 +5,8 @@ class PlayReelVisualTest < ApplicationSystemTestCase
 
   test "phone play reel keeps question and buzz on the first screen" do
     visit night_name_path(game_sessions(:david).code)
-    fill_in "¿Cómo te llaman en la rama?", with: "Pili"
-    find("label.choice-chip", text: "En la sala").click
-    click_button I18n.t("join.create_and_join")
-    assert_text "Elige tu equipo"
-    click_button "Casa de David"
+    fill_in I18n.t("join.name_label"), with: "Pili"
+    click_button I18n.t("join.enter_play")
     assert_no_text "Elige tu equipo"
     assert_button "Buzz"
     assert_selector ".play-timer"
@@ -45,11 +42,11 @@ class PlayReelVisualTest < ApplicationSystemTestCase
     assert head_bottom < 280, "cream temple head should stay a thin band"
     assert sheet_top > 80, "the illustration should peek above the question card"
     shot("01-buzz-open-844")
-    page.current_window.resize_to(390, 667)
+    set_system_viewport(390, 667)
     assert_in_viewport ".prompt"
     assert_in_viewport ".buzz"
     shot("01b-buzz-open-667")
-    page.current_window.resize_to(390, 844)
+    set_system_viewport(390, 844)
 
     click_button "Buzz"
     assert_text "1.º"
@@ -72,27 +69,23 @@ class PlayReelVisualTest < ApplicationSystemTestCase
     shot("03-sheet-peek")
   end
 
-  test "choice verdict and bars stay on one story sheet" do
+  test "choice submission stays on one story sheet while the presenter reveals" do
     round_runs(:salomon).update_columns(phase: "completed")
     round_runs(:rey_o_profeta).update_columns(phase: "open", opened_at: Time.current)
 
     visit night_name_path(game_sessions(:david).code)
-    fill_in "¿Cómo te llaman en la rama?", with: "Pili"
-    find("label.choice-chip", text: "En la sala").click
-    click_button I18n.t("join.create_and_join")
-    assert_text "Elige tu equipo"
-    click_button "Casa de David"
+    fill_in I18n.t("join.name_label"), with: "Pili"
+    click_button I18n.t("join.enter_play")
     assert_text "Elías fue un rey de Israel."
     assert_in_viewport ".choice-btn"
     click_button "Falso"
-    assert_text "¡Correcto!"
-    assert_text "Falso. Elías fue profeta."
-    assert_selector ".quiz-bar"
-    assert_button "Siguiente"
+    assert_text I18n.t("play.picked_wait")
+    assert_selector ".wait-toy"
     assert_no_selector ".reveal"
-    assert_no_selector ".wait-toy"
-    assert_in_viewport ".quiz-next"
-    shot("04-choice-verdict")
+    assert_no_selector ".quiz-bar"
+    assert_no_selector ".quiz-next"
+    assert_in_viewport ".wait-toy"
+    shot("04-choice-submitted")
   end
 
   test "four quiz choices stay on screen with the drawing" do
@@ -102,10 +95,8 @@ class PlayReelVisualTest < ApplicationSystemTestCase
     round_runs(:elias_carmel).update_columns(phase: "open", opened_at: Time.current)
 
     visit night_name_path(game_sessions(:david).code)
-    fill_in "¿Cómo te llaman en la rama?", with: "Pili"
-    find("label.choice-chip", text: "En la sala").click
-    click_button I18n.t("join.create_and_join")
-    click_button "Casa de David"
+    fill_in I18n.t("join.name_label"), with: "Pili"
+    click_button I18n.t("join.enter_play")
     assert_text "¿Qué bajó sobre el altar de Elías en el Carmelo?"
     assert_selector ".choice-btn", count: 4
     assert_in_viewport ".choice-btn"
@@ -129,12 +120,12 @@ class PlayReelVisualTest < ApplicationSystemTestCase
     shot("06-quiz-four-asking")
 
     click_button "Fuego"
-    assert_text "¡Correcto!"
-    assert_selector ".quiz-bar", count: 4
-    assert_button "Siguiente"
-    assert_in_viewport ".quiz-bar"
-    assert_in_viewport ".quiz-next"
-    shot("06-quiz-four-verdict")
+    assert_text I18n.t("play.picked_wait")
+    assert_selector ".wait-toy"
+    assert_no_selector ".quiz-bar"
+    assert_no_selector ".quiz-next"
+    assert_in_viewport ".wait-toy"
+    shot("06-quiz-four-submitted")
   end
 
   def assert_in_viewport(selector)

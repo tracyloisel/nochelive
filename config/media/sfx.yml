@@ -33,6 +33,19 @@ cues:
       celebration or jingle. No drum, coins, jackpot, arcade, brass, voice or
       choir, then silence.
 
+  notification_glint:
+    kind: oneshot
+    max_seconds: 1.05
+    prompt: >
+      Isolated Noche Live notification signature: a tiny friendly "ta-dam"
+      lasting about 0.55 seconds, followed by a short warm natural decay into
+      complete silence. Two close-mic'd brushed-glass celesta notes, the second
+      arriving roughly 120 milliseconds after the first and resolving upward
+      by a perfect fourth, with one very soft gold-air bloom underneath.
+      Clear and recognizable on a phone speaker, intimate and premium, neutral
+      rather than a success reward. No coin, jackpot, arcade, brass, drum,
+      reverb wash, voice, choir, church organ or continuing melody.
+
   wrong_soft:
     kind: oneshot
     max_seconds: 1.50
@@ -42,6 +55,16 @@ cues:
       bending slightly downward, a warm quiet "tum" that means not this one,
       never failure. Close, tactile and restrained. No second note, buzzer,
       comedy, ominous bass, voice or choir, then complete silence.
+
+  street_wrong_soft:
+    kind: oneshot
+    max_seconds: 1.50
+    prompt: >
+      Street quiz wrong-answer cue: a 0.30 second gesture followed by a warm
+      natural decay of about one second. One soft felted-wood tone bending
+      slightly downward, a quiet "tum" that means not this one, never failure.
+      Close, tactile and restrained. No second note, buzzer, comedy, ominous
+      bass, voice or choir, then complete silence.
 
   score_transfer:
     kind: oneshot
@@ -76,6 +99,18 @@ cues:
       wooden chest opening. Celestial, noble and close, not a brass fanfare,
       stadium, trailer, casino or jackpot. No coins, voice or choir, then
       complete silence.
+
+  street_royal_fanfare:
+    kind: oneshot
+    max_seconds: 4.00
+    prompt: >
+      Street pack-complete ceremony, audible for about three seconds: a 1.35
+      second musical gesture followed by a sustained, rich and smoothly fading
+      two-second harmonic resonance. Begin with a two-note rising perfect-fourth
+      celesta motif, expand into one warm airy harmonic chord, then one intimate
+      gold bell and a tactile small wooden chest opening. Celestial, noble and
+      close, not brass, stadium, trailer, casino or jackpot. No coins, voice or
+      choir, then complete silence.
 
   level_up:
     kind: oneshot

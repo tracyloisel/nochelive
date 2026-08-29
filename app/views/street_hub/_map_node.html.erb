@@ -15,7 +15,7 @@
          data-pack-id="<%= pack_view.id %>"
          data-category="<%= pack_view.category %>"
          data-hub-map-target="node"
-         data-action="click:hub-map#tapNode keydown.enter:hub-map#tapNode keydown.space:hub-map#tapNode"
+         data-action="click->hub-map#tapNode keydown.enter->hub-map#tapNode keydown.space->hub-map#tapNode"
          <%= %(aria-current="step").html_safe if role == :current %>
          <%= %(tabindex="0" role="button" aria-label="#{j(t("street.mapa_locked_hint", pack: [pack_number - 1, 1].max))}").html_safe if role == :locked %>
          <%= %(data-controller="street-motion" data-street-motion-sequence-value="packUnlock").html_safe if unlocking %>>

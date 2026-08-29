@@ -1,7 +1,7 @@
 <% content_for :title, t("church.title") %>
 <% content_for :body_class, "is-kid is-church-journey is-celestial-dark" %>
 <% page_hud { site_menu } %>
-<section class="church-landing" style="--church-scene: url('/media/church/journey/threshold-v2.png')">
+<section class="church-landing" style="--church-scene: url('<%= media_src("media/church/journey/threshold-v2.png") %>')">
   <div class="church-scene-atmosphere" aria-hidden="true"><i></i><i></i><i></i></div>
   <header class="church-landing-copy">
     <p class="church-scene-kicker"><%= t("church.kicker") %></p>

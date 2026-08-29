@@ -1,0 +1,31 @@
+<% state = invitation.receipt_state %>
+<% other = invitation.recipient_person || invitation.claimed_by_person %>
+<% anonymous_link = invitation.external? && other.nil? %>
+<% external_state = state == :sent && invitation.share_handoff_at.blank? ? :ready : state %>
+<% receipt_copy = if anonymous_link
+     t("duel_campus.receipts.external.#{external_state}")
+   else
+     t("duel_campus.receipts.#{state}", name: other.display_name)
+   end %>
+<% labels = if invitation.external?
+     [ invitation.share_handoff_at.present? ? :shared : :ready, :opened ]
+   else
+     %i[sent delivered seen]
+   end %>
+<% labels << (state == :declined ? :declined : :claimed) %>
+<% active_index = { sent: 0, opened: 1, delivered: 1, seen: 2, claimed: labels.length - 1, declined: labels.length - 1 }.fetch(state, 0) %>
+<% if viewer&.id == invitation.challenger_person_id %>
+  <section id="duel_invitation_receipt_<%= invitation.id %>"
+           class="duel-campus-receipt is-<%= state %>"
+           data-state="<%= state %>"
+           aria-label="<%= receipt_copy %>">
+    <p><span aria-hidden="true"><%= state == :claimed ? "✓" : "✦" %></span><strong><%= receipt_copy %></strong></p>
+    <ol aria-hidden="true">
+      <% labels.each_with_index do |step, index| %>
+        <li class="<%= "is-done" if index <= active_index %><%= " is-now" if index == active_index %>">
+          <i></i><span><%= t("duel_campus.receipts.steps.#{step}") %></span>
+        </li>
+      <% end %>
+    </ol>
+  </section>
+<% end %>

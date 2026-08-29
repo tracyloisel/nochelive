@@ -1,11 +1,19 @@
 <% content_for :title, @ward.name %>
 <% content_for :body_class, "is-kid is-paper-hall is-rama-profile" %>
+<% enable_frontend_audio %>
+<% declare_frontend_resources(
+     context: "ward.profile",
+     styles: %w[shell ward_profile],
+     controllers: %w[loading press stage hub-countdown],
+     audio: { unlock: true, cues: %w[round_open] },
+     classes: { "style.shell" => "critical", "style.ward_profile" => "critical", "audio.ward" => "interaction" }
+   ) %>
 <% host = ward_host?(@ward) %>
 <% live = @featured_night %>
 <% page_hud(face: false, hud: true, theme: "celestial-dark") { site_menu } %>
 
 <main id="rama_profile" class="rama-page hall-paper">
-  <section class="rama-hero hall-still" style="--rama-hero: url('/media/rama/chapel-celestial-light.png')">
+  <section class="rama-hero hall-still" style="--rama-hero: url('<%= media_src("media/rama/chapel-celestial-light.png") %>')">
     <div class="rama-hero-copy">
       <span class="emblem emblem-xl emblem-<%= @ward.emblem %>"><%= render "shared/emblem", key: @ward.emblem %></span>
       <div>
@@ -34,7 +42,7 @@
 
   <div class="rama-content">
     <% if @ward.sunday_schedule.any? %>
-      <section class="rama-sunday-card rama-card" style="--rama-chapel-art: url('/media/rama/chapel-celestial-light.png')">
+      <section class="rama-sunday-card rama-card" style="--rama-chapel-art: url('<%= media_src("media/rama/chapel-celestial-light.png") %>')">
         <div class="rama-sunday-welcome">
           <p class="rama-kicker"><%= t("ward.welcome_sunday_kicker") %></p>
           <h2><%= t("ward.welcome_sunday_title") %></h2>
@@ -57,7 +65,7 @@
     <% end %>
 
     <% if @study_week %>
-      <%= link_to study_community_path(ward_code: @ward.code), class: "rama-word-card rama-card", style: "--rama-word-art: url('/media/study/psalms-refuge-2026.png')" do %>
+      <%= link_to study_community_path(ward_code: @ward.code), class: "rama-word-card rama-card", style: "--rama-word-art: url('#{media_src("media/study/psalms-refuge-2026.png")}')" do %>
         <div class="rama-word-copy">
           <p class="rama-kicker"><%= t("ward.word_kicker") %></p>
           <h2><%= t("study.psalms_theme") %></h2>

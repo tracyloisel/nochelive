@@ -1,6 +1,6 @@
 <% src = local_assigns[:src] %>
 <% if src.present? %>
   <figure class="hall-still">
-    <img class="night-poster" src="<%= src %>" alt="" loading="<%= local_assigns.fetch(:loading, "eager") %>" decoding="async">
+    <%= noche_media_picture(src, alt: "", class_name: "night-poster", loading: local_assigns.fetch(:loading, "eager")) %>
   </figure>
 <% end %>

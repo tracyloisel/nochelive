@@ -5,7 +5,7 @@
   <%= link_to href, class: [ "rama-night", ("is-compact" if local_assigns[:compact]) ], aria: { label: t("home.enter_night", title: night_title(night), code: night.code) } do %>
     <div class="rama-night-still">
       <% if poster %>
-        <img class="night-poster" src="<%= poster %>" alt="">
+        <%= noche_media_picture(poster, alt: "", class_name: "night-poster", loading: "lazy") %>
       <% end %>
       <% if night.live? %><span class="live-dot"></span><% end %>
     </div>

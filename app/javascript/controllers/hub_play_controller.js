@@ -1,4 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
+import { audioLoader } from "platform/audio/loader"
 
 export default class extends Controller {
   launch(event) {
@@ -7,7 +8,7 @@ export default class extends Controller {
     const hit = event.currentTarget.closest(".hub-play") || event.currentTarget
     hit.classList.add("is-launch")
     if (!muted && navigator.vibrate) navigator.vibrate(18)
-    window.NocheLiveAudio?.play?.("chest")
+    audioLoader.play("chest")
     if (reduced) return
     if (event.type === "submit") {
       event.preventDefault()

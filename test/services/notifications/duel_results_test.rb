@@ -12,7 +12,7 @@ class Notifications::DuelResultsTest < ActiveSupport::TestCase
 
     delivery = NotificationDelivery.where(kind: "duel_result").order(:id).last
     assert_equal people(:carmen_garcia), delivery.person
-    assert_equal Rails.application.routes.url_helpers.street_challenge_path(duel.token), delivery.destination
+    assert_equal Rails.application.routes.url_helpers.street_duel_path(duel), delivery.destination
   end
 
   test "does not push a result to a player who is already present" do

@@ -135,7 +135,7 @@ class StreetProfilesController < ApplicationController
         return
       end
 
-      if redirect_pending_duel!(person)
+      if redirect_pending_duel_invitation!(person)
         return
       end
 
@@ -158,38 +158,33 @@ class StreetProfilesController < ApplicationController
       redirect_to root_path, notice: I18n.t("flashes.street_signed_in", name: person.given_name)
     end
 
-    def redirect_pending_duel!(person)
-      token = session[:pending_duel_token]
+    def redirect_pending_duel_invitation!(person)
+      token = session[:pending_duel_invitation_token]
       return false if token.blank?
 
-      duel = StreetDuel.not_expired.find_by(token:)
-      return false unless duel
+      invitation = DuelInvitation.find_by_token(token)
+      return false unless invitation&.available?
 
-      Quizzes::ChallengeAccept.call(duel:, opponent_person: person, device_digest: street_digest)
+      result = Quizzes::DuelInvitationClaim.call(invitation:, person:, device_digest: street_digest)
       Quizzes::ViralTrack.call(
-        name: "invitee_registered",
+        name: "invitee_profile_created",
         device_digest: street_digest,
-        duel:,
+        invitation:,
+        duel: result.duel,
         person:,
         source: "invite",
-        properties: { pack_id: duel.pack_id }
+        event_key: "invitee-profile-created:#{invitation.id}:#{person.id}"
       )
-      Quizzes::ViralTrack.call(
-        name: "challenge_started",
-        device_digest: street_digest,
-        duel:,
-        person:,
-        source: "invite",
-        properties: { pack_id: duel.pack_id, role: "opponent" }
-      )
-      session.delete(:pending_duel_token)
+      frame = Quizzes::Draw.call(device_digest: street_digest, person_id: person.id, ward: person.ward)
+      session[:street_play_run_id] = frame.run.id
+      session.delete(:pending_duel_invitation_token)
       redirect_to jugar_path, notice: I18n.t("flashes.street_signed_in", name: person.given_name)
       true
-    rescue Quizzes::ChallengeAccept::Expired
-      session.delete(:pending_duel_token)
-      redirect_to root_path, alert: I18n.t("street.duel_expired")
+    rescue Quizzes::DuelInvitationClaim::Expired
+      session.delete(:pending_duel_invitation_token)
+      redirect_to root_path, alert: I18n.t("duel_campus.errors.expired")
       true
-    rescue Quizzes::ChallengeAccept::Taken
+    rescue Quizzes::DuelInvitationClaim::Taken
       false
     end
 

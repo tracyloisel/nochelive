@@ -1,11 +1,12 @@
 <% hero = screen.hero %>
 <% voyage = screen.voyage %>
+<% light_theme = local_assigns[:theme].to_s == "light" %>
 <% reward_chest_src = street_ceremony_asset_src("reward-chest") %>
 <% play_inner = capture do %>
   <span><%= t("street.world_play") %></span>
   <%= picto("arrow") %>
 <% end %>
-<article class="hub-hero street-card is-map-door"
+<article class="hub-hero hub-light-tile--hero street-card is-map-door"
          data-controller="hub-voyage hub-portal"
          data-hub-portal-target="hero"
          aria-label="<%= t("hub.continue") %>">
@@ -21,18 +22,19 @@
         <% reward = current ? hero.reward : slide.reward %>
         <% play_method = current ? hero.method : slide.method %>
         <% play_path = current ? hero.path : slide.path %>
-        <% still = media_src(current ? hero.still : slide.still) %>
+        <% still_source = light_theme ? "media/hub/light/hero-gateway-v2.png" : (current ? hero.still : slide.still) %>
+        <% still = media_src(still_source) %>
         <section class="hub-slide is-<%= slide.kind %><%= " is-locked" if slide.state == :locked %>"
                  data-kind="<%= slide.kind %>">
           <% if still %>
-            <img src="<%= still %>"
-                 alt=""
-                 width="1024"
-                 height="1824"
-                 class="hub-slide-still"
-                 decoding="async"
-                 <% if current %>data-hub-hero-target="still" data-hub-portal-target="still" style="view-transition-name: portal-hero"<% end %>
-                 <% if current %>fetchpriority="high"<% else %>loading="lazy"<% end %>>
+            <%= noche_media_picture(
+                  still,
+                  alt: "",
+                  class_name: "hub-slide-still",
+                  loading: (current ? "eager" : "lazy"),
+                  fetchpriority: ("high" if current),
+                  data: (current ? { hub_hero_target: "still", hub_portal_target: "still" } : {})
+                ) %>
           <% end %>
           <div class="hub-slide-copy">
             <div class="hub-slide-copy-top">
@@ -82,13 +84,12 @@
               <% if reward.to_i.positive? %>
                 <span class="hub-reward">
                   <% if reward_chest_src %>
-                    <img src="<%= reward_chest_src %>"
-                         alt=""
-                         width="141"
-                         height="94"
-                         class="hub-reward-chest"
-                         decoding="async"
-                         <% if current %>data-hub-hero-target="chest"<% end %>>
+                    <%= noche_media_picture(
+                          reward_chest_src,
+                          alt: "",
+                          class_name: "hub-reward-chest",
+                          data: (current ? { hub_hero_target: "chest" } : {})
+                        ) %>
                   <% else %>
                     <%= picto("chest") %>
                   <% end %>

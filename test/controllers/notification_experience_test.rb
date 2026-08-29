@@ -38,7 +38,7 @@ class NotificationExperienceTest < ActionDispatch::IntegrationTest
 
       get root_path
       assert_response :success
-      assert_select "a.home-menu-row[href='#{notification_settings_path}']", text: I18n.t("notifications.settings.menu")
+      assert_select "a.home-menu-row[href='#{notification_settings_path}']", text: /#{Regexp.escape(I18n.t("notifications.settings.menu"))}/
 
       get notification_settings_path
       assert_response :success
@@ -103,12 +103,22 @@ class NotificationExperienceTest < ActionDispatch::IntegrationTest
       sign_in_congregation
       create_street_profile!(name: "Défieur Contextuel")
 
+      get street_challenges_path
+      assert_response :success
+      assert_select ".push-invitation.is-challenges", count: 0
+
       post street_challenges_path, params: { opponent_id: people(:carmen_garcia).id, pack_id: "coronas" }
       assert_redirected_to street_challenges_path
       follow_redirect!
 
       assert_select ".push-invitation.is-challenges", count: 1
+      assert_select ".duel-campus-body > .push-invitation.is-challenges", count: 1
+      assert_select ".duel-campus-body > .push-invitation.is-challenges + #inviter.is-friends", count: 1
+      assert_select "link[href*='profile']", count: 1
+      assert_select ".push-invitation h2", text: I18n.t("notifications.prompt.challenges_title")
+      assert_select ".push-device-state [data-push-subscription-target='status']", count: 1
       assert_select ".push-invitation .push-primary.btn-gold", count: 1
+      assert_select ".push-invitation .push-primary > span:first-child", text: I18n.t("notifications.prompt.challenges_cta")
       assert_select ".push-invitation .quiet-link", text: I18n.t("notifications.prompt.not_now")
     end
   end

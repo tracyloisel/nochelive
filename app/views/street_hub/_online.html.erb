@@ -1,8 +1,16 @@
 <% rows = Array(local_assigns[:rows]) %>
 <% count = local_assigns.fetch(:count, rows.size).to_i %>
 <% social_ward = current_street_person&.ward %>
-<article class="hub-panel hub-stack hub-online<%= " is-empty" if rows.empty? %>"
+<% light_theme = local_assigns[:theme].to_s == "light" %>
+<% illustrated = light_theme || !social_ward || rows.empty? %>
+<article class="hub-panel hub-stack hub-online hub-light-tile--online<%= " is-empty" if rows.empty? %><%= " is-illustrated" if illustrated %>"
          data-controller="hub-online">
+  <% if illustrated %>
+    <span class="hub-online-art" aria-hidden="true">
+      <%= noche_media_picture(light_theme ? "media/hub/light/friends-online-v2.png" : "media/social/campus-ceremony-friends-v1.png", alt: "", loading: "lazy") %>
+    </span>
+    <span class="hub-online-scrim" aria-hidden="true"></span>
+  <% end %>
   <header class="hub-online-head">
     <p class="hub-kicker"><%= t("hub.online") %></p>
     <span class="hub-online-count"><%= t("hub.online_count", count: count) %></span>

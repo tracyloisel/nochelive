@@ -1,5 +1,20 @@
 <% content_for :title, t("stats.title") %>
 <% content_for :body_class, "is-kid is-paper-hall is-celestial-dark is-stats" %>
+<% enable_frontend_audio %>
+<% declare_frontend_resources(
+     context: "platform.stats",
+     styles: %w[shell stats],
+     controllers: %w[loading press stats-reveal],
+     audio: { unlock: true, cues: %w[question_change correct_gold stake_gain] },
+     motion: %w[result-reveal list-enter],
+     classes: {
+       "style.shell" => "critical",
+       "style.stats" => "critical",
+       "controller.stats_reveal" => "contextual",
+       "audio.stats" => "interaction",
+       "motion.stats" => "contextual"
+     }
+   ) %>
 <% page_hud(
       hud: true,
       bar: @screen.hud
@@ -156,7 +171,7 @@
            data-chapter="invitations">
     <h2>
       <span class="stats-chapter-icon stats-invitations-medallion" aria-hidden="true">
-        <img src="/media/social/icon-share-medallion-v1.png" alt="" width="52" height="52">
+        <%= noche_media_picture("media/social/icon-share-medallion-v1.png", alt: "", loading: "lazy") %>
       </span>
       <span class="stats-chapter-num" aria-hidden="true">4</span>
       <%= t("stats.invitations.title") %>

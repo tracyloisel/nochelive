@@ -7,7 +7,7 @@
     <% cards.each do |card| %>
       <li class="team-pick person-pick <%= "is-here" if card.on_device %>">
         <%= render "people/card", person: card.person, show_year: false %>
-        <small><%= t("street.merge_points", count: card.score) %> · <%= t("street.merge_since", date: l(card.person.created_at.to_date)) %></small>
+        <small><%= t("street.merge_crowns", count: card.score) %> · <%= t("street.merge_since", date: l(card.person.created_at.to_date)) %></small>
 
         <% if card.claimable %>
           <%= form_with url: street_profile_merge_path,

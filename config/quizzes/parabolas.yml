@@ -193,6 +193,8 @@ packs:
             label: "La cosecha había comenzado"
           - key: deuda
             label: "La deuda estaba pagada"
+          - key: herencia
+            label: "Había recibido una herencia"
         correct_choice: vuelto
         answer: "Porque su hijo estaba muerto y había revivido; estaba perdido y había sido hallado."
         points: 25
@@ -399,6 +401,8 @@ packs:
             label: "El Reino debe mantenerse en secreto"
           - key: suerte
             label: "El Reino se obtiene por suerte"
+          - key: poder
+            label: "El Reino da poder político"
         correct_choice: valor
         answer: "Ambas parábolas muestran una alegría tan grande que vale la pena entregarlo todo por el Reino."
         points: 25
@@ -605,6 +609,8 @@ packs:
             label: "Aquel a quien se perdonó menos"
           - key: ninguno
             label: "Ninguno de los dos"
+          - key: primero
+            label: "El que fue perdonado primero"
         correct_choice: mas_perdonado
         answer: "Aquel a quien se perdonó más. Reconocer la gracia recibida despierta un amor profundo."
         points: 25
@@ -811,6 +817,8 @@ packs:
             label: "El siervo que se escondió"
           - key: dormido
             label: "El siervo que dejó todo para después"
+          - key: rico
+            label: "El siervo que se había hecho rico"
         correct_choice: haciendo
         answer: "El que es hallado cumpliendo su labor. Velar significa servir fielmente mientras esperamos."
         points: 25
@@ -1017,6 +1025,8 @@ packs:
             label: "El fariseo orgulloso"
           - key: ambos
             label: "Ambos por igual"
+          - key: ninguno
+            label: "Ninguno de los dos"
         correct_choice: publicano
         answer: "El publicano. Quien se enaltece será humillado, y quien se humilla será enaltecido."
         points: 25
@@ -1223,6 +1233,8 @@ packs:
             label: "Una nación poderosa"
           - key: conocimiento
             label: "El conocimiento sin fe"
+          - key: riqueza
+            label: "La riqueza del mundo"
         correct_choice: amor
         answer: "El amor de Dios, manifestado en Jesucristo. Nefi supo que era lo más deseable de todo."
         points: 25
@@ -1429,6 +1441,8 @@ packs:
             label: "Una riqueza escondida"
           - key: hambre
             label: "Una cosecha perdida"
+          - key: guerra
+            label: "Una guerra ya terminada"
         correct_choice: maldad
         answer: "La violencia y la maldad que permanecían. La imagen advertía que el juicio ya no podía posponerse."
         points: 25

@@ -34,22 +34,21 @@ module AdminApi
       ward = find_ward
       person_ids = ward.people.select(:id)
       scores = Quizzes::Leaderboard.pack_best_totals(ward:)
-      answers = QuizAnswer.joins(:quiz_run).where(quiz_runs: { person_id: person_ids, street_duel_id: nil })
+      answers = QuizAnswer.joins(:quiz_run).where(quiz_runs: { person_id: person_ids })
+      duels = StreetDuel.where(challenger_person_id: person_ids)
+        .or(StreetDuel.where(opponent_person_id: person_ids))
       render json: {
         ward: ward_json(ward).merge(
           live_people: Presences::Registry.online_person_ids(ward_id: ward.id).size,
           players_with_points: scores.size,
           total_best_points: scores.values.sum,
-          finished_quiz_runs: QuizRun.adventure.finished.where(person_id: person_ids).count,
+          finished_quiz_runs: QuizRun.finished.where(person_id: person_ids).count,
           quiz_answers: answers.count,
           correct_answers: answers.where(correct: true).count,
           completed_study_runs: StudyRun.completed.where(person_id: person_ids).count,
           completed_readings: ReadingProgress.where(person_id: person_ids, status: "completed").count,
-          duels: StreetDuel.where(ward:).count,
-          invitations_sent: ViralEvent.where(
-            street_duel_id: StreetDuel.where(ward:).select(:id),
-            name: "invite_share_completed"
-          ).distinct.count(:street_duel_id)
+          duels: duels.count,
+          invitations_sent: DuelInvitation.where(challenger_person_id: person_ids).count
         )
       }
     end

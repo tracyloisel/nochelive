@@ -1,9 +1,11 @@
 import { Controller } from "@hotwired/stimulus"
+import { EffectScope } from "platform/lifecycle/effect_scope"
 
 export default class extends Controller {
   static targets = ["button", "form"]
 
   connect() {
+    this.effectScope = new EffectScope()
     this.submitting = false
     this.departureTimer = null
 
@@ -12,12 +14,13 @@ export default class extends Controller {
       this.element.showModal()
     }
 
-    window.requestAnimationFrame(() => {
+    this.effectScope.frame(() => {
       if (this.hasButtonTarget) this.buttonTarget.focus({ preventScroll: true })
     })
   }
 
   disconnect() {
+    this.effectScope?.dispose()
     if (this.departureTimer) window.clearTimeout(this.departureTimer)
   }
 

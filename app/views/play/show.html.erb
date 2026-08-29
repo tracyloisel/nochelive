@@ -1,5 +1,16 @@
 <% content_for :title, current_team&.name || t("join.pick_team") %>
 <% content_for :body_class, "is-kid is-play is-celestial-dark" %>
+<% enable_frontend_audio %>
+<% declare_frontend_resources(
+     context: "live.play",
+     styles: %w[shell gameplay live_play],
+     controllers: %w[loading press stage quiz countdown presence],
+     audio: {
+       unlock: true,
+       cues: %w[round_start buzzer_hit correct_gold wrong_soft score_transfer crown_chime royal_fanfare level_up chest dramatic_fire fire_whoosh flame_gold timer_tension tick tick_low round_open round_lock question_change reveal]
+     },
+     classes: { "style.shell" => "critical", "style.live_play" => "critical", "audio.live" => "interaction" }
+   ) %>
 <%= turbo_stream_from @night.player_stream(current_player) %>
 <div hidden
      data-controller="presence"

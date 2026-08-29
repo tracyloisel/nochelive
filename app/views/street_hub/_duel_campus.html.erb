@@ -1,0 +1,43 @@
+<% campus_stats = [
+     { key: :incoming, count: campus.counts.incoming, icon: "duel-scrolls" },
+     { key: :active, count: campus.counts.active, icon: "duel-books" },
+     { key: :results, count: campus.counts.results, icon: "star8" }
+   ] %>
+<% light_theme = local_assigns[:theme].to_s == "light" %>
+<%= link_to street_challenges_path,
+            class: "hub-panel hub-duel-campus hub-light-tile--campus",
+            data: {
+              controller: "hub-campus",
+              action: "click->hub-campus#depart",
+              motion_state: "idle"
+            } do %>
+  <span class="hub-duel-campus-art" aria-hidden="true">
+    <%= noche_media_picture(light_theme ? "media/hub/light/campus-scriptures-v2.png" : "media/social/campus-scriptures-master-v2.png", alt: "", loading: "lazy") %>
+  </span>
+  <span class="hub-duel-campus-scrim" aria-hidden="true"></span>
+  <span class="hub-duel-campus-copy">
+    <span class="hub-duel-campus-heading" data-hub-campus-target="reveal">
+      <small><%= t("duel_campus.hub.kicker") %></small>
+      <strong><%= t("duel_campus.hub.title") %></strong>
+    </span>
+    <% if campus.any? %>
+      <span class="hub-duel-campus-stats" role="list" aria-label="<%= t("duel_campus.hub.summary") %>">
+        <% campus_stats.each do |stat| %>
+          <span class="hub-duel-campus-stat is-<%= stat[:key] %>" role="listitem" data-hub-campus-target="reveal">
+            <span class="hub-duel-campus-stat-value">
+              <span class="hub-duel-campus-stat-icon" aria-hidden="true"><%= picto(stat[:icon]) %></span>
+              <b data-hub-campus-target="number" data-value="<%= stat[:count] %>"><%= stat[:count] %></b>
+            </span>
+            <span><%= t("duel_campus.hub.#{stat[:key]}", count: stat[:count]) %></span>
+          </span>
+        <% end %>
+      </span>
+    <% else %>
+      <span class="hub-duel-campus-empty" data-hub-campus-target="reveal"><%= t("duel_campus.hub.empty") %></span>
+    <% end %>
+    <span class="hub-duel-campus-cta" data-hub-campus-target="reveal">
+      <span><%= t("duel_campus.hub.cta") %></span>
+      <span aria-hidden="true"><%= picto("arrow") %></span>
+    </span>
+  </span>
+<% end %>

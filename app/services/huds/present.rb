@@ -58,8 +58,8 @@ module Huds
         progress_n: done ? total : run.position,
         progress_total: total,
         dots: done ? Array.new(total, "is-done") : dots_for(position: run.position, total:),
-        score: quiz_score(street:, run:, question:),
-        last_gain: done ? street.complete&.last_gain.to_i : nil,
+        score: quiz_score(street:, run:),
+        last_gain: done ? street.complete&.last_gain.to_i : street.reward&.points_awarded,
         done:,
         combo: Combo.new(
           count: combo.count,
@@ -91,11 +91,11 @@ module Huds
       (Team::RANKS.index { |threshold, _, _| threshold == current[0] } || 0) + 1
     end
 
-    def self.quiz_score(street:, run:, question:)
+    def self.quiz_score(street:, run:)
       if street.done?
         [ run.score - street.complete&.last_gain.to_i, 0 ].max
       elsif street.settled? && street.answer&.correct?
-        [ run.score - question.points, 0 ].max
+        [ run.score - street.reward&.points_awarded.to_i, 0 ].max
       else
         run.score
       end
@@ -152,7 +152,7 @@ module Huds
       end
 
       def total_score
-        return 0 unless @ward && @person
+        return 0 unless @person
 
         Quizzes::Leaderboard.total_score(person: @person)
       end

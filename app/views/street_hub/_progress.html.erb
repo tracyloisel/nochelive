@@ -1,5 +1,12 @@
 <% progress = local_assigns[:progress] %>
-<section class="hub-panel hub-progress" data-controller="hub-progress">
+<% light_theme = local_assigns[:theme].to_s == "light" %>
+<section class="hub-panel hub-progress hub-light-tile--progress" data-controller="hub-progress">
+  <% if light_theme %>
+    <span class="hub-progress-art" aria-hidden="true">
+      <%= noche_media_picture("media/hub/light/progress-path-v2.png", alt: "", loading: "lazy") %>
+    </span>
+    <span class="hub-progress-art-scrim" aria-hidden="true"></span>
+  <% end %>
   <%= link_to street_map_path,
         class: "hub-progress-map-link",
         aria: { label: t("street.world_map_open") } do %>
@@ -32,7 +39,7 @@
           <%= 'aria-current="step"' if node.focus %>>
         <span class="hub-progress-mark" aria-hidden="true">
           <% if node.still.present? %>
-            <%= image_tag media_src(node.still), alt: "", width: 1024, height: 1824, loading: "lazy", decoding: "async" %>
+            <%= noche_media_picture(node.still, alt: "", loading: "lazy") %>
           <% end %>
           <span class="hub-progress-status is-<%= node.state %>">
             <%= picto(node.state == :finished ? "check" : (node.focus ? "star" : "lock")) %>

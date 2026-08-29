@@ -1,4 +1,27 @@
-<% challenge = Quizzes::ChallengeScreen.call(duel:, person: viewer) %>
-<div id="street_duel_ping" class="street-duel-ping" role="status">
-  <%= render "street_hub/duel_banner", duel:, challenge:, viewer:, csrf: false %>
+<% challenger = invitation.challenger_person %>
+<div id="duel_campus_notice"
+     class="duel-campus-notice<%= " is-rematch" if invitation.rematch? %>"
+     role="alert"
+     aria-labelledby="duel_campus_notice_title"
+     data-controller="duel-notice"
+     data-duel-notice-receipt-url-value="<%= street_challenge_received_path(invitation.public_token) %>"
+     data-stage-sfx-value="duel_send"
+     data-stage-sfx-token-value="duel-invitation:arrive:<%= invitation.id %>">
+  <button type="button"
+          class="duel-campus-notice-close"
+          aria-label="<%= t("chrome.close_menu") %>"
+          data-action="duel-notice#dismiss">×</button>
+  <span class="duel-campus-notice-avatar" aria-hidden="true">
+    <% if (src = avatar_mark(challenger)) %>
+      <img src="<%= src %>" alt="">
+    <% else %>
+      <%= challenger.given_name.to_s.first %>
+    <% end %>
+  </span>
+  <span class="duel-campus-notice-copy">
+    <small><%= t(invitation.rematch? ? "duel_campus.notice.rematch" : "duel_campus.notice.invitation") %></small>
+    <strong id="duel_campus_notice_title"><%= t("duel_campus.notice.title", name: challenger.display_name) %></strong>
+    <span><%= invitation.challenger_score ? t("duel_campus.notice.score", score: invitation.challenger_score) : t("duel_campus.notice.free_pack") %></span>
+  </span>
+  <%= link_to t("duel_campus.actions.open"), street_challenge_path(invitation.public_token), class: "btn btn-gold duel-campus-notice-cta" %>
 </div>

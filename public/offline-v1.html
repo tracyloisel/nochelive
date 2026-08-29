@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="mul">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+    <meta name="theme-color" content="#f6f3ec">
+    <title>Noche Live</title>
+    <style>
+      :root { color-scheme: light; font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #f6f3ec; color: #142943; }
+      * { box-sizing: border-box; }
+      body { min-height: 100dvh; margin: 0; display: grid; place-items: center; padding: 2rem; background: radial-gradient(circle at 50% 22%, #fffef8 0, #f6f3ec 54%, #e9dfcd 100%); }
+      main { display: grid; justify-items: center; gap: 1rem; text-align: center; }
+      img { width: 5rem; height: 5rem; border-radius: 1.15rem; box-shadow: 0 1rem 2rem rgba(20, 41, 67, .16); }
+      h1 { margin: 0; font: 700 clamp(1.75rem, 8vw, 2.5rem)/1.05 Georgia, serif; }
+      p { margin: 0; color: #53606d; font-weight: 650; }
+      .shape { width: .8rem; height: .8rem; transform: rotate(45deg); background: #c89217; box-shadow: 1.15rem -1.15rem 0 #e5bd48, 2.3rem -2.3rem 0 #f2d98a; margin-right: 2.3rem; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <img src="/icon-192.png" width="80" height="80" alt="">
+      <h1>Noche Live</h1>
+      <span class="shape" aria-hidden="true"></span>
+      <p data-offline-copy>Hors connexion · reprise automatique</p>
+    </main>
+    <script>
+      const copy = { es: "Sin conexión · reanudación automática", en: "Offline · automatic return", fr: "Hors connexion · reprise automatique", pt: "Sem conexão · retorno automático" }
+      const language = (navigator.language || "fr").slice(0, 2).toLowerCase()
+      document.documentElement.lang = language
+      document.querySelector("[data-offline-copy]").textContent = copy[language] || copy.fr
+      window.addEventListener("online", () => location.reload())
+    </script>
+  </body>
+</html>

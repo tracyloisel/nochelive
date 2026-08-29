@@ -14,14 +14,14 @@ class Hubs::ScreenTest < ActiveSupport::TestCase
     assert_equal "coronas", screen.hero.pack_id
     assert_equal 1, screen.hero.step_n
     assert_equal 10, screen.hero.step_total
-    assert_equal QuizDefinition::CURVE_POINTS.sum, screen.hero.reward
+    assert_equal Quizzes::StreakReward.max_pack_score, screen.hero.reward
     assert_equal :post, screen.hero.method
     assert_equal :ward_missing, screen.live.state
     assert_equal Rails.application.routes.url_helpers.street_profile_path(quick: 1, fresh: 1, ward_next: 1),
       screen.live.ward_pick_path
+    assert_equal generated_media_src("media/nights/noche_live_stage_v2.png", format: "webp"), screen.live.still
     assert_equal screen.backdrop.theme.mode, screen.live.theme_mode
     assert_equal screen.backdrop.theme.atmosphere, screen.live.theme_atmosphere
-    assert_nil screen.challenge
     assert_equal [], screen.online
     assert screen.backdrop.theme.mode.in?(%w[light dark])
     assert_operator screen.progress.study_completed, :>=, 0
@@ -29,7 +29,7 @@ class Hubs::ScreenTest < ActiveSupport::TestCase
   end
 
 
-  test "live card without its own image inherits the hub background theme" do
+  test "ward discovery live card keeps its stage art and inherits the hub background theme" do
     Hubs::Backdrop.entries = [
       {
         "id" => "dark-coronas",
@@ -42,6 +42,7 @@ class Hubs::ScreenTest < ActiveSupport::TestCase
     screen = Hubs::Screen.call(device_digest: @digest)
 
     assert_equal :ward_missing, screen.live.state
+    assert_equal generated_media_src("media/nights/noche_live_stage_v2.png", format: "webp"), screen.live.still
     assert_equal "dark", screen.backdrop.theme.mode
     assert_equal "dark", screen.live.theme_mode
     assert_equal "solemn", screen.live.theme_atmosphere
@@ -71,7 +72,7 @@ class Hubs::ScreenTest < ActiveSupport::TestCase
     assert_equal :get, screen.hero.method
     assert_equal Rails.application.routes.url_helpers.jugar_path, screen.hero.path
     assert_equal 1, screen.hero.step_n
-    assert_equal QuizDefinition::CURVE_POINTS.sum, screen.hero.reward
+    assert_equal Quizzes::StreakReward.max_pack_score, screen.hero.reward
   end
 
   test "settled question is removed from the live remaining reward" do
@@ -80,8 +81,8 @@ class Hubs::ScreenTest < ActiveSupport::TestCase
 
     screen = Hubs::Screen.call(device_digest: @digest, open_run: run.reload)
 
-    assert_equal QuizDefinition::CURVE_POINTS.drop(1).sum, screen.hero.reward
-    refute_equal QuizDefinition::CURVE_POINTS.sum, screen.hero.reward
+    assert_equal 84, screen.hero.reward
+    refute_equal Quizzes::StreakReward.max_pack_score, screen.hero.reward
   end
 
   test "live states follow the clock without a three-day countdown" do
@@ -127,7 +128,7 @@ class Hubs::ScreenTest < ActiveSupport::TestCase
     screen = Hubs::Screen.call(device_digest: @digest, ward: @ward, at: night.starts_at - 3.days)
     assert_equal :scheduled, screen.live.state
     assert_equal [ "Élder Oxxon", "Élder Manning" ], screen.live.hosts
-    assert_equal "/media/nights/noche_live_stage_v2.png", screen.live.still
+    assert_equal generated_media_src("media/nights/noche_live_stage_v2.png", format: "webp"), screen.live.still
     assert_equal screen.backdrop.theme.mode, screen.live.theme_mode
     assert_equal screen.backdrop.theme.atmosphere, screen.live.theme_atmosphere
     refute_equal screen.backdrop.src, screen.live.still
@@ -141,7 +142,7 @@ class Hubs::ScreenTest < ActiveSupport::TestCase
 
     screen = Hubs::Screen.call(device_digest: @digest, ward: @ward, at: night.starts_at - 3.days)
 
-    assert_equal night.poster_path, screen.live.still
+    assert_equal generated_media_src(night.poster_path, format: "webp"), screen.live.still
     assert_equal "light", screen.live.theme_mode
     assert_equal "peaceful", screen.live.theme_atmosphere
   end
@@ -158,7 +159,7 @@ class Hubs::ScreenTest < ActiveSupport::TestCase
     game_sessions(:david).update!(status: "finished")
     night = game_sessions(:elias)
     screen = Hubs::Screen.call(device_digest: @digest, ward: @ward, at: night.starts_at - 3.days)
-    assert_equal "/media/nights/noche_live_stage_v2.png", screen.live.still
+    assert_equal generated_media_src("media/nights/noche_live_stage_v2.png", format: "webp"), screen.live.still
     assert_equal "light", screen.live.theme_mode
     assert_equal "peaceful", screen.live.theme_atmosphere
     refute_equal screen.backdrop.src, screen.live.still
@@ -179,7 +180,7 @@ class Hubs::ScreenTest < ActiveSupport::TestCase
     night = game_sessions(:elias)
     screen = Hubs::Screen.call(device_digest: @digest, ward: @ward, at: night.starts_at - 3.days)
 
-    assert_equal "/media/nights/noche_live_stage_v2.png", screen.live.still
+    assert_equal generated_media_src("media/nights/noche_live_stage_v2.png", format: "webp"), screen.live.still
     assert_equal "dark", screen.live.theme_mode
     assert_equal "solemn", screen.live.theme_atmosphere
     refute_equal screen.backdrop.src, screen.live.still
@@ -190,16 +191,6 @@ class Hubs::ScreenTest < ActiveSupport::TestCase
   test "online rows expose real identity rank crowns and count without self" do
     mark_person_online(people(:carmen_garcia))
     mark_person_online(people(:carmen_lopez))
-    Quizzes::StartPack.call(device_digest: "carmen-live", person_id: people(:carmen_garcia).id, pack_id: "coronas")
-    QuizRun.create!(
-      device_digest: @digest,
-      person: @pili,
-      pack_id: "coronas",
-      position: 10,
-      score: 40,
-      status: "finished",
-      opened_at: Time.current
-    )
     screen = Hubs::Screen.call(device_digest: @digest, person: @pili, ward: @ward)
     row = screen.online.find { |item| item.person_id == people(:carmen_garcia).id }
     assert row
@@ -210,8 +201,6 @@ class Hubs::ScreenTest < ActiveSupport::TestCase
     assert_equal people(:carmen_garcia).avatar_key, row.avatar_key
     assert_equal 5, row.level
     assert_equal 208, row.crowns
-    assert_equal QuizDefinition.catalog.find_pack("coronas").copy(:title), row.playing_title
-    assert_equal :challenge, row.action
   end
 
   test "voyage is previous current next and Jouer stays on current pack" do
@@ -297,67 +286,5 @@ class Hubs::ScreenTest < ActiveSupport::TestCase
     assert screen.community.wards >= 1
     assert_kind_of Integer, screen.community.players_this_month
     assert_kind_of Integer, screen.community.questions
-  end
-
-  test "waiting challenge names the rival and keeps animal keys without inventing scores" do
-    duel = StreetDuel.create!(
-      challenger_person: @pili,
-      opponent_person: people(:carmen_garcia),
-      ward: @ward,
-      pack_id: "placas",
-      token: "hub-screen-wait",
-      status: "challenger_done",
-      challenger_score: 61,
-      expires_at: 7.days.from_now
-    )
-    challenge = Quizzes::ChallengeScreen.call(person: @pili, duel:)
-    screen = Hubs::Screen.call(device_digest: @digest, person: @pili, ward: @ward, challenge:)
-    tile = screen.challenge
-    refute tile.scored?
-    assert_equal :waiting, tile.phase
-    assert_equal :accept, tile.waiting_for
-    assert_equal "Carmen", tile.other_name
-    assert_equal "Carmen García", tile.other_display_name
-    assert_equal "tortuga", tile.you_avatar_key
-    assert_equal "delfin", tile.other_avatar_key
-    assert_nil tile.you_score
-    assert_nil tile.other_score
-    assert_equal Rails.application.routes.url_helpers.street_challenge_path(duel.token), tile.path
-  end
-
-  test "challenge remains renderable while lifecycle methods are not deployed" do
-    duel = street_duels(:pili_vs_carmen)
-    duel.singleton_class.undef_method(:receipt_state) if duel.respond_to?(:receipt_state)
-    duel.singleton_class.undef_method(:rematch?) if duel.respond_to?(:rematch?)
-    challenge = Quizzes::ChallengeScreen.call(person: @pili, duel:)
-
-    tile = Hubs::Screen.call(
-      device_digest: @digest,
-      person: @pili,
-      ward: @ward,
-      challenge:
-    ).challenge
-
-    assert_nil tile.receipt_state
-    refute tile.rematch
-  end
-
-  test "scored challenge keeps live duel numbers" do
-    duel = street_duels(:pili_vs_carmen)
-    challenge = Quizzes::ChallengeScreen.call(person: people(:carmen_garcia), duel:)
-    screen = Hubs::Screen.call(
-      device_digest: @digest,
-      person: people(:carmen_garcia),
-      ward: @ward,
-      challenge:
-    )
-    tile = screen.challenge
-    assert tile.scored?
-    assert_equal 90, tile.you_score
-    assert_equal 82, tile.other_score
-    assert_equal "Pili", tile.other_name
-    assert_equal "Pili", tile.other_display_name
-    assert_equal "delfin", tile.you_avatar_key
-    assert_equal "tortuga", tile.other_avatar_key
   end
 end

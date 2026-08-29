@@ -1,4 +1,12 @@
 <% content_for :title, "#{t("presenter.title")} · #{@night.code}" %>
 <% content_for :body_class, "is-presenter is-celestial-dark" %>
+<% enable_frontend_audio %>
+<% declare_frontend_resources(
+     context: "live.presenter",
+     styles: %w[shell live_presenter onboarding],
+     controllers: %w[loading press stage],
+     audio: { unlock: true, cues: %w[round_start buzzer_hit correct_gold wrong_soft score_transfer crown_chime royal_fanfare level_up chest dramatic_fire fire_whoosh flame_gold timer_tension tick tick_low round_open round_lock question_change reveal] },
+     classes: { "style.shell" => "critical", "style.live_presenter" => "critical", "style.onboarding" => "contextual", "audio.presenter" => "interaction" }
+   ) %>
 <%= turbo_stream_from @night.presenter_stream %>
 <%= render "presenter/consoles/frame", night: @night %>

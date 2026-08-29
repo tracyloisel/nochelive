@@ -3,7 +3,7 @@
 <% page_hud { site_menu } %>
 
 <section id="ward_add" class="about-journey">
-  <header class="about-journey-hero" style="--about-scene: url('/media/about/community-origin-v1.png')">
+  <header class="about-journey-hero" style="--about-scene: url('<%= media_src("media/about/community-origin-v1.png") %>')">
     <div class="church-scene-atmosphere" aria-hidden="true"><i></i><i></i><i></i></div>
     <div class="about-journey-intro">
       <p class="church-scene-kicker"><%= t("about.eyebrow") %></p>
@@ -54,7 +54,7 @@
     <% if portrait %>
       <section class="about-journey-maker">
         <figure class="about-face">
-          <img src="<%= portrait %>" alt="<%= t("about.portrait_alt") %>" width="640" height="640">
+          <%= noche_media_picture(portrait, alt: t("about.portrait_alt"), loading: "lazy") %>
           <figcaption>
             <strong>Tracy Loisel</strong>
             <span><%= t("about.role") %></span>

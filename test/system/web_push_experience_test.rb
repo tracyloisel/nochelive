@@ -36,19 +36,19 @@ class WebPushExperienceTest < ApplicationSystemTestCase
       assert_settings_layout
       page.save_screenshot(SHOT_DIR.join("settings-default-390x844.png"))
 
-      page.current_window.resize_to(768, 1024)
+      set_system_viewport(768, 1024)
       scroll_to(find(".push-settings"))
       assert_selector ".push-category-list > .push-category-card", count: 3
       assert_settings_layout
       page.save_screenshot(SHOT_DIR.join("settings-default-768x1024.png"))
 
-      page.current_window.resize_to(1440, 900)
+      set_system_viewport(1440, 900)
       scroll_to(find(".push-settings"))
       assert_selector ".push-category-list > .push-category-card", count: 3
       assert_settings_layout
       page.save_screenshot(SHOT_DIR.join("settings-default-1440x900.png"))
 
-      page.current_window.resize_to(390, 844)
+      set_system_viewport(390, 844)
       scroll_to(find(".push-settings"))
 
       find("button[data-category=nights][aria-checked=false]").click
@@ -96,21 +96,86 @@ class WebPushExperienceTest < ApplicationSystemTestCase
     with_web_push_enabled do
       install_push_stubs
       emulate_reduced_motion
-      person = create_push_profile("Epilogo Push")
+      person = create_push_profile("Tracy")
       person.update!(ward: wards(:demo))
+      page.driver.browser.manage.add_cookie(name: Locale::COOKIE, value: "fr")
 
-      visit street_challenges_path
+      I18n.with_locale(:fr) do
+        send_first_named_challenge
 
-      assert_selector ".push-invitation.is-challenges", visible: true
-      assert_selector ".push-invitation .btn-gold", count: 1
-      assert_equal "none", find(".push-invitation").style("animation-name").fetch("animation-name")
-      scroll_to(find(".push-invitation"))
-      page.save_screenshot(SHOT_DIR.join("challenge-invitation-reduced-motion-390x844.png"))
+        assert_selector ".push-invitation.is-challenges", visible: true
+        assert_selector ".push-invitation .btn-gold", count: 1
+        assert_equal "none", find(".push-invitation").style("animation-name").fetch("animation-name")
+        scroll_to(find(".push-invitation"))
+        assert_challenge_prompt_layout
+        page.save_screenshot(SHOT_DIR.join("challenge-invitation-reduced-motion-390x844.png"))
 
-      click_button I18n.t("notifications.prompt.not_now")
-      assert_no_selector ".push-invitation", visible: true
+        set_system_viewport(768, 1024)
+        scroll_to(find(".push-invitation"))
+        assert_challenge_prompt_layout
+        page.save_screenshot(SHOT_DIR.join("challenge-invitation-reduced-motion-768x1024.png"))
+
+        set_system_viewport(1440, 900)
+        scroll_to(find(".push-invitation"))
+        assert_challenge_prompt_layout
+        page.save_screenshot(SHOT_DIR.join("challenge-invitation-reduced-motion-1440x900.png"))
+
+        set_system_viewport(390, 844)
+        scroll_to(find(".push-invitation"))
+
+        click_button I18n.t("notifications.prompt.not_now")
+        assert_no_selector ".push-invitation", visible: true
+      end
       state = person.person_devices.last.notification_prompt_states.find_by!(category: "challenges")
       assert_in_delta 30.days.from_now.to_i, state.snoozed_until.to_i, 5
+    end
+  end
+
+  test "a challenge invitation disappears after this device activates alerts" do
+    with_web_push_enabled do
+      install_push_stubs
+      person = create_push_profile("Défi Push")
+      person.update!(ward: wards(:demo))
+
+      send_first_named_challenge
+
+      assert_selector ".banner", visible: true
+      sleep 0.85
+      [ [ 390, 844 ], [ 768, 1024 ], [ 1440, 900 ] ].each do |width, height|
+        set_system_viewport(width, height)
+        assert_banner_layout
+        page.save_screenshot(SHOT_DIR.join("banner-celestial-dark-#{width}x#{height}.png"))
+      end
+      set_system_viewport(390, 844)
+
+      assert_selector ".push-invitation.is-challenges + #inviter.is-friends", visible: true
+      find(".push-invitation.is-challenges .push-primary").click
+
+      assert_selector ".push-invitation.is-challenges.is-complete", visible: true
+      page.save_screenshot(SHOT_DIR.join("challenge-invitation-activated-390x844.png"))
+      assert_no_selector ".push-invitation.is-challenges", visible: true
+      assert person.notification_preference.reload.challenges_enabled?
+      assert_equal 1, person.web_push_subscriptions.active.count
+
+      visit street_challenges_path
+      assert_no_selector ".push-invitation.is-challenges", visible: true
+    end
+  end
+
+  test "the glass confirmation stays luminous and clear on the Celestial Light profile" do
+    person = create_push_profile("Luz Fluor")
+    visit street_profile_path(edit: 1)
+    fill_in I18n.t("street.edit_name"), with: person.given_name
+    click_button I18n.t("street.save_profile")
+
+    assert_selector "body.is-paper-hall"
+    assert_selector ".banner", text: I18n.t("flashes.profile_updated"), visible: true
+    sleep 0.85
+
+    [ [ 390, 844 ], [ 768, 1024 ], [ 1440, 900 ] ].each do |width, height|
+      set_system_viewport(width, height)
+      assert_banner_layout
+      page.save_screenshot(SHOT_DIR.join("banner-celestial-light-#{width}x#{height}.png"))
     end
   end
 
@@ -133,17 +198,17 @@ class WebPushExperienceTest < ApplicationSystemTestCase
       assert_no_selector ".push-invitation.is-verses", visible: true
       page.save_screenshot(SHOT_DIR.join("night-invitation-390x844.png"))
 
-      page.driver.browser.manage.window.resize_to(768, 1024)
+      set_system_viewport(768, 1024)
       scroll_to(find(".push-invitation.is-nights"))
       assert_selector ".push-invitation.is-nights .push-primary", visible: true
       page.save_screenshot(SHOT_DIR.join("night-invitation-768x1024.png"))
 
-      page.driver.browser.manage.window.resize_to(1440, 900)
+      set_system_viewport(1440, 900)
       scroll_to(find(".push-invitation.is-nights"))
       assert_selector ".push-invitation.is-nights .push-primary", visible: true
       page.save_screenshot(SHOT_DIR.join("night-invitation-1440x900.png"))
 
-      page.driver.browser.manage.window.resize_to(390, 844)
+      set_system_viewport(390, 844)
       scroll_to(find(".push-invitation.is-nights"))
 
       click_button I18n.t("notifications.prompt.nights_cta", name: person.given_name)
@@ -163,7 +228,7 @@ class WebPushExperienceTest < ApplicationSystemTestCase
       person = create_push_profile("iPhone Flow")
       person.update!(ward: wards(:demo))
 
-      visit street_challenges_path
+      send_first_named_challenge
 
       assert_selector ".push-invitation.is-install-required", visible: true
       assert_selector ".push-install", visible: true
@@ -202,6 +267,15 @@ class WebPushExperienceTest < ApplicationSystemTestCase
   end
 
   private
+
+    def send_first_named_challenge
+      visit street_challenges_path
+      assert_no_selector ".push-invitation.is-challenges", visible: true
+      form = find(".duel-campus-friends form.duel-campus-friend-form", match: :first)
+      scroll_to(form)
+      form.find("button[type=submit]").click
+      assert_current_path street_challenges_path
+    end
 
     def create_push_profile(name)
       visit street_profile_path
@@ -290,6 +364,111 @@ class WebPushExperienceTest < ApplicationSystemTestCase
       assert metrics.fetch("controlsContained"), "a notification switch escapes its category"
       assert metrics.fetch("controlsReachable"), "notification switches must retain a 44px target"
       assert metrics.fetch("controlsCompact"), "notification switches must not grow into multiline CTAs"
+    end
+
+    def assert_challenge_prompt_layout
+      metrics = page.evaluate_script(<<~JS)
+        (() => {
+          const root = document.documentElement;
+          const card = document.querySelector(".push-invitation.is-challenges");
+          const title = card.querySelector("h2");
+          const mark = card.querySelector(".push-invitation-mark");
+          const copy = card.querySelector(".push-invitation-copy");
+          const primary = card.querySelector(".push-primary:not([hidden])");
+          const quiet = card.querySelector(".quiet-link");
+          const status = card.querySelector(".push-device-state");
+          const feedback = card.querySelector(".push-feedback");
+          const cardRect = card.getBoundingClientRect();
+          const contained = (element) => {
+            const rect = element.getBoundingClientRect();
+            return rect.left >= cardRect.left - 1 && rect.right <= cardRect.right + 1;
+          };
+          return {
+            noHorizontalOverflow: root.scrollWidth <= window.innerWidth,
+            cardWidth: Math.round(cardRect.width),
+            parentWidth: Math.round(card.parentElement.getBoundingClientRect().width),
+            parentClass: card.parentElement.className,
+            gridColumn: getComputedStyle(card).gridColumn,
+            alignItems: getComputedStyle(card).alignItems,
+            gridTemplateColumns: getComputedStyle(card).gridTemplateColumns,
+            gridTemplateRows: getComputedStyle(card).gridTemplateRows,
+            children: [...card.children].map((child) => ({
+              className: child.className,
+              display: getComputedStyle(child).display,
+              position: getComputedStyle(child).position,
+              gridColumn: getComputedStyle(child).gridColumn,
+              gridRow: getComputedStyle(child).gridRow,
+              height: Math.round(child.getBoundingClientRect().height)
+            })),
+            computedHeight: getComputedStyle(card).height,
+            computedMinHeight: getComputedStyle(card).minHeight,
+            cardTop: Math.round(cardRect.top),
+            cardHeight: Math.round(cardRect.height),
+            markTop: Math.round(mark.getBoundingClientRect().top),
+            copyTop: Math.round(copy.getBoundingClientRect().top),
+            titleContained: contained(title),
+            primaryContained: contained(primary),
+            statusContained: contained(status),
+            feedbackHidden: getComputedStyle(feedback).display === "none",
+            compact: cardRect.height <= (window.innerWidth < 760 ? 520 : 360),
+            primaryReachable: primary.getBoundingClientRect().height >= 44,
+            quietReachable: quiet.getBoundingClientRect().height >= 44,
+            titleVisible: title.scrollHeight <= title.clientHeight + 4
+          };
+        })()
+      JS
+
+      assert metrics.fetch("noHorizontalOverflow"), "challenge notification overflows horizontally"
+      assert metrics.fetch("titleContained"), "challenge notification title escapes its panel"
+      assert metrics.fetch("primaryContained"), "challenge notification CTA escapes its panel: #{metrics.inspect}"
+      assert metrics.fetch("statusContained"), "challenge notification status escapes its panel"
+      assert metrics.fetch("feedbackHidden"), "empty challenge notification feedback must not reserve space"
+      assert metrics.fetch("compact"), "challenge notification panel leaves too much empty space: #{metrics.inspect}"
+      assert metrics.fetch("primaryReachable"), "challenge notification CTA must retain a 44px target"
+      assert metrics.fetch("quietReachable"), "challenge notification dismissal must retain a 44px target"
+      assert metrics.fetch("titleVisible"), "challenge notification title is clipped: #{metrics.inspect}"
+    end
+
+    def assert_banner_layout
+      metrics = page.evaluate_script(<<~JS)
+        (() => {
+          const banner = document.querySelector(".banner");
+          const menu = document.querySelector(".home-menu-btn");
+          const rect = banner.getBoundingClientRect();
+          const menuRect = menu?.getBoundingClientRect();
+          const style = getComputedStyle(banner);
+          const transform = new DOMMatrixReadOnly(style.transform === "none" ? undefined : style.transform);
+          const copy = banner.querySelector(".banner-copy");
+          const copyRect = copy.getBoundingClientRect();
+          const textRange = document.createRange();
+          textRange.selectNodeContents(copy);
+          const textRect = textRange.getBoundingClientRect();
+          return {
+            noHorizontalOverflow: document.documentElement.scrollWidth <= window.innerWidth,
+            clearOfChrome: !menuRect || rect.top >= menuRect.bottom + 16,
+            width: Math.round(rect.width),
+            height: Math.round(rect.height),
+            animationName: style.animationName,
+            backdropFilter: style.backdropFilter || style.webkitBackdropFilter,
+            borderColor: style.borderColor,
+            verticalOffset: transform.m42,
+            textVisible: textRect.top >= copyRect.top - 2 &&
+              textRect.right <= copyRect.right + 2 &&
+              textRect.bottom <= copyRect.bottom + 2 &&
+              textRect.left >= copyRect.left - 2
+          };
+        })()
+      JS
+
+      assert metrics.fetch("noHorizontalOverflow"), "notification banner overflows horizontally"
+      assert metrics.fetch("clearOfChrome"), "notification banner overlaps the page chrome: #{metrics.inspect}"
+      assert_operator metrics.fetch("width"), :<=, 480
+      assert_operator metrics.fetch("height"), :>=, 44
+      assert_includes metrics.fetch("animationName"), "banner-bloom"
+      assert_in_delta 0, metrics.fetch("verticalOffset"), 0.1, "notification banner must not move the screen vertically"
+      assert_includes metrics.fetch("backdropFilter"), "blur(36px)"
+      refute_equal "rgba(0, 0, 0, 0)", metrics.fetch("borderColor")
+      assert metrics.fetch("textVisible"), "notification banner text is clipped"
     end
 
     def create_final_study_run(person)

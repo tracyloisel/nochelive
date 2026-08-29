@@ -1,10 +1,17 @@
+<% light_theme = local_assigns[:theme].to_s == "light" %>
 <button type="button"
-        class="hub-panel hub-install pwa-install-action"
+        class="hub-panel hub-install hub-light-tile--install pwa-install-action"
         data-pwa-install-target="action tile"
         data-action="pwa-install#install"
         aria-label="<%= t("pwa.install") %>"
         aria-describedby="hub_install_hint"
         hidden>
+  <% if light_theme %>
+    <span class="hub-install-art" aria-hidden="true">
+      <%= noche_media_picture("media/hub/light/install-portal-v2.png", alt: "", loading: "lazy") %>
+    </span>
+    <span class="hub-install-art-scrim" aria-hidden="true"></span>
+  <% end %>
   <span class="hub-install-emblem" aria-hidden="true">
     <img src="/apple-touch-icon.png" width="72" height="72" alt="">
   </span>

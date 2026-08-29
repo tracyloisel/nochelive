@@ -39,8 +39,12 @@ Rails.application.routes.draw do
   get "desafio/:token", to: "street_challenges#show", as: :street_challenge
   post "desafio/:token", to: "street_challenges#accept", as: :street_challenge_accept
   post "desafio/:token/decline", to: "street_challenges#decline", as: :street_challenge_decline
+  post "desafio/:token/received", to: "street_challenges#received", as: :street_challenge_received
+  post "desafio/:token/opened", to: "street_challenges#opened", as: :street_challenge_opened
   get "desafios", to: "street_challenges#index", as: :street_challenges
   post "desafios", to: "street_challenges#create"
+  get "desafios/:id", to: "street_challenges#duel", as: :street_duel, constraints: { id: /\d+/ }
+  post "desafios/:id/revanche", to: "street_challenges#rematch", as: :street_duel_rematch, constraints: { id: /\d+/ }
   post "viral-events", to: "viral_events#create", as: :viral_events
   post "quiz/:quiz_run_id/answers", to: "quiz_answers#create", as: :quiz_answers
   post "quiz/:quiz_run_id/advance", to: "quiz_advances#create", as: :quiz_advance
@@ -64,6 +68,7 @@ Rails.application.routes.draw do
     resource :preferences, only: [ :update ]
     resource :prompt_state, only: [ :update ]
     post "deliveries/:id/open", to: "deliveries#open", as: :delivery_open
+    post "receipts/:token", to: "receipts#create", as: :receipt
   end
   post "join", to: "joins#create"
   patch "locale", to: "locales#update"

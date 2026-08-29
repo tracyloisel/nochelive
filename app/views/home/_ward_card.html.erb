@@ -5,7 +5,7 @@
   <button type="submit" class="ward-hit" aria-label="<%= ward.name %>">
     <% if poster %>
       <div class="night-still">
-        <img class="night-poster" src="<%= poster %>" alt="">
+        <%= noche_media_picture(poster, alt: "", class_name: "night-poster", loading: "lazy") %>
       </div>
     <% end %>
     <div class="night-copy">

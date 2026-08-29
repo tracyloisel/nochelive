@@ -1,9 +1,38 @@
 <% content_for :title, t("street.world_play") %>
 <% content_for :body_class, "is-kid is-street-play" %>
-<% page_hud { site_menu } %>
+<% surface_stylesheet("duel_campus") if @street.done? || @duel_campus.active.any? %>
+<% declare_frontend_resources(
+     context: @street.asking? ? "street.quiz.ask" : "street.quiz.result",
+     styles: %w[shell gameplay street_play],
+     controllers: %w[loading press quiz countdown] + (@street.done? ? %w[street-motion] : []),
+     media: { lcp: street_still_src(@street.question), next: street_next_still(@street) },
+     audio: {
+       unlock: true,
+       cues: %w[celestial_breath round_start correct_gold fire_whoosh street_wrong_soft street_royal_fanfare chest],
+       bed: (@street.done? ? nil : "timer_tension")
+     },
+     motion: @street.done? ? %w[ceremony-enter] : [],
+     prefetch: { nextScreen: true, maxBytes: 180_000 },
+     classes: {
+       "style.shell" => "critical",
+       "style.street_play" => "critical",
+       "media.lcp" => "critical",
+       "media.next" => "predictive",
+       "controller.quiz" => "contextual",
+       "audio.street" => "interaction",
+       "motion.street" => "contextual"
+     }
+   ) %>
+<% menu_chrome = if @street.done?
+     Quizzes::Chrome.ceremony(outcomes: @duel_campus&.impacts&.map(&:outcome))
+   else
+     Quizzes::Chrome.call(question: @street.question)
+   end %>
+<% page_hud(theme: "celestial-#{menu_chrome.mode}") { site_menu } %>
 
 <%= render "home/street",
       street: @street,
       standings: @standings,
       play_context: :jugar,
-      duel: @duel %>
+      duel_campus: @duel_campus,
+      chrome: menu_chrome %>

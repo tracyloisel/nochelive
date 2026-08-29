@@ -1,0 +1,39 @@
+<% rows = Array(local_assigns.fetch(:rows)) %>
+<% ordered = rows.sort_by { |row| { 2 => 0, 1 => 1, 3 => 2 }.fetch(row.rank, row.rank + 3) } %>
+<ol class="liga-court-podium<%= " is-sparse" if ordered.size < 3 %>" aria-label="<%= t("street.leaderboard_podium") %>">
+  <% ordered.each do |row| %>
+    <% src = avatar_mark(row.person) %>
+    <li class="liga-court-podium-place is-place-<%= row.rank %><%= " is-you" if row.you %>"
+        data-liga-person-id="<%= row.person.id %>"
+        data-liga-rank="<%= row.rank %>"
+        data-liga-score="<%= row.score %>">
+      <button type="button"
+              class="liga-court-podium-button"
+              <%= "disabled" if row.you %>
+              data-action="liga-board#openInvitation"
+              data-person-id="<%= row.person.id %>"
+              data-person-name="<%= row.person.display_name %>"
+              data-person-score="<%= liga_number(row.score) %>"
+              data-person-rank="<%= liga_number(row.rank) %>"
+              data-person-avatar="<%= src %>"
+              data-person-pack="<%= row.open_run&.pack&.copy(:title) %>"
+              data-person-pack-progress="<%= t("street.leaderboard_pack_progress", position: row.open_run.position, total: QuizDefinition::QUESTIONS_PER_PACK) if row.open_run %>"
+              aria-label="<%= row.you ? t("street.leaderboard_you_short") : t("street.leaderboard_challenge_player", name: row.person.display_name) %>">
+        <span class="liga-court-podium-crown" aria-hidden="true"><%= picto("crown") %></span>
+        <span class="liga-court-podium-portrait">
+          <% if src %>
+            <img src="<%= src %>" alt="" class="avatar-img" width="104" height="104">
+          <% else %>
+            <span class="avatar-fallback" aria-hidden="true"><%= row.person.given_name.to_s.first %></span>
+          <% end %>
+          <%= street_live_dot(row.live) %>
+        </span>
+        <span class="liga-court-podium-plinth">
+          <b><%= row.rank %></b>
+          <strong><%= row.person.given_name %></strong>
+          <span><%= picto("crown") %><%= liga_number(row.score) %></span>
+        </span>
+      </button>
+    </li>
+  <% end %>
+</ol>

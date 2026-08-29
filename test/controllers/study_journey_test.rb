@@ -38,7 +38,7 @@ class StudyJourneyTest < ActionDispatch::IntegrationTest
     assert_select ".navigation-dock .navigation-dock__item.is-active[href='#{study_program_path}']"
     assert_select ".study-appendix-row", count: 4
 
-    css = Rails.root.join("app/assets/stylesheets/application.css").read
+    css = frontend_css("study")
     assert_match(/\.study-world > \*/, css)
     refute_match(/\.study-world > :not\(\.navigation-dock\)/, css)
 
@@ -129,10 +129,10 @@ class StudyJourneyTest < ActionDispatch::IntegrationTest
     assert_select ".study-now", count: 0
     assert_select ".study-scripture-seal", count: 4
     assert_select ".study-scripture-book img", count: 4
-    assert_select ".study-scripture-book img[src='/media/study/scripture-covers/old-testament-v1.png']"
-    assert_select ".study-scripture-book img[src='/media/study/scripture-covers/new-testament-v1.png']"
-    assert_select ".study-scripture-book img[src='/media/study/scripture-covers/book-of-mormon-v1.png']"
-    assert_select ".study-scripture-book img[src='/media/study/scripture-covers/doctrine-covenants-v1.png']"
+    assert_select ".study-scripture-book img[src=?]", generated_media_src("media/study/scripture-covers/old-testament-v1.png")
+    assert_select ".study-scripture-book img[src=?]", generated_media_src("media/study/scripture-covers/new-testament-v1.png")
+    assert_select ".study-scripture-book img[src=?]", generated_media_src("media/study/scripture-covers/book-of-mormon-v1.png")
+    assert_select ".study-scripture-book img[src=?]", generated_media_src("media/study/scripture-covers/doctrine-covenants-v1.png")
     assert_select ".study-scripture-seal", text: /#{Regexp.escape(I18n.t("study.collections.old_testament"))}/ do
       assert_select "strong", text: "3"
     end
@@ -204,7 +204,7 @@ class StudyJourneyTest < ActionDispatch::IntegrationTest
     assert_select "#study_unit .study-unit-sheet"
     assert_select ".study-path-nav a[href='#{study_history_path}']", text: I18n.t("study.my_journey")
 
-    css = Rails.root.join("app/assets/stylesheets/application.css").read
+    css = frontend_css("study")
     fullscreen_shell = css[/body\.is-study-unit \.shell \{[^}]+\}/m]
     assert fullscreen_shell, "expected the study unit shell to own the full viewport"
     assert_match(/width: 100%/, fullscreen_shell)
@@ -438,7 +438,7 @@ class StudyJourneyTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     assert_select "body.is-study-community main.shell #study_community.study-community-world"
-    assert_select "#study_community[style*='community-scripture-gathering-v1.png']"
+    assert_select "#study_community[style*=?]", generated_media_src("media/study/community-scripture-gathering-v1.png", format: "webp")
     assert_select ".study-community-week", text: /#{Regexp.escape(@unit.display_scripture_refs.first)}/
     assert_select ".study-community-ward-link[href='#{ward_profile_path(wards(:demo).code)}']"
     assert_select ".study-community-invite", text: /#{Regexp.escape(I18n.t("study.community_finished_total", count: 1))}/
@@ -452,7 +452,7 @@ class StudyJourneyTest < ActionDispatch::IntegrationTest
     assert_select ".study-community-actions + .study-community-invite"
     assert_select "#study-community-readers", text: I18n.t("study.community_finished_total", count: 1)
 
-    css = Rails.root.join("app/assets/stylesheets/application.css").read
+    css = frontend_css("study")
     assert_match(/body\.is-study-community \.shell \{[^}]*width: 100%;[^}]*max-width: none/m, css)
     assert_match(/\.home-menu\.is-hud \{[^}]*position: fixed;[^}]*left: env\(safe-area-inset-left\);[^}]*right: env\(safe-area-inset-right\);[^}]*width: auto;[^}]*max-width: none;/m, css)
   end

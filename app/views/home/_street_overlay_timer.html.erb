@@ -1,0 +1,5 @@
+<div id="street_quiz_timer" class="<%= street.asking? && question.timed? ? "quiz-timer-slot" : "is-empty" %>">
+  <% if street.asking? && question.timed? %>
+    <%= render "play/timer", round: run, expire_url: quiz_expire_path(run) %>
+  <% end %>
+</div>

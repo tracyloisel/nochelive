@@ -1,0 +1,45 @@
+<% race = campus.race %>
+<div id="duel_quiz_race" class="duel-quiz-race-slot">
+  <% if race %>
+    <% friend = race.item.other %>
+    <% kicker = if race.official
+      "official"
+    elsif race.event
+      "event"
+    elsif race.provisional
+      "provisional"
+    elsif race.kind == :rematch_ready
+      "rematch"
+    else
+      "kicker"
+    end %>
+    <% rail_label = race.official ? t("duel_campus.rail.official") : t("duel_campus.rail.label", count: campus.counts.active) %>
+    <aside class="duel-quiz-rail is-<%= race.kind %> is-race-expanded is-race-pending<%= " is-rematch" if race.item.rematch %>"
+           aria-label="<%= rail_label %>"
+           aria-live="<%= race.event ? "polite" : "off" %>"
+           aria-atomic="true"
+           data-controller="duel-race"
+           data-duel-race-event-value="<%= race.event ? race.kind : "idle" %>"
+           data-duel-race-run-value="<%= local_assigns[:run]&.id %>"
+           data-duel-race-race-value="<%= race.item.duel.id %>"
+           data-duel-race-signature-value="<%= [race.kind, race.mine, race.theirs].join(":") %>">
+      <%= link_to(race.official ? street_duel_path(race.item.duel) : street_challenges_path, class: "duel-quiz-rail-main") do %>
+        <span class="duel-quiz-rail-face" aria-hidden="true">
+          <% if (src = avatar_mark(friend)) %><img src="<%= src %>" alt=""><% else %><%= friend.given_name.to_s.first %><% end %>
+          <% if race.item.rival_live %><i></i><% end %>
+        </span>
+        <span class="duel-quiz-rail-copy">
+          <small><%= t("duel_campus.rail.#{kicker}") %></small>
+          <strong><%= t("duel_campus.rail.race.#{race.kind}", name: friend.given_name, crowns: race.crowns_needed, score: race.theirs, mine: race.mine, theirs: race.theirs) %></strong>
+          <% unless race.mine.nil? && race.theirs.nil? %>
+            <span class="duel-quiz-rail-score" aria-label="<%= t("duel_campus.rail.score_label", mine: race.mine || "–", theirs: race.theirs || "–", name: friend.given_name) %>">
+              <b><%= race.mine || "–" %></b><i>·</i><b><%= race.theirs || "–" %></b>
+              <em><%= t("duel_campus.rail.score_short") %></em>
+            </span>
+          <% end %>
+        </span>
+        <span class="duel-quiz-rail-count" aria-label="<%= rail_label %>"><%= race.official ? "✓" : campus.counts.active %></span>
+      <% end %>
+    </aside>
+  <% end %>
+</div>

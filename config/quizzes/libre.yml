@@ -1,7 +1,7 @@
 packs:
   - id: coronas
-    title: "Reyes"
-    kicker: "Quiz real"
+    title: "David, Saúl y Salomón"
+    kicker: "Reyes de Israel"
     lede: "David, Saúl y Salomón: quién fue ungido, quién oró, quién cayó."
     questions:
       - id: ungio_david
@@ -195,6 +195,8 @@ packs:
             label: "Le cantó"
           - key: ignoro
             label: "Pasó de largo"
+          - key: oro
+            label: "Oró junto a ella"
         correct_choice: golpeo
         answer: "Golpeó la roca dos veces. Por eso no entró en la tierra."
         points: 25
@@ -207,8 +209,8 @@ packs:
         presentation:
           image: quizzes/coronas/moises_roca.jpg
   - id: placas
-    title: "Placas"
-    kicker: "Quiz de placas"
+    title: "Historias del Libro de Mormón"
+    kicker: "Lehi, Nefi y Moroni"
     lede: "Lehi, Nefi y Abinadí: las placas, el barco y la torre."
     questions:
       - id: lehi_jerusalen
@@ -400,6 +402,8 @@ packs:
             label: "A Moroni"
           - key: noe
             label: "A Noé"
+          - key: moises
+            label: "A Moisés"
         correct_choice: senor
         answer: "El Señor se le mostró. El velo fue quitado de sus ojos."
         points: 25
@@ -412,8 +416,8 @@ packs:
         presentation:
           image: quizzes/placas/jared_senor.jpg
   - id: hermanas
-    title: "Hermanas"
-    kicker: "Quiz de hermanas"
+    title: "Mujeres de la Biblia"
+    kicker: "Rut, Ester y Débora"
     lede: "Rut, Ester, Ana y Débora: mujeres que se quedaron, hablaron y salvaron."
     questions:
       - id: rut_noemi
@@ -605,6 +609,8 @@ packs:
             label: "La cocina"
           - key: corona
             label: "Una corona"
+          - key: asiento
+            label: "El mejor asiento"
         correct_choice: parte
         answer: "María se sentó a oír. Eso no le sería quitado."
         points: 25
@@ -617,8 +623,8 @@ packs:
         presentation:
           image: quizzes/hermanas/marta_parte.jpg
   - id: abish
-    title: "Abish"
-    kicker: "Quiz de Abish"
+    title: "Mujeres del Libro de Mormón"
+    kicker: "Abish, Sariah y las madres fieles"
     lede: "Abish, Sariah y las madres de los dos mil: fe que no dudó."
     questions:
       - id: saria_lehi
@@ -810,6 +816,8 @@ packs:
             label: "Al oír a Benjamín"
           - key: placas
             label: "Al leer las planchas"
+          - key: lamoni
+            label: "Al oír al rey Lamoni"
         correct_choice: vision
         answer: "El Señor la había preparado. Por la visión de su padre, ella creía."
         points: 25
@@ -822,8 +830,8 @@ packs:
         presentation:
           image: quizzes/abish/abish_vision.jpg
   - id: profetas
-    title: "Profetas"
-    kicker: "Quiz de profetas"
+    title: "Jonás, Elías y Daniel"
+    kicker: "Profetas en acción"
     lede: "Jonás, Elías y Daniel: tres días, cuervos y ventanas hacia Jerusalén."
     questions:
       - id: jonas_tres
@@ -1015,6 +1023,8 @@ packs:
             label: "Una barca en el Jordán"
           - key: nube
             label: "Solo una nube gris"
+          - key: ejercito
+            label: "Un ejército a caballo"
         correct_choice: carros
         answer: "Un carro de fuego y caballos de fuego. Elías subió en un torbellino."
         points: 25
@@ -1027,8 +1037,8 @@ packs:
         presentation:
           image: quizzes/profetas/eliseo_carros.jpg
   - id: jehova
-    title: "Jehová"
-    kicker: "Quiz de Jehová"
+    title: "El Señor salva"
+    kicker: "El Dios de Israel"
     lede: "El nombre del Señor, el mar que se abre y el único Salvador."
     questions:
       - id: zarza_yo_soy
@@ -1220,6 +1230,8 @@ packs:
             label: "Alma el joven"
           - key: samuel
             label: "Samuel el lamanita"
+          - key: nefi
+            label: "Nefi, hijo de Lehi"
         correct_choice: jesus
         answer: "Jesucristo, el Hijo de Dios. Yo creé los cielos y la tierra."
         points: 25
@@ -1232,8 +1244,8 @@ packs:
         presentation:
           image: quizzes/jehova/nube_nombre.jpg
   - id: nazareno
-    title: "En la tierra"
-    kicker: "Quiz en la tierra"
+    title: "Jesús entre nosotros"
+    kicker: "La vida del Salvador"
     lede: "Belén, el bautismo y los milagros: Jesús entre nosotros."
     questions:
       - id: nacio_belen
@@ -1425,6 +1437,8 @@ packs:
             label: "Desde lejos, en grupo"
           - key: angeles
             label: "Solo los ángeles los tocaron"
+          - key: agua
+            label: "Rociándolos con agua"
         correct_choice: uno
         answer: "Uno a uno. Los tomó en sus brazos y los bendijo."
         points: 25
@@ -1437,8 +1451,8 @@ packs:
         presentation:
           image: quizzes/nazareno/ninos_uno.jpg
   - id: moises
-    title: "Moisés"
-    kicker: "Quiz de Moisés"
+    title: "Las visiones de Moisés"
+    kicker: "Creación y Edén"
     lede: "Cara a cara, el Edén y la creación: lo que Moisés vio."
     questions:
       - id: moises_cara
@@ -1630,6 +1644,8 @@ packs:
             label: "Se hundió en el mar"
           - key: desierto
             label: "Se quedó en el desierto"
+          - key: babilonia
+            label: "Fue conquistada por Babilonia"
         correct_choice: cielo
         answer: "Fue llevada al cielo. Dios la recibió en su seno."
         points: 25
@@ -1642,8 +1658,8 @@ packs:
         presentation:
           image: quizzes/moises/sion_cielo.jpg
   - id: abraham
-    title: "Abraham"
-    kicker: "Quiz de Abraham"
+    title: "La promesa de Dios a Abraham"
+    kicker: "Alianza y descendencia"
     lede: "Ur, el altar y la simiente: la promesa que no se rompe."
     questions:
       - id: salio_ur
@@ -1835,6 +1851,8 @@ packs:
             label: "Solo los montes"
           - key: rios
             label: "Solo los ríos"
+          - key: animales
+            label: "Los animales del campo"
         correct_choice: lumbreras
         answer: "Las lumbreras en la expansión del cielo: el sol, la luna y las estrellas."
         points: 25
@@ -1847,8 +1865,8 @@ packs:
         presentation:
           image: quizzes/abraham/lumbreras.jpg
   - id: kolob
-    title: "Kolob"
-    kicker: "Quiz de Kolob"
+    title: "Kolob y el tiempo de Dios"
+    kicker: "La visión de Abraham"
     lede: "El astro junto al trono: un día allí, mil años aquí."
     questions:
       - id: cerca_trono
@@ -2040,6 +2058,8 @@ packs:
             label: "Las dos son siempre iguales"
           - key: azar
             label: "No hay orden"
+          - key: sin_medida
+            label: "No pueden compararse"
         correct_choice: mayor
         answer: "Hay una mayor que ambas. El Señor es más inteligente que todas."
         points: 25
@@ -2052,8 +2072,8 @@ packs:
         presentation:
           image: quizzes/kolob/hay_mayor.jpg
   - id: premortal
-    title: "Antes de nacer"
-    kicker: "Quiz de antes"
+    title: "La vida antes de nacer"
+    kicker: "El plan de Dios"
     lede: "Antes de nacer: inteligencias, y «¿A quién enviaré?»"
     questions:
       - id: eramos_inteligencias
@@ -2245,6 +2265,8 @@ packs:
             label: "Guardaron silencio"
           - key: huir
             label: "Huyeron de la luz"
+          - key: durmieron
+            label: "Se quedaron dormidos"
         correct_choice: gozo
         answer: "Gritaron de gozo. Las estrellas de la mañana cantaban."
         points: 25
@@ -2257,8 +2279,8 @@ packs:
         presentation:
           image: quizzes/premortal/gritaron_gozo.jpg
   - id: exaltacion
-    title: "Exaltación"
-    kicker: "Quiz de exaltación"
+    title: "El plan de Dios para la eternidad"
+    kicker: "Vida eterna y sellamiento"
     lede: "La obra de Dios: vida eterna, grados y el sello."
     questions:
       - id: obra_gloria
@@ -2450,6 +2472,8 @@ packs:
             label: "En la luna"
           - key: paraiso
             label: "Solo en un paraíso de espíritus, lejos"
+          - key: tierra
+            label: "En una ciudad de la tierra"
         correct_choice: presencia
         answer: "En la presencia de Dios y de su Cristo, por los siglos de los siglos."
         points: 25
@@ -2462,8 +2486,8 @@ packs:
         presentation:
           image: quizzes/exaltacion/presencia_padre.jpg
   - id: jose
-    title: "José"
-    kicker: "Quiz de José"
+    title: "Los comienzos de José Smith"
+    kicker: "La Primera Visión y las planchas"
     lede: "Sharon, la arboleda y las planchas: cómo empezó José."
     questions:
       - id: nacio_sharon
@@ -2655,6 +2679,8 @@ packs:
             label: "Solo los días de Moisés"
           - key: roma
             label: "Solo los días de Roma"
+          - key: futuro
+            label: "Solo las generaciones futuras"
         correct_choice: generacion
         answer: "Los hombres de esta generación. Vivió grande, y murió grande a los ojos de Dios."
         points: 25
@@ -2667,8 +2693,8 @@ packs:
         presentation:
           image: quizzes/jose/salvo_jesus.jpg
   - id: inicios
-    title: "Comienzos"
-    kicker: "Quiz de comienzos"
+    title: "Los comienzos de la Iglesia"
+    kicker: "Del 6 de abril a Sion"
     lede: "El 6 de abril, Kirtland y Sión: los comienzos de la Iglesia."
     questions:
       - id: seis_abril
@@ -2860,6 +2886,8 @@ packs:
             label: "Una más entre muchas iguales"
           - key: cerrada
             label: "Una iglesia ya cerrada"
+          - key: sin_profetas
+            label: "Una iglesia sin profetas"
         correct_choice: unica
         answer: "La única iglesia verdadera y viva sobre la faz de toda la tierra."
         points: 25
@@ -2872,8 +2900,8 @@ packs:
         presentation:
           image: quizzes/inicios/iglesia_verdadera.jpg
   - id: pruebas_profetas
-    title: "Pruebas"
-    kicker: "Quiz de pruebas"
+    title: "Profetas a prueba"
+    kicker: "Jeremías, Elías y Abinadí"
     lede: "Jeremías, Elías, Abinadí: cuando la palabra cuesta."
     questions:
       - id: jeremias_cisterna
@@ -3065,6 +3093,8 @@ packs:
             label: "Cuando os den oro"
           - key: trono
             label: "Cuando os sienten en un trono"
+          - key: aplauso
+            label: "Cuando todos os aplaudan"
         correct_choice: vituperio
         answer: "Cuando por mi causa os vituperen y os persigan. El galardón es grande en los cielos."
         points: 25
@@ -3077,8 +3107,8 @@ packs:
         presentation:
           image: quizzes/pruebas_profetas/bienaventurados_vituperio.jpg
   - id: pruebas_heroes
-    title: "Valientes"
-    kicker: "Quiz de valientes"
+    title: "Una fe a toda prueba"
+    kicker: "Job, José, Daniel y Ester"
     lede: "Job, José, Daniel y Ester: valientes que no maldijeron."
     questions:
       - id: job_no_maldijo
@@ -3270,6 +3300,8 @@ packs:
             label: "Lo olvidó para siempre"
           - key: venganza
             label: "Pidió venganza"
+          - key: secreto
+            label: "Lo mantuvo en secreto"
         correct_choice: bien
         answer: "Lo encaminó a bien, para preservar la vida de un pueblo."
         points: 25
@@ -3282,8 +3314,8 @@ packs:
         presentation:
           image: quizzes/pruebas_heroes/jose_bien.jpg
   - id: milagros
-    title: "Milagros"
-    kicker: "Quiz de milagros"
+    title: "Milagros del Antiguo Testamento"
+    kicker: "Mar, maná y sol"
     lede: "El mar, el maná, el sol de Josué: cuando el cielo toca la tierra."
     questions:
       - id: mar_abrio
@@ -3475,6 +3507,8 @@ packs:
             label: "Trigo"
           - key: arena
             label: "Arena"
+          - key: cedro
+            label: "Cedro"
         correct_choice: mostaza
         answer: "Mostaza. Diréis a este monte: pásate de aquí, y se pasará."
         points: 25
@@ -3487,8 +3521,8 @@ packs:
         presentation:
           image: quizzes/milagros/mostaza.jpg
   - id: apocalipsis
-    title: "Apocalipsis"
-    kicker: "El Cordero vence"
+    title: "La victoria del Cordero"
+    kicker: "El Apocalipsis"
     lede: "Sellos, dragón y Babilonia: la visión no termina en miedo, sino en victoria."
     questions:
       - id: libro_siete_sellos
@@ -3680,6 +3714,8 @@ packs:
             label: "Príncipe de Egipto"
           - key: escriba
             label: "Escriba de Jerusalén"
+          - key: profeta
+            label: "Profeta de Nazaret"
         correct_choice: rey_reyes
         answer: "REY DE REYES Y SEÑOR DE SEÑORES. El Cordero vence: ese es el final de la visión."
         points: 25
@@ -3692,8 +3728,8 @@ packs:
         presentation:
           image: quizzes/apocalipsis/rey_de_reyes.jpg
   - id: segunda_venida
-    title: "El regreso"
-    kicker: "Jesús volverá"
+    title: "El regreso de Jesucristo"
+    kicker: "Señales de esperanza"
     lede: "El Evangelio, la trompeta y las nubes: señales para velar con esperanza."
     questions:
       - id: mismo_modo
@@ -3885,6 +3921,8 @@ packs:
             label: "En un barco desde Galilea"
           - key: desierto
             label: "Solo en un lugar secreto del desierto"
+          - key: templo
+            label: "En secreto dentro de un templo"
         correct_choice: nubes_gloria
         answer: "Sobre las nubes del cielo, con poder y gran gloria. Su regreso no será un secreto."
         points: 25
@@ -3897,8 +3935,8 @@ packs:
         presentation:
           image: quizzes/segunda_venida/nubes_gloria.jpg
   - id: milenio
-    title: "Milenio"
-    kicker: "Mil años de paz"
+    title: "Mil años con Cristo"
+    kicker: "El Milenio"
     lede: "El lobo, el Cordero y una tierra renovada: así reinará Cristo."
     questions:
       - id: dragon_atado
@@ -4090,6 +4128,8 @@ packs:
             label: "Serán olvidadas"
           - key: destruidas
             label: "Serán destruidas sin conocerse"
+          - key: guardadas
+            label: "Seguirán guardadas para siempre"
         correct_choice: reveladas
         answer: "Serán reveladas. La luz vence al secreto, y Satanás ya no tendrá poder sobre los corazones."
         points: 25

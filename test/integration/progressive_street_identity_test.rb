@@ -32,14 +32,14 @@ class ProgressiveStreetIdentityTest < ActionDispatch::IntegrationTest
     assert_equal "Lina", Person.order(:id).last.given_name
   end
 
-  test "social hub tiles ask a player without a ward to choose one" do
+  test "the Campus stays discoverable while ward-scoped community features ask for a ward" do
     post street_profile_path, params: { name: "Lina", avatar_key: "delfin" }
     assert_redirected_to root_path
     follow_redirect!
 
-    assert_select ".hub-challenge.is-ward-required .hub-challenge-empty-hint", text: I18n.t("hub.challenge_pick_ward")
-    assert_select "a.hub-challenge.is-ward-required[href=?]", search_path(cambiar: 1)
-    assert_select ".hub-challenge.is-ward-required .hub-rail-go", text: I18n.t("hub.pick_ward_action")
+    assert_select "a.hub-duel-campus[href=?]", street_challenges_path do
+      assert_select ".hub-duel-campus-copy", text: /#{Regexp.escape(I18n.t("duel_campus.hub.title"))}/
+    end
     assert_select ".hub-online .hub-online-ward-required .hub-online-empty", text: I18n.t("hub.online_pick_ward")
     assert_select ".hub-online .hub-online-ward-required a[href=?]", search_path(cambiar: 1), text: I18n.t("hub.pick_ward_action")
     assert_select ".hub-online a[href=?]", street_leaderboard_path, count: 0
@@ -53,9 +53,11 @@ class ProgressiveStreetIdentityTest < ActionDispatch::IntegrationTest
     assert_select "#street_world.is-opening", count: 0
     assert_select "#street_world[data-controller~='hub-open']", count: 0
     assert_select ".hub-hero[data-controller~='hub-hero']", count: 0
-    assert_select "link[rel=preload][as=image]", count: 1
+    assert_select "link[rel=preload][as=image][media]", count: 2
+    assert_select "link[rel=preload][as=image][media='(max-width: 767px)']", count: 1
+    assert_select "link[rel=preload][as=image][media='(min-width: 768px)']", count: 1
 
-    css = Rails.root.join("app/assets/stylesheets/application.css").read
+    css = frontend_css("hub")
     hub_sky = css[/body\.is-street-hub\.is-game-hub-page \.sky \{[^}]+\}/m]
     assert hub_sky
     assert_match(/background:\s*none/, hub_sky)

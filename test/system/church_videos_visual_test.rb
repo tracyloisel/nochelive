@@ -5,7 +5,7 @@ class ChurchVideosVisualTest < ApplicationSystemTestCase
 
   setup do
     ChurchVideos::Catalog.forced_result = catalog
-    artwork = Rails.public_path.join("media/church/videos/celestial-video-sanctuary-v1.webp").binread
+    artwork = Rails.root.join("media/masters/media/church/videos/celestial-video-sanctuary-v1.webp").binread
     ChurchVideos::Thumbnail.forced_response = ChurchVideos::Thumbnail::Image.new(body: artwork, content_type: "image/webp")
   end
 
@@ -15,6 +15,7 @@ class ChurchVideosVisualTest < ApplicationSystemTestCase
   end
 
   test "video sanctuary reads on phone, consent gate, and desktop" do
+    set_system_viewport(390, 844)
     visit church_videos_path(locale: "es")
     assert_selector "html[lang=es]"
     assert_selector ".church-video-card", count: 8
@@ -51,25 +52,28 @@ class ChurchVideosVisualTest < ApplicationSystemTestCase
 
     find(".church-video-dialog-close").click
     assert_no_selector ".church-video-dialog[open]"
-    page.driver.browser.manage.window.resize_to(1000, 900)
+    set_system_viewport(1000, 900)
+    assert_selector ".church-video-grid"
     assert_equal 3, grid_column_count
-    page.driver.browser.manage.window.resize_to(1900, 1000)
+    set_system_viewport(1900, 1000)
+    assert_selector ".church-video-grid"
     assert_equal 5, grid_column_count
-    page.driver.browser.manage.window.resize_to(1280, 900)
+    set_system_viewport(1280, 900)
+    assert_selector ".church-video-grid"
     page.execute_script("window.scrollTo(0, 0)")
     assert_equal 4, grid_column_count
     shot("mockup-church-videos-desktop")
   end
 
   test "home keeps the official video door secondary and fully local" do
-    page.driver.browser.manage.window.resize_to(390, 844)
+    set_system_viewport(390, 844)
     visit root_path(locale: "fr")
     page.execute_script(<<~JS)
       document.querySelector("#profile_gate")?.remove()
       document.querySelector("#street_world")?.classList.remove("is-profile-gate")
     JS
     assert_selector ".hub-videos"
-    assert_selector ".hub-videos img[src='/media/church/videos/celestial-video-sanctuary-v1.webp']"
+    assert_selector ".hub-videos img[src*='/media/generated/catalog/church/videos/celestial-video-sanctuary-v1/']"
     assert_no_selector ".hub-videos iframe"
     scroll_to find(".hub-videos"), align: :center
     shot("mockup-hub-official-videos-tile")

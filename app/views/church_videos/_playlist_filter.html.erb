@@ -11,7 +11,7 @@
             loading: playlist.featured ? "eager" : "lazy",
             decoding: "async" %>
     <% else %>
-      <img src="<%= artwork %>" alt="" width="320" height="180" loading="<%= playlist.featured ? "eager" : "lazy" %>" decoding="async">
+      <%= noche_media_picture(artwork, alt: "", loading: (playlist.featured ? "eager" : "lazy")) %>
     <% end %>
     <% if playlist.featured %>
       <span class="church-video-playlist-featured"><%= picto("star") %><%= t("church_videos.featured_playlist") %></span>

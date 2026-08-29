@@ -1,5 +1,6 @@
 <% content_for :title, t("street.profile_title") %>
 <% content_for :body_class, "is-kid is-paper-hall is-street-profile" %>
+<% enable_frontend_audio %>
 <% page_hud(face: false, hud: false) { site_menu } %>
 
 <section id="street_quien" class="profile-world">
@@ -9,7 +10,14 @@
     <p class="profile-brand">Noche Live</p>
     <h1><%= @screen == :edit ? t("street.edit_profile_title") : (@screen == :device ? t("join.device_title") : t("street.quick_profile_title")) %></h1>
     <% if current_ward %>
-      <p class="profile-rama"><%= picto("church") %><%= current_ward.name %></p>
+      <div class="profile-rama-switcher">
+        <div class="profile-rama profile-rama-current"><%= picto("church") %><span><%= current_ward.name %></span></div>
+        <%= link_to search_path(cambiar: 1),
+              class: "btn btn-ghost profile-rama-change",
+              "aria-label": t("street.change_ward") do %>
+          <span><%= t("street.change_ward_short") %></span>
+        <% end %>
+      </div>
     <% end %>
   </header>
 

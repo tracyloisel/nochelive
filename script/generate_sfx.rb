@@ -239,10 +239,10 @@ def trim_mp3(src, dest, max_seconds:, loopable:, master: nil)
     ]
   else
     fade = format("%.3f", fade_out_seconds(max_seconds))
-    filter = "silenceremove=start_periods=1:start_threshold=-34dB:start_silence=0.02:stop_periods=1:stop_threshold=-34dB:stop_duration=0.12,areverse,afade=t=in:d=#{fade},areverse"
+    limit = format("%.3f", max_seconds)
+    filter = "silenceremove=start_periods=1:start_threshold=-34dB:start_silence=0.02:stop_periods=1:stop_threshold=-34dB:stop_duration=0.12,atrim=end=#{limit},asetpts=PTS-STARTPTS,areverse,afade=t=in:d=#{fade},areverse"
     cmd = [
       "ffmpeg", "-y", "-i", src,
-      "-t", format("%.2f", max_seconds),
       "-af", filter,
       "-c:a", "libmp3lame", "-q:a", "4",
       dest

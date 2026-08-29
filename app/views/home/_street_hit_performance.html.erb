@@ -1,0 +1,62 @@
+<% broke = !correct %>
+<% streak_count = broke ? 0 : combo.count.to_i %>
+<% active_poster = "/media/streak/living-fire-poster-v1.webp" %>
+<% dormant_poster = "/media/streak/living-fire-dormant-v1.webp" %>
+<% poster = broke ? dormant_poster : active_poster %>
+
+<div class="street-hit-performance<%= " is-break" if broke %>"
+     data-tier="<%= combo.tier %>"
+     data-streak-count="<%= streak_count %>">
+  <figure class="street-hit-media">
+    <img class="street-hit-poster"
+         src="<%= poster %>"
+         <% unless broke %>srcset="<%= active_poster %> 384w"<% end %>
+         width="384"
+         height="384"
+         alt="<%= t(broke ? "quiz.living_fire_dormant_alt" : "quiz.living_fire_alt", count: streak_count) %>"
+         decoding="async">
+    <video class="street-hit-video"
+           data-quiz-target="streakVideo"
+           poster="<%= poster %>"
+           preload="none"
+           muted
+           playsinline
+           <% unless broke %>loop<% end %>
+           aria-hidden="true">
+      <source src="<%= broke ? "/media/streak/living-fire-break-mobile-v1.webm" : "/media/streak/living-fire-loop-mobile-v1.webm" %>"
+              type="video/webm"
+              media="(max-width: 767px)">
+      <source src="<%= broke ? "/media/streak/living-fire-break-v1.webm" : "/media/streak/living-fire-loop-v1.webm" %>" type="video/webm">
+    </video>
+    <figcaption class="street-hit-value<%= " is-gain" if correct %>">
+      <% if correct %>
+        <strong>+<%= reward.points_awarded %></strong>
+      <% else %>
+        <span aria-hidden="true">×</span><strong><%= streak_count %></strong>
+      <% end %>
+    </figcaption>
+    <% if broke && reward.streak_before.to_i.positive? %>
+      <span class="street-hit-prior"><%= t("quiz.combo", count: reward.streak_before) %></span>
+    <% end %>
+  </figure>
+
+  <div class="street-hit-ledger">
+    <% if correct %>
+      <strong class="street-hit-points" data-quiz-target="gain"><%= t("quiz.points_gained", count: reward.points_awarded) %></strong>
+      <span class="street-hit-breakdown">
+        <%= if reward.streak_bonus.positive?
+          t("quiz.points_breakdown_with_bonus", base: reward.base_points, bonus: reward.streak_bonus)
+        else
+          t("quiz.points_breakdown_no_bonus", base: reward.base_points)
+        end %>
+      </span>
+      <span class="street-hit-next<%= " is-max" if reward.max_bonus_active? %>">
+        <%= reward.max_bonus_active? ? t("quiz.bonus_max_active", bonus: Quizzes::StreakReward::MAX_BONUS) : t("quiz.remaining_to_max", count: reward.remaining_to_max) %>
+      </span>
+    <% else %>
+      <strong class="street-hit-points is-banked"><%= t("quiz.points_banked", count: reward.total_after) %></strong>
+      <span class="street-hit-breakdown is-lost"><%= reward.bonus_lost.positive? ? t("quiz.bonus_lost", count: reward.bonus_lost) : t("quiz.no_bonus_lost") %></span>
+      <span class="street-hit-next"><%= t("quiz.streak_restart") %></span>
+    <% end %>
+  </div>
+</div>

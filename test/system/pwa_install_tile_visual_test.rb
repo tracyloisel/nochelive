@@ -4,7 +4,6 @@ class PwaInstallTileVisualTest < ApplicationSystemTestCase
   SHOT_DIR = Rails.root.join("tmp/street-shots/temple-themed")
 
   test "install tile belongs to both celestial hub families" do
-    page.current_window.resize_to(390, 844)
     catalog = Array(YAML.safe_load_file(Hubs::Backdrop::CATALOG)["backdrops"])
     worlds = {
       "celestial-light" => catalog.find { |row| row["id"] == "eden-lumiere" },
@@ -12,6 +11,7 @@ class PwaInstallTileVisualTest < ApplicationSystemTestCase
     }
 
     worlds.each do |theme, row|
+      set_system_viewport(390, 844)
       Hubs::Backdrop.entries = [ row ]
       visit root_path
       assert_selector "body.is-#{theme}"
@@ -20,27 +20,45 @@ class PwaInstallTileVisualTest < ApplicationSystemTestCase
       assert_selector ".hub-install", text: I18n.t("pwa.banner_title")
       assert_no_selector ".pwa-install-banner"
 
-      page.execute_script(<<~JS)
-        var feed = document.querySelector('.street-hub-feed');
-        var tile = document.querySelector('.hub-install');
-        feed.scrollTop = Math.max(0, tile.offsetTop - feed.clientHeight + tile.offsetHeight + 24);
-      JS
-
-      assert page.evaluate_script(<<~JS), "install tile must stay inside the phone viewport"
-        (function() {
-          var tile = document.querySelector('.hub-install').getBoundingClientRect();
-          var viewport = document.documentElement.clientWidth;
-          return tile.left >= -2 && tile.right <= viewport + 2 && tile.height >= 120;
-        })()
-      JS
-
       FileUtils.mkdir_p(SHOT_DIR)
-      page.save_screenshot(SHOT_DIR.join("hub-install-#{theme}.png"))
+      { 390 => 844, 768 => 1024, 1440 => 900 }.each do |width, height|
+        set_system_viewport(width, height)
+        page.execute_script("document.querySelector('.street-hub-feed').scrollTop = 0")
+        page.evaluate_async_script(<<~JS)
+          var done = arguments[0];
+          var images = Array.from(document.querySelectorAll('.hub-install img, .hub-hero img'));
+          Promise.all(images.map(function(image) {
+            if (image.decode) return image.decode().catch(function() {});
+            if (image.complete) return Promise.resolve();
+            return new Promise(function(resolve) {
+              image.addEventListener('load', resolve, { once: true });
+              image.addEventListener('error', resolve, { once: true });
+            });
+          })).then(done);
+        JS
 
-      page.execute_script(<<~JS)
+        assert page.evaluate_script(<<~JS), "install tile must lead the hub at #{width}px"
+          (function() {
+            var tile = document.querySelector('.hub-install').getBoundingClientRect();
+            var hero = document.querySelector('.hub-hero').getBoundingClientRect();
+            var viewport = document.documentElement.clientWidth;
+            return tile.left >= -2 && tile.right <= viewport + 2 && tile.height >= 120 && tile.top < hero.top;
+          })()
+        JS
+
+        suffix = width == 390 ? "" : "-#{width}"
+        page.save_screenshot(SHOT_DIR.join("hub-install-#{theme}#{suffix}.png"))
+      end
+
+      set_system_viewport(390, 844)
+
+      page.evaluate_async_script(<<~JS)
+        var done = arguments[0];
         var controller = window.Stimulus.getControllerForElementAndIdentifier(document.body, "pwa-install");
-        controller.openGuide({ currentTarget: document.querySelector(".hub-install") });
-        document.querySelector(".pwa-install-browser-hint").hidden = true;
+        controller.openGuide({ currentTarget: document.querySelector(".hub-install") }).then(function() {
+          document.querySelector(".pwa-install-browser-hint").hidden = true;
+          done();
+        }).catch(done);
       JS
       assert_selector ".pwa-install-dialog[open]"
       assert_selector ".pwa-install-done .picto-check", visible: true
@@ -80,7 +98,14 @@ class PwaInstallTileVisualTest < ApplicationSystemTestCase
       JS
       assert_no_selector ".pwa-install-dialog[open]"
       assert page.evaluate_script("document.activeElement.classList.contains('hub-install')"), "closing must return focus to the install tile"
-      page.execute_script("window.NocheInstallPrompt = null")
+      page.execute_script(<<~JS)
+        window.NocheInstallPrompt = null;
+        window.Stimulus
+          .getControllerForElementAndIdentifier(document.body, "pwa-install")
+          .hideInstallUi();
+      JS
+      assert_no_selector ".hub-install", visible: true
+      assert_selector ".hub-install[hidden]", visible: :all
     end
   ensure
     Hubs::Backdrop.reset!

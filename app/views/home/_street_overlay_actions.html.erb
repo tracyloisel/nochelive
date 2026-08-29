@@ -1,0 +1,22 @@
+<div id="street_quiz_actions" class="<%= street.settled? ? "street-shot-actions" : "is-empty" %>">
+  <% if street.settled? %>
+    <% if question.scripture %>
+      <%= link_to scripture_path(question.scripture.study, cite: question.scripture.cite),
+            class: "quiz-scripture",
+            aria: { label: "#{t("quiz.read")} #{question.scripture.cite}" },
+            data: { turbo_frame: "scripture_reader", action: "click->scripture-launcher#prepare" } do %>
+        <%= picto("scroll") %>
+        <span class="quiz-read"><%= t("quiz.read") %></span>
+        <span class="quiz-cite"><%= question.scripture.cite %></span>
+      <% end %>
+    <% else %>
+      <span></span>
+    <% end %>
+    <%= button_to quiz_advance_path(run),
+          class: "btn btn-gold quiz-next",
+          form: { data: { turbo_stream: true }, class: "quiz-next-form" },
+          data: { action: "click->quiz#next" } do %>
+      <%= t(run.last_question? ? "quiz.results" : "quiz.next") %><%= picto("arrow") %>
+    <% end %>
+  <% end %>
+</div>

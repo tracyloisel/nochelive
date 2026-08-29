@@ -1,4 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
+import { audioLoader } from "platform/audio/loader"
 
 export default class extends Controller {
   connect() {
@@ -11,12 +12,7 @@ export default class extends Controller {
   cue() {
     const name = this.element.dataset.sfx
     if (!name) return
-    if (window.NocheLiveAudio?.play) {
-      window.NocheLiveAudio.play(name)
-      return
-    }
-    const stage = this.application.getControllerForElementAndIdentifier(document.body, "stage")
-    stage?.play(name)
+    audioLoader.play(name)
   }
 
   disconnect() {

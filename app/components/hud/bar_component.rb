@@ -28,7 +28,7 @@ module Hud
       if guest?
         t("hub.guest_invite")
       elsif quiz?
-        t("chrome.points", score: bar.score)
+        t("chrome.crowns", score: bar.score)
       else
         bar.name
       end

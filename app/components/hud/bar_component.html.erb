@@ -28,9 +28,12 @@
           <% end %>
         </span>
         <div class="quiz-hud-meta">
-          <p class="quiz-hud-name"><%= bar.name.presence || t("hub.pick_ficha") %></p>
+          <p class="quiz-hud-name">
+            <span class="quiz-hud-name-text"><%= bar.name.presence || t("hub.pick_ficha") %></span>
+            <% if bar.level.present? %><span class="quiz-hud-level"><%= bar.level %></span><% end %>
+          </p>
           <% if bar.rank_key.present? %>
-            <p class="quiz-hud-rank"><%= rank_name(bar.rank_key) %><% if bar.done? && bar.level.present? %><span class="quiz-hud-level"><%= bar.level %></span><% end %></p>
+            <p class="quiz-hud-rank"><span class="quiz-hud-rank-name"><%= rank_name(bar.rank_key) %></span></p>
           <% end %>
         </div>
       <% end %>
@@ -64,9 +67,6 @@
         </div>
       <% end %>
     <% end %>
-    <% if quiz? && bar.level.present? && !bar.done? %>
-      <span class="quiz-hud-level"><%= bar.level %></span>
-    <% end %>
     <% if bar.pack_title.present? %>
       <div class="quiz-hud-pack">
         <div class="quiz-hud-pack-copy">
@@ -84,45 +84,7 @@
         </div>
       </div>
     <% end %>
-    <div class="quiz-hud-stats">
-      <% if quiz? %>
-        <p class="street-score quiz-hud-score"
-           data-quiz-target="crown"
-           aria-hidden="true">
-          <%= picto("crown") %>
-          <span class="quiz-hud-score-stack">
-            <span data-quiz-target="score"><%= bar.score %></span>
-            <% if bar.last_gain.to_i.positive? %>
-              <span class="quiz-hud-gain" data-quiz-target="gain">+<%= bar.last_gain %></span>
-            <% end %>
-          </span>
-        </p>
-        <p class="quiz-hud-streak<%= " is-break" if bar.combo&.broke %><%= " is-grew" if bar.combo&.grew %><%= " is-shout" if bar.combo&.shout_key %>"
-           data-tier="<%= bar.combo&.tier || "idle" %>"
-           data-hub-streak-target="streak"
-           aria-label="<%= t("quiz.combo", count: bar.combo&.count.to_i) %>">
-          <%= picto("fire") %>
-          <span class="quiz-hud-streak-stack">
-            <span class="quiz-hud-streak-num"><%= bar.combo&.count.to_i %></span>
-            <% if bar.done? && bar.combo&.count.to_i.positive? %>
-              <span class="quiz-hud-streak-tag"><%= t("quiz.combo_tag") %></span>
-            <% end %>
-          </span>
-        </p>
-      <% else %>
-        <p class="quiz-hud-score" aria-label="<%= t("hub.crowns") %>">
-          <%= picto("crown") %>
-          <span><%= number_with_delimiter(bar.crowns.to_i) %></span>
-        </p>
-        <p class="quiz-hud-streak<%= " is-idle" if bar.streak.to_i.zero? %>"
-           data-tier="<%= bar.streak.to_i.positive? ? "spark" : "idle" %>"
-           data-hub-streak-target="streak"
-           aria-label="<%= t("street.card_streak", days: bar.streak.to_i) %>">
-          <%= picto("fire") %>
-          <span class="quiz-hud-streak-num"><%= bar.streak.to_i %></span>
-        </p>
-      <% end %>
-    </div>
+    <%= render "shared/quiz_hud_stats", bar: bar %>
   <% end %>
   <span class="quiz-hud-menu" aria-hidden="true"></span>
 </header>

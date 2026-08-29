@@ -1,0 +1,30 @@
+<% name = item.other.given_name %>
+<% gap = item.theirs.nil? ? nil : (item.mine.to_i - item.theirs.to_i).abs %>
+<% mine_won = item.outcome == :ahead %>
+<% friend_won = item.outcome == :behind %>
+<%= link_to street_duel_path(item.duel), class: "duel-ceremony-impact-card is-#{item.outcome}" do %>
+  <% if local_assigns[:show_verdict] %>
+    <span class="duel-ceremony-card-result">
+      <%= render "street_challenges/person", person: item.other %>
+      <span>
+        <small><%= t("duel_campus.ceremony.faceoff") %></small>
+        <strong><%= t("duel_campus.outcomes.#{item.outcome}", name:) %></strong>
+        <em><%= t("duel_campus.ceremony.margin.#{item.outcome}", name:, crowns: gap) %></em>
+      </span>
+    </span>
+  <% end %>
+
+  <span class="duel-ceremony-versus">
+    <span class="duel-ceremony-score-side is-me<%= " is-winner" if mine_won %>">
+      <small><%= t("duel_campus.ceremony.you") %></small>
+      <strong><%= item.mine || "—" %></strong>
+      <em><%= picto("crown") %><%= t("chrome.crowns_word") %></em>
+    </span>
+    <span class="duel-ceremony-versus-mark" aria-hidden="true"><%= t("duel_campus.ceremony.versus") %></span>
+    <span class="duel-ceremony-score-side is-friend<%= " is-winner" if friend_won %>">
+      <small><%= name %></small>
+      <strong><%= item.theirs || "—" %></strong>
+      <em><%= picto("crown") %><%= t("chrome.crowns_word") %></em>
+    </span>
+  </span>
+<% end %>

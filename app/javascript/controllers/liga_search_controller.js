@@ -23,6 +23,8 @@ export default class extends Controller {
 
   submit() {
     window.clearTimeout(this.timer)
+    this.element.classList.add("is-loading")
+    this.element.setAttribute("aria-busy", "true")
     this.element.querySelectorAll("[name]").forEach((field) => {
       if (!field.value) field.disabled = true
     })

@@ -51,14 +51,11 @@ class Platform::StatsTest < ActiveSupport::TestCase
   test "counts every challenge and chapel teams not solo seats" do
     night = game_sessions(:david)
     before = Platform::Stats.call
-    StreetDuel.create!(
-      challenger_person: people(:pili),
-      ward: wards(:demo),
-      pack_id: "placas",
-      token: "stats-duel-token",
-      status: "pending",
-      expires_at: 7.days.from_now
+    invitation = DuelInvitation.create!(
+      challenger_person: people(:pili), recipient_person: people(:carmen_lopez),
+      token_digest: SecureRandom.hex(32), status: "open", expires_at: 7.days.from_now
     )
+    Quizzes::DuelInvitationClaim.call(invitation:, person: people(:carmen_lopez))
     night.teams.create!(name: "SoloStats", emblem: "leon", solo: true)
     after_solo = Platform::Stats.call
     night.teams.create!(name: "SalaStats", emblem: "fuego")
@@ -74,13 +71,13 @@ class Platform::StatsTest < ActiveSupport::TestCase
   end
 
   test "counts each shared invitation once through the viral journey" do
-    sent = street_duels(:pending_challenge)
-    completed = street_duels(:pili_vs_carmen)
-    [ sent, completed ].each do |duel|
-      ViralEvent.create!(name: "invite_share_completed", device_digest: "stats-sender", street_duel: duel)
+    sent = duel_invitations(:open_pili_invitation)
+    completed = duel_invitations(:resolved_pili_invitation)
+    [ sent, completed ].each do |invitation|
+      ViralEvent.create!(name: "invite_share_handoff", device_digest: "stats-sender", duel_invitation: invitation)
     end
-    ViralEvent.create!(name: "invite_share_completed", device_digest: "stats-reminder", street_duel: sent)
-    ViralEvent.create!(name: "invite_link_opened", device_digest: "stats-friend", street_duel: sent)
+    ViralEvent.create!(name: "invite_share_handoff", device_digest: "stats-reminder", duel_invitation: sent)
+    ViralEvent.create!(name: "invite_human_opened", device_digest: "stats-friend", duel_invitation: sent)
 
     stats = Platform::Stats.call
 

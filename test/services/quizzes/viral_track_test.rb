@@ -3,9 +3,9 @@ require "test_helper"
 class Quizzes::ViralTrackTest < ActiveSupport::TestCase
   test "keeps only funnel-safe properties" do
     event = Quizzes::ViralTrack.call(
-      name: "invite_link_opened",
+      name: "invite_human_opened",
       device_digest: "digest",
-      duel: street_duels(:pending_challenge),
+      invitation: duel_invitations(:open_pili_invitation),
       source: "native",
       properties: { pack_id: "coronas", phone: "+341234", secret: "no" }
     )

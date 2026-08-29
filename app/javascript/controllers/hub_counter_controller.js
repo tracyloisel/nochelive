@@ -1,4 +1,6 @@
 import { Controller } from "@hotwired/stimulus"
+import { EffectScope } from "platform/lifecycle/effect_scope"
+import { motionDirector } from "runtime/motion/runtime"
 
 // Animated counter for HUD scores and community stats.
 // HUD mode: counts from data-initial-value to data-target-value over 400ms.
@@ -15,6 +17,9 @@ export default class extends Controller {
   }
 
   connect() {
+    this.effectScope = new EffectScope()
+    this.controls = []
+    motionDirector.setReducedMotion(window.matchMedia("(prefers-reduced-motion: reduce)").matches)
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       this.settle()
       return
@@ -44,26 +49,17 @@ export default class extends Controller {
       const target = parseInt(el.dataset.targetValue.replace(/[^\d]/g, ""), 10)
       if (!target) return
 
-      const duration = 500
-      const start = performance.now()
-
-      const tick = (now) => {
-        const elapsed = now - start
-        const progress = Math.min(elapsed / duration, 1)
-        const eased = 1 - Math.pow(1 - progress, 3)
-        const current = Math.round(target * eased)
-        el.textContent = this.compactNumber(current)
-
-        if (progress < 1) {
-          requestAnimationFrame(tick)
-        } else {
-          el.textContent = this.compactNumber(target)
-          el.classList.add("is-settled")
-          if (sessionKey) sessionStorage.setItem(sessionKey, "1")
-        }
-      }
-
-      setTimeout(() => requestAnimationFrame(tick), i * 80)
+      this.effectScope.timeout(() => {
+        const controls = motionDirector.count(0, target, {
+          duration: 0.5,
+          onUpdate: (value) => { el.textContent = this.compactNumber(Math.round(value)) },
+          onComplete: () => {
+            el.classList.add("is-settled")
+            if (sessionKey) sessionStorage.setItem(sessionKey, "1")
+          }
+        })
+        this.controls.push(controls)
+      }, i * 80)
     })
   }
 
@@ -94,24 +90,12 @@ export default class extends Controller {
       return
     }
 
-    const duration = 400
-    const start = performance.now()
-
-    const tick = (now) => {
-      const elapsed = now - start
-      const progress = Math.min(elapsed / duration, 1)
-      const eased = 1 - Math.pow(1 - progress, 3)
-      const current = Math.round(from + (to - from) * eased)
-      this.valueTarget.textContent = current.toLocaleString()
-
-      if (progress < 1) {
-        requestAnimationFrame(tick)
-      } else {
-        this.settle()
-      }
-    }
-
-    requestAnimationFrame(tick)
+    const controls = motionDirector.count(from, to, {
+      duration: 0.4,
+      onUpdate: (value) => { this.valueTarget.textContent = Math.round(value).toLocaleString() },
+      onComplete: () => this.settle()
+    })
+    this.controls.push(controls)
 
     if (this.sessionKeyValue) {
       sessionStorage.setItem(this.sessionKeyValue, "1")
@@ -129,5 +113,10 @@ export default class extends Controller {
 
   settle() {
     this.element.classList.add("is-settled")
+  }
+
+  disconnect() {
+    this.effectScope?.dispose()
+    this.controls?.forEach((controls) => controls.cancel?.())
   }
 }

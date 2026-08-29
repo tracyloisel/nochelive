@@ -4,7 +4,7 @@ class Notifications::PromptEligibilityTest < ActiveSupport::TestCase
   test "requires the matching value context and honors a thirty day snooze" do
     with_web_push_enabled do
       wrong = Notifications::PromptEligibility.call(
-        person: people(:pili), device_token: "pili-tablet", category: "verses", context: "challenge_inbox"
+        person: people(:pili), device_token: "pili-tablet", category: "verses", context: "duel_campus"
       )
       snoozed = Notifications::PromptEligibility.call(
         person: people(:pili), device_token: "pili-tablet", category: "verses", context: "study_completed"
@@ -21,7 +21,7 @@ class Notifications::PromptEligibilityTest < ActiveSupport::TestCase
     with_web_push_enabled do
       Notifications::RecordPrompt.call(
         person: people(:pili), device_token: "pili-tablet", category: "challenges",
-        result: "system_denied", context: "challenge_inbox"
+        result: "system_denied", context: "duel_campus"
       )
       result = Notifications::PromptEligibility.call(
         person: people(:pili), device_token: "pili-tablet", category: "verses", context: "study_completed"
@@ -36,11 +36,32 @@ class Notifications::PromptEligibilityTest < ActiveSupport::TestCase
     freeze_time do
       state = Notifications::RecordPrompt.call(
         person: people(:pili), device_token: "pili-tablet", category: "challenges",
-        result: "dismissed", context: "challenge_inbox"
+        result: "dismissed", context: "duel_campus"
       )
 
       assert_equal 30.days.from_now, state.snoozed_until
       assert_equal "dismissed", state.last_result
+    end
+  end
+
+  test "an active category is suppressed only on a currently subscribed device" do
+    with_web_push_enabled do
+      person = people(:pili)
+      person.notification_preference.enable!(:challenges)
+
+      subscribed = Notifications::PromptEligibility.call(
+        person:, device_token: "pili-tablet", category: "challenges", context: "duel_campus"
+      )
+
+      person.person_devices.create!(device_token: "pili-phone", last_seen_at: Time.current)
+      other_device = Notifications::PromptEligibility.call(
+        person:, device_token: "pili-phone", category: "challenges", context: "duel_campus"
+      )
+
+      refute subscribed.eligible
+      assert_equal :already_active, subscribed.reason
+      assert other_device.eligible
+      assert_equal :eligible, other_device.reason
     end
   end
 end

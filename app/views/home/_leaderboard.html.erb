@@ -35,7 +35,7 @@
           <button type="button"
                   class="street-liga-player-trigger"
                   <%= "disabled" if row.you || !liga %>
-                  data-action="liga-board#openChallenge"
+                  data-action="liga-board#openInvitation"
                   data-person-id="<%= row.person.id %>"
                   data-person-name="<%= row.person.display_name %>"
                   data-person-score="<%= row.score %>"
@@ -58,7 +58,7 @@
           <span class="street-board-joined"><%= t("street.leaderboard_joined", date: l(row.person.created_at.to_date)) %></span>
           <span class="street-board-answered"><%= t("street.leaderboard_answered", count: row.answered) %></span>
           <span class="street-liga-podium-score"><%= picto("crown") %><%= number_with_delimiter(row.score) %></span>
-          <% if liga && !row.you %><span class="street-liga-challenge-label"><span aria-hidden="true">⚔</span><%= t("street.duel_send") %></span><% end %>
+          <% if liga && !row.you %><span class="street-liga-challenge-label"><span aria-hidden="true">❦</span><%= t("duel_campus.actions.invite") %></span><% end %>
           </button>
           <span class="street-liga-plinth" aria-hidden="true"></span>
         </li>
@@ -80,7 +80,7 @@
           <button type="button"
                   class="street-liga-player-trigger"
                   <%= "disabled" if row.you || !liga %>
-                  data-action="liga-board#openChallenge"
+                  data-action="liga-board#openInvitation"
                   data-person-id="<%= row.person.id %>"
                   data-person-name="<%= row.person.display_name %>"
                   data-person-score="<%= row.score %>"
@@ -104,7 +104,7 @@
             <span class="street-board-joined"><%= t("street.leaderboard_joined", date: l(row.person.created_at.to_date)) %></span>
             <span class="street-board-answered"><%= t("street.leaderboard_answered", count: row.answered) %></span>
           </span>
-          <% if liga && !row.you %><span class="street-liga-challenge-label"><span aria-hidden="true">⚔</span><%= t("street.duel_send") %></span><% end %>
+          <% if liga && !row.you %><span class="street-liga-challenge-label"><span aria-hidden="true">❦</span><%= t("duel_campus.actions.invite") %></span><% end %>
           <span class="street-board-score"><% if show_avatars %><%= picto("crown") %><% end %><%= number_with_delimiter(row.score) %></span>
           </button>
         </li>

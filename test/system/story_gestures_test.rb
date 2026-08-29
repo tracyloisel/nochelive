@@ -5,10 +5,8 @@ class StoryGesturesTest < ApplicationSystemTestCase
 
   test "play story close returns home and ticks browse rounds" do
     visit night_name_path(game_sessions(:david).code)
-    fill_in "¿Cómo te llaman en la rama?", with: "Pili"
-    find("label.choice-chip", text: "En la sala").click
-    click_button I18n.t("join.create_and_join")
-    click_button "Casa de David"
+    fill_in I18n.t("join.name_label"), with: "Pili"
+    click_button I18n.t("join.enter_play")
     assert_selector ".play-reel[data-controller=story]"
     assert_selector ".story-close"
     assert_selector ".story-night", text: /Reyes y Profetas/
@@ -45,10 +43,8 @@ class StoryGesturesTest < ApplicationSystemTestCase
 
   test "play swipe down leaves the story" do
     visit night_name_path(game_sessions(:david).code)
-    fill_in "¿Cómo te llaman en la rama?", with: "Pili"
-    find("label.choice-chip", text: "En la sala").click
-    click_button I18n.t("join.create_and_join")
-    click_button "Casa de David"
+    fill_in I18n.t("join.name_label"), with: "Pili"
+    click_button I18n.t("join.enter_play")
     assert_selector ".play-reel"
 
     page.execute_script(<<~JS)

@@ -1,0 +1,1348 @@
+/* Cour des Couronnes — dedicated Liga polish loaded after the shared stats surface. */
+body.is-liga {
+  --liga-court-bg: url("/media/leaderboard/celestial-court-v2.webp");
+  --liga-ink: var(--ink);
+  --liga-muted: color-mix(in srgb, var(--ink) 62%, transparent);
+  --liga-surface: color-mix(in srgb, var(--temple-ivory) 91%, transparent);
+  --liga-surface-strong: color-mix(in srgb, #fffef9 97%, transparent);
+  --liga-line: color-mix(in srgb, var(--gold-deep) 34%, transparent);
+  --liga-line-strong: color-mix(in srgb, var(--gold-deep) 68%, #f2d98a);
+  --liga-error: #9b332b;
+  --liga-shadow: 0 1rem 2.6rem rgba(80, 55, 18, .13), inset 0 1px 0 rgba(255, 255, 255, .9);
+  --liga-gold-metal: linear-gradient(145deg, #8f6410 0%, #f4cf68 27%, #fff0a8 45%, #c58a17 70%, #f0c54c 100%);
+  --liga-silver-metal: linear-gradient(145deg, #777a7e 0%, #f6f4ec 34%, #bfc3c7 58%, #6f747a 100%);
+  --liga-bronze-metal: linear-gradient(145deg, #713615 0%, #e5a05a 33%, #f5c48d 50%, #9d5125 76%, #d78445 100%);
+  --liga-motion-quick: 160ms;
+  --liga-motion-ui: 240ms;
+  --liga-motion-reveal: 380ms;
+  --liga-ease-out: cubic-bezier(.16, 1, .3, 1);
+  --liga-ease-pop: cubic-bezier(.2, 1.35, .35, 1);
+  background: var(--temple-marble);
+  color: var(--liga-ink);
+}
+
+body.is-street-hub.is-liga .sky {
+  background:
+    linear-gradient(180deg, rgba(255, 253, 247, .02) 0%, rgba(255, 253, 247, .22) 58%, rgba(247, 241, 229, .78) 100%),
+    url("/media/leaderboard/celestial-court-v2.webp") 50% 0 / cover no-repeat fixed;
+  filter: none;
+}
+
+body.is-liga .sky::after {
+  display: block;
+  background:
+    radial-gradient(ellipse 68% 32% at 50% 7%, rgba(255, 255, 255, .5), transparent 72%),
+    linear-gradient(90deg, rgba(255, 251, 240, .18), transparent 22%, transparent 78%, rgba(255, 251, 240, .18));
+  opacity: 1;
+}
+
+body.is-liga .shell {
+  width: min(52rem, 100%);
+  max-width: none;
+  padding: max(6.25rem, calc(env(safe-area-inset-top) + 5.6rem)) clamp(.65rem, 2.8vw, 1.35rem) calc(7rem + env(safe-area-inset-bottom));
+  gap: 0;
+}
+
+body.is-liga .street-world.street-leaderboard-page.liga-court {
+  display: grid;
+  gap: .7rem;
+  width: 100%;
+  max-width: none;
+  min-height: 100dvh;
+  margin: 0;
+  padding: 0;
+  color: var(--liga-ink);
+  background: transparent;
+}
+
+.liga-court-heading {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(1.4rem, 1fr) auto minmax(1.4rem, 1fr);
+  align-items: center;
+  gap: .5rem .7rem;
+  min-height: 8.6rem;
+  padding: 1.05rem 3.25rem .85rem;
+  text-align: center;
+  text-shadow: 0 1px 0 white, 0 0 1.1rem rgba(255, 255, 255, .9);
+}
+
+.liga-court-heading h1 {
+  grid-column: 2;
+  color: var(--liga-ink);
+  font: 650 clamp(1.62rem, 6.6vw, 2.75rem)/1.02 var(--font-display);
+  letter-spacing: .025em;
+  text-wrap: balance;
+}
+
+.liga-court-heading-rule {
+  height: .55rem;
+  background:
+    radial-gradient(circle, var(--gold-deep) 0 22%, transparent 24%) 100% 50% / .55rem .55rem no-repeat,
+    linear-gradient(90deg, transparent, var(--liga-line-strong)) 0 50% / calc(100% - .35rem) 1px no-repeat;
+}
+
+.liga-court-heading-rule.is-right { transform: scaleX(-1); }
+
+.liga-court-heading p,
+.liga-court-heading > strong {
+  grid-column: 1 / -1;
+}
+
+.liga-court-heading p {
+  color: var(--liga-ink);
+  font-size: clamp(.9rem, 3.2vw, 1.08rem);
+  line-height: 1.1;
+}
+
+.liga-court-heading > strong {
+  color: var(--liga-muted);
+  font-size: var(--type-min);
+  font-weight: 600;
+  line-height: 1.1;
+}
+
+.liga-court-search-open {
+  position: absolute;
+  right: .15rem;
+  bottom: .6rem;
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  border: 1px solid var(--liga-line-strong);
+  border-radius: 50%;
+  color: var(--liga-ink);
+  background: var(--liga-surface-strong);
+  box-shadow: 0 .4rem 1.3rem rgba(80, 55, 18, .11), inset 0 1px 0 white;
+}
+
+.liga-court-search-open .picto { width: 1.35rem; height: 1.35rem; }
+
+.liga-court-podium {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: end;
+  min-height: 19rem;
+  margin: 0;
+  padding: 2.5rem .25rem 0;
+  list-style: none;
+  background:
+    radial-gradient(ellipse 42% 34% at 50% 36%, rgba(255, 224, 119, .34), transparent 72%),
+    radial-gradient(ellipse 72% 18% at 50% 100%, rgba(255, 255, 255, .72), transparent 72%);
+}
+
+.liga-court-podium.is-sparse { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.liga-court-podium.is-sparse .is-place-1 { grid-column: 2; }
+
+.liga-court-podium-place {
+  position: relative;
+  min-width: 0;
+}
+
+.liga-court-podium-button {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  color: var(--liga-ink);
+  background: transparent;
+  font: inherit;
+  cursor: pointer;
+  transform-origin: 50% 100%;
+}
+
+.liga-court-podium-button:disabled { cursor: default; }
+
+.liga-court-podium-crown {
+  position: relative;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  width: 3.4rem;
+  height: 2.3rem;
+  margin-bottom: -.72rem;
+  background: url("/media/leaderboard/crown-gold.webp") 50% 50% / contain no-repeat;
+  filter: drop-shadow(0 .18rem .25rem rgba(99, 62, 7, .24));
+}
+
+.liga-court-podium-crown .picto { visibility: hidden; }
+.liga-court-podium-place.is-place-1 .liga-court-podium-crown { width: 4.25rem; height: 2.9rem; }
+.liga-court-podium-place.is-place-2 .liga-court-podium-crown { filter: grayscale(.96) saturate(.3) brightness(1.06) drop-shadow(0 .18rem .25rem rgba(40, 46, 55, .24)); }
+.liga-court-podium-place.is-place-3 .liga-court-podium-crown { filter: sepia(.62) saturate(1.5) hue-rotate(-18deg) brightness(.78) drop-shadow(0 .18rem .25rem rgba(90, 43, 15, .26)); }
+
+.liga-court-podium-portrait {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: clamp(4.4rem, 21vw, 7rem);
+  height: clamp(4.4rem, 21vw, 7rem);
+  border: 3px solid #b8bcc1;
+  border-radius: 50%;
+  background: var(--liga-surface-strong);
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, .76), 0 .7rem 1.6rem rgba(55, 42, 24, .18);
+}
+
+.liga-court-podium-place.is-place-1 .liga-court-podium-portrait::before {
+  position: absolute;
+  z-index: 0;
+  top: -31%;
+  left: -31%;
+  width: 162%;
+  height: 162%;
+  background: url("/media/leaderboard/laurel-gold.webp") 50% 50% / contain no-repeat;
+  content: "";
+  filter: drop-shadow(0 .3rem .4rem rgba(107, 68, 8, .18));
+  pointer-events: none;
+}
+
+.liga-court-podium-place.is-place-1 .liga-court-podium-portrait {
+  width: clamp(5.8rem, 28vw, 8.8rem);
+  height: clamp(5.8rem, 28vw, 8.8rem);
+  border-color: #d5a72a;
+  box-shadow: 0 0 0 3px rgba(255, 235, 151, .68), 0 0 2.2rem rgba(231, 178, 46, .38), 0 1rem 2rem rgba(75, 48, 11, .18);
+}
+
+.liga-court-podium-place.is-place-3 .liga-court-podium-portrait { border-color: #b86632; }
+
+.liga-court-podium-portrait .avatar-img,
+.liga-court-podium-portrait .avatar-fallback {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.liga-court-podium-portrait .street-live-dot {
+  position: absolute;
+  right: -.05rem;
+  bottom: .45rem;
+}
+
+.liga-court-podium-plinth {
+  position: relative;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: .18rem;
+  width: 100%;
+  min-height: 7.3rem;
+  margin-top: -.8rem;
+  padding: 1.45rem .25rem .55rem;
+  border: 0;
+  background: transparent;
+  filter: none;
+  isolation: isolate;
+}
+
+.liga-court-podium-plinth::before {
+  position: absolute;
+  z-index: -1;
+  inset: -.45rem -.3rem -.25rem;
+  background: url("/media/leaderboard/podium-plinth-gold.webp") 50% 50% / 100% 100% no-repeat;
+  content: "";
+  filter: grayscale(.96) saturate(.3) brightness(1.06) drop-shadow(0 .7rem 1.3rem rgba(57, 43, 23, .16));
+  pointer-events: none;
+}
+
+.liga-court-podium-place.is-place-1 .liga-court-podium-plinth {
+  min-height: 9.25rem;
+}
+
+.liga-court-podium-place.is-place-1 .liga-court-podium-plinth::before {
+  filter: drop-shadow(0 .7rem 1.3rem rgba(91, 57, 8, .2));
+}
+
+.liga-court-podium-place.is-place-3 .liga-court-podium-plinth {
+  border-color: transparent;
+}
+
+.liga-court-podium-place.is-place-3 .liga-court-podium-plinth::before {
+  filter: sepia(.62) saturate(1.5) hue-rotate(-18deg) brightness(.78) drop-shadow(0 .7rem 1.3rem rgba(82, 39, 15, .2));
+}
+
+.liga-court-podium-plinth > b {
+  display: grid;
+  place-items: center;
+  width: 2.1rem;
+  height: 2.1rem;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  color: var(--liga-ink);
+  background: rgba(255, 255, 255, .34);
+  font: 650 1.35rem/1 var(--font-display);
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, .28);
+}
+
+.liga-court-podium-plinth > strong {
+  position: relative;
+  z-index: 1;
+  max-width: calc(100% - .8rem);
+  padding: .14em .55em .18em;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--liga-ink) 18%, transparent);
+  border-radius: 999px;
+  color: var(--liga-ink);
+  background: linear-gradient(180deg,
+    color-mix(in srgb, white 82%, transparent),
+    color-mix(in srgb, var(--temple-ivory) 58%, transparent));
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, white 88%, transparent),
+    0 1px 0 color-mix(in srgb, var(--liga-ink) 18%, transparent),
+    0 .18rem .42rem color-mix(in srgb, var(--liga-ink) 24%, transparent);
+  font: 650 clamp(.82rem, 3.5vw, 1.25rem)/1.05 var(--font-display);
+  letter-spacing: .01em;
+  text-shadow: 0 1px 0 color-mix(in srgb, white 92%, transparent), 0 -1px 0 color-mix(in srgb, var(--liga-ink) 14%, transparent);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  backdrop-filter: blur(1.5px);
+}
+
+.liga-court-podium-plinth > span {
+  display: flex;
+  align-items: center;
+  gap: .2rem;
+  color: var(--liga-ink);
+  font-size: clamp(.82rem, 3.3vw, 1.08rem);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.liga-court-podium-plinth .picto { width: 1rem; height: 1rem; color: #8f6410; }
+
+.liga-rivalry {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(4.8rem, 1fr) minmax(9rem, 2fr) minmax(4.8rem, 1fr);
+  align-items: center;
+  gap: .25rem .55rem;
+  min-height: 16.5rem;
+  padding: 1rem .85rem .85rem;
+  border: 1px solid var(--liga-line-strong);
+  border-radius: 1.2rem;
+  background: var(--liga-surface-strong);
+  box-shadow: var(--liga-shadow);
+  overflow: hidden;
+}
+
+.liga-rivalry-person {
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: .15rem;
+  min-width: 0;
+  text-align: center;
+}
+
+.liga-rivalry-person.is-rival { grid-column: 3; }
+.liga-rivalry-rank { font: 650 1.1rem/1 var(--font-display); }
+
+.liga-rivalry-person > strong {
+  max-width: 100%;
+  overflow: hidden;
+  font: 650 clamp(.74rem, 2.9vw, .98rem)/1.1 var(--font-display);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.liga-rivalry-rank-context {
+  min-height: 1rem;
+  color: var(--liga-muted);
+  font-size: clamp(.64rem, 2.4vw, .78rem);
+  font-weight: 650;
+}
+
+.liga-rivalry-avatar {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: clamp(4.4rem, 19vw, 6.5rem);
+  height: clamp(4.4rem, 19vw, 6.5rem);
+  margin-top: .25rem;
+  border: 2px solid var(--liga-line-strong);
+  border-radius: 50%;
+  background: var(--navy);
+  box-shadow: 0 .65rem 1.25rem rgba(52, 37, 17, .17);
+}
+
+.liga-rivalry-avatar img,
+.liga-rivalry-avatar .avatar-fallback {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.liga-rivalry-avatar .street-live-dot {
+  position: absolute;
+  right: -.1rem;
+  bottom: .35rem;
+}
+
+.liga-rivalry-copy {
+  grid-column: 2;
+  display: grid;
+  gap: .55rem;
+  min-width: 0;
+  text-align: center;
+}
+
+.liga-rivalry-copy h2 {
+  color: var(--liga-ink);
+  font: 650 clamp(1.02rem, 4vw, 1.6rem)/1.08 var(--font-display);
+  text-wrap: balance;
+}
+
+.liga-rivalry-copy p { color: var(--liga-muted); font-size: var(--type-min); line-height: 1.25; }
+.liga-rivalry-copy.is-leader,
+.liga-rivalry-copy.is-unranked { grid-column: 1 / -1; padding: 1rem; }
+
+.liga-rivalry-form,
+.liga-rivalry-cta {
+  grid-column: 1 / -1;
+  width: 100%;
+  margin: .35rem 0 0;
+}
+
+.btn.btn-gold.liga-rivalry-cta {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: 2.85rem minmax(0, 1fr) 2.85rem;
+  align-items: center;
+  gap: .78rem;
+  min-height: 4.45rem;
+  padding: .56rem .62rem;
+  border: 1px solid color-mix(in srgb, var(--gold-deep) 78%, white);
+  border-radius: 1.35rem;
+  color: var(--navy);
+  background:
+    radial-gradient(circle at 16% 0%, rgba(255, 255, 255, .78), transparent 33%),
+    linear-gradient(112deg,
+      color-mix(in srgb, var(--gold-bright) 48%, rgba(255, 255, 255, .68)),
+      color-mix(in srgb, var(--gold) 46%, rgba(255, 255, 255, .56)) 52%,
+      color-mix(in srgb, var(--gold-deep) 38%, rgba(255, 255, 255, .62)));
+  box-shadow:
+    0 .8rem 1.8rem color-mix(in srgb, var(--gold-deep) 24%, transparent),
+    inset 0 1px 0 rgba(255, 255, 255, .94),
+    inset 0 -.5rem 1.35rem color-mix(in srgb, var(--gold-deep) 10%, transparent);
+  font: 850 clamp(.875rem, 3vw, 1rem)/1.12 var(--font-ui);
+  letter-spacing: .035em;
+  text-align: center;
+  text-transform: uppercase;
+  overflow: hidden;
+  -webkit-backdrop-filter: blur(18px) saturate(145%);
+  backdrop-filter: blur(18px) saturate(145%);
+}
+
+.liga-rivalry-form .liga-rivalry-cta { margin: 0; }
+
+.liga-rivalry-cta::before {
+  position: absolute;
+  z-index: 0;
+  inset: 3px;
+  border: 1px solid color-mix(in srgb, white 72%, var(--gold-deep));
+  border-radius: calc(1.35rem - 3px);
+  content: "";
+  pointer-events: none;
+}
+
+.liga-rivalry-cta::after {
+  position: absolute;
+  z-index: 0;
+  inset: -40% auto -40% -45%;
+  width: 28%;
+  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, .72), transparent);
+  content: "";
+  opacity: 0;
+  pointer-events: none;
+  transform: skewX(-18deg);
+  transition: opacity var(--liga-motion-quick) ease, transform 520ms var(--liga-ease-out);
+}
+
+.liga-rivalry-cta-label {
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+  text-wrap: balance;
+  overflow-wrap: anywhere;
+}
+
+.liga-rivalry-cta-medallion,
+.liga-rivalry-cta-arrow {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 2.85rem;
+  height: 2.85rem;
+  border-radius: 50%;
+}
+
+.liga-rivalry-cta-medallion {
+  border: 1px solid color-mix(in srgb, var(--gold-deep) 74%, white);
+  color: var(--navy);
+  background: var(--liga-gold-metal);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .72), 0 .4rem .9rem color-mix(in srgb, var(--gold-deep) 24%, transparent);
+}
+
+.liga-rivalry-cta-arrow {
+  border: 1px solid color-mix(in srgb, var(--gold-deep) 58%, var(--navy));
+  color: var(--temple-ivory);
+  background: var(--navy);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .22), 0 .4rem .9rem rgba(20, 35, 64, .2);
+}
+
+.liga-rivalry-cta-medallion .picto { width: 1.45rem; height: 1.45rem; }
+.liga-rivalry-cta-arrow .picto { width: 1rem; height: 1rem; }
+
+.liga-around { display: grid; gap: .45rem; }
+
+.liga-around > header {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: .6rem;
+  min-height: 2.5rem;
+  padding: .25rem .65rem 0;
+}
+
+.liga-around > header::after {
+  content: "";
+  grid-column: 2;
+  grid-row: 1;
+  height: 1px;
+  background: linear-gradient(90deg, var(--liga-line-strong), transparent);
+}
+
+.liga-around h2 {
+  grid-column: 1;
+  color: var(--liga-ink);
+  font: 800 clamp(.88rem, 3.2vw, 1rem)/1 var(--font-ui);
+  letter-spacing: .02em;
+  text-transform: uppercase;
+}
+
+.liga-around p {
+  grid-column: 3;
+  color: var(--liga-muted);
+  font-size: clamp(.66rem, 2.45vw, .78rem);
+  font-weight: 650;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.liga-court-list {
+  margin: 0;
+  padding: .15rem .55rem;
+  border: 1px solid var(--liga-line);
+  border-radius: 1rem;
+  list-style: none;
+  background: var(--liga-surface);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .78);
+  overflow: hidden;
+}
+
+.liga-court-row + .liga-court-row { border-top: 1px solid color-mix(in srgb, var(--liga-line) 62%, transparent); }
+
+.liga-court-row {
+  position: relative;
+  border-radius: .85rem;
+}
+
+.liga-court-row.is-you {
+  margin-inline: -.55rem;
+  padding-inline: .55rem;
+  border: 1px solid var(--liga-line-strong);
+  border-radius: .85rem;
+  background: linear-gradient(90deg, rgba(255, 224, 118, .14), rgba(255, 255, 255, .76), rgba(255, 224, 118, .12));
+  box-shadow: 0 0 1.05rem rgba(202, 145, 28, .12), inset 0 0 0 1px rgba(255, 255, 255, .66);
+}
+
+.liga-court-row.is-you + .liga-court-row { border-top: 0; }
+
+.liga-court-row-button {
+  display: grid;
+  grid-template-columns: 2rem 2.65rem minmax(0, 1fr) minmax(4rem, auto) minmax(2.6rem, auto);
+  align-items: center;
+  gap: .45rem;
+  width: 100%;
+  min-height: 4.25rem;
+  padding: .35rem .15rem;
+  border: 0;
+  color: var(--liga-ink);
+  background: transparent;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.liga-court-row-button:disabled { cursor: default; }
+.liga-court-row-rank { font: 650 1.08rem/1 var(--font-display); font-variant-numeric: tabular-nums; }
+
+.liga-court-row-avatar {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 2.55rem;
+  height: 2.55rem;
+  border: 1px solid var(--liga-line-strong);
+  border-radius: 50%;
+  background: var(--navy);
+}
+
+.liga-court-row-avatar .avatar-img,
+.liga-court-row-avatar .avatar-fallback {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.liga-court-row-avatar .street-live-dot {
+  position: absolute;
+  right: -.1rem;
+  bottom: .05rem;
+  width: .68rem;
+  height: .68rem;
+}
+
+.liga-court-row-person { display: grid; min-width: 0; line-height: 1.08; }
+.liga-court-row-person strong { overflow: hidden; font: 650 .92rem/1.08 var(--font-display); text-overflow: ellipsis; white-space: nowrap; }
+.liga-court-row-person small { overflow: hidden; color: var(--liga-muted); font-size: .69rem; text-overflow: ellipsis; white-space: nowrap; }
+
+.liga-court-row-score {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: .2rem;
+  font-size: .9rem;
+  font-weight: 750;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.liga-court-row-score .picto { width: .95rem; height: .95rem; color: var(--gold-deep); }
+
+.liga-court-row-state {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2rem;
+  color: var(--liga-muted);
+  font-size: .65rem;
+  font-weight: 750;
+  line-height: 1;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.liga-court-row-state.is-live { color: #1e7a3a; }
+.liga-court-row-state.is-you { color: #b7640c; }
+.liga-court-row-state.is-challenge { padding: .35rem .55rem; border: 1px solid var(--liga-line); border-radius: 999px; color: var(--liga-ink); }
+.liga-court-row-state .picto { width: 1rem; height: 1rem; color: var(--gold-deep); }
+
+.liga-see-all {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: 2.75rem minmax(0, 1fr) 2.75rem;
+  align-items: center;
+  gap: .75rem;
+  min-height: 4.25rem;
+  padding: .52rem .58rem;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--gold-deep) 72%, white);
+  border-radius: 1.25rem;
+  color: var(--liga-ink);
+  background:
+    radial-gradient(circle at 8% 10%, color-mix(in srgb, var(--gold-deep) 18%, transparent), transparent 30%),
+    linear-gradient(112deg, color-mix(in srgb, white 84%, transparent), color-mix(in srgb, var(--temple-ivory) 68%, transparent));
+  box-shadow:
+    0 .7rem 1.8rem rgba(80, 55, 18, .13),
+    inset 0 1px 0 rgba(255, 255, 255, .96),
+    inset 0 -.35rem 1.4rem rgba(211, 164, 54, .07);
+  font: 850 clamp(.875rem, 2.7vw, .95rem)/1.1 var(--font-ui);
+  letter-spacing: .055em;
+  text-decoration: none;
+  text-align: center;
+  text-transform: uppercase;
+  -webkit-backdrop-filter: blur(18px) saturate(135%);
+  backdrop-filter: blur(18px) saturate(135%);
+}
+
+.liga-see-all::before {
+  position: absolute;
+  z-index: -1;
+  inset: 3px;
+  border: 1px solid color-mix(in srgb, white 78%, var(--gold-deep));
+  border-radius: calc(1.25rem - 3px);
+  content: "";
+  pointer-events: none;
+}
+
+.liga-see-all::after {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background: linear-gradient(108deg, transparent 28%, rgba(255, 255, 255, .52) 46%, transparent 62%);
+  content: "";
+  pointer-events: none;
+  transform: translateX(-125%);
+  transition: transform 520ms var(--liga-ease-out);
+}
+
+.liga-see-all-label { min-width: 0; text-wrap: balance; }
+
+.liga-see-all-medallion,
+.liga-see-all-arrow {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 50%;
+}
+
+.liga-see-all-medallion {
+  border: 1px solid color-mix(in srgb, var(--gold-deep) 55%, white);
+  color: var(--gold-deep);
+  background:
+    radial-gradient(circle at 34% 24%, rgba(255, 255, 255, .96), transparent 30%),
+    color-mix(in srgb, var(--gold-deep) 21%, var(--temple-ivory));
+  box-shadow: inset 0 1px 0 white, 0 .35rem .8rem rgba(124, 85, 18, .14);
+}
+
+.liga-see-all-arrow {
+  border: 1px solid color-mix(in srgb, var(--gold-deep) 58%, var(--navy));
+  color: var(--temple-ivory);
+  background: var(--navy);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .22), 0 .4rem .9rem rgba(20, 35, 64, .2);
+}
+
+.liga-see-all-medallion .picto { width: 1.35rem; height: 1.35rem; }
+.liga-see-all-arrow .picto { width: 1rem; height: 1rem; }
+
+.liga-challenge-strip {
+  display: grid;
+  grid-template-columns: 4.2rem minmax(0, 1fr) auto;
+  align-items: center;
+  gap: .75rem;
+  min-height: 7rem;
+  padding: .7rem .85rem;
+  border: 1px solid var(--liga-line);
+  border-radius: 1rem;
+  color: var(--liga-ink);
+  background: var(--liga-surface);
+  box-shadow: inset 0 1px 0 white;
+  text-decoration: none;
+}
+
+.liga-challenge-avatar {
+  display: grid;
+  place-items: center;
+  width: 4rem;
+  height: 4rem;
+  border: 1px solid var(--liga-line-strong);
+  border-radius: 50%;
+  color: var(--gold-deep);
+  background: var(--liga-surface-strong);
+  overflow: hidden;
+}
+
+.liga-challenge-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.liga-challenge-avatar .picto { width: 2rem; height: 2rem; }
+.liga-challenge-copy { display: grid; min-width: 0; gap: .1rem; }
+.liga-challenge-copy strong { color: var(--liga-ink); font: 750 .88rem/1.15 var(--font-ui); text-transform: uppercase; }
+.liga-challenge-copy span { color: var(--liga-ink); font-size: .82rem; }
+.liga-challenge-copy small { color: var(--liga-muted); font-size: .72rem; }
+
+.liga-challenge-action {
+  display: grid;
+  place-items: center;
+  min-width: 4.5rem;
+  min-height: 2.75rem;
+  padding: .5rem .7rem;
+  border: 1px solid var(--liga-line-strong);
+  border-radius: 999px;
+  font-size: .76rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.liga-court-empty {
+  display: grid;
+  justify-items: center;
+  gap: .55rem;
+  min-height: 10rem;
+  padding: 2rem;
+  border: 1px solid var(--liga-line);
+  border-radius: 1rem;
+  color: var(--liga-muted);
+  background: var(--liga-surface);
+  text-align: center;
+}
+
+.liga-court-empty .picto { width: 2.4rem; height: 2.4rem; color: var(--gold-deep); }
+
+/* Full searchable board: server-rendered windows of 100, never 1,000 rows in the DOM. */
+.liga-full-panel {
+  display: grid;
+  gap: .8rem;
+  padding: .9rem;
+  border: 1px solid var(--liga-line);
+  border-radius: 1.2rem;
+  background: var(--liga-surface-strong);
+  box-shadow: var(--liga-shadow);
+}
+
+.liga-full-head {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  min-height: 3rem;
+}
+
+.liga-full-head h2 { grid-column: 2; color: var(--liga-ink); font: 650 1.25rem/1 var(--font-display); text-align: center; }
+.liga-full-back { grid-column: 1; grid-row: 1; display: inline-flex; align-items: center; gap: .3rem; min-height: 2.75rem; color: var(--liga-ink); font-size: .76rem; font-weight: 750; text-decoration: none; }
+.liga-full-back .picto { width: 1rem; height: 1rem; transform: rotate(180deg); }
+
+.liga-scope-switch {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  min-height: 3.6rem;
+  border: 1px solid var(--liga-line);
+  border-radius: .9rem;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--temple-ivory) 78%, transparent);
+}
+
+.liga-scope-switch a {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .45rem;
+  min-height: 3.6rem;
+  padding: .5rem;
+  color: var(--liga-muted);
+  font-size: .72rem;
+  font-weight: 750;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.liga-scope-switch a + a { border-left: 1px solid var(--liga-line); }
+.liga-scope-switch a.is-active { color: var(--liga-ink); background: rgba(255, 224, 118, .13); }
+.liga-scope-switch a.is-active::after { content: ""; position: absolute; right: 15%; bottom: 0; left: 15%; height: 3px; border-radius: 3px 3px 0 0; background: var(--gold-deep); }
+.liga-scope-switch .picto { width: 1.2rem; height: 1.2rem; color: var(--gold-deep); }
+
+.liga-full-search {
+  display: grid;
+  grid-template-columns: 1.35rem 1fr;
+  align-items: center;
+  gap: .55rem;
+  min-height: 3.25rem;
+  padding: 0 .85rem;
+  border: 1px solid var(--liga-line);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .7);
+}
+
+.liga-full-search .picto { width: 1.2rem; height: 1.2rem; color: var(--liga-muted); }
+.liga-full-search input { width: 100%; min-width: 0; min-height: 3rem; padding: 0; border: 0; outline: 0; color: var(--liga-ink); background: transparent; font: 500 var(--type-min)/1 var(--font-ui); }
+.liga-full-search:focus-within { border-color: var(--liga-line-strong); box-shadow: 0 0 0 3px rgba(218, 171, 48, .14); }
+.liga-full-search.is-loading { cursor: progress; opacity: .72; }
+.liga-full-search.is-loading .picto { animation: liga-search-spin .75s linear infinite; }
+.liga-full-count { color: var(--liga-muted); font-size: .75rem; text-align: center; }
+.liga-full-results { min-height: 16rem; }
+.liga-court-list.is-full { padding-inline: .65rem; }
+.liga-court-list.is-full .liga-court-row-button { min-height: 4.7rem; }
+
+.liga-cursor-nav { display: grid; grid-template-columns: 1fr 1fr; gap: .7rem; }
+.liga-cursor-link { display: flex; align-items: center; justify-content: center; gap: .45rem; min-height: 3rem; padding: .55rem .8rem; border: 1px solid var(--liga-line-strong); border-radius: 999px; color: var(--liga-ink); background: var(--liga-surface); font-size: .76rem; font-weight: 800; text-decoration: none; text-transform: uppercase; }
+.liga-cursor-link .picto { width: 1rem; height: 1rem; }
+.liga-cursor-link.is-prev .picto { transform: rotate(180deg); }
+
+/* Motion language: first entrance tells aspiration -> local tension -> next action.
+   Repeated Turbo visits remove .is-liga-enter in liga_board_controller. */
+.liga-court-search-open,
+.liga-court-podium-button,
+.liga-court-row-button,
+.liga-rivalry-cta,
+.liga-see-all,
+.liga-challenge-strip,
+.liga-cursor-link,
+.liga-scope-switch a,
+.liga-full-back {
+  transition:
+    color var(--liga-motion-quick) ease,
+    background-color var(--liga-motion-quick) ease,
+    border-color var(--liga-motion-quick) ease,
+    box-shadow var(--liga-motion-ui) ease,
+    opacity var(--liga-motion-quick) ease,
+    transform var(--liga-motion-ui) var(--liga-ease-out);
+}
+
+.liga-rivalry-cta-arrow .picto,
+.liga-see-all-arrow .picto,
+.liga-cursor-link .picto,
+.liga-full-back .picto {
+  transition: transform var(--liga-motion-ui) var(--liga-ease-out);
+}
+
+.liga-court-podium-portrait {
+  transition: box-shadow var(--liga-motion-ui) ease;
+}
+
+.street-leaderboard-page.liga-court.is-liga-enter .liga-court-heading {
+  animation: liga-court-heading-in 320ms var(--liga-ease-out) 60ms both;
+}
+
+.street-leaderboard-page.liga-court.is-liga-enter:not(.is-full) .liga-court-podium-place.is-place-2 {
+  animation: liga-podium-side-in var(--liga-motion-reveal) var(--liga-ease-out) 160ms both;
+}
+
+.street-leaderboard-page.liga-court.is-liga-enter:not(.is-full) .liga-court-podium-place.is-place-3 {
+  animation: liga-podium-side-in var(--liga-motion-reveal) var(--liga-ease-out) 220ms both;
+}
+
+.street-leaderboard-page.liga-court.is-liga-enter:not(.is-full) .liga-court-podium-place.is-place-1 {
+  animation: liga-podium-champion-in 460ms var(--liga-ease-pop) 250ms both;
+}
+
+.street-leaderboard-page.liga-court.is-liga-enter:not(.is-full) .is-place-1 .liga-court-podium-crown {
+  animation: liga-champion-crown-in 320ms var(--liga-ease-pop) 430ms both;
+}
+
+.street-leaderboard-page.liga-court.is-liga-enter:not(.is-full) .is-place-1 .liga-court-podium-portrait::before {
+  animation: liga-laurel-bloom 320ms var(--liga-ease-out) 430ms both;
+}
+
+.street-leaderboard-page.liga-court.is-liga-enter:not(.is-full) .liga-rivalry {
+  animation: liga-panel-rise 320ms var(--liga-ease-out) 470ms both;
+}
+
+.street-leaderboard-page.liga-court.is-liga-enter:not(.is-full) .liga-rivalry-cta::after {
+  animation: liga-cta-sheen 360ms ease-out 500ms both;
+}
+
+.street-leaderboard-page.liga-court.is-liga-enter:not(.is-full) .liga-around {
+  animation: liga-panel-rise 270ms var(--liga-ease-out) 560ms both;
+}
+
+.street-leaderboard-page.liga-court.is-liga-enter:not(.is-full) .liga-see-all {
+  animation: liga-panel-rise 250ms var(--liga-ease-out) 600ms both;
+}
+
+.street-leaderboard-page.liga-court.is-liga-enter:not(.is-full) .liga-challenge-strip {
+  animation: liga-panel-rise 250ms var(--liga-ease-out) 640ms both;
+}
+
+.street-leaderboard-page.liga-court.is-liga-enter.is-full .liga-full-panel {
+  animation: liga-panel-rise 360ms var(--liga-ease-out) 90ms both;
+}
+
+.street-leaderboard-page.liga-court.is-liga-enter.is-full .liga-scope-switch {
+  animation: liga-panel-rise 280ms var(--liga-ease-out) 210ms both;
+}
+
+.street-leaderboard-page.liga-court.is-liga-enter.is-full .liga-full-search,
+.street-leaderboard-page.liga-court.is-liga-enter.is-full .liga-full-count {
+  animation: liga-panel-rise 280ms var(--liga-ease-out) 290ms both;
+}
+
+.street-leaderboard-page.liga-court.is-liga-enter.is-full .liga-court-row:nth-child(-n + 8) {
+  animation: liga-row-in 240ms var(--liga-ease-out) both;
+}
+
+.street-leaderboard-page.liga-court.is-liga-enter.is-full .liga-court-row:nth-child(1) { animation-delay: 400ms; }
+.street-leaderboard-page.liga-court.is-liga-enter.is-full .liga-court-row:nth-child(2) { animation-delay: 430ms; }
+.street-leaderboard-page.liga-court.is-liga-enter.is-full .liga-court-row:nth-child(3) { animation-delay: 460ms; }
+.street-leaderboard-page.liga-court.is-liga-enter.is-full .liga-court-row:nth-child(4) { animation-delay: 490ms; }
+.street-leaderboard-page.liga-court.is-liga-enter.is-full .liga-court-row:nth-child(5) { animation-delay: 520ms; }
+.street-leaderboard-page.liga-court.is-liga-enter.is-full .liga-court-row:nth-child(6) { animation-delay: 550ms; }
+.street-leaderboard-page.liga-court.is-liga-enter.is-full .liga-court-row:nth-child(7) { animation-delay: 580ms; }
+.street-leaderboard-page.liga-court.is-liga-enter.is-full .liga-court-row:nth-child(8) { animation-delay: 610ms; }
+
+.liga-court-row.is-flipping { z-index: 3; }
+.liga-court-row.is-rank-changed { animation: liga-rank-glow 620ms ease-out both; }
+
+.liga-court :focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--gold-deep) 62%, white);
+  outline-offset: 3px;
+}
+
+@media (hover: hover) {
+  .liga-court-search-open:hover,
+  .liga-see-all:hover,
+  .liga-challenge-strip:hover,
+  .liga-cursor-link:hover,
+  .liga-full-back:hover { transform: translateY(-2px); }
+
+  .liga-court-search-open:hover,
+  .liga-see-all:hover,
+  .liga-challenge-strip:hover,
+  .liga-cursor-link:hover { box-shadow: 0 .65rem 1.45rem rgba(80, 55, 18, .16), inset 0 1px 0 white; }
+
+  .liga-court-podium-button:not(:disabled):hover { transform: translateY(-4px) scale(1.012); }
+  .liga-court-podium-button:not(:disabled):hover .liga-court-podium-portrait { box-shadow: 0 0 0 3px rgba(255, 235, 151, .55), 0 .9rem 1.8rem rgba(55, 42, 24, .22); }
+  .liga-court-row-button:not(:disabled):hover { transform: translateX(3px); }
+  .liga-court-row:has(.liga-court-row-button:not(:disabled):hover) { background: rgba(255, 224, 118, .09); }
+  .liga-rivalry-cta:hover { border-color: color-mix(in srgb, var(--gold-deep) 90%, white); box-shadow: 0 1rem 2.1rem color-mix(in srgb, var(--gold-deep) 28%, transparent), inset 0 1px 0 white; }
+  .liga-rivalry-cta:hover::after { opacity: .82; transform: translateX(520%) skewX(-18deg); }
+  .liga-see-all:hover { border-color: color-mix(in srgb, var(--gold-deep) 88%, white); }
+  .liga-see-all:hover::after { transform: translateX(125%); }
+  .liga-rivalry-cta:hover .liga-rivalry-cta-arrow .picto,
+  .liga-see-all:hover .liga-see-all-arrow .picto,
+  .liga-cursor-link.is-next:hover .picto { transform: translateX(4px); }
+  .liga-full-back:hover .picto,
+  .liga-cursor-link.is-prev:hover .picto { transform: rotate(180deg) translateX(4px); }
+}
+
+.liga-court-search-open:active,
+.liga-court-podium-button:not(:disabled):active,
+.liga-rivalry-cta:active,
+.liga-see-all:active,
+.liga-challenge-strip:active,
+.liga-cursor-link:active { transform: translateY(1px) scale(.985); }
+
+::view-transition-old(street-world) {
+  animation: liga-world-out 170ms ease-in both;
+}
+
+::view-transition-new(street-world) {
+  animation: liga-world-in 300ms cubic-bezier(.16, 1, .3, 1) both;
+}
+
+@keyframes liga-court-heading-in {
+  from { opacity: 0; transform: translateY(-8px); }
+}
+
+@keyframes liga-podium-side-in {
+  from { opacity: 0; transform: translateY(16px) scale(.965); filter: saturate(.7); }
+}
+
+@keyframes liga-podium-champion-in {
+  0% { opacity: 0; transform: translateY(20px) scale(.92); filter: brightness(.92); }
+  70% { opacity: 1; transform: translateY(-3px) scale(1.025); filter: brightness(1.05); }
+  100% { opacity: 1; transform: none; filter: none; }
+}
+
+@keyframes liga-champion-crown-in {
+  from { opacity: 0; transform: translateY(-8px) rotate(-5deg) scale(.8); }
+}
+
+@keyframes liga-laurel-bloom {
+  from { opacity: 0; transform: scale(.82) rotate(-4deg); }
+}
+
+@keyframes liga-panel-rise {
+  from { opacity: 0; transform: translateY(12px); }
+}
+
+@keyframes liga-row-in {
+  from { opacity: 0; transform: translateY(8px); }
+}
+
+@keyframes liga-cta-sheen {
+  0% { opacity: 0; transform: translateX(0) skewX(-18deg); }
+  25% { opacity: .85; }
+  100% { opacity: 0; transform: translateX(520%) skewX(-18deg); }
+}
+
+@keyframes liga-rank-glow {
+  0%, 100% { box-shadow: 0 0 0 rgba(216, 164, 35, 0); }
+  35% { box-shadow: 0 0 0 2px rgba(216, 164, 35, .48), 0 0 1.3rem rgba(216, 164, 35, .3); }
+}
+
+@keyframes liga-world-out {
+  to { opacity: 0; transform: translateY(-6px) scale(.995); }
+}
+
+@keyframes liga-world-in {
+  from { opacity: 0; transform: translateY(10px) scale(.995); }
+}
+
+body.is-liga .street-leaderboard-page.liga-court .street-liga-you-bar {
+  z-index: 18;
+  right: max(.8rem, calc((100vw - min(52rem, 100vw)) / 2 + .8rem));
+  bottom: calc(5.3rem + env(safe-area-inset-bottom));
+  left: max(.8rem, calc((100vw - min(52rem, 100vw)) / 2 + .8rem));
+  width: auto;
+  max-width: none;
+  color: var(--liga-ink);
+  background: color-mix(in srgb, var(--temple-ivory) 94%, transparent);
+}
+
+body.is-liga .street-leaderboard-page.liga-court .street-liga-dialog {
+  position: fixed;
+  inset: 0;
+  box-sizing: border-box;
+  width: min(30rem, calc(100vw - 2rem));
+  max-width: none;
+  max-height: min(46rem, calc(100dvh - 2rem));
+  margin: auto;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--gold-deep) 52%, rgba(255, 255, 255, .7));
+  border-radius: 2rem;
+  color: var(--liga-ink);
+  background:
+    radial-gradient(circle at 50% -14%, rgba(255, 244, 185, .72), transparent 42%),
+    linear-gradient(145deg, rgba(255, 255, 255, .82), rgba(255, 250, 235, .62));
+  box-shadow:
+    0 2rem 6rem rgba(34, 25, 13, .28),
+    inset 0 1px 0 rgba(255, 255, 255, .95),
+    inset 0 0 3.5rem rgba(255, 232, 153, .13);
+  -webkit-backdrop-filter: blur(30px) saturate(145%);
+  backdrop-filter: blur(30px) saturate(145%);
+}
+
+body.is-liga .street-leaderboard-page.liga-court .street-liga-dialog::backdrop {
+  background: rgba(19, 24, 29, .32);
+  -webkit-backdrop-filter: blur(8px) saturate(.82);
+  backdrop-filter: blur(8px) saturate(.82);
+}
+
+body.is-liga .street-leaderboard-page.liga-court .street-liga-dialog-sheet {
+  position: relative;
+  display: grid;
+  gap: 1rem;
+  box-sizing: border-box;
+  max-height: min(46rem, calc(100dvh - 2rem));
+  padding: clamp(1.2rem, 4vw, 1.7rem);
+  overflow: auto;
+  color: var(--liga-ink);
+  scrollbar-width: none;
+}
+
+body.is-liga .street-leaderboard-page.liga-court .street-liga-dialog-sheet::-webkit-scrollbar { display: none; }
+
+body.is-liga .street-leaderboard-page.liga-court .street-liga-dialog-close {
+  position: absolute;
+  z-index: 2;
+  top: .85rem;
+  right: .85rem;
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0;
+  border: 1px solid rgba(139, 103, 35, .2);
+  border-radius: 50%;
+  color: var(--liga-ink);
+  background: rgba(255, 255, 255, .46);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .9);
+  cursor: pointer;
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+
+body.is-liga .street-leaderboard-page.liga-court .street-liga-dialog-close .picto { width: 1rem; height: 1rem; }
+
+body.is-liga .street-leaderboard-page.liga-court .liga-duel-heading {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  justify-items: center;
+  align-items: center;
+  padding: .45rem 2.8rem 0;
+  text-align: center;
+}
+
+.liga-duel-heading h2 {
+  margin: 0;
+  color: var(--liga-ink);
+  font: 700 clamp(1.3rem, 5vw, 1.65rem)/1.05 var(--font-display);
+  text-transform: uppercase;
+}
+
+.liga-duel-rival-hero { display: grid; place-items: center; padding: .2rem 0 .1rem; }
+
+.liga-duel-avatar {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 5rem;
+  height: 5rem;
+  margin-bottom: .28rem;
+  border: 2px solid rgba(206, 157, 35, .68);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .68);
+  box-shadow:
+    0 0 0 5px rgba(255, 242, 190, .34),
+    0 .8rem 1.8rem rgba(71, 51, 18, .16),
+    inset 0 1px 0 white;
+  overflow: hidden;
+}
+
+.liga-duel-rival-hero .liga-duel-avatar { box-shadow: 0 0 0 5px rgba(255, 224, 118, .42), 0 0 1.6rem rgba(220, 161, 31, .24), inset 0 1px 0 white; }
+.liga-duel-avatar img,
+.liga-duel-avatar .avatar-fallback { width: 100%; height: 100%; object-fit: cover; }
+.liga-duel-avatar .avatar-fallback { display: grid; place-items: center; color: var(--temple-ivory); background: var(--navy); font: 800 1.55rem/1 var(--font-display); }
+
+.liga-duel-profile {
+  overflow: hidden;
+  border: 1px solid rgba(153, 113, 40, .22);
+  border-radius: 1.15rem;
+  background: rgba(255, 255, 255, .4);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .86);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+}
+
+body.is-liga .street-leaderboard-page.liga-court .liga-duel-profile-owner {
+  display: flex;
+  grid-template-columns: none;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: .65rem;
+  padding: .65rem .75rem .55rem;
+  border-bottom: 1px solid rgba(153, 113, 40, .16);
+  text-align: left;
+}
+
+.liga-duel-profile-owner strong { overflow: hidden; color: var(--liga-ink); font: 750 .88rem/1.1 var(--font-display); text-overflow: ellipsis; white-space: nowrap; }
+.liga-duel-profile-owner span { flex: 0 0 auto; color: var(--gold-deep); font-size: .57rem; font-weight: 850; letter-spacing: .1em; text-transform: uppercase; }
+
+.liga-duel-intel { display: grid; grid-template-columns: .72fr .9fr 1.6fr; margin: 0; }
+
+.liga-duel-intel > div { display: grid; align-content: center; min-width: 0; min-height: 4.45rem; padding: .68rem .75rem; }
+.liga-duel-intel > div + div { border-left: 1px solid rgba(153, 113, 40, .16); }
+.liga-duel-intel dt { color: var(--liga-muted); font-size: .59rem; font-weight: 800; letter-spacing: .09em; text-transform: uppercase; }
+.liga-duel-intel dd { display: flex; align-items: center; gap: .25rem; min-width: 0; margin: .2rem 0 0; overflow: hidden; color: var(--liga-ink); font-size: .88rem; font-weight: 800; line-height: 1.15; text-overflow: ellipsis; white-space: nowrap; }
+.liga-duel-intel dd .picto { flex: 0 0 auto; width: 1rem; height: 1rem; color: var(--gold-deep); }
+.liga-duel-intel small { margin-top: .14rem; color: var(--liga-muted); font-size: .62rem; font-weight: 650; }
+
+.liga-duel-notification-note {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0;
+  padding: .15rem .35rem;
+  color: var(--liga-muted);
+  font-size: .72rem;
+  font-weight: 700;
+  line-height: 1.35;
+  text-align: left;
+}
+
+body.is-liga .street-leaderboard-page.liga-court .liga-duel-actions { display: grid; grid-template-columns: 1fr; gap: .35rem; }
+
+.liga-duel-cta {
+  position: relative;
+  display: grid;
+  grid-template-columns: 2.65rem 1fr 1rem;
+  align-items: center;
+  gap: .7rem;
+  width: 100%;
+  min-height: 3.65rem;
+  padding: .42rem .9rem .42rem .46rem;
+  overflow: hidden;
+  border: 1px solid #c28d17;
+  border-radius: 999px;
+  color: var(--navy);
+  background: linear-gradient(100deg, #f0bd3c, #ffd968 48%, #e4aa27);
+  box-shadow: 0 .7rem 1.6rem rgba(150, 101, 9, .22), inset 0 1px 0 rgba(255, 255, 255, .72);
+  font: 850 .92rem/1 var(--font-ui);
+  letter-spacing: .045em;
+  text-align: center;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: filter 150ms ease, transform 150ms ease, box-shadow 150ms ease;
+}
+
+.liga-duel-cta::after { content: ""; position: absolute; inset: 0; background: linear-gradient(110deg, transparent 25%, rgba(255, 255, 255, .38) 46%, transparent 62%); transform: translateX(-130%); transition: transform 420ms ease; }
+.liga-duel-cta-mark { display: grid; place-items: center; width: 2.65rem; height: 2.65rem; border: 1px solid rgba(26, 39, 68, .25); border-radius: 50%; background: rgba(255, 250, 224, .48); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .72); }
+.liga-duel-cta-mark .picto { width: 1.4rem; height: 1.4rem; }
+.liga-duel-cta:disabled { cursor: wait; filter: saturate(.68); opacity: .78; }
+.liga-duel-cta.is-sending .liga-duel-cta-mark { animation: liga-duel-spin 800ms linear infinite; }
+.liga-duel-cancel { justify-self: center; min-width: 7rem; min-height: 2.75rem; padding: .45rem 1rem; border: 0; color: var(--liga-muted); background: transparent; font: 750 .75rem/1 var(--font-ui); cursor: pointer; }
+
+.street-liga-challenge-success,
+.liga-invitation-error { margin: 0; padding: .7rem .85rem; border-radius: .8rem; font-size: .78rem; text-align: center; }
+.street-liga-challenge-success { border: 1px solid rgba(32, 122, 58, .26); color: #1e6f37; background: rgba(225, 249, 230, .56); }
+.street-liga-challenge-success .picto { width: 1rem; height: 1rem; vertical-align: -.2rem; }
+.liga-invitation-error { border: 1px solid color-mix(in srgb, var(--liga-error) 48%, transparent); color: var(--liga-error); background: color-mix(in srgb, var(--liga-error) 8%, white); }
+
+@media (hover: hover) {
+  .liga-duel-cta:not(:disabled):hover { transform: translateY(-2px); box-shadow: 0 .9rem 2rem rgba(150, 101, 9, .28), inset 0 1px 0 rgba(255, 255, 255, .78); }
+  .liga-duel-cta:not(:disabled):hover::after { transform: translateX(130%); }
+  .liga-duel-cancel:hover { color: var(--liga-ink); }
+}
+
+.liga-duel-cta:not(:disabled):active { transform: translateY(1px) scale(.985); }
+
+@keyframes liga-duel-spin { to { transform: rotate(1turn); } }
+
+@keyframes liga-search-spin { to { transform: rotate(1turn); } }
+
+@media (max-width: 430px) {
+  body.is-liga .street-leaderboard-page.liga-court .street-liga-dialog { width: min(27rem, calc(100vw - 1rem)); max-height: calc(100dvh - 1rem); border-radius: 1.6rem; }
+  body.is-liga .street-leaderboard-page.liga-court .street-liga-dialog-sheet { max-height: calc(100dvh - 1rem); padding: 1.05rem; gap: .82rem; }
+  .liga-duel-heading { padding-inline: 2.4rem; }
+  .liga-duel-avatar { width: 4.4rem; height: 4.4rem; }
+  .liga-duel-intel { grid-template-columns: 1fr 1fr; }
+  .liga-duel-intel > div { min-height: 3.8rem; }
+  .liga-duel-intel > .is-pack { grid-column: 1 / -1; border-top: 1px solid rgba(153, 113, 40, .16); border-left: 0; }
+  .liga-court-heading { padding-inline: 2.4rem; }
+  .liga-court-heading-rule { opacity: .72; }
+  .liga-court-podium { min-height: 17.2rem; }
+  .liga-court-podium-plinth { min-height: 6.55rem; }
+  .liga-court-podium-place.is-place-1 .liga-court-podium-plinth { min-height: 8rem; }
+  .liga-rivalry { grid-template-columns: minmax(4.4rem, 1fr) minmax(8.3rem, 1.8fr) minmax(4.4rem, 1fr); }
+  .liga-court-row-button { grid-template-columns: 1.8rem 2.45rem minmax(0, 1fr) auto minmax(1.8rem, auto); gap: .32rem; }
+  .liga-court-row-avatar { width: 2.35rem; height: 2.35rem; }
+  .liga-court-row-person strong { font-size: .84rem; }
+  .liga-court-row-state { font-size: .58rem; }
+  .liga-court-list:not(.is-full) .liga-court-row-state.is-challenge { width: 1.75rem; padding: 0; border: 0; }
+  .liga-challenge-strip { grid-template-columns: 3.65rem minmax(0, 1fr) auto; gap: .55rem; padding-inline: .65rem; }
+  .liga-challenge-avatar { width: 3.5rem; height: 3.5rem; }
+}
+
+@media (min-width: 700px) {
+  body.is-liga .shell { padding-inline: 1.5rem; }
+  .liga-court { gap: 1rem; }
+  .liga-court-heading { min-height: 10rem; }
+  .liga-court-podium { min-height: 25rem; padding-inline: 1.4rem; }
+  .liga-court-podium-plinth { min-height: 9rem; }
+  .liga-court-podium-place.is-place-1 .liga-court-podium-plinth { min-height: 11.5rem; }
+  .liga-rivalry { min-height: 19rem; padding: 1.4rem 1.8rem; }
+  .liga-rivalry-avatar { width: 7rem; height: 7rem; }
+  .liga-court-row-button { grid-template-columns: 2.4rem 3.15rem minmax(0, 1fr) minmax(6rem, auto) minmax(5.5rem, auto); min-height: 5rem; padding-inline: .55rem; }
+  .liga-court-row-avatar { width: 3rem; height: 3rem; }
+  .liga-court-row-person strong { font-size: 1rem; }
+  .liga-challenge-strip { min-height: 8rem; padding-inline: 1.3rem; }
+  .liga-full-panel { padding: 1.25rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(street-world),
+  ::view-transition-new(street-world) {
+    animation-duration: .001ms !important;
+  }
+
+  .liga-court *,
+  .liga-court *::before,
+  .liga-court *::after {
+    scroll-behavior: auto !important;
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .001ms !important;
+  }
+}
+
+@media (forced-colors: active) {
+  .liga-court-podium-plinth,
+  .liga-rivalry,
+  .liga-court-list,
+  .liga-see-all,
+  .liga-challenge-strip,
+  .liga-full-panel { border: 1px solid CanvasText; background: Canvas; color: CanvasText; }
+}

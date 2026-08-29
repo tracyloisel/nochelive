@@ -1,0 +1,53 @@
+- generic [active] [ref=f1e454]:
+  - link "Aller au jeu" [ref=f1e455] [cursor=pointer]:
+    - /url: "#main"
+  - navigation "Menu":
+    - generic "Garde ta progression" [ref=f1e457]:
+      - link "Garde ta progression" [ref=f1e458] [cursor=pointer]:
+        - /url: /ficha?fresh=1
+        - generic [ref=f1e465]:
+          - paragraph [ref=f1e466]: Garde ta progression
+          - paragraph [ref=f1e467]: Crée ton profil gratuitement
+      - link "Créer mon profil" [ref=f1e469] [cursor=pointer]:
+        - /url: /ficha?fresh=1
+    - button "Menu" [ref=f1e474] [cursor=pointer]
+  - main [ref=f1e478]:
+    - generic [ref=f1e479]:
+      - generic [ref=f1e481]:
+        - paragraph [ref=f1e482]: Légal
+        - heading "Mentions légales" [level=1] [ref=f1e483]
+        - paragraph [ref=f1e484]: Mis à jour le 26 août 2026
+      - main [ref=f1e490]:
+        - generic [ref=f1e491]:
+          - heading "Ce site" [level=2] [ref=f1e492]
+          - paragraph [ref=f1e493]: "Noche Live est un quiz de famille pour les paroisses de l’Église de Jésus-Christ des Saints des Derniers Jours : des soirées en salle et le jeu sur le téléphone."
+          - paragraph [ref=f1e494]: Site personnel, non inscrit au registre du commerce espagnol.
+        - generic [ref=f1e496]:
+          - generic [ref=f1e497]:
+            - term [ref=f1e498]: Éditeur du site
+            - definition [ref=f1e499]: Tracy Loisel
+          - generic [ref=f1e500]:
+            - term [ref=f1e501]: Contact
+            - definition [ref=f1e502]:
+              - link "tracy.loisel@gmail.com" [ref=f1e503] [cursor=pointer]:
+                - /url: mailto:tracy.loisel@gmail.com
+          - generic [ref=f1e504]:
+            - term [ref=f1e505]: Hébergeur
+            - definition [ref=f1e506]:
+              - text: Render Services, Inc. 525 Brannan Street, Suite 300, San Francisco, CA 94107, États-Unis
+              - link "render.com" [ref=f1e507] [cursor=pointer]:
+                - /url: https://render.com
+        - generic [ref=f1e508]:
+          - heading "La loi" [level=2] [ref=f1e509]
+          - paragraph [ref=f1e510]: Cet avis identifie le prestataire selon la LSSI-CE espagnole (loi 34/2002). Le traitement des données est dans la politique de confidentialité.
+  - navigation "Accueil" [ref=f1e511]:
+    - link "Accueil" [ref=f1e512] [cursor=pointer]:
+      - /url: /
+    - link "Aventure" [ref=f1e519] [cursor=pointer]:
+      - /url: /mapa
+    - link "Parole" [ref=f1e528] [cursor=pointer]:
+      - /url: /parole
+    - link "Église" [ref=f1e536] [cursor=pointer]:
+      - /url: /iglesia
+    - link "Profil" [ref=f1e543] [cursor=pointer]:
+      - /url: /ficha?edit=1

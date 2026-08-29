@@ -6,7 +6,7 @@ carmen_duel_result:
   kind: duel_result
   dedupe_key: duel_result:fixture:subscription:carmen
   subject: pili_vs_carmen (StreetDuel)
-  destination: /desafio/pili-vs-carmen-token
+  destination: /desafios/<%= ActiveRecord::FixtureSet.identify(:pili_vs_carmen) %>
   status: sent
   scheduled_for: <%= 1.hour.ago %>
   sent_at: <%= 1.hour.ago %>

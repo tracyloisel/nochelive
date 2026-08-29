@@ -9,6 +9,7 @@ class Quizzes::HitStreakTest < ActiveSupport::TestCase
   test "ask on the first question is idle" do
     combo = Quizzes::HitStreak.call(run: @run)
     assert_equal 0, combo.count
+    assert_equal 0, combo.broken_count
     refute combo.grew
     refute combo.broke
     assert_equal "idle", combo.tier
@@ -16,7 +17,7 @@ class Quizzes::HitStreakTest < ActiveSupport::TestCase
     assert_nil combo.shout_key
   end
 
-  test "a hit grows the combo and a miss resets it without extra points" do
+  test "a hit grows the combo and a miss banks earned points" do
     first = @run.question
     Quizzes::Submit.call(run: @run, choice_key: first.correct_choice)
     hit = Quizzes::HitStreak.call(run: @run.reload)
@@ -24,8 +25,8 @@ class Quizzes::HitStreakTest < ActiveSupport::TestCase
     assert hit.grew
     refute hit.broke
     assert_equal "spark", hit.tier
-    assert_nil hit.shout_key
-    assert_equal first.points, @run.score
+    assert_equal "start", hit.shout_key
+    assert_equal 5, @run.score
 
     Quizzes::Advance.call(run: @run.reload)
     asking = Quizzes::HitStreak.call(run: @run.reload)
@@ -39,17 +40,19 @@ class Quizzes::HitStreakTest < ActiveSupport::TestCase
     broken = Quizzes::HitStreak.call(run: @run.reload)
     assert_equal 0, broken.count
     assert broken.broke
+    assert_equal 1, broken.broken_count
     refute broken.grew
     assert_equal "idle", broken.tier
     assert_nil broken.shout_key
-    assert_equal first.points, @run.score
+    assert_equal 5, @run.score
   end
 
-  test "milestones shout two three five ten without multiplying score" do
+  test "milestones narrate the streak while the bonus grows to its cap" do
     expected = {
+      1 => { shout: "start", sfx: nil, tier: "spark" },
       2 => { shout: "two", sfx: nil, tier: "glow" },
       3 => { shout: "three", sfx: nil, tier: "hot" },
-      4 => { shout: nil, sfx: nil, tier: "hot" },
+      4 => { shout: "four", sfx: nil, tier: "hot" },
       5 => { shout: "five", sfx: nil, tier: "blaze" },
       6 => { shout: nil, sfx: nil, tier: "blaze" },
       7 => { shout: nil, sfx: nil, tier: "blaze" },
@@ -57,12 +60,12 @@ class Quizzes::HitStreakTest < ActiveSupport::TestCase
       9 => { shout: nil, sfx: nil, tier: "blaze" },
       10 => { shout: "ten", sfx: nil, tier: "legend" }
     }
-    points = 0
+    gains = []
     10.times do |index|
       n = index + 1
       question = @run.reload.question
       Quizzes::Submit.call(run: @run, choice_key: question.correct_choice)
-      points += question.points
+      gains << @run.reload.quiz_answers.find_by!(question_id: question.id).points_awarded
       combo = Quizzes::HitStreak.call(run: @run.reload)
       assert_equal n, combo.count
       assert combo.grew
@@ -81,7 +84,8 @@ class Quizzes::HitStreakTest < ActiveSupport::TestCase
       end
       Quizzes::Advance.call(run: @run.reload) unless n == 10
     end
-    assert_equal points, @run.score
+    assert_equal [ 5, 7, 8, 9, 10, 10, 10, 10, 10, 10 ], gains
+    assert_equal 89, @run.score
   end
 
   test "finished run keeps the end combo and max streak" do
@@ -92,6 +96,7 @@ class Quizzes::HitStreakTest < ActiveSupport::TestCase
     combo = Quizzes::HitStreak.call(run: @run.reload)
     assert @run.finished?
     assert_equal 10, combo.count
+    assert_equal 0, combo.broken_count
     refute combo.grew
     assert_equal "legend", combo.tier
     assert_equal 10, Quizzes::HitStreak.max_count(run: @run)

@@ -1,0 +1,35 @@
+# frozen_string_literal: true
+
+open_pili_invitation:
+  challenger_person: pili
+  challenger_run: pili_coronas
+  challenger_score: 95
+  token_digest: <%= Digest::SHA256.hexdigest("open-pili-invitation") %>
+  status: open
+  source: test
+  channel: link
+  expires_at: <%= 7.days.from_now %>
+
+named_pili_invitation:
+  challenger_person: pili
+  recipient_person: carmen_garcia
+  token_digest: <%= Digest::SHA256.hexdigest("named-pili-invitation") %>
+  status: open
+  source: test
+  channel: noche
+  expires_at: <%= 7.days.from_now %>
+
+resolved_pili_invitation:
+  challenger_person: pili
+  recipient_person: carmen_garcia
+  challenger_run: pili_coronas
+  challenger_score: 95
+  claimed_by_person: carmen_garcia
+  street_duel: pili_vs_carmen
+  token_digest: <%= Digest::SHA256.hexdigest("resolved-pili-invitation") %>
+  status: claimed
+  source: test
+  channel: noche
+  seen_at: <%= 1.week.ago %>
+  claimed_at: <%= 1.week.ago %>
+  expires_at: <%= 7.days.from_now %>

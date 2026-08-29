@@ -57,9 +57,9 @@ class People::MergeTest < ActiveSupport::TestCase
     keeper = people(:carmen_garcia)
     source = people(:carmen_lopez)
     event = ViralEvent.create!(
-      name: "invitee_registered",
+      name: "invitee_profile_created",
       device_digest: "merged-invitee-device",
-      street_duel: street_duels(:pending_challenge),
+      duel_invitation: duel_invitations(:open_pili_invitation),
       person: source,
       source: "invite"
     )
@@ -68,7 +68,7 @@ class People::MergeTest < ActiveSupport::TestCase
 
     assert_equal keeper, event.reload.person
     assert_not Person.exists?(source.id)
-    assert_equal "invitee_registered", keeper.viral_events.find(event.id).name
+    assert_equal "invitee_profile_created", keeper.viral_events.find(event.id).name
   end
 
   test "preserves quiz points from the newer duplicate" do
@@ -133,34 +133,32 @@ class People::MergeTest < ActiveSupport::TestCase
     assert_not Person.exists?(source.id)
   end
 
-  test "archives a duel between the two profiles and preserves its invitation history" do
+  test "collapses a self-duel between merged profiles and preserves its invitation history" do
     keeper = people(:carmen_garcia)
     source = people(:carmen_lopez)
-    duel = StreetDuel.create!(
-      challenger_person: source,
-      opponent_person: keeper,
-      ward: keeper.ward,
-      pack_id: "coronas",
-      token: "duplicate-carmens-duel",
-      status: "resolved",
-      challenger_score: 92,
-      opponent_score: 88,
-      expires_at: 1.week.from_now
+    invitation = DuelInvitation.create!(
+      challenger_person: source, recipient_person: keeper,
+      challenger_score: 92, token_digest: SecureRandom.hex(32),
+      status: "open", expires_at: 1.week.from_now
     )
+    duel = Quizzes::DuelInvitationClaim.call(invitation:, person: keeper).duel
+    duel.update!(status: "resolved", opponent_score: 88, resolved_at: Time.current)
     event = ViralEvent.create!(
       street_duel: duel,
+      duel_invitation: invitation,
       person: source,
-      name: "invite_share_completed",
+      name: "invite_share_handoff",
       device_digest: "duplicate-carmens-share"
     )
 
     People::Merge.call(keeper:, source:)
 
-    assert duel.reload.archived?
-    assert_equal keeper, duel.challenger_person
-    assert_equal keeper, duel.opponent_person
+    assert_not StreetDuel.exists?(duel.id)
+    assert invitation.reload.revoked?
+    assert_nil invitation.recipient_person
+    assert_equal keeper, invitation.challenger_person
     assert_equal keeper, event.reload.person
-    assert_empty Hubs::Invitations.call(person: keeper).items
+    assert_nil event.street_duel
   end
 
   test "combines profile scripture highlights and removes exact duplicates" do

@@ -24,6 +24,7 @@ module People
         move_reading_progresses!
         move_scripture_reads!
         move_scripture_highlights!
+        move_duel_invitations!
         move_duels!
         move_viral_events!
         @keeper.last_ward_team ||= @source.last_ward_team
@@ -208,17 +209,63 @@ module People
       end
 
       def move_duels!
-        StreetDuel.where(
+        collapsed = StreetDuel.where(
           "(challenger_person_id = :source AND opponent_person_id = :keeper) OR " \
             "(challenger_person_id = :keeper AND opponent_person_id = :source)",
           source: @source.id,
           keeper: @keeper.id
-        ).update_all(status: "archived", updated_at: Time.current)
+        )
+        collapsed.find_each do |duel|
+          duel.duel_invitations.update_all(street_duel_id: nil, updated_at: Time.current)
+          ViralEvent.where(street_duel_id: duel.id).update_all(street_duel_id: nil, updated_at: Time.current)
+          NotificationDelivery.where(subject: duel).update_all(
+            subject_type: nil, subject_id: nil, status: "cancelled",
+            cancelled_at: Time.current, updated_at: Time.current
+          )
+          StreetDuel.where(rematch_of_id: duel.id).update_all(rematch_of_id: nil, updated_at: Time.current)
+          duel.delete
+        end
 
-        StreetDuel.where(challenger_person_id: @source.id)
-          .update_all(challenger_person_id: @keeper.id, updated_at: Time.current)
-        StreetDuel.where(opponent_person_id: @source.id)
-          .update_all(opponent_person_id: @keeper.id, updated_at: Time.current)
+        StreetDuel.where("challenger_person_id = :id OR opponent_person_id = :id", id: @source.id)
+          .order(:id).find_each do |duel|
+            challenger_id = duel.challenger_person_id == @source.id ? @keeper.id : duel.challenger_person_id
+            opponent_id = duel.opponent_person_id == @source.id ? @keeper.id : duel.opponent_person_id
+            low, high = [ challenger_id, opponent_id ].sort
+            duplicate = StreetDuel.active.where(pair_low_person_id: low, pair_high_person_id: high).where.not(id: duel.id).first
+            duel.status = "archived" if duplicate && duel.active?
+            duel.update!(
+              challenger_person_id: challenger_id,
+              opponent_person_id: opponent_id,
+              pair_low_person_id: low,
+              pair_high_person_id: high
+            )
+          end
+      end
+
+      def move_duel_invitations!
+        now = Time.current
+        DuelInvitation.where(challenger_person_id: @source.id).find_each do |invitation|
+          if invitation.recipient_person_id == @keeper.id
+            invitation.update!(
+              challenger_person: @keeper, recipient_person: nil,
+              status: "revoked", revoked_at: invitation.revoked_at || now
+            )
+          else
+            invitation.update!(challenger_person: @keeper)
+          end
+        end
+        DuelInvitation.where(recipient_person_id: @source.id).find_each do |invitation|
+          if invitation.challenger_person_id == @keeper.id
+            invitation.update!(
+              recipient_person: nil, status: "revoked",
+              revoked_at: invitation.revoked_at || now
+            )
+          else
+            invitation.update!(recipient_person: @keeper)
+          end
+        end
+        DuelInvitation.where(claimed_by_person_id: @source.id)
+          .update_all(claimed_by_person_id: @keeper.id, updated_at: now)
       end
   end
 end

@@ -1,0 +1,202 @@
+- generic [ref=f1e1]:
+  - link "Aller au jeu" [ref=f1e2] [cursor=pointer]:
+    - /url: "#main"
+  - navigation "Menu":
+    - button [ref=f1e266] [cursor=pointer]
+    - generic "Garde ta progression" [ref=f1e4]:
+      - link "Garde ta progression" [ref=f1e5] [cursor=pointer]:
+        - /url: /ficha?fresh=1
+        - generic [ref=f1e12]:
+          - paragraph [ref=f1e13]: Garde ta progression
+          - paragraph [ref=f1e14]: Crée ton profil gratuitement
+      - link "Créer mon profil" [ref=f1e16] [cursor=pointer]:
+        - /url: /ficha?fresh=1
+    - button "Fermer le menu" [expanded] [ref=f1e267] [cursor=pointer]
+    - dialog [ref=f1e271]:
+      - generic [active] [ref=f1e272]:
+        - heading "Menu" [level=2] [ref=f1e273]
+        - navigation "Menu" [ref=f1e274]:
+          - generic [ref=f1e275]:
+            - button "Activé" [ref=f1e276] [cursor=pointer]
+            - group [ref=f1e285]:
+              - generic "Langue" [ref=f1e286] [cursor=pointer]: Français
+          - generic [ref=f1e297]:
+            - button "Installer Noche Live" [ref=f1e298] [cursor=pointer]
+            - link "Notifications" [ref=f1e308] [cursor=pointer]:
+              - /url: /notifications
+            - link "Carte du voyage" [ref=f1e319] [cursor=pointer]:
+              - /url: /mapa
+            - link "La Parole" [ref=f1e330] [cursor=pointer]:
+              - /url: /parole
+            - link "Jouer au quiz" [ref=f1e341] [cursor=pointer]:
+              - /url: /jugar
+            - link "Classement" [ref=f1e351] [cursor=pointer]:
+              - /url: /liga
+            - link "Ton chemin" [ref=f1e362] [cursor=pointer]:
+              - /url: /mapa#historial
+          - generic [ref=f1e373]:
+            - paragraph [ref=f1e374]: Paroisse
+            - group [ref=f1e376]:
+              - generic "Codes de soirée" [ref=f1e377] [cursor=pointer]
+          - generic [ref=f1e385]:
+            - paragraph [ref=f1e386]: Église de Jésus-Christ
+            - generic [ref=f1e387]:
+              - link "Chercher une paroisse" [ref=f1e388] [cursor=pointer]:
+                - /url: /buscar
+              - link "Viens à l’église" [ref=f1e397] [cursor=pointer]:
+                - /url: /iglesia
+          - generic [ref=f1e407]:
+            - paragraph [ref=f1e408]: À propos de ce jeu
+            - generic [ref=f1e409]:
+              - link "Qui sommes-nous" [ref=f1e410] [cursor=pointer]:
+                - /url: /nosotros
+              - link "Statistiques plateforme" [ref=f1e423] [cursor=pointer]:
+                - /url: /cifras
+              - link "Mentions légales" [ref=f1e434] [cursor=pointer]:
+                - /url: /legal
+              - link "Politique de confidentialité" [ref=f1e445] [cursor=pointer]:
+                - /url: /privacidad
+  - main [ref=f1e25]:
+    - generic [ref=f1e27]:
+      - article "Continuer l’aventure" [ref=f1e28]:
+        - generic [ref=f1e29]:
+          - generic [ref=f1e30]:
+            - generic [ref=f1e31]:
+              - generic:
+                - generic:
+                  - paragraph: Continuer l’aventure
+                  - heading "Quizz royal" [level=2]
+                  - generic:
+                    - paragraph: Étape 1/10
+                    - paragraph: Rois
+                  - paragraph: "David, Saül, Salomon : qui a été oint, qui a prié, qui a chuté."
+                - generic [ref=f1e33]:
+                  - button "Jouer" [ref=f1e35] [cursor=pointer]
+                  - generic [ref=f1e41]:
+                    - emphasis [ref=f1e42]: Récompense
+                    - strong [ref=f1e43]:
+                      - generic [ref=f1e44]: "+103"
+            - generic [ref=f1e49]:
+              - generic:
+                - generic:
+                  - paragraph: Continuer l’aventure
+                  - heading "Quiz des plaques" [level=2]
+                  - generic:
+                    - paragraph: Étape 1/10
+                    - paragraph: Plaques
+                  - paragraph: "Léhi, Néphi, Abinadi : les plaques, le bateau et la tour."
+                - generic [ref=f1e51]:
+                  - paragraph [ref=f1e52]:
+                    - generic [ref=f1e57]: Suivant
+                  - generic [ref=f1e60]:
+                    - emphasis [ref=f1e61]: Récompense
+                    - strong [ref=f1e62]:
+                      - generic [ref=f1e63]: "+103"
+          - link "Carte du voyage" [ref=f1e68] [cursor=pointer]:
+            - /url: /mapa
+        - generic [ref=f1e73]:
+          - button "Quizz royal — Rois" [ref=f1e74] [cursor=pointer]
+          - button "Quiz des plaques — Plaques" [ref=f1e75] [cursor=pointer]
+      - link "Cette semaine · Viens et suis-moi Trouver refuge en Dieu Psaumes 49-51 ; 61-66 ; 69-72 ; 77-78 ; 85-86 0 lumières sur 10 1 personne avance cette semaine Découvrir ✦" [ref=f1e76] [cursor=pointer]:
+        - /url: /parole
+        - generic [ref=f1e77]:
+          - paragraph [ref=f1e78]: Cette semaine · Viens et suis-moi
+          - heading "Trouver refuge en Dieu" [level=2] [ref=f1e79]
+          - paragraph [ref=f1e80]: Psaumes 49-51 ; 61-66 ; 69-72 ; 77-78 ; 85-86
+          - generic "0 lumières sur 10" [ref=f1e81]:
+            - strong [ref=f1e83]: 0/10
+          - paragraph [ref=f1e84]: 1 personne avance cette semaine
+        - generic [ref=f1e85]: Découvrir
+        - text: ✦
+      - article [ref=f1e86]:
+        - generic [ref=f1e91]:
+          - paragraph [ref=f1e92]: Prochaine Noche Live
+          - paragraph [ref=f1e93]: Ta paroisse. Ton équipe. Ta Noche.
+          - paragraph [ref=f1e94]: Retrouve les tiens et vis chaque Noche Live avec eux.
+          - list "Ce qui t’attend dans ta paroisse" [ref=f1e95]:
+            - listitem [ref=f1e96]: ✦Une Noche Live près de toi
+            - listitem [ref=f1e97]: ✦Des défis entre amis
+            - listitem [ref=f1e98]: ✦Ta place dans la Ligue
+        - link "Trouver ma paroisse" [ref=f1e99] [cursor=pointer]:
+          - /url: /ficha?fresh=1&quick=1&ward_next=1
+      - generic [ref=f1e103]:
+        - link "Apprendre ensemble Campus des Écritures Invite un ami et apprenez avec le parcours qui vous plaît." [ref=f1e104] [cursor=pointer]:
+          - /url: /desafios
+          - generic [ref=f1e107]:
+            - generic [ref=f1e108]: Apprendre ensemble
+            - strong [ref=f1e109]: Campus des Écritures
+            - generic [ref=f1e110]: Invite un ami et apprenez avec le parcours qui vous plaît.
+        - article [ref=f1e111]:
+          - generic [ref=f1e112]:
+            - paragraph [ref=f1e113]: Amis en ligne
+            - generic [ref=f1e114]: 0 en ligne
+          - generic [ref=f1e115]:
+            - paragraph [ref=f1e116]: Choisis ta paroisse pour retrouver tes amis en ligne.
+            - link "Choisir ma paroisse" [ref=f1e117] [cursor=pointer]:
+              - /url: /buscar?cambiar=1
+        - generic [ref=f1e118]:
+          - link "Ouvrir la carte" [ref=f1e119] [cursor=pointer]:
+            - /url: /mapa
+            - generic [ref=f1e120]: Ta progression
+          - generic [ref=f1e128]:
+            - paragraph [ref=f1e129]: 1 pack débloqué
+            - paragraph [ref=f1e130]: 1 / 28
+          - progressbar "1 pack débloqué" [ref=f1e131]
+          - list "Ta progression" [ref=f1e133]:
+            - listitem [ref=f1e134]:
+              - generic [ref=f1e140]: Rois
+            - listitem [ref=f1e141]:
+              - generic [ref=f1e145]: Plaques
+            - listitem [ref=f1e146]:
+              - generic [ref=f1e150]: Sœurs
+            - listitem [ref=f1e151]:
+              - generic [ref=f1e155]: Abish
+          - link "La Parole 0 parcours terminés sur 52" [ref=f1e156] [cursor=pointer]:
+            - /url: /parole
+            - generic [ref=f1e164]:
+              - generic [ref=f1e165]: La Parole
+              - strong [ref=f1e166]: 0 parcours terminés sur 52
+        - link "Une fenêtre de lumière" [ref=f1e170] [cursor=pointer]:
+          - /url: /videos?locale=fr
+          - generic [ref=f1e174]:
+            - generic [ref=f1e175]: Vidéothèque officielle
+            - strong [ref=f1e180]: Une fenêtre de lumière
+            - generic [ref=f1e181]: Messages, musique et histoires de l’Église, sans quitter Noche Live.
+        - link "Statistiques plateforme" [ref=f1e185] [cursor=pointer]:
+          - /url: /cifras
+          - generic [ref=f1e187]:
+            - paragraph [ref=f1e188]: Notre communauté
+            - paragraph [ref=f1e191]:
+              - generic [ref=f1e193]: 1 en ligne en ce moment
+          - list [ref=f1e195]:
+            - listitem [ref=f1e196]:
+              - strong [ref=f1e199]: "15"
+              - generic "Joueurs ce mois-ci" [ref=f1e200]:
+                - generic [ref=f1e201]: Joueurs
+                - generic [ref=f1e202]: ce mois-ci
+            - listitem [ref=f1e203]:
+              - strong [ref=f1e206]: "432"
+              - generic "Questions répondues" [ref=f1e207]:
+                - generic [ref=f1e208]: Questions
+                - generic [ref=f1e209]: répondues
+            - listitem [ref=f1e210]:
+              - strong [ref=f1e213]: "9"
+              - generic "Paroisses qui jouent" [ref=f1e214]:
+                - generic [ref=f1e215]: Paroisses
+                - generic [ref=f1e216]: participent
+        - button "Installer Noche Live" [ref=f1e256] [cursor=pointer]:
+          - generic [ref=f1e258]:
+            - generic [ref=f1e259]: Ton aventure, toujours à portée de main
+            - strong [ref=f1e260]: Installe Noche Live
+            - generic [ref=f1e261]: Ton aventure en un geste. Ça prend 20 secondes.
+  - navigation "Accueil" [ref=f1e217]:
+    - link "Accueil" [ref=f1e218] [cursor=pointer]:
+      - /url: /
+    - link "Aventure" [ref=f1e225] [cursor=pointer]:
+      - /url: /mapa
+    - link "Parole" [ref=f1e234] [cursor=pointer]:
+      - /url: /parole
+    - link "Église" [ref=f1e242] [cursor=pointer]:
+      - /url: /iglesia
+    - link "Profil" [ref=f1e249] [cursor=pointer]:
+      - /url: /ficha?edit=1

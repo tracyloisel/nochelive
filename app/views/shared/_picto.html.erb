@@ -76,6 +76,27 @@
     <path d="M13 11 30 28l-6 6L7 17V9h8zM51 11 34 28l6 6 17-17V9h-8z" fill="currentColor"/>
     <path d="m25 33 6 6-13 13H8v-10zm14 0-6 6 13 13h10V42z" fill="#d4a017"/>
     <circle cx="32" cy="30" r="5" fill="#f6f3ec" stroke="currentColor" stroke-width="3"/>
+  <% when "eagle" %>
+    <path d="M8 18c10-6 23-7 35-2l10-5-3 9 7 4-10 5c-1 12-9 22-23 27 5-7 6-13 4-18-5 5-11 8-19 8 7-5 11-10 13-16-6 1-11-3-14-12Z" fill="currentColor"/>
+    <path d="m45 18 12-5-5 9 7 3-13 5c2-4 2-8-1-12Z" fill="#d4a017"/>
+    <path d="M15 20c8 1 15 5 21 12-9-5-17-5-24-2 4-3 5-6 3-10Z" fill="#f6f3ec" opacity=".78"/>
+    <circle cx="42" cy="21" r="2.4" fill="#f6f3ec"/>
+  <% when "duel-books" %>
+    <path d="M5 17h20a4 4 0 0 1 4 4v28H10a5 5 0 0 1-5-5Z" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M59 17H39a4 4 0 0 0-4 4v28h19a5 5 0 0 0 5-5Z" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M11 25h12M41 25h12M11 33h9M44 33h9" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" opacity=".72"/>
+    <path d="m32 23 2.6 6.4L41 32l-6.4 2.6L32 41l-2.6-6.4L23 32l6.4-2.6Z" fill="#d4a017"/>
+  <% when "duel-scrolls" %>
+    <path d="M7 19h19v29H12a5 5 0 0 1-5-5Z" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M57 19H38v29h14a5 5 0 0 0 5-5Z" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M7 19a5 5 0 1 1 10 0M57 19a5 5 0 1 0-10 0M7 43a5 5 0 0 0 10 0M57 43a5 5 0 0 1-10 0" fill="none" stroke="currentColor" stroke-width="4"/>
+    <path d="M13 28h9M42 28h9M13 35h7M44 35h7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" opacity=".72"/>
+    <circle cx="32" cy="33" r="4" fill="#d4a017"/>
+  <% when "duel-staffs" %>
+    <path d="M24 55V20c0-7-3-11-8-11-5 0-8 4-8 9 0 4 3 7 7 7 3 0 5-2 5-5" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round"/>
+    <path d="M40 55V20c0-7 3-11 8-11 5 0 8 4 8 9 0 4-3 7-7 7-3 0-5-2-5-5" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round"/>
+    <path d="M18 55h12M34 55h12" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round"/>
+    <path d="m32 25 2.3 5.7L40 33l-5.7 2.3L32 41l-2.3-5.7L24 33l5.7-2.3Z" fill="#d4a017"/>
   <% when "send" %>
     <path d="M10 32 L54 12 L40 52 L30 36z" fill="#d4a017"/>
     <path d="M30 36 L54 12 L24 28z" fill="#f2c14e"/>
@@ -253,9 +274,12 @@
     <path d="M36 28c6 4 8 10 8 14 0 8-6 14-14 14-4 0-8-2-10-6 8-2 14-8 16-22z" fill="#d4a017"/>
     <path d="M28 40c0 6 2 10 6 10 4 0 6-4 6-8 0-4-4-6-6-10-2 4-6 4-6 8z" fill="#f2c14e"/>
   <% when "crown" %>
-    <path d="M10 28 L20 44 H44 L54 28 L40 36 L32 16 L24 36z" fill="#d4a017"/>
-    <rect x="16" y="44" width="32" height="8" rx="2" fill="#1a2744"/>
-    <circle cx="32" cy="16" r="4" fill="#f2c14e"/>
+    <path d="M8.5 22.5 20 32 32 10.5 44 32l11.5-9.5-5 27H13.5Z" fill="currentColor" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/>
+    <path d="M15.2 42.5h33.6M14 50h36" fill="none" stroke="var(--picto-cutout, #fff8e8)" stroke-width="3" stroke-linecap="round" opacity=".78"/>
+    <path d="m32 27 4 5-4 5-4-5Z" fill="var(--crown-jewel, #1a4a7a)" stroke="var(--picto-cutout, #fff8e8)" stroke-width="1.4"/>
+    <circle cx="8.5" cy="21.5" r="3" fill="currentColor"/>
+    <circle cx="32" cy="9.5" r="3.4" fill="currentColor"/>
+    <circle cx="55.5" cy="21.5" r="3" fill="currentColor"/>
   <% when "calendar" %>
     <rect x="12" y="14" width="40" height="40" rx="6" fill="none" stroke="currentColor" stroke-width="4"/>
     <path d="M12 26h40" stroke="currentColor" stroke-width="4"/>

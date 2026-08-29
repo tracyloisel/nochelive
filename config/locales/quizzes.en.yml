@@ -1,8 +1,8 @@
 en:
   quizzes:
     coronas:
-      title: "Kings"
-      kicker: "Royal quiz"
+      title: "David, Saul, and Solomon"
+      kicker: "Kings of Israel"
       lede: "David, Saul, Solomon: who was anointed, who prayed, who fell."
       questions:
         ungio_david:
@@ -77,8 +77,8 @@ en:
             canto: "He sang to it"
             ignoro: "He walked past it"
     placas:
-      title: "Plates"
-      kicker: "Plates quiz"
+      title: "Book of Mormon Stories"
+      kicker: "Lehi, Nephi, and Moroni"
       lede: "Lehi, Nephi, Abinadi: the plates, the ship, and the tower."
       questions:
         lehi_jerusalen:
@@ -152,8 +152,8 @@ en:
             moroni: "Moroni"
             noe: "Noah"
     hermanas:
-      title: "Sisters"
-      kicker: "Sisters quiz"
+      title: "Women of the Bible"
+      kicker: "Ruth, Esther, and Deborah"
       lede: "Ruth, Esther, Hannah, Deborah: women who stayed, spoke, and saved."
       questions:
         rut_noemi:
@@ -227,8 +227,8 @@ en:
             cocina: "The kitchen"
             corona: "A crown"
     abish:
-      title: "Abish"
-      kicker: "Abish quiz"
+      title: "Women in the Book of Mormon"
+      kicker: "Abish, Sariah, and faithful mothers"
       lede: "Abish, Sariah, and the mothers of the two thousand: faith that did not doubt."
       questions:
         saria_lehi:
@@ -302,8 +302,8 @@ en:
             benjamin: "By hearing Benjamin"
             placas: "By reading the plates"
     profetas:
-      title: "Prophets"
-      kicker: "Prophets quiz"
+      title: "Jonah, Elijah, and Daniel"
+      kicker: "Prophets in action"
       lede: "Jonah, Elijah, Daniel: three days, ravens, windows toward Jerusalem."
       questions:
         jonas_tres:
@@ -377,8 +377,8 @@ en:
             barca: "A boat on the Jordan"
             nube: "Only a grey cloud"
     jehova:
-      title: "The Lord"
-      kicker: "The Lord quiz"
+      title: "The Lord Saves"
+      kicker: "The God of Israel"
       lede: "The Lord’s name, the sea that opens, the only Savior."
       questions:
         zarza_yo_soy:
@@ -452,8 +452,8 @@ en:
             alma: "Alma the Younger"
             samuel: "Samuel the Lamanite"
     nazareno:
-      title: "On the earth"
-      kicker: "On earth quiz"
+      title: "Jesus Among Us"
+      kicker: "The Savior’s life"
       lede: "Bethlehem, the baptism, the miracles: Jesus among us."
       questions:
         nacio_belen:
@@ -527,8 +527,8 @@ en:
             lejos: "From far away, as a group"
             angeles: "Only the angels touched them"
     moises:
-      title: "Moses"
-      kicker: "Moses quiz"
+      title: "The Visions of Moses"
+      kicker: "Creation and Eden"
       lede: "Face to face, Eden, the creation: what Moses saw."
       questions:
         moises_cara:
@@ -602,8 +602,8 @@ en:
             mar: "It sank in the sea"
             desierto: "It stayed in the desert"
     abraham:
-      title: "Abraham"
-      kicker: "Abraham quiz"
+      title: "God’s Promise to Abraham"
+      kicker: "Covenant and descendants"
       lede: "Ur, the altar, the seed: the promise that does not break."
       questions:
         salio_ur:
@@ -677,8 +677,8 @@ en:
             montes: "The mountains only"
             rios: "The rivers only"
     kolob:
-      title: "Kolob"
-      kicker: "Kolob quiz"
+      title: "Kolob and God’s Time"
+      kicker: "Abraham’s vision"
       lede: "The star nearest the throne: a day there, a thousand years here."
       questions:
         cerca_trono:
@@ -752,8 +752,8 @@ en:
             iguales: "The two are always equal"
             azar: "There is no order"
     premortal:
-      title: "Before birth"
-      kicker: "Before birth quiz"
+      title: "Life Before Birth"
+      kicker: "God’s plan"
       lede: "Before we were born: intelligences, and “Who shall I send?”"
       questions:
         eramos_inteligencias:
@@ -827,8 +827,8 @@ en:
             silencio: "Kept silent"
             huir: "Fled from the light"
     exaltacion:
-      title: "Exaltation"
-      kicker: "Exaltation quiz"
+      title: "God’s Plan for Eternity"
+      kicker: "Eternal life and sealing"
       lede: "God’s work: eternal life, degrees, and the sealing."
       questions:
         obra_gloria:
@@ -902,8 +902,8 @@ en:
             luna: "On the moon"
             paraiso: "Only in a spirit paradise, far away"
     jose:
-      title: "Joseph"
-      kicker: "Joseph quiz"
+      title: "Joseph Smith’s Beginnings"
+      kicker: "The First Vision and the plates"
       lede: "Sharon, the grove, the plates: how Joseph began."
       questions:
         nacio_sharon:
@@ -977,8 +977,8 @@ en:
             moises: "Only the days of Moses"
             roma: "Only the days of Rome"
     inicios:
-      title: "Beginnings"
-      kicker: "Beginnings quiz"
+      title: "The Church’s Beginnings"
+      kicker: "From April 6 to Zion"
       lede: "April 6, Kirtland, Zion: the beginnings of the Church."
       questions:
         seis_abril:
@@ -1052,8 +1052,8 @@ en:
             una_mas: "One more among many equals"
             cerrada: "A church already closed"
     pruebas_profetas:
-      title: "Trials"
-      kicker: "Trials quiz"
+      title: "Prophets Put to the Test"
+      kicker: "Jeremiah, Elijah, and Abinadi"
       lede: "Jeremiah, Elijah, Abinadi: when the word costs."
       questions:
         jeremias_cisterna:
@@ -1127,8 +1127,8 @@ en:
             oro: "When they give you gold"
             trono: "When they seat you on a throne"
     pruebas_heroes:
-      title: "The brave"
-      kicker: "The brave quiz"
+      title: "Faith Through Every Trial"
+      kicker: "Job, Joseph, Daniel, and Esther"
       lede: "Job, Joseph, Daniel, Esther: the valiant who did not curse."
       questions:
         job_no_maldijo:
@@ -1202,8 +1202,8 @@ en:
             olvido: "Forgot it forever"
             venganza: "Asked for revenge"
     milagros:
-      title: "Miracles"
-      kicker: "Miracles quiz"
+      title: "Old Testament Miracles"
+      kicker: "Sea, manna, and sun"
       lede: "The sea, the manna, Joshua’s sun: when heaven touches earth."
       questions:
         mar_abrio:
@@ -1277,8 +1277,8 @@ en:
             trigo: "Wheat"
             arena: "Sand"
     apocalipsis:
-      title: "Revelation"
-      kicker: "The Lamb wins"
+      title: "The Victory of the Lamb"
+      kicker: "Revelation"
       lede: "Seals, the dragon, and Babylon: the vision ends not in fear, but in victory."
       questions:
         libro_siete_sellos:
@@ -1352,8 +1352,8 @@ en:
             principe_egipto: "Prince of Egypt"
             escriba: "Scribe of Jerusalem"
     segunda_venida:
-      title: "The Return"
-      kicker: "Jesus will return"
+      title: "The Return of Jesus Christ"
+      kicker: "Signs of hope"
       lede: "The gospel, the trumpet, and the clouds: signs that call us to watch with hope."
       questions:
         mismo_modo:
@@ -1427,8 +1427,8 @@ en:
             barco: "In a boat from Galilee"
             desierto: "Only in a secret place in the desert"
     milenio:
-      title: "Millennium"
-      kicker: "A thousand years of peace"
+      title: "A Thousand Years with Christ"
+      kicker: "The Millennium"
       lede: "The wolf, the Lamb, and a renewed earth: this is how Christ will reign."
       questions:
         dragon_atado:
@@ -1502,7 +1502,7 @@ en:
             olvidadas: "They will be forgotten"
             destruidas: "They will be destroyed without being known"
     improbables:
-      title: "God Calls"
+      title: "God Calls the Unlikely"
       kicker: "Before → after"
       lede: "Childless, overlooked, imprisoned, or afraid: God called them where no one expected."
       questions:

@@ -29,7 +29,7 @@ class ScripturesControllerTest < ActionDispatch::IntegrationTest
     assert_select ".scripture-share-remove[hidden][data-action='scripture#removeHighlight'] > span:last-child", text: I18n.t("quiz.scripture_remove_highlight")
     assert_select ".scripture-read-count[hidden][aria-live=polite]", text: "0 lecturas"
     assert_select ".scripture-illustration[data-after-verse=13]", count: 1
-    assert_select ".scripture-illustration img[src='/media/quizzes/coronas/ungio_david.jpg'][loading=lazy]", count: 1
+    assert_select ".scripture-illustration img[src=?][loading=lazy]", generated_media_src("media/quizzes/coronas/ungio_david.jpg"), count: 1
     assert_select ".scripture-close[type=button][data-action='click->scripture#close'][aria-label=?]", I18n.t("quiz.scripture_close")
     assert_select "a.quiet-link[href*='churchofjesuschrist.org'][target=_blank]", text: I18n.t("quiz.scripture_open_site")
     assert_select "turbo-frame#scripture_reader"
@@ -85,7 +85,7 @@ class ScripturesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "reader title is ink and cited text is highlighted without verse cards" do
-    css = Rails.root.join("app/assets/stylesheets/application.css").read
+    css = frontend_css("scripture")
     title = css[/\.scripture-head h1 \{[^}]+\}/m]
     assert title, "expected .scripture-head h1 rule"
     assert_match(/color: var\(--ink\)/, title)
@@ -104,7 +104,7 @@ class ScripturesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "reader close control has an accessible mobile target and a clear vector icon" do
-    css = Rails.root.join("app/assets/stylesheets/application.css").read
+    css = frontend_css("scripture")
     close = css.scan(/\.scripture-close \{[^}]+\}/m).join("\n")
 
     assert_match(/width: 3rem/, close)
@@ -173,8 +173,8 @@ class ScripturesControllerTest < ActionDispatch::IntegrationTest
     assert_select ".scripture-verse.is-focus[data-scripture-verse-number='1']", text: /David consulta/
     assert_select ".scripture-share-trigger[hidden]"
     assert_select "dialog.scripture-share-dialog"
-    assert_select ".home-menu .mute", count: 0
-    assert_select ".home-menu .lang-switch", count: 0
+    assert_select ".chrome-drawer .mute", count: 1
+    assert_select ".chrome-drawer .lang-switch.is-drawer", count: 1
     assert_select ".chrome-tools", count: 0
   end
 

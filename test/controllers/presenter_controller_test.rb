@@ -247,7 +247,7 @@ class PresenterControllersTest < ActionDispatch::IntegrationTest
     assert_select ".stage-shot"
     assert_select ".stage-dock"
     assert_select "h1", text: "La elección de Salomón"
-    assert_select ".challenge-story[src='/media/stories/salomon_wisdom_night_wide.png']"
+    assert_select ".challenge-story[src=?]", generated_media_src("media/stories/salomon_wisdom_night_wide.png")
     assert_select "[data-controller=slideshow]", count: 0
     assert_includes response.body, "Cerrar buzzer"
     assert_select ".stage-dock-main .btn-gold", count: 1

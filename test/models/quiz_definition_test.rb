@@ -131,8 +131,8 @@ class QuizDefinitionTest < ActiveSupport::TestCase
     I18n.with_locale(:en) do
       pack = QuizDefinition.catalog.find_pack("coronas")
       question = pack.question_at(1)
-      assert_equal "Kings", pack.copy(:title)
-      assert_equal "Royal quiz", pack.copy(:kicker)
+      assert_equal "David, Saul, and Solomon", pack.copy(:title)
+      assert_equal "Kings of Israel", pack.copy(:kicker)
       assert_match(/Solomon/i, pack.copy(:lede))
       assert_match(/anointed/i, question.copy(:question))
       assert_match(/Samuel anointed/i, question.copy(:answer))
@@ -144,8 +144,12 @@ class QuizDefinitionTest < ActiveSupport::TestCase
   test "copy in French returns French" do
     I18n.with_locale(:fr) do
       pack = QuizDefinition.catalog.find_pack("coronas")
-      assert_equal "Rois", pack.copy(:title)
-      assert_equal "Quizz royal", pack.copy(:kicker)
+      assert_equal "David, Saül et Salomon", pack.copy(:title)
+      assert_equal "Rois d’Israël", pack.copy(:kicker)
+
+      book_of_mormon_pack = QuizDefinition.catalog.find_pack("placas")
+      assert_equal "Histoires du Livre de Mormon", book_of_mormon_pack.copy(:title)
+      assert_equal "Léhi, Néphi et Moroni", book_of_mormon_pack.copy(:kicker)
     end
   end
 
@@ -209,6 +213,7 @@ class QuizDefinitionTest < ActiveSupport::TestCase
   end
 
   def still_file(question)
-    Rails.public_path.join("media/#{question.presentation['image']}")
+    asset = Frontend::MediaManifest.fetch_source("media/#{question.presentation['image']}")
+    Rails.root.join("media/masters", asset.fetch("source"))
   end
 end

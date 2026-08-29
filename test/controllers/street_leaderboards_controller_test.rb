@@ -6,43 +6,32 @@ class StreetLeaderboardsControllerTest < ActionDispatch::IntegrationTest
     sign_in_person(people(:pili))
   end
 
-  test "liga renders the celestial living board" do
+  test "liga renders the celestial light court summary" do
     get street_leaderboard_path
 
     assert_response :success
-    assert_select "#street_world.street-leaderboard-page[data-controller~='liga-board']"
-    assert_select "a.street-liga-rama-back[href=?]", ward_profile_path("RAMA"), text: I18n.t("street.leaderboard_back_ward")
-    assert_select "h1", text: I18n.t("street.leaderboard_screen_title")
-    assert_select "a.street-liga-sibling-link[href=?]", street_challenges_path
-    assert_select ".street-liga-scope a", count: 2
-    assert_select ".street-liga-scope a", text: I18n.t("street.leaderboard_scope_stake")
-    assert_select ".street-liga-filter-button", count: 0
-    assert_select ".street-liga-filters-dialog", count: 0
-    assert_select ".street-leaderboard-select", count: 0
-    assert_select ".street-liga-podium"
-    assert_select ".street-liga-entry .street-board-joined", minimum: 1
-    assert_select ".street-liga-entry[data-liga-person-id=?] .street-board-joined",
-                  people(:pili).id.to_s,
-                  text: I18n.t("street.leaderboard_joined", date: I18n.l(people(:pili).created_at.to_date))
-    assert_select ".street-liga-challenge-label", text: /#{Regexp.escape(I18n.t("street.duel_send"))}/, minimum: 1
-    assert_select ".street-liga-you-bar"
+    assert_select "#street_world.liga-court:not(.is-full)[data-controller~='liga-board']"
+    assert_select "h1", text: I18n.t("street.leaderboard_court_title")
+    assert_select ".liga-court-heading > p", text: I18n.t("street.leaderboard_scope_stake_lede")
+    assert_select ".liga-court-podium"
+    assert_select ".liga-rivalry"
+    assert_select ".liga-rivalry-cta" do
+      assert_select ".liga-rivalry-cta-medallion .picto"
+      assert_select ".liga-rivalry-cta-label"
+      assert_select ".liga-rivalry-cta-arrow .picto"
+    end
+    assert_select ".liga-around"
+    assert_select "a.liga-see-all[href*='view=full']", text: /#{Regexp.escape(I18n.t("street.leaderboard_full"))}/ do
+      assert_select ".liga-see-all-medallion .picto"
+      assert_select ".liga-see-all-label", text: I18n.t("street.leaderboard_full")
+      assert_select ".liga-see-all-arrow .picto"
+    end
+    assert_select "a.liga-challenge-strip[href]"
+    assert_select ".liga-full-panel", count: 0
+    assert_select ".street-liga-you-bar", count: 0
     assert_select ".home-menu.is-hud .quiz-hud"
     assert_select ".navigation-dock"
     assert_select ".navigation-dock .navigation-dock__item.is-active[href=?]", root_path
-
-    css = Rails.root.join("app/assets/stylesheets/application.css").read
-    assert_match(/\.navigation-dock \{[^}]*left: 0;[^}]*right: 0;[^}]*width: auto;/m, css)
-    refute_includes css, "--navigation-dock-width"
-    assert_select "a[href^=?]", ward_fichas_path, count: 0
-  end
-
-  test "ward presenter can open profile management from the leaderboard" do
-    sign_in_ward
-
-    get street_leaderboard_path(q: "Carmen")
-
-    assert_response :success
-    assert_select "a[href=?]", ward_fichas_path(q: "Carmen"), text: I18n.t("fichas.leaderboard_manage")
   end
 
   test "player without a ward is asked to choose one then returns to the leaderboard" do
@@ -65,9 +54,44 @@ class StreetLeaderboardsControllerTest < ActionDispatch::IntegrationTest
     get street_leaderboard_path(pack_id: "coronas", q: "Ana")
 
     assert_response :success
-    assert_select ".street-liga-podium", count: 0
-    assert_select ".street-board-rows .street-board-row.street-liga-entry", text: /Anabel/
+    assert_select "#street_world.is-full"
+    assert_select ".liga-court-podium", count: 0
+    assert_select ".liga-court-list.is-full .liga-court-row", text: /Anabel/
     assert_select "#leaderboard_q[value=Ana]"
+  end
+
+  test "rival rows open a challenge scene with rank crowns and the real open pack" do
+    rival = people(:carmen_garcia)
+    open_run = QuizRun.create!(
+      device_digest: "liga-open-rival",
+      person: rival,
+      pack_id: "milagros",
+      position: 4,
+      score: 27,
+      status: "open",
+      opened_at: Time.current
+    )
+    pack_title = open_run.pack.copy(:title)
+
+    get street_leaderboard_path(view: "full", scope: "ward")
+
+    assert_response :success
+    assert_select "button[data-person-id='#{rival.id}']", count: 1 do |buttons|
+      assert_equal pack_title, buttons.first["data-person-pack"]
+      assert_equal I18n.t("street.leaderboard_pack_progress", position: 4, total: QuizDefinition::QUESTIONS_PER_PACK),
+                   buttons.first["data-person-pack-progress"]
+      assert_select ".liga-court-row-state.is-challenge", text: I18n.t("street.leaderboard_challenge_cta")
+    end
+    assert_select "dialog.street-liga-dialog[aria-labelledby=liga_duel_title]"
+    assert_select ".liga-duel-intel [data-liga-board-target=friendRank]"
+    assert_select ".liga-duel-intel [data-liga-board-target=friendScore]"
+    assert_select ".liga-duel-intel [data-liga-board-target=friendPack][data-empty-label=?]", I18n.t("street.leaderboard_no_open_pack")
+    assert_select ".liga-duel-profile-owner [data-liga-board-target=rivalProfileName]"
+    assert_select ".liga-duel-notification-note[data-template=?]", I18n.t("street.leaderboard_notification_warning", name: "__RIVAL__")
+    assert_select ".liga-duel-notification-note .picto", count: 0
+    assert_select ".liga-duel-cta [data-liga-board-target=sendLabel]", text: I18n.t("street.leaderboard_challenge_cta")
+    assert_select ".liga-duel-rules", count: 0
+    assert_select ".street-liga-dialog", text: /#{Regexp.escape(I18n.t("duel_campus.sections.friends_lede"))}/, count: 0
   end
 
   test "search miss is honest" do
@@ -75,7 +99,29 @@ class StreetLeaderboardsControllerTest < ActionDispatch::IntegrationTest
     get street_leaderboard_path(q: "zzzq")
 
     assert_response :success
-    assert_select ".street-leaderboard-empty.is-search", text: I18n.t("street.leaderboard_empty_search")
+    assert_select ".liga-court-empty", text: I18n.t("street.leaderboard_empty_search")
+  end
+
+  test "unranked player is invited into an existing court" do
+    newcomer = wards(:demo).people.create!(given_name: "Noa", avatar_key: "delfin", favorite_year: 2024)
+    sign_in_person(newcomer)
+
+    get street_leaderboard_path
+
+    assert_response :success
+    assert_select ".liga-court-podium"
+    assert_select ".liga-rivalry-copy.is-unranked", text: /#{Regexp.escape(I18n.t("street.leaderboard_unranked_title"))}/
+    assert_select ".street-liga-you-bar", count: 0
+  end
+
+  test "empty ward keeps the court useful without inventing players" do
+    get ward_leaderboard_path("BLANK")
+
+    assert_response :success
+    assert_select ".liga-court-podium", count: 0
+    assert_select ".liga-court-empty.is-hero", text: I18n.t("street.leaderboard_empty")
+    assert_select ".liga-rivalry-copy.is-unranked"
+    assert_select "a.liga-see-all"
   end
 
   test "ward visit stays scoped and same-stake wards are filter choices" do
@@ -88,22 +134,47 @@ class StreetLeaderboardsControllerTest < ActionDispatch::IntegrationTest
     finish_pack(people(:pili), score: 55)
     finish_pack(lucas, score: 99)
 
-    get ward_leaderboard_path("RAMA")
+    get ward_leaderboard_path("RAMA", view: "full")
 
     assert_response :success
-    assert_select ".street-liga-scope", text: /Rama Benidorm/
-    assert_select ".street-liga-entry", text: /Pili/
-    assert_select ".street-liga-entry", text: /Lucas/, count: 0
+    assert_select ".liga-scope-switch a.is-active", text: /Rama Benidorm/
+    assert_select ".liga-court-row", text: /Pili/
+    assert_select ".liga-court-row", text: /Lucas/, count: 0
 
-    get ward_leaderboard_path("RAMA", scope: "stake")
+    get ward_leaderboard_path("RAMA", view: "full", scope: "stake")
 
     assert_response :success
-    assert_select ".street-liga-scope a.is-active", text: I18n.t("street.leaderboard_scope_stake")
-    assert_select ".street-liga-entry", text: /Pili/
-    assert_select ".street-liga-entry", text: /Lucas/
-    assert_select ".street-liga-player-ward", text: /Rama Benidorm/
-    assert_select ".street-liga-player-ward", text: /Rama Alicante/
-    assert_select ".street-liga-lede", text: I18n.t("street.leaderboard_basis_stake")
+    assert_select ".liga-scope-switch a.is-active", text: I18n.t("street.leaderboard_scope_stake")
+    assert_select ".liga-court-row", text: /Pili/
+    assert_select ".liga-court-row", text: /Lucas/
+    assert_select ".liga-court-row-person small", text: /Rama Benidorm/
+    assert_select ".liga-court-row-person small", text: /Rama Alicante/
+    assert_select ".liga-court-heading > p", text: I18n.t("street.leaderboard_scope_stake_lede")
+  end
+
+  test "full ranking is paginated in server rendered windows of one hundred" do
+    105.times do |index|
+      person = wards(:demo).people.create!(
+        given_name: "Fenetre#{index.to_s.rjust(3, "0")}",
+        avatar_key: Player::AVATARS[index % Player::AVATARS.size],
+        favorite_year: 1900 + (index % 100)
+      )
+      finish_pack(person, score: 1_000 - index)
+    end
+
+    get street_leaderboard_path(view: "full", q: "Fenetre")
+
+    assert_response :success
+    assert_select ".liga-court-list.is-full .liga-court-row", count: 100
+    assert_select ".liga-cursor-link.is-next", text: I18n.t("street.leaderboard_next_group", count: 100)
+    assert_select ".liga-cursor-link.is-prev", count: 0
+
+    get street_leaderboard_path(view: "full", q: "Fenetre", cursor: 100)
+
+    assert_response :success
+    assert_select ".liga-court-list.is-full .liga-court-row", count: 5
+    assert_select ".liga-cursor-link.is-prev", text: I18n.t("street.leaderboard_prev")
+    assert_select ".liga-cursor-link.is-next", count: 0
   end
 
   test "unknown ward redirects home" do

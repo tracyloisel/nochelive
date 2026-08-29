@@ -10,13 +10,13 @@ class Notifications::DeliveryTest < ActiveSupport::TestCase
       assert_difference -> { NotificationDelivery.count }, 1 do
         Notifications::Enqueue.call(
           person: people(:carmen_garcia), kind: "duel_result", subject: duel,
-          destination: "/desafio/#{duel.token}", dedupe_token: "new-fixture"
+          destination: "/desafios/#{duel.id}", dedupe_token: "new-fixture"
         )
       end
       assert_no_difference -> { NotificationDelivery.count } do
         Notifications::Enqueue.call(
           person: people(:carmen_garcia), kind: "duel_result", subject: duel,
-          destination: "/desafio/#{duel.token}", dedupe_token: "new-fixture"
+          destination: "/desafios/#{duel.id}", dedupe_token: "new-fixture"
         )
       end
       assert_enqueued_jobs 1, only: NotificationDeliveryJob
@@ -32,7 +32,7 @@ class Notifications::DeliveryTest < ActiveSupport::TestCase
       assert_no_difference -> { NotificationDelivery.count } do
         Notifications::Enqueue.call(
           person: people(:carmen_garcia), kind: "duel_result", subject: duel,
-          destination: "/desafio/#{duel.token}", dedupe_token: "editorial-lock"
+          destination: "/desafios/#{duel.id}", dedupe_token: "editorial-lock"
         )
       end
       assert_no_enqueued_jobs only: NotificationDeliveryJob
@@ -85,6 +85,28 @@ class Notifications::DeliveryTest < ActiveSupport::TestCase
     assert_equal 0, calls
     assert delivery.reload.cancelled?
     assert_equal "no_longer_deliverable", delivery.error_code
+  end
+
+  test "cancels an invitation push once the invitation is no longer actionable" do
+    invitation = duel_invitations(:named_pili_invitation)
+    delivery = NotificationDelivery.create!(
+      web_push_subscription: web_push_subscriptions(:carmen_phone_push),
+      person: people(:carmen_garcia), kind: "duel_invitation",
+      dedupe_key: "claimed-invitation-delivery", subject: invitation,
+      destination: "/desafio/#{invitation.public_token}", status: "queued"
+    )
+    invitation.update!(
+      status: "claimed",
+      claimed_by_person: people(:carmen_garcia),
+      claimed_at: Time.current
+    )
+    calls = 0
+    Notifications::Sender.transport = ->(**) { calls += 1 }
+
+    with_web_push_enabled { Notifications::Deliver.call(delivery:) }
+
+    assert_equal 0, calls
+    assert delivery.reload.cancelled?
   end
 
   test "cancels a night reminder when the player already joined" do

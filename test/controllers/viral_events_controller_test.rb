@@ -2,18 +2,19 @@ require "test_helper"
 
 class ViralEventsControllerTest < ActionDispatch::IntegrationTest
   test "records an attributed share event" do
-    duel = street_duels(:pending_challenge)
+    invitation = duel_invitations(:open_pili_invitation)
+    token = invitation.public_token
 
     post viral_events_path, params: {
       name: "invite_share_opened",
-      duel_token: duel.token,
+      duel_token: token,
       source: "ceremony",
       properties: { channel: "native", ignored: "nope" }
     }, as: :json
 
     assert_response :no_content
     event = ViralEvent.order(:id).last
-    assert_equal duel, event.street_duel
+    assert_equal invitation, event.duel_invitation
     assert_equal "invite_share_opened", event.name
     assert_equal "ceremony", event.source
     assert_equal({ "channel" => "native" }, event.properties)

@@ -1,6 +1,6 @@
 packs:
   - id: improbables
-    title: "Dios llama"
+    title: "Dios llama a quienes nadie espera"
     kicker: "Antes → después"
     lede: "Sin hijos, olvidados, presos o con miedo: Dios los llamó donde nadie los esperaba."
     questions:
@@ -193,6 +193,8 @@ packs:
             label: "Jezabel"
           - key: dalila
             label: "Dalila"
+          - key: rut
+            label: "Rut"
         correct_choice: rahab
         answer: "Rahab. La extranjera de Jericó eligió la fe, fue acogida en Israel y su nombre entró en la historia de Jesús."
         points: 25

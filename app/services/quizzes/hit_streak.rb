@@ -1,7 +1,7 @@
 module Quizzes
   class HitStreak
-    Result = Struct.new(:count, :grew, :broke, :shout_key, :sfx, :tier, keyword_init: true)
-    SHOUTS = { 2 => "two", 3 => "three", 5 => "five", 10 => "ten" }.freeze
+    Result = Struct.new(:count, :grew, :broke, :broken_count, :shout_key, :sfx, :tier, keyword_init: true)
+    SHOUTS = { 1 => "start", 2 => "two", 3 => "three", 4 => "four", 5 => "five", 10 => "ten" }.freeze
 
     def self.call(run:)
       new(run:).call
@@ -19,12 +19,14 @@ module Quizzes
       sequence = verdicts(upto)
       count = tail(sequence)
       last = sequence.last
+      previous_count = tail(sequence[0...-1])
       grew = live_settle? && last == true
-      broke = live_settle? && last == false && tail(sequence[0...-1]) > 0
+      broke = live_settle? && last == false && previous_count.positive?
       Result.new(
         count:,
         grew:,
         broke:,
+        broken_count: broke ? previous_count : 0,
         shout_key: grew ? SHOUTS[count] : nil,
         sfx: nil,
         tier: tier_for(count)

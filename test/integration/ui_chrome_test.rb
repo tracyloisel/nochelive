@@ -9,8 +9,8 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     assert_select 'meta[name="viewport"][content*="interactive-widget=resizes-visual"]'
     assert_select "body[data-controller~=press][data-controller~=motion]"
     assert_select "body.is-kid"
-    assert_includes response.body, "window.NocheSfx"
-    assert_includes response.body, "timer_tension"
+    assert_includes response.body, "noche_sfx_catalog"
+    refute_includes response.body, "timer_tension"
     assert_includes response.body, "/sfx/tick.mp3"
     assert_select "audio#noche_sfx_gate[playsinline]"
     assert_select "audio#noche_sfx_gate[src^='/sfx/tick.mp3']"
@@ -19,28 +19,30 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     assert_select ".home-paper", count: 0
     assert_select "nav.home-menu"
     assert_select ".home-menu-btn .picto-menu"
-    assert_select ".home-menu-btn .picto-cross"
-    assert_select ".chrome-drawer .home-menu-nav"
+    assert_select ".chrome-drawer .is-drawer-close .picto-cross"
+    assert_select ".chrome-drawer .home-menu-nav-hub"
     assert_select ".quiz-hud-who.is-guest"
     assert_select ".quiz-hud-avatar.is-guest"
     hub_mode = css_select("body").first["class"][/\bis-celestial-(light|dark)\b/, 1]
     assert_includes %w[light dark], hub_mode
     assert_select ".home-menu.is-hud[data-hud-theme='celestial-#{hub_mode}'] .quiz-hud[data-hud-theme='celestial-#{hub_mode}']"
-    assert_select ".home-menu-kicker", text: I18n.t("home.ward_menu")
-    assert_select ".home-menu-kicker", text: I18n.t("church.menu")
-    assert_select ".home-menu-kicker", text: I18n.t("home.about_menu")
-    assert_select ".home-menu-kicker", text: I18n.t("home.program"), count: 0
-    assert_select ".chrome-drawer a.home-menu-row[href=?]", jugar_path, text: I18n.t("street.menu_play")
-    assert_select ".chrome-drawer a.home-menu-row[href=?]", search_path
-    assert_select ".chrome-drawer a.home-menu-row[href=?]", street_map_path(anchor: "historial")
-    assert_select ".chrome-drawer a.home-menu-row[href=?]", street_map_path, text: I18n.t("street.world_map")
-    assert_select ".chrome-drawer a.home-menu-row[href=?]", platform_stats_path, text: I18n.t("stats.menu")
+    assert_select ".home-menu-kicker", text: I18n.t("hub_menu.campus")
+    assert_select ".home-menu-kicker", text: I18n.t("hub_menu.space")
+    assert_select ".home-menu-kicker", text: I18n.t("hub_menu.settings")
+    assert_select ".hub-menu-profile .home-menu-row-caret", count: 0
+    assert_select ".chrome-drawer a.home-menu-invite[href=?]", street_challenges_path(anchor: "inviter"), text: /#{Regexp.escape(I18n.t("hub_menu.invite_friend"))}/
+    assert_select ".chrome-drawer a.home-menu-row[href=?]", street_leaderboard_path, text: I18n.t("hub_menu.leaderboard")
+    assert_select ".chrome-drawer a.home-menu-row[href=?]", study_program_path, text: /#{Regexp.escape(I18n.t("study.title"))}/
+    assert_select ".chrome-drawer a.home-menu-row[href=?]", search_path, text: /#{Regexp.escape(I18n.t("hub_menu.my_ward"))}/
+    assert_select ".hub-menu-legal a[href=?]", about_path, text: I18n.t("hub_menu.about_us")
+    assert_select ".hub-menu-legal a[href=?]", legal_path, text: I18n.t("hub_menu.legal")
+    assert_select ".hub-menu-legal a[href=?]", privacy_path, text: I18n.t("hub_menu.privacy")
     assert_select ".chrome-drawer .place-input", count: 0
-    assert_select ".chrome-drawer .code-input"
-    assert_select "details.home-code summary", text: I18n.t("home.night_code")
+    assert_select ".chrome-drawer .code-input", count: 0
+    assert_select "details.home-code", count: 0
     assert_select ".story-ticks", count: 0
     assert_select ".street-card.is-map-door"
-    assert_select ".chrome-drawer .mute"
+    assert_select ".chrome-drawer .mute[data-controller='menu-sound']"
     assert_select ".chrome-drawer .mute .word", text: I18n.t("chrome.sound_on")
     assert_select ".chrome-tools", count: 0
     assert_select ".chrome-drawer .lang-switch.is-drawer"
@@ -49,18 +51,20 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     start_street_jugar!
     get jugar_path
     assert_select "#street_quiz.play-reel.is-quiz.is-street.is-overlay"
-    assert_select "a.home-menu-row[href=?]", street_map_path, text: I18n.t("street.ceremony_back_map")
-    assert_select "a.home-menu-row[href=?]", root_path, text: I18n.t("street.nav_hub")
+    assert_select ".chrome-drawer .home-menu-nav-hub"
+    assert_select "a.home-menu-invite[href=?]", street_challenges_path(anchor: "inviter"), text: /#{Regexp.escape(I18n.t("hub_menu.invite_friend"))}/
+    assert_select "a.home-menu-row[href=?]", study_program_path, text: /#{Regexp.escape(I18n.t("study.title"))}/
     assert_select ".play-sheet-grip", count: 0
     assert_select ".quiz-hud"
     assert_select ".quiz-hud[data-hud-theme^='celestial-']"
     assert_select ".quiz-hud-streak"
+    assert_select ".quiz-hud-streak img.quiz-hud-streak-icon", count: 1
+    assert_select ".quiz-hud-streak .quiz-hud-streak-multiplier", text: "×"
     assert_select ".quiz-hud-score .picto-crown"
     assert_select ".street-quiz-apex"
     assert_select ".quiz-sheet"
     assert_select ".street-shot-rival", count: 0
     assert_select ".quiz-hud-rail"
-    assert_select ".street-quiz-head", count: 0
     assert_select "#street_quiz .btn.btn-gold", count: 0
     assert_select ".home-menu.is-split .chrome-face"
     assert_select ".home-menu.is-split .home-menu-btn"
@@ -79,16 +83,18 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test "every street quiz still is a public jpeg" do
+  test "every street quiz still has a generated public jpeg while its master stays private" do
     QuizDefinition.catalog.all_questions.each do |question|
-      get "/media/#{question.presentation['image']}"
-      assert_response :success, "missing #{question.presentation['image']}"
+      source = "media/#{question.presentation['image']}"
+      assert_not Rails.public_path.join(source).exist?, "master leaked into public: #{source}"
+      get generated_media_src(source)
+      assert_response :success, "missing generated variant for #{source}"
       assert_match %r{image/jpeg}, response.media_type
     end
   end
 
   test "design tokens and motion live in the stylesheet" do
-    css = Rails.root.join("app/assets/stylesheets/application.css").read
+    css = frontend_css
     assert_includes css, ".sfx-gate"
     assert_includes css, ".mute > * { grid-area: 1 / 1; }"
     assert_includes css, ".chrome-tools"
@@ -105,8 +111,14 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     assert_includes css, "@keyframes ripple"
     assert_includes css, "@keyframes arrive"
     assert_includes css, ".toast-slot"
-    assert_includes css, "@keyframes banner-glide"
-    assert_includes css, "banner-glide 4.4s"
+    assert_includes css, "@keyframes banner-bloom"
+    assert_includes css, "@keyframes banner-light-pass"
+    assert_includes css, "banner-bloom 7.2s"
+    refute_match(/@keyframes banner-bloom\s*\{[^}]*translateY/m, css)
+    assert_includes css, "overflow-anchor: none"
+    assert_includes css, "--radius-hud:"
+    assert_includes css, "backdrop-filter: blur(36px) saturate(1.18) brightness(.98)"
+    assert_includes css, "top: calc(max(env(safe-area-inset-top), var(--space-3)) + 6rem)"
     assert_includes css, "@view-transition"
     assert_includes css, "prefers-reduced-motion"
     assert_includes css, "fieldset.place"
@@ -140,9 +152,8 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     assert_includes css, "grid-template-columns: repeat(4, minmax(0, 1fr));"
     assert_includes css, ".street-world.is-game-hub[data-hub-theme=\"dark\"] .hub-progress"
     assert_includes css, ".hub-progress-node.is-focus .hub-progress-mark::before"
-    assert_includes css, ":root, body {"
+    assert_match(/:root,\s*body \{/, css)
     refute_includes css, "body.is-street-hub:has(#street_world.is-profile-gate)"
-    refute_includes css, ".street-map-path-title::after"
     assert_includes css, ".rama-nights"
     assert_includes css, ".home-paper"
     assert_includes css, ".play-reel.is-street"
@@ -167,8 +178,8 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     assert_includes quiz_js, "is-advancing"
     assert_includes css, "#street_quiz.is-overlay.is-committing"
     assert_includes css, "#street_quiz.is-overlay.is-advancing"
-    assert_includes css, "quiz-action-from-left"
-    assert_includes css, "quiz-action-from-right"
+    assert_includes css, "street-action-from-left"
+    assert_includes css, "street-action-from-right"
     assert_includes css, "clip-path: inset(0 100% 0 0)"
     assert_includes css, "clip-path: inset(0 0 0 100%)"
     assert_includes css, "quiz-streak-grow"
@@ -179,14 +190,13 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     assert_includes css, "padding: calc(var(--space-5) + var(--space-1)) var(--space-5)"
     assert_includes css, ".street-world"
     assert_includes css, ".street-card"
-    assert_includes css, "@keyframes pack-pulse"
     assert_includes css, "street-sheet-rise"
     assert_includes css, ".hall-sheet"
     assert_includes css, ".charter-journey-hero"
     assert_includes css, ".play-timer"
     assert_includes css, ".timer-halo"
-    assert_includes css, "animation: timer-halo-beat 0.76s linear both;"
-    assert_includes css, "animation: timer-halo-beat-hot 0.64s linear both;"
+    assert_match(/#night_(?:play|watch)\.is-timer-pulse[^}]*animation: timer-halo-beat 0\.76s/m, css)
+    refute_match(/#street_quiz\.is-timer-pulse[^}]*animation:/m, css)
     assert_includes css, "@keyframes timer-halo-beat {"
     assert_includes css, "@keyframes timer-halo-beat-hot {"
     assert_includes css, "0%, 4% { opacity: 1; }"
@@ -202,6 +212,23 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     refute_includes css, "timer-halo-beat 0.82s"
     refute_includes css, "0% { opacity: 0.38; }"
     refute_includes css, "animation-duration: 0.68s;"
+    street_css = Rails.root.join("app/assets/stylesheets/surfaces/street_play.css").read
+    refute_match(/animation:[^;]*(?:streak-flicker|quiz-flame-sparks|quiz-next-breathe|cta-breathe)[^;]*infinite/, street_css)
+    refute_includes street_css, ".street-hit-flame"
+    refute_includes street_css, "--flame-step"
+    assert_includes street_css, ".quiz-hud-streak-icon"
+    assert_includes street_css, ".street-hit-video"
+    assert_includes street_css, ".street-hit-ledger"
+    refute_includes street_css, ".street-hit-fire-emblem"
+    refute_includes street_css, "@keyframes street-hit-flame-ignite"
+    refute_includes street_css, "@keyframes street-hit-flame-snuff"
+    assert_match(/prefers-reduced-motion: reduce[\s\S]*\.street-hit-video \{ display: none; \}/m, street_css)
+    assert_includes street_css, "animation-name: street-loading-wave"
+    assert_match(/@keyframes street-loading-wave[^}]*transform:[^}]*}[^{]*to \{ transform:/m, street_css)
+    assert_match(/#street_quiz\.is-overlay \.play-timer\.is-low \.play-timer-bar[^}]*animation: none/m, street_css)
+    refute_includes street_css, ".choice-btn:nth-child(1) { animation: quiz-choice-in"
+    refute_includes street_css, "view-transition-name: street-praise"
+    assert_includes street_css, ".is-result-sequence.is-actions-ready"
     assert_includes css, ".street-praise"
     assert_includes css, ".street-praise.is-streak"
     refute_includes css, ".quiz-streak-shout"
@@ -225,7 +252,8 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     assert_includes css, "--scrim-board:"
     assert_includes css, "rgba(28, 25, 21, 0.9)"
     assert_includes css, "rgba(28, 25, 21, 0.42)"
-    assert_includes css, ".watch-caption,\n.stage-caption {\n  background: var(--scrim-bottom);"
+    assert_match(/\.watch-caption \{[^}]*background: var\(--scrim-bottom\)/m, css)
+    assert_match(/\.stage-caption \{[^}]*background: var\(--scrim-bottom\)/m, css)
     assert_includes css, "background: var(--scrim-board);"
     assert_includes css, "body.is-watch .chrome-tools .mute { display: none; }"
     assert_includes css, "@media (orientation: landscape) and (max-height: 500px)"
@@ -242,8 +270,25 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     refute_includes css, "#6fde95"
   end
 
+  test "corporate menu links stay quiet centered and touch accessible" do
+    css = frontend_css
+
+    assert_match(/\.hub-menu-legal \{[^}]*justify-content: center;[^}]*text-align: center;/m, css)
+    assert_match(/\.hub-menu-legal a \{[^}]*min-height: 2\.75rem;[^}]*font-size: 0\.68rem;/m, css)
+    assert_includes css, '.home-menu[data-hud-theme="celestial-dark"] .hub-menu-legal a'
+  end
+
+  test "drawer close control keeps a stable accessible silhouette" do
+    css = frontend_css
+
+    assert_match(/\.chrome-drawer \.is-drawer-close \{[^}]*width: 2\.75rem;[^}]*height: 2\.75rem;[^}]*border-radius: 0\.7rem;/m, css)
+    assert_includes css, ".is-drawer-close .ripple { display: none; }"
+    assert_includes css, ".chrome-drawer .quiet-link:not(.is-drawer-close)"
+    assert_includes css, '.home-menu[data-hud-theme="celestial-dark"] .is-drawer-close'
+  end
+
   test "shared HUD has no page-specific legacy skins" do
-    css = Rails.root.join("app/assets/stylesheets/application.css").read
+    css = frontend_css
     forbidden = css.scan(/([^{}]+)\{([^{}]*)\}/m).filter_map do |selector, declarations|
       selector = selector.strip
       next unless selector.include?("body.") && selector.include?(".quiz-hud")
@@ -267,7 +312,7 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     assert_select ".watch-chrome .live", count: 0
     assert_select ".watch-corner", count: 4
     assert_select ".watch-board .score-strip"
-    assert_select ".challenge-story[src='/media/stories/salomon_wisdom_night_wide.png']"
+    assert_select ".challenge-story[src=?]", generated_media_src("media/stories/salomon_wisdom_night_wide.png")
     assert_select ".cheer-dock", count: 0
     assert_select "#street_duel_ping", count: 0
   end
@@ -301,7 +346,7 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     assert_select ".stage-dock"
     assert_select ".code-chip", text: /En directo/
     assert_select ".code-chip", text: "DAVID", count: 0
-    assert_select ".challenge-story[src='/media/stories/salomon_wisdom_night_wide.png']"
+    assert_select ".challenge-story[src=?]", generated_media_src("media/stories/salomon_wisdom_night_wide.png")
     assert_select ".story-close"
     assert_select ".console.is-stage[data-controller=story]"
     assert_select ".desk-sheet"
@@ -313,7 +358,7 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     assert_select ".stage-more", text: /Lista/
     assert_select ".stage-rail", count: 0
     assert_not_includes response.body, "Remoto: grado"
-    css = Rails.root.join("app/assets/stylesheets/application.css").read
+    css = frontend_css("live")
     assert_includes css, ".stage-dock"
     assert_includes css, ".stage-shot"
     assert_includes css, ".code-chip"

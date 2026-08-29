@@ -3,7 +3,11 @@ import { Controller } from "@hotwired/stimulus"
 const GEO_TIMEOUT = 5000
 
 export default class extends Controller {
-  static targets = [ "lat", "lng", "locate" ]
+  static targets = [ "lat", "lng", "locate", "statusCopy" ]
+  static values = {
+    wait: String,
+    locationUnavailable: String
+  }
 
   connect() {
     this.locateGen = 0
@@ -55,8 +59,7 @@ export default class extends Controller {
         if (gen !== this.locateGen) return
         window.clearTimeout(this.geoTimer)
         if (err?.code === 1) this.hideLocate()
-        const q = this.queryValue()
-        if (!q) this.stop()
+        this.failLocate()
       },
       { maximumAge: 300000, timeout: 4000, enableHighAccuracy: false }
     )
@@ -75,6 +78,8 @@ export default class extends Controller {
   }
 
   start() {
+    this.element.classList.remove("is-search-error")
+    this.setStatus(this.waitValue)
     this.element.classList.add("is-searching")
     this.element.setAttribute("aria-busy", "true")
   }
@@ -82,6 +87,17 @@ export default class extends Controller {
   stop() {
     this.element.classList.remove("is-searching")
     this.element.removeAttribute("aria-busy")
+  }
+
+  failLocate() {
+    this.stop()
+    this.setStatus(this.locationUnavailableValue)
+    this.element.classList.add("is-search-error")
+  }
+
+  setStatus(copy) {
+    if (!this.hasStatusCopyTarget || !copy) return
+    this.statusCopyTarget.textContent = copy
   }
 
   signature() {
@@ -118,7 +134,8 @@ export default class extends Controller {
 
   abortLocate(gen) {
     if (gen !== this.locateGen) return
-    if (!this.queryValue()) this.stop()
+    this.locateGen += 1
+    this.failLocate()
   }
 
   field() {

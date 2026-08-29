@@ -5,10 +5,13 @@ class Sfx
     round_start
     buzzer_hit
     correct_gold
+    notification_glint
     wrong_soft
+    street_wrong_soft
     score_transfer
     crown_chime
     royal_fanfare
+    street_royal_fanfare
     level_up
     chest
     dramatic_fire

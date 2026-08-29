@@ -3,7 +3,7 @@
 <% poster = local_assigns[:poster] %>
 <div class="challenge-media <%= "is-ceremony" if local_assigns[:sparks] %>">
   <% if src %>
-    <img src="<%= src %>" alt="" class="challenge-story <%= "night-poster" if poster %>">
+    <%= noche_media_picture(src, alt: "", class_name: [ "challenge-story", ("night-poster" if poster) ].compact.join(" ")) %>
   <% else %>
     <div class="art" aria-hidden="true"><%= picto(icon, size: "xl") %></div>
   <% end %>

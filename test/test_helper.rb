@@ -131,6 +131,32 @@ module ActiveSupport
       end
       round.reload
     end
+
+    def generated_media_src(source, format: "jpeg", rendition: nil, width: nil)
+      asset = Frontend::MediaManifest.fetch_source(source)
+      raise "missing responsive media asset for #{source}" unless asset
+
+      renditions = asset.fetch("renditions")
+      selected = rendition ? renditions.fetch(rendition.to_s) : renditions.values.first
+      variants = selected.fetch("variants").fetch(format.to_s)
+      variant = width ? variants.find { |candidate| candidate.fetch("width") == width } : variants.last
+      raise "missing #{format} #{width || 'fallback'} variant for #{source}" unless variant
+
+      variant.fetch("src")
+    end
+
+    def frontend_css(*surfaces)
+      root = Rails.root.join("app/assets/stylesheets")
+      paths = [ root.join("application.css") ]
+      paths.concat(
+        if surfaces.any?
+          surfaces.map { |surface| root.join("surfaces/#{surface}.css") }
+        else
+          Rails.root.glob("app/assets/stylesheets/surfaces/*.css") + [ root.join("duel_campus.css") ]
+        end
+      )
+      paths.map(&:read).join("\n")
+    end
   end
 end
 

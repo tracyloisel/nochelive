@@ -1,7 +1,9 @@
 import { Controller } from "@hotwired/stimulus"
+import { loadStylesheet, releaseStylesheet } from "platform/loading/stylesheet_loader"
 
 export default class extends Controller {
   static targets = ["action", "banner", "browserHint", "dialog", "guideTemplate", "sheet", "tile"]
+  static values = { stylesheet: String }
 
   static BANNER_SNOOZE_MS = 14 * 24 * 60 * 60 * 1000
 
@@ -37,6 +39,7 @@ export default class extends Controller {
   disconnect() {
     window.removeEventListener("beforeinstallprompt", this.beforeInstallPrompt)
     window.removeEventListener("appinstalled", this.installed)
+    releaseStylesheet(this.stylesheetResource)
   }
 
   async install(event) {
@@ -55,32 +58,19 @@ export default class extends Controller {
     this.openGuide(event)
   }
 
-  openGuide(event) {
+  async openGuide(event) {
     this.markInstallSession()
     this.installTrigger = event?.currentTarget || this.installTrigger
     this.snoozeBanner()
     this.hideBanner()
-    this.ensureGuide()
+    await this.ensureStylesheet()
+    const guide = await import("features/pwa/install_guide")
+    guide.mountInstallGuide(this)
     this.browserHintTargets.forEach((hint) => { hint.hidden = this.isSafari() })
     if (this.hasDialogTarget) {
       this.dialogTarget.showModal()
-      this.resetGuidePosition()
+      guide.resetInstallGuide(this)
     }
-  }
-
-  ensureGuide() {
-    if (!this.hasGuideTemplateTarget || !this.hasDialogTarget || this.hasSheetTarget) return
-
-    this.dialogTarget.append(this.guideTemplateTarget.content.cloneNode(true))
-    this.guideTemplateTarget.remove()
-  }
-
-  resetGuidePosition() {
-    this.dialogTarget.scrollTop = 0
-    window.requestAnimationFrame(() => {
-      this.dialogTarget.scrollTop = 0
-      if (this.hasSheetTarget) this.sheetTarget.focus({ preventScroll: true })
-    })
   }
 
   dismissBanner() {
@@ -90,6 +80,7 @@ export default class extends Controller {
 
   close() {
     if (this.hasDialogTarget) this.dialogTarget.close()
+    this.restoreInstallFocus()
   }
 
   backdropClose(event) {
@@ -97,12 +88,18 @@ export default class extends Controller {
   }
 
   closed() {
+    this.restoreInstallFocus()
+  }
+
+  restoreInstallFocus() {
     this.installTrigger?.focus({ preventScroll: true })
     this.installTrigger = null
   }
 
   showAction() {
-    this.actionTargets.forEach((action) => { action.hidden = false })
+    this.ensureStylesheet().then(() => {
+      this.actionTargets.forEach((action) => { action.hidden = false })
+    })
   }
 
   hideAction() {
@@ -111,7 +108,9 @@ export default class extends Controller {
 
   showIosBanner() {
     if (window.location.pathname !== "/" || this.hasTileTarget || this.bannerSnoozed()) return
-    this.bannerTargets.forEach((banner) => { banner.hidden = false })
+    this.ensureStylesheet().then(() => {
+      this.bannerTargets.forEach((banner) => { banner.hidden = false })
+    })
   }
 
   hideBanner() {
@@ -151,5 +150,15 @@ export default class extends Controller {
 
   markInstallSession() {
     try { sessionStorage.setItem("noche:pwa-install-offered", "1") } catch (_) {}
+  }
+
+  async ensureStylesheet() {
+    if (!this.hasStylesheetValue || this.stylesheetResource) return this.stylesheetResource
+    try {
+      this.stylesheetResource = await loadStylesheet(this.stylesheetValue, "pwa")
+      return this.stylesheetResource
+    } catch (_error) {
+      return null
+    }
   }
 }

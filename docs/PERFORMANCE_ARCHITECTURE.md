@@ -38,10 +38,25 @@ PostgreSQL is authoritative only for durable domain state. Presence, heartbeats,
 ## Frontend and time-to-render contract
 
 - The first response contains the useful screen; noncritical controllers, artwork, sheets, and sounds load lazily.
+- Every surface declares a validated resource manifest. The compiled shell stays
+  small; route CSS is loaded and retired with Turbo instead of accumulating globally.
+- Player-facing raster assets use the generated media manifest and responsive helper.
+  Masters remain outside the public tree; `picture`, art direction, dimensions and
+  immutable derivatives are the default path.
+- Audio consumers use the module port. A silent surface downloads neither backend nor
+  MP3; an audible surface downloads no MP3 before a real user gesture and only the
+  cues declared by its context afterwards.
+- Discrete countdown, presence and score projections do not write the DOM at display
+  frame rate. Continuous recipes declare cadence, rendering path, visibility policy,
+  reduced-motion final state and a bounded duration.
 - HTML delivery is streamable. Middleware must not buffer a full response to perform cosmetic rewriting.
 - Initial CSS/JS and above-the-fold media have an explicit per-screen byte budget. New assets ship in modern compressed formats with dimensions and lazy decoding where appropriate.
 - Production asset URLs point to GCS/CDN and use long-lived immutable caching. Application workers serve dynamic HTML/API/WebSocket traffic.
 - Track p75 LCP ≤ 2.5 s, INP ≤ 200 ms, and CLS ≤ 0.1 on supported mobile devices. Backend endpoints also receive a route-specific p95 latency and SQL-query budget.
+
+The local evidence and the production measurements that remain required are listed in
+[FRONTEND_RUNTIME_EXECUTION_REPORT.md](FRONTEND_RUNTIME_EXECUTION_REPORT.md). Local
+asset sizes or refresh-rate unit tests must never be reported as regional Web Vitals.
 
 ## Evidence and release gate
 

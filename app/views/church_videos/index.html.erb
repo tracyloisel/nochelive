@@ -1,13 +1,14 @@
-<% artwork = @artwork.fetch("src") %>
+<% artwork_source = @artwork.fetch("src") %>
+<% artwork = media_src(artwork_source) || artwork_source %>
 <% art_theme = @artwork.fetch("theme") %>
 <% content_for :title, t("church_videos.title") %>
 <% content_for :body_class, "is-kid is-church-videos is-celestial-#{art_theme.fetch("mode")}" %>
 <% content_for :head do %>
-  <link rel="preload" as="image" href="<%= artwork %>">
+  <%= noche_picture_preload(artwork_source) || tag.link(rel: "preload", as: "image", href: artwork) %>
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <meta http-equiv="Content-Security-Policy" content="frame-src 'self' https://www.youtube-nocookie.com; child-src 'self' https://www.youtube-nocookie.com">
 <% end %>
-<% page_hud(hud: true, tools: true) { site_menu } %>
+<% page_hud(hud: true) { site_menu } %>
 <% page_dock(active: :church) %>
 
 <main class="church-video-world"
@@ -28,7 +29,7 @@
       <% end %>
     </div>
     <div class="church-video-hero-window" aria-hidden="true">
-      <img src="<%= artwork %>" alt="" width="1672" height="941" decoding="async">
+      <%= noche_media_picture(artwork, alt: "", loading: "eager", fetchpriority: "high") %>
       <span><%= picto("play") %></span>
     </div>
   </header>
@@ -67,7 +68,7 @@
                   class: ["church-video-playlist", ("is-active" if all_active)].compact.join(" "),
                   aria: { current: all_active ? "page" : nil } do %>
               <span class="church-video-playlist-art">
-                <img src="<%= artwork %>" alt="" width="320" height="180" loading="lazy" decoding="async">
+                <%= noche_media_picture(artwork, alt: "", loading: "lazy") %>
                 <span class="church-video-playlist-icon" aria-hidden="true"><%= picto("video-library") %></span>
               </span>
               <span class="church-video-playlist-copy">

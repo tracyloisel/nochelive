@@ -12,7 +12,31 @@ class Notifications::ContentTest < ActiveSupport::TestCase
       assert payload[:title].present?, locale
       assert payload[:body].present?, locale
       refute_match(/translation missing/i, payload.values_at(:title, :body).join(" "), locale)
-      assert_equal "/desafio/#{delivery.subject.token}?nl_delivery=#{delivery.id}", payload.dig(:data, :path)
+      assert_equal "#{delivery.destination}?nl_delivery=#{delivery.id}", payload.dig(:data, :path)
+      assert_match %r{\A/notifications/receipts/}, payload.dig(:data, :receipt_path)
+    end
+  end
+
+  test "invitation push names the friend and never promises a fixed pack" do
+    invitation = duel_invitations(:named_pili_invitation)
+    delivery = NotificationDelivery.create!(
+      web_push_subscription: web_push_subscriptions(:carmen_phone_push),
+      person: people(:carmen_garcia),
+      kind: "duel_invitation",
+      dedupe_key: "invitation-content-test",
+      subject: invitation,
+      destination: "/desafio/#{invitation.public_token}",
+      status: "queued"
+    )
+
+    Locale::AVAILABLE.each do |locale|
+      delivery.web_push_subscription.update!(locale:)
+      payload = Notifications::Content.call(delivery.reload)
+
+      assert_includes payload[:body], people(:pili).given_name, locale
+      pack_title = I18n.with_locale(locale) { QuizDefinition.catalog.find_pack("coronas").copy(:title) }
+      refute_includes payload[:body], pack_title, locale
+      assert_match %r{\A/desafio/}, payload.dig(:data, :path), locale
     end
   end
 

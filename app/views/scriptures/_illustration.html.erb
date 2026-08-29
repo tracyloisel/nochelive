@@ -1,6 +1,6 @@
 <figure class="scripture-illustration" data-scripture-illustration data-after-verse="<%= illustration.anchor_verse %>">
   <div class="scripture-illustration-frame">
-    <%= image_tag "/media/#{illustration.image}",
+    <%= noche_media_picture "media/#{illustration.image}",
           alt: illustration.alt,
           loading: "lazy",
           decoding: "async" %>

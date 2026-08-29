@@ -2,9 +2,9 @@ module Notifications
   class PromptEligibility
     Result = Data.define(:eligible, :reason, :state)
     CONTEXT_CATEGORY = {
-      "challenge_sent" => "challenges",
-      "challenge_inbox" => "challenges",
-      "challenge_result" => "challenges",
+      "duel_invitation_sent" => "challenges",
+      "duel_campus" => "challenges",
+      "duel_result" => "challenges",
       "study_completed" => "verses",
       "live_upcoming" => "nights",
       "profile" => nil
@@ -31,12 +31,16 @@ module Notifications
       return result(false, :wrong_context) if @automatic && CONTEXT_CATEGORY[@context] != @category
       return result(false, :priority_action) if @priority_blocked
 
-      preference = @person.notification_settings
-      active = preference.public_send("#{@category}_enabled?")
-      return result(false, :already_active) if active
-
       device = @person.person_devices.find_by(device_token: @device_token)
       return result(false, :device_missing) unless device
+
+      preference = @person.notification_settings
+      active = preference.public_send("#{@category}_enabled?")
+      subscribed_on_device = @person.web_push_subscriptions.active.exists?(
+        device_token_digest: Notifications::Cipher.device_digest(@device_token)
+      )
+      return result(false, :already_active) if active && subscribed_on_device
+
       return result(false, :system_denied) if device.notification_prompt_states.system_denied.exists?
 
       state = device.notification_prompt_states.find_by(category: @category)

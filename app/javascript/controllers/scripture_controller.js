@@ -1,4 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
+import { audioLoader } from "platform/audio/loader"
+import { http } from "platform/http/client"
+import { EffectScope } from "platform/lifecycle/effect_scope"
 
 const QUALIFIED_READ_MS = 10_000
 const QUALIFIED_SCROLL_RATIO = 0.5
@@ -13,6 +16,7 @@ export default class extends Controller {
   ]
 
   connect() {
+    this.effectScope = new EffectScope()
     this.onFrameLoad = this.onFrameLoad.bind(this)
     this.onKey = this.onKey.bind(this)
     this.onMissing = this.onMissing.bind(this)
@@ -29,6 +33,8 @@ export default class extends Controller {
   }
 
   disconnect() {
+    delete this.element.dataset.scriptureRuntime
+    this.effectScope?.dispose()
     this.frameTarget?.removeEventListener("turbo:frame-load", this.onFrameLoad)
     this.frameTarget?.removeEventListener("turbo:frame-missing", this.onMissing)
     window.removeEventListener("keydown", this.onKey)
@@ -52,9 +58,10 @@ export default class extends Controller {
     this.stopReadTracking()
     this.hideLoading()
     this.unlock()
-    if (this.hasFrameTarget && this.frameTarget.querySelector(".scripture-veil")) {
-      this.frameTarget.replaceChildren()
-      window.NocheLiveAudio?.playFrom?.(document)
+    const frame = this.readerFrame()
+    if (frame?.querySelector(".scripture-veil")) {
+      frame.replaceChildren()
+      audioLoader.playFrom(document)
       return
     }
     if (window.history.length > 1) history.back()
@@ -66,7 +73,7 @@ export default class extends Controller {
     if (this.dismissed) {
       this.frameTarget?.replaceChildren()
       this.unlock()
-      window.NocheLiveAudio?.playFrom?.(document)
+      audioLoader.playFrom(document)
       return
     }
     if (this.open()) {
@@ -104,6 +111,8 @@ export default class extends Controller {
     }
     this.startSelectionTracking()
     this.startReadTracking()
+    this.element.dataset.scriptureRuntime = "ready"
+    if (!window.getSelection()?.isCollapsed) this.captureSelection()
   }
 
   startSelectionTracking() {
@@ -121,8 +130,8 @@ export default class extends Controller {
     this.selectionSheet?.removeEventListener("scroll", this.onSelectionScroll)
     this.selectionSheet?.removeEventListener("click", this.onHighlightClick)
     this.selectionSheet = null
-    if (this.selectionFrame) cancelAnimationFrame(this.selectionFrame)
-    this.selectionFrame = null
+    this.selectionFrameCancel?.()
+    this.selectionFrameCancel = null
     this.highlightSaveTimer = null
     this.pendingProfilePassage = null
     this.profileHighlights = []
@@ -139,8 +148,8 @@ export default class extends Controller {
 
   onSelectionChange() {
     if (this.hasShareDialogTarget && this.shareDialogTarget.open) return
-    if (this.selectionFrame) cancelAnimationFrame(this.selectionFrame)
-    this.selectionFrame = requestAnimationFrame(() => this.captureSelection())
+    this.selectionFrameCancel?.()
+    this.selectionFrameCancel = this.effectScope.frame(() => this.captureSelection())
   }
 
   onSelectionScroll() {
@@ -169,7 +178,7 @@ export default class extends Controller {
   }
 
   captureSelection() {
-    this.selectionFrame = null
+    this.selectionFrameCancel = null
     const selection = window.getSelection()
     if (!selection || selection.isCollapsed || selection.rangeCount === 0) {
       this.hideShareTrigger()
@@ -429,18 +438,11 @@ export default class extends Controller {
 
   async saveProfileHighlight(passage, { updateUi = true } = {}) {
     if (!passage?.highlightUrl || !passage.study) return
-    const csrf = document.querySelector("meta[name='csrf-token']")?.content
 
     try {
-      const response = await fetch(passage.highlightUrl, {
+      const highlight = await http.json(passage.highlightUrl, {
         method: "POST",
-        credentials: "same-origin",
         keepalive: true,
-        headers: {
-          "Accept": "application/json",
-          "Content-Type": "application/json",
-          ...(csrf ? { "X-CSRF-Token": csrf } : {})
-        },
         body: JSON.stringify({
           highlight: {
             reference: passage.study,
@@ -453,9 +455,6 @@ export default class extends Controller {
           }
         })
       })
-      if (!response.ok) throw new Error(`Scripture highlight failed: ${response.status}`)
-
-      const highlight = await response.json()
       passage.profileHighlightId = highlight.id
       if (!this.profileHighlights?.some((item) => this.sameHighlight(item, highlight))) {
         this.profileHighlights?.push(highlight)
@@ -538,18 +537,11 @@ export default class extends Controller {
     event.preventDefault()
     const passage = this.selectedPassage
     if (!passage?.profileHighlightId || !passage.highlightUrl) return
-    const csrf = document.querySelector("meta[name='csrf-token']")?.content
 
     try {
-      const response = await fetch(`${passage.highlightUrl}/${encodeURIComponent(passage.profileHighlightId)}`, {
-        method: "DELETE",
-        credentials: "same-origin",
-        headers: {
-          "Accept": "application/json",
-          ...(csrf ? { "X-CSRF-Token": csrf } : {})
-        }
+      await http.json(`${passage.highlightUrl}/${encodeURIComponent(passage.profileHighlightId)}`, {
+        method: "DELETE"
       })
-      if (!response.ok) throw new Error(`Scripture highlight deletion failed: ${response.status}`)
 
       this.profileHighlights = this.profileHighlights.filter((highlight) =>
         Number(highlight.id) !== Number(passage.profileHighlightId)
@@ -619,12 +611,18 @@ export default class extends Controller {
   }
 
   readerVeil() {
-    return document.querySelector(".scripture-veil:not(.is-loading)")
+    return this.element.matches(".scripture-veil:not(.is-loading)")
+      ? this.element
+      : this.element.querySelector(".scripture-veil:not(.is-loading)")
+  }
+
+  readerFrame() {
+    return this.element.closest("turbo-frame") || document.getElementById("scripture_reader")
   }
 
   startReadTracking() {
     this.stopReadTracking()
-    this.readVeil = document.querySelector(".scripture-veil[data-scripture-reference][data-scripture-read-url]")
+    this.readVeil = this.readerVeil()?.matches("[data-scripture-reference][data-scripture-read-url]") ? this.readerVeil() : null
     this.readSheet = this.readVeil?.querySelector(".scripture-sheet")
     if (!this.readVeil || !this.readSheet) return
 
@@ -677,22 +675,12 @@ export default class extends Controller {
 
   async recordRead() {
     this.readSending = true
-    const csrf = document.querySelector("meta[name='csrf-token']")?.content
 
     try {
-      const response = await fetch(this.readVeil.dataset.scriptureReadUrl, {
+      const payload = await http.json(this.readVeil.dataset.scriptureReadUrl, {
         method: "POST",
-        credentials: "same-origin",
-        headers: {
-          "Accept": "application/json",
-          "Content-Type": "application/json",
-          ...(csrf ? { "X-CSRF-Token": csrf } : {})
-        },
         body: JSON.stringify({ reference: this.readVeil.dataset.scriptureReference })
       })
-      if (!response.ok) throw new Error(`Scripture read failed: ${response.status}`)
-
-      const payload = await response.json()
       const count = this.readVeil.querySelector("[data-scripture-read-count]")
       if (count && payload.reads_count > 0) {
         count.textContent = payload.label
@@ -728,7 +716,7 @@ export default class extends Controller {
   }
 
   open() {
-    return !!document.querySelector(".scripture-veil:not(.is-loading)")
+    return !!this.readerVeil()
   }
 
   loadingHidden() {

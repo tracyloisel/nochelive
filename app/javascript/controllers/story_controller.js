@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 const AVOID = "button, a, input, textarea, select, label, .buzz, .choice-btn, .quiz-bar, .quiz-next, .btn, .story-sheet, .play-sheet, .desk-sheet, .play-sheet-body, .play-sheet-grip, .claim-veil, .claim-modal, .scripture-veil, .scripture-sheet"
-const STREET_AVOID = "button, a, input, textarea, select, label, .buzz, .choice-btn, .quiz-bar, .quiz-next, .btn, .play-sheet, .play-sheet-body, .play-sheet-grip, .street-quiz-head, .street-shot-actions, .street-score, .play-timer, .home-menu, .chrome-tools, .mute, .lang-switch, .claim-veil, .claim-modal, .street-map-dot, .street-map, .profile-gate, .scripture-veil, .scripture-sheet, .quiz-hud, .quiz-sheet, .quiz-scripture, .quiz-dock, .quiz-hud-streak"
+const STREET_AVOID = "button, a, input, textarea, select, label, .buzz, .choice-btn, .quiz-bar, .quiz-next, .btn, .play-sheet, .play-sheet-body, .play-sheet-grip, .street-shot-actions, .street-score, .play-timer, .home-menu, .chrome-tools, .mute, .lang-switch, .claim-veil, .claim-modal, .profile-gate, .scripture-veil, .scripture-sheet, .quiz-hud, .quiz-sheet, .quiz-scripture, .quiz-dock, .quiz-hud-streak"
 
 export default class extends Controller {
   static targets = [ "page", "sheet", "tick", "liveChip", "score", "scoreBtn" ]

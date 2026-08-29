@@ -1,0 +1,48 @@
+<% row = local_assigns.fetch(:row) %>
+<% full = local_assigns[:full] %>
+<% show_ward = local_assigns[:show_ward] %>
+<% src = avatar_mark(row.person) %>
+<li class="liga-court-row<%= " is-you" if row.you %><%= " is-live" if row.live %>"
+    data-liga-person-id="<%= row.person.id %>"
+    data-liga-rank="<%= row.rank %>"
+    data-liga-score="<%= row.score %>"
+    <% if row.you %>id="liga-you"<% end %>>
+  <button type="button"
+          class="liga-court-row-button"
+          <%= "disabled" if row.you %>
+          data-action="liga-board#openInvitation"
+          data-person-id="<%= row.person.id %>"
+          data-person-name="<%= row.person.display_name %>"
+          data-person-score="<%= liga_number(row.score) %>"
+          data-person-rank="<%= liga_number(row.rank) %>"
+          data-person-avatar="<%= src %>"
+          data-person-pack="<%= row.open_run&.pack&.copy(:title) %>"
+          data-person-pack-progress="<%= t("street.leaderboard_pack_progress", position: row.open_run.position, total: QuizDefinition::QUESTIONS_PER_PACK) if row.open_run %>"
+          aria-label="<%= row.you ? t("street.leaderboard_you_short") : t("street.leaderboard_challenge_player", name: row.person.display_name) %>">
+    <span class="liga-court-row-rank">#<%= liga_number(row.rank) %></span>
+    <span class="liga-court-row-avatar">
+      <% if src %>
+        <img src="<%= src %>" alt="" class="avatar-img" width="48" height="48">
+      <% else %>
+        <span class="avatar-fallback" aria-hidden="true"><%= row.person.given_name.to_s.first %></span>
+      <% end %>
+      <%= street_live_dot(row.live) %>
+    </span>
+    <span class="liga-court-row-person">
+      <strong><%= row.person.display_name %></strong>
+      <% if show_ward %><small><%= row.person.ward.name %></small><% end %>
+    </span>
+    <span class="liga-court-row-score"><%= liga_number(row.score) %> <%= picto("crown") %></span>
+    <span class="liga-court-row-state <%= row.you ? "is-you" : (row.live ? "is-live" : "is-challenge") %>">
+      <% if row.you %>
+        <%= t("street.leaderboard_you_short") %>
+      <% elsif row.live %>
+        <%= t("street.live") %>
+      <% elsif full %>
+        <%= t("street.leaderboard_challenge_cta") %>
+      <% else %>
+        <span aria-hidden="true"><%= picto("arrow") %></span>
+      <% end %>
+    </span>
+  </button>
+</li>

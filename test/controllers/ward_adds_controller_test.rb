@@ -6,10 +6,10 @@ class WardAddsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select "body.is-church-journey.is-about-journey"
     assert_select "#ward_add.about-journey"
-    assert_select ".about-journey-hero[style*=?]", "/media/about/community-origin-v1.png"
+    assert_select ".about-journey-hero[style*=?]", generated_media_src("media/about/community-origin-v1.png", format: "webp")
     assert_select ".about-journey-intro h1", text: I18n.t("about.title")
     assert_select ".about-journey-act", count: 3
-    assert_select ".about-face img[src=?]", "/media/about/tracy.png"
+    assert_select ".about-face img[src=?]", generated_media_src("media/about/tracy.png")
     assert_select ".about-face img[alt=?]", I18n.t("about.portrait_alt")
     assert_select ".about-face strong", text: "Tracy Loisel"
     assert_select ".about-face span", text: I18n.t("about.role")
@@ -47,9 +47,11 @@ class WardAddsControllerTest < ActionDispatch::IntegrationTest
     get about_path
     assert_response :success
     assert_select "h1", text: I18n.t("about.title")
-    assert_select ".about-face img[src=?]", "/media/about/tracy.png"
-    get "/media/about/tracy.png"
+    tracy_src = generated_media_src("media/about/tracy.png")
+    assert_select ".about-face img[src=?]", tracy_src
+    assert_not Rails.public_path.join("media/about/tracy.png").exist?, "the player-facing master must not be public"
+    get tracy_src
     assert_response :success
-    assert_match %r{image/png}, response.media_type
+    assert_match %r{image/jpeg}, response.media_type
   end
 end

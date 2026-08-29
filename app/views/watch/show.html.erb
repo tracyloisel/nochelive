@@ -1,4 +1,12 @@
 <% content_for :title, t("watch.live", code: @night.code) %>
 <% content_for :body_class, "is-watch is-kid is-celestial-dark" %>
+<% enable_frontend_audio %>
+<% declare_frontend_resources(
+     context: "live.watch",
+     styles: %w[shell gameplay live_watch],
+     controllers: %w[loading press stage],
+     audio: { unlock: true, cues: %w[round_start correct_gold wrong_soft score_transfer crown_chime royal_fanfare dramatic_fire fire_whoosh flame_gold timer_tension tick tick_low round_open round_lock question_change reveal] },
+     classes: { "style.shell" => "critical", "style.live_watch" => "critical", "audio.watch" => "interaction" }
+   ) %>
 <%= turbo_stream_from @night.watch_stream %>
 <%= render "watch/frame", night: @night %>

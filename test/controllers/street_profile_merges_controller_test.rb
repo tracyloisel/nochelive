@@ -13,14 +13,14 @@ class StreetProfileMergesControllerTest < ActionDispatch::IntegrationTest
     }
   end
 
-  test "profile edit shows same-ward homonyms with avatar points and creation date" do
+  test "profile edit shows same-ward homonyms with avatar crowns and creation date" do
     get street_profile_path(edit: 1)
 
     assert_response :success
     assert_select ".profile-merge"
     assert_select ".person-pick", text: /#{@keeper.given_name}/
     assert_select ".person-pick img[src*=?]", @keeper.avatar_key
-    assert_select "small", text: /208 puntos/
+    assert_select "small", text: /#{Regexp.escape(I18n.t("street.merge_crowns", count: 208))}/
     assert_select "small", text: /#{I18n.l(@keeper.created_at.to_date)}/
     assert_select "form[action=?]", street_profile_merge_path
   end

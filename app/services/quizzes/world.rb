@@ -92,7 +92,7 @@ module Quizzes
     private
 
       def scoped
-        QuizRun.adventure.where(device_digest: @digest, person_id: @person_id)
+        QuizRun.where(device_digest: @digest, person_id: @person_id)
       end
 
       def finished_by_pack

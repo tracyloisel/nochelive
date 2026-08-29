@@ -4,7 +4,7 @@
 
 <section class="night-entry" id="night_join">
   <div class="night-entry-art" aria-hidden="true">
-    <%= image_tag night_still_src(@night), alt: "" %>
+    <%= noche_media_picture(night_still_src(@night), alt: "", loading: "eager", fetchpriority: "high") %>
   </div>
   <div class="night-entry-scrim" aria-hidden="true"></div>
 

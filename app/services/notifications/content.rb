@@ -19,7 +19,8 @@ module Notifications
           badge: "/favicon-32.png",
           data: {
             path: tracked_destination,
-            delivery_id: @delivery.id
+            delivery_id: @delivery.id,
+            receipt_path: receipt_path
           }
         }
       end
@@ -51,20 +52,34 @@ module Notifications
       end
 
       def duel_body
-        duel = @delivery.subject
-        other = @delivery.person_id == duel.challenger_person_id ? duel.opponent_person : duel.challenger_person
-        pack = QuizDefinition.catalog.find_pack(duel.pack_id).copy(:title)
+        subject = @delivery.subject
+        if subject.is_a?(::DuelInvitation)
+          return I18n.t(
+            "notifications.push.#{@delivery.kind}.body",
+            name: subject.challenger_person.display_name
+          )
+        end
+
+        other = subject.other_person_for(@delivery.person)
         key = if @delivery.kind == "duel_result"
-          duel.winner_person.nil? ? "tie" : (duel.winner_person.id == @delivery.person_id ? "won" : "finished")
+          subject.winner_person.nil? ? "tie" : (subject.winner_person.id == @delivery.person_id ? "won" : "finished")
         else
           @delivery.kind
         end
-        I18n.t("notifications.push.#{key}.body", name: other&.display_name || I18n.t("street.share_guest"), pack:)
+        I18n.t("notifications.push.#{key}.body", name: other&.display_name || I18n.t("street.share_guest"))
       end
 
       def tracked_destination
         separator = @delivery.destination.include?("?") ? "&" : "?"
         "#{@delivery.destination}#{separator}nl_delivery=#{@delivery.id}"
+      end
+
+      def receipt_path
+        token = @delivery.signed_id(
+          purpose: Notifications::AcknowledgeReceipt::PURPOSE,
+          expires_in: 8.days
+        )
+        Rails.application.routes.url_helpers.notifications_receipt_path(token:)
       end
 
       def local_date

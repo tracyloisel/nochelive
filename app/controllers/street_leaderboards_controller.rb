@@ -22,14 +22,15 @@ class StreetLeaderboardsController < ApplicationController
     return redirect_to root_path unless @board_ward
 
     @scope_wards = Quizzes::StakeScope.wards_for(ward: @board_ward).order(:name)
-    @stake_scope = params[:scope] == "stake"
+    @stake_scope = @visit ? params[:scope] == "stake" : params[:scope] != "ward"
     board_wards = @stake_scope ? @scope_wards : nil
     person = current_street_person
     allowed_ward_ids = @stake_scope ? @scope_wards.ids : [ @board_ward.id ]
     person = nil unless person&.ward_id.in?(allowed_ward_ids)
     pack_id = pack_id_param
-    page = [ params[:page].to_i, 1 ].max
-    offset = (page - 1) * Quizzes::Leaderboard::LIMIT_PAGE
+    @q = params[:q].to_s.strip.first(24)
+    @full_view = params[:view] == "full" || @q.present? || params[:cursor].present?
+    offset = [ params[:cursor].to_i, 0 ].max
     @you = person
     @pack_id = pack_id
     @board = Quizzes::Leaderboard.call(
@@ -39,13 +40,14 @@ class StreetLeaderboardsController < ApplicationController
       person:,
       limit: Quizzes::Leaderboard::LIMIT_PAGE,
       offset:,
-      q: params[:q],
+      q: @q,
       include_ward: @stake_scope
     )
-    @page = page
-    @q = params[:q].to_s.strip
-    @duel_incoming = person ? Quizzes::ChallengeInbox.actionable_count(person:) : 0
-    @duel_pack_id = @pack_id || Quizzes::World.call(device_digest: street_digest, person_id: @you&.id).current_pack_id
+    @scope_ward_count = @stake_scope ? @scope_wards.count : 1
+    world = Quizzes::World.call(device_digest: street_digest, person_id: person&.id)
+    @continue_pack = world.packs.find { |pack| pack.id == world.current_pack_id }
+    @duel_campus = Quizzes::DuelCampus.call(person:)
+    @duel_focus = @duel_campus.focus || @duel_campus.active.first || @duel_campus.results.first
   end
 
   private

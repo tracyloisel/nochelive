@@ -1,18 +1,19 @@
 import { Controller } from "@hotwired/stimulus"
 import { haptic } from "haptics"
+import { EffectScope } from "platform/lifecycle/effect_scope"
 
 export default class extends Controller {
   static targets = ["node", "tier", "expandBtn"]
   static values = { category: String, currentPackId: String }
 
   connect() {
+    this.effectScope = new EffectScope()
     this.element.classList.add("is-entering")
-    requestAnimationFrame(() => requestAnimationFrame(() => this.element.classList.add("is-ready")))
-    this.focusTimer = window.setTimeout(() => this.focusCurrent(), 650)
+    this.effectScope.frame(() => this.effectScope.frame(() => this.element.classList.add("is-ready")))
   }
 
   disconnect() {
-    window.clearTimeout(this.focusTimer)
+    this.effectScope?.dispose()
     window.clearTimeout(this.hintTimer)
   }
 
@@ -42,24 +43,11 @@ export default class extends Controller {
     if (!node.classList.contains("is-locked")) return
     event.preventDefault()
     node.classList.remove("is-denied")
-    requestAnimationFrame(() => node.classList.add("is-denied"))
+    this.effectScope.frame(() => node.classList.add("is-denied"))
     this.nodeTargets.forEach((other) => other.classList.toggle("is-explaining", other === node))
     window.clearTimeout(this.hintTimer)
     this.hintTimer = window.setTimeout(() => node.classList.remove("is-explaining"), 2600)
     haptic("miss")
   }
 
-  focusCurrent() {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
-    const current = this.nodeTargets.find((node) => node.dataset.packId === this.currentPackIdValue)
-    if (!current) return
-
-    const hudBottom = document.querySelector(".home-menu.is-hud")?.getBoundingClientRect().bottom || 0
-    const dockTop = document.querySelector(".navigation-dock")?.getBoundingClientRect().top || window.innerHeight
-    const rect = current.getBoundingClientRect()
-    const breathingRoom = 16
-    const alreadyVisible = rect.top >= hudBottom + breathingRoom && rect.bottom <= dockTop - breathingRoom
-
-    if (!alreadyVisible) current.scrollIntoView({ behavior: "smooth", block: "center" })
-  }
 }

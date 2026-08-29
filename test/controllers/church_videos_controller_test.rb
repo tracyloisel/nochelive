@@ -55,7 +55,7 @@ class ChurchVideosControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     assert_select "a.hub-videos[href*='/videos']"
-    assert_select ".hub-videos img[src=?]", "/media/church/videos/celestial-video-sanctuary-v1.webp"
+    assert_select ".hub-videos picture img[src^='/media/generated/']"
     assert_select ".hub-videos .picto-video-library"
     assert_select "iframe[src*='youtube']", count: 0
   end

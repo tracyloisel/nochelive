@@ -1,4 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
+import { http } from "platform/http/client"
 
 export default class extends Controller {
   static values = { url: String, goal: Number, taps: Number }
@@ -9,13 +10,9 @@ export default class extends Controller {
     this.tapsValue += 1
     this.paint()
     if (navigator.vibrate) navigator.vibrate(12)
-    fetch(this.urlValue, {
+    http.request(this.urlValue, {
       method: "POST",
-      headers: {
-        "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]').content,
-        Accept: "text/vnd.turbo-stream.html, text/html"
-      }
-    })
+    }, { accept: "text/vnd.turbo-stream.html, text/html" }).catch(() => {})
   }
 
   paint() {

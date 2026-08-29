@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_29_002000) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_29_005000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -92,6 +92,45 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_29_002000) do
     t.index ["to_player_id"], name: "index_cheers_on_to_player_id"
   end
 
+  create_table "duel_invitations", force: :cascade do |t|
+    t.bigint "acquisition_parent_invitation_id"
+    t.bigint "challenger_person_id", null: false
+    t.bigint "challenger_run_id"
+    t.integer "challenger_score"
+    t.string "channel"
+    t.datetime "claimed_at"
+    t.bigint "claimed_by_person_id"
+    t.datetime "created_at", null: false
+    t.datetime "declined_at"
+    t.datetime "delivered_at"
+    t.datetime "expires_at", null: false
+    t.datetime "human_opened_at"
+    t.string "legacy_token_digest"
+    t.jsonb "metadata", default: {}, null: false
+    t.bigint "recipient_person_id"
+    t.bigint "rematch_of_duel_id"
+    t.datetime "revoked_at"
+    t.datetime "seen_at"
+    t.datetime "share_handoff_at"
+    t.string "source"
+    t.string "status", default: "open", null: false
+    t.bigint "street_duel_id"
+    t.string "token_digest", null: false
+    t.datetime "updated_at", null: false
+    t.index ["challenger_person_id", "status", "updated_at"], name: "index_duel_invitations_on_challenger_outbox"
+    t.index ["challenger_person_id"], name: "index_duel_invitations_on_challenger_person_id"
+    t.index ["challenger_run_id"], name: "index_duel_invitations_on_challenger_run_id"
+    t.index ["claimed_by_person_id"], name: "index_duel_invitations_on_claimed_by_person_id"
+    t.index ["legacy_token_digest"], name: "index_duel_invitations_on_legacy_token_digest", unique: true, where: "(legacy_token_digest IS NOT NULL)"
+    t.index ["recipient_person_id", "status", "updated_at"], name: "index_duel_invitations_on_recipient_inbox"
+    t.index ["recipient_person_id"], name: "index_duel_invitations_on_recipient_person_id"
+    t.index ["rematch_of_duel_id"], name: "index_duel_invitations_on_rematch_of_duel_id"
+    t.index ["street_duel_id"], name: "index_duel_invitations_on_street_duel_id"
+    t.index ["token_digest"], name: "index_duel_invitations_on_token_digest", unique: true
+    t.check_constraint "recipient_person_id IS NULL OR recipient_person_id <> challenger_person_id", name: "duel_invitations_distinct_people_check"
+    t.check_constraint "status::text = ANY (ARRAY['open'::character varying, 'claimed'::character varying, 'declined'::character varying, 'expired'::character varying, 'revoked'::character varying]::text[])", name: "duel_invitations_status_check"
+  end
+
   create_table "game_sessions", force: :cascade do |t|
     t.integer "broadcast_delay_ms", default: 0, null: false
     t.string "code", null: false
@@ -144,6 +183,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_29_002000) do
     t.string "kind", null: false
     t.datetime "opened_at"
     t.bigint "person_id", null: false
+    t.datetime "received_at"
     t.datetime "scheduled_for"
     t.datetime "sent_at"
     t.string "status", default: "queued", null: false
@@ -291,14 +331,20 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_29_002000) do
   end
 
   create_table "quiz_answers", force: :cascade do |t|
+    t.integer "base_points"
+    t.integer "bonus_lost"
     t.string "choice_key"
     t.boolean "correct", default: false, null: false
     t.datetime "created_at", null: false
     t.string "device_digest", null: false
     t.integer "duration_ms"
     t.string "pack_id", null: false
+    t.integer "points_awarded"
     t.string "question_id", null: false
     t.bigint "quiz_run_id", null: false
+    t.integer "streak_after"
+    t.integer "streak_before"
+    t.integer "streak_bonus"
     t.datetime "updated_at", null: false
     t.index ["created_at"], name: "index_quiz_answers_on_created_at"
     t.index ["device_digest", "pack_id", "question_id"], name: "idx_on_device_digest_pack_id_question_id_d4c3f03d57"
@@ -321,14 +367,12 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_29_002000) do
     t.integer "position", default: 1, null: false
     t.integer "score", default: 0, null: false
     t.string "status", default: "open", null: false
-    t.bigint "street_duel_id"
     t.datetime "updated_at", null: false
     t.index ["device_digest", "person_id", "status"], name: "index_quiz_runs_on_device_person_status"
     t.index ["device_digest", "status"], name: "index_quiz_runs_on_device_digest_and_status"
     t.index ["device_digest"], name: "index_quiz_runs_on_device_digest"
-    t.index ["person_id", "pack_id", "score"], name: "index_quiz_runs_on_finished_adventure_scores", order: { score: :desc }, where: "(((status)::text = 'finished'::text) AND (street_duel_id IS NULL))"
+    t.index ["person_id", "pack_id", "score"], name: "index_quiz_runs_on_finished_scores", order: { score: :desc }, where: "((status)::text = 'finished'::text)"
     t.index ["person_id"], name: "index_quiz_runs_on_person_id"
-    t.index ["street_duel_id"], name: "index_quiz_runs_on_street_duel_id"
   end
 
   create_table "reading_progresses", force: :cascade do |t|
@@ -588,36 +632,38 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_29_002000) do
   end
 
   create_table "street_duels", force: :cascade do |t|
-    t.integer "challenger_delta"
+    t.datetime "accepted_at"
     t.bigint "challenger_person_id", null: false
+    t.datetime "challenger_result_seen_at"
     t.bigint "challenger_run_id"
     t.integer "challenger_score"
-    t.bigint "challenger_ward_id"
     t.datetime "created_at", null: false
     t.datetime "expires_at", null: false
-    t.integer "opponent_delta"
-    t.bigint "opponent_person_id"
+    t.bigint "opponent_person_id", null: false
+    t.datetime "opponent_result_seen_at"
     t.bigint "opponent_run_id"
     t.integer "opponent_score"
-    t.bigint "opponent_ward_id"
-    t.string "pack_id", null: false
-    t.string "stake_unit_id"
-    t.string "status", default: "pending", null: false
-    t.string "token", null: false
+    t.bigint "origin_invitation_id", null: false
+    t.bigint "pair_high_person_id", null: false
+    t.bigint "pair_low_person_id", null: false
+    t.bigint "rematch_of_id"
+    t.datetime "resolved_at"
+    t.datetime "resolved_notified_at"
+    t.string "status", default: "active", null: false
     t.datetime "updated_at", null: false
-    t.bigint "ward_id", null: false
     t.index ["challenger_person_id", "status", "updated_at"], name: "index_street_duels_on_challenger_inbox", order: { updated_at: :desc }
     t.index ["challenger_person_id"], name: "index_street_duels_on_challenger_person_id"
     t.index ["challenger_run_id"], name: "index_street_duels_on_challenger_run_id"
-    t.index ["challenger_ward_id"], name: "index_street_duels_on_challenger_ward_id"
     t.index ["opponent_person_id", "status", "updated_at"], name: "index_street_duels_on_opponent_inbox", order: { updated_at: :desc }
     t.index ["opponent_person_id"], name: "index_street_duels_on_opponent_person_id"
     t.index ["opponent_run_id"], name: "index_street_duels_on_opponent_run_id"
-    t.index ["opponent_ward_id"], name: "index_street_duels_on_opponent_ward_id"
-    t.index ["stake_unit_id"], name: "index_street_duels_on_stake_unit_id"
+    t.index ["origin_invitation_id"], name: "index_street_duels_on_origin_invitation_id"
+    t.index ["pair_low_person_id", "pair_high_person_id"], name: "index_street_duels_on_unique_active_pair", unique: true, where: "((status)::text = ANY ((ARRAY['active'::character varying, 'one_scored'::character varying])::text[]))"
+    t.index ["rematch_of_id"], name: "index_street_duels_on_rematch_of_id"
     t.index ["status"], name: "index_street_duels_on_status"
-    t.index ["token"], name: "index_street_duels_on_token", unique: true
-    t.index ["ward_id"], name: "index_street_duels_on_ward_id"
+    t.check_constraint "challenger_person_id <> opponent_person_id", name: "street_duels_distinct_people_check"
+    t.check_constraint "pair_low_person_id < pair_high_person_id", name: "street_duels_ordered_pair_check"
+    t.check_constraint "status::text = ANY (ARRAY['active'::character varying, 'one_scored'::character varying, 'resolved'::character varying, 'expired'::character varying, 'archived'::character varying]::text[])", name: "street_duels_status_check"
   end
 
   create_table "study_answers", force: :cascade do |t|
@@ -747,12 +793,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_29_002000) do
   create_table "viral_events", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "device_digest", null: false
+    t.bigint "duel_invitation_id"
+    t.string "event_key"
     t.string "name", null: false
     t.bigint "person_id"
     t.jsonb "properties", default: {}, null: false
     t.string "source"
     t.bigint "street_duel_id"
     t.datetime "updated_at", null: false
+    t.index ["duel_invitation_id"], name: "index_viral_events_on_duel_invitation_id"
+    t.index ["event_key"], name: "index_viral_events_on_event_key", unique: true, where: "(event_key IS NOT NULL)"
     t.index ["name", "created_at"], name: "index_viral_events_on_name_and_created_at"
     t.index ["person_id"], name: "index_viral_events_on_person_id"
     t.index ["street_duel_id", "name", "created_at"], name: "index_viral_events_on_duel_funnel"
@@ -842,6 +892,13 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_29_002000) do
   add_foreign_key "cheers", "players"
   add_foreign_key "cheers", "players", column: "to_player_id"
   add_foreign_key "cheers", "round_runs"
+  add_foreign_key "duel_invitations", "duel_invitations", column: "acquisition_parent_invitation_id"
+  add_foreign_key "duel_invitations", "people", column: "challenger_person_id"
+  add_foreign_key "duel_invitations", "people", column: "claimed_by_person_id"
+  add_foreign_key "duel_invitations", "people", column: "recipient_person_id"
+  add_foreign_key "duel_invitations", "quiz_runs", column: "challenger_run_id", on_delete: :nullify
+  add_foreign_key "duel_invitations", "street_duels"
+  add_foreign_key "duel_invitations", "street_duels", column: "rematch_of_duel_id"
   add_foreign_key "game_sessions", "wards"
   add_foreign_key "missionaries", "game_sessions"
   add_foreign_key "notification_deliveries", "people"
@@ -860,7 +917,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_29_002000) do
   add_foreign_key "presenter_claims", "game_sessions"
   add_foreign_key "quiz_answers", "quiz_runs"
   add_foreign_key "quiz_runs", "people"
-  add_foreign_key "quiz_runs", "street_duels"
   add_foreign_key "reading_progresses", "people"
   add_foreign_key "reading_progresses", "study_units"
   add_foreign_key "reward_grants", "teams"
@@ -878,13 +934,12 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_29_002000) do
   add_foreign_key "solid_queue_ready_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_recurring_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_scheduled_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
+  add_foreign_key "street_duels", "duel_invitations", column: "origin_invitation_id"
   add_foreign_key "street_duels", "people", column: "challenger_person_id"
   add_foreign_key "street_duels", "people", column: "opponent_person_id"
-  add_foreign_key "street_duels", "quiz_runs", column: "challenger_run_id"
-  add_foreign_key "street_duels", "quiz_runs", column: "opponent_run_id"
-  add_foreign_key "street_duels", "wards"
-  add_foreign_key "street_duels", "wards", column: "challenger_ward_id"
-  add_foreign_key "street_duels", "wards", column: "opponent_ward_id"
+  add_foreign_key "street_duels", "quiz_runs", column: "challenger_run_id", on_delete: :nullify
+  add_foreign_key "street_duels", "quiz_runs", column: "opponent_run_id", on_delete: :nullify
+  add_foreign_key "street_duels", "street_duels", column: "rematch_of_id"
   add_foreign_key "study_answers", "study_runs"
   add_foreign_key "study_quiz_versions", "study_units"
   add_foreign_key "study_runs", "people"
@@ -897,6 +952,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_29_002000) do
   add_foreign_key "team_memberships", "teams"
   add_foreign_key "teams", "game_sessions"
   add_foreign_key "teams", "ward_teams"
+  add_foreign_key "viral_events", "duel_invitations"
   add_foreign_key "viral_events", "people"
   add_foreign_key "viral_events", "street_duels"
   add_foreign_key "ward_teams", "wards"

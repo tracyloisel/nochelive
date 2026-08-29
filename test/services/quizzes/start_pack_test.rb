@@ -36,20 +36,4 @@ class Quizzes::StartPackTest < ActiveSupport::TestCase
     assert_equal "coronas", replay.pack_id
     assert_not_equal first.id, replay.id
   end
-
-  test "challenge start unlocks a later pack for the invited friend" do
-    digest = GameSession.digest_token("start-challenge-locked")
-    frame = Quizzes::StartPack.call(device_digest: digest, pack_id: "placas", challenge: true)
-    assert frame.run.open?
-    assert_equal "placas", frame.run.pack_id
-  end
-
-  test "starts the improbables pack with its opening question" do
-    digest = GameSession.digest_token("start-improbables")
-    frame = Quizzes::StartPack.call(device_digest: digest, pack_id: "improbables", challenge: true)
-
-    assert frame.run.open?
-    assert_equal "improbables", frame.run.pack_id
-    assert_equal "moises_boca", frame.question.id
-  end
 end

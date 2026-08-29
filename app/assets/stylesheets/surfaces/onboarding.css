@@ -1,0 +1,130 @@
+/* Shared entry primitives only. Product/profile screens stay in profile.css. */
+.code-display {
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 14vw, 5rem);
+  line-height: .95;
+  letter-spacing: -.02em;
+}
+
+.code-input {
+  width: 100%;
+  padding: .95rem 1.05rem;
+  color: var(--ink);
+  background: var(--surface);
+  border: 2px solid color-mix(in srgb, var(--ink) 28%, var(--line));
+  border-radius: var(--radius-m);
+  font: inherit;
+  font-size: 1.25rem;
+  letter-spacing: .12em;
+  text-align: center;
+  text-transform: uppercase;
+  transition: border-color var(--dur-press) ease;
+}
+
+.code-input::placeholder { color: var(--parchment); opacity: 1; }
+.code-input:focus {
+  outline: 3px solid rgba(212, 160, 23, .35);
+  outline-offset: 2px;
+  border-color: var(--gold);
+}
+
+.avatar-img,
+.avatar-fallback {
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 2px solid var(--gold);
+  border-radius: 50%;
+}
+
+.avatar-img { display: block; object-fit: cover; background: var(--paper); }
+.avatar-fallback {
+  display: grid;
+  place-items: center;
+  color: var(--gold-deep);
+  background: var(--paper-deep);
+  font-weight: 700;
+}
+
+.avatar-img-lg,
+.avatar-fallback-lg { width: 4.5rem; height: 4.5rem; }
+.avatar-fallback-lg { font-size: 1.6rem; }
+.avatar-hero { width: 7.5rem; height: 7.5rem; }
+
+.team-pick {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-rows: auto auto;
+  width: 100%;
+  gap: .2rem .85rem;
+  padding: var(--space-4);
+  color: inherit;
+  background: var(--paper);
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius-m);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: transform var(--dur-press) var(--ease-out), border-color var(--dur-press) ease, box-shadow var(--dur-press) ease;
+}
+
+.team-pick:hover { border-color: var(--gold); box-shadow: var(--shadow); }
+.team-pick:active,
+.team-pick.is-pressed { transform: scale(.98); }
+.team-pick small { color: var(--mute); }
+.person-list { gap: var(--space-4); }
+.person-list .person-pick { color: inherit; text-decoration: none; }
+.person-pick { padding: var(--space-5); }
+.person-pick .person-face { grid-row: span 2; }
+.person-pick .avatar-img-lg,
+.person-pick .avatar-fallback-lg { width: 5.5rem; height: 5.5rem; }
+.person-pick.is-here { border-color: var(--gold); background: #fff8e4; }
+.person-pick.is-away { border-style: dashed; }
+
+.claim-veil {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: grid;
+  place-items: center;
+  padding: var(--space-5);
+  padding-bottom: max(var(--space-5), env(safe-area-inset-bottom));
+  background: rgba(26, 39, 68, .28);
+  animation: arrive var(--dur-move) var(--ease-out) both;
+}
+
+.claim-modal {
+  display: flex;
+  flex-direction: column;
+  width: min(26rem, 100%);
+  gap: var(--space-5);
+  padding: var(--space-6);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-l);
+  box-shadow: var(--shadow);
+}
+
+.claim-modal .btn,
+.claim-modal form.button_to { width: 100%; }
+
+.missionary-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: 0;
+  list-style: none;
+}
+
+.missionary-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .claim-veil { animation: none; }
+  .team-pick,
+  .code-input { transition: none; }
+}

@@ -1,8 +1,8 @@
 fr:
   quizzes:
     coronas:
-      title: "Rois"
-      kicker: "Quizz royal"
+      title: "David, Saül et Salomon"
+      kicker: "Rois d’Israël"
       lede: "David, Saül, Salomon : qui a été oint, qui a prié, qui a chuté."
       questions:
         ungio_david:
@@ -77,8 +77,8 @@ fr:
             canto: "Il lui a chanté"
             ignoro: "Il est passé outre"
     placas:
-      title: "Plaques"
-      kicker: "Quiz des plaques"
+      title: "Histoires du Livre de Mormon"
+      kicker: "Léhi, Néphi et Moroni"
       lede: "Léhi, Néphi, Abinadi : les plaques, le bateau et la tour."
       questions:
         lehi_jerusalen:
@@ -152,8 +152,8 @@ fr:
             moroni: "Moroni"
             noe: "Noé"
     hermanas:
-      title: "Sœurs"
-      kicker: "Quiz des sœurs"
+      title: "Femmes de la Bible"
+      kicker: "Ruth, Esther et Débora"
       lede: "Ruth, Esther, Anne et Débora : des femmes qui sont restées, ont parlé, ont sauvé."
       questions:
         rut_noemi:
@@ -227,8 +227,8 @@ fr:
             cocina: "La cuisine"
             corona: "Une couronne"
     abish:
-      title: "Abish"
-      kicker: "Quiz d’Abish"
+      title: "Femmes du Livre de Mormon"
+      kicker: "Abish, Sariah et les mères fidèles"
       lede: "Abish, Sariah et les mères des deux mille : une foi qui n’a pas douté."
       questions:
         saria_lehi:
@@ -302,8 +302,8 @@ fr:
             benjamin: "En écoutant Benjamin"
             placas: "En lisant les plaques"
     profetas:
-      title: "Prophètes"
-      kicker: "Quiz des prophètes"
+      title: "Jonas, Élie et Daniel"
+      kicker: "Prophètes en action"
       lede: "Jonas, Élie, Daniel : trois jours, des corbeaux, des fenêtres vers Jérusalem."
       questions:
         jonas_tres:
@@ -377,8 +377,8 @@ fr:
             barca: "Une barque sur le Jourdain"
             nube: "Seulement un nuage gris"
     jehova:
-      title: "L’Éternel"
-      kicker: "Quiz de l’Éternel"
+      title: "L’Éternel sauve"
+      kicker: "Le Dieu d’Israël"
       lede: "Le nom de l’Éternel, la mer qui s’ouvre, le seul Sauveur."
       questions:
         zarza_yo_soy:
@@ -452,8 +452,8 @@ fr:
             alma: "Alma le jeune"
             samuel: "Samuel le Lamanite"
     nazareno:
-      title: "Sur la terre"
-      kicker: "Quiz sur la terre"
+      title: "Jésus parmi nous"
+      kicker: "La vie du Sauveur"
       lede: "Bethléhem, le baptême, les miracles : Jésus parmi nous."
       questions:
         nacio_belen:
@@ -527,8 +527,8 @@ fr:
             lejos: "De loin, en groupe"
             angeles: "Seuls les anges les ont touchés"
     moises:
-      title: "Moïse"
-      kicker: "Quiz de Moïse"
+      title: "Les visions de Moïse"
+      kicker: "Création et Éden"
       lede: "Face à face, l’Éden, la création : ce que Moïse a vu."
       questions:
         moises_cara:
@@ -602,8 +602,8 @@ fr:
             mar: "Elle a sombré dans la mer"
             desierto: "Elle est restée dans le désert"
     abraham:
-      title: "Abraham"
-      kicker: "Quiz d’Abraham"
+      title: "La promesse de Dieu à Abraham"
+      kicker: "Alliance et postérité"
       lede: "Ur, l’autel, la postérité : la promesse qui ne se brise pas."
       questions:
         salio_ur:
@@ -677,8 +677,8 @@ fr:
             montes: "Les montagnes seulement"
             rios: "Les fleuves seulement"
     kolob:
-      title: "Kolob"
-      kicker: "Quiz de Kolob"
+      title: "Kolob et le temps de Dieu"
+      kicker: "La vision d’Abraham"
       lede: "L’astre près du trône : un jour là-bas, mille ans ici."
       questions:
         cerca_trono:
@@ -752,8 +752,8 @@ fr:
             iguales: "Les deux sont toujours égales"
             azar: "Il n’y a pas d’ordre"
     premortal:
-      title: "Avant de naître"
-      kicker: "Quiz d’avant"
+      title: "La vie avant la naissance"
+      kicker: "Le plan de Dieu"
       lede: "Avant de naître : des intelligences, et « Qui enverrai-je ? »"
       questions:
         eramos_inteligencias:
@@ -827,8 +827,8 @@ fr:
             silencio: "Sont restés silencieux"
             huir: "Ont fui la lumière"
     exaltacion:
-      title: "Exaltation"
-      kicker: "Quiz d’exaltation"
+      title: "Le plan de Dieu pour l’éternité"
+      kicker: "Vie éternelle et scellement"
       lede: "L’œuvre de Dieu : vie éternelle, degrés, sceau."
       questions:
         obra_gloria:
@@ -902,8 +902,8 @@ fr:
             luna: "Sur la lune"
             paraiso: "Seulement dans un paradis d’esprits, au loin"
     jose:
-      title: "Joseph"
-      kicker: "Quiz de Joseph"
+      title: "Les débuts de Joseph Smith"
+      kicker: "La Première Vision et les plaques"
       lede: "Sharon, le bosquet, les plaques : comment Joseph a commencé."
       questions:
         nacio_sharon:
@@ -977,8 +977,8 @@ fr:
             moises: "Seulement les jours de Moïse"
             roma: "Seulement les jours de Rome"
     inicios:
-      title: "Commencements"
-      kicker: "Quiz des commencements"
+      title: "Les débuts de l’Église"
+      kicker: "Du 6 avril à Sion"
       lede: "Le 6 avril, Kirtland, Sion : les commencements de l’Église."
       questions:
         seis_abril:
@@ -1052,8 +1052,8 @@ fr:
             una_mas: "Une de plus parmi beaucoup d’égales"
             cerrada: "Une Église déjà fermée"
     pruebas_profetas:
-      title: "Épreuves"
-      kicker: "Quiz des épreuves"
+      title: "Des prophètes à l’épreuve"
+      kicker: "Jérémie, Élie et Abinadi"
       lede: "Jérémie, Élie, Abinadi : quand la parole coûte."
       questions:
         jeremias_cisterna:
@@ -1127,8 +1127,8 @@ fr:
             oro: "Quand on vous donnera de l’or"
             trono: "Quand on vous assiera sur un trône"
     pruebas_heroes:
-      title: "Les vaillants"
-      kicker: "Quiz des vaillants"
+      title: "Une foi à toute épreuve"
+      kicker: "Job, Joseph, Daniel et Esther"
       lede: "Job, Joseph, Daniel, Esther : des vaillants qui n’ont pas maudit."
       questions:
         job_no_maldijo:
@@ -1202,8 +1202,8 @@ fr:
             olvido: "L’a oublié pour toujours"
             venganza: "A demandé vengeance"
     milagros:
-      title: "Miracles"
-      kicker: "Quiz des miracles"
+      title: "Miracles de l’Ancien Testament"
+      kicker: "Mer, manne et soleil"
       lede: "La mer, la manne, le soleil de Josué : quand le ciel touche la terre."
       questions:
         mar_abrio:
@@ -1277,8 +1277,8 @@ fr:
             trigo: "Blé"
             arena: "Sable"
     apocalipsis:
-      title: "Apocalypse"
-      kicker: "L’Agneau vainqueur"
+      title: "La victoire de l’Agneau"
+      kicker: "L’Apocalypse"
       lede: "Sceaux, dragon et Babylone : la vision ne s’achève pas dans la peur, mais dans la victoire."
       questions:
         libro_siete_sellos:
@@ -1352,8 +1352,8 @@ fr:
             principe_egipto: "Prince d’Égypte"
             escriba: "Scribe de Jérusalem"
     segunda_venida:
-      title: "Le retour"
-      kicker: "Jésus reviendra"
+      title: "Le retour de Jésus-Christ"
+      kicker: "Signes d’espérance"
       lede: "L’Évangile, la trompette et les nuées : des signes pour veiller avec espérance."
       questions:
         mismo_modo:
@@ -1427,8 +1427,8 @@ fr:
             barco: "Dans un bateau venu de Galilée"
             desierto: "Seulement dans un endroit secret du désert"
     milenio:
-      title: "Millénium"
-      kicker: "Mille ans de paix"
+      title: "Mille ans avec le Christ"
+      kicker: "Le Millénium"
       lede: "Le loup, l’Agneau et une terre renouvelée : ainsi régnera le Christ."
       questions:
         dragon_atado:
@@ -1502,7 +1502,7 @@ fr:
             olvidadas: "Elles seront oubliées"
             destruidas: "Elles seront détruites sans être connues"
     improbables:
-      title: "Dieu appelle"
+      title: "Dieu appelle ceux qu’on n’attend pas"
       kicker: "Avant → après"
       lede: "Sans enfant, oubliés, prisonniers ou saisis de peur : Dieu les a appelés là où personne ne les attendait."
       questions:

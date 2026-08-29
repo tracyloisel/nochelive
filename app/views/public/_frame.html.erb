@@ -14,7 +14,7 @@
     <% if round && !snapshot.lobby? && !snapshot.finished? %>
       <%= render "shared/challenge_media", round: round, cinema: true %>
     <% else %>
-      <%= image_tag night_still_src(night), alt: "", class: "audience-poster" %>
+      <%= noche_media_picture(night_still_src(night), alt: "", class_name: "audience-poster", loading: "eager", fetchpriority: "high") %>
     <% end %>
   </div>
   <div class="audience-scrim" aria-hidden="true"></div>

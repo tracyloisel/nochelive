@@ -3,68 +3,33 @@
 <% pack = street.pack %>
 <% snap = street.asking? ? "mid" : "open" %>
 <% quiz_standings = local_assigns[:standings] %>
-<% play_context = local_assigns[:play_context] %>
 <% extra_sfx = local_assigns[:sfx] %>
 <% extra_fx = local_assigns[:fx] %>
-<% nxt = street_next_still(street) %>
-<% jugar = play_context == :jugar %>
-<% duel = local_assigns[:duel] %>
-<% overlay = jugar %>
-<% chrome = if overlay && street.done?
-  Quizzes::Chrome.ceremony
+<% duel_campus = local_assigns[:duel_campus] %>
+<% overlay = local_assigns[:play_context] == :jugar %>
+<% chrome = local_assigns[:chrome] || if overlay && street.done?
+  Quizzes::Chrome.ceremony(outcomes: duel_campus&.impacts&.map(&:outcome))
 elsif overlay
   Quizzes::Chrome.call(question: question)
 end %>
 <% combo = overlay ? Quizzes::HitStreak.call(run: run) : nil %>
-<% extra_fx = extra_fx.presence || ("level" if combo&.shout_key == "ten") %>
-<% extra_fx = "none" if overlay && street.done? %>
-<% last_gain = street.done? ? street.complete.last_gain.to_i : (street.settled? && street.answer&.correct? ? question.points : 0) %>
-<% from_score = last_gain.positive? ? [ run.score - last_gain, 0 ].max : run.score %>
-<% still = street.done? && jugar ? street_ceremony_asset_src("ceremony-gateway") : street_still_src(question) %>
-<% art_preview = overlay && street.asking? && run.asked_at.present? && run.asked_at.future? %>
+<% reward = street.reward %>
+<% still = street_still_src(question) %>
+<% shell = street_quiz_shell_attributes(street:, overlay:, chrome:, combo:, extra_sfx:, extra_fx:) %>
 
 <%= tag.section id: "street_quiz",
-      class: [
-        "play-card", "play-reel", "is-quiz", "is-street",
-        ("is-overlay" if overlay),
-        ("is-art-preview" if art_preview),
-        ("is-settled" if street.settled?),
-        ("is-done" if street.done?),
-        ("is-ceremony" if overlay && street.done?),
-        ("is-ceremony-immersive" if street.done? && !jugar),
-        ("is-right" if street.settled? && street.answer&.correct?),
-        ("is-wrong" if street.settled? && !street.answer&.correct?)
-      ],
-      data: street_audio_data(run, question, extra_sfx:, extra_fx:).merge(
-        controller: [ "quiz", "story", ("street-motion" if overlay && street.done?) ].compact.join(" "),
-        story_street_value: true,
-        street_motion_sequence_value: (overlay && street.done? ? "packComplete" : nil),
-        quiz_correct_value: question.correct_choice,
-        quiz_next_image_value: nxt,
-        quiz_rewind_url_value: quiz_rewind_path(run),
-        quiz_from_score_value: from_score,
-        quiz_to_score_value: run.score,
-        quiz_combo_grew_value: combo&.grew,
-        quiz_combo_broke_value: combo&.broke,
-        quiz_combo_shout_value: combo&.shout_key,
-        quiz_combo_sfx_value: combo&.sfx,
-        quiz_preview_end_value: (run.asked_at.iso8601(3) if art_preview),
-        quiz_theme: chrome&.mode,
-        quiz_atmosphere: chrome&.atmosphere,
-        quiz_glass: chrome&.glass,
-        intensity: question.intensity,
-        action: "pointerdown->quiz#revealArt pointerdown->story#start click->quiz#pick turbo:submit-start->quiz#lock"
-      ).compact do %>
+      class: shell[:class],
+      data: shell[:data] do %>
   <% if overlay && street.done? %>
     <%= render "home/street_overlay_ceremony",
           street: street,
           run: run,
           question: question,
           pack: pack,
-          still: still,
           quiz_standings: quiz_standings,
           combo: combo,
-          duel: duel %>
+          duel_campus: duel_campus,
+          chrome: chrome %>
   <% elsif overlay %>
     <%= render "home/street_overlay",
           street: street,
@@ -74,50 +39,28 @@ end %>
           still: still,
           quiz_standings: quiz_standings,
           chrome: chrome,
-          combo: combo %>
+          combo: combo,
+          duel_campus: duel_campus %>
   <% else %>
-    <% if jugar && !street.done? %>
-      <header class="street-quiz-head">
-        <%= link_to root_path, class: "street-quiz-lockup", aria: { label: t("street.lockup_hub") } do %>
-          <p class="street-quiz-lockup-name">Noche Live</p>
-          <p class="street-quiz-lockup-tag">LIVE</p>
-        <% end %>
-        <%= render "home/street_level_rail", run: run, pack: pack %>
-      </header>
-    <% end %>
-
     <div class="play-shot">
       <% if still %>
         <div class="challenge-media">
-          <img src="<%= still %>" alt="" class="challenge-story">
+          <%= noche_media_picture(still, alt: "", class_name: "challenge-story", loading: "eager", fetchpriority: "high") %>
         </div>
       <% end %>
       <% if street.settled? && street.answer&.correct? %>
         <% shout = street_praise_line(run, question) %>
-        <p class="street-praise" role="status" aria-label="<%= shout %> <%= t("street.points_gained", points: question.points) %>">
+        <p class="street-praise" role="status" aria-label="<%= shout %> <%= t("quiz.points_gained", count: reward&.points_awarded.to_i) %>">
           <span class="street-praise-line"><%= shout %></span>
-          <span class="street-praise-pts" aria-hidden="true">+<%= question.points %></span>
+          <span class="street-praise-crowns" aria-hidden="true">+<%= reward&.points_awarded.to_i %></span>
         </p>
-      <% end %>
-      <% if jugar && !street.done? %>
-        <p class="street-score <%= "is-tick" if street.settled? && street.answer&.correct? %>"
-           aria-label="<%= t("chrome.points", score: run.score) %>">
-          <%= picto("star") %>
-          <span><%= run.score %></span>
-          <% if street.settled? && street.answer&.correct? %>
-            <span class="street-points-pop" aria-hidden="true">+<%= question.points %></span>
-          <% end %>
-        </p>
-        <% if street.asking? && question.timed? %>
-          <%= render "play/timer", round: run, expire_url: quiz_expire_path(run) %>
-        <% end %>
       <% end %>
       <% if street.settled? && !street.done? %>
         <div class="street-shot-actions">
           <%= link_to scripture_path(question.scripture.study, cite: question.scripture.cite),
                 class: "btn btn-navy quiz-scripture",
                 aria: { label: "#{t("quiz.read")} #{question.scripture.cite}" },
-                data: { turbo_frame: "scripture_reader", action: "click->scripture#prepare" } do %>
+                data: { turbo_frame: "scripture_reader", action: "click->scripture-launcher#prepare" } do %>
             <span class="quiz-read"><%= t("quiz.read") %></span>
             <span class="quiz-cite"><%= question.scripture.cite %></span>
           <% end %>
@@ -131,30 +74,28 @@ end %>
       <% end %>
     </div>
 
-    <% unless jugar %>
-      <div class="play-chrome">
-        <%= render "home/street_person", standings: quiz_standings %>
-        <% unless street.done? %>
-          <p class="street-score <%= "is-tick" if street.settled? && street.answer&.correct? %>"
-             aria-label="<%= t("chrome.points", score: run.score) %>">
-            <%= picto("star") %>
-            <span><%= run.score %></span>
-            <% if street.settled? && street.answer&.correct? %>
-              <span class="street-points-pop" aria-hidden="true">+<%= question.points %></span>
-            <% end %>
-          </p>
-          <% if quiz_standings&.pack_rank %>
-            <p class="street-rank" aria-label="<%= t("street.rank_in_ward", rank: quiz_standings.pack_rank, title: quiz_standings.rank_title) %>">
-              <span class="street-rank-num">#<%= quiz_standings.pack_rank %></span>
-              <span class="street-rank-title"><%= quiz_standings.rank_title %></span>
-            </p>
+    <div class="play-chrome">
+      <%= render "home/street_person", standings: quiz_standings %>
+      <% unless street.done? %>
+        <p class="street-score <%= "is-tick" if street.settled? && street.answer&.correct? %>"
+           aria-label="<%= t("chrome.crowns", score: run.score) %>">
+          <%= picto("star") %>
+          <span><%= run.score %></span>
+          <% if street.settled? && street.answer&.correct? %>
+            <span class="street-crowns-pop" aria-hidden="true">+<%= reward&.points_awarded.to_i %></span>
           <% end %>
+        </p>
+        <% if quiz_standings&.pack_rank %>
+          <p class="street-rank" aria-label="<%= t("street.rank_in_ward", rank: quiz_standings.pack_rank, title: quiz_standings.rank_title) %>">
+            <span class="street-rank-num">#<%= quiz_standings.pack_rank %></span>
+            <span class="street-rank-title"><%= quiz_standings.rank_title %></span>
+          </p>
         <% end %>
-        <% if street.asking? && question.timed? %>
-          <%= render "play/timer", round: run, expire_url: quiz_expire_path(run) %>
-        <% end %>
-      </div>
-    <% end %>
+      <% end %>
+      <% if street.asking? && question.timed? %>
+        <%= render "play/timer", round: run, expire_url: quiz_expire_path(run) %>
+      <% end %>
+    </div>
 
     <div class="street-quiz-card">
       <% unless street.done? %>
@@ -170,7 +111,7 @@ end %>
            data-sheet-mid-label-value="<%= t("chrome.grip_mid") %>"
            data-sheet-peek-label-value="<%= t("chrome.grip_peek") %>"
            data-action="pointerdown->sheet#start">
-        <% unless street.asking? || jugar %>
+        <% unless street.asking? %>
           <button type="button"
                   class="play-sheet-grip"
                   data-sheet-target="handle"
@@ -183,7 +124,7 @@ end %>
         <div class="play-sheet-body" data-sheet-target="body">
           <div class="play-stage">
             <% if street.done? %>
-              <%= render "home/street_done", street: street, duel: duel %>
+              <%= render "home/street_done", street: street, duel_campus: duel_campus %>
             <% elsif street.asking? %>
               <p class="prompt"><%= question.copy(:question) %></p>
               <p class="street-quiz-rule" aria-hidden="true"></p>

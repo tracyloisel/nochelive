@@ -1,0 +1,51 @@
+- generic [active] [ref=f3e441]:
+  - link "Aller au jeu" [ref=f3e442] [cursor=pointer]:
+    - /url: "#main"
+  - navigation "Menu":
+    - generic "Garde ta progression" [ref=f3e444]:
+      - link "Garde ta progression" [ref=f3e445] [cursor=pointer]:
+        - /url: /ficha?fresh=1
+        - paragraph [ref=f3e453]: Garde ta progression
+      - link "Créer" [ref=f3e455] [cursor=pointer]:
+        - /url: /ficha?fresh=1
+    - button "Menu" [ref=f3e460] [cursor=pointer]
+  - main [ref=f3e464]:
+    - generic [ref=f3e465]:
+      - generic [ref=f3e467]:
+        - paragraph [ref=f3e468]: Légal
+        - heading "Mentions légales" [level=1] [ref=f3e469]
+        - paragraph [ref=f3e470]: Mis à jour le 26 août 2026
+      - main [ref=f3e476]:
+        - generic [ref=f3e477]:
+          - heading "Ce site" [level=2] [ref=f3e478]
+          - paragraph [ref=f3e479]: "Noche Live est un quiz de famille pour les paroisses de l’Église de Jésus-Christ des Saints des Derniers Jours : des soirées en salle et le jeu sur le téléphone."
+          - paragraph [ref=f3e480]: Site personnel, non inscrit au registre du commerce espagnol.
+        - generic [ref=f3e482]:
+          - generic [ref=f3e483]:
+            - term [ref=f3e484]: Éditeur du site
+            - definition [ref=f3e485]: Tracy Loisel
+          - generic [ref=f3e486]:
+            - term [ref=f3e487]: Contact
+            - definition [ref=f3e488]:
+              - link "tracy.loisel@gmail.com" [ref=f3e489] [cursor=pointer]:
+                - /url: mailto:tracy.loisel@gmail.com
+          - generic [ref=f3e490]:
+            - term [ref=f3e491]: Hébergeur
+            - definition [ref=f3e492]:
+              - text: Render Services, Inc. 525 Brannan Street, Suite 300, San Francisco, CA 94107, États-Unis
+              - link "render.com" [ref=f3e493] [cursor=pointer]:
+                - /url: https://render.com
+        - generic [ref=f3e494]:
+          - heading "La loi" [level=2] [ref=f3e495]
+          - paragraph [ref=f3e496]: Cet avis identifie le prestataire selon la LSSI-CE espagnole (loi 34/2002). Le traitement des données est dans la politique de confidentialité.
+  - navigation "Accueil" [ref=f3e497]:
+    - link "Accueil" [ref=f3e498] [cursor=pointer]:
+      - /url: /
+    - link "Aventure" [ref=f3e505] [cursor=pointer]:
+      - /url: /mapa
+    - link "Parole" [ref=f3e514] [cursor=pointer]:
+      - /url: /parole
+    - link "Église" [ref=f3e522] [cursor=pointer]:
+      - /url: /iglesia
+    - link "Profil" [ref=f3e529] [cursor=pointer]:
+      - /url: /ficha?edit=1

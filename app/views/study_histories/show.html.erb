@@ -44,7 +44,7 @@
         <% count = @chapters_by_collection.fetch(collection) %>
         <article class="study-scripture-seal<%= " has-progress" if count.positive? %>">
           <span class="study-scripture-book" aria-hidden="true">
-            <%= image_tag cover, alt: "", loading: "lazy" %>
+            <%= noche_media_picture(cover, alt: "", loading: "lazy") %>
             <b><%= t("study.collection_marks.#{collection}") %></b>
           </span>
           <strong><%= count %></strong>

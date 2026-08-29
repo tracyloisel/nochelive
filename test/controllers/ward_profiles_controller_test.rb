@@ -33,9 +33,8 @@ class WardProfilesControllerTest < ActionDispatch::IntegrationTest
     assert_select "a.quiet-link", text: /Solo ver/
     assert_select ".btn.btn-gold", text: /Solo ver/, count: 0
     assert_select "nav.home-menu"
-    assert_select ".chrome-drawer a[href=?]", root_path
     assert_select ".chrome-drawer a[href=?]", about_path
-    assert_select ".chrome-drawer a[href=?]", search_path
+    assert_select ".chrome-drawer a[href=?]", ward_profile_path("RAMA")
     assert_select ".rama-cta a", text: /Otra rama/, count: 0
     assert_select ".btn.btn-gold", text: /Abrir la noche/, count: 0
     assert_select ".play-reel", count: 0

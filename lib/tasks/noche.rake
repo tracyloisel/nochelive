@@ -12,16 +12,9 @@ namespace :noche do
     load Rails.root.join("script/import_meetinghouses.rb")
   end
 
-  desc "Idempotent in-progress hub défi for NAME=LoopDefi in RAMA (does not wipe nights)"
-  task hub_challenge: :environment do
-    ward = Ward.find_by!(code: Ward::FEATURED_CODE)
-    name = ENV.fetch("NAME", "LoopDefi")
-    person = ward.people.named(name).first
-    abort "No person #{name.inspect} in #{ward.code}" unless person
-
-    result = Quizzes::EnsureHubDuel.call(person:)
-    duel = result.duel
-    puts "hub défi · #{person.given_name} vs #{result.rival.given_name} · #{duel.status} · #{duel.challenger_score}/#{duel.opponent_score} · /?desafio=#{duel.token}"
+  desc "Seed every Scripture Campus state locally (PERSON_ID=21 or NAME='Test Feu', PORT=3091)"
+  task duel_campus_demo: :environment do
+    load Rails.root.join("db/seeds/duel_campus_demo.rb")
   end
 
   desc "Backfill Church Maps payload and stake id on stored ramas (FORCE=1 UNIT=333239)"
@@ -31,6 +24,19 @@ namespace :noche do
       church_unit_id: ENV["UNIT"].presence
     )
     puts "locator backfill · candidates=#{stats.candidates} updated=#{stats.updated} missing=#{stats.missing} skipped=#{stats.skipped}"
+  end
+end
+
+namespace :media do
+  desc "Build deterministic responsive AVIF/WebP/JPEG derivatives and manifest"
+  task build_responsive: :environment do
+    require Rails.root.join("lib/media_pipeline")
+    manifest = MediaPipeline.new.call
+    assets = manifest.fetch("assets")
+    variants = assets.values.sum do |asset|
+      asset.fetch("renditions").values.sum { |rendition| rendition.fetch("variants").values.sum(&:size) }
+    end
+    puts "responsive media · assets=#{assets.size} variants=#{variants}"
   end
 end
 

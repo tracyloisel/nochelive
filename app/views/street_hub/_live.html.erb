@@ -1,11 +1,12 @@
 <% live = local_assigns[:live] %>
 <% ward_missing = live.state == :ward_missing %>
 <% empty = live.state == :none || ward_missing %>
-<% still = media_src(live.still) if !empty && live.still.present? %>
 <% hosts = Array(live.hosts).compact_blank %>
 <% theme = %w[light dark].include?(live.theme_mode.to_s) ? live.theme_mode : "light" %>
 <% atmosphere = %w[peaceful dramatic solemn glorious].include?(live.theme_atmosphere.to_s) ? live.theme_atmosphere : "peaceful" %>
-<article class="hub-live hub-panel is-<%= live.state %> is-celestial-<%= theme %><%= " is-empty" if empty %><%= " is-still" if still %>"
+<% still_source = theme == "light" ? "media/hub/light/live-stage-v2.png" : live.still %>
+<% still = media_src(still_source) if still_source.present? %>
+<article class="hub-live hub-panel hub-light-tile--live is-<%= live.state %> is-celestial-<%= theme %><%= " is-empty" if empty %><%= " is-still" if still %>"
          data-hub-live-theme="<%= theme %>"
          data-hub-live-atmosphere="<%= atmosphere %>"
          data-controller="hub-countdown"
@@ -74,10 +75,13 @@
         </div>
       </div>
       <% if live.join_path %>
-        <%= link_to t("hub.live_join"), live.join_path,
-              class: "btn btn-gold hub-live-join",
+        <%= link_to live.join_path,
+              class: "btn hub-live-join",
               data: { hub_countdown_target: "join" },
-              hidden: live.state != :playing %>
+              hidden: live.state != :playing do %>
+          <span class="hub-live-join-label"><%= t("hub.live_join") %></span>
+          <span class="hub-live-join-mark" aria-hidden="true"><%= picto("arrow") %></span>
+        <% end %>
       <% end %>
     </div>
     <%= link_to live.program_path, class: "hub-live-program" do %>

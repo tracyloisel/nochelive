@@ -10,6 +10,16 @@ class Person < ApplicationRecord
   has_many :scripture_chapter_reads, dependent: :nullify
   has_many :scripture_highlights, dependent: :destroy
   has_many :viral_events, dependent: :nullify
+  has_many :sent_duel_invitations,
+    class_name: "DuelInvitation",
+    foreign_key: :challenger_person_id,
+    dependent: :restrict_with_exception,
+    inverse_of: :challenger_person
+  has_many :received_duel_invitations,
+    class_name: "DuelInvitation",
+    foreign_key: :recipient_person_id,
+    dependent: :nullify,
+    inverse_of: :recipient_person
   has_many :web_push_subscriptions, dependent: :destroy
   has_one :notification_preference, dependent: :destroy
   has_many :notification_deliveries, dependent: :destroy

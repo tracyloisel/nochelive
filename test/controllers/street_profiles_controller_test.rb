@@ -13,9 +13,15 @@ class StreetProfilesControllerTest < ActionDispatch::IntegrationTest
     assert_select ".profile-panel"
     assert_select ".profile-brand", text: "Noche Live"
     assert_select "h1", text: I18n.t("street.quick_profile_title")
+    assert_select ".profile-rama-current", text: wards(:demo).name
+    assert_select "a.profile-rama-change[href=?]", search_path(cambiar: 1), text: I18n.t("street.change_ward_short")
+    assert_select "a.profile-rama-change[aria-label=?]", I18n.t("street.change_ward")
+    assert_select "a.profile-rama-change .picto", count: 0
     assert_select "h2", text: I18n.t("street.create_title")
     assert_select "label", text: I18n.t("street.create_who")
     assert_select ".join-form.profile-gate-new"
+    assert_select "body[data-controller~='stage']"
+    assert_select "script#noche_sfx_catalog[type='application/json']"
     assert_select ".profile-later", text: I18n.t("street.avatar_automatic")
     assert_select ".gate", count: 0
     assert_select ".story-ticks", count: 0
@@ -34,6 +40,8 @@ class StreetProfilesControllerTest < ActionDispatch::IntegrationTest
     assert_select ".toast-slot .banner[data-controller=banner]",
           text: I18n.t("flashes.street_signed_in", name: "Nuevo")
     assert_select ".banner-mark .picto-star8"
+    catalog = JSON.parse(css_select("#noche_sfx_catalog").first.text)
+    assert_includes catalog.keys, "notification_glint"
   end
 
   test "create assigns an avatar when the quick form does not choose one" do

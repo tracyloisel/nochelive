@@ -43,6 +43,6 @@ backdrops:
     image: home/creation-ciel.jpg
     tags: [moises, creacion, peaceful, glorious]
     theme:
-      mode: light
+      mode: dark
       atmosphere: glorious
       accent: gold

@@ -9,7 +9,23 @@ class Quizzes::ChromeTest < ActiveSupport::TestCase
     assert_equal "light", chrome.mode
     assert_equal "glorious", chrome.atmosphere
     assert_equal "soft", chrome.glass
-    assert_equal "ceremony-gateway", chrome.image
+    assert_equal "media/social/campus-ceremony-friends-v1.png", chrome.image
+  end
+
+  test "ceremony chrome celebrates a duel win in Celestial Light" do
+    chrome = Quizzes::Chrome.ceremony(outcomes: %i[behind ahead])
+    assert_equal "light", chrome.mode
+    assert_equal "glorious", chrome.atmosphere
+    assert_equal "soft", chrome.glass
+    assert_equal "media/social/campus-duel-victory-friends-v1.png", chrome.image
+  end
+
+  test "ceremony chrome turns a duel loss into a Celestial Dark rematch" do
+    chrome = Quizzes::Chrome.ceremony(outcomes: [:behind])
+    assert_equal "dark", chrome.mode
+    assert_equal "dramatic", chrome.atmosphere
+    assert_equal "strong", chrome.glass
+    assert_equal "media/social/campus-duel-rematch-storm-v1.png", chrome.image
   end
 
   test "eden still is celestial light with soft glass" do
@@ -53,8 +69,9 @@ class Quizzes::ChromeTest < ActiveSupport::TestCase
       assert_includes Quizzes::Chrome::MODES, row["mode"].to_s, image
       assert_includes Quizzes::Chrome::ATMOSPHERES, row["atmosphere"].to_s, image
       assert_includes Quizzes::Chrome::GLASSES, row["glass"].to_s, image
-      path = Rails.public_path.join("media/#{image}")
-      assert path.file?, "catalog image missing on disk: #{image}"
+      asset = Frontend::MediaManifest.fetch_source("media/#{image}")
+      assert asset, "catalog image missing from responsive manifest: #{image}"
+      assert Rails.root.join("media/masters", asset.fetch("source")).file?, "catalog master missing on disk: #{image}"
     end
 
     assert stills.values.any? { |row| row["mode"] == "light" && row["glass"] == "soft" }

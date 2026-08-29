@@ -2,6 +2,8 @@
 <%= form_with url: search_path, method: :get, class: "ward-picker-search",
       data: {
         controller: "ward-search",
+        ward_search_wait_value: t("home.search_wait"),
+        ward_search_location_unavailable_value: t("home.search_location_unavailable"),
         turbo_frame: "ward_picker_results",
         action: "input->ward-search#queue keydown.esc->ward-search#clearOnEscape turbo:submit-start->ward-search#start turbo:submit-end->ward-search#stop"
       } do %>
@@ -32,9 +34,9 @@
       <%= picto("search") %>
     </button>
   </div>
-  <p class="ward-picker-wait" role="status" aria-live="polite">
+  <p class="ward-picker-status ward-picker-wait" role="status" aria-live="polite">
     <span class="ward-picker-spin" aria-hidden="true"></span>
-    <span><%= t("home.search_wait") %></span>
+    <span data-ward-search-target="statusCopy"><%= t("home.search_wait") %></span>
   </p>
   <button type="button"
           class="quiet-link ward-picker-locate"

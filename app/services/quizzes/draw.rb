@@ -1,6 +1,6 @@
 module Quizzes
   class Draw
-    Frame = Struct.new(:run, :pack, :question, :answer, :tally, :complete, keyword_init: true) do
+    Frame = Struct.new(:run, :pack, :question, :answer, :reward, :tally, :complete, keyword_init: true) do
       def settled? = answer.present? && !done?
       def done? = run.finished?
       def asking? = !done? && answer.nil?
@@ -18,7 +18,8 @@ module Quizzes
       ward ||= person&.ward
       complete = run.finished? ? Complete.summary(run, ward:, person:) : nil
       tally = answer && !run.finished? ? Tally.call(pack_id: pack.id, question_id: question.id) : nil
-      Frame.new(run:, pack:, question:, answer:, tally:, complete:)
+      reward = answer ? StreakReward.from_answer(run:, answer:) : nil
+      Frame.new(run:, pack:, question:, answer:, reward:, tally:, complete:)
     end
 
     def initialize(device_digest:, person_id: nil, ward: nil)
@@ -29,13 +30,10 @@ module Quizzes
     end
 
     def call
-      duel = duel_scope.open_runs.order(:id).last
-      return self.class.frame(duel, ward: @ward) if duel
-
-      open = adventure_scope.open_runs.order(:id).last
+      open = scoped.open_runs.order(:id).last
       return self.class.frame(open, ward: @ward) if open
 
-      last = adventure_scope.order(:id).last
+      last = scoped.order(:id).last
       return self.class.frame(last, ward: @ward) if last&.finished?
 
       self.class.frame(start_pack(next_pack_id(last)), ward: @ward)
@@ -47,12 +45,8 @@ module Quizzes
 
     private
 
-      def adventure_scope
-        QuizRun.adventure.where(device_digest: @digest, person_id: @person_id)
-      end
-
-      def duel_scope
-        QuizRun.duel_runs.where(device_digest: @digest, person_id: @person_id)
+      def scoped
+        QuizRun.where(device_digest: @digest, person_id: @person_id)
       end
 
       def next_pack_id(last)

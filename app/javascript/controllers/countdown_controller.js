@@ -1,33 +1,23 @@
 import { Controller } from "@hotwired/stimulus"
-
-const TIMER_WARN_RATIO = 0.4
-const TIMER_HOT_RATIO = 0.2
+import { EffectScope } from "platform/lifecycle/effect_scope"
+import { http } from "platform/http/client"
+import { countdownProjection, nextSecondDelay } from "runtime/motion/countdown_projection"
 
 export default class extends Controller {
   static values = { end: String, duration: Number, reloadUrl: String, expireUrl: String, ask: Boolean }
   static targets = ["label", "bar"]
 
   connect() {
+    this.effectScope = new EffectScope()
     this.endAt = Date.parse(this.endValue)
     if (this.askValue && window.matchMedia("(prefers-reduced-motion: reduce)").matches) this.releaseAsk()
+    this.animateBar()
     this.tick()
   }
 
   disconnect() {
-    if (this.frame) cancelAnimationFrame(this.frame)
-  }
-
-  askZones(remain) {
-    if (this.askValue) {
-      const duration = this.durationValue
-      if (!(duration > 0) || remain <= 0) return { warn: false, hot: false }
-      const hot = remain <= duration * TIMER_HOT_RATIO
-      return { warn: !hot && remain <= duration * TIMER_WARN_RATIO, hot }
-    }
-    return {
-      warn: remain > 10 && remain <= 20,
-      hot: remain > 0 && remain <= 10
-    }
+    this.barAnimation?.cancel()
+    this.effectScope?.dispose()
   }
 
   releaseAsk() {
@@ -35,36 +25,35 @@ export default class extends Controller {
     this.previewReleased = true
     const previewRemaining = Math.max(0, this.endAt - Date.now() - (this.durationValue * 1000))
     this.endAt -= previewRemaining
+    this.animateBar()
+    this.tick()
   }
 
   tick() {
-    const remainMs = Math.max(0, this.endAt - Date.now())
-    const rawRemain = Math.ceil(remainMs / 1000)
-    const remain = this.askValue && this.durationValue > 0 ? Math.min(this.durationValue, rawRemain) : rawRemain
-    if (this.hasLabelTarget) this.labelTarget.textContent = remain
-    if (this.hasBarTarget && this.durationValue > 0) {
-      this.barTarget.style.transform = `scaleX(${Math.min(1, remainMs / (this.durationValue * 1000))})`
+    this.cancelTick?.()
+    const projection = countdownProjection({
+      endAt: this.endAt,
+      now: Date.now(),
+      durationSeconds: this.durationValue,
+      ask: this.askValue
+    })
+    if (projection.seconds !== this.lastSeconds && this.hasLabelTarget) {
+      this.labelTarget.textContent = projection.seconds
+      this.lastSeconds = projection.seconds
     }
-    const { warn, hot } = this.askZones(remain)
-    this.element.classList.toggle("is-warn", warn)
-    this.element.classList.toggle("is-low", hot)
-    this.element.classList.toggle("is-empty", remain <= 0)
-    if (remainMs > 0) {
-      this.frame = requestAnimationFrame(() => this.tick())
+    this.element.classList.toggle("is-warn", projection.warn)
+    this.element.classList.toggle("is-low", projection.hot)
+    this.element.classList.toggle("is-empty", projection.expired)
+    if (!projection.expired) {
+      this.cancelTick = this.effectScope.timeout(() => this.tick(), nextSecondDelay(projection.remainMs))
       return
     }
     if (this.hasExpireUrlValue && this.expireUrlValue && !this.expired) {
       this.expired = true
-      const token = document.querySelector('meta[name="csrf-token"]')?.content
-      fetch(this.expireUrlValue, {
+      const request = this.effectScope.abortable()
+      http.turboStream(this.expireUrlValue, {
         method: "POST",
-        headers: {
-          "X-CSRF-Token": token || "",
-          Accept: "text/vnd.turbo-stream.html"
-        },
-        credentials: "same-origin"
-      }).then((res) => res.text()).then((html) => {
-        if (html && window.Turbo) window.Turbo.renderStreamMessage(html)
+        signal: request.signal
       }).catch(() => {})
       return
     }
@@ -72,5 +61,28 @@ export default class extends Controller {
       this.reloaded = true
       window.location = this.reloadUrlValue
     }
+  }
+
+  animateBar() {
+    if (!this.hasBarTarget || !(this.durationValue > 0)) return
+    const projection = countdownProjection({
+      endAt: this.endAt,
+      now: Date.now(),
+      durationSeconds: this.durationValue,
+      ask: this.askValue
+    })
+    this.barAnimation?.cancel()
+    this.barTarget.style.transformOrigin = "left center"
+    if (typeof this.barTarget.animate === "function" && projection.remainMs > 0) {
+      this.barAnimation = this.barTarget.animate(
+        [ { transform: `scaleX(${projection.ratio})` }, { transform: "scaleX(0)" } ],
+        { duration: projection.remainMs, easing: "linear", fill: "forwards" }
+      )
+      return
+    }
+
+    this.barTarget.style.transform = `scaleX(${projection.ratio})`
+    this.barTarget.style.transition = `transform ${projection.remainMs}ms linear`
+    this.effectScope.timeout(() => { this.barTarget.style.transform = "scaleX(0)" }, 0)
   }
 }

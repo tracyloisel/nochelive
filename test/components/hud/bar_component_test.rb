@@ -64,7 +64,7 @@ class Hud::BarComponentTest < ViewComponent::TestCase
     assert_no_selector ".quiz-hud-cta"
   end
 
-  test "quiz HUD keeps crown score targets and combo fire" do
+  test "quiz HUD keeps crown score targets and the same living fire as the payoff" do
     bar = Huds::Present::Result.new(
       kind: :quiz,
       guest: false,
@@ -81,14 +81,36 @@ class Hud::BarComponentTest < ViewComponent::TestCase
     render_inline(Hud::BarComponent.new(bar:))
 
     assert_selector ".quiz-hud.is-quiz"
-    assert_selector ".quiz-hud > .quiz-hud-level", text: "1"
+    assert_no_selector ".quiz-hud > .quiz-hud-level"
+    assert_selector ".quiz-hud-name .quiz-hud-level", text: "1"
     assert_no_selector ".quiz-hud-rank .quiz-hud-level"
     assert_selector ".quiz-hud-score [data-quiz-target=score]", text: "5"
+    assert_selector ".quiz-hud-streak img.quiz-hud-streak-icon[src*='living-fire-hud-v1.webp']", count: 1
+    assert_selector ".quiz-hud-streak-multiplier", text: "×"
     assert_selector ".quiz-hud-streak.is-grew.is-shout[data-tier=glow] .quiz-hud-streak-num", text: "2"
     assert_selector "a.quiz-hud-who[href='/']"
   end
 
-  test "finished quiz keeps the level disc beside the rank, not over the name" do
+  test "quiz HUD keeps a rankless player level attached to their name" do
+    bar = Huds::Present::Result.new(
+      kind: :quiz,
+      guest: false,
+      name: "Tracy",
+      level: 1,
+      pack_title: "L'Éternel",
+      progress_n: 5,
+      progress_total: 10,
+      dots: ([ "is-done" ] * 5) + ([ "is-next" ] * 5),
+      score: 31,
+      combo: Huds::Present::Combo.new(count: 5, tier: "hot", broke: false, grew: false, shout_key: nil)
+    )
+    render_inline(Hud::BarComponent.new(bar:))
+
+    assert_selector ".quiz-hud-name .quiz-hud-level", text: "1"
+    assert_no_selector ".quiz-hud > .quiz-hud-level"
+  end
+
+  test "finished quiz keeps the level disc with the player identity, not in the pack" do
     bar = Huds::Present::Result.new(
       kind: :quiz,
       guest: false,
@@ -105,7 +127,8 @@ class Hud::BarComponentTest < ViewComponent::TestCase
     )
     render_inline(Hud::BarComponent.new(bar:))
 
-    assert_selector ".quiz-hud-rank .quiz-hud-level", text: "2"
+    assert_selector ".quiz-hud-name .quiz-hud-level", text: "2"
+    assert_no_selector ".quiz-hud-rank .quiz-hud-level"
     assert_no_selector ".quiz-hud > .quiz-hud-level"
     assert_no_selector ".quiz-hud-pack .quiz-hud-level"
   end

@@ -11,8 +11,14 @@ class NotificationsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "requires the feature flag and a persistent ficha" do
-    post notifications_subscription_path, params: subscription_payload
-    assert_response :not_found
+    previous = ENV["WEB_PUSH_ENABLED"]
+    ENV["WEB_PUSH_ENABLED"] = "false"
+    begin
+      post notifications_subscription_path, params: subscription_payload
+      assert_response :not_found
+    ensure
+      previous.nil? ? ENV.delete("WEB_PUSH_ENABLED") : ENV["WEB_PUSH_ENABLED"] = previous
+    end
 
     with_web_push_enabled do
       post notifications_subscription_path, params: subscription_payload

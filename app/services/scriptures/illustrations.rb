@@ -77,7 +77,7 @@ module Scriptures
 
       def media_available?(image)
         image.present? && image.match?(SAFE_MEDIA_PATH) && !image.split("/").include?("..") &&
-          Rails.root.join("public/media", image).file?
+          Frontend::MediaManifest.fetch_source("media/#{image}").present?
       end
 
       def chapter_number

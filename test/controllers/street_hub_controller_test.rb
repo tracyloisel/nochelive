@@ -1,11 +1,11 @@
 require "test_helper"
 
 class StreetHubControllerTest < ActionDispatch::IntegrationTest
-  test "home offers the installable app as a secondary hub tile" do
+  test "home offers the installable app as the first temporary hub tile" do
     get root_path
 
     assert_response :success
-    assert_select ".hub-panel-row > button.hub-panel.hub-install[hidden][aria-label=?]", I18n.t("pwa.install") do
+    assert_select ".street-hub-feed > button.hub-panel.hub-install[hidden][aria-label=?]", I18n.t("pwa.install") do
       assert_select "[data-pwa-install-target~='action'][data-pwa-install-target~='tile']"
       assert_select "[data-action='pwa-install#install']"
       assert_select "img[src='/apple-touch-icon.png']"
@@ -15,6 +15,7 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
       assert_select ".hub-install-cta", text: /#{Regexp.escape(I18n.t("pwa.install"))}/
       assert_select ".btn-gold", count: 0
     end
+    assert_select ".street-hub-feed > .hub-install + .hub-hero", count: 1
 
     assert_select "dialog.pwa-install-dialog[aria-labelledby='pwa_install_title'][aria-describedby='pwa_install_lede']" do
       assert_select "template[data-pwa-install-target='guideTemplate']", count: 1
@@ -24,7 +25,10 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
       assert_select "#pwa_install_title", text: I18n.t("pwa.ios_title")
       assert_select "#pwa_install_lede", text: I18n.t("pwa.banner_hint")
       assert_select ".pwa-install-steps li", count: 4
-      assert_select ".pwa-install-step-art[src$='.webp'][loading='lazy'][decoding='async']", count: 4
+      assert_select "picture.pwa-install-step-art-picture", count: 4 do
+        assert_select "source[type='image/avif'][srcset*='64w'][srcset*='512w']", count: 4
+        assert_select ".pwa-install-step-art[loading='lazy'][decoding='async']", count: 4
+      end
       assert_select "button.pwa-install-done", text: /#{Regexp.escape(I18n.t("pwa.done"))}/
       assert_select ".pwa-install-done .picto-check"
     end
@@ -34,11 +38,13 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
     assert_includes controller, "window.NocheInstallPrompt"
     assert_includes controller, "this.isStandalone()"
     assert_includes controller, "this.hideInstallUi()"
-    assert_includes controller, "this.resetGuidePosition()"
-    assert_includes controller, "this.ensureGuide()"
-    assert_includes controller, "content.cloneNode(true)"
-    assert_includes controller, "this.dialogTarget.scrollTop = 0"
-    assert_includes controller, "this.sheetTarget.focus({ preventScroll: true })"
+    assert_includes controller, 'import("features/pwa/install_guide")'
+    guide = Rails.root.join("app/javascript/features/pwa/install_guide.js").read
+    assert_includes guide, "mountInstallGuide"
+    assert_includes guide, "resetInstallGuide"
+    assert_includes guide, "content.cloneNode(true)"
+    assert_includes guide, "controller.dialogTarget.scrollTop = 0"
+    assert_includes guide, "controller.sheetTarget.focus({ preventScroll: true })"
   end
 
   test "home keeps non-critical code fonts audio and images off the render path" do
@@ -48,11 +54,15 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
     controller_preloads = css_select("link[rel='modulepreload']").filter_map { |node| node["href"] }
       .grep(%r{/controllers/|/haptics})
     assert_empty controller_preloads
-    assert_select "link[href*='fonts.googleapis.com'][rel='stylesheet'][media='print'][onload]", count: 1
+    assert_select "link[href*='fonts.googleapis.com'][rel='preload'][as='style'][data-noche-font-preload]", count: 1
     assert_select "audio#noche_sfx_gate[preload='none']", count: 1
     assert_select "#street_world[style*='.webp']", count: 1
-    assert_select ".hub-slide.is-current img.hub-slide-still[src$='.webp'][fetchpriority='high'][decoding='async']", count: 1
-    assert_select ".hub-reward-chest[src$='.webp']", minimum: 1
+    assert_select ".hub-slide.is-current picture.hub-slide-still-picture", count: 1 do
+      assert_select "source[type='image/avif'][srcset*='390w']", count: 1
+      assert_select "source[type='image/webp']", count: 1
+      assert_select "img.hub-slide-still[fetchpriority='high'][decoding='async']", count: 1
+    end
+    assert_select ".hub-reward picture source[type='image/webp']", minimum: 1
 
     imports = Rails.root.join("app/javascript/controllers/index.js").read
     assert_includes imports, "lazyLoadControllersFrom"
@@ -66,62 +76,39 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
     assert_select ".hub-play[data-stage-sfx-value]", count: 0
 
     portal = Rails.root.join("app/javascript/controllers/hub_portal_controller.js").read
-    assert_includes portal, 'play?.("celestial_breath", 0.68)'
-    refute_includes portal, 'play?.("chest")'
+    assert_includes portal, 'audioLoader.play("celestial_breath", 0.68)'
+    refute_includes portal, 'audioLoader.play("chest")'
   end
 
   test "home live countdown sounds only when the event actually starts" do
     countdown = Rails.root.join("app/javascript/controllers/hub_countdown_controller.js").read
 
     method = countdown[/handleLiveStart\(\) \{[\s\S]*?\n  \}/]
-    assert_includes method, 'play?.("round_open", 0.66)'
-    assert_equal 1, countdown.scan('play?.("round_open", 0.66)').size
+    assert_includes method, 'audioLoader.play("round_open", 0.66)'
+    assert_equal 1, countdown.scan('audioLoader.play("round_open", 0.66)').size
   end
 
-  test "player sees sent invitations and can nudge a waiting friend" do
-    duel = street_duels(:pending_challenge)
-    ViralEvent.create!(
-      name: "invite_share_completed",
-      device_digest: "sender-device",
-      street_duel: duel,
-      person: people(:pili)
-    )
-    sign_in_congregation
-    pili = people(:pili)
-    post street_profile_path, params: { person_id: pili.id, favorite_year: pili.favorite_year }
-    follow_redirect!
-
-    assert_select "article.hub-invitations:not(.is-empty)" do
-      assert_select ".hub-kicker", text: I18n.t("hub.invitations_title")
-      assert_select ".hub-invitation-row.is-sent", count: 1
-      assert_select "button.hub-invitation-remind[data-controller=street-share]", text: I18n.t("hub.invitation_remind")
-      assert_select "button[data-street-share-duel-token-value=?]", duel.token
-      assert_select "button[data-street-share-url-value*=?]", "/desafio/#{duel.token}"
-    end
-  end
-
-  test "about menu lists cifras between who and legal" do
+  test "menu footer lists the three requested legal destinations" do
     get root_path
     assert_response :success
-    assert_select ".home-menu-block" do |blocks|
-      about = blocks.find { |block| block.at_css(".home-menu-kicker")&.text&.strip == I18n.t("home.about_menu") }
-      assert about, "expected a Sobre este juego menu section"
-      about_hrefs = about.css("a.home-menu-row").map { |node| node["href"] }
-      assert_equal [ about_path, platform_stats_path, legal_path, privacy_path ], about_hrefs
+    assert_select ".hub-menu-legal" do
+      assert_select "a[href=?]", about_path, text: I18n.t("hub_menu.about_us")
+      assert_select "a[href=?]", legal_path, text: I18n.t("hub_menu.legal")
+      assert_select "a[href=?]", privacy_path, text: I18n.t("hub_menu.privacy")
     end
   end
 
   test "hub five-tab dock is in the game-hub CSS" do
-    css = Rails.root.join("app/assets/stylesheets/application.css").read
-    assert_includes css, ".navigation-dock"
-    assert_includes css, ".navigation-dock__item"
+    shell = Rails.root.join("app/assets/stylesheets/application.css").read
+    css = Rails.root.join("app/assets/stylesheets/surfaces/hub.css").read
+    assert_includes shell, ".navigation-dock"
+    assert_includes shell, ".navigation-dock__item"
     assert_includes css, "grid-template-columns: repeat(2, minmax(0, 1fr))"
     assert_includes css, ".street-hub-feed > .hub-hero"
     assert_includes css, ".street-hub-feed > .hub-study"
     assert_includes css, "row-gap: clamp(var(--space-5), 2.6vw, var(--space-7))"
     assert_includes css, "grid-template-columns: repeat(6, minmax(0, 1fr))"
-    assert_includes css, ".hub-panel-row > .hub-invitations"
-    assert_includes css, "grid-column: span 3"
+    assert_includes Rails.root.join("app/assets/stylesheets/surfaces/hub.css").read, ".hub-duel-campus"
     assert_includes css, ".hub-panel-row > .hub-videos"
     assert_includes css, "grid-row: 3"
     assert_includes css, "grid-template-columns: var(--hub-grid-gutter) repeat(12, minmax(0, 1fr)) var(--hub-grid-gutter)"
@@ -138,6 +125,66 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
     assert_includes %w[light dark], theme
     assert_select "body.is-game-hub-page.is-celestial-#{theme}"
     assert_select "body.is-game-hub-page > .home-menu.is-hud[data-hud-theme='celestial-#{theme}'] .quiz-hud[data-hud-theme='celestial-#{theme}']"
+  end
+
+  test "hub artwork is not covered by a global darkening veil" do
+    css = Rails.root.join("app/assets/stylesheets/surfaces/hub.css").read
+
+    refute_match(/\.street-world\.is-game-hub::before\s*\{/, css)
+    refute_includes css, "--overlay-soft"
+    refute_includes css, "--overlay-strong"
+  end
+
+  test "celestial light tiles use local contrast treatments" do
+    css = Rails.root.join("app/assets/stylesheets/surfaces/hub.css").read
+
+    assert_includes css, '[data-hub-theme="light"] .hub-progress-path .hub-progress-mark'
+    assert_includes css, '.hub-light-tile--hero .hub-slide::after'
+    assert_includes css, '.hub-light-tile--videos .hub-videos-scrim'
+    assert_includes css, '.hub-light-tile--community .hub-community-art img'
+    assert_includes css, '.hub-light-tile--campus .hub-duel-campus-scrim'
+    assert_includes css, '.hub-light-tile--progress .hub-progress-art-scrim'
+  end
+
+  test "celestial light tiles share a semantic typography palette" do
+    css = Rails.root.join("app/assets/stylesheets/surfaces/hub.css").read
+
+    %w[primary secondary muted].each do |role|
+      assert_includes css, "--hub-light-type-on-paper-#{role}:"
+    end
+    %w[hero study live campus online progress videos community install].each do |tile|
+      assert_includes css, ".hub-light-tile--#{tile}"
+    end
+    assert_includes css, ".hub-light-tile--online .hub-kicker { color: var(--hub-light-type-on-paper-primary); }"
+    assert_includes css, ".hub-light-tile--community .hub-community-label { color: var(--hub-light-type-on-paper-secondary); }"
+  end
+
+  test "celestial light gives every hub tile an authored composition" do
+    Hubs::Backdrop.entries = [
+      {
+        "id" => "chapel-worship",
+        "image" => "church/worship.jpg",
+        "tags" => [ "reyes_y_profetas" ],
+        "theme" => { "mode" => "light", "atmosphere" => "peaceful", "accent" => "gold" }
+      }
+    ]
+
+    get root_path
+
+    assert_response :success
+    %w[hero live campus online progress videos community install].each do |tile|
+      assert_select ".hub-light-tile--#{tile}", count: 1
+    end
+    css = Rails.root.join("app/assets/stylesheets/surfaces/hub.css").read
+    assert_includes css, ".hub-light-tile--study"
+    %w[campus-scriptures-v2 friends-online-v2 progress-path-v2 video-sanctuary-v2 community-gathering-v2 install-portal-v2].each do |art|
+      assert_select "img[src*='/media/generated/catalog/hub/light/#{art}/']", count: 1
+    end
+    assert Rails.root.join("media/masters/media/hub/light/study-refuge-v2.png").file?
+    assert_select "img[src*='/media/generated/catalog/hub/light/hero-gateway-v2/']", minimum: 1
+    assert_select ".hub-live[style*='/media/generated/catalog/hub/light/live-stage-v2/']", count: 1
+  ensure
+    Hubs::Backdrop.reset!
   end
 
   test "online tile shows two real friends ranks crowns and leaderboard CTA" do
@@ -165,12 +212,12 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "online tile CSS has isolated Light and Dark surfaces with vivid presence" do
-    css = Rails.root.join("app/assets/stylesheets/application.css").read
+    css = Rails.root.join("app/assets/stylesheets/application.css").read + Rails.root.join("app/assets/stylesheets/surfaces/hub.css").read
     tile = css[/\.street-world\.is-game-hub \.hub-online \{[^}]+\}/m]
     assert tile, "expected isolated online tile rule"
     refute_match(%r{grid-column: 1 / -1}, tile)
     assert_includes css, "--hub-online-live: #31bd65"
-    assert_includes css, '.street-world.is-game-hub[data-hub-theme="light"] .hub-online'
+    assert_includes css, '.street-world.is-game-hub[data-hub-theme="light"] .hub-light-tile--online'
     assert_includes css, '.street-world.is-game-hub[data-hub-theme="dark"] .hub-online'
     assert_includes css, ".street-world.is-game-hub .hub-online-presence .street-live-dot"
     assert_includes css, ".street-world.is-game-hub .hub-online-name-line"
@@ -181,7 +228,7 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "community tile CSS uses readable stat rows with two-line labels in Light and Dark" do
-    css = Rails.root.join("app/assets/stylesheets/application.css").read
+    css = Rails.root.join("app/assets/stylesheets/surfaces/hub.css").read
     stats = css[/\.hub-community-stats \{[^}]+\}/m]
     assert stats, "expected .hub-community-stats"
     assert_match(/grid-template-columns: 1fr/, stats)
@@ -203,7 +250,7 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
 
     assert_includes css, ".street-world.is-game-hub[data-hub-theme=\"dark\"] .hub-community-n"
     assert_includes css, ".street-world.is-game-hub[data-hub-theme=\"dark\"] .hub-community-mark-gold"
-    assert_includes css, ".street-world.is-game-hub[data-hub-theme=\"light\"] .hub-community-stats li + li"
+    assert_includes css, ".street-world.is-game-hub[data-hub-theme=\"light\"] .hub-light-tile--community .hub-community-stats li + li"
     assert_includes css, ".hub-community-mark .hub-community-mark-gold { display: none; }"
     assert_includes css, ".hub-community-mark .hub-community-mark-ink { display: block; }"
     refute_includes css, ".hub-community-stats li .picto"
@@ -226,16 +273,16 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
     assert_select ".hub-community-label", text: /#{Regexp.escape(I18n.t("hub.players_month_b"))}/
     assert_select ".hub-community-label", text: /#{Regexp.escape(I18n.t("hub.questions_answered_a"))}/
     assert_select ".hub-community-label", text: /#{Regexp.escape(I18n.t("hub.wards_join_a"))}/
-    assert_select ".hub-community-mark-gold[src=?]", "/media/ui/community-people-gold.png"
-    assert_select ".hub-community-mark-ink[src=?]", "/media/ui/community-people-ink.png"
-    assert_select ".hub-community-mark-gold[src=?]", "/media/ui/community-chat-gold.png"
-    assert_select ".hub-community-mark-ink[src=?]", "/media/ui/community-chat-ink.png"
-    assert_select ".hub-community-mark-gold[src=?]", "/media/ui/community-temple-gold.png"
-    assert_select ".hub-community-mark-ink[src=?]", "/media/ui/community-temple-ink.png"
+    assert_select ".hub-community-mark-gold[src*=?]", "/media/generated/catalog/ui/community-people-gold/"
+    assert_select ".hub-community-mark-ink[src*=?]", "/media/generated/catalog/ui/community-people-ink/"
+    assert_select ".hub-community-mark-gold[src*=?]", "/media/generated/catalog/ui/community-chat-gold/"
+    assert_select ".hub-community-mark-ink[src*=?]", "/media/generated/catalog/ui/community-chat-ink/"
+    assert_select ".hub-community-mark-gold[src*=?]", "/media/generated/catalog/ui/community-temple-gold/"
+    assert_select ".hub-community-mark-ink[src*=?]", "/media/generated/catalog/ui/community-temple-ink/"
     assert_select ".hub-community .picto", count: 0
     %w[people chat temple].each do |name|
       %w[gold ink].each do |tone|
-        path = Rails.public_path.join("media/ui/community-#{name}-#{tone}.png")
+        path = Rails.root.join("media/masters/media/ui/community-#{name}-#{tone}.png")
         assert path.file?, "expected #{path}"
       end
     end
@@ -247,66 +294,11 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
     assert hits, "expected paired chrome-face and hamburger rule"
     assert_match(/border-radius: 50%/, hits)
     refute_match(/0\.75rem/, hits)
-    assert_includes css, ".home-menu-btn.quiet-link.is-open"
+    assert_includes css, ".is-drawer-close"
   end
 
-  test "hub rope map chrome matches temple mockup" do
-    css = Rails.root.join("app/assets/stylesheets/application.css").read
-    rope_track = css[/\.street-map-path\.is-rope \.street-map-track \{[^}]+\}/m]
-    assert rope_track, "expected .street-map-path.is-rope .street-map-track rule"
-    assert_match(/background: none/, rope_track)
-
-    legend = css[/\.street-map-legend \{[^}]+\}/m]
-    assert legend, "expected .street-map-legend rule"
-    refute_match(/clip-path/, legend)
-    assert_match(/border-radius: 0\.5rem/, legend)
-
-    coronas = css[/\.street-map-path\.is-rope \.street-card\.is-pack\.is-current \.street-pack-coronas-label \{[^}]+\}/m]
-    assert coronas, "expected current coronas label rule"
-    assert_match(/background: none/, coronas)
-    refute_match(/border-radius: 999px/, coronas)
-    refute_match(/clip-path/, coronas)
-
-    beacon = css[/\.street-map-path\.is-rope \.street-card\.is-pack\.is-current \.street-pack-beacon \{[^}]+\}/m]
-    assert beacon, "expected current star pointer rule"
-    assert_match(/clip-path: var\(--temple-star4\)/, beacon)
-    refute_match(/animation: beacon-bob/, beacon)
-
-    rope = css[/\.street-map-path\.is-rope \.street-map-rope \{[^}]+\}/m]
-    assert rope, "expected map path spacer"
-    assert_match(/height: 3\.25rem/, rope)
-    assert_match(/background: none/, rope)
-    refute_match(/repeating-linear-gradient/, rope)
-
-    thread = css[/\.street-map-thread path \{[^}]+\}/m]
-    assert thread, "expected gold thread stroke"
-    assert_match(/stroke-width: 3/, thread)
-    assert_includes css, "--street-map-sway:"
-    refute_match(/\.street-map-path\.is-rope \.street-map-track::before \{[^}]*width: 3px/, css)
-
-    lock = css[/\.street-map-path\.is-rope \.street-pack-lock \{[^}]+\}/m]
-    assert lock, "expected gold lock seal"
-    assert_match(/temple-gold-leaf|--gold-bright/, lock)
-    refute_match(/background: none/, lock)
-    lock_icon = css[/\.street-map-path\.is-rope \.street-pack-lock \.picto \{[^}]+\}/m]
-    assert lock_icon, "expected lock glyph"
-    refute_match(/grayscale/, lock_icon)
-
-    chip = css[/\.street-map-path\.is-rope \.street-pack-chip \{[^}]+\}/m]
-    assert chip, "expected pack plaque"
-    assert_match(/temple-ivory|#fffef9/, chip)
-
-    hub_js = Rails.root.join("app/javascript/controllers/street_hub_controller.js").read
-    assert_includes hub_js, "drawPath"
-    assert_includes hub_js, "curveThrough"
-
-    path = css[/\.street-map-path\.is-rope \{[^}]+\}/m]
-    assert path, "expected scrollable rope path"
-    assert_match(/overflow-y: auto/, path)
-    assert_match(/--street-map-rope-x:/, path)
-    assert_match(/-webkit-mask-image:/, path)
-    assert_match(/mask-image:/, path)
-
+  test "hub chrome matches temple mockup" do
+    css = Rails.root.join("app/assets/stylesheets/application.css").read + Rails.root.join("app/assets/stylesheets/surfaces/hub.css").read
     hub = css[/\.street-world:not\(\.street-leaderboard-page\):not\(\.is-profile-gate\):not\(\.street-map-page\) \{[^}]+\}/m]
     assert hub, "expected hub to leave the 100dvh map lock"
     assert_match(/overflow:\s*hidden/, hub)
@@ -322,21 +314,13 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
     assert_match(/background:\s*var\(--temple-ivory/, brand)
     refute_match(/temple-oculus-rings/, brand)
 
-    titles = css[/\.street-map-path\.is-rope \.street-pack-title \{[^}]+\}/m]
-    assert titles, "expected pack title rule"
-    assert_match(/font-size: var\(--type-ui\)/, titles)
-    assert_match(/line-clamp: 2/, titles)
-    refute_match(/white-space: nowrap/, titles)
-
     league = css[/\.street-world:not\(\.street-leaderboard-page\) \.street-league \{[^}]+\}/m]
     assert league, "expected hub league rule"
     assert_match(/flex-shrink: 0/, league)
 
     sky = css[/body\.is-street-hub \.sky \{[^}]+\}/m]
     assert sky, "expected faded hall on the hub sky"
-    assert_match(/--temple-hall-bg/, sky)
     assert_match(/--temple-ivory/, sky)
-    assert_includes css, "--tile-accent: var(--fire)"
     assert_includes css, "--tile-accent: var(--navy)"
     assert_includes css, "--tile-accent: var(--parchment)"
     assert_includes css, "--tile-accent: var(--gold-deep)"
@@ -357,8 +341,8 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
     assert_select "h2.hub-hero-title", text: QuizDefinition.catalog.find_pack("coronas").copy(:kicker)
     assert_select ".hub-hero-continue", text: I18n.t("hub.continue")
     assert_select ".hub-reward-label", text: I18n.t("hub.reward")
-    assert_select ".hub-reward img.hub-reward-chest[src=?]", "/media/temple/reward-chest.png"
-    assert_select ".hub-reward-value", text: "+#{QuizDefinition::CURVE_POINTS.drop(1).sum}"
+    assert_select ".hub-reward img.hub-reward-chest[src*=?]", "/media/generated/catalog/temple/reward-chest/"
+    assert_select ".hub-reward-value", text: "+84"
     assert_select ".street-map-door-kicker", text: QuizDefinition.catalog.find_pack("coronas").copy(:kicker)
     assert_select ".hub-play.btn"
     assert_select "a.street-map-door-play"
@@ -399,10 +383,22 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
     assert_select ".home-menu.is-hud .quiz-hud-cta-long", text: I18n.t("hub.guest_cta")
     assert_select "a.quiz-hud-who.is-guest[href=?]", street_profile_path(fresh: 1)
     assert_select ".hub-mini", count: 0
-    assert_select "a.hub-challenge.is-ward-required[href=?]", search_path(cambiar: 1)
-    assert_select ".hub-challenge-empty-hint", text: I18n.t("hub.challenge_pick_ward")
+    assert_select "a.hub-duel-campus[href=?][data-controller~='hub-campus']", street_challenges_path do
+      assert_select ".hub-duel-campus-heading", text: /#{Regexp.escape(I18n.t("duel_campus.hub.title"))}/
+      assert_select ".hub-duel-campus-empty", text: I18n.t("duel_campus.hub.empty")
+      assert_select ".hub-duel-campus-stats", count: 0
+      assert_select ".hub-duel-campus-cta", text: I18n.t("duel_campus.hub.cta")
+      assert_select "> b", count: 0
+    end
     assert_select ".hub-online-ward-required", text: /#{Regexp.escape(I18n.t("hub.online_pick_ward"))}/
     assert_select ".hub-online-ranking[href=?]", search_path(cambiar: 1), text: I18n.t("hub.pick_ward_action")
+    assert_select ".hub-online.is-illustrated .hub-online-art picture", count: 1 do
+      assert_select "source[type='image/avif'][srcset*='390w']", count: 1
+      assert_select "source[type='image/webp']", count: 1
+      assert_select "img[loading='lazy'][decoding='async']", count: 1
+    end
+    assert_select ".hub-online-scrim", count: 1
+    assert_select ".hub-live.is-ward_missing.is-still[style*='/media/generated/catalog/nights/noche_live_stage_v2/']", count: 1
     assert_select ".hub-progress .hub-kicker", text: I18n.t("hub.progress")
     assert_select "a.hub-progress-map-link[href=?]", street_map_path do
       assert_select ".hub-progress-map-action", text: I18n.t("street.world_map_open")
@@ -418,12 +414,53 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
     end
     assert_select ".hub-progress-path .hub-progress-mark img", count: 4
     assert_select ".hub-progress-path .hub-progress-status", count: 4
-    assert_select "#street_world .street-map-path", count: 0
     assert_select ".street-friend-rail", count: 0
     assert_select ".navigation-dock"
     assert_select "turbo-frame#street_pulse"
     assert_select ".street-pulse"
     assert_select ".street-play-cta", count: 0
+  end
+
+  test "Campus hub tile explains each large number and reveals it only in view" do
+    sign_in_congregation
+    person = people(:carmen_garcia)
+    post street_profile_path, params: { person_id: person.id, favorite_year: person.favorite_year }
+    follow_redirect! if response.redirect?
+    campus = Quizzes::DuelCampus.call(person:)
+
+    assert campus.any?
+    assert_select "a.hub-duel-campus[data-action='click->hub-campus#depart']" do
+      assert_select ".hub-duel-campus-stats[role='list'][aria-label=?]", I18n.t("duel_campus.hub.summary") do
+        assert_select ".hub-duel-campus-stat[role='listitem']", count: 3
+        %i[incoming active results].each do |key|
+          count = campus.counts.public_send(key)
+          assert_select ".hub-duel-campus-stat.is-#{key}" do
+            assert_select "b[data-hub-campus-target~='number'][data-value=?]", count.to_s, text: count.to_s
+            assert_select "> span:last-child", text: I18n.t("duel_campus.hub.#{key}", count:)
+          end
+        end
+      end
+      assert_select ".hub-duel-campus-cta .picto-arrow", count: 1
+    end
+
+    controller = Rails.root.join("app/javascript/controllers/hub_campus_controller.js").read
+    assert_includes controller, "IntersectionObserver"
+    assert_includes controller, "prefers-reduced-motion: reduce"
+    assert_includes controller, 'motionDirector.run("list-enter"'
+    assert_includes controller, "motionDirector.count(0, target"
+  end
+
+  test "Campus hub tile inherits the backdrop Celestial Light and Dark theme tokens" do
+    css = Rails.root.join("app/assets/stylesheets/surfaces/hub.css").read
+
+    assert_includes css, '.street-world.is-game-hub[data-hub-theme="light"] .hub-duel-campus'
+    assert_includes css, '.street-world.is-game-hub[data-hub-theme="dark"] .hub-duel-campus'
+    assert_includes css, "var(--surface-primary)"
+    assert_includes css, "var(--surface-glass)"
+    assert_includes css, "var(--text-primary)"
+    assert_includes css, "var(--border-gold)"
+    assert_includes css, "var(--shadow-card)"
+    assert_includes css, "prefers-reduced-motion: reduce"
   end
 
   test "hub live card shows LIVE, weekday, clock boxes, and the program" do
@@ -443,7 +480,32 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
     assert_select "a.hub-live-program .picto-calendar"
     assert_select "a.hub-live-program", text: /#{Regexp.escape(I18n.t("hub.see_program"))}/
     assert_select ".hub-live-join", count: 0
-    assert_includes response.body, "/media/nights/noche_live_stage_v2.png"
+    assert_select ".hub-live[style*='/media/generated/']", count: 1
+  end
+
+  test "playing hub live card presents Entrer as the primary game command" do
+    sign_in_congregation
+
+    get root_path
+
+    assert_response :success
+    assert_select ".hub-live.is-playing a.hub-live-join[href=?]", night_name_path(game_sessions(:david).code) do
+      assert_select ".hub-live-join-label", text: I18n.t("hub.live_join")
+      assert_select ".hub-live-join-mark[aria-hidden=true] .picto-arrow", count: 1
+    end
+    assert_select ".hub-live.is-playing a.hub-live-join.btn-gold", count: 0
+    assert_select ".hub-live.is-playing a.hub-live-program", count: 1
+
+    css = Rails.root.join("app/assets/stylesheets/surfaces/hub.css").read
+    command = css[/\.hub-live-join\s*\{[^}]+\}/m]
+    assert command
+    assert_match(/min-height:\s*3\.35rem/, command)
+    assert_match(/clip-path:\s*polygon\(/, command)
+    assert_match(/backdrop-filter:\s*blur\(16px\)/, command)
+    refute_match(/background:\s*var\(--button-primary\)/, command)
+    assert_includes css, "--hub-live-command-glass:"
+    assert_includes css, "@keyframes hub-live-command-glint"
+    assert_includes css, ".hub-live.is-playing .hub-live-join::after { animation: none; }"
   end
 
   test "hub live card follows Celestial Light with its dedicated stage" do
@@ -461,7 +523,7 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
     create_street_profile!
     assert_select ".hub-live[data-hub-live-theme=?]", "light"
     assert_select ".hub-live.is-celestial-light[data-hub-live-atmosphere=?]", "peaceful"
-    assert_includes response.body, "/media/nights/noche_live_stage_v2.png"
+    assert_select ".hub-live[style*='/media/generated/']", count: 1
     assert_select "a.hub-live-program[href=?]", ward_profile_path("RAMA")
   ensure
     Hubs::Backdrop.reset!
@@ -478,6 +540,7 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
   test "map page shows the celestial tier path and progression HUD" do
     get street_map_path
     assert_response :success
+    assert_select "link[href*='pages/street_map'][data-turbo-track='dynamic']", count: 1
     assert_select "#street_world.street-map-page"
     assert_select ".mapa-header .mapa-title", text: I18n.t("street.mapa_title")
     assert_select ".mapa-mission"
@@ -492,16 +555,22 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
     assert_select ".mapa-node", count: QuizDefinition.catalog.pack_ids.size
     assert_select ".mapa-node.is-current .mapa-node-beacon"
     assert_select ".mapa-node.is-current[aria-current=step]"
-    assert_select ".mapa-node.is-locked .mapa-node-lock"
+    assert_select ".mapa-node.is-locked[data-action*='click->hub-map#tapNode'] .mapa-node-lock"
     assert_select ".mapa-footer-cta[href=?]", street_leaderboard_path
     assert_select "body > .home-menu.is-hud .quiz-hud"
     assert_select "body > .navigation-dock .navigation-dock__item.is-active[href=?]", street_map_path
     assert_select "#street_world .home-menu", count: 0
     assert_select "#street_world .navigation-dock", count: 0
-    assert_select "a.home-menu-row[href=?]", root_path, text: I18n.t("street.nav_hub")
+    assert_select "a.home-menu-invite[href=?]", street_challenges_path(anchor: "inviter"), text: /#{Regexp.escape(I18n.t("hub_menu.invite_friend"))}/
+    assert_select "a.home-menu-row[href=?]", street_leaderboard_path, text: I18n.t("hub_menu.leaderboard")
+    assert_select "a.home-menu-row[href=?]", study_program_path, text: /#{Regexp.escape(I18n.t("study.title"))}/
     assert_select "a.home-menu-row[href=?]", street_map_path, count: 0
 
-    css = Rails.root.join("app/assets/stylesheets/application.css").read
+    page_css = Rails.root.join("app/assets/stylesheets/pages/street_map.css").read
+    css = Rails.root.join("app/assets/stylesheets/application.css").read + Rails.root.join("app/assets/stylesheets/surfaces/hub.css").read + page_css
+    assert_includes page_css, ".mapa-mission {"
+    assert_includes page_css, ".mapa-tabs {"
+    assert_includes page_css, ".mapa-node-circle {"
     map_body = css[/body\.is-street-map-page \{[^}]+\}/m]
     refute_includes map_body, "--hud-inset"
     refute_includes map_body, "--navigation-dock-width"
@@ -511,6 +580,14 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
     assert_match(/\.street-world\.street-map-page \{[^}]*padding: calc\(6rem \+ env\(safe-area-inset-top\)\)/m, css)
     refute_includes css, "body.is-street-hub:has(.home-menu.is-hud) .street-map-page"
     refute_includes css, ".street-map-page > .home-menu"
+  end
+
+  test "map page stylesheet stays off the home render path" do
+    get root_path
+
+    assert_response :success
+    assert_select "link[href*='pages/street_map']", count: 0
+    assert Rails.root.join("app/assets/stylesheets/pages/street_map.css").file?
   end
 
   test "unlock param wires packUnlock motion on a locked pack" do
@@ -560,12 +637,11 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
     assert_select ".quiz-hud-rail"
     assert_select ".quiz-hud-level"
     assert_select "a.home-menu-row[href=?]", search_path(cambiar: 1), count: 0
-    assert_select ".home-menu-block" do |blocks|
-      ward = blocks.find { |block| block.at_css(".home-menu-kicker")&.text&.strip == I18n.t("home.ward_menu") }
-      assert ward, "expected a Rama menu section"
-      labels = ward.css(".home-menu-label").map { |node| node.text.strip }
-      assert_equal [ I18n.t("home.night_code") ], labels
-    end
+    assert_select ".home-menu-kicker", text: I18n.t("hub_menu.space")
+    assert_select "a.home-menu-row[href=?]", study_program_path, text: /#{Regexp.escape(I18n.t("study.title"))}/
+    assert_select "a.home-menu-row[href=?]", ward_profile_path("RAMA"), text: /#{Regexp.escape(I18n.t("hub_menu.my_ward"))}/
+    assert_select "a.home-menu-invite[href=?]", street_challenges_path(anchor: "inviter"), text: /#{Regexp.escape(I18n.t("hub_menu.invite_friend"))}/
+    assert_select "a.home-menu-row[href=?]", street_leaderboard_path, text: I18n.t("hub_menu.leaderboard")
   end
 
   test "rank_up param plays level_up once from stage_sfx" do
@@ -604,46 +680,6 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
     assert_not_equal run.id, replay.id
   end
 
-  test "challenger hub shows waiting after a scored challenge" do
-    sign_in_congregation
-    pili = people(:pili)
-    post street_profile_path, params: { person_id: pili.id, favorite_year: pili.favorite_year }
-    follow_redirect!
-    street_duels(:pending_challenge).update!(status: "challenger_done", challenger_score: 80)
-    get root_path
-    assert_select "a.hub-challenge.is-waiting"
-    assert_select ".hub-challenge-capsule"
-    assert_select ".hub-challenge-status.is-waiting"
-    assert_select ".hub-challenge-face.is-gold img[src*='tortuga']"
-    assert_select ".hub-challenge.is-scored", count: 0
-    assert_select ".street-duel-banner", count: 0
-  end
-
-  test "named waiting hub does not offer a share link" do
-    sign_in_congregation
-    pili = people(:pili)
-    post street_profile_path, params: { person_id: pili.id, favorite_year: pili.favorite_year }
-    follow_redirect!
-    StreetDuel.create!(
-      challenger_person: pili,
-      opponent_person: people(:carmen_garcia),
-      ward: wards(:demo),
-      pack_id: "coronas",
-      token: "hub-named-wait",
-      status: "challenger_done",
-      challenger_score: 81,
-      expires_at: 7.days.from_now
-    )
-    get root_path
-    assert_select "a.hub-challenge.is-waiting[href=?]", street_challenge_path("hub-named-wait")
-    assert_select ".hub-challenge-name.is-hero", text: people(:carmen_garcia).given_name
-    assert_select ".hub-challenge-face.is-silver img[src*='delfin']"
-    assert_select ".hub-challenge-go"
-    assert_select ".hub-challenge-status.is-waiting"
-    assert_select ".street-duel-banner", count: 0
-    assert_select "a.quiet-link", text: I18n.t("street.duel_inbox_open"), count: 0
-  end
-
   test "player card names the next rank instead of overlaying xp on gold" do
     sign_in_congregation
     pili = people(:pili)
@@ -654,34 +690,5 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
     assert_select ".quiz-hud-rank > span:first-child", text: I18n.t("ranks.guerrero")
     assert_select ".street-xp-caption", count: 0
     assert_select ".street-rank-banner", count: 0
-  end
-
-  test "resolved duel on the hub keeps live scores on the tile" do
-    sign_in_congregation
-    carmen = people(:carmen_garcia)
-    street_duels(:pili_vs_carmen).update!(updated_at: Time.current)
-    post street_profile_path, params: { person_id: carmen.id, favorite_year: carmen.favorite_year }
-    follow_redirect!
-    get root_path
-    assert_select "a.hub-challenge.is-scored"
-    assert_select ".hub-challenge-name", text: people(:pili).given_name
-    assert_select ".hub-challenge-sub", text: I18n.t("hub.rival_finished", name: people(:pili).given_name)
-    assert_select ".hub-challenge-pts.is-you", text: "90"
-    assert_select ".hub-challenge-pts.is-them", text: "82"
-    assert_select ".hub-challenge-vs-chip", text: "VS"
-    assert_select ".hub-challenge-foot", text: I18n.t("hub.finish_first")
-    assert_select ".hub-kicker", text: I18n.t("hub.challenge_now")
-    assert_select ".street-card.is-duel.is-compact", count: 0
-  end
-
-  test "hub challenge tile CSS covers waiting capsule and scored bar" do
-    css = Rails.root.join("app/assets/stylesheets/application.css").read
-    assert_includes css, ".hub-challenge-capsule"
-    assert_includes css, ".hub-challenge-bar"
-    assert_includes css, "--hub-challenge-capsule"
-    assert_includes css, ".hub-challenge-vs-chip"
-    assert_includes css, "a.hub-challenge.is-waiting .hub-challenge-waiting-body"
-    assert_includes css, "a.hub-challenge.is-waiting .hub-challenge-status"
-    refute_includes css, ".hub-vs-bar"
   end
 end

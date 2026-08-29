@@ -14,15 +14,18 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <%= yield :head %>
+    <script type="application/json" id="noche_resource_manifest"><%= frontend_resource_manifest_json %></script>
     <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
     <link rel="manifest" href="<%= pwa_manifest_path(format: :json) %>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <% font_stylesheet = "https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Fraunces:opsz,wght@9..144,500;9..144,650;9..144,700&family=Kalam:wght@700&display=swap" %>
-    <link href="<%= font_stylesheet %>" rel="stylesheet" media="print" onload="this.media='all'">
+    <link href="<%= font_stylesheet %>" rel="preload" as="style" data-noche-font-preload>
     <noscript><link href="<%= font_stylesheet %>" rel="stylesheet"></noscript>
-    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "application", "shell/loading", "data-turbo-track": "reload" %>
+    <%= frontend_surface_stylesheet_tags %>
+    <%= yield :surface_stylesheets %>
     <style>:root {
       --temple-hall-bg: url("<%= temple_hall_bg_src %>");
       --temple-ceremony-hall-bg: url("<%= street_ceremony_asset_src("ceremony-gateway") || street_ceremony_asset_src("marble-hall-victory") || temple_hall_bg_src %>");
@@ -30,21 +33,35 @@
     <%= javascript_importmap_tags %>
   </head>
   <body class="<%= content_for(:body_class) %>"
-        data-controller="stage press motion scripture pwa-install"
+        data-controller="loading press motion scripture-launcher pwa-install<%= " stage" if frontend_audio_enabled? %>"
+        data-scripture-launcher-stylesheet-value="<%= asset_path("surfaces/scripture.css") %>"
+        data-pwa-install-stylesheet-value="<%= asset_path("surfaces/pwa.css") %>"
         data-street-share-copied="<%= t("street.share_copied") %>"
-        data-street-share-failed="<%= t("street.duel_create_failed") %>">
+        data-street-share-failed="<%= t("duel_campus.errors.create") %>">
       <a class="skip" href="#main"><%= t("chrome.skip_main") %></a>
+    <div class="noche-loading"
+         data-loading-target="indicator"
+         data-state="idle"
+         aria-hidden="true"
+         hidden>
+      <span class="noche-loading__shape"></span>
+      <span class="noche-loading__shape"></span>
+      <span class="noche-loading__shape"></span>
+    </div>
     <div class="sky" aria-hidden="true"></div>
     <% if notice || alert %>
       <div class="toast-slot">
         <% if notice %>
           <p class="banner" role="status" data-controller="banner">
             <span class="banner-mark" aria-hidden="true"><%= picto("star8") %></span>
-            <%= notice %>
+            <span class="banner-copy"><%= notice %></span>
           </p>
         <% end %>
         <% if alert %>
-          <p class="banner banner-alert" role="alert" data-controller="banner"><%= alert %></p>
+          <p class="banner banner-alert" role="alert" data-controller="banner">
+            <span class="banner-mark" aria-hidden="true"><%= picto("cross") %></span>
+            <span class="banner-copy"><%= alert %></span>
+          </p>
         <% end %>
       </div>
     <% end %>
@@ -54,12 +71,14 @@
     </main>
     <%= yield :dock %>
     <div id="live_pulses" class="live-pulses" aria-live="polite"></div>
-    <script>window.NocheSfx = <%= Sfx.catalog.to_json.html_safe %>;</script>
-    <% tick = Sfx.versioned_path_for("tick") %>
-    <% if tick %>
-      <audio id="noche_sfx_gate" class="sfx-gate" preload="none" playsinline webkit-playsinline="true" src="<%= tick %>"></audio>
+    <% if frontend_audio_enabled? %>
+      <script type="application/json" id="noche_sfx_catalog"><%= json_escape(frontend_audio_catalog.to_json).html_safe %></script>
+      <% tick = Sfx.versioned_path_for("tick") %>
+      <% if tick %>
+        <audio id="noche_sfx_gate" class="sfx-gate" preload="none" playsinline webkit-playsinline="true" src="<%= tick %>"></audio>
+      <% end %>
     <% end %>
-    <%= render "shared/chrome_tools" unless chrome_tools_in_drawer? %>
+    <%= render "shared/chrome_tools" unless content_for?(:hud) %>
     <% if current_street_person %>
       <div hidden
            data-controller="presence"
@@ -67,10 +86,10 @@
            data-presence-token-value="<%= current_street_person.signed_id(purpose: :street_presence, expires_in: 1.day) %>"></div>
     <% end %>
     <% if street_duel_ping? %>
-      <%= turbo_stream_from current_street_person, :street_duel %>
-      <div id="street_duel_ping"></div>
+      <%= turbo_stream_from current_street_person, :duel_campus %>
+      <div id="duel_campus_notice"></div>
     <% end %>
-    <aside id="scripture_loading" class="scripture-veil is-loading" hidden data-scripture-target="loading" role="status">
+    <aside id="scripture_loading" class="scripture-veil is-loading" hidden data-scripture-launcher-target="loading" role="status">
       <div class="scripture-sheet">
         <p class="scripture-loading"><%= t("quiz.scripture_loading") %></p>
       </div>
@@ -158,19 +177,19 @@
         <p class="pwa-install-browser-hint" data-pwa-install-target="browserHint" hidden><%= t("pwa.ios_browser_hint") %></p>
         <ol class="pwa-install-steps">
           <li>
-            <img src="/media/pwa/ios-install-share-v1.webp" width="96" height="96" alt="" class="pwa-install-step-art" loading="lazy" decoding="async">
+            <%= noche_media_picture("media/pwa/ios-install-share-v1.webp", alt: "", class_name: "pwa-install-step-art", loading: "lazy") %>
             <span class="pwa-install-step-copy"><span class="pwa-install-step-mark">1</span><span><%= t("pwa.ios_share") %></span></span>
           </li>
           <li>
-            <img src="/media/pwa/ios-install-home-v1.webp" width="96" height="96" alt="" class="pwa-install-step-art" loading="lazy" decoding="async">
+            <%= noche_media_picture("media/pwa/ios-install-home-v1.webp", alt: "", class_name: "pwa-install-step-art", loading: "lazy") %>
             <span class="pwa-install-step-copy"><span class="pwa-install-step-mark">2</span><span><%= t("pwa.ios_home") %></span></span>
           </li>
           <li>
-            <img src="/media/pwa/ios-install-web-app-v1.webp" width="96" height="96" alt="" class="pwa-install-step-art" loading="lazy" decoding="async">
+            <%= noche_media_picture("media/pwa/ios-install-web-app-v1.webp", alt: "", class_name: "pwa-install-step-art", loading: "lazy") %>
             <span class="pwa-install-step-copy"><span class="pwa-install-step-mark">3</span><span><%= t("pwa.ios_web_app") %></span></span>
           </li>
           <li>
-            <img src="/media/pwa/ios-install-add-v1.webp" width="96" height="96" alt="" class="pwa-install-step-art" loading="lazy" decoding="async">
+            <%= noche_media_picture("media/pwa/ios-install-add-v1.webp", alt: "", class_name: "pwa-install-step-art", loading: "lazy") %>
             <span class="pwa-install-step-copy"><span class="pwa-install-step-mark">4</span><span><%= t("pwa.ios_add") %></span></span>
           </li>
         </ol>
@@ -183,6 +202,6 @@
       </div>
       </template>
     </dialog>
-    <turbo-frame id="scripture_reader" data-scripture-target="frame"></turbo-frame>
+    <turbo-frame id="scripture_reader" data-scripture-launcher-target="frame"></turbo-frame>
   </body>
 </html>

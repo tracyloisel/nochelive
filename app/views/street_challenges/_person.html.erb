@@ -1,0 +1,9 @@
+<% live = local_assigns[:live] %>
+<span class="duel-campus-person<%= " is-live" if live %>" aria-hidden="true">
+  <% if person && (src = avatar_mark(person)) %>
+    <img src="<%= src %>" alt="">
+  <% else %>
+    <span><%= person&.given_name.to_s.first.presence || "✦" %></span>
+  <% end %>
+  <% if live %><i></i><% end %>
+</span>

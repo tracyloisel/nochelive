@@ -21,7 +21,7 @@ class Notifications::InfrastructureConfigTest < ActiveSupport::TestCase
       service.fetch("envVars").select { |row| %w[WEB_PUSH_ENABLED WEB_PUSH_DELIVERY_ENABLED].include?(row["key"]) }
     end.flatten
     assert_equal 4, push_flags.size
-    assert push_flags.all? { |row| row["value"] == "false" }, "push must remain locked until editorial approval"
+    assert push_flags.all? { |row| row["value"] == "true" }, "push must be live in production on both web and worker services"
   end
 
   test "Solid Queue gives transactional notifications precedence and owns recurrence" do

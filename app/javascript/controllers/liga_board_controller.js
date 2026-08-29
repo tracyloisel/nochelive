@@ -1,12 +1,15 @@
 import { Controller } from "@hotwired/stimulus"
 import { haptic } from "haptics"
+import { audioLoader } from "platform/audio/loader"
+import { http } from "platform/http/client"
 
 export default class extends Controller {
   static targets = [
-    "board", "youBar", "filters", "challenge", "opponentName",
-    "opponentMeta", "challengeTitle", "send", "success"
+    "board", "youBar", "filters", "invitation",
+    "friendRank", "friendScore", "friendPack", "friendProgress", "rivalProfileName",
+    "friendAvatar", "friendFallback", "invitationTitle", "notificationWarning", "send", "sendLabel", "success", "error"
   ]
-  static values = { createUrl: String, packId: String }
+  static values = { createUrl: String }
 
   connect() {
     this.reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches
@@ -72,47 +75,63 @@ export default class extends Controller {
     window.setTimeout(() => window.Turbo.visit(url.toString()), this.reduce ? 0 : 180)
   }
 
-  openChallenge(event) {
+  openInvitation(event) {
     const trigger = event.currentTarget
     if (trigger.disabled) return
     haptic("tap")
     this.opponentId = trigger.dataset.personId
-    this.opponentNameTarget.textContent = trigger.dataset.personName
-    this.challengeTitleTarget.textContent = `${trigger.dataset.personName}`
-    this.opponentMetaTarget.textContent = `#${trigger.dataset.personRank} · ${trigger.dataset.personScore}`
+    this.invitationTitleTarget.textContent = trigger.dataset.personName.toLocaleUpperCase(document.documentElement.lang || undefined)
+    this.rivalProfileNameTarget.textContent = trigger.dataset.personName
+    this.notificationWarningTarget.querySelector("span").textContent =
+      this.notificationWarningTarget.dataset.template.replace("__RIVAL__", trigger.dataset.personName)
+    this.friendRankTarget.textContent = `#${trigger.dataset.personRank}`
+    this.friendScoreTarget.textContent = trigger.dataset.personScore
+    this.friendPackTarget.textContent = trigger.dataset.personPack || this.friendPackTarget.dataset.emptyLabel
+    this.friendProgressTarget.textContent = trigger.dataset.personPackProgress || ""
+    this.friendProgressTarget.hidden = !trigger.dataset.personPackProgress
+    this.friendAvatarTarget.hidden = !trigger.dataset.personAvatar
+    this.friendFallbackTarget.hidden = Boolean(trigger.dataset.personAvatar)
+    this.friendAvatarTarget.src = trigger.dataset.personAvatar || ""
+    this.friendFallbackTarget.textContent = trigger.dataset.personName.trim().charAt(0)
+    this.invitationTarget.classList.remove("is-sent")
+    this.invitationTarget.removeAttribute("aria-busy")
     this.successTarget.hidden = true
+    this.errorTarget.hidden = true
     this.sendTarget.hidden = false
-    this.challengeTarget.showModal()
+    this.sendTarget.disabled = false
+    this.sendTarget.classList.remove("is-sending")
+    this.sendLabelTarget.textContent = this.sendLabelTarget.dataset.idleLabel
+    this.invitationTarget.showModal()
   }
 
-  async sendChallenge() {
+  async sendInvitation() {
     if (!this.opponentId || this.sendTarget.disabled) return
     haptic("tap")
     this.sendTarget.disabled = true
     this.sendTarget.classList.add("is-sending")
+    this.sendLabelTarget.textContent = this.sendLabelTarget.dataset.sendingLabel
+    this.invitationTarget.setAttribute("aria-busy", "true")
     try {
-      const token = document.querySelector("meta[name=csrf-token]")?.content
-      const response = await fetch(this.createUrlValue, {
+      await http.json(this.createUrlValue, {
         method: "POST",
-        headers: {
-          "Accept": "application/json",
-          "Content-Type": "application/json",
-          "X-CSRF-Token": token
-        },
-        body: JSON.stringify({ opponent_id: this.opponentId, pack_id: this.packIdValue })
+        body: JSON.stringify({ opponent_id: this.opponentId, source: "leaderboard" })
       })
-      if (!response.ok) throw new Error("challenge failed")
-      window.NocheLiveAudio?.play?.("duel_send")
+      audioLoader.play("duel_send")
       haptic("success")
-      this.challengeTarget.classList.add("is-sent")
+      this.invitationTarget.classList.add("is-sent")
       this.successTarget.hidden = false
+      this.errorTarget.hidden = true
       this.sendTarget.hidden = true
       const row = this.element.querySelector(`[data-liga-person-id="${CSS.escape(this.opponentId)}"]`)
       row?.classList.add("is-challenged")
-      window.setTimeout(() => this.challengeTarget.close(), this.reduce ? 0 : 700)
+      window.setTimeout(() => this.invitationTarget.close(), this.reduce ? 0 : 700)
     } catch (_) {
       this.sendTarget.disabled = false
       this.sendTarget.classList.remove("is-sending")
+      this.sendLabelTarget.textContent = this.sendLabelTarget.dataset.idleLabel
+      this.errorTarget.hidden = false
+    } finally {
+      this.invitationTarget.removeAttribute("aria-busy")
     }
   }
 
@@ -138,15 +157,27 @@ export default class extends Controller {
       sessionStorage.removeItem("noche_liga_positions")
     } catch (_) { return }
     if (!before) return
-    this.element.querySelectorAll("[data-liga-person-id]").forEach((row) => {
-      const old = before[row.dataset.ligaPersonId]
-      if (!old || old.rank === row.dataset.ligaRank) return
-      const box = row.getBoundingClientRect()
-      row.animate([
+    const changedRows = Array.from(this.element.querySelectorAll("[data-liga-person-id]"))
+      .map((row) => {
+        const old = before[row.dataset.ligaPersonId]
+        if (!old || old.rank === row.dataset.ligaRank) return null
+        const box = row.getBoundingClientRect()
+        const isNearViewport = box.bottom >= -window.innerHeight && box.top <= window.innerHeight * 2
+        if (!isNearViewport) return null
+        return { row, old, box }
+      })
+      .filter(Boolean)
+      .slice(0, 12)
+
+    changedRows.forEach(({ row, old, box }) => {
+      row.classList.add("is-flipping", "is-rank-changed")
+      const movement = row.animate([
         { transform: `translate(${old.x - box.x}px, ${old.y - box.y}px)`, zIndex: 4 },
         { transform: "translate(0, 0)", zIndex: 1 }
-      ], { duration: 450, easing: "cubic-bezier(.16, 1, .3, 1)" })
-      row.classList.add("is-rank-changed")
+      ], { duration: 480, easing: "cubic-bezier(.16, 1, .3, 1)" })
+      movement.finished
+        .catch(() => {})
+        .finally(() => row.classList.remove("is-flipping", "is-rank-changed"))
     })
   }
 }

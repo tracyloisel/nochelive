@@ -1,5 +1,12 @@
 import { Controller } from "@hotwired/stimulus"
 
+const PASSIVE_STREAM_TARGETS = new Set([
+  "street_quiz_hud_stats",
+  "street_quiz_feedback",
+  "street_quiz_dock",
+  "duel_quiz_race"
+])
+
 export default class extends Controller {
   connect() {
     this.onStream = this.onStream.bind(this)
@@ -15,7 +22,10 @@ export default class extends Controller {
 
   onStream(event) {
     const target = event.target.getAttribute("target")
+    const action = event.target.getAttribute("action")
     if (target === "live_pulses" || target === "night_presence" || target === "quiz_board" || target === "night_play") return
+    if (PASSIVE_STREAM_TARGETS.has(target)) return
+    if (target === "street_quiz" && action === "quiz_state") return
     if (target === "street_quiz") {
       event.detail.render = this.wrapStreet(event.detail.render)
       return
@@ -35,31 +45,33 @@ export default class extends Controller {
       const run = () => original(...args)
       if (!document.startViewTransition || this.reduced()) return run()
 
-      try {
-        const transition = document.startViewTransition(run)
-        await transition.finished
-      } catch (_error) {
-        await run()
-      }
+      await this.transition(run)
       this.markArrive()
     }
   }
 
   wrapStreet(original) {
     return async (...args) => {
-      const run = () => {
-        original(...args)
-        window.NocheLiveAudio?.playFrom?.(document)
-      }
+      const run = () => original(...args)
       if (!document.startViewTransition || this.reduced()) return run()
 
-      try {
-        const transition = document.startViewTransition(run)
-        await transition.finished
-      } catch (_error) {
-        await run()
-      }
+      await this.transition(run)
     }
+  }
+
+  async transition(run) {
+    let transition
+    try {
+      transition = document.startViewTransition(run)
+    } catch (_error) {
+      return run()
+    }
+
+    await Promise.allSettled([
+      transition.ready,
+      transition.updateCallbackDone,
+      transition.finished
+    ])
   }
 
   markArrive() {

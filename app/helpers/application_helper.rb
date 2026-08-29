@@ -2,6 +2,185 @@ module ApplicationHelper
   TIMER_WARN_RATIO = 0.4
   TIMER_HOT_RATIO = 0.2
 
+  def declare_frontend_resources(**attributes)
+    manifest = Frontend::ResourceManifest.new(**attributes)
+    content_for(:frontend_resource_manifest, manifest.to_json.html_safe)
+    nil
+  end
+
+  def frontend_resource_manifest_json
+    value = if content_for?(:frontend_resource_manifest)
+      content_for(:frontend_resource_manifest)
+    else
+      Frontend::ResourceManifest.shell.to_json
+    end
+    json_escape(value.to_s).html_safe
+  end
+
+  def frontend_audio_enabled?
+    manifest = frontend_resource_manifest
+    frontend_notification_sfx.present? || content_for?(:frontend_audio) || manifest.audio["unlock"] == true || manifest.audio["cues"].any? || manifest.audio["bed"].present?
+  end
+
+  def enable_frontend_audio
+    content_for(:frontend_audio, "enabled")
+    nil
+  end
+
+  def frontend_audio_catalog
+    audio = frontend_resource_manifest.audio
+    names = [ "tick", frontend_notification_sfx, audio["bed"], *audio["cues"] ].compact.uniq
+    Sfx.catalog.slice(*names)
+  end
+
+  def frontend_notification_sfx
+    "notification_glint" if flash[:notice].present?
+  end
+
+  def surface_stylesheet(name)
+    content_for(:surface_stylesheets) do
+      stylesheet_link_tag(name, "data-turbo-track": "dynamic")
+    end
+    nil
+  end
+
+  FRONTEND_STYLESHEET_ASSETS = {
+    "hub" => "surfaces/hub",
+    "gameplay" => "surfaces/gameplay",
+    "street_play" => "surfaces/street_play",
+    "live_play" => "surfaces/live",
+    "live_watch" => "surfaces/live",
+    "live_presenter" => "surfaces/live",
+    "stats" => "surfaces/stats",
+    "ward_profile" => "surfaces/profile",
+    "study" => "surfaces/study",
+    "scripture" => "surfaces/scripture",
+    "church" => "surfaces/church",
+    "onboarding" => "surfaces/onboarding",
+    "profile" => "surfaces/profile",
+    "identity" => "surfaces/identity"
+  }.freeze
+
+  FRONTEND_CONTROLLER_STYLES = {
+    "church_videos" => %w[church],
+    "discovery" => %w[church],
+    "fichas" => %w[profile],
+    "game_sessions" => %w[profile],
+    "home" => %w[hub onboarding],
+    "identity_transfers" => %w[identity],
+    "notification_settings" => %w[profile],
+    "pages" => %w[church],
+    "players" => %w[live onboarding],
+    "presenter/claims" => %w[live onboarding],
+    "presenter/gates" => %w[live onboarding],
+    "presenter/rosters" => %w[live onboarding],
+    "public" => %w[gameplay live],
+    "scriptures" => %w[scripture],
+    "searches" => %w[church],
+    "street_hub" => %w[hub onboarding],
+    "street_leaderboards" => %w[stats],
+    "street_profiles" => %w[profile],
+    "study_communities" => %w[study],
+    "study_histories" => %w[study],
+    "study_programs" => %w[study],
+    "study_runs" => %w[study scripture],
+    "study_units" => %w[study scripture],
+    "ward_adds" => %w[church],
+    "ward_gates" => %w[profile],
+    "ward_memories" => %w[profile],
+    "ward_profiles" => %w[profile],
+    "wards" => %w[profile]
+  }.freeze
+
+  def frontend_surface_stylesheet_tags
+    manifest = frontend_resource_manifest
+    assets = manifest.styles.filter_map { |name| FRONTEND_STYLESHEET_ASSETS[name] }
+    assets.concat(FRONTEND_CONTROLLER_STYLES.fetch(controller_path, [])) if manifest.context == "shell"
+    assets = assets.map { |name| name.include?("/") ? name : "surfaces/#{name}" }
+
+    safe_join(assets.uniq.map do |asset|
+      stylesheet_link_tag(asset, "data-turbo-track": "dynamic")
+    end)
+  end
+
+  def noche_picture(key, role: nil, alt:, class_name: nil, picture_class: nil, loading: "lazy", decoding: "async", fetchpriority: nil, data: {})
+    asset = Frontend::MediaManifest.fetch(key) || Frontend::MediaManifest.fetch_path(key)
+    return unless asset
+    return if role && asset.fetch("role") != role.to_s
+
+    renditions = asset.fetch("renditions", { "default" => { "media" => nil, "sizes" => asset.fetch("sizes"), "variants" => asset.fetch("variants") } })
+    primary = renditions.values.first
+    fallback = primary.fetch("variants").fetch("jpeg").last
+    sources = renditions.values.flat_map do |rendition|
+      %w[avif webp].map do |format|
+        variants = rendition.fetch("variants").fetch(format)
+        tag.source(
+          type: "image/#{format}",
+          media: rendition["media"],
+          srcset: responsive_srcset(variants),
+          sizes: rendition.fetch("sizes")
+        )
+      end
+    end
+    image = image_tag(
+      fallback.fetch("src"),
+      alt:,
+      class: class_name,
+      width: fallback.fetch("width"),
+      height: fallback.fetch("height"),
+      srcset: responsive_srcset(primary.fetch("variants").fetch("jpeg")),
+      sizes: primary.fetch("sizes"),
+      loading:,
+      decoding:,
+      fetchpriority:,
+      data: data.merge(media_focus: asset.fetch("focus"))
+    )
+    wrapper_class = picture_class || (class_name.present? ? "#{class_name}-picture" : nil)
+    tag.picture(safe_join([ *sources, image ]), class: wrapper_class)
+  end
+
+  def noche_media_picture(source, **attributes)
+    picture = noche_picture(source, **attributes)
+    return picture if picture
+
+    image_attributes = attributes.slice(:alt, :loading, :decoding, :fetchpriority, :data)
+    image_attributes[:class] = attributes[:class_name] if attributes[:class_name].present?
+    image_tag(media_src(source) || source, **image_attributes)
+  end
+
+  def noche_picture_preload(key, role: nil)
+    asset = Frontend::MediaManifest.fetch(key) || Frontend::MediaManifest.fetch_path(key)
+    return unless asset
+    return if role && asset.fetch("role") != role.to_s
+
+    renditions = asset.fetch("renditions", { "default" => { "media" => nil, "sizes" => asset.fetch("sizes"), "variants" => asset.fetch("variants") } })
+    safe_join(renditions.values.map do |rendition|
+      variants = rendition.fetch("variants").fetch("avif")
+      tag.link(
+        rel: "preload",
+        as: "image",
+        type: "image/avif",
+        media: rendition["media"],
+        href: variants.last.fetch("src"),
+        imagesrcset: responsive_srcset(variants),
+        imagesizes: rendition.fetch("sizes"),
+        fetchpriority: "high"
+      )
+    end)
+  end
+
+  def responsive_srcset(variants)
+    variants.map { |variant| "#{variant.fetch('src')} #{variant.fetch('width')}w" }.join(", ")
+  end
+
+  def frontend_resource_manifest
+    if content_for?(:frontend_resource_manifest)
+      Frontend::ResourceManifest.new(**JSON.parse(content_for(:frontend_resource_manifest)).symbolize_keys)
+    else
+      Frontend::ResourceManifest.shell
+    end
+  end
+
   def seo_head_tags
     seo = seo_metadata || {}
     page_title = seo[:title].presence || content_for(:title).presence || "Noche Live"
@@ -66,7 +245,7 @@ module ApplicationHelper
   def night_poster_src(night_or_theme)
     if night_or_theme.is_a?(GameSession) && night_or_theme.poster_path.present?
       custom_rel = night_or_theme.poster_path.delete_prefix("/")
-      return media_src(custom_rel) if Rails.public_path.join(custom_rel).file?
+      return media_src(custom_rel) if Frontend::MediaManifest.fetch_source(custom_rel) || Rails.public_path.join(custom_rel).file?
     end
 
     file_id = night_or_theme.respond_to?(:theme_file_id) ? night_or_theme.theme_file_id : night_or_theme.to_s
@@ -124,7 +303,7 @@ module ApplicationHelper
 
   def about_portrait_src
     rel = "media/about/tracy.png"
-    "/#{rel}" if Rails.public_path.join(rel).file?
+    media_src(rel)
   end
 
   def night_still_src(night = nil, cinema: false)
@@ -141,7 +320,7 @@ module ApplicationHelper
 
   def ceremony_still_src(night, cinema: false)
     ceremony_rel = cinema ? "media/stories/salomon_wisdom_night_wide.png" : "media/stories/salomon_wisdom_night_portrait.png"
-    return "/#{ceremony_rel}" if Rails.public_path.join(ceremony_rel).file?
+    return media_src(ceremony_rel) if media_src(ceremony_rel)
 
     Array(night&.round_runs).sort_by { |run| -run.position.to_i }.each do |run|
       src = challenge_story(run, cinema: cinema)
@@ -154,7 +333,7 @@ module ApplicationHelper
     %w[marble-hall temple-marble-hall].each do |base|
       %w[jpg webp png].each do |ext|
         rel = "media/temple/#{base}.#{ext}"
-        return media_src(rel) if Rails.public_path.join(rel).file?
+        return media_src(rel) if media_src(rel)
       end
     end
 
@@ -164,7 +343,7 @@ module ApplicationHelper
   def street_ceremony_asset_src(name)
     %w[jpg jpeg png webp svg].each do |ext|
       rel = "media/temple/#{name}.#{ext}"
-      return media_src(rel) if Rails.public_path.join(rel).file?
+      return media_src(rel) if media_src(rel)
     end
 
     nil
@@ -172,7 +351,7 @@ module ApplicationHelper
 
   def church_still_src(name)
     belief_rel = "media/church/beliefs/#{name}-v2.png"
-    return media_src(belief_rel) if Rails.public_path.join(belief_rel).file?
+    return media_src(belief_rel) if media_src(belief_rel)
 
     rel = "media/church/#{name}.jpg"
     media_src(rel)
@@ -192,14 +371,13 @@ module ApplicationHelper
       body: capture(&block)
   end
 
-  def chrome_menu(open: false, icon: "menu", face: nil, tools: nil, hud: nil, bar: nil, theme: nil, &block)
+  def chrome_menu(face: nil, hud: nil, bar: nil, theme: nil, &block)
     face = chrome_face? if face.nil?
-    tools = chrome_tools_in_drawer? if tools.nil?
     hud = chrome_hud?(face) if hud.nil?
     bar = chrome_hud_bar if hud && bar.nil?
     theme = normalize_hud_theme(theme || chrome_hud_theme)
     face = false if hud
-    render "shared/chrome_menu", open: open, icon: icon, face: face, tools: tools, hud: hud, bar: bar, theme: theme, body: capture(&block)
+    render "shared/chrome_menu", face: face, hud: hud, bar: bar, theme: theme, body: capture(&block)
   end
 
   def page_hud(**options, &block)
@@ -238,8 +416,8 @@ module ApplicationHelper
     Hud::BarComponent.normalize_theme(value)
   end
 
-  def site_menu(tools: chrome_tools_in_drawer?)
-    render "shared/site_menu", tools: tools
+  def site_menu(player: nil)
+    render "shared/hub_menu", player: player || chrome_hud_bar
   end
 
   def chrome_face?
@@ -308,7 +486,7 @@ module ApplicationHelper
       return { label: t("presenter.actions.reveal"), url: presenter_reveal_round_path(night.code, round) }
     end
     if round.revealed?
-      return { label: t("presenter.actions.next"), url: presenter_complete_round_path(night.code, round) }
+      { label: t("presenter.actions.next"), url: presenter_complete_round_path(night.code, round) }
     end
   end
 
@@ -385,45 +563,112 @@ module ApplicationHelper
     street_still_src(nxt.question_at(1))
   end
 
-  def street_audio_data(run, question, extra_sfx: nil, extra_fx: nil)
+  def street_audio_data(run, question, extra_sfx: nil, extra_fx: nil, manual: false, ask_bed: nil, combo: nil)
     answer = run.quiz_answers.find_by(question_id: question.id)
-    if run.finished?
-      sfx = extra_sfx.presence || "royal_fanfare"
+    data = if run.finished?
+      sfx = extra_sfx.presence || "street_royal_fanfare"
       fx = extra_fx.presence || "level"
-      return {
+      {
         stage_sfx_value: sfx,
         stage_sfx_token_value: "#{run.id}:done:#{sfx}",
         stage_fx_value: fx,
         stage_bed_value: nil,
+        stage_bed_policy_value: nil,
         stage_timer_end_value: nil,
         stage_timer_duration_value: nil
       }
     end
 
-    if answer
+    data ||= if answer
       grade = answer.correct? ? "correct" : "wrong"
-      sfx = extra_sfx.presence || (answer.correct? ? "correct_gold" : "wrong_soft")
+      sfx = extra_sfx.presence || if answer.correct?
+        "correct_gold"
+      else
+        "street_wrong_soft"
+      end
       fx = extra_fx.presence || street_grade_fx(question, answer.correct?)
-      return {
+      {
         stage_sfx_value: sfx,
         stage_sfx_token_value: "#{run.id}:#{question.id}:settled:#{grade}",
         stage_fx_value: fx,
-        stage_bed_value: nil,
+        stage_bed_value: ask_bed.presence,
+        stage_bed_policy_value: ("continuous" if ask_bed.present?),
         stage_timer_end_value: nil,
         stage_timer_duration_value: nil
       }
     end
 
-    timed = question.timed? && run.ends_at.present?
-    sfx = extra_sfx.presence || (timed ? nil : (question.slam? ? "round_start" : "celestial_breath"))
-    {
-      stage_sfx_value: sfx,
-      stage_sfx_token_value: "#{run.id}:#{question.id}:ask",
-      stage_fx_value: extra_fx,
-      stage_bed_value: timed ? "timer_tension" : nil,
-      stage_timer_end_value: timed ? run.ends_at.iso8601 : nil,
-      stage_timer_duration_value: timed ? question.duration.to_i : nil
-    }
+    data ||= begin
+      timed = question.timed? && run.ends_at.present?
+      sfx = extra_sfx.presence || (timed ? nil : (question.slam? ? "round_start" : "celestial_breath"))
+      {
+        stage_sfx_value: sfx,
+        stage_sfx_token_value: "#{run.id}:#{question.id}:ask",
+        stage_fx_value: extra_fx,
+        stage_bed_value: ask_bed.presence || (timed ? "timer_tension" : nil),
+        stage_bed_policy_value: ("continuous" if ask_bed.present?),
+        stage_timer_end_value: timed ? run.ends_at.iso8601 : nil,
+        stage_timer_duration_value: timed ? question.duration.to_i : nil
+      }
+    end
+
+    if manual
+      data[:stage_cue_policy_value] = "manual"
+      data[:stage_fx_value] = nil
+    end
+    data
+  end
+
+  def street_quiz_shell_attributes(street:, overlay:, chrome:, combo:, extra_sfx: nil, extra_fx: nil)
+    run = street.run
+    question = street.question
+    reward = street.reward
+    last_gain = street.done? ? street.complete.last_gain.to_i : (street.settled? && street.answer&.correct? ? reward&.points_awarded.to_i : 0)
+    from_score = last_gain.positive? ? [ run.score - last_gain, 0 ].max : run.score
+    art_preview = overlay && street.asking? && run.asked_at.present? && run.asked_at.future?
+    data = street_audio_data(
+      run,
+      question,
+      extra_sfx:,
+      extra_fx:,
+      manual: overlay,
+      ask_bed: ("timer_tension" if overlay),
+      combo:
+    ).merge(
+      controller: [ "quiz", ("story" unless overlay), ("street-motion" if overlay && street.done?) ].compact.join(" "),
+      story_street_value: (true unless overlay),
+      street_motion_sequence_value: (overlay && street.done? ? "packComplete" : nil),
+      quiz_correct_value: question.correct_choice,
+      quiz_rewind_url_value: quiz_rewind_path(run),
+      quiz_from_score_value: from_score,
+      quiz_to_score_value: run.score,
+      quiz_combo_shout_value: combo&.shout_key,
+      quiz_streak_value: combo&.count.to_i,
+      quiz_fire_cue_value: ("fire_whoosh" if overlay && street.settled? && street.answer&.correct? && combo&.count.to_i >= 2),
+      quiz_preview_end_value: (run.asked_at.iso8601(3) if art_preview),
+      quiz_theme: chrome&.mode,
+      quiz_atmosphere: chrome&.atmosphere,
+      quiz_glass: chrome&.glass,
+      intensity: question.intensity,
+      action: if overlay
+        "pointerdown->quiz#revealArt pointerdown->quiz#startGesture click->quiz#pick turbo:submit-start->quiz#lock quiz:state->quiz#refreshStreetResult"
+      else
+        "pointerdown->quiz#revealArt pointerdown->story#start click->quiz#pick turbo:submit-start->quiz#lock"
+      end
+    ).compact
+    classes = [
+      "play-card", "play-reel", "is-quiz", "is-street",
+      ("is-overlay" if overlay),
+      ("is-art-preview" if art_preview),
+      ("is-settled" if street.settled?),
+      ("is-result-sequence" if overlay && street.settled? && !street.done?),
+      ("is-done" if street.done?),
+      ("is-ceremony" if overlay && street.done?),
+      ("is-ceremony-immersive" if street.done? && !overlay),
+      ("is-right" if street.settled? && street.answer&.correct?),
+      ("is-wrong" if street.settled? && !street.answer&.correct?)
+    ].compact
+    { class: classes, data: }
   end
 
   def street_clock(seconds)
@@ -440,6 +685,58 @@ module ApplicationHelper
     top + [ you ]
   end
 
+  def street_ceremony_verdict(complete:, impacts:)
+    impacts = Array(impacts)
+    score = t("chrome.crowns_count", count: complete.score.to_i)
+
+    if impacts.one?
+      item = impacts.first
+      outcome = item.outcome.to_sym
+      name = item.other.given_name
+      gap = item.theirs.nil? ? nil : t("chrome.crowns_count", count: (item.mine.to_i - item.theirs.to_i).abs)
+      return {
+        tone: outcome,
+        title: t("street.ceremony_verdict.duel.#{outcome}.title", name:),
+        detail: t("street.ceremony_verdict.duel.#{outcome}.detail", name:, score:, gap:)
+      }
+    end
+
+    if impacts.many?
+      outcomes = %i[ahead behind tie waiting].filter_map do |outcome|
+        count = impacts.count { |item| item.outcome.to_sym == outcome }
+        t("street.ceremony_verdict.multi.outcomes.#{outcome}", count:) if count.positive?
+      end
+      tone = impacts.all? { |item| item.outcome.to_sym == :ahead } ? :ahead : :mixed
+      return {
+        tone:,
+        title: outcomes.join(" · "),
+        detail: t("street.ceremony_verdict.multi.detail", score:)
+      }
+    end
+
+    answered = complete.answered.to_i
+    correct = complete.correct.to_i
+    tier = if answered.positive? && correct == answered
+      :perfect
+    elsif answered.positive? && correct * 5 >= answered * 4
+      :mastered
+    elsif answered.positive? && correct * 2 >= answered
+      :solid
+    else
+      :retry
+    end
+    {
+      tone: tier,
+      title: t("street.ceremony_verdict.performance.#{tier}.title"),
+      detail: t(
+        "street.ceremony_verdict.performance.detail",
+        correct:,
+        answered:,
+        score:
+      )
+    }
+  end
+
   def street_choice_seed(run, question)
     run.id.to_i * 1_000 + question.position.to_i
   end
@@ -454,7 +751,10 @@ module ApplicationHelper
 
   def street_hit_shout(run, question, combo)
     key = combo&.shout_key
-    key.present? ? I18n.t("quiz.streak_#{key}") : street_praise_line(run, question)
+    return I18n.t("quiz.streak_#{key}") if key.present?
+    return I18n.t("quiz.streak_continues") if combo&.respond_to?(:grew) && combo.grew
+
+    street_praise_line(run, question)
   end
 
   def street_shuffled_choices(run, question)
@@ -465,22 +765,6 @@ module ApplicationHelper
     order = street_shuffled_choices(run, question).map { |choice| choice_key(choice) }
     rows = Array(tally).index_by(&:key)
     order.filter_map { |key| rows[key] }
-  end
-
-  StreetMapSegment = Struct.new(:pack, :questions, keyword_init: true)
-
-  def street_map_segments(trail)
-    segments = []
-    current = nil
-    Array(trail).each do |step|
-      if step.pack?
-        current = StreetMapSegment.new(pack: step, questions: [])
-        segments << current
-      elsif step.question? && current
-        current.questions << step
-      end
-    end
-    segments
   end
 
   def street_next_rank(score)
@@ -505,24 +789,6 @@ module ApplicationHelper
 
   def street_grade_fx(_question, _correct)
     nil
-  end
-
-  def trail_step_mark(step)
-    case step.state
-    when :correct then picto("check")
-    when :wrong then "×"
-    when :current then step.position.to_s
-    else step.position.to_s
-    end
-  end
-
-  def trail_step_label(step)
-    case step.state
-    when :correct then t("street.trail_correct", n: step.position)
-    when :wrong then t("street.trail_wrong", n: step.position)
-    when :current then t("street.trail_current", n: step.position)
-    else t("street.trail_future", n: step.position)
-    end
   end
 
   def stage_audio_data(round, extra_sfx = nil, extra_fx = nil, team: nil, night: nil, pulse: nil)
@@ -713,7 +979,7 @@ module ApplicationHelper
     id = definition.id
     %w[jpg jpeg png webp].each do |ext|
       rel = "media/stories/#{id}.#{ext}"
-      return "/#{rel}" if Rails.public_path.join(rel).file?
+      return media_src(rel) if media_src(rel)
     end
     nil
   end
@@ -739,7 +1005,21 @@ module ApplicationHelper
     rel if Rails.public_path.join(rel).file?
   end
 
-  def media_src(rel)
+  def media_src(rel, width: nil, format: "webp")
+    return rel if rel.to_s.match?(/\Ahttps?:\/\//)
+
+    logical = rel.to_s.delete_prefix("/")
+    logical = "media/#{logical}" unless logical.start_with?("media/")
+    if (asset = Frontend::MediaManifest.fetch_path(rel) || Frontend::MediaManifest.fetch_path(logical))
+      variants = asset.fetch("variants").fetch(format)
+      variant = if width
+        variants.find { |candidate| candidate.fetch("width") >= width.to_i } || variants.last
+      else
+        variants.last
+      end
+      return variant.fetch("src")
+    end
+
     path = media_public_path(rel)
     return unless path
 
@@ -1034,5 +1314,14 @@ module ApplicationHelper
     end
     formatted = number_with_delimiter(count.to_i, delimiter:)
     t("seo.scripture.reads", count: count.to_i, formatted:)
+  end
+
+  def liga_number(value)
+    delimiter = case I18n.locale.to_s
+    when "fr" then "\u202F"
+    when "es", "pt-BR" then "."
+    else ","
+    end
+    number_with_delimiter(value.to_i, delimiter:)
   end
 end

@@ -1,5 +1,5 @@
 # Legacy chapel B-roll. Presenter and watch no longer use these slides.
-# Story stills: public/media/stories/<round_id>.jpg (config/media/story_challenges.yml).
+# Story masters: media/masters/media/stories/<round_id>.jpg; delivery variants are manifest-driven.
 # `room` is chapel (seated) or cultural_hall (movement) if you still generate B-roll.
 # `slides` / `video` are optional atmosphere only.
 

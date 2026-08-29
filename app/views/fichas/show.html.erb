@@ -46,14 +46,14 @@
         <p class="quiet"><%= t("fichas.merge_hint") %></p>
         <div class="ficha-merge-current">
           <%= render "people/card", person: @person, show_year: false %>
-          <small><%= t("street.merge_points", count: @profile_score) %> · <%= t("street.merge_since", date: l(@person.created_at.to_date)) %></small>
+          <small><%= t("street.merge_crowns", count: @profile_score) %> · <%= t("street.merge_since", date: l(@person.created_at.to_date)) %></small>
         </div>
         <ul class="ficha-merge-list person-list">
           <% @merge_cards.each do |card| %>
             <% oldest = [@person, card.person].min_by { |person| [person.created_at, person.id] } %>
             <li class="team-pick person-pick">
               <%= render "people/card", person: card.person, show_year: false %>
-              <small><%= t("street.merge_points", count: card.score) %> · <%= t("street.merge_since", date: l(card.person.created_at.to_date)) %></small>
+              <small><%= t("street.merge_crowns", count: card.score) %> · <%= t("street.merge_since", date: l(card.person.created_at.to_date)) %></small>
               <%= form_with url: ficha_merge_path_for(@person),
                             class: "join-form ficha-merge-form",
                             data: {

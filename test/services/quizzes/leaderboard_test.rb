@@ -83,6 +83,34 @@ class Quizzes::LeaderboardTest < ActiveSupport::TestCase
     assert_equal 2, board.your_rank
   end
 
+  test "exposes each visible rival's latest open pack" do
+    finished = QuizRun.create!(
+      device_digest: "open-pack-finished",
+      person: @carmen,
+      pack_id: "placas",
+      position: 10,
+      score: 80,
+      status: "finished",
+      opened_at: 2.days.ago
+    )
+    open_run = QuizRun.create!(
+      device_digest: "open-pack-current",
+      person: @carmen,
+      pack_id: "milagros",
+      position: 4,
+      score: 23,
+      status: "open",
+      opened_at: 1.hour.ago
+    )
+
+    board = Quizzes::Leaderboard.call(ward: @ward, person: @pili, limit: 5)
+    rival = board.rows.find { |row| row.person == @carmen }
+
+    assert finished.finished?
+    assert_equal open_run, rival.open_run
+    assert_equal "milagros", rival.open_run.pack_id
+  end
+
   test "limits visible rows and paginates large wards" do
     ward = wards(:blank)
     people = Array.new(12) do |index|
@@ -173,6 +201,81 @@ class Quizzes::LeaderboardTest < ActiveSupport::TestCase
 
     assert_equal 2, board.rows.size
     assert_equal [ "Andrés", "Ana" ], board.rows.map { |row| row.person.given_name }
+    assert_equal [ 2, 3 ], board.rows.map(&:rank), "search results keep their global ranks"
+    assert_empty Quizzes::Leaderboard.call(ward:, limit: 10, q: "%").rows
+  end
+
+  test "orders tied scores deterministically by person id" do
+    players = Array.new(4) do |index|
+      @ward.people.create!(
+        given_name: "Empate#{index}",
+        avatar_key: Player::AVATARS[index % Player::AVATARS.size],
+        favorite_year: 1990 + index
+      )
+    end
+    players.reverse_each.with_index do |person, index|
+      QuizRun.create!(
+        device_digest: "tie-#{index}", person:, pack_id: "placas", position: 10,
+        score: 77, status: "finished", opened_at: Time.current
+      )
+    end
+
+    first = Quizzes::Leaderboard.call(ward: @ward, limit: 10)
+    second = Quizzes::Leaderboard.call(ward: @ward, limit: 10)
+    expected_ids = players.map(&:id).sort
+
+    assert_equal expected_ids, first.rows.map { |row| row.person.id }
+    assert_equal expected_ids, second.rows.map { |row| row.person.id }
+    assert_equal [ 1, 2, 3, 4 ], first.rows.map(&:rank)
+  end
+
+  test "serves one hundred player windows across a thousand ranked people" do
+    now = Time.current
+    people_rows = Array.new(1_000) do |index|
+      name = "Fenetre#{index.to_s.rjust(4, "0")}"
+      {
+        ward_id: @ward.id,
+        given_name: name,
+        given_name_key: Person.name_key(name),
+        family_name_key: "",
+        avatar_key: Player::AVATARS[index % Player::AVATARS.size],
+        favorite_year: 1900 + (index % 100),
+        locale: "fr",
+        created_at: now,
+        updated_at: now
+      }
+    end
+    Person.insert_all!(people_rows)
+    player_ids = @ward.people.where("given_name LIKE ?", "Fenetre%").order(:id).pluck(:id)
+    QuizRun.insert_all!(player_ids.each_with_index.map do |person_id, index|
+      {
+        person_id:,
+        device_digest: "window-#{index}",
+        pack_id: "placas",
+        position: 10,
+        score: 2_000 - index,
+        status: "finished",
+        opened_at: now,
+        created_at: now,
+        updated_at: now
+      }
+    end)
+
+    first = Quizzes::Leaderboard.call(ward: @ward, limit: 100, offset: 0)
+    last = Quizzes::Leaderboard.call(ward: @ward, limit: 100, offset: 900)
+    beyond_end = Quizzes::Leaderboard.call(ward: @ward, limit: 100, offset: 4_000)
+
+    assert_equal 1_000, first.players
+    assert_equal 100, first.rows.size
+    assert_equal 100, first.next_offset
+    assert_nil first.previous_offset
+    assert_equal 10, first.pages
+    assert_equal 100, last.rows.size
+    assert_equal 901, last.rows.first.rank
+    assert_nil last.next_offset
+    assert_equal 800, last.previous_offset
+    assert_equal 901, beyond_end.rows.first.rank
+    assert_equal 10, beyond_end.page
   end
 
   test "marks a person live from a recent device heartbeat" do

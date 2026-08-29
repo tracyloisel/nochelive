@@ -1,0 +1,7 @@
+<div id="street_quiz_answer_panel" class="quiz-answer-panel">
+  <% if street.asking? %>
+    <%= render "home/street_choices", street: street, letters: true %>
+  <% else %>
+    <%= render "home/street_overlay_results", street: street, pack: pack, run: run %>
+  <% end %>
+</div>

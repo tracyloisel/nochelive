@@ -1,0 +1,88 @@
+<% item = @item %>
+<% other = @duel.other_person_for(current_street_person) %>
+<% mine = @duel.score_for(current_street_person) %>
+<% theirs = @duel.other_score_for(current_street_person) %>
+<% duel_state = (item&.state || :active).to_sym %>
+<% mine_run = item&.mine_run || @duel.run_for(current_street_person) %>
+<% theirs_run = item&.theirs_run || @duel.run_for(other) %>
+<% mine_pack = mine_run&.pack&.copy(:title) %>
+<% theirs_pack = theirs_run&.pack&.copy(:title) %>
+<% content_for :title, t("duel_campus.duel.title", name: other.given_name) %>
+<% content_for :body_class, "is-kid is-paper-hall is-duel-detail" %>
+<% surface_stylesheet("duel_campus") %>
+<% declare_frontend_resources(
+     context: "duel.result",
+     styles: %w[shell duel_campus],
+     controllers: %w[loading press duel-motion],
+     media: { lcp: media_src("media/social/campus-ceremony-friends-v1.png") },
+     motion: %w[ceremony-enter],
+     classes: {
+       "style.duel_campus" => "critical",
+       "media.lcp" => "critical",
+       "controller.duel_motion" => "contextual",
+       "motion.result" => "contextual"
+     }
+   ) %>
+<% page_hud(face: true) { site_menu } %>
+
+<section class="duel-detail"
+         data-controller="duel-motion"
+         data-state="<%= @duel.resolved? ? "resolved" : "active" %>"
+         data-next-desire="<%= @duel.resolved? ? "rematch" : "play" %>"
+         data-duel-motion-sequence-value="result"
+         style="view-transition-name: street-world">
+  <div class="duel-detail-world" aria-hidden="true">
+    <%= noche_media_picture("media/social/campus-ceremony-friends-v1.png", alt: "", loading: "eager", fetchpriority: "high") %>
+    <span></span>
+  </div>
+  <header class="duel-detail-hero">
+    <div><p><%= @duel.rematch? ? t("duel_campus.labels.rematch") : t("duel_campus.duel.kicker") %></p><h1><%= t("duel_campus.duel.title", name: other.given_name) %></h1></div>
+  </header>
+  <section class="duel-detail-sheet" data-duel-motion-target="reveal" aria-labelledby="duel_detail_status">
+    <span class="duel-detail-apex" aria-hidden="true"><%= picto("duel-scrolls") %></span>
+    <div class="duel-detail-people">
+      <article class="duel-detail-player is-me">
+        <%= render "street_challenges/person", person: current_street_person %>
+        <strong><%= current_street_person.given_name %></strong>
+        <% unless @duel.resolved? %><small><%= mine_pack || t("duel_campus.copy.pack_waiting") %></small><% end %>
+        <p class="duel-detail-score<%= " is-pending" if mine.nil? %>">
+          <b><%= mine || "—" %></b>
+          <% if mine.present? %><span><%= t("duel_campus.counts.crowns") %></span><% end %>
+        </p>
+      </article>
+      <span class="duel-detail-versus" aria-label="<%= t("duel_campus.labels.versus") %>"><%= t("duel_campus.labels.versus") %></span>
+      <article class="duel-detail-player is-rival">
+        <%= render "street_challenges/person", person: other %>
+        <strong><%= other.given_name %></strong>
+        <% unless @duel.resolved? %><small><%= theirs_pack || t("duel_campus.copy.pack_waiting") %></small><% end %>
+        <p class="duel-detail-score<%= " is-pending" if theirs.nil? %>">
+          <b><%= theirs || "—" %></b>
+          <% if theirs.present? %><span><%= t("duel_campus.counts.crowns") %></span><% end %>
+        </p>
+      </article>
+    </div>
+    <% if @duel.resolved? %>
+      <% outcome = mine == theirs ? :tie : (mine.to_i > theirs.to_i ? :ahead : :behind) %>
+      <div class="duel-detail-status is-<%= outcome %>">
+        <p class="duel-detail-status-kicker"><%= t("duel_campus.labels.result") %></p>
+        <h2 id="duel_detail_status" class="duel-detail-verdict"><%= t("duel_campus.outcomes.#{outcome}", name: other.given_name) %></h2>
+        <p><%= t("duel_campus.duel.different_packs_ok") %></p>
+      </div>
+      <div class="duel-detail-actions">
+        <%= button_to t("duel_campus.actions.rematch"), street_duel_rematch_path(@duel), class: "btn btn-gold duel-campus-command duel-invitation-primary" %>
+        <%= link_to t("duel_campus.actions.back_campus"), street_challenges_path, class: "quiet-link" %>
+      </div>
+    <% else %>
+      <div class="duel-detail-status is-<%= duel_state %>">
+        <p class="duel-detail-status-kicker"><%= t(duel_state == :waiting && mine.present? ? "duel_campus.priority.score_set" : "duel_campus.labels.challenge") %></p>
+        <h2 id="duel_detail_status" class="duel-detail-verdict"><%= t("duel_campus.states.#{duel_state}") %></h2>
+        <p><%= duel_state == :waiting && mine.present? ? t("duel_campus.priority.waiting", score: mine, name: other.given_name) : t("duel_campus.copy.choose_any_pack") %></p>
+      </div>
+      <div class="duel-detail-actions">
+        <%= link_to t("duel_campus.actions.play_any_pack"), jugar_path, class: "btn btn-gold duel-campus-command duel-invitation-primary" %>
+        <%= link_to t("duel_campus.actions.back_campus"), street_challenges_path, class: "quiet-link" %>
+      </div>
+    <% end %>
+  </section>
+  <% page_dock(active: :home) %>
+</section>

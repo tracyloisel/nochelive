@@ -121,53 +121,92 @@ end
   seed_quiz_total(lucas_alicante, score, pack_id:)
 end
 
-def seed_duel(token:, challenger:, opponent:, challenger_score:, opponent_score:, challenger_position:, opponent_position:, status:, updated_at: Time.current)
-  duel = StreetDuel.find_or_initialize_by(token:)
+def seed_duel(seed_key:, challenger:, opponent:, challenger_score:, opponent_score:, challenger_position:, opponent_position:, updated_at: Time.current)
+  runs = [
+    [ challenger, challenger_score, challenger_position, "challenger" ],
+    [ opponent, opponent_score, opponent_position, "opponent" ]
+  ].to_h do |person, score, position, role|
+    finished = position >= 10
+    run = QuizRun.find_or_initialize_by(device_digest: GameSession.digest_token("seed-duel-#{seed_key}-#{role}"))
+    run.assign_attributes(
+      person:,
+      pack_id: "coronas",
+      position:,
+      score:,
+      status: finished ? "finished" : "open",
+      opened_at: updated_at - 5.minutes,
+      ends_at: finished ? updated_at : nil
+    )
+    run.save!
+    [ role, run ]
+  end
+
+  challenger_finished = runs.fetch("challenger").finished?
+  opponent_finished = runs.fetch("opponent").finished?
+  duel_status = if challenger_finished && opponent_finished
+    "resolved"
+  elsif challenger_finished || opponent_finished
+    "one_scored"
+  else
+    "active"
+  end
+
+  legacy_digest = DuelInvitation.digest(seed_key)
+  invitation = DuelInvitation.find_by(legacy_token_digest: legacy_digest) ||
+    DuelInvitation.find_or_initialize_by(source: "seed", metadata: { "seed_key" => seed_key })
+  invitation.token_digest ||= DuelInvitation.digest("seed:#{seed_key}")
+  invitation.assign_attributes(
+    challenger_person: challenger,
+    recipient_person: opponent,
+    challenger_run: challenger_finished ? runs.fetch("challenger") : nil,
+    challenger_score: challenger_finished ? challenger_score : nil,
+    claimed_by_person: opponent,
+    status: "claimed",
+    source: invitation.source.presence || "seed",
+    channel: invitation.channel.presence || "noche",
+    seen_at: invitation.seen_at || updated_at,
+    claimed_at: invitation.claimed_at || updated_at,
+    expires_at: 30.days.from_now,
+    metadata: invitation.metadata.merge("seed_key" => seed_key)
+  )
+  invitation.save!
+
+  duel = invitation.street_duel || StreetDuel.new(origin_invitation: invitation)
   duel.assign_attributes(
-    ward: challenger.ward,
     challenger_person: challenger,
     opponent_person: opponent,
-    challenger_ward: challenger.ward,
-    opponent_ward: opponent.ward,
-    stake_unit_id: challenger.ward.stake_unit_id,
-    pack_id: "coronas",
-    status:,
-    expires_at: 30.days.from_now,
-    challenger_score: status == "resolved" ? challenger_score : nil,
-    opponent_score: status == "resolved" ? opponent_score : nil,
-    challenger_delta: status == "resolved" ? (challenger_score >= opponent_score ? 12 : -3) : nil,
-    opponent_delta: status == "resolved" ? (opponent_score >= challenger_score ? 12 : -3) : nil
+    challenger_run: challenger_finished ? runs.fetch("challenger") : nil,
+    opponent_run: opponent_finished ? runs.fetch("opponent") : nil,
+    challenger_score: challenger_finished ? challenger_score : nil,
+    opponent_score: opponent_finished ? opponent_score : nil,
+    status: duel_status,
+    accepted_at: updated_at - 5.minutes,
+    resolved_at: duel_status == "resolved" ? updated_at : nil,
+    expires_at: 30.days.from_now
   )
   duel.save!
-
-  [ [ challenger, challenger_score, challenger_position, "challenger" ], [ opponent, opponent_score, opponent_position, "opponent" ] ].each do |person, score, position, role|
-    run = QuizRun.find_or_initialize_by(device_digest: GameSession.digest_token("seed-duel-#{token}-#{role}"))
-    run.assign_attributes(person:, pack_id: "coronas", position:, score:, status: position >= 10 ? "finished" : "open", opened_at: updated_at - 5.minutes, street_duel: duel)
-    run.save!
-    duel.public_send("#{role}_run=", run)
-  end
-  duel.save!
+  invitation.update!(street_duel: duel)
   duel.update_columns(updated_at:)
   duel
 end
 
-seed_duel(token: "seed-live-carmen", challenger: carmen_g, opponent: pili, challenger_score: 28, opponent_score: 34, challenger_position: 10, opponent_position: 6, status: "challenger_done")
-seed_duel(token: "seed-live-jean", challenger: pili, opponent: jean_marc, challenger_score: 21, opponent_score: 27, challenger_position: 3, opponent_position: 10, status: "challenger_done")
+seed_duel(seed_key: "seed-live-carmen", challenger: carmen_g, opponent: pili, challenger_score: 28, opponent_score: 34, challenger_position: 10, opponent_position: 6)
+seed_duel(seed_key: "seed-live-jean", challenger: pili, opponent: jean_marc, challenger_score: 21, opponent_score: 27, challenger_position: 3, opponent_position: 10)
 
 7.times do |index|
   pili_wins = index.even?
   seed_duel(
-    token: "seed-h2h-carmen-#{index}", challenger: pili, opponent: carmen_g,
+    seed_key: "seed-h2h-carmen-#{index}", challenger: pili, opponent: carmen_g,
     challenger_score: pili_wins ? 48 : 34, opponent_score: pili_wins ? 39 : 47,
-    challenger_position: 10, opponent_position: 10, status: "resolved", updated_at: (index + 1).days.ago
+    challenger_position: 10, opponent_position: 10, updated_at: (index + 1).days.ago
   )
 end
 
 8.times do |index|
   seed_duel(
-    token: "seed-stake-alicante-#{index}", challenger: miguel, opponent: (index.even? ? lucas_alicante : ines_alicante),
+    seed_key: "seed-stake-alicante-#{index}", challenger: miguel, opponent: (index.even? ? lucas_alicante : ines_alicante),
     challenger_score: index < 5 ? 52 : 37, opponent_score: index < 5 ? 44 : 49,
-    challenger_position: 10, opponent_position: 10, status: "resolved", updated_at: (index + 1).hours.ago
+    challenger_position: 10, opponent_position: 10, updated_at: (index + 1).hours.ago
   )
 end
 
@@ -179,7 +218,7 @@ end
   PersonDevice.find_or_create_by!(person:, device_token:)
   Presences::StreetHeartbeat.call(person:, device_token:)
 
-  next if QuizRun.adventure.finished.exists?(person:, pack_id: "coronas")
+  next if QuizRun.finished.exists?(person:, pack_id: "coronas")
 
   run = Quizzes::StartPack.call(
     device_digest: GameSession.digest_token(device_token),

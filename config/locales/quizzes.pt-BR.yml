@@ -1,8 +1,8 @@
 pt-BR:
   quizzes:
     coronas:
-      title: "Reis"
-      kicker: "Quiz real"
+      title: "Davi, Saul e Salomão"
+      kicker: "Reis de Israel"
       lede: "Davi, Saul, Salomão: quem foi ungido, quem orou, quem caiu."
       questions:
         ungio_david:
@@ -77,8 +77,8 @@ pt-BR:
             canto: "Ele cantou para ela"
             ignoro: "Ele passou adiante"
     placas:
-      title: "Placas"
-      kicker: "Quiz das placas"
+      title: "Histórias do Livro de Mórmon"
+      kicker: "Leí, Néfi e Morôni"
       lede: "Leí, Néfi, Abinádi: as placas, o barco e a torre."
       questions:
         lehi_jerusalen:
@@ -152,8 +152,8 @@ pt-BR:
             moroni: "Morôni"
             noe: "Noé"
     hermanas:
-      title: "Irmãs"
-      kicker: "Quiz das irmãs"
+      title: "Mulheres da Bíblia"
+      kicker: "Rute, Ester e Débora"
       lede: "Rute, Ester, Ana e Débora: mulheres que ficaram, falaram e salvaram."
       questions:
         rut_noemi:
@@ -227,8 +227,8 @@ pt-BR:
             cocina: "A cozinha"
             corona: "Uma coroa"
     abish:
-      title: "Abish"
-      kicker: "Quiz da Abish"
+      title: "Mulheres do Livro de Mórmon"
+      kicker: "Abish, Sariah e as mães fiéis"
       lede: "Abish, Sariah e as mães dos dois mil: fé que não duvidou."
       questions:
         saria_lehi:
@@ -302,8 +302,8 @@ pt-BR:
             benjamin: "Ao ouvir Benjamim"
             placas: "Ao ler as placas"
     profetas:
-      title: "Profetas"
-      kicker: "Quiz dos profetas"
+      title: "Jonas, Elias e Daniel"
+      kicker: "Profetas em ação"
       lede: "Jonas, Elias e Daniel: três dias, corvos e janelas para Jerusalém."
       questions:
         jonas_tres:
@@ -377,8 +377,8 @@ pt-BR:
             barca: "Um barco no Jordão"
             nube: "Só uma nuvem cinza"
     jehova:
-      title: "O Senhor"
-      kicker: "Quiz do Senhor"
+      title: "O Senhor salva"
+      kicker: "O Deus de Israel"
       lede: "O nome do Senhor, o mar que se abre e o único Salvador."
       questions:
         zarza_yo_soy:
@@ -452,8 +452,8 @@ pt-BR:
             alma: "Alma, o filho"
             samuel: "Samuel, o lamanita"
     nazareno:
-      title: "Na terra"
-      kicker: "Quiz na terra"
+      title: "Jesus entre nós"
+      kicker: "A vida do Salvador"
       lede: "Belém, o batismo e os milagres: Jesus entre nós."
       questions:
         nacio_belen:
@@ -527,8 +527,8 @@ pt-BR:
             lejos: "De longe, em grupo"
             angeles: "Só os anjos os tocaram"
     moises:
-      title: "Moisés"
-      kicker: "Quiz de Moisés"
+      title: "As visões de Moisés"
+      kicker: "Criação e Éden"
       lede: "Face a face, o Éden e a criação: o que Moisés viu."
       questions:
         moises_cara:
@@ -602,8 +602,8 @@ pt-BR:
             mar: "Afundiu no mar"
             desierto: "Ficou no deserto"
     abraham:
-      title: "Abraão"
-      kicker: "Quiz de Abraão"
+      title: "A promessa de Deus a Abraão"
+      kicker: "Convênio e descendência"
       lede: "Ur, o altar e a descendência: a promessa que não se quebra."
       questions:
         salio_ur:
@@ -677,8 +677,8 @@ pt-BR:
             montes: "Só os montes"
             rios: "Só os rios"
     kolob:
-      title: "Kolob"
-      kicker: "Quiz de Kolob"
+      title: "Kolob e o tempo de Deus"
+      kicker: "A visão de Abraão"
       lede: "O astro junto ao trono: um dia lá, mil anos aqui."
       questions:
         cerca_trono:
@@ -752,8 +752,8 @@ pt-BR:
             iguales: "As duas são sempre iguais"
             azar: "Não há ordem"
     premortal:
-      title: "Antes de nascer"
-      kicker: "Quiz de antes"
+      title: "A vida antes de nascer"
+      kicker: "O plano de Deus"
       lede: "Antes de nascer: inteligências, e «A quem enviarei?»"
       questions:
         eramos_inteligencias:
@@ -827,8 +827,8 @@ pt-BR:
             silencio: "Ficaram em silêncio"
             huir: "Fugiram da luz"
     exaltacion:
-      title: "Exaltação"
-      kicker: "Quiz da exaltação"
+      title: "O plano de Deus para a eternidade"
+      kicker: "Vida eterna e selamento"
       lede: "A obra de Deus: vida eterna, graus e o selamento."
       questions:
         obra_gloria:
@@ -902,8 +902,8 @@ pt-BR:
             luna: "Na lua"
             paraiso: "Só num paraíso de espíritos, longe"
     jose:
-      title: "Joseph"
-      kicker: "Quiz de José"
+      title: "O início de Joseph Smith"
+      kicker: "A Primeira Visão e as placas"
       lede: "Sharon, o bosque e as placas: como José começou."
       questions:
         nacio_sharon:
@@ -977,8 +977,8 @@ pt-BR:
             moises: "Só os dias de Moisés"
             roma: "Só os dias de Roma"
     inicios:
-      title: "Começos"
-      kicker: "Quiz dos começos"
+      title: "O início da Igreja"
+      kicker: "De 6 de abril a Sião"
       lede: "6 de abril, Kirtland e Sião: os começos da Igreja."
       questions:
         seis_abril:
@@ -1052,8 +1052,8 @@ pt-BR:
             una_mas: "Mais uma entre muitas iguais"
             cerrada: "Uma igreja já fechada"
     pruebas_profetas:
-      title: "Provações"
-      kicker: "Quiz das provações"
+      title: "Profetas à prova"
+      kicker: "Jeremias, Elias e Abinádi"
       lede: "Jeremias, Elias, Abinádi: quando a palavra custa."
       questions:
         jeremias_cisterna:
@@ -1127,8 +1127,8 @@ pt-BR:
             oro: "Quando vos derem ouro"
             trono: "Quando vos sentarem num trono"
     pruebas_heroes:
-      title: "Valentes"
-      kicker: "Quiz dos valentes"
+      title: "Uma fé que resiste a tudo"
+      kicker: "Jó, José, Daniel e Ester"
       lede: "Jó, José, Daniel e Ester: valentes que não amaldiçoaram."
       questions:
         job_no_maldijo:
@@ -1202,8 +1202,8 @@ pt-BR:
             olvido: "Esqueceu para sempre"
             venganza: "Pediu vingança"
     milagros:
-      title: "Milagres"
-      kicker: "Quiz dos milagres"
+      title: "Milagres do Antigo Testamento"
+      kicker: "Mar, maná e sol"
       lede: "O mar, o maná, o sol de Josué: quando o céu toca a terra."
       questions:
         mar_abrio:
@@ -1277,8 +1277,8 @@ pt-BR:
             trigo: "Trigo"
             arena: "Areia"
     apocalipsis:
-      title: "Apocalipse"
-      kicker: "O Cordeiro vence"
+      title: "A vitória do Cordeiro"
+      kicker: "O Apocalipse"
       lede: "Selos, o dragão e Babilônia: a visão não termina em medo, mas em vitória."
       questions:
         libro_siete_sellos:
@@ -1352,8 +1352,8 @@ pt-BR:
             principe_egipto: "Príncipe do Egito"
             escriba: "Escriba de Jerusalém"
     segunda_venida:
-      title: "O Retorno"
-      kicker: "Jesus voltará"
+      title: "A volta de Jesus Cristo"
+      kicker: "Sinais de esperança"
       lede: "O evangelho, a trombeta e as nuvens: sinais para vigiar com esperança."
       questions:
         mismo_modo:
@@ -1427,8 +1427,8 @@ pt-BR:
             barco: "Em um barco vindo da Galileia"
             desierto: "Somente em um lugar secreto no deserto"
     milenio:
-      title: "Milênio"
-      kicker: "Mil anos de paz"
+      title: "Mil anos com Cristo"
+      kicker: "O Milênio"
       lede: "O lobo, o Cordeiro e uma Terra renovada: assim Cristo reinará."
       questions:
         dragon_atado:
@@ -1502,7 +1502,7 @@ pt-BR:
             olvidadas: "Serão esquecidas"
             destruidas: "Serão destruídas sem serem conhecidas"
     improbables:
-      title: "Deus chama"
+      title: "Deus chama quem ninguém espera"
       kicker: "Antes → depois"
       lede: "Sem filhos, esquecidos, presos ou com medo: Deus os chamou onde ninguém esperava."
       questions:

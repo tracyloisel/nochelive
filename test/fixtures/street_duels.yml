@@ -1,22 +1,18 @@
 # frozen_string_literal: true
 
-pending_challenge:
-  challenger_person: pili
-  ward: demo
-  pack_id: coronas
-  token: pending-challenge-token
-  status: pending
-  expires_at: <%= 7.days.from_now %>
-
 pili_vs_carmen:
   challenger_person: pili
   opponent_person: carmen_garcia
-  ward: demo
-  pack_id: coronas
-  token: pili-vs-carmen-token
+  challenger_run: pili_coronas
+  opponent_run: carmen_coronas
+  origin_invitation: resolved_pili_invitation
+  pair_low_person_id: <%= [ActiveRecord::FixtureSet.identify(:pili), ActiveRecord::FixtureSet.identify(:carmen_garcia)].min %>
+  pair_high_person_id: <%= [ActiveRecord::FixtureSet.identify(:pili), ActiveRecord::FixtureSet.identify(:carmen_garcia)].max %>
   status: resolved
-  challenger_score: 82
-  opponent_score: 90
+  challenger_score: 95
+  opponent_score: 88
+  accepted_at: <%= 1.week.ago %>
+  resolved_at: <%= 6.days.ago %>
   expires_at: <%= 7.days.from_now %>
   created_at: <%= 1.week.ago %>
-  updated_at: <%= 1.week.ago %>
+  updated_at: <%= 6.days.ago %>

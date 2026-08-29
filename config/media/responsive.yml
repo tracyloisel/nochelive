@@ -1,0 +1,112 @@
+version: 2
+source_root: media/masters
+catalog:
+  include: media/**/*
+  icon_max: 512
+  landscape_ratio: 1.2
+  portrait_ratio: 1.2
+roles:
+  hub_backdrop:
+    default_rendition: portrait
+    renditions:
+      portrait:
+        widths: [390, 768, 941]
+        sizes: "100vw"
+        ratio: "9:16"
+        media: "(max-width: 767px)"
+        focus: "50% 22%"
+      landscape:
+        widths: [768, 1440, 1672]
+        sizes: "100vw"
+        ratio: "16:9"
+        media: "(min-width: 768px)"
+        focus: "50% 22%"
+    quality:
+      avif: 50
+      webp: 76
+      jpeg: 80
+  catalog_portrait:
+    widths: [390, 768]
+    sizes: "(max-width: 768px) 100vw, 768px"
+    quality:
+      avif: 48
+      webp: 74
+      jpeg: 78
+  catalog_landscape:
+    widths: [390, 768, 1440]
+    sizes: "(max-width: 768px) 100vw, 70vw"
+    quality:
+      avif: 48
+      webp: 74
+      jpeg: 78
+  catalog_square:
+    widths: [256, 512, 768]
+    sizes: "(max-width: 768px) 100vw, 50vw"
+    quality:
+      avif: 48
+      webp: 74
+      jpeg: 78
+  catalog_icon:
+    widths: [64, 128, 256, 512]
+    sizes: "128px"
+    quality:
+      avif: 55
+      webp: 80
+      jpeg: 82
+assets:
+  hub.backdrop.moises-mer-rouge:
+    source: media/home/moises-mer-rouge.jpg
+    sources:
+      landscape: media/home/moises-mer-rouge-landscape-v2.png
+    role: hub_backdrop
+    focus: "50% 22%"
+    theme: dark
+  hub.backdrop.eden-lumiere:
+    source: media/home/eden-lumiere.jpg
+    sources:
+      landscape: media/home/eden-lumiere-landscape-v2.png
+    role: hub_backdrop
+    focus: "50% 22%"
+    theme: light
+  hub.backdrop.coronas-ungido:
+    source: media/home/coronas-reino.jpg
+    sources:
+      landscape: media/home/coronas-reino-landscape-v2.png
+    role: hub_backdrop
+    focus: "50% 22%"
+    theme: dark
+  hub.backdrop.nazareno-belen:
+    source: media/home/nazareno-belen.jpg
+    sources:
+      landscape: media/home/nazareno-belen-landscape-v2.png
+    role: hub_backdrop
+    focus: "50% 22%"
+    theme: dark
+  hub.backdrop.elias-carmel:
+    source: media/home/elias-carmel.jpg
+    sources:
+      landscape: media/home/elias-carmel-landscape-v2.png
+    role: hub_backdrop
+    focus: "50% 22%"
+    theme: dark
+  hub.backdrop.moises-cielo:
+    source: media/home/creation-ciel.jpg
+    sources:
+      landscape: media/home/creation-ciel-landscape-v2.png
+    role: hub_backdrop
+    focus: "50% 22%"
+    theme: dark
+compatibility:
+  - media/errors/celestial-wayfinding-4xx-v1.webp
+  - media/errors/celestial-restoration-5xx-v1.webp
+  - media/church/videos/celestial-video-sanctuary-v1.webp
+  - media/study/word-gateway-2026.webp
+  - media/temple/mapa-celestial-path.webp
+  - media/rama/celestial-parish-path-v1.webp
+  - media/church/beliefs/invitation-v2.webp
+  - media/stats/celestial-chronicles-dark-v1.webp
+  - media/temple/celestial-court.webp
+  - media/profile/profile-gathering-celestial-light-v1.webp
+  - media/burger/lettuce.webp
+  - media/burger/nugget.webp
+  - media/burger/fry.webp

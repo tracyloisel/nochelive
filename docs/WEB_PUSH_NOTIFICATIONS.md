@@ -32,8 +32,8 @@ Un appui sur une notification ouvre automatiquement sa ressource, sans page d'ac
 |---|---|
 | Verset | Passage exact, dans la langue de la notification |
 | Lecture de la semaine | Semaine ou lecture exacte du parcours d'étude |
-| Défi reçu | `/desafio/:token` du duel concerné |
-| Résultat | État résolu du même duel |
+| Invitation reçue | `/desafio/:token` de l'invitation concernée |
+| Résultat | `/desafios/:id` du défi résolu |
 | Rappel de défi | Défi encore actionnable, jamais un défi expiré |
 | Noche Live | `/s/:session_code/name` de la soirée concernée |
 
@@ -84,12 +84,14 @@ une parole pour aujourd'hui
 → voir sa progression
 ```
 
-### 3.2 Défi reçu
+### 3.2 Invitation reçue
 
 - Désactivé par défaut tant que le joueur n'a pas choisi explicitement de recevoir ses défis.
-- Envoyé uniquement pour un `StreetDuel` adressé à une `Person` identifiée.
+- Envoyé uniquement pour une `DuelInvitation` adressée à une `Person` identifiée.
 - Envoyé immédiatement si la personne n'est pas déjà active dans Noche Live.
 - Le Turbo Stream existant reste prioritaire lorsque la personne est en ligne.
+- Le signal temps réel accuse la livraison sur l'invitation. Sans accusé après 15 secondes,
+  une invitation Push prend le relais si le consentement l'autorise.
 - Aucun Push pour un défi anonyme encore partagé uniquement par lien.
 - Le nom affiché est le nom public de la ficha, sans donnée supplémentaire.
 - L'appui ouvre directement `/desafio/:token`.
@@ -97,12 +99,12 @@ une parole pour aujourd'hui
 Boucle :
 
 ```text
-« Lucía te défie »
-→ ouvrir l'arène
+« Lucía aimerait apprendre avec toi »
+→ ouvrir l'invitation du Campus
 → accepter
-→ jouer
+→ choisir son parcours et jouer
 → découvrir le résultat
-→ revanche
+→ revanche amicale ou nouvelle invitation
 ```
 
 ### 3.3 Résultat et rappel
@@ -416,24 +418,28 @@ Cette règle évite qu'une tablette familiale affiche les défis privés de plus
 - focus/navigation/ouverture directe ;
 - événement `pushsubscriptionchange` lorsque disponible ;
 - badge facultatif pour les défis non lus.
+- accusé `received_at` vers un endpoint signé lorsque le navigateur traite le Push.
 
 Payload minimal :
 
 ```json
 {
-  "title": "Noche Live",
-  "body": "Lucía te défie dans Reyes y Profetas",
-  "tag": "street-duel-842",
+  "title": "Une invitation du Campus",
+  "body": "Lucía aimerait apprendre avec toi. Choisis le parcours qui te plaît.",
+  "tag": "duel-invitation-842",
   "icon": "/icon-192.png",
   "badge": "/favicon-32.png",
   "data": {
     "path": "/desafio/abc123",
-    "delivery_id": 151
+    "delivery_id": 151,
+    "receipt_path": "/notifications/receipts/TOKEN_SIGNE"
   }
 }
 ```
 
 `path` est un chemin interne, jamais une URL fournie directement par le joueur.
+`receipt_path` est limité au namespace `/notifications/receipts/` et son identifiant
+signé expire ; il ne constitue ni une ouverture ni une acceptation du défi.
 
 ### 6.2 Contrôleur Stimulus
 
@@ -506,7 +512,7 @@ Une ligne par `PersonDevice` et catégorie permet de ne pas harceler le joueur a
 - `last_offered_at` ;
 - `last_result` : `dismissed`, `selected`, `system_denied` ou `activated` ;
 - `snoozed_until` ;
-- `offer_context` : `challenge_sent`, `challenge_inbox`, `challenge_result`, `study_completed` ou `profile` ;
+- `offer_context` : `duel_invitation_sent`, `duel_campus`, `duel_result`, `study_completed`, `live_upcoming` ou `profile` ;
 - `updated_at`.
 
 Contraintes :
@@ -529,16 +535,16 @@ Journal interne et idempotent :
 - `subject_type`/`subject_id` ;
 - destination ;
 - état : `queued`, `sent`, `failed`, `opened`, `cancelled` ;
-- `scheduled_for`, `sent_at`, `opened_at` ;
+- `scheduled_for`, `sent_at`, `received_at`, `opened_at` ;
 - code d'erreur normalisé, jamais la réponse contenant les secrets.
 
 Exemples de clés :
 
 ```text
-daily-verse:person:42:2026-08-28
-duel-invitation:duel:842:person:42
-duel-reminder:duel:842:person:42
-duel-result:duel:842:person:42
+daily-verse:person:42:2026-08-28:subscription:7
+duel_invitation:duel-invitation-842-person-42:subscription:7
+duel_reminder:duel-invitation-842-person-42:subscription:7
+duel_result:duel-842-person-42:subscription:7
 ```
 
 ## 8. API HTTP
@@ -551,12 +557,14 @@ DELETE /notifications/subscription
 PATCH  /notifications/preferences
 PATCH  /notifications/prompt-state
 POST   /notifications/deliveries/:id/open
+POST   /notifications/receipts/:token
 ```
 
 Règles de contrôleur :
 
 - ficha courante obligatoire ;
-- cookie d'appareil et CSRF obligatoires ;
+- cookie d'appareil et CSRF obligatoires, sauf l'accusé Service Worker authentifié
+  par son identifiant signé, expirant et limité à une livraison ;
 - paramètres strictement filtrés ;
 - un service par cas d'usage ;
 - aucune orchestration dans le contrôleur ;
@@ -572,6 +580,7 @@ Notifications::UpdatePreferences.call(person:, attributes:)
 Notifications::RecordPrompt.call(person:, device_token:, category:, result:, context:)
 Notifications::Deliver.call(delivery:)
 Notifications::AcknowledgeOpen.call(delivery:, person:)
+Notifications::AcknowledgeReceipt.call(delivery:)
 ```
 
 ## 9. Jobs et déclencheurs
@@ -592,13 +601,16 @@ Notifications::AcknowledgeOpen.call(delivery:, person:)
 
 ### 9.2 Défis
 
-Le flux existant `Quizzes::ChallengeNotify` reste responsable du choix du canal :
+`Quizzes::DuelInvitationNotify` orchestre le choix du canal à partir de
+`DuelInvitation`, jamais du duel actif :
 
-- adversaire actif : Turbo Stream seulement ;
-- adversaire absent et Push autorisé : création d'une livraison puis `perform_later` ;
-- aucun adversaire nommé : aucun Push.
+- ami invité actif : Turbo Stream immédiat, puis Push de secours seulement si le
+  signal n'a été ni livré, ni vu, ni accepté après 15 secondes ;
+- ami invité absent et Push autorisé : création d'une livraison puis `perform_later` ;
+- aucun ami nommé : aucun Push.
 
-La résolution du duel crée les livraisons de résultat nécessaires. Un job différé ou un coordinateur crée le rappel uniquement si le duel est toujours actionnable.
+La résolution du duel crée les livraisons de résultat nécessaires. Le rappel porte
+sur l'invitation et n'est créé que si elle reste ouverte et actionnable.
 
 ### 9.3 Rendez-vous bibliques
 
@@ -649,10 +661,10 @@ Les textes vivent dans les locales ou le catalogue éditorial, jamais dans un jo
 Exemples de sens à préserver, à faire valider nativement :
 
 ```text
-es:    Lucía te desafía. ¿Entras en la arena?
-pt-BR: Lucía desafiou você. Vai encarar?
-fr:    Lucía te défie. Tu entres dans l'arène ?
-en:    Lucía challenged you. Ready to play?
+es:    Lucía quiere aprender contigo. Elige tu recorrido.
+pt-BR: Lucía quer aprender com você. Escolha seu percurso.
+fr:    Lucía aimerait apprendre avec toi. Choisis ton parcours.
+en:    Lucía would like to learn with you. Choose your path.
 ```
 
 ## 12. Infrastructure et Render
@@ -821,7 +833,7 @@ Les ouvertures peuvent être enregistrées par le chemin de destination ou par u
 - `Pas maintenant` propre à la catégorie et à l'appareil ;
 - contenu dans la bonne locale ;
 - sélection du passage et de la date locale ;
-- invitation seulement pour un adversaire identifié ;
+- invitation seulement pour un ami identifié ;
 - aucun Push si le joueur est déjà actif ;
 - annulation d'un rappel devenu inutile ;
 - idempotence de chaque type de livraison.
@@ -911,7 +923,7 @@ Terminé quand appuyer sur une notification de test ouvre directement sa ressour
 
 ### Lot 3 — Premier parcours réel : défi
 
-- Intégration à `Quizzes::ChallengeNotify`.
+- Intégration à `Quizzes::DuelInvitationNotify`.
 - Invitation hors ligne.
 - Résultat de duel.
 - Un rappel maximum et annulation selon l'état.
@@ -961,7 +973,7 @@ Le Push reste derrière un feature flag jusqu'à la fin du pilote.
 5. Rendez-vous biblique éditorial et localisé.
 6. Rappel, badge et raffinements.
 
-Les défis constituent le premier parcours de production : le domaine, les adversaires, les tokens et les états existent déjà. Ils valident toute la chaîne avec un événement humain et immédiatement compréhensible avant d'ajouter la planification éditoriale.
+Les défis constituent le premier parcours de production : le domaine, les personnes, les tokens et les états existent déjà. Ils valident toute la chaîne avec un événement humain et immédiatement compréhensible avant d'ajouter la planification éditoriale.
 
 ## 19. Définition de terminé
 

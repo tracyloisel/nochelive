@@ -2,7 +2,7 @@
 <%= link_to path, class: [ "paper-door", ("is-cinematic" if local_assigns[:art].present?) ], style: ("--portal-art: url('#{src}'); --portal-order: #{local_assigns[:chapter].to_i}" if local_assigns[:art].present?) do %>
   <% if src.present? %>
     <figure class="paper-door-still">
-      <img class="night-poster" src="<%= src %>" alt="" loading="<%= local_assigns.fetch(:loading, "lazy") %>" decoding="async">
+      <%= noche_media_picture(src, alt: "", class_name: "night-poster", loading: local_assigns.fetch(:loading, "lazy")) %>
     </figure>
   <% end %>
   <span class="paper-door-copy">

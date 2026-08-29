@@ -1,0 +1,142 @@
+fr:
+  quizzes:
+    coronas:
+      questions:
+        moises_roca:
+          choices:
+            oro: "Il a prié à côté"
+    placas:
+      questions:
+        jared_senor:
+          choices:
+            moises: "Moïse"
+    hermanas:
+      questions:
+        marta_parte:
+          choices:
+            asiento: "La meilleure place"
+    abish:
+      questions:
+        abish_vision:
+          choices:
+            lamoni: "En écoutant le roi Lamoni"
+    profetas:
+      questions:
+        eliseo_carros:
+          choices:
+            ejercito: "Une armée à cheval"
+    jehova:
+      questions:
+        nube_nombre:
+          choices:
+            nefi: "Néphi, fils de Léhi"
+    nazareno:
+      questions:
+        ninos_uno:
+          choices:
+            agua: "En les aspergeant d’eau"
+    moises:
+      questions:
+        sion_cielo:
+          choices:
+            babilonia: "Elle a été conquise par Babylone"
+    abraham:
+      questions:
+        lumbreras:
+          choices:
+            animales: "Les animaux des champs"
+    kolob:
+      questions:
+        hay_mayor:
+          choices:
+            sin_medida: "On ne peut pas les comparer"
+    premortal:
+      questions:
+        gritaron_gozo:
+          choices:
+            durmieron: "Ils se sont endormis"
+    exaltacion:
+      questions:
+        presencia_padre:
+          choices:
+            tierra: "Dans une ville sur la terre"
+    jose:
+      questions:
+        salvo_jesus:
+          choices:
+            futuro: "Seulement les générations futures"
+    inicios:
+      questions:
+        iglesia_verdadera:
+          choices:
+            sin_profetas: "Une Église sans prophètes"
+    pruebas_profetas:
+      questions:
+        bienaventurados_vituperio:
+          choices:
+            aplauso: "Quand tout le monde vous applaudit"
+    pruebas_heroes:
+      questions:
+        jose_bien:
+          choices:
+            secreto: "Il l’a gardé secret"
+    milagros:
+      questions:
+        mostaza:
+          choices:
+            cedro: "Cèdre"
+    apocalipsis:
+      questions:
+        rey_de_reyes:
+          choices:
+            profeta: "Prophète de Nazareth"
+    segunda_venida:
+      questions:
+        nubes_gloria:
+          choices:
+            templo: "En secret dans un temple"
+    milenio:
+      questions:
+        todo_revelado:
+          choices:
+            guardadas: "Elles resteront cachées pour toujours"
+    perdido_encontrado:
+      questions:
+        muerto_revive:
+          choices:
+            herencia: "Il avait reçu un héritage"
+    secretos_reino:
+      questions:
+        valor_reino:
+          choices:
+            poder: "Le royaume donne du pouvoir politique"
+    amar_projimo:
+      questions:
+        dos_deudores:
+          choices:
+            primero: "Celui qui a été pardonné en premier"
+    velar_servir:
+      questions:
+        hallado_haciendo:
+          choices:
+            rico: "Le serviteur qui s’était enrichi"
+    sobre_roca:
+      questions:
+        descendio_justificado:
+          choices:
+            ninguno: "Aucun des deux"
+    simbolos_mormon:
+      questions:
+        arbol_amor:
+          choices:
+            riqueza: "La richesse du monde"
+    parabolas_profetas:
+      questions:
+        herrumbre_fuego:
+          choices:
+            guerra: "Une guerre déjà terminée"
+    improbables:
+      questions:
+        rahab_fuera_linaje:
+          choices:
+            rut: "Ruth"

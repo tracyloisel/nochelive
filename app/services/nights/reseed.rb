@@ -1,6 +1,7 @@
 module Nights
   class Reseed
     WIPE = [
+      NotificationDelivery, ViralEvent, DuelInvitation, StreetDuel,
       Cheer, Ballot, Buzz, Answer, TapRun, PoseHold, ScoreEvent, RewardGrant,
       TeamMembership, PresenterClaim, PresenterBlock, QuizAnswer, QuizRun,
       Missionary, RoundRun, Player, Team, GameSession

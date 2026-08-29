@@ -5,7 +5,7 @@ module Hubs
     MODES = %w[light dark].freeze
 
     Theme = Struct.new(:mode, :atmosphere, :accent, keyword_init: true)
-    Result = Struct.new(:id, :src, :theme, :tags, keyword_init: true)
+    Result = Struct.new(:id, :src, :media_key, :theme, :tags, keyword_init: true)
 
     def self.call(at: Time.current, theme_id: nil, pack_id: nil, randomize: false, exclude_id: nil, random: Random)
       new(at:, theme_id:, pack_id:, randomize:, exclude_id:, random:).call
@@ -80,6 +80,7 @@ module Hubs
         Result.new(
           id: row["id"].to_s.presence || "hall",
           src:,
+          media_key: row["id"].present? ? "hub.backdrop.#{row.fetch('id')}" : nil,
           theme: Theme.new(
             mode:,
             atmosphere: theme_row["atmosphere"].to_s.presence || "peaceful",
@@ -105,6 +106,9 @@ module Hubs
 
         rel = rel.to_s.delete_prefix("/")
         rel = "media/#{rel}" unless rel.start_with?("media/")
+        asset = Frontend::MediaManifest.fetch_source(rel)
+        return asset.fetch("variants").fetch("webp").last.fetch("src") if asset
+
         "/#{rel}" if Rails.public_path.join(rel).file?
       end
   end

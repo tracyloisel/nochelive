@@ -25,7 +25,12 @@ class Audience::SnapshotTest < ActiveSupport::TestCase
     round = round_runs(:salomon)
     revealed_at = Time.zone.parse("2026-08-28 20:00:20")
     night.update!(broadcast_delay_ms: 10_000)
-    round.update!(phase: "revealed", revealed_at:)
+    round.update!(
+      phase: "revealed",
+      opened_at: revealed_at - 20.seconds,
+      locked_at: revealed_at - 10.seconds,
+      revealed_at:
+    )
 
     snapshot = Audience::Snapshot.new(night:, now: revealed_at + 9.seconds)
     assert snapshot.locked?

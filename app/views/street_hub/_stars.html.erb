@@ -1,6 +1,0 @@
-<% count = local_assigns[:count].to_i %>
-<span class="street-pack-stars inline" aria-hidden="true">
-  <% 3.times do |i| %>
-    <span class="street-star <%= "is-filled" if i < count %>"><%= picto("star") %></span>
-  <% end %>
-</span>

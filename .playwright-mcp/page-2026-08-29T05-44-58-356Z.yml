@@ -1,0 +1,61 @@
+- generic [active] [ref=f1e1]:
+  - banner [ref=f1e2]:
+    - button "Copy as text" [ref=f1e3]
+    - heading "Propshaft::MissingAssetError in StreetHub#index" [level=1] [ref=f1e4]
+  - main [ref=f1e5]:
+    - paragraph [ref=f1e6]: "Showing /Users/tracyloisel/00-Codes/nochelive/app/views/layouts/application.html.erb where line #27 raised:"
+    - code [ref=f1e8]: The asset 'shell/loading.css' was not found in the load path.
+    - generic [ref=f1e9]:
+      - generic [ref=f1e10]:
+        - text: Extracted source (around line
+        - strong [ref=f1e11]: "#26"
+        - text: "):"
+      - table [ref=f1e13]:
+        - rowgroup [ref=f1e14]:
+          - row [ref=f1e15]:
+            - cell "24 25 26 27 28 29" [ref=f1e16]
+            - 'cell "<link href=\"<%= font_stylesheet %>\" rel=\"stylesheet\" media=\"print\" onload=\"this.media=''all''\"> <noscript><link href=\"<%= font_stylesheet %>\" rel=\"stylesheet\"></noscript> <%= stylesheet_link_tag \"application\", \"shell/loading\", \"data-turbo-track\": \"reload\" %> <%= frontend_surface_stylesheet_tags %> <%= yield :surface_stylesheets %> <style>:root {" [ref=f1e18]':
+              - generic [ref=f1e19]:
+                - generic [ref=f1e20]: <link href="<%= font_stylesheet %>" rel="stylesheet" media="print" onload="this.media='all'">
+                - generic [ref=f1e21]: <noscript><link href="<%= font_stylesheet %>" rel="stylesheet"></noscript>
+                - generic [ref=f1e22]:
+                  - text: <%=
+                  - generic [ref=f1e23]: stylesheet_link_tag
+                  - text: "\"application\", \"shell/loading\", \"data-turbo-track\": \"reload\" %>"
+                - generic [ref=f1e24]: <%= frontend_surface_stylesheet_tags %>
+                - generic [ref=f1e25]: <%= yield :surface_stylesheets %>
+                - generic [ref=f1e26]: "<style>:root {"
+    - paragraph
+    - paragraph [ref=f1e27]:
+      - code [ref=f1e28]: "Rails.root: /Users/tracyloisel/00-Codes/nochelive"
+    - generic [ref=f1e29]:
+      - link "Application Trace" [ref=f1e30] [cursor=pointer]:
+        - /url: "#"
+      - text: "|"
+      - link "Framework Trace" [ref=f1e31] [cursor=pointer]:
+        - /url: "#"
+      - text: "|"
+      - link "Full Trace" [ref=f1e32] [cursor=pointer]:
+        - /url: "#"
+      - code [ref=f1e34]:
+        - 'link "/Users/tracyloisel/00-Codes/nochelive/app/views/layouts/application.html.erb:27:in `_app_views_layouts_application_html_erb__3395971735519639816_2094820''" [ref=f1e36] [cursor=pointer]':
+          - /url: "#"
+        - 'link "/Users/tracyloisel/00-Codes/nochelive/app/controllers/application_controller.rb:41:in `use_locale''" [ref=f1e38] [cursor=pointer]':
+          - /url: "#"
+        - 'link "/Users/tracyloisel/00-Codes/nochelive/lib/public_asset_host.rb:36:in `call''" [ref=f1e40] [cursor=pointer]':
+          - /url: "#"
+    - heading "Request" [level=2] [ref=f1e41]
+    - paragraph [ref=f1e42]: "Parameters:"
+    - generic [ref=f1e43]: None
+    - link "Toggle session dump" [ref=f1e46] [cursor=pointer]:
+      - /url: "#"
+    - link "Toggle env dump" [ref=f1e49] [cursor=pointer]:
+      - /url: "#"
+    - heading "Response" [level=2] [ref=f1e50]
+    - paragraph [ref=f1e51]: "Headers:"
+    - generic [ref=f1e52]: None
+  - generic [ref=f1e53]:
+    - generic [ref=f1e55]:
+      - generic "close" [ref=f1e57] [cursor=pointer]: ×
+      - generic [ref=f1e58]: ">>"
+    - textbox [ref=f1e61]

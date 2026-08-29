@@ -1,6 +1,6 @@
 <% content_for :title, @unit.theme %>
 <% content_for :body_class, "is-study-unit is-celestial-dark" %>
-<main id="study_unit" class="study-world study-unit-world" style="--study-art:url('<%= @quiz&.content&.fetch("artwork", "/media/study/psalms-refuge-2026.png") %>')">
+<main id="study_unit" class="study-world study-unit-world" style="--study-art:url('<%= media_src(@quiz&.content&.fetch("artwork", "/media/study/psalms-refuge-2026.png")) %>')">
   <% page_hud(hud: true) { site_menu } %>
   <%= render "study_programs/lockup" %>
   <nav class="study-path-nav" aria-label="<%= t("study.title") %>">
@@ -34,7 +34,7 @@
           <div class="study-reading-list">
             <% @quiz.readings.each do |reading| %>
               <% opened = @opened_reading_references.include?(reading["study"]) %>
-              <% reading_data = { turbo_frame: "scripture_reader", action: "click->scripture#prepare" } %>
+              <% reading_data = { turbo_frame: "scripture_reader", action: "click->scripture-launcher#prepare" } %>
               <% if current_street_person %>
                 <% reading_data[:scripture_reading_link] = true %>
                 <% reading_data[:scripture_opened_label] = t("study.already_opened") %>

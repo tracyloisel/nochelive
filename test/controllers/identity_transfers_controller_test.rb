@@ -20,6 +20,8 @@ class IdentityTransfersControllerTest < ActionDispatch::IntegrationTest
     get identity_transfer_claim_path, params: { token: token }
 
     assert_response :see_other
+    assert_equal I18n.t("identity_migration.completed", locale: :fr), flash[:notice]
+    assert_nil flash[:alert]
     assert_equal "device-token", read_signed_cookie(:noche_device)
     assert_equal wards(:demo).id, read_signed_cookie(:noche_ward)
     assert_equal people(:carmen_garcia).id, read_signed_cookie(:noche_street_person)
@@ -27,6 +29,7 @@ class IdentityTransfersControllerTest < ActionDispatch::IntegrationTest
 
     get identity_transfer_claim_path, params: { token: token }
     assert_response :see_other
+    assert_nil flash[:alert]
     assert_equal 0, IdentityTransfer.count
   end
 
@@ -68,6 +71,7 @@ class IdentityTransfersControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :see_other
     assert_equal "https://nochelive.com/", response.location
+    assert_equal I18n.t("identity_migration.merged"), flash[:notice]
     assert Person.exists?(legacy.id)
     assert_not Person.exists?(recent.id)
     assert_equal legacy.id, read_signed_cookie(:noche_street_person)
@@ -142,6 +146,16 @@ class IdentityTransfersControllerTest < ActionDispatch::IntegrationTest
     get identity_transfer_claim_path, params: { token: "anything" }
 
     assert_response :not_found
+  end
+
+  test "an inactive transfer link returns home without an alarming message" do
+    host! "nochelive.com"
+
+    get identity_transfer_claim_path, params: { token: "inactive" }
+
+    assert_response :see_other
+    assert_equal "https://nochelive.com/", response.location
+    assert_nil flash[:alert]
   end
 
   test "an identified visitor sees the migration action only on the Render domain" do

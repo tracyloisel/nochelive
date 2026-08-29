@@ -10,9 +10,10 @@ class LiveBuzzTest < ApplicationSystemTestCase
       fill_in "Secreto del presentador", with: "rama-blank"
       click_button "Entrar"
       click_button "Abrir la noche"
-      assert_selector ".code-display"
-      code = find(".code-display").text
-      click_link "Abrir consola"
+      assert_selector ".console.is-stage"
+      assert_selector ".code-chip"
+      code = GameSession.order(:id).last.code
+      assert_selector "[data-desk-night-value='#{code}']", visible: :all
       click_button "Empezar la noche"
       click_button "Abrir"
       assert_button "Cerrar buzzer"

@@ -3,7 +3,6 @@ class HomeController < ApplicationController
 
   def index
     @street = street_draw
-    @street_trail = Quizzes::Trail.call(run: @street.run)
     @profile_gate = current_street_person.blank? && !street_guest?
     @gate_ward = current_ward
     @gate_people = @gate_ward ? street_people_on_device.to_a : []

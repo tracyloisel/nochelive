@@ -14,6 +14,23 @@ class SfxTest < ActiveSupport::TestCase
     assert_equal Sfx.catalog.fetch("correct_gold"), Sfx.versioned_path_for("correct_gold")
     assert_not Sfx.known?("nope")
     assert_nil Sfx.path_for("nope")
+    assert_equal "/sfx/street_wrong_soft.mp3", Sfx.path_for("street_wrong_soft")
+    assert_equal "/sfx/street_royal_fanfare.mp3", Sfx.path_for("street_royal_fanfare")
+    assert_equal "/sfx/notification_glint.mp3", Sfx.path_for("notification_glint")
+  end
+
+  test "street playback owns dedicated miss and ceremony assets" do
+    show = Rails.root.join("app/views/street_plays/show.html.erb").read
+    helper = Rails.root.join("app/helpers/application_helper.rb").read
+    shared_names = show.gsub("street_wrong_soft", "").gsub("street_royal_fanfare", "").gsub("chest", "")
+
+    assert_includes show, "correct_gold fire_whoosh street_wrong_soft street_royal_fanfare chest"
+    refute_match(/cues: %w\[[^\]]*(?:wrong_soft|royal_fanfare|score_transfer|crown_chime|chest)[^\]]*\]/, shared_names)
+    refute_includes show, "score_transfer"
+    refute_includes show, "crown_chime"
+    assert_match(/if answer\.correct\?[\s\S]{0,80}"correct_gold"/, helper)
+    assert_includes helper, '"street_wrong_soft"'
+    assert_includes helper, 'extra_sfx.presence || "street_royal_fanfare"'
   end
 
   test "pulse kinds map to named cues" do
@@ -63,8 +80,8 @@ class SfxTest < ActiveSupport::TestCase
   end
 
   test "mixer lets hits overlay stingers and fades the bed instead of cutting" do
-    js = Rails.root.join("app/javascript/controllers/stage_controller.js").read
-    hits = %w[buzzer_hit correct_gold wrong_soft score_transfer crown_chime fire_whoosh flame_gold chest study_light study_miss study_turn]
+    js = Rails.root.join("app/javascript/platform/audio/native_backend.js").read
+    hits = %w[buzzer_hit correct_gold notification_glint wrong_soft street_wrong_soft score_transfer crown_chime fire_whoosh flame_gold chest study_light study_miss study_turn]
     hits.each { |cue| assert_match(/HIT_CUES[\s\S]{0,500}#{cue}/, js) }
     assert_includes js, "correct_gold: 0.32"
     assert_includes js, "function playHit("
@@ -88,23 +105,31 @@ class SfxTest < ActiveSupport::TestCase
     assert_includes js, "function syncHalo("
     assert_includes js, "is-timer-hot"
     assert_includes js, "is-timer-pulse"
+    assert_includes js, "data-stage-cue-policy-value='manual'"
+    assert_match(/function releaseAsk\(\{ preserveBed = false \} = \{\}\)[\s\S]{0,180}if \(!preserveBed\) stopBed\(\)/, js)
+    assert_match(/function timerTick\(\)[\s\S]{0,600}if \(!store\.continuousBed\)[\s\S]{0,100}stopBed\(\)/, js)
+    assert_match(/function onVisibilityChange\(\)[\s\S]{0,500}manualStreet[\s\S]{0,300}stopStinger\(\)[\s\S]{0,120}stopBed\(\)/, js)
+    assert_match(/function onPageShow\(\)[\s\S]{0,260}data-stage-cue-policy-value='manual'/, js)
     assert_includes js, "const TIMER_WARN_RATIO = 0.4"
     assert_includes js, "const TIMER_HOT_RATIO = 0.2"
     refute_includes js, "remain > 20"
     countdown = Rails.root.join("app/javascript/controllers/countdown_controller.js").read
-    assert_includes countdown, "const TIMER_WARN_RATIO = 0.4"
-    assert_includes countdown, "const TIMER_HOT_RATIO = 0.2"
+    projection = Rails.root.join("app/javascript/runtime/motion/countdown_projection.js").read
+    assert_includes projection, "const WARN_RATIO = 0.4"
+    assert_includes projection, "const HOT_RATIO = 0.2"
     assert_includes countdown, "this.askValue"
-    assert_includes countdown, "remain > 10 && remain <= 20"
-    assert_includes countdown, "remain > 0 && remain <= 10"
-    hub = Rails.root.join("app/javascript/controllers/street_hub_controller.js").read
-    refute_includes hub, 'play?.("level_up")'
+    assert_includes countdown, "countdownProjection"
+    assert_includes projection, "seconds > 10 && seconds <= 20"
+    assert_includes projection, "seconds > 0 && seconds <= 10"
     motion = Rails.root.join("app/javascript/controllers/street_motion_controller.js").read
     ceremony_js = motion.split("packUnlock()")[0]
     refute_match(/NocheLiveAudio/, ceremony_js)
+    refute_includes ceremony_js, 'audioLoader.play("fire_whoosh"'
+    assert_includes motion, 'audioLoader.play("chest"'
     gen = Rails.root.join("script/generate_sfx.rb").read
-    assert_includes gen, "areverse,afade"
+    assert_match(/atrim=end=#\{limit\}.*areverse,afade/, gen)
     quiz = Rails.root.join("app/javascript/controllers/quiz_controller.js").read
+    refute_includes quiz, "window.setTimeout"
     %w[answer_tap question_change score_transfer crown_chime].each do |cue|
       refute_match(/play\?\.\("#{cue}"(?:,|\))/, quiz)
     end
@@ -112,16 +137,19 @@ class SfxTest < ActiveSupport::TestCase
     refute_includes board, "quiz-sfx"
     quiz = Rails.root.join("app/javascript/controllers/quiz_controller.js").read
     assert_includes quiz, "releaseStreetAsk"
+    assert_includes quiz, "startGesture"
+    assert_includes quiz, "this.effectScope.listen(window, \"pointermove\""
     assert_includes quiz, "releaseAsk"
     assert_includes quiz, "is-settled"
     stage = Rails.root.join("app/javascript/controllers/stage_controller.js").read
-    assert_includes stage, "function releaseAsk("
+    assert_includes js, "function releaseAsk("
+    assert_includes stage, 'from "platform/audio/loader"'
     refute_includes stage, "turbo:before-stream-render"
     motion = Rails.root.join("app/javascript/controllers/motion_controller.js").read
-    assert_includes motion.split("wrapStreet").last, "playFrom"
+    refute_includes motion.split("wrapStreet").last, "playFrom"
     study = Rails.root.join("app/javascript/controllers/study_run_controller.js").read
     assert_match(/correctValue \? "study_light" : "study_miss"/, study)
-    assert_match(/play\?\.\("study_turn", 0\.5\)/, study)
+    assert_includes study, 'audioLoader.play("study_turn", 0.5)'
     assert_includes study, 'dataset.studyRunRevealValue = "false"'
     assert_includes study, "window.clearTimeout(this.feedbackTimer)"
   end

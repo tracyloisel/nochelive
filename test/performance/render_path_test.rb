@@ -11,24 +11,24 @@ class RenderPathTest < ActiveSupport::TestCase
     refute_includes loader, "eagerLoadControllersFrom"
   end
 
-  test "large raster artwork has a compact webp delivery path" do
-    originals = Rails.root.glob("public/media/**/*.{jpg,jpeg,png}")
+  test "large raster masters stay private and have compact mobile delivery" do
+    masters = Rails.root.glob("media/masters/**/*.{jpg,jpeg,png,webp}")
       .select { |path| path.size > 150.kilobytes }
-    variants = originals.map { |path| path.sub_ext(".webp") }
+    manifest = JSON.parse(Rails.root.join("config/media/generated_manifest.json").read)
+    mobile_bytes = manifest.fetch("assets").values.sum do |asset|
+      asset.dig("variants", "avif").min_by { |variant| variant.fetch("width") }.fetch("bytes")
+    end
 
-    missing = variants.reject(&:file?)
-    assert_empty missing, "missing WebP variants: #{missing.take(5).join(', ')}"
-
-    original_bytes = originals.sum(&:size)
-    variant_bytes = variants.sum(&:size)
-    assert_operator variant_bytes, :<, original_bytes * 0.35,
-      "WebP variants must keep the heavy-media transfer budget below 35% of originals"
+    assert_operator masters.size, :>=, 400
+    assert_empty Rails.root.glob("public/media/**/*.{jpg,jpeg,png}").reject { |path| path.to_s.include?("/generated/") }
+    assert_operator mobile_bytes, :<, masters.sum(&:size) * 0.2,
+      "one mobile AVIF per asset must stay below 20% of the source catalog"
   end
 
   test "the hidden install guide does not eagerly create its screenshots" do
     layout = Rails.root.join("app/views/layouts/application.html.erb").read
 
     assert_includes layout, '<template data-pwa-install-target="guideTemplate">'
-    assert_equal 4, layout.scan(/pwa-install-step-art" loading="lazy" decoding="async"/).size
+    assert_equal 4, layout.scan(/pwa-install-step-art/).size
   end
 end

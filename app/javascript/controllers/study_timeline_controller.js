@@ -1,16 +1,16 @@
 import { Controller } from "@hotwired/stimulus"
+import { EffectScope } from "platform/lifecycle/effect_scope"
 
 export default class extends Controller {
   static targets = [ "container", "current" ]
 
   connect() {
-    this.frame = requestAnimationFrame(() => {
-      this.frame = requestAnimationFrame(() => this.center())
-    })
+    this.effectScope = new EffectScope()
+    this.effectScope.frame(() => this.effectScope.frame(() => this.center()))
   }
 
   disconnect() {
-    if (this.frame) cancelAnimationFrame(this.frame)
+    this.effectScope?.dispose()
   }
 
   center(event) {

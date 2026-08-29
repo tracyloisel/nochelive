@@ -1,0 +1,20 @@
+<div id="street_quiz_feedback">
+  <% if street.settled? %>
+    <% if street.answer&.correct? %>
+      <% shout = street_hit_shout(run, question, combo) %>
+      <div class="street-praise<%= " is-streak is-#{combo.tier}" if combo&.shout_key %>"
+           role="status"
+           aria-live="polite">
+        <span class="street-praise-line"><%= shout %></span>
+        <%= render "home/street_hit_performance", combo: combo, reward: street.reward, correct: true %>
+      </div>
+    <% else %>
+      <div class="street-praise is-miss<%= " is-streak-break" if combo&.broke %>"
+           role="status"
+           aria-live="polite">
+        <span class="street-praise-line"><%= t(combo&.broke ? "quiz.streak_break_title" : "quiz.not_this_time") %></span>
+        <%= render "home/street_hit_performance", combo: combo, reward: street.reward, correct: false %>
+      </div>
+    <% end %>
+  <% end %>
+</div>

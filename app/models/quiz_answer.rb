@@ -4,4 +4,6 @@ class QuizAnswer < ApplicationRecord
   validates :device_digest, :pack_id, :question_id, presence: true
   validates :question_id, uniqueness: { scope: :quiz_run_id }
   validates :duration_ms, numericality: { only_integer: true, greater_than_or_equal_to: 0 }, allow_nil: true
+  validates :base_points, :streak_bonus, :points_awarded, :streak_before, :streak_after, :bonus_lost,
+    numericality: { only_integer: true, greater_than_or_equal_to: 0 }, allow_nil: true
 end

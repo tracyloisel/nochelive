@@ -21,6 +21,7 @@ class NotificationDelivery < ApplicationRecord
   scope :pending, -> { where(status: %w[queued sending]) }
 
   def transactional? = TRANSITIONAL_KINDS.include?(kind)
+  def received? = received_at.present?
   STATUSES.each { |value| define_method("#{value}?") { status == value } }
 
   def cancel!(code: nil)
