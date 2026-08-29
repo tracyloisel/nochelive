@@ -33,8 +33,6 @@ services:
         value: "true"
       - key: APP_HOST
         value: nochelive.com
-      - key: ASSET_HOST
-        value: https://nochelive-assets-prod.storage.googleapis.com
       - key: GCS_ASSET_BUCKET
         value: nochelive-assets-prod
       - key: WEB_PUSH_ENABLED
@@ -72,8 +70,6 @@ services:
         value: production
       - key: RAILS_LOG_TO_STDOUT
         value: true
-      - key: ASSET_HOST
-        value: https://nochelive-assets-prod.storage.googleapis.com
       - key: GCS_ASSET_BUCKET
         value: nochelive-assets-prod
       - key: JOB_CONCURRENCY
