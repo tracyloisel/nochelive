@@ -17,6 +17,39 @@ namespace :noche do
     load Rails.root.join("db/seeds/duel_campus_demo.rb")
   end
 
+  desc "Seed the Scripture Reader circle locally (PERSON_ID=21 or NAME='Tracy', PORT=3091)"
+  task scripture_circle_demo: :environment do
+    load Rails.root.join("db/seeds/scripture_circle_demo.rb")
+  end
+
+  desc "Find editorial video candidates from the configured official Church channel (REFERENCE=ot/ps/52 LOCALE=fr THEMES=confiance,verite)"
+  task scripture_video_candidates: :environment do
+    reference = ENV.fetch("REFERENCE")
+    locale = ENV.fetch("LOCALE", I18n.default_locale)
+    themes = ENV.fetch("THEMES", "").split(",")
+    result = ChurchVideos::Catalog.scripture_candidates(reference:, locale:, themes:)
+    abort "candidate search unavailable: #{result.error}" unless result.available?
+
+    puts "#{result.reference} · #{result.locale} · #{result.channel.title} (#{result.channel.id})"
+    puts "query=#{result.query.inspect} candidates=#{result.candidates.size}"
+    result.candidates.each do |candidate|
+      puts "#{candidate.id}\tscore=#{candidate.score}\t#{candidate.title}"
+    end
+  end
+
+  desc "Publish one manually reviewed official video association (REFERENCE=... LOCALE=... VIDEO_ID=... REASON=... REVIEWER=...)"
+  task approve_scripture_video: :environment do
+    link = ChurchVideos::ScriptureLinkApproval.call(
+      reference: ENV.fetch("REFERENCE"),
+      locale: ENV.fetch("LOCALE", I18n.default_locale),
+      youtube_video_id: ENV.fetch("VIDEO_ID"),
+      editorial_reason: ENV.fetch("REASON"),
+      reviewed_by: ENV.fetch("REVIEWER"),
+      themes: ENV.fetch("THEMES", "").split(",")
+    )
+    puts "published scripture video link ##{link.id} · #{link.reference} · #{link.youtube_video_id}"
+  end
+
   desc "Backfill Church Maps payload and stake id on stored ramas (FORCE=1 UNIT=333239)"
   task backfill_locator: :environment do
     stats = Wards::BackfillLocator.call(

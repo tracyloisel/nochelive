@@ -26,14 +26,17 @@ featured_playlists:
 
 channels:
   es:
+    id: "UCY5dEGAac6AIIB-z5U5E-9w"
     for_handle: "@IglesiadeJesucristoESP"
     public_url: "https://www.youtube.com/@IglesiadeJesucristoESP"
   pt-BR:
+    id: "UCLCN7U7VhortZ_2yO6Px4Rg"
     for_handle: "@IgrejadeJesusCristoPOR"
     public_url: "https://www.youtube.com/@IgrejadeJesusCristoPOR"
   fr:
     id: "UC3CbfUXOgoOsD7srESW98mA"
     public_url: "https://www.youtube.com/channel/UC3CbfUXOgoOsD7srESW98mA"
   en:
+    id: "UCdNjexbIS_NKJC4ZRwKf9ag"
     for_handle: "@churchofjesuschrist"
     public_url: "https://www.youtube.com/@churchofjesuschrist"

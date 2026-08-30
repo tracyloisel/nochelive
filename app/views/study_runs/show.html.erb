@@ -75,7 +75,11 @@
       <h1><%= @question.fetch("question") %></h1>
       <% if current_reading %>
         <%= link_to scripture_path(current_reading["study"], cite: @question.fetch("scripture_ref"), study_unit_id: @run.study_unit.id), class: "study-question-reading",
-              data: { turbo_frame: "scripture_reader", action: "click->scripture-launcher#prepare" } do %>
+              data: {
+                turbo_frame: "scripture_reader",
+                action: "click->scripture-launcher#prepare",
+                scripture_chapter_title: scripture_reader_reference_label(current_reading["study"])
+              } do %>
           <%= picto("book") %><span><%= t("study.read_reference", reference: @question.fetch("scripture_ref")) %></span><b>›</b>
         <% end %>
       <% end %>

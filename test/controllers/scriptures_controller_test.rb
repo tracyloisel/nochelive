@@ -19,19 +19,21 @@ class ScripturesControllerTest < ActionDispatch::IntegrationTest
     assert_select "p.scripture-verse[data-scripture-target=verse]", count: 3
     assert_select ".scripture-verse.is-focus [data-scripture-verse-text]", text: /cuerno del aceite/
     assert_select ".scripture-verse.is-focus[data-scripture-focus]"
-    assert_select ".scripture-veil[data-scripture-reference='ot/1-sam/16'][data-scripture-read-url=?][data-scripture-share-url$='/es/biblia/1-samuel/16']", scripture_reads_path
+    assert_select ".scripture-veil[data-controller*='scripture-room'][data-scripture-reference='ot/1-sam/16'][data-scripture-read-url=?][data-scripture-share-url$='/es/biblia/1-samuel/16']", scripture_reads_path
     assert_select ".scripture-selection-hint", count: 0
-    assert_select ".scripture-share-trigger[hidden][data-action*='scripture#openShare'][aria-label=?]", I18n.t("quiz.scripture_share")
+    assert_select ".scripture-selection-bar[hidden][role=toolbar][aria-label=?] button[data-action*='scripture-room#discussSelection']", I18n.t("scripture_reader.selection.actions")
+    assert_select ".scripture-selection-bar button[data-action*='scripture-room#discussSelection']", text: I18n.t("scripture_reader.selection.discuss")
+    assert_select "dialog.reader-tools-dialog button[data-action='scripture-room#bookmarkSelection']", text: I18n.t("scripture_reader.selection.bookmark")
+    assert_select "dialog.reader-tools-dialog button[data-action*='scripture#openShare']", text: /#{Regexp.escape(I18n.t("scripture_reader.selection.share"))}/
     assert_select "dialog.scripture-share-dialog[tabindex='-1'][data-scripture-target=shareDialog]"
     assert_select ".scripture-share-option[data-action='scripture#copyLink']", text: I18n.t("quiz.scripture_copy_link")
     assert_select ".scripture-share-option[data-scripture-target=whatsapp][href='https://wa.me/']", text: I18n.t("quiz.scripture_share_whatsapp")
     assert_select ".scripture-share-option[data-scripture-target=x][href='https://twitter.com/intent/tweet'] > span:last-child", text: I18n.t("quiz.scripture_share_x")
     assert_select ".scripture-share-remove[hidden][data-action='scripture#removeHighlight'] > span:last-child", text: I18n.t("quiz.scripture_remove_highlight")
-    assert_select ".scripture-read-count[hidden][aria-live=polite]", text: "0 lecturas"
-    assert_select ".scripture-illustration[data-after-verse=13]", count: 1
-    assert_select ".scripture-illustration img[src=?][loading=lazy]", generated_media_src("media/quizzes/coronas/ungio_david.jpg"), count: 1
-    assert_select ".scripture-close[type=button][data-action='click->scripture#close'][aria-label=?]", I18n.t("quiz.scripture_close")
-    assert_select "a.quiet-link[href*='churchofjesuschrist.org'][target=_blank]", text: I18n.t("quiz.scripture_open_site")
+    assert_select ".scripture-read-count[hidden]", text: "0 lecturas"
+    assert_select ".reader-chapter-art picture", count: 1
+    assert_select ".reader-close[type=button][data-action='click->scripture#close'][aria-label=?]", I18n.t("scripture_reader.close")
+    assert_select ".reader-source-card a[href*='churchofjesuschrist.org'][target=_blank]", text: /#{Regexp.escape(I18n.t("scripture_reader.source.open"))}/
     assert_select "turbo-frame#scripture_reader"
   end
 
@@ -58,19 +60,19 @@ class ScripturesControllerTest < ActionDispatch::IntegrationTest
     get scripture_path("ot/1-sam/16", cite: "1 Samuel 16:13", locale: "fr")
 
     assert_response :success
-    assert_select ".scripture-veil[data-scripture-locale=fr][data-scripture-highlight-url=?]", scripture_highlights_path
+    assert_select ".scripture-veil[data-scripture-locale=fr][data-scripture-highlight-url=?]", scripture_marks_path
     payload = JSON.parse(css_select("script[data-scripture-profile-highlights]").first.text)
     assert_equal [ {
       "start_verse" => 1,
       "end_verse" => 2,
       "start_offset" => 2,
       "end_offset" => 14
-    } ], payload.map { |highlight| highlight.except("id") }
-    assert_equal person.scripture_highlights.first.id, payload.first.fetch("id")
+    } ], payload.map { |highlight| highlight.slice("start_verse", "end_verse", "start_offset", "end_offset") }
+    assert_equal person.scripture_marks.first.id, payload.first.fetch("id")
   end
 
   test "unknown study is not found" do
-    get "/escrituras/ot/gen/1"
+    get "/escrituras/ot/gen/99"
 
     assert_response :not_found
   end

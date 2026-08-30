@@ -17,6 +17,7 @@ class ScriptureHighlight < ApplicationRecord
   validate :ordered_range
 
   before_validation :normalize_selected_text
+  after_commit :mirror_to_scripture_mark, on: %i[create update]
 
   scope :for_reader, ->(reference:, locale:) { where(reference:, locale: locale.to_s).order(:created_at, :id) }
 
@@ -43,5 +44,14 @@ class ScriptureHighlight < ApplicationRecord
       return if end_verse > start_verse || end_offset > start_offset
 
       errors.add(:end_offset, :greater_than, count: start_offset)
+    end
+
+    def mirror_to_scripture_mark
+      mark = person.scripture_marks.find_or_initialize_by(
+        reference:, locale:, anchor_scope: "passage",
+        start_verse:, start_offset:, end_verse:, end_offset:
+      )
+      mark.assign_attributes(selected_text:, visual_style: "highlight", color_key: "gold")
+      mark.save!
     end
 end

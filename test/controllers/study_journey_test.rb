@@ -255,6 +255,7 @@ class StudyJourneyTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select ".study-reading-gate"
     assert_select "a.study-reading-link[data-turbo-frame=scripture_reader]", count: 10
+    assert_select "a.study-reading-link[data-scripture-chapter-title]", count: 10
     assert_select "[data-scripture-progress]", count: 0
     assert_select "[data-scripture-reading-link]", count: 0
 
@@ -274,6 +275,7 @@ class StudyJourneyTest < ActionDispatch::IntegrationTest
     assert_select ".navigation-dock .navigation-dock__item.is-active[href='#{study_program_path}']", count: 1
     assert_select ".study-choice", count: 4
     assert_select "a.study-question-reading[data-turbo-frame=scripture_reader]", count: 1
+    assert_select "a.study-question-reading[data-scripture-chapter-title]", count: 1
 
     correct = @quiz.question_at(1).fetch("correct_choice")
     run.update!(asked_at: 3.seconds.ago)

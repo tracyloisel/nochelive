@@ -1,0 +1,18 @@
+<main class="scripture-community-page"
+      data-controller="scripture-room"
+      data-scripture-room-initial-panel="circle"
+      data-scripture-room-reference="<%= @reference %>"
+      data-scripture-room-locale="<%= I18n.locale %>"
+      data-message-limit-error="<%= t("scripture_reader.circle.too_long") %>"
+      data-message-blank-error="<%= t("scripture_reader.circle.message_required") %>"
+      data-circle-person-id="<%= current_street_person&.id %>"
+      data-circle-draft-restored="<%= t("scripture_reader.circle.draft_restored") %>"
+      data-circle-send-failed="<%= t("scripture_reader.circle.send_failed") %>">
+  <header>
+    <%= link_to "← #{t("scripture_reader.back")}", scripture_path(@reference), class: "reader-text-action" %>
+    <p><%= t("scripture_reader.tabs.circle") %></p>
+    <h1><%= t("scripture_reader.circle.title") %></h1>
+  </header>
+  <%= render "scriptures/circle_panel", posts: @posts, circle_mode: @circle_mode,
+        reference: @reference, active: true %>
+</main>

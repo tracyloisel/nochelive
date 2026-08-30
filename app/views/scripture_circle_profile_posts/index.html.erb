@@ -1,0 +1,46 @@
+<main class="scripture-profile-posts-page">
+  <header>
+    <%= link_to "← #{t("street.profile_dashboard.history_title")}", player_profile_path(@profile_person), class: "reader-text-action" %>
+    <p><%= t("scripture_reader.tabs.circle") %></p>
+    <h1><%= t("scripture_reader.profile.title") %></h1>
+    <span><%= t("scripture_reader.profile.subtitle", name: @profile_person.display_name) %></span>
+    <% if @result.owner_view %><small><%= t("scripture_reader.profile.private_history") %></small><% end %>
+  </header>
+
+  <section class="scripture-profile-post-list">
+    <% if @result.posts.any? %>
+      <% @result.posts.each do |post| %>
+        <article class="scripture-profile-post is-<%= post.status.tr("_", "-") %>">
+          <div>
+            <strong><%= scripture_reader_reference_label(post.scripture_circle_thread.reference) %></strong>
+            <span><%= l(post.created_at.to_date) %> · <%= t("scripture_reader.circle.kind_#{post.kind}") %></span>
+          </div>
+          <% if post.status == "visible" %>
+            <p><%= post.body.truncate(220) %></p>
+          <% elsif post.status == "vote_open" %>
+            <p><%= t("scripture_reader.circle.vote_title") %></p>
+          <% elsif post.status == "community_censored" %>
+            <p><%= t("scripture_reader.circle.community_censored") %></p>
+          <% else %>
+            <p><%= t("scripture_reader.circle.author_deleted") %></p>
+          <% end %>
+          <footer>
+            <% if post.ward_id == current_street_person&.ward_id %>
+              <%= link_to t("scripture_reader.profile.open_chapter"), scripture_path(post.scripture_circle_thread.reference, circle: 1) %>
+            <% end %>
+            <% if @result.owner_view && post.status != "author_deleted" %>
+              <%= button_to t("scripture_reader.circle.delete"), scripture_circle_post_path(post), method: :delete,
+                    form: { data: { turbo_confirm: t("scripture_reader.circle.delete_confirm") } } %>
+            <% end %>
+          </footer>
+        </article>
+      <% end %>
+    <% else %>
+      <div class="reader-empty-state"><span aria-hidden="true"><%= picto("people") %></span><p><%= t("scripture_reader.profile.empty") %></p></div>
+    <% end %>
+  </section>
+
+  <% if @result.next_cursor %>
+    <%= link_to t("scripture_reader.profile.more"), player_scripture_circle_posts_path(@profile_person, cursor: @result.next_cursor), class: "reader-primary-action scripture-profile-more" %>
+  <% end %>
+</main>

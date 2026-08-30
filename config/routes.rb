@@ -60,6 +60,8 @@ Rails.application.routes.draw do
         constraints: { player_id: /\d+/ }
   get "jugadores/:player_id/perfil/respuestas", to: "street_quiz_histories#show", as: :player_quiz_history,
       constraints: { player_id: /\d+/ }
+  get "jugadores/:player_id/perfil/publicaciones-del-circulo", to: "scripture_circle_profile_posts#index",
+      as: :player_scripture_circle_posts, constraints: { player_id: /\d+/ }
   post "jugadores/:player_id/perfil/fusion", to: "street_profile_merges#create", as: :player_profile_merge,
        constraints: { player_id: /\d+/ }
   get "notifications", to: "notification_settings#show", as: :notification_settings
@@ -134,6 +136,24 @@ Rails.application.routes.draw do
   get ":locale", to: "discovery#show", as: :discovery_home, constraints: { locale: /es|fr|en|pt-br/ }
   get ":locale/*slug", to: "discovery#show", as: :discovery, constraints: { locale: /es|fr|en|pt-br/ }, format: false
   post "escrituras/lectures", to: "scripture_reads#create", as: :scripture_reads
+  patch "escrituras/preferencias", to: "scripture_reader_preferences#update", as: :scripture_reader_preferences
+  put "escrituras/progreso", to: "scripture_reading_progresses#update", as: :scripture_reading_progress
+  post "escrituras/reperes", to: "scripture_marks#create", as: :scripture_marks
+  patch "escrituras/reperes/:id", to: "scripture_marks#update", as: :scripture_mark
+  delete "escrituras/reperes/:id", to: "scripture_marks#destroy"
+  post "escrituras/reperes/:id/restaurar", to: "scripture_marks#restore", as: :restore_scripture_mark
+  get "escrituras/cercle", to: "scripture_circles#show", as: :scripture_circle
+  post "escrituras/cercle/messages", to: "scripture_circle_posts#create", as: :scripture_circle_posts
+  patch "escrituras/cercle/messages/:id", to: "scripture_circle_posts#update", as: :scripture_circle_post
+  delete "escrituras/cercle/messages/:id", to: "scripture_circle_posts#destroy"
+  post "escrituras/cercle/messages/:post_id/propositions-de-censure",
+    to: "scripture_circle_moderation_proposals#create", as: :scripture_circle_moderation_proposals
+  put "escrituras/cercle/propositions/:proposal_id/vote",
+    to: "scripture_circle_moderation_ballots#update", as: :scripture_circle_moderation_ballot
+  get "escrituras/cercle/propositions/:proposal_id/resultats",
+    to: "scripture_circle_moderation_results#show", as: :scripture_circle_moderation_results
+  get "escrituras/cercle/propositions/:proposal_id/historique",
+    to: "scripture_circle_moderation_histories#show", as: :scripture_circle_moderation_history
   post "escrituras/surlignages", to: "scripture_highlights#create", as: :scripture_highlights
   delete "escrituras/surlignages/:id", to: "scripture_highlights#destroy", as: :scripture_highlight
   get "escrituras/*study", to: "scriptures#show", as: :scripture, format: false

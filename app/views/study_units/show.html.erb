@@ -34,7 +34,11 @@
           <div class="study-reading-list">
             <% @quiz.readings.each do |reading| %>
               <% opened = @opened_reading_references.include?(reading["study"]) %>
-              <% reading_data = { turbo_frame: "scripture_reader", action: "click->scripture-launcher#prepare" } %>
+              <% reading_data = {
+                   turbo_frame: "scripture_reader",
+                   action: "click->scripture-launcher#prepare",
+                   scripture_chapter_title: scripture_reader_reference_label(reading["study"])
+                 } %>
               <% if current_street_person %>
                 <% reading_data[:scripture_reading_link] = true %>
                 <% reading_data[:scripture_opened_label] = t("study.already_opened") %>

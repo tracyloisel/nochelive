@@ -12,6 +12,20 @@ class Person < ApplicationRecord
   has_many :reading_progresses, dependent: :destroy
   has_many :scripture_chapter_reads, dependent: :nullify
   has_many :scripture_highlights, dependent: :destroy
+  has_one :scripture_reader_preference, dependent: :destroy
+  has_many :scripture_reading_progresses, dependent: :destroy
+  has_many :scripture_marks, dependent: :destroy
+  has_many :scripture_tags, dependent: :destroy
+  has_many :scripture_notebooks, dependent: :destroy
+  has_many :scripture_circle_posts, dependent: :nullify
+  has_many :scripture_circle_moderation_proposals,
+    foreign_key: :proposer_person_id,
+    dependent: :nullify,
+    inverse_of: :proposer_person
+  has_many :scripture_circle_moderation_ballots,
+    foreign_key: :voter_person_id,
+    dependent: :nullify,
+    inverse_of: :voter_person
   has_many :viral_events, dependent: :nullify
   has_many :sent_duel_invitations,
     class_name: "DuelInvitation",

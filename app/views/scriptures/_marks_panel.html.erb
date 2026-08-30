@@ -1,0 +1,102 @@
+<% chapter_bookmark = local_assigns[:chapter_bookmark] %>
+
+<section class="reader-companion-section reader-marks-panel"
+         data-scripture-room-target="panel"
+         data-reader-panel="marks"
+  aria-labelledby="reader-marks-title"
+         <%= "hidden" unless active %>>
+  <header class="reader-companion-heading">
+    <div class="reader-companion-heading-copy">
+      <p><%= t("scripture_reader.tabs.marks") %></p>
+      <h2 id="reader-marks-title" tabindex="-1"><%= t("scripture_reader.marks.title") %></h2>
+      <span><%= t("scripture_reader.marks.subtitle") %></span>
+    </div>
+    <button type="button" class="reader-return-to-reading" data-action="scripture-room#returnToReading">
+      <%= picto("arrow") %><span><%= t("scripture_reader.companion.return_to_reading") %></span>
+    </button>
+  </header>
+
+  <button type="button"
+          class="reader-chapter-bookmark reader-marks-chapter-bookmark <%= "is-active" if chapter_bookmark %>"
+          data-action="scripture-room#bookmarkChapter"
+          data-chapter-mark-id="<%= chapter_bookmark&.id %>"
+          aria-pressed="<%= chapter_bookmark.present? %>">
+    <%= picto("bookmark") %><span><%= t("scripture_reader.marks.chapter_bookmark") %></span>
+  </button>
+
+  <% if history %>
+    <section class="reader-chapter-history" aria-labelledby="reader-chapter-history-title">
+      <header><p><%= t("scripture_reader.chapter_history.kicker") %></p><h3 id="reader-chapter-history-title"><%= t("scripture_reader.chapter_history.title") %></h3></header>
+      <dl>
+        <div><dt><%= t("scripture_reader.chapter_history.days") %></dt><dd><%= history.qualified_days %></dd></div>
+        <div><dt><%= t("scripture_reader.chapter_history.last_position") %></dt><dd><%= history.last_verse ? t("scripture_reader.marks.verse", verse: history.last_verse) : "—" %></dd></div>
+        <div><dt><%= t("scripture_reader.chapter_history.marks") %></dt><dd><%= history.marks_count %></dd></div>
+      </dl>
+      <% if history.first_read_at || history.last_read_at %>
+        <p><% if history.first_read_at %><span><%= t("scripture_reader.chapter_history.first", date: l(history.first_read_at.to_date)) %></span><% end %><% if history.last_read_at %><span><%= t("scripture_reader.chapter_history.last", date: l(history.last_read_at.to_date)) %></span><% end %></p>
+      <% end %>
+      <% if history.tags.any? || history.notebooks.any? || history.outgoing_links_count.positive? || history.incoming_links_count.positive? %>
+        <div class="reader-history-memory">
+          <% history.notebooks.each do |title| %><span><%= t("scripture_reader.chapter_history.notebook", title:) %></span><% end %>
+          <% history.tags.each do |tag| %><span>#<%= tag %></span><% end %>
+          <% if history.outgoing_links_count.positive? || history.incoming_links_count.positive? %><span><%= t("scripture_reader.chapter_history.links", count: history.outgoing_links_count + history.incoming_links_count) %></span><% end %>
+        </div>
+      <% end %>
+    </section>
+  <% end %>
+
+  <% if marks.any? %>
+    <div class="reader-mark-filters" aria-label="<%= t("scripture_reader.marks.filters") %>">
+      <% %w[all note bookmark highlight].each do |filter| %><button type="button" data-action="scripture-room#filterMarks" data-mark-filter="<%= filter %>" aria-pressed="<%= filter == "all" %>"><%= t("scripture_reader.marks.filter_#{filter}") %></button><% end %>
+    </div>
+  <% end %>
+
+  <div class="reader-marks-list" data-scripture-room-target="marksList">
+    <% if marks.any? %>
+      <% marks.each do |mark| %>
+        <% verse_label = if mark.chapter_anchor?
+          chapter_title
+        elsif mark.start_verse == mark.end_verse
+          t("scripture_reader.marks.verse", verse: mark.start_verse)
+        else
+          t("scripture_reader.marks.verses", from: mark.start_verse, to: mark.end_verse)
+        end %>
+        <% mark_type = mark.note_body.present? ? "note" : (mark.bookmarked_at? ? "bookmark" : "highlight") %>
+        <article class="reader-mark-card" data-mark-id="<%= mark.id %>" data-mark-type="<%= mark_type %>">
+          <div class="reader-mark-meta">
+            <strong><%= verse_label %></strong>
+            <span><%= mark.note_body.present? ? t("scripture_reader.marks.note") : (mark.bookmarked_at? ? t("scripture_reader.marks.bookmark") : t("scripture_reader.marks.highlight")) %></span>
+          </div>
+          <% if mark.selected_text.present? %>
+            <blockquote>“<%= mark.selected_text.truncate(180) %>”</blockquote>
+          <% end %>
+          <% if mark.note_body.present? %>
+            <p><%= simple_format(mark.note_body, {}, wrapper_tag: "span") %></p>
+          <% end %>
+          <% if mark.intent_key.present? || mark.scripture_tags.any? || mark.scripture_notebooks.any? || mark.scripture_mark_links.any? %>
+            <div class="reader-mark-taxonomy">
+              <% if mark.intent_key.present? %><span><%= t("scripture_reader.selection.intents.#{mark.intent_key}") %></span><% end %>
+              <% mark.scripture_tags.each do |tag| %><span>#<%= tag.name %></span><% end %>
+              <% mark.scripture_notebooks.each do |notebook| %><span><%= notebook.title %></span><% end %>
+              <% mark.scripture_mark_links.each do |link| %><span>↗ <%= link.target_reference %></span><% end %>
+            </div>
+          <% end %>
+          <div class="reader-mark-actions">
+            <button type="button" class="reader-text-action" data-action="scripture-room#editMark" data-mark-id="<%= mark.id %>"><%= t("scripture_reader.marks.edit") %></button>
+          <button type="button"
+                  class="reader-text-action"
+                  data-action="scripture-room#removeMark"
+                  data-mark-url="<%= scripture_mark_path(mark) %>">
+            <%= t("scripture_reader.marks.delete") %>
+          </button>
+          </div>
+        </article>
+      <% end %>
+    <% else %>
+      <div class="reader-empty-state" data-reader-marks-empty>
+        <span aria-hidden="true"><%= picto("scripture-book") %></span>
+        <p><%= t("scripture_reader.marks.empty") %></p>
+      </div>
+    <% end %>
+  </div>
+</section>

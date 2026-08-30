@@ -37,7 +37,7 @@ class Scriptures::RecordReadTest < ActiveSupport::TestCase
   test "rejects a chapter that cannot be opened in the reader" do
     assert_raises(ArgumentError) do
       Scriptures::RecordRead.call(
-        reference: "ot/gen/1",
+        reference: "ot/gen/99",
         reader_digest: "reader-a",
         locale: :es
       )

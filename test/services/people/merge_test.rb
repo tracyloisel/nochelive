@@ -183,6 +183,59 @@ class People::MergeTest < ActiveSupport::TestCase
     assert_not Person.exists?(source.id)
   end
 
+  test "preserves reader preferences progress and the complete annotation library" do
+    keeper = people(:carmen_garcia)
+    source = people(:carmen_lopez)
+    reference = "ot/ps/52"
+    keeper.create_scripture_reader_preference!(font_scale: 90, updated_at: 3.days.ago)
+    source.create_scripture_reader_preference!(
+      font_scale: 130,
+      line_height_key: "ample",
+      measure_key: "focused",
+      font_family_key: "accessible",
+      background_key: "soft",
+      illustrations_enabled: false,
+      updated_at: 1.day.ago
+    )
+    keeper_progress = keeper.scripture_reading_progresses.create!(
+      reference:, locale: "fr", first_opened_at: 5.days.ago,
+      last_opened_at: 3.days.ago, last_verse: 3, progress_ratio: 0.3
+    )
+    source.scripture_reading_progresses.create!(
+      reference:, locale: "fr", first_opened_at: 4.days.ago,
+      last_opened_at: 1.day.ago, last_verse: 9, last_offset: 12,
+      progress_ratio: 1, completed_at: 1.day.ago
+    )
+    keeper_tag = keeper.scripture_tags.create!(name: "Promesse")
+    source_tag = source.scripture_tags.create!(name: "promesse")
+    source_notebook = source.scripture_notebooks.create!(title: "Prières")
+    source_mark = source.scripture_marks.create!(
+      reference:, locale: "fr", anchor_scope: "passage",
+      start_verse: 8, start_offset: 0, end_verse: 8, end_offset: 24,
+      selected_text: "Mais moi, je suis comme un olivier verdoyant",
+      visual_style: "underline", color_key: "sage", note_body: "À relire demain."
+    )
+    source_mark.scripture_mark_taggings.create!(scripture_tag: source_tag)
+    source_notebook.scripture_notebook_entries.create!(scripture_mark: source_mark)
+    source_mark.scripture_mark_links.create!(target_reference: "ot/ps/51", target_locale: "fr")
+
+    People::Merge.call(keeper:, source:)
+
+    preference = keeper.scripture_reader_preference.reload
+    assert_equal 130, preference.font_scale
+    assert_equal "ample", preference.line_height_key
+    assert_not preference.illustrations_enabled?
+    assert_equal 5.days.ago.to_date, keeper_progress.reload.first_opened_at.to_date
+    assert_equal 9, keeper_progress.last_verse
+    assert_equal 1.to_d, keeper_progress.progress_ratio
+    assert keeper_progress.completed_at.present?
+    assert_equal keeper, source_mark.reload.person
+    assert_equal [ keeper_tag.id ], source_mark.scripture_tags.pluck(:id)
+    assert_equal [ "Prières" ], source_mark.scripture_notebooks.pluck(:title)
+    assert_equal [ "ot/ps/51" ], source_mark.scripture_mark_links.pluck(:target_reference)
+    assert_not Person.exists?(source.id)
+  end
+
   test "merges notification consent subscriptions prompts and delivery history" do
     keeper = people(:carmen_garcia)
     source = people(:carmen_lopez)

@@ -1,0 +1,27 @@
+<% proposal = @history.proposal %>
+<main class="scripture-community-page moderation-history-page">
+  <header>
+    <%= link_to "← #{t("scripture_reader.history.back")}", scripture_path(proposal.scripture_circle_post.scripture_circle_thread.reference, circle: 1), class: "reader-text-action" %>
+    <p><%= t("scripture_reader.circle.vote_kicker") %></p>
+    <h1><%= t("scripture_reader.history.title") %></h1>
+    <span><%= t("scripture_reader.history.totals", yes: proposal.yes_count, no: proposal.no_count) %></span>
+  </header>
+
+  <section class="moderation-history-summary">
+    <strong><%= t("scripture_reader.history.result", status: t("scripture_reader.history.status.#{proposal.status}")) %></strong>
+    <p><%= t("scripture_reader.circle.proposed_by", name: proposal.proposer_person&.display_name || t("scripture_reader.circle.former_member")) %></p>
+    <p><%= t("scripture_reader.circle.ends_at", date: l(proposal.ends_at, format: :short)) %></p>
+  </section>
+
+  <ol class="moderation-event-list">
+    <% @history.events.each do |event| %>
+      <li>
+        <span aria-hidden="true"></span>
+        <div>
+          <strong><%= t("scripture_reader.history.events.#{event.event_type}") %></strong>
+          <small><%= l(event.created_at, format: :short) %></small>
+        </div>
+      </li>
+    <% end %>
+  </ol>
+</main>

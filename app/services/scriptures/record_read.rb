@@ -15,7 +15,7 @@ module Scriptures
     end
 
     def call
-      raise ArgumentError, "unknown scripture reference" unless Quizzes::Scripture.known_study?(@reference)
+      raise ArgumentError, "unknown scripture reference" unless Scriptures::Reference.known_study?(@reference)
       raise ArgumentError, "reader required" if @reader_digest.blank?
 
       counted = false
@@ -26,6 +26,7 @@ module Scriptures
           read_on: @at.to_date
         ) do |record|
           record.person = @person
+          record.ward = @person&.ward
           record.locale = @locale
         end
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_30_090000) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_30_141000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -431,6 +431,28 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_30_090000) do
     t.index ["team_id"], name: "index_score_events_on_team_id"
   end
 
+  create_table "scripture_chapter_guides", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.text "historical_context"
+    t.jsonb "key_terms", default: [], null: false
+    t.text "literary_structure"
+    t.string "locale", null: false
+    t.datetime "published_at"
+    t.string "reference", null: false
+    t.string "reviewed_by"
+    t.integer "revision", default: 1, null: false
+    t.jsonb "source_citations", default: [], null: false
+    t.string "status", default: "draft", null: false
+    t.text "summary", null: false
+    t.string "theme_key"
+    t.datetime "updated_at", null: false
+    t.string "welcome_title", null: false
+    t.index ["reference", "locale", "revision"], name: "index_scripture_guides_on_reference_locale_revision", unique: true
+    t.index ["reference", "locale"], name: "index_scripture_guides_one_published", unique: true, where: "((status)::text = 'published'::text)"
+    t.check_constraint "historical_context IS NULL OR char_length(historical_context) <= 1200", name: "scripture_guides_historical_context_length"
+    t.check_constraint "literary_structure IS NULL OR char_length(literary_structure) <= 1200", name: "scripture_guides_literary_structure_length"
+  end
+
   create_table "scripture_chapter_reads", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "locale", null: false
@@ -439,9 +461,11 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_30_090000) do
     t.string "reader_digest", null: false
     t.string "reference", null: false
     t.datetime "updated_at", null: false
+    t.bigint "ward_id"
     t.index ["person_id"], name: "index_scripture_chapter_reads_on_person_id"
     t.index ["reference", "created_at"], name: "index_scripture_chapter_reads_on_reference_and_created_at"
     t.index ["reference", "reader_digest", "read_on"], name: "index_scripture_reads_on_reference_reader_day", unique: true
+    t.index ["ward_id"], name: "index_scripture_chapter_reads_on_ward_id"
   end
 
   create_table "scripture_chapter_stats", force: :cascade do |t|
@@ -452,6 +476,134 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_30_090000) do
     t.datetime "updated_at", null: false
     t.index ["reads_count", "reference"], name: "index_scripture_chapter_stats_on_reads_count_and_reference"
     t.index ["reference"], name: "index_scripture_chapter_stats_on_reference", unique: true
+  end
+
+  create_table "scripture_circle_moderation_ballot_revisions", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "new_choice", null: false
+    t.string "previous_choice"
+    t.bigint "proposal_id", null: false
+    t.bigint "scripture_circle_moderation_ballot_id", null: false
+    t.bigint "voter_person_id"
+    t.bigint "ward_id", null: false
+    t.index ["proposal_id"], name: "idx_on_proposal_id_3f9a25018d"
+    t.index ["scripture_circle_moderation_ballot_id"], name: "index_scripture_circle_ballot_revisions_on_ballot"
+    t.index ["voter_person_id"], name: "idx_on_voter_person_id_45524b4908"
+    t.index ["ward_id"], name: "index_scripture_circle_moderation_ballot_revisions_on_ward_id"
+  end
+
+  create_table "scripture_circle_moderation_ballots", force: :cascade do |t|
+    t.datetime "cast_at", null: false
+    t.string "choice", null: false
+    t.datetime "created_at", null: false
+    t.bigint "scripture_circle_moderation_proposal_id", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "voter_person_id"
+    t.bigint "ward_id", null: false
+    t.index ["scripture_circle_moderation_proposal_id", "voter_person_id"], name: "index_scripture_circle_ballots_unique", unique: true
+    t.index ["scripture_circle_moderation_proposal_id"], name: "index_scripture_circle_ballots_on_proposal_id"
+    t.index ["voter_person_id"], name: "index_scripture_circle_moderation_ballots_on_voter_person_id"
+    t.index ["ward_id"], name: "index_scripture_circle_moderation_ballots_on_ward_id"
+  end
+
+  create_table "scripture_circle_moderation_events", force: :cascade do |t|
+    t.bigint "actor_person_id"
+    t.datetime "created_at", null: false
+    t.string "event_type", null: false
+    t.jsonb "metadata", default: {}, null: false
+    t.bigint "post_id", null: false
+    t.bigint "proposal_id", null: false
+    t.bigint "ward_id", null: false
+    t.index ["actor_person_id"], name: "index_scripture_circle_moderation_events_on_actor_person_id"
+    t.index ["post_id"], name: "index_scripture_circle_moderation_events_on_post_id"
+    t.index ["proposal_id", "created_at"], name: "index_scripture_circle_events_timeline"
+    t.index ["proposal_id"], name: "index_scripture_circle_moderation_events_on_proposal_id"
+    t.index ["ward_id"], name: "index_scripture_circle_moderation_events_on_ward_id"
+  end
+
+  create_table "scripture_circle_moderation_proposals", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "ends_at", null: false
+    t.integer "no_count", default: 0, null: false
+    t.string "policy_version", null: false
+    t.bigint "post_revision_id", null: false
+    t.bigint "proposer_person_id"
+    t.string "reason_details"
+    t.string "reason_key", null: false
+    t.datetime "resolved_at"
+    t.string "result_digest"
+    t.bigint "scripture_circle_post_id", null: false
+    t.datetime "starts_at", null: false
+    t.string "status", default: "open", null: false
+    t.datetime "updated_at", null: false
+    t.integer "valid_ballot_count", default: 0, null: false
+    t.bigint "ward_id", null: false
+    t.integer "yes_count", default: 0, null: false
+    t.index ["post_revision_id"], name: "idx_on_post_revision_id_2bca440cfb"
+    t.index ["proposer_person_id"], name: "idx_on_proposer_person_id_5120543e4c"
+    t.index ["scripture_circle_post_id"], name: "index_scripture_circle_one_open_proposal", unique: true, where: "((status)::text = 'open'::text)"
+    t.index ["scripture_circle_post_id"], name: "index_scripture_circle_proposals_on_post_id"
+    t.index ["status", "ends_at"], name: "index_scripture_circle_due_proposals"
+    t.index ["ward_id"], name: "index_scripture_circle_moderation_proposals_on_ward_id"
+    t.check_constraint "ends_at >= (starts_at + 'P2D'::interval)", name: "scripture_circle_proposals_minimum_duration"
+    t.check_constraint "reason_details IS NULL OR char_length(reason_details::text) <= 240", name: "scripture_circle_proposals_reason_length"
+    t.check_constraint "yes_count >= 0 AND no_count >= 0 AND valid_ballot_count >= 0", name: "scripture_circle_proposals_nonnegative_counts"
+  end
+
+  create_table "scripture_circle_post_revisions", force: :cascade do |t|
+    t.boolean "anonymous", default: true, null: false
+    t.text "body", null: false
+    t.string "change_kind", null: false
+    t.string "content_digest", null: false
+    t.datetime "created_at", null: false
+    t.bigint "editor_person_id"
+    t.integer "end_verse"
+    t.integer "revision_number", null: false
+    t.bigint "scripture_circle_post_id", null: false
+    t.integer "start_verse"
+    t.bigint "ward_id", null: false
+    t.index ["editor_person_id"], name: "index_scripture_circle_post_revisions_on_editor_person_id"
+    t.index ["scripture_circle_post_id", "revision_number"], name: "index_scripture_circle_revisions_unique", unique: true
+    t.index ["scripture_circle_post_id"], name: "index_scripture_circle_revisions_on_post_id"
+    t.index ["ward_id"], name: "index_scripture_circle_post_revisions_on_ward_id"
+    t.check_constraint "char_length(body) >= 1 AND char_length(body) <= 500", name: "scripture_circle_revisions_body_length"
+  end
+
+  create_table "scripture_circle_posts", force: :cascade do |t|
+    t.boolean "anonymous", default: true, null: false
+    t.text "body", null: false
+    t.datetime "created_at", null: false
+    t.datetime "deleted_at"
+    t.datetime "edited_at"
+    t.integer "end_verse"
+    t.string "kind", null: false
+    t.string "locale", null: false
+    t.bigint "parent_id"
+    t.bigint "person_id"
+    t.bigint "scripture_circle_thread_id", null: false
+    t.text "selected_text"
+    t.integer "start_verse"
+    t.string "status", default: "visible", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "ward_id", null: false
+    t.index ["parent_id"], name: "index_scripture_circle_posts_on_parent_id"
+    t.index ["person_id", "created_at"], name: "index_scripture_circle_posts_for_profile", order: { created_at: :desc }
+    t.index ["person_id"], name: "index_scripture_circle_posts_on_person_id"
+    t.index ["scripture_circle_thread_id"], name: "index_scripture_circle_posts_on_thread_id"
+    t.index ["ward_id", "status", "created_at"], name: "index_scripture_circle_posts_for_ward"
+    t.index ["ward_id"], name: "index_scripture_circle_posts_on_ward_id"
+    t.check_constraint "char_length(body) >= 1 AND char_length(body) <= 500", name: "scripture_circle_posts_body_length"
+    t.check_constraint "selected_text IS NULL OR char_length(selected_text) <= 1000", name: "scripture_circle_posts_selected_text_length"
+  end
+
+  create_table "scripture_circle_threads", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "reference", null: false
+    t.string "status", default: "active", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "ward_id", null: false
+    t.index ["ward_id", "reference"], name: "index_scripture_circle_threads_on_ward_id_and_reference", unique: true
+    t.index ["ward_id"], name: "index_scripture_circle_threads_on_ward_id"
   end
 
   create_table "scripture_highlights", force: :cascade do |t|
@@ -469,6 +621,141 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_30_090000) do
     t.index ["person_id"], name: "index_scripture_highlights_on_person_id"
     t.index ["reference", "locale"], name: "index_scripture_highlights_on_reference_and_locale"
     t.check_constraint "start_verse > 0 AND end_verse >= start_verse AND start_offset >= 0 AND end_offset >= 0", name: "scripture_highlights_valid_range"
+  end
+
+  create_table "scripture_mark_links", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "scripture_mark_id", null: false
+    t.integer "target_end_offset"
+    t.integer "target_end_verse"
+    t.string "target_locale", null: false
+    t.string "target_reference", null: false
+    t.integer "target_start_offset"
+    t.integer "target_start_verse"
+    t.text "target_text"
+    t.datetime "updated_at", null: false
+    t.index ["scripture_mark_id", "target_reference", "target_locale"], name: "index_scripture_mark_links_on_target"
+    t.index ["scripture_mark_id"], name: "index_scripture_mark_links_on_scripture_mark_id"
+  end
+
+  create_table "scripture_mark_taggings", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "scripture_mark_id", null: false
+    t.bigint "scripture_tag_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["scripture_mark_id", "scripture_tag_id"], name: "index_scripture_mark_taggings_unique", unique: true
+    t.index ["scripture_mark_id"], name: "index_scripture_mark_taggings_on_scripture_mark_id"
+    t.index ["scripture_tag_id"], name: "index_scripture_mark_taggings_on_scripture_tag_id"
+  end
+
+  create_table "scripture_marks", force: :cascade do |t|
+    t.string "anchor_scope", default: "passage", null: false
+    t.datetime "bookmarked_at"
+    t.string "color_key"
+    t.datetime "created_at", null: false
+    t.datetime "discarded_at"
+    t.integer "end_offset"
+    t.integer "end_verse"
+    t.string "intent_key"
+    t.string "locale", null: false
+    t.text "note_body"
+    t.bigint "person_id", null: false
+    t.string "reference", null: false
+    t.text "selected_text"
+    t.string "source_digest"
+    t.integer "start_offset"
+    t.integer "start_verse"
+    t.datetime "updated_at", null: false
+    t.string "visual_style", default: "none", null: false
+    t.index ["person_id", "reference", "locale", "discarded_at"], name: "index_scripture_marks_for_reader"
+    t.index ["person_id", "reference", "locale", "start_verse", "end_verse", "start_offset", "end_offset"], name: "index_scripture_marks_on_person_and_range"
+    t.index ["person_id"], name: "index_scripture_marks_on_person_id"
+    t.check_constraint "anchor_scope::text = 'chapter'::text AND start_verse IS NULL AND start_offset IS NULL AND end_verse IS NULL AND end_offset IS NULL OR anchor_scope::text = 'passage'::text AND start_verse > 0 AND end_verse >= start_verse AND start_offset >= 0 AND end_offset >= 0", name: "scripture_marks_valid_anchor"
+    t.check_constraint "note_body IS NULL OR char_length(note_body) <= 5000", name: "scripture_marks_note_length"
+    t.check_constraint "selected_text IS NULL OR char_length(selected_text) <= 10000", name: "scripture_marks_selected_text_length"
+  end
+
+  create_table "scripture_notebook_entries", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "position", default: 0, null: false
+    t.bigint "scripture_mark_id", null: false
+    t.bigint "scripture_notebook_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["scripture_mark_id"], name: "index_scripture_notebook_entries_on_scripture_mark_id"
+    t.index ["scripture_notebook_id", "scripture_mark_id"], name: "index_scripture_notebook_entries_unique", unique: true
+    t.index ["scripture_notebook_id"], name: "index_scripture_notebook_entries_on_scripture_notebook_id"
+  end
+
+  create_table "scripture_notebooks", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.text "description"
+    t.bigint "person_id", null: false
+    t.integer "position", default: 0, null: false
+    t.string "title", null: false
+    t.datetime "updated_at", null: false
+    t.index ["person_id", "position"], name: "index_scripture_notebooks_on_person_id_and_position"
+    t.index ["person_id"], name: "index_scripture_notebooks_on_person_id"
+  end
+
+  create_table "scripture_reader_preferences", force: :cascade do |t|
+    t.string "background_key", default: "paper", null: false
+    t.datetime "created_at", null: false
+    t.string "font_family_key", default: "editorial", null: false
+    t.integer "font_scale", default: 100, null: false
+    t.boolean "illustrations_enabled", default: true, null: false
+    t.string "line_height_key", default: "comfortable", null: false
+    t.string "measure_key", default: "comfortable", null: false
+    t.bigint "person_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["person_id"], name: "index_scripture_reader_preferences_on_person_id", unique: true
+    t.check_constraint "font_scale = ANY (ARRAY[90, 100, 115, 130, 145])", name: "scripture_reader_preferences_font_scale"
+  end
+
+  create_table "scripture_reading_progresses", force: :cascade do |t|
+    t.datetime "completed_at"
+    t.datetime "created_at", null: false
+    t.datetime "first_opened_at", null: false
+    t.integer "last_offset"
+    t.datetime "last_opened_at", null: false
+    t.integer "last_verse", default: 1, null: false
+    t.string "locale", null: false
+    t.bigint "person_id", null: false
+    t.decimal "progress_ratio", precision: 6, scale: 5, default: "0.0", null: false
+    t.string "reference", null: false
+    t.datetime "updated_at", null: false
+    t.index ["person_id", "reference", "locale"], name: "index_scripture_progresses_on_person_reference_locale", unique: true
+    t.index ["person_id"], name: "index_scripture_reading_progresses_on_person_id"
+    t.check_constraint "last_verse > 0 AND progress_ratio >= 0::numeric AND progress_ratio <= 1::numeric", name: "scripture_reading_progresses_valid_position"
+  end
+
+  create_table "scripture_tags", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "name", null: false
+    t.string "normalized_name", null: false
+    t.bigint "person_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["person_id", "normalized_name"], name: "index_scripture_tags_on_person_id_and_normalized_name", unique: true
+    t.index ["person_id"], name: "index_scripture_tags_on_person_id"
+  end
+
+  create_table "scripture_video_links", force: :cascade do |t|
+    t.integer "anchor_verse"
+    t.string "channel_id", null: false
+    t.datetime "created_at", null: false
+    t.text "editorial_reason", null: false
+    t.string "locale", null: false
+    t.integer "position", default: 0, null: false
+    t.datetime "published_at"
+    t.string "reference", null: false
+    t.string "reviewed_by"
+    t.string "source_url"
+    t.string "status", default: "draft", null: false
+    t.datetime "updated_at", null: false
+    t.datetime "verified_at"
+    t.string "youtube_video_id", null: false
+    t.index ["reference", "locale", "status", "position"], name: "index_scripture_video_links_for_reader"
+    t.index ["reference", "locale", "youtube_video_id"], name: "index_scripture_video_links_unique", unique: true
+    t.check_constraint "status::text <> 'published'::text OR verified_at IS NOT NULL AND published_at IS NOT NULL AND reviewed_by IS NOT NULL AND source_url IS NOT NULL", name: "scripture_video_links_published_metadata"
   end
 
   create_table "solid_cable_messages", force: :cascade do |t|
@@ -840,6 +1127,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_30_090000) do
     t.string "postal_code"
     t.string "presenter_token_digest", null: false
     t.string "region"
+    t.string "scripture_circle_mode", default: "disabled", null: false
     t.string "stake_name"
     t.string "stake_unit_id"
     t.string "unit_kind"
@@ -854,6 +1142,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_30_090000) do
     t.index ["name"], name: "index_wards_on_name_trgm", opclass: :gin_trgm_ops, using: :gin
     t.index ["stake_name"], name: "index_wards_on_stake_name_trgm", opclass: :gin_trgm_ops, using: :gin
     t.index ["stake_unit_id"], name: "index_wards_on_stake_unit_id"
+    t.check_constraint "scripture_circle_mode::text = ANY (ARRAY['disabled'::character varying, 'read_only'::character varying, 'active'::character varying]::text[])", name: "wards_scripture_circle_mode"
   end
 
   create_table "web_push_subscriptions", force: :cascade do |t|
@@ -926,7 +1215,41 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_30_090000) do
   add_foreign_key "score_events", "round_runs"
   add_foreign_key "score_events", "teams"
   add_foreign_key "scripture_chapter_reads", "people", on_delete: :nullify
+  add_foreign_key "scripture_chapter_reads", "wards", on_delete: :nullify
+  add_foreign_key "scripture_circle_moderation_ballot_revisions", "people", column: "voter_person_id", on_delete: :nullify
+  add_foreign_key "scripture_circle_moderation_ballot_revisions", "scripture_circle_moderation_ballots", on_delete: :cascade
+  add_foreign_key "scripture_circle_moderation_ballot_revisions", "scripture_circle_moderation_proposals", column: "proposal_id", on_delete: :cascade
+  add_foreign_key "scripture_circle_moderation_ballot_revisions", "wards", on_delete: :cascade
+  add_foreign_key "scripture_circle_moderation_ballots", "people", column: "voter_person_id", on_delete: :nullify
+  add_foreign_key "scripture_circle_moderation_ballots", "scripture_circle_moderation_proposals", on_delete: :cascade
+  add_foreign_key "scripture_circle_moderation_ballots", "wards", on_delete: :cascade
+  add_foreign_key "scripture_circle_moderation_events", "people", column: "actor_person_id", on_delete: :nullify
+  add_foreign_key "scripture_circle_moderation_events", "scripture_circle_moderation_proposals", column: "proposal_id", on_delete: :cascade
+  add_foreign_key "scripture_circle_moderation_events", "scripture_circle_posts", column: "post_id", on_delete: :cascade
+  add_foreign_key "scripture_circle_moderation_events", "wards", on_delete: :cascade
+  add_foreign_key "scripture_circle_moderation_proposals", "people", column: "proposer_person_id", on_delete: :nullify
+  add_foreign_key "scripture_circle_moderation_proposals", "scripture_circle_post_revisions", column: "post_revision_id", on_delete: :restrict
+  add_foreign_key "scripture_circle_moderation_proposals", "scripture_circle_posts", on_delete: :cascade
+  add_foreign_key "scripture_circle_moderation_proposals", "wards", on_delete: :cascade
+  add_foreign_key "scripture_circle_post_revisions", "people", column: "editor_person_id", on_delete: :nullify
+  add_foreign_key "scripture_circle_post_revisions", "scripture_circle_posts", on_delete: :cascade
+  add_foreign_key "scripture_circle_post_revisions", "wards", on_delete: :cascade
+  add_foreign_key "scripture_circle_posts", "people", on_delete: :nullify
+  add_foreign_key "scripture_circle_posts", "scripture_circle_posts", column: "parent_id", on_delete: :nullify
+  add_foreign_key "scripture_circle_posts", "scripture_circle_threads", on_delete: :cascade
+  add_foreign_key "scripture_circle_posts", "wards", on_delete: :cascade
+  add_foreign_key "scripture_circle_threads", "wards", on_delete: :cascade
   add_foreign_key "scripture_highlights", "people", on_delete: :cascade
+  add_foreign_key "scripture_mark_links", "scripture_marks", on_delete: :cascade
+  add_foreign_key "scripture_mark_taggings", "scripture_marks", on_delete: :cascade
+  add_foreign_key "scripture_mark_taggings", "scripture_tags", on_delete: :cascade
+  add_foreign_key "scripture_marks", "people", on_delete: :cascade
+  add_foreign_key "scripture_notebook_entries", "scripture_marks", on_delete: :cascade
+  add_foreign_key "scripture_notebook_entries", "scripture_notebooks", on_delete: :cascade
+  add_foreign_key "scripture_notebooks", "people", on_delete: :cascade
+  add_foreign_key "scripture_reader_preferences", "people", on_delete: :cascade
+  add_foreign_key "scripture_reading_progresses", "people", on_delete: :cascade
+  add_foreign_key "scripture_tags", "people", on_delete: :cascade
   add_foreign_key "solid_queue_batch_executions", "solid_queue_batches", column: "batch_id", on_delete: :cascade
   add_foreign_key "solid_queue_batch_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_blocked_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade

@@ -7,7 +7,6 @@ const QUALIFIED_READ_MS = 10_000
 const QUALIFIED_SCROLL_RATIO = 0.5
 const DEEP_LINK_HIGHLIGHT = "scripture-deep-link"
 const PROFILE_HIGHLIGHT = "scripture-profile-highlights"
-const HIGHLIGHT_SAVE_DELAY_MS = 450
 
 export default class extends Controller {
   static targets = [
@@ -23,22 +22,30 @@ export default class extends Controller {
     this.onSelectionChange = this.onSelectionChange.bind(this)
     this.onSelectionScroll = this.onSelectionScroll.bind(this)
     this.onHighlightClick = this.onHighlightClick.bind(this)
+    this.onMarkCreated = this.onMarkCreated.bind(this)
+    this.onMarkRemoved = this.onMarkRemoved.bind(this)
     if (this.hasFrameTarget) {
       this.frameTarget.addEventListener("turbo:frame-load", this.onFrameLoad)
       this.frameTarget.addEventListener("turbo:frame-missing", this.onMissing)
     }
     window.addEventListener("keydown", this.onKey)
     document.addEventListener("selectionchange", this.onSelectionChange)
+    this.element.addEventListener("scripture-room:mark-created", this.onMarkCreated)
+    this.element.addEventListener("scripture-room:mark-removed", this.onMarkRemoved)
     if (this.open()) this.afterOpen()
   }
 
   disconnect() {
     delete this.element.dataset.scriptureRuntime
     this.effectScope?.dispose()
-    this.frameTarget?.removeEventListener("turbo:frame-load", this.onFrameLoad)
-    this.frameTarget?.removeEventListener("turbo:frame-missing", this.onMissing)
+    if (this.hasFrameTarget) {
+      this.frameTarget.removeEventListener("turbo:frame-load", this.onFrameLoad)
+      this.frameTarget.removeEventListener("turbo:frame-missing", this.onMissing)
+    }
     window.removeEventListener("keydown", this.onKey)
     document.removeEventListener("selectionchange", this.onSelectionChange)
+    this.element.removeEventListener("scripture-room:mark-created", this.onMarkCreated)
+    this.element.removeEventListener("scripture-room:mark-removed", this.onMarkRemoved)
     this.stopSelectionTracking()
     this.stopReadTracking()
     this.unlock()
@@ -51,19 +58,23 @@ export default class extends Controller {
     if (this.hasLoadingTarget) this.loadingTarget.hidden = false
   }
 
-  close(event) {
+  async close(event) {
     event?.preventDefault()
+    if (this.closing) return
+    this.closing = true
     this.dismissed = true
     this.stopSelectionTracking()
     this.stopReadTracking()
     this.hideLoading()
-    this.unlock()
     const frame = this.readerFrame()
     if (frame?.querySelector(".scripture-veil")) {
+      await this.animateReaderExit(this.readerVeil())
       frame.replaceChildren()
+      this.unlock()
       audioLoader.playFrom(document)
       return
     }
+    this.unlock()
     if (window.history.length > 1) history.back()
     else window.location.href = "/"
   }
@@ -125,15 +136,11 @@ export default class extends Controller {
   }
 
   stopSelectionTracking() {
-    if (this.highlightSaveTimer) window.clearTimeout(this.highlightSaveTimer)
-    if (this.pendingProfilePassage) this.saveProfileHighlight(this.pendingProfilePassage, { updateUi: false })
     this.selectionSheet?.removeEventListener("scroll", this.onSelectionScroll)
     this.selectionSheet?.removeEventListener("click", this.onHighlightClick)
     this.selectionSheet = null
     this.selectionFrameCancel?.()
     this.selectionFrameCancel = null
-    this.highlightSaveTimer = null
-    this.pendingProfilePassage = null
     this.profileHighlights = []
     this.profileHighlightRanges = []
     this.selectedPassage = null
@@ -205,9 +212,37 @@ export default class extends Controller {
     }))
     passage.profileHighlightId = existing?.id
     this.selectedPassage = passage
+    this.element.dispatchEvent(new CustomEvent("scripture:selection", { detail: { passage } }))
     this.updateShareTargets(passage)
     this.positionShareTrigger(range)
-    if (!restoredDeepLink && !existing) this.scheduleProfileHighlight(passage)
+  }
+
+  onMarkCreated(event) {
+    const mark = event.detail?.mark
+    if (!mark || mark.visual_style === "none") return
+    if (!this.profileHighlights?.some((item) => Number(item.id) === Number(mark.id))) this.profileHighlights.push(mark)
+    this.profileHighlightRanges = this.profileHighlights.flatMap((item) => this.highlightRangesFromCoordinates(item))
+    if (this.selectedPassage && this.sameHighlight(this.selectedPassageToHighlight(this.selectedPassage), mark)) {
+      this.selectedPassage.profileHighlightId = mark.id
+      this.updateShareTargets(this.selectedPassage)
+    }
+    this.renderProfileHighlights()
+  }
+
+  onMarkRemoved(event) {
+    const id = Number(event.detail?.id)
+    this.profileHighlights = (this.profileHighlights || []).filter((item) => Number(item.id) !== id)
+    this.profileHighlightRanges = this.profileHighlights.flatMap((item) => this.highlightRangesFromCoordinates(item))
+    this.renderProfileHighlights()
+  }
+
+  selectedPassageToHighlight(passage) {
+    return {
+      start_verse: passage.startVerse,
+      end_verse: passage.endVerse,
+      start_offset: passage.startOffset,
+      end_offset: passage.endOffset
+    }
   }
 
   passageFromRange(range) {
@@ -311,23 +346,24 @@ export default class extends Controller {
       return
     }
 
-    const size = 48
+    const triggerWidth = this.shareTriggerTarget.offsetWidth || 300
+    const triggerHeight = this.shareTriggerTarget.offsetHeight || 48
     const pad = 12
     const gap = 10
     const sheetRect = this.selectionSheet?.getBoundingClientRect()
     const minimumLeft = Math.max(pad, (sheetRect?.left || 0) + pad)
     const maximumRight = Math.min(window.innerWidth - pad, (sheetRect?.right || window.innerWidth) - pad)
     const right = rect.right + gap
-    const left = rect.left - size - gap
-    const centeredTop = rect.top + ((rect.height - size) / 2)
-    const clampLeft = (value) => Math.min(maximumRight - size, Math.max(minimumLeft, value))
-    const clampTop = (value) => Math.min(window.innerHeight - size - pad, Math.max(pad, value))
+    const left = rect.left - triggerWidth - gap
+    const centeredTop = rect.top + ((rect.height - triggerHeight) / 2)
+    const clampLeft = (value) => Math.min(maximumRight - triggerWidth, Math.max(minimumLeft, value))
+    const clampTop = (value) => Math.min(window.innerHeight - triggerHeight - pad, Math.max(pad, value))
     const textRects = this.verseTargets.flatMap((verse) =>
       Array.from(verse.querySelector("[data-scripture-verse-text]")?.getClientRects() || [])
     ).filter((textRect) => textRect.width && textRect.height && textRect.bottom > 0 && textRect.top < window.innerHeight)
     const overlapsText = ({ left: candidateLeft, top: candidateTop }) => {
-      const candidateRight = candidateLeft + size
-      const candidateBottom = candidateTop + size
+      const candidateRight = candidateLeft + triggerWidth
+      const candidateBottom = candidateTop + triggerHeight
       return textRects.some((textRect) =>
         candidateRight > textRect.left - 3 && candidateLeft < textRect.right + 3 &&
           candidateBottom > textRect.top - 3 && candidateTop < textRect.bottom + 3
@@ -336,11 +372,11 @@ export default class extends Controller {
     const candidates = [
       { left: right, top: centeredTop },
       { left, top: centeredTop },
-      { left: maximumRight - size, top: centeredTop },
-      { left: maximumRight - size, top: rect.bottom + gap },
-      { left: maximumRight - size, top: rect.top - size - gap },
-      { left: rect.right - size, top: rect.bottom + gap },
-      { left: rect.right - size, top: rect.top - size - gap }
+      { left: maximumRight - triggerWidth, top: centeredTop },
+      { left: maximumRight - triggerWidth, top: rect.bottom + gap },
+      { left: maximumRight - triggerWidth, top: rect.top - triggerHeight - gap },
+      { left: rect.right - triggerWidth, top: rect.bottom + gap },
+      { left: rect.right - triggerWidth, top: rect.top - triggerHeight - gap }
     ].map((candidate) => ({ left: clampLeft(candidate.left), top: clampTop(candidate.top) }))
     const position = candidates.find((candidate) => !overlapsText(candidate)) || candidates[2]
 
@@ -423,63 +459,9 @@ export default class extends Controller {
     }
   }
 
-  scheduleProfileHighlight(passage) {
-    if (!passage.highlightUrl || !passage.study) return
-    if (this.highlightSaveTimer) window.clearTimeout(this.highlightSaveTimer)
-
-    this.pendingProfilePassage = passage
-    this.readerVeil().dataset.scriptureHighlightState = "pending"
-    this.renderProfileHighlights()
-    this.highlightSaveTimer = window.setTimeout(() => {
-      this.highlightSaveTimer = null
-      this.saveProfileHighlight(passage)
-    }, HIGHLIGHT_SAVE_DELAY_MS)
-  }
-
-  async saveProfileHighlight(passage, { updateUi = true } = {}) {
-    if (!passage?.highlightUrl || !passage.study) return
-
-    try {
-      const highlight = await http.json(passage.highlightUrl, {
-        method: "POST",
-        keepalive: true,
-        body: JSON.stringify({
-          highlight: {
-            reference: passage.study,
-            locale: passage.locale,
-            start_verse: passage.startVerse,
-            end_verse: passage.endVerse,
-            start_offset: passage.startOffset,
-            end_offset: passage.endOffset,
-            selected_text: passage.text.slice(0, 10_000)
-          }
-        })
-      })
-      passage.profileHighlightId = highlight.id
-      if (!this.profileHighlights?.some((item) => this.sameHighlight(item, highlight))) {
-        this.profileHighlights?.push(highlight)
-        this.profileHighlightRanges?.push(...passage.highlightRanges.map((range) => range.cloneRange()))
-      }
-      if (this.pendingProfilePassage === passage) this.pendingProfilePassage = null
-      if (updateUi && this.open()) {
-        this.readerVeil().dataset.scriptureHighlightState = "saved"
-        this.renderProfileHighlights()
-        if (this.selectedPassage === passage) this.updateShareTargets(passage)
-      }
-    } catch (_error) {
-      if (this.pendingProfilePassage === passage) this.pendingProfilePassage = null
-      if (updateUi && this.open()) {
-        this.readerVeil().dataset.scriptureHighlightState = "error"
-        this.renderProfileHighlights()
-      }
-    }
-  }
-
   renderProfileHighlights() {
     if (!window.CSS?.highlights || !window.Highlight) return
     const ranges = [...(this.profileHighlightRanges || [])]
-    const pending = this.pendingProfilePassage?.highlightRanges || []
-    ranges.push(...pending)
     if (ranges.length > 0) CSS.highlights.set(PROFILE_HIGHLIGHT, new Highlight(...ranges))
     else CSS.highlights.delete(PROFILE_HIGHLIGHT)
   }
@@ -737,5 +719,11 @@ export default class extends Controller {
 
   reduced() {
     return window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  }
+
+  async animateReaderExit(veil) {
+    if (!veil || this.reduced()) return
+    veil.classList.add("is-reader-closing")
+    await new Promise((resolve) => window.setTimeout(resolve, 150))
   }
 }

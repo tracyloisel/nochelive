@@ -76,18 +76,26 @@ class ScripturesController < ApplicationController
 
   def show
     @study = params[:study].to_s
-    unless Quizzes::Scripture.known_study?(@study)
+    unless Scriptures::Reference.known_study?(@study)
       head :not_found
       return
     end
 
     @cite = params[:cite].to_s
     @source_url = Quizzes::Scripture.page_url(@study)
-    @chapter = Scriptures::Read.call(study: @study, locale: I18n.locale, cite: @cite)
-    @scripture_illustrations = Scriptures::Illustrations.call(chapter: @chapter) if @chapter
-    @scripture_reads_count = ScriptureChapterStat.count_for(@study) if @chapter
-    assign_scripture_highlights if @chapter
-    remember_study_reading if @chapter
+    @chapter = Scriptures::Read.call(study: @study, locale: I18n.locale, cite: @cite, public: true)
+    if @chapter
+      @source_url = @chapter.source_url.presence || @source_url
+      @scripture_illustrations = Scriptures::Illustrations.call(chapter: @chapter)
+      @scripture_reads_count = ScriptureChapterStat.count_for(@study)
+      @reader_screen = Scriptures::ReaderScreen.call(
+        person: current_street_person,
+        reference: @study,
+        locale: I18n.locale
+      )
+      assign_scripture_highlights
+      remember_study_reading
+    end
     render :frame, layout: false if turbo_frame_request?
   end
 

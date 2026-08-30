@@ -54,6 +54,10 @@ roles:
       webp: 80
       jpeg: 82
 assets:
+  scripture.reader.mountains-gold-ivory:
+    source: media/scripture/reader-mountains-gold-ivory-v1.png
+    role: catalog_landscape
+    focus: "50% 62%"
   hub.backdrop.moises-mer-rouge:
     source: media/home/moises-mer-rouge.jpg
     sources:

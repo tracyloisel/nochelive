@@ -76,6 +76,9 @@ module ApplicationHelper
     "presenter/rosters" => %w[live onboarding],
     "public" => %w[gameplay live],
     "scriptures" => %w[scripture],
+    "scripture_circles" => %w[scripture],
+    "scripture_circle_moderation_histories" => %w[scripture],
+    "scripture_circle_profile_posts" => %w[profile scripture],
     "searches" => %w[church],
     "street_hub" => %w[hub onboarding],
     "street_leaderboards" => %w[stats],
@@ -104,7 +107,7 @@ module ApplicationHelper
     end)
   end
 
-  def noche_picture(key, role: nil, alt:, class_name: nil, picture_class: nil, loading: "lazy", decoding: "async", fetchpriority: nil, data: {})
+  def noche_picture(key, role: nil, alt:, class_name: nil, picture_class: nil, loading: "lazy", decoding: "async", fetchpriority: nil, sizes: nil, data: {})
     asset = Frontend::MediaManifest.fetch(key) || Frontend::MediaManifest.fetch_path(key)
     return unless asset
     return if role && asset.fetch("role") != role.to_s
@@ -119,7 +122,7 @@ module ApplicationHelper
           type: "image/#{format}",
           media: rendition["media"],
           srcset: responsive_srcset(variants),
-          sizes: rendition.fetch("sizes")
+          sizes: sizes || rendition.fetch("sizes")
         )
       end
     end
@@ -130,7 +133,7 @@ module ApplicationHelper
       width: fallback.fetch("width"),
       height: fallback.fetch("height"),
       srcset: responsive_srcset(primary.fetch("variants").fetch("jpeg")),
-      sizes: primary.fetch("sizes"),
+      sizes: sizes || primary.fetch("sizes"),
       loading:,
       decoding:,
       fetchpriority:,
@@ -144,7 +147,7 @@ module ApplicationHelper
     picture = noche_picture(source, **attributes)
     return picture if picture
 
-    image_attributes = attributes.slice(:alt, :loading, :decoding, :fetchpriority, :data)
+    image_attributes = attributes.slice(:alt, :loading, :decoding, :fetchpriority, :sizes, :data)
     image_attributes[:class] = attributes[:class_name] if attributes[:class_name].present?
     image_tag(media_src(source) || source, **image_attributes)
   end
@@ -1315,6 +1318,21 @@ module ApplicationHelper
     end
     formatted = number_with_delimiter(count.to_i, delimiter:)
     t("seo.scripture.reads", count: count.to_i, formatted:)
+  end
+
+  def scripture_reader_chapter_title(chapter, study)
+    psalm_number = study.to_s[/\Aot\/ps\/(\d+)\z/, 1]
+    return chapter.title unless psalm_number
+
+    t("scripture_reader.psalm_title", number: psalm_number)
+  end
+
+  def scripture_reader_reference_label(study)
+    reference = Scriptures::Reference.from_study(study:, locale: I18n.locale, verse: 1)
+    return study unless reference
+    return t("scripture_reader.psalm_title", number: reference.chapter) if reference.base_study == "ot/ps"
+
+    "#{reference.book_label} #{reference.chapter}"
   end
 
   def liga_number(value)

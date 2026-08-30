@@ -46,6 +46,36 @@ class FrontendLoadingContractTest < ActionDispatch::IntegrationTest
     assert_equal "shell", manifest.fetch("context")
   end
 
+  test "scripture loading has a reader-specific progressive and accessible threshold" do
+    get root_path
+
+    assert_response :success
+    assert_select "#scripture_loading.reader-loading-veil[data-scripture-launcher-target='loading'][data-state='idle'][hidden]", count: 1
+    assert_select "#scripture_loading[role='status'][aria-live='polite'][aria-busy='true'][data-reader-loading-chapter-fallback]", count: 1
+    assert_select "#scripture_loading picture.reader-loading-art-image-picture img[width][height][loading='lazy'][fetchpriority='low']", count: 1
+    assert_select "#scripture_loading .reader-loading-copy", count: 4
+    assert_select "#scripture_loading [data-reader-loading-chapter]", count: 1
+    assert_select "#scripture_loading [data-reader-loading-template]", count: 4
+    assert_select "#scripture_loading [data-reader-loading-retry][data-action='scripture-launcher#retry']", count: 1
+    assert_select "#scripture_loading .reader-loading-dismiss[data-action='scripture-launcher#cancel'][aria-label=?]", I18n.t("scripture_reader.close")
+
+    I18n.available_locales.each do |locale|
+      I18n.with_locale(locale) do
+        assert I18n.t("scripture_reader.close").present?
+        assert I18n.t("scripture_reader.loading.opening", chapter: "Psaume 52").include?("Psaume 52")
+        assert I18n.t("scripture_reader.loading.slow", chapter: "Psaume 52").include?("Psaume 52")
+        assert I18n.t("scripture_reader.loading.waiting", chapter: "Psaume 52").include?("Psaume 52")
+        assert I18n.t("scripture_reader.loading.failed", chapter: "Psaume 52").include?("Psaume 52")
+        assert I18n.t("scripture_reader.loading.retry").present?
+      end
+    end
+
+    css = Rails.root.join("app/assets/stylesheets/shell/loading.css").read
+    assert_includes css, 'html.is-scripture-open .noche-loading'
+    assert_includes css, '.reader-loading-veil[data-state="failed"]'
+    assert_match(/prefers-reduced-motion: reduce[\s\S]*\.reader-loading-beacon i/m, css)
+  end
+
   test "street play declares current predictive and audio resources without dead motion recipes" do
     start_street_jugar!
 

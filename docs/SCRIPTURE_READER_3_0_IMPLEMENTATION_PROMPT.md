@@ -15,7 +15,7 @@ Décisions produit non négociables :
 - Chaque message principal peut ouvrir un fil. La profondeur visible maximale est de un : les réponses à une réponse restent dans le fil racine et affichent `À Nom`, sans indentation supplémentaire. Conserver néanmoins le parent exact en base.
 - Chaque réflexion, question ou réponse est limitée à 500 caractères par validation ActiveRecord et contrainte PostgreSQL. Aucun tronquage silencieux.
 - L’auteur peut modifier et supprimer ses propres publications selon le plan. Les révisions et pierres tombales nécessaires restent conservées.
-- Aucun rôle de modérateur. Tout membre éligible de la ward peut proposer une censure. Pendant le vote, le corps ciblé est remplacé en place par l’invitation à voter ; les résultats Oui/Non sont visibles en temps réel. Le vote dure au moins deux jours et sa résolution est effectuée par un job idempotent. Tout l’historique est conservé.
+- Aucun rôle de modérateur. Tout membre éligible de la ward peut proposer une censure. Pendant le vote, le message ciblé reste lisible dans une carte de scrutin réservée à la ward actuelle ; les résultats Oui/Non sont visibles en temps réel. Après une censure, son corps n’est plus rendu. Le vote dure au moins deux jours et sa résolution est effectuée par un job idempotent. Tout l’historique est conservé.
 - La page de profil liste les publications autorisées du joueur selon les scopes propriétaire/ward définis dans le plan.
 - Les vidéos sont uniquement des associations éditorialement approuvées provenant des chaînes officielles configurées, avec consentement préalable et `youtube-nocookie`.
 

@@ -20,7 +20,7 @@ La proposition initiale a correctement identifié plusieurs besoins : donner une
 5. le lecteur voit son histoire avec ce chapitre et peut reprendre où il s'est arrêté ;
 6. la présence d'autres lecteurs est exprimée avec sobriété ;
 7. le cercle de conversation est séparé du texte et strictement limité à la `Ward` associée au joueur ;
-8. tout membre éligible de cette ward peut proposer une censure ; le message est remplacé en place pendant un vote communautaire dont les résultats restent visibles en direct ;
+8. tout membre éligible de cette ward peut proposer une censure ; pendant un vote communautaire, le message reste lisible dans une carte de scrutin et les résultats restent visibles en direct ;
 9. le profil permet de retrouver les publications du joueur sans devenir un flux social global ni contourner les frontières de ward ;
 10. une vidéo ne peut apparaître que si elle provient d'une source officielle, est liée éditorialement au chapitre et respecte le consentement YouTube.
 
@@ -30,8 +30,10 @@ Le cercle de la liseuse n'est donc ni un réseau social global, ni le flux publi
 
 ### 2.1 Primauté de la lecture
 
+- L'entrée normale ouvre exclusivement le chapitre. Un message récent, une réponse ou un vote ouvert ne sélectionne jamais `Le cercle` et n'ouvre jamais un panneau à la place du texte.
+- Les repères, l'historique et le cercle sont disponibles par deux boutons icônes compacts : le signet ouvre `Mes repères`, les deux bulles ouvrent `Le cercle`. Leur contenu n'apparaît qu'après cette demande explicite. Un lien direct vers une publication ou `?circle=1` reste une demande explicite légitime.
 - Aucun fil de commentaires ne reste ouvert à côté des versets par défaut.
-- Aucun compteur, réaction ou recommandation ne doit dépasser visuellement le titre du chapitre ou le texte.
+- Le seul signal collectif autorisé à l'entrée est la présence de lecteurs distincts de la ward, posée avec discrétion au-dessus du titre du chapitre : nombre exact au-delà du seuil de confidentialité, formulation non chiffrée en dessous. Aucun autre compteur, réaction ou recommandation ne doit dépasser visuellement le titre ou le texte.
 - Aucun autoplay, pop-up social, toast promotionnel ou récompense animée ne survient pendant la lecture.
 - Les illustrations restent des respirations éditoriales rares, au maximum trois par chapitre, ancrées après les versets concernés.
 - Les panneaux secondaires se ferment pour rendre au texte toute la largeur utile.
@@ -74,7 +76,7 @@ Le cercle de la liseuse n'est donc ni un réseau social global, ni le flux publi
 
 - Aucun profil, dirigeant de ward, présentateur ou administrateur technique ne possède de droit individuel de censure dans le cercle.
 - Toute proposition est attribuée, limitée à la ward et soumise à un vote `Oui` / `Non` d'au moins deux jours.
-- Pendant le scrutin, le message reste à sa place mais son corps est masqué et remplacé par l'invitation à voter.
+- Pendant le scrutin, le message reste à sa place et son corps reste lisible dans une carte de scrutin réservée à la ward courante, afin que chacun puisse voter en connaissance de cause.
 - Les nombres et pourcentages sont visibles en temps réel, avec une présentation neutre des deux choix.
 - Un cron applique automatiquement une politique versionnée ; propositions, suffrages, changements et décisions restent traçables.
 
@@ -119,30 +121,26 @@ Les mockups ne sont pas des écrans à recopier pixel par pixel. Ils fixent les 
 
 À `390 × 844`, l'écran montre une seule colonne :
 
-- en-tête compact avec retour, référence, progression et bouton `Aa` ;
+- en-tête compact avec retour, référence, progression, bouton signet `Mes repères`, deux bulles `Le cercle` et bouton `Aa` ;
+- les deux raccourcis restent des icônes calmes, mais portent des libellés accessibles explicites ; ils n'affichent aucun extrait de message ni compteur social ;
 - carte d'accueil du chapitre, réductible après la première lecture ;
 - texte en grand corps, sur une surface papier pleine largeur utile ;
 - barre d'action contextuelle uniquement lorsqu'un passage est sélectionné ;
-- signal discret du mouvement de lecture ;
-- navigation locale en trois destinations : `Lire`, `Mes repères`, `Le cercle`.
+- aucun dock ni navigation locale persistante pendant la lecture.
 
-Les repères et le cercle s'ouvrent comme des vues dédiées ou des feuilles plein écran. Ils ne réduisent pas la colonne de texte.
+Le signet ouvre directement `Mes repères` ; les deux bulles ouvrent directement `Le cercle`. Sur mobile, ces destinations deviennent des vues dédiées plein écran. Elles ne réduisent pas la colonne de texte et possèdent une action explicite `Retour au chapitre`.
 
-Dans la vue mobile `Le cercle`, les messages forment une liste verticale. Lorsqu'un vote est ouvert, la publication concernée garde son auteur et sa position entre les messages ordinaires, mais affiche à la place du corps la carte de censure, les deux choix, le temps restant et les résultats en direct.
+Dans la vue mobile `Le cercle`, les messages forment une liste verticale. Lorsqu'un vote est ouvert, la publication concernée garde son auteur et sa position entre les messages ordinaires ; une carte de censure encadre son corps lisible, les deux choix, le temps restant et les résultats en direct.
 
 ### 4.4 Cible tablette
 
-À `768 × 1024`, la chambre de lecture reste centrale. Les repères et le cercle s'ouvrent dans un panneau latéral temporaire, sans descendre le texte sous une largeur confortable.
+À `768 × 1024`, la chambre de lecture reste centrale et seule à l'arrivée. Après le choix du lecteur, les repères ou le cercle s'ouvrent dans un panneau latéral temporaire, sans descendre le texte sous une largeur confortable.
 
 ### 4.5 Cible desktop
 
-À `1440 × 900`, la composition comporte trois zones, mais une seule zone dominante :
+À `1440 × 900`, l'arrivée est une seule chambre de lecture centrée : un repère de lecteurs de la ward au-dessus du titre lorsqu'il est sûr à afficher, accueil éditorial, texte du chapitre, illustration rare, progression et fin de lecture. Il n'y a pas de rail gauche, de carte de mouvement, de panneau droit ni de fil ouverts par défaut.
 
-- **gauche, étroite** : retour, progression dans le parcours, contexte du mouvement de lecture et navigation locale ;
-- **centre, dominante** : accueil éditorial, texte du chapitre, illustrations rares et fin de lecture ;
-- **droite, étroite** : panneau compagnon repliable pour les repères, l'historique du chapitre ou l'entrée du cercle.
-
-Le centre vise une mesure de `60–72ch`. Si la fenêtre devient trop étroite, les colonnes latérales deviennent des tiroirs avant que le texte ne soit comprimé.
+L'en-tête garde deux accès légers : l'icône signet vers `Mes repères` et l'icône à deux bulles vers `Le cercle`. Après une demande explicite, la composition devient temporairement à deux zones : texte conservé à gauche, panneau compagnon à droite pour les repères, l'historique ou le cercle. `Retour au chapitre` ferme le panneau, restitue toute la largeur au texte et rend le focus au bouton qui l'a ouvert. Le centre vise une mesure de `60–72ch` ; le panneau devient une vue dédiée avant de comprimer la colonne de texte.
 
 ## 5. Objectifs et non-objectifs
 
@@ -228,7 +226,7 @@ La liseuse possède trois destinations locales dans sa chambre plein écran. Le 
 Contient :
 
 - référence et traduction/source ;
-- progression du chapitre ;
+- progression du chapitre, visible pendant le défilement sur tablette et desktop grâce à un repère vertical discret ancré sous l'en-tête ;
 - accueil éditorial ;
 - texte intégral ;
 - illustrations éditoriales ;
@@ -267,6 +265,16 @@ Contient :
 
 Cette vue n'est ni publique, ni indexable, ni accessible sans profil et ward valides.
 
+### 7.4 Porte des accompagnements
+
+L'entrée de la liseuse ne révèle aucune de ces deux destinations. Deux accès icônes calmes restent toutefois disponibles, sans extrait de message, compteur, réaction ou vote :
+
+- le signet ouvre `Mes repères` — notes, signets et mémoire personnelle du chapitre ;
+- les deux bulles ouvrent `Le cercle` — pensées de la ward, uniquement lorsque le lecteur choisit de les lire ;
+- l'action de conserver le chapitre comme signet reste dans `Mes repères`, sans statistique concurrente.
+
+Sur desktop et tablette, l'accès ouvre le panneau compagnon droit ; sur mobile, une vue dédiée. Dans les deux cas, `Retour au chapitre` ferme cette surface, restitue le focus au bouton d'origine et replace immédiatement le texte au centre. Un lien canonique vers une publication est la seule exception : il peut ouvrir le Cercle directement car cette destination a été explicitement demandée.
+
 ## 8. Expérience de lecture
 
 ### 8.1 En-tête
@@ -276,8 +284,9 @@ L'en-tête affiche seulement :
 - retour ;
 - livre et chapitre ;
 - position, par exemple `3 sur 9` ;
+- icône signet pour `Mes repères` ;
+- icône à deux bulles pour `Le cercle` ;
 - bouton `Aa` ;
-- accès compact aux repères.
 
 La durée estimée peut être affichée à l'ouverture, mais disparaît de l'en-tête pendant le défilement si elle encombre la lecture.
 
@@ -569,7 +578,7 @@ La liste privée des publications du propriétaire constitue la seule exception 
 - **Ward valide, cercle désactivé** : mouvement de lecture éventuel, mais aucune conversation.
 - **Ward valide, cercle en lecture seule** : messages visibles, publication fermée avec explication.
 - **Ward valide, cercle actif** : lecture et publication autorisées.
-- **Message avec vote ouvert** : auteur, heure et place dans le fil restent visibles, mais le corps est remplacé par l'invitation à voter et les résultats en direct ; le corps original n'est pas retourné par l'API normale.
+- **Message avec vote ouvert** : auteur, heure, place dans le fil et corps restent visibles dans la carte de scrutin, uniquement aux membres authentifiés de la ward courante ; les résultats sont en direct. Le corps n'est jamais retourné par le profil, une API inter-ward, un cache partagé ou un historique de ward ancienne.
 - **Message conservé après vote** : corps restauré, accompagné d'un accès discret au résultat et à l'historique du scrutin.
 - **Message censuré par la ward** : pierre tombale à la même place dans le fil, résultat final et historique consultables ; le corps original n'est jamais rendu dans le parcours normal.
 - **Message supprimé par son auteur** : pierre tombale si des réponses ou un vote existent, sinon retrait de la liste courante ; l'historique requis reste conservé selon la politique de rétention.
@@ -655,7 +664,7 @@ Depuis le menu d'un message, l'action `Proposer une censure` suit ce parcours :
 4. confirmer explicitement ;
 5. valider côté serveur la personne, sa ward actuelle, le message et l'absence d'un autre scrutin ouvert ;
 6. créer en transaction la proposition, l'instantané de la révision visée et l'événement d'ouverture ;
-7. remplacer immédiatement le corps du message par la carte de vote pour toute la ward.
+7. afficher immédiatement une carte de vote autour du corps du message pour toute la ward.
 
 Une seule proposition peut être ouverte à la fois sur un message. La proposition est attribuée publiquement à son auteur dans la ward. Sa durée est calculée et imposée par le serveur ; elle est de `N` jours et ne peut jamais être inférieure à deux jours. Le client ne choisit ni ne raccourcit `ends_at`. La version de politique applicable est figée à l'ouverture afin qu'un changement ultérieur ne modifie pas les règles d'un vote déjà commencé.
 
@@ -666,12 +675,12 @@ L'ouverture d'une proposition ne crée pas automatiquement un vote `Oui` pour so
 Le message conserve exactement sa place parmi les autres messages du chapitre. Pendant le scrutin :
 
 - l'en-tête conserve l'avatar, le nom de l'auteur, l'heure et l'ancre de verset ;
-- le corps est remplacé par `Masqué pendant le vote` et `Vote de censure en cours` ;
+- le corps complet reste lisible dans un bloc ivoire intitulé `Message soumis au vote`, avant les choix de vote ;
 - la carte nomme le proposant, présente le motif et rappelle la date de fin ;
 - les actions `Oui, censurer` et `Non, conserver` ont une taille, un contraste et un poids visuel équivalents, sans code rouge/vert qui orienterait le choix ;
 - les résultats sont visibles par tous les membres autorisés et mis à jour en temps réel : nombre et pourcentage de `Oui`, nombre et pourcentage de `Non`, total des suffrages valides et temps restant ; les pourcentages utilisent les suffrages valides exprimés comme dénominateur ;
 - les messages ordinaires qui précèdent et suivent restent visibles afin que le fil demeure compréhensible ;
-- un lien `Voir la proposition et l'historique` donne accès aux faits du scrutin sans révéler le corps masqué.
+- un lien `Voir la proposition et l'historique` donne accès aux faits du scrutin ; après une censure, il ne réexpose jamais le corps du message.
 
 Un résultat à zéro, une égalité, de grands nombres et les libellés longs des quatre langues doivent rester lisibles à `390 px`. Les mises à jour sont annoncées avec parcimonie aux technologies d'assistance : le compteur visuel évolue en direct, sans lecture vocale répétitive à chaque suffrage.
 
@@ -697,7 +706,7 @@ Un cron appelle à fréquence configurée un job idempotent, par exemple `Script
 3. recompter la dernière version valide de chaque suffrage, sans faire confiance aux compteurs d'interface ;
 4. appliquer la politique de décision versionnée approuvée pour ce scrutin ;
 5. enregistrer en une transaction le résultat, les nombres finaux, le taux de participation disponible, la version de politique, l'heure et une empreinte d'intégrité ;
-6. restaurer le message si la ward le conserve, ou le remplacer durablement par une pierre tombale si elle le censure ;
+6. conserver le message s'il est maintenu par la ward, ou le remplacer durablement par une pierre tombale si elle le censure ;
 7. publier la décision sur le seul flux temps réel de la ward et du chapitre.
 
 Le job est idempotent : une proposition ne peut produire qu'une résolution, même après reprise, concurrence ou nouvelle tentative. Une erreur laisse le scrutin dans un état récupérable et déclenche une alerte technique ; elle n'invente jamais un résultat. La fréquence du job, le quorum, la majorité requise et le traitement exact de l'égalité sont des paramètres de politique versionnés, à décider avant l'ouverture de l'écriture. Recommandation : une égalité ou un quorum non atteint conserve le message.
@@ -732,7 +741,7 @@ L'écriture sociale ne peut être activée avant la disponibilité des élément
 
 - règles de communauté et motifs de proposition courts, approuvés et localisés ;
 - durée de vote d'au moins deux jours, quorum, seuil, règle d'égalité et version de politique fixés ;
-- proposition de censure, masque du corps, vote égalitaire et résultats en direct ;
+- proposition de censure, corps lisible dans la carte de scrutin de la ward, vote égalitaire et résultats en direct ;
 - job de résolution idempotent, alerte technique et procédure de reprise ;
 - historique durable des publications, propositions, suffrages, changements et décisions ;
 - limitation de fréquence par personne et appareil ;
@@ -765,9 +774,10 @@ Un visiteur ne voit la section que si son profil est reconnu et si lui-même et 
 
 - créées dans cette ward commune ;
 - encore accessibles dans le cercle selon leur état ;
+- explicitement signées par leur auteur (`anonymous = false`) ;
 - dont le visiteur pourrait charger le fil et le chapitre par les règles normales de `ScriptureCircles::Access`.
 
-Les publications d'anciennes wards, les éléments supprimés qui ne laissent pas de pierre tombale et tout contenu d'une autre ward sont absents, sans compteur permettant d'en déduire l'existence. Un transfert de l'un des deux joueurs retire immédiatement cette section à l'autre. La page de profil n'accepte jamais de `ward_id` fourni par le client.
+Les publications anonymes, celles d'anciennes wards, les éléments supprimés qui ne laissent pas de pierre tombale et tout contenu d'une autre ward sont absents, sans compteur permettant d'en déduire l'existence. Un transfert de l'un des deux joueurs retire immédiatement cette section à l'autre. La page de profil n'accepte jamais de `ward_id` fourni par le client.
 
 #### Présentation et navigation
 
@@ -1164,7 +1174,7 @@ Les résultats du vote doivent évoluer en quasi-temps réel. Le contrat peut ê
 - le canal vérifie la personne et sa ward à l'abonnement puis périodiquement ;
 - un transfert de ward invalide immédiatement l'abonnement ;
 - chaque vote diffuse seulement les nouveaux totaux agrégés, jamais l'identité du votant ;
-- l'ouverture remplace le corps par la carte de vote sur tous les clients autorisés ;
+- l'ouverture diffuse la carte de vote, avec le corps lisible, à tous les clients autorisés de la ward ;
 - la résolution automatique diffuse le résultat final et restaure le corps ou affiche la pierre tombale ;
 - aucun broadcast global n'est produit pour un message, un vote ou un résultat de cercle.
 
@@ -1211,7 +1221,7 @@ Les clés de cache social doivent inclure au minimum `ward_id`, référence, sta
 - Protéger les mutations par CSRF.
 - Refuser les messages composés uniquement de caractères invisibles.
 - Refuser tout `body` supérieur à 500 caractères dans le modèle ActiveRecord, y compris lors d'une modification ou d'une réponse ; conserver le brouillon et retourner une erreur exploitable.
-- Ne jamais rendre le corps d'un message `vote_open` ou `community_censored` dans une réponse normale, un fragment Turbo, un cache ou un historique public.
+- Ne jamais rendre le corps d'un message `community_censored`. Rendre le corps d'un message `vote_open` uniquement dans sa carte de scrutin, au Cercle authentifié de la ward courante ; jamais dans le profil, une autre ward, un cache partagé, une réponse publique ou l'historique après censure.
 - Recharger la publication, la proposition et le suffrage par la ward actuelle avant toute mutation ; ne jamais se fier à l'appartenance envoyée par le client.
 - Construire la liste de profil depuis `viewer_person` et `profile_person`, jamais depuis un simple booléen `is_owner` fourni par le client.
 - Vérifier l'auteur pour la modification et la suppression, et figer la révision tant qu'un vote est ouvert.
@@ -1296,6 +1306,84 @@ Le texte biblique est la dépendance critique. Tout le reste est progressif.
 - **Connexion lente** : aucun déplacement de mise en page lors de l'arrivée des images ou panneaux.
 
 Une version hors connexion peut relire un chapitre déjà chargé et conserver temporairement progression et brouillons. La synchronisation sociale hors connexion n'entre pas dans le MVP.
+
+### 17.1 Motion & Loading
+
+Le mouvement sert à orienter et à confirmer, jamais à récompenser la lecture ni à théâtraliser le texte sacré. La liseuse dispose de sa propre grammaire crème, ivoire, encre et or ; elle n'affiche ni loader bleu nuit, ni HUD, ni animation de jeu pendant l'ouverture ou la lecture.
+
+#### Chargement du chapitre
+
+| Temps observé | État | Présentation |
+|---|---|---|
+| `0–149 ms` | `pending` | Aucun indicateur. L'écran précédent reste stable afin d'éviter un flash. |
+| `150–1 199 ms` | `visible` | Antichambre ivoire avec l'illustration montagne monochrome, un signe or discret et le titre réel du chapitre. Le message promet une liseuse confortable, jamais un vague « chargement ». |
+| `1 200–3 999 ms` | `slow` | Même composition, respiration ralentie et message honnête : la liseuse du chapitre demande un peu plus de temps pour rester agréable à lire. Le contrôle `Fermer la liseuse` reste immédiatement disponible. |
+| `≥ 4 000 ms` | `waiting` | L'attente n'est pas déclarée à tort comme un échec. Le message confirme que la liseuse du chapitre est encore peaufinée et conserve l'action explicite `Fermer la liseuse`. |
+| erreur réseau ou réponse de frame manquante | `failed` | La respiration s'arrête. L'action principale `Réessayer l’ouverture` apparaît, tandis que `Fermer la liseuse` reste le chemin de sortie. Le focus est placé sur la relance. |
+| contenu reçu | `idle` | Le loader disparaît et la chambre de lecture prend le relais. |
+
+Le loader générique du shell est masqué dès que le seuil de lecture est actif. L'illustration possède des dimensions réservées, utilise les renditions responsives existantes et ne bloque jamais le texte. Une requête lente ne provoque aucun déplacement de mise en page.
+
+#### Entrée dans la chambre de lecture
+
+- voile ivoire : fondu de `180 ms` ;
+- barre supérieure : fondu et déplacement vertical inférieur à `8 px` sur `190 ms` ;
+- montagne : fondu de `240 ms`, sans zoom ni parallaxe ;
+- titre et accueil : entrée groupée de `220 ms` ;
+- texte biblique : fondu unique de `180 ms`, sans cascade verset par verset ;
+- aucun panneau compagnon, fil, carte de mouvement ou animation de compteur ne participe à cette entrée ; le repère de lecteurs, lorsqu'il est autorisé, reste déjà stable au-dessus du titre ;
+- panneau compagnon : seulement après un choix explicite, une unique mise en place horizontale de `4 px` maximum sur `160 ms` en tablette et desktop ; il ne passe jamais par une opacité nulle. Sur mobile, il apparaît directement. Une animation d'entrée ne doit jamais se rejouer lors du retrait de sa classe.
+
+Le texte apparaît comme une unité stable. Aucun mot, verset, surlignage ou ligne ne danse à l'arrivée.
+
+#### Cadence de lecture et défilement
+
+Le geste de défilement reste entièrement natif : aucune interception de molette ou de toucher, aucune inertie artificielle, aucun ralentissement forcé et aucun verrouillage « snap » ne doit enlever la main de la personne qui lit. La liseuse améliore la sensation de rythme sans jamais déplacer le texte de son propre chef.
+
+- La progression est calculée au plus une fois par image d'affichage, à partir d'une ligne de lecture située à `43 %` de la fenêtre réelle de la liseuse — non d'une position supposée du navigateur.
+- Pendant le geste, le texte reste parfaitement calme. Après `170 ms` sans nouveau défilement, le verset qui traverse cette ligne devient le repère de lecture : son numéro et une très fine marque or apparaissent, sans changer sa taille, sa position, l'interlignage ou le contraste du passage.
+- Sur tablette et desktop, le point du rail vertical reçoit au même moment un halo ivoire/or discret. Sur mobile, la même progression est une règle horizontale très fine, collée sous la barre haute pendant toute la lecture : le libellé et la règle restent donc visibles sans créer de dock, de HUD ou de seconde navigation. Ces repères sont informatifs, pas des barres manipulables.
+- Dès qu'un nouveau geste commence, ce repère se retire afin que la Parole ne ressemble jamais à une sélection ou à un surlignage permanent. Aucun saut, animation de texte ou défilement automatique n'accompagne cette transition.
+- À la toute fin du chapitre (`≥ 98,5 %`), le rail et son libellé identifient explicitement le dernier verset : la progression ne peut pas sembler inachevée alors que la personne a atteint la fin.
+- Les déplacements programmatiques explicitement demandés — par exemple « reprendre au verset… » — peuvent être doux, mais restent instantanés avec `prefers-reduced-motion`. Le mouvement réduit supprime aussi le fondu du repère et du halo.
+
+#### Navigation et outils
+
+- ouverture de `Mes repères` ou du `Cercle` : une seule mise en place de `160 ms` sur tablette et desktop seulement, sans fondu ni seconde animation ; sur mobile, le changement est direct afin d'éviter toute phase blanche ;
+- `Retour au chapitre` : fermeture immédiate et stable, colonne de lecture restaurée sans saut et focus rendu à l'icône d'origine ;
+- dialogues de réglages, note, outils et vidéo : ouverture de `210 ms`, fermeture de `150 ms` ;
+- barre de sélection : apparition de `180 ms`, sans masquer le passage sélectionné. Elle garde quatre actions lisibles sur mobile : `Surligner`, `Noter`, `En parler`, `Plus`. Le signet reste disponible dans `Plus`, afin que `En parler` ne devienne jamais un cinquième contrôle trop étroit ;
+- `En parler` : la citation est sérialisée avant que la sélection native soit relâchée, puis la palette disparaît immédiatement. Sur tablette et desktop, le Cercle se met en place une seule fois sur `160 ms` par une translation de `4 px` maximum ; la carte de citation suit sur `140 ms` (opacité et translation verticale de `3 px` maximum), puis le focus arrive au champ. Sur mobile, le changement de panneau est direct, la carte de citation entre seule sur `140 ms` et le champ reçoit le focus au rendu suivant, car l'intention d'écrire est explicite ;
+- confirmation, erreur et annulation : apparition de `180 ms`, annonce `aria-live` rare et non intrusive ;
+- résultats de vote : interpolation de largeur de `300 ms`, les nombres restant la source de vérité lisible ;
+- changement de taille, d'interligne ou de largeur : application immédiate, car animer la recomposition du texte fatiguerait la lecture.
+
+La fermeture complète de la liseuse utilise un fondu de `150 ms` avant de restituer l'écran précédent et son focus. Le contrôle est toujours libellé `Fermer la liseuse` sur desktop ; sur mobile, il garde ce nom accessible et adopte l'icône de fermeture compacte pour ne pas concurrencer le titre du chapitre.
+
+#### Cercle, brouillons et envoi
+
+Le Cercle ne doit jamais se comporter comme un chat qui concurrence la Parole. Dès que la personne choisit explicitement d'ouvrir le Cercle, le composeur de nouvelle pensée est déjà visible avant le fil : aucune carte, double titre ou résumé intermédiaire ne retarde l'écriture. Les réponses restent des actions locales choisies sous chaque message.
+
+| Interaction | Réponse visuelle et comportementale |
+|---|---|
+| ouverture de `Le cercle` | Le panneau montre une seule fois son titre, l'action `Retour au chapitre`, puis le formulaire de publication déjà ouvert. Le focus arrive sur le titre pour annoncer le changement de contexte ; le clavier reste un choix de la personne. |
+| sélection → `En parler` | La personne sélectionne le texte, puis touche une seule fois `En parler`. Aucune publication n'est créée. La palette remet d'abord la sélection au composeur sous la forme d'une citation exacte, avec sa référence et son intervalle de versets, puis ouvre directement le Cercle. Le contexte est visible au-dessus du champ, peut être retiré sans perdre le brouillon, et est envoyé dans `selected_text`, `start_verse` et `end_verse` avec le futur message. Le focus retourne au déclencheur du Cercle au retour au chapitre, jamais à une palette disparue. Une sélection de plus de 1 000 caractères reste dans la liseuse et reçoit un refus local clair ; un Cercle fermé ou lecture seule n'ouvre pas un faux composeur. |
+| ouverture de `Répondre` | Le corps de réponse apparaît par fondu et translation verticale de `4 px` maximum, sur `160–180 ms`. Le focus va au champ, sans faire bouger le fil. |
+| écriture | Le champ grandit immédiatement jusqu'à une hauteur bornée, sans animation de hauteur ni saut du fil. Le compteur `N / 500` se met à jour sans `aria-live`; à l'approche ou au dépassement de la limite, le texte et l'état explicite restent lisibles sans reposer sur la couleur seule. |
+| identité de publication | Une publication et une réponse sont anonymes par défaut. Le composeur offre un contrôle explicite `Publier anonymement`, activé par défaut ; l'auteur peut le désactiver avant l'envoi ou le modifier plus tard depuis l'édition de son propre message visible. Pour lui seul, une publication anonyme est libellée `Toi · Anonyme pour le cercle`; pour les autres, aucun nom, avatar, libellé de réponse ou fragment de contexte ne révèle l'identité. Chaque bascule est conservée dans une révision append-only (`anonymity_changed`) avec l'état anonyme correspondant. |
+| brouillon | Le brouillon est conservé dans la session du navigateur, séparé par personne, chapitre et réponse. Une citation de sélection est conservée avec lui, sans altérer un texte déjà saisi. Réduire une réponse ne l'efface pas ; le composeur principal reste disponible. Après un échec, il réapparaît à l'identique avec un retour local ; aucun texte social n'est placé dans un stockage persistant partagé. |
+| envoi | À la soumission, le bouton devient immédiatement `Publication…`, les contrôles du seul composeur sont verrouillés et le texte reste visible. Il n'y a ni succès optimiste ni faux message dans le fil : le serveur reste la source de vérité. |
+| succès confirmé | Après le retour du serveur, seul le message effectivement créé ou modifié reçoit un voile or/ivoire qui se résorbe sur `280 ms`. La liseuse défile vers **ce** message seulement parce que la personne vient de l'envoyer, puis y place le focus. Le marqueur technique de confirmation est aussitôt retiré de l'URL afin qu'un rechargement ne rejoue jamais l'annonce ni le défilement. |
+| erreur ou refus | Le composeur redevient disponible, le brouillon reste entier et un message local apparaît par fondu de `160 ms`. Aucun rechargement ne doit vider le champ, déplacer la lecture ou laisser un bouton bloqué. |
+| nouvelle activité d'autrui | Aucun défilement automatique, animation intrusive ou reprise de focus. La personne garde entièrement sa position de lecture. |
+
+L'édition reprend la même grammaire locale. Son ouverture ne déplace pas le reste de la liseuse ; la fermeture ne détruit pas le brouillon. Les indicateurs de vote continuent d'interpoler uniquement les barres pendant `300 ms`, tandis que les nombres restent immédiatement exacts.
+
+#### Mouvement réduit et robustesse
+
+Avec `prefers-reduced-motion: reduce`, toutes les translations, respirations et animations de panneaux — y compris l'ouverture d'un composeur de réponse et la confirmation d'un message — sont supprimées. Les changements sont immédiats ; le défilement programmatique n'est jamais fluide. En contraste forcé, le loader revient aux couleurs système et conserve des bordures explicites.
+
+Le système n'anime jamais `filter`, `backdrop-filter`, la taille du texte ou la hauteur des lignes. Les interactions restent disponibles si l'API Web Animations n'existe pas, si l'illustration manque ou si le contrôleur de mouvement ne se charge pas.
 
 ## 18. Performance
 
@@ -1466,7 +1554,7 @@ Critère de sortie : aucune requête fabriquée ne permet de voir une donnée d'
 - Ajouter règles, composition, réponses, modification et suppression par l'auteur.
 - Ajouter la validation ActiveRecord et la contrainte de base limitant chaque message à 500 caractères, avec compteur et erreur localisée dans le composeur.
 - Enregistrer les révisions de message de manière append-only.
-- Ajouter la proposition de censure, le masque en place et le vote `Oui` / `Non` pendant au moins deux jours.
+- Ajouter la proposition de censure, la carte de scrutin avec corps lisible et le vote `Oui` / `Non` pendant au moins deux jours.
 - Diffuser les résultats agrégés en temps réel avec polling de repli.
 - Ajouter le job de résolution idempotent, la politique versionnée et la reprise sur erreur.
 - Ajouter l'historique des propositions, suffrages, changements et décisions.
@@ -1475,7 +1563,7 @@ Critère de sortie : aucune requête fabriquée ne permet de voir une donnée d'
 - Ajouter limitation de fréquence par personne et appareil, puis activer quelques wards pilotes.
 - Mesurer incidents, participation, tentatives coordonnées et erreurs de résolution avant extension.
 
-Critère de sortie : chaque membre éligible de la ward peut proposer une censure et voter, le message est remplacé en place pendant le scrutin, les résultats sont visibles en direct, la décision automatique est reproductible et aucun rôle de modérateur n'existe.
+Critère de sortie : chaque membre éligible de la ward peut proposer une censure et voter après avoir lu le message dans la carte de scrutin, les résultats sont visibles en direct, la décision automatique est reproductible et aucun rôle de modérateur n'existe.
 
 ### Phase 5 — Vidéos officielles liées
 
@@ -1555,7 +1643,7 @@ Vérifier aussi :
 - suffrage valablement exprimé dans A avant transfert, encore compté mais impossible à modifier depuis B ;
 - vue propriétaire contenant ses propres publications de A et B sans aucune réponse ni activité des anciennes wards ;
 - disparition immédiate de la liste publique d'un profil lorsque le visiteur ou l'auteur quitte la ward commune ;
-- corps d'un message avec vote ouvert ou censuré absent des réponses, fragments, caches et logs.
+- corps d'un message censuré absent des réponses, fragments, caches et logs ; corps d'un vote ouvert limité à la carte du Cercle authentifié de la ward courante.
 
 ### 22.3 Contrôleurs et système
 
@@ -1565,6 +1653,7 @@ Vérifier aussi :
 - lien direct vers un verset prioritaire ;
 - création, édition, recouvrement, suppression, annulation et restauration de chaque repère ;
 - sélection au clavier et feuille `Plus` sans libellé tronqué ;
+- sélection courte, multi-versets et proche de 1 000 caractères : `En parler` ouvre directement un composeur avec citation, référence et champs cachés cohérents ; retrait de la citation, brouillon restauré, Cercle non inscriptible et sélection de 1 001 caractères n'enregistrent aucun message ;
 - fond coloré, soulignement et mode sans marque visuelle ;
 - création et filtrage par tag et carnet ;
 - navigation aller-retour entre deux passages liés ;
@@ -1575,11 +1664,11 @@ Vérifier aussi :
 - création et modification réussies à 500 caractères, refus à 501 avec brouillon intact, erreur localisée et absence de troncature ;
 - compteur cohérent avec la validation serveur pour texte accentué et emoji ;
 - profil du propriétaire avec toutes ses publications, filtres et pagination ;
-- profil d'un autre membre de la même ward avec seulement les publications autorisées de cette ward ;
+- profil d'un autre membre de la même ward avec seulement les publications explicitement signées et autorisées de cette ward ;
 - profil d'un joueur d'une autre ward sans liste, compteur ni état permettant d'inférer une publication ;
 - retour `Profil → chapitre → Profil` et absence d'ouverture d'une ancienne ward ;
 - états de profil `aucune publication`, chargement, erreur, vote en cours, censuré et supprimé ;
-- fil mobile contenant des messages ordinaires autour d'un message remplacé en place par un vote ;
+- fil mobile contenant des messages ordinaires autour d'un message encadré par une carte de vote avec son corps lisible ;
 - ouverture attribuée d'une proposition, motif, échéance et historique ;
 - vote `Oui`, vote `Non`, modification du choix et état `Ton vote` ;
 - mise à jour en direct des nombres et pourcentages sur deux sessions de la même ward ;
@@ -1606,7 +1695,7 @@ Captures obligatoires :
 - panneau repères ouvert ;
 - cercle sans ward, vide et rempli ;
 - profil propriétaire et profil d'un autre membre avec liste courte, longue, vide et paginée ;
-- lignes de publication visible, modifiée, en vote, censurée et supprimée, sans fuite du corps ;
+- lignes de publication visible, modifiée, en vote, censurée et supprimée, sans fuite du corps hors du Cercle de la ward ni après censure ;
 - cercle avec vote ouvert entre deux messages, résultats `0/0`, égalité, majorité nette et grands nombres ;
 - proposition conservée, censurée et annulée par l'auteur ;
 - boutons de vote et libellés longs dans les quatre langues, avec taille de texte maximale ;
@@ -1638,13 +1727,14 @@ La refonte est acceptable lorsque :
 - un transfert de ward change immédiatement le périmètre accessible ;
 - aucune note privée n'est publiée sans confirmation ;
 - l'auteur peut modifier ou supprimer son message selon les règles annoncées et chaque révision nécessaire est conservée ;
+- les publications sont anonymes par défaut ; seul leur auteur les retrouve sous `Toi`, peut basculer ce choix avant ou après envoi, et un profil tiers ne peut jamais réidentifier une publication encore anonyme ;
 - aucune réflexion, question ou réponse de plus de 500 caractères ne peut être créée ou enregistrée par modification, même en contournant le formulaire ;
 - son propre profil lui permet de retrouver toutes ses publications, y compris celles d'anciennes wards, sans lui rouvrir ces anciens cercles ;
 - le profil d'un autre joueur ne montre que ses publications de la ward commune actuelle déjà accessibles au visiteur ;
 - aucune URL, compteur, cache ou réponse de profil ne permet d'inférer des publications d'une autre ward ;
 - tout membre éligible de la ward peut proposer une censure sans recevoir un rôle ou un pouvoir durable ;
 - une proposition dure au moins deux jours selon des dates calculées par le serveur ;
-- pendant le vote, le corps du message est absent des réponses normales et remplacé à sa place par la carte de scrutin ;
+- pendant le vote, le corps du message est visible dans la carte de scrutin du Cercle authentifié de la ward courante, mais absent du profil, des autres wards, des caches partagés et du parcours après censure ;
 - les choix `Oui, censurer` et `Non, conserver` ont un poids visuel égal et les résultats agrégés sont visibles en temps réel ;
 - une personne ne possède qu'un suffrage courant mais chaque changement de choix est conservé ;
 - le job de résolution recompte les suffrages, applique une politique versionnée et reste idempotent ;
@@ -1699,7 +1789,7 @@ La refonte est acceptable lorsque :
 25. Créer fils et messages avec validation ActiveRecord `body <= 500`, contrainte PostgreSQL, compteur UI, modification/suppression par l'auteur et révisions append-only.
 26. Implémenter `ScriptureCircles::Access` et les tests inter-wards.
 27. Construire les états invité, sans ward, lecture seule, actif, vote ouvert et décision finale.
-28. Construire la proposition de censure, l'instantané de révision et le remplacement en place du message.
+28. Construire la proposition de censure, l'instantané de révision et la carte de vote qui rend le message lisible à la ward courante.
 29. Construire le suffrage `Oui` / `Non`, le changement de choix et les résultats agrégés en temps réel.
 30. Construire le job planifié de résolution, le verrouillage, l'idempotence et les alertes de reprise.
 31. Construire l'historique des propositions, suffrages, révisions, annulations et décisions.

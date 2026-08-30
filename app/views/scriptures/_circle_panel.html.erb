@@ -1,0 +1,92 @@
+<section class="reader-companion-section reader-circle-panel"
+         data-scripture-room-target="panel"
+         data-reader-panel="circle"
+         aria-labelledby="reader-circle-title"
+         <%= "hidden" unless active %>>
+  <% circle_event = local_assigns[:circle_event].to_s %>
+  <% circle_event_post = local_assigns[:circle_event_post] %>
+  <header class="reader-companion-heading">
+    <h2 id="reader-circle-title" tabindex="-1"><%= t("scripture_reader.circle.title") %></h2>
+    <button type="button" class="reader-return-to-reading" data-action="scripture-room#returnToReading">
+      <%= picto("arrow") %><span><%= t("scripture_reader.companion.return_to_reading") %></span>
+    </button>
+  </header>
+
+  <% if circle_mode == "disabled" %>
+    <div class="reader-empty-state"><span aria-hidden="true"><%= picto("people") %></span><p><%= t("scripture_reader.circle.disabled") %></p></div>
+  <% else %>
+    <% if circle_mode == "read_only" %>
+      <p class="circle-mode-notice"><%= t("scripture_reader.circle.read_only") %></p>
+    <% end %>
+
+    <% if circle_mode == "active" %>
+      <div class="circle-compose-region">
+        <% if circle_event_post %>
+          <p class="circle-compose-status is-success" data-circle-send-status role="status"><%= t("scripture_reader.circle.#{circle_event}") %></p>
+        <% end %>
+
+        <div class="circle-compose-card" data-circle-composer-shell>
+          <div class="circle-compose-body">
+            <% if current_street_person&.ward %><p class="circle-compose-scope"><%= t("scripture_reader.circle.ward_scope", ward: current_street_person.ward.name) %></p><% end %>
+            <%= form_with url: scripture_circle_posts_path,
+                          scope: :post,
+                          class: "circle-compose-form",
+                          data: {
+                            circle_composer: true,
+                            circle_composer_kind: "post",
+                            scripture_room_target: "circleComposer",
+                            action: "turbo:submit-start->scripture-room#composerSubmitStart turbo:submit-end->scripture-room#composerSubmitEnd"
+                          } do |form| %>
+              <%= form.hidden_field :reference, value: reference %>
+              <%= form.hidden_field :locale, value: I18n.locale %>
+              <%= form.hidden_field :start_verse, value: "", data: { scripture_room_target: "circleSelectionStart" } %>
+              <%= form.hidden_field :end_verse, value: "", data: { scripture_room_target: "circleSelectionEnd" } %>
+              <%= form.hidden_field :selected_text, value: "", data: { scripture_room_target: "circleSelectionText" } %>
+              <fieldset class="circle-kind-options">
+                <legend class="visually-hidden"><%= t("scripture_reader.circle.kind_label") %></legend>
+                <label><%= form.radio_button :kind, "reflection", checked: true, data: { action: "change->scripture-room#messageMetadataChanged" } %><span><%= t("scripture_reader.circle.kind_reflection") %></span></label>
+                <label><%= form.radio_button :kind, "question", data: { action: "change->scripture-room#messageMetadataChanged" } %><span><%= t("scripture_reader.circle.kind_question") %></span></label>
+              </fieldset>
+
+              <label class="circle-anonymous-toggle"><%= form.check_box :anonymous, { checked: true, data: { action: "change->scripture-room#messageMetadataChanged" } } %><span><%= t("scripture_reader.circle.post_anonymously") %></span></label>
+
+              <aside class="circle-selection-context" data-scripture-room-target="circleSelectionContext" hidden>
+                <p><span><%= t("scripture_reader.selection.discussion_context") %></span><strong data-scripture-room-target="circleSelectionReference"></strong></p>
+                <button type="button" data-action="scripture-room#clearCircleSelection"><%= t("scripture_reader.selection.clear_discussion_context") %></button>
+                <blockquote data-scripture-room-target="circleSelectionQuote" aria-label="<%= t("scripture_reader.selection.discussion_context") %>"></blockquote>
+              </aside>
+
+              <label class="circle-message-field" for="circle-post-body">
+                <span><%= t("scripture_reader.circle.message_label") %></span>
+                <%= form.text_area :body,
+                                   id: "circle-post-body",
+                                   rows: 3,
+                                   placeholder: t("scripture_reader.circle.placeholder"),
+                                   aria: { describedby: "circle-post-counter circle-post-error" },
+                                   data: { action: "focus->scripture-room#composerFieldFocused input->scripture-room#messageInput" } %>
+              </label>
+
+              <div class="circle-compose-foot">
+                <span id="circle-post-counter" data-message-counter>0 / <%= ScriptureCirclePost::MAX_BODY_LENGTH %></span>
+                <div class="circle-compose-actions">
+                  <button type="submit" class="circle-submit" data-circle-submit data-circle-sending-label="<%= t("scripture_reader.circle.publishing") %>"><span data-circle-submit-label><%= t("scripture_reader.circle.publish") %></span></button>
+                </div>
+              </div>
+              <p id="circle-post-error" class="circle-compose-error" data-message-error role="alert" hidden></p>
+              <p class="circle-compose-status" data-message-status role="status" hidden></p>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+    <div class="circle-message-list">
+      <% if posts.any? %>
+        <%= render partial: "scriptures/circle_post", collection: posts, as: :post,
+              locals: { circle_mode:, reference:, circle_event:, circle_event_post_id: circle_event_post&.id } %>
+      <% else %>
+        <div class="reader-empty-state"><span aria-hidden="true"><%= picto("people") %></span><p><%= t("scripture_reader.circle.empty") %></p></div>
+      <% end %>
+    </div>
+  <% end %>
+</section>

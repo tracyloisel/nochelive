@@ -5,132 +5,368 @@
 <% share_base_url = scripture_chapter_url(
      **Scriptures::Reference.chapter_path_options(public_reference, I18n.locale)
    ) if public_reference %>
+<% reader = @reader_screen %>
+<% preference = reader&.preference || ScriptureReaderPreference.new %>
+<% movement = reader&.movement %>
+<% movement_label = if movement&.exact?
+                      t("scripture_reader.movement.exact", count: movement.count)
+                    elsif movement&.visible?
+                      t("scripture_reader.movement.discreet")
+                    end %>
+<% marks = Array(reader&.marks) %>
+<% visual_marks = marks.select { |mark| mark.passage_anchor? && mark.visual_style != "none" } %>
+<% guide = reader&.guide %>
+<% circle_mode = reader&.circle_mode || "disabled" %>
+<% circle_posts = Array(reader&.circle_posts) %>
+<% verses = Array(@chapter&.verses) %>
+<% chapter_title = scripture_reader_chapter_title(@chapter, @study) if @chapter %>
+<% chapter_bookmark = marks.find { |mark| mark.chapter_anchor? && mark.bookmarked_at? } %>
+<% current_verse = reader&.progress&.last_verse.presence || initial_focus.first || verses.first&.number || 1 %>
+<% current_index = [verses.index { |verse| verse.number == current_verse }.to_i + 1, 1].max %>
+<% initial_panel = params[:circle].to_s == "1" ? "circle" : "read" %>
+<% circle_event = params[:circle_event].to_s if %w[published replied updated].include?(params[:circle_event].to_s) %>
+<% circle_event_post = nil %>
+<% if circle_event.present? %>
+  <% circle_event_post = circle_posts.find do |post|
+       post.id == params[:circle_post].to_i && post.person_id == current_street_person&.id
+     end %>
+<% end %>
+<% circle_event = nil unless circle_event_post %>
 
-<aside class="scripture-veil"
-       data-controller="scripture"
+<aside class="scripture-veil scripture-reader-room"
+       data-controller="scripture scripture-room church-video"
+       data-active-panel="<%= initial_panel %>"
        role="dialog"
        aria-modal="true"
        aria-labelledby="scripture-title"
        data-stage-bed-value="study_refuge"
+       data-scripture-room-preferences-url="<%= scripture_reader_preferences_path if current_street_person %>"
+       data-scripture-room-marks-url="<%= scripture_marks_path if current_street_person %>"
+       data-scripture-room-progress-url="<%= scripture_reading_progress_path if current_street_person %>"
+       data-scripture-room-reference="<%= @study %>"
+       data-scripture-room-locale="<%= I18n.locale %>"
+       data-scripture-room-initial-panel="<%= initial_panel %>"
+       data-scripture-room-font-scale="<%= preference.font_scale || 100 %>"
+       data-scripture-room-line-height="<%= preference.line_height_key || "comfortable" %>"
+       data-scripture-room-measure="<%= preference.measure_key || "comfortable" %>"
+       data-scripture-room-font-family="<%= preference.font_family_key || "editorial" %>"
+       data-scripture-room-background="<%= preference.background_key || "paper" %>"
+       data-scripture-room-illustrations="<%= preference.illustrations_enabled.nil? ? true : preference.illustrations_enabled %>"
+       data-preference-saved="<%= t("scripture_reader.settings.saved") %>"
+       data-mark-saved="<%= t("scripture_reader.selection.saved") %>"
+       data-mark-error="<%= t("scripture_reader.selection.error") %>"
+       data-action-error="<%= t("scripture_reader.errors.invalid") %>"
+       data-progress-template="<%= t("scripture_reader.progress.label", current: "__CURRENT__", total: "__TOTAL__") %>"
+       data-mark-delete-label="<%= t("scripture_reader.marks.delete") %>"
+       data-mark-edit-title="<%= t("scripture_reader.selection.edit_title") %>"
+       data-mark-create-title="<%= t("scripture_reader.selection.note_title") %>"
+       data-mark-save-label="<%= t("scripture_reader.selection.save_note") %>"
+       data-mark-update-label="<%= t("scripture_reader.selection.update_note") %>"
+       data-search-results-template="<%= t("scripture_reader.selection.search_results", count: "__COUNT__") %>"
+       data-definition-unavailable="<%= t("scripture_reader.selection.definition_unavailable") %>"
+       data-selection-copied="<%= t("scripture_reader.selection.copied") %>"
+       data-reader-chapter-title="<%= chapter_title %>"
+       data-message-limit-error="<%= t("scripture_reader.circle.too_long") %>"
+       data-message-blank-error="<%= t("scripture_reader.circle.message_required") %>"
+       data-circle-person-id="<%= current_street_person&.id %>"
+       data-scripture-room-circle-mode="<%= circle_mode %>"
+       data-circle-selection-limit-error="<%= t("scripture_reader.selection.discussion_too_long") %>"
+       data-circle-unavailable="<%= t("scripture_reader.selection.discussion_unavailable") %>"
+       data-circle-event="<%= circle_event %>"
+       data-circle-event-post-id="<%= circle_event_post&.id %>"
+       data-circle-draft-restored="<%= t("scripture_reader.circle.draft_restored") %>"
+       data-circle-send-failed="<%= t("scripture_reader.circle.send_failed") %>"
+       data-church-video-locale-value="<%= I18n.locale %>"
+       data-church-video-player-title-value="<%= t("church_videos.player_title") %>"
        <% if @chapter %>
          data-scripture-reference="<%= @study %>"
          data-scripture-locale="<%= I18n.locale %>"
          data-scripture-read-url="<%= scripture_reads_path %>"
-         <% if current_street_person %>data-scripture-highlight-url="<%= scripture_highlights_path %>"<% end %>
+         data-scripture-highlight-url="<%= scripture_marks_path if current_street_person %>"
          data-scripture-share-url="<%= share_base_url %>"
          data-scripture-share-title-template="<%= t("quiz.scripture_share_title", reference: "__REFERENCE__") %>"
          data-scripture-share-message-template="<%= t("quiz.scripture_share_message", reference: "__REFERENCE__") %>"
        <% end %>>
   <div class="scripture-sheet">
-    <header class="scripture-head">
-      <button type="button"
-              class="story-close scripture-close"
-              data-action="click->scripture#close"
-              data-scripture-close
-              aria-label="<%= t("quiz.scripture_close") %>">
-        <%= picto("close") %>
-      </button>
-      <div class="scripture-head-copy">
-        <h1 id="scripture-title"><%= @chapter&.title.presence || @cite.presence || t("quiz.read_more") %></h1>
-        <% if @chapter %>
-          <p class="scripture-read-count"
-             data-scripture-read-count
-             aria-live="polite"
-             <%= "hidden" unless @scripture_reads_count.to_i.positive? %>><%= scripture_read_count_label(@scripture_reads_count) %></p>
-        <% end %>
-      </div>
-    </header>
-
-    <div class="scripture-body">
-      <% if @chapter %>
-        <% if @chapter.summary.present? %>
-          <p class="scripture-summary"><%= @chapter.summary %></p>
-        <% end %>
-        <% illustrations = Array(@scripture_illustrations).index_by(&:anchor_verse) %>
-        <% @chapter.verses.each do |verse| %>
-          <% focused = @chapter.focus.include?(verse.number) %>
-          <p class="scripture-verse <%= "is-focus" if focused %>"
-             data-scripture-target="verse"
-             data-scripture-verse-number="<%= verse.number %>"
-             <% if focused && verse.number == @chapter.focus.first %>data-scripture-focus<% end %>>
-            <span class="scripture-verse-n" aria-hidden="true"><%= verse.number %></span>
-            <span data-scripture-verse-text><%= verse.text %></span>
-          </p>
-          <%= render "scriptures/illustration", illustration: illustrations[verse.number] if illustrations[verse.number] %>
-        <% end %>
-      <% else %>
-        <p class="scripture-error"><%= t("quiz.scripture_error") %></p>
-      <% end %>
-    </div>
-
-    <footer class="scripture-foot">
-      <p class="scripture-source"><%= t("quiz.scripture_source") %></p>
-      <%= link_to t("quiz.scripture_open_site"), @source_url, class: "quiet-link", target: "_blank", rel: "noopener" %>
-    </footer>
-  </div>
-
-  <% if @chapter %>
-    <script type="application/json" data-scripture-profile-highlights><%= raw json_escape(Array(@scripture_highlights).to_json) %></script>
-
-    <button type="button"
-            class="scripture-share-trigger"
-            data-scripture-target="shareTrigger"
-            data-action="pointerdown->scripture#preserveSelection click->scripture#openShare"
-            aria-label="<%= t("quiz.scripture_share") %>"
-            hidden>
-      <%= picto("share") %>
-    </button>
-
-    <dialog class="scripture-share-dialog"
-            tabindex="-1"
-            data-scripture-target="shareDialog"
-            data-action="click->scripture#closeShareOnBackdrop close->scripture#shareClosed"
-            aria-labelledby="scripture-share-title">
-      <section class="scripture-share-panel">
-        <header>
-          <h2 id="scripture-share-title" data-scripture-target="selection"><%= t("quiz.scripture_share") %></h2>
+    <% if @chapter %>
+      <header class="reader-room-topbar">
+        <button type="button" class="reader-close" data-action="click->scripture#close" data-scripture-close aria-label="<%= t("scripture_reader.close") %>" title="<%= t("scripture_reader.close") %>">
+          <%= picto("cross") %><span><%= t("scripture_reader.close") %></span>
+        </button>
+        <strong class="reader-mobile-title">
+          <% if movement&.exact? %>
+            <span class="reader-mobile-readers" aria-label="<%= movement_label %>">
+              <%= picto("people") %>
+              <span aria-hidden="true"><%= t("scripture_reader.movement.exact_short", count: movement.count) %></span>
+            </span>
+          <% end %>
+          <span class="reader-mobile-chapter-title"><%= chapter_title %></span>
+        </strong>
+        <div class="reader-topbar-actions">
           <button type="button"
-                  class="scripture-share-close"
-                  data-action="scripture#closeShare"
-                  aria-label="<%= t("quiz.scripture_share_close") %>">
-            <%= picto("close") %>
+                  class="reader-panel-trigger reader-marks-trigger"
+                  data-action="scripture-room#openMarks"
+                  data-scripture-room-target="marksTrigger"
+                  aria-controls="reader-companion"
+                  aria-expanded="false"
+                  aria-label="<%= t("scripture_reader.companion.marks_label") %>"
+                  title="<%= t("scripture_reader.companion.marks_label") %>">
+            <%= picto("bookmark") %>
           </button>
-        </header>
-        <div class="scripture-share-options">
-          <button type="button" class="scripture-share-option" data-action="scripture#copyLink">
-            <span class="scripture-share-option-mark" aria-hidden="true"><%= picto("copy") %></span>
-            <span><%= t("quiz.scripture_copy_link") %></span>
-          </button>
-          <a class="scripture-share-option"
-             href="https://wa.me/"
-             target="_blank"
-             rel="noopener"
-             data-scripture-target="whatsapp">
-            <span class="scripture-share-option-mark" aria-hidden="true"><%= picto("whatsapp") %></span>
-            <span><%= t("quiz.scripture_share_whatsapp") %></span>
-          </a>
-          <a class="scripture-share-option"
-             href="https://twitter.com/intent/tweet"
-             target="_blank"
-             rel="noopener"
-             data-scripture-target="x">
-            <span class="scripture-share-option-mark scripture-share-x-mark" aria-hidden="true">X</span>
-            <span><%= t("quiz.scripture_share_x") %></span>
-          </a>
           <button type="button"
-                  class="scripture-share-option scripture-share-remove"
-                  data-scripture-target="deleteHighlight"
-                  data-action="scripture#removeHighlight"
-                  hidden>
-            <span class="scripture-share-option-mark scripture-share-remove-mark" aria-hidden="true">×</span>
-            <span><%= t("quiz.scripture_remove_highlight") %></span>
+                  class="reader-panel-trigger reader-circle-trigger"
+                  data-action="scripture-room#openCircle"
+                  data-scripture-room-target="circleTrigger"
+                  aria-controls="reader-companion"
+                  aria-expanded="<%= initial_panel == "circle" %>"
+                  aria-label="<%= t("scripture_reader.companion.circle_label") %>"
+                  title="<%= t("scripture_reader.companion.circle_label") %>">
+            <%= picto("conversation") %>
           </button>
+          <button type="button" class="reader-aa-button" data-action="scripture-room#openSettings" aria-label="<%= t("scripture_reader.settings_label") %>">Aa</button>
         </div>
-        <p class="scripture-share-status"
-           role="status"
-           data-scripture-target="copyStatus"
-           hidden><%= t("quiz.scripture_link_copied") %></p>
-      </section>
-    </dialog>
-  <% end %>
+      </header>
+
+      <div class="reader-mobile-progress" aria-label="<%= t("scripture_reader.progress.label", current: current_index, total: verses.length) %>">
+        <span data-reading-progress-label><%= t("scripture_reader.progress.label", current: current_index, total: verses.length) %></span>
+        <i><b data-reading-progress-bar style="width: <%= (current_index.to_f / [verses.length, 1].max * 100).round %>%"></b></i>
+      </div>
+
+      <div class="scripture-reader-layout" data-scripture-room-target="layout" data-active-panel="<%= initial_panel %>">
+        <main class="reader-reading-stage" data-scripture-room-target="readingStage">
+          <div class="reader-chapter-art" data-scripture-room-target="illustration" aria-hidden="true">
+            <%= noche_picture("scripture.reader.mountains-gold-ivory", alt: "", class_name: "reader-chapter-art-image", loading: "eager", fetchpriority: "high") %>
+          </div>
+
+          <article class="reader-chapter" aria-labelledby="scripture-title">
+            <header class="reader-chapter-heading">
+              <% if movement_label.present? %>
+                <p class="reader-chapter-readers <%= "is-exact" if movement&.exact? %>">
+                  <%= picto("people") %>
+                  <span><%= movement_label %></span>
+                </p>
+              <% end %>
+              <h1 id="scripture-title"><%= chapter_title %></h1>
+            </header>
+
+            <% if reader&.progress&.resumable? %>
+              <button type="button" class="reader-resume" data-action="scripture-room#resumeReading" data-resume-verse="<%= reader.progress.last_verse %>"><%= t("scripture_reader.progress.resume", verse: reader.progress.last_verse) %></button>
+            <% end %>
+
+            <details class="reader-welcome-card" open data-scripture-room-target="welcome">
+              <summary>
+                <span class="reader-welcome-star" aria-hidden="true"><%= picto("sparkle") %></span>
+                <span>
+                  <small><%= t("scripture_reader.welcome.kicker") %></small>
+                  <strong><%= guide&.welcome_title.presence || t("scripture_reader.welcome.title") %></strong>
+                  <em class="scripture-summary"><%= guide&.summary.presence || @chapter.summary.presence || t("scripture_reader.welcome.summary") %></em>
+                  <% if guide&.historical_context.present? %><span class="reader-historical-context"><%= guide.historical_context %></span><% end %>
+                </span>
+                <i aria-hidden="true">⌃</i>
+              </summary>
+            </details>
+
+            <div class="reader-verses scripture-body" data-scripture-room-target="verses">
+              <% verses.each do |verse| %>
+                <% focused = @chapter.focus.include?(verse.number) %>
+                <p class="scripture-verse <%= "is-focus" if focused %>" id="reader-verse-<%= verse.number %>" data-scripture-target="verse" data-scripture-verse-number="<%= verse.number %>" <% if focused && verse.number == @chapter.focus.first %>data-scripture-focus<% end %>>
+                  <span class="scripture-verse-n" aria-hidden="true"><%= verse.number %></span>
+                  <span data-scripture-verse-text><%= verse.text %></span>
+                </p>
+              <% end %>
+            </div>
+
+            <footer class="scripture-foot reader-source-card">
+              <p><%= t("scripture_reader.source.kicker") %></p>
+              <strong><%= t("scripture_reader.source.title") %></strong>
+              <%= link_to @source_url, target: "_blank", rel: "noopener" do %>
+                <span><%= t("scripture_reader.source.open") %></span><b aria-hidden="true">↗</b>
+              <% end %>
+            </footer>
+
+            <% if Array(reader&.video_links).any? %>
+              <section class="reader-video-links" aria-labelledby="reader-video-links-title">
+                <header>
+                  <p><%= t("scripture_reader.video.kicker") %></p>
+                  <h2 id="reader-video-links-title"><%= t("scripture_reader.video.title") %></h2>
+                  <span><%= t("scripture_reader.video.privacy") %></span>
+                </header>
+                <% reader.video_links.each do |video| %>
+                  <article class="reader-video-card">
+                    <button type="button"
+                            data-action="church-video#open"
+                            data-video-id="<%= video.youtube_video_id %>"
+                            data-video-title="<%= video.editorial_reason %>"
+                            aria-label="<%= t("scripture_reader.video.watch", title: video.editorial_reason) %>">
+                      <span aria-hidden="true"><%= picto("play") %></span>
+                      <span><strong><%= video.editorial_reason %></strong><small><%= t("scripture_reader.video.official") %></small></span>
+                    </button>
+                    <%= link_to t("scripture_reader.video.external"), "https://www.youtube.com/watch?v=#{video.youtube_video_id}", target: "_blank", rel: "noopener noreferrer" %>
+                  </article>
+                <% end %>
+              </section>
+            <% end %>
+          </article>
+
+        </main>
+
+        <aside class="reader-scroll-progress" aria-label="<%= t("scripture_reader.progress.label", current: current_index, total: verses.length) %>">
+          <span data-reading-progress-label><%= t("scripture_reader.progress.label", current: current_index, total: verses.length) %></span>
+          <i><b data-reading-progress-bar style="height: <%= (current_index.to_f / [verses.length, 1].max * 100).round %>%"></b></i>
+        </aside>
+
+        <aside id="reader-companion" class="reader-companion" data-scripture-room-target="companion" <%= "hidden" if initial_panel == "read" %>>
+          <%= render "scriptures/marks_panel", marks:, history: reader&.chapter_history, chapter_title:, chapter_bookmark:, active: initial_panel != "circle" %>
+          <%= render "scriptures/circle_panel", posts: circle_posts, circle_mode:, reference: @study,
+                active: initial_panel == "circle", circle_event:, circle_event_post: %>
+        </aside>
+      </div>
+
+      <script type="application/json" data-scripture-profile-highlights><%= raw json_escape(visual_marks.map(&:reader_attributes).to_json) %></script>
+      <script type="application/json" data-scripture-mark-cache><%= raw json_escape(marks.map(&:reader_attributes).to_json) %></script>
+
+      <div class="scripture-share-trigger scripture-selection-bar" data-scripture-target="shareTrigger" role="toolbar" aria-label="<%= t("scripture_reader.selection.actions") %>" hidden>
+        <button type="button" data-action="pointerdown->scripture#preserveSelection click->scripture-room#highlightSelection"><%= picto("highlight") %><span><%= t("scripture_reader.selection.highlight") %></span></button>
+        <button type="button" data-action="pointerdown->scripture#preserveSelection click->scripture-room#openNote"><%= picto("note") %><span><%= t("scripture_reader.selection.note") %></span></button>
+        <button type="button" data-action="pointerdown->scripture#preserveSelection click->scripture-room#discussSelection"><%= picto("conversation") %><span><%= t("scripture_reader.selection.discuss") %></span></button>
+        <button type="button" data-action="pointerdown->scripture#preserveSelection click->scripture-room#openTools"><%= picto("plus") %><span><%= t("scripture_reader.selection.more") %></span></button>
+      </div>
+
+      <p class="reader-selection-status" data-scripture-room-target="selectionStatus" role="status" hidden></p>
+
+      <div class="reader-undo-banner" data-scripture-room-target="undoBanner" hidden>
+        <span data-scripture-room-target="undoMessage"><%= t("scripture_reader.marks.removed") %></span>
+        <button type="button" data-action="scripture-room#restoreMark"><%= t("scripture_reader.marks.undo") %></button>
+      </div>
+
+      <dialog class="reader-note-dialog" data-scripture-room-target="noteDialog" aria-labelledby="reader-note-title">
+        <section>
+          <header><div><p><%= t("scripture_reader.tabs.marks") %></p><h2 id="reader-note-title" data-scripture-room-target="noteTitle"><%= t("scripture_reader.selection.note_title") %></h2></div><button type="button" data-action="scripture-room#closeNote" aria-label="<%= t("scripture_reader.selection.close") %>">×</button></header>
+          <blockquote data-scripture-room-target="noteSelection"></blockquote>
+
+          <fieldset class="reader-mark-style">
+            <legend><%= t("scripture_reader.selection.style") %></legend>
+            <div class="reader-setting-options">
+              <% %w[highlight underline none].each do |style| %>
+                <label><input type="radio" name="reader-note-style" value="<%= style %>"><span><%= t("scripture_reader.selection.styles.#{style}") %></span></label>
+              <% end %>
+            </div>
+          </fieldset>
+
+          <fieldset class="reader-mark-colors">
+            <legend><%= t("scripture_reader.selection.color") %></legend>
+            <div>
+              <% %w[gold clay sage rose].each do |color| %>
+                <label title="<%= t("scripture_reader.selection.colors.#{color}") %>"><input type="radio" name="reader-note-color" value="<%= color %>"><span class="is-<%= color %>"></span><b><%= t("scripture_reader.selection.colors.#{color}") %></b></label>
+              <% end %>
+            </div>
+          </fieldset>
+
+          <label class="reader-editor-field"><span><%= t("scripture_reader.selection.intent") %></span><select data-scripture-room-target="noteIntent"><option value=""><%= t("scripture_reader.selection.optional") %></option><% ScriptureMark::INTENT_KEYS.each do |intent| %><option value="<%= intent %>"><%= t("scripture_reader.selection.intents.#{intent}") %></option><% end %></select></label>
+          <label class="reader-editor-field"><span><%= t("scripture_reader.selection.note_field") %></span><textarea rows="5" data-scripture-room-target="noteBody" placeholder="<%= t("scripture_reader.selection.note_placeholder") %>"></textarea></label>
+          <div class="reader-editor-grid">
+            <label class="reader-editor-field"><span><%= t("scripture_reader.selection.tags") %></span><input type="text" maxlength="200" data-scripture-room-target="noteTags" placeholder="<%= t("scripture_reader.selection.tags_placeholder") %>"></label>
+            <label class="reader-editor-field"><span><%= t("scripture_reader.selection.notebook") %></span><input type="text" maxlength="80" data-scripture-room-target="noteNotebook" placeholder="<%= t("scripture_reader.selection.notebook_placeholder") %>"></label>
+          </div>
+          <label class="reader-editor-field"><span><%= t("scripture_reader.selection.link") %></span><input type="text" maxlength="80" data-scripture-room-target="noteLink" placeholder="ot/ps/23"></label>
+          <label class="reader-bookmark-toggle"><input type="checkbox" data-scripture-room-target="noteBookmark"><span><%= t("scripture_reader.selection.keep_bookmark") %></span></label>
+          <p><%= t("scripture_reader.selection.note_private") %></p>
+          <button type="button" class="reader-primary-action" data-action="scripture-room#saveNote" data-scripture-room-target="noteSave"><%= t("scripture_reader.selection.save_note") %></button>
+        </section>
+      </dialog>
+
+      <dialog class="reader-tools-dialog" data-scripture-room-target="toolsDialog" aria-labelledby="reader-tools-title">
+        <section>
+          <header><div><p><%= t("scripture_reader.selection.more") %></p><h2 id="reader-tools-title"><%= t("scripture_reader.selection.tools_title") %></h2></div><button type="button" data-action="scripture-room#closeTools" aria-label="<%= t("scripture_reader.selection.close") %>">×</button></header>
+          <div class="reader-tool-actions">
+            <button type="button" data-action="scripture-room#openOrganizer"><%= picto("note") %><span><strong><%= t("scripture_reader.selection.organize") %></strong><small><%= t("scripture_reader.selection.organize_hint") %></small></span></button>
+            <button type="button" data-action="scripture-room#bookmarkSelection"><%= picto("bookmark") %><span><strong><%= t("scripture_reader.selection.bookmark") %></strong><small><%= t("scripture_reader.selection.bookmark_hint") %></small></span></button>
+            <button type="button" data-action="scripture-room#openLinkEditor"><%= picto("arrow") %><span><strong><%= t("scripture_reader.selection.link") %></strong><small><%= t("scripture_reader.selection.link_hint") %></small></span></button>
+            <button type="button" data-action="scripture-room#searchSelection"><%= picto("search") %><span><strong><%= t("scripture_reader.selection.search") %></strong><small><%= t("scripture_reader.selection.search_hint") %></small></span></button>
+            <button type="button" data-action="scripture-room#defineSelection"><%= picto("sparkle") %><span><strong><%= t("scripture_reader.selection.define") %></strong><small><%= t("scripture_reader.selection.define_hint") %></small></span></button>
+            <button type="button" data-action="scripture-room#copySelection"><%= picto("copy") %><span><strong><%= t("scripture_reader.selection.copy") %></strong><small><%= t("scripture_reader.selection.copy_hint") %></small></span></button>
+            <button type="button" data-action="scripture-room#closeTools scripture#openShare"><%= picto("share") %><span><strong><%= t("scripture_reader.selection.share") %></strong><small><%= t("scripture_reader.selection.share_hint") %></small></span></button>
+          </div>
+          <p class="reader-tool-result" data-scripture-room-target="toolResult" role="status" hidden></p>
+        </section>
+      </dialog>
+
+      <dialog class="reader-settings-dialog" data-scripture-room-target="settingsDialog" aria-labelledby="reader-settings-title">
+        <section>
+          <header><h2 id="reader-settings-title"><%= t("scripture_reader.settings.title") %></h2><button type="button" data-action="scripture-room#closeSettings" aria-label="<%= t("scripture_reader.settings.close") %>">×</button></header>
+          <fieldset class="reader-font-scale-options">
+            <legend><%= t("scripture_reader.settings.text_size") %></legend>
+            <div class="reader-setting-options">
+              <% [100, 115].each do |scale| %>
+                <label>
+                  <input type="radio"
+                         name="reader-font-scale"
+                         value="<%= scale %>"
+                         <%= "checked" if (preference.font_scale || 100).to_i == scale %>
+                         data-preference-key="font_scale"
+                         data-action="change->scripture-room#changePreference">
+                  <span><%= scale %>%</span>
+                </label>
+              <% end %>
+            </div>
+          </fieldset>
+          <% {
+            line_height_key: ["line_height", %w[compact comfortable ample]],
+            measure_key: ["measure", %w[focused comfortable wide]],
+            font_family_key: ["font", %w[editorial accessible]],
+            background_key: ["background", %w[paper soft contrast]]
+          }.each do |key, (label_key, options)| %>
+            <fieldset>
+              <legend><%= t("scripture_reader.settings.#{label_key}") %></legend>
+              <div class="reader-setting-options">
+                <% options.each do |option| %>
+                  <label><input type="radio" name="reader-<%= key %>" value="<%= option %>" <%= "checked" if preference.public_send(key) == option %> data-preference-key="<%= key %>" data-action="change->scripture-room#changePreference"><span><%= t("scripture_reader.settings.#{option}") %></span></label>
+                <% end %>
+              </div>
+            </fieldset>
+          <% end %>
+          <label class="reader-illustration-toggle"><input type="checkbox" <%= "checked" if preference.illustrations_enabled.nil? || preference.illustrations_enabled %> data-preference-key="illustrations_enabled" data-action="change->scripture-room#changePreference"><span><%= t("scripture_reader.settings.illustrations") %></span></label>
+          <p class="reader-settings-status" data-scripture-room-target="settingsStatus" role="status"></p>
+        </section>
+      </dialog>
+
+      <% if Array(reader&.video_links).any? %>
+        <dialog class="reader-video-dialog"
+                aria-labelledby="reader-video-dialog-title"
+                data-church-video-target="dialog"
+                data-action="click->church-video#backdropClose close->church-video#onClose">
+          <section>
+            <form method="dialog"><button type="submit" aria-label="<%= t("church_videos.close") %>">×</button></form>
+            <div class="reader-video-consent" data-church-video-target="consent">
+              <span aria-hidden="true"><%= picto("shield") %></span>
+              <p><%= t("church_videos.before_watching") %></p>
+              <h2 id="reader-video-dialog-title" data-church-video-target="title"><%= t("church_videos.player_title") %></h2>
+              <p><%= t("church_videos.consent_body") %></p>
+              <button type="button" class="reader-primary-action" data-action="church-video#accept"><%= picto("play") %><%= t("church_videos.accept_and_watch") %></button>
+            </div>
+            <div class="reader-video-player" data-church-video-target="player" hidden></div>
+          </section>
+        </dialog>
+      <% end %>
+
+      <dialog class="scripture-share-dialog" tabindex="-1" data-scripture-target="shareDialog" data-action="click->scripture#closeShareOnBackdrop close->scripture#shareClosed" aria-labelledby="scripture-share-title">
+        <section class="scripture-share-panel">
+          <header><h2 id="scripture-share-title" data-scripture-target="selection"><%= t("quiz.scripture_share") %></h2><button type="button" class="scripture-share-close" data-action="scripture#closeShare" aria-label="<%= t("quiz.scripture_share_close") %>"><%= picto("close") %></button></header>
+          <div class="scripture-share-options">
+            <button type="button" class="scripture-share-option" data-action="scripture#copyLink"><span class="scripture-share-option-mark"><%= picto("copy") %></span><span><%= t("quiz.scripture_copy_link") %></span></button>
+            <a class="scripture-share-option" href="https://wa.me/" target="_blank" rel="noopener" data-scripture-target="whatsapp"><span class="scripture-share-option-mark"><%= picto("whatsapp") %></span><span><%= t("quiz.scripture_share_whatsapp") %></span></a>
+            <a class="scripture-share-option" href="https://twitter.com/intent/tweet" target="_blank" rel="noopener" data-scripture-target="x"><span class="scripture-share-option-mark scripture-share-x-mark">X</span><span><%= t("quiz.scripture_share_x") %></span></a>
+            <button type="button" class="scripture-share-option scripture-share-remove" data-scripture-target="deleteHighlight" data-action="scripture#removeHighlight" hidden><span class="scripture-share-option-mark scripture-share-remove-mark">×</span><span><%= t("quiz.scripture_remove_highlight") %></span></button>
+          </div>
+          <p class="scripture-share-status" role="status" data-scripture-target="copyStatus" hidden><%= t("quiz.scripture_link_copied") %></p>
+        </section>
+      </dialog>
+    <% else %>
+      <div class="reader-error-state">
+        <button type="button" class="reader-close" data-action="click->scripture#close" data-scripture-close aria-label="<%= t("scripture_reader.close") %>"><%= picto("cross") %><span><%= t("scripture_reader.close") %></span></button>
+        <p class="scripture-error"><%= t("quiz.scripture_error") %></p>
+        <%= link_to t("scripture_reader.source.open"), @source_url, class: "quiet-link", target: "_blank", rel: "noopener" %>
+      </div>
+    <% end %>
+  </div>
 </aside>

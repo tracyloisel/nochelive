@@ -18,6 +18,10 @@ production:
     class: VerseNotificationCoordinatorJob
     queue: maintenance
     schedule: every 15 minutes
+  resolve_scripture_circle_votes:
+    class: ScriptureCircles::Moderations::ResolveDueJob
+    queue: maintenance
+    schedule: every 5 minutes
   clean_notification_records:
     class: NotificationsCleanupJob
     queue: maintenance

@@ -59,6 +59,20 @@ module ChurchVideos
         configuration.fetch("artwork")
       end
 
+      def official_channel_id(locale)
+        configuration.fetch("channels").fetch(Locale.cast(locale)).fetch("id")
+      end
+
+      def official_channel_id?(locale:, channel_id:)
+        ActiveSupport::SecurityUtils.secure_compare(official_channel_id(locale), channel_id.to_s)
+      rescue KeyError, ArgumentError
+        false
+      end
+
+      def scripture_candidates(reference:, locale: I18n.locale, themes: [], **options)
+        ScriptureCandidates.call(reference:, locale:, themes:, **options)
+      end
+
       def http_get(uri)
         (transport || method(:net_http_get)).call(uri)
       end

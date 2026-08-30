@@ -24,6 +24,10 @@ module People
         move_reading_progresses!
         move_scripture_reads!
         move_scripture_highlights!
+        move_scripture_reader_preference!
+        move_scripture_reading_progresses!
+        move_scripture_library!
+        move_scripture_circle_attribution!
         move_duel_invitations!
         move_duels!
         move_viral_events!
@@ -205,6 +209,145 @@ module People
           else
             highlight.update!(person: @keeper)
           end
+        end
+      end
+
+      def move_scripture_reader_preference!
+        source_preference = @source.scripture_reader_preference
+        return unless source_preference
+
+        keeper_preference = @keeper.scripture_reader_preference
+        unless keeper_preference
+          source_preference.update!(person: @keeper)
+          return
+        end
+
+        if source_preference.updated_at > keeper_preference.updated_at
+          keeper_preference.update!(source_preference.reader_attributes)
+        end
+        source_preference.destroy!
+      end
+
+      def move_scripture_reading_progresses!
+        @source.scripture_reading_progresses.find_each do |progress|
+          existing = @keeper.scripture_reading_progresses.find_by(
+            reference: progress.reference,
+            locale: progress.locale
+          )
+          unless existing
+            progress.update!(person: @keeper)
+            next
+          end
+
+          latest = [ existing, progress ].max_by(&:last_opened_at)
+          existing.update!(
+            first_opened_at: [ existing.first_opened_at, progress.first_opened_at ].min,
+            last_opened_at: [ existing.last_opened_at, progress.last_opened_at ].max,
+            last_verse: latest.last_verse,
+            last_offset: latest.last_offset,
+            progress_ratio: [ existing.progress_ratio, progress.progress_ratio ].max,
+            completed_at: [ existing.completed_at, progress.completed_at ].compact.min
+          )
+          progress.destroy!
+        end
+      end
+
+      def move_scripture_library!
+        move_scripture_tags!
+        move_scripture_notebooks!
+        @source.scripture_marks.update_all(person_id: @keeper.id, updated_at: Time.current)
+      end
+
+      def move_scripture_tags!
+        @source.scripture_tags.find_each do |tag|
+          existing = @keeper.scripture_tags.find_by(normalized_name: tag.normalized_name)
+          unless existing
+            tag.update!(person: @keeper)
+            next
+          end
+
+          tag.scripture_mark_taggings.find_each do |tagging|
+            duplicate = ScriptureMarkTagging.exists?(
+              scripture_mark_id: tagging.scripture_mark_id,
+              scripture_tag_id: existing.id
+            )
+            duplicate ? tagging.destroy! : tagging.update_columns(scripture_tag_id: existing.id, updated_at: Time.current)
+          end
+          tag.destroy!
+        end
+      end
+
+      def move_scripture_notebooks!
+        keeper_notebooks = @keeper.scripture_notebooks.to_a
+        @source.scripture_notebooks.find_each do |notebook|
+          normalized_title = notebook.title.to_s.squish.downcase
+          existing = keeper_notebooks.find { |candidate| candidate.title.to_s.squish.downcase == normalized_title }
+          unless existing
+            notebook.update!(person: @keeper)
+            keeper_notebooks << notebook
+            next
+          end
+
+          notebook.scripture_notebook_entries.find_each do |entry|
+            duplicate = ScriptureNotebookEntry.exists?(
+              scripture_notebook_id: existing.id,
+              scripture_mark_id: entry.scripture_mark_id
+            )
+            duplicate ? entry.destroy! : entry.update_columns(scripture_notebook_id: existing.id, updated_at: Time.current)
+          end
+          notebook.destroy!
+        end
+      end
+
+      def move_scripture_circle_attribution!
+        now = Time.current
+        affected_proposal_ids = @source.scripture_circle_moderation_ballots.pluck(
+          :scripture_circle_moderation_proposal_id
+        )
+
+        @source.scripture_circle_posts.update_all(person_id: @keeper.id, updated_at: now)
+        ScriptureCirclePostRevision.where(editor_person_id: @source.id)
+          .update_all(editor_person_id: @keeper.id)
+        @source.scripture_circle_moderation_proposals
+          .update_all(proposer_person_id: @keeper.id, updated_at: now)
+        ScriptureCircleModerationEvent.where(actor_person_id: @source.id)
+          .update_all(actor_person_id: @keeper.id)
+
+        @source.scripture_circle_moderation_ballots.find_each do |ballot|
+          existing = ScriptureCircleModerationBallot.find_by(
+            scripture_circle_moderation_proposal_id: ballot.scripture_circle_moderation_proposal_id,
+            voter_person_id: @keeper.id
+          )
+          if existing
+            if ballot.cast_at > existing.cast_at
+              existing.update_columns(choice: ballot.choice, cast_at: ballot.cast_at, updated_at: now)
+            end
+            ballot.scripture_circle_moderation_ballot_revisions.update_all(
+              scripture_circle_moderation_ballot_id: existing.id,
+              voter_person_id: @keeper.id
+            )
+            ballot.destroy!
+          else
+            ballot.update_columns(voter_person_id: @keeper.id, updated_at: now)
+            ballot.scripture_circle_moderation_ballot_revisions
+              .update_all(voter_person_id: @keeper.id)
+          end
+        end
+
+        ScriptureCircleModerationBallotRevision.where(voter_person_id: @source.id)
+          .update_all(voter_person_id: @keeper.id)
+        refresh_scripture_moderation_counts!(affected_proposal_ids)
+      end
+
+      def refresh_scripture_moderation_counts!(proposal_ids)
+        ScriptureCircleModerationProposal.where(id: proposal_ids).find_each do |proposal|
+          choices = proposal.scripture_circle_moderation_ballots.group(:choice).count
+          proposal.update_columns(
+            yes_count: choices.fetch("yes", 0),
+            no_count: choices.fetch("no", 0),
+            valid_ballot_count: choices.values.sum,
+            updated_at: Time.current
+          )
         end
       end
 

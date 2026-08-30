@@ -60,7 +60,11 @@ end %>
           <%= link_to scripture_path(question.scripture.study, cite: question.scripture.cite),
                 class: "btn btn-navy quiz-scripture",
                 aria: { label: "#{t("quiz.read")} #{question.scripture.cite}" },
-                data: { turbo_frame: "scripture_reader", action: "click->scripture-launcher#prepare" } do %>
+                data: {
+                  turbo_frame: "scripture_reader",
+                  action: "click->scripture-launcher#prepare",
+                  scripture_chapter_title: scripture_reader_reference_label(question.scripture.study)
+                } do %>
             <span class="quiz-read"><%= t("quiz.read") %></span>
             <span class="quiz-cite"><%= question.scripture.cite %></span>
           <% end %>

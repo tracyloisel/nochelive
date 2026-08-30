@@ -30,7 +30,7 @@ class ScriptureReadsControllerTest < ActionDispatch::IntegrationTest
 
   test "rejects a reference unavailable in the reader" do
     assert_no_difference([ "ScriptureChapterRead.count", "ScriptureChapterStat.count" ]) do
-      post scripture_reads_path, params: { reference: "ot/gen/1" }, as: :json
+      post scripture_reads_path, params: { reference: "ot/gen/99" }, as: :json
     end
 
     assert_response :unprocessable_entity

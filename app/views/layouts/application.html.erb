@@ -89,9 +89,48 @@
       <%= turbo_stream_from current_street_person, :duel_campus %>
       <div id="duel_campus_notice"></div>
     <% end %>
-    <aside id="scripture_loading" class="scripture-veil is-loading" hidden data-scripture-launcher-target="loading" role="status">
-      <div class="scripture-sheet">
-        <p class="scripture-loading"><%= t("quiz.scripture_loading") %></p>
+    <aside id="scripture_loading"
+           class="reader-loading-veil"
+           data-scripture-launcher-target="loading"
+           data-state="idle"
+           data-reader-loading-chapter-fallback="<%= t("scripture_reader.loading.chapter_fallback") %>"
+           role="status"
+           aria-live="polite"
+           aria-atomic="true"
+           aria-hidden="true"
+           aria-busy="true"
+           aria-labelledby="reader_loading_chapter"
+           hidden>
+      <div class="reader-loading-room">
+        <button type="button"
+                class="reader-loading-dismiss"
+                data-action="scripture-launcher#cancel"
+                aria-label="<%= t("scripture_reader.close") %>">
+          <%= picto("cross") %><span><%= t("scripture_reader.close") %></span>
+        </button>
+        <div class="reader-loading-art" aria-hidden="true">
+          <%= noche_picture(
+                "scripture.reader.mountains-gold-ivory",
+                alt: "",
+                class_name: "reader-loading-art-image",
+                loading: "lazy",
+                fetchpriority: "low"
+              ) %>
+        </div>
+        <section class="reader-loading-card">
+          <span class="reader-loading-star" aria-hidden="true"><%= picto("sparkle") %></span>
+          <p class="reader-loading-kicker"><%= t("scripture_reader.loading.kicker") %></p>
+          <h1 id="reader_loading_chapter" class="reader-loading-chapter" data-reader-loading-chapter><%= t("scripture_reader.loading.chapter_fallback") %></h1>
+          <% %w[opening slow waiting failed].each do |state| %>
+            <p class="reader-loading-copy is-<%= state %>"
+               <%= "role=alert" if state == "failed" %>
+               data-reader-loading-template="<%= t("scripture_reader.loading.#{state}", chapter: "__CHAPTER__") %>"><%= t("scripture_reader.loading.#{state}", chapter: t("scripture_reader.loading.chapter_fallback")) %></p>
+          <% end %>
+          <span class="reader-loading-beacon" aria-hidden="true"><i></i><i></i><i></i></span>
+          <div class="reader-loading-actions">
+            <button type="button" class="reader-loading-retry" data-reader-loading-retry data-action="scripture-launcher#retry"><%= t("scripture_reader.loading.retry") %></button>
+          </div>
+        </section>
       </div>
     </aside>
     <% identity_migration_available = request.host == IdentityTransfersController::SOURCE_HOST && cookies.signed[:noche_device].present? %>

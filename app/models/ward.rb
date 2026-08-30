@@ -23,12 +23,15 @@ class Ward < ApplicationRecord
   FEATURED_CITY = "benidorm"
   FEATURED_CODE = "RAMA"
   UNIT_KINDS = %w[ward branch].freeze
+  SCRIPTURE_CIRCLE_MODES = %w[disabled read_only active].freeze
   NAME_MAX = 120
 
   has_many :people, dependent: :destroy
   has_many :ward_teams, dependent: :destroy
   has_many :game_sessions, dependent: :restrict_with_exception
   has_many :person_devices, through: :people
+  has_many :scripture_circle_threads, dependent: :destroy
+  has_many :scripture_circle_posts, dependent: :destroy
 
   scope :listed, -> { where(listed: true) }
 
@@ -39,6 +42,7 @@ class Ward < ApplicationRecord
   validates :emblem, inclusion: { in: Team::EMBLEMS.keys }
   validates :country_code, format: { with: /\A[A-Z]{2}\z/ }, allow_blank: true
   validates :unit_kind, inclusion: { in: UNIT_KINDS }, allow_blank: true
+  validates :scripture_circle_mode, inclusion: { in: SCRIPTURE_CIRCLE_MODES }
   validates :chapel_name, :chapel_address, :city, :region, :postal_code, :stake_name, :stake_unit_id, :country_name, length: { maximum: 80 }, allow_blank: true
 
   attr_accessor :presenter_token
@@ -89,4 +93,7 @@ class Ward < ApplicationRecord
   def featured?
     city.to_s.downcase == FEATURED_CITY || code == FEATURED_CODE
   end
+
+  def scripture_circle_active? = scripture_circle_mode == "active"
+  def scripture_circle_readable? = scripture_circle_mode.in?(%w[read_only active])
 end

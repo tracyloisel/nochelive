@@ -77917,6 +77917,214 @@
           }
         }
       }
+    },
+    "scripture.reader.mountains-gold-ivory": {
+      "role": "catalog_landscape",
+      "source": "media/scripture/reader-mountains-gold-ivory-v1.png",
+      "source_sha256": "5cdf40480059387e20d7b71704039488fa00c746ef779f7a78e672aa79bab618",
+      "source_width": 1774,
+      "source_height": 887,
+      "source_bytes": 2072609,
+      "ratio": "2.0000",
+      "focus": "50% 62%",
+      "theme": "neutral",
+      "sizes": "(max-width: 768px) 100vw, 70vw",
+      "variants": {
+        "avif": [
+          {
+            "src": "/media/generated/scripture/reader/mountains-gold-ivory/5cdf40480059-390.avif",
+            "width": 390,
+            "height": 195,
+            "bytes": 1636,
+            "sha256": "dd2dc0981c8d25f482ad08c7f121356a58f2fecd7b405ae78536d997a08ca703"
+          },
+          {
+            "src": "/media/generated/scripture/reader/mountains-gold-ivory/5cdf40480059-768.avif",
+            "width": 768,
+            "height": 384,
+            "bytes": 4579,
+            "sha256": "9e73fc37c27a66dd6241b51b2c23468d024d4fee4bc8ef0bc4b4588e6a31ff36"
+          },
+          {
+            "src": "/media/generated/scripture/reader/mountains-gold-ivory/5cdf40480059-1440.avif",
+            "width": 1440,
+            "height": 720,
+            "bytes": 18639,
+            "sha256": "27ce2c2d893b5f8d62f7b2a3e656ace24f4e615cb59949e208205ae688cccdaa"
+          },
+          {
+            "src": "/media/generated/scripture/reader/mountains-gold-ivory/5cdf40480059-1774.avif",
+            "width": 1774,
+            "height": 887,
+            "bytes": 29539,
+            "sha256": "9646f0b95cedbfa608822cf2bf6bcbe4aa29441330bbc05e54d80604502be78f"
+          }
+        ],
+        "webp": [
+          {
+            "src": "/media/generated/scripture/reader/mountains-gold-ivory/5cdf40480059-390.webp",
+            "width": 390,
+            "height": 195,
+            "bytes": 1888,
+            "sha256": "41f2bc486eeb78e81f57180ceca5bc2c0d3852d476c54b1b7165389fd8842119"
+          },
+          {
+            "src": "/media/generated/scripture/reader/mountains-gold-ivory/5cdf40480059-768.webp",
+            "width": 768,
+            "height": 384,
+            "bytes": 5970,
+            "sha256": "c56cacd1d1b5641a02d9315703ed485bb0ac5ee164d4589ed5092a07b3bb753c"
+          },
+          {
+            "src": "/media/generated/scripture/reader/mountains-gold-ivory/5cdf40480059-1440.webp",
+            "width": 1440,
+            "height": 720,
+            "bytes": 24960,
+            "sha256": "40900fcbb4bc8469f1ea95abbc9bf111df74bc3d9786ddf2dfcf6b401c4cdf22"
+          },
+          {
+            "src": "/media/generated/scripture/reader/mountains-gold-ivory/5cdf40480059-1774.webp",
+            "width": 1774,
+            "height": 887,
+            "bytes": 36330,
+            "sha256": "4cb4d6143994be3c636b8918672b621ec6989a2358377f17a1d434a1d7edf230"
+          }
+        ],
+        "jpeg": [
+          {
+            "src": "/media/generated/scripture/reader/mountains-gold-ivory/5cdf40480059-390.jpg",
+            "width": 390,
+            "height": 195,
+            "bytes": 5269,
+            "sha256": "7cc124fd6968afddd9fe3ea2ca1d02c9c185214e827f56d8fe019802f40fcb75"
+          },
+          {
+            "src": "/media/generated/scripture/reader/mountains-gold-ivory/5cdf40480059-768.jpg",
+            "width": 768,
+            "height": 384,
+            "bytes": 17069,
+            "sha256": "03bc4878256e9486e1bdca583dc42fc3d7c6a02b7626f5a177a2a2a525c63cc3"
+          },
+          {
+            "src": "/media/generated/scripture/reader/mountains-gold-ivory/5cdf40480059-1440.jpg",
+            "width": 1440,
+            "height": 720,
+            "bytes": 68103,
+            "sha256": "85af281c5ac17958c1c4c8b617c8a87859c573cb810e5bc6180f5161edfc35d7"
+          },
+          {
+            "src": "/media/generated/scripture/reader/mountains-gold-ivory/5cdf40480059-1774.jpg",
+            "width": 1774,
+            "height": 887,
+            "bytes": 108155,
+            "sha256": "f336ff96f475fb80f778d911e70b28da934072a187533fa7b2274ed3b8bfa6ed"
+          }
+        ]
+      },
+      "renditions": {
+        "default": {
+          "source": "media/scripture/reader-mountains-gold-ivory-v1.png",
+          "source_sha256": "5cdf40480059387e20d7b71704039488fa00c746ef779f7a78e672aa79bab618",
+          "source_width": 1774,
+          "source_height": 887,
+          "source_bytes": 2072609,
+          "media": null,
+          "ratio": "2.0000",
+          "sizes": "(max-width: 768px) 100vw, 70vw",
+          "variants": {
+            "avif": [
+              {
+                "src": "/media/generated/scripture/reader/mountains-gold-ivory/5cdf40480059-390.avif",
+                "width": 390,
+                "height": 195,
+                "bytes": 1636,
+                "sha256": "dd2dc0981c8d25f482ad08c7f121356a58f2fecd7b405ae78536d997a08ca703"
+              },
+              {
+                "src": "/media/generated/scripture/reader/mountains-gold-ivory/5cdf40480059-768.avif",
+                "width": 768,
+                "height": 384,
+                "bytes": 4579,
+                "sha256": "9e73fc37c27a66dd6241b51b2c23468d024d4fee4bc8ef0bc4b4588e6a31ff36"
+              },
+              {
+                "src": "/media/generated/scripture/reader/mountains-gold-ivory/5cdf40480059-1440.avif",
+                "width": 1440,
+                "height": 720,
+                "bytes": 18639,
+                "sha256": "27ce2c2d893b5f8d62f7b2a3e656ace24f4e615cb59949e208205ae688cccdaa"
+              },
+              {
+                "src": "/media/generated/scripture/reader/mountains-gold-ivory/5cdf40480059-1774.avif",
+                "width": 1774,
+                "height": 887,
+                "bytes": 29539,
+                "sha256": "9646f0b95cedbfa608822cf2bf6bcbe4aa29441330bbc05e54d80604502be78f"
+              }
+            ],
+            "webp": [
+              {
+                "src": "/media/generated/scripture/reader/mountains-gold-ivory/5cdf40480059-390.webp",
+                "width": 390,
+                "height": 195,
+                "bytes": 1888,
+                "sha256": "41f2bc486eeb78e81f57180ceca5bc2c0d3852d476c54b1b7165389fd8842119"
+              },
+              {
+                "src": "/media/generated/scripture/reader/mountains-gold-ivory/5cdf40480059-768.webp",
+                "width": 768,
+                "height": 384,
+                "bytes": 5970,
+                "sha256": "c56cacd1d1b5641a02d9315703ed485bb0ac5ee164d4589ed5092a07b3bb753c"
+              },
+              {
+                "src": "/media/generated/scripture/reader/mountains-gold-ivory/5cdf40480059-1440.webp",
+                "width": 1440,
+                "height": 720,
+                "bytes": 24960,
+                "sha256": "40900fcbb4bc8469f1ea95abbc9bf111df74bc3d9786ddf2dfcf6b401c4cdf22"
+              },
+              {
+                "src": "/media/generated/scripture/reader/mountains-gold-ivory/5cdf40480059-1774.webp",
+                "width": 1774,
+                "height": 887,
+                "bytes": 36330,
+                "sha256": "4cb4d6143994be3c636b8918672b621ec6989a2358377f17a1d434a1d7edf230"
+              }
+            ],
+            "jpeg": [
+              {
+                "src": "/media/generated/scripture/reader/mountains-gold-ivory/5cdf40480059-390.jpg",
+                "width": 390,
+                "height": 195,
+                "bytes": 5269,
+                "sha256": "7cc124fd6968afddd9fe3ea2ca1d02c9c185214e827f56d8fe019802f40fcb75"
+              },
+              {
+                "src": "/media/generated/scripture/reader/mountains-gold-ivory/5cdf40480059-768.jpg",
+                "width": 768,
+                "height": 384,
+                "bytes": 17069,
+                "sha256": "03bc4878256e9486e1bdca583dc42fc3d7c6a02b7626f5a177a2a2a525c63cc3"
+              },
+              {
+                "src": "/media/generated/scripture/reader/mountains-gold-ivory/5cdf40480059-1440.jpg",
+                "width": 1440,
+                "height": 720,
+                "bytes": 68103,
+                "sha256": "85af281c5ac17958c1c4c8b617c8a87859c573cb810e5bc6180f5161edfc35d7"
+              },
+              {
+                "src": "/media/generated/scripture/reader/mountains-gold-ivory/5cdf40480059-1774.jpg",
+                "width": 1774,
+                "height": 887,
+                "bytes": 108155,
+                "sha256": "f336ff96f475fb80f778d911e70b28da934072a187533fa7b2274ed3b8bfa6ed"
+              }
+            ]
+          }
+        }
+      }
     }
   }
 }
