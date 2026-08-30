@@ -79,6 +79,20 @@ class StudyJourneyTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test "La Parole surfaces readings suggested by unresolved quiz answers" do
+    person = people(:pili)
+    sign_in_congregation(person.ward)
+    post street_profile_path, params: { person_id: person.id, favorite_year: person.favorite_year }
+    question = QuizDefinition.catalog.find_pack("coronas").questions.first
+    run = QuizRun.create!(person:, device_digest: "suggestion-study", pack_id: "coronas", position: 10, score: 0, status: "finished", opened_at: Time.current)
+    QuizAnswer.create!(quiz_run: run, device_digest: run.device_digest, pack_id: run.pack_id, question_id: question.id, correct: false)
+
+    get study_program_path
+
+    assert_response :success
+    assert_select ".quiz-reading-suggestions.is-study a[href=?]", scripture_path(question.scripture.study, cite: question.scripture.cite), text: /#{Regexp.escape(question.scripture.cite)}/
+  end
+
   test "history restores the four scripture books and profile-wide progress" do
     sign_in_congregation
     person = people(:pili)
@@ -262,11 +276,13 @@ class StudyJourneyTest < ActionDispatch::IntegrationTest
     assert_select "a.study-question-reading[data-turbo-frame=scripture_reader]", count: 1
 
     correct = @quiz.question_at(1).fetch("correct_choice")
+    run.update!(asked_at: 3.seconds.ago)
     post study_run_answers_path(run), params: { choice: correct }
     answer = run.study_answers.reload.last
     assert_redirected_to study_run_path(run, reveal: answer.id)
     assert_equal 1, run.reload.score
     assert_equal @quiz.question_at(1).fetch("key"), run.study_answers.first.question_key
+    assert_in_delta 3_000, answer.duration_ms, 300
 
     get study_run_path(run, reveal: answer.id)
     assert_select "#study_run.is-reveal.is-reveal-correct[data-controller='study-run']"
@@ -277,6 +293,7 @@ class StudyJourneyTest < ActionDispatch::IntegrationTest
     post study_run_advance_path(run)
     assert_redirected_to study_run_path(run)
     assert_equal 2, run.reload.position
+    assert_in_delta Time.current.to_f, run.asked_at.to_f, 1
   end
 
   test "opening a chapter remembers it for the current profile and marks it on the week" do

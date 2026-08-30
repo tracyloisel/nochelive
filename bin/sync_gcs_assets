@@ -14,6 +14,11 @@ gcloud_storage() {
 
 cd "${repo_root}"
 
+if ! command -v gcloud >/dev/null 2>&1; then
+  echo "gcloud is required to synchronize assets to GCS." >&2
+  exit 1
+fi
+
 ASSET_HOST="${asset_host}" RAILS_ENV=production SECRET_KEY_BASE_DUMMY=1 \
   "${bundle_bin}" exec rails assets:precompile
 

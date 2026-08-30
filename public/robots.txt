@@ -5,6 +5,8 @@ Disallow: /s/
 Disallow: /rails/
 Disallow: /game_sessions/
 Disallow: /ramas/fichas
+Disallow: /ficha
+Disallow: /jugadores/
 
 # OpenAI search and user-requested retrieval may read public content.
 # Training access remains governed by the general policy above.
@@ -15,6 +17,8 @@ Disallow: /s/
 Disallow: /rails/
 Disallow: /game_sessions/
 Disallow: /ramas/fichas
+Disallow: /ficha
+Disallow: /jugadores/
 
 User-agent: ChatGPT-User
 Allow: /
@@ -23,5 +27,7 @@ Disallow: /s/
 Disallow: /rails/
 Disallow: /game_sessions/
 Disallow: /ramas/fichas
+Disallow: /ficha
+Disallow: /jugadores/
 
 Sitemap: https://nochelive.com/sitemap.xml

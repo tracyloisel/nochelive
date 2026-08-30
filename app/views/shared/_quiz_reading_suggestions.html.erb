@@ -1,0 +1,19 @@
+<% suggestions = Array(local_assigns[:suggestions]) %>
+<% if suggestions.any? %>
+  <section class="quiz-reading-suggestions is-<%= local_assigns.fetch(:surface, :hub) %>" aria-labelledby="quiz_reading_suggestions_title">
+    <header>
+      <p class="study-kicker"><%= t("study.quiz_suggestions_kicker") %></p>
+      <h2 id="quiz_reading_suggestions_title"><%= t("study.quiz_suggestions_title") %></h2>
+      <p><%= t("study.quiz_suggestions_lede") %></p>
+    </header>
+    <div class="quiz-reading-suggestion-list">
+      <% suggestions.each do |suggestion| %>
+        <%= link_to scripture_path(suggestion.study, cite: suggestion.cite), class: "quiz-reading-suggestion" do %>
+          <span class="quiz-reading-suggestion-mark" aria-hidden="true"><%= picto("scripture-book") %></span>
+          <span><small><%= t("study.quiz_suggestion_from_quiz") %></small><strong><%= suggestion.cite %></strong></span>
+          <i aria-hidden="true">›</i>
+        <% end %>
+      <% end %>
+    </div>
+  </section>
+<% end %>

@@ -27,6 +27,14 @@ module AdminApi
       render json: { error: error.message }, status: :unprocessable_entity
     end
 
+    def finish
+      ward = find_ward
+      night = ward.game_sessions.find_by!(code: GameSession.normalize_code(params[:session_code]))
+      Nights::Finish.call(night:)
+      admin_audit!("finish_night", ward_id: ward.id, night_id: night.id)
+      render json: { night: night_json(night) }
+    end
+
     private
 
       def find_ward

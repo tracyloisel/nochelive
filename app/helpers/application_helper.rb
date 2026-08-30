@@ -80,6 +80,7 @@ module ApplicationHelper
     "street_hub" => %w[hub onboarding],
     "street_leaderboards" => %w[stats],
     "street_profiles" => %w[profile],
+    "street_quiz_histories" => %w[profile],
     "study_communities" => %w[study],
     "study_histories" => %w[study],
     "study_programs" => %w[study],

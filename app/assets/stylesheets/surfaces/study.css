@@ -153,20 +153,6 @@ body.is-street-hub.is-kid .street-map-door-play { min-height: 2.15rem; }
   content: none;
   display: none;
 }
-.street-world.is-game-hub .hub-hero-title.street-map-door-kicker {
-  margin: 0;
-  max-width: 16.5rem;
-  overflow: visible;
-  font-family: var(--font-display);
-  font-size: clamp(1.7rem, 7.2vw, 2.15rem);
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  line-height: 1.05;
-  text-transform: uppercase;
-  color: var(--text-primary);
-  display: block;
-  -webkit-line-clamp: unset;
-}
 .street-world.is-game-hub .hub-hero-step.street-map-door-step {
   display: inline-flex;
   align-items: center;
@@ -304,7 +290,9 @@ body.is-street-play #street_quiz.is-overlay.is-ceremony .street-ceremony-map-ico
     grid-column: 2 / -2;
     margin-inline: 0;
   }
-.street-world.is-game-hub .street-hub-feed > .hub-study { grid-column: 2 / span 2; }
+.street-world.is-game-hub .street-hub-feed > .hub-study { grid-column: 2 / -2; }
+.street-world.is-game-hub .street-hub-feed > .quiz-reading-suggestions { grid-column: 2 / -2; }
+.street-world.is-game-hub .street-hub-feed > .hub-live { grid-column: 2 / -2; }
 .street-world.is-game-hub .street-hub-feed > .hub-study {
     width: 100%;
     margin: 0;
@@ -477,6 +465,23 @@ body.is-study-unit > .home-menu.is-hud .quiz-hud {
 .study-year,
 .study-appendices,
 .study-unit-sheet { width: min(100%, 42rem); margin: 0 auto 1rem; border: 1px solid var(--study-line); border-radius: 2rem; background: var(--study-paper); box-shadow: 0 1.4rem 3.8rem rgba(0,0,0,.34); color: var(--study-ink); }
+.quiz-reading-suggestions { width: min(100%, 42rem); margin: 0 auto 1rem; padding: 1.25rem; border: 1px solid color-mix(in srgb, var(--gold-highlight) 48%, transparent); border-radius: 1.5rem; background: linear-gradient(145deg, rgba(11, 33, 60, .92), rgba(5, 18, 35, .94)); box-shadow: 0 1.2rem 3rem rgba(0, 0, 0, .24); color: #fff8e8; }
+.quiz-reading-suggestions header { display: grid; gap: .38rem; }
+.quiz-reading-suggestions .study-kicker { color: var(--gold-highlight); }
+.quiz-reading-suggestions h2 { margin: 0; color: #fff8e8; font: 760 clamp(1.45rem, 5vw, 2rem)/1 var(--font-display); }
+.quiz-reading-suggestions header > p:last-child { max-width: 35rem; margin: 0; color: rgba(255,248,232,.74); font-size: var(--type-min); line-height: 1.35; }
+.quiz-reading-suggestion-list { display: grid; gap: .6rem; margin-top: 1rem; }
+.quiz-reading-suggestion { min-height: 4rem; display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: .75rem; padding: .65rem .8rem; border: 1px solid rgba(231,190,105,.28); border-radius: 1rem; background: rgba(255,248,232,.08); color: #fff8e8; text-decoration: none; }
+.quiz-reading-suggestion:hover, .quiz-reading-suggestion:focus-visible { border-color: var(--gold-highlight); background: rgba(255,248,232,.14); }
+.quiz-reading-suggestion:active { transform: scale(.985); }
+.quiz-reading-suggestion-mark { width: 2.35rem; height: 2.35rem; display: grid; place-items: center; border: 1px solid rgba(231,190,105,.56); border-radius: 50%; color: var(--gold-highlight); }
+.quiz-reading-suggestion-mark .picto { width: 1.25rem; height: 1.25rem; }
+.quiz-reading-suggestion span:nth-child(2) { min-width: 0; display: grid; gap: .1rem; }
+.quiz-reading-suggestion small { color: rgba(255,248,232,.66); font: 700 .68rem/1 var(--font-ui); letter-spacing: .06em; text-transform: uppercase; }
+.quiz-reading-suggestion strong { overflow: hidden; color: #fff8e8; font: 760 1rem/1.15 var(--font-display); text-overflow: ellipsis; white-space: nowrap; }
+.quiz-reading-suggestion > i { color: var(--gold-highlight); font: 700 1.45rem/1 var(--font-ui); }
+.street-world.is-game-hub .quiz-reading-suggestions { grid-column: 1 / -1; width: 100%; margin: 0; }
+.street-world.is-game-hub .quiz-reading-suggestions.is-hub { border-color: var(--hub-border-gold, color-mix(in srgb, var(--gold-primary) 48%, transparent)); background: var(--hub-surface-glass, rgba(6, 24, 44, .84)); }
 .study-current { padding: 1.5rem; background: linear-gradient(145deg, rgba(255,250,239,.96), rgba(226,230,222,.94)); }
 .study-current h2,
 .study-year h2,
@@ -1045,7 +1050,13 @@ body.is-study-community {
 }
 @media (min-width: 1200px) {
 .street-world.is-game-hub .street-hub-feed > .hub-study {
-    grid-column: 2 / span 8;
+    grid-column: 2 / 14;
+  }
+.street-world.is-game-hub .street-hub-feed > .quiz-reading-suggestions {
+    grid-column: 2 / 14;
+  }
+.street-world.is-game-hub .street-hub-feed > .hub-live {
+    grid-column: 2 / 14;
   }
 .street-world.is-game-hub .street-hub-feed:not(:has(> .hub-study)) > .hub-live {
     grid-column: 2 / 14;

@@ -117,6 +117,17 @@ function createServer() {
     { method: "PATCH", body: JSON.stringify(input) }
   )))
 
+  server.registerTool("finish_noche_live", {
+    description: "Finish a Noche Live, record its final team results in the ward season, and broadcast the final state. The supplied session must belong to the supplied ward. Safe to retry if the first response is lost.",
+    inputSchema: {
+      ward_code: z.string().describe("Public code of the ward that owns the Noche Live"),
+      session_code: z.string().describe("Session code of the Noche Live to finish")
+    }
+  }, async ({ ward_code, session_code }) => result(await api(
+    `/internal/admin/wards/${encodeURIComponent(ward_code)}/nights/${encodeURIComponent(session_code)}/finish`,
+    { method: "POST", body: "{}" }
+  )))
+
   server.registerTool("preview_profile_merge", {
     description: "Preview a same-name, same-ward profile merge. Returns a short-lived one-use confirmation token without changing data.",
     inputSchema: { ward_code: z.string(), first_id: z.number().int(), second_id: z.number().int() }

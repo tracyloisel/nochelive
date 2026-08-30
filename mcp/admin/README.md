@@ -11,7 +11,7 @@ The MCP process runs locally over STDIO. Every tool calls `https://nochelive.com
 - The API refuses tokens shorter than 32 characters.
 - Administrative mutations are logged without including the secret or player device identifiers.
 - Profile merging requires a preview followed by a short-lived, single-use confirmation.
-- A Noche Live can only be edited through the rama that owns it.
+- A Noche Live can only be edited or finished through the rama that owns it.
 - Presenter codes cannot be recovered because only their digest is stored. Rotation invalidates the previous code and returns the new one once.
 
 ## Install and verify
@@ -196,7 +196,22 @@ Edit the schedule, presenter language, broadcast delay, deployed event poster, o
 }
 ```
 
-Starting, pausing, resuming, and finishing a night are intentionally not exposed by these two scheduling tools.
+Starting, pausing, and resuming remain presenter-only. Finishing is exposed separately so the irreversible lifecycle change stays explicit.
+
+### `finish_noche_live`
+
+Finish an existing Noche Live, record its final team results in the rama season, and broadcast the final state. `ward_code` is mandatory even when the session code is known; the API rejects cross-rama requests. Retrying the same request is safe and does not apply season points twice.
+
+> Ferme la Noche Live X8MPU de la rama RAMA.
+
+```json
+{
+  "ward_code": "RAMA",
+  "session_code": "X8MPU"
+}
+```
+
+The response returns the night with `status: "finished"` and preserves all teams, players, scores, and ceremony data.
 
 ## Notification editorial workshop
 

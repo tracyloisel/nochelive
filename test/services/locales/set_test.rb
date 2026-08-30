@@ -14,4 +14,15 @@ class Locales::SetTest < ActiveSupport::TestCase
 
     assert_equal "en", night.reload.presenter_locale
   end
+
+  test "updates a person and every live seat linked to that profile" do
+    person = people(:pili)
+    player = players(:lucia)
+    player.update!(person: person, locale: "es")
+
+    Locales::Set.call(locale: "pt-BR", person: person)
+
+    assert_equal "pt-BR", person.reload.locale
+    assert_equal "pt-BR", player.reload.locale
+  end
 end

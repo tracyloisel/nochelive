@@ -5,7 +5,7 @@
 <% content_for :body_class, "is-kid is-street-hub is-game-hub-page is-celestial-#{art.theme.mode}" %>
 <% declare_frontend_resources(
      context: "hub.home",
-     styles: %w[shell hub onboarding],
+     styles: %w[shell hub onboarding study],
      controllers: %w[loading press chrome-menu hub-scroll hub-voyage hub-portal hub-campus hub-countdown hub-online hub-progress presence],
      media: { lcp: art.src, hero: screen.hero.still },
      audio: { unlock: true, cues: %w[celestial_breath chest level_up], bed: nil },
@@ -57,8 +57,9 @@
   <div class="street-hub-feed">
     <%= render "street_hub/install", theme: art.theme.mode %>
     <%= render "street_hub/hero", screen: screen, theme: art.theme.mode %>
+    <%= render "street_hub/live", live: screen.live unless screen.live.state == :none %>
+    <%= render "shared/quiz_reading_suggestions", suggestions: screen.reading_suggestions, surface: :hub %>
     <%= render "street_hub/study", study: screen.study, theme: art.theme.mode %>
-    <%= render "street_hub/live", live: screen.live %>
     <%= render("notifications/prompt", person: current_street_person, **@push_prompt) if @push_prompt %>
 
     <div class="hub-panel-row">

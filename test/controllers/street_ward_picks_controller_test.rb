@@ -38,6 +38,20 @@ class StreetWardPicksControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to search_path(cambiar: 1)
   end
 
+  test "profile ward change returns to the profile" do
+    dest = extra_ward(18, listed: true)
+    sign_in_congregation
+    pili = people(:pili)
+    post street_profile_path, params: { person_id: pili.id, favorite_year: pili.favorite_year }
+
+    get player_profile_path(pili, ward_next: 1)
+    assert_redirected_to search_path(cambiar: 1)
+
+    post street_ward_pick_path, params: { code: dest.code }
+    assert_redirected_to player_profile_path(pili)
+    assert_equal dest.id, pili.reload.ward_id
+  end
+
   test "picking a locator rama creates it listed" do
     Wards::QueryLocator.forced_details = Wards::QueryLocator.attrs_from(
       JSON.parse(file_fixture("maps_ward_madrid.json").read).first

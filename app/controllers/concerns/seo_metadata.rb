@@ -10,11 +10,13 @@ module SeoMetadata
   private
 
     def initialize_seo_metadata
+      private_path = private_application_path?
       @seo_metadata = {
         title: nil,
-        robots: private_application_path? ? "noindex, nofollow" : "noindex, follow",
+        robots: private_path ? "noindex, nofollow" : "noindex, follow",
         image: "#{request.base_url}/icon-master.png"
       }
+      apply_robots_header if private_path
     end
 
     def apply_robots_header
@@ -23,7 +25,7 @@ module SeoMetadata
     end
 
     def private_application_path?
-      request.path.match?(%r{\A/(?:p/|s/|ficha(?:/|\z)|desafio(?:/|\z)|desafios(?:/|\z)|ramas/fichas(?:/|\z)|game_sessions(?:/|\z))})
+      request.path.match?(%r{\A/(?:p/|s/|ficha(?:/|\z)|jugadores(?:/|\z)|desafio(?:/|\z)|desafios(?:/|\z)|ramas/fichas(?:/|\z)|game_sessions(?:/|\z))})
     end
 
     def index_for_search!(title:, description:, canonical:, alternates: {}, image: nil, structured_data: nil)

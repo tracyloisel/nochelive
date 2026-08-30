@@ -1,5 +1,5 @@
 <% person = current_street_person %>
-<%= link_to(person ? street_profile_path(edit: 1) : street_profile_path(fresh: 1),
+<%= link_to(person ? player_profile_path(person) : street_profile_path(fresh: 1),
       class: [ "chrome-face", "quiet-link", ("is-guest" unless person) ],
       aria: { label: person ? t("street.face_label") : t("street.pick_profile") }) do %>
   <% if person %>

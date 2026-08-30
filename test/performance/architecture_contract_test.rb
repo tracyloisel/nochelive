@@ -241,6 +241,14 @@ class ArchitectureContractTest < ActiveSupport::TestCase
     refute_includes blueprint, "RAILS_SERVE_STATIC_FILES"
   end
 
+  test "a production push synchronizes assets before Render can deploy" do
+    hook = Rails.root.join(".githooks/pre-push").read
+
+    assert_includes hook, 'GCS_SYNC_PUSH_BRANCH:-main'
+    assert_includes hook, 'exec bin/sync_gcs_assets'
+    assert_includes hook, 'GCS_ASSET_SYNC_SKIP'
+  end
+
   test "asset host middleware never buffers the complete response" do
     source = Rails.root.join("lib/public_asset_host.rb").read
 

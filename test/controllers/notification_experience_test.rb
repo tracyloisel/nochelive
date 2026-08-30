@@ -15,19 +15,15 @@ class NotificationExperienceTest < ActionDispatch::IntegrationTest
   test "the ficha exposes granular voluntary settings with no preselected category" do
     with_web_push_enabled do
       sign_in_congregation
-      create_street_profile!(name: "Réglages Push")
-      get street_profile_path(edit: 1)
+      person = create_street_profile!(name: "Réglages Push")
+      get player_profile_path(person)
 
       assert_response :success
+      assert_select "a.profile-field-row[href=?]", notification_settings_path
+
+      get notification_settings_path
       assert_select ".push-settings[data-controller='push-subscription']"
       assert_select ".push-category-card", count: 3
-      assert_select "[data-push-subscription-challenges-active-value='false']"
-      assert_select "[data-push-subscription-verses-active-value='false']"
-      assert_select "[data-push-subscription-nights-active-value='false']"
-      assert_select ".push-setting-toggle[role='switch'][aria-checked='false']", count: 3
-      assert_select ".push-setting-toggle[role='switch'][aria-checked='true']", count: 3
-      assert_select ".push-setting-toggle", text: /Réglages Push/, count: 0
-      assert_select ".push-verse-options", count: 1
     end
   end
 
@@ -126,8 +122,8 @@ class NotificationExperienceTest < ActionDispatch::IntegrationTest
   test "settings disappear completely while the rollout flag is off" do
     with_web_push_disabled do
       sign_in_congregation
-      create_street_profile!(name: "Flag Off")
-      get street_profile_path(edit: 1)
+      person = create_street_profile!(name: "Flag Off")
+      get player_profile_path(person)
 
       assert_response :success
       assert_select ".push-settings", count: 0

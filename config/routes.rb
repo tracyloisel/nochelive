@@ -6,6 +6,7 @@ Rails.application.routes.draw do
       post :rotate_presenter_token, on: :member
       get :stats, on: :member
       resources :nights, only: [ :create, :update ], param: :session_code, controller: "nights"
+      post "nights/:session_code/finish", to: "nights#finish", as: :finish_night
     end
     post "profile_merges/preview", to: "profile_merges#preview"
     post "profile_merges", to: "profile_merges#create"
@@ -53,8 +54,14 @@ Rails.application.routes.draw do
   post "quiz/:quiz_run_id/expire", to: "quiz_expires#create", as: :quiz_expire
   get "ficha", to: "street_profiles#show", as: :street_profile
   post "ficha", to: "street_profiles#create"
-  patch "ficha", to: "street_profiles#update"
-  post "ficha/fusion", to: "street_profile_merges#create", as: :street_profile_merge
+  get "jugadores/:player_id/perfil", to: "street_profiles#show", as: :player_profile,
+      constraints: { player_id: /\d+/ }
+  patch "jugadores/:player_id/perfil", to: "street_profiles#update",
+        constraints: { player_id: /\d+/ }
+  get "jugadores/:player_id/perfil/respuestas", to: "street_quiz_histories#show", as: :player_quiz_history,
+      constraints: { player_id: /\d+/ }
+  post "jugadores/:player_id/perfil/fusion", to: "street_profile_merges#create", as: :player_profile_merge,
+       constraints: { player_id: /\d+/ }
   get "notifications", to: "notification_settings#show", as: :notification_settings
   get "quien", to: redirect("/ficha")
   post "rama", to: "street_ward_picks#create", as: :street_ward_pick

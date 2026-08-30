@@ -183,6 +183,40 @@ class AdminApiTest < ActionDispatch::IntegrationTest
     assert_equal "es", game_sessions(:david).reload.presenter_locale
   end
 
+  test "finishes a Noche Live inside its ward and accepts idempotent retries" do
+    ward = wards(:demo)
+    night = game_sessions(:david)
+    night.update!(status: "playing", season_applied_at: nil)
+
+    post admin_api_ward_finish_night_path(ward.code, night.code),
+         headers: auth_headers,
+         as: :json
+
+    assert_response :success
+    assert_equal "finished", response.parsed_body.dig("night", "status")
+    assert night.reload.finished?
+    assert night.season_applied_at.present?
+    first_applied_at = night.season_applied_at
+
+    post admin_api_ward_finish_night_path(ward.code, night.code),
+         headers: auth_headers,
+         as: :json
+
+    assert_response :success
+    assert_equal first_applied_at, night.reload.season_applied_at
+  end
+
+  test "cannot finish a Noche Live through another ward" do
+    night = game_sessions(:david)
+
+    post admin_api_ward_finish_night_path(wards(:blank).code, night.code),
+         headers: auth_headers,
+         as: :json
+
+    assert_response :not_found
+    assert_not night.reload.finished?
+  end
+
   test "rejects invalid Noche Live configuration" do
     post admin_api_ward_nights_path(wards(:blank).code),
          params: { starts_at: "tomorrow evening", presenter_locale: "de" },

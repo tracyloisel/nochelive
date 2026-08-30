@@ -4,9 +4,12 @@
 **Date :** 28 août 2026  
 **Périmètre :** soirée Live, joueurs salle et maison, présentateur, TV/Twitch et Public interactif
 
-Ce document décrit le système tel qu’il est implémenté. Le plan de conception
-et les décisions de refonte restent disponibles dans
-[`NOCHE_LIVE_REFONTE_COMPLETE.md`](NOCHE_LIVE_REFONTE_COMPLETE.md).
+Ce document décrit le système tel qu’il est implémenté. Il ne constitue plus la
+cible produit. La nouvelle architecture sans présentateur est définie dans
+[`NOCHE_LIVE_HOST_PLAYER_WATCH_REFACTOR.md`](NOCHE_LIVE_HOST_PLAYER_WATCH_REFACTOR.md).
+L’ancien plan game-show reste archivé dans
+[`NOCHE_LIVE_REFONTE_COMPLETE.md`](NOCHE_LIVE_REFONTE_COMPLETE.md) pour expliquer
+l’origine du code actuel.
 
 ---
 

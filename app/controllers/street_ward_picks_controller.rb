@@ -31,6 +31,7 @@ class StreetWardPicksController < ApplicationController
       path = case destination
       when "leaderboard" then street_leaderboard_path
       when "desafios" then street_challenges_path
+      when "profile" then player_profile_path(current_street_person)
       else root_path
       end
       redirect_to path, notice: I18n.t("flashes.street_ward_changed", ward: ward.name)

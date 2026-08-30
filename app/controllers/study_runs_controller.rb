@@ -10,6 +10,7 @@ class StudyRunsController < ApplicationController
       record.device_digest = street_device_digest
       record.person = current_street_person
       record.opened_at = Time.current
+      record.asked_at = Time.current
     end
     redirect_to study_run_path(run)
   end
@@ -17,6 +18,7 @@ class StudyRunsController < ApplicationController
   def show
     remember_device
     load_study_run
+    @run.update_column(:asked_at, Time.current) if !@run.completed? && @run.asked_at.nil?
     @question = @run.question unless @run.completed?
     @answer = @run.current_answer unless @run.completed?
     if @run.completed?

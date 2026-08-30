@@ -44,6 +44,19 @@ You **must refuse** a functional interface that is visually banal.
 
 Gold = metal, emblem, one CTA, Buzz disc, trophy, score-as-metal, leaf on arches. Never stacked gold headlines. Never gold type on cream Light paper. Never gold type on the painting’s light-beam. In Dark, cream/ivory type on night; gold stays metal and signature.
 
+## Signature material — Celestial glass
+
+**Glass-transparent is the default material for player-facing chrome.** Buttons and content-bearing sections should reveal the world beneath them, as in the Liga / Cour des Couronnes: family-tinted transparency, local blur, a fine gold or pearl hairline, an inset light catch, and a soft depth shadow.
+
+- Light: ivory / pearl glass with ink type. Dark: night-blue glass with cream type. The component anatomy stays the same.
+- The one primary action may become translucent gold glass / metal; it must not become a flat yellow slab. Secondary actions use neutral family glass.
+- Choose glass density from the artwork behind the component. Strengthen only the local pane until copy and controls read; never bleach the whole painting.
+- Structural wrappers stay open. Add a pane only when a section contains, separates, or makes content actionable. No nested glass-card dashboard.
+- Motion may create one restrained light catch on hover or entrance. Press deepens the material. Never animate `backdrop-filter`; remove traveling glints with reduced motion.
+- Solid or paper-like surfaces are exceptions for sustained reading, dense forms, or Live contrast and must be justified by the screen’s job.
+
+Veto opaque white cards pasted over artwork, indiscriminate frosted blur, milky full-screen veils, and generic glassmorphism with no gold, world tint, or Noche hierarchy.
+
 ## Worlds
 
 Street stills: biblical adventure per `config/media/street_world.yml`. Night stills: meetinghouse light per `config/media/chapel_world.yml` — never a Christus / celestial-room **photograph** as UI chrome (ADR-009). UI chrome may be celestial marble or celestial night; the painting is the world.

@@ -1,7 +1,7 @@
 <% person = current_street_person %>
 <% ward = current_ward %>
 <% player = local_assigns.fetch(:player) %>
-<% profile_path = person ? street_profile_path(edit: 1) : street_profile_path(fresh: 1) %>
+<% profile_path = person ? player_profile_path(person) : street_profile_path(fresh: 1) %>
 <% ward_path = ward ? ward_profile_path(ward.code) : search_path %>
 
 <nav class="home-menu-nav home-menu-nav-hub" aria-label="<%= t("chrome.menu") %>">

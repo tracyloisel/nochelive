@@ -33,7 +33,16 @@ class SeoControllerTest < ActionDispatch::IntegrationTest
     assert_select "xhtml|link[rel=alternate][hreflang=x-default]", minimum: 5_000
     refute_includes response.body, "https://localhost"
     assert_includes response.body, "http://www.example.com"
+    refute_includes response.body, "/ficha"
+    refute_includes response.body, "/jugadores/"
     locations = Nokogiri::XML(response.body).xpath("//*[local-name()='loc']").map(&:text)
     assert_equal locations.uniq, locations
+  end
+
+  test "robots excludes profile gates and explicit player pages" do
+    robots = Rails.root.join("public/robots.txt").read
+
+    assert_equal 3, robots.scan(/^Disallow: \/ficha$/).size
+    assert_equal 3, robots.scan(%r{^Disallow: /jugadores/$}).size
   end
 end

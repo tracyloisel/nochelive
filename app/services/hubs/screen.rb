@@ -35,7 +35,7 @@ module Hubs
     MapProgress = Struct.new(:total_packs, :questions_per_pack, :finished, :completed_packs, :rewards, :tiers, :current_tier_key, :finished_count, keyword_init: true)
     Community = Struct.new(:players_this_month, :questions, :wards, keyword_init: true)
     Result = Struct.new(
-      :player, :hero, :voyage, :live, :online, :online_count, :progress, :study, :community, :pulse, :backdrop,
+      :player, :hero, :voyage, :live, :online, :online_count, :progress, :study, :reading_suggestions, :community, :pulse, :backdrop,
       keyword_init: true
     )
 
@@ -68,6 +68,7 @@ module Hubs
         online_count: online_person_ids.size,
         progress: build_progress,
         study: build_study,
+        reading_suggestions: Quizzes::ReadingSuggestions.call(person: @person),
         community: build_community,
         pulse: pulse,
         backdrop:

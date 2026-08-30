@@ -1,8 +1,10 @@
 class StreetProfileMergesController < ApplicationController
+  before_action :require_explicit_street_identity
+
   def create
-    source = current_street_person
+    source = @requested_street_person
     unless source&.ward
-      redirect_to street_profile_path, alert: I18n.t("flashes.profile_required")
+      redirect_to player_profile_path(source), alert: I18n.t("flashes.profile_required")
       return
     end
 
@@ -20,9 +22,9 @@ class StreetProfileMergesController < ApplicationController
     end
     remember_street_person(@merged_person)
     remember_ward(@merged_person.ward)
-    redirect_to street_profile_path(edit: 1), notice: I18n.t("flashes.profile_merged", name: @merged_person.given_name)
+    redirect_to player_profile_path(@merged_person), notice: I18n.t("flashes.profile_merged", name: @merged_person.given_name)
   rescue People::Error => error
-    redirect_to street_profile_path(edit: 1), alert: error.message
+    redirect_to player_profile_path(source, edit: "merge"), alert: error.message
   end
 
   private

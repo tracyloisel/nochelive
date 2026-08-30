@@ -8,8 +8,8 @@ module People
 
     def initialize(ward:, given_name:, family_name:, avatar_key:, favorite_year:, device_token:, last_ward_team:)
       @ward = ward
-      @given_name = given_name.to_s.strip.first(24)
-      @family_name = family_name.to_s.strip.first(24)
+      @given_name = given_name.to_s.strip.first(Person::NAME_MAX)
+      @family_name = family_name.to_s.strip.first(Person::NAME_MAX)
       @avatar_key = avatar_key.presence || Player::AVATARS.sample
       @favorite_year = favorite_year
       @device_token = device_token

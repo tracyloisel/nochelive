@@ -1,0 +1,181 @@
+<% person = snapshot.person %>
+<% ward = snapshot.ward %>
+
+<article class="profile-dashboard" aria-label="<%= t("street.profile_dashboard.summary_label") %>" data-controller="profile-dashboard">
+  <section class="profile-dashboard-hero" aria-labelledby="profile-player-name">
+    <div class="profile-dashboard-avatar">
+      <span class="profile-dashboard-avatar-orbit" aria-hidden="true"></span>
+      <% if (src = avatar_mark(person)) %>
+        <img src="<%= src %>" alt="" class="avatar-img" width="150" height="150">
+      <% end %>
+      <span class="profile-dashboard-avatar-star" aria-hidden="true"><%= picto("star8") %></span>
+    </div>
+    <div class="profile-dashboard-heading">
+      <p><%= t("street.profile_dashboard.welcome") %></p>
+      <h2 id="profile-player-name" class="<%= "is-long" if person.display_name.length > 30 %>"><%= person.display_name %></h2>
+      <span class="profile-dashboard-rank"><%= t("ranks.#{snapshot.rank_key}") %></span>
+    </div>
+    <dl class="profile-dashboard-stats">
+      <div>
+        <dt><%= t("street.profile_dashboard.crowns") %></dt>
+        <dd><%= snapshot.crowns %></dd>
+      </div>
+      <div>
+        <dt><%= t("street.profile_dashboard.rank") %></dt>
+        <dd><%= snapshot.rank ? t("street.profile_dashboard.rank_value", rank: snapshot.rank, total: snapshot.ranked_people) : "—" %></dd>
+      </div>
+      <div>
+        <dt><%= t("street.profile_dashboard.streak") %></dt>
+        <dd><%= t("street.profile_dashboard.days", count: snapshot.streak_days) %></dd>
+      </div>
+    </dl>
+  </section>
+
+  <div class="profile-dashboard-grid">
+    <section class="profile-dashboard-group profile-dashboard-identity" aria-labelledby="profile-identity-title">
+      <header class="profile-dashboard-group-heading">
+        <img src="/media/profile/icons/profile-identity-medallion-v1.webp" alt="" width="60" height="60">
+        <div>
+          <p><%= t("street.profile_dashboard.canonical_kicker") %></p>
+          <h3 id="profile-identity-title"><%= t("street.profile_dashboard.identity_title") %></h3>
+        </div>
+      </header>
+      <div class="profile-glass-card profile-field-list">
+        <%= link_to player_profile_path(person, edit: "given_name"), class: "profile-field-row", data: { profile_editor_field: "given_name" } do %>
+          <span><%= t("street.profile_dashboard.given_name") %></span>
+          <strong><%= person.given_name %></strong>
+          <b aria-hidden="true">›</b>
+        <% end %>
+        <%= link_to player_profile_path(person, edit: "family_name"), class: "profile-field-row", data: { profile_editor_field: "family_name" } do %>
+          <span><%= t("street.profile_dashboard.family_name") %></span>
+          <strong class="<%= "is-empty" if person.family_name.blank? %>"><%= person.family_name.presence || t("street.profile_dashboard.not_set") %></strong>
+          <b aria-hidden="true">›</b>
+        <% end %>
+        <%= link_to player_profile_path(person, edit: "avatar_key"), class: "profile-field-row", data: { profile_editor_field: "avatar_key" } do %>
+          <span><%= t("street.profile_dashboard.avatar") %></span>
+          <strong><%= avatar_name(person.avatar_key) %></strong>
+          <b aria-hidden="true">›</b>
+        <% end %>
+        <%= link_to player_profile_path(person, edit: "favorite_year"), class: "profile-field-row", data: { profile_editor_field: "favorite_year" } do %>
+          <span><%= t("street.profile_dashboard.favorite_year") %></span>
+          <strong class="<%= "is-empty" if person.favorite_year.blank? %>"><%= person.favorite_year.presence || t("street.profile_dashboard.not_set") %></strong>
+          <b aria-hidden="true">›</b>
+        <% end %>
+      </div>
+    </section>
+
+    <section class="profile-dashboard-group" aria-labelledby="profile-ward-title">
+      <header class="profile-dashboard-group-heading">
+        <img src="/media/profile/icons/profile-ward-medallion-v1.webp" alt="" width="60" height="60">
+        <div>
+          <p><%= t("street.profile_dashboard.community_kicker") %></p>
+          <h3 id="profile-ward-title"><%= t("street.profile_dashboard.ward_title") %></h3>
+        </div>
+      </header>
+      <%= link_to player_profile_path(person, ward_next: 1), class: "profile-glass-card profile-destination-card" do %>
+        <span>
+          <strong><%= ward&.name || t("street.profile_dashboard.no_ward") %></strong>
+          <small><%= [ ward&.city, ward&.country_name ].compact_blank.join(" · ").presence || t("street.profile_dashboard.choose_ward") %></small>
+        </span>
+        <b aria-hidden="true">›</b>
+      <% end %>
+    </section>
+
+    <section class="profile-dashboard-group profile-dashboard-journeys" aria-labelledby="profile-journeys-title">
+      <header class="profile-dashboard-group-heading is-text-only">
+        <div>
+          <p><%= t("street.profile_dashboard.history_kicker") %></p>
+          <h3 id="profile-journeys-title"><%= t("street.profile_dashboard.history_title") %></h3>
+        </div>
+      </header>
+      <div class="profile-destination-list">
+        <%= link_to street_map_path(anchor: "historial"), class: "profile-glass-card profile-destination-card" do %>
+          <img src="/media/profile/icons/profile-adventure-medallion-v1.webp" alt="" width="58" height="58">
+          <span>
+            <strong><%= t("street.profile_dashboard.adventure_title") %></strong>
+            <small><%= t("street.profile_dashboard.adventure_summary", packs: snapshot.packs_completed, crowns: snapshot.crowns) %></small>
+          </span>
+          <b aria-hidden="true">›</b>
+        <% end %>
+        <%= link_to player_quiz_history_path(person), class: "profile-glass-card profile-destination-card" do %>
+          <img src="/media/profile/icons/profile-answers-medallion-v1.webp" alt="" width="58" height="58">
+          <span>
+            <strong><%= t("street.profile_dashboard.answers_title") %></strong>
+            <small><%= t("street.quiz_history.answers_count", count: snapshot.answer_count) %> · <%= t("street.quiz_history.correct_count", count: snapshot.correct_answer_count) %></small>
+          </span>
+          <b aria-hidden="true">›</b>
+        <% end %>
+        <%= link_to study_history_path, class: "profile-glass-card profile-destination-card" do %>
+          <img src="/media/profile/icons/profile-word-medallion-v1.webp" alt="" width="58" height="58">
+          <span>
+            <strong><%= t("street.profile_dashboard.word_title") %></strong>
+            <small><%= t("street.profile_dashboard.word_summary", journeys: snapshot.study_runs_completed, highlights: snapshot.highlight_count) %></small>
+          </span>
+          <b aria-hidden="true">›</b>
+        <% end %>
+        <%= link_to street_challenges_path, class: "profile-glass-card profile-destination-card" do %>
+          <img src="/media/profile/icons/profile-challenges-medallion-v1.webp" alt="" width="58" height="58">
+          <span>
+            <strong><%= t("street.profile_dashboard.challenges_title") %></strong>
+            <small><%= t("street.profile_dashboard.challenges_summary", wins: snapshot.challenge_wins, active: snapshot.active_challenges) %></small>
+          </span>
+          <b aria-hidden="true">›</b>
+        <% end %>
+      </div>
+    </section>
+
+    <section class="profile-dashboard-group" aria-labelledby="profile-data-title">
+      <header class="profile-dashboard-group-heading">
+        <img src="/media/profile/icons/profile-data-medallion-v1.webp" alt="" width="60" height="60">
+        <div>
+          <p><%= t("street.profile_dashboard.control_kicker") %></p>
+          <h3 id="profile-data-title"><%= t("street.profile_dashboard.data_title") %></h3>
+        </div>
+      </header>
+      <div class="profile-glass-card profile-field-list">
+        <%= link_to player_profile_path(person, edit: "locale"), class: "profile-field-row", data: { profile_editor_field: "locale" } do %>
+          <span><%= t("street.profile_dashboard.language") %></span>
+          <strong><%= t("locale.names.#{person.locale}") %></strong>
+          <b aria-hidden="true">›</b>
+        <% end %>
+        <div class="profile-field-row is-readonly" data-profile-field="player_id">
+          <span><%= t("street.profile_dashboard.player_id") %></span>
+          <strong><%= person.id %></strong>
+        </div>
+        <div class="profile-field-row is-readonly" data-profile-field="created_at">
+          <span><%= t("street.profile_dashboard.profile_since") %></span>
+          <strong><%= l(person.created_at.to_date, format: :default) %></strong>
+        </div>
+        <div class="profile-field-row is-readonly">
+          <span><%= t("street.profile_dashboard.devices") %></span>
+          <strong><%= t("street.profile_dashboard.device_count", count: snapshot.device_count) %></strong>
+        </div>
+        <% if Notifications::Feature.enabled? %>
+          <%= link_to notification_settings_path, class: "profile-field-row" do %>
+            <span><%= t("street.profile_dashboard.notifications") %></span>
+            <strong><%= t("street.profile_dashboard.manage") %></strong>
+            <b aria-hidden="true">›</b>
+          <% end %>
+        <% end %>
+        <%= link_to privacy_path, class: "profile-field-row" do %>
+          <span><%= t("street.profile_dashboard.privacy") %></span>
+          <strong><%= t("street.profile_dashboard.read") %></strong>
+          <b aria-hidden="true">›</b>
+        <% end %>
+        <%= link_to player_profile_path(person, edit: "merge"), class: "profile-field-row", data: { profile_editor_field: "merge" } do %>
+          <span><%= t("street.profile_dashboard.recover_history") %></span>
+          <strong><%= t("street.profile_dashboard.check") %></strong>
+          <b aria-hidden="true">›</b>
+        <% end %>
+      </div>
+    </section>
+  </div>
+
+</article>
+
+<%= render "street_profiles/profile_editor",
+      person:,
+      editor_key:,
+      merge_candidates: @merge_candidates,
+      submitted_values: @submitted_profile_updates,
+      error: @profile_error if editor_key.present? %>

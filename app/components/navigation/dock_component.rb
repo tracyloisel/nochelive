@@ -11,12 +11,18 @@ module Navigation
     attr_reader :active
 
     def items
+      person = helpers.current_street_person
       [
         Item.new(key: :home, path: helpers.root_path, icon: "meetinghouse", label_key: "hub.nav_home"),
         Item.new(key: :adventure, path: helpers.street_map_path, icon: "compass", label_key: "hub.nav_adventure"),
         Item.new(key: :word, path: helpers.study_program_path, icon: "scripture-book", label_key: "hub.nav_word"),
         Item.new(key: :church, path: helpers.church_path, icon: "church", label_key: "hub.nav_church"),
-        Item.new(key: :profile, path: helpers.street_profile_path(edit: 1), icon: "person", label_key: "hub.nav_profile")
+        Item.new(
+          key: :profile,
+          path: person ? helpers.player_profile_path(person) : helpers.street_profile_path,
+          icon: "person",
+          label_key: "hub.nav_profile"
+        )
       ]
     end
 

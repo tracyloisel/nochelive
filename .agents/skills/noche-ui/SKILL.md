@@ -169,7 +169,9 @@ If you touch a non-quiz screen: strip Story residue. Do not peel the still off a
 | Token | Role |
 |---|---|
 | `--paper` | Light page background (ivory/white) |
-| `--surface` | Cards and sheets (Light: ivory; Dark: dark translucent) |
+| `--surface` | Opaque fallback only; cards and sheets normally use family glass |
+| `--surface-glass` | Default glass pane (Light: ivory / pearl translucent; Dark: night-blue translucent) |
+| `--surface-glass-soft` `--surface-glass-medium` `--surface-glass-strong` | Artwork-driven local contrast; reuse the existing jugar strengths where available |
 | `--ink` | Text on Light paper |
 | `--muted` / `--parchment` | Secondary on Light |
 | `--line` | Hairlines |
@@ -182,6 +184,21 @@ If you touch a non-quiz screen: strip Story residue. Do not peel the still off a
 
 Celestial Dark uses night-blue / deep-black surfaces, cream type, volumetric light, gold metal — **same component names**, family tokens. In Light, navy is a **secondary button fill**, never the page. In Dark, the environment **is** night. 8px scale. Padding `--space-6` phone, `--space-7` presenter/watch. Stacks use **gap**. Never `margin: 4px`.
 
+## Glass-transparent component contract
+
+The Liga / Cour des Couronnes establishes the default material for player-facing UI: **buttons and content-bearing sections are glass-transparent** so the world remains part of the composition.
+
+- Apply glass to cards, sheets, dialogs, HUD capsules, grouped lists, button plates, and other sections that contain or make content actionable. A layout wrapper with no visual job stays transparent.
+- Bind the same markup to family tokens: ivory / pearl glass + ink in Light; night-blue glass + cream in Dark. Select soft / medium / strong from the local artwork, not from a component-specific hex.
+- A readable fallback background is mandatory without blur. Enhance it with `-webkit-backdrop-filter` and `backdrop-filter`; never depend on blur for contrast and never animate the filter.
+- A Noche pane combines translucent family tint, a 1px gold/pearl hairline, an inset top highlight, and a soft depth shadow. Blur alone is not the design.
+- The one `.btn-gold` primary uses translucent gold light / metal, as on Liga’s Continue plate. Secondary and tertiary buttons use neutral family glass; they must not become equal-weight solid slabs.
+- Nested panes are exceptional: prefer one shared glass section with transparent rows and hairline separators. This prevents a glassmorphism dashboard.
+- Verify contrast against the brightest and darkest real crop. If it fails, strengthen that pane locally; do not add a full-screen milky wash.
+- Cover idle, hover where available, pressed, focus-visible, loading, disabled, success, and failure. Keep targets at least 44 × 44 px; in reduced motion remove traveling glints, and in forced colors fall back to system canvas/borders.
+
+Paper-like opacity remains an explicit exception for sustained reading, dense forms, or a Live seat whose two-second legibility cannot be met with strong glass. State the reason in the review.
+
 ## Overlay contrast
 
 Chrome **on stills** (play, watch, presenter): cream type + local scrims. Do not replace with a milky wash.
@@ -193,7 +210,7 @@ Chrome **on stills** (play, watch, presenter): cream type + local scrims. Do not
 | `--scrim-bottom` | `.watch-caption` / `.stage-caption` — short |
 | `--scrim-board` | `.watch-board` only — never a second tall wash |
 
-Light sheets and the presenter desk stay `--paper` / `--ink`. Dark sheets stay dark-translucent / cream.
+Light sheets and the presenter desk use ivory **strong glass** / ink; `--paper` is their readable no-blur fallback. Dark sheets use dark strong glass / cream.
 
 ## Gestures (live play + presenter only)
 
@@ -226,9 +243,9 @@ Specify idle, pressed, loading, success, failure, locked, unlocked, completed, n
 
 | Class | Use |
 |---|---|
-| `.btn.btn-gold` | The **one** primary action |
-| `.btn.btn-navy` | Strong secondary (Light) |
-| `.btn.btn-ghost` | Tertiary |
+| `.btn.btn-gold` | The **one** primary action; translucent gold glass / metal, not flat yellow |
+| `.btn.btn-navy` | Strong secondary (Light); translucent navy-family glass, not a flat slab |
+| `.btn.btn-ghost` | Neutral family glass tertiary |
 | `.quiet-link` | Más, Presenter, Solo ver |
 | `.buzz` | Sala slam — medallion, on the sheet |
 | `.story-tick` | Live round dots only |

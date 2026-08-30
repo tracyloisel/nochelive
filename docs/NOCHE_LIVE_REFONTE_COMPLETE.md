@@ -1,9 +1,15 @@
 # Noche Live — plan intégral de refonte
 
-**Statut :** plan directeur d’implémentation
+**Statut :** plan historique — remplacé le 30 août 2026 pour les nouvelles sessions
 **Date :** 28 août 2026
 **Références visuelles :** [`tmp/night-shots/temple-mockups/`](../tmp/night-shots/temple-mockups/)
 **Ordre de décision :** expérience → interface → direction artistique → validation
+
+> **Document remplacé.** La cible produit active supprime le présentateur, les
+> manches synchronisées et les distinctions salle/maison. Voir
+> [`NOCHE_LIVE_HOST_PLAYER_WATCH_REFACTOR.md`](NOCHE_LIVE_HOST_PLAYER_WATCH_REFACTOR.md).
+> Le présent document reste une archive utile pour comprendre l’architecture
+> game-show encore implémentée et les sessions historiques.
 
 ---
 

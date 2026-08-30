@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+production_branch="${GCS_SYNC_PUSH_BRANCH:-main}"
+should_sync=false
+
+# Git supplies one ref update per line on stdin. Synchronize only when the
+# production branch is sent, since that is the push that triggers Render.
+while read -r local_ref _local_sha remote_ref _remote_sha; do
+  if [[ "${local_ref}" == "refs/heads/${production_branch}" && "${remote_ref}" == "refs/heads/${production_branch}" ]]; then
+    should_sync=true
+    break
+  fi
+done
+
+if [[ "${should_sync}" != true ]]; then
+  exit 0
+fi
+
+repo_root="$(git rev-parse --show-toplevel)"
+cd "${repo_root}"
+
+if [[ "${GCS_ASSET_SYNC_SKIP:-0}" == "1" ]]; then
+  echo "[pre-push] GCS asset synchronization skipped by GCS_ASSET_SYNC_SKIP=1."
+  exit 0
+fi
+
+echo "[pre-push] Synchronizing production assets to GCS..."
+exec bin/sync_gcs_assets

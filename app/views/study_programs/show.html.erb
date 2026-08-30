@@ -16,6 +16,7 @@
       <b><%= t("study.profile_invite_cta") %></b><i aria-hidden="true">›</i>
     <% end %>
   <% end %>
+  <%= render "shared/quiz_reading_suggestions", suggestions: @quiz_reading_suggestions, surface: :study %>
   <% if @week %>
     <section class="study-current">
       <p class="study-kicker"><%= t("study.current_week") %></p>

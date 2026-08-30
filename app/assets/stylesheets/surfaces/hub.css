@@ -2069,6 +2069,11 @@ body.is-street-hub:has(.home-menu.is-hud) .street-world.is-game-hub:not(.is-prof
 .street-world.is-game-hub .hub-install {
   flex-shrink: 0;
 }
+.street-world.is-game-hub .street-hub-feed > .quiz-reading-suggestions {
+  flex-shrink: 0;
+  width: auto;
+  margin: 0 var(--space-3);
+}
 .street-world.is-game-hub .hub-hero.street-card.is-map-door {
   --tile-accent: transparent;
   --tile-wash: transparent;
@@ -2244,7 +2249,8 @@ body.is-street-hub:has(.home-menu.is-hud) .street-world.is-game-hub:not(.is-prof
 .street-world.is-game-hub .hub-hero-title.street-map-door-kicker,
 .hub-hero-title {
   margin: 0;
-  max-width: 16.5rem;
+  /* The adventure name is real editorial content, not a clipped label. */
+  max-width: min(100%, 28rem);
   overflow: visible;
   font-family: var(--font-display);
   font-size: clamp(1.7rem, 7.2vw, 2.15rem);
@@ -2312,6 +2318,8 @@ body.is-street-hub:has(.home-menu.is-hud) .street-world.is-game-hub:not(.is-prof
   justify-content: space-between;
   gap: var(--space-3);
   margin-top: 0;
+  flex: 0 0 auto;
+  min-height: 2.85rem;
 }
 .hub-slide-wait {
   display: inline-flex;
@@ -4142,6 +4150,11 @@ body.is-street-hub.is-opening .hub-live {
     column-gap: clamp(var(--space-4), 2.2vw, var(--space-6));
     row-gap: clamp(var(--space-5), 2.6vw, var(--space-7));
     padding-inline: 0;
+}
+.street-world.is-game-hub .street-hub-feed > .quiz-reading-suggestions {
+    grid-column: 2 / -2;
+    width: 100%;
+    margin: 0;
   }
 .street-world.is-game-hub .street-hub-feed > .hub-hero.street-card.is-map-door {
     grid-column: 2 / -2;
@@ -5125,6 +5138,9 @@ body.is-study-community {
   color: var(--gold-primary);
 }
 @media (max-width: 719px) {
+.street-world.is-game-hub .street-hub-feed > .hub-install + .hub-hero {
+    margin-top: var(--space-3);
+  }
 .street-world.is-game-hub .hub-install {
     grid-template-columns: auto minmax(0, 1fr);
     grid-template-areas:
@@ -5300,7 +5316,7 @@ body.is-study-community {
     radial-gradient(circle at 88% 32%, color-mix(in srgb, var(--hub-light-gold-glint) 16%, transparent), transparent 26%);
 }
 
-/* The desktop voyage used a 20rem track with 16.75rem slides, exposing a dead strip. */
+/* Desktop keeps one compact hero row; the wider copy lane carries long titles. */
 @media (min-width: 720px) {
   .street-world.is-game-hub .hub-slide { height: 100%; }
 }

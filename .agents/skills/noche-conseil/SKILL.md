@@ -128,6 +128,18 @@ Exemples :
 
 L'OR constitue la signature constante de NocheLive.
 
+## Matière d'interface : le verre Noche
+
+Le chrome joueur emploie par défaut une matière **glass-transparent** : boutons et sections porteuses de contenu laissent le monde visible au lieu de poser des plaques opaques sur l'artwork.
+
+* Celestial Light : verre ivoire / perle translucide, texte encre, liseré et reflet doux ;
+* Celestial Dark : verre bleu nuit translucide, texte crème, liseré or et profondeur volumétrique ;
+* CTA principal : verre doré / métal translucide, jamais un gros bouton jaune plat ;
+* secondaires : verre neutre de la famille courante ;
+* le contraste se renforce **sur la surface locale**, jamais avec un voile laiteux plein écran.
+
+Le verre est une **matière**, pas une raison de transformer chaque groupe en carte. Les wrappers de composition restent ouverts et transparents ; une section ne reçoit une plaque que si elle contient, sépare ou rend actionnable une information. Éviter le verre dans le verre. Une surface plus opaque reste une exception explicite pour la lecture longue, un formulaire dense ou une situation Live où le contraste l'exige.
+
 ## Ton rôle
 
 À chaque proposition d'écran :

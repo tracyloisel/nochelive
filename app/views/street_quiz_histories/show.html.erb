@@ -1,0 +1,107 @@
+<% content_for :title, t("street.quiz_history.page_title") %>
+<% content_for :body_class, "is-paper-hall is-street-profile is-profile-answer-history" %>
+<% page_hud(face: false, hud: false) { site_menu } %>
+<% accuracy = @history.total_answers.positive? ? (@history.correct_answers.fdiv(@history.total_answers) * 100).round : 0 %>
+<% average_seconds = @history.average_duration_ms&.fdiv(1000) %>
+
+<section id="street_quiz_history" class="profile-world profile-answer-world">
+  <div class="profile-rays" aria-hidden="true"></div>
+  <header class="profile-stage profile-answer-stage">
+    <span class="profile-star" aria-hidden="true"><%= picto("star8") %></span>
+    <p class="profile-brand">Noche Live</p>
+    <p class="profile-answer-kicker"><%= t("street.quiz_history.kicker") %></p>
+    <h1><%= t("street.quiz_history.title") %></h1>
+    <p class="profile-answer-lede"><%= t("street.quiz_history.lede") %></p>
+  </header>
+
+  <main id="main" class="profile-answer-history">
+    <%= link_to player_profile_path(@requested_street_person), class: "profile-glass-secondary profile-answer-back" do %>
+      <span aria-hidden="true">‹</span><%= t("street.quiz_history.back_profile") %>
+    <% end %>
+
+    <section class="profile-glass-card profile-answer-overview" aria-label="<%= t("street.quiz_history.title") %>">
+      <div>
+        <strong><%= @history.total_answers %></strong>
+        <span><%= t("street.quiz_history.answers_count", count: @history.total_answers) %></span>
+      </div>
+      <div>
+        <strong><%= accuracy %>%</strong>
+        <span><%= t("street.quiz_history.accuracy") %></span>
+      </div>
+      <div>
+        <strong><%= average_seconds ? t("street.quiz_history.time_value", seconds: number_with_precision(average_seconds, precision: 1, strip_insignificant_zeros: true)) : "—" %></strong>
+        <span><%= t("street.quiz_history.average_time") %></span>
+      </div>
+    </section>
+
+    <% if @history.sessions.any? %>
+      <div class="profile-answer-sessions">
+        <% @history.sessions.each do |session| %>
+          <section id="<%= session.id %>" class="profile-glass-card profile-answer-session" aria-labelledby="<%= session.id %>-title">
+            <header class="profile-answer-session-head">
+              <div>
+                <p><span class="profile-answer-source is-<%= session.kind %>"><%= t("street.quiz_history.#{session.kind}_source") %></span><time datetime="<%= session.played_at.iso8601 %>"><%= l(session.played_at.to_date) %></time></p>
+                <h2 id="<%= session.id %>-title"><%= session.title %></h2>
+                <span><%= session.subtitle %></span>
+              </div>
+              <strong><%= t("street.quiz_history.session_score", correct: session.correct_answers, total: session.answer_count) %></strong>
+            </header>
+
+            <ol class="profile-answer-list">
+              <% session.answers.each_with_index do |answer, index| %>
+                <% duration = answer.duration_ms&.fdiv(1000) %>
+                <li id="<%= answer.id %>" class="profile-answer-row <%= answer.correct ? "is-correct" : "is-wrong" %>">
+                  <header>
+                    <span class="profile-answer-result">
+                      <b aria-hidden="true"><%= answer.correct ? "✓" : "×" %></b>
+                      <%= t("street.quiz_history.#{answer.correct ? "result_correct" : "result_wrong"}") %>
+                    </span>
+                    <span><%= t("street.quiz_history.question_number", number: answer.position || index + 1) %></span>
+                    <span class="profile-answer-duration"><%= picto("hourglass") %><%= duration ? t("street.quiz_history.time_value", seconds: number_with_precision(duration, precision: 1, strip_insignificant_zeros: true)) : t("street.quiz_history.time_unknown") %></span>
+                  </header>
+                  <h3><%= answer.question %></h3>
+                  <% if answer.scripture.present? %><p class="profile-answer-scripture"><%= answer.scripture %></p><% end %>
+                  <dl>
+                    <div>
+                      <dt><%= t("street.quiz_history.your_answer") %></dt>
+                      <dd><%= answer.chosen_answer %></dd>
+                    </div>
+                    <div>
+                      <dt><%= t("street.quiz_history.correct_answer") %></dt>
+                      <dd><%= answer.correct_answer %></dd>
+                    </div>
+                  </dl>
+                </li>
+              <% end %>
+            </ol>
+          </section>
+        <% end %>
+      </div>
+
+      <% if @history.total_pages > 1 %>
+        <nav class="profile-answer-pagination" aria-label="<%= t("street.quiz_history.pagination") %>">
+          <% if @history.page > 1 %>
+            <%= link_to t("street.quiz_history.previous"), player_quiz_history_path(@requested_street_person, page: @history.page - 1), class: "profile-glass-secondary" %>
+          <% else %>
+            <span></span>
+          <% end %>
+          <strong><%= t("street.quiz_history.page", page: @history.page, pages: @history.total_pages) %></strong>
+          <% if @history.page < @history.total_pages %>
+            <%= link_to t("street.quiz_history.next"), player_quiz_history_path(@requested_street_person, page: @history.page + 1), class: "profile-glass-secondary" %>
+          <% else %>
+            <span></span>
+          <% end %>
+        </nav>
+      <% end %>
+    <% else %>
+      <section class="profile-glass-card profile-answer-empty">
+        <span aria-hidden="true"><%= picto("check") %></span>
+        <h2><%= t("street.quiz_history.empty_title") %></h2>
+        <p><%= t("street.quiz_history.empty_lede") %></p>
+        <%= link_to t("street.quiz_history.empty_action"), street_map_path, class: "profile-glass-primary" %>
+      </section>
+    <% end %>
+  </main>
+</section>
+
+<% page_dock(active: :profile) %>

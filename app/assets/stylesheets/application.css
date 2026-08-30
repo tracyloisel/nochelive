@@ -1597,6 +1597,8 @@ body.is-rama-profile .home-menu:not(.is-hud) { top: max(.7rem, env(safe-area-ins
 *,
 *::before,
 *::after { animation: none !important; transition: none !important; }
+::view-transition-old(root),
+::view-transition-new(root) { animation-duration: 1ms !important; }
 .ripple { display: none; }
 body[class*="is-fx-"]::after { display: none; }
 }

@@ -10,7 +10,7 @@
         <small><%= t("street.merge_crowns", count: card.score) %> · <%= t("street.merge_since", date: l(card.person.created_at.to_date)) %></small>
 
         <% if card.claimable %>
-          <%= form_with url: street_profile_merge_path,
+          <%= form_with url: player_profile_merge_path(@person),
                         class: "join-form profile-merge-form",
                         data: {
                           controller: "profile-merge",

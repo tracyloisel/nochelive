@@ -8,7 +8,7 @@ class FrontendLoadingContractTest < ActionDispatch::IntegrationTest
     assert_select "script#noche_resource_manifest[type='application/json']", count: 1
     manifest = JSON.parse(css_select("#noche_resource_manifest").first.text)
     assert_equal "hub.home", manifest.fetch("context")
-    assert_equal %w[shell hub onboarding], manifest.fetch("styles")
+    assert_equal %w[shell hub onboarding study], manifest.fetch("styles")
     assert_equal "critical", manifest.fetch("classes").fetch("media.lcp")
     assert_includes manifest.fetch("controllers"), "hub-campus"
     assert_equal "viewport", manifest.fetch("classes").fetch("controller.hub_campus")
@@ -17,6 +17,7 @@ class FrontendLoadingContractTest < ActionDispatch::IntegrationTest
     refute manifest.key?("score")
 
     assert_select "link[href*='surfaces/hub'][data-turbo-track='dynamic']", count: 1
+    assert_select "link[href*='surfaces/study'][data-turbo-track='dynamic']", count: 1
     assert_select "link[href*='duel_campus']", count: 0
     assert_select "link[href*='shell/loading'][data-turbo-track='reload']", count: 1
     assert_select "[data-controller~='loading'] .noche-loading[data-loading-target='indicator']", count: 1

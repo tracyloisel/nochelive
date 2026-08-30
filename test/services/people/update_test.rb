@@ -26,4 +26,14 @@ class People::UpdateTest < ActiveSupport::TestCase
     end
     assert_equal :year, error.code
   end
+
+  test "partial update preserves every absent canonical field" do
+    person = people(:pili)
+    original = person.attributes.slice("family_name", "avatar_key", "favorite_year")
+
+    People::Update.call(person:, given_name: "Pilar")
+
+    assert_equal "Pilar", person.given_name
+    assert_equal original, person.attributes.slice("family_name", "avatar_key", "favorite_year")
+  end
 end

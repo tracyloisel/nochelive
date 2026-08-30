@@ -304,6 +304,22 @@ module Identity
       remember_ward(person.ward) if person.ward && current_ward&.id != person.ward_id
     end
 
+    def require_explicit_street_identity
+      person = current_street_person
+      unless person
+        redirect_to street_profile_path(quick: 1), alert: I18n.t("flashes.profile_required")
+        return
+      end
+
+      unless params[:player_id].to_s == person.id.to_s
+        head :not_found
+        return
+      end
+
+      @requested_street_person = person
+      remember_ward(person.ward) if person.ward && current_ward&.id != person.ward_id
+    end
+
     def require_ward_presenter
       return if hosted_ward
 

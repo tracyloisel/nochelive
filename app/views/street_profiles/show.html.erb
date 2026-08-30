@@ -1,6 +1,6 @@
-<% content_for :title, t("street.profile_title") %>
-<% content_for :body_class, "is-kid is-paper-hall is-street-profile" %>
-<% enable_frontend_audio %>
+<% content_for :title, @screen == :profile ? t("street.profile_dashboard.page_title") : t("street.profile_title") %>
+<% content_for :body_class, "is-kid is-paper-hall is-street-profile#{" is-profile-editor" if @editor_key.present?}" %>
+<% enable_frontend_audio unless @screen == :profile %>
 <% page_hud(face: false, hud: false) { site_menu } %>
 
 <section id="street_quien" class="profile-world">
@@ -8,8 +8,13 @@
   <header class="profile-stage">
     <span class="profile-star" aria-hidden="true"><%= picto("star8") %></span>
     <p class="profile-brand">Noche Live</p>
-    <h1><%= @screen == :edit ? t("street.edit_profile_title") : (@screen == :device ? t("join.device_title") : t("street.quick_profile_title")) %></h1>
-    <% if current_ward %>
+    <h1><%= @screen == :profile ? t("street.profile_dashboard.title") : (@screen == :device ? t("join.device_title") : t("street.quick_profile_title")) %></h1>
+    <% if @screen == :profile %>
+      <%= link_to street_profile_path(not_me: 1), class: "profile-glass-secondary profile-switch-player" do %>
+        <%= picto("person") %><%= t("street.switch_profile") %>
+      <% end %>
+    <% end %>
+    <% if current_ward && @screen != :profile %>
       <div class="profile-rama-switcher">
         <div class="profile-rama profile-rama-current"><%= picto("church") %><span><%= current_ward.name %></span></div>
         <%= link_to search_path(cambiar: 1),
@@ -21,10 +26,10 @@
     <% end %>
   </header>
 
-  <main class="profile-panel <%= "is-edit" if @screen == :edit %>">
+  <main class="profile-panel <%= "is-dashboard" if @screen == :profile %>">
     <% case @screen %>
-    <% when :edit %>
-      <%= render "street_profiles/edit", person: @person %>
+    <% when :profile %>
+      <%= render "street_profiles/profile", snapshot: @snapshot, editor_key: @editor_key %>
     <% when :welcome %>
       <%= render "street_profiles/welcome", person: @welcome_person %>
     <% when :device %>
@@ -39,16 +44,12 @@
 
     <nav class="profile-actions">
       <% if @person %>
-        <%= button_to street_profile_path, params: { logout: 1 }, class: "quiet-link street-sign-out" do %>
+        <%= button_to street_profile_path, params: { logout: 1 }, class: "profile-glass-secondary street-sign-out" do %>
           <%= picto("door") %><%= t("street.sign_out") %>
         <% end %>
       <% end %>
     </nav>
   </main>
 </section>
-
-<% if @person && Notifications::Feature.enabled? %>
-  <%= render "notifications/settings", person: @person %>
-<% end %>
 
 <% page_dock(active: :profile) %>

@@ -25,7 +25,7 @@ class WebPushExperienceTest < ApplicationSystemTestCase
     with_web_push_enabled do
       install_push_stubs
       person = create_push_profile("Flujo Push")
-      visit street_profile_path(edit: 1)
+      visit notification_settings_path
 
       assert_selector ".push-settings"
       assert_text I18n.t("notifications.settings.device_default")
@@ -69,7 +69,10 @@ class WebPushExperienceTest < ApplicationSystemTestCase
       select I18n.t("notifications.settings.daily"), from: I18n.t("notifications.settings.frequency")
       fill_in I18n.t("notifications.settings.time"), with: "07:30"
       assert_field I18n.t("notifications.settings.time"), with: "07:30"
-      find("button[data-category=verses][aria-checked=false]").click
+      find_field(I18n.t("notifications.settings.time")).send_keys(:tab)
+      verse_toggle = find("button[data-category=verses][aria-checked=false]")
+      verse_toggle.click
+      verse_toggle.click if verse_toggle["aria-checked"] == "false"
       assert_selector "button[data-category=verses][aria-checked=true]"
       assert person.notification_preference.reload.verses_enabled?
       assert_equal "daily", person.notification_preference.verse_frequency
@@ -164,9 +167,9 @@ class WebPushExperienceTest < ApplicationSystemTestCase
 
   test "the glass confirmation stays luminous and clear on the Celestial Light profile" do
     person = create_push_profile("Luz Fluor")
-    visit street_profile_path(edit: 1)
-    fill_in I18n.t("street.edit_name"), with: person.given_name
-    click_button I18n.t("street.save_profile")
+    visit street_profile_path(edit: "given_name")
+    fill_in I18n.t("street.profile_dashboard.given_name"), with: person.given_name
+    click_button I18n.t("street.profile_dashboard.save")
 
     assert_selector "body.is-paper-hall"
     assert_selector ".banner", text: I18n.t("flashes.profile_updated"), visible: true

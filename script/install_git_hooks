@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+git_dir="$(git -C "${repo_root}" rev-parse --git-dir)"
+
+if [[ "${git_dir}" != /* ]]; then
+  git_dir="${repo_root}/${git_dir}"
+fi
+
+install -m 755 "${repo_root}/.githooks/pre-push" "${git_dir}/hooks/pre-push"
+echo "Installed the GCS asset pre-push hook."

@@ -1,0 +1,101 @@
+<% identity_editor = %w[given_name family_name avatar_key favorite_year].include?(editor_key) %>
+<% icon_name = identity_editor ? "identity" : "data" %>
+<% title = t("street.profile_dashboard.editors.#{editor_key}.title") %>
+<% submitted_values ||= {} %>
+<% given_name_value = submitted_values.key?(:given_name) ? submitted_values[:given_name] : person.given_name %>
+<% family_name_value = submitted_values.key?(:family_name) ? submitted_values[:family_name] : person.family_name %>
+<% favorite_year_value = submitted_values.key?(:favorite_year) ? submitted_values[:favorite_year] : person.favorite_year %>
+<% avatar_key_value = submitted_values.key?(:avatar_key) ? submitted_values[:avatar_key] : person.avatar_key %>
+<% locale_value = submitted_values.key?(:locale) ? submitted_values[:locale] : person.locale %>
+
+<div class="profile-editor-backdrop"
+     data-controller="profile-editor"
+     data-profile-editor-key-value="<%= editor_key %>"
+     data-profile-editor-count-label-value="<%= t("street.profile_dashboard.character_count", count: "__COUNT__") %>"
+     data-profile-editor-cancel-url-value="<%= player_profile_path(person) %>"
+     data-action="click->profile-editor#closeFromBackdrop keydown@window->profile-editor#closeOnEscape">
+  <aside class="profile-editor-sheet" role="dialog" aria-modal="true" aria-labelledby="profile-editor-title" data-profile-editor-target="sheet">
+    <header class="profile-editor-heading">
+      <img src="/media/profile/icons/profile-<%= icon_name %>-medallion-v1.webp" alt="" width="60" height="60">
+      <div>
+        <p><%= t("street.profile_dashboard.edit_kicker") %></p>
+        <h2 id="profile-editor-title"><%= title %></h2>
+      </div>
+      <%= link_to player_profile_path(person), class: "profile-editor-close", "aria-label": t("street.profile_dashboard.cancel"), data: { action: "click->profile-editor#close" } do %>
+        <span aria-hidden="true">×</span>
+      <% end %>
+    </header>
+
+    <% if editor_key == "merge" %>
+      <div class="profile-editor-merge">
+        <p><%= t("street.profile_dashboard.editors.merge.lede") %></p>
+        <% if merge_candidates.present? %>
+          <%= render "street_profiles/merge_candidates", cards: merge_candidates %>
+        <% else %>
+          <div class="profile-editor-empty"><%= t("street.profile_dashboard.editors.merge.empty") %></div>
+        <% end %>
+      </div>
+    <% else %>
+      <%= form_with url: player_profile_path(person), method: :patch, class: "profile-editor-form", data: { action: "submit->profile-editor#beginSubmit turbo:submit-end->profile-editor#finishSubmit" } do %>
+        <p id="profile-editor-lede" class="profile-editor-lede"><%= t("street.profile_dashboard.editors.#{editor_key}.lede") %></p>
+        <% if error.present? %>
+          <p id="profile-editor-error" class="profile-editor-error" role="alert"><%= error %></p>
+        <% end %>
+
+        <% case editor_key %>
+        <% when "given_name" %>
+          <label class="profile-editor-field" for="profile_given_name">
+            <span><%= t("street.profile_dashboard.given_name") %></span>
+            <input id="profile_given_name" name="given_name" maxlength="24" required autocomplete="given-name" value="<%= given_name_value %>" autofocus
+                   aria-describedby="profile-editor-lede<%= " profile-editor-error" if error.present? %>"
+                   data-profile-editor-target="input" data-action="input->profile-editor#updateCount">
+            <output class="profile-editor-count" for="profile_given_name" data-profile-editor-target="count"><%= given_name_value.to_s.length %>/24</output>
+          </label>
+        <% when "family_name" %>
+          <label class="profile-editor-field" for="profile_family_name">
+            <span><%= t("street.profile_dashboard.family_name") %></span>
+            <input id="profile_family_name" name="family_name" maxlength="24" autocomplete="family-name" value="<%= family_name_value %>" autofocus
+                   aria-describedby="profile-editor-lede<%= " profile-editor-error" if error.present? %>"
+                   data-profile-editor-target="input" data-action="input->profile-editor#updateCount">
+            <output class="profile-editor-count" for="profile_family_name" data-profile-editor-target="count"><%= family_name_value.to_s.length %>/24</output>
+          </label>
+        <% when "favorite_year" %>
+          <label class="profile-editor-field" for="profile_favorite_year">
+            <span><%= t("street.profile_dashboard.favorite_year") %></span>
+            <input id="profile_favorite_year" name="favorite_year" type="number" inputmode="numeric" min="<%= Person::YEAR_MIN %>" max="<%= Time.current.year %>" required value="<%= favorite_year_value %>" autofocus aria-describedby="profile-editor-lede<%= " profile-editor-error" if error.present? %>">
+          </label>
+        <% when "avatar_key" %>
+          <fieldset class="profile-editor-avatars">
+            <legend><%= t("street.profile_dashboard.avatar") %></legend>
+            <% Player::AVATARS.each do |key| %>
+              <label class="profile-editor-avatar">
+                <input type="radio" name="avatar_key" value="<%= key %>" <%= "checked" if key == avatar_key_value %> required aria-describedby="profile-editor-lede<%= " profile-editor-error" if error.present? %>">
+                <span class="profile-editor-avatar-seal" aria-hidden="true">
+                  <img src="<%= avatar_mark(key) %>" alt="" class="avatar-img" width="64" height="64">
+                </span>
+                <em><%= avatar_name(key) %></em>
+              </label>
+            <% end %>
+          </fieldset>
+        <% when "locale" %>
+          <fieldset class="profile-editor-locales">
+            <legend><%= t("street.profile_dashboard.language") %></legend>
+            <% Locale::AVAILABLE.each do |code| %>
+              <label class="profile-editor-locale">
+                <input type="radio" name="locale" value="<%= code %>" <%= "checked" if code == locale_value %> required aria-describedby="profile-editor-lede<%= " profile-editor-error" if error.present? %>">
+                <span aria-hidden="true"><%= locale_flag(code) %></span>
+                <strong><%= t("locale.names.#{code}") %></strong>
+                <i aria-hidden="true"><%= picto("check") %></i>
+              </label>
+            <% end %>
+          </fieldset>
+        <% end %>
+
+        <div class="profile-editor-actions">
+          <button type="submit" class="profile-glass-primary"><%= picto("check") %><%= t("street.profile_dashboard.save") %></button>
+          <%= link_to t("street.profile_dashboard.cancel"), player_profile_path(person), class: "profile-glass-secondary", data: { action: "click->profile-editor#close" } %>
+        </div>
+      <% end %>
+    <% end %>
+  </aside>
+</div>

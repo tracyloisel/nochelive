@@ -11,8 +11,14 @@ class StudyAnswersController < ApplicationController
     raise ActionController::BadRequest, "Unknown choice" unless allowed.include?(choice)
 
     correct = choice == base.fetch("correct_choice")
+    answered_at = Time.current
     answer = StudyRun.transaction do
-      created = @run.study_answers.create!(question_key: base.fetch("key"), choice_key: choice, correct:)
+      created = @run.study_answers.create!(
+        question_key: base.fetch("key"),
+        choice_key: choice,
+        correct:,
+        duration_ms: Studies::AnswerClock.elapsed_ms(@run, at: answered_at)
+      )
       @run.increment!(:score) if correct
       created
     end

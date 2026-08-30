@@ -358,7 +358,7 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
       assert_select "a[href=?]", street_map_path, count: 1
       assert_select "a[href=?]", study_program_path, count: 1
       assert_select "a[href=?]", church_path, count: 1
-      assert_select "a[href=?]", street_profile_path(edit: 1), count: 1
+      assert_select "a[href=?]", player_profile_path(run.person_id), count: 1
       assert_select ".picto-meetinghouse", count: 1
       assert_select ".picto-compass", count: 1
       assert_select ".navigation-dock__item[href='/parole'] > .picto-scripture-book", count: 1
@@ -398,7 +398,9 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
       assert_select "img[loading='lazy'][decoding='async']", count: 1
     end
     assert_select ".hub-online-scrim", count: 1
-    assert_select ".hub-live.is-ward_missing.is-still[style*='/media/generated/catalog/nights/noche_live_stage_v2/']", count: 1
+    assert_select ".hub-live.is-ward_missing.is-still", count: 1 do |nodes|
+      assert_match %r{/media/generated/catalog/(?:hub/light/live-stage-v2|nights/noche_live_stage_v2)/}, nodes.first["style"]
+    end
     assert_select ".hub-progress .hub-kicker", text: I18n.t("hub.progress")
     assert_select "a.hub-progress-map-link[href=?]", street_map_path do
       assert_select ".hub-progress-map-action", text: I18n.t("street.world_map_open")
@@ -419,6 +421,24 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
     assert_select "turbo-frame#street_pulse"
     assert_select ".street-pulse"
     assert_select ".street-play-cta", count: 0
+  end
+
+  test "home turns unresolved quiz answers into reading suggestions" do
+    person = people(:pili)
+    sign_in_congregation(person.ward)
+    post street_profile_path, params: { person_id: person.id, favorite_year: person.favorite_year }
+
+    question = QuizDefinition.catalog.find_pack("coronas").questions.first
+    run = QuizRun.create!(person:, device_digest: "suggestion-hub", pack_id: "coronas", position: 10, score: 0, status: "finished", opened_at: Time.current)
+    QuizAnswer.create!(quiz_run: run, device_digest: run.device_digest, pack_id: run.pack_id, question_id: question.id, correct: false)
+
+    get root_path
+
+    assert_response :success
+    assert_select ".quiz-reading-suggestions.is-hub" do
+      assert_select "h2", text: I18n.t("study.quiz_suggestions_title")
+      assert_select "a[href=?]", scripture_path(question.scripture.study, cite: question.scripture.cite), text: /#{Regexp.escape(question.scripture.cite)}/
+    end
   end
 
   test "Campus hub tile explains each large number and reveals it only in view" do
@@ -481,6 +501,15 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
     assert_select "a.hub-live-program", text: /#{Regexp.escape(I18n.t("hub.see_program"))}/
     assert_select ".hub-live-join", count: 0
     assert_select ".hub-live[style*='/media/generated/']", count: 1
+  end
+
+  test "hub omits the live tile when no upcoming Noche is scheduled" do
+    game_sessions(:david).update!(status: "finished")
+    game_sessions(:elias).update!(status: "finished")
+    sign_in_congregation
+    create_street_profile!
+
+    assert_select ".hub-live", count: 0
   end
 
   test "playing hub live card presents Entrer as the primary game command" do

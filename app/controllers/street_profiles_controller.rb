@@ -1,21 +1,44 @@
 class StreetProfilesController < ApplicationController
   include StreetQuiz
 
+  EDITOR_KEYS = %w[given_name family_name avatar_key favorite_year locale merge].freeze
+
   before_action :load_gate_ward, only: [ :show, :create, :update ]
+  before_action :require_explicit_street_identity, if: :explicit_profile_action?
 
   def show
     device_token
     session[:street_return] = "ward_picker" if params[:ward_next].present?
     @people_on_device = Person.on_device_anywhere(device_token).to_a
-    @person = current_street_person
+    @person = @requested_street_person || current_street_person
+    if explicit_profile_request?
+      if params[:ward_next].present?
+        session[:street_return] = "profile"
+        redirect_to search_path(cambiar: 1)
+        return
+      end
+
+      @screen = :profile
+      assign_profile
+      return
+    end
     if params[:person_id].present? && current_ward
       person = current_ward.people.find_by(id: params[:person_id])
       if person && @people_on_device.none? { |row| row.id == person.id }
         @claim_person = person
       end
     end
+    if @person && params[:ward_next].present?
+      session[:street_return] = "profile"
+      redirect_to search_path(cambiar: 1)
+      return
+    end
+    if redirect_gate_to_explicit_profile?
+      redirect_to player_profile_path(@person, **legacy_profile_query)
+      return
+    end
     assign_screen
-    assign_merge_candidates if @screen == :edit
+    assign_profile if @screen == :profile
   end
 
   def create
@@ -94,29 +117,26 @@ class StreetProfilesController < ApplicationController
   end
 
   def update
-    person = current_street_person
-    unless person
-      redirect_to street_profile_path, alert: I18n.t("flashes.profile_required")
-      return
-    end
+    person = @requested_street_person
 
-    person.assign_attributes(
-      given_name: params[:name].to_s.strip,
-      avatar_key: params[:avatar_key]
-    )
-
-    if person.save
-      person.players.update_all(name: person.given_name, avatar_key: person.avatar_key, updated_at: Time.current)
-      redirect_to street_profile_path, notice: I18n.t("flashes.profile_updated")
-    else
-      device_token
-      @people_on_device = Person.on_device_anywhere(device_token).to_a
-      @person = person
-      @screen = :edit
-      assign_merge_candidates
-      flash.now[:alert] = person.errors.full_messages.to_sentence
-      render :show, status: :unprocessable_entity
+    updates = profile_updates
+    @submitted_profile_updates = updates.dup
+    if updates.key?(:locale)
+      locale = updates.delete(:locale)
+      Locales::Set.call(locale:, person: person)
+      remember_locale(locale)
     end
+    People::Update.call(person:, **updates) if updates.any?
+    redirect_to player_profile_path(person), notice: I18n.t("flashes.profile_updated")
+  rescue People::Error, ActiveRecord::RecordInvalid => error
+    device_token
+    @people_on_device = Person.on_device_anywhere(device_token).to_a
+    @person = person
+    @screen = :profile
+    @editor_key = editor_for_update
+    @profile_error = error.message
+    assign_profile
+    render :show, status: :unprocessable_entity
   end
 
   private
@@ -125,6 +145,22 @@ class StreetProfilesController < ApplicationController
       return if current_ward
 
       @featured_ward = Ward.find_by(code: Ward::FEATURED_CODE)
+    end
+
+    def explicit_profile_request?
+      params[:player_id].present?
+    end
+
+    def explicit_profile_action?
+      action_name == "update" || explicit_profile_request?
+    end
+
+    def redirect_gate_to_explicit_profile?
+      @person.present? && params[:not_me].blank? && params[:new_profile].blank? && params[:fresh].blank? && params[:person_id].blank?
+    end
+
+    def legacy_profile_query
+      params.permit(:edit, :locale).to_h.symbolize_keys
     end
 
     def enter_street!(person)
@@ -189,8 +225,8 @@ class StreetProfilesController < ApplicationController
     end
 
     def assign_screen(error = nil)
-      if @person && params[:edit].present?
-        @screen = :edit
+      if @person && params[:not_me].blank? && params[:new_profile].blank? && error.blank?
+        @screen = :profile
         return
       end
 
@@ -223,5 +259,30 @@ class StreetProfilesController < ApplicationController
 
     def assign_merge_candidates
       @merge_candidates = People::MergeCandidates.call(person: @person, device_token: device_token)
+    end
+
+    def assign_profile
+      @snapshot = StreetProfiles::Snapshot.call(person: @person)
+      @editor_key ||= EDITOR_KEYS.include?(params[:edit].to_s) ? params[:edit].to_s : nil
+      assign_merge_candidates if @editor_key == "merge"
+    end
+
+    def profile_updates
+      updates = {}
+      updates[:given_name] = params[:given_name] if params.key?(:given_name)
+      updates[:given_name] = params[:name] if !updates.key?(:given_name) && params.key?(:name)
+      updates[:family_name] = params[:family_name] if params.key?(:family_name)
+      updates[:avatar_key] = params[:avatar_key] if params.key?(:avatar_key)
+      updates[:favorite_year] = params[:favorite_year] if params.key?(:favorite_year)
+      updates[:locale] = params[:locale] if params.key?(:locale)
+      raise People::Error.new(:missing, I18n.t("errors.people.missing")) if updates.empty?
+
+      updates
+    end
+
+    def editor_for_update
+      profile_updates.keys.first.to_s.presence_in(EDITOR_KEYS)
+    rescue People::Error
+      nil
     end
 end

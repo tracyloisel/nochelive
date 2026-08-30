@@ -123,6 +123,66 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
     Hubs::Backdrop.reset!
   end
 
+  test "a long adventure title keeps Jouer inside the hero without covering the next tile" do
+    sign_in_fixture_person_direct!(people(:pili))
+    catalog = Array(YAML.safe_load_file(Hubs::Backdrop::CATALOG)["backdrops"])
+    worlds = {
+      "celestial-light" => catalog.find { |row| row["id"] == "eden-lumiere" },
+      "celestial-dark" => catalog.find { |row| row["id"] == "coronas-ungido" }
+    }
+
+    worlds.each do |theme, row|
+      Hubs::Backdrop.entries = [ row ]
+      [ [ 390, 844 ], [ 768, 1024 ], [ 1440, 900 ] ].each do |width, height|
+        set_quiz_viewport(width, height)
+        visit root_path
+        assert_selector "body.is-#{theme}"
+        page.execute_script(<<~JS)
+          document.querySelector(".hub-hero-title").textContent =
+            "Abish, Sariah et les mères fidèles"
+        JS
+
+        geometry = page.evaluate_script(<<~JS)
+          (function () {
+            var stage = document.querySelector(".hub-hero-stage").getBoundingClientRect();
+            var title = document.querySelector(".hub-hero-title");
+            var titleBox = title.getBoundingClientRect();
+            var titleStyle = getComputedStyle(title);
+            var play = document.querySelector(".hub-play").getBoundingClientRect();
+            var reward = document.querySelector(".hub-reward").getBoundingClientRect();
+            var nextTile = document.querySelector(".hub-study, .hub-live").getBoundingClientRect();
+            var install = document.querySelector(".hub-install:not([hidden])");
+            var installBox = install && install.getBoundingClientRect();
+            return {
+              titleVisible: titleStyle.overflow != "hidden" &&
+                [ "", "none" ].includes(titleStyle.webkitLineClamp),
+              titleBottom: titleBox.bottom,
+              titleWidth: titleBox.width,
+              playTop: play.top,
+              playBottom: play.bottom,
+              rewardBottom: reward.bottom,
+              stageBottom: stage.bottom,
+              nextTop: nextTile.top,
+              installGap: installBox ? stage.top - installBox.bottom : null
+            };
+          })()
+        JS
+
+        assert geometry["titleVisible"], "the complete adventure title should remain visible"
+        assert_operator geometry["titleBottom"], :<, geometry["playTop"]
+        assert_operator geometry["playBottom"], :<=, geometry["stageBottom"]
+        assert_operator geometry["rewardBottom"], :<=, geometry["stageBottom"]
+        assert_operator geometry["stageBottom"], :<=, geometry["nextTop"]
+        assert_operator geometry["titleWidth"], :>=, 400 if width >= 720
+        assert_operator geometry["installGap"], :>=, 12 if width == 390 && geometry["installGap"]
+        shot("hub-long-title-#{theme}-#{width}x#{height}")
+        assert_empty page.driver.browser.logs.get(:browser).select { |entry| entry.level == "SEVERE" }
+      end
+    end
+  ensure
+    Hubs::Backdrop.reset!
+  end
+
   test "guest hub HUD shares the Street silhouette in celestial light and dark" do
     catalog = Array(YAML.safe_load_file(Hubs::Backdrop::CATALOG)["backdrops"])
     worlds = {
