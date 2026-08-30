@@ -5543,6 +5543,30 @@ body.is-game-hub-page.is-celestial-light .navigation-dock__item.is-active::befor
   background: color-mix(in srgb, var(--hub-light-ink) 24%, transparent);
 }
 
+/* Pack names are editorial content: on a phone, the voyage must grow with
+   their real line count instead of hiding the one decisive action below it. */
+@media (max-width: 719px) {
+  .street-world.is-game-hub .hub-voyage {
+    height: auto;
+  }
+
+  .street-world.is-game-hub .hub-slide {
+    display: grid;
+    height: auto;
+    min-height: 20rem;
+  }
+
+  .street-world.is-game-hub .hub-slide-copy {
+    position: relative;
+    min-height: 20rem;
+  }
+
+  .street-world.is-game-hub .hub-slide-still {
+    position: absolute;
+    inset: 0;
+  }
+}
+
 /* Cette semaine: the refuge scene is daylight; copy sits on pearl glass. */
 .street-world.is-game-hub[data-hub-theme="light"] .hub-light-tile--study {
   --hub-study-surface: var(--hub-light-ivory);
