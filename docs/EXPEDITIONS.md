@@ -18,21 +18,22 @@ progression humaine et peut donc différer de l'ordre des chapitres.
 
 | Agent | Responsabilité | Autorité |
 | --- | --- | --- |
-| expedition-director | Brief, Structure Gate, délégation, contradiction, arbitrage | Pose PUBLISH READY, jamais PUBLISHED |
+| expedition-director | Brief, Structure Gate, délégation, contradiction, arbitrage et readiness de l'édito Bibliothèque | Pose PUBLISH READY, jamais SCHEDULED/PUBLISHED |
 | expedition-historian | Auteurs possibles, datations, monde, lieux, pratiques | Veto absolu sur la vérité historique |
 | expedition-exegete | Texte, poésie, mots, liens, réceptions chrétiennes/LDS | Veto absolu sur la fidélité au texte |
-| expedition-showrunner | Trois angles et architecture éditoriale interne | Ne possède aucun fait ni parole publique |
-| expedition-spiritual-experience-director | Expérience spirituelle et contenu formatif des quiz | Veto sur tout pack exact mais sans expérience ou pertinence pour l'âme |
-| expedition-incarnate-writer | Titres, packs, hooks, scripts et explications dicibles | Oublie le jargon du dossier, conserve ses claim IDs |
+| expedition-showrunner | Trois angles, architecture interne et plan des sept jours de Bibliothèque | Ne possède aucun fait ni parole publique |
+| expedition-spiritual-experience-director | Expérience spirituelle, contenu formatif des quiz et expérience de chaque jour | Veto sur tout pack ou édito exact mais sans expérience ou pertinence pour l'âme |
+| expedition-human-dramaturge | Situations humaines, désirs, relations, gestes, silences et sous-texte avant tout brief d'illustration | Veto absolu sur les métaphores littérales et les images jolies mais émotionnellement génériques |
+| expedition-incarnate-writer | Titres, packs, hooks, scripts, éditos en quatre langues et explications dicibles | Oublie le jargon du dossier, conserve ses claim IDs |
 | expedition-game-designer | 2–7 packs, rythme, répétition, progression, récompenses | Met en jeu les questions formatives sans décider seul ce qui mérite d'être appris |
-| expedition-art-director | Key art, map, Light/Dark, briefs des packs | Ne représente pas l'incertain comme fait |
+| expedition-art-director | Key art, map, Light/Dark, briefs des packs et sept artworks Bibliothèque responsives | Ne représente pas l'incertain comme fait ; possède le Library Art Gate |
 | expedition-film-director | Brief exploitable Kling/Veo plan par plan | Ne monte pas et ne change pas les claims |
 | expedition-social-video-editor | Cut 9:16, captions, ruptures, silence, son | Coupe les plans, pas la vérité |
 | reel-editor-retention | Simulation du swipe seconde par seconde | Veto absolu sur la publication sociale |
-| human-voice-reviewer | Lecture à voix haute et test vocal WhatsApp | Veto absolu sur la voix publique |
-| expedition-fact-checker | Contrôle final de chaque transformation | Veto absolu sur la Truth Gate |
+| human-voice-reviewer | Lecture à voix haute et test vocal WhatsApp, dont les quatre locales Bibliothèque | Veto absolu sur la voix publique |
+| expedition-fact-checker | Contrôle final de chaque transformation, date et représentation | Veto absolu sur les Truth Gates |
 
-Les configurations vivent dans .cursor/agents.
+Les configurations vivent dans `.codex/agents`.
 
 ## Artefact partagé
 
@@ -47,7 +48,14 @@ brief, council                  → Directeur
 facts.historical               → Historien
 facts.exegetical               → Exégète
 concepts, editorial_structure   → Showrunner, usage interne
+library_editorial.plan             → Showrunner
+library_editorial.days[].experience → Directeur d'expérience spirituelle
+library_editorial.days[].human_scene → Dramaturge humain
+library_editorial.days[].copy        → Auteur incarné
+library_editorial.days[].artwork     → Directeur artistique
+library_editorial.workflow           → Directeur
 experience_design               → Directeur d'expérience spirituelle
+human_dramaturgy                → Dramaturge humain
 formation_quizzes               → Directeur d'expérience spirituelle
 public_story                    → Auteur incarné
 packs                           → Game Designer
@@ -57,12 +65,194 @@ trailer.edit                    → Social Video Editor
 review.truth_gate               → Fact Checker
 review.structure_gate           → Directeur, avec Historien + Exégète
 review.experience_gate          → Directeur d'expérience spirituelle
+review.human_dramaturgy_gate    → Dramaturge humain
 review.attention_gate           → Reviewer Rétention
 review.human_voice_gate         → Human Voice Reviewer
+review.library_editorial.art_gate         → Directeur artistique
+review.library_editorial.experience_gate  → Directeur d'expérience spirituelle
+review.library_editorial.human_dramaturgy_gate → Dramaturge humain
+review.library_editorial.truth_gate       → Fact Checker
+review.library_editorial.human_voice_gate → Human Voice Reviewer
 ~~~
 
 Une correction de claim crée une nouvelle révision ou un lien supersedes.
 Elle n'écrase pas silencieusement ce que d'autres agents ont déjà utilisé.
+
+## L'édito hebdomadaire de la Bibliothèque
+
+Chaque run hebdomadaire du Conseil livre désormais un artefact indépendant
+`library_editorial`. Il doit contenir exactement sept entrées datées :
+
+- six `discovery`, reliées aux six unités éditoriales de la semaine et, si une
+  expédition existe déjà, à ses packs valides ;
+- une `contemplation`, qui conclut sans fabriquer une septième leçon ;
+- pour chaque jour, une référence, des claim IDs, une expérience, une copie et
+  un artwork ;
+- toute la copie, les alt texts et les disclosures dans `fr`, `es`, `en` et
+  `pt-BR`.
+
+Ce n'est pas « sept images pour un jour ». Il existe un seul édito par date.
+Chaque édito possède trois compositions responsives du même monde — portrait,
+tablet et landscape — afin de ne pas sacrifier le sujet ou la zone de texte par
+un crop automatique.
+
+La responsabilité circule ainsi :
+
+~~~text
+SHOWRUNNER
+  ↓ plan de 7 dates : 6 découvertes + 1 contemplation
+DIRECTEUR D'EXPÉRIENCE SPIRITUELLE
+  ↓ vérité à habiter, tension, question, trace du lendemain
+DRAMATURGE HUMAIN
+  ↓ situation vécue, désir, relation, émotion contradictoire, geste et silence
+AUTEUR INCARNÉ
+  ↓ copie native fr / es / en / pt-BR
+DIRECTEUR ARTISTIQUE
+  ↓ 1 monde par jour, 3 compositions responsives
+FACT CHECKER + HUMAN VOICE REVIEWER
+  ↓ Truth et voix sur la même révision
+DIRECTEUR
+  ↓ PUBLISH READY, puis arrêt
+HUMAIN
+  ↓ autorisation explicite de SCHEDULED
+~~~
+
+### Où vivent les éditos
+
+Il y a quatre couches volontairement séparées :
+
+1. `config/expeditions/<id>.yml` décrit la source créative : plan des sept
+   jours, responsabilités, claims, expériences, scènes humaines, copy, briefs
+   d'art et gates.
+   Son contrat est documenté par
+   `config/expeditions/_showrunner_template.yml` et les agents de
+   `.codex/agents`.
+2. `config/study/library_daily_editorials/YYYY-MM-DD-<corpus>.yml` est la
+   livraison hebdomadaire exécutable : programme, unité d'étude, dates,
+   fuseau, payload relu, digest de copy, digest des trois masters par jour,
+   gates et autorisation éventuelle. On peut y
+   préparer la semaine suivante aussi tôt que nécessaire.
+3. `media/masters/media/study/library/daily/` contient les fichiers maîtres. Leur nom suit
+   `<reference-biblique>-<slug-editorial>-<portrait|tablet|landscape>-v<revision>.png`,
+   par exemple `ps137-suspended-harps-landscape-v1.png`. La référence biblique
+   au début du nom est obligatoire. `config/media/responsive.yml` les expose
+   avec le rôle `library_daily_hero`.
+4. Après publication autorisée, les sept entrées sont copiées dans la version
+   immuable du quiz de l'unité d'étude. La base est le stockage runtime ; elle
+   ne décide pas quel jour est visible.
+
+Le contrat runtime est porté par `Studies::DailyEditorialSchedule`. Il valide
+le fichier hebdomadaire, six découvertes suivies d'une contemplation, les sept
+dates, le fuseau, les cinq Library Gates sur la même révision que le dossier,
+le digest éditorial, les trois fichiers maîtres distincts et leur SHA-256,
+leur unicité globale sur les 21 renditions, et la concordance des deux digests
+avec le dossier du Conseil, ainsi que l'autorisation. `Studies::PublishScheduledDailyEditorials`
+n'importe que les fichiers explicitement `scheduled`. La présence d'un YAML,
+d'un artwork ou même d'un payload `publish_ready` n'est jamais une permission
+de publier. Un brouillon peut être incomplet et est ignoré ; un fichier qui se
+déclare `publish_ready` doit au contraire passer tout le contrat, sinon le job
+échoue bruyamment.
+
+### Comment la date est vérifiée
+
+Chaque fichier déclare :
+
+- `starts_on` et `ends_on`, avec exactement six jours d'écart ;
+- un fuseau IANA explicite, par exemple `Europe/Madrid` ;
+- `publication.activate_at`, exactement à minuit local de `starts_on` ;
+- sept `scheduled_on` consécutifs, dans le même fuseau et dans le même ordre.
+
+Le validateur rejette une date manquante, dupliquée, décalée, un mauvais
+fuseau ou un `activate_at` qui n'est pas le minuit local attendu. Une semaine
+future peut être importée en base plusieurs jours à l'avance. À l'écran, le
+resolver convertit l'heure courante dans le fuseau de l'édito et ne sélectionne
+que l'entrée dont `scheduled_on` est exactement cette date civile. Une entrée
+future reste invisible même si elle est déjà `published`.
+Le fuseau de l'édito prévaut également pour un membre dont la rama utilise un
+autre fuseau : la couverture mondiale change selon l'horloge éditoriale
+versionnée, jamais selon une identité locale accidentelle.
+
+### Workflow et autorisation
+
+~~~text
+PREPARED
+  contenu en cours, aucune promesse de publication
+    ↓ cinq Library Gates sur une même révision
+PUBLISH_READY
+  le Conseil a terminé ; le fichier reste non autorisé
+    ↓ décision humaine avec authorized_by + authorized_on + activate_at
+SCHEDULED
+  l'import automatique est permis
+    ↓ copie immuable dans la version d'étude, possible avant la semaine
+PUBLISHED
+  stocké, mais pas encore forcément visible
+    ↓ scheduled_on == date locale courante
+ACTIVE
+  un seul édito du jour est rendu
+~~~
+
+La production éditoriale est déclenchée avec la préparation de l'expédition,
+pas au premier jour de sa semaine. Le Conseil peut donc préparer une ou
+plusieurs semaines futures : chaque run reçoit les dates réelles et le fuseau,
+termine les sept jours et leurs gates, puis livre `publish_ready`. Attendre la
+date de début ne fait partie d'aucun contrat du Conseil.
+
+Le rappel opérationnel « Préparer l’édito Bibliothèque » est programmé dans
+Codex chaque lundi à 22 h. Il réveille le Conseil pour la semaine suivante ;
+ce rappel ne publie rien, n'écrit aucune autorisation humaine et doit lui aussi
+s'arrêter à `publish_ready`. La cadence du rappel vit dans Codex, tandis que le
+contrat, les contenus et leurs dates restent versionnés ici.
+
+Le Conseil doit toujours terminer son run hebdomadaire à `publish_ready` et
+s'arrêter là. Il ne remplit jamais lui-même `authorized_by` ou `authorized_on`,
+ne déduit jamais une autorisation du brief et ne transforme jamais
+automatiquement `publish_ready` en `scheduled`. La programmation humaine et
+l'activation par date sont deux garanties différentes.
+
+Dans le fichier de livraison, `PREPARED` correspond à
+`publication.state: draft`; `PUBLISH_READY` à
+`publication.state: publish_ready`; et seule l'autorisation humaine permet
+`publication.state: scheduled`. Le champ `activate_at` peut être préparé à
+l'avance : il décrit la date prévue, il n'accorde aucune permission à lui
+seul.
+
+En production, `DailyEditorialPublicationCoordinatorJob` contrôle les fichiers
+toutes les quinze minutes. Il ignore `draft` et `publish_ready`, puis importe
+uniquement `scheduled`. Les commandes manuelles restent explicites :
+
+```bash
+bin/rails library_editorials:validate
+bin/rails library_editorials:status
+bin/rails library_editorials:preflight
+bin/rails library_editorials:publish_scheduled
+```
+
+`validate`, `status` et `preflight` sont sans publication. `preflight` prouve,
+avant l'autorisation humaine, que le programme, la semaine datée et sa quiz de
+base publiée existent encore en base et que le périmètre des packs correspond.
+`publish_scheduled` respecte la même autorisation et n'est pas un moyen de
+contourner le workflow. Un `draft` incomplet est signalé comme tel sans faire
+échouer la validation globale; dès qu'il se déclare `publish_ready`, toute
+incohérence redevient bloquante.
+
+Les cinq portes propres à l'édito sont indépendantes de celles du trailer ou
+des packs :
+
+- **Library Art Gate** : sept artworks, 21 compositions maîtres, noms avec
+  références bibliques, manifeste, focus, alt texts et disclosures ;
+- **Library Experience Gate** : six découvertes distinctes et une
+  contemplation, chacune avec image, tension, question et trace ;
+- **Library Human Dramaturgy Gate** : sept scènes vécues et 21 masters lisibles
+  par les comportements humains sans titre, sans métaphore littérale ni cliché
+  de banque d'images ;
+- **Library Truth Gate** : dates, références, claims, traductions, images et
+  digest contrôlés sur la révision exacte ;
+- **Library Human Voice Gate** : les cinq champs publics des sept jours sont
+  réellement lus dans chacune des quatre langues.
+
+Une modification de date, texte, traduction, claim, image, alt text ou
+disclosure invalide les gates concernés et produit un nouveau digest avant de
+retrouver `publish_ready`.
 
 ## Séquence réelle
 
@@ -83,14 +273,25 @@ DIRECTEUR
 DIRECTEUR D'EXPÉRIENCE SPIRITUELLE
   ↓ expérience locale + questions qui forment un discernement
   ↳ REJECT retourne au Showrunner
+DRAMATURGE HUMAIN
+  ↓ scène vécue; rejette la métaphore littérale et l'émotion générique
+  ↳ REJECT retourne à sa propre scène avant tout brief Art
 AUTEUR INCARNÉ
   ↓ titre, hooks et récit humain, sans langage de dossier
-GAME DESIGNER + DIRECTEUR ARTISTIQUE
+GAME DESIGNER + DIRECTEUR ARTISTIQUE (après PASS dramaturgique)
   ↓ répétition jouable, packs et monde en parallèle
+SHOWRUNNER + EXPÉRIENCE + DRAMATURGE + AUTEUR + ART
+  ↓ 7 éditos Bibliothèque datés, 4 locales, 21 compositions maîtres
 DIRECTEUR D'EXPÉRIENCE SPIRITUELLE
   ↓ « de quoi le joueur se souviendra-t-il demain ? »
+DRAMATURGE HUMAIN
+  ↓ « que comprend-on des gestes et relations sans connaître le texte ? »
 FACT CHECKER
-  ↓ OK / FAUX / TROP_CERTAIN / AMBIGU, sans réécriture de style
+  ↓ expédition + éditos : OK / FAUX / TROP_CERTAIN / AMBIGU
+HUMAN VOICE REVIEWER
+  ↓ copie Bibliothèque réellement lue dans les quatre langues
+DIRECTEUR
+  ↓ édito Bibliothèque PUBLISH READY, jamais auto-programmé
 RÉALISATEUR
   ↓ plans
 SOCIAL VIDEO EDITOR
@@ -102,7 +303,7 @@ REVIEWER RÉTENTION
 HUMAN VOICE REVIEWER
   ↓ lecture à voix haute : « est-ce que Tracy dirait ça ? »
 DIRECTEUR
-  ↓ arbitrage final, puis PUBLISH READY si les quatre gates passent
+  ↓ arbitrage final, puis PUBLISH READY si les cinq gates passent
 HUMAIN
   ↓ autorisation éventuelle de publier
 ~~~
@@ -168,8 +369,9 @@ Une objection contient :
 
 Seul un avis ADVISORY peut être écarté avec une justification du Directeur.
 Les vetos de vérité de l'Historien, de l'Exégète et du Fact Checker sont
-absolus. Les vetos sociaux du Reviewer Rétention et du Human Voice Reviewer le
-sont également, indépendamment. Aucun score moyen ne peut les compenser.
+absolus. Le veto dramaturgique sur les concepts visuels l'est aussi. Les vetos
+sociaux du Reviewer Rétention et du Human Voice Reviewer le sont également,
+indépendamment. Aucun score moyen ne peut les compenser.
 
 Exemple :
 
@@ -189,7 +391,7 @@ Même protocole pour une question :
 → Retour au Game Designer.
 ~~~
 
-## Les quatre portes
+## Les cinq portes
 
 ### Experience Gate
 
@@ -203,9 +405,10 @@ Il ne fabrique jamais de cohérence globale. Deux packs peuvent avoir des
 tonalités et des mondes opposés. Cohérence éditoriale ne signifie pas narration
 continue.
 
-Le premier PASS ouvre le travail de l'Auteur, du Game Designer et de la DA.
-Leurs livrables repassent ensuite ce gate. Il ne prescrit jamais l'émotion, ne
-note pas la foi et ne transforme pas le traumatisme en mécanique de rétention.
+Le premier PASS ouvre le travail de l'Auteur, du Game Designer et du Dramaturge
+humain. La DA attend également le Human Dramaturgy Gate. Leurs livrables
+repassent ensuite l'Experience Gate. Il ne prescrit jamais l'émotion, ne note
+pas la foi et ne transforme pas le traumatisme en mécanique de rétention.
 
 Pour les quiz, le Directeur d'expérience spirituelle possède
 `formation_quizzes` : objectif formatif, pertinence pour l'âme, scénario,
@@ -232,6 +435,25 @@ Le modèle « code de la route » est : situation → choix → correction immé
 → même discernement dans un autre contexte → maîtrise visible. Le jeu note la
 compréhension du texte et son transfert, jamais foi, sainteté, émotion,
 confession, prière, repentance ou salut.
+
+### Human Dramaturgy Gate
+
+Le Dramaturge humain transpose la vérité textuelle en situation vécue avant
+tout brief visuel. Il exige une relation ou une présence humaine concrète, un
+désir encore inassouvi, une émotion contradictoire et un geste, regard, silence
+ou écart qui rende le sous-texte compréhensible sans titre.
+
+Il rejette la métaphore littérale — route pour « chemin », porte pour
+« entrer », sommet pour « s'élever », rayon providentiel pour « bénédiction » —
+ainsi que la première scène générique qu'offrirait une banque d'images. Le
+brief passe une première fois; les pixels finaux repassent le même gate. Une
+image peut être belle, exacte et techniquement parfaite tout en échouant ici.
+
+Le casting reste beau, charismatique et désirable : présence magnétique,
+visages expressifs, style soigné, corps vivants et lumière flatteuse. Cette
+désirabilité ne devient ni sexualisation gratuite, ni perfection plastique, ni
+casting publicitaire interchangeable; la vulnérabilité précise du personnage
+reste visible.
 
 ### Mobile Copy Gate
 
@@ -302,9 +524,14 @@ Checker n'a pas le droit de proposer une reformulation.
 
 ### Publish Ready
 
-Le Directeur pose publish_ready seulement si les quatre gates sont PASS, toutes
+Le Directeur pose publish_ready seulement si les cinq gates sont PASS, toutes
 les objections bloquantes sont verified et les sorties accessibles sont
 présentes.
+
+Pour l'édito Bibliothèque, il existe cinq gates séparées — Art, Experience,
+Human Dramaturgy, Truth et Human Voice — et un `publish_ready` propre. Le run
+hebdomadaire doit les réparer jusqu'au PASS et livrer l'édito `publish_ready`;
+il ne peut jamais s'auto-autoriser à devenir `scheduled`.
 
 Publish Ready n'autorise pas la publication. Rendu externe, voix, musique,
 upload, notification, mutation produit et données joueur restent soumis au
@@ -345,4 +572,7 @@ brief et à l'autorisation humaine.
 - animatic_preview : prévisualisation locale, pas film final ;
 - rendered_draft : rendu réellement reçu, encore soumis aux gates ;
 - publish_ready : gates franchies, publication non autorisée ;
-- published : réservé à une action humaine ou explicitement autorisée.
+- scheduled : autorisation humaine enregistrée, import permis ;
+- published : payload immuable stocké, possiblement avant sa semaine ;
+- active : réservé à l'édito dont la date correspond exactement à aujourd'hui
+  dans son fuseau déclaré.

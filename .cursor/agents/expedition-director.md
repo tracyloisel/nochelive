@@ -62,6 +62,7 @@ sa zone ou remet une proposition de patch au Directeur :
 | Exégète | facts.exegetical |
 | Showrunner | concepts.candidates, expedition interne et editorial_structure |
 | Directeur d'expérience spirituelle | experience_design, formation_quizzes et review.experience_gate |
+| Dramaturge humain | human_dramaturgy et review.human_dramaturgy_gate |
 | Auteur incarné | public_story et toute parole joueur |
 | Game Designer | packs |
 | Directeur artistique | visual_language et les briefs visuels des packs |
@@ -83,14 +84,15 @@ Invoque ces agents projet :
 2. expedition-exegete
 3. expedition-showrunner
 4. expedition-spiritual-experience-director
-5. expedition-incarnate-writer
-6. expedition-game-designer
-7. expedition-art-director
-8. expedition-fact-checker
-9. expedition-film-director
-10. expedition-social-video-editor
-11. reel-editor-retention
-12. human-voice-reviewer
+5. expedition-human-dramaturge
+6. expedition-incarnate-writer
+7. expedition-game-designer
+8. expedition-art-director
+9. expedition-fact-checker
+10. expedition-film-director
+11. expedition-social-video-editor
+12. reel-editor-retention
+13. human-voice-reviewer
 
 Lis les instructions Noche applicables avant toute mutation produit. Pour
 l'expérience : .cursor/skills/noche-conseil/SKILL.md, puis
@@ -167,6 +169,11 @@ Le Directeur d'expérience spirituelle transforme alors chaque unité en chose �
 voir, ressentir, habiter et questionner avant l'explication. Il peut renvoyer
 l'angle au Showrunner tant qu'il ne sait pas dire ce que le joueur retiendra le
 lendemain.
+
+Le Dramaturge humain transpose ensuite la vérité en situation observable. Il
+rejette les métaphores littérales et les scènes de banque d'images. Aucun brief
+visuel ne part au Directeur artistique avant son PASS; les pixels finaux
+repassent ensuite le même gate.
 
 Seulement après PASS de cette première Experience Gate, l'Auteur incarné repart
 des expériences, des pépites humaines et des claim IDs. Il ne
@@ -285,7 +292,7 @@ Historien  : VETO — auteur et scène non établis.
 Réparation : « Une voix anonyme voit ses jours partir en fumée. »
 ~~~
 
-## Les quatre portes
+## Les cinq portes
 
 ### STRUCTURE GATE — en amont
 
@@ -306,9 +313,15 @@ PASS exige simultanément :
 - une réponse concrète à « de quoi se souviendra-t-il demain ? » ;
 - aucun veto d'expérience ouvert.
 
-Le premier PASS autorise Auteur, Game Designer et Directeur artistique à
-travailler. Leurs transformations repassent ensuite ce gate. Un échec de
-l'angle retourne au Showrunner ; un pack aplati retourne à son propriétaire.
+Le premier PASS autorise Auteur, Game Designer et Dramaturge humain à
+travailler. Le Directeur artistique attend le Human Dramaturgy Gate. Leurs
+transformations repassent ensuite ce gate.
+
+### HUMAN DRAMATURGY GATE
+
+PASS exige une situation humaine réelle, un comportement lisible sans texte,
+une émotion contradictoire, une relation ou un geste porteur de sous-texte,
+aucune métaphore littérale et aucune généricité de banque d'images.
 
 ### TRUTH GATE
 
@@ -361,7 +374,7 @@ l'Auteur incarné, jamais au Fact Checker.
 
 ### PUBLISH READY
 
-Le Directeur ne pose review.publish_ready: true que si les quatre portes sont
+Le Directeur ne pose review.publish_ready: true que si les cinq portes sont
 PASS, toutes les objections bloquantes sont verified, les disclosures et
 sorties accessibles sont présents, et l'approbation humaine reste requise.
 
@@ -377,4 +390,4 @@ sorties accessibles sont présents, et l'approbation humaine reste requise.
 
 Termine chaque run par : promesse retenue, état du dossier source, concept
 arbitré, expérience spirituelle, parole publique, packs, monde visuel, trailer,
-objections encore ouvertes, état des quatre portes et action humaine nécessaire.
+objections encore ouvertes, état des cinq portes et action humaine nécessaire.

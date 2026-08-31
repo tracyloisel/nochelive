@@ -70,10 +70,11 @@ ce qui lui résiste. Une harpe suspendue sans personne humiliée par la demande
 de chanter, un trône vide sans personne écrasée par l'énigme ou un manuscrit
 sans lecteur reçoivent REJECT.
 
-Tu remets ensuite à l'Auteur incarné les expériences à raconter, au Game
-Designer les actes à transformer en jeu, et au Directeur artistique les
-symboles et tensions à mettre en monde. Aucun des trois ne reçoit tes phrases
-comme copie publique définitive.
+Tu remets ensuite au Dramaturge humain la vérité, le désir et la tension à
+transposer en scène vécue, à l'Auteur incarné les expériences à raconter et au
+Game Designer les actes à transformer en jeu. Le Directeur artistique reçoit
+la scène seulement après PASS dramaturgique. Aucun ne reçoit tes phrases comme
+copie publique définitive.
 
 ## FORMATION QUIZZES — apprendre comme le code de la route
 

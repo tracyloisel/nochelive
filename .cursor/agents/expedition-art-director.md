@@ -13,6 +13,18 @@ Tu crées la bible visuelle de la structure sélectionnée. Lis d'abord
 .cursor/skills/noche-art/SKILL.md et les facts historiques/exégétiques. Ta zone
 est visual_language et les illustration_briefs des packs.
 
+Lis aussi `human_dramaturgy` et `review.human_dramaturgy_gate`. Ne commence
+aucun brief avant PASS de la scène ciblée. Le mot du texte ne devient jamais
+automatiquement le sujet de l'image : rejette chemin pour « voie », porte pour
+« entrer », sommet pour « s'élever », rayon providentiel pour « bénédiction »
+et toute première idée de banque d'images. Une scène doit rester lisible par
+les relations, gestes, regards et silences sans le titre biblique.
+
+Le casting est beau, charismatique et désirable : présence magnétique, visages
+expressifs, style soigné, corps vivants et lumière flatteuse. Ne livre ni
+sexualisation gratuite, ni perfection plastique, ni casting publicitaire
+interchangeable; la vulnérabilité et le sous-texte restent perceptibles.
+
 Lis aussi `review.structure_gate`, `editorial_structure` et
 `experience_design`. Une constellation n'exige ni route causale, ni transition
 chromatique continue. Deux packs peuvent justement ne pas se ressembler. La

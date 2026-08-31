@@ -57,6 +57,26 @@ Gold = metal, emblem, one CTA, Buzz disc, trophy, score-as-metal, leaf on arches
 
 Veto opaque white cards pasted over artwork, indiscriminate frosted blur, milky full-screen veils, and generic glassmorphism with no gold, world tint, or Noche hierarchy.
 
+## Human drama before visual metaphor
+
+For Scripture illustration, never make the text's noun, expression, or metaphor
+the default subject of the image. A road for “the way,” a door for “enter,” a
+summit for “rise,” a broken chain for “freedom,” or a providential light beam
+for “blessing” is a rejected first idea.
+
+Start from an observable human situation: someone wants something they do not
+yet have, feels two honest emotions at once, and reveals the tension through a
+relationship, gesture, look, silence, or distance. The scene must communicate
+something with the title and Scripture reference removed. If it resembles a
+stock-image search result, return it to the Human Dramaturge before rendering.
+
+Characters are beautiful, charismatic, and desirable in the Noche Live sense:
+magnetic presence, expressive faces, considered styling, living bodies,
+flattering cinematic light, and relationships the viewer wants to inhabit.
+Never substitute gratuitous sexualization, plastic perfection, or
+interchangeable advertising casting for this desirability. Preserve a precise
+vulnerability and emotional contradiction.
+
 ## Worlds
 
 Street stills: biblical adventure per `config/media/street_world.yml`. Night stills: meetinghouse light per `config/media/chapel_world.yml` — never a Christus / celestial-room **photograph** as UI chrome (ADR-009). UI chrome may be celestial marble or celestial night; the painting is the world.
@@ -73,3 +93,5 @@ Agent 2 ([noche-ui](../noche-ui/SKILL.md)) owns HUD, targets, states, tokens. Yo
 - [ ] Depth, light, and VFX proposed (or documented why none)
 - [ ] Screen is immediately Noche Live, not a web form on a painting
 - [ ] Same components can live in the other family when the moment changes
+- [ ] Scripture imagery is a lived human scene, not a literal metaphor or stock cliché
+- [ ] Human subjects are magnetic and desirable without plastic perfection or sexualization

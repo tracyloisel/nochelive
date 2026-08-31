@@ -1,6 +1,6 @@
 # Shared editorial artifact for the Expedition Council.
 # It is not a runtime study, Street pack, rendered clip or published mission.
-schema_version: 6
+schema_version: 7
 kind: expedition_council_dossier
 
 lifecycle:
@@ -49,8 +49,15 @@ council:
     "concepts.arbitration": expedition-director
     "expedition": expedition-showrunner
     "editorial_structure": expedition-showrunner
+    "library_editorial.plan": expedition-showrunner
+    "library_editorial.days[].experience": expedition-spiritual-experience-director
+    "library_editorial.days[].human_scene": expedition-human-dramaturge
+    "library_editorial.days[].copy": expedition-incarnate-writer
+    "library_editorial.days[].artwork": expedition-art-director
+    "library_editorial.workflow": expedition-director
     "coverage": expedition-showrunner
     "experience_design": expedition-spiritual-experience-director
+    "human_dramaturgy": expedition-human-dramaturge
     "formation_quizzes": expedition-spiritual-experience-director
     "public_story": expedition-incarnate-writer
     "packs": expedition-game-designer
@@ -62,8 +69,15 @@ council:
     "review.truth_gate": expedition-fact-checker
     "review.structure_gate": expedition-director
     "review.experience_gate": expedition-spiritual-experience-director
+    "review.human_dramaturgy_gate": expedition-human-dramaturge
     "review.attention_gate": reel-editor-retention
     "review.human_voice_gate": human-voice-reviewer
+    "review.library_editorial.art_gate": expedition-art-director
+    "review.library_editorial.experience_gate": expedition-spiritual-experience-director
+    "review.library_editorial.human_dramaturgy_gate": expedition-human-dramaturge
+    "review.library_editorial.truth_gate": expedition-fact-checker
+    "review.library_editorial.human_voice_gate": human-voice-reviewer
+    "review.library_editorial.publish_ready": expedition-director
     "review.publish_ready": expedition-director
   revision_log:
     - revision: 1
@@ -327,6 +341,135 @@ experience_design:
       explanation_delayed_until: ""
       prohibited_shortcuts: []
 
+human_dramaturgy:
+  owner: expedition-human-dramaturge
+  revision: 0
+  status: pending
+  scenes:
+    - unit_id: ""
+      references: []
+      claim_ids: []
+      truth_to_inhabit: ""
+      people:
+        - { role: "", wants: "", lacks: "", does: "", hides_or_resists: "" }
+      relationship: ""
+      contradictory_emotions: []
+      observable_moment: ""
+      decisive_gesture_or_look: ""
+      silence_or_distance: ""
+      subtext_without_scripture: ""
+      first_literal_idea_rejected: ""
+      stock_image_risk: ""
+      magnetic_human_presence: ""
+      forbidden_visual_shortcuts: []
+      handoff_to_art: ""
+
+# Independent weekly deliverable for the living Library cover. Every Council
+# run must complete it through publish_ready, but only a human may authorize
+# scheduled. A file being present is never authorization. Database publication
+# may happen ahead; the screen selects only the exact local scheduled_on date.
+library_editorial:
+  owner: expedition-director
+  revision: 0
+  required_locales: [fr, es, en, pt-BR]
+  timezone: Europe/Madrid
+  starts_on: "YYYY-MM-DD"
+  ends_on: "YYYY-MM-DD" # exactly starts_on + 6 days
+  composition:
+    discoveries: 6
+    contemplations: 1
+    total_days: 7
+  workflow:
+    owner: expedition-director
+    status: prepared # prepared | publish_ready | scheduled | published | active
+    schedule_file: "config/study/library_daily_editorials/YYYY-MM-DD-<corpus>.yml"
+    schedule_file_state: draft # draft | publish_ready | scheduled
+    database_state: pending # pending | published
+    screen_state: pending # pending | active | expired
+    file_presence_authorizes_nothing: true
+    human_authorization_required_for: scheduled
+    activate_at: "YYYY-MM-DDT00:00:00+00:00" # planned local midnight; not authorization by itself
+    authorized_by: # human only; Council leaves empty
+    authorized_on: # human only; Council leaves empty
+    prepared_at:
+    publish_ready_at:
+    published_at:
+    activation_rule: exact_scheduled_on_in_declared_timezone
+  plan:
+    owner: expedition-showrunner
+    revision: 0
+    status: pending
+    rule: "Six découvertes liées aux unités éditoriales, puis une contemplation; pack_id seulement si une expédition existe; sept dates locales consécutives."
+    days:
+      - day_id: day-01
+        scheduled_on: "YYYY-MM-DD"
+        kind: discovery # discovery | contemplation
+        unit_id: ""
+        pack_id: "" # optional without an expedition; otherwise valid for each discovery
+        references: []
+        claim_ids: []
+        editorial_tension: ""
+        distinct_role_in_week: ""
+  days:
+    - id: ""
+      scheduled_on: "YYYY-MM-DD"
+      timezone: Europe/Madrid
+      kind: discovery # exactly 6 discovery + 1 contemplation per week
+      unit_id: ""
+      pack_id: ""
+      reference: ""
+      references: []
+      claim_ids: []
+      experience:
+        owner: expedition-spiritual-experience-director
+        first_image_or_sound: ""
+        tension_to_inhabit: ""
+        question_before_explanation: ""
+        symbol_left_open: ""
+        silence_or_pause: ""
+        memorable_act: ""
+        tomorrow_memory: ""
+        prohibited_shortcuts: []
+      human_scene:
+        owner: expedition-human-dramaturge
+        revision: 0
+        truth_to_inhabit: ""
+        people:
+          - { role: "", wants: "", lacks: "", does: "", hides_or_resists: "" }
+        relationship: ""
+        contradictory_emotions: []
+        observable_moment: ""
+        decisive_gesture_or_look: ""
+        silence_or_distance: ""
+        subtext_without_scripture: ""
+        first_literal_idea_rejected: ""
+        stock_image_risk: ""
+        forbidden_visual_shortcuts: []
+        handoff_to_art: ""
+      copy:
+        owner: expedition-incarnate-writer
+        fr: { eyebrow: "", title: "", setup: "", question: "", cta_label: "" }
+        es: { eyebrow: "", title: "", setup: "", question: "", cta_label: "" }
+        en: { eyebrow: "", title: "", setup: "", question: "", cta_label: "" }
+        pt-BR: { eyebrow: "", title: "", setup: "", question: "", cta_label: "" }
+      artwork:
+        owner: expedition-art-director
+        artwork_key: "scripture.library.daily.<reference>.<slug>"
+        role: library_daily_hero
+        depiction_mode: symbolic_atmosphere
+        certainty: INCERTAIN
+        permitted_details: []
+        prohibited_details: []
+        source_files:
+          portrait: "media/masters/media/study/library/daily/<reference>-<slug>-portrait-v1.png"
+          tablet: "media/masters/media/study/library/daily/<reference>-<slug>-tablet-v1.png"
+          landscape: "media/masters/media/study/library/daily/<reference>-<slug>-landscape-v1.png"
+        focuses: { portrait: "50% 50%", tablet: "50% 50%", landscape: "50% 50%" }
+        alt: { fr: "", es: "", en: "", pt-BR: "" }
+        disclosure: { fr: "", es: "", en: "", pt-BR: "" }
+  expected_discoveries_digest: ""
+  expected_artwork_digest: "" # manifest sources, dimensions and SHA-256 for all 21 masters
+
 formation_quizzes:
   owner: expedition-spiritual-experience-director
   revision: 0
@@ -574,6 +717,20 @@ review:
     tomorrow_memory: ""
     root_cause_owner:
     objection_ids: []
+  human_dramaturgy_gate:
+    owner: expedition-human-dramaturge
+    status: pending
+    target_revision: 0
+    targets: [human_dramaturgy, visual_language]
+    real_human_situation: pending
+    behavior_legible_without_text: pending
+    contradictory_emotion: pending
+    relationship_or_human_presence: pending
+    literal_metaphor_absent: pending
+    stock_image_genericity_absent: pending
+    magnetic_human_presence: pending
+    root_cause_owner:
+    objection_ids: []
   truth_gate:
     owner: expedition-fact-checker
     status: pending
@@ -632,14 +789,88 @@ review:
       - transition IA
     lines: []
     counts: { SAYABLE: 0, UNSAYABLE: 0 }
+  library_editorial:
+    target_revision: 0
+    art_gate:
+      owner: expedition-art-director
+      status: pending
+      expected_days: 7
+      expected_master_files: 21
+      manifest_role: library_daily_hero
+      biblical_reference_filenames: pending
+      responsive_ratios: { portrait: pending, tablet: pending, landscape: pending }
+      localized_alt_and_disclosure: pending
+      expected_artwork_digest: ""
+      objection_ids: []
+    experience_gate:
+      owner: expedition-spiritual-experience-director
+      status: pending
+      expected_discoveries: 6
+      expected_contemplations: 1
+      consecutive_local_dates: pending
+      distinct_daily_experiences: pending
+      tomorrow_memory_complete: pending
+      objection_ids: []
+    human_dramaturgy_gate:
+      owner: expedition-human-dramaturge
+      status: pending
+      expected_days: 7
+      expected_master_files: 21
+      real_human_situations: pending
+      behavior_legible_without_text: pending
+      contradictory_emotions: pending
+      relationships_or_human_presence: pending
+      literal_metaphors_absent: pending
+      stock_image_genericity_absent: pending
+      magnetic_human_presence: pending
+      objection_ids: []
+    truth_gate:
+      owner: expedition-fact-checker
+      status: pending
+      checked_revision: 0
+      expected_discoveries_digest: ""
+      expected_artwork_digest: ""
+      dates_and_timezone: pending
+      references_and_claims: pending
+      locales: { fr: pending, es: pending, en: pending, pt-BR: pending }
+      artwork_and_disclosures: pending
+      checked_elements: 0
+      unsupported_elements: []
+      objection_ids: []
+    human_voice_gate:
+      owner: human-voice-reviewer
+      status: pending
+      target_revision: 0
+      required_locales: [fr, es, en, pt-BR]
+      read_aloud_performed: { fr: false, es: false, en: false, pt-BR: false }
+      lines: []
+      counts: { SAYABLE: 0, UNSAYABLE: 0 }
+      objection_ids: []
+    publish_ready:
+      owner: expedition-director
+      status: false
+      same_revision_required: true
+      art_gate_required: PASS
+      experience_gate_required: PASS
+      human_dramaturgy_gate_required: PASS
+      truth_gate_required: PASS
+      human_voice_gate_required: PASS
+      exact_local_dates_required: 7
+      discovery_count_required: 6
+      contemplation_count_required: 1
+      required_locales: [fr, es, en, pt-BR]
+      blocking_objections: []
+      next_human_action: "Authorize scheduling separately; do not infer it from this file."
   publish_ready:
     owner: expedition-director
     status: false
     structure_gate_required: PASS
     experience_gate_required: PASS
+    human_dramaturgy_gate_required: PASS
     truth_gate_required: PASS
     attention_gate_required: PASS
     human_voice_gate_required: PASS
+    library_editorial_required: PASS
     blocking_objections: []
     human_approval_required: true
     approved_by:
