@@ -31,10 +31,11 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
       assert_select ".hub-now-card__cite", text: question.scripture.cite
       assert_select ".hub-now-card__status.is-unread", text: I18n.t("hub.rails.reading_to_read")
     end
-    assert_select ".hub-now__programme[href=?]",
-      scripture_library_path(section: "weekly", unit: week.id, anchor: "selection"),
-      text: I18n.t("hub.now.weekly_programme")
+    assert_select ".hub-now__programme[href=?]", scripture_library_path(section: "weekly", unit: week.id, anchor: "selection"), text: I18n.t("hub.now.weekly_programme")
     assert_select ".hub-hero .hub-play", count: 1
+    assert_select ".hub-hero-cockpit__row > .hub-hero-progress", count: 1
+    assert_select ".hub-hero-league[href=?]", street_leaderboard_path, count: 1
+    assert_select ".hub-hero-league-panel .hub-hero-gains-empty", count: 1
     assert_select ".hub-identity-empty", count: 0
     assert_hub_quick_actions!
   end
@@ -109,8 +110,11 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
       ].each do |key|
         assert I18n.exists?("hub.now.#{key}", locale), "hub.now.#{key} is missing in #{locale}"
       end
-      %w[title circle_kicker circle_body circle_action circle_card_label].each do |key|
+      %w[title circle_kicker circle_body circle_action circle_card_label circle_news_kicker circle_activity_heading circle_threads circle_replies circle_last_activity circle_activity_label].each do |key|
         assert I18n.exists?("hub.rama.#{key}", locale), "hub.rama.#{key} is missing in #{locale}"
+      end
+      %w[hero_league_open hero_recent_gains hero_gained hero_gains_empty].each do |key|
+        assert I18n.exists?("hub.#{key}", locale), "hub.#{key} is missing in #{locale}"
       end
     end
   end
@@ -206,9 +210,7 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     assert_select ".hub-now .hub-now-card--reading", count: 0
-    assert_select ".hub-now__programme[href=?]",
-      scripture_library_path(section: "weekly", unit: week.id, anchor: "selection"),
-      text: I18n.t("hub.now.weekly_programme")
+    assert_select ".hub-now__programme[href=?]", scripture_library_path(section: "weekly", unit: week.id, anchor: "selection"), text: I18n.t("hub.now.weekly_programme")
   end
 
   test "PWA utility remains hidden, non-primary, and sits immediately after the Rama carousel" do
@@ -260,7 +262,10 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     assert_select ".hub-hero[data-controller~='hub-voyage'] .hub-voyage", count: 1
-    assert_select ".hub-hero .hub-dots[data-hub-voyage-target='dots']", count: 1
+    assert_select ".hub-hero nav.hub-voyage-nav[aria-label=?]", I18n.t("hub.continue"), count: 1 do
+      assert_select ".hub-dots[data-hub-voyage-target='dots']", count: 1
+      assert_select ".hub-voyage-nav__button, .hub-voyage-nav__count", count: 0
+    end
     assert_select ".hub-rama-carousel .hub-rama-carousel__track[role='list']", count: 1
     assert_select ".hub-rama-carousel[data-controller~='hub-voyage']", count: 0
     voyage = Rails.root.join("app/javascript/controllers/hub_voyage_controller.js").read
@@ -457,7 +462,12 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
     def assert_hub_quick_actions!
       assert_select ".hub-rama-carousel__track[role='list']", count: 1 do
         assert_select "> a.hub-rama-card--challenge[role='listitem'][href=?]", street_challenges_path,
-          text: /#{Regexp.escape(I18n.t("duel_campus.title"))}/, count: 1
+          text: /#{Regexp.escape(I18n.t("duel_campus.title"))}/, count: 1 do
+          assert_select ".hub-rama-event__art img[src*='campus-scriptures-celestial-dark-v1']", count: 1
+          assert_select "dl.hub-rama-challenge-counts[aria-label=?]", I18n.t("duel_campus.summary"), count: 1 do
+            assert_select "> div", count: 3
+          end
+        end
         assert_select "> a.hub-rama-card--videos[role='listitem'][href=?]", church_videos_path(locale: I18n.locale),
           text: /#{Regexp.escape(I18n.t("hub.videos_kicker"))}/, count: 1
       end

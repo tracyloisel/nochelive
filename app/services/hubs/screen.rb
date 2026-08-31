@@ -21,12 +21,14 @@ module Hubs
     )
     CHAPEL_STILL = "media/church/worship.jpg"
     LIVE_WINDOW = 14.days
+    Gain = Struct.new(:name, :points, :at, :avatar_key, keyword_init: true)
+    League = Struct.new(:rank, :players, :rival_name, :rival_gap, :recent_gains, keyword_init: true)
     # The Home uses the active week only to offer its real programme and one
     # of its concrete chapters. Historical run/player aggregate data belonged
     # to the retired dashboard, not this editorial surface.
     Study = Struct.new(:week, :weekly_reading_cards, keyword_init: true)
     Result = Struct.new(
-      :player, :hero, :voyage, :live, :rama_events, :circle, :study, :reading_cards, :backdrop,
+      :player, :hero, :voyage, :live, :rama_events, :circle, :study, :reading_cards, :backdrop, :league,
       keyword_init: true
     )
 
@@ -59,7 +61,8 @@ module Hubs
         circle: Hubs::CircleDiscovery.call(person: @person, ward: @ward, theme: backdrop.theme.mode),
         study: build_study,
         reading_cards: Hubs::ReadingCards.call(person: @person, suggestions: reading_suggestions),
-        backdrop:
+        backdrop:,
+        league: build_league
       )
     end
 
@@ -69,6 +72,41 @@ module Hubs
         return 0 unless @ward && @person
 
         @total_score ||= Quizzes::Leaderboard.total_score(person: @person)
+      end
+
+      def build_league
+        return unless @ward && @person
+
+        board = Quizzes::Leaderboard.call(ward: @ward, person: @person, limit: 0)
+        rival = board.rival
+        League.new(
+          rank: board.your_rank,
+          players: board.players,
+          rival_name: rival&.person&.given_name,
+          rival_gap: rival ? (rival.score - board.your_score.to_i) : nil,
+          recent_gains: recent_league_gains
+        )
+      end
+
+      def recent_league_gains
+        QuizAnswer
+          .joins(quiz_run: :person)
+          .includes(quiz_run: :person)
+          .where(quiz_runs: { game_session_id: nil })
+          .where(people: { ward_id: @ward.id })
+          .where(created_at: (@at - 7.days)..@at)
+          .where("quiz_answers.points_awarded > 0")
+          .order(created_at: :desc, id: :desc)
+          .limit(3)
+          .map do |answer|
+            gain_person = answer.quiz_run.person
+            Gain.new(
+              name: gain_person.given_name,
+              points: answer.points_awarded,
+              at: answer.created_at,
+              avatar_key: gain_person.avatar_key
+            )
+          end
       end
 
       def current_pack

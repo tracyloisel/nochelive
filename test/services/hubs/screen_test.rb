@@ -154,6 +154,48 @@ class Hubs::ScreenTest < ActiveSupport::TestCase
     refute_equal 1000, screen.player.xp_next
   end
 
+  test "a signed-in member sees their league position and rival gap" do
+    screen = Hubs::Screen.call(device_digest: @digest, person: @pili, ward: @ward)
+    assert screen.league
+    assert_operator screen.league.rank, :>=, 1
+    assert_operator screen.league.players, :>=, 1
+    assert_kind_of Array, screen.league.recent_gains
+  end
+
+  test "league pulse exposes recent positive ward gains without inventing an unread state" do
+    question = QuizDefinition.catalog.find_pack("coronas").questions.first
+    run = QuizRun.create!(
+      person: @pili,
+      device_digest: "hub-recent-gain",
+      pack_id: question.pack_id,
+      position: 1,
+      score: 17,
+      status: "finished",
+      opened_at: 1.hour.ago
+    )
+    gain = travel_to(1.hour.ago) do
+      run.quiz_answers.create!(
+        device_digest: run.device_digest,
+        pack_id: run.pack_id,
+        question_id: question.id,
+        choice_key: question.correct_choice,
+        correct: true,
+        points_awarded: 17
+      )
+    end
+
+    screen = Hubs::Screen.call(device_digest: @digest, person: @pili, ward: @ward, at: Time.current)
+
+    assert_equal @pili.given_name, screen.league.recent_gains.first.name
+    assert_equal 17, screen.league.recent_gains.first.points
+    assert_equal gain.created_at.to_i, screen.league.recent_gains.first.at.to_i
+  end
+
+  test "a guest never sees a league position" do
+    screen = Hubs::Screen.call(device_digest: @digest)
+    assert_nil screen.league
+  end
+
   test "open run keeps Jouer on GET jugar and remaining curve points" do
     run = Quizzes::StartPack.call(device_digest: @digest, pack_id: "coronas").run
     screen = Hubs::Screen.call(device_digest: @digest, open_run: run)
@@ -181,8 +223,8 @@ class Hubs::ScreenTest < ActiveSupport::TestCase
 
     assert_equal 5, screen.hero.step_n
     assert_equal "light", screen.backdrop.theme.mode
-    assert_equal "royal-jerusalem-dawn", screen.backdrop.id
-    assert_equal "media/hub/light/royal-jerusalem-hero-v1.png", screen.backdrop.hero
+    assert_equal "salt-lake-temple-dawn", screen.backdrop.id
+    assert_equal "hub.hero.salt-lake-temple-dawn", screen.backdrop.hero
     assert_equal generated_media_src("media/quizzes/coronas/salomon_templo.jpg", format: "webp"), screen.hero.still
   end
 

@@ -55,7 +55,7 @@ class QuizDefinition
     end
   end
 
-  Pack = Struct.new(:id, :title, :kicker, :lede, :questions, keyword_init: true) do
+  Pack = Struct.new(:id, :title, :kicker, :lede, :questions, :readings, keyword_init: true) do
     def copy(field)
       I18n.t("quizzes.#{id}.#{field}", default: public_send(field))
     end
@@ -141,7 +141,10 @@ class QuizDefinition
       title: row.fetch("title"),
       kicker: row.fetch("kicker").to_s,
       lede: row.fetch("lede").to_s,
-      questions: questions
+      questions: questions,
+      readings: Array(row["readings"]).map do |reading|
+        { "study" => reading.fetch("study").to_s, "cite" => reading.fetch("cite").to_s }
+      end
     )
   end
 

@@ -126,6 +126,18 @@ assets:
     role: hub_hero
     focus: "50% 50%"
     theme: dark
+  hub.hero.salt-lake-temple-dawn:
+    source: media/hub/noche-hub-salt-lake-temple-light-portrait-v1.png
+    sources:
+      landscape: media/hub/noche-hub-salt-lake-temple-light-landscape-v1.png
+    role: hub_hero
+    focus: "50% 50%"
+    theme: light
+  hub.backdrop.salt-lake-temple-dawn:
+    source: media/hub/noche-hub-salt-lake-temple-light-landscape-v1.png
+    role: hub_backdrop
+    focus: "64% 42%"
+    theme: light
   hub.card.live-king:
     source: media/hub/noche-hub-live-king-v1.png
     role: hub_card

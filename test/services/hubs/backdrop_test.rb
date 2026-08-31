@@ -49,16 +49,27 @@ class Hubs::BackdropTest < ActiveSupport::TestCase
     assert_match %r{\A/media/generated/hub/backdrop/}, picked.src
   end
 
-  test "the active Light question selects the matching royal scene" do
+  test "the active Light question selects the matching Salt Lake scene" do
     picked = Hubs::Backdrop.call(
       pack_id: "coronas",
       mode: "light"
     )
 
-    assert_equal "royal-jerusalem-dawn", picked.id
+    assert_equal "salt-lake-temple-dawn", picked.id
     assert_equal "light", picked.theme.mode
-    assert_equal "media/hub/light/royal-jerusalem-hero-v1.png", picked.hero
-    assert_match %r{\A/media/generated/hub/backdrop/royal-jerusalem-dawn/}, picked.src
+    assert_equal "hub.hero.salt-lake-temple-dawn", picked.hero
+    assert_match %r{\A/media/generated/hub/backdrop/salt-lake-temple-dawn/}, picked.src
+  end
+
+  test "Salt Lake is the Celestial Light fallback when a chapter has no dedicated Light artwork" do
+    picked = Hubs::Backdrop.call(
+      pack_id: "nazareno",
+      mode: "light"
+    )
+
+    assert_equal "salt-lake-temple-dawn", picked.id
+    assert_equal "hub.hero.salt-lake-temple-dawn", picked.hero
+    assert_equal "light", picked.theme.mode
   end
 
   test "missing image falls back to the marble hall" do

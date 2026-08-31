@@ -45,10 +45,18 @@ module ChurchVideos
     class << self
       attr_accessor :transport, :forced_result
 
-      def call(locale: I18n.locale, page_token: nil, playlist_id: nil, query: nil, cache: Rails.cache, api_key: ENV["YOUTUBE_API_KEY"])
+      def call(locale: I18n.locale, page_token: nil, playlist_id: nil, query: nil, cache: Rails.cache, api_key: youtube_api_key)
         return forced_result if forced_result
 
         new(locale:, page_token:, playlist_id:, query:, cache:, api_key:).call
+      end
+
+      # Render environment variable names are case-sensitive. Keep the
+      # uppercase name canonical, but accept the lowercase spelling that was
+      # used by an earlier production configuration so the catalog recovers
+      # without requiring the secret to be copied or exposed again.
+      def youtube_api_key
+        ENV["YOUTUBE_API_KEY"].presence || ENV["youtube_api_key"].presence
       end
 
       def configuration
@@ -86,7 +94,15 @@ module ChurchVideos
         request["Accept"] = "application/json"
         request["User-Agent"] = USER_AGENT
         response = http.request(request)
-        response.body if response.is_a?(Net::HTTPSuccess)
+        return response.body if response.is_a?(Net::HTTPSuccess)
+
+        error_payload = JSON.parse(response.body.to_s)
+        error_info = error_payload.fetch("error", {})
+        reason = error_info["status"] || error_info.dig("errors", 0, "reason") || "unknown"
+        Rails.logger.warn("ChurchVideos::Catalog YouTube HTTP #{response.code}: #{reason}")
+      rescue JSON::ParserError
+        Rails.logger.warn("ChurchVideos::Catalog YouTube HTTP #{response.code}: invalid error response")
+        nil
       end
     end
 
@@ -109,7 +125,8 @@ module ChurchVideos
       result = fetch_catalog
       @cache.write(page_key, result, expires_in: PAGE_TTL)
       result
-    rescue StandardError
+    rescue StandardError => error
+      Rails.logger.warn("ChurchVideos::Catalog unavailable: #{error.class}: #{error.message.to_s.gsub(@api_key, '[FILTERED]')}")
       @cache.write(miss_key, true, expires_in: MISS_TTL)
       failure(:unavailable)
     end

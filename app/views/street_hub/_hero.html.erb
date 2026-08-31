@@ -2,6 +2,7 @@
 <% voyage = screen.voyage %>
 <% themed_hero = screen.backdrop.hero %>
 <% reward_chest_src = street_ceremony_asset_src("reward-chest") %>
+<% voyage_slides = [ voyage.previous, voyage.current, voyage.next ].compact %>
 <% play_inner = capture do %>
   <span class="hub-play__seal" aria-hidden="true"><%= picto("compass") %></span>
   <span class="hub-play__label"><%= t("street.world_play") %></span>
@@ -10,10 +11,11 @@
 <article class="hub-hero hub-hero--themed"
          data-controller="hub-voyage hub-portal"
          data-hub-portal-target="hero"
+         data-hub-hero-art="<%= themed_hero %>"
          aria-label="<%= t("hub.continue") %>">
   <div class="hub-hero-stage">
     <div class="hub-voyage" data-hub-voyage-target="track">
-      <% [ voyage.previous, voyage.current, voyage.next ].compact.each do |slide| %>
+      <% voyage_slides.each do |slide| %>
         <% current = slide.kind == :current %>
         <% kicker = current ? hero.kicker : slide.kicker %>
         <% pack_name = current ? hero.title : slide.title %>
@@ -26,7 +28,8 @@
         <% still_source = current && themed_hero.present? ? themed_hero : (current ? hero.still : slide.still) %>
         <% progress_percent = step_total.to_i.positive? ? (((step_n.to_i - 1).clamp(0, step_total.to_i) * 100.0) / step_total.to_i).round : 0 %>
         <section class="hub-slide is-<%= slide.kind %><%= " is-locked" if slide.state == :locked %>"
-                 data-kind="<%= slide.kind %>">
+                 data-kind="<%= slide.kind %>"
+                 aria-hidden="<%= current ? "false" : "true" %>"<%= " inert" unless current %>>
           <span class="hub-hero-worldmark" aria-hidden="true">
             <strong>Noche</strong>
             <span class="hub-hero-worldmark__sub">Live Hub</span>
@@ -51,48 +54,79 @@
                 <p class="hub-hero-name"><%= pack_name %></p>
               </div>
               <p class="hub-hero-lede"><%= lede %></p>
-              <% if current %>
-                <div class="hub-hero-progress"
-                     role="progressbar"
-                     aria-label="<%= t("hub.rank_progress") %>"
-                     aria-valuemin="0"
-                     aria-valuemax="100"
-                     aria-valuenow="<%= progress_percent %>">
-                  <span class="hub-hero-progress__emblem" aria-hidden="true"><%= picto("crown") %></span>
-                  <span class="hub-hero-progress__body">
-                    <span class="hub-hero-progress__label"><%= pack_name %></span>
-                    <span class="hub-hero-progress__rail" aria-hidden="true"><i style="width: <%= progress_percent %>%"></i></span>
-                  </span>
-                  <strong><%= progress_percent %> %</strong>
-                </div>
-              <% end %>
             </div>
             <div class="hub-hero-actions">
-              <% if play_path.present? %>
-                <% if play_method == :get %>
-                  <%= link_to play_path,
-                        class: "hub-play",
-                        data: { action: "click->hub-portal#launch" } do %>
-                    <%= play_inner %>
+              <div class="hub-hero-cockpit__row">
+                <% if current %>
+                  <div class="hub-hero-progress"
+                       role="progressbar"
+                       aria-label="<%= t("hub.rank_progress") %>"
+                       aria-valuemin="0"
+                       aria-valuemax="100"
+                       aria-valuenow="<%= progress_percent %>">
+                    <span class="hub-hero-progress__emblem" aria-hidden="true"><%= picto("crown") %></span>
+                    <span class="hub-hero-progress__body">
+                      <span class="hub-hero-progress__label"><%= pack_name %></span>
+                      <span class="hub-hero-progress__rail" aria-hidden="true"><i style="width: <%= progress_percent %>%"></i></span>
+                    </span>
+                    <strong><%= progress_percent %> %</strong>
+                  </div>
+                <% end %>
+                <% if play_path.present? %>
+                  <% if play_method == :get %>
+                    <%= link_to play_path,
+                          class: "hub-play",
+                          data: { action: "click->hub-portal#launch" } do %>
+                      <%= play_inner %>
+                    <% end %>
+                  <% else %>
+                    <%= button_to play_path,
+                          class: "hub-play",
+                          form: {
+                            data: {
+                              turbo: false,
+                              action: "submit->hub-portal#launch"
+                            },
+                            class: "hub-play-form"
+                          } do %>
+                      <%= play_inner %>
+                    <% end %>
                   <% end %>
                 <% else %>
-                  <%= button_to play_path,
-                        class: "hub-play",
-                        form: {
-                          data: {
-                            turbo: false,
-                            action: "submit->hub-portal#launch"
-                          },
-                          class: "hub-play-form"
-                        } do %>
-                    <%= play_inner %>
-                  <% end %>
+                  <p class="hub-slide-wait">
+                    <%= picto("lock") %>
+                    <span><%= t("hub.voyage_next") %></span>
+                  </p>
                 <% end %>
-              <% else %>
-                <p class="hub-slide-wait">
-                  <%= picto("lock") %>
-                  <span><%= t("hub.voyage_next") %></span>
-                </p>
+              </div>
+              <% if current && screen.league&.rank %>
+                <div class="hub-hero-league-panel">
+                  <%= link_to street_leaderboard_path, class: "hub-hero-league", aria: { label: t("hub.hero_league_open") } do %>
+                    <span class="hub-hero-league__rank"><%= picto("podium") %><strong>#<%= screen.league.rank %></strong></span>
+                    <span class="hub-hero-league__copy">
+                      <b><%= t("hub.hero_league_position", rank: screen.league.rank, players: screen.league.players) %></b>
+                      <% if screen.league.rank == 1 %>
+                        <small><%= t("hub.hero_league_top") %></small>
+                      <% elsif screen.league.rival_name && screen.league.rival_gap %>
+                        <small><%= t("hub.hero_league_rival", gap: screen.league.rival_gap, name: screen.league.rival_name) %></small>
+                      <% end %>
+                    </span>
+                    <%= picto("arrow") %>
+                  <% end %>
+                  <% if screen.league.recent_gains.present? %>
+                    <ol class="hub-hero-gains" aria-label="<%= t("hub.hero_recent_gains") %>">
+                      <% screen.league.recent_gains.each do |gain| %>
+                        <li>
+                          <span class="hub-hero-gain__avatar" aria-hidden="true"><%= gain.name.to_s.first %></span>
+                          <span><strong><%= gain.name %></strong> <%= t("hub.hero_gained", points: gain.points) %></span>
+                          <time datetime="<%= gain.at.iso8601 %>"><%= l(gain.at, format: :short) %></time>
+                        </li>
+                      <% end %>
+                    </ol>
+                  <% else %>
+                    <p class="hub-hero-gains-empty"><%= t("hub.hero_gains_empty") %></p>
+                  <% end %>
+                </div>
               <% end %>
               <% if reward.to_i.positive? %>
                 <span class="hub-reward">
@@ -122,6 +156,8 @@
     <%= link_to street_map_path, class: "hub-hero-info", aria: { label: t("hub.info") } do %>
       <%= picto("info") %>
     <% end %>
-    <div class="hub-dots" data-hub-voyage-target="dots"></div>
   </div>
+  <nav class="hub-voyage-nav" aria-label="<%= t("hub.continue") %>">
+    <div class="hub-dots" data-hub-voyage-target="dots"></div>
+  </nav>
 </article>

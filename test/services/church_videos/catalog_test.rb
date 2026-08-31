@@ -170,6 +170,23 @@ class ChurchVideos::CatalogTest < ActiveSupport::TestCase
     refute called
   end
 
+  test "accepts the lowercase Render spelling as a backwards-compatible fallback" do
+    ChurchVideos::Catalog.transport = method(:youtube_response)
+    uppercase_key = ENV.delete("YOUTUBE_API_KEY")
+    lowercase_key = ENV["youtube_api_key"]
+    ENV["youtube_api_key"] = "lowercase-secret"
+
+    result = ChurchVideos::Catalog.call(locale: :es, cache: @cache)
+
+    assert result.available?
+    assert_equal [ "lowercase-secret" ], query_for("/youtube/v3/channels")["key"]
+  ensure
+    ENV.delete("YOUTUBE_API_KEY")
+    ENV["YOUTUBE_API_KEY"] = uppercase_key if uppercase_key
+    ENV.delete("youtube_api_key")
+    ENV["youtube_api_key"] = lowercase_key if lowercase_key
+  end
+
   test "caches a timeout briefly instead of hammering YouTube" do
     calls = 0
     ChurchVideos::Catalog.transport = ->(*) { calls += 1; raise Net::OpenTimeout }

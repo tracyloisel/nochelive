@@ -43,11 +43,14 @@ class WardProfilesControllerTest < ActionDispatch::IntegrationTest
     assert_select ".gate", count: 0
     assert_select "p.skip", count: 0
     assert_select ".rama-grid", count: 0
+    assert_select ".rama-live-carousel[role=list]"
+    assert_select ".rama-live-slide[role=listitem]", count: 2
     assert_select ".rama-next a[href=?]", night_path("DAVID")
-    assert_select "ul.rama-nights"
-    assert_select "a.rama-night", count: 1
-    assert_select "a.rama-night[href=?]", night_path("ELIAS")
+    assert_select ".rama-next a[href=?]", night_path("ELIAS")
     assert_select ".rama-visit a[href*='google.com/maps']"
+    assert_select ".rama-hero .rama-pin", text: /Avinguda Alfonso Puchades, 27, 03502, Benidorm, Alicante/
+    assert_select ".rama-content > .rama-visit:first-child h2", text: I18n.t("ward.visit_us")
+    assert_select ".rama-visit", text: /Capilla de Benidorm/, count: 0
     assert_select ".navigation-dock__item.is-active[href=?]", church_path
     assert_select ".navigation-dock__item[href=?] > .picto-scripture-book", scripture_library_path
     assert_select "a.rama-liga.street-league[href=?]", ward_leaderboard_path("RAMA")

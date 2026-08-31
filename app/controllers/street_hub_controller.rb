@@ -9,6 +9,7 @@ class StreetHubController < ApplicationController
     touch_street_presence
     @open_run = preferred_open_run
     @duel_campus = Quizzes::DuelCampus.call(person: current_street_person)
+    @duel_summary = Quizzes::DuelCampusSummary.call(person: current_street_person, campus: @duel_campus)
     @screen = Hubs::Screen.call(
       device_digest: street_digest,
       person: current_street_person,

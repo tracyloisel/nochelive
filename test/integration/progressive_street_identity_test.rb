@@ -17,9 +17,9 @@ class ProgressiveStreetIdentityTest < ActionDispatch::IntegrationTest
     assert_select ".hub-live-ward-title", text: I18n.t("hub.pick_ward_title")
     assert_select ".hub-now", count: 0
     assert_select ".street-hub-feed > section.hub-rama-carousel.hub-rama-block", count: 1
-    assert_select ".street-hub-feed > .hub-install + nav.hub-quick-actions", count: 1 do
-      assert_select "> a.hub-quick-action.is-challenges[href=?]", street_challenges_path, count: 1
-      assert_select "> a.hub-quick-action.is-videos[href=?]", church_videos_path(locale: I18n.locale), count: 1
+    assert_select ".street-hub-feed > section.hub-rama-carousel.hub-rama-block", count: 1 do
+      assert_select ".hub-rama-carousel__track > a.hub-rama-card--challenge[href=?]", street_challenges_path, count: 1
+      assert_select ".hub-rama-carousel__track > a.hub-rama-card--videos[href=?]", church_videos_path(locale: I18n.locale), count: 1
     end
     assert_select ".hub-identity-empty", count: 0
   end
@@ -48,9 +48,9 @@ class ProgressiveStreetIdentityTest < ActionDispatch::IntegrationTest
       search_path(cambiar: 1)
     assert_select ".hub-now", count: 0
     assert_select ".street-hub-feed > section.hub-rama-carousel.hub-rama-block", count: 1
-    assert_select ".street-hub-feed > .hub-install + nav.hub-quick-actions", count: 1 do
-      assert_select "> a.hub-quick-action.is-challenges[href=?]", street_challenges_path, count: 1
-      assert_select "> a.hub-quick-action.is-videos[href=?]", church_videos_path(locale: I18n.locale), count: 1
+    assert_select ".street-hub-feed > section.hub-rama-carousel.hub-rama-block", count: 1 do
+      assert_select ".hub-rama-carousel__track > a.hub-rama-card--challenge[href=?]", street_challenges_path, count: 1
+      assert_select ".hub-rama-carousel__track > a.hub-rama-card--videos[href=?]", church_videos_path(locale: I18n.locale), count: 1
     end
     assert_select ".hub-identity-empty", count: 0
   end

@@ -60,7 +60,7 @@ export default class extends Controller {
     if (!this.frameTarget.querySelector(".scripture-veil")) return this.unlock()
 
     this.lock()
-    this.markPendingReadingOpened()
+    this.pendingReadingLink = null
   }
 
   missing(event) {
@@ -144,25 +144,6 @@ export default class extends Controller {
     this.loadingTarget.querySelectorAll("[data-reader-loading-template]").forEach((target) => {
       target.textContent = target.dataset.readerLoadingTemplate.replace("__CHAPTER__", chapter)
     })
-  }
-
-  markPendingReadingOpened() {
-    const link = this.pendingReadingLink
-    this.pendingReadingLink = null
-    if (!link || link.classList.contains("is-opened")) return
-
-    link.classList.add("is-opened")
-    const state = link.querySelector(".study-reading-state")
-    if (state) state.textContent = `✓ ${link.dataset.scriptureOpenedLabel}`
-
-    const progress = document.querySelector("[data-scripture-progress]")
-    if (!progress) return
-    const opened = Number(progress.dataset.openedCount || 0) + 1
-    const total = Number(progress.dataset.totalCount || 0)
-    progress.dataset.openedCount = opened
-    progress.textContent = progress.dataset.labelTemplate
-      .replace("__OPENED__", opened)
-      .replace("__TOTAL__", total)
   }
 
   restoreFocus() {

@@ -19,6 +19,8 @@ class HubStreamingRailsVisualTest < ApplicationSystemTestCase
     @ward.update!(scripture_circle_mode: "active")
     @week = create_current_weekly_program!
     @question = seed_quiz_reading!
+    seed_recent_gain!
+    seed_circle_activity!
     seed_published_event!
     sign_in_fixture_person_direct!(@person)
     page.driver.browser.manage.add_cookie(name: Locale::COOKIE.to_s, value: "fr", path: "/")
@@ -36,12 +38,17 @@ class HubStreamingRailsVisualTest < ApplicationSystemTestCase
         assert_selector "#street_world[data-hub-theme='#{theme}']"
         assert_editorial_structure!
         assert_editorial_geometry!(width:, height:)
+        assert_long_hero_copy_does_not_collide!(theme:, width:, height:) if [ 320, 390, 768, 1024, 1440 ].include?(width)
         assert_mobile_hero_tableau!(width:, height:) if width <= 390
+        assert_mobile_hero_clearance!(width:, height:) if width <= 390
         assert_rama_rail_geometry!(width:) if width <= 390
         assert_navigation_affordance!(width:)
         assert_empty severe_browser_logs, "Hub console errors at #{theme} #{width}x#{height}: #{severe_browser_logs.inspect}"
 
-        shot("hub-editorial-#{theme}-#{width}x#{height}-top") if [ 320, 390, 768, 1440 ].include?(width)
+        if [ 320, 390, 768, 1440 ].include?(width)
+          page.execute_script("window.scrollTo(0, 0)")
+          shot("hub-editorial-#{theme}-#{width}x#{height}-top")
+        end
         shot_block(".hub-now", "hub-editorial-#{theme}-#{width}x#{height}-now") if [ 390, 1440 ].include?(width)
         shot_block(".hub-rama-carousel", "hub-editorial-#{theme}-#{width}x#{height}-rama") if [ 390, 1440 ].include?(width)
         if [ 390, 1440 ].include?(width)
@@ -59,6 +66,26 @@ class HubStreamingRailsVisualTest < ApplicationSystemTestCase
     set_system_viewport(1440, 900)
     visit root_path
 
+    circle = find(".hub-rama-card--circle")
+    page.execute_script("arguments[0].scrollIntoView({ inline: 'center', block: 'nearest' })", circle.native)
+    hover_before = page.evaluate_script(<<~JS)
+      (function() {
+        var card = document.querySelector('.hub-rama-card--circle');
+        var rect = card.getBoundingClientRect();
+        return { top: rect.top, border: getComputedStyle(card).borderTopColor };
+      })()
+    JS
+    circle.hover
+    hover_after = page.evaluate_script(<<~JS)
+      (function() {
+        var card = document.querySelector('.hub-rama-card--circle');
+        var rect = card.getBoundingClientRect();
+        return { top: rect.top, border: getComputedStyle(card).borderTopColor };
+      })()
+    JS
+    assert_in_delta hover_before.fetch("top"), hover_after.fetch("top"), 0.5, { before: hover_before, after: hover_after }.inspect
+    refute_equal hover_before.fetch("border"), hover_after.fetch("border"), { before: hover_before, after: hover_after }.inspect
+
     assert_selector ".hub-now-card.is-in_progress .hub-now-card__status", text: I18n.t("hub.rails.reading_in_progress", percent: 42, locale: :fr)
     assert_selector ".hub-now-card.is-in_progress .hub-now-card__meter i[style*='42%']"
     assert_no_selector ".hub-now-card .hub-now-card__status a, .hub-now-card .hub-now-card__status button"
@@ -73,6 +100,7 @@ class HubStreamingRailsVisualTest < ApplicationSystemTestCase
     JS
     assert focus.fetch("active"), focus.inspect
     assert_equal "solid", focus.fetch("outline"), focus.inspect
+    assert_voyage_controls!
 
     page.driver.browser.execute_cdp(
       "Emulation.setEmulatedMedia",
@@ -129,7 +157,7 @@ class HubStreamingRailsVisualTest < ApplicationSystemTestCase
       @theme_worlds ||= begin
         catalog = Array(YAML.safe_load_file(Hubs::Backdrop::CATALOG)["backdrops"])
         {
-          "light" => catalog.find { |row| row["id"] == "royal-jerusalem-dawn" },
+          "light" => catalog.find { |row| row["id"] == "salt-lake-temple-dawn" },
           "dark" => catalog.find { |row| row["id"] == "coronas-ungido" }
         }.tap { |worlds| assert worlds.values.all? }
       end
@@ -217,6 +245,47 @@ class HubStreamingRailsVisualTest < ApplicationSystemTestCase
         }
       )
       event.publish!(actor: "Présidence de Rama")
+    end
+
+    def seed_recent_gain!
+      person = people(:carmen_garcia)
+      question = QuizDefinition.catalog.find_pack("coronas").questions.second
+      run = QuizRun.create!(
+        person:,
+        device_digest: "hub-editorial-gain",
+        pack_id: question.pack_id,
+        position: 1,
+        score: 18,
+        status: "finished",
+        opened_at: 35.minutes.ago
+      )
+      run.quiz_answers.create!(
+        device_digest: run.device_digest,
+        pack_id: run.pack_id,
+        question_id: question.id,
+        choice_key: question.correct_choice,
+        correct: true,
+        points_awarded: 18
+      )
+    end
+
+    def seed_circle_activity!
+      thread = @ward.scripture_circle_threads.find_or_create_by!(reference: "ot/ps/52")
+      root = thread.scripture_circle_posts.create!(
+        ward: @ward,
+        person: people(:carmen_garcia),
+        kind: "question",
+        locale: "fr",
+        body: "Qu’est-ce qui demeure vraiment ?"
+      )
+      thread.scripture_circle_posts.create!(
+        ward: @ward,
+        person: @person,
+        kind: "reply",
+        parent: root,
+        locale: "fr",
+        body: "Dans la confiance, nos pas s’ancrent."
+      )
     end
 
     def sign_in_fixture_person_direct!(person)
@@ -328,7 +397,15 @@ class HubStreamingRailsVisualTest < ApplicationSystemTestCase
           var nav = document.querySelector('.hub-desktop-navigation');
           var stage = document.querySelector('.hub-hero-stage');
           var currentMark = document.querySelector('.hub-slide.is-current .hub-hero-worldmark');
+          var heroElement = document.querySelector('.hub-hero');
+          var currentStill = document.querySelector('.hub-slide.is-current .hub-slide-still');
           var dots = document.querySelector('.hub-hero .hub-dots');
+          var progress = document.querySelector('.hub-slide.is-current .hub-hero-progress');
+          var play = document.querySelector('.hub-slide.is-current .hub-play');
+          var league = document.querySelector('.hub-slide.is-current .hub-hero-league');
+          var gains = document.querySelector('.hub-slide.is-current .hub-hero-gains');
+          var voyageNav = document.querySelector('.hub-voyage-nav');
+          var voyageStyle = voyageNav && getComputedStyle(voyageNav);
           var dockRect = dock && visible(dock) ? dock.getBoundingClientRect() : null;
           return {
             overflow: document.documentElement.scrollWidth > document.documentElement.clientWidth + 1,
@@ -366,19 +443,45 @@ class HubStreamingRailsVisualTest < ApplicationSystemTestCase
             } : null,
             hudOutsideFeed: Boolean(hud && !feed.contains(hud)),
             nav: nav && visible(nav),
+            cockpit: progress && play ? {
+              progress: rect(progress),
+              play: rect(play),
+              leagueVisible: Boolean(league && visible(league)),
+              gainsVisible: Boolean(gains && visible(gains))
+            } : null,
             hero: stage ? {
               height: stage.getBoundingClientRect().height,
               bottom: stage.getBoundingClientRect().bottom,
+              safeArt: heroElement && [
+                'hub.hero.salt-lake-temple-night',
+                'hub.hero.salt-lake-temple-dawn'
+              ].includes(heroElement.dataset.hubHeroArt),
+              stillTop: currentStill ? currentStill.getBoundingClientRect().top : null,
+              hudBottom: hud ? hud.getBoundingClientRect().bottom : null,
               worldmarkVisible: currentMark && visible(currentMark),
-              dotsBottom: dots ? dots.getBoundingClientRect().bottom : null
+              dotsBottom: dots ? dots.getBoundingClientRect().bottom : null,
+              voyageNav: voyageNav && visible(voyageNav) ? rect(voyageNav) : null,
+              voyageChrome: voyageStyle ? {
+                background: voyageStyle.backgroundColor,
+                border: voyageStyle.borderTopWidth,
+                shadow: voyageStyle.boxShadow,
+                backdrop: voyageStyle.backdropFilter || voyageStyle.webkitBackdropFilter
+              } : null,
+              voyageDots: voyageNav ? voyageNav.querySelectorAll('.hub-dot').length : 0
             } : null,
             carousel: carousel && track ? {
               top: carousel.getBoundingClientRect().top,
               width: carousel.getBoundingClientRect().width,
               overflowX: getComputedStyle(track).overflowX,
+              trackBottom: track.getBoundingClientRect().bottom,
               clientWidth: track.clientWidth,
               scrollWidth: track.scrollWidth,
-              cards: cards.map(function(card) { return rect(card); })
+              cards: cards.map(function(card) {
+                var box = rect(card);
+                box.borderBottomWidth = getComputedStyle(card).borderBottomWidth;
+                box.borderBottomColor = getComputedStyle(card).borderBottomColor;
+                return box;
+              })
             } : null
           };
         })()
@@ -391,16 +494,40 @@ class HubStreamingRailsVisualTest < ApplicationSystemTestCase
       assert geometry.fetch("targets").all? { |target| target.fetch("width") >= 44 && target.fetch("height") >= 44 }, geometry.inspect
       assert geometry.fetch("hudOutsideFeed"), geometry.inspect
       assert geometry.fetch("carousel"), geometry.inspect
+      assert geometry.fetch("cockpit"), geometry.inspect
+      assert geometry.dig("hero", "voyageNav"), geometry.inspect
+      assert_operator geometry.dig("hero", "voyageDots"), :>=, 2, geometry.inspect
+      assert_equal "rgba(0, 0, 0, 0)", geometry.dig("hero", "voyageChrome", "background"), geometry.inspect
+      assert_equal "0px", geometry.dig("hero", "voyageChrome", "border"), geometry.inspect
+      assert_equal "none", geometry.dig("hero", "voyageChrome", "shadow"), geometry.inspect
+      assert_equal "none", geometry.dig("hero", "voyageChrome", "backdrop"), geometry.inspect
+      assert_no_selector ".hub-voyage-nav__button, .hub-voyage-nav__count"
+      assert geometry.dig("cockpit", "leagueVisible"), geometry.inspect
+      if width <= 360
+        refute geometry.dig("cockpit", "gainsVisible"), geometry.inspect
+      else
+        assert geometry.dig("cockpit", "gainsVisible"), geometry.inspect
+      end
       assert_operator geometry.dig("carousel", "cards").length, :>=, 3, geometry.inspect
+      assert geometry.dig("carousel", "cards").all? { |card|
+        card.fetch("borderBottomWidth").to_f >= 1 && card.fetch("borderBottomColor") != "rgba(0, 0, 0, 0)" &&
+          card.fetch("bottom") <= geometry.dig("carousel", "trackBottom") - 8
+      }, geometry.inspect
+      if width >= 768 && geometry.dig("hero", "safeArt")
+        assert_operator geometry.dig("hero", "stillTop"), :>=, geometry.dig("hero", "hudBottom") - 1, geometry.inspect
+      end
       card_tops = geometry.dig("carousel", "cards").map { |card| card.fetch("top") }
       assert card_tops.all? { |top| (top - card_tops.first).abs <= 2 }, geometry.inspect
       if width < DESKTOP_WIDTH
         assert_in_delta geometry.dig("hero", "bottom"), geometry.dig("carousel", "top"), 2, geometry.inspect
       else
         # The desktop mockup keeps the full-bleed painting behind the Rama
-        # rail; the section starts at roughly 51.5% of the opening viewport.
+        # rail; the richer competitive cockpit now owns a little more of the
+        # opening tableau before the horizontal community deck begins.
         assert_operator geometry.dig("carousel", "top"), :<, geometry.dig("hero", "bottom"), geometry.inspect
-        assert_in_delta height * 0.515, geometry.dig("carousel", "top"), 3, geometry.inspect
+        assert_in_delta height * 0.585, geometry.dig("carousel", "top"), 3, geometry.inspect
+        assert_in_delta geometry.dig("cockpit", "progress", "top"), geometry.dig("cockpit", "play", "top"), 1, geometry.inspect
+        assert_in_delta geometry.dig("cockpit", "progress", "height"), geometry.dig("cockpit", "play", "height"), 1, geometry.inspect
       end
 
       if width < DESKTOP_WIDTH
@@ -415,10 +542,7 @@ class HubStreamingRailsVisualTest < ApplicationSystemTestCase
         assert geometry.fetch("nav"), geometry.inspect
       end
 
-      if width.between?(381, 719)
-        assert geometry.dig("hero", "worldmarkVisible"), geometry.inspect
-        assert_operator geometry.dig("hero", "dotsBottom"), :<=, geometry.dig("dock", "top") + 1, geometry.inspect
-      elsif width < 381
+      if width < DESKTOP_WIDTH
         refute geometry.dig("hero", "worldmarkVisible"), geometry.inspect
         assert_operator geometry.dig("hero", "dotsBottom"), :<=, geometry.dig("dock", "top") + 1, geometry.inspect
       else
@@ -432,6 +556,137 @@ class HubStreamingRailsVisualTest < ApplicationSystemTestCase
       else
         assert_selector ".hub-desktop-navigation a[aria-current='page']", text: I18n.t("hub.nav_home", locale: :fr)
       end
+    end
+
+    def assert_long_hero_copy_does_not_collide!(theme:, width:, height:)
+      original = page.evaluate_script(<<~JS)
+        (function() {
+          var slide = document.querySelector('.hub-slide.is-current');
+          var title = slide && slide.querySelector('.hub-hero-title');
+          var lede = slide && slide.querySelector('.hub-hero-lede');
+          return { title: title && title.textContent, lede: lede && lede.textContent };
+        })()
+      JS
+
+      page.execute_script(<<~JS)
+        (function() {
+          var slide = document.querySelector('.hub-slide.is-current');
+          slide.querySelector('.hub-hero-title').textContent = 'LA VIE DU SAUVEUR';
+          slide.querySelector('.hub-hero-lede').textContent = 'Bethléem, le baptême, les miracles : Jésus parmi nous.';
+        })()
+      JS
+
+      geometry = page.evaluate_script(<<~JS)
+        (function() {
+          var slide = document.querySelector('.hub-slide.is-current');
+          var copy = slide.querySelector('.hub-slide-copy-top').getBoundingClientRect();
+          var actions = slide.querySelector('.hub-hero-actions').getBoundingClientRect();
+          var stage = slide.closest('.hub-hero-stage').getBoundingClientRect();
+          var titleNode = slide.querySelector('.hub-hero-title');
+          var title = titleNode.getBoundingClientRect();
+          var titleRange = document.createRange();
+          titleRange.selectNodeContents(titleNode);
+          var titleLines = Array.from(titleRange.getClientRects()).reduce(function(tops, line) {
+            if (!tops.some(function(top) { return Math.abs(top - line.top) < 1; })) tops.push(line.top);
+            return tops;
+          }, []);
+          return {
+            gap: actions.top - copy.bottom,
+            copyTop: copy.top,
+            actionsBottom: actions.bottom,
+            stageTop: stage.top,
+            stageBottom: stage.bottom,
+            titleHeight: title.height,
+            titleLines: titleLines.length
+          };
+        })()
+      JS
+
+      assert_operator geometry.fetch("gap"), :>=, width <= 390 ? 8 : 16, { theme:, width:, height:, geometry: }.inspect
+      assert_operator geometry.fetch("copyTop"), :>=, geometry.fetch("stageTop"), { theme:, width:, height:, geometry: }.inspect
+      assert_operator geometry.fetch("actionsBottom"), :<=, geometry.fetch("stageBottom") + 1, { theme:, width:, height:, geometry: }.inspect
+      assert_operator geometry.fetch("titleLines"), :<=, width <= 320 ? 3 : 2, { theme:, width:, height:, geometry: }.inspect
+      shot("hub-editorial-#{theme}-#{width}x#{height}-long-hero-copy")
+    ensure
+      if original
+        page.execute_script(<<~JS, original.fetch("title"), original.fetch("lede"))
+          (function(titleText, ledeText) {
+            var slide = document.querySelector('.hub-slide.is-current');
+            if (!slide) return;
+            var title = slide.querySelector('.hub-hero-title');
+            var lede = slide.querySelector('.hub-hero-lede');
+            if (title) title.textContent = titleText;
+            if (lede) lede.textContent = ledeText;
+          })(arguments[0], arguments[1])
+        JS
+      end
+    end
+
+    def assert_voyage_controls!
+      dots = all(".hub-voyage-nav .hub-dot")
+      assert_operator dots.length, :>=, 2
+      original = find(".hub-voyage-nav .hub-dot[aria-current='true']")["data-index"].to_i
+      destination = original.zero? ? 1 : 0
+      assert_voyage_slides_are_isolated!(current_index: original)
+
+      dots[destination].click
+      assert_selector ".hub-voyage-nav .hub-dot[data-index='#{destination}'][aria-current='true']"
+      assert_voyage_slides_are_isolated!(current_index: destination)
+
+      all(".hub-voyage-nav .hub-dot")[original].click
+      assert_selector ".hub-voyage-nav .hub-dot[data-index='#{original}'][aria-current='true']"
+      assert_voyage_slides_are_isolated!(current_index: original)
+      assert_no_selector ".hub-voyage-nav__button, .hub-voyage-nav__count"
+    end
+
+    def assert_voyage_slides_are_isolated!(current_index:)
+      isolation = page.evaluate_script(<<~JS)
+        (function() {
+          var selectors = [
+            'a[href]:not([disabled])',
+            'button:not([disabled])',
+            'input:not([disabled])',
+            'select:not([disabled])',
+            'textarea:not([disabled])',
+            '[tabindex]:not([tabindex="-1"])'
+          ].join(',');
+          var canReceiveFocus = function(node) {
+            try {
+              node.focus({ preventScroll: true });
+            } catch (error) {
+              node.focus();
+            }
+            return document.activeElement === node;
+          };
+
+          var slides = Array.from(document.querySelectorAll('.hub-voyage .hub-slide'));
+          return slides.map(function(slide, index) {
+            var controls = Array.from(slide.querySelectorAll(selectors));
+            return {
+              index: index,
+              current: slide.classList.contains('is-current'),
+              inert: slide.hasAttribute('inert'),
+              ariaHidden: slide.getAttribute('aria-hidden'),
+              controlCount: controls.length,
+              programmaticFocus: controls.map(canReceiveFocus)
+            };
+          });
+        })()
+      JS
+
+      assert_operator isolation.length, :>=, 2, isolation.inspect
+      active = isolation.find { |slide| slide.fetch("current") }
+      assert active, isolation.inspect
+      assert_equal current_index, active.fetch("index"), isolation.inspect
+      refute active.fetch("inert"), isolation.inspect
+      assert_equal "false", active.fetch("ariaHidden"), isolation.inspect
+      assert active.fetch("programmaticFocus").any?, isolation.inspect if active.fetch("controlCount").positive?
+
+      inactive = isolation.reject { |slide| slide.fetch("current") }
+      assert inactive.all? { |slide|
+        slide.fetch("inert") && slide.fetch("ariaHidden") == "true" && slide.fetch("programmaticFocus").none?
+      }, isolation.inspect
+      assert_operator isolation.sum { |slide| slide.fetch("controlCount") }, :>=, 1, isolation.inspect
     end
 
     # The mobile Hero is a fixed opening tableau, not a viewport-height reel.
@@ -486,21 +741,103 @@ class HubStreamingRailsVisualTest < ApplicationSystemTestCase
       assert_operator tableau.dig("still", "right"), :>=, width - 1, tableau.inspect
       assert_operator tableau.dig("still", "top"), :<=, 1, tableau.inspect
       assert_operator tableau.dig("still", "bottom"), :>=, tableau.dig("stage", "bottom") - 1, tableau.inspect
-      assert_operator tableau.dig("play", "width"), :>=, width * 0.62, tableau.inspect
       assert_operator tableau.dig("play", "height"), :>=, 44, tableau.inspect
-      assert_in_delta width / 2.0, tableau.dig("play", "left") + (tableau.dig("play", "width") / 2.0), 16, tableau.inspect
+      assert_operator tableau.dig("play", "width"), :>=, width * 0.5, tableau.inspect
       assert_operator tableau.dig("play", "bottom"), :<=, tableau.dig("dock", "top") - 12, tableau.inspect
       assert_operator tableau.dig("hud", "bottom"), :<=, tableau.dig("play", "top"), tableau.inspect
 
-      if width == 390 && height == 844
-        assert_in_delta 364, tableau.dig("stage", "height"), 8, tableau.inspect
-      else
-        assert_operator tableau.dig("stage", "height"), :<, height * 0.7, tableau.inspect
-      end
+      assert_operator tableau.dig("stage", "height"), :>=, height * 0.7, tableau.inspect
 
       if tableau.fetch("reward")
         assert_operator tableau.dig("reward", "top"), :>=, tableau.dig("play", "bottom") + 8, tableau.inspect
       end
+    end
+
+    def assert_mobile_hero_clearance!(width:, height:)
+      clearance = page.evaluate_script(<<~JS)
+        (function() {
+          var visible = function(node) {
+            if (!node) return false;
+            var style = getComputedStyle(node);
+            var box = node.getBoundingClientRect();
+            return !node.hidden && style.display !== 'none' && style.visibility !== 'hidden' &&
+              box.width > 0 && box.height > 0;
+          };
+          var rect = function(node) {
+            if (!node) return null;
+            var box = node.getBoundingClientRect();
+            return {
+              left: box.left, right: box.right, top: box.top, bottom: box.bottom,
+              width: box.width, height: box.height
+            };
+          };
+          var overlaps = function(first, second, tolerance) {
+            if (!first || !second) return false;
+            var gap = tolerance || 1;
+            return first.left < second.right - gap && first.right > second.left + gap &&
+              first.top < second.bottom - gap && first.bottom > second.top + gap;
+          };
+          var current = document.querySelector('.hub-slide.is-current');
+          var copy = current && current.querySelector('.hub-slide-copy-top');
+          var actions = current && current.querySelector('.hub-hero-actions');
+          var title = current && current.querySelector('.hub-hero-title');
+          var hud = document.querySelector('body > .home-menu.is-hud');
+          var dock = document.querySelector('.navigation-dock');
+          var dots = document.querySelector('.hub-voyage-nav');
+          var importantText = [
+            [ 'hero title', title ],
+            [ 'hero pack', current && current.querySelector('.hub-hero-name') ],
+            [ 'hero progress', current && current.querySelector('.hub-hero-progress__label') ],
+            [ 'league rank', current && current.querySelector('.hub-hero-league__copy b') ],
+            [ 'league detail', current && current.querySelector('.hub-hero-league__copy small') ]
+          ].concat(
+            Array.from(document.querySelectorAll('.hub-rama-carousel__track > .hub-rama-card strong, .hub-rama-carousel__track > .hub-rama-card .hub-rama-event__kicker')).map(function(node) {
+              return [ 'Rama card', node ];
+            })
+          ).concat(
+            dock ? Array.from(dock.querySelectorAll('.navigation-dock__item > span:last-child')).map(function(node) {
+              return [ 'dock label', node ];
+            }) : []
+          ).filter(function(entry) {
+            return visible(entry[1]) && entry[1].textContent.trim().length > 0;
+          }).map(function(entry) {
+            var node = entry[1];
+            var style = getComputedStyle(node);
+            return {
+              label: entry[0],
+              text: node.textContent.trim(),
+              clippedX: node.scrollWidth > node.clientWidth + 1 && /hidden|clip/.test(style.overflowX),
+              clippedY: node.scrollHeight > node.clientHeight + 1 && /hidden|clip/.test(style.overflowY)
+            };
+          });
+          var dockLabels = dock ? Array.from(dock.querySelectorAll('.navigation-dock__item > span:last-child')).filter(visible).map(rect) : [];
+          var dockLabelOverlaps = dockLabels.some(function(label, index) {
+            return dockLabels.slice(index + 1).some(function(next) { return overlaps(label, next); });
+          });
+
+          return {
+            hudCopyOverlap: overlaps(rect(hud), rect(copy)),
+            hudTitleOverlap: overlaps(rect(hud), rect(title)),
+            hudActionsOverlap: overlaps(rect(hud), rect(actions)),
+            copyActionsOverlap: overlaps(rect(copy), rect(actions)),
+            actionsDockOverlap: overlaps(rect(actions), rect(dock)),
+            dotsActionsOverlap: overlaps(rect(dots), rect(actions)),
+            dotsDockOverlap: overlaps(rect(dots), rect(dock)),
+            dockLabelOverlaps: dockLabelOverlaps,
+            text: importantText
+          };
+        })()
+      JS
+
+      assert_not clearance.fetch("hudCopyOverlap"), { width:, height:, clearance: }.inspect
+      assert_not clearance.fetch("hudTitleOverlap"), { width:, height:, clearance: }.inspect
+      assert_not clearance.fetch("hudActionsOverlap"), { width:, height:, clearance: }.inspect
+      assert_not clearance.fetch("copyActionsOverlap"), { width:, height:, clearance: }.inspect
+      assert_not clearance.fetch("actionsDockOverlap"), { width:, height:, clearance: }.inspect
+      assert_not clearance.fetch("dotsActionsOverlap"), { width:, height:, clearance: }.inspect
+      assert_not clearance.fetch("dotsDockOverlap"), { width:, height:, clearance: }.inspect
+      assert_not clearance.fetch("dockLabelOverlaps"), { width:, height:, clearance: }.inspect
+      assert clearance.fetch("text").all? { |entry| !entry.fetch("clippedX") && !entry.fetch("clippedY") }, { width:, height:, clearance: }.inspect
     end
 
     def assert_rama_rail_geometry!(width:)

@@ -12,8 +12,4 @@ module StudyIdentity
 
       StudyRun.where(device_digest: street_device_digest, person_id: nil)
     end
-
-    def current_study_program
-      StudyProgram.order(year: :desc).first
-    end
 end

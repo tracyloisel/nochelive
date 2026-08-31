@@ -12,7 +12,8 @@ class WardProfilesController < ApplicationController
     configure_ward_seo
     @ward_display_name = params[:slug].present? ? t("seo.ward.heading", city: @ward.city.presence || @ward.name) : @ward.name
     live_nights = @ward.game_sessions.live
-    @featured_night = live_nights.order(:starts_at, :id).first
+    @live_nights = live_nights.order(:starts_at, :id).limit(8).to_a
+    @featured_night = @live_nights.first
     remaining_live = @featured_night ? live_nights.where.not(id: @featured_night.id) : live_nights
     @upcoming_nights_count = remaining_live.count
     @upcoming_nights = remaining_live.order(:starts_at, :id).limit(3).to_a

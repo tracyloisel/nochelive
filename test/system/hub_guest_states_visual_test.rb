@@ -20,6 +20,7 @@ class HubGuestStatesVisualTest < ApplicationSystemTestCase
         visit root_path
 
         assert_selector "#street_world[data-hub-theme='#{theme}']"
+        assert_backdrop_artwork!(theme:)
         assert_guest_truth!(width:, height:)
         shot("hub-guest-editorial-#{theme}-#{width}x#{height}") if [ 390, 768, 1440 ].include?(width)
         assert_empty severe_browser_logs, "Guest Hub console errors at #{theme} #{width}x#{height}: #{severe_browser_logs.inspect}"
@@ -40,6 +41,7 @@ class HubGuestStatesVisualTest < ApplicationSystemTestCase
         visit root_path
 
         assert_selector "#street_world[data-hub-theme='#{theme}']"
+        assert_backdrop_artwork!(theme:)
         assert_ward_without_player_truth!(width:, height:)
         assert_empty severe_browser_logs, "Ward-only Hub console errors at #{theme} #{width}x#{height}: #{severe_browser_logs.inspect}"
       end
@@ -54,10 +56,15 @@ class HubGuestStatesVisualTest < ApplicationSystemTestCase
       @theme_worlds ||= begin
         catalog = Array(YAML.safe_load_file(Hubs::Backdrop::CATALOG)["backdrops"])
         {
-          "light" => catalog.find { |row| row["id"] == "royal-jerusalem-dawn" },
+          "light" => catalog.find { |row| row["id"] == "salt-lake-temple-dawn" },
           "dark" => catalog.find { |row| row["id"] == "coronas-ungido" }
         }.tap { |worlds| assert worlds.values.all? }
       end
+    end
+
+    def assert_backdrop_artwork!(theme:)
+      hero_art = theme == "light" ? "hub.hero.salt-lake-temple-dawn" : "hub.hero.salt-lake-temple-night"
+      assert_selector ".hub-hero[data-hub-hero-art='#{hero_art}']"
     end
 
     def assert_guest_truth!(width:, height:)
@@ -73,7 +80,7 @@ class HubGuestStatesVisualTest < ApplicationSystemTestCase
       assert_operator snapshot.fetch("publicRailCards"), :>=, 1, snapshot.inspect
       assert_equal 0, snapshot.fetch("personal"), snapshot.inspect
       assert_equal 0, snapshot.fetch("identityEmpty"), snapshot.inspect
-      assert snapshot.fetch("quickActionsAfterInstall"), snapshot.inspect
+      assert snapshot.fetch("utilitiesInCarousel"), snapshot.inspect
       assert_public_actions_visible!(snapshot)
       assert_not snapshot.fetch("overflow"), snapshot.inspect
       assert snapshot.fetch("guestHud"), snapshot.inspect
@@ -90,13 +97,13 @@ class HubGuestStatesVisualTest < ApplicationSystemTestCase
       assert snapshot.fetch("live"), snapshot.inspect
       assert_not snapshot.fetch("wardMissing"), snapshot.inspect
       assert snapshot.fetch("liveEmpty"), snapshot.inspect
-      assert_equal 1, snapshot.fetch("publicRailCards"), snapshot.inspect
+      assert_operator snapshot.fetch("publicRailCards"), :>=, 3, snapshot.inspect
       assert_equal 0, snapshot.fetch("personal"), snapshot.inspect
       assert_equal 1, snapshot.fetch("identityEmpty"), snapshot.inspect
       assert_equal 1, snapshot.fetch("playerMissing"), snapshot.inspect
       assert_equal 0, snapshot.fetch("playerUnselected"), snapshot.inspect
       assert snapshot.fetch("identityAfterInstall"), snapshot.inspect
-      assert snapshot.fetch("quickActionsAfterIdentity"), snapshot.inspect
+      assert snapshot.fetch("utilitiesInCarousel"), snapshot.inspect
       assert_public_actions_visible!(snapshot)
       assert_not snapshot.fetch("overflow"), snapshot.inspect
       assert snapshot.fetch("guestHud"), snapshot.inspect
@@ -117,8 +124,8 @@ class HubGuestStatesVisualTest < ApplicationSystemTestCase
           };
           var hero = feed && Array.from(feed.children).find(function(node) { return node.classList.contains('hub-hero'); });
           var live = feed && feed.querySelector(':scope > .hub-rama-carousel .hub-live--feature');
-          var challenges = feed && feed.querySelector(':scope > .hub-quick-actions > .hub-quick-action.is-challenges');
-          var videos = feed && feed.querySelector(':scope > .hub-quick-actions > .hub-quick-action.is-videos');
+          var challenges = feed && feed.querySelector(':scope > .hub-rama-carousel .hub-rama-card--challenge');
+          var videos = feed && feed.querySelector(':scope > .hub-rama-carousel .hub-rama-card--videos');
           var dock = document.querySelector('.navigation-dock');
           var nav = document.querySelector('.hub-desktop-navigation');
           return {
@@ -139,9 +146,8 @@ class HubGuestStatesVisualTest < ApplicationSystemTestCase
             challengesVisible: visible(challenges),
             videosPath: videos && videos.getAttribute('href'),
             videosVisible: visible(videos),
-            quickActionsAfterInstall: Boolean(feed && feed.querySelector(':scope > .hub-install + .hub-quick-actions')),
+            utilitiesInCarousel: Boolean(challenges && videos),
             identityAfterInstall: Boolean(feed && feed.querySelector(':scope > .hub-install + .hub-identity-empty')),
-            quickActionsAfterIdentity: Boolean(feed && feed.querySelector(':scope > .hub-identity-empty + .hub-quick-actions')),
             overflow: document.documentElement.scrollWidth > document.documentElement.clientWidth + 1,
             dock: dock && visible(dock) ? { position: getComputedStyle(dock).position, bottom: dock.getBoundingClientRect().bottom } : null,
             nav: Boolean(nav && visible(nav)),

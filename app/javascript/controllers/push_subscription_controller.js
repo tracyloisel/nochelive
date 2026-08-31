@@ -26,16 +26,13 @@ export default class extends Controller {
       }
     }
     navigator.serviceWorker?.addEventListener("message", this.messageHandler)
-    this.observeSettingsFocus()
     this.refresh()
   }
 
   disconnect() {
     navigator.serviceWorker?.removeEventListener("message", this.messageHandler)
-    this.settingsObserver?.disconnect()
     if (this.completionTimer) window.clearTimeout(this.completionTimer)
     if (this.hideTimer) window.clearTimeout(this.hideTimer)
-    document.body.classList.remove("is-reading-push-settings")
   }
 
   async refresh() {
@@ -353,12 +350,4 @@ export default class extends Controller {
     return window.matchMedia("(display-mode: standalone)").matches || navigator.standalone === true
   }
 
-  observeSettingsFocus() {
-    if (this.automaticValue || !("IntersectionObserver" in window)) return
-
-    this.settingsObserver = new IntersectionObserver((entries) => {
-      document.body.classList.toggle("is-reading-push-settings", entries.some((entry) => entry.isIntersecting))
-    }, { threshold: 0.08 })
-    this.settingsObserver.observe(this.element)
-  }
 }

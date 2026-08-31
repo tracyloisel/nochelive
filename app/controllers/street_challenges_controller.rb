@@ -12,12 +12,12 @@ class StreetChallengesController < ApplicationController
 
     @q = params[:q].to_s.strip
     @campus = Quizzes::DuelCampus.call(person: current_street_person)
+    @duel_summary = Quizzes::DuelCampusSummary.call(person: current_street_person, campus: @campus)
     @friends = Quizzes::DuelCampusFriends.call(person: current_street_person, q: @q)
     @world = Quizzes::World.call(device_digest: street_digest, person_id: current_street_person.id)
     @next_pack = @world.packs.find { |pack| pack.state.in?(%i[open current]) } ||
       @world.packs.find { |pack| pack.state == :available } ||
       @world.packs.reverse.find { |pack| pack.state == :finished }
-    @player_crowns = Quizzes::Complete.total_best(current_street_person)
     Quizzes::DuelCampusVisit.call(person: current_street_person, device_digest: street_digest)
     prompt_context = session.delete(:push_prompt_context).presence
     if prompt_context

@@ -2662,9 +2662,6 @@ body.is-street-profile .home-menu:not(.is-hud) {
   left: auto;
   right: max(var(--space-4), env(safe-area-inset-right));
 }
-body.is-study-unit > .home-menu.is-hud .quiz-hud {
-  max-width: none;
-}
 #mi-recorrido { scroll-margin-top: max(6rem, calc(env(safe-area-inset-top) + 5.2rem)); }
 body.is-church-journey .home-menu.is-split:not(.is-hud) {
   left: max(env(safe-area-inset-left), var(--church-chrome-inset));

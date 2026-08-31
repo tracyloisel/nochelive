@@ -27,6 +27,15 @@ backdrops:
       mode: dark
       atmosphere: solemn
       accent: gold
+  - id: salt-lake-temple-dawn
+    image: media/hub/noche-hub-salt-lake-temple-light-landscape-v1.png
+    hero: hub.hero.salt-lake-temple-dawn
+    default_for_mode: true
+    tags: [coronas, reyes_y_profetas, kings_and_prophets, reyes, profetas, peaceful, royal_light]
+    theme:
+      mode: light
+      atmosphere: glorious
+      accent: gold
   - id: royal-jerusalem-dawn
     image: home/royal-jerusalem-dawn-v1.png
     hero: media/hub/light/royal-jerusalem-hero-v1.png

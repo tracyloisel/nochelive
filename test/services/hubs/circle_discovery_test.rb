@@ -1,76 +1,80 @@
 require "test_helper"
 
 class Hubs::CircleDiscoveryTest < ActiveSupport::TestCase
-  PersonRef = Struct.new(:ward_id, keyword_init: true)
-  WardWithoutPosts = Struct.new(:id, :scripture_circle_mode, :readable, keyword_init: true) do
-    def scripture_circle_readable? = readable
-
-    # The Hub card is only a door to the Circle. It must not query, count, or
-    # serialize community posts to make a promotional preview.
-    def scripture_circle_posts
-      raise "CircleDiscovery must not inspect community posts"
-    end
+  setup do
+    @ward = wards(:demo)
+    @ward.update!(scripture_circle_mode: "active")
+    @ward.scripture_circle_posts.delete_all
+    @ward.scripture_circle_threads.delete_all
+    @person = people(:pili)
+    @author = people(:carmen_garcia)
   end
 
-  test "returns a same-ward active Circle doorway with the approved light artwork" do
-    ward = WardWithoutPosts.new(id: 42, scripture_circle_mode: "active", readable: true)
-
-    card = Hubs::CircleDiscovery.call(
-      person: PersonRef.new(ward_id: 42),
-      ward:,
-      theme: :light
-    )
+  test "returns a same-ward Circle doorway with a quiet activity state" do
+    card = discover(theme: :light)
 
     assert_equal :active, card.state
     assert_equal Rails.application.routes.url_helpers.scripture_circle_path, card.path
     assert_equal "scripture_circle.backdrop.light", card.artwork
+    assert_equal 0, card.activity.threads
+    assert_equal 0, card.activity.replies
+    assert_not card.activity.present?
+  end
+
+  test "summarizes only visible activity from active threads in the last seven days" do
+    recent_root = create_post(body: "Une question récente", at: 2.days.ago)
+    recent_reply = create_post(body: "Une réponse récente", kind: "reply", parent: recent_root, at: 1.day.ago)
+    create_post(body: "Une ancienne question", at: 8.days.ago)
+    hidden = create_post(body: "Un message masqué", at: 3.hours.ago)
+    hidden.update!(status: "community_censored")
+    archived = create_post(body: "Une discussion archivée", reference: "ot/ps/51", at: 2.hours.ago)
+    archived.scripture_circle_thread.update!(status: "archived")
+
+    card = discover
+
+    assert_equal 1, card.activity.threads
+    assert_equal 1, card.activity.replies
+    assert_equal recent_reply.created_at.to_i, card.activity.last_at.to_i
+    assert_predicate card.activity, :present?
   end
 
   test "keeps read-only Circle accessible and safely defaults an unknown theme to dark" do
-    ward = WardWithoutPosts.new(id: 42, scripture_circle_mode: "read_only", readable: true)
+    @ward.update!(scripture_circle_mode: "read_only")
 
-    card = Hubs::CircleDiscovery.call(
-      person: PersonRef.new(ward_id: 42),
-      ward:,
-      theme: "celestial"
-    )
+    card = discover(theme: "celestial")
 
     assert_equal :read_only, card.state
     assert_equal "scripture_circle.backdrop.dark", card.artwork
   end
 
   test "fails closed for visitors, another ward, or a disabled Circle" do
-    readable_ward = WardWithoutPosts.new(id: 42, scripture_circle_mode: "active", readable: true)
-    disabled_ward = WardWithoutPosts.new(id: 42, scripture_circle_mode: "disabled", readable: false)
+    assert_nil Hubs::CircleDiscovery.call(person: nil, ward: @ward, theme: :dark)
 
-    assert_nil Hubs::CircleDiscovery.call(person: nil, ward: readable_ward, theme: :dark)
-    assert_nil Hubs::CircleDiscovery.call(person: PersonRef.new(ward_id: 99), ward: readable_ward, theme: :dark)
-    assert_nil Hubs::CircleDiscovery.call(person: PersonRef.new(ward_id: 42), ward: disabled_ward, theme: :dark)
-    assert_nil Hubs::CircleDiscovery.call(person: PersonRef.new(ward_id: 42), ward: nil, theme: :dark)
-  end
+    other_person = Struct.new(:ward_id).new(@ward.id + 1)
+    assert_nil Hubs::CircleDiscovery.call(person: other_person, ward: @ward, theme: :dark)
 
-  test "does not perform database work or expose a post preview" do
-    ward = WardWithoutPosts.new(id: 42, scripture_circle_mode: "active", readable: true)
-
-    queries = sql_queries do
-      card = Hubs::CircleDiscovery.call(
-        person: PersonRef.new(ward_id: 42),
-        ward:,
-        theme: :dark
-      )
-      assert_equal "scripture_circle.backdrop.dark", card.artwork
-    end
-    assert_equal 0, queries
+    @ward.update!(scripture_circle_mode: "disabled")
+    assert_nil discover
+    assert_nil Hubs::CircleDiscovery.call(person: @person, ward: nil, theme: :dark)
   end
 
   private
 
-    def sql_queries(&block)
-      count = 0
-      callback = lambda do |_name, _start, _finish, _id, payload|
-        count += 1 unless payload[:cached] || payload[:name].in?(%w[SCHEMA TRANSACTION])
+    def discover(theme: :dark)
+      Hubs::CircleDiscovery.call(person: @person, ward: @ward, theme:)
+    end
+
+    def create_post(body:, at:, kind: "question", parent: nil, reference: "ot/ps/52")
+      thread = @ward.scripture_circle_threads.find_or_create_by!(reference:)
+      travel_to(at) do
+        thread.scripture_circle_posts.create!(
+          ward: @ward,
+          person: @author,
+          kind:,
+          parent:,
+          locale: "fr",
+          body:
+        )
       end
-      ActiveSupport::Notifications.subscribed(callback, "sql.active_record", &block)
-      count
     end
 end

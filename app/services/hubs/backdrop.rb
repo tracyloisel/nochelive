@@ -51,6 +51,7 @@ module Hubs
       def weekly
         list = themed_entries
         return if list.empty?
+        return list.find { |row| row["default_for_mode"] } || list.first if @mode
 
         list[(@at.to_date.cweek - 1) % list.size]
       end

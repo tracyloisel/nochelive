@@ -1,6 +1,7 @@
 <% live = local_assigns[:live] %>
 <% event_cards = Array(local_assigns[:events]).first(2) %>
 <% circle = local_assigns[:circle] %>
+<% duel_summary = local_assigns[:duel_summary] %>
 
 <section class="hub-rama-carousel hub-rama-block" aria-labelledby="hub-rama-title">
   <header class="hub-rama-carousel__head hub-rama-block__head">
@@ -67,18 +68,33 @@
     <% end %>
 
     <% if circle.present? %>
+      <% circle_has_news = circle.activity&.present? %>
       <%= link_to circle.path,
-            class: "hub-rama-card hub-rama-card--circle hub-rama-event hub-rama-event--circle is-#{circle.state}",
+            class: "hub-rama-card hub-rama-card--circle hub-rama-event hub-rama-event--circle is-#{circle.state} #{'has-news' if circle_has_news}",
             role: "listitem",
-            aria: { label: t("hub.rama.circle_card_label") } do %>
+            aria: { label: circle_has_news ? t("hub.rama.circle_activity_label", threads: circle.activity.threads, replies: circle.activity.replies) : t("hub.rama.circle_card_label") } do %>
         <span class="hub-rama-event__art" aria-hidden="true">
           <%= noche_picture("hub.card.circle-study", role: :hub_card, alt: "", loading: "lazy") || noche_picture(circle.artwork, role: :hub_backdrop, alt: "", loading: "lazy") %>
         </span>
         <span class="hub-rama-event__scrim" aria-hidden="true"></span>
         <span class="hub-rama-event__copy">
-          <span class="hub-rama-event__kicker"><%= t("hub.rama.circle_kicker") %></span>
+          <span class="hub-rama-event__kicker"><%= t(circle_has_news ? "hub.rama.circle_news_kicker" : "hub.rama.circle_kicker") %></span>
           <strong><%= t("scripture_circle.hub_link") %></strong>
-          <span class="hub-rama-event__detail"><%= t("hub.rama.circle_body") %></span>
+          <% if circle_has_news %>
+            <span class="hub-rama-circle-freshness"><span aria-hidden="true"></span><%= t("hub.rama.circle_last_activity", time: l(circle.activity.last_at, format: :short)) %></span>
+            <dl class="hub-rama-circle-activity" aria-label="<%= t("hub.rama.circle_activity_heading") %>">
+              <div>
+                <dt><%= circle.activity.threads %></dt>
+                <dd><%= t("hub.rama.circle_threads", count: circle.activity.threads) %></dd>
+              </div>
+              <div>
+                <dt><%= circle.activity.replies %></dt>
+                <dd><%= t("hub.rama.circle_replies", count: circle.activity.replies) %></dd>
+              </div>
+            </dl>
+          <% else %>
+            <span class="hub-rama-event__detail"><%= t("hub.rama.circle_body") %></span>
+          <% end %>
           <% if circle.state == :read_only %>
             <span class="hub-rama-event__meta"><%= t("scripture_circle.state.read_only") %></span>
           <% end %>
@@ -92,13 +108,17 @@
           role: "listitem",
           aria: { label: t("duel_campus.title") } do %>
       <span class="hub-rama-event__art" aria-hidden="true">
-        <%= noche_media_picture("media/challenges/david_goliath/slides/01.jpg", alt: "", loading: "lazy") %>
+        <%= noche_media_picture("media/social/campus-scriptures-celestial-dark-v1.png", alt: "", loading: "lazy") %>
       </span>
       <span class="hub-rama-event__scrim" aria-hidden="true"></span>
       <span class="hub-rama-event__copy">
         <span class="hub-rama-event__kicker"><%= t("duel_campus.kicker") %></span>
         <strong><%= t("duel_campus.title") %></strong>
-        <span class="hub-rama-event__detail"><%= t("hub_menu.invite_friend_hint") %></span>
+        <dl class="hub-rama-challenge-counts" aria-label="<%= t("duel_campus.summary") %>">
+          <div><dt><%= duel_summary&.crowns.to_i %></dt><dd><%= t("duel_campus.counts.crowns") %></dd></div>
+          <div><dt><%= duel_summary&.active.to_i %></dt><dd><%= t("duel_campus.counts.active", count: duel_summary&.active.to_i) %></dd></div>
+          <div><dt><%= duel_summary&.incoming.to_i %></dt><dd><%= t("duel_campus.counts.incoming", count: duel_summary&.incoming.to_i) %></dd></div>
+        </dl>
         <span class="hub-rama-event__action"><%= t("hub.now.challenge_open") %><%= picto("arrow") %></span>
       </span>
     <% end %>

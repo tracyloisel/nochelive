@@ -981,6 +981,41 @@ body.is-street-hub:has(.home-menu.is-hud) .street-world.is-game-hub {
 }
 .hub-play-form { flex: 0 0 auto; width: auto; margin: 0; }
 .hub-play-form .hub-play { width: auto; }
+
+.hub-hero-league {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.3rem 0.55rem;
+  margin: 0;
+  padding: 0.42rem 0.72rem;
+  border: 1px solid color-mix(in srgb, var(--gold-primary) 34%, transparent);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--surface-secondary) 52%, transparent);
+  color: var(--text-secondary);
+  font-size: var(--type-min);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  line-height: 1.2;
+  -webkit-backdrop-filter: blur(9px);
+  backdrop-filter: blur(9px);
+}
+
+.hub-hero-league .picto {
+  width: 0.95rem;
+  height: 0.95rem;
+  color: var(--gold-primary);
+  flex: 0 0 auto;
+}
+
+.hub-hero-league strong {
+  color: var(--text-primary);
+  font-variant-numeric: tabular-nums;
+  text-transform: none;
+  letter-spacing: 0;
+  font-weight: 800;
+}
+
 .hub-reward {
   --hub-reward-surface: color-mix(in srgb, var(--surface-primary) 86%, transparent);
   --hub-reward-edge: color-mix(in srgb, var(--gold-highlight) 58%, transparent);
@@ -3031,6 +3066,7 @@ body.is-game-hub-page.is-celestial-light .navigation-dock {
   }
 
   .street-world.is-game-hub[data-hub-theme] .hub-streaming-feed--editorial .hub-slide-copy-top {
+    display: flex;
     gap: 0.55rem;
     max-width: min(100%, 22rem);
   }
@@ -3200,7 +3236,9 @@ body.is-game-hub-page.is-celestial-light .navigation-dock {
 
 @media (prefers-reduced-motion: reduce) {
   .street-world.is-game-hub .hub-slide-still,
-  .street-world.is-game-hub .hub-play {
+  .street-world.is-game-hub .hub-play,
+  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-rama-card,
+  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-rama-event__art img {
     animation: none !important;
     transition: none !important;
     transform: none !important;
@@ -3224,17 +3262,92 @@ body.is-street-hub:has(.home-menu.is-hud) .street-world.is-game-hub:has([data-hu
   width: 100%;
   max-width: none;
   padding: 0 0 var(--street-hub-dock-clearance);
-  background: #020a14;
+  background: var(--hub-background, var(--surface-primary));
 }
 
 .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] {
+  /* One semantic material system drives both worlds.  The shared anatomy is
+     intentionally identical; only the authored light and depth of the world
+     changes below.  This prevents Celestial Light from inheriting a Dark
+     base layer and then fighting it with late overrides. */
+  --hub-cinematic-field: var(--surface-primary);
+  --hub-cinematic-ink: var(--text-primary);
+  --hub-cinematic-muted: var(--text-secondary);
+  --hub-cinematic-rim: var(--border-gold);
+  --hub-cinematic-pane: color-mix(in srgb, var(--surface-glass) 88%, transparent);
+  --hub-cinematic-pane-strong: var(--surface-secondary);
+  --hub-cinematic-card: var(--surface-secondary);
+  --hub-cinematic-card-ink: var(--text-primary);
+  --hub-cinematic-card-muted: var(--text-secondary);
+  --hub-cinematic-shadow: var(--shadow-card);
+  --hub-cinematic-copy-pane: var(--surface-glass);
+  --hub-cinematic-copy-border: var(--border-primary);
+  --hub-cinematic-copy-shadow: var(--shadow-card);
+  --hub-cinematic-hero-scrim: var(--hub-editorial-hero-scrim);
+  --hub-cinematic-mobile-hero-scrim: var(--hub-editorial-hero-scrim);
+  --hub-cinematic-rail-field: var(--surface-secondary);
+  --hub-cinematic-card-scrim: linear-gradient(180deg, transparent 30%, color-mix(in srgb, var(--surface-primary) 52%, transparent) 59%, var(--surface-primary) 100%);
   width: 100%;
   max-width: none;
   gap: 0;
   padding: 0 0 var(--street-hub-dock-clearance);
-  background: #020a14;
-  color: #f0e7d8;
+  background: var(--hub-cinematic-field);
+  color: var(--hub-cinematic-ink);
   scroll-padding-top: 0;
+}
+
+.street-world.is-game-hub[data-hub-theme="dark"] [data-hub-layout="hero-rama-carousel"] {
+  --hub-cinematic-field: var(--hub-dark-abyss);
+  --hub-cinematic-ink: var(--hub-dark-cream);
+  --hub-cinematic-muted: color-mix(in srgb, var(--hub-dark-cream) 76%, transparent);
+  --hub-cinematic-rim: color-mix(in srgb, var(--gold-primary) 56%, transparent);
+  --hub-cinematic-pane: color-mix(in srgb, var(--hub-dark-glass) 88%, transparent);
+  --hub-cinematic-pane-strong: color-mix(in srgb, var(--hub-dark-panel) 82%, transparent);
+  --hub-cinematic-card: color-mix(in srgb, var(--hub-dark-depth) 92%, transparent);
+  --hub-cinematic-card-ink: var(--hub-dark-cream);
+  --hub-cinematic-card-muted: color-mix(in srgb, var(--hub-dark-cream) 76%, transparent);
+  --hub-cinematic-copy-pane: color-mix(in srgb, var(--hub-dark-glass) 82%, transparent);
+  --hub-cinematic-copy-border: color-mix(in srgb, var(--hub-dark-pearl-edge) 23%, transparent);
+  --hub-cinematic-copy-shadow: var(--hub-dark-elevation-2);
+  --hub-cinematic-hero-scrim: var(--hub-dark-hero-scrim);
+  --hub-cinematic-mobile-hero-scrim:
+    linear-gradient(90deg, color-mix(in srgb, var(--hub-dark-abyss) 66%, transparent) 0%, color-mix(in srgb, var(--hub-dark-depth) 20%, transparent) 52%, transparent 74%),
+    linear-gradient(180deg, transparent 36%, color-mix(in srgb, var(--hub-dark-abyss) 54%, transparent) 74%, color-mix(in srgb, var(--hub-dark-abyss) 90%, transparent) 100%);
+  --hub-cinematic-rail-field:
+    linear-gradient(180deg, color-mix(in srgb, var(--hub-dark-abyss) 24%, transparent), var(--hub-dark-abyss) 22rem, var(--hub-dark-depth) 100%);
+  --hub-cinematic-card-scrim:
+    linear-gradient(180deg, transparent 26%, color-mix(in srgb, var(--hub-dark-abyss) 48%, transparent) 60%, color-mix(in srgb, var(--hub-dark-abyss) 97%, transparent) 100%),
+    linear-gradient(90deg, color-mix(in srgb, var(--hub-dark-abyss) 42%, transparent), transparent 68%);
+}
+
+.street-world.is-game-hub[data-hub-theme="light"] [data-hub-layout="hero-rama-carousel"] {
+  --hub-cinematic-field: var(--hub-light-pearl);
+  --hub-cinematic-ink: var(--hub-light-type-on-paper-primary);
+  --hub-cinematic-muted: var(--hub-light-type-on-paper-secondary);
+  --hub-cinematic-rim: color-mix(in srgb, var(--hub-light-gold-deep) 58%, transparent);
+  --hub-cinematic-pane: color-mix(in srgb, var(--hub-light-ivory) 68%, transparent);
+  --hub-cinematic-pane-strong: color-mix(in srgb, var(--hub-light-ivory) 84%, transparent);
+  /* Photography keeps a local night panel so its story remains legible; the
+     surrounding Light world stays airy rather than becoming navy. */
+  --hub-cinematic-card: color-mix(in srgb, var(--hub-light-ink) 91%, transparent);
+  --hub-cinematic-card-ink: var(--hub-light-ivory);
+  --hub-cinematic-card-muted: color-mix(in srgb, var(--hub-light-ivory) 78%, transparent);
+  --hub-cinematic-copy-pane: color-mix(in srgb, var(--hub-light-ivory) 82%, transparent);
+  --hub-cinematic-copy-border: color-mix(in srgb, var(--hub-light-ink) 17%, transparent);
+  --hub-cinematic-copy-shadow:
+    0 18px 46px color-mix(in srgb, var(--hub-light-ink) 16%, transparent),
+    inset 0 1px 0 color-mix(in srgb, white 82%, transparent);
+  --hub-cinematic-hero-scrim:
+    linear-gradient(90deg, color-mix(in srgb, var(--hub-light-ivory) 34%, transparent) 0%, color-mix(in srgb, var(--hub-light-ivory) 11%, transparent) 43%, transparent 72%),
+    linear-gradient(0deg, color-mix(in srgb, var(--hub-light-ink) 18%, transparent), transparent 44%);
+  --hub-cinematic-mobile-hero-scrim:
+    linear-gradient(90deg, color-mix(in srgb, var(--hub-light-ivory) 22%, transparent) 0%, transparent 62%),
+    linear-gradient(180deg, transparent 36%, color-mix(in srgb, var(--hub-light-ink) 17%, transparent) 73%, color-mix(in srgb, var(--hub-light-ink) 38%, transparent) 100%);
+  --hub-cinematic-rail-field:
+    linear-gradient(180deg, color-mix(in srgb, var(--hub-light-ivory) 18%, transparent), var(--hub-light-pearl) 22rem, var(--hub-light-ivory) 100%);
+  --hub-cinematic-card-scrim:
+    linear-gradient(180deg, transparent 26%, color-mix(in srgb, var(--hub-light-ink) 48%, transparent) 60%, color-mix(in srgb, var(--hub-light-ink) 97%, transparent) 100%),
+    linear-gradient(90deg, color-mix(in srgb, var(--hub-light-ink) 42%, transparent), transparent 68%);
 }
 
 .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] > .hub-hero {
@@ -3246,7 +3359,7 @@ body.is-street-hub:has(.home-menu.is-hud) .street-world.is-game-hub:has([data-hu
 .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] :is(.hub-hero-stage, .hub-voyage, .hub-slide) {
   border: 0;
   border-radius: 0;
-  background: #020a14;
+  background: var(--hub-cinematic-field);
   box-shadow: none;
 }
 
@@ -3263,22 +3376,19 @@ body.is-street-hub:has(.home-menu.is-hud) .street-world.is-game-hub:has([data-hu
 }
 
 .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-hero--themed .hub-slide::after {
-  background:
-    radial-gradient(ellipse 62% 118% at -6% 52%, rgba(1, 7, 16, 0.97) 0%, rgba(1, 7, 16, 0.72) 56%, transparent 88%),
-    linear-gradient(90deg, rgba(1, 7, 16, 0.72) 0%, rgba(1, 7, 16, 0.32) 43%, transparent 69%),
-    linear-gradient(0deg, rgba(1, 7, 16, 0.82) 0%, rgba(1, 7, 16, 0.15) 38%, transparent 64%);
+  background: var(--hub-cinematic-hero-scrim);
 }
 
 .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-slide-copy {
   padding: 0;
-  color: #f0e7d8;
+  color: var(--hub-cinematic-ink);
 }
 
 .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-hero-title,
 .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-hero-name,
 .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-hero-lede {
-  color: #f0e7d8;
-  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.62);
+  color: var(--hub-cinematic-ink);
+  text-shadow: 0 2px 18px color-mix(in srgb, var(--hub-cinematic-field) 42%, transparent);
 }
 
 .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-hero-progress {
@@ -3289,10 +3399,10 @@ body.is-street-hub:has(.home-menu.is-hud) .street-world.is-game-hub:has([data-hu
   width: min(350px, calc(100vw - 32px));
   min-height: 68px;
   padding: 9px 14px 9px 10px;
-  border: 1px solid rgba(213, 178, 107, 0.2);
+  border: 1px solid color-mix(in srgb, var(--hub-cinematic-rim) 58%, transparent);
   border-radius: 10px;
-  background: linear-gradient(135deg, rgba(7, 17, 31, 0.78), rgba(2, 10, 20, 0.48));
-  box-shadow: inset 0 1px 0 rgba(255, 240, 203, 0.04), 0 12px 30px rgba(0, 0, 0, 0.2);
+  background: linear-gradient(135deg, var(--hub-cinematic-pane-strong), var(--hub-cinematic-pane));
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--hub-cinematic-ink) 9%, transparent), 0 12px 30px color-mix(in srgb, var(--hub-cinematic-field) 22%, transparent);
   -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
 }
@@ -3302,46 +3412,164 @@ body.is-street-hub:has(.home-menu.is-hud) .street-world.is-game-hub:has([data-hu
   place-items: center;
   width: 48px;
   height: 48px;
-  border: 2px solid #cfa85f;
+  border: 2px solid var(--hub-cinematic-rim);
   border-radius: 50%;
-  color: #e4bf75;
-  background: radial-gradient(circle at 50% 30%, rgba(225, 189, 113, 0.16), rgba(2, 10, 20, 0.78));
-  box-shadow: 0 0 18px rgba(212, 168, 87, 0.15), inset 0 0 0 3px rgba(1, 7, 16, 0.72);
+  color: var(--gold-primary);
+  background: radial-gradient(circle at 50% 30%, color-mix(in srgb, var(--gold-highlight) 18%, transparent), var(--hub-cinematic-pane-strong));
+  box-shadow: 0 0 18px color-mix(in srgb, var(--gold-primary) 16%, transparent), inset 0 0 0 3px color-mix(in srgb, var(--hub-cinematic-field) 72%, transparent);
 }
 
 .hub-hero-progress__emblem .picto { width: 25px; height: 25px; }
 .hub-hero-progress__body { display: grid; gap: 7px; min-width: 0; }
 .hub-hero-progress__label {
+  display: -webkit-box;
   overflow: hidden;
-  color: #e7ddcd;
+  color: var(--hub-cinematic-ink);
   font-size: 12px;
   font-weight: 760;
   letter-spacing: 0.055em;
   line-height: 1.1;
-  text-overflow: ellipsis;
   text-transform: uppercase;
-  white-space: nowrap;
+  overflow-wrap: anywhere;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
 }
 .hub-hero-progress__rail {
   display: block;
   height: 7px;
   overflow: hidden;
-  border: 1px solid rgba(220, 186, 116, 0.2);
+  border: 1px solid color-mix(in srgb, var(--hub-cinematic-rim) 56%, transparent);
   border-radius: 999px;
-  background: rgba(2, 8, 17, 0.74);
+  background: color-mix(in srgb, var(--hub-cinematic-field) 74%, transparent);
 }
 .hub-hero-progress__rail i {
   display: block;
   min-width: 4px;
   height: 100%;
   border-radius: inherit;
-  background: linear-gradient(90deg, #ad8036, #f2ca70 60%, #d4a758);
-  box-shadow: 0 0 10px rgba(242, 202, 112, 0.42);
+  background: var(--button-primary);
+  box-shadow: 0 0 10px color-mix(in srgb, var(--gold-highlight) 42%, transparent);
 }
 .hub-hero-progress > strong {
-  color: #e3d9c8;
+  color: var(--hub-cinematic-ink);
   font: 700 14px/1 var(--font-ui);
   font-variant-numeric: tabular-nums;
+}
+
+/* One competitive cockpit: progress and the primary action share a baseline;
+   the league pulse underneath is factual, compact, and never impersonates a
+   notification feed when the ward has no recent scores. */
+.street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-hero-actions {
+  display: grid;
+  align-items: stretch;
+  gap: 9px;
+}
+
+.hub-hero-cockpit__row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: stretch;
+  gap: 9px;
+}
+
+.street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-hero-cockpit__row > :is(.hub-play, .hub-play-form),
+.street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-hero-cockpit__row .hub-play,
+.street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-hero-cockpit__row .hub-hero-progress {
+  width: 100%;
+  height: 100%;
+  min-height: 68px;
+}
+
+.hub-hero-league-panel {
+  display: grid;
+  grid-template-columns: minmax(205px, 0.78fr) minmax(0, 1.55fr);
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--hub-cinematic-rim) 62%, transparent);
+  border-radius: 9px;
+  background: linear-gradient(100deg, var(--hub-cinematic-pane-strong), var(--hub-cinematic-pane));
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--hub-cinematic-ink) 9%, transparent), 0 12px 28px color-mix(in srgb, var(--hub-cinematic-field) 20%, transparent);
+  -webkit-backdrop-filter: blur(13px);
+  backdrop-filter: blur(13px);
+}
+
+.street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-hero-league {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 9px;
+  min-width: 0;
+  min-height: 54px;
+  margin: 0;
+  padding: 7px 12px;
+  border: 0;
+  border-right: 1px solid color-mix(in srgb, var(--hub-cinematic-rim) 48%, transparent);
+  border-radius: 0;
+  background: color-mix(in srgb, var(--hub-cinematic-pane-strong) 64%, transparent);
+  color: var(--hub-cinematic-ink);
+  text-decoration: none;
+}
+
+.hub-hero-league__rank {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--gold-primary);
+  font-variant-numeric: tabular-nums;
+}
+.hub-hero-league__rank strong { font: 750 18px/1 var(--font-display); }
+.hub-hero-league__copy { display: grid; min-width: 0; gap: 2px; }
+.hub-hero-league__copy b,
+.hub-hero-league__copy small {
+  overflow-wrap: anywhere;
+}
+.hub-hero-league__copy b { color: var(--hub-cinematic-ink); font-size: 11px; letter-spacing: 0.04em; }
+.hub-hero-league__copy small { color: var(--hub-cinematic-muted); font-size: 10px; }
+.hub-hero-league > .picto-arrow { width: 15px; height: 15px; color: var(--gold-primary); }
+
+.hub-hero-gains {
+  display: flex;
+  align-items: stretch;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  overflow-x: auto;
+  list-style: none;
+  scrollbar-width: none;
+}
+.hub-hero-gains::-webkit-scrollbar { display: none; }
+.hub-hero-gains li {
+  display: grid;
+  grid-template-columns: auto minmax(max-content, 1fr);
+  grid-template-rows: 1fr 1fr;
+  align-items: center;
+  column-gap: 7px;
+  min-width: 150px;
+  padding: 7px 11px;
+  color: var(--hub-cinematic-muted);
+  font-size: 10px;
+}
+.hub-hero-gains li + li { border-left: 1px solid color-mix(in srgb, var(--hub-cinematic-rim) 42%, transparent); }
+.hub-hero-gain__avatar {
+  grid-row: 1 / -1;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border: 1px solid color-mix(in srgb, var(--gold-primary) 52%, transparent);
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 25%, color-mix(in srgb, var(--gold-highlight) 24%, transparent), var(--hub-cinematic-pane-strong));
+  color: var(--gold-primary);
+  font: 700 13px/1 var(--font-display);
+}
+.hub-hero-gains li strong { color: var(--hub-cinematic-ink); font-weight: 750; }
+.hub-hero-gains time { color: var(--hub-cinematic-muted); font-size: 9px; }
+.hub-hero-gains-empty {
+  align-self: center;
+  margin: 0;
+  padding: 10px 14px;
+  color: var(--hub-cinematic-muted);
+  font-size: 11px;
 }
 
 /* Horizontal Rama deck --------------------------------------------------- */
@@ -3352,7 +3580,7 @@ body.is-street-hub:has(.home-menu.is-hud) .street-world.is-game-hub:has([data-hu
   min-width: 0;
   width: 100%;
   margin: 0;
-  color: #eee4d5;
+  color: var(--hub-cinematic-ink);
 }
 
 .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-rama-carousel__head {
@@ -3364,16 +3592,16 @@ body.is-street-hub:has(.home-menu.is-hud) .street-world.is-game-hub:has([data-hu
   align-items: center;
   gap: 8px;
   margin: 0;
-  color: #eee4d5;
+  color: var(--hub-cinematic-ink);
   font: 600 28px/1.1 var(--font-display);
   letter-spacing: -0.015em;
-  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.58);
+  text-shadow: 0 2px 14px color-mix(in srgb, var(--hub-cinematic-field) 32%, transparent);
 }
 
 .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-rama-carousel__head .picto {
   width: 15px;
   height: 15px;
-  color: #d3a858;
+  color: var(--gold-primary);
 }
 
 .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-rama-carousel__track {
@@ -3396,17 +3624,20 @@ body.is-street-hub:has(.home-menu.is-hud) .street-world.is-game-hub:has([data-hu
   min-width: 0;
   overflow: hidden;
   scroll-snap-align: start;
-  border: 1px solid rgba(210, 178, 113, 0.32);
+  border: 1px solid color-mix(in srgb, var(--hub-cinematic-rim) 72%, transparent);
   border-radius: 8px;
-  background: #07101c;
-  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.34), inset 0 1px 0 rgba(255, 241, 211, 0.04);
-  color: #e8dfd1;
+  background: var(--hub-cinematic-card);
+  box-shadow: 0 18px 48px color-mix(in srgb, var(--hub-cinematic-field) 30%, transparent), inset 0 1px 0 color-mix(in srgb, var(--hub-cinematic-card-ink) 7%, transparent);
+  color: var(--hub-cinematic-card-ink);
   text-decoration: none;
+  transition: border-color 180ms ease, box-shadow 180ms ease;
 }
 
 .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-rama-card:focus-visible {
-  outline: 3px solid #e6ba65;
-  outline-offset: 3px;
+  outline: 3px solid var(--gold-highlight);
+  outline-offset: -4px;
+  border-color: color-mix(in srgb, var(--gold-highlight) 86%, transparent);
+  box-shadow: 0 18px 48px color-mix(in srgb, var(--hub-cinematic-field) 30%, transparent), inset 0 0 0 2px color-mix(in srgb, var(--gold-highlight) 24%, transparent);
 }
 
 .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-rama-card--live .hub-live {
@@ -3420,7 +3651,7 @@ body.is-street-hub:has(.home-menu.is-hud) .street-world.is-game-hub:has([data-hu
   border-radius: inherit;
   background: transparent;
   box-shadow: none;
-  color: #efe7da;
+  color: var(--hub-cinematic-card-ink);
   -webkit-backdrop-filter: none;
   backdrop-filter: none;
 }
@@ -3440,9 +3671,7 @@ body.is-street-hub:has(.home-menu.is-hud) .street-world.is-game-hub:has([data-hu
 .hub-live-art img { object-fit: cover; object-position: 63% 38%; }
 .hub-live-scrim {
   z-index: 1 !important;
-  background:
-    linear-gradient(180deg, rgba(2, 8, 16, 0.02) 28%, rgba(2, 8, 16, 0.42) 62%, rgba(2, 8, 16, 0.94) 100%),
-    linear-gradient(90deg, rgba(2, 8, 16, 0.5), transparent 65%);
+  background: var(--hub-cinematic-card-scrim);
 }
 .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-live > :not(.hub-live-art, .hub-live-scrim) {
   position: relative;
@@ -3461,21 +3690,21 @@ body.is-street-hub:has(.home-menu.is-hud) .street-world.is-game-hub:has([data-hu
 }
 .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-live-head { display: grid; gap: 4px; }
 .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-live .hub-kicker {
-  color: #e2bb70;
+  color: var(--gold-primary);
   font-size: 11px;
   letter-spacing: 0.13em;
 }
 .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-live-special,
 .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-live-ward-title {
   margin: 0;
-  color: #f0e7d8;
+  color: var(--hub-cinematic-card-ink);
   font: 700 clamp(24px, 2.2vw, 32px)/0.98 var(--font-display);
-  text-shadow: 0 2px 15px rgba(0, 0, 0, 0.72);
+  text-shadow: 0 2px 15px color-mix(in srgb, var(--hub-cinematic-field) 72%, transparent);
 }
 .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-live-when,
 .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-live-empty {
   margin: 0;
-  color: rgba(239, 230, 216, 0.78);
+  color: var(--hub-cinematic-card-muted);
   font-size: 13px;
   line-height: 1.3;
 }
@@ -3489,10 +3718,10 @@ body.is-street-hub:has(.home-menu.is-hud) .street-world.is-game-hub:has([data-hu
   min-height: 44px;
   margin: 0;
   padding: 0 10px;
-  border: 1px solid rgba(214, 181, 115, 0.22);
+  border: 1px solid color-mix(in srgb, var(--hub-cinematic-rim) 56%, transparent);
   border-radius: 7px;
-  background: rgba(5, 11, 20, 0.62);
-  color: #e9dfcf;
+  background: color-mix(in srgb, var(--hub-cinematic-card) 76%, transparent);
+  color: var(--hub-cinematic-card-ink);
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
 }
@@ -3501,20 +3730,21 @@ body.is-street-hub:has(.home-menu.is-hud) .street-world.is-game-hub:has([data-hu
   display: block;
   min-height: 0;
   border-radius: 8px;
-  background: #07101c;
-  color: #e8dfd1;
+  background: var(--hub-cinematic-card);
+  color: var(--hub-cinematic-card-ink);
 }
 .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-rama-event__art img {
   object-position: 50% 45%;
+  transition: transform 420ms cubic-bezier(0.2, 0.75, 0.25, 1);
 }
 .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-rama-event__scrim {
-  background: linear-gradient(180deg, transparent 30%, rgba(3, 9, 17, 0.52) 59%, rgba(3, 9, 17, 0.98) 100%);
+  background: var(--hub-cinematic-card-scrim);
 }
 .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-rama-event__copy {
   justify-content: flex-end;
   gap: 7px;
   padding: 16px;
-  color: #e8dfd1;
+  color: var(--hub-cinematic-card-ink);
 }
 .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-rama-event__kicker {
   position: absolute;
@@ -3522,139 +3752,211 @@ body.is-street-hub:has(.home-menu.is-hud) .street-world.is-game-hub:has([data-hu
   left: 14px;
   max-width: calc(100% - 28px);
   padding: 6px 9px;
-  border: 1px solid rgba(213, 182, 119, 0.24);
+  border: 1px solid color-mix(in srgb, var(--hub-cinematic-rim) 54%, transparent);
   border-radius: 5px;
-  background: rgba(5, 12, 22, 0.76);
-  color: #d9c5a1;
+  background: color-mix(in srgb, var(--hub-cinematic-card) 78%, transparent);
+  color: var(--hub-cinematic-card-muted);
   font-size: 10px;
   letter-spacing: 0.08em;
   -webkit-backdrop-filter: blur(9px);
   backdrop-filter: blur(9px);
 }
 .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-rama-event strong {
-  color: #f0e7da;
+  color: var(--hub-cinematic-card-ink);
   font: 650 clamp(22px, 2.4vw, 36px)/1.02 var(--font-display);
-  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.72);
+  text-shadow: 0 2px 16px color-mix(in srgb, var(--hub-cinematic-field) 72%, transparent);
 }
 .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] :is(.hub-rama-event__detail, .hub-rama-event__meta) {
-  color: rgba(234, 224, 208, 0.78);
+  color: var(--hub-cinematic-card-muted);
   font-size: 13px;
   line-height: 1.35;
 }
 .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-rama-event__action {
   min-height: 44px;
   margin-top: 7px;
-  color: #e4bb69;
+  color: var(--gold-primary);
   font-size: 12px;
 }
 
-/* Install is a deliberate utility after the rail, never a carousel slide. */
-.street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] > .hub-install--compact {
-  width: calc(100% - 80px);
-  max-width: 1360px;
-  margin: 32px auto 0;
-  border-color: rgba(211, 179, 112, 0.24);
-  background: linear-gradient(135deg, rgba(14, 25, 41, 0.92), rgba(5, 12, 23, 0.88));
-  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.28), inset 0 1px 0 rgba(255, 240, 206, 0.04);
+.street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-rama-card--challenge .hub-rama-event__art img {
+  object-position: 52% 44%;
 }
-.street-world.is-game-hub[data-hub-theme="light"] [data-hub-layout="hero-rama-carousel"] > .hub-install--compact {
-  border-color: rgba(116, 88, 41, 0.22);
-  background: linear-gradient(145deg, rgba(255, 252, 244, 0.98), rgba(235, 226, 209, 0.96));
-  box-shadow: 0 18px 42px rgba(27, 36, 50, 0.15), inset 0 1px 0 #fff;
+
+.hub-rama-circle-activity {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 2px 0 0;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--hub-cinematic-rim) 62%, transparent);
+  border-radius: 7px;
+  background: color-mix(in srgb, var(--hub-cinematic-card) 76%, transparent);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
 }
-.street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] > .hub-now {
-  width: calc(100% - 80px);
-  max-width: 1360px;
-  margin: 32px auto 0;
+
+.street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-rama-circle-activity,
+.street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-rama-challenge-counts {
+  margin-top: auto;
+}
+
+.hub-rama-circle-activity div {
+  display: grid;
+  align-content: center;
+  gap: 2px;
+  min-width: 0;
+  min-height: 54px;
+  padding: 5px 4px;
+  text-align: center;
+}
+
+.hub-rama-circle-activity div + div { border-left: 1px solid color-mix(in srgb, var(--hub-cinematic-rim) 46%, transparent); }
+.hub-rama-circle-activity dt {
+  color: var(--hub-cinematic-card-ink);
+  font: 800 16px/1 var(--font-ui);
+  font-variant-numeric: tabular-nums;
+}
+.hub-rama-circle-activity dd {
+  margin: 0;
+  color: var(--hub-cinematic-card-muted);
+  font: 700 8.5px/1.08 var(--font-ui);
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+.hub-rama-circle-freshness {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--hub-cinematic-card-muted);
+  font-size: 11px;
+  line-height: 1.25;
+}
+.hub-rama-circle-freshness > span {
+  width: 7px;
+  height: 7px;
+  flex: 0 0 7px;
+  border-radius: 50%;
+  background: var(--gold-primary);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--gold-primary) 12%, transparent), 0 0 12px color-mix(in srgb, var(--gold-primary) 50%, transparent);
+}
+
+.street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-rama-card--challenge .hub-rama-event__scrim {
+  background: var(--hub-cinematic-card-scrim);
+}
+
+.hub-rama-challenge-counts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 2px 0 0;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--hub-cinematic-rim) 62%, transparent);
+  border-radius: 7px;
+  background: color-mix(in srgb, var(--hub-cinematic-card) 74%, transparent);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+
+.hub-rama-challenge-counts div {
+  min-width: 0;
+  display: grid;
+  align-content: center;
+  gap: 2px;
+  min-height: 54px;
+  padding: 5px 4px;
+  text-align: center;
+}
+
+.hub-rama-challenge-counts div + div { border-left: 1px solid color-mix(in srgb, var(--hub-cinematic-rim) 46%, transparent); }
+
+.hub-rama-challenge-counts dt {
+  color: var(--hub-cinematic-card-ink);
+  font: 800 16px/1 var(--font-ui);
+  font-variant-numeric: tabular-nums;
+}
+
+.hub-rama-challenge-counts dd {
+  margin: 0;
+  color: var(--hub-cinematic-card-muted);
+  font: 700 8.5px/1.08 var(--font-ui);
+  text-transform: uppercase;
+  text-wrap: balance;
 }
 
 @media (max-width: 767px) {
-  .street-world.is-game-hub[data-hub-theme] .hub-streaming-feed--editorial[data-hub-layout="hero-rama-carousel"] :is(.hub-hero-stage, .hub-voyage, .hub-slide) {
-    height: clamp(350px, 93.333vw, 364px);
-    min-height: clamp(350px, 93.333vw, 364px);
+  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-hero-actions {
+    width: calc(100vw - 34px);
   }
+  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-hero-league-panel {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-hero-league {
+    border-right: 0;
+    border-bottom: 1px solid color-mix(in srgb, var(--hub-cinematic-rim) 48%, transparent);
+  }
+  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-hero-gains li {
+    min-width: 100%;
+  }
+  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-hero-gains li:not(:first-child) {
+    display: none;
+  }
+  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-hero-actions > .hub-reward {
+    display: none;
+  }
+
+  @media (max-width: 360px) {
+    .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-hero-cockpit__row > :is(.hub-play, .hub-play-form),
+    .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-hero-cockpit__row .hub-play,
+    .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-hero-cockpit__row .hub-hero-progress {
+      min-height: 58px;
+    }
+    .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-hero-gains {
+      display: none;
+    }
+    .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-hero-league-panel {
+      display: block;
+    }
+    .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-hero-lede {
+      display: none;
+    }
+  }
+
+  /* The hero-rama-carousel keeps the editorial full-screen hero on phone:
+     the pack title + lede + progress own the top, the gold Jouer is the
+     single verb at the bottom. The worldmark is desktop-only here so the
+     title does not compete with a second lockup. */
+  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-hero-worldmark { display: none; }
 
   .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-slide-still {
     object-position: 50% 27%;
   }
 
   .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-hero--themed .hub-slide::after {
-    background:
-      linear-gradient(90deg, rgba(2, 8, 17, 0.56) 0%, rgba(2, 8, 17, 0.12) 49%, transparent 72%),
-      linear-gradient(180deg, rgba(2, 8, 17, 0.05) 42%, rgba(2, 8, 17, 0.5) 78%, rgba(2, 8, 17, 0.9) 100%);
+    background: var(--hub-cinematic-mobile-hero-scrim);
   }
 
-  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-slide-copy-top { display: none; }
-
-  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-hero-worldmark {
-    top: clamp(132px, 39.2vw, 154px);
-    left: clamp(20px, 6vw, 24px);
-    display: grid;
-    gap: 0;
-    color: #f0d8b8;
-    filter: drop-shadow(0 4px 13px rgba(0, 0, 0, 0.72));
-  }
-  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-hero-worldmark strong {
-    font: 500 clamp(36px, 11vw, 43px)/0.9 var(--font-display);
-    letter-spacing: 0.07em;
-  }
-  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-hero-worldmark__sub {
-    margin-top: 11px;
-    padding-left: 4px;
-    color: #e4b65f;
-    font: 750 clamp(13px, 4vw, 16px)/1 var(--font-display);
-    letter-spacing: 0.25em;
-  }
-  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-hero-worldmark__tagline {
-    max-width: 150px;
-    margin-top: 26px;
-    padding: 0;
-    color: #f0dfc8;
-    font: 500 clamp(14px, 4vw, 16px)/1.25 var(--font-display);
-    letter-spacing: 0;
-    text-transform: none;
+  /* The play button aligns to the same gutter as the title copy and keeps
+     a compact, centered pill width — it must not read as a full-width bar. */
+  .street-world.is-game-hub[data-hub-theme] .hub-streaming-feed--editorial[data-hub-layout="hero-rama-carousel"] .hub-hero-actions {
+    align-items: flex-start;
+    justify-content: flex-start;
   }
 
-  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-hero-actions {
-    position: absolute;
-    right: 0;
-    bottom: 15px;
-    left: 0;
-    display: flex;
+  .street-world.is-game-hub[data-hub-theme] .hub-streaming-feed--editorial[data-hub-layout="hero-rama-carousel"] .hub-hero-actions > :is(.hub-play, .hub-play-form) {
+    width: min(100%, 15rem);
+  }
+
+  .street-world.is-game-hub[data-hub-theme] .hub-streaming-feed--editorial[data-hub-layout="hero-rama-carousel"] .hub-play {
     width: 100%;
-    min-height: 44px;
-    padding: 0;
-    justify-content: center;
+    inline-size: 100%;
+    min-height: 3.35rem;
+    padding-inline: clamp(1.1rem, 7vw, 1.6rem);
+    font-size: clamp(1.02rem, 4.6vw, 1.18rem);
+    letter-spacing: 0.06em;
   }
-  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-hero-actions > :is(.hub-play, .hub-play-form) {
-    width: min(243px, calc(100vw - 96px));
-  }
-  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-play-form { display: flex; }
-  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-play {
-    width: 100%;
-    min-width: 0;
-    min-height: 44px;
-    padding: 0 20px;
-    border-color: #e2bc6a;
-    font-size: 19px;
-    letter-spacing: 0.08em;
-    box-shadow: 0 4px 0 #9f752d, 0 0 24px rgba(232, 187, 91, 0.32), inset 0 1px 0 #ffe2a0;
-  }
-  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-play__seal {
-    position: absolute;
-    left: 18px;
-    border: 0;
-    background: transparent;
-  }
-  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-play__arrow,
-  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-reward,
-  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-hero-info,
-  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-dots { display: none; }
 
   .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] > .hub-rama-carousel {
     padding: 14px 0 23px;
     gap: 10px;
-    background: #020a14;
+    background: var(--hub-cinematic-rail-field);
   }
   .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-rama-carousel__head {
     padding: 0 17px;
@@ -3700,13 +4002,18 @@ body.is-street-hub:has(.home-menu.is-hud) .street-world.is-game-hub:has([data-hu
   }
 }
 
-@media (max-width: 380px) {
-  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-hero-worldmark {
+@media (min-width: 768px) and (max-width: 1199px) {
+  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-hero-actions > .hub-reward {
     display: none;
   }
-}
-
-@media (min-width: 768px) and (max-width: 1199px) {
+  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-hero-cockpit__row {
+    grid-template-columns: minmax(0, 1.55fr) minmax(220px, 0.8fr);
+  }
+  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-hero-cockpit__row > :is(.hub-play, .hub-play-form),
+  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-hero-cockpit__row .hub-play,
+  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-hero-cockpit__row .hub-hero-progress {
+    min-height: 72px;
+  }
   .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] :is(.hub-hero-stage, .hub-voyage, .hub-slide) {
     height: 54vw;
     min-height: 500px;
@@ -3716,10 +4023,14 @@ body.is-street-hub:has(.home-menu.is-hud) .street-world.is-game-hub:has([data-hu
     width: 360px;
     margin: 130px 0 0 48px;
   }
+  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-hero-actions {
+    justify-content: flex-start;
+    margin-left: 48px;
+  }
   .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-rama-carousel {
     gap: 14px;
     padding: 22px 0 34px;
-    background: #020a14;
+    background: var(--hub-cinematic-rail-field);
   }
   .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-rama-carousel__head { padding: 0 32px; }
   .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-rama-carousel__track {
@@ -3743,7 +4054,6 @@ body.is-street-hub:has(.home-menu.is-hud) .street-world.is-game-hub:has([data-hu
     object-position: 50% 50%;
   }
   .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-hero-worldmark,
-  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-dots,
   .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-hero-info { display: none; }
   .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-slide-copy-top {
     position: absolute;
@@ -3781,30 +4091,34 @@ body.is-street-hub:has(.home-menu.is-hud) .street-world.is-game-hub:has([data-hu
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
   }
-  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-hero-progress {
-    margin-top: 24px;
-  }
   .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-hero-actions {
     position: absolute;
-    top: clamp(372px, 42.2dvh, 456px);
-    left: clamp(424px, 30vw, 560px);
-    display: flex;
-    width: auto;
+    top: clamp(356px, 40dvh, 432px);
+    left: clamp(56px, 4.5vw, 86px);
+    width: min(1080px, calc(100vw - 112px));
+  }
+  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-hero-cockpit__row {
+    grid-template-columns: minmax(420px, 1.65fr) minmax(280px, 0.85fr);
+  }
+  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-hero-cockpit__row > :is(.hub-play, .hub-play-form),
+  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-hero-cockpit__row .hub-play,
+  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-hero-cockpit__row .hub-hero-progress {
+    min-height: 78px;
   }
   .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-hero-actions .hub-reward { display: none; }
   .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-play {
-    min-width: 144px;
-    min-height: 54px;
+    min-width: 0;
+    min-height: 78px;
     border-radius: 8px;
-    font-size: 17px;
+    font-size: 22px;
   }
 
   .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] > .hub-rama-carousel {
-    min-height: 48.5dvh;
-    margin-top: -48.5dvh;
+    min-height: 41.5dvh;
+    margin-top: -41.5dvh;
     padding: 15px 40px 53px;
     gap: 12px;
-    background: linear-gradient(0deg, rgba(2, 10, 20, 0.98) 0%, rgba(2, 10, 20, 0.38) 76%, transparent 100%);
+    background: var(--hub-cinematic-rail-field);
   }
   .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-rama-carousel__track {
     width: 100%;
@@ -3822,21 +4136,21 @@ body.is-street-hub:has(.home-menu.is-hud) .street-world.is-game-hub:has([data-hu
     width: 56%;
   }
   .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-rama-card--circle .hub-rama-event__scrim {
-    background: linear-gradient(90deg, transparent 40%, rgba(3, 9, 17, 0.22) 55%, #07101c 58%);
+    background: linear-gradient(90deg, transparent 40%, color-mix(in srgb, var(--hub-cinematic-card) 24%, transparent) 55%, var(--hub-cinematic-card) 58%);
   }
   .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-rama-card--circle .hub-rama-event__copy {
     width: 44%;
     min-height: 100%;
     margin-left: 56%;
     justify-content: center;
-    background: rgba(7, 16, 28, 0.96);
+    background: color-mix(in srgb, var(--hub-cinematic-card) 96%, transparent);
   }
   .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-rama-card--circle .hub-rama-event__kicker {
     position: static;
     padding: 0;
     border: 0;
     background: transparent;
-    color: #d5a95a;
+    color: var(--gold-primary);
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
   }
@@ -3844,36 +4158,21 @@ body.is-street-hub:has(.home-menu.is-hud) .street-world.is-game-hub:has([data-hu
 
 @media (hover: hover) and (pointer: fine) {
   .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-rama-card:hover {
-    transform: translateY(-3px);
-    border-color: rgba(232, 195, 119, 0.64);
-    box-shadow: 0 22px 54px rgba(0, 0, 0, 0.42), 0 0 22px rgba(213, 168, 80, 0.1);
+    transform: none;
+    border-color: color-mix(in srgb, var(--gold-highlight) 78%, transparent);
+    box-shadow: 0 22px 54px color-mix(in srgb, var(--hub-cinematic-field) 42%, transparent), inset 0 0 0 1px color-mix(in srgb, var(--gold-highlight) 22%, transparent), inset 0 1px 0 color-mix(in srgb, var(--hub-cinematic-card-ink) 18%, transparent);
   }
+  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-rama-card:hover .hub-rama-event__art img { transform: scale(1.025); }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] :is(.hub-rama-card, .hub-play, .hub-slide-still) {
-    animation: none !important;
-    transition: none !important;
-    transform: none !important;
-  }
-}
-
-/* Restored Home destinations and the ward-without-player state. The install
-   offer remains the carousel's immediate sibling; these secondary decisions
-   follow it in the feed and use the active world's semantic glass tokens. */
-.street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] > :is(.hub-identity-empty, .hub-quick-actions) {
+/* The ward-without-player state follows the install offer and uses the active
+   world's semantic glass tokens. */
+.street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] > .hub-identity-empty {
   width: calc(100% - 34px);
   max-width: 1360px;
   margin: 20px auto 0;
 }
 
-.hub-quick-actions {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: 10px;
-}
-
-.hub-quick-action,
 .hub-identity-empty {
   border: 1px solid var(--border-primary);
   background:
@@ -3889,67 +4188,10 @@ body.is-street-hub:has(.home-menu.is-hud) .street-world.is-game-hub:has([data-hu
   backdrop-filter: blur(18px) saturate(1.08);
 }
 
-.hub-quick-action {
-  position: relative;
-  min-width: 0;
-  min-height: 82px;
-  display: grid;
-  grid-template-columns: 44px minmax(0, 1fr) 44px;
-  align-items: center;
-  gap: 9px;
-  padding: 12px;
-  overflow: hidden;
-  border-radius: 12px;
-  color: var(--text-primary);
-  text-decoration: none;
-  transition:
-    transform var(--dur-press) var(--ease-out),
-    border-color var(--dur-press) ease,
-    box-shadow var(--dur-press) ease;
-}
-
-.hub-quick-action.is-challenges { border-color: var(--border-gold); }
-
-.hub-quick-action__emblem {
-  width: 44px;
-  height: 44px;
-  display: grid;
-  place-items: center;
-  border: 1px solid var(--border-gold);
-  border-radius: 50%;
-  color: var(--gold-primary);
-  background: color-mix(in srgb, var(--surface-primary) 74%, transparent);
-  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--text-primary) 10%, transparent);
-}
-
-.hub-quick-action__emblem .picto { width: 23px; height: 23px; }
-.hub-quick-action__copy { min-width: 0; display: grid; gap: 3px; }
-.hub-quick-action__copy strong {
-  color: var(--text-primary);
-  font: 700 max(var(--type-min), 14px)/1.1 var(--font-display);
-  overflow-wrap: anywhere;
-}
-.hub-quick-action__copy small {
-  display: block;
-  color: var(--text-secondary);
-  font-size: var(--type-min);
-  line-height: 1.3;
-}
-.hub-quick-action__arrow {
-  width: 44px;
-  height: 44px;
-  display: grid;
-  place-items: center;
-  color: var(--gold-primary);
-}
-.hub-quick-action__arrow .picto { width: 17px; height: 17px; }
-
-.hub-quick-action:focus-visible,
 .hub-identity-empty__action:focus-visible {
   outline: 3px solid var(--gold-highlight);
   outline-offset: 3px;
 }
-.hub-quick-action:active,
 .hub-identity-empty__action:active { transform: scale(0.985); }
 
 .hub-identity-empty {
@@ -4016,22 +4258,10 @@ body.is-street-hub:has(.home-menu.is-hud) .street-world.is-game-hub:has([data-hu
 .hub-identity-empty__action .picto { width: 17px; height: 17px; color: var(--gold-primary); }
 
 @media (min-width: 768px) {
-  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] > :is(.hub-identity-empty, .hub-quick-actions) {
+  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] > .hub-identity-empty {
     width: calc(100% - 80px);
     margin-top: 32px;
   }
-  .hub-quick-actions { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
-  .hub-quick-action {
-    min-height: 96px;
-    grid-template-columns: 48px minmax(0, 1fr) 44px;
-    gap: 14px;
-    padding: 15px 17px;
-  }
-  .hub-quick-action__emblem { width: 48px; height: 48px; }
-  .hub-quick-action__emblem .picto { width: 26px; height: 26px; }
-  .hub-quick-action__copy strong { font-size: 19px; }
-  .hub-quick-action__copy small { display: block; }
-  .hub-quick-action__arrow { width: 44px; }
   .hub-identity-empty {
     grid-template-columns: 62px minmax(0, 1fr) auto;
     gap: 18px;
@@ -4045,30 +4275,702 @@ body.is-street-hub:has(.home-menu.is-hud) .street-world.is-game-hub:has([data-hu
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .hub-quick-action:hover {
-    transform: translateY(-2px);
-    border-color: var(--border-gold);
-    box-shadow: var(--shadow-card), var(--glow), inset 0 1px 0 color-mix(in srgb, var(--text-primary) 12%, transparent);
-  }
   .hub-identity-empty__action:hover {
     background: color-mix(in srgb, var(--surface-secondary) 78%, transparent);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hub-quick-action,
   .hub-identity-empty__action { transition: none; }
 }
 
 @media (forced-colors: active) {
-  .hub-quick-action,
   .hub-identity-empty,
   .hub-identity-empty__action,
-  .hub-quick-action__emblem,
   .hub-identity-empty__emblem {
     border-color: CanvasText;
     background: Canvas;
     color: CanvasText;
     box-shadow: none;
+  }
+}
+
+/* Hub voyage + after-carousel polish --------------------------------------
+ * The hero is a real three-stop voyage, announced by quiet position dots.
+ * The lower page is one atmospheric field with
+ * content-bearing glass panes; it is not a stack of white dashboard cards. */
+.street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-voyage-nav {
+  position: absolute;
+  z-index: 8;
+  top: auto;
+  right: auto;
+  bottom: -26px;
+  left: 50%;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0;
+  overflow: visible;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  color: var(--text-primary);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  transform: translateX(-50%);
+}
+
+.street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-voyage-nav .hub-dots {
+  position: static;
+  left: auto;
+  bottom: auto;
+  display: flex;
+  width: auto;
+  min-height: 44px;
+  margin: 0;
+  padding: 0;
+  gap: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  transform: none;
+}
+
+.street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-voyage-nav .hub-dot {
+  width: 44px;
+  height: 44px;
+}
+
+/* Keep the 44 px tap targets while letting the actual position dots read as a
+ * quiet, compact pagination cue rather than three floating controls. */
+.street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-voyage-nav .hub-dot + .hub-dot {
+  margin-left: -20px;
+}
+
+.street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-voyage-nav .hub-dot::before {
+  width: 6px;
+  height: 6px;
+  border-color: color-mix(in srgb, var(--text-primary) 72%, transparent);
+  background: color-mix(in srgb, var(--text-primary) 38%, transparent);
+}
+
+.street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-voyage-nav .hub-dot.is-on::before {
+  width: 18px;
+  border-color: var(--gold-highlight);
+  background: var(--gold-primary);
+}
+
+.street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-rama-carousel__track {
+  box-sizing: border-box;
+  padding-block: 4px 12px;
+}
+
+/* The rail's bottom shadow and gold hairline belong inside its own scrollport.
+ * Vertical breathing room prevents the previous overflow-y clipping defect. */
+.street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-rama-card {
+  align-self: flex-start;
+}
+
+.street-world.is-game-hub[data-hub-theme="dark"] .hub-streaming-feed--editorial {
+  --hub-aftercare-pane: color-mix(in srgb, var(--hub-dark-glass) 88%, transparent);
+  --hub-aftercare-pane-strong: color-mix(in srgb, var(--hub-dark-panel) 78%, transparent);
+  --hub-editorial-scrim:
+    linear-gradient(90deg,
+      color-mix(in srgb, var(--hub-dark-abyss) 94%, transparent) 0%,
+      color-mix(in srgb, var(--hub-dark-depth) 82%, transparent) 34%,
+      color-mix(in srgb, var(--hub-dark-depth) 42%, transparent) 58%,
+      transparent 84%),
+    linear-gradient(0deg, color-mix(in srgb, var(--hub-dark-abyss) 76%, transparent), transparent 62%);
+}
+
+.street-world.is-game-hub[data-hub-theme="light"] .hub-streaming-feed--editorial {
+  --hub-aftercare-pane: color-mix(in srgb, var(--hub-light-ivory) 56%, transparent);
+  --hub-aftercare-pane-strong: color-mix(in srgb, var(--hub-light-pearl) 66%, transparent);
+  --hub-editorial-scrim:
+    linear-gradient(90deg,
+      color-mix(in srgb, var(--hub-light-ivory) 94%, transparent) 0%,
+      color-mix(in srgb, var(--hub-light-pearl) 80%, transparent) 34%,
+      color-mix(in srgb, var(--hub-light-pearl) 38%, transparent) 58%,
+      transparent 82%),
+    linear-gradient(0deg, color-mix(in srgb, var(--hub-light-ivory) 62%, transparent), transparent 58%);
+  background:
+    radial-gradient(ellipse 74% 30rem at 10% 76%, color-mix(in srgb, var(--hub-light-sky) 34%, transparent), transparent 74%),
+    radial-gradient(ellipse 62% 24rem at 88% 58%, color-mix(in srgb, var(--hub-light-gold-glint) 22%, transparent), transparent 76%),
+    linear-gradient(180deg,
+      var(--hub-light-pearl) 0,
+      color-mix(in srgb, var(--hub-light-pearl) 82%, var(--hub-light-ivory)) 52rem,
+      var(--hub-light-ivory) 100%);
+}
+
+/* Reading/challenge cards are paintings, even in Celestial Light. Their type
+ * sits on a short local night scrim so the artwork keeps its colour and depth. */
+.street-world.is-game-hub[data-hub-theme="light"] [data-hub-layout="hero-rama-carousel"] .hub-now-card {
+  --hub-editorial-ink: var(--hub-light-ivory);
+  --hub-editorial-muted: color-mix(in srgb, var(--hub-light-ivory) 78%, transparent);
+  background: color-mix(in srgb, var(--hub-light-ink) 88%, transparent);
+}
+
+.street-world.is-game-hub[data-hub-theme="light"] [data-hub-layout="hero-rama-carousel"] .hub-now-card__scrim {
+  background:
+    linear-gradient(90deg,
+      color-mix(in srgb, var(--hub-light-ink) 96%, transparent) 0%,
+      color-mix(in srgb, var(--hub-light-ink) 84%, transparent) 34%,
+      color-mix(in srgb, var(--hub-light-ink) 40%, transparent) 60%,
+      transparent 84%),
+    linear-gradient(0deg, color-mix(in srgb, var(--hub-light-ink) 74%, transparent), transparent 62%);
+}
+
+.street-world.is-game-hub[data-hub-theme="light"] [data-hub-layout="hero-rama-carousel"] .hub-now-card__meter {
+  background: color-mix(in srgb, var(--hub-light-ink) 74%, transparent);
+}
+
+.street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] > :is(
+  .hub-install--compact,
+  .hub-now,
+  .hub-identity-empty,
+  .push-invitation
+) {
+  position: relative;
+  z-index: 4;
+  width: calc(100% - 34px);
+  max-width: 1360px;
+  margin: clamp(24px, 4vw, 52px) auto 0;
+}
+
+.street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] > .hub-install--compact {
+  overflow: hidden;
+  border-color: color-mix(in srgb, var(--border-gold) 62%, var(--border-primary));
+  border-radius: clamp(16px, 2vw, 24px);
+  background:
+    linear-gradient(118deg,
+      color-mix(in srgb, var(--hub-aftercare-pane-strong) 92%, transparent),
+      color-mix(in srgb, var(--hub-aftercare-pane) 72%, transparent));
+  box-shadow:
+    0 24px 64px color-mix(in srgb, var(--hub-background) 22%, transparent),
+    0 0 0 1px color-mix(in srgb, var(--gold-highlight) 8%, transparent),
+    inset 0 1px 0 color-mix(in srgb, var(--text-primary) 18%, transparent);
+  -webkit-backdrop-filter: blur(22px) saturate(1.08);
+  backdrop-filter: blur(22px) saturate(1.08);
+}
+.street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-rama-carousel__track::-webkit-scrollbar { display: none; }
+
+.street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] > .hub-install--compact::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 7% 12%, color-mix(in srgb, var(--gold-highlight) 18%, transparent), transparent 24%),
+    linear-gradient(105deg, transparent 46%, color-mix(in srgb, var(--text-primary) 7%, transparent) 54%, transparent 61%);
+}
+
+.street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-install-action {
+  min-height: clamp(104px, 9vw, 132px);
+  padding: clamp(14px, 2vw, 24px) clamp(54px, 5vw, 74px) clamp(14px, 2vw, 24px) clamp(14px, 2vw, 24px);
+}
+
+.street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-install-emblem {
+  box-shadow:
+    0 12px 28px color-mix(in srgb, var(--gold-primary) 19%, transparent),
+    inset 0 1px 0 color-mix(in srgb, var(--text-primary) 20%, transparent);
+}
+
+.street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-install-cta {
+  min-height: 48px;
+  padding-inline: clamp(16px, 2vw, 24px);
+  border-color: color-mix(in srgb, var(--border-gold) 78%, transparent);
+  background:
+    linear-gradient(145deg,
+      color-mix(in srgb, var(--hub-aftercare-pane-strong) 82%, transparent),
+      color-mix(in srgb, var(--hub-aftercare-pane) 62%, transparent));
+  box-shadow:
+    0 10px 24px color-mix(in srgb, var(--hub-background) 18%, transparent),
+    inset 0 1px 0 color-mix(in srgb, var(--text-primary) 16%, transparent);
+}
+
+.street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] > .hub-now {
+  gap: clamp(16px, 2vw, 24px);
+  padding-bottom: clamp(34px, 6vw, 78px);
+}
+
+.street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-now__head {
+  position: relative;
+  gap: 7px;
+  padding-bottom: 15px;
+}
+
+.street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-now__head::after {
+  content: "";
+  width: min(100%, 260px);
+  height: 1px;
+  margin-top: 4px;
+  background: linear-gradient(90deg, var(--gold-primary), color-mix(in srgb, var(--gold-primary) 28%, transparent), transparent);
+}
+
+.street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-now__head h2 {
+  font-size: clamp(34px, 5vw, 64px);
+  letter-spacing: -0.035em;
+}
+
+.street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-now__grid {
+  gap: clamp(14px, 2vw, 24px);
+}
+
+.street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-now-card {
+  min-height: clamp(248px, 25vw, 356px);
+  border-color: color-mix(in srgb, var(--border-gold) 46%, var(--hub-editorial-border));
+  border-radius: clamp(16px, 2vw, 24px);
+  background: var(--hub-aftercare-pane);
+  box-shadow:
+    0 26px 72px color-mix(in srgb, var(--hub-background) 24%, transparent),
+    inset 0 1px 0 color-mix(in srgb, var(--text-primary) 14%, transparent);
+}
+
+.street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-now-card__copy {
+  width: min(100%, 39rem);
+  padding: clamp(22px, 3.4vw, 46px);
+}
+
+.street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-now-card strong {
+  font-size: clamp(30px, 4vw, 52px);
+  text-wrap: balance;
+}
+
+.street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-now-card__action {
+  min-height: 48px;
+  margin-top: clamp(14px, 3vw, 34px);
+  font-size: 13px;
+}
+
+.street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-now__programme {
+  min-height: 52px;
+  padding: 8px 14px 8px 18px;
+  border-color: color-mix(in srgb, var(--border-gold) 58%, var(--hub-editorial-border));
+  background:
+    linear-gradient(145deg,
+      color-mix(in srgb, var(--hub-aftercare-pane-strong) 80%, transparent),
+      color-mix(in srgb, var(--hub-aftercare-pane) 58%, transparent));
+  box-shadow:
+    0 12px 30px color-mix(in srgb, var(--hub-background) 14%, transparent),
+    inset 0 1px 0 color-mix(in srgb, var(--text-primary) 16%, transparent);
+  font-size: max(var(--type-min), 14px);
+}
+
+.street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] > .hub-identity-empty {
+  border-color: color-mix(in srgb, var(--border-gold) 66%, var(--border-primary));
+  border-radius: clamp(16px, 2vw, 24px);
+  background:
+    linear-gradient(135deg,
+      color-mix(in srgb, var(--hub-aftercare-pane-strong) 88%, transparent),
+      color-mix(in srgb, var(--hub-aftercare-pane) 66%, transparent));
+  box-shadow:
+    0 22px 58px color-mix(in srgb, var(--hub-background) 20%, transparent),
+    inset 0 1px 0 color-mix(in srgb, var(--text-primary) 16%, transparent);
+}
+
+.street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] > .push-invitation {
+  border-color: color-mix(in srgb, var(--border-gold) 54%, var(--border-primary));
+  background:
+    linear-gradient(135deg,
+      color-mix(in srgb, var(--hub-aftercare-pane-strong) 88%, transparent),
+      color-mix(in srgb, var(--hub-aftercare-pane) 64%, transparent));
+  box-shadow:
+    0 22px 58px color-mix(in srgb, var(--hub-background) 20%, transparent),
+    inset 0 1px 0 color-mix(in srgb, var(--text-primary) 16%, transparent);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-now-card:hover {
+    transform: translateY(-2px);
+    border-color: color-mix(in srgb, var(--border-gold) 82%, transparent);
+  }
+}
+
+@media (max-width: 767px) {
+  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-voyage-nav {
+    top: auto;
+    right: auto;
+    bottom: 14px;
+    left: 50%;
+    min-height: 48px;
+    transform: translateX(-50%);
+  }
+
+  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-rama-carousel__track {
+    padding: 4px 17px 12px;
+  }
+
+  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] > .hub-rama-carousel {
+    padding-top: 42px;
+  }
+  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] > :is(
+    .hub-install--compact,
+    .hub-now,
+    .hub-identity-empty,
+    .push-invitation
+  ) {
+    width: calc(100% - 34px);
+    margin-top: 24px;
+  }
+
+  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-install-action {
+    min-height: 78px;
+    padding: 8px 48px 8px 8px;
+  }
+
+  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-now__head h2 {
+    font-size: clamp(34px, 11vw, 46px);
+  }
+
+  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-now-card {
+    min-height: clamp(270px, 84vw, 340px);
+  }
+
+  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-now-card__copy {
+    padding: 22px;
+  }
+
+  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-now-card strong {
+    font-size: clamp(30px, 10vw, 42px);
+  }
+}
+.hub-identity-empty__action:active { transform: scale(0.985); }
+
+/* Celestial Light protects editorial type with a local pearl pane wherever
+ * the photo is still the canvas. This is deliberately bounded to the copy:
+ * the Salt Lake world remains visible, while words never depend on a bright
+ * cloud or a dark garment for contrast. */
+@media (max-width: 1199px) {
+  .street-world.is-game-hub[data-hub-theme="light"] .hub-streaming-feed--editorial[data-hub-layout="hero-rama-carousel"] .hub-slide-copy-top {
+    padding: clamp(10px, 2.2vw, 16px);
+    border: 1px solid var(--hub-cinematic-copy-border);
+    border-left: 2px solid var(--hub-light-gold-deep);
+    border-radius: 4px 16px 16px 4px;
+    background: var(--hub-cinematic-copy-pane);
+    box-shadow: var(--hub-cinematic-copy-shadow);
+    text-shadow: none;
+    -webkit-backdrop-filter: blur(14px) saturate(1.04);
+    backdrop-filter: blur(14px) saturate(1.04);
+  }
+
+  .street-world.is-game-hub[data-hub-theme="light"] .hub-streaming-feed--editorial[data-hub-layout="hero-rama-carousel"] :is(.hub-hero-title, .hub-hero-name, .hub-hero-lede) {
+    color: var(--hub-light-type-on-paper-primary);
+    text-shadow: none;
+  }
+
+  .street-world.is-game-hub[data-hub-theme="light"] .hub-streaming-feed--editorial[data-hub-layout="hero-rama-carousel"] .hub-hero-title::after {
+    background: linear-gradient(90deg, var(--hub-light-gold-deep), color-mix(in srgb, var(--hub-light-gold-deep) 8%, transparent));
+  }
+}
+
+@media (max-width: 380px) {
+  /* Short phones keep a real visual hierarchy: story first, one primary verb,
+     then the compact factual league strip. The bottom dock never steals the
+     action's hit area. */
+  .street-world.is-game-hub[data-hub-theme] .hub-streaming-feed--editorial[data-hub-layout="hero-rama-carousel"] .hub-slide-copy {
+    justify-content: space-between;
+    gap: 0.55rem;
+    padding:
+      calc(var(--hub-hud-clearance) + 0.9rem)
+      1rem
+      calc(var(--street-hub-dock-clearance) + 0.85rem);
+  }
+
+  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-slide-copy-top {
+    max-width: min(100%, 17.7rem);
+  }
+
+  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-hero-title {
+    max-width: 9.2ch;
+    font-size: clamp(1.68rem, 9.15vw, 1.95rem);
+    line-height: 0.94;
+  }
+
+  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-hero-actions {
+    gap: 0.42rem;
+  }
+
+  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-hero-cockpit__row {
+    gap: 0.42rem;
+  }
+
+  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-hero-cockpit__row > :is(.hub-play, .hub-play-form),
+  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-hero-cockpit__row .hub-play,
+  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-hero-cockpit__row .hub-hero-progress {
+    min-height: 56px;
+  }
+
+  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-hero-progress {
+    grid-template-columns: 40px minmax(0, 1fr) auto;
+    gap: 8px;
+    padding: 6px 9px 6px 7px;
+  }
+
+  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-hero-progress__emblem {
+    width: 38px;
+    height: 38px;
+  }
+
+  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-hero-progress__emblem .picto {
+    width: 20px;
+    height: 20px;
+  }
+
+  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-hero-progress__body {
+    gap: 4px;
+  }
+
+  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-hero-progress__label {
+    font-size: 10px;
+    letter-spacing: 0.035em;
+    -webkit-line-clamp: 1;
+  }
+
+  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-hero-progress__rail {
+    height: 6px;
+  }
+
+  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-hero-progress > strong {
+    font-size: 12px;
+  }
+
+  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-play-form,
+  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-play {
+    width: 100%;
+  }
+
+  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-play {
+    min-height: 3.35rem;
+    border-radius: 0.9rem;
+  }
+
+  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-hero-league-panel {
+    min-height: 44px;
+  }
+
+  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-hero-league {
+    min-height: 44px;
+    gap: 7px;
+    padding: 5px 9px;
+  }
+
+  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-hero-league__rank strong {
+    font-size: 15px;
+  }
+
+  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-hero-league__copy b {
+    font-size: 10px;
+    white-space: nowrap;
+  }
+
+  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-hero-league__copy small {
+    display: none;
+  }
+
+  /* The dots live in the quiet breathing band directly under the HUD on the
+     shortest phones. Their visible marks sit clear of both the title and the
+     factual league strip, while the 44 px targets remain intact. */
+  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-voyage-nav {
+    top: calc(var(--hub-hud-clearance) - 0.75rem);
+    right: auto;
+    bottom: auto;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  body.is-game-hub-page .navigation-dock__item {
+    gap: 0.06rem;
+    min-height: 3.68rem;
+    padding-inline: 0.02rem;
+    font-size: 0.56rem;
+    letter-spacing: 0.015em;
+    line-height: 0.98;
+  }
+
+  body.is-game-hub-page .navigation-dock__item > span:last-child {
+    display: grid;
+    min-height: 1.9em;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    text-align: center;
+    align-items: center;
+  }
+
+  body.is-game-hub-page .navigation-dock__item > .navigation-dock__icon {
+    width: 1.62rem;
+    height: 1.62rem;
+  }
+}
+.hub-identity-empty__action .picto { width: 17px; height: 17px; color: var(--gold-primary); }
+
+@media (min-width: 768px) and (max-width: 1199px) {
+  /* Collision-safe tablet composition. The story and the competitive cockpit
+     stay in normal flow so a real, longer chapter title can never be painted
+     underneath progress or Play. The auto margin keeps the cockpit anchored
+     low when the story is short, while the fixed gap protects it when copy
+     grows to two lines. */
+  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-slide-copy {
+    justify-content: flex-start;
+    gap: clamp(16px, 2.2vw, 22px);
+    padding:
+      calc(var(--hub-hud-clearance) + clamp(14px, 2vw, 22px))
+      48px
+      clamp(18px, 2.4vw, 24px);
+  }
+
+  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-slide-copy-top {
+    width: min(420px, 100%);
+    max-width: min(420px, 100%);
+    margin: 0;
+    flex: 0 0 auto;
+  }
+
+  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-hero-title {
+    max-width: 100%;
+    font-size: clamp(42px, 5.25vw, 54px);
+    line-height: 0.94;
+    text-wrap: balance;
+  }
+
+  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-hero-title::after {
+    margin-top: 14px;
+  }
+
+  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-hero-lede {
+    max-width: 390px;
+    margin-top: 12px;
+    font-size: 15px;
+    line-height: 1.35;
+  }
+
+  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-hero-actions {
+    width: min(1080px, 100%);
+    margin: auto 0 0;
+    flex: 0 0 auto;
+  }
+
+  /* Salt Lake's spires are the narrative anchor. Start that curated artwork
+     below the opaque HUD instead of sacrificing its crown to an overlay. */
+  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-hero:is(
+    [data-hub-hero-art="hub.hero.salt-lake-temple-night"],
+    [data-hub-hero-art="hub.hero.salt-lake-temple-dawn"]
+  ) .hub-slide.is-current .hub-slide-still {
+    height: calc(100% - var(--hub-hud-clearance));
+    margin-top: var(--hub-hud-clearance);
+    object-position: 50% 50%;
+  }
+
+  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-rama-carousel__track {
+    padding: 4px 32px 12px;
+  }
+
+  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] > .hub-rama-carousel {
+    padding-top: 46px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-hero:is(
+    [data-hub-hero-art="hub.hero.salt-lake-temple-night"],
+    [data-hub-hero-art="hub.hero.salt-lake-temple-dawn"]
+  ) .hub-slide.is-current .hub-slide-still {
+    height: calc(100% - var(--hub-hud-clearance));
+    margin-top: var(--hub-hud-clearance);
+    object-position: 50% 50%;
+  }
+
+  /* Reserve a real breathing band above the competitive cockpit, including
+     for two-line editorial titles such as "La vie du Sauveur". */
+  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-slide-copy-top {
+    top: clamp(116px, 13.5dvh, 146px);
+  }
+
+  .street-world.is-game-hub[data-hub-theme="light"] .hub-streaming-feed--editorial[data-hub-layout="hero-rama-carousel"] .hub-slide-copy-top {
+    width: 390px;
+    max-width: 390px;
+    padding: 16px 20px 18px;
+    border: 1px solid color-mix(in srgb, var(--hub-light-ink) 16%, transparent);
+    border-left: 2px solid var(--hub-light-gold-deep);
+    border-radius: 4px 16px 16px 4px;
+    background: color-mix(in srgb, var(--hub-light-ivory) 76%, transparent);
+    box-shadow:
+      0 22px 54px color-mix(in srgb, var(--hub-light-ink) 17%, transparent),
+      inset 0 1px 0 color-mix(in srgb, var(--hub-light-ivory) 92%, transparent);
+    -webkit-backdrop-filter: blur(14px) saturate(1.04);
+    backdrop-filter: blur(14px) saturate(1.04);
+  }
+
+  .street-world.is-game-hub[data-hub-theme="light"] .hub-streaming-feed--editorial[data-hub-layout="hero-rama-carousel"] .hub-hero-title {
+    max-width: 100%;
+    font-size: clamp(52px, 3.8vw, 58px);
+  }
+
+  .street-world.is-game-hub[data-hub-theme="dark"] .hub-streaming-feed--editorial[data-hub-layout="hero-rama-carousel"] .hub-hero-title {
+    max-width: 100%;
+  }
+
+  .street-world.is-game-hub[data-hub-theme="light"] .hub-streaming-feed--editorial[data-hub-layout="hero-rama-carousel"] .hub-hero-title::after {
+    margin-top: 14px;
+  }
+
+  .street-world.is-game-hub[data-hub-theme="light"] .hub-streaming-feed--editorial[data-hub-layout="hero-rama-carousel"] .hub-hero-lede {
+    margin-top: 14px;
+    font-size: 15px;
+    line-height: 1.35;
+  }
+
+  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-voyage-nav {
+    top: auto;
+    right: 40px;
+    bottom: calc(41.5dvh + 18px);
+    left: auto;
+    transform: none;
+  }
+
+  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-rama-carousel__track {
+    height: calc(clamp(300px, 35.7dvh, 390px) + 16px);
+    padding: 4px 0 12px;
+  }
+
+  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] > :is(
+    .hub-install--compact,
+    .hub-now,
+    .hub-identity-empty,
+    .push-invitation
+  ) {
+    width: calc(100% - 80px);
+  }
+
+  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-now__grid:has(.hub-now-card:nth-child(2)) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (forced-colors: active) {
+  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] :is(
+    .hub-install--compact,
+    .hub-install-cta,
+    .hub-now-card,
+    .hub-now__programme,
+    .hub-identity-empty,
+    .push-invitation
+  ) {
+    border-color: CanvasText;
+    background: Canvas;
+    color: CanvasText;
+    box-shadow: none;
+  }
+
+  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-voyage-nav .hub-dot::before {
+    border-color: ButtonText;
+    background: Canvas;
+  }
+
+  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-voyage-nav .hub-dot.is-on::before {
+    border-color: Highlight;
+    background: Highlight;
   }
 }
