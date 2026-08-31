@@ -14,15 +14,27 @@ class LocaleFilesTest < ActiveSupport::TestCase
     end
   end
 
-  test "game locale files share the same keys" do
-    trees = {
-      "en" => load_locale("games.en.yml", "en"),
-      "fr" => load_locale("games.fr.yml", "fr"),
-      "pt-BR" => load_locale("games.pt-BR.yml", "pt-BR")
-    }
-    expected = flatten_keys(trees["en"]).sort
-    trees.each do |code, tree|
-      assert_equal expected, flatten_keys(tree).sort, "#{code} game keys differ from en"
+  test "reader Circle composition and ranking copy is present in every UI locale" do
+    circle_keys = %w[
+      question_message_label
+      ranking_label
+      ranking_score
+      upvote
+      downvote
+      reply_ranking_label
+      reply_upvote
+      reply_downvote
+    ]
+
+    %i[es en fr pt-BR].each do |locale|
+      I18n.with_locale(locale) do
+        circle_keys.each do |key|
+          value = I18n.t("scripture_reader.circle.#{key}", score: 3)
+          assert value.present?, "#{locale} scripture_reader.circle.#{key}"
+          refute_match(/translation missing/i, value)
+        end
+        assert I18n.exists?("scripture_reader.companion.circle_jump_label", locale), locale.to_s
+      end
     end
   end
 
@@ -47,23 +59,6 @@ class LocaleFilesTest < ActiveSupport::TestCase
     expected = flatten_keys(trees["en"]).sort
     trees.each do |code, tree|
       assert_equal expected, flatten_keys(tree).sort, "#{code} parable quiz keys differ from en"
-    end
-  end
-
-  test "game copy follows the request locale" do
-    round = GameDefinition.default.find_round("salomon_wisdom")
-    I18n.with_locale(:es) do
-      assert_match(/Salomón/, round.copy(:title))
-    end
-    I18n.with_locale(:en) do
-      assert_equal "Solomon's choice", round.copy(:title)
-      assert_equal "Wisdom", round.choice_copy({ "key" => "wisdom", "label" => "Sabiduría" })
-    end
-    I18n.with_locale(:fr) do
-      assert_equal "Le choix de Salomon", round.copy(:title)
-    end
-    I18n.with_locale(:"pt-BR") do
-      assert_equal "A escolha de Salomão", round.copy(:title)
     end
   end
 
@@ -95,15 +90,6 @@ class LocaleFilesTest < ActiveSupport::TestCase
         assert_includes lines, I18n.t("street.praise"), locale.to_s
       end
     end
-  end
-
-  test "guess keys include every locale so mixed nights still match" do
-    round = GameDefinition.default.find_round("category_prophets")
-    keys = round.all_guess_keys.map { |key| ActiveSupport::Inflector.transliterate(key).downcase }
-    assert_includes keys, "isaiah"
-    assert_includes keys, "elie"
-    assert_includes keys, "elias"
-    assert round.matches_guess?("Isaiah, Élie")
   end
 
   private

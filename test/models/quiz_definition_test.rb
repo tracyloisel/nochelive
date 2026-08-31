@@ -56,13 +56,6 @@ class QuizDefinitionTest < ActiveSupport::TestCase
     end
   end
 
-  test "question ids are disjoint from the night rounds" do
-    night_ids = GameDefinition.default.rounds.map(&:id)
-    quiz_ids = QuizDefinition.catalog.all_questions.map(&:id)
-    overlap = quiz_ids & night_ids
-    assert_empty overlap
-  end
-
   test "every question still path is quizzes/pack/id.jpg" do
     questions = QuizDefinition.catalog.all_questions
     questions.each do |question|

@@ -12,7 +12,7 @@ The MCP process runs locally over STDIO. Every tool calls `https://nochelive.com
 - Administrative mutations are logged without including the secret or player device identifiers.
 - Profile merging requires a preview followed by a short-lived, single-use confirmation.
 - A Noche Live can only be edited or finished through the rama that owns it.
-- Presenter codes cannot be recovered because only their digest is stored. Rotation invalidates the previous code and returns the new one once.
+- Teams are persistent rama data. A Live session can list and clone them, but cannot create an ad-hoc team.
 
 ## Install and verify
 
@@ -123,14 +123,18 @@ For one rama on a historical date:
 }
 ```
 
-### `rotate_presenter_code`
+### `create_ward_team`
 
-Invalidate a rama's old presenter code and return the replacement once. This is a destructive credential rotation, so record the returned value securely before closing the result.
+Create a persistent team for one rama. The emblem must be one of `leon`, `fuego`, `paloma`, `corona`, `ola`, or `estrella`. A duplicate name in the same rama is rejected.
 
-> Fais tourner le code présentateur de la rama RAMA.
+> Crée l'équipe Les Oliviers dans la rama RAMA.
 
 ```json
-{ "ward_code": "RAMA" }
+{
+  "ward_code": "RAMA",
+  "name": "Les Oliviers",
+  "emblem": "paloma"
+}
 ```
 
 ### `preview_profile_merge`
@@ -163,44 +167,40 @@ Execute exactly one previously previewed merge. The confirmation token is short-
 
 ### `create_noche_live`
 
-Create a new Noche Live owned by an explicit rama. `starts_at` must be an ISO 8601 timestamp including its UTC offset. Supported presenter languages are `es`, `pt-BR`, `fr`, and `en`. The response includes the generated session code and player, presenter, and public paths.
+Create a new Noche Live owned by an explicit rama. `starts_at` must be an ISO 8601 timestamp including its UTC offset. `quiz_ids` is a non-empty ordered list of pack IDs from the existing `/jugar` catalog. The lobby opens automatically 30 minutes before launch; the Noche closes one hour after launch. The response exposes one canonical public URL plus the registration and play destinations.
 
-> Crée une Noche Live pour la rama RAMA le 30 août à 19 h 30, heure de Madrid, en français, avec Sœur Martin et Élder Silva.
+> Crée une Noche Live pour la rama RAMA le 30 août à 19 h 30 avec les quiz Rois, Moïse et Nazareno dans cet ordre.
 
 ```json
 {
   "ward_code": "RAMA",
   "starts_at": "2026-08-30T19:30:00+02:00",
-  "presenter_locale": "fr",
-  "broadcast_delay_ms": 0,
-  "missionary_names": ["Sœur Martin", "Élder Silva"],
-  "theme_id": "reyes_y_profetas"
+  "quiz_ids": ["coronas", "moises", "nazareno"]
 }
 ```
 
-The lifecycle remains manual: creation does not start the night.
+There is no presenter credential, console, broadcast delay, custom poster, or host list in this contract. The first/current quiz supplies the artwork.
 
 ### `edit_noche_live`
 
-Edit the schedule, presenter language, broadcast delay, deployed event poster, or complete missionary list of an existing Noche Live. `ward_code` is mandatory even when the session code is known; the API rejects cross-rama edits. Omitted fields remain unchanged. Passing an empty `missionary_names` array removes all missionaries. `poster_path` must point inside `/media/nights/events/`; pass `null` to restore the theme poster.
+Edit the schedule or complete ordered quiz list of an existing scheduled Noche Live. `ward_code` is mandatory even when the session code is known; the API rejects cross-rama edits. Omitted fields remain unchanged.
 
-> Décale la Noche Live DAVID de la rama RAMA à 20 h et garde seulement Sœur Martin.
+> Décale la Noche Live DAVID de la rama RAMA à 20 h et utilise deux quiz.
 
 ```json
 {
   "ward_code": "RAMA",
   "session_code": "DAVID",
   "starts_at": "2026-08-30T20:00:00+02:00",
-  "poster_path": "/media/nights/events/benidorm-2026-08-29-reyes-profetas.jpg",
-  "missionary_names": ["Sœur Martin"]
+  "quiz_ids": ["coronas", "moises"]
 }
 ```
 
-Starting, pausing, and resuming remain presenter-only. Finishing is exposed separately so the irreversible lifecycle change stays explicit.
+Finishing is exposed separately so the irreversible lifecycle change stays explicit.
 
 ### `finish_noche_live`
 
-Finish an existing Noche Live, record its final team results in the rama season, and broadcast the final state. `ward_code` is mandatory even when the session code is known; the API rejects cross-rama requests. Retrying the same request is safe and does not apply season points twice.
+Close an existing Noche Live immediately and broadcast its final Watch state. `ward_code` is mandatory even when the session code is known; the API rejects cross-rama requests. Retrying the same request is safe.
 
 > Ferme la Noche Live X8MPU de la rama RAMA.
 
@@ -211,7 +211,7 @@ Finish an existing Noche Live, record its final team results in the rama season,
 }
 ```
 
-The response returns the night with `status: "finished"` and preserves all teams, players, scores, and ceremony data.
+The response returns the night with `status: "finished"`, its fixed end time, and the final team-score projection.
 
 ## Notification editorial workshop
 
@@ -245,7 +245,7 @@ Actual test pushes and production activation are intentionally not exposed in th
 
 - `401 Unauthorized`: the token is absent, different from Render, or too short.
 - `404 Not Found`: the rama/session code does not exist, or the session does not belong to the supplied rama.
-- `422 Unprocessable Entity`: invalid timestamp, locale, broadcast delay, missionary name, merge pair, or expired confirmation.
+- `422 Unprocessable Entity`: invalid timestamp, locale, quiz list, persistent team, merge pair, or expired confirmation.
 - MCP startup failure: check `NOCHE_ADMIN_API_URL`, `NOCHE_ADMIN_API_TOKEN`, `cwd`, then run `npm run typecheck` and restart Codex.
 
 ## Development checks

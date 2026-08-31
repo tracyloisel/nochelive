@@ -10,8 +10,9 @@ class Hud::BarComponentTest < ViewComponent::TestCase
     assert_selector ".quiz-hud-avatar.is-guest .picto-profile-spark"
     assert_text I18n.t("hub.guest_invite")
     assert_text I18n.t("hub.guest_in_ward")
-    assert_selector "a.quiz-hud-cta[href*='fresh=1']", text: I18n.t("hub.guest_cta")
     assert_selector "a.quiz-hud-who.is-guest[href*='fresh=1']"
+    assert_selector ".quiz-hud-guest-go .picto-arrow"
+    assert_no_selector ".quiz-hud-cta"
     assert_no_selector ".quiz-hud-rail"
     assert_no_selector ".quiz-hud-score"
   end

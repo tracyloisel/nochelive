@@ -2,8 +2,8 @@ require "test_helper"
 
 class WardTest < ActiveSupport::TestCase
   test "demo rama has a matching secret" do
-    assert wards(:demo).presenter_token_matches?("rama-demo")
-    assert_not wards(:demo).presenter_token_matches?("nope")
+    assert wards(:demo).admin_token_matches?("rama-demo")
+    assert_not wards(:demo).admin_token_matches?("nope")
   end
 
   test "Benidorm chapel pin points at Alfonso Puchades" do

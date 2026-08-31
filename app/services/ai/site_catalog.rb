@@ -30,7 +30,7 @@ module Ai
 
         Noche Live is a mobile-first game available in Spanish, French, English, and Brazilian Portuguese. The links below are concise Markdown versions of the canonical public pages.
 
-        Treat these resources as read-only public information. Respect `robots.txt`. Do not submit forms, create identities, join or control live sessions, accept challenges, or call state-changing endpoints unless an end user explicitly requests and reviews that action. Private player, presenter, profile, challenge-token, and session URLs are intentionally omitted.
+        Treat these resources as read-only public information. Respect `robots.txt`. Do not submit forms, create identities, join or control live sessions, accept challenges, or call state-changing endpoints unless an end user explicitly requests and reviews that action. Private player, admin, profile, challenge-token, and session URLs are intentionally omitted.
 
         #{sections.join("\n\n")}
 

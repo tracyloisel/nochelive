@@ -31,7 +31,7 @@ module StreetProfiles
         ranked_people: standings&.total_players.to_i,
         rank_key: rank_key_for(crowns),
         streak_days: Quizzes::Streak.call(person_id: @person.id).days,
-        packs_completed: QuizRun.finished.where(person_id: @person.id).distinct.count(:pack_id),
+        packs_completed: QuizRun.street.finished.where(person_id: @person.id).distinct.count(:pack_id),
         study_runs_completed: @person.study_runs.completed.count,
         challenge_wins: wins_in(duels),
         challenge_total: duels.where(status: "resolved").count,

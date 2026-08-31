@@ -69,7 +69,10 @@
     <% end %>
 
     <nav class="about-journey-foot">
-      <%= link_to t("stats.title"), platform_stats_path, class: "quiet-link" %>
+      <%= link_to platform_stats_path, class: "quiet-link about-stats-link" do %>
+        <span><%= t("stats.menu") %></span>
+        <%= picto("arrow") %>
+      <% end %>
     </nav>
   </main>
 

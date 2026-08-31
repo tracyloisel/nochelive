@@ -24,7 +24,7 @@ module Wards
         ward = Ward.create!(
           name: @name,
           code: GameSession.generate_code,
-          presenter_token_digest: GameSession.digest_token(token),
+          admin_token_digest: GameSession.digest_token(token),
           emblem: @emblem,
           chapel_name: @chapel_name,
           chapel_address: @chapel_address,
@@ -34,7 +34,7 @@ module Wards
           country_code: @country_code,
           listed: !Ward.listed.exists?
         )
-        ward.presenter_token = token
+        ward.admin_token = token
         break
       rescue ActiveRecord::RecordNotUnique
         ward = nil

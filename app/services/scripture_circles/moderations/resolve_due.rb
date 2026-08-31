@@ -13,7 +13,7 @@ module ScriptureCircles
       end
 
       def self.resolve_one(proposal, at: Time.current)
-        ScriptureCircleModerationProposal.transaction do
+        resolved_proposal = ScriptureCircleModerationProposal.transaction do
           proposal.lock!
           next unless proposal.open? && proposal.ends_at <= at
 
@@ -44,6 +44,8 @@ module ScriptureCircles
           )
           proposal
         end
+        RamaRefresh.call(ward: resolved_proposal.ward) if resolved_proposal
+        resolved_proposal
       rescue StandardError => error
         record_failure(proposal, error, at:)
         raise

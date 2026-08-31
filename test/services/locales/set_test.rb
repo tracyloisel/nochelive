@@ -8,13 +8,6 @@ class Locales::SetTest < ActiveSupport::TestCase
     assert_equal "fr", player.reload.locale
   end
 
-  test "stores presenter locale on the night" do
-    night = game_sessions(:david)
-    Locales::Set.call(locale: "en", night: night, presenter: true)
-
-    assert_equal "en", night.reload.presenter_locale
-  end
-
   test "updates a person and every live seat linked to that profile" do
     person = people(:pili)
     player = players(:lucia)

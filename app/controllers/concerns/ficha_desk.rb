@@ -71,14 +71,14 @@ module FichaDesk
     end
 
     def ficha_path_for(person)
-      @night ? presenter_ficha_path(@night.code, person) : ward_ficha_path(person)
+      ward_ficha_path(person)
     end
 
     def ficha_merge_path_for(person)
-      @night ? presenter_ficha_merge_path(@night.code, person) : ward_ficha_merge_path(person)
+      ward_ficha_merge_path(person)
     end
 
     def fichas_path_for(**params)
-      @night ? presenter_fichas_path(@night.code, **params) : ward_fichas_path(**params)
+      ward_fichas_path(**params)
     end
 end

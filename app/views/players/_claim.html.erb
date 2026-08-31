@@ -10,7 +10,6 @@
 
 <%= form_with url: night_players_path(night.code), method: :post, class: "join-form" do %>
   <input type="hidden" name="person_id" value="<%= person.id %>">
-  <input type="hidden" name="location" value="<%= @location.presence || "room" %>">
   <%= render "shared/year_field", value: @favorite_year, required: true %>
   <button type="submit" class="btn btn-gold"><%= picto("check") %><%= t("home.enter") %></button>
 <% end %>

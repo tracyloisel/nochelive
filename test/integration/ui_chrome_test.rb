@@ -41,7 +41,7 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     assert_select ".chrome-drawer .code-input", count: 0
     assert_select "details.home-code", count: 0
     assert_select ".story-ticks", count: 0
-    assert_select ".street-card.is-map-door"
+    assert_select ".hub-hero"
     assert_select ".chrome-drawer .mute[data-controller='menu-sound']"
     assert_select ".chrome-drawer .mute .word", text: I18n.t("chrome.sound_on")
     assert_select ".chrome-tools", count: 0
@@ -121,19 +121,17 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     assert_includes css, "top: calc(max(env(safe-area-inset-top), var(--space-3)) + 6rem)"
     assert_includes css, "@view-transition"
     assert_includes css, "prefers-reduced-motion"
-    assert_includes css, "fieldset.place"
-    assert_includes css, "p.place"
-    assert_includes css, ".picture-card"
+    assert_includes css, ".ficha-search"
+    assert_includes css, ".rama-search-sheet .ward-pick-row"
     assert_includes css, ".choice-mark"
     assert_includes css, ".quiz-meta"
     assert_includes css, ".play-reel.is-street.is-quiz .quiz-bar .word"
     refute_includes css, ".play-reel.is-street .quiz-bar.is-right {\n  background: var(--ink);"
     refute_includes css, ".play-reel.is-street .quiz-board.is-right { animation: goldflash"
-    assert_includes css, ".choice-token"
-    assert_includes css, ".order-chip"
+    refute_includes css, ".choice-token"
+    refute_includes css, ".order-chip"
     assert_includes css, ".picto"
     assert_includes css, ".play-reel"
-    assert_includes css, ".ward-grid"
     assert_includes css, ".place-input"
     assert_includes css, ".home-menu"
     assert_includes css, ".home-menu-row"
@@ -146,18 +144,17 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     assert_includes css, "--type-min:"
     assert_includes css, "--street-play-col:"
     assert_includes css, "--street-ceremony-col:"
-    assert_includes css, "--hub-progress-complete:"
     assert_includes css, ".street-world.is-game-hub .street-hub-feed"
-    assert_includes css, "scroll-padding-top: var(--space-4);"
-    assert_includes css, "grid-template-columns: repeat(4, minmax(0, 1fr));"
-    assert_includes css, ".street-world.is-game-hub[data-hub-theme=\"dark\"] .hub-progress"
-    assert_includes css, ".hub-progress-node.is-focus .hub-progress-mark::before"
+    assert_includes css, ".hub-streaming-feed--editorial"
+    assert_includes css, "--hub-editorial-hero-scrim:"
     assert_match(/:root,\s*body \{/, css)
-    refute_includes css, "body.is-street-hub:has(#street_world.is-profile-gate)"
+    refute_includes css, "is-profile-gate"
     assert_includes css, ".rama-nights"
     assert_includes css, ".home-paper"
     assert_includes css, ".play-reel.is-street"
     assert_includes css, "color-mix(in srgb, var(--temple-marble, var(--paper)) 94%, white)"
+    refute_includes css, "--hub-progress-complete:"
+    refute_includes css, ".hub-progress-node.is-focus .hub-progress-mark::before"
     motion = Rails.root.join("app/javascript/controllers/motion_controller.js").read
     assert_includes motion, 'target === "street_quiz"'
     assert_includes motion, "wrapStreet"
@@ -189,23 +186,15 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     assert_includes css, ".play-reel.is-street.is-quiz .play-sheet-body"
     assert_includes css, "padding: calc(var(--space-5) + var(--space-1)) var(--space-5)"
     assert_includes css, ".street-world"
-    assert_includes css, ".street-card"
+    assert_includes css, ".hub-now-card"
     assert_includes css, "street-sheet-rise"
     assert_includes css, ".hall-sheet"
     assert_includes css, ".charter-journey-hero"
     assert_includes css, ".play-timer"
     assert_includes css, ".timer-halo"
-    assert_match(/#night_(?:play|watch)\.is-timer-pulse[^}]*animation: timer-halo-beat 0\.76s/m, css)
+    refute_match(/#night_(?:play|watch)/, css)
     refute_match(/#street_quiz\.is-timer-pulse[^}]*animation:/m, css)
-    assert_includes css, "@keyframes timer-halo-beat {"
-    assert_includes css, "@keyframes timer-halo-beat-hot {"
-    assert_includes css, "0%, 4% { opacity: 1; }"
-    assert_includes css, "22% { opacity: 0.4; }"
-    assert_includes css, "32% { opacity: 0.48; }"
-    assert_includes css, "18% { opacity: 0.18; }"
-    assert_includes css, "28% { opacity: 0.26; }"
-    assert_includes css, "100% { opacity: 0.26; }"
-    assert_includes css, "100% { opacity: 0.1; }"
+    refute_includes css, "@keyframes timer-halo-beat"
     assert_includes css, ".timer-halo { animation: none !important; }"
     refute_includes css, "timer-halo-beat 0.26s"
     refute_includes css, "timer-halo-beat-hot 0.14s"
@@ -237,13 +226,10 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     refute_includes css, "clamp(3.9rem, 20vw, 6.1rem)"
     refute_includes css, "scale(1.28)"
     assert_includes css, "body[class*=\"is-fx-\"]::after { display: none; }"
-    assert_includes css, ".story-close"
-    assert_includes css, ".story-ticks"
-    assert_includes css, ".story-audience"
-    assert_includes css, ".story-score"
-    assert_includes css, ".is-kid .story-audience.btn"
-    assert_includes css, ".story-night"
-    assert_includes css, ".night-quiz-head"
+    refute_includes css, ".story-close"
+    refute_includes css, ".story-audience"
+    refute_includes css, ".story-night"
+    refute_includes css, ".night-quiz-head"
     assert_includes css, "--story-type:"
     assert_includes css, "--story-type-soft:"
     assert_includes css, "--story-shadow:"
@@ -252,11 +238,9 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     assert_includes css, "--scrim-board:"
     assert_includes css, "rgba(28, 25, 21, 0.9)"
     assert_includes css, "rgba(28, 25, 21, 0.42)"
-    assert_match(/\.watch-caption \{[^}]*background: var\(--scrim-bottom\)/m, css)
-    assert_match(/\.stage-caption \{[^}]*background: var\(--scrim-bottom\)/m, css)
-    assert_includes css, "background: var(--scrim-board);"
-    assert_includes css, "body.is-watch .chrome-tools .mute { display: none; }"
-    assert_includes css, "@media (orientation: landscape) and (max-height: 500px)"
+    refute_includes css, ".watch-caption"
+    refute_includes css, ".stage-caption"
+    refute_includes css, "body.is-watch"
     refute_includes css, "linear-gradient(180deg, var(--paper) 0%, transparent 28%)"
     assert_includes css, "--sky:"
     assert_includes css, "--surface-glass-soft"
@@ -289,9 +273,10 @@ class UiChromeTest < ActionDispatch::IntegrationTest
 
   test "shared HUD has no page-specific legacy skins" do
     css = frontend_css
-    forbidden = css.scan(/([^{}]+)\{([^{}]*)\}/m).filter_map do |selector, declarations|
+    forbidden = css.gsub(%r{/\*.*?\*/}m, "").scan(/([^{}]+)\{([^{}]*)\}/m).filter_map do |selector, declarations|
       selector = selector.strip
       next unless selector.include?("body.") && selector.include?(".quiz-hud")
+      next if selector.include?("is-game-hub-page")
       next if selector.include?("#street_quiz")
       next unless declarations.match?(/--(?:quiz|surface|text|border|gold|button|shadow)|(?:^|;)\s*(?:color|background|border-color|box-shadow|backdrop-filter)\s*:/m)
 
@@ -301,20 +286,16 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     assert_empty forbidden, "HUD palette must come only from data-hud-theme, not page selectors: #{forbidden.join(', ')}"
   end
 
-  test "watch screen is a still-first cinema board" do
-    get night_watch_path(game_sessions(:david).code)
+  test "canonical live screen is the automatic watch board" do
+    get night_path(game_sessions(:david).code)
     assert_response :success
-    assert_select "body.is-watch.is-kid"
-    assert_select ".watch.is-board"
-    assert_select ".watch-shot"
-    assert_select ".watch-chrome .watch-wordmark", text: /Noche Live/
-    assert_select ".watch-chrome .presence-stat", count: 0
-    assert_select ".watch-chrome .live", count: 0
-    assert_select ".watch-corner", count: 4
-    assert_select ".watch-board .score-strip"
-    assert_select ".challenge-story[src=?]", generated_media_src("media/stories/salomon_wisdom_night_wide.png")
-    assert_select ".cheer-dock", count: 0
-    assert_select "#street_duel_ping", count: 0
+    assert_select "body.is-night-watch.is-kid"
+    assert_select ".noche-live"
+    assert_select ".noche-watch-grid"
+    assert_select ".noche-watch-ranking"
+    assert_select ".noche-watch-progress"
+    assert_select ".noche-watch-events"
+    assert_select ".noche-live-art picture"
   end
 
   test "name screen is a frictionless night entry without Story costume" do
@@ -324,7 +305,7 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     assert_select "h1", text: /Entra a la noche/
     assert_select "input[name=name]", count: 1
     assert_select "input[name*='code']", count: 0
-    assert_select "a.quiet-link", text: /Soy el presentador/
+    assert_select "a.quiet-link", text: /Soy el presentador/, count: 0
     assert_select "#night_join.night-entry"
     assert_select ".night-entry-panel"
     assert_select ".play-reel", count: 0
@@ -336,46 +317,4 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     assert_select "#night_join"
   end
 
-  test "presenter console is a live reel not a form" do
-    sign_in_presenter(game_sessions(:david))
-    get presenter_console_path(game_sessions(:david).code)
-    assert_response :success
-    assert_select "body.is-presenter"
-    assert_select ".console.is-stage"
-    assert_select ".stage-shot"
-    assert_select ".stage-dock"
-    assert_select ".code-chip", text: /En directo/
-    assert_select ".code-chip", text: "DAVID", count: 0
-    assert_select ".challenge-story[src=?]", generated_media_src("media/stories/salomon_wisdom_night_wide.png")
-    assert_select ".story-close"
-    assert_select ".console.is-stage[data-controller=story]"
-    assert_select ".desk-sheet"
-    assert_select ".desk-sheet[data-sheet-peek-ratio-value='0.28']"
-    assert_select ".desk-tabs"
-    assert_select ".desk-board[aria-label=Marcador]"
-    assert_select ".desk-team"
-    assert_select ".stage-dock-main .btn-gold", count: 1
-    assert_select ".stage-more", text: /Lista/
-    assert_select ".stage-rail", count: 0
-    assert_not_includes response.body, "Remoto: grado"
-    css = frontend_css("live")
-    assert_includes css, ".stage-dock"
-    assert_includes css, ".stage-shot"
-    assert_includes css, ".code-chip"
-    assert_includes css, ".desk-team"
-    assert_includes css, ".desk-tabs"
-    assert_includes css, ".desk-mark"
-    assert_includes css, "--desk-radius:"
-  end
-
-  test "finished presenter keeps the still in the shot" do
-    sign_in_presenter(game_sessions(:cerrada))
-    get presenter_console_path(game_sessions(:cerrada).code)
-    assert_response :success
-    assert_select ".stage-shot .challenge-story"
-    assert_select ".stage-shot .ceremony", count: 0
-    assert_select ".desk-sheet .ceremony", text: /gana la noche/
-    assert_select ".story-ticks", count: 0
-    assert_select ".play-sheet-grip", count: 0
-  end
 end

@@ -1,92 +1,38 @@
 module Nights
   class Broadcast
-    def self.call(night:, pulse: nil)
-      new(night, pulse: pulse).call
+    def self.call(night:, event: nil, **)
+      new(night:, event:).call
     end
 
-    def initialize(night, pulse: nil)
+    def initialize(night:, event:)
       @night = night.reload
-      @pulse = pulse
+      @event = event
     end
 
     def call
-      publish_pulse
-      replace_play
-      replace_watch
-      replace_presenter
-      refresh_audience
-    end
-
-    private
-
-    def replace_play
-      @night.players.includes(:team, team: :reward_grants).where(role: "participant").find_each do |player|
-        I18n.with_locale(Locale.i18n(player.locale)) do
-          Turbo::StreamsChannel.broadcast_replace_to(
-            @night.player_stream(player),
-            target: "night_play",
-            partial: "play/frame",
-            locals: { night: @night, team: player.team, player: player, pulse: @pulse }
-          )
-        end
-      end
-    end
-
-    def replace_watch
-      @night.players.where(role: "spectator").find_each do |player|
-        I18n.with_locale(Locale.i18n(player.locale)) do
-          Turbo::StreamsChannel.broadcast_replace_to(
-            @night.player_stream(player),
-            target: "night_watch",
-            partial: "watch/frame",
-            locals: { night: @night, pulse: @pulse }
-          )
-        end
-      end
-
-      I18n.with_locale(Locale.i18n(@night.presenter_locale)) do
-        Turbo::StreamsChannel.broadcast_replace_to(
-          @night.watch_stream,
-          target: "night_watch",
-          partial: "watch/frame",
-          locals: { night: @night, pulse: @pulse }
-        )
-      end
-    end
-
-    def replace_presenter
-      I18n.with_locale(Locale.i18n(@night.presenter_locale)) do
-        Turbo::StreamsChannel.broadcast_replace_to(
-          @night.presenter_stream,
-          target: "night_presenter",
-          partial: "presenter/consoles/frame",
-          locals: { night: @night, pulse: @pulse }
-        )
-      end
-    end
-
-    def refresh_audience
-      Turbo::StreamsChannel.broadcast_refresh_to(@night.audience_stream)
-    end
-
-    def publish_pulse
-      return if @pulse.blank?
-
-      streams = [ [ @night.watch_stream, @night.presenter_locale ], [ @night.presenter_stream, @night.presenter_locale ] ]
-      @night.players.where(role: "participant").find_each do |player|
-        streams << [ @night.player_stream(player), player.locale ]
-      end
-      @night.players.where(role: "spectator").find_each do |player|
-        streams << [ @night.player_stream(player), player.locale ]
-      end
-
-      streams.uniq.each do |stream, locale|
+      projection = Nights::Projection.call(night: @night)
+      latest_event = @event || projection.events.first
+      Locale::AVAILABLE.each do |locale|
         I18n.with_locale(Locale.i18n(locale)) do
-          Turbo::StreamsChannel.broadcast_append_to(
-            stream,
-            target: "live_pulses",
-            partial: "shared/pulse",
-            locals: { pulse: @pulse, round: @night.current_round_run }
+          if @event
+            Turbo::StreamsChannel.broadcast_prepend_to(
+              @night.locale_stream(locale),
+              target: "live_events",
+              partial: "nights/event",
+              locals: { event: @event }
+            )
+          end
+          Turbo::StreamsChannel.broadcast_replace_to(
+            @night.locale_stream(locale),
+            target: "live_event_tile",
+            partial: "nights/live_tile",
+            locals: { night: @night, event: latest_event }
+          )
+          Turbo::StreamsChannel.broadcast_replace_to(
+            @night.locale_stream(locale),
+            target: "night_projection",
+            partial: "nights/projection",
+            locals: { night: @night, projection: }
           )
         end
       end

@@ -6,7 +6,9 @@
 <% extra_sfx = local_assigns[:sfx] %>
 <% extra_fx = local_assigns[:fx] %>
 <% duel_campus = local_assigns[:duel_campus] %>
-<% overlay = local_assigns[:play_context] == :jugar %>
+<% play_context = local_assigns[:play_context] %>
+<% overlay = %i[jugar live].include?(play_context) %>
+<% live = play_context == :live %>
 <% chrome = local_assigns[:chrome] || if overlay && street.done?
   Quizzes::Chrome.ceremony(outcomes: duel_campus&.impacts&.map(&:outcome))
 elsif overlay
@@ -20,7 +22,9 @@ end %>
 <%= tag.section id: "street_quiz",
       class: shell[:class],
       data: shell[:data] do %>
-  <% if overlay && street.done? %>
+  <% if live && street.done? %>
+    <%= render "home/live_quiz_ceremony", street:, run:, question:, pack:, chrome:, night: local_assigns[:night], player: local_assigns[:player] %>
+  <% elsif overlay && street.done? %>
     <%= render "home/street_overlay_ceremony",
           street: street,
           run: run,
@@ -40,7 +44,9 @@ end %>
           quiz_standings: quiz_standings,
           chrome: chrome,
           combo: combo,
-          duel_campus: duel_campus %>
+          duel_campus: duel_campus,
+          live: live,
+          night: local_assigns[:night] %>
   <% else %>
     <div class="play-shot">
       <% if still %>

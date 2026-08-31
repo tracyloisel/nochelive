@@ -1,0 +1,1284 @@
+---
+packs:
+- id: exp_psalms_disappearing_voice
+  title: La voix qui disparaît
+  kicker: Psaumes 102–103
+  lede: Quand tes jours partent en fumée, qu’est-ce qui peut encore tenir ?
+  readings:
+  - study: ot/ps/102
+    cite: Psaume 102
+  - study: ot/ps/103
+    cite: Psaume 103
+  questions:
+  - id: ps102_fumee_01
+    question: Que craint la voix au début du Psaume 102 ?
+    choices:
+    - key: a
+      label: Disparaître
+    - key: b
+      label: Perdre son trône
+    - key: c
+      label: Oublier une victoire
+    correct_choice: a
+    answer: 'Ses jours partent en fumée et son corps s’épuise : elle craint de disparaître.'
+    points: 5
+    duration: 0
+    intensity: 1
+    scripture:
+      canon: bible
+      cite: Psaume 102:2-12
+      study: ot/ps/102
+    presentation:
+      image: quizzes/exp_psalms_disappearing_voice/ps102_fumee_01.png
+  - id: ps102_herbe_02
+    question: À quoi son cœur est-il comparé ?
+    choices:
+    - key: a
+      label: À de l’herbe desséchée
+    - key: b
+      label: À une muraille fissurée
+    - key: c
+      label: À une rivière tarie
+    correct_choice: a
+    answer: 'Son cœur est comme une herbe frappée et desséchée : la souffrance atteint tout son être.'
+    points: 5
+    duration: 0
+    intensity: 1
+    scripture:
+      canon: bible
+      cite: Psaume 102:5
+      study: ot/ps/102
+    presentation:
+      image: quizzes/exp_psalms_disappearing_voice/ps102_herbe_02.png
+  - id: ps102_mais_toi_03
+    question: Quel tournant ouvre enfin un avenir ?
+    choices:
+    - key: a
+      label: Mais toi, tu subsistes
+    - key: b
+      label: Moi seul, je résisterai
+    - key: c
+      label: Tout est déjà réparé
+    correct_choice: a
+    answer: La voix ne prétend pas aller mieux. Elle tourne son regard vers Dieu, qui demeure.
+    points: 5
+    duration: 0
+    intensity: 2
+    scripture:
+      canon: bible
+      cite: Psaume 102:13-14
+      study: ot/ps/102
+    presentation:
+      image: quizzes/exp_psalms_disappearing_voice/ps102_mais_toi_03.png
+  - id: ps102_sion_04
+    question: À quelle ville sa douleur finit-elle par se mêler ?
+    choices:
+    - key: a
+      label: Sion
+    - key: b
+      label: Rome
+    - key: c
+      label: Ninive
+    correct_choice: a
+    answer: Sa plainte personnelle rejoint les pierres et la poussière de Sion, qui attend d’être relevée.
+    points: 8
+    duration: 20
+    intensity: 2
+    scripture:
+      canon: bible
+      cite: Psaume 102:14-23
+      study: ot/ps/102
+    presentation:
+      image: quizzes/exp_psalms_disappearing_voice/ps102_sion_04.png
+  - id: ps102_avenir_05
+    question: Qui devra encore louer Dieu après cette génération ?
+    choices:
+    - key: a
+      label: Un peuple à venir
+    - key: b
+      label: Seulement les rois
+    - key: c
+      label: Personne après elle
+    correct_choice: a
+    answer: Le psaume imagine une génération future qui lira, louera Dieu et trouvera encore Sion devant elle.
+    points: 8
+    duration: 20
+    intensity: 2
+    scripture:
+      canon: bible
+      cite: Psaume 102:19-29
+      study: ot/ps/102
+    presentation:
+      image: quizzes/exp_psalms_disappearing_voice/ps102_avenir_05.png
+  - id: ps103_memoire_06
+    question: Que demande le Psaume 103 à l’âme ?
+    choices:
+    - key: a
+      label: N’oublie aucun bienfait
+    - key: b
+      label: Ne regarde que tes fautes
+    - key: c
+      label: Oublie ce qui t’a blessé
+    correct_choice: a
+    answer: La voix commande à son âme de bénir Dieu et de ne pas oublier ses bienfaits.
+    points: 8
+    duration: 20
+    intensity: 3
+    scripture:
+      canon: bible
+      cite: Psaume 103:1-5
+      study: ot/ps/103
+    presentation:
+      image: quizzes/exp_psalms_disappearing_voice/ps103_memoire_06.png
+  - id: ps103_distance_07
+    question: Que fait Dieu des fautes dans l’image du psaume ?
+    choices:
+    - key: a
+      label: Il les éloigne très loin
+    - key: b
+      label: Il les garde pour humilier
+    - key: c
+      label: Il nie qu’elles existent
+    correct_choice: a
+    answer: Comme l’orient est loin de l’occident, le psaume représente Dieu éloignant les fautes.
+    points: 12
+    duration: 15
+    intensity: 3
+    scripture:
+      canon: bible
+      cite: Psaume 103:8-12
+      study: ot/ps/103
+    presentation:
+      image: quizzes/exp_psalms_disappearing_voice/ps103_distance_07.png
+  - id: ps103_fragilite_08
+    question: Comment Dieu regarde-t-il notre fragilité ?
+    choices:
+    - key: a
+      label: Avec compassion
+    - key: b
+      label: Avec surprise
+    - key: c
+      label: Avec mépris
+    correct_choice: a
+    answer: Le psaume dit que Dieu se souvient que nous sommes poussière et nous regarde avec compassion.
+    points: 12
+    duration: 15
+    intensity: 4
+    scripture:
+      canon: bible
+      cite: Psaume 103:13-14
+      study: ot/ps/103
+    presentation:
+      image: quizzes/exp_psalms_disappearing_voice/ps103_fragilite_08.png
+  - id: ps103_eternite_09
+    question: La vie passe comme l’herbe. Qu’est-ce qui demeure ?
+    choices:
+    - key: a
+      label: L’amour fidèle de Dieu
+    - key: b
+      label: La force du corps
+    - key: c
+      label: La renommée humaine
+    correct_choice: a
+    answer: La vie humaine est brève, mais l’amour de Dieu est présenté comme allant d’éternité en éternité.
+    points: 15
+    duration: 15
+    intensity: 4
+    scripture:
+      canon: bible
+      cite: Psaume 103:15-18
+      study: ot/ps/103
+    presentation:
+      image: quizzes/exp_psalms_disappearing_voice/ps103_eternite_09.png
+  - id: ps102_hebreux_10
+    question: Dans Hébreux 1, ces mots du Psaume 102 parlent de qui ?
+    choices:
+    - key: a
+      label: Du Fils
+    - key: b
+      label: Du chanteur anonyme
+    - key: c
+      label: De Melchisédek
+    correct_choice: a
+    answer: Hébreux applique au Fils les mots sur celui qui demeure. Cela ne fait pas de toute la plainte la voix de Jésus.
+    points: 25
+    duration: 15
+    intensity: 5
+    scripture:
+      canon: bible
+      cite: Psaume 102:26-28
+      study: ot/ps/102
+    presentation:
+      image: quizzes/exp_psalms_disappearing_voice/ps102_hebreux_10.png
+- id: exp_psalms_nameless_king
+  title: Le Roi sans nom
+  kicker: Psaume 110
+  lede: 'Un roi reçoit une promesse étrange : prêtre pour toujours.'
+  readings:
+  - study: ot/ps/110
+    cite: Psaume 110
+  questions:
+  - id: ps110_roles_01
+    question: Quels deux rôles le Psaume 110 réunit-il ?
+    choices:
+    - key: a
+      label: Roi et prêtre
+    - key: b
+      label: Prophète et juge
+    - key: c
+      label: Scribe et soldat
+    correct_choice: a
+    answer: Une première parole concerne un roi ; une seconde le déclare prêtre selon Melchisédek.
+    points: 5
+    duration: 0
+    intensity: 1
+    scripture:
+      canon: bible
+      cite: Psaume 110:1-4
+      study: ot/ps/110
+    presentation:
+      image: quizzes/exp_psalms_nameless_king/ps110_roles_01.png
+  - id: ps110_roi_inconnu_02
+    question: Le texte permet-il de nommer ce roi avec certitude ?
+    choices:
+    - key: a
+      label: Non, il reste inconnu
+    - key: b
+      label: Oui, c’est David
+    - key: c
+      label: Oui, c’est Salomon
+    correct_choice: a
+    answer: Le titre transmis l’associe à David, mais le roi visé et la première scène historique restent inconnus.
+    points: 5
+    duration: 0
+    intensity: 1
+    scripture:
+      canon: bible
+      cite: Psaume 110:1-7
+      study: ot/ps/110
+    presentation:
+      image: quizzes/exp_psalms_nameless_king/ps110_roi_inconnu_02.png
+  - id: ps110_droite_03
+    question: Où Dieu invite-t-il ce seigneur à s’asseoir ?
+    choices:
+    - key: a
+      label: À sa droite
+    - key: b
+      label: Derrière l’autel
+    - key: c
+      label: Hors de Jérusalem
+    correct_choice: a
+    answer: La droite représente ici une place d’autorité accordée par Dieu.
+    points: 5
+    duration: 0
+    intensity: 2
+    scripture:
+      canon: bible
+      cite: Psaume 110:1
+      study: ot/ps/110
+    presentation:
+      image: quizzes/exp_psalms_nameless_king/ps110_droite_03.png
+  - id: ps110_melchisedek_04
+    question: Pourquoi Melchisédek surprend-il au verset 4 ?
+    choices:
+    - key: a
+      label: Le roi devient aussi prêtre
+    - key: b
+      label: Il détruit Jérusalem
+    - key: c
+      label: Il écrit le psaume
+    correct_choice: a
+    answer: Le serment ajoute un rôle sacerdotal au roi. Le rapport historique exact à Melchisédek reste discuté.
+    points: 8
+    duration: 20
+    intensity: 2
+    scripture:
+      canon: bible
+      cite: Psaume 110:4
+      study: ot/ps/110
+    presentation:
+      image: quizzes/exp_psalms_nameless_king/ps110_melchisedek_04.png
+  - id: ps110_fin_05
+    question: Le psaume finit-il avec le serment sacerdotal ?
+    choices:
+    - key: a
+      label: Non, il poursuit vers le combat
+    - key: b
+      label: Oui, tout s’arrête là
+    - key: c
+      label: Non, il raconte l’exil
+    correct_choice: a
+    answer: Après le serment, le poème poursuit avec une victoire violente. L’expédition ne doit pas l’effacer.
+    points: 8
+    duration: 20
+    intensity: 2
+    scripture:
+      canon: bible
+      cite: Psaume 110:5-7
+      study: ot/ps/110
+    presentation:
+      image: quizzes/exp_psalms_nameless_king/ps110_fin_05.png
+  - id: ps110_scene_06
+    question: Que reste-t-il inconnu derrière cette scène royale ?
+    choices:
+    - key: a
+      label: Le roi et la cérémonie
+    - key: b
+      label: Le nom de Jérusalem
+    - key: c
+      label: L’existence de la royauté
+    correct_choice: a
+    answer: Le psaume est royal, mais il ne permet pas de reconstruire avec certitude le roi ni la cérémonie.
+    points: 8
+    duration: 20
+    intensity: 3
+    scripture:
+      canon: bible
+      cite: Psaume 110:1-7
+      study: ot/ps/110
+    presentation:
+      image: quizzes/exp_psalms_nameless_king/ps110_scene_06.png
+  - id: ps110_matthieu_07
+    question: Dans Matthieu 22, quelle énigme Jésus pose-t-il ?
+    choices:
+    - key: a
+      label: David appelle son fils Seigneur
+    - key: b
+      label: Moïse refuse d’être roi
+    - key: c
+      label: Salomon devient prophète
+    correct_choice: a
+    answer: Jésus demande comment le Messie peut être fils de David si David l’appelle aussi Seigneur.
+    points: 12
+    duration: 15
+    intensity: 3
+    scripture:
+      canon: bible
+      cite: Psaume 110:1
+      study: ot/ps/110
+    presentation:
+      image: quizzes/exp_psalms_nameless_king/ps110_matthieu_07.png
+  - id: ps110_hebreux5_08
+    question: Dans Hébreux 5, qui est le prêtre pour toujours ?
+    choices:
+    - key: a
+      label: Jésus-Christ
+    - key: b
+      label: Le roi historique certain
+    - key: c
+      label: Le chanteur du psaume
+    correct_choice: a
+    answer: Hébreux reprend le serment pour le Christ et le nomme auteur d’un salut éternel.
+    points: 12
+    duration: 15
+    intensity: 4
+    scripture:
+      canon: bible
+      cite: Psaume 110:4
+      study: ot/ps/110
+    presentation:
+      image: quizzes/exp_psalms_nameless_king/ps110_hebreux5_08.png
+  - id: ps110_hebreux7_09
+    question: Selon Hébreux 7, pourquoi peut-il sauver pleinement ?
+    choices:
+    - key: a
+      label: Il vit toujours et intercède
+    - key: b
+      label: Il gagne chaque bataille
+    - key: c
+      label: Il ignore toute faiblesse
+    correct_choice: a
+    answer: Hébreux fonde cette espérance sur le Christ vivant toujours pour intercéder.
+    points: 15
+    duration: 15
+    intensity: 4
+    scripture:
+      canon: bible
+      cite: Psaume 110:4
+      study: ot/ps/110
+    presentation:
+      image: quizzes/exp_psalms_nameless_king/ps110_hebreux7_09.png
+  - id: ps110_lds_10
+    question: Dans la lecture LDS, quel ordre éclaire ce serment ?
+    choices:
+    - key: a
+      label: L’ordre du Fils de Dieu
+    - key: b
+      label: L’ordre des rois de Juda
+    - key: c
+      label: L’ordre des scribes
+    correct_choice: a
+    answer: Alma et Doctrine et Alliances relient cet ordre au Fils de Dieu et à la prêtrise de Melchisédek.
+    points: 25
+    duration: 15
+    intensity: 5
+    scripture:
+      canon: bible
+      cite: Psaume 110:4
+      study: ot/ps/110
+    presentation:
+      image: quizzes/exp_psalms_nameless_king/ps110_lds_10.png
+- id: exp_psalms_cry_stone_seek
+  title: Cherche-moi
+  kicker: Psaumes 116–119
+  lede: Crier, traverser la porte et demander à Dieu de venir te chercher.
+  readings:
+  - study: ot/ps/116
+    cite: Psaume 116
+  - study: ot/ps/117
+    cite: Psaume 117
+  - study: ot/ps/118
+    cite: Psaume 118
+  - study: ot/ps/119
+    cite: Psaume 119
+  questions:
+  - id: ps116_appel_01
+    question: Quand la mort l’enserre, que fait d’abord la voix ?
+    choices:
+    - key: a
+      label: Elle appelle Dieu
+    - key: b
+      label: Elle cache sa peur
+    - key: c
+      label: Elle promet de tout contrôler
+    correct_choice: a
+    answer: 'Son cri tient en peu de mots : elle appelle le nom de Dieu et demande d’être délivrée.'
+    points: 5
+    duration: 0
+    intensity: 1
+    scripture:
+      canon: bible
+      cite: Psaume 116:1-4
+      study: ot/ps/116
+    presentation:
+      image: quizzes/exp_psalms_cry_stone_seek/ps116_appel_01.png
+  - id: ps116_public_02
+    question: Après la délivrance, où porte-t-elle sa gratitude ?
+    choices:
+    - key: a
+      label: Devant tout le peuple
+    - key: b
+      label: Dans un lieu secret
+    - key: c
+      label: Devant les armées
+    correct_choice: a
+    answer: La voix accomplit ses vœux publiquement et transforme sa délivrance en témoignage partagé.
+    points: 5
+    duration: 0
+    intensity: 1
+    scripture:
+      canon: bible
+      cite: Psaume 116:12-19
+      study: ot/ps/116
+    presentation:
+      image: quizzes/exp_psalms_cry_stone_seek/ps116_public_02.png
+  - id: ps117_nations_03
+    question: Qui le Psaume 117 invite-t-il à louer Dieu ?
+    choices:
+    - key: a
+      label: Toutes les nations
+    - key: b
+      label: Seulement les prêtres
+    - key: c
+      label: Seulement Jérusalem
+    correct_choice: a
+    answer: En deux versets, le psaume appelle toutes les nations et tous les peuples.
+    points: 5
+    duration: 0
+    intensity: 2
+    scripture:
+      canon: bible
+      cite: Psaume 117:1-2
+      study: ot/ps/117
+    presentation:
+      image: quizzes/exp_psalms_cry_stone_seek/ps117_nations_03.png
+  - id: ps117_romains_04
+    question: Pourquoi Paul reprend-il le Psaume 117 dans Romains 15 ?
+    choices:
+    - key: a
+      label: Les nations louent Dieu
+    - key: b
+      label: Le Temple doit être rebâti
+    - key: c
+      label: David doit devenir prêtre
+    correct_choice: a
+    answer: Paul y voit les nations accueillies avec le peuple de Dieu dans la louange et l’espérance.
+    points: 8
+    duration: 20
+    intensity: 2
+    scripture:
+      canon: bible
+      cite: Psaume 117:1
+      study: ot/ps/117
+    presentation:
+      image: quizzes/exp_psalms_cry_stone_seek/ps117_romains_04.png
+  - id: ps118_pierre_05
+    question: Que devient la pierre rejetée du Psaume 118 ?
+    choices:
+    - key: a
+      label: La pierre principale
+    - key: b
+      label: Une pierre oubliée
+    - key: c
+      label: Une arme de guerre
+    correct_choice: a
+    answer: Ce que les bâtisseurs avaient rejeté devient la pierre dont la construction dépend.
+    points: 8
+    duration: 20
+    intensity: 2
+    scripture:
+      canon: bible
+      cite: Psaume 118:22-23
+      study: ot/ps/118
+    presentation:
+      image: quizzes/exp_psalms_cry_stone_seek/ps118_pierre_05.png
+  - id: ps118_actes_06
+    question: Dans Actes 4, qui devient cette pierre ?
+    choices:
+    - key: a
+      label: Jésus-Christ
+    - key: b
+      label: Pierre l’apôtre
+    - key: c
+      label: Le roi du Psaume 110
+    correct_choice: a
+    answer: Pierre applique l’image à Jésus ressuscité et affirme que le salut se trouve en lui.
+    points: 8
+    duration: 20
+    intensity: 3
+    scripture:
+      canon: bible
+      cite: Psaume 118:22
+      study: ot/ps/118
+    presentation:
+      image: quizzes/exp_psalms_cry_stone_seek/ps118_actes_06.png
+  - id: ps119_return_07
+    question: Tu as raté trois jours. Que faire d’après la fin du Psaume 119 ?
+    choices:
+    - key: a
+      label: Me cacher jusqu’à aller mieux
+    - key: b
+      label: Me promettre de ne plus échouer
+    - key: c
+      label: Demander à Dieu de me chercher
+    - key: d
+      label: Abandonner le chemin
+    correct_choice: c
+    answer: La voix ne dit pas qu’elle a réussi. Elle reconnaît s’être perdue et demande à Dieu de la chercher.
+    points: 12
+    duration: 15
+    intensity: 3
+    scripture:
+      canon: bible
+      cite: Psaume 119:176
+      study: ot/ps/119
+    presentation:
+      image: quizzes/exp_psalms_cry_stone_seek/ps119_return_07.png
+  - id: ps119_teach_08
+    question: Ton esprit part ailleurs. Quel réflexe revient dans le Psaume 119 ?
+    choices:
+    - key: a
+      label: Faire comme si j’avais compris
+    - key: b
+      label: Demander à Dieu de m’enseigner
+    - key: c
+      label: Arrêter dès que je me disperse
+    - key: d
+      label: Réciter pour mériter son aide
+    correct_choice: b
+    answer: 'Le psaume revient à cette demande : enseigne-moi, donne-moi de comprendre et fais-moi vivre.'
+    points: 12
+    duration: 15
+    intensity: 4
+    scripture:
+      canon: bible
+      cite: Psaume 119:12
+      study: ot/ps/119
+    presentation:
+      image: quizzes/exp_psalms_cry_stone_seek/ps119_teach_08.png
+  - id: ps119_order_09
+    question: Ta routine tient. Que rappelle pourtant la fin du Psaume 119 ?
+    choices:
+    - key: a
+      label: Une routine empêche de se perdre
+    - key: b
+      label: L’ordre aide sans remplacer Dieu
+    - key: c
+      label: Toute discipline est inutile
+    - key: d
+      label: Dieu aide, donc je n’agis plus
+    correct_choice: b
+    answer: Le poème est très ordonné, mais il finit avec une brebis perdue. La discipline ne remplace pas Dieu.
+    points: 15
+    duration: 15
+    intensity: 4
+    scripture:
+      canon: bible
+      cite: Psaume 119:1-176
+      study: ot/ps/119
+    presentation:
+      image: quizzes/exp_psalms_cry_stone_seek/ps119_order_09.png
+  - id: ps119_help_10
+    question: "« Dieu me cherche, donc je n’ai rien à faire. » Que répond le psaume ?"
+    choices:
+    - key: a
+      label: Attendre suffit toujours
+    - key: b
+      label: Dieu n’aide que les parfaits
+    - key: c
+      label: Demander son aide, puis agir
+    - key: d
+      label: Les règles passent avant Dieu
+    correct_choice: c
+    answer: La voix cherche Dieu, demande d’être enseignée, puis d’être cherchée. L’aide et le prochain pas vont ensemble.
+    points: 25
+    duration: 15
+    intensity: 5
+    scripture:
+      canon: bible
+      cite: Psaume 119:10
+      study: ot/ps/119
+    presentation:
+      image: quizzes/exp_psalms_cry_stone_seek/ps119_help_10.png
+- id: exp_psalms_house_table_city
+  title: La maison que Dieu bâtit
+  kicker: Psaumes 127–128
+  lede: Travailler, aimer et bâtir sans porter seul le poids du monde.
+  readings:
+  - study: ot/ps/127
+    cite: Psaume 127
+  - study: ot/ps/128
+    cite: Psaume 128
+  questions:
+  - id: ps127_batir_01
+    question: Sans Dieu, que devient le travail des bâtisseurs ?
+    choices:
+    - key: a
+      label: Un effort vain
+    - key: b
+      label: Une faute impardonnable
+    - key: c
+      label: Une victoire certaine
+    correct_choice: a
+    answer: Le psaume ne méprise pas le travail ; il refuse d’en faire une fondation suffisante sans Dieu.
+    points: 5
+    duration: 0
+    intensity: 1
+    scripture:
+      canon: bible
+      cite: Psaume 127:1
+      study: ot/ps/127
+    presentation:
+      image: quizzes/exp_psalms_house_table_city/ps127_batir_01.png
+  - id: ps127_garde_02
+    question: Sans Dieu, que vaut la veille du gardien ?
+    choices:
+    - key: a
+      label: Elle devient vaine
+    - key: b
+      label: Elle garantit la ville
+    - key: c
+      label: Elle remplace la prière
+    correct_choice: a
+    answer: Le gardien veille réellement, mais sa vigilance n’est pas présentée comme une sécurité absolue.
+    points: 5
+    duration: 0
+    intensity: 1
+    scripture:
+      canon: bible
+      cite: Psaume 127:1
+      study: ot/ps/127
+    presentation:
+      image: quizzes/exp_psalms_house_table_city/ps127_garde_02.png
+  - id: ps127_labeur_03
+    question: Que dénonce le Psaume 127 dans le travail ?
+    choices:
+    - key: a
+      label: Le labeur anxieux sans Dieu
+    - key: b
+      label: Tout effort humain
+    - key: c
+      label: Le besoin de dormir
+    correct_choice: a
+    answer: Il vise l’effort qui se lève tôt, se couche tard et vit comme si tout dépendait de lui seul.
+    points: 5
+    duration: 0
+    intensity: 2
+    scripture:
+      canon: bible
+      cite: Psaume 127:2
+      study: ot/ps/127
+    presentation:
+      image: quizzes/exp_psalms_house_table_city/ps127_labeur_03.png
+  - id: ps127_enfants_04
+    question: Comment les enfants sont-ils présentés dans le psaume ?
+    choices:
+    - key: a
+      label: Comme un héritage reçu
+    - key: b
+      label: Comme une preuve de mérite
+    - key: c
+      label: Comme une charge honteuse
+    correct_choice: a
+    answer: Le texte parle d’un héritage reçu. Le jeu ne classe ni fertilité ni forme familiale.
+    points: 8
+    duration: 20
+    intensity: 2
+    scripture:
+      canon: bible
+      cite: Psaume 127:3-5
+      study: ot/ps/127
+    presentation:
+      image: quizzes/exp_psalms_house_table_city/ps127_enfants_04.png
+  - id: ps127_porte_05
+    question: Dans le monde ancien, que se passait aussi à la porte ?
+    choices:
+    - key: a
+      label: Les affaires de la cité
+    - key: b
+      label: Les sacrifices du Temple
+    - key: c
+      label: Les récoltes des champs
+    correct_choice: a
+    answer: La porte était probablement un lieu civique et judiciaire, pas seulement une défense militaire.
+    points: 8
+    duration: 20
+    intensity: 2
+    scripture:
+      canon: bible
+      cite: Psaume 127:5
+      study: ot/ps/127
+    presentation:
+      image: quizzes/exp_psalms_house_table_city/ps127_porte_05.png
+  - id: ps127_montee_06
+    question: À quel voyage associe-t-on les Chants des montées ?
+    choices:
+    - key: a
+      label: La montée vers Jérusalem
+    - key: b
+      label: La fuite vers l’Égypte
+    - key: c
+      label: La conquête de Babylone
+    correct_choice: a
+    answer: On les associe généralement aux pèlerinages vers Jérusalem, sans connaître un itinéraire précis.
+    points: 8
+    duration: 20
+    intensity: 3
+    scripture:
+      canon: bible
+      cite: Psaumes 127–128
+      study: ot/ps/127
+    presentation:
+      image: quizzes/exp_psalms_house_table_city/ps127_montee_06.png
+  - id: ps128_travail_07
+    question: Dans le Psaume 128, que mange le travailleur ?
+    choices:
+    - key: a
+      label: Le fruit de son travail
+    - key: b
+      label: Le pain de ses voisins
+    - key: c
+      label: La nourriture du roi
+    correct_choice: a
+    answer: Le bonheur inclut ici le fruit concret du travail, reçu dans une vie tournée vers Dieu.
+    points: 12
+    duration: 15
+    intensity: 3
+    scripture:
+      canon: bible
+      cite: Psaume 128:1-2
+      study: ot/ps/128
+    presentation:
+      image: quizzes/exp_psalms_house_table_city/ps128_travail_07.png
+  - id: ps128_voies_08
+    question: À quoi le Psaume 128 relie-t-il le bonheur ?
+    choices:
+    - key: a
+      label: Craindre Dieu, suivre ses voies
+    - key: b
+      label: Posséder la plus grande maison
+    - key: c
+      label: Ne jamais connaître l’effort
+    correct_choice: a
+    answer: Le texte parle de craindre Dieu et de marcher dans ses voies, pas d’acheter une vie parfaite.
+    points: 12
+    duration: 15
+    intensity: 4
+    scripture:
+      canon: bible
+      cite: Psaume 128:1
+      study: ot/ps/128
+    presentation:
+      image: quizzes/exp_psalms_house_table_city/ps128_voies_08.png
+  - id: ps128_ville_09
+    question: Où la bénédiction de la maison finit-elle par regarder ?
+    choices:
+    - key: a
+      label: Vers le bien de Jérusalem
+    - key: b
+      label: Vers une richesse privée
+    - key: c
+      label: Vers la chute des voisins
+    correct_choice: a
+    answer: La vision s’élargit de la table au bien de Jérusalem et à la paix sur Israël.
+    points: 15
+    duration: 15
+    intensity: 4
+    scripture:
+      canon: bible
+      cite: Psaume 128:5-6
+      study: ot/ps/128
+    presentation:
+      image: quizzes/exp_psalms_house_table_city/ps128_ville_09.png
+  - id: ps127_agir_10
+    question: S’appuyer sur Dieu signifie-t-il cesser de bâtir ?
+    choices:
+    - key: a
+      label: Non, bâtir avec lui
+    - key: b
+      label: Oui, attendre sans agir
+    - key: c
+      label: Non, tout porter seul
+    correct_choice: a
+    answer: Le psaume garde bâtisseurs et gardiens à l’œuvre, mais refuse qu’ils se prennent pour la fondation.
+    points: 25
+    duration: 15
+    intensity: 5
+    scripture:
+      canon: bible
+      cite: Psaume 127:1-2
+      study: ot/ps/127
+    presentation:
+      image: quizzes/exp_psalms_house_table_city/ps127_agir_10.png
+- id: exp_psalms_suspended_harps
+  title: Les harpes suspendues
+  kicker: Psaumes 135–139
+  lede: Ils ont détruit leur ville, puis leur ont demandé de la chanter.
+  readings:
+  - study: ot/ps/135
+    cite: Psaume 135
+  - study: ot/ps/136
+    cite: Psaume 136
+  - study: ot/ps/137
+    cite: Psaume 137
+  - study: ot/ps/138
+    cite: Psaume 138
+  - study: ot/ps/139
+    cite: Psaume 139
+  questions:
+  - id: ps135_souffle_01
+    question: Que manque-t-il aux idoles malgré leur bouche ?
+    choices:
+    - key: a
+      label: Le souffle et la parole
+    - key: b
+      label: Une couronne
+    - key: c
+      label: Des serviteurs
+    correct_choice: a
+    answer: Elles ont bouche, yeux et oreilles, mais elles ne parlent, ne voient, n’entendent ni ne respirent.
+    points: 5
+    duration: 0
+    intensity: 1
+    scripture:
+      canon: bible
+      cite: Psaume 135:15-17
+      study: ot/ps/135
+    presentation:
+      image: quizzes/exp_psalms_suspended_harps/ps135_souffle_01.png
+  - id: ps135_ressembler_02
+    question: Que risquent ceux qui font confiance à ces idoles ?
+    choices:
+    - key: a
+      label: De leur ressembler
+    - key: b
+      label: De devenir rois
+    - key: c
+      label: De quitter Jérusalem
+    correct_choice: a
+    answer: Le psaume avertit que ceux qui les fabriquent et leur font confiance deviennent comme elles.
+    points: 5
+    duration: 0
+    intensity: 1
+    scripture:
+      canon: bible
+      cite: Psaume 135:18
+      study: ot/ps/135
+    presentation:
+      image: quizzes/exp_psalms_suspended_harps/ps135_ressembler_02.png
+  - id: ps136_refrain_03
+    question: Que répète chaque verset du Psaume 136 ?
+    choices:
+    - key: a
+      label: Son amour dure toujours
+    - key: b
+      label: Le roi vaincra toujours
+    - key: c
+      label: La ville ne tombera jamais
+    correct_choice: a
+    answer: Le même refrain revient vingt-six fois, jusque dans les souvenirs les plus difficiles.
+    points: 5
+    duration: 0
+    intensity: 2
+    scripture:
+      canon: bible
+      cite: Psaume 136:1-26
+      study: ot/ps/136
+    presentation:
+      image: quizzes/exp_psalms_suspended_harps/ps136_refrain_03.png
+  - id: ps136_assemblee_04
+    question: Comment ce refrain pouvait-il être chanté ?
+    choices:
+    - key: a
+      label: Une voix, puis l’assemblée
+    - key: b
+      label: Un soliste sans réponse
+    - key: c
+      label: Une armée en marche
+    correct_choice: a
+    answer: La répétition suggère un appel et une réponse, sans nous donner le rythme ni l’effectif exacts.
+    points: 8
+    duration: 20
+    intensity: 2
+    scripture:
+      canon: bible
+      cite: Psaume 136:1-26
+      study: ot/ps/136
+    presentation:
+      image: quizzes/exp_psalms_suspended_harps/ps136_assemblee_04.png
+  - id: ps137_harpes_05
+    question: Pourquoi les exilés suspendent-ils leurs harpes ?
+    choices:
+    - key: a
+      label: Ils refusent l’humiliation
+    - key: b
+      label: Ils ont oublié la musique
+    - key: c
+      label: Ils préparent une fête
+    correct_choice: a
+    answer: Leurs vainqueurs demandent un chant de Sion. Ils refusent de faire de leur ville détruite un divertissement.
+    points: 8
+    duration: 20
+    intensity: 2
+    scripture:
+      canon: bible
+      cite: Psaume 137:1-4
+      study: ot/ps/137
+    presentation:
+      image: quizzes/exp_psalms_suspended_harps/ps137_harpes_05.png
+  - id: ps137_babylone_06
+    question: Où ces exilés se trouvent-ils probablement ?
+    choices:
+    - key: a
+      label: À Babylone
+    - key: b
+      label: À Rome
+    - key: c
+      label: En Égypte
+    correct_choice: a
+    answer: Le contexte babylonien après la chute de Jérusalem est très probable, mais le chanteur reste inconnu.
+    points: 8
+    duration: 20
+    intensity: 3
+    scripture:
+      canon: bible
+      cite: Psaume 137:1-4
+      study: ot/ps/137
+    presentation:
+      image: quizzes/exp_psalms_suspended_harps/ps137_babylone_06.png
+  - id: ps138_detresse_07
+    question: La détresse a-t-elle déjà disparu dans le Psaume 138 ?
+    choices:
+    - key: a
+      label: Non, elle est encore présente
+    - key: b
+      label: Oui, tout est déjà réglé
+    - key: c
+      label: Le psaume n’en parle pas
+    correct_choice: a
+    answer: La voix loue Dieu tout en marchant encore dans la détresse et en demandant de ne pas être abandonnée.
+    points: 12
+    duration: 15
+    intensity: 3
+    scripture:
+      canon: bible
+      cite: Psaume 138:7-8
+      study: ot/ps/138
+    presentation:
+      image: quizzes/exp_psalms_suspended_harps/ps138_detresse_07.png
+  - id: ps139_fuir_08
+    question: Où peut-on fuir loin de Dieu dans le Psaume 139 ?
+    choices:
+    - key: a
+      label: Nulle part
+    - key: b
+      label: Au fond de la mer
+    - key: c
+      label: Dans la nuit
+    correct_choice: a
+    answer: Ciel, séjour des morts, mer et nuit deviennent autant de lieux où la présence de Dieu rejoint la voix.
+    points: 12
+    duration: 15
+    intensity: 4
+    scripture:
+      canon: bible
+      cite: Psaume 139:7-12
+      study: ot/ps/139
+    presentation:
+      image: quizzes/exp_psalms_suspended_harps/ps139_fuir_08.png
+  - id: ps139_parole_09
+    question: Que connaît Dieu avant même qu’une parole soit dite ?
+    choices:
+    - key: a
+      label: La parole tout entière
+    - key: b
+      label: Seulement sa dernière syllabe
+    - key: c
+      label: Rien avant de l’entendre
+    correct_choice: a
+    answer: Le psaume présente Dieu connaissant déjà la parole entière avant qu’elle arrive sur la langue.
+    points: 15
+    duration: 15
+    intensity: 4
+    scripture:
+      canon: bible
+      cite: Psaume 139:1-6
+      study: ot/ps/139
+    presentation:
+      image: quizzes/exp_psalms_suspended_harps/ps139_parole_09.png
+  - id: ps139_sonde_10
+    question: Après avoir jugé le mal, que demande finalement la voix ?
+    choices:
+    - key: a
+      label: Sonde-moi et conduis-moi
+    - key: b
+      label: Dire que j’ai toujours raison
+    - key: c
+      label: Cache-moi de toute question
+    correct_choice: a
+    answer: Après sa colère, la voix accepte d’être elle-même sondée et demande à être conduite sur le bon chemin.
+    points: 25
+    duration: 15
+    intensity: 5
+    scripture:
+      canon: bible
+      cite: Psaume 139:19-24
+      study: ot/ps/139
+    presentation:
+      image: quizzes/exp_psalms_suspended_harps/ps139_sonde_10.png
+- id: exp_psalms_everything_breathes
+  title: Tout ce qui respire
+  kicker: Psaumes 146–150
+  lede: Le Dieu qui compte les étoiles s’arrête devant les cœurs brisés.
+  readings:
+  - study: ot/ps/146
+    cite: Psaume 146
+  - study: ot/ps/147
+    cite: Psaume 147
+  - study: ot/ps/148
+    cite: Psaume 148
+  - study: ot/ps/149
+    cite: Psaume 149
+  - study: ot/ps/150
+    cite: Psaume 150
+  questions:
+  - id: ps146_princes_01
+    question: Pourquoi ne pas placer l’espérance ultime dans les princes ?
+    choices:
+    - key: a
+      label: Leur souffle finit
+    - key: b
+      label: Ils ne parlent jamais
+    - key: c
+      label: Ils vivent hors des villes
+    correct_choice: a
+    answer: Quand leur souffle s’en va, leurs projets cessent. Le psaume oppose ce pouvoir mortel à Dieu.
+    points: 5
+    duration: 0
+    intensity: 1
+    scripture:
+      canon: bible
+      cite: Psaume 146:3-4
+      study: ot/ps/146
+    presentation:
+      image: quizzes/exp_psalms_everything_breathes/ps146_princes_01.png
+  - id: ps146_vulnerables_02
+    question: De qui Dieu prend-il concrètement soin dans ce psaume ?
+    choices:
+    - key: a
+      label: Affamés, captifs, étrangers
+    - key: b
+      label: Seulement des rois puissants
+    - key: c
+      label: Seulement des soldats
+    correct_choice: a
+    answer: Le texte nomme affamés, captifs, aveugles, étrangers, orphelins et veuves.
+    points: 5
+    duration: 0
+    intensity: 1
+    scripture:
+      canon: bible
+      cite: Psaume 146:5-9
+      study: ot/ps/146
+    presentation:
+      image: quizzes/exp_psalms_everything_breathes/ps146_vulnerables_02.png
+  - id: ps146_regne_03
+    question: Quel règne ne s’arrête pas avec un souffle ?
+    choices:
+    - key: a
+      label: Le règne de Dieu
+    - key: b
+      label: Le règne des princes
+    - key: c
+      label: Le règne d’une armée
+    correct_choice: a
+    answer: Les princes meurent ; le psaume affirme que Dieu règne de génération en génération.
+    points: 5
+    duration: 0
+    intensity: 2
+    scripture:
+      canon: bible
+      cite: Psaume 146:10
+      study: ot/ps/146
+    presentation:
+      image: quizzes/exp_psalms_everything_breathes/ps146_regne_03.png
+  - id: ps147_coeurs_04
+    question: Que fait celui qui compte les étoiles aux cœurs brisés ?
+    choices:
+    - key: a
+      label: Il les guérit
+    - key: b
+      label: Il les oublie
+    - key: c
+      label: Il les juge trop faibles
+    correct_choice: a
+    answer: Le même Dieu compte les étoiles, rassemble les dispersés et soigne les cœurs brisés.
+    points: 8
+    duration: 20
+    intensity: 2
+    scripture:
+      canon: bible
+      cite: Psaume 147:2-5
+      study: ot/ps/147
+    presentation:
+      image: quizzes/exp_psalms_everything_breathes/ps147_coeurs_04.png
+  - id: ps147_reconstruction_05
+    question: Quel horizon le Psaume 147 rend-il très probable ?
+    choices:
+    - key: a
+      label: Jérusalem rebâtie après l’exil
+    - key: b
+      label: Rome fondée par David
+    - key: c
+      label: Le Temple construit par Noé
+    correct_choice: a
+    answer: Le rassemblement des dispersés et la reconstruction de Jérusalem suggèrent fortement l’après-exil.
+    points: 8
+    duration: 20
+    intensity: 2
+    scripture:
+      canon: bible
+      cite: Psaume 147:2-3
+      study: ot/ps/147
+    presentation:
+      image: quizzes/exp_psalms_everything_breathes/ps147_reconstruction_05.png
+  - id: ps148_choeur_06
+    question: Qui rejoint le chœur après les astres ?
+    choices:
+    - key: a
+      label: Reliefs, animaux et humains
+    - key: b
+      label: Seulement les prêtres
+    - key: c
+      label: Seulement les adultes
+    correct_choice: a
+    answer: Le chant descend vers météo, reliefs, animaux, rois, peuples, jeunes et vieux.
+    points: 8
+    duration: 20
+    intensity: 3
+    scripture:
+      canon: bible
+      cite: Psaume 148:1-13
+      study: ot/ps/148
+    presentation:
+      image: quizzes/exp_psalms_everything_breathes/ps148_choeur_06.png
+  - id: ps148_ages_07
+    question: Quels âges le Psaume 148 réunit-il dans la louange ?
+    choices:
+    - key: a
+      label: Jeunes et vieux
+    - key: b
+      label: Seulement les enfants
+    - key: c
+      label: Seulement les anciens
+    correct_choice: a
+    answer: Le psaume appelle ensemble jeunes hommes, jeunes filles, vieillards et enfants.
+    points: 12
+    duration: 15
+    intensity: 3
+    scripture:
+      canon: bible
+      cite: Psaume 148:11-13
+      study: ot/ps/148
+    presentation:
+      image: quizzes/exp_psalms_everything_breathes/ps148_ages_07.png
+  - id: ps150_lieu_08
+    question: Où le Psaume 150 invite-t-il d’abord à louer Dieu ?
+    choices:
+    - key: a
+      label: Dans son sanctuaire
+    - key: b
+      label: Dans le palais du roi
+    - key: c
+      label: Dans une ville étrangère
+    correct_choice: a
+    answer: Le psaume commence dans le sanctuaire et l’étendue céleste, puis élargit l’appel à tout souffle.
+    points: 12
+    duration: 15
+    intensity: 4
+    scripture:
+      canon: bible
+      cite: Psaume 150:1
+      study: ot/ps/150
+    presentation:
+      image: quizzes/exp_psalms_everything_breathes/ps150_lieu_08.png
+  - id: ps150_instrument_09
+    question: Dans le Psaume 150, quel est le dernier instrument ?
+    choices:
+    - key: a
+      label: Tout ce qui respire
+    - key: b
+      label: La cymbale la plus forte
+    - key: c
+      label: Le cor du roi
+    correct_choice: a
+    answer: Après tous les instruments, l’appel final vise tout être vivant qui possède un souffle.
+    points: 15
+    duration: 15
+    intensity: 4
+    scripture:
+      canon: bible
+      cite: Psaume 150:1-6
+      study: ot/ps/150
+    presentation:
+      image: quizzes/exp_psalms_everything_breathes/ps150_instrument_09.png
+  - id: souffle_echo_10
+    question: Quel motif relie idoles, princes et louange finale ?
+    choices:
+    - key: a
+      label: Le souffle
+    - key: b
+      label: La couronne
+    - key: c
+      label: La porte de la ville
+    correct_choice: a
+    answer: Les idoles n’en ont pas, les princes le perdent, puis tout souffle loue. C’est un écho, pas un code secret.
+    points: 25
+    duration: 15
+    intensity: 5
+    scripture:
+      canon: bible
+      cite: Psaume 135:17
+      study: ot/ps/135
+    presentation:
+      image: quizzes/exp_psalms_everything_breathes/souffle_echo_10.png

@@ -1,12 +1,4 @@
 namespace :noche do
-  desc "Wipe nights and quiz runs, then seed a playable DEMO"
-  task reseed: :environment do
-    night = Nights::Reseed.call
-    abort "DEMO night missing after reseed" unless night&.live?
-
-    puts "DEMO #{night.status} · #{night.theme_title}"
-  end
-
   desc "Import listed wards from the Meetinghouse Locator or FILE= JSON"
   task import_wards: :environment do
     load Rails.root.join("script/import_meetinghouses.rb")

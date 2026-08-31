@@ -62,7 +62,7 @@ module StreetProfiles
       end
 
       def adventure_runs
-        QuizRun.where(person_id: @person.id, id: QuizAnswer.select(:quiz_run_id))
+        QuizRun.street.where(person_id: @person.id, id: QuizAnswer.select(:quiz_run_id))
       end
 
       def word_runs
@@ -70,7 +70,7 @@ module StreetProfiles
       end
 
       def adventure_answers
-        QuizAnswer.joins(:quiz_run).where(quiz_runs: { person_id: @person.id })
+        QuizAnswer.joins(:quiz_run).merge(QuizRun.street).where(quiz_runs: { person_id: @person.id })
       end
 
       def word_answers
@@ -97,7 +97,7 @@ module StreetProfiles
       def load_sessions(references)
         adventure_ids = references.filter_map { |reference| reference.id if reference.kind == :adventure }
         word_ids = references.filter_map { |reference| reference.id if reference.kind == :word }
-        adventures = QuizRun.where(id: adventure_ids).includes(:quiz_answers).index_by(&:id)
+        adventures = QuizRun.street.where(id: adventure_ids).includes(:quiz_answers).index_by(&:id)
         words = StudyRun.where(id: word_ids)
           .includes(:study_answers, study_quiz_version: { study_unit: :study_program })
           .index_by(&:id)

@@ -5,7 +5,7 @@
 
   <% if sheet %>
     <article class="hall-sheet<%= " #{sheet_class}" if sheet_class.present? %>">
-      <span class="hall-sheet-apex street-quien-apex" aria-hidden="true"><%= picto("star4") %></span>
+      <span class="hall-sheet-apex" aria-hidden="true"><%= picto("star4") %></span>
       <%= body %>
     </article>
   <% else %>

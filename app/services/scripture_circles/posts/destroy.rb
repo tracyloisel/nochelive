@@ -2,12 +2,11 @@ module ScriptureCircles
   module Posts
     class Destroy
       def self.call(person:, post_id:)
-        raise Access::MissingIdentity unless person
-
-        post = ScriptureCirclePost.find(post_id)
+        access = Access.new(person:)
+        post = access.post!(post_id, write: true)
         raise ActiveRecord::RecordNotFound unless post.person_id == person.id
 
-        ScriptureCirclePost.transaction do
+        destroyed_post = ScriptureCirclePost.transaction do
           post.lock!
           proposal = post.scripture_circle_moderation_proposals.open.lock.first
           if proposal
@@ -19,6 +18,8 @@ module ScriptureCircles
           post.update!(status: "author_deleted", deleted_at: Time.current)
           post
         end
+        RamaRefresh.call(ward: destroyed_post.ward)
+        destroyed_post
       end
     end
   end

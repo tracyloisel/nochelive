@@ -33,9 +33,8 @@ class LocalesControllerTest < ActionDispatch::IntegrationTest
 
   end
 
-  test "a player can switch language during a round" do
+  test "a player can switch language during a Noche Live" do
     night = game_sessions(:david)
-    round_runs(:salomon).update_column(:opened_at, Time.current)
     sign_in_as_participant(night, name: "Sofía", team: teams(:leones))
 
     patch night_locale_path(night.code), params: { locale: "en" }
@@ -43,24 +42,9 @@ class LocalesControllerTest < ActionDispatch::IntegrationTest
 
     player = night.players.find_by!(name: "Sofía")
     assert_equal "en", player.reload.locale
-    get night_play_path(night.code)
+    get night_path(night.code)
     assert_select "html[lang=en]"
-    assert_select ".chrome-tools .mute + .lang-switch"
-    assert_select ".lang-switch > summary .picto-flag-en"
-    assert_select ".prompt", text: /Solomon|ask for/
+    assert_select ".noche-live"
   end
 
-  test "presenter can switch language from the console" do
-    night = game_sessions(:david)
-    sign_in_presenter(night)
-
-    patch night_locale_path(night.code), params: { locale: "fr" }
-    follow_redirect!
-
-    assert_equal "fr", night.reload.presenter_locale
-    get presenter_console_path(night.code)
-    assert_select "html[lang=fr]"
-    assert_select ".chrome-tools .mute + .lang-switch"
-    assert_select ".lang-switch > summary .picto-flag-fr"
-  end
 end

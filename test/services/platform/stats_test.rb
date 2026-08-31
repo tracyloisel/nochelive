@@ -48,26 +48,22 @@ class Platform::StatsTest < ActiveSupport::TestCase
     assert_in_delta stats.correct.to_f / stats.answers, stats.path_share, 0.0001
   end
 
-  test "counts every challenge and chapel teams not solo seats" do
-    night = game_sessions(:david)
+  test "counts every challenge and Noche team snapshot" do
     before = Platform::Stats.call
     invitation = DuelInvitation.create!(
       challenger_person: people(:pili), recipient_person: people(:carmen_lopez),
       token_digest: SecureRandom.hex(32), status: "open", expires_at: 7.days.from_now
     )
     Quizzes::DuelInvitationClaim.call(invitation:, person: people(:carmen_lopez))
-    night.teams.create!(name: "SoloStats", emblem: "leon", solo: true)
-    after_solo = Platform::Stats.call
-    night.teams.create!(name: "SalaStats", emblem: "fuego")
-    after_chapel = Platform::Stats.call
+    ward_team = WardTeam.create!(ward: wards(:demo), name: "Sala Stats", emblem: "fuego")
+    game_sessions(:david).teams.create!(name: ward_team.name, emblem: ward_team.emblem, ward_team:)
+    after_team = Platform::Stats.call
 
-    assert_equal StreetDuel.count, after_solo.duels
-    assert_equal before.duels + 1, after_solo.duels
-    assert_equal GameSession.count, after_solo.nights
-    assert_equal Team.chapel.count, after_chapel.teams
-    assert_equal before.teams, after_solo.teams
-    assert_equal before.teams + 1, after_chapel.teams
-    assert_operator Team.solos.count, :>=, 2
+    assert_equal StreetDuel.count, after_team.duels
+    assert_equal before.duels + 1, after_team.duels
+    assert_equal GameSession.count, after_team.nights
+    assert_equal Team.count, after_team.teams
+    assert_equal before.teams + 1, after_team.teams
   end
 
   test "counts each shared invitation once through the viral journey" do

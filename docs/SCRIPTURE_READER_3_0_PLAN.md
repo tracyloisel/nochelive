@@ -1128,7 +1128,7 @@ Le contrôleur reste mince. Chaque source peut échouer sans empêcher le rendu 
 - `ScriptureCircles::Posts::Update`
 - `ScriptureCircles::Posts::Destroy`
 - `ScriptureCircles::ProfilePosts`
-- `ScriptureCircles::Moderations::Propose`
+- `ScriptureCircles::Moderations::Report` (ouvre le vote après 3 signalements indépendants)
 - `ScriptureCircles::Moderations::CastBallot`
 - `ScriptureCircles::Moderations::LiveResults`
 - `ScriptureCircles::Moderations::History`

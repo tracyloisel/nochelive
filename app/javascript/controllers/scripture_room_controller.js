@@ -4,8 +4,8 @@ import { http } from "platform/http/client"
 const LOCAL_PREFERENCE_KEY = "noche:scripture-reader-preference:v1"
 const RESULT_REFRESH_MS = 8_000
 const MESSAGE_LIMIT = 500
-const CIRCLE_DRAFT_PREFIX = "noche:scripture-circle-draft:v1"
-const CIRCLE_PENDING_PREFIX = "noche:scripture-circle-pending:v1"
+const CIRCLE_DRAFT_PREFIX = "noche:scripture-circle-draft:v2"
+const CIRCLE_PENDING_PREFIX = "noche:scripture-circle-pending:v2"
 const CIRCLE_COMPOSER_MAX_HEIGHT = 208
 const CIRCLE_SELECTION_LIMIT = 1_000
 const CIRCLE_SELECTION_CONTEXT_TRANSITION_MS = 140
@@ -15,27 +15,33 @@ const READING_EYELINE_RATIO = 0.43
 
 export default class extends Controller {
   static targets = [
-    "layout", "readingStage", "companion", "marksTrigger", "circleTrigger", "panel", "settingsDialog",
+    "layout", "readingStage", "companion", "closeTrigger", "marksTrigger", "circleTrigger", "panel", "settingsDialog",
     "settingsStatus", "noteDialog", "noteSelection", "noteTitle", "noteBody", "noteIntent",
     "noteTags", "noteNotebook", "noteLink", "noteBookmark", "noteSave", "selectionStatus",
     "marksList", "illustration", "verses", "toolsDialog", "toolResult", "undoBanner", "undoMessage",
-    "circleComposer", "circleSelectionContext", "circleSelectionReference", "circleSelectionQuote",
-    "circleSelectionStart", "circleSelectionEnd", "circleSelectionText"
+    "circleSection", "circleComposer", "circleSelectionContext", "circleSelectionReference", "circleSelectionQuote",
+    "circleSelectionStart", "circleSelectionEnd", "circleSelectionText", "circleSelectionVerses",
+    "circleVersePicker", "circleVersePickerInput", "circleVersePickerError", "circleVersePickerTrigger", "circleVersePickerLabel"
   ]
 
   connect() {
     this.onSelection = this.onSelection.bind(this)
     this.onScroll = this.onScroll.bind(this)
     this.onComposerSubmit = this.onComposerSubmit.bind(this)
+    this.onReaderBreakpointChange = this.onReaderBreakpointChange.bind(this)
     this.element.addEventListener("scripture:selection", this.onSelection)
     this.element.addEventListener("submit", this.onComposerSubmit)
     this.sheet = this.element.querySelector(".scripture-sheet")
     this.sheet?.addEventListener("scroll", this.onScroll, { passive: true })
+    this.readerMobileQuery = window.matchMedia("(max-width: 767px)")
+    this.readerMobileQuery.addEventListener("change", this.onReaderBreakpointChange)
     this.preferences = this.initialPreferences()
     this.markCache = this.readMarkCache()
     this.applyPreferences()
     this.showPanelName(this.element.dataset.scriptureRoomInitialPanel || "read", { scroll: false, animate: false })
     this.initializeCircleComposers()
+    this.observeCircleProgressVisibility()
+    this.syncActiveCircleComposer()
     this.refreshModerationResults()
     this.resultTimer = window.setInterval(() => this.refreshModerationResults(), RESULT_REFRESH_MS)
     this.element.dataset.readerScrollState = "idle"
@@ -47,16 +53,24 @@ export default class extends Controller {
     this.element.removeEventListener("scripture:selection", this.onSelection)
     this.element.removeEventListener("submit", this.onComposerSubmit)
     this.sheet?.removeEventListener("scroll", this.onScroll)
+    this.readerMobileQuery?.removeEventListener("change", this.onReaderBreakpointChange)
     if (this.resultTimer) window.clearInterval(this.resultTimer)
     if (this.progressTimer) window.clearTimeout(this.progressTimer)
     if (this.progressFrame) window.cancelAnimationFrame(this.progressFrame)
+    if (this.circleComposerFrame) window.cancelAnimationFrame(this.circleComposerFrame)
+    if (this.circleSubmissionScrollFrame) window.cancelAnimationFrame(this.circleSubmissionScrollFrame)
+    this.circleSubmissionScrollTimers?.forEach((timer) => window.clearTimeout(timer))
     if (this.readingSettleTimer) window.clearTimeout(this.readingSettleTimer)
     if (this.statusTimer) window.clearTimeout(this.statusTimer)
     this.clearPanelTransition()
     this.clearReadingAnchor()
     this.clearCircleSelectionFocus()
     this.clearCircleSelectionContextMotion()
-    if (this.circleEventTimer) window.clearTimeout(this.circleEventTimer)
+    this.circleProgressObserver?.disconnect()
+    this.circleProgressObserver = null
+    this.element.classList.remove("is-circle-in-view")
+    if (this.circleFocusTimer) window.clearTimeout(this.circleFocusTimer)
+    this.circleFocusAnimation?.cancel()
     delete this.element.dataset.readerReady
     delete this.element.dataset.readerScrollState
   }
@@ -65,12 +79,11 @@ export default class extends Controller {
     this.selection = event.detail?.passage || null
   }
 
-  showPanelName(panel, { scroll = true, animate = true, focus = true } = {}) {
-    if (!["read", "marks", "circle"].includes(panel)) return
+  showPanelName(panel, { scroll = true, animate = true } = {}) {
+    if (!["read", "marks"].includes(panel)) return
     const previousPanel = this.hasLayoutTarget ? this.layoutTarget.dataset.activePanel : this.element.dataset.activePanel
     const isReading = panel === "read"
     const panelChanged = previousPanel !== panel
-    if (panel !== "circle") this.clearCircleSelectionFocus()
     if (panelChanged) this.clearPanelTransition()
     this.element.dataset.activePanel = panel
     if (this.hasLayoutTarget) this.layoutTarget.dataset.activePanel = panel
@@ -79,56 +92,117 @@ export default class extends Controller {
     this.syncPanelTriggers(panel)
     if (scroll && !isReading && window.matchMedia("(max-width: 767px)").matches) this.sheet?.scrollTo({ top: 0, behavior: "auto" })
     if (animate && panelChanged && !isReading) this.animatePanelChange(panel)
-    if (panel === "circle") this.refreshModerationResults()
-    if (!isReading && animate && panelChanged && focus) this.focusCompanionHeading(panel)
   }
 
-  openMarks(event) {
-    this.openPanel("marks", event)
-  }
-
-  openCircle(event) {
-    this.openPanel("circle", event)
-  }
-
-  openPanel(panel, event) {
+  toggleMarks(event) {
     event?.preventDefault()
-    if (!["marks", "circle"].includes(panel)) return
-    this.readerFocusBeforeCompanion = event?.currentTarget || this.triggerForPanel(panel)
-    this.showPanelName(panel)
+    if (this.element.dataset.activePanel === "marks") {
+      this.showPanelName("read")
+      return
+    }
+
+    if (this.circleIsOpen()) this.closeCircle({ behavior: "auto" })
+    this.showPanelName("marks")
   }
 
-  returnToReading(event) {
-    event?.preventDefault()
-    const previousPanel = this.element.dataset.activePanel
+  closeMarksOnMobile(event) {
+    if (this.element.dataset.activePanel !== "marks" || !this.isMobileReader()) return
+    event.preventDefault()
+    event.stopImmediatePropagation()
     this.showPanelName("read")
-    window.requestAnimationFrame(() => this.restoreReaderFocus(previousPanel))
+    event.currentTarget?.focus({ preventScroll: true })
+  }
+
+  onReaderBreakpointChange() {
+    this.syncPrimaryCloseTrigger(this.element.dataset.activePanel)
+  }
+
+  toggleCircle(event) {
+    event?.preventDefault()
+    if (this.circleIsOpen()) {
+      this.closeCircle()
+      return
+    }
+
+    if (this.element.dataset.activePanel === "marks") this.showPanelName("read", { animate: false })
+    this.circleReturnScrollTop = this.sheet?.scrollTop || 0
+    this.circleNavigationState = "opening"
+    this.syncCircleTrigger(true)
+    this.scrollToCircle()
   }
 
   syncPanelTriggers(panel) {
-    if (this.hasMarksTriggerTarget) this.marksTriggerTarget.setAttribute("aria-expanded", String(panel === "marks"))
-    if (this.hasCircleTriggerTarget) this.circleTriggerTarget.setAttribute("aria-expanded", String(panel === "circle"))
+    if (this.hasMarksTriggerTarget) this.syncToggleTrigger(this.marksTriggerTarget, panel === "marks")
+    this.syncPrimaryCloseTrigger(panel)
   }
 
-  triggerForPanel(panel) {
-    if (panel === "circle" && this.hasCircleTriggerTarget) return this.circleTriggerTarget
-    if (panel === "marks" && this.hasMarksTriggerTarget) return this.marksTriggerTarget
-    return null
+  syncCircleTrigger(expanded) {
+    if (this.hasCircleTriggerTarget) this.syncToggleTrigger(this.circleTriggerTarget, expanded)
   }
 
-  restoreReaderFocus(panel) {
-    const target = this.readerFocusBeforeCompanion || this.triggerForPanel(panel)
-    target?.focus({ preventScroll: true })
-    this.readerFocusBeforeCompanion = null
+  syncToggleTrigger(trigger, expanded) {
+    trigger.setAttribute("aria-expanded", String(expanded))
+    const label = expanded ? trigger.dataset.readerCloseLabel : trigger.dataset.readerOpenLabel
+    if (!label) return
+    trigger.setAttribute("aria-label", label)
+    trigger.setAttribute("title", label)
   }
 
-  focusCompanionHeading(panel) {
-    const section = this.panelTargets.find((candidate) => candidate.dataset.readerPanel === panel)
-    const heading = section?.querySelector("h2")
-    if (!heading) return
-    window.requestAnimationFrame(() => {
-      if (this.element.dataset.activePanel === panel && !section.hidden) heading.focus({ preventScroll: true })
-    })
+  syncPrimaryCloseTrigger(panel) {
+    if (!this.hasCloseTriggerTarget) return
+    const closesMarks = panel === "marks" && this.isMobileReader()
+    const label = closesMarks
+      ? this.closeTriggerTarget.dataset.readerPanelDismissLabel
+      : this.closeTriggerTarget.dataset.readerDismissLabel
+    if (!label) return
+    this.closeTriggerTarget.setAttribute("aria-label", label)
+    this.closeTriggerTarget.setAttribute("title", label)
+  }
+
+  isMobileReader() {
+    return this.readerMobileQuery?.matches ?? window.matchMedia("(max-width: 767px)").matches
+  }
+
+  scrollToCircle() {
+    const section = this.hasCircleSectionTarget ? this.circleSectionTarget : document.getElementById("reader-circle")
+    if (!section) return
+    section.scrollIntoView({ block: "start", behavior: this.reducedMotion() ? "auto" : "smooth" })
+  }
+
+  closeCircle({ behavior = this.reducedMotion() ? "auto" : "smooth" } = {}) {
+    if (!this.sheet) return
+    const returnTop = Number.isFinite(this.circleReturnScrollTop)
+      ? this.circleReturnScrollTop
+      : this.scrollTopBeforeCircle()
+    this.circleReturnScrollTop = null
+    this.circleNavigationState = "closing"
+    this.syncCircleTrigger(false)
+    this.layoutTarget?.classList.remove("is-circle-in-view")
+    this.element.classList.remove("is-circle-in-view")
+    this.sheet.scrollTo({ top: returnTop, behavior })
+  }
+
+  scrollTopBeforeCircle() {
+    if (!this.hasCircleSectionTarget || !this.sheet) return 0
+    return Math.max(0, this.circleSectionTarget.offsetTop - this.sheet.clientHeight)
+  }
+
+  circleIsOpen() {
+    return this.hasCircleTriggerTarget && this.circleTriggerTarget.getAttribute("aria-expanded") === "true"
+  }
+
+  observeCircleProgressVisibility() {
+    if (!this.hasCircleSectionTarget || !this.hasLayoutTarget || !this.sheet || !window.IntersectionObserver) return
+
+    this.circleProgressObserver = new IntersectionObserver((entries) => {
+      const circleVisible = entries.some((entry) => entry.isIntersecting)
+      if (!circleVisible && this.circleNavigationState === "opening") return
+      this.circleNavigationState = null
+      this.layoutTarget.classList.toggle("is-circle-in-view", circleVisible)
+      this.element.classList.toggle("is-circle-in-view", circleVisible)
+      this.syncCircleTrigger(circleVisible)
+    }, { root: this.sheet, threshold: 0.01 })
+    this.circleProgressObserver.observe(this.circleSectionTarget)
   }
 
   openSettings(event) {
@@ -228,24 +302,23 @@ export default class extends Controller {
     event?.preventDefault()
     const selection = this.circleSelectionFromPassage(this.selection)
     if (!selection) return this.showSelectionStatus(this.element.dataset.actionError, true)
-    if (selection.selectedText.length > CIRCLE_SELECTION_LIMIT) {
+    if (this.characterCount(selection.selectedText) > CIRCLE_SELECTION_LIMIT) {
       return this.showSelectionStatus(this.element.dataset.circleSelectionLimitError, true)
     }
     if (this.element.dataset.scriptureRoomCircleMode !== "active" || !this.hasCircleComposerTarget) {
       return this.showSelectionStatus(this.element.dataset.circleUnavailable, true)
     }
 
-    // The palette is transient; the durable, keyboard-safe return point is the Circle trigger.
-    this.readerFocusBeforeCompanion = this.triggerForPanel("circle") || event?.currentTarget
     this.consumeNativeSelection()
-    this.showPanelName("circle", { focus: false })
     this.setCircleSelection(selection, { animate: true })
+    this.scrollToCircle()
     this.focusCircleComposerForSelection()
   }
 
   clearCircleSelection(event) {
     event?.preventDefault()
     this.setCircleSelection(null)
+    this.closeManualVersePicker()
     const field = this.hasCircleComposerTarget ? this.circleComposerTarget.querySelector("textarea") : null
     field?.focus({ preventScroll: true })
   }
@@ -260,6 +333,7 @@ export default class extends Controller {
       selectedText,
       startVerse,
       endVerse,
+      selectedVerses: this.formatVerseList(Array.from({ length: endVerse - startVerse + 1 }, (_value, index) => startVerse + index)),
       referenceLabel: passage?.reference?.toString().trim() || ""
     }
   }
@@ -268,12 +342,16 @@ export default class extends Controller {
     const selectedText = selection?.selectedText?.toString().replace(/\s+/g, " ").trim()
     const startVerse = Number.parseInt(selection?.startVerse, 10)
     const endVerse = Number.parseInt(selection?.endVerse, 10)
-    if (!selectedText || selectedText.length > CIRCLE_SELECTION_LIMIT || !Number.isInteger(startVerse) || !Number.isInteger(endVerse) || startVerse < 1 || endVerse < startVerse) return null
+    if (!selectedText || this.characterCount(selectedText) > CIRCLE_SELECTION_LIMIT || !Number.isInteger(startVerse) || !Number.isInteger(endVerse) || startVerse < 1 || endVerse < startVerse) return null
+
+    const selectedVerses = this.normalizeVerseList(selection?.selectedVerses) || this.formatVerseList(Array.from({ length: endVerse - startVerse + 1 }, (_value, index) => startVerse + index))
+    if (!selectedVerses) return null
 
     return {
       selectedText,
       startVerse,
       endVerse,
+      selectedVerses,
       referenceLabel: selection?.referenceLabel?.toString().trim() || ""
     }
   }
@@ -281,16 +359,19 @@ export default class extends Controller {
   setCircleSelection(selection, { animate = false, persist = true } = {}) {
     const ready = this.hasCircleComposerTarget && this.hasCircleSelectionContextTarget &&
       this.hasCircleSelectionReferenceTarget && this.hasCircleSelectionQuoteTarget &&
-      this.hasCircleSelectionStartTarget && this.hasCircleSelectionEndTarget && this.hasCircleSelectionTextTarget
+      this.hasCircleSelectionStartTarget && this.hasCircleSelectionEndTarget && this.hasCircleSelectionTextTarget &&
+      this.hasCircleSelectionVersesTarget
     if (!ready) return
 
     const context = this.normalizedCircleSelection(selection)
     this.circleSelectionStartTarget.value = context ? String(context.startVerse) : ""
     this.circleSelectionEndTarget.value = context ? String(context.endVerse) : ""
     this.circleSelectionTextTarget.value = context?.selectedText || ""
+    this.circleSelectionVersesTarget.value = context?.selectedVerses || ""
     this.circleSelectionReferenceTarget.textContent = context?.referenceLabel || ""
     this.circleSelectionQuoteTarget.textContent = context ? `“${context.selectedText}”` : ""
     this.circleSelectionContextTarget.hidden = !context
+    this.syncManualVerseSelection(context)
 
     if (context && animate) this.animateCircleSelectionContext()
     if (!context) this.clearCircleSelectionContextMotion()
@@ -299,13 +380,309 @@ export default class extends Controller {
 
   currentCircleSelection(form) {
     const isMainComposer = this.hasCircleComposerTarget && form === this.circleComposerTarget
-    if (!isMainComposer || !this.hasCircleSelectionStartTarget || !this.hasCircleSelectionEndTarget || !this.hasCircleSelectionTextTarget) return null
+    if (!isMainComposer || !this.hasCircleSelectionStartTarget || !this.hasCircleSelectionEndTarget || !this.hasCircleSelectionTextTarget || !this.hasCircleSelectionVersesTarget) return null
 
     return this.normalizedCircleSelection({
       startVerse: this.circleSelectionStartTarget.value,
       endVerse: this.circleSelectionEndTarget.value,
       selectedText: this.circleSelectionTextTarget.value,
+      selectedVerses: this.circleSelectionVersesTarget.value,
       referenceLabel: this.hasCircleSelectionReferenceTarget ? this.circleSelectionReferenceTarget.textContent : ""
+    })
+  }
+
+  toggleManualVersePicker(event) {
+    event?.preventDefault()
+    if (!this.hasCircleVersePickerTarget || !this.hasCircleVersePickerTriggerTarget) return
+
+    if (this.circleVersePickerTarget.hidden) this.openManualVersePicker()
+    else this.closeManualVersePicker()
+  }
+
+  openManualVersePicker() {
+    if (!this.hasCircleVersePickerTarget || !this.hasCircleVersePickerTriggerTarget) return
+    this.circleVersePickerTarget.hidden = false
+    this.circleVersePickerTriggerTarget.setAttribute("aria-expanded", "true")
+    window.requestAnimationFrame(() => this.circleVersePickerInputTarget?.focus({ preventScroll: true }))
+  }
+
+  closeManualVersePicker() {
+    if (!this.hasCircleVersePickerTarget || !this.hasCircleVersePickerTriggerTarget) return
+    this.circleVersePickerTarget.hidden = true
+    this.circleVersePickerTriggerTarget.setAttribute("aria-expanded", "false")
+    this.clearManualVerseError()
+  }
+
+  manualVerseInput() {
+    this.clearManualVerseError()
+  }
+
+  manualVerseKeydown(event) {
+    if (event.key !== "Enter") return
+    event.preventDefault()
+    this.applyManualVerseSelection(event)
+  }
+
+  applyManualVerseSelection(event) {
+    event?.preventDefault()
+    const context = this.manualVerseSelection(this.circleVersePickerInputTarget?.value)
+    if (!context) return this.showManualVerseError(this.element.dataset.circleManualVerseInvalid)
+    if (this.characterCount(context.selectedText) > CIRCLE_SELECTION_LIMIT) {
+      return this.showManualVerseError(this.element.dataset.circleSelectionLimitError)
+    }
+
+    this.setCircleSelection(context, { animate: true })
+    this.closeManualVersePicker()
+    this.focusCircleComposerForSelection()
+  }
+
+  manualVerseSelection(value) {
+    const availableVerses = this.availableCircleVerses()
+    const numbers = this.parseVerseList(value, availableVerses)
+    if (!numbers?.length) return null
+
+    const selectedText = numbers.map((number) => availableVerses.get(number)).join(" ").replace(/\s+/g, " ").trim()
+    if (!selectedText) return null
+
+    return {
+      selectedText,
+      startVerse: numbers[0],
+      endVerse: numbers.at(-1),
+      selectedVerses: this.formatVerseList(numbers),
+      referenceLabel: this.verseReferenceLabel(this.formatVerseList(numbers))
+    }
+  }
+
+  availableCircleVerses() {
+    if (!this.hasVersesTarget) return new Map()
+
+    return new Map(Array.from(this.versesTarget.querySelectorAll("[data-scripture-verse-number]")).flatMap((verse) => {
+      const number = Number.parseInt(verse.dataset.scriptureVerseNumber, 10)
+      const text = verse.querySelector("[data-scripture-verse-text]")?.textContent?.replace(/\s+/g, " ").trim()
+      return Number.isInteger(number) && number > 0 && text ? [[number, text]] : []
+    }))
+  }
+
+  parseVerseList(value, availableVerses = this.availableCircleVerses()) {
+    const normalized = value?.toString().replace(/[–—]/g, "-").trim()
+    if (!normalized || availableVerses.size === 0) return null
+
+    const numbers = []
+    for (const segment of normalized.split(",")) {
+      const match = segment.trim().match(/^(\d+)(?:\s*-\s*(\d+))?$/)
+      if (!match) return null
+      const startVerse = Number.parseInt(match[1], 10)
+      const endVerse = Number.parseInt(match[2] || match[1], 10)
+      if (!Number.isInteger(startVerse) || !Number.isInteger(endVerse) || startVerse > endVerse || !availableVerses.has(startVerse) || !availableVerses.has(endVerse)) return null
+
+      for (let verse = startVerse; verse <= endVerse; verse += 1) {
+        if (!availableVerses.has(verse)) return null
+        numbers.push(verse)
+      }
+    }
+    return [...new Set(numbers)].sort((left, right) => left - right)
+  }
+
+  normalizeVerseList(value) {
+    const normalized = value?.toString().replace(/[–—]/g, "-").trim()
+    if (!normalized) return null
+    const availableVerses = this.availableCircleVerses()
+    const numbers = this.parseVerseList(normalized, availableVerses)
+    return numbers ? this.formatVerseList(numbers) : null
+  }
+
+  formatVerseList(numbers) {
+    if (!numbers?.length) return ""
+    return numbers.reduce((groups, number) => {
+      const group = groups.at(-1)
+      if (group && number === group.at(-1) + 1) group.push(number)
+      else groups.push([number])
+      return groups
+    }, []).map((group) => group.length === 1 ? String(group[0]) : `${group[0]}-${group.at(-1)}`).join(", ")
+  }
+
+  verseReferenceLabel(verses) {
+    const chapterTitle = this.element.dataset.readerChapterTitle?.trim() || ""
+    const verseList = verses?.toString().trim().replaceAll("-", "–") || ""
+    return chapterTitle && verseList ? `${chapterTitle}:${verseList}` : chapterTitle || verseList
+  }
+
+  syncManualVerseSelection(context) {
+    if (this.hasCircleVersePickerInputTarget) this.circleVersePickerInputTarget.value = context?.selectedVerses || ""
+    if (!this.hasCircleVersePickerLabelTarget) return
+
+    const defaultLabel = this.circleVersePickerLabelTarget.dataset.circleVerseDefaultLabel || ""
+    this.circleVersePickerLabelTarget.textContent = context ? this.verseReferenceLabel(context.selectedVerses) : defaultLabel
+  }
+
+  showManualVerseError(message) {
+    if (!this.hasCircleVersePickerErrorTarget || !message) return
+    this.circleVersePickerErrorTarget.textContent = message
+    this.circleVersePickerErrorTarget.hidden = false
+    this.circleVersePickerInputTarget?.setAttribute("aria-invalid", "true")
+  }
+
+  clearManualVerseError() {
+    if (!this.hasCircleVersePickerErrorTarget) return
+    this.circleVersePickerErrorTarget.textContent = ""
+    this.circleVersePickerErrorTarget.hidden = true
+    this.circleVersePickerInputTarget?.removeAttribute("aria-invalid")
+  }
+
+  activateCircleReplyContext(event) {
+    if (event.type === "click" && event.target.closest("button, a, summary, input, textarea, select, form")) return
+    this.setCircleReplyContext(event.currentTarget)
+  }
+
+  replyToCirclePost(event) {
+    event.preventDefault()
+    event.stopPropagation()
+    const article = event.currentTarget.closest("[data-circle-post-id]")
+    const composer = this.setCircleReplyContext(article)
+    const field = composer?.querySelector("textarea")
+    if (!field) return
+    field.focus({ preventScroll: true })
+    this.resizeMessageField(field)
+  }
+
+  toggleCircleHistory(event) {
+    event.preventDefault()
+    const button = event.currentTarget
+    const history = document.getElementById(button.dataset.circleHistory)
+    if (!history) return
+
+    const open = history.hidden
+    history.hidden = !open
+    button.setAttribute("aria-expanded", String(open))
+    const closedLabel = button.querySelector(".reader-circle-history-closed")
+    const openLabel = button.querySelector(".reader-circle-history-open")
+    const arrow = button.querySelector("[data-circle-history-arrow]")
+    if (closedLabel) closedLabel.hidden = open
+    if (openLabel) openLabel.hidden = !open
+    if (arrow) arrow.textContent = open ? "↓" : "↑"
+  }
+
+  setCircleReplyContext(article) {
+    if (!article) return null
+    const conversation = article.closest("[data-circle-conversation-root-id]")
+    const composer = conversation?.querySelector("[data-circle-reply-composer]")
+    if (!composer) return null
+    this.element.querySelectorAll(".reader-circle-conversation.is-active-circle-composer").forEach((candidate) => candidate.classList.remove("is-active-circle-composer"))
+    conversation.classList.add("is-active-circle-composer")
+    conversation.querySelectorAll(".is-reply-context").forEach((message) => message.classList.remove("is-reply-context"))
+    article.classList.add("is-reply-context")
+
+    this.setCircleReplyTarget(composer, {
+      parentId: article.dataset.circlePostId,
+      name: article.dataset.circleReplyName,
+      body: article.dataset.circleReplyBody
+    })
+    return composer
+  }
+
+  resetCircleReplyTarget(event) {
+    event?.preventDefault()
+    const composer = event?.currentTarget?.closest("[data-circle-reply-composer]")
+    if (!composer) return
+    composer.closest("[data-circle-conversation-root-id]")?.querySelectorAll(".is-reply-context").forEach((message) => message.classList.remove("is-reply-context"))
+    this.setCircleReplyTarget(composer, { parentId: composer.dataset.circleReplyRootId })
+  }
+
+  setCircleReplyTarget(composer, { parentId, name, body }, { persist = true } = {}) {
+    const rootId = composer.dataset.circleReplyRootId
+    const targetId = parentId?.toString() || rootId
+    const contextual = targetId !== rootId && name
+    const parent = composer.querySelector("[data-circle-reply-parent]")
+    const heading = composer.querySelector("[data-circle-reply-heading]")
+    const quote = composer.querySelector("[data-circle-reply-quote]")
+    const reset = composer.querySelector("[data-circle-reply-reset]")
+    const form = composer.querySelector("[data-circle-composer]")
+    if (parent) parent.value = targetId
+    if (heading) {
+      const template = composer.dataset.circleReplyPersonTemplate || "__NAME__"
+      heading.textContent = contextual ? template.replace("__NAME__", name) : composer.dataset.circleReplyConversationLabel
+    }
+    if (quote) {
+      quote.textContent = contextual ? body : ""
+      quote.hidden = !contextual
+    }
+    if (reset) reset.hidden = !contextual
+    if (contextual) {
+      composer.dataset.circleActiveReplyName = name
+      composer.dataset.circleActiveReplyBody = body || ""
+    } else {
+      delete composer.dataset.circleActiveReplyName
+      delete composer.dataset.circleActiveReplyBody
+    }
+    if (persist) this.persistCircleDraft(form)
+  }
+
+  toggleReplyVersePicker(event) {
+    event.preventDefault()
+    const trigger = event.currentTarget
+    const panel = document.getElementById(trigger.dataset.circleReplyVersePicker)
+    if (!panel) return
+    panel.hidden = !panel.hidden
+    trigger.setAttribute("aria-expanded", panel.hidden ? "false" : "true")
+    if (!panel.hidden) panel.querySelector("[data-circle-reply-verse-input]")?.focus({ preventScroll: true })
+  }
+
+  applyReplyVerseSelection(event) {
+    event.preventDefault()
+    const panel = event.currentTarget.closest("[data-circle-reply-verse-picker-panel]")
+    const form = panel?.closest("form")
+    const input = panel?.querySelector("[data-circle-reply-verse-input]")
+    const error = panel?.querySelector("[data-circle-reply-verse-error]")
+    const selection = this.manualVerseSelection(input?.value)
+    if (!selection || this.characterCount(selection.selectedText) > CIRCLE_SELECTION_LIMIT) {
+      if (error) {
+        error.textContent = this.element.dataset.circleManualVerseInvalid
+        error.hidden = false
+      }
+      input?.setAttribute("aria-invalid", "true")
+      return
+    }
+
+    this.setReplyVerseSelection(form, selection)
+    if (error) {
+      error.textContent = ""
+      error.hidden = true
+    }
+    input?.removeAttribute("aria-invalid")
+    panel.hidden = true
+    const trigger = form?.querySelector(`[aria-controls="${panel.id}"]`)
+    trigger?.setAttribute("aria-expanded", "false")
+    form?.querySelector("textarea")?.focus({ preventScroll: true })
+    this.persistCircleDraft(form)
+  }
+
+  setReplyVerseSelection(form, selection) {
+    if (!form) return
+    const values = {
+      start_verse: selection?.startVerse || "",
+      end_verse: selection?.endVerse || "",
+      selected_text: selection?.selectedText || "",
+      selected_verses: selection?.selectedVerses || ""
+    }
+    Object.entries(values).forEach(([name, value]) => {
+      const input = form.querySelector(`[name="post[${name}]"]`)
+      if (input) input.value = value
+    })
+    const label = form.querySelector("[data-circle-reply-verse-label]")
+    if (label) {
+      const defaultLabel = label.dataset.defaultLabel || ""
+      label.textContent = selection ? this.verseReferenceLabel(selection.selectedVerses) : defaultLabel
+    }
+  }
+
+  currentReplyVerseSelection(form) {
+    const value = (name) => form?.querySelector(`[name="post[${name}]"]`)?.value
+    if (!value("selected_verses")) return null
+    return this.normalizedCircleSelection({
+      startVerse: value("start_verse"),
+      endVerse: value("end_verse"),
+      selectedText: value("selected_text"),
+      selectedVerses: value("selected_verses")
     })
   }
 
@@ -316,10 +693,10 @@ export default class extends Controller {
 
   focusCircleComposerForSelection() {
     this.clearCircleSelectionFocus()
-    const delay = this.panelMotionEnabled() ? PANEL_TRANSITION_MS : 0
+    const delay = this.reducedMotion() ? 0 : 120
     this.circleSelectionFocusTimer = window.setTimeout(() => {
       this.circleSelectionFocusTimer = null
-      if (this.element.dataset.activePanel !== "circle" || !this.hasCircleComposerTarget) return
+      if (!this.hasCircleComposerTarget) return
       const field = this.circleComposerTarget.querySelector("textarea")
       if (!field) return
       this.resizeMessageField(field)
@@ -427,7 +804,8 @@ export default class extends Controller {
     article.dataset.markId = mark.id
     article.dataset.markType = mark.note_body ? "note" : (mark.bookmarked_at ? "bookmark" : "highlight")
     const meta = document.createElement("strong")
-    meta.textContent = mark.anchor_scope === "chapter" ? this.element.dataset.readerChapterTitle : (mark.start_verse === mark.end_verse ? `v.${mark.start_verse}` : `v.${mark.start_verse}–${mark.end_verse}`)
+    const markVerses = mark.start_verse === mark.end_verse ? String(mark.start_verse) : `${mark.start_verse}-${mark.end_verse}`
+    meta.textContent = mark.anchor_scope === "chapter" ? this.element.dataset.readerChapterTitle : this.verseReferenceLabel(markVerses)
     article.append(meta)
     if (mark.selected_text) {
       const quote = document.createElement("blockquote")
@@ -702,39 +1080,101 @@ export default class extends Controller {
     })
   }
 
-  composerToggled(event) {
-    const shell = event.currentTarget
-    if (!shell?.open) {
-      this.syncComposerShell(shell?.querySelector("[data-circle-composer]"))
-      return
-    }
-
-    window.requestAnimationFrame(() => {
-      const field = shell.querySelector("textarea")
-      if (!field) return
-      this.resizeMessageField(field)
-      this.syncMessageForm(field.closest("form"))
-      field.focus({ preventScroll: true })
-    })
-  }
-
-  collapseComposer(event) {
-    event.preventDefault()
-    const shell = event.currentTarget.closest("[data-circle-composer-shell]")
-    if (shell?.open) shell.open = false
-  }
-
   composerFieldFocused(event) {
     const field = event.currentTarget
-    if (field.value.length > MESSAGE_LIMIT) return
+    if (this.characterCount(field.value) > MESSAGE_LIMIT) return
     const form = field.closest("[data-circle-composer]")
     this.clearMessageError(form)
   }
 
+  // Ruby validates String#length by Unicode code point, whereas JavaScript's
+  // String#length counts UTF-16 code units. Keep the visible counter and the
+  // client-side limit aligned with the server for names, accents, and emoji.
+  characterCount(value) {
+    return Array.from(value || "").length
+  }
+
   messageMetadataChanged(event) {
     const form = event.currentTarget.closest("[data-circle-composer]")
+    this.syncAuthorVisibility(form)
     this.persistCircleDraft(form)
     this.syncComposerShell(form)
+  }
+
+  chooseAuthorVisibility(event) {
+    event.preventDefault()
+    const option = event.currentTarget
+    const picker = option.closest("details[data-circle-author-visibility]")
+    const form = picker?.closest("[data-circle-composer]")
+    const input = picker?.querySelector("[data-circle-author-visibility-input]")
+    if (!picker || !form || !input) return
+
+    input.value = option.dataset.authorVisibilityValue || "named"
+    this.syncAuthorVisibilityPicker(form)
+    picker.open = false
+    this.messageMetadataChanged({ currentTarget: input })
+    picker.querySelector("summary")?.focus({ preventScroll: true })
+  }
+
+  authorVisibilityToggled(event) {
+    const picker = event.currentTarget
+    picker.querySelector("summary")?.setAttribute("aria-expanded", String(picker.open))
+  }
+
+  closeAuthorVisibilityFromOutside(event) {
+    this.element.querySelectorAll("details[data-circle-author-visibility][open]").forEach((picker) => {
+      if (!picker.contains(event.target)) picker.open = false
+    })
+  }
+
+  closeAuthorVisibilityOnEscape(event) {
+    if (event.key !== "Escape") return
+
+    const openPickers = Array.from(this.element.querySelectorAll("details[data-circle-author-visibility][open]"))
+    if (openPickers.length === 0) return
+
+    event.preventDefault()
+    event.stopImmediatePropagation()
+    openPickers.forEach((picker) => {
+      picker.open = false
+      picker.querySelector("summary")?.focus({ preventScroll: true })
+    })
+  }
+
+  syncAuthorVisibilityPicker(form) {
+    const picker = form?.querySelector("details[data-circle-author-visibility]")
+    const input = picker?.querySelector("[data-circle-author-visibility-input]")
+    const value = input?.value || "named"
+    if (!picker) return
+
+    picker.querySelectorAll("[data-author-visibility-value]").forEach((option) => {
+      const selected = option.dataset.authorVisibilityValue === value
+      option.setAttribute("aria-selected", String(selected))
+      if (selected) picker.querySelector("[data-circle-author-visibility-label]").textContent = option.dataset.authorVisibilityLabel || ""
+    })
+  }
+
+  syncAuthorVisibility(form) {
+    const group = form?.querySelector("[data-circle-author-visibility]")
+    if (!group) return
+
+    const rootQuestionEditor = group.dataset.circleAuthorVisibilityFixed === "true"
+    const kind = form.querySelector('input[name="post[kind]"]:checked, input[type="hidden"][name="post[kind]"]')?.value
+    const parentId = form.querySelector('input[name="post[parent_id]"]')?.value
+    const allowed = rootQuestionEditor || (kind === "question" && !parentId)
+    group.hidden = !allowed
+    const controls = group.matches("fieldset, select") ? [group] : Array.from(group.querySelectorAll("input, select, button"))
+    controls.forEach((control) => { control.disabled = !allowed })
+
+    if (!allowed) {
+      const named = group.querySelector('input[name="post[author_visibility]"][value="named"]')
+      const selector = group.querySelector('select[name="post[author_visibility]"]')
+      const customInput = group.querySelector("[data-circle-author-visibility-input]")
+      if (named) named.checked = true
+      if (selector) selector.value = "named"
+      if (customInput) customInput.value = "named"
+    }
+    this.syncAuthorVisibilityPicker(form)
   }
 
   messageInput(event) {
@@ -749,7 +1189,7 @@ export default class extends Controller {
   countMessage(event) {
     const field = event.currentTarget
     const form = field.closest("form")
-    const count = field.value.length
+    const count = this.characterCount(field.value)
     const counter = form?.querySelector("[data-message-counter]")
     if (counter) counter.textContent = `${count} / ${MESSAGE_LIMIT}`
     field.setAttribute("aria-invalid", count > MESSAGE_LIMIT ? "true" : "false")
@@ -768,7 +1208,7 @@ export default class extends Controller {
     const field = form.querySelector("textarea")
     if (!field) return
     const blank = field.value.trim().length === 0
-    const overLimit = field.value.length > MESSAGE_LIMIT
+    const overLimit = this.characterCount(field.value) > MESSAGE_LIMIT
     if (blank || overLimit) {
       event.preventDefault()
       field.setAttribute("aria-invalid", "true")
@@ -780,14 +1220,11 @@ export default class extends Controller {
   composerSubmitStart(event) {
     const form = event.currentTarget
     const field = form.querySelector("textarea")
-    if (!field || field.value.trim().length === 0 || field.value.length > MESSAGE_LIMIT) return
+    if (!field || field.value.trim().length === 0 || this.characterCount(field.value) > MESSAGE_LIMIT) return
 
     this.persistCircleDraft(form)
     this.rememberCircleSubmission(form)
-    form.dataset.circleSubmitting = "true"
-    form.setAttribute("aria-busy", "true")
-    field.readOnly = true
-    form.querySelectorAll("input[type=radio], button").forEach((control) => { control.disabled = true })
+    this.setComposerSubmitting(form, true)
     const submit = form.querySelector("[data-circle-submit]")
     const label = submit?.querySelector("[data-circle-submit-label]")
     if (label && submit?.dataset.circleSendingLabel) {
@@ -799,6 +1236,7 @@ export default class extends Controller {
   composerSubmitEnd(event) {
     if (event.detail?.success) return
     const form = event.currentTarget
+    this.clearCircleSubmissionNavigationRestore()
     this.setComposerSubmitting(form, false)
     this.showMessageError(form, this.element.dataset.circleSendFailed)
   }
@@ -810,10 +1248,7 @@ export default class extends Controller {
     if (submitting) form.dataset.circleSubmitting = "true"
     else delete form.dataset.circleSubmitting
     if (field) field.readOnly = submitting
-    form.querySelectorAll("input[type=radio], button").forEach((control) => {
-      if (control.matches("[data-circle-submit]")) return
-      control.disabled = submitting
-    })
+    form.querySelectorAll("input:not([type=hidden]), select, button").forEach((control) => { control.disabled = submitting })
     const submit = form.querySelector("[data-circle-submit]")
     if (!submit) return
     const label = submit.querySelector("[data-circle-submit-label]")
@@ -821,7 +1256,10 @@ export default class extends Controller {
       label.textContent = submit.dataset.circleSubmitLabel
       delete submit.dataset.circleSubmitLabel
     }
-    if (!submitting) this.syncMessageForm(form)
+    if (!submitting) {
+      this.syncAuthorVisibility(form)
+      this.syncMessageForm(form)
+    }
   }
 
   syncMessageForm(form) {
@@ -829,7 +1267,7 @@ export default class extends Controller {
     const field = form.querySelector("textarea")
     const submit = form.querySelector("[data-circle-submit]")
     if (!field || !submit) return
-    const canSubmit = field.value.trim().length > 0 && field.value.length <= MESSAGE_LIMIT
+    const canSubmit = field.value.trim().length > 0 && this.characterCount(field.value) <= MESSAGE_LIMIT
     submit.disabled = !canSubmit
   }
 
@@ -859,15 +1297,16 @@ export default class extends Controller {
   initializeCircleComposers() {
     this.element.querySelectorAll("[data-circle-composer]").forEach((form) => {
       this.restoreCircleDraft(form)
+      this.syncAuthorVisibility(form)
       const field = form.querySelector("textarea")
       if (field) {
         this.countMessage({ currentTarget: field })
-        if (form.closest("details")?.open !== false) this.resizeMessageField(field)
+        this.resizeMessageField(field)
       }
       this.syncComposerShell(form)
     })
     this.restorePendingCircleSubmission()
-    this.focusCircleEventPost()
+    this.focusCircleTarget()
     this.clearCircleEventLocation()
   }
 
@@ -878,7 +1317,8 @@ export default class extends Controller {
     if (!scope || !reference) return null
     const kind = form.dataset.circleComposerKind || "post"
     const parentId = form.querySelector('input[name="post[parent_id]"]')?.value || ""
-    return [ CIRCLE_DRAFT_PREFIX, scope, reference, kind, parentId ].join(":")
+    const composerId = form.dataset.circleComposerId || [ kind, parentId || "root" ].join("-")
+    return [ CIRCLE_DRAFT_PREFIX, scope, reference, composerId ].join(":")
   }
 
   circlePendingKey() {
@@ -892,7 +1332,7 @@ export default class extends Controller {
     const key = this.circleDraftKey(form)
     if (!key) return false
     try {
-      const draft = JSON.parse(window.sessionStorage.getItem(key) || "null")
+      const draft = JSON.parse(window.localStorage.getItem(key) || "null")
       if (!draft || typeof draft.body !== "string") return false
       const field = form.querySelector("textarea")
       if (!field) return false
@@ -902,10 +1342,27 @@ export default class extends Controller {
           input.checked = input.value === draft.kind
         })
       }
-      const anonymous = form.querySelector('input[type="checkbox"][name="post[anonymous]"]')
-      if (anonymous && typeof draft.anonymous === "boolean") anonymous.checked = draft.anonymous
+      if (typeof draft.author_visibility === "string") {
+        const inputs = Array.from(form.querySelectorAll('input[type="radio"][name="post[author_visibility]"]'))
+        inputs.forEach((input) => {
+          input.checked = input.value === draft.author_visibility
+        })
+        const selector = form.querySelector('select[name="post[author_visibility]"]')
+        if (selector) selector.value = draft.author_visibility
+        const customInput = form.querySelector("[data-circle-author-visibility-input]")
+        if (customInput) customInput.value = draft.author_visibility
+      }
+      this.syncAuthorVisibility(form)
       if (this.hasCircleComposerTarget && form === this.circleComposerTarget) {
         this.setCircleSelection(draft.selection, { persist: false })
+      } else if (form.dataset.circleComposerKind === "reply") {
+        const composer = form.closest("[data-circle-reply-composer]")
+        this.setCircleReplyTarget(composer, {
+          parentId: draft.parent_id || composer?.dataset.circleReplyRootId,
+          name: draft.reply_to_name,
+          body: draft.reply_to_body
+        }, { persist: false })
+        this.setReplyVerseSelection(form, draft.selection)
       }
       return true
     } catch (_error) {
@@ -918,18 +1375,26 @@ export default class extends Controller {
     const field = form?.querySelector("textarea")
     if (!key || !field) return
     try {
-      const selection = this.currentCircleSelection(form)
-      if (field.value.length === 0 && !selection) {
-        window.sessionStorage.removeItem(key)
+      const selection = this.hasCircleComposerTarget && form === this.circleComposerTarget ? this.currentCircleSelection(form) : this.currentReplyVerseSelection(form)
+      const kind = form.querySelector('input[name="post[kind]"]:checked, input[type="hidden"][name="post[kind]"]')?.value || form.dataset.circleComposerKind
+      const authorVisibility = form.querySelector('input[name="post[author_visibility]"]:checked, select[name="post[author_visibility]"], [data-circle-author-visibility-input]')?.value
+      const defaultKind = form.dataset.circleComposerKind === "post" ? "question" : form.dataset.circleComposerKind
+      const composer = form.closest("[data-circle-reply-composer]")
+      const parentId = form.querySelector("[data-circle-reply-parent]")?.value
+      const hasReplyTarget = composer && parentId !== composer.dataset.circleReplyRootId
+      const hasMetadata = kind !== defaultKind || authorVisibility === "anonymous_to_ward" || hasReplyTarget
+      if (this.characterCount(field.value) === 0 && !selection && !hasMetadata) {
+        window.localStorage.removeItem(key)
         return
       }
-      const kind = form.querySelector('input[name="post[kind]"]:checked')?.value || form.dataset.circleComposerKind
-      const anonymous = form.querySelector('input[type="checkbox"][name="post[anonymous]"]')
-      window.sessionStorage.setItem(key, JSON.stringify({
+      window.localStorage.setItem(key, JSON.stringify({
         body: field.value,
         kind,
         selection,
-        anonymous: anonymous ? anonymous.checked : undefined,
+        parent_id: parentId,
+        reply_to_name: composer?.dataset.circleActiveReplyName,
+        reply_to_body: composer?.dataset.circleActiveReplyBody,
+        author_visibility: authorVisibility,
         savedAt: Date.now()
       }))
     } catch (_error) {
@@ -940,7 +1405,7 @@ export default class extends Controller {
   clearCircleDraftByKey(key) {
     if (!key) return
     try {
-      window.sessionStorage.removeItem(key)
+      window.localStorage.removeItem(key)
     } catch (_error) {
       // Nothing else is required when storage is unavailable.
     }
@@ -951,38 +1416,134 @@ export default class extends Controller {
     const draftKey = this.circleDraftKey(form)
     if (!pendingKey || !draftKey) return
     try {
-      window.sessionStorage.setItem(pendingKey, JSON.stringify({ draftKey, submittedAt: Date.now() }))
+      window.localStorage.setItem(pendingKey, JSON.stringify({
+        draftKey,
+        submittedAt: Date.now(),
+        sheetScrollTop: this.sheet?.scrollTop || 0,
+        windowScrollY: window.scrollY || 0
+      }))
+      this.armCircleSubmissionNavigationRestore(pendingKey)
     } catch (_error) {
       // The server redirect remains the source of truth without session storage.
     }
+  }
+
+  armCircleSubmissionNavigationRestore(pendingKey) {
+    this.clearCircleSubmissionNavigationRestore()
+    this.circleSubmissionNavigationRestore = (event) => {
+      if (event.type === "turbo:frame-load" && event.target?.id !== "scripture_reader") return
+      this.clearCircleSubmissionNavigationRestore()
+      try {
+        const pending = JSON.parse(window.localStorage.getItem(pendingKey) || "null")
+        const sheetScrollTop = Number(pending?.sheetScrollTop)
+        const windowScrollY = Number(pending?.windowScrollY)
+        if (!Number.isFinite(sheetScrollTop) || sheetScrollTop < 0) return
+        const restore = () => {
+          const sheet = document.querySelector(".scripture-reader-room .scripture-sheet")
+          if (sheet) sheet.scrollTop = sheetScrollTop
+          if (Number.isFinite(windowScrollY) && windowScrollY >= 0) window.scrollTo({ top: windowScrollY, behavior: "auto" })
+        }
+        restore()
+        window.requestAnimationFrame(() => window.requestAnimationFrame(restore))
+        window.setTimeout(restore, 60)
+        window.setTimeout(restore, 180)
+      } catch (_error) {
+        // The reconnecting controller still has the same storage-based fallback.
+      }
+    }
+    document.addEventListener("turbo:frame-load", this.circleSubmissionNavigationRestore)
+    document.addEventListener("turbo:load", this.circleSubmissionNavigationRestore)
+    window.addEventListener("load", this.circleSubmissionNavigationRestore)
+    window.addEventListener("pageshow", this.circleSubmissionNavigationRestore)
+  }
+
+  clearCircleSubmissionNavigationRestore() {
+    if (!this.circleSubmissionNavigationRestore) return
+    document.removeEventListener("turbo:frame-load", this.circleSubmissionNavigationRestore)
+    document.removeEventListener("turbo:load", this.circleSubmissionNavigationRestore)
+    window.removeEventListener("load", this.circleSubmissionNavigationRestore)
+    window.removeEventListener("pageshow", this.circleSubmissionNavigationRestore)
+    this.circleSubmissionNavigationRestore = null
   }
 
   restorePendingCircleSubmission() {
     const pendingKey = this.circlePendingKey()
     if (!pendingKey) return
     try {
-      const pending = JSON.parse(window.sessionStorage.getItem(pendingKey) || "null")
+      const pending = JSON.parse(window.localStorage.getItem(pendingKey) || "null")
       if (!pending?.draftKey) return
       const form = Array.from(this.element.querySelectorAll("[data-circle-composer]")).find((candidate) => this.circleDraftKey(candidate) === pending.draftKey)
       if (this.element.dataset.circleEventPostId) {
+        this.restoreCircleSubmissionPosition(pending, pendingKey)
         this.clearCircleDraftByKey(pending.draftKey)
         this.resetConfirmedComposer(form)
       } else {
         this.showMessageStatus(form, this.element.dataset.circleDraftRestored)
+        window.localStorage.removeItem(pendingKey)
       }
-      window.sessionStorage.removeItem(pendingKey)
     } catch (_error) {
       // A malformed or unavailable session value must never block the reader.
     }
+  }
+
+  restoreCircleSubmissionPosition(pending, pendingKey) {
+    const sheetScrollTop = Number(pending?.sheetScrollTop)
+    const windowScrollY = Number(pending?.windowScrollY)
+    if (!Number.isFinite(sheetScrollTop) || sheetScrollTop < 0) return
+
+    this.circleSubmissionScrollRestored = true
+    this.armCircleSubmissionNavigationRestore(pendingKey)
+    const restore = () => {
+      const activeSheet = document.querySelector(".scripture-reader-room .scripture-sheet") || this.sheet
+      if (!activeSheet || activeSheet.scrollHeight - activeSheet.clientHeight < sheetScrollTop) return false
+      activeSheet.scrollTop = sheetScrollTop
+      if (Number.isFinite(windowScrollY) && windowScrollY >= 0) window.scrollTo({ top: windowScrollY, behavior: "auto" })
+      return Math.abs(activeSheet.scrollTop - sheetScrollTop) <= 2
+    }
+    restore()
+    this.circleSubmissionScrollFrame = window.requestAnimationFrame(() => {
+      restore()
+      this.circleSubmissionScrollFrame = window.requestAnimationFrame(restore)
+    })
+    this.circleSubmissionScrollTimers = [ 60, 180 ].map((delay) => window.setTimeout(restore, delay))
+    let stableRestores = 0
+    const scrollRestoreInterval = window.setInterval(() => {
+      stableRestores = restore() ? stableRestores + 1 : 0
+      if (stableRestores >= 3) window.clearInterval(scrollRestoreInterval)
+    }, 50)
+    window.setTimeout(() => window.clearInterval(scrollRestoreInterval), 2_500)
+    this.circleSubmissionScrollTimers.push(window.setTimeout(() => {
+      try {
+        window.localStorage.removeItem(pendingKey)
+      } catch (_error) {
+        // The restored reading position does not depend on storage cleanup.
+      }
+    }, 2_500))
   }
 
   resetConfirmedComposer(form) {
     const field = form?.querySelector("textarea")
     if (!field) return
     field.value = form.dataset.circleComposerKind === "edit" ? (field.dataset.circleInitialValue || "") : ""
-    const anonymous = form.querySelector('input[type="checkbox"][name="post[anonymous]"]')
-    if (anonymous) anonymous.checked = anonymous.defaultChecked
-    if (this.hasCircleComposerTarget && form === this.circleComposerTarget) this.setCircleSelection(null, { persist: false })
+    form.querySelectorAll('input[name="post[kind]"]').forEach((input) => {
+      input.checked = input.defaultChecked
+    })
+    delete form.dataset.circleKindSelected
+    form.querySelectorAll('input[name="post[author_visibility]"]').forEach((input) => {
+      input.checked = input.defaultChecked
+    })
+    const authorVisibilitySelector = form.querySelector('select[name="post[author_visibility]"]')
+    if (authorVisibilitySelector) authorVisibilitySelector.value = authorVisibilitySelector.defaultValue
+    const authorVisibilityInput = form.querySelector("[data-circle-author-visibility-input]")
+    if (authorVisibilityInput) authorVisibilityInput.value = authorVisibilityInput.defaultValue
+    this.syncAuthorVisibility(form)
+    if (this.hasCircleComposerTarget && form === this.circleComposerTarget) {
+      this.setCircleSelection(null, { persist: false })
+    } else if (form.dataset.circleComposerKind === "reply") {
+      const composer = form.closest("[data-circle-reply-composer]")
+      this.setCircleReplyTarget(composer, { parentId: composer?.dataset.circleReplyRootId }, { persist: false })
+      this.setReplyVerseSelection(form, null)
+    }
     this.countMessage({ currentTarget: field })
     this.resizeMessageField(field)
     this.syncComposerShell(form)
@@ -1006,27 +1567,51 @@ export default class extends Controller {
     field.style.overflowY = field.scrollHeight > CIRCLE_COMPOSER_MAX_HEIGHT ? "auto" : "hidden"
   }
 
-  focusCircleEventPost() {
-    const postId = this.element.dataset.circleEventPostId
-    if (!postId) return
-    const post = this.element.querySelector(`[data-circle-post-id="${postId}"]`)
+  focusCircleTarget() {
+    const focusPostId = this.element.dataset.circleFocusPostId
+    const postId = focusPostId || this.element.dataset.circleEventPostId
+    if (!postId) {
+      if (this.element.dataset.scriptureRoomInitialCircle === "true") {
+        window.setTimeout(() => this.scrollToCircle(), this.reducedMotion() ? 0 : 80)
+      }
+      return
+    }
+    const mobileThreadDetail = this.element.classList.contains("is-circle-thread-detail") && window.matchMedia("(max-width: 767px)").matches
+    const scope = mobileThreadDetail
+      ? this.element.querySelector(".reader-circle-thread-detail")
+      : (this.hasCircleSectionTarget ? this.circleSectionTarget : this.element)
+    const post = scope?.querySelector(`[data-circle-post-id="${postId}"]`)
     if (!post) return
-    this.circleEventTimer = window.setTimeout(() => {
-      post.scrollIntoView({ block: "nearest", behavior: this.reducedMotion() ? "auto" : "smooth" })
+    this.circleFocusTimer = window.setTimeout(() => {
+      if (!this.circleSubmissionScrollRestored) {
+        post.scrollIntoView({ block: "center", behavior: this.reducedMotion() ? "auto" : "smooth" })
+      }
       post.focus({ preventScroll: true })
+      if (focusPostId) this.playCircleFocusHalo(post)
     }, this.reducedMotion() ? 0 : 80)
   }
 
+  playCircleFocusHalo(post) {
+    if (this.reducedMotion() || typeof post.animate !== "function") return
+    this.circleFocusAnimation?.cancel()
+    this.circleFocusAnimation = post.animate([
+      { boxShadow: "0 0 0 0 rgba(183, 122, 19, 0)" },
+      { boxShadow: "0 0 0 .3rem rgba(183, 122, 19, .24)" },
+      { boxShadow: "0 0 0 0 rgba(183, 122, 19, 0)" }
+    ], { duration: 220, easing: "cubic-bezier(.2, .8, .2, 1)" })
+    this.circleFocusAnimation.onfinish = () => { this.circleFocusAnimation = null }
+  }
+
   clearCircleEventLocation() {
-    if (!this.element.dataset.circleEventPostId || !window.history?.replaceState) return
+    if (!window.history?.replaceState) return
     const location = new URL(window.location.href)
+    if (!location.searchParams.has("circle_event")) return
     location.searchParams.delete("circle_event")
-    location.searchParams.delete("circle_post")
     window.history.replaceState(window.history.state, "", `${location.pathname}${location.search}${location.hash}`)
   }
 
   async refreshModerationResults() {
-    if (document.visibilityState === "hidden" || this.element.dataset.activePanel !== "circle") return
+    if (document.visibilityState === "hidden") return
     await Promise.all(Array.from(this.element.querySelectorAll("[data-moderation-results-url]")).map(async (card) => {
       try {
         const result = await http.json(card.dataset.moderationResultsUrl)
@@ -1120,8 +1705,38 @@ export default class extends Controller {
   onScroll() {
     this.beginReadingScroll()
     this.scheduleReadingProgress()
+    this.scheduleActiveCircleComposer()
     if (this.progressTimer) window.clearTimeout(this.progressTimer)
     this.progressTimer = window.setTimeout(() => this.persistProgress(), 1200)
+  }
+
+  scheduleActiveCircleComposer() {
+    if (this.circleComposerFrame) return
+    this.circleComposerFrame = window.requestAnimationFrame(() => {
+      this.circleComposerFrame = null
+      this.syncActiveCircleComposer()
+    })
+  }
+
+  syncActiveCircleComposer() {
+    const conversations = Array.from(this.element.querySelectorAll(".reader-circle-conversation"))
+    if (!window.matchMedia("(max-width: 767px)").matches || !this.sheet) {
+      conversations.forEach((conversation) => conversation.classList.remove("is-active-circle-composer"))
+      return
+    }
+
+    const sheetBounds = this.sheet.getBoundingClientRect()
+    const center = sheetBounds.top + (sheetBounds.height * 0.52)
+    const visible = conversations.filter((conversation) => {
+      const bounds = conversation.getBoundingClientRect()
+      return bounds.bottom > sheetBounds.top && bounds.top < sheetBounds.bottom
+    })
+    const active = visible.find((conversation) => {
+      const bounds = conversation.getBoundingClientRect()
+      return bounds.top <= center && bounds.bottom >= center
+    }) || visible[0]
+
+    conversations.forEach((conversation) => conversation.classList.toggle("is-active-circle-composer", conversation === active))
   }
 
   beginReadingScroll() {

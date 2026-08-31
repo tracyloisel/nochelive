@@ -1,0 +1,61 @@
+<% focus_root_id = circle_focus_post.conversation_root_id.presence || circle_focus_post.root_post&.id || circle_focus_post.id %>
+<% conversation_posts = posts.select { |post| (post.conversation_root_id.presence || post.root_post&.id || post.id) == focus_root_id } %>
+<% conversation_root = conversation_posts.find { |post| post.id == focus_root_id } || conversation_posts.find(&:root?) %>
+<% replies = conversation_root ? conversation_posts.reject { |post| post.id == conversation_root.id } : [] %>
+
+<section class="reader-circle-thread-detail" aria-labelledby="reader-circle-thread-detail-title">
+  <h1 id="reader-circle-thread-detail-title" class="visually-hidden"><%= t("scripture_reader.circle.title") %></h1>
+
+  <% if conversation_root %>
+    <div class="reader-circle-thread-detail-messages reader-circle-conversation is-focused"
+         data-circle-conversation-root-id="<%= conversation_root.id %>">
+      <%= render "scriptures/circle_post",
+                 post: conversation_root,
+                 circle_mode:,
+                 reference:,
+                 chapter_title: local_assigns[:chapter_title],
+                 circle_event:,
+                 circle_event_post_id: circle_event_post&.id,
+                 circle_focus_post_id: circle_focus_post&.id,
+                 circle_sort:,
+                 presentation: "thread_root",
+                 dom_prefix: "reader-detail-" %>
+
+      <% if replies.any? %>
+        <div class="reader-circle-thread-detail-replies reader-circle-replies">
+          <%= render partial: "scriptures/circle_post",
+                     collection: replies,
+                     as: :post,
+                     locals: {
+                       circle_mode:,
+                       reference:,
+                       chapter_title: local_assigns[:chapter_title],
+                       circle_event:,
+                       circle_event_post_id: circle_event_post&.id,
+                       circle_focus_post_id: circle_focus_post&.id,
+                       circle_sort:,
+                       presentation: "thread_reply",
+                       dom_prefix: "reader-detail-"
+                     } %>
+        </div>
+      <% end %>
+    </div>
+
+    <% if conversation_root.status == "visible" && circle_mode == "active" %>
+      <%= render "scriptures/circle_reply_composer",
+                 conversation_root:,
+                 reference:,
+                 circle_sort:,
+                 dom_prefix: "reader-detail-" %>
+    <% elsif circle_mode == "read_only" %>
+      <p class="reader-circle-state-note"><%= t("scripture_reader.circle.read_only") %></p>
+    <% end %>
+  <% else %>
+    <div class="reader-empty-state">
+      <span aria-hidden="true"><%= picto("people") %></span>
+      <p><%= t("scripture_reader.selection.discussion_unavailable") %></p>
+    </div>
+  <% end %>
+
+  <p class="reader-circle-privacy"><%= picto("lock") %><span><%= t("scripture_circle.inbox.privacy") %></span></p>
+</section>

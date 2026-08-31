@@ -11,6 +11,14 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
     assert_select "a.paper-door[href=?]", church_beliefs_path
     assert_select "a.paper-door[href=?]", church_missionaries_path
     assert_select "a.paper-door[href=?]", church_worship_path
+    {
+      church_meet_path => "media/church/journey/meet-v2.png",
+      church_beliefs_path => "media/church/journey/beliefs-v2.png",
+      church_missionaries_path => "media/church/journey/missionaries-v2.png",
+      church_worship_path => "media/church/journey/worship-v2.png"
+    }.each do |path, artwork|
+      assert_select "a.paper-door.is-cinematic[href=?][style*=?]", path, generated_media_src(artwork, format: "webp")
+    end
     assert_select ".paper-door-hint", text: I18n.t("church.beliefs_hint")
     assert_select ".home-menu.is-hud[data-hud-theme='celestial-dark'] .quiz-hud[data-hud-theme='celestial-dark']"
     assert_select ".navigation-dock .navigation-dock__item", count: 5
@@ -108,6 +116,10 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
     assert_select "a[href='mailto:tracy.loisel@gmail.com']"
     assert_select ".paper-facts", text: /Render Services, Inc./
     assert_select ".paper-facts", text: /525 Brannan/
+    assert_select ".paper-fact--editor"
+    assert_select ".paper-fact--contact"
+    assert_select ".paper-fact--host dd strong", text: /Render Services, Inc\./
+    assert_select ".paper-fact--host dd span", text: /525 Brannan/
     assert_select ".charter-journey-foot", count: 0
     assert_select ".charter-journey-story a[href=?]", privacy_path, count: 0
     assert_select ".charter-journey-story a[href=?]", platform_stats_path, count: 0

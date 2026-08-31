@@ -113,13 +113,12 @@
           </span>
           <b aria-hidden="true">›</b>
         <% end %>
-        <% if current_street_person && (current_street_person.id == person.id || current_street_person.ward_id == person.ward_id) %>
-          <% visible_circle_count = current_street_person.id == person.id ? person.scripture_circle_posts.count : person.scripture_circle_posts.where(ward_id: current_street_person.ward_id, anonymous: false).count %>
+        <% if current_street_person && !@visible_circle_count.nil? && (current_street_person.id == person.id || current_street_person.ward_id == person.ward_id) %>
           <%= link_to player_scripture_circle_posts_path(person), class: "profile-glass-card profile-destination-card" do %>
             <span class="profile-destination-picto" aria-hidden="true"><%= picto("people") %></span>
             <span>
               <strong><%= t("scripture_reader.profile.destination_title") %></strong>
-              <small><%= t("scripture_reader.profile.destination_summary", count: visible_circle_count) %></small>
+              <small><%= t("scripture_reader.profile.destination_summary", count: @visible_circle_count) %></small>
             </span>
             <b aria-hidden="true">›</b>
           <% end %>

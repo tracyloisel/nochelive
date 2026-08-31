@@ -1,11 +1,11 @@
 class QuizAdvancesController < ApplicationController
   include StreetQuiz
-  before_action :require_street_identity, :load_street_run
+  before_action :load_quiz_run, :authorize_quiz_run
 
   def create
     street = Quizzes::Advance.call(run: @run)
-    replace_street(street.run)
+    street ? replace_street(street.run) : redirect_to(night_path(@run.game_session.code))
   rescue RuntimeError, ActiveRecord::RecordInvalid
-    redirect_to jugar_path
+    redirect_to quiz_error_path
   end
 end

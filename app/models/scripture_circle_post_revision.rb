@@ -10,8 +10,10 @@ class ScriptureCirclePostRevision < ApplicationRecord
   validates :body, :change_kind, :content_digest, presence: true
   validates :body, length: { maximum: ScriptureCirclePost::MAX_BODY_LENGTH }
   validates :anonymous, inclusion: { in: [ true, false ] }
+  validates :author_visibility, inclusion: { in: ScriptureCirclePost::AUTHOR_VISIBILITIES }
   validates :change_kind, inclusion: { in: CHANGE_KINDS }
   validate :same_ward
+  validate :anonymous_visibility_matches_post
 
   private
 
@@ -19,5 +21,12 @@ class ScriptureCirclePostRevision < ApplicationRecord
       return if scripture_circle_post.blank? || scripture_circle_post.ward_id == ward_id
 
       errors.add(:ward, :invalid)
+    end
+
+    def anonymous_visibility_matches_post
+      return unless author_visibility == "anonymous_to_ward"
+      return if scripture_circle_post&.question_root?
+
+      errors.add(:author_visibility, :invalid)
     end
 end

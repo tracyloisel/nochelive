@@ -1,0 +1,79 @@
+<% content_for :title, t("scripture_library.title") %>
+<% content_for :body_class, "is-scripture-library is-celestial-dark" %>
+<% declare_frontend_resources(context: "scripture.library", styles: %w[library]) %>
+<% page_hud(hud: true, theme: "celestial-dark") { site_menu } %>
+
+<article id="bibliotheque" class="scripture-library" aria-labelledby="scripture_library_title" data-controller="library-search">
+  <header class="scripture-library__hero">
+    <div class="scripture-library__art" aria-hidden="true">
+      <%= noche_media_picture("media/study/psalms-refuge-2026.png", alt: "", loading: "eager", fetchpriority: "high") %>
+    </div>
+    <div class="scripture-library__hero-copy">
+      <p class="scripture-library__eyebrow"><%= t("scripture_library.eyebrow") %></p>
+      <h1 id="scripture_library_title"><%= t("scripture_library.title") %></h1>
+      <blockquote><%= @screen.quote %></blockquote>
+      <form id="recherche-ecritures" class="scripture-library-search" action="<%= scripture_library_search_path %>" method="get"
+            role="search" data-library-search-target="form" data-action="submit->library-search#submit">
+        <input type="hidden" name="locale" value="<%= I18n.locale %>">
+        <label for="scripture_library_query"><%= t("scripture_library.search.label") %></label>
+        <div class="scripture-library-search__field">
+          <span class="scripture-library-search__icon" aria-hidden="true"><%= picto("search") %></span>
+          <input id="scripture_library_query" name="q" type="search" value="<%= @query %>"
+                 placeholder="<%= t("scripture_library.search.placeholder") %>" autocomplete="off"
+                 role="combobox" aria-autocomplete="list" aria-expanded="<%= @result&.suggestions&.any? ? 'true' : 'false' %>"
+                 aria-controls="scripture-library-suggestions" aria-describedby="scripture-library-search-status"
+                 data-library-search-target="input" data-action="input->library-search#change keydown->library-search#keydown">
+          <button type="button" class="scripture-library-search__clear" aria-label="<%= t("scripture_library.search.clear") %>"
+                  data-action="library-search#clear">×</button>
+          <button type="submit" class="scripture-library-search__submit"><%= t("scripture_library.search.submit") %></button>
+        </div>
+        <div id="scripture-library-search-status" class="scripture-library-search__status" role="status" aria-live="polite" data-library-search-target="status">
+          <%= t(@result.message_key) if @result&.message_key %>
+        </div>
+        <div id="scripture-library-suggestions" class="scripture-library-search__suggestions" role="listbox" data-library-search-target="list" <%= "hidden" unless @result&.suggestions&.any? %>>
+          <% @result&.suggestions&.each_with_index do |suggestion, index| %>
+            <%= link_to suggestion.label, suggestion.path, role: "option", id: "scripture-library-option-#{index}", tabindex: -1, data: { library_search_target: "option" } %>
+          <% end %>
+        </div>
+      </form>
+    </div>
+  </header>
+
+  <section class="scripture-library__stream" aria-label="<%= t("scripture_library.stream_label") %>">
+    <% rows = [
+      [ :resume, "continuer", @screen.resume, true ],
+      [ :recommendation, "recommande", @screen.recommendation, false ],
+      [ :weekly, "cette-semaine", @screen.weekly, false ],
+      [ :bookmarks, "mes-signets", @screen.bookmarks, false ],
+      [ :collection, "mes-ecritures", @screen.collection, false ],
+      [ :rama, "ma-rama", @screen.rama, false ],
+      [ :annual, "programme-annuel", @screen.annual, false ]
+    ] %>
+    <% rows.each do |key, anchor, row, priority| %>
+      <%= link_to row.path, id: anchor, class: [ "scripture-library-row", ("is-priority" if priority) ],
+            data: { library_row: key, library_search_target: "row", action: "click->library-search#remember" } do %>
+        <span class="scripture-library-row__icon" aria-hidden="true"><%= picto(row.icon) %></span>
+        <span class="scripture-library-row__body">
+          <span class="scripture-library-row__label"><%= t("scripture_library.rows.#{key}") %></span>
+          <strong><%= row.title %></strong>
+          <span class="scripture-library-row__detail"><%= row.detail %></span>
+          <% if row.avatars.any? %>
+            <span class="scripture-library-row__avatars" aria-hidden="true">
+              <% row.avatars.each do |person| %>
+                <span><% if (src = avatar_mark(person)) %><img src="<%= src %>" alt=""><% else %><%= person.given_name.to_s.first %><% end %></span>
+              <% end %>
+            </span>
+          <% end %>
+          <% if row.progress %>
+            <span class="scripture-library-row__progress" role="progressbar" aria-label="<%= t("scripture_library.progress_label") %>" aria-valuemin="0" aria-valuemax="100" aria-valuenow="<%= (row.progress * 100).round %>">
+              <i style="--library-progress:<%= (row.progress * 100).round %>%"></i>
+            </span>
+          <% end %>
+        </span>
+        <span class="scripture-library-row__intent"><%= row.meta.presence || "›" %></span>
+      <% end %>
+    <% end %>
+  </section>
+</article>
+
+<% page_dock(active: :word) %>

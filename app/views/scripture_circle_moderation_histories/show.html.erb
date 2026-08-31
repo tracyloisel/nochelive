@@ -9,7 +9,7 @@
 
   <section class="moderation-history-summary">
     <strong><%= t("scripture_reader.history.result", status: t("scripture_reader.history.status.#{proposal.status}")) %></strong>
-    <p><%= t("scripture_reader.circle.proposed_by", name: proposal.proposer_person&.display_name || t("scripture_reader.circle.former_member")) %></p>
+    <p><%= t("scripture_reader.circle.opened_after_reports") %></p>
     <p><%= t("scripture_reader.circle.ends_at", date: l(proposal.ends_at, format: :short)) %></p>
   </section>
 

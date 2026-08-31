@@ -4,12 +4,16 @@ module ScriptureCircles
     MissingIdentity = Class.new(Error)
     MissingWard = Class.new(Error)
     Disabled = Class.new(Error)
+    ArchivedThread = Class.new(Error)
 
     attr_reader :person, :ward
 
     def initialize(person:)
       @person = person or raise MissingIdentity
-      @ward = person.ward or raise MissingWard
+      # Resolve by the persisted foreign key instead of trusting a possibly
+      # cached Person#ward association. Circle availability is a current ward
+      # policy and may change while a person object remains in memory.
+      @ward = Ward.find_by(id: person.ward_id) or raise MissingWard
     end
 
     def readable!
@@ -25,24 +29,40 @@ module ScriptureCircles
     def thread_for(reference:, create: false)
       create ? writable! : readable!
       scope = ward.scripture_circle_threads.where(reference: reference.to_s)
-      return scope.first unless create
+      thread = scope.first
+      return thread if !create && thread&.status == "active"
+      return nil unless create
+      return thread if thread&.status == "active"
+      raise ArchivedThread if thread
 
-      scope.first || ward.scripture_circle_threads.create!(reference: reference.to_s)
+      ward.scripture_circle_threads.create!(reference: reference.to_s)
     rescue ActiveRecord::RecordNotUnique, ActiveRecord::RecordInvalid => error
       # A concurrent first publication may create the same ward/chapter thread between
       # the lookup and insert. The unique database index remains authoritative; reuse
       # the thread when it now exists, but never mask a genuinely invalid reference.
-      scope.first || raise(error)
+      thread = scope.first
+      raise ArchivedThread if thread&.status == "archived"
+
+      thread || raise(error)
     end
 
     def post!(id, write: false)
       write ? writable! : readable!
-      ward.scripture_circle_posts.find(id)
+      post = ward.scripture_circle_posts.includes(:scripture_circle_thread).find(id)
+      raise ArchivedThread unless post.scripture_circle_thread&.status == "active"
+
+      post
     end
 
     def proposal!(id, write: false)
       write ? writable! : readable!
-      ScriptureCircleModerationProposal.where(ward_id: ward.id).find(id)
+      proposal = ScriptureCircleModerationProposal
+        .where(ward_id: ward.id)
+        .includes(scripture_circle_post: :scripture_circle_thread)
+        .find(id)
+      raise ArchivedThread unless proposal.scripture_circle_post.scripture_circle_thread&.status == "active"
+
+      proposal
     end
   end
 end

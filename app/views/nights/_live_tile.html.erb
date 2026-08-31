@@ -1,0 +1,13 @@
+<% event = local_assigns.key?(:event) ? local_assigns[:event] : night.live_events.recent_first.first %>
+<aside id="live_event_tile" class="duel-quiz-race-slot noche-live-tile" aria-live="polite" aria-atomic="true" <%= "hidden" unless event %>>
+  <% if event %>
+    <% event_icon = event.kind.in?(%w[correct streak]) ? "fire" : event.kind == "lead_change" ? "crown" : "star4" %>
+    <div class="duel-quiz-rail is-event is-race-expanded">
+      <span class="duel-quiz-rail-main">
+        <span class="duel-quiz-rail-face" aria-hidden="true"><%= picto(event_icon) %></span>
+        <span class="duel-quiz-rail-copy"><small><i aria-hidden="true"></i>Noche Live · <%= l(event.occurred_at, format: "%H:%M") %></small><strong><%= t("nights.events.#{event.kind}", **event.payload.symbolize_keys) %></strong></span>
+        <span class="noche-live-tile-mark" aria-hidden="true"><%= picto("broadcast") %></span>
+      </span>
+    </div>
+  <% end %>
+</aside>

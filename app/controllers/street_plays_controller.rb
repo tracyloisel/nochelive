@@ -28,7 +28,7 @@ class StreetPlaysController < ApplicationController
   private
 
     def preferred_street_run
-      open = QuizRun.open_runs.where(device_digest: street_digest, person_id: current_street_person&.id)
+      open = QuizRun.street.open_runs.where(device_digest: street_digest, person_id: current_street_person&.id)
       pinned = session[:street_play_run_id]
       match = open.find_by(id: pinned) if pinned
       return match if match

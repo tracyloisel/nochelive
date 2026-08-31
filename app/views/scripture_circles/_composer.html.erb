@@ -1,0 +1,42 @@
+<% draft = local_assigns[:draft].to_h %>
+<% error = local_assigns[:error].to_s.presence %>
+<% draft_body = draft["body"] || draft[:body] %>
+<% preserve_server_draft = draft_body.present? || error.present? %>
+
+<section class="circle-thread-composer" aria-labelledby="circle-composer-title" data-circle-composer-shell>
+  <h3 id="circle-composer-title" class="circle-visually-hidden"><%= t("scripture_reader.circle.reply") %></h3>
+  <%= form_with url: scripture_circle_posts_path,
+                scope: :post,
+                class: "circle-thread-compose-form",
+                data: {
+                  turbo_frame: "circle_live_feed",
+                  circle_composer: true,
+                  circle_composer_id: "reply-#{root.id}",
+                  has_draft: ("true" if preserve_server_draft)
+                } do |form| %>
+    <%= form.hidden_field :reference, value: card.chapter.reference %>
+    <%= form.hidden_field :locale, value: I18n.locale %>
+    <%= form.hidden_field :kind, value: "reply" %>
+    <%= form.hidden_field :parent_id, value: root.id %>
+    <%= hidden_field_tag :circle_view, active_view %>
+    <%= hidden_field_tag :circle_conversation, root.id %>
+    <%= hidden_field_tag :circle_page, page %>
+    <label for="circle-reply-<%= root.id %>" class="circle-visually-hidden"><%= t("scripture_reader.circle.reply") %></label>
+    <%= form.text_area :body,
+          id: "circle-reply-#{root.id}",
+          rows: 4,
+          maxlength: ScriptureCirclePost::MAX_BODY_LENGTH,
+          value: draft_body,
+          placeholder: t("scripture_reader.circle.reply_placeholder"),
+          data: {
+            circle_composer_input: true,
+            action: "input->circle-feed#resizeComposer keydown->circle-feed#submitShortcut"
+          } %>
+    <% if error %><p class="circle-thread-compose-error" role="alert"><%= error %></p><% end %>
+    <div class="circle-thread-compose-foot">
+      <button type="submit" class="circle-thread-send" aria-label="<%= t("scripture_reader.circle.publish_reply") %>" title="<%= t("scripture_reader.circle.publish_reply") %>">
+        <%= picto("send") %><span class="visually-hidden"><%= t("scripture_reader.circle.publish_reply") %></span>
+      </button>
+    </div>
+  <% end %>
+</section>

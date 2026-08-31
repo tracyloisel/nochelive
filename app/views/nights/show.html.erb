@@ -1,0 +1,81 @@
+<% phase = @night.phase %>
+<% pack = @night.current_quiz_pack %>
+<% artwork = street_still_src(pack.question_at(1)) %>
+<% content_for :title, "Noche Live · #{pack.copy(:title)}" %>
+<% content_for :body_class, "is-kid is-night-watch is-celestial-dark phase-#{phase}" %>
+<% declare_frontend_resources(context: "live.#{phase}", styles: %w[shell gameplay live_watch], controllers: %w[loading press night-lifecycle]) %>
+<% page_hud(hud: true, theme: "celestial-dark") { site_menu } %>
+<%= turbo_stream_from @night.locale_stream(current_locale) %>
+
+<main class="noche-live" data-controller="night-lifecycle" data-night-lifecycle-end-value="<%= (phase == :scheduled ? @night.lobby_at : phase == :lobby ? @night.starts_at : @night.ends_at).iso8601 %>" data-night-lifecycle-url-value="<%= night_path(@night.code) %>">
+  <header class="noche-live-hero">
+    <div class="noche-live-art"><%= noche_media_picture(artwork, alt: "", loading: "eager", fetchpriority: "high") %></div>
+    <div class="noche-live-scrim" aria-hidden="true"></div>
+    <div class="noche-live-topline" aria-label="Noche Live">
+      <span class="noche-live-brand"><%= picto("crown") %> Noche Live</span>
+      <span class="noche-live-broadcast-meta">
+        <span class="noche-live-code"><small><%= t("nights.access_code") %></small><strong><%= @night.code %></strong></span>
+        <span class="noche-live-status is-<%= phase %>"><i aria-hidden="true"></i><%= t("nights.phases.#{phase}") %></span>
+      </span>
+    </div>
+    <div class="noche-live-heading">
+      <div class="noche-live-rama">
+        <span class="noche-live-rama-emblem emblem emblem-<%= @night.ward.emblem %>" aria-hidden="true"><%= render "shared/emblem", key: @night.ward.emblem %></span>
+        <span><small><%= t("nights.live_from") %></small><strong><%= @night.ward.name %></strong></span>
+      </div>
+      <p class="noche-live-date"><%= l(@night.starts_at, format: :short) %></p>
+      <h1><%= pack.copy(:title) %></h1>
+      <p class="noche-live-sequence"><%= t("nights.quiz_count", count: @night.quiz_pack_ids.size) %> · <%= t("nights.one_hour") %></p>
+      <% unless phase.in?(%i[finished cancelled]) %>
+        <div class="noche-live-countdown" aria-label="<%= t("nights.countdown") %>">
+          <span data-night-lifecycle-target="hours">00</span><i>:</i><span data-night-lifecycle-target="minutes">00</span><i>:</i><span data-night-lifecycle-target="seconds">00</span>
+        </div>
+      <% end %>
+      <div class="noche-live-contextual-cta">
+        <% if !@player && @night.open_for_registration? %>
+          <%= link_to night_name_path(@night.code), class: "btn btn-gold noche-live-join" do %>
+            <span class="noche-live-join-icon"><%= picto("people") %></span>
+            <span class="noche-live-join-copy"><strong><%= t("nights.register") %></strong><small><%= t("nights.join_hint", ward: @night.ward.name) %></small></span>
+            <span class="noche-live-join-arrow" aria-hidden="true"><%= picto("arrow") %></span>
+          <% end %>
+        <% elsif @player && !@player.team && @night.open_for_team_selection? %>
+          <%= link_to t("nights.choose_team"), night_play_path(@night.code), class: "btn btn-gold" %>
+        <% elsif @player&.team && @night.playable? %>
+          <%= link_to t("nights.play_now"), night_play_path(@night.code), class: "btn btn-gold" %>
+        <% elsif @player && phase == :scheduled %>
+          <p class="noche-live-confirmed"><%= picto("check") %><%= t("nights.registered") %></p>
+        <% end %>
+        <p class="noche-live-social-proof"><%= picto("people") %><strong><%= @projection.registered %></strong><span><%= t("nights.players_count", count: @projection.registered) %></span></p>
+      </div>
+    </div>
+    <% if phase.in?(%i[lobby playing]) %>
+      <aside class="noche-live-qr" aria-label="<%= t("nights.scan_to_join") %>">
+        <%= night_qr_svg(@night) %>
+        <span><strong><%= t("nights.scan_to_join") %></strong><small><%= request.host_with_port %>/s/<%= @night.code %></small></span>
+      </aside>
+    <% end %>
+  </header>
+
+  <%= render "nights/live_tile", night: @night, event: @projection.events.first %>
+
+  <section class="noche-live-body">
+    <% if phase.in?(%i[scheduled lobby]) %>
+      <div class="noche-live-before">
+        <section class="noche-live-panel">
+          <header><span><%= picto("people") %></span><div><p><%= t("nights.registered_players") %></p><strong><%= @projection.registered %></strong></div></header>
+          <ul class="noche-live-roster">
+            <% @registered_players.each do |player| %><li><span><%= player.name.first.upcase %></span><strong><%= player.name %></strong><small><%= player.team&.name || t("nights.team_pending") %></small></li><% end %>
+          </ul>
+        </section>
+        <section class="noche-live-panel">
+          <header><span><%= picto("book") %></span><div><p><%= t("nights.read_before") %></p><strong><%= @reading_list.size %></strong></div></header>
+          <ol class="noche-live-readings">
+            <% @reading_list.each do |reading| %><li><%= link_to scripture_path(reading.study, cite: reading.cite), data: { turbo_frame: "scripture_reader" } do %><span><%= reading.cite %></span><%= picto("arrow") %><% end %></li><% end %>
+          </ol>
+        </section>
+      </div>
+    <% else %>
+      <%= render "nights/projection", night: @night, projection: @projection %>
+    <% end %>
+  </section>
+</main>

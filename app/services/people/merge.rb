@@ -52,37 +52,15 @@ module People
       end
 
       def merge_player!(keeper_player, source_player)
-        now = Time.current
-        source_player.answers.update_all(player_id: keeper_player.id, updated_at: now)
-        source_player.buzzes.update_all(player_id: keeper_player.id, updated_at: now)
-        PoseHold.where(player_id: source_player.id).update_all(player_id: keeper_player.id, updated_at: now)
-        TapRun.where(player_id: source_player.id).update_all(player_id: keeper_player.id, updated_at: now)
-        merge_ballots!(keeper_player, source_player)
-        merge_cheers!(keeper_player, source_player)
+        source_player.quiz_runs.find_each do |run|
+          duplicate = run.live? && keeper_player.quiz_runs.exists?(
+            game_session_id: run.game_session_id,
+            live_sequence_position: run.live_sequence_position
+          )
+          duplicate ? run.destroy! : run.update!(player: keeper_player)
+        end
         merge_team_membership!(keeper_player, source_player)
         source_player.destroy!
-      end
-
-      def merge_ballots!(keeper_player, source_player)
-        source_player.ballots.find_each do |ballot|
-          if Ballot.exists?(round_run_id: ballot.round_run_id, player_id: keeper_player.id)
-            ballot.destroy!
-          else
-            ballot.update!(player: keeper_player)
-          end
-        end
-      end
-
-      def merge_cheers!(keeper_player, source_player)
-        source_player.cheers.find_each do |cheer|
-          duplicate = Cheer.exists?(
-            round_run_id: cheer.round_run_id,
-            player_id: keeper_player.id,
-            layer_index: cheer.layer_index
-          )
-          duplicate ? cheer.destroy! : cheer.update_columns(player_id: keeper_player.id, updated_at: Time.current)
-        end
-        source_player.received_cheers.update_all(to_player_id: keeper_player.id, updated_at: Time.current)
       end
 
       def merge_team_membership!(keeper_player, source_player)
@@ -312,6 +290,9 @@ module People
           .update_all(proposer_person_id: @keeper.id, updated_at: now)
         ScriptureCircleModerationEvent.where(actor_person_id: @source.id)
           .update_all(actor_person_id: @keeper.id)
+        move_scripture_circle_conversation_votes!(now)
+        move_scripture_circle_post_votes!(now)
+        move_scripture_circle_moderation_reports!(now)
 
         @source.scripture_circle_moderation_ballots.find_each do |ballot|
           existing = ScriptureCircleModerationBallot.find_by(
@@ -337,6 +318,71 @@ module People
         ScriptureCircleModerationBallotRevision.where(voter_person_id: @source.id)
           .update_all(voter_person_id: @keeper.id)
         refresh_scripture_moderation_counts!(affected_proposal_ids)
+      end
+
+      def move_scripture_circle_conversation_votes!(now)
+        @source.scripture_circle_conversation_votes.find_each do |vote|
+          existing = ScriptureCircleConversationVote.find_by(
+            conversation_root_id: vote.conversation_root_id,
+            voter_person_id: @keeper.id
+          )
+          if existing
+            if vote.updated_at > existing.updated_at
+              existing.update_columns(direction: vote.direction, updated_at: now)
+            end
+            vote.destroy!
+          elsif vote.conversation_root.person_id == @keeper.id
+            vote.destroy!
+          else
+            vote.update_columns(voter_person_id: @keeper.id, updated_at: now)
+          end
+        end
+
+        ScriptureCircleConversationVote
+          .joins(:conversation_root)
+          .where(voter_person_id: @keeper.id, scripture_circle_posts: { person_id: @keeper.id })
+          .delete_all
+      end
+
+      def move_scripture_circle_post_votes!(now)
+        @source.scripture_circle_post_votes.find_each do |vote|
+          existing = ScriptureCirclePostVote.find_by(
+            scripture_circle_post_id: vote.scripture_circle_post_id,
+            voter_person_id: @keeper.id
+          )
+          if existing
+            existing.update_columns(direction: vote.direction, updated_at: now) if vote.updated_at > existing.updated_at
+            vote.destroy!
+          elsif vote.scripture_circle_post.person_id == @keeper.id
+            vote.destroy!
+          else
+            vote.update_columns(voter_person_id: @keeper.id, updated_at: now)
+          end
+        end
+
+        ScriptureCirclePostVote
+          .joins(:scripture_circle_post)
+          .where(voter_person_id: @keeper.id, scripture_circle_posts: { person_id: @keeper.id })
+          .delete_all
+      end
+
+      def move_scripture_circle_moderation_reports!(now)
+        @source.scripture_circle_moderation_reports.find_each do |report|
+          existing = ScriptureCircleModerationReport.find_by(
+            scripture_circle_post_id: report.scripture_circle_post_id,
+            reporter_person_id: @keeper.id
+          )
+          if existing || report.scripture_circle_post.person_id == @keeper.id
+            report.destroy!
+          else
+            report.update_columns(reporter_person_id: @keeper.id, updated_at: now)
+          end
+        end
+
+        ScriptureCircleModerationReport
+          .joins(:scripture_circle_post)
+          .where(reporter_person_id: @keeper.id, scripture_circle_posts: { person_id: @keeper.id })
+          .delete_all
       end
 
       def refresh_scripture_moderation_counts!(proposal_ids)

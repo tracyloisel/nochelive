@@ -2,7 +2,7 @@
 <% content_for :body_class, "is-kid is-paper-hall" %>
 <% page_hud { site_menu } %>
 
-<%= paper_hall id: "ward_gate", kicker: t("presenter.title") do %>
+<%= paper_hall id: "ward_gate", kicker: t("ward.gate_title") do %>
   <h1><%= t("ward.open_title") %></h1>
   <p class="lede"><%= t("ward.open_lede") %></p>
 
@@ -16,6 +16,6 @@
 
   <nav class="hall-sheet-foot">
     <%= link_to t("home.who"), add_ward_path, class: "quiet-link" %>
-    <%= link_to t("presenter.back"), root_path, class: "quiet-link" %>
+    <%= link_to t("chrome.close"), root_path, class: "quiet-link" %>
   </nav>
 <% end %>

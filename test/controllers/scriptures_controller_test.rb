@@ -32,7 +32,7 @@ class ScripturesControllerTest < ActionDispatch::IntegrationTest
     assert_select ".scripture-share-remove[hidden][data-action='scripture#removeHighlight'] > span:last-child", text: I18n.t("quiz.scripture_remove_highlight")
     assert_select ".scripture-read-count[hidden]", text: "0 lecturas"
     assert_select ".reader-chapter-art picture", count: 1
-    assert_select ".reader-close[type=button][data-action='click->scripture#close'][aria-label=?]", I18n.t("scripture_reader.close")
+    assert_select ".reader-close[type=button][data-action='click->scripture-room#closeMarksOnMobile click->scripture#close'][data-scripture-room-target='closeTrigger'][aria-label=?]", I18n.t("scripture_reader.close")
     assert_select ".reader-source-card a[href*='churchofjesuschrist.org'][target=_blank]", text: /#{Regexp.escape(I18n.t("scripture_reader.source.open"))}/
     assert_select "turbo-frame#scripture_reader"
   end
@@ -44,6 +44,40 @@ class ScripturesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select "turbo-frame#scripture_reader .scripture-veil[data-stage-bed-value=study_refuge]"
     assert_select "body", count: 0
+  end
+
+  test "offers an honest chapter-linked quiz at the end of the reading" do
+    get scripture_path("bofm/alma/32", locale: "fr")
+
+    assert_response :success
+    assert_select "section.reader-chapter-quiz[data-reader-chapter-quiz][data-quiz-state='locked']" do
+      assert_select ".reader-chapter-quiz-copy h2", text: "Symboles du Livre de Mormon"
+      assert_select ".reader-chapter-quiz-copy", text: /3 questions/
+      assert_select ".reader-chapter-quiz-lock", text: /se débloque plus loin/
+      assert_select "a.reader-chapter-quiz-button[href='#{street_map_path}'][data-turbo-frame='_top']", text: /Voir sur la carte/
+    end
+  end
+
+  test "starts an unlocked chapter-linked quiz outside the reader frame" do
+    world = Quizzes::World::Result.new(
+      packs: [Quizzes::World::PackView.new(id: "simbolos_mormon", state: :current)]
+    )
+
+    original_call = Quizzes::World.method(:call)
+    Quizzes::World.define_singleton_method(:call) { |**| world }
+    begin
+      get scripture_path("bofm/alma/32", locale: "fr")
+    ensure
+      Quizzes::World.define_singleton_method(:call, original_call)
+    end
+
+    assert_response :success
+    assert_select "section.reader-chapter-quiz[data-quiz-state='current']" do
+      assert_select "form.reader-chapter-quiz-form[action='#{street_pack_start_path("simbolos_mormon")}'][data-turbo-frame='_top']" do
+        assert_select "button.reader-chapter-quiz-button", text: /Jouer au quiz/
+      end
+      assert_select ".reader-chapter-quiz-lock", count: 0
+    end
   end
 
   test "embeds the current profile highlights for the active scripture locale" do

@@ -22,9 +22,21 @@ class Person < ApplicationRecord
     foreign_key: :proposer_person_id,
     dependent: :nullify,
     inverse_of: :proposer_person
+  has_many :scripture_circle_moderation_reports,
+    foreign_key: :reporter_person_id,
+    dependent: :destroy,
+    inverse_of: :reporter_person
   has_many :scripture_circle_moderation_ballots,
     foreign_key: :voter_person_id,
     dependent: :nullify,
+    inverse_of: :voter_person
+  has_many :scripture_circle_conversation_votes,
+    foreign_key: :voter_person_id,
+    dependent: :destroy,
+    inverse_of: :voter_person
+  has_many :scripture_circle_post_votes,
+    foreign_key: :voter_person_id,
+    dependent: :destroy,
     inverse_of: :voter_person
   has_many :viral_events, dependent: :nullify
   has_many :sent_duel_invitations,

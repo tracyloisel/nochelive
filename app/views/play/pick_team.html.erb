@@ -1,0 +1,4 @@
+<% content_for :title, t("nights.choose_team") %>
+<% content_for :body_class, "is-kid is-night-live is-celestial-dark" %>
+<% declare_frontend_resources(context: "live.team", styles: %w[shell gameplay live_play], controllers: %w[loading press]) %>
+<%= render "play/pick_team", night: @night %>

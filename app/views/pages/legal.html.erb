@@ -23,19 +23,19 @@
 
     <section class="charter-journey-act charter-journey-act--facts">
       <dl class="paper-facts">
-        <div>
+        <div class="paper-fact paper-fact--editor">
           <dt><%= t("legal.editor") %></dt>
           <dd><%= t("legal.editor_name") %></dd>
         </div>
-        <div>
+        <div class="paper-fact paper-fact--contact">
           <dt><%= t("legal.contact") %></dt>
           <dd><%= mail_to t("legal.email") %></dd>
         </div>
-        <div>
+        <div class="paper-fact paper-fact--host">
           <dt><%= t("legal.host") %></dt>
           <dd>
-            <%= t("legal.host_name") %><br>
-            <%= t("legal.host_address") %><br>
+            <strong><%= t("legal.host_name") %></strong>
+            <span><%= t("legal.host_address") %></span>
             <%= link_to t("legal.host_site"), "https://render.com", target: "_blank", rel: "noreferrer", class: "quiet-link" %>
           </dd>
         </div>

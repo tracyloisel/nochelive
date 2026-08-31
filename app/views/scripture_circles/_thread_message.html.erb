@@ -1,0 +1,18 @@
+<% avatar = avatar_mark(row.avatar_key) if row.avatar_key.present? && !row.anonymous? %>
+
+<article id="circle-message-<%= row.id %>" class="circle-thread-message<%= " is-root" if row.root? %><%= " is-own" if row.own? %>">
+  <span class="circle-message-avatar" aria-hidden="true">
+    <% if avatar.present? %>
+      <img src="<%= avatar %>" alt="" class="avatar-img" width="48" height="48">
+    <% else %>
+      <%= picto("person") %>
+    <% end %>
+  </span>
+  <div class="circle-thread-message-copy">
+    <header>
+      <strong><%= row.author_name %></strong>
+      <time datetime="<%= row.created_at.iso8601 %>"><%= l(row.created_at, format: :short) %></time>
+    </header>
+    <p><%= row.body %></p>
+  </div>
+</article>

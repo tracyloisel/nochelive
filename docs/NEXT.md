@@ -1,7 +1,7 @@
 # Next
 
-1. Playtest join with two Carmens on one iPad and a new phone (año favorito, four digits).
-2. Playtest two phones + presenter through the night, then the ceremony.
-3. Presenter: ficha desk (edit / merge / read the year aloud) and roster with missionary names, then check the rama memory on home.
+1. Playtest late registration and team selection with several real phones during a one-hour Noche.
+2. Observe the cadence of semantic event tiles and tune only the event thresholds that prove distracting in playtest.
+3. Validate the production worker and Action Cable transport under the expected simultaneous-player load.
 
-Do not add a shop. Do not raise a category unless it actually changes.
+Do not add a presenter console, manual phase controls or a second quiz engine.

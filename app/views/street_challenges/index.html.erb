@@ -51,9 +51,9 @@
       <h1><%= t("duel_campus.title") %></h1>
       <p><%= t("duel_campus.lede") %></p>
       <dl class="duel-campus-counts" aria-label="<%= t("duel_campus.summary") %>">
-        <div class="is-crowns"><span class="duel-campus-count-icon" aria-hidden="true"><%= picto("crown") %></span><dt><%= @player_crowns %></dt><dd><%= t("duel_campus.counts.crowns") %></dd></div>
-        <div class="is-active"><span class="duel-campus-count-icon" aria-hidden="true"><%= picto("duel-books") %></span><dt><%= @campus.counts.active %></dt><dd><%= t("duel_campus.counts.active", count: @campus.counts.active) %></dd></div>
-        <div class="is-incoming"><span class="duel-campus-count-icon" aria-hidden="true"><%= picto("duel-scrolls") %></span><dt><%= @campus.counts.incoming %></dt><dd><%= t("duel_campus.counts.incoming", count: @campus.counts.incoming) %></dd></div>
+        <div class="is-crowns"><span class="duel-campus-count-icon" aria-hidden="true"><%= picto("crown") %></span><dt><%= @duel_summary.crowns %></dt><dd><%= t("duel_campus.counts.crowns") %></dd></div>
+        <div class="is-active"><span class="duel-campus-count-icon" aria-hidden="true"><%= picto("duel-books") %></span><dt><%= @duel_summary.active %></dt><dd><%= t("duel_campus.counts.active", count: @duel_summary.active) %></dd></div>
+        <div class="is-incoming"><span class="duel-campus-count-icon" aria-hidden="true"><%= picto("duel-scrolls") %></span><dt><%= @duel_summary.incoming %></dt><dd><%= t("duel_campus.counts.incoming", count: @duel_summary.incoming) %></dd></div>
       </dl>
     </div>
   </header>

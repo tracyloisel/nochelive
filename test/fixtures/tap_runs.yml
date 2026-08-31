@@ -1,8 +1,0 @@
-# frozen_string_literal: true
-
-casa_sling:
-  round_run: david_goliath
-  team: casa
-  player: daniel
-  taps: 3
-  finished: false

@@ -8,7 +8,7 @@ carmen_garcia:
   family_name_key: garcia
   avatar_key: delfin
   favorite_year: 1833
-  last_ward_team: leones_season
+  last_ward_team: leones_ward_team
 carmen_lopez:
   ward: demo
   given_name: Carmen
@@ -17,7 +17,7 @@ carmen_lopez:
   family_name_key: lopez
   avatar_key: aguila
   favorite_year: 2012
-  last_ward_team: casa_season
+  last_ward_team: casa_ward_team
 
 pili:
   ward: demo
@@ -27,4 +27,4 @@ pili:
   family_name_key: ""
   avatar_key: tortuga
   favorite_year: 1830
-  last_ward_team: leones_season
+  last_ward_team: leones_ward_team

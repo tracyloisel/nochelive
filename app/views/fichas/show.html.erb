@@ -1,15 +1,12 @@
 <% content_for :title, @person.display_name %>
 <% content_for :body_class, "is-kid is-paper-hall" %>
-<% still_src = @night ? night_still_src(@night) : night_poster_src("reyes_y_profetas") %>
+<% still_src = night_poster_src("reyes_y_profetas") %>
 <% page_hud { site_menu } %>
 
 <%= paper_hall id: "ficha_show", kicker: @ward.name do %>
   <%= render "shared/hall_still", src: still_src %>
   <section class="ficha-desk">
     <h1><%= @person.display_name %></h1>
-    <% if @night %>
-      <%= render "shared/lang_assign", url: presenter_person_locale_path(@night.code, @person), current: @person.locale, name: @person.display_name %>
-    <% end %>
     <p class="lede"><%= t("fichas.year_lede") %></p>
 
     <p class="year-shout" aria-label="<%= t("fichas.year") %>"><%= @person.favorite_year %></p>

@@ -1,0 +1,646 @@
+# Shared editorial artifact for the Expedition Council.
+# It is not a runtime study, Street pack, rendered clip or published mission.
+schema_version: 6
+kind: expedition_council_dossier
+
+lifecycle:
+  status: draft # draft | source_review | concept_review | production_review | publish_ready | retired
+  runtime_mode: detached
+  current_revision: 1
+  human_approval_required: true
+  publish_authorized: false
+  created_at: "YYYY-MM-DD"
+  updated_at: "YYYY-MM-DD"
+
+brief:
+  id: ""
+  programme: come_follow_me
+  source_page: ""
+  source_locale: fr
+  requested_locales: [fr]
+  audience: ""
+  duration_days: 7
+  supplied_theme: {}
+  authorized_scope: prepare_only
+  constraints: []
+  dramatization_policy:
+    allowed: true
+    purpose: "Séduire et faire vivre les images du texte avant l'explication."
+    permitted: [anonymous_performance, symbolic_space, weather, light, camera, gesture, sound, silence, montage]
+    forbidden_as_fact: [invented_author, invented_identity, invented_date, invented_exact_place, invented_causality]
+    disclosure: "Illustration dramatisée · route d'étude"
+
+source:
+  readings:
+    - reference: ""
+      label: ""
+      required: true
+
+council:
+  current_stage: intake
+  section_owners:
+    "brief": expedition-director
+    "source": expedition-director
+    "council": expedition-director
+    "facts.historical": expedition-historian
+    "facts.exegetical": expedition-exegete
+    "concepts.candidates": expedition-showrunner
+    "concepts.critiques": expedition-director
+    "concepts.arbitration": expedition-director
+    "expedition": expedition-showrunner
+    "editorial_structure": expedition-showrunner
+    "coverage": expedition-showrunner
+    "experience_design": expedition-spiritual-experience-director
+    "formation_quizzes": expedition-spiritual-experience-director
+    "public_story": expedition-incarnate-writer
+    "packs": expedition-game-designer
+    "visual_language": expedition-art-director
+    "trailer.directing": expedition-film-director
+    "trailer.edit": expedition-social-video-editor
+    "daily_clips": expedition-social-video-editor
+    "safety_accessibility": expedition-director
+    "review.truth_gate": expedition-fact-checker
+    "review.structure_gate": expedition-director
+    "review.experience_gate": expedition-spiritual-experience-director
+    "review.attention_gate": reel-editor-retention
+    "review.human_voice_gate": human-voice-reviewer
+    "review.publish_ready": expedition-director
+  revision_log:
+    - revision: 1
+      owner: expedition-director
+      paths: [brief, source]
+      summary: "Initial brief"
+      invalidates: []
+  objections: []
+  # Objection shape:
+  # - id: veto-001
+  #   raised_by: expedition-historian
+  #   gate: truth # structure | truth | experience | attention | human_voice | craft
+  #   severity: VETO # VETO | BLOCKING | ADVISORY
+  #   target_path: concepts.candidates[0].opening_image
+  #   target_revision: 2
+  #   claim_ids: []
+  #   reason: ""
+  #   required_repair: ""
+  #   assigned_to: expedition-showrunner
+  #   status: open # open | repaired | verified | waived
+  #   resolution_revision:
+
+facts:
+  historical:
+    owner: expedition-historian
+    revision: 0
+    status: pending
+    sources:
+      - id: ""
+        institution: ""
+        title: ""
+        url: ""
+        consulted_on: "YYYY-MM-DD"
+        supports: []
+        limits: ""
+    claims:
+      - id: hist-000
+        owner: expedition-historian
+        revision: 1
+        status: placeholder # active | superseded | placeholder
+        assertion_kind: ARCHIVE # TEXTE | ARCHIVE | HYPOTHÈSE | RÉCEPTION
+        certainty: INCERTAIN # ATTESTÉ | PROBABLE | TRADITION | INCERTAIN
+        statement: ""
+        source_ids: []
+        limits: ""
+        allowed_copy: ""
+        forbidden_copy: []
+        depiction_mode: symbolic_atmosphere
+        quiz_eligible: false
+        supersedes:
+    unknowns: []
+  exegetical:
+    owner: expedition-exegete
+    revision: 0
+    status: pending
+    sources:
+      - id: ""
+        institution: ""
+        title: ""
+        url: ""
+        consulted_on: "YYYY-MM-DD"
+        supports: []
+        limits: ""
+    claims:
+      - id: exeg-000
+        owner: expedition-exegete
+        revision: 1
+        status: placeholder
+        assertion_kind: TEXTE
+        certainty: INCERTAIN
+        statement: ""
+        references: []
+        source_ids: []
+        interpretive_limits: ""
+        allowed_copy: ""
+        forbidden_copy: []
+        quiz_eligible: false
+        supersedes:
+    literary_map: []
+    reception_layers: []
+
+concepts:
+  candidates:
+    - id: concept-a
+      owner: expedition-showrunner
+      revision: 0
+      structure_type: constellation # arc | constellation | anthology | dossiers | clusters | mini_expeditions
+      title: {}
+      promise: {}
+      human_question: {}
+      why_this_text_endures: {}
+      dramatic_thesis: {}
+      opening_image: {}
+      opening_claim_ids: []
+      units: []
+      echoes: []
+      forced_connections: []
+      payoff: {}
+      risks: { historical: [], exegetical: [], retention: [] }
+      supporting_claim_ids: []
+    - id: concept-b
+      owner: expedition-showrunner
+      revision: 0
+      structure_type: anthology
+      title: {}
+      promise: {}
+      human_question: {}
+      why_this_text_endures: {}
+      dramatic_thesis: {}
+      opening_image: {}
+      opening_claim_ids: []
+      units: []
+      echoes: []
+      forced_connections: []
+      payoff: {}
+      risks: { historical: [], exegetical: [], retention: [] }
+      supporting_claim_ids: []
+    - id: concept-c
+      owner: expedition-showrunner
+      revision: 0
+      structure_type: dossiers
+      title: {}
+      promise: {}
+      human_question: {}
+      why_this_text_endures: {}
+      dramatic_thesis: {}
+      opening_image: {}
+      opening_claim_ids: []
+      units: []
+      echoes: []
+      forced_connections: []
+      payoff: {}
+      risks: { historical: [], exegetical: [], retention: [] }
+      supporting_claim_ids: []
+  critiques: []
+  # Critique shape:
+  # - reviewer: expedition-historian
+  #   concept_id: concept-a
+  #   target_revision: 1
+  #   verdict: REVISE
+  #   strengths: []
+  #   risks: []
+  #   objection_ids: []
+  arbitration:
+    owner: expedition-director
+    status: pending
+    selected_concept_id:
+    decision: ""
+    accepted_critiques: []
+    rejected_advisories: []
+    conditions: []
+    supporting_claim_ids: []
+
+expedition:
+  owner: expedition-showrunner
+  revision: 0
+  visibility: internal
+  title: {}
+  subtitle: {}
+  promise: {}
+  weekly_logline: {}
+  human_question: {}
+  why_this_text_endures: {}
+  selected_concept_id:
+  supporting_claim_ids: []
+
+# This is the only source for public titles, spoken copy and player-facing
+# labels. It is written from the research gold, never by simplifying dossier
+# language line by line.
+public_story:
+  owner: expedition-incarnate-writer
+  revision: 0
+  status: pending
+  speaker: "Tracy face caméra / vocal WhatsApp à un ami"
+  forbidden_terms:
+    - mouvement
+    - strate
+    - protagonisme
+    - réception
+    - arc éditorial
+    - fonction dramatique
+    - pertinence durable
+    - pluralité des voix
+  title_candidates:
+    - text: ""
+      claim_ids: []
+      spoken_test: pending
+  selected_title:
+    text: ""
+    reason: ""
+  spoken_promise:
+    text: ""
+    claim_ids: []
+  pack_labels:
+    - pack_id: ""
+      title: ""
+      hook: ""
+      claim_ids: []
+  trailer:
+    hook_variants:
+      - id: hook-a
+        text: ""
+        claim_ids: []
+    spoken_script:
+      - id: line-01
+        text: ""
+        claim_ids: []
+        image_or_effect: ""
+    screen_text: []
+    programme_payoff: ""
+  read_aloud_revision: 0
+  writer_self_check:
+    slowed_to_understand: false
+    double_abstractions: []
+    dissertation_lines: []
+    imageless_lines: []
+    duplicate_image_explanations: []
+    whatsapp_voice_note_pass: false
+
+editorial_structure:
+  owner: expedition-showrunner
+  revision: 0
+  status: pending
+  type: constellation # arc | constellation | anthology | dossiers | clusters | mini_expeditions
+  confidence: pending # low | medium | high
+  reason: ""
+  navigation: free_choice # ordered | free_choice | mixed
+  units:
+    - id: ""
+      internal_title: ""
+      references: []
+      claim_ids: []
+      editorial_promise: ""
+  echoes:
+    - motif: ""
+      unit_ids: []
+      claim_ids: []
+      limits: ""
+  forced_connections: []
+
+experience_design:
+  owner: expedition-spiritual-experience-director
+  revision: 0
+  status: pending
+  units:
+    - unit_id: ""
+      references: []
+      claim_ids: []
+      first_encounter:
+        see: ""
+        hear: ""
+        feel: ""
+      tension_to_inhabit: ""
+      question_before_explanation: ""
+      symbol_left_open:
+        image: ""
+        do_not_explain_yet: ""
+      silence_or_pause: ""
+      memorable_act: ""
+      tomorrow_memory: ""
+      explanation_delayed_until: ""
+      prohibited_shortcuts: []
+
+formation_quizzes:
+  owner: expedition-spiritual-experience-director
+  revision: 0
+  status: pending
+  method: code_de_la_route
+  mastery_rule: "Même discernement reconnu dans plusieurs contextes; jamais une déclaration de foi scorée."
+  copy_limits:
+    counting_unit: unicode_graphemes_including_spaces_and_punctuation
+    reference_surface: street_quiz_390x667
+    prompt: { hard_max: 72, max_lines: 3, must_be_self_contained: true }
+    choice: { hard_max: 32, max_lines: 2 }
+    correction: { hard_max: 120 }
+    max_choices: 4
+    locale_policy: validate_every_translation_independently
+    overflow_policy: REJECT_COPY_OVERFLOW
+    forbidden_fixes: [font_shrink, truncation, ellipsis, answer_scroll]
+  learning_lenses:
+    required_plan:
+      - RECIT_DU_TEXTE
+      - PERSONNAGES
+      - MONDE_HISTORIQUE
+      - LECTURE_DU_TEXTE
+      - PRINCIPES_DE_L_EVANGILE
+      - PLAN_DE_DIEU
+      - ESPERANCE_ETERNELLE
+      - RECEPTION_CANONIQUE
+      - DISCERNEMENT_DE_VIE
+    allowed_statuses: [covered, planned, not_supported, pending_claims]
+    coverage: []
+  items:
+    - id: formation-001
+      unit_id: ""
+      formation_goal: ""
+      soul_relevance: ""
+      scripture_references: []
+      claim_ids: []
+      learning_lens: ""
+      source_layer: "" # textual | historical | canonical | doctrinal
+      scenario: ""
+      prompt: ""
+      choices:
+        - { id: a, text: "", diagnosis: "" }
+      correct_choice: ""
+      correction: ""
+      misconception_targeted: ""
+      practice_invitation: ""
+      transfer_question_id: ""
+      spaced_repetition: { after_questions: 0, changed_context: "" }
+      pastoral_boundary: ""
+      copy_metrics:
+        prompt_graphemes: 0
+        choice_graphemes: { a: 0 }
+        correction_graphemes: 0
+        mobile_copy_gate: pending
+
+# Every required reading must appear here even when packs use another order.
+coverage:
+  - reference: ""
+    pack_ids: []
+    status: pending
+
+packs:
+  owner: expedition-game-designer
+  revision: 0
+  status: pending
+  collective_goal: {}
+  items:
+    - id: ""
+      revision: 1
+      title: {}
+      promise: {}
+      references: []
+      claim_ids: []
+      dramatic_question: {}
+      player_verb: ""
+      emotion: ""
+      difficulty_curve: []
+      reveal: {}
+      reward: {}
+      cliffhanger: {}
+      map_node_id: ""
+      quiet_route: {}
+      formation_question_ids: []
+      repetition_schedule:
+        - { question_id: "", appears_after: 0, context_variant: "" }
+
+visual_language:
+  owner: expedition-art-director
+  revision: 0
+  status: pending
+  key_art: {}
+  palette: []
+  materials: []
+  motifs: []
+  chromatic_arc: []
+  light_logic: ""
+  environments: []
+  prohibited_shortcuts: []
+  map:
+    narrative_function: ""
+    nodes: []
+  pack_briefs:
+    - pack_id: ""
+      revision: 1
+      dramatic_function: ""
+      claim_ids: []
+      depiction_mode: symbolic_atmosphere
+      certainty: INCERTAIN
+      permitted_details: []
+      prohibited_details: []
+      composition: ""
+      environment: ""
+      light_family: celestial_dark
+      chromatic_transition: ""
+      emotional_camera: ""
+      alt_text: {}
+      reduced_motion_poster: {}
+      disclosure: "Illustration dramatisée · route d'étude"
+
+trailer:
+  id: weekly-launch
+  status: production_package # production_package | animatic_preview | rendered_draft
+  disclosure: "Illustration dramatisée · route d'étude"
+  directing:
+    owner: expedition-film-director
+    revision: 0
+    duration_seconds: 30
+    cast:
+      - id: ""
+        role: ""
+        identity_status: anonymous_dramatization
+        claim_ids: []
+        wants: ""
+        obstacle: ""
+        prohibited_claims: []
+    character_gate:
+      status: pending
+      narrative_shots: 0
+      shots_with_characters: 0
+      object_only_scene_ids: []
+      rule: "Chaque scène narrative est portée par un personnage visible qui veut, agit et rencontre une résistance."
+    hook_variants:
+      - id: hook-a
+        from: "00:00.000"
+        to: "00:03.000"
+        claim_ids: []
+        screen_text: {}
+        vo_text: {}
+    shared_shots:
+      - id: shot-01
+        from: "00:03.000"
+        to: "00:04.200"
+        dramatic_job: ""
+        claim_ids: []
+        depiction_mode: symbolic_atmosphere
+        certainty: INCERTAIN
+        framing: ""
+        lens_feel: ""
+        camera_move: ""
+        characters:
+          - cast_id: ""
+            visible: true
+            wants: ""
+            obstacle: ""
+            performance_direction: ""
+        subject_action: ""
+        environment: ""
+        light: ""
+        product_proof: ""
+        screen_text: {}
+        vo_text: {}
+        transition_out: ""
+        generation_prompt: ""
+        negative_prompt: []
+        disclosure_required: true
+  edit:
+    owner: expedition-social-video-editor
+    revision: 0
+    aspect_ratio: "9:16"
+    duration_seconds: 30
+    hook_variant_ids: []
+    timeline:
+      - from: "00:00.000"
+        to: "00:01.000"
+        source_shot_id: ""
+        crop_or_speed: ""
+        pattern_interrupt: ""
+        claim_ids: []
+        caption: {}
+        vo: {}
+        sfx_cue: ""
+        music_action: ""
+        transition: ""
+        retention_job: ""
+    transcript: {}
+    audio_alone_test:
+      listener: "fatigué, une oreillette, zéro culture biblique"
+      subject_clear_at_5s: false
+      logical_links_audible: false
+      unknown_names_framed_as_questions: false
+      product_promise_clear: false
+      depends_on_picture: true
+    poster_frame: {}
+    reduced_motion_version: {}
+    render_status: production_package
+
+daily_clips: []
+
+safety_accessibility:
+  content_notes: []
+  quiet_routes: []
+  captions_required: true
+  transcript_required: true
+  reduced_motion_required: true
+
+review:
+  structure_gate:
+    owner: expedition-director
+    status: pending
+    consulted: [expedition-historian, expedition-exegete]
+    question: "Ces lectures possèdent-elles réellement un arc assez fort pour améliorer leur compréhension ?"
+    arc_fit: pending # YES | PARTIAL | NO
+    confidence: pending # low | medium | high
+    reason: ""
+    permitted_types: []
+    rejected_types: []
+    supporting_claim_ids: []
+    rejected_connections:
+      - from: ""
+        to: ""
+        reason: ""
+        claim_ids: []
+    absence_of_arc_is_valid: true
+    objection_ids: []
+  experience_gate:
+    owner: expedition-spiritual-experience-director
+    status: pending
+    target_revision: 0
+    targets: [editorial_structure, public_story, packs, visual_language]
+    see: pending
+    feel: pending
+    inhabit_tension: pending
+    question_before_explanation: pending
+    symbol_allowed_to_work: pending
+    tomorrow_memory: ""
+    root_cause_owner:
+    objection_ids: []
+  truth_gate:
+    owner: expedition-fact-checker
+    status: pending
+    target_revision: 0
+    historical: pending
+    exegetical: pending
+    canon: pending
+    canonical_coverage: pending
+    checked_elements: 0
+    unsupported_elements: []
+    objection_ids: []
+    notes: ""
+  attention_gate:
+    owner: reel-editor-retention
+    status: pending
+    target_revision: 0
+    evaluated_material: production_package
+    windows:
+      "0-2": { verdict: pending, evidence: "", repair: "" }
+      "2-5": { verdict: pending, evidence: "", repair: "" }
+      "5-10": { verdict: pending, evidence: "", repair: "" }
+      "10-20": { verdict: pending, evidence: "", repair: "" }
+      "20-30": { verdict: pending, evidence: "", repair: "" }
+      "end": { verdict: pending, evidence: "", repair: "" }
+    scores:
+      stop_power: 0.0
+      curiosity: 0.0
+      escalation: 0.0
+      novelty: 0.0
+      payoff: 0.0
+      desire_to_open: 0.0
+    root_cause_owner:
+    audio_alone:
+      verdict: pending
+      listener: "fatigué, une oreillette, zéro culture biblique"
+      subject_clear_at_5s: false
+      logical_links_audible: false
+      unknown_names_framed_as_questions: false
+      product_promise_clear: false
+      depends_on_picture: true
+    objection_ids: []
+  human_voice_gate:
+    owner: human-voice-reviewer
+    status: pending
+    target_revision: 0
+    read_aloud_performed: false
+    speaker_test: "Tracy face caméra sans avoir l'air de réciter"
+    allowed_verdicts: [SAYABLE, UNSAYABLE]
+    allowed_reasons:
+      - écrit mais pas parlé
+      - abstraction
+      - trop long
+      - jargon
+      - explication inutile
+      - émotion fabriquée
+      - transition IA
+    lines: []
+    counts: { SAYABLE: 0, UNSAYABLE: 0 }
+  publish_ready:
+    owner: expedition-director
+    status: false
+    structure_gate_required: PASS
+    experience_gate_required: PASS
+    truth_gate_required: PASS
+    attention_gate_required: PASS
+    human_voice_gate_required: PASS
+    blocking_objections: []
+    human_approval_required: true
+    approved_by:
+    approved_at:

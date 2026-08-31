@@ -14,7 +14,9 @@
         combo: combo,
         theme: chrome.mode %>
 
-  <% if local_assigns[:duel_campus] %>
+  <% if local_assigns[:live] %>
+    <%= render "nights/live_tile", night: local_assigns[:night] %>
+  <% elsif local_assigns[:duel_campus] %>
     <%= render "home/duel_campus_rail", campus: local_assigns[:duel_campus], run: run %>
   <% end %>
 

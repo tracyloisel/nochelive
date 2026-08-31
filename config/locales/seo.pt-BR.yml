@@ -32,7 +32,7 @@ pt-BR:
             - title: "Jogue e fique com vontade de reler"
               body: "Cada pergunta abre uma história bíblica. Pontos, coroas e desafios dão vontade de continuar, mas a vitória de verdade é reconhecer melhor os profetas, os reis e, acima de tudo, se aproximar de Jesus Cristo."
             - title: "Uma experiência para a sala inteira"
-              body: "O Noche Live funciona no celular e reúne as pessoas. Uma família joga no sofá, os jovens formam equipes e uma ala vive uma noite completa com apresentador e telão."
+              body: "O Noche Live funciona no celular e reúne as pessoas. Uma família joga no sofá, os jovens formam equipes e toda a ala acompanha a disputa ao vivo no telão."
             - title: "Sempre existe um próximo passo"
               body: "Depois do jogo, você pode abrir a passagem, seguir um programa semanal ou conversar com alguém da Igreja. Nada é apressado ou imposto: cada porta fica aberta para quando você quiser avançar."
         bible_games:
@@ -48,7 +48,7 @@ pt-BR:
             - title: "Uma história por trás de cada pergunta"
               body: "Cada resposta leva a uma passagem real. Arrisque, surpreenda-se e abra as escrituras para entender por que Davi, Ester, Moisés ou Elias tomaram aquela decisão."
             - title: "Do celular de volta para a sala"
-              body: "O celular serve para escolher, votar ou apertar o Buzz. A atenção volta para as pessoas: comentar uma resposta, celebrar uma sequência, ajudar a equipe e esperar a revelação do apresentador."
+              body: "O celular serve para responder e manter a sequência. A atenção volta para as pessoas: comentar uma resposta, celebrar uma conquista e ajudar a equipe a assumir a liderança."
             - title: "Para uma pessoa ou cinquenta"
               body: "Jogue uma rodada curta sozinho, desafie um amigo ou prepare uma noite inteira para jovens e famílias. O ritmo muda, mas a aventura e o jeito acolhedor permanecem."
         bible_quiz:
@@ -78,7 +78,7 @@ pt-BR:
           card_body: "Ideias para reunir, jogar e conversar."
           sections:
             - title: "Comece em menos de dois minutos"
-              body: "Um código curto coloca todos no jogo pelo celular. O apresentador percebe o ritmo da sala e alterna perguntas, movimentos, votos e desafios sem distribuir papéis nem explicar regras intermináveis."
+              body: "Um código curto coloca todos no jogo pelo celular. O jogo começa no horário e cada pessoa avança pelos quizzes sem papéis nem regras intermináveis."
             - title: "Um lugar para cada pessoa"
               body: "Há momentos para quem sabe muito, para quem acabou de chegar, para quem fala alto e para quem prefere observar. As equipes evitam que uma pessoa carregue toda a resposta sozinha."
             - title: "A conversa continua"
@@ -94,7 +94,7 @@ pt-BR:
           card_body: "Ritmo, equipes e fé sem clima de sala de aula."
           sections:
             - title: "Um começo que não deixa ninguém para trás"
-              body: "Entre com um código, escolha uma equipe e comece. A interface mostra uma ação clara e o apresentador controla o ritmo, evitando esperas e discursos longos."
+              body: "Entre com um código, escolha uma equipe e comece. A interface mostra uma ação clara enquanto a tela ao vivo atualiza o progresso e a classificação automaticamente."
             - title: "Competição sem excluir"
               body: "Pontos e coroas criam tensão, enquanto os desafios misturam memória, intuição, movimento e cooperação. Talentos diferentes podem salvar a equipe."
             - title: "Uma noite que dá vontade de repetir"

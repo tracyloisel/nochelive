@@ -1,0 +1,31 @@
+<section id="night_projection" class="noche-watch-grid">
+  <section class="noche-live-panel noche-watch-events">
+    <header><span><%= picto("broadcast") %></span><div><p><%= t("nights.live_events") %></p><strong><i aria-hidden="true"></i><%= t("nights.phases.playing") %></strong></div></header>
+    <ol id="live_events"><% projection.events.each do |event| %><%= render "nights/event", event: %><% end %></ol>
+  </section>
+  <section class="noche-live-panel noche-watch-ranking">
+    <header><span><%= picto("trophy") %></span><div><p><%= t("nights.team_ranking") %></p><strong><%= projection.teams.size %></strong></div></header>
+    <ol>
+      <% projection.teams.each_with_index do |team, index| %>
+        <% unique_leader = index.zero? && team.score.positive? && (projection.teams.second.nil? || projection.teams.second.score < team.score) %>
+        <li class="<%= "is-leading" if unique_leader %>"><b><%= index + 1 %></b><span class="emblem emblem-<%= team.emblem %>"><%= render "shared/emblem", key: team.emblem %></span><span><strong><%= team.name %></strong><small><%= t("nights.players_count", count: team.players) %></small></span><em><%= team.score %></em></li>
+      <% end %>
+    </ol>
+  </section>
+  <section class="noche-live-panel noche-watch-progress">
+    <% completed_questions = projection.questions.count { |question| question.eligible.positive? && question.answered >= question.eligible } %>
+    <header><span><%= picto("stats-path") %></span><div><p><%= t("nights.global_progress") %></p><strong><%= completed_questions %>/<%= projection.questions.size %></strong></div></header>
+    <ol class="noche-watch-packs">
+      <% projection.questions.group_by(&:pack_title).each_with_index do |(pack_title, questions), pack_index| %>
+        <% completed = questions.count { |question| question.eligible.positive? && question.answered >= question.eligible } %>
+        <li class="noche-watch-pack">
+          <span class="noche-watch-pack-index"><%= pack_index + 1 %></span>
+          <span class="noche-watch-pack-copy"><strong><%= pack_title %></strong><small><%= completed %>/<%= questions.size %></small></span>
+          <span class="noche-watch-question-rail" aria-label="<%= t("nights.pack_progress", pack: pack_title, completed:, total: questions.size) %>">
+            <% questions.each do |question| %><i class="<%= question.percent >= 100 ? "is-done" : question.percent.positive? ? "is-active" : nil %>" title="<%= question.label %> · <%= question.answered %>/<%= question.eligible %>"></i><% end %>
+          </span>
+        </li>
+      <% end %>
+    </ol>
+  </section>
+</section>

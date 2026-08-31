@@ -84,7 +84,7 @@ class PersonTest < ActiveSupport::TestCase
 
   test "last ward team must belong to the profile ward" do
     other_team = wards(:blank).ward_teams.create!(
-      name: "Otra familia", emblem: "paloma", season_xp: 0, season_rank_key: "novicio"
+      name: "Otra familia", emblem: "paloma"
     )
     person = people(:pili)
     person.last_ward_team = other_team
@@ -92,7 +92,7 @@ class PersonTest < ActiveSupport::TestCase
     assert_not person.valid?
     assert person.errors.added?(:last_ward_team, :invalid)
 
-    person.last_ward_team = ward_teams(:leones_season)
+    person.last_ward_team = ward_teams(:leones_ward_team)
     assert_predicate person, :valid?
   end
 

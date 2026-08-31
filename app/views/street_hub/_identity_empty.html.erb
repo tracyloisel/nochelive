@@ -1,0 +1,23 @@
+<% state = local_assigns.fetch(:state).to_sym %>
+<% player_missing = state == :player_missing %>
+<% destination = if player_missing
+  street_profile_path(quick: 1, fresh: 1)
+else
+  street_profile_path(quick: 1)
+end %>
+<% title = player_missing ? t("hub.guest_in_ward") : t("street.pick_profile") %>
+<% body = player_missing ? t("street.quick_profile_lede") : t("join.device_lede") %>
+<% action = player_missing ? t("hub.guest_cta") : t("street.pick_profile") %>
+
+<article class="hub-identity-empty is-<%= state.to_s.dasherize %>" aria-labelledby="hub-identity-empty-title">
+  <span class="hub-identity-empty__emblem" aria-hidden="true"><%= picto("profile-spark") %></span>
+  <div class="hub-identity-empty__copy">
+    <p><%= t("hub.pick_ficha") %></p>
+    <h2 id="hub-identity-empty-title"><%= title %></h2>
+    <span><%= body %></span>
+  </div>
+  <%= link_to destination, class: "hub-identity-empty__action" do %>
+    <span><%= action %></span>
+    <%= picto("arrow") %>
+  <% end %>
+</article>

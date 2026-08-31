@@ -37,9 +37,27 @@ class Seeds::ScriptureCircleDemoTest < ActiveSupport::TestCase
     assert_equal 8, progress.reload.last_verse
     assert_equal 0.8, progress.progress_ratio.to_f
     assert_equal "Une vraie publication qui ne vient pas de la démonstration.", unrelated.reload.body
-    assert_equal 8, first[:posts] - 1
+    assert_equal 12, first[:posts] - 1
+    assert_equal 11, first[:showcase_posts]
     assert_equal first[:posts], second[:posts]
+    assert_equal first[:showcase_posts], second[:showcase_posts]
     assert_equal 1, second[:open_votes]
+  end
+
+  test "adds a visible multichapter showcase for every Circle filter" do
+    result = Seeds::ScriptureCircleDemo.new(target: @target, now: Time.zone.parse("2026-08-30 10:00:00")).call
+    screens = %w[help recent mine].map do |view|
+      ScriptureCircles::RamaScreen.call(person: @target, locale: "fr", view:)
+    end
+    cards = screens.flat_map(&:conversations).index_by(&:root_id).values
+
+    assert_equal 11, result[:showcase_posts]
+    assert_equal 3, screens.first.help_count
+    assert_equal %w[bofm/alma/32 bofm/alma/7 bofm/2-ne/2 bofm/mosiah/2 ot/ps/52].sort,
+      cards.map { |card| card.chapter.reference }.uniq.sort
+    assert_equal 2, cards.count { |card| card.chapter.reference == "bofm/alma/32" }
+    assert cards.any? { |card| card.root.anonymous? }
+    assert_equal "anonymous_to_ward", @ward.scripture_circle_posts.find_by!(selected_text: "#{Seeds::ScriptureCircleDemo::SHOWCASE_MARKER_PREFIX}alma-anonymous-question").author_visibility
   end
 
   test "fails clearly for a profile without a ward" do

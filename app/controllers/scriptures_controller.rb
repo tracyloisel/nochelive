@@ -91,7 +91,17 @@ class ScripturesController < ApplicationController
       @reader_screen = Scriptures::ReaderScreen.call(
         person: current_street_person,
         reference: @study,
-        locale: I18n.locale
+        locale: I18n.locale,
+        circle_post_id: params[:circle_post],
+        circle_sort: params[:circle_sort]
+      )
+      @scripture_quiz_recommendation = Scriptures::QuizRecommendation.call(
+        reference: @study,
+        locale: I18n.locale,
+        world: Quizzes::World.call(
+          device_digest: street_device_digest,
+          person_id: current_street_person&.id
+        )
       )
       assign_scripture_highlights
       remember_study_reading

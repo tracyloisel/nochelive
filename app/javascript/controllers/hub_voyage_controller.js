@@ -1,12 +1,12 @@
 import { Controller } from "@hotwired/stimulus"
 
-// Enhanced carousel controller with scale transforms and theme crossfade.
-// Active card at scale(1), neighbors reduced. Dot capsule morph during swipe.
+// Keeps the single adventure carousel accessible by swipe, keyboard, and dots.
 export default class extends Controller {
   static targets = [ "track", "dots" ]
 
   connect() {
     this.sync = this.sync.bind(this)
+    this.pendingIndex = null
     if (this.hasTrackTarget) {
       this.trackTarget.addEventListener("scroll", this.sync, { passive: true })
       this.buildDots()
@@ -21,13 +21,19 @@ export default class extends Controller {
   buildDots() {
     if (!this.hasDotsTarget) return
     const slides = this.slides()
-    this.dotsTarget.innerHTML = slides.map((slide, i) =>
-      `<button type="button" class="hub-dot" data-index="${i}" aria-label="${this.slideLabel(slide)}"></button>`
-    ).join("")
-    this.dotsTarget.querySelectorAll(".hub-dot").forEach((dot) => {
+    const dots = slides.map((slide, i) => {
+      const dot = document.createElement("button")
+      dot.type = "button"
+      dot.className = "hub-dot"
+      dot.dataset.index = i
+      dot.setAttribute("aria-label", this.slideLabel(slide))
+      return dot
+    })
+
+    this.dotsTarget.replaceChildren(...dots)
+    dots.forEach((dot) => {
       dot.addEventListener("click", () => this.go(Number(dot.dataset.index)))
     })
-    this.sync()
   }
 
   snapToCurrent() {
@@ -39,18 +45,28 @@ export default class extends Controller {
   go(index, instant = false) {
     const slide = this.slides()[index]
     if (!slide) return
-    slide.scrollIntoView({
+    this.pendingIndex = instant ? null : index
+    this.trackTarget.scrollTo({
+      left: slide.offsetLeft,
       behavior: instant || this.reduced() ? "auto" : "smooth",
-      inline: "start",
-      block: "nearest"
     })
+    this.setActive(index)
   }
 
   sync() {
     const slides = this.slides()
-    if (!slides.length || !this.hasDotsTarget) return
+    if (!slides.length) return
 
-    // Find the current slide
+    /* A programmatic smooth scroll emits an initial event before the viewport
+       has moved. Keep the selected dot and its inert state stable until the
+       requested slide reaches its snap point instead of flickering back to
+       the previous slide for one frame. */
+    if (this.pendingIndex !== null) {
+      const intended = slides[this.pendingIndex]
+      if (intended && Math.abs(this.trackTarget.scrollLeft - intended.offsetLeft) > 2) return
+      this.pendingIndex = null
+    }
+
     const track = this.trackTarget.getBoundingClientRect()
     const mid = track.left + track.width / 2
     let best = 0
@@ -64,21 +80,29 @@ export default class extends Controller {
       }
     })
 
-    const slideWidth = Math.max(1, this.trackTarget.clientWidth)
-    const rawIndex = this.trackTarget.scrollLeft / slideWidth
+    this.setActive(best)
+  }
 
+  setActive(index) {
+    this.slides().forEach((slide, i) => {
+      const current = i === index
+      slide.classList.toggle("is-current", current)
+      slide.toggleAttribute("inert", !current)
+      slide.setAttribute("aria-hidden", current ? "false" : "true")
+    })
+
+    if (!this.hasDotsTarget) return
     this.dotsTarget.querySelectorAll(".hub-dot").forEach((dot, i) => {
-      dot.classList.toggle("is-on", i === best)
-      dot.setAttribute("aria-current", i === best ? "true" : "false")
-      const proximity = Math.max(0, 1 - Math.abs(rawIndex - i))
-      dot.style.setProperty("--dot-progress", proximity.toFixed(3))
+      const current = i === index
+      dot.classList.toggle("is-on", current)
+      dot.setAttribute("aria-current", current ? "true" : "false")
     })
   }
 
   slideLabel(slide) {
     const title = slide.querySelector(".hub-hero-title")?.textContent?.trim()
     const pack = slide.querySelector(".hub-hero-name")?.textContent?.trim()
-    return [title, pack].filter(Boolean).join(" — ").replaceAll('"', "&quot;")
+    return [title, pack].filter(Boolean).join(" — ")
   }
 
   slides() {

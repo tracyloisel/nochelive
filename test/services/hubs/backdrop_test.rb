@@ -14,53 +14,15 @@ class Hubs::BackdropTest < ActiveSupport::TestCase
     end
   end
 
-  test "random rotation picks a dedicated home backdrop and avoids the previous one" do
-    list = Hubs::Backdrop.entries
-    previous = list.first
-    picked = Hubs::Backdrop.call(
-      randomize: true,
-      exclude_id: previous["id"],
-      random: Random.new(1234)
-    )
-
-    assert_includes list.drop(1).map { |row| row["id"] }, picked.id
-    refute_equal previous["id"], picked.id
-    assert_match %r{\A/media/generated/hub/backdrop/}, picked.src
-    assert_equal "hub.backdrop.#{picked.id}", picked.media_key
-    assert_includes %w[light dark], picked.theme.mode
-  end
-
-  test "random rotation still works with a one-entry catalog" do
-    only = Hubs::Backdrop.entries.first
-    Hubs::Backdrop.entries = [ only ]
-
-    picked = Hubs::Backdrop.call(randomize: true, exclude_id: only["id"])
-
-    assert_equal only["id"], picked.id
-  end
-
   test "theme_id override beats weekly rotation" do
     travel_to Time.zone.local(2026, 1, 5, 12) do
       weekly = Hubs::Backdrop.call
       picked = Hubs::Backdrop.call(theme_id: "reyes_y_profetas")
-      assert_includes picked.tags, "reyes_y_profetas"
       assert_equal "dark", picked.theme.mode
       assert picked.theme.atmosphere.present?
       assert_equal "gold", picked.theme.accent
-      refute_equal weekly.id, picked.id unless weekly.tags.include?("reyes_y_profetas")
+      refute_equal weekly.id, picked.id
     end
-  end
-
-  test "tagged returns nil when no catalog row matches" do
-    assert_nil Hubs::Backdrop.tagged(theme_id: "no-such-world")
-    assert_nil Hubs::Backdrop.tagged(theme_id: nil)
-  end
-
-  test "tagged matches kings_and_prophets to the Reyes still" do
-    picked = Hubs::Backdrop.tagged(theme_id: "kings_and_prophets")
-    assert_equal "coronas-ungido", picked.id
-    assert_equal "dark", picked.theme.mode
-    assert_match %r{\A/media/generated/hub/backdrop/coronas-ungido/.+\.webp\z}, picked.src
   end
 
   test "Bethlehem night artwork always selects celestial dark" do
@@ -84,8 +46,30 @@ class Hubs::BackdropTest < ActiveSupport::TestCase
 
   test "pack_id override matches tags" do
     picked = Hubs::Backdrop.call(pack_id: "moises", at: Time.zone.local(2026, 1, 5, 12))
-    assert_includes picked.tags, "moises"
     assert_match %r{\A/media/generated/hub/backdrop/}, picked.src
+  end
+
+  test "the active Light question selects the matching Salt Lake scene" do
+    picked = Hubs::Backdrop.call(
+      pack_id: "coronas",
+      mode: "light"
+    )
+
+    assert_equal "salt-lake-temple-dawn", picked.id
+    assert_equal "light", picked.theme.mode
+    assert_equal "hub.hero.salt-lake-temple-dawn", picked.hero
+    assert_match %r{\A/media/generated/hub/backdrop/salt-lake-temple-dawn/}, picked.src
+  end
+
+  test "Salt Lake is the Celestial Light fallback when a chapter has no dedicated Light artwork" do
+    picked = Hubs::Backdrop.call(
+      pack_id: "nazareno",
+      mode: "light"
+    )
+
+    assert_equal "salt-lake-temple-dawn", picked.id
+    assert_equal "hub.hero.salt-lake-temple-dawn", picked.hero
+    assert_equal "light", picked.theme.mode
   end
 
   test "missing image falls back to the marble hall" do

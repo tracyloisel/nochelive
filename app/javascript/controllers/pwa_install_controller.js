@@ -1,39 +1,30 @@
 import { Controller } from "@hotwired/stimulus"
 import { loadStylesheet, releaseStylesheet } from "platform/loading/stylesheet_loader"
+import {
+  hideInstallOffer,
+  InstallOfferMemory,
+  isIosDevice,
+  isSafariBrowser,
+  isStandaloneMode,
+  revealInstallOffer,
+  revealIosInstallBanner,
+  setInstallState,
+  validInstallPrompt
+} from "features/pwa/install_offer"
 
 export default class extends Controller {
-  static targets = ["action", "banner", "browserHint", "dialog", "guideTemplate", "sheet", "tile"]
+  static targets = ["action", "banner", "browserHint", "dialog", "dismiss", "guideTemplate", "sheet", "status", "tile"]
   static values = { stylesheet: String }
 
-  static BANNER_SNOOZE_MS = 14 * 24 * 60 * 60 * 1000
-
   connect() {
-    this.deferredPrompt = window.NocheInstallPrompt || null
-    this.beforeInstallPrompt = (event) => {
-      event.preventDefault()
-      this.deferredPrompt = event
-      window.NocheInstallPrompt = event
-      this.showAction()
-    }
-    this.installed = () => {
-      this.deferredPrompt = null
-      window.NocheInstallPrompt = null
-      this.hideInstallUi()
-    }
-
+    this.installMemory = new InstallOfferMemory()
+    this.deferredPrompt = validInstallPrompt(window.NocheInstallPrompt)
+    this.beforeInstallPrompt = (event) => this.receiveInstallPrompt(event)
+    this.installed = () => this.confirmInstalled()
     window.addEventListener("beforeinstallprompt", this.beforeInstallPrompt)
     window.addEventListener("appinstalled", this.installed)
-
-    if (this.isStandalone()) return this.hideInstallUi()
-    if (this.deferredPrompt) this.showAction()
-    if (this.isIos()) {
-      this.showAction()
-      this.showIosBanner()
-    }
-
-    if ("serviceWorker" in navigator) {
-      navigator.serviceWorker.register("/service-worker.js", { scope: "/" })
-    }
+    this.syncInstallOffer()
+    if ("serviceWorker" in navigator) navigator.serviceWorker.register("/service-worker.js", { scope: "/" }).catch(() => {})
   }
 
   disconnect() {
@@ -42,40 +33,85 @@ export default class extends Controller {
     releaseStylesheet(this.stylesheetResource)
   }
 
+  receiveInstallPrompt(event) {
+    event.preventDefault()
+    if (this.isStandalone() || this.installMemory.installSnoozed() || !validInstallPrompt(event)) return
+
+    this.deferredPrompt = event
+    window.NocheInstallPrompt = event
+    this.showAction()
+  }
+
+  confirmInstalled() {
+    this.clearDeferredPrompt()
+    this.installMemory.markInstalled()
+    this.hideInstallUi()
+  }
+
+  syncInstallOffer() {
+    if (this.shouldHideInstallOffer()) return this.hideInstallUi()
+    if (this.deferredPrompt) return this.showAction()
+    if (!this.canOpenIosGuide()) return this.hideInstallUi()
+
+    this.showAction()
+    this.showIosBanner()
+  }
+
   async install(event) {
-    this.markInstallSession()
+    if (this.shouldHideInstallOffer()) return this.hideInstallUi()
+
+    this.installMemory.markOfferSeen()
     this.installTrigger = event?.currentTarget
+    if (!this.deferredPrompt) return this.canOpenIosGuide() ? this.openGuide(event) : this.hideInstallUi()
 
-    if (this.deferredPrompt) {
+    setInstallState(this, "installing")
+    try {
       await this.deferredPrompt.prompt()
-      await this.deferredPrompt.userChoice
-      this.deferredPrompt = null
-      window.NocheInstallPrompt = null
-      this.hideAction()
-      return
-    }
+      const choice = await this.deferredPrompt.userChoice
+      this.clearDeferredPrompt()
+      if (choice?.outcome === "accepted") {
+        // `appinstalled`, never `userChoice`, confirms a completed installation.
+        if (this.installMemory.knownInstalled() || this.isStandalone()) return this.hideInstallUi()
 
-    this.openGuide(event)
+        setInstallState(this, "awaiting_confirmation")
+        return
+      }
+      this.installMemory.recordRejection()
+    } catch (_) {
+      this.clearDeferredPrompt()
+      this.installMemory.recordRejection()
+    }
+    this.hideInstallUi()
   }
 
   async openGuide(event) {
-    this.markInstallSession()
+    if (!this.canOpenIosGuide()) return this.hideInstallUi()
+
+    this.installMemory.markOfferSeen()
     this.installTrigger = event?.currentTarget || this.installTrigger
-    this.snoozeBanner()
-    this.hideBanner()
+    this.installMemory.snoozeBanner()
+    this.bannerTargets.forEach((banner) => { banner.hidden = true })
     await this.ensureStylesheet()
     const guide = await import("features/pwa/install_guide")
     guide.mountInstallGuide(this)
     this.browserHintTargets.forEach((hint) => { hint.hidden = this.isSafari() })
-    if (this.hasDialogTarget) {
-      this.dialogTarget.showModal()
-      guide.resetInstallGuide(this)
-    }
+    if (!this.hasDialogTarget) return
+
+    this.dialogTarget.showModal()
+    guide.resetInstallGuide(this)
+    this.installMemory.markIosGuideSeen()
   }
 
   dismissBanner() {
-    this.snoozeBanner()
-    this.hideBanner()
+    this.installMemory.snoozeBanner()
+    this.bannerTargets.forEach((banner) => { banner.hidden = true })
+  }
+
+  dismissTile(event) {
+    event?.preventDefault()
+    event?.stopPropagation()
+    this.installMemory.snoozeInstallUi()
+    this.hideInstallUi()
   }
 
   close() {
@@ -87,69 +123,35 @@ export default class extends Controller {
     if (event.target === this.dialogTarget) this.close()
   }
 
-  closed() {
-    this.restoreInstallFocus()
-  }
+  closed() { this.restoreInstallFocus() }
 
   restoreInstallFocus() {
     this.installTrigger?.focus({ preventScroll: true })
     this.installTrigger = null
   }
 
-  showAction() {
-    this.ensureStylesheet().then(() => {
-      this.actionTargets.forEach((action) => { action.hidden = false })
-    })
+  showAction() { revealInstallOffer(this) }
+  showIosBanner() { revealIosInstallBanner(this) }
+  hideInstallUi() { hideInstallOffer(this) }
+
+  shouldHideInstallOffer() {
+    return this.isStandalone() || this.installMemory.knownInstalled() || this.installMemory.installSnoozed() ||
+      (!this.deferredPrompt && this.canOpenIosGuide() && this.installMemory.iosGuideSnoozed())
   }
 
-  hideAction() {
-    this.actionTargets.forEach((action) => { action.hidden = true })
+  canOfferInstall() { return Boolean(this.deferredPrompt) || this.canOpenIosGuide() }
+  canOpenIosGuide() { return this.isIos() && !this.isStandalone() }
+  isIos() { return isIosDevice(navigator) }
+  isSafari() { return isSafariBrowser(navigator) }
+  isStandalone() { return isStandaloneMode(window, navigator) }
+
+  clearDeferredPrompt() {
+    this.deferredPrompt = null
+    window.NocheInstallPrompt = null
   }
 
-  showIosBanner() {
-    if (window.location.pathname !== "/" || this.hasTileTarget || this.bannerSnoozed()) return
-    this.ensureStylesheet().then(() => {
-      this.bannerTargets.forEach((banner) => { banner.hidden = false })
-    })
-  }
-
-  hideBanner() {
-    this.bannerTargets.forEach((banner) => { banner.hidden = true })
-  }
-
-  hideInstallUi() {
-    this.hideAction()
-    this.hideBanner()
-  }
-
-  snoozeBanner() {
-    try { localStorage.setItem("noche:pwa-install-snoozed-at", Date.now().toString()) } catch (_) {}
-  }
-
-  bannerSnoozed() {
-    try {
-      const snoozedAt = Number(localStorage.getItem("noche:pwa-install-snoozed-at"))
-      return snoozedAt > 0 && Date.now() - snoozedAt < this.constructor.BANNER_SNOOZE_MS
-    } catch (_) {
-      return false
-    }
-  }
-
-  isIos() {
-    return /iphone|ipad|ipod/i.test(navigator.userAgent) ||
-      (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1)
-  }
-
-  isSafari() {
-    return /safari/i.test(navigator.userAgent) && !/crios|fxios|edgios|opios/i.test(navigator.userAgent)
-  }
-
-  isStandalone() {
-    return window.matchMedia("(display-mode: standalone)").matches || navigator.standalone === true
-  }
-
-  markInstallSession() {
-    try { sessionStorage.setItem("noche:pwa-install-offered", "1") } catch (_) {}
+  installingStatusLabel() {
+    return this.statusTargets[0]?.dataset.pwaInstallInstallingLabel || ""
   }
 
   async ensureStylesheet() {
@@ -157,7 +159,7 @@ export default class extends Controller {
     try {
       this.stylesheetResource = await loadStylesheet(this.stylesheetValue, "pwa")
       return this.stylesheetResource
-    } catch (_error) {
+    } catch (_) {
       return null
     }
   }

@@ -25,6 +25,37 @@ roles:
       avif: 50
       webp: 76
       jpeg: 80
+  # The mockup hero uses two separately composed masters. Keeping this role
+  # distinct from hub_backdrop prevents a mobile crop from manufacturing the
+  # explorer composition and avoids upscaling every historical backdrop.
+  hub_hero:
+    default_rendition: portrait
+    renditions:
+      portrait:
+        widths: [390, 768, 1280, 1536]
+        sizes: "100vw"
+        ratio: "9:16"
+        media: "(max-width: 767px)"
+        focus: "50% 50%"
+      landscape:
+        widths: [768, 1440, 1920, 2560]
+        sizes: "100vw"
+        ratio: "16:9"
+        media: "(min-width: 768px)"
+        focus: "50% 50%"
+    quality:
+      avif: 52
+      webp: 78
+      jpeg: 82
+  # Hub editorial plates retain their approved master ratio. Their layout can
+  # crop locally without baking a second, unstable media identity into content.
+  hub_card:
+    widths: [390, 768, 1280, 1600]
+    sizes: "(max-width: 767px) 82vw, (max-width: 1199px) 50vw, 33vw"
+    quality:
+      avif: 50
+      webp: 76
+      jpeg: 80
   catalog_portrait:
     widths: [390, 768]
     sizes: "(max-width: 768px) 100vw, 768px"
@@ -54,10 +85,72 @@ roles:
       webp: 80
       jpeg: 82
 assets:
+  expedition.psalms-2026.home:
+    source: media/expeditions/psalms-2026/home-key-art-v1.png
+    role: hub_card
+    focus: "50% 50%"
+    theme: dark
   scripture.reader.mountains-gold-ivory:
     source: media/scripture/reader-mountains-gold-ivory-v1.png
     role: catalog_landscape
     focus: "50% 62%"
+  scripture_circle.backdrop.light:
+    source: media/hub/rama/circle-scripture-celestial-light-v1.png
+    role: hub_backdrop
+    focus: "50% 40%"
+    theme: light
+  scripture_circle.gathering.light:
+    source: media/hub/rama/circle-scripture-gathering-celestial-light-v1.png
+    role: hub_backdrop
+    focus: "69% 63%"
+    theme: light
+  scripture_circle.backdrop.dark:
+    source: media/hub/rama/circle-scripture-celestial-dark-v1.png
+    role: hub_backdrop
+    focus: "50% 40%"
+    theme: dark
+  # Staged mockup masters. Do not run media:build_responsive until all six
+  # sources exist below media/masters; the pipeline deliberately fails closed
+  # when an explicitly curated source is missing.
+  hub.hero.salt-lake-temple-night:
+    source: media/hub/noche-hub-salt-lake-temple-portrait-v1.png
+    sources:
+      landscape: media/hub/noche-hub-salt-lake-temple-landscape-v1.png
+    role: hub_hero
+    focus: "50% 50%"
+    theme: dark
+  hub.hero.salt-lake-temple-dawn:
+    source: media/hub/noche-hub-salt-lake-temple-light-portrait-v1.png
+    sources:
+      landscape: media/hub/noche-hub-salt-lake-temple-light-landscape-v1.png
+    role: hub_hero
+    focus: "50% 50%"
+    theme: light
+  hub.backdrop.salt-lake-temple-dawn:
+    source: media/hub/noche-hub-salt-lake-temple-light-landscape-v1.png
+    role: hub_backdrop
+    focus: "64% 42%"
+    theme: light
+  hub.card.live-king:
+    source: media/hub/noche-hub-live-king-v1.png
+    role: hub_card
+    focus: "66% 46%"
+    theme: dark
+  hub.card.service-bread:
+    source: media/hub/noche-hub-service-bread-v1.png
+    role: hub_card
+    focus: "66% 52%"
+    theme: dark
+  hub.card.circle-study:
+    source: media/hub/noche-hub-circle-study-v1.png
+    role: hub_card
+    focus: "50% 50%"
+    theme: dark
+  hub.card.rama-vigil:
+    source: media/hub/noche-hub-rama-vigil-v1.png
+    role: hub_card
+    focus: "55% 50%"
+    theme: dark
   hub.backdrop.moises-mer-rouge:
     source: media/home/moises-mer-rouge.jpg
     sources:
@@ -71,6 +164,11 @@ assets:
       landscape: media/home/eden-lumiere-landscape-v2.png
     role: hub_backdrop
     focus: "50% 22%"
+    theme: light
+  hub.backdrop.royal-jerusalem-dawn:
+    source: media/home/royal-jerusalem-dawn-v1.png
+    role: hub_backdrop
+    focus: "70% 58%"
     theme: light
   hub.backdrop.coronas-ungido:
     source: media/home/coronas-reino.jpg

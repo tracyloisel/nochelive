@@ -14,7 +14,7 @@ class WardsController < ApplicationController
       postal_code: params[:postal_code],
       country_code: params[:country_code]
     )
-    remember_ward_host(ward)
+    remember_ward_admin(ward)
     Rails.logger.info("ward=#{ward.code} event=created")
     redirect_to ward_profile_path(ward.code)
   rescue People::Error => error

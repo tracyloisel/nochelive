@@ -1,7 +1,7 @@
 class ScriptureCircleModerationProposal < ApplicationRecord
   STATUSES = %w[open kept censored canceled_by_author].freeze
   REASON_KEYS = %w[uncharitable personal_attack private_information off_topic other].freeze
-  POLICY_VERSION = "ward-v1"
+  POLICY_VERSION = "ward-reports-v2"
   MINIMUM_DURATION = 2.days
 
   belongs_to :scripture_circle_post

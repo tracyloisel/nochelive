@@ -127,7 +127,7 @@ module Quizzes
           .to_a
         opponent_ids = duels.filter_map { |duel| duel.other_person_for(@person)&.id }.uniq
         @live_opponent_ids = Presences::Registry.online_person_ids(among: opponent_ids)
-        @open_runs_by_person_id = QuizRun.open_runs
+        @open_runs_by_person_id = QuizRun.street.open_runs
           .where(person_id: opponent_ids)
           .order(id: :desc)
           .each_with_object({}) { |run, rows| rows[run.person_id] ||= run }

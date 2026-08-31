@@ -122,8 +122,7 @@ class IdentityTransfersControllerTest < ActionDispatch::IntegrationTest
 
   test "privileged and temporary cookies are excluded from the payload" do
     host! "nochelive.onrender.com"
-    set_signed_cookie(:noche_presenter, game_sessions(:david).id)
-    set_signed_cookie(:noche_ward_host, wards(:demo).id)
+    set_signed_cookie(:noche_ward_admin, wards(:demo).id)
     set_signed_cookie(:noche_player, 123)
 
     post identity_transfer_path

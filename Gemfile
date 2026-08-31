@@ -43,6 +43,9 @@ gem "thruster", require: false
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 gem "image_processing", "~> 1.2"
 
+# Server-rendered QR for the canonical Noche Live URL on shared screens.
+gem "rqrcode", "~> 2.2"
+
 group :development, :test do
   # Load local secrets from the gitignored .env file.
   gem "dotenv"

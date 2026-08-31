@@ -5,11 +5,14 @@ class AdminApiTest < ActionDispatch::IntegrationTest
 
   setup do
     @previous_token = ENV["NOCHE_ADMIN_API_TOKEN"]
+    @previous_audit_actor = ENV["NOCHE_ADMIN_API_AUDIT_ACTOR"]
     ENV["NOCHE_ADMIN_API_TOKEN"] = TOKEN
+    ENV["NOCHE_ADMIN_API_AUDIT_ACTOR"] = "Noche Live admin test"
   end
 
   teardown do
     ENV["NOCHE_ADMIN_API_TOKEN"] = @previous_token
+    ENV["NOCHE_ADMIN_API_AUDIT_ACTOR"] = @previous_audit_actor
   end
 
   test "rejects requests without the private bearer token" do
@@ -33,15 +36,29 @@ class AdminApiTest < ActionDispatch::IntegrationTest
     assert carmen["created_at"].present?
   end
 
-  test "rotates a presenter code and returns it only in the response" do
-    ward = wards(:demo)
+  test "creates a persistent team inside an explicit ward" do
+    ward = wards(:blank)
 
-    post rotate_presenter_token_admin_api_ward_path(ward.code), headers: auth_headers
+    assert_difference("ward.ward_teams.count", 1) do
+      post admin_api_ward_ward_teams_path(ward.code),
+           params: { name: "Les Oliviers", emblem: "paloma" },
+           headers: auth_headers,
+           as: :json
+    end
 
-    assert_response :success
-    token = response.parsed_body.fetch("presenter_token")
-    assert ward.reload.presenter_token_matches?(token)
-    assert_not ward.presenter_token_matches?("rama-demo")
+    assert_response :created
+    assert_equal "Les Oliviers", response.parsed_body.dig("team", "name")
+    assert_equal "paloma", response.parsed_body.dig("team", "emblem")
+    assert_equal ward.code, response.parsed_body.dig("team", "ward_code")
+  end
+
+  test "rejects an invalid persistent team" do
+    post admin_api_ward_ward_teams_path(wards(:blank).code),
+         params: { name: "T" * (WardTeam::NAME_MAX + 1), emblem: "paloma" },
+         headers: auth_headers,
+         as: :json
+
+    assert_response :unprocessable_entity
   end
 
   test "returns aggregate platform and ward statistics" do
@@ -138,10 +155,8 @@ class AdminApiTest < ActionDispatch::IntegrationTest
     assert_difference("ward.game_sessions.count", 1) do
       post admin_api_ward_nights_path(ward.code),
            params: {
-             starts_at: "2026-08-30T19:30:00+02:00",
-             presenter_locale: "fr",
-             broadcast_delay_ms: 1_500,
-             missionary_names: [ "Sœur Martin", "Élder Silva" ]
+             starts_at: 1.day.from_now.change(usec: 0).iso8601,
+             quiz_ids: [ "coronas", "moises", "nazareno" ]
            },
            headers: auth_headers,
            as: :json
@@ -150,43 +165,40 @@ class AdminApiTest < ActionDispatch::IntegrationTest
     assert_response :created
     code = response.parsed_body.dig("night", "code")
     night = ward.game_sessions.find_by!(code:)
-    assert_equal "fr", night.presenter_locale
-    assert_equal 1_500, night.broadcast_delay_ms
-    assert_equal [ "Sœur Martin", "Élder Silva" ], night.missionaries.order(:id).pluck(:name)
+    assert_equal [ "coronas", "moises", "nazareno" ], night.quiz_pack_ids
+    assert_equal night.starts_at + 1.hour, night.ends_at
+    assert_equal "/s/#{code}", response.parsed_body.dig("night", "paths", "canonical")
     assert_equal "/s/#{code}/name", response.parsed_body.dig("night", "paths", "players")
+    assert_equal "/s/#{code}/play", response.parsed_body.dig("night", "paths", "play")
+    assert_equal 3, response.parsed_body.dig("night", "quizzes").size
 
     patch admin_api_ward_night_path(ward.code, code),
           params: {
-            starts_at: "2026-08-30T20:00:00+02:00",
-            presenter_locale: "es",
-            poster_path: "/media/nights/events/benidorm-2026-08-29-reyes-profetas.jpg",
-            missionary_names: [ "Sœur Martin" ]
+            starts_at: 2.days.from_now.change(usec: 0).iso8601,
+            quiz_ids: [ "coronas", "placas" ]
           },
           headers: auth_headers,
           as: :json
 
     assert_response :success
-    assert_equal "es", night.reload.presenter_locale
-    assert_equal 20, night.starts_at.in_time_zone("Europe/Madrid").hour
-    assert_equal "/media/nights/events/benidorm-2026-08-29-reyes-profetas.jpg", night.poster_path
-    assert_equal night.poster_path, response.parsed_body.dig("night", "poster_path")
-    assert_equal [ "Sœur Martin" ], night.missionaries.pluck(:name)
+    assert_equal [ "coronas", "placas" ], night.reload.quiz_pack_ids
+    assert_equal night.starts_at + 1.hour, night.ends_at
   end
 
   test "cannot edit a Noche Live through another ward" do
     patch admin_api_ward_night_path(wards(:blank).code, game_sessions(:david).code),
-          params: { presenter_locale: "fr" },
+          params: { quiz_ids: [ "coronas", "placas" ] },
           headers: auth_headers,
           as: :json
 
     assert_response :not_found
-    assert_equal "es", game_sessions(:david).reload.presenter_locale
+    assert_equal [ "coronas" ], game_sessions(:david).reload.quiz_pack_ids
   end
 
   test "finishes a Noche Live inside its ward and accepts idempotent retries" do
     ward = wards(:demo)
     night = game_sessions(:david)
-    night.update!(status: "playing", season_applied_at: nil)
+    night.update_columns(starts_at: 5.minutes.ago, ends_at: 55.minutes.from_now, status: "playing", closed_at: nil)
 
     post admin_api_ward_finish_night_path(ward.code, night.code),
          headers: auth_headers,
@@ -195,15 +207,15 @@ class AdminApiTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_equal "finished", response.parsed_body.dig("night", "status")
     assert night.reload.finished?
-    assert night.season_applied_at.present?
-    first_applied_at = night.season_applied_at
+    assert night.closed_at.present?
+    first_applied_at = night.closed_at
 
     post admin_api_ward_finish_night_path(ward.code, night.code),
          headers: auth_headers,
          as: :json
 
     assert_response :success
-    assert_equal first_applied_at, night.reload.season_applied_at
+    assert_equal first_applied_at, night.reload.closed_at
   end
 
   test "cannot finish a Noche Live through another ward" do
@@ -219,11 +231,111 @@ class AdminApiTest < ActionDispatch::IntegrationTest
 
   test "rejects invalid Noche Live configuration" do
     post admin_api_ward_nights_path(wards(:blank).code),
-         params: { starts_at: "tomorrow evening", presenter_locale: "de" },
+         params: { starts_at: "tomorrow evening", quiz_ids: [ "missing" ] },
          headers: auth_headers,
          as: :json
 
     assert_response :unprocessable_entity
+
+    post admin_api_ward_nights_path(wards(:blank).code),
+         params: { starts_at: 1.day.from_now.iso8601, quiz_ids: [] },
+         headers: auth_headers,
+         as: :json
+
+    assert_response :unprocessable_entity
+  end
+
+  test "keeps ward events as explicit drafts with a server-owned audit actor" do
+    ward = wards(:demo)
+
+    assert_difference("WardEvent.count", 1) do
+      post admin_api_ward_ward_events_path(ward.code),
+           params: ward_event_payload(actor: "Usurpatrice depuis le payload"),
+           headers: auth_headers,
+           as: :json
+    end
+
+    assert_response :created
+    event_id = response.parsed_body.dig("event", "id")
+    assert_equal "draft", response.parsed_body.dig("event", "status")
+    assert_equal [ "created" ], response.parsed_body.dig("event", "audit").pluck("action")
+    assert_equal [ "Noche Live admin test" ], response.parsed_body.dig("event", "audit").pluck("actor")
+
+    patch admin_api_ward_ward_event_path(ward.code, event_id),
+          params: { actor: "Autre identité falsifiée", title: "Collecte alimentaire du samedi" },
+          headers: auth_headers,
+          as: :json
+    assert_response :success
+    assert_equal "Collecte alimentaire du samedi", response.parsed_body.dig("event", "title")
+    assert_equal %w[created updated], response.parsed_body.dig("event", "audit").pluck("action")
+    assert_equal [ "Noche Live admin test", "Noche Live admin test" ], response.parsed_body.dig("event", "audit").pluck("actor")
+
+    post publish_admin_api_ward_ward_event_path(ward.code, event_id),
+         params: { actor: "Fausse présidence" },
+         headers: auth_headers,
+         as: :json
+    assert_response :success
+    assert_equal "published", response.parsed_body.dig("event", "status")
+    assert_equal "Noche Live admin test", response.parsed_body.dig("event", "approved_by")
+    assert_equal %w[created updated published], response.parsed_body.dig("event", "audit").pluck("action")
+    assert_equal [ "Noche Live admin test" ] * 3, response.parsed_body.dig("event", "audit").pluck("actor")
+
+    patch admin_api_ward_ward_event_path(ward.code, event_id),
+          params: { actor: "Sœur Martin", title: "Texte non approuvé" },
+          headers: auth_headers,
+          as: :json
+    assert_response :unprocessable_entity
+
+    post cancel_admin_api_ward_ward_event_path(ward.code, event_id),
+         params: { actor: "Encore une identité falsifiée", reason: "La salle n’est plus disponible" },
+         headers: auth_headers,
+         as: :json
+    assert_response :success
+    assert_equal "cancelled", response.parsed_body.dig("event", "status")
+    assert_equal "La salle n’est plus disponible", response.parsed_body.dig("event", "cancellation_reason")
+    assert_equal %w[created updated published cancelled], response.parsed_body.dig("event", "audit").pluck("action")
+    assert_equal [ "Noche Live admin test" ] * 4, response.parsed_body.dig("event", "audit").pluck("actor")
+    assert_not_includes response.parsed_body.dig("event", "audit").pluck("actor"), "Usurpatrice depuis le payload"
+  end
+
+  test "does not require a caller-controlled actor to create a ward event" do
+    ward = wards(:demo)
+
+    post admin_api_ward_ward_events_path(ward.code),
+         params: ward_event_payload.except(:actor),
+         headers: auth_headers,
+         as: :json
+
+    assert_response :created
+    assert_equal "Noche Live admin test", response.parsed_body.dig("event", "audit", 0, "actor")
+  end
+
+  test "derives a stable server audit identity when no configured label is present" do
+    configured_actor = ENV.delete("NOCHE_ADMIN_API_AUDIT_ACTOR")
+
+    post admin_api_ward_ward_events_path(wards(:demo).code),
+         params: ward_event_payload(actor: "Usurpateur depuis le payload"),
+         headers: auth_headers,
+         as: :json
+
+    assert_response :created
+    assert_equal "admin-token:#{OpenSSL::Digest::SHA256.hexdigest(TOKEN).first(16)}",
+      response.parsed_body.dig("event", "audit", 0, "actor")
+  ensure
+    ENV["NOCHE_ADMIN_API_AUDIT_ACTOR"] = configured_actor
+  end
+
+  test "scopes the ward event API to the ward in the route" do
+    other = wards(:blank)
+    event = WardEvent.create_draft!(
+      ward: other,
+      attributes: ward_event_payload.except(:actor),
+      actor: "Sœur Martin"
+    )
+
+    get admin_api_ward_ward_event_path(wards(:demo).code, event.id), headers: auth_headers
+
+    assert_response :not_found
   end
 
   test "drafts previews and explicitly approves notification copy without sending" do
@@ -307,5 +419,19 @@ class AdminApiTest < ActionDispatch::IntegrationTest
       NotificationEditorialProposal::LOCALES.to_h do |locale|
         [ locale, { title: "#{title} #{locale}", body: } ]
       end
+    end
+
+    def ward_event_payload(actor: "Sœur Martin")
+      {
+        actor:,
+        kind: "food_drive",
+        title: "Collecte alimentaire",
+        summary: "Apportez des produits non périssables.",
+        starts_at: 2.days.from_now.iso8601,
+        ends_at: 2.days.from_now.advance(hours: 2).iso8601,
+        location_label: "Salle paroissiale",
+        destination_path: "/ramas/RAMA",
+        artwork_path: "/media/church/worship.jpg"
+      }
     end
 end

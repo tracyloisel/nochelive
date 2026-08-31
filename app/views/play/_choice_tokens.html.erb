@@ -1,9 +1,0 @@
-<ol class="choice-board">
-  <% choices.each_with_index do |choice, index| %>
-    <% mark = choice_mark(index) %>
-    <li class="choice-token choice-<%= mark[:tone] %>">
-      <span class="choice-mark" aria-hidden="true"><%= picto(mark[:shape]) %></span>
-      <span class="word"><%= choice_label(choice, local_assigns[:definition]) %></span>
-    </li>
-  <% end %>
-</ol>

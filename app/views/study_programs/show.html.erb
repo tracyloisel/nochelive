@@ -8,6 +8,9 @@
     <% if current_street_person&.ward %>
       <%= link_to study_community_path(ward_code: current_street_person.ward.code) do %><%= picto("people") %><span><%= t("study.ward") %></span><% end %>
     <% end %>
+    <% if current_street_person&.ward&.scripture_circle_readable? %>
+      <%= link_to scripture_circle_path do %><%= picto("conversation") %><span><%= t("scripture_circle.hub_link") %></span><% end %>
+    <% end %>
   </nav>
   <% if current_street_person.nil? %>
     <%= link_to street_profile_path(fresh: 1), class: "study-profile-invite" do %>

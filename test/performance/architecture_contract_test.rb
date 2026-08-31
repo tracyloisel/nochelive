@@ -5,6 +5,42 @@ require "digest"
 require "zlib"
 
 class ArchitectureContractTest < ActiveSupport::TestCase
+  test "Noche Live has no parallel quiz engine" do
+    obsolete_paths = %w[
+      app/assets/stylesheets/surfaces/missions.css
+      app/controllers/ward_mission_advances_controller.rb
+      app/controllers/ward_mission_answers_controller.rb
+      app/controllers/ward_mission_plays_controller.rb
+      app/controllers/ward_mission_stage_starts_controller.rb
+      app/controllers/ward_missions_controller.rb
+      app/models/ward_mission.rb
+      app/models/ward_mission_answer.rb
+      app/models/ward_mission_entry.rb
+      app/models/ward_mission_run.rb
+      app/models/ward_mission_stage.rb
+      app/services/ward_missions.rb
+    ]
+    obsolete_paths.each do |path|
+      refute Rails.root.join(path).exist?, "obsolete WardMission engine file remains: #{path}"
+    end
+
+    %w[
+      ward_mission_answers
+      ward_mission_runs
+      ward_mission_entries
+      ward_mission_stages
+      ward_missions
+    ].each do |table|
+      refute ActiveRecord::Base.connection.data_source_exists?(table), "obsolete WardMission table remains: #{table}"
+    end
+
+    sequence = Rails.root.join("app/services/nights/quiz_sequence.rb").read
+    assert_includes sequence, "QuizRun.create!"
+    assert_includes sequence, "live_sequence_position"
+    assert_includes Rails.root.join("app/controllers/play_controller.rb").read, "Quizzes::Draw.frame"
+    assert_includes Rails.root.join("app/services/quizzes/advance.rb").read, "Nights::QuizSequence.next_after"
+  end
+
   test "feature controllers use the shared request and frame ownership contracts" do
     controller_sources = Rails.root.glob("app/javascript/controllers/*_controller.js").to_h { |path| [ path, path.read ] }
 
@@ -94,13 +130,14 @@ class ArchitectureContractTest < ActiveSupport::TestCase
     refute_match(/#street_quiz|\.hub-(?!menu-)|body\.is-play|body\.is-watch|\.study-|\.scripture-/, shell.read)
 
     route_budgets = {
-      hub: [ shell, loading, surfaces.fetch(Pathname("hub.css")), surfaces.fetch(Pathname("onboarding.css")) ],
+      hub: [ shell, loading, surfaces.fetch(Pathname("hub.css")) ],
       live: [ shell, loading, surfaces.fetch(Pathname("gameplay.css")), surfaces.fetch(Pathname("live.css")) ],
       street_play: [ shell, loading, surfaces.fetch(Pathname("gameplay.css")), surfaces.fetch(Pathname("street_play.css")), root.join("duel_campus.css") ],
       stats: [ shell, loading, surfaces.fetch(Pathname("stats.css")) ],
       study_reader: [ shell, loading, surfaces.fetch(Pathname("study.css")), surfaces.fetch(Pathname("scripture.css")) ],
       church: [ shell, loading, surfaces.fetch(Pathname("church.css")) ],
-      profile: [ shell, loading, surfaces.fetch(Pathname("profile.css")) ]
+      profile: [ shell, loading, surfaces.fetch(Pathname("entry.css")), surfaces.fetch(Pathname("profile.css")) ],
+      rama: [ shell, loading, surfaces.fetch(Pathname("profile.css")), surfaces.fetch(Pathname("rama.css")) ]
     }
     route_budgets.each do |route, paths|
       compressed = paths.sum { |path| Zlib.gzip(path.read).bytesize }
@@ -132,7 +169,7 @@ class ArchitectureContractTest < ActiveSupport::TestCase
     expected_paths = []
 
     manifest.fetch("assets").each do |key, asset|
-      assert_includes %w[hub_backdrop catalog_portrait catalog_landscape catalog_square catalog_icon], asset.fetch("role"), key
+      assert_includes %w[hub_backdrop hub_hero hub_card catalog_portrait catalog_landscape catalog_square catalog_icon], asset.fetch("role"), key
       assert asset.fetch("source_width").positive?, key
       assert asset.fetch("source_bytes").positive?, key
       assert asset.fetch("ratio").present?, key

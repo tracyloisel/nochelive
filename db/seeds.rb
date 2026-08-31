@@ -1,5 +1,4 @@
 # Idempotent playable demo for development (and CI seed:replant).
-PRESENTER_TOKEN = "noche-demo"
 WARD_TOKEN = "rama-demo"
 DEMO_CODE = "DEMO"
 
@@ -16,7 +15,7 @@ ward.assign_attributes(
   listed: true,
   stake_name: "Elche Spain Stake",
   stake_unit_id: "527556",
-  presenter_token_digest: GameSession.digest_token(WARD_TOKEN),
+  admin_token_digest: GameSession.digest_token(WARD_TOKEN),
   locator_payload: (ward.locator_payload || {}).merge(
     "hours" => {
       "code" => "Su 10:00-12:00",
@@ -38,7 +37,7 @@ alicante.assign_attributes(
   listed: true,
   stake_name: "Elche Spain Stake",
   stake_unit_id: "527556",
-  presenter_token_digest: GameSession.digest_token("alicante-demo"),
+  admin_token_digest: GameSession.digest_token("alicante-demo"),
   locator_payload: (alicante.locator_payload || {}).except("sunday_schedule").merge(
     "hours" => {
       "code" => "Su 10:00-12:00",
@@ -58,23 +57,23 @@ valencia.assign_attributes(
   region: "Valencia",
   country_code: "ES",
   listed: true,
-  presenter_token_digest: GameSession.digest_token("valx-demo")
+  admin_token_digest: GameSession.digest_token("valx-demo")
 )
 valencia.save!
 
-leones_season = ward.ward_teams.find_or_create_by!(name: "Leones de Judá") { |row| row.emblem = "leon" }
-casa_season = ward.ward_teams.find_or_create_by!(name: "Casa de David") { |row| row.emblem = "ola" }
+leones_ward_team = ward.ward_teams.find_or_create_by!(name: "Leones de Judá") { |row| row.emblem = "leon" }
+casa_ward_team = ward.ward_teams.find_or_create_by!(name: "Casa de David") { |row| row.emblem = "ola" }
 
 carmen_g = ward.people.find_or_initialize_by(given_name_key: "carmen", family_name_key: "garcia", avatar_key: "delfin")
-carmen_g.assign_attributes(given_name: "Carmen", family_name: "García", favorite_year: 1833, last_ward_team: leones_season)
+carmen_g.assign_attributes(given_name: "Carmen", family_name: "García", favorite_year: 1833, last_ward_team: leones_ward_team)
 carmen_g.save!
 
 carmen_l = ward.people.find_or_initialize_by(given_name_key: "carmen", family_name_key: "lopez", avatar_key: "aguila", favorite_year: 2012)
-carmen_l.assign_attributes(given_name: "Carmen", family_name: "López", last_ward_team: casa_season)
+carmen_l.assign_attributes(given_name: "Carmen", family_name: "López", last_ward_team: casa_ward_team)
 carmen_l.save!
 
 pili = ward.people.find_or_initialize_by(given_name_key: "pili", family_name_key: "", avatar_key: "tortuga", favorite_year: 1830)
-pili.assign_attributes(given_name: "Pili", family_name: nil, last_ward_team: leones_season)
+pili.assign_attributes(given_name: "Pili", family_name: nil, last_ward_team: leones_ward_team)
 pili.save!
 
 def seed_person(ward, given, family, avatar, year)
@@ -233,35 +232,29 @@ end
   end
 end
 
-digest = GameSession.digest_token(PRESENTER_TOKEN)
 night = GameSession.where(code: DEMO_CODE).where.not(status: "finished").first
 
 if night.nil?
-  night = Nights::Start.call(ward:)
+  night = Nights::Start.call(ward:, quiz_ids: [ "coronas", "moises", "nazareno" ], starts_at: 15.minutes.ago)
   night.update_columns(
-    code: DEMO_CODE,
-    presenter_token_digest: digest,
-    status: "lobby"
+    code: DEMO_CODE
   )
 else
-  night.update!(presenter_token_digest: digest, ward: ward)
+  night.update!(ward: ward, quiz_pack_ids: [ "coronas", "moises", "nazareno" ])
 end
 
 leones = night.teams.find_or_create_by!(name: "Leones de Judá") { |team| team.emblem = "leon" }
-leones.update!(ward_team: leones_season)
+leones.update!(ward_team: leones_ward_team)
 casa = night.teams.find_or_create_by!(name: "Casa de David") { |team| team.emblem = "ola" }
-casa.update!(ward_team: casa_season)
+casa.update!(ward_team: casa_ward_team)
 
 lucia = night.players.find_or_initialize_by(client_token: "seed-lucia")
-lucia.update!(name: "Lucía", role: "participant", location: "room", last_seen_at: Time.current, avatar_key: "loro")
+lucia.update!(name: "Lucía", last_seen_at: Time.current, avatar_key: "loro")
 TeamMembership.find_or_create_by!(player: lucia, team: leones)
 
 daniel = night.players.find_or_initialize_by(client_token: "seed-daniel")
-daniel.update!(name: "Daniel", role: "participant", location: "remote", last_seen_at: Time.current, avatar_key: "elefante")
-Teams::Seat.call(night: night, player: daniel)
-
-night.missionaries.find_or_create_by!(name: "Élder Soto")
-night.missionaries.find_or_create_by!(name: "Hermana Clark")
+daniel.update!(name: "Daniel", last_seen_at: Time.current, avatar_key: "elefante")
+TeamMembership.find_or_create_by!(player: daniel, team: casa)
 
 quiz_digest = GameSession.digest_token("noche-quiz-demo")
 unless QuizRun.exists?(device_digest: quiz_digest)
@@ -293,6 +286,6 @@ puts <<~MSG
   Secreto rama: #{WARD_TOKEN}
   Noche: #{DEMO_CODE}
   Jugadores: #{host}
-  Presentador: #{host}/p/#{DEMO_CODE}?token=#{PRESENTER_TOKEN}
+  Watch: #{host}/s/#{DEMO_CODE}
 
 MSG

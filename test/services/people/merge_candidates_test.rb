@@ -15,7 +15,7 @@ class People::MergeCandidatesTest < ActiveSupport::TestCase
     assert_not_includes cards.map(&:person), people(:pili)
   end
 
-  test "marks an old profile without a year or device as needing presenter help" do
+  test "marks an old profile without a year or device as needing admin help" do
     current = people(:carmen_lopez)
     candidate = people(:carmen_garcia)
     candidate.update!(favorite_year: nil)

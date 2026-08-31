@@ -1,12 +1,12 @@
 module Hubs
   class Screen
     Player = Struct.new(
-      :name, :rank_key, :rank_label, :level, :xp_now, :xp_next, :next_rank_key, :xp_progress,
+      :name, :rank_key, :level, :xp_now, :xp_next, :xp_progress,
       :crowns, :streak, :avatar_key, :guest, keyword_init: true
     )
     Hero = Struct.new(
       :kicker, :title, :lede, :step_n, :step_total, :reward, :still,
-      :method, :path, :pack_id, keyword_init: true
+      :method, :path, keyword_init: true
     )
     Slide = Struct.new(
       :kind, :title, :kicker, :lede, :still, :state,
@@ -15,63 +15,54 @@ module Hubs
     )
     Voyage = Struct.new(:previous, :current, :next, keyword_init: true)
     Live = Struct.new(
-      :state, :starts_at, :title, :join_path, :program_path, :still, :hosts,
+      :state, :starts_at, :title, :join_path, :program_path, :still,
       :theme_mode, :theme_atmosphere, :ward_pick_path,
       keyword_init: true
     )
-    LIVE_STAGE_STILL = "media/nights/noche_live_stage_v2.png"
     CHAPEL_STILL = "media/church/worship.jpg"
     LIVE_WINDOW = 14.days
-    OnlineRow = Struct.new(
-      :person_id, :name, :avatar_key, :level, :crowns, keyword_init: true
-    )
-    ProgressNode = Struct.new(:title, :still, :state, :focus, keyword_init: true)
-    Progress = Struct.new(
-      :finished, :unlocked, :total, :current_n, :current_title, :current_pack_still, :nodes,
-      :study_completed, :study_total,
-      keyword_init: true
-    )
-    Study = Struct.new(:week, :quiz, :run, :progress, :players, keyword_init: true)
-    MapProgress = Struct.new(:total_packs, :questions_per_pack, :finished, :completed_packs, :rewards, :tiers, :current_tier_key, :finished_count, keyword_init: true)
-    Community = Struct.new(:players_this_month, :questions, :wards, keyword_init: true)
+    Gain = Struct.new(:name, :points, :at, :avatar_key, keyword_init: true)
+    League = Struct.new(:rank, :players, :rival_name, :rival_gap, :recent_gains, keyword_init: true)
+    # The Home uses the active week only to offer its real programme and one
+    # of its concrete chapters. Historical run/player aggregate data belonged
+    # to the retired dashboard, not this editorial surface.
+    Study = Struct.new(:week, :weekly_reading_cards, keyword_init: true)
     Result = Struct.new(
-      :player, :hero, :voyage, :live, :online, :online_count, :progress, :study, :reading_suggestions, :community, :pulse, :backdrop,
+      :player, :hero, :voyage, :live, :rama_events, :circle, :study, :reading_cards, :backdrop, :league,
       keyword_init: true
     )
 
-    def self.call(device_digest:, person: nil, ward: nil, at: Time.current, open_run: nil,
-      random_backdrop: false, previous_backdrop_id: nil, world: nil, pulse: nil)
-      new(device_digest:, person:, ward:, at:, open_run:, random_backdrop:, previous_backdrop_id:, world:, pulse:).call
+    def self.call(device_digest:, person: nil, ward: nil, at: Time.current, open_run: nil, world: nil)
+      new(device_digest:, person:, ward:, at:, open_run:, world:).call
     end
 
-    def initialize(device_digest:, person: nil, ward: nil, at: Time.current, open_run: nil,
-      random_backdrop: false, previous_backdrop_id: nil, world: nil, pulse: nil)
+    def initialize(device_digest:, person: nil, ward: nil, at: Time.current, open_run: nil, world: nil)
       @digest = device_digest.to_s
       @person = person
       @ward = ward
       @at = at
       @open_run = open_run
-      @random_backdrop = random_backdrop
-      @previous_backdrop_id = previous_backdrop_id
       @world = world || Quizzes::World.call(device_digest: @digest, person_id: @person&.id)
-      @pulse = pulse
       @helpers = Rails.application.routes.url_helpers
     end
 
     def call
+      live = build_live
+      reading_suggestions = Quizzes::ReadingSuggestions.call(person: @person)
       Result.new(
         player: build_player,
         hero: build_hero,
         voyage: build_voyage,
-        live: build_live,
-        online: build_online,
-        online_count: online_person_ids.size,
-        progress: build_progress,
+        live:,
+        # Live is a full-width moment immediately after the hero. The local
+        # block intentionally receives only verified ward events so the same
+        # Noche Live can never be rendered twice on the Hub.
+        rama_events: Hubs::RamaEvents.call(ward: @ward, at: @at),
+        circle: Hubs::CircleDiscovery.call(person: @person, ward: @ward, theme: backdrop.theme.mode),
         study: build_study,
-        reading_suggestions: Quizzes::ReadingSuggestions.call(person: @person),
-        community: build_community,
-        pulse: pulse,
-        backdrop:
+        reading_cards: Hubs::ReadingCards.call(person: @person, suggestions: reading_suggestions),
+        backdrop:,
+        league: build_league
       )
     end
 
@@ -81,6 +72,41 @@ module Hubs
         return 0 unless @ward && @person
 
         @total_score ||= Quizzes::Leaderboard.total_score(person: @person)
+      end
+
+      def build_league
+        return unless @ward && @person
+
+        board = Quizzes::Leaderboard.call(ward: @ward, person: @person, limit: 0)
+        rival = board.rival
+        League.new(
+          rank: board.your_rank,
+          players: board.players,
+          rival_name: rival&.person&.given_name,
+          rival_gap: rival ? (rival.score - board.your_score.to_i) : nil,
+          recent_gains: recent_league_gains
+        )
+      end
+
+      def recent_league_gains
+        QuizAnswer
+          .joins(quiz_run: :person)
+          .includes(quiz_run: :person)
+          .where(quiz_runs: { game_session_id: nil })
+          .where(people: { ward_id: @ward.id })
+          .where(created_at: (@at - 7.days)..@at)
+          .where("quiz_answers.points_awarded > 0")
+          .order(created_at: :desc, id: :desc)
+          .limit(3)
+          .map do |answer|
+            gain_person = answer.quiz_run.person
+            Gain.new(
+              name: gain_person.given_name,
+              points: answer.points_awarded,
+              at: answer.created_at,
+              avatar_key: gain_person.avatar_key
+            )
+          end
       end
 
       def current_pack
@@ -96,11 +122,9 @@ module Hubs
         Player.new(
           name: @person&.given_name,
           rank_key:,
-          rank_label: Team.rank_label_for(rank_key),
           level: street_rank_level(score),
           xp_now: score,
           xp_next: nxt&.first,
-          next_rank_key: nxt&.[](1),
           xp_progress: street_rank_progress(score),
           crowns: score,
           streak: Quizzes::Streak.call(person_id: @person&.id, device_digest: @digest).days,
@@ -139,10 +163,9 @@ module Hubs
           step_n:,
           step_total: pack.questions.size,
           reward: remaining_points(pack, run),
-          still: still_src(pack),
+          still: still_src(pack, position: step_n),
           method: run&.open? ? :get : :post,
-          path: run&.open? ? @helpers.jugar_path : @helpers.street_pack_start_path(pack.id),
-          pack_id: pack.id
+          path: run&.open? ? @helpers.jugar_path : @helpers.street_pack_start_path(pack.id)
         )
       end
 
@@ -158,8 +181,9 @@ module Hubs
         Quizzes::StreakReward.remaining_potential(run:)
       end
 
-      def still_src(pack)
-        image = pack.question_at(1).presentation["image"]
+      def still_src(pack, position: 1)
+        question = pack.question_at(position) || pack.question_at(1)
+        image = question.presentation["image"]
         return if image.blank?
 
         rel = image.to_s.delete_prefix("/")
@@ -193,7 +217,7 @@ module Hubs
           title: pack.copy(:title),
           kicker: pack.copy(:kicker),
           lede: pack.copy(:lede),
-          still: still_src(pack),
+          still: still_src(pack, position: slide_step(pack_view, run)),
           state: pack_view.state,
           step_n: slide_step(pack_view, run),
           step_total: pack.questions.size,
@@ -227,21 +251,19 @@ module Hubs
       def pick_live_night
         return unless @ward
 
-        scope = GameSession.joins(:ward).merge(Ward.listed).includes(:missionaries)
-        scope = scope.where(ward_id: @ward.id) if @ward
-        playing = scope.where(status: "playing", starts_at: ..@at).order(starts_at: :desc, id: :desc).first
+        scope = GameSession.active.joins(:ward).merge(Ward.listed).where(ward_id: @ward.id)
+        playing = scope.where(starts_at: ..@at, ends_at: @at..).order(starts_at: :desc, id: :desc).first
         return playing if playing
 
         window_end = (@at + LIVE_WINDOW).end_of_day
-        upcoming = scope.where(status: "lobby")
-          .where(starts_at: @at.beginning_of_day..window_end)
+        upcoming = scope.where(starts_at: @at..window_end)
           .order(:starts_at, :id)
         ward_hit = @ward ? upcoming.find { |night| night.ward_id == @ward.id } : nil
         ward_hit || upcoming.first
       end
 
       def live_theme_id
-        live_night&.theme_id
+        live_night&.primary_quiz_pack&.id
       end
 
       def backdrop
@@ -249,9 +271,18 @@ module Hubs
           at: @at,
           theme_id: live_theme_id,
           pack_id: current_pack&.id,
-          randomize: @random_backdrop,
-          exclude_id: @previous_backdrop_id
+          mode: active_chrome&.mode
         )
+      end
+
+      def active_chrome
+        return @active_chrome if defined?(@active_chrome)
+
+        pack_view = current_pack
+        run = pack_view && hero_run(pack_view)
+        position = run&.open? ? run.position : 1
+        question = pack_view&.pack&.question_at(position)
+        @active_chrome = question ? Quizzes::Chrome.call(question:) : nil
       end
 
       def backdrop_live_theme
@@ -272,7 +303,6 @@ module Hubs
             program_path: ward_discovery_path,
             ward_pick_path: ward_discovery_path,
             still: default_live_still,
-            hosts: [],
             theme_mode:,
             theme_atmosphere:
           )
@@ -286,24 +316,21 @@ module Hubs
             state: :none,
             program_path: program,
             still: default_live_still,
-            hosts: [],
             theme_mode:,
             theme_atmosphere:
           )
         end
 
-        title = night_theme_title(night)
+        title = night_quiz_title(night)
         still, theme_mode, theme_atmosphere = live_picture(night)
-        hosts = night.missionaries.map(&:name)
         if night.playing?
           return Live.new(
             state: :playing,
             starts_at: night.starts_at,
             title:,
-            join_path: @helpers.night_name_path(night.code),
+            join_path: @helpers.night_path(night.code),
             program_path: program,
             still:,
-            hosts:,
             theme_mode:,
             theme_atmosphere:
           )
@@ -323,47 +350,25 @@ module Hubs
           title:,
           program_path: program,
           still:,
-          hosts:,
           theme_mode:,
           theme_atmosphere:
         )
       end
 
-      def night_theme_title(night)
-        night.definition.theme.copy(:title)
-      rescue GameDefinition::Error
-        night.theme_title
+      def night_quiz_title(night)
+        night.primary_quiz_pack.copy(:title)
       end
 
       def live_picture(night)
-        if (src = event_poster_src(night))
-          return [ src, live_mode(src, "light"), "peaceful" ]
+        question = night.primary_quiz_pack.question_at(1)
+        image = question.presentation["image"]
+        chrome = Quizzes::Chrome.call(question:)
+        relative = image.to_s.start_with?("media/") ? image.to_s : "media/#{image}"
+        if (src = responsive_src(relative))
+          return [ src, chrome.mode.presence || live_mode(src, "light"), chrome.atmosphere.presence || "peaceful" ]
         end
 
-        # The LIVE card advertises a game-show night, not another chapter still.
-        # Its dedicated stage art deliberately stays independent from the hub
-        # backdrop and the current street-quiz painting.
-        if (src = responsive_src(LIVE_STAGE_STILL))
-          theme_mode, theme_atmosphere = backdrop_live_theme
-          return [ src, theme_mode, theme_atmosphere ]
-        end
-        if (src = responsive_src(CHAPEL_STILL))
-          return [ src, "light", "peaceful" ]
-        end
-
-        poster = "media/nights/#{night.theme_file_id}.jpg"
-        if (src = responsive_src(poster))
-          return [ src, live_mode(src, "light"), "peaceful" ]
-        end
-
-        [ nil, "light", "peaceful" ]
-      end
-
-      def event_poster_src(night)
-        return if night.poster_path.blank?
-
-        relative_path = night.poster_path.delete_prefix("/")
-        responsive_src(relative_path)
+        [ nil, chrome.mode.presence || "light", chrome.atmosphere.presence || "peaceful" ]
       end
 
       def responsive_src(relative_path)
@@ -375,144 +380,39 @@ module Hubs
       end
 
       def default_live_still
-        responsive_src(LIVE_STAGE_STILL) || responsive_src(CHAPEL_STILL)
-      end
-
-      def live_still?(src)
-        src.present? && src != Hubs::Backdrop::FALLBACK_SRC
+        responsive_src(CHAPEL_STILL)
       end
 
       def live_mode(src, fallback)
         Quizzes::Chrome.mode_for(src).presence || (Hubs::Backdrop::MODES.include?(fallback.to_s) ? fallback.to_s : "light")
       end
 
-      def build_online
-        return [] unless @ward && @person
-
-        people = online_scope.order(:id).limit(2).to_a
-        scores = Quizzes::Leaderboard.total_scores(person_ids: people.map(&:id))
-        people.map do |row|
-          crowns = scores[row.id].to_i
-          OnlineRow.new(
-            person_id: row.id,
-            name: row.given_name,
-            avatar_key: row.avatar_key,
-            level: street_rank_level(crowns),
-            crowns:
+      # Editorial teams can publish next year's programme before its first
+      # week begins. The Hub therefore selects the published week that is
+      # actually active today, rather than assuming the greatest year is the
+      # one a player should see now.
+      def current_study_week
+        @current_study_week ||= StudyUnit
+          .joins(:study_program)
+          .includes(:study_program)
+          .where(
+            study_programs: { status: "published" },
+            study_units: { kind: "week", status: "published" }
           )
-        end
-      end
-
-      def online_scope
-        return Person.none unless @ward && @person
-
-        @online_scope ||= Person.where(ward_id: @ward.id, id: online_person_ids)
-      end
-
-      def online_person_ids
-        return Set.new unless @ward && @person
-
-        @online_person_ids ||= Presences::Registry.online_person_ids(ward_id: @ward.id).excluding(@person.id)
-      end
-
-      def build_progress
-        packs = @world.packs
-        study_program = current_study_program
-        study_total = study_program ? study_program.study_units.weeks.count : 0
-        study_completed = if study_program
-          study_runs
-            .completed
-            .joins(study_quiz_version: :study_unit)
-            .where(study_units: { study_program_id: study_program.id })
-            .distinct
-            .count("study_units.id")
-        else
-          0
-        end
-        finished = packs.count { |pack| pack.state == :finished }
-        playing = current_pack
-        still_src = playing&.pack ? still_src(playing.pack) : nil
-        focus_index = packs.index(playing) ||
-          packs.index { |pack| pack.state.in?(%i[current open available]) } ||
-          packs.rindex { |pack| pack.state == :finished } ||
-          0
-        Progress.new(
-          finished:,
-          unlocked: packs.count { |pack| pack.state != :locked },
-          total: packs.size,
-          current_n: packs.any? ? focus_index + 1 : 0,
-          current_title: playing&.pack&.copy(:title),
-          current_pack_still: still_src,
-          nodes: progress_nodes(packs, focus_index),
-          study_completed:,
-          study_total:
-        )
-      end
-
-      def study_runs
-        StudyRun.where(device_digest: @digest, person_id: @person&.id)
-      end
-
-      def current_study_program
-        @current_study_program ||= StudyProgram.order(year: :desc).first
+          .where("study_units.starts_on <= ? AND study_units.ends_on >= ?", @at.to_date, @at.to_date)
+          .order(Arel.sql("study_programs.year DESC"), Arel.sql("study_units.position ASC"), Arel.sql("study_units.id ASC"))
+          .first
       end
 
       def build_study
-        week = current_study_program&.current_week
+        week = current_study_week
         quiz = week&.published_quiz
         return unless week && quiz
 
-        runs = StudyRun.joins(:study_quiz_version).where(
-          study_quiz_versions: { study_unit_id: week.id },
-          device_digest: @digest,
-          person_id: @person&.id
+        Study.new(
+          week:,
+          weekly_reading_cards: Hubs::WeeklyReadingCards.call(person: @person, week:, quiz:, locale: I18n.locale)
         )
-        run = runs.order(
-          Arel.sql("CASE study_runs.status WHEN 'completed' THEN 0 ELSE 1 END"),
-          completed_at: :desc,
-          updated_at: :desc
-        ).first
-        progress = run ? run.study_answers.count : 0
-        players = StudyRun.joins(:study_quiz_version)
-          .where(study_quiz_versions: { study_unit_id: week.id })
-          .distinct
-          .count(:person_id)
-        Study.new(week:, quiz:, run:, progress:, players:)
-      end
-
-      def progress_nodes(packs, focus_index)
-        return [] if packs.empty?
-
-        size = [ 4, packs.size ].min
-        start = [ [ focus_index - 2, 0 ].max, packs.size - size ].min
-        packs.slice(start, size).map.with_index(start) do |pack_view, index|
-          focus = index == focus_index
-          state = if focus
-            :current
-          elsif index < focus_index || pack_view.state == :finished
-            :finished
-          else
-            :locked
-          end
-          ProgressNode.new(
-            title: pack_view.pack.copy(:title),
-            still: still_src(pack_view.pack),
-            state:,
-            focus:
-          )
-        end
-      end
-
-      def build_community
-        Community.new(
-          players_this_month: pulse.players,
-          questions: pulse.questions,
-          wards: pulse.wards
-        )
-      end
-
-      def pulse
-        @pulse ||= Platform::Pulse.call
       end
   end
 end

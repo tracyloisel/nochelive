@@ -103,6 +103,14 @@ export default class extends Controller {
 
   onKey(event) {
     if (event.key !== "Escape") return
+    const audiencePicker = this.readerVeil()?.querySelector("details[data-circle-author-visibility][open]")
+    if (audiencePicker) {
+      event.preventDefault()
+      event.stopImmediatePropagation()
+      audiencePicker.open = false
+      audiencePicker.querySelector("summary")?.focus({ preventScroll: true })
+      return
+    }
     if (this.hasShareDialogTarget && this.shareDialogTarget.open) {
       event.preventDefault()
       this.closeShare()

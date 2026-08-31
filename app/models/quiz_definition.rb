@@ -9,6 +9,7 @@ class QuizDefinition
   CURVE_INTENSITY = [ 1, 1, 2, 2, 2, 3, 3, 4, 4, 5 ].freeze
   CATALOG_ID = "libre"
   CATALOG_FILES = %w[libre parabolas improbables].freeze
+  AUXILIARY_CATALOG_FILES = %w[expedition_psalms_2026].freeze
   STUDY_PREFIXES = {
     "bible" => %w[ot/ nt/],
     "bom" => %w[bofm/],
@@ -54,7 +55,7 @@ class QuizDefinition
     end
   end
 
-  Pack = Struct.new(:id, :title, :kicker, :lede, :questions, keyword_init: true) do
+  Pack = Struct.new(:id, :title, :kicker, :lede, :questions, :readings, keyword_init: true) do
     def copy(field)
       I18n.t("quizzes.#{id}.#{field}", default: public_send(field))
     end
@@ -79,7 +80,11 @@ class QuizDefinition
 
         Array(YAML.safe_load_file(path)["packs"])
       end
-      return new("packs" => packs)
+      auxiliary_packs = AUXILIARY_CATALOG_FILES.flat_map do |catalog_id|
+        path = Rails.root.join("config/quizzes/#{catalog_id}.yml")
+        path.exist? ? Array(YAML.safe_load_file(path)["packs"]) : []
+      end
+      return new({ "packs" => packs }, auxiliary_data: { "packs" => auxiliary_packs })
     end
 
     path = Rails.root.join("config/quizzes/#{id}.yml")
@@ -92,9 +97,10 @@ class QuizDefinition
     @catalog = nil
   end
 
-  def initialize(data)
+  def initialize(data, auxiliary_data: { "packs" => [] })
     validate!(data)
     @packs = Array(data["packs"]).map { |row| build_pack(row) }
+    @auxiliary_packs = build_auxiliary_packs(auxiliary_data, @packs.flat_map { |pack| pack.questions.map(&:id) })
   end
 
   def pack_ids
@@ -102,7 +108,7 @@ class QuizDefinition
   end
 
   def find_pack(id)
-    packs.find { |pack| pack.id == id } || raise(Error, "Unknown pack #{id}")
+    (packs + @auxiliary_packs).find { |pack| pack.id == id } || raise(Error, "Unknown pack #{id}")
   end
 
   def find_question(pack_id, question_id)
@@ -116,6 +122,15 @@ class QuizDefinition
 
   private
 
+  def build_auxiliary_packs(data, question_ids)
+    rows = Array(data["packs"])
+    pack_ids = packs.map(&:id) + rows.map { |row| row["id"].to_s }
+    raise Error, "duplicate pack ids" unless pack_ids.uniq.size == pack_ids.size
+
+    rows.each { |row| validate_pack!(row, question_ids, strict_image_path: false) }
+    rows.map { |row| build_pack(row) }
+  end
+
   def build_pack(row)
     pack_id = row.fetch("id")
     questions = Array(row["questions"]).each_with_index.map do |question, index|
@@ -126,7 +141,10 @@ class QuizDefinition
       title: row.fetch("title"),
       kicker: row.fetch("kicker").to_s,
       lede: row.fetch("lede").to_s,
-      questions: questions
+      questions: questions,
+      readings: Array(row["readings"]).map do |reading|
+        { "study" => reading.fetch("study").to_s, "cite" => reading.fetch("cite").to_s }
+      end
     )
   end
 
@@ -178,12 +196,9 @@ class QuizDefinition
       validate_pack!(pack, question_ids)
     end
 
-    night_ids = GameDefinition.default.rounds.map(&:id)
-    overlap = question_ids & night_ids
-    raise Error, "question ids overlap night rounds: #{overlap.join(', ')}" if overlap.any?
   end
 
-  def validate_pack!(pack, question_ids)
+  def validate_pack!(pack, question_ids, strict_image_path: true)
     pack_id = pack["id"].to_s
     raise Error, "pack #{pack_id} missing title" if pack["title"].to_s.strip.blank?
     raise Error, "pack #{pack_id} missing kicker" if pack["kicker"].to_s.strip.blank?
@@ -210,12 +225,12 @@ class QuizDefinition
     raise Error, "pack #{pack_id} slam too small" if slam_points < first_points * 3
 
     questions.each_with_index do |row, index|
-      validate_question!(row, pack_id, index + 1)
+      validate_question!(row, pack_id, index + 1, strict_image_path:)
       question_ids << row["id"].to_s
     end
   end
 
-  def validate_question!(row, pack_id, position)
+  def validate_question!(row, pack_id, position, strict_image_path: true)
     qid = row["id"].to_s.presence || "#{pack_id}##{position}"
     raise Error, "#{qid} missing question" if row["question"].to_s.strip.blank?
     raise Error, "#{qid} missing answer" if row["answer"].to_s.strip.blank?
@@ -245,6 +260,9 @@ class QuizDefinition
     raise Error, "#{qid} bad study path #{study}" unless prefixes.any? { |prefix| study.start_with?(prefix) }
 
     image = row.dig("presentation", "image").to_s
+    raise Error, "#{qid} missing image" if image.blank?
+    return unless strict_image_path
+
     expected = "quizzes/#{pack_id}/#{row['id']}.jpg"
     raise Error, "#{qid} image must be #{expected}" unless image == expected
   end

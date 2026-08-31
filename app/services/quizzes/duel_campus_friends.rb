@@ -69,7 +69,7 @@ module Quizzes
       end
 
       def latest_open_runs(ids)
-        QuizRun.open_runs.where(person_id: ids).order(id: :desc).each_with_object({}) do |run, rows|
+        QuizRun.street.open_runs.where(person_id: ids).order(id: :desc).each_with_object({}) do |run, rows|
           rows[run.person_id] ||= run
         end
       end

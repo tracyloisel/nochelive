@@ -1,7 +1,7 @@
 require "test_helper"
 
 class FichasControllerTest < ActionDispatch::IntegrationTest
-  test "ward presenter lists fichas and can read the year" do
+  test "ward admin lists fichas and can read the year" do
     sign_in_ward
     get ward_fichas_path
     assert_response :success
@@ -23,7 +23,7 @@ class FichasControllerTest < ActionDispatch::IntegrationTest
                   ward_ficha_merge_path(people(:carmen_garcia)), people(:carmen_lopez).id.to_s
   end
 
-  test "ward presenter edits and merges fichas" do
+  test "ward admin edits and merges fichas" do
     sign_in_ward
     patch ward_ficha_path(people(:pili)), params: {
       given_name: "Pilar",
@@ -42,7 +42,7 @@ class FichasControllerTest < ActionDispatch::IntegrationTest
     assert_not Person.exists?(source.id)
   end
 
-  test "ward presenter cannot merge people with different names" do
+  test "ward admin cannot merge people with different names" do
     sign_in_ward
 
     assert_no_difference("Person.count") do
@@ -53,7 +53,7 @@ class FichasControllerTest < ActionDispatch::IntegrationTest
     assert Person.exists?(people(:pili).id)
   end
 
-  test "ward presenter merge keeps the oldest card even when opening the newer one" do
+  test "ward admin merge keeps the oldest card even when opening the newer one" do
     sign_in_ward
     oldest = people(:carmen_garcia)
     newer = people(:carmen_lopez)

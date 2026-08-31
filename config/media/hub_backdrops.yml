@@ -1,8 +1,9 @@
 # Curated artwork composed specifically for the Hub. These wide environmental
 # scenes leave a quiet central field for Home chrome; quiz stills stay in their
-# own catalog and must not be reused here. The Home draws a new backdrop on each
-# visit (without immediately repeating it); every backdrop carries its own theme.
-# Other callers may still match tags or use the deterministic weekly fallback.
+# own catalog and must not be reused here. The Hub resolves the scene from the
+# active question's artwork manifest, so its Light/Dark atmosphere never changes
+# into an unrelated wallpaper on refresh. Other callers may still use the
+# deterministic weekly fallback.
 backdrops:
   - id: moises-mer-rouge
     image: home/moises-mer-rouge.jpg
@@ -20,10 +21,28 @@ backdrops:
       accent: gold
   - id: coronas-ungido
     image: home/coronas-reino.jpg
+    hero: hub.hero.salt-lake-temple-night
     tags: [coronas, reyes_y_profetas, kings_and_prophets, reyes, profetas, dramatic]
     theme:
       mode: dark
       atmosphere: solemn
+      accent: gold
+  - id: salt-lake-temple-dawn
+    image: media/hub/noche-hub-salt-lake-temple-light-landscape-v1.png
+    hero: hub.hero.salt-lake-temple-dawn
+    default_for_mode: true
+    tags: [coronas, reyes_y_profetas, kings_and_prophets, reyes, profetas, peaceful, royal_light]
+    theme:
+      mode: light
+      atmosphere: glorious
+      accent: gold
+  - id: royal-jerusalem-dawn
+    image: home/royal-jerusalem-dawn-v1.png
+    hero: media/hub/light/royal-jerusalem-hero-v1.png
+    tags: [coronas, peaceful, royal_light]
+    theme:
+      mode: light
+      atmosphere: peaceful
       accent: gold
   - id: nazareno-belen
     image: home/nazareno-belen.jpg

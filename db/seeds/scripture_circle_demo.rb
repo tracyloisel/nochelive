@@ -6,6 +6,7 @@ module Seeds
   class ScriptureCircleDemo
     REFERENCE = "ot/ps/52"
     LOCALE = "fr"
+    SHOWCASE_MARKER_PREFIX = "scripture-circle-showcase-v1:"
 
     def initialize(target:, now: Time.current.change(usec: 0), environment: Rails.env)
       @target = target
@@ -22,12 +23,12 @@ module Seeds
       ApplicationRecord.transaction do
         @ward.update!(scripture_circle_mode: "active")
         @people = seed_people
-        @thread = @ward.scripture_circle_threads.find_or_initialize_by(reference: REFERENCE)
-        count_record(@thread, :threads)
-        @thread.save!
+        @threads = {}
+        @thread = thread_for(REFERENCE)
         seed_guide
         seed_reader_history
         seed_posts
+        seed_showcase_posts
       end
 
       {
@@ -35,6 +36,7 @@ module Seeds
         ward: @ward,
         thread: @thread,
         posts: @thread.scripture_circle_posts.count,
+        showcase_posts: @ward.scripture_circle_posts.where("selected_text LIKE ?", "#{SHOWCASE_MARKER_PREFIX}%").count,
         open_votes: @thread.scripture_circle_posts.joins(:scripture_circle_moderation_proposals)
           .merge(ScriptureCircleModerationProposal.open).distinct.count,
         created: @created,
@@ -195,31 +197,111 @@ module Seeds
         seed_resolved_vote(resolved)
       end
 
-      def seed_post(seed_key:, person:, kind:, verse:, body:, age:, parent: nil)
-        marker = "scripture-reader-demo-v1:#{seed_key}"
-        post = @thread.scripture_circle_posts.find_by(selected_text: marker)
-        post ||= @thread.scripture_circle_posts.find_by(
+      def seed_showcase_posts
+        seed_post(
+          seed_key: "psalm-open-question", person: @people.fetch(:carmen), kind: "question", verse: 8, age: 54.minutes,
+          body: "Comment garder confiance quand une parole reçue continue de tourner dans mon cœur ?",
+          marker_prefix: SHOWCASE_MARKER_PREFIX
+        )
+        seed_post(
+          seed_key: "alma-anonymous-question", person: @people.fetch(:ingrid), kind: "question", verse: 26, age: 48.minutes,
+          body: "Comment faire grandir une petite foi quand je ne ressens presque rien aujourd’hui ?",
+          reference: "bofm/alma/32", author_visibility: "anonymous_to_ward", marker_prefix: SHOWCASE_MARKER_PREFIX
+        )
+        seed_post(
+          seed_key: "mosiah-open-question", person: @people.fetch(:noe), kind: "question", verse: 17, age: 42.minutes,
+          body: "Comment servir simplement sans attendre de reconnaissance en retour ?",
+          reference: "bofm/mosiah/2", marker_prefix: SHOWCASE_MARKER_PREFIX
+        )
+
+        alma_question = seed_post(
+          seed_key: "alma-question-with-tracy", person: @people.fetch(:david), kind: "question", verse: 28, age: 5.hours,
+          body: "Quelle pratique vous aide à nourrir votre foi quand la semaine est chargée ?",
+          reference: "bofm/alma/32", marker_prefix: SHOWCASE_MARKER_PREFIX
+        )
+        seed_post(
+          seed_key: "alma-tracy-reply", person: @target, kind: "reply", verse: 28, age: 4.hours, parent: alma_question,
+          body: "Je relis un court passage le matin et je note une phrase à porter avec moi pendant la journée.",
+          reference: "bofm/alma/32", marker_prefix: SHOWCASE_MARKER_PREFIX
+        )
+
+        tracy_reflection = seed_post(
+          seed_key: "psalm-tracy-reflection", person: @target, kind: "reflection", verse: 8, age: 8.hours,
+          body: "L’image de l’olivier me rappelle que la fidélité se construit en profondeur, même dans les saisons discrètes.",
+          marker_prefix: SHOWCASE_MARKER_PREFIX
+        )
+        reflection_reply = seed_post(
+          seed_key: "psalm-reflection-reply", person: @people.fetch(:carmen), kind: "reply", verse: 8, age: 7.hours, parent: tracy_reflection,
+          body: "Merci, cette image m’aide à regarder les petits gestes de foi avec plus de patience.",
+          marker_prefix: SHOWCASE_MARKER_PREFIX
+        )
+        seed_post(
+          seed_key: "psalm-tracy-nested-reply", person: @target, kind: "reply", verse: 8, age: 6.hours, parent: reflection_reply,
+          body: "Je le ressens aussi : nous pouvons nous encourager à voir ce qui grandit déjà.",
+          marker_prefix: SHOWCASE_MARKER_PREFIX
+        )
+
+        nephi_question = seed_post(
+          seed_key: "nephi-tracy-anonymous-question", person: @target, kind: "question", verse: 25, age: 3.hours,
+          body: "Comment accueillir la grâce de Jésus-Christ quand je me sens encore loin de ce que j’espère devenir ?",
+          reference: "bofm/2-ne/2", author_visibility: "anonymous_to_ward", marker_prefix: SHOWCASE_MARKER_PREFIX
+        )
+        seed_post(
+          seed_key: "nephi-answer", person: @people.fetch(:sophie), kind: "reply", verse: 25, age: 2.hours, parent: nephi_question,
+          body: "Pour moi, revenir à lui chaque jour compte davantage que mesurer la distance restante.",
+          reference: "bofm/2-ne/2", marker_prefix: SHOWCASE_MARKER_PREFIX
+        )
+        seed_post(
+          seed_key: "alma-seven-reflection", person: @people.fetch(:noe), kind: "reflection", verse: 11, age: 90.minutes,
+          body: "Je trouve de la consolation dans l’idée que le Sauveur comprend nos douleurs avec une proximité réelle.",
+          reference: "bofm/alma/7", marker_prefix: SHOWCASE_MARKER_PREFIX
+        )
+      end
+
+      def seed_post(seed_key:, person:, kind:, verse:, body:, age:, parent: nil, reference: REFERENCE, author_visibility: "named", marker_prefix: "scripture-reader-demo-v1:")
+        thread = parent&.scripture_circle_thread || thread_for(reference)
+        marker = "#{marker_prefix}#{seed_key}"
+        post = thread.scripture_circle_posts.find_by(selected_text: marker)
+        # This deliberately preserves the historical reply below the
+        # author-deleted demo root. Re-saving it would correctly fail the
+        # current parent-visibility validation, even though it is only kept
+        # to verify that hidden conversations stay out of the Circle index.
+        if post&.persisted? && parent&.status != "visible"
+          count_record(post, :posts)
+          return post
+        end
+        post ||= thread.scripture_circle_posts.find_by(
           person:, kind:, start_verse: verse, end_verse: verse, parent:, selected_text: "Psaume 52:#{verse}"
         )
-        post ||= @thread.scripture_circle_posts.build
+        post ||= thread.scripture_circle_posts.build
         count_record(post, :posts)
         was_new = post.new_record?
         post.assign_attributes(
           ward: @ward, person:, kind:, parent:, start_verse: verse, end_verse: verse,
           locale: LOCALE,
           body:,
-          selected_text: marker
+          selected_text: marker,
+          author_visibility:
         )
         post.save!
         post.update_columns(created_at: @now - age, updated_at: @now - age) if was_new
         post
       end
 
+      def thread_for(reference)
+        @threads[reference] ||= begin
+          thread = @ward.scripture_circle_threads.find_or_initialize_by(reference:)
+          count_record(thread, :threads)
+          thread.save!
+          thread
+        end
+      end
+
       def seed_open_vote(post)
         proposal = post.scripture_circle_moderation_proposals.open.first
-        proposal ||= ScriptureCircles::Moderations::Propose.call(
-          person: @people.fetch(:sophie),
-          post_id: post.id,
+        proposal ||= report_until_vote(
+          post,
+          reporters: [ @people.fetch(:sophie), @people.fetch(:david), @people.fetch(:ingrid) ],
           reason_key: "uncharitable",
           reason_details: "Le ton paraît incompatible avec une conversation fraternelle.",
           at: @now - 6.hours
@@ -235,9 +317,9 @@ module Seeds
         proposal = post.scripture_circle_moderation_proposals.order(:id).last
         return proposal if proposal&.status.in?(%w[censored kept])
 
-        proposal ||= ScriptureCircles::Moderations::Propose.call(
-          person: @target,
-          post_id: post.id,
+        proposal ||= report_until_vote(
+          post,
+          reporters: [ @target, @people.fetch(:david), @people.fetch(:sophie) ],
           reason_key: "personal_attack",
           at: @now - 3.days
         )
@@ -246,6 +328,17 @@ module Seeds
         cast_once(proposal, @people.fetch(:sophie), "yes", at: @now - 58.hours)
         cast_once(proposal, @people.fetch(:ingrid), "no", at: @now - 57.hours)
         ScriptureCircles::Moderations::ResolveDue.resolve_one(proposal, at: @now)
+      end
+
+      def report_until_vote(post, reporters:, reason_key:, reason_details: nil, at:)
+        reporters.each do |person|
+          result = ScriptureCircles::Moderations::Report.call(
+            person:, post_id: post.id, reason_key:, reason_details:, at:
+          )
+          return result.proposal if result.opened
+        end
+
+        post.scripture_circle_moderation_proposals.open.first!
       end
 
       def cast_once(proposal, person, choice, at:)
@@ -280,11 +373,11 @@ unless ENV["SCRIPTURE_CIRCLE_DEMO_DEFINITION_ONLY"] == "1"
   base = "http://127.0.0.1:#{port}/escrituras/#{Seeds::ScriptureCircleDemo::REFERENCE}"
   puts <<~MESSAGE
     Scripture Reader demo ready for #{result.fetch(:target).display_name} (##{result.fetch(:target).id})
-    ward=#{result.fetch(:ward).name} posts=#{result.fetch(:posts)} open_votes=#{result.fetch(:open_votes)}
+    ward=#{result.fetch(:ward).name} posts=#{result.fetch(:posts)} showcase_posts=#{result.fetch(:showcase_posts)} open_votes=#{result.fetch(:open_votes)}
     created=#{result.fetch(:created).sort.to_h.inspect}
     reused=#{result.fetch(:reused).sort.to_h.inspect}
     Reader:  #{base}
-    Circle:  #{base}?circle=1
+    Circle:  http://127.0.0.1:#{port}/escrituras/cercle
     Profile: http://127.0.0.1:#{port}/jugadores/#{result.fetch(:target).id}/perfil/publicaciones-del-circulo
   MESSAGE
 end

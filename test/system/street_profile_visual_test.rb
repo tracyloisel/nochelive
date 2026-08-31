@@ -79,7 +79,7 @@ class StreetProfileVisualTest < ApplicationSystemTestCase
 
     assert_current_path study_history_path
     assert_selector "body.is-study-history"
-    assert_selector "a.navigation-dock__item.is-active[aria-current='page'][href='#{study_program_path}']"
+    assert_selector "a.navigation-dock__item.is-active[aria-current='page'][href='#{scripture_library_path}']"
   end
 
   test "personal answer history stays readable and private across viewports" do

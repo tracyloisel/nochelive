@@ -10,87 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_30_141000) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_30_220000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
-
-  create_table "answers", force: :cascade do |t|
-    t.string "body", null: false
-    t.datetime "created_at", null: false
-    t.bigint "player_id", null: false
-    t.bigint "round_run_id", null: false
-    t.bigint "team_id", null: false
-    t.datetime "updated_at", null: false
-    t.index ["player_id"], name: "index_answers_on_player_id"
-    t.index ["round_run_id", "team_id"], name: "index_answers_on_round_run_id_and_team_id", unique: true
-    t.index ["round_run_id"], name: "index_answers_on_round_run_id"
-    t.index ["team_id"], name: "index_answers_on_team_id"
-  end
-
-  create_table "audience_reactions", force: :cascade do |t|
-    t.string "audience_digest", null: false
-    t.datetime "created_at", null: false
-    t.string "mark", null: false
-    t.bigint "round_run_id", null: false
-    t.datetime "updated_at", null: false
-    t.index ["round_run_id", "audience_digest", "created_at"], name: "index_audience_reactions_on_round_audience_time"
-    t.index ["round_run_id"], name: "index_audience_reactions_on_round_run_id"
-  end
-
-  create_table "audience_responses", force: :cascade do |t|
-    t.datetime "answered_at", null: false
-    t.string "audience_digest", null: false
-    t.string "choice", null: false
-    t.datetime "created_at", null: false
-    t.bigint "round_run_id", null: false
-    t.datetime "updated_at", null: false
-    t.index ["round_run_id", "audience_digest"], name: "index_audience_responses_on_round_run_id_and_audience_digest", unique: true
-    t.index ["round_run_id"], name: "index_audience_responses_on_round_run_id"
-  end
-
-  create_table "ballots", force: :cascade do |t|
-    t.bigint "choice_team_id", null: false
-    t.datetime "created_at", null: false
-    t.bigint "player_id", null: false
-    t.bigint "round_run_id", null: false
-    t.bigint "team_id", null: false
-    t.datetime "updated_at", null: false
-    t.index ["choice_team_id"], name: "index_ballots_on_choice_team_id"
-    t.index ["player_id"], name: "index_ballots_on_player_id"
-    t.index ["round_run_id", "player_id"], name: "index_ballots_on_round_run_id_and_player_id", unique: true
-    t.index ["round_run_id"], name: "index_ballots_on_round_run_id"
-    t.index ["team_id"], name: "index_ballots_on_team_id"
-  end
-
-  create_table "buzzes", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.integer "latency_ms", default: 0, null: false
-    t.bigint "player_id", null: false
-    t.integer "position", null: false
-    t.bigint "round_run_id", null: false
-    t.bigint "team_id", null: false
-    t.datetime "updated_at", null: false
-    t.index ["player_id"], name: "index_buzzes_on_player_id"
-    t.index ["round_run_id", "position"], name: "index_buzzes_on_round_run_id_and_position", unique: true
-    t.index ["round_run_id", "team_id"], name: "index_buzzes_on_round_run_id_and_team_id", unique: true
-    t.index ["round_run_id"], name: "index_buzzes_on_round_run_id"
-    t.index ["team_id"], name: "index_buzzes_on_team_id"
-  end
-
-  create_table "cheers", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.integer "layer_index", null: false
-    t.string "mark", default: "fire", null: false
-    t.bigint "player_id", null: false
-    t.bigint "round_run_id", null: false
-    t.bigint "to_player_id", null: false
-    t.datetime "updated_at", null: false
-    t.index ["player_id"], name: "index_cheers_on_player_id"
-    t.index ["round_run_id", "player_id", "layer_index"], name: "index_cheers_on_round_player_layer", unique: true
-    t.index ["round_run_id"], name: "index_cheers_on_round_run_id"
-    t.index ["to_player_id"], name: "index_cheers_on_to_player_id"
-  end
 
   create_table "duel_invitations", force: :cascade do |t|
     t.bigint "acquisition_parent_invitation_id"
@@ -132,25 +55,20 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_30_141000) do
   end
 
   create_table "game_sessions", force: :cascade do |t|
-    t.integer "broadcast_delay_ms", default: 0, null: false
+    t.datetime "cancelled_at"
+    t.datetime "closed_at"
     t.string "code", null: false
     t.datetime "created_at", null: false
-    t.string "poster_path"
-    t.string "presenter_device_digest"
-    t.string "presenter_locale", default: "es", null: false
-    t.string "presenter_token_digest", null: false
-    t.string "public_token", null: false
-    t.datetime "season_applied_at"
+    t.datetime "ends_at", null: false
+    t.jsonb "quiz_pack_ids", default: [], null: false
     t.datetime "starts_at", null: false
     t.string "status", default: "lobby", null: false
-    t.string "theme_id", null: false
-    t.string "theme_title", null: false
     t.datetime "updated_at", null: false
     t.bigint "ward_id", null: false
-    t.index ["code"], name: "index_game_sessions_active_code", unique: true, where: "((status)::text <> 'finished'::text)"
+    t.index ["code"], name: "index_game_sessions_active_code", unique: true, where: "((status)::text <> ALL ((ARRAY['finished'::character varying, 'cancelled'::character varying])::text[]))"
     t.index ["code"], name: "index_game_sessions_on_code"
-    t.index ["public_token"], name: "index_game_sessions_on_public_token", unique: true
     t.index ["starts_at"], name: "index_game_sessions_on_starts_at"
+    t.index ["status", "starts_at", "ends_at"], name: "index_nights_on_lifecycle"
     t.index ["ward_id", "status", "starts_at", "id"], name: "index_game_sessions_on_ward_schedule"
     t.index ["ward_id"], name: "index_game_sessions_on_ward_id"
   end
@@ -165,12 +83,17 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_30_141000) do
     t.index ["token_digest"], name: "index_identity_transfers_on_token_digest", unique: true
   end
 
-  create_table "missionaries", force: :cascade do |t|
+  create_table "live_events", force: :cascade do |t|
     t.datetime "created_at", null: false
+    t.string "dedupe_key", null: false
     t.bigint "game_session_id", null: false
-    t.string "name", null: false
+    t.string "kind", null: false
+    t.datetime "occurred_at", null: false
+    t.jsonb "payload", default: {}, null: false
     t.datetime "updated_at", null: false
-    t.index ["game_session_id"], name: "index_missionaries_on_game_session_id"
+    t.index ["game_session_id", "dedupe_key"], name: "index_live_events_on_game_session_id_and_dedupe_key", unique: true
+    t.index ["game_session_id", "occurred_at", "id"], name: "index_live_events_on_timeline"
+    t.index ["game_session_id"], name: "index_live_events_on_game_session_id"
   end
 
   create_table "notification_deliveries", force: :cascade do |t|
@@ -281,53 +204,14 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_30_141000) do
     t.bigint "game_session_id", null: false
     t.datetime "last_seen_at"
     t.string "locale", default: "es", null: false
-    t.string "location", default: "room", null: false
     t.string "name", null: false
     t.bigint "person_id"
-    t.string "role", default: "participant", null: false
     t.datetime "updated_at", null: false
     t.index ["game_session_id", "client_token"], name: "index_players_on_game_session_id_and_client_token", unique: true
     t.index ["game_session_id", "person_id"], name: "index_players_on_game_session_id_and_person_id", unique: true, where: "(person_id IS NOT NULL)"
     t.index ["game_session_id"], name: "index_players_on_game_session_id"
     t.index ["last_seen_at"], name: "index_players_on_last_seen_at"
     t.index ["person_id"], name: "index_players_on_person_id"
-  end
-
-  create_table "pose_holds", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.boolean "finished", default: false, null: false
-    t.integer "held_ms", default: 0, null: false
-    t.bigint "player_id", null: false
-    t.bigint "round_run_id", null: false
-    t.bigint "team_id", null: false
-    t.datetime "updated_at", null: false
-    t.index ["player_id"], name: "index_pose_holds_on_player_id"
-    t.index ["round_run_id", "team_id"], name: "index_pose_holds_on_round_run_id_and_team_id", unique: true
-    t.index ["round_run_id"], name: "index_pose_holds_on_round_run_id"
-    t.index ["team_id"], name: "index_pose_holds_on_team_id"
-  end
-
-  create_table "presenter_blocks", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.string "device_digest", null: false
-    t.bigint "game_session_id", null: false
-    t.datetime "updated_at", null: false
-    t.index ["game_session_id", "device_digest"], name: "index_presenter_blocks_on_game_session_id_and_device_digest", unique: true
-    t.index ["game_session_id"], name: "index_presenter_blocks_on_game_session_id"
-  end
-
-  create_table "presenter_claims", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.string "device_digest", null: false
-    t.datetime "expires_at", null: false
-    t.bigint "game_session_id", null: false
-    t.string "name", null: false
-    t.datetime "resolved_at"
-    t.string "status", default: "pending", null: false
-    t.datetime "updated_at", null: false
-    t.index ["game_session_id", "device_digest"], name: "index_presenter_claims_on_game_session_id_and_device_digest"
-    t.index ["game_session_id"], name: "index_presenter_claims_on_game_session_id"
-    t.index ["game_session_id"], name: "index_presenter_claims_one_pending", unique: true, where: "((status)::text = 'pending'::text)"
   end
 
   create_table "quiz_answers", force: :cascade do |t|
@@ -359,20 +243,31 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_30_141000) do
     t.datetime "created_at", null: false
     t.string "device_digest", null: false
     t.datetime "ends_at"
+    t.datetime "expired_at"
     t.integer "fire_bonus", default: 0, null: false
     t.integer "fire_count", default: 0, null: false
+    t.bigint "game_session_id"
+    t.integer "live_sequence_position"
     t.datetime "opened_at", null: false
     t.string "pack_id", null: false
     t.bigint "person_id"
+    t.bigint "player_id"
     t.integer "position", default: 1, null: false
     t.integer "score", default: 0, null: false
     t.string "status", default: "open", null: false
+    t.bigint "team_id"
     t.datetime "updated_at", null: false
     t.index ["device_digest", "person_id", "status"], name: "index_quiz_runs_on_device_person_status"
     t.index ["device_digest", "status"], name: "index_quiz_runs_on_device_digest_and_status"
     t.index ["device_digest"], name: "index_quiz_runs_on_device_digest"
+    t.index ["game_session_id", "player_id", "live_sequence_position"], name: "index_quiz_runs_on_live_sequence", unique: true, where: "(game_session_id IS NOT NULL)"
+    t.index ["game_session_id", "status"], name: "index_quiz_runs_on_night_status"
+    t.index ["game_session_id", "team_id"], name: "index_quiz_runs_on_night_team"
+    t.index ["game_session_id"], name: "index_quiz_runs_on_game_session_id"
     t.index ["person_id", "pack_id", "score"], name: "index_quiz_runs_on_finished_scores", order: { score: :desc }, where: "((status)::text = 'finished'::text)"
     t.index ["person_id"], name: "index_quiz_runs_on_person_id"
+    t.index ["player_id"], name: "index_quiz_runs_on_player_id"
+    t.index ["team_id"], name: "index_quiz_runs_on_team_id"
   end
 
   create_table "reading_progresses", force: :cascade do |t|
@@ -386,49 +281,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_30_141000) do
     t.index ["person_id", "study_unit_id", "reference"], name: "index_reading_progress_on_person_unit_reference", unique: true
     t.index ["person_id"], name: "index_reading_progresses_on_person_id"
     t.index ["study_unit_id"], name: "index_reading_progresses_on_study_unit_id"
-  end
-
-  create_table "reward_grants", force: :cascade do |t|
-    t.string "chest_key", null: false
-    t.datetime "created_at", null: false
-    t.string "reward_key"
-    t.string "state", default: "ready", null: false
-    t.bigint "team_id", null: false
-    t.datetime "updated_at", null: false
-    t.index ["team_id", "chest_key"], name: "index_reward_grants_on_team_id_and_chest_key", unique: true
-    t.index ["team_id"], name: "index_reward_grants_on_team_id"
-  end
-
-  create_table "round_runs", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.bigint "game_session_id", null: false
-    t.integer "layer_index", default: 0, null: false
-    t.datetime "locked_at"
-    t.datetime "opened_at"
-    t.string "phase", default: "pending", null: false
-    t.integer "position", null: false
-    t.datetime "revealed_at"
-    t.datetime "updated_at", null: false
-    t.string "yaml_round_id", null: false
-    t.index ["game_session_id", "position"], name: "index_round_runs_on_game_session_id_and_position", unique: true
-    t.index ["game_session_id", "yaml_round_id"], name: "index_round_runs_on_game_session_id_and_yaml_round_id", unique: true
-    t.index ["game_session_id"], name: "index_round_runs_on_game_session_id"
-  end
-
-  create_table "score_events", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.bigint "game_session_id", null: false
-    t.string "kind", null: false
-    t.integer "points", default: 0, null: false
-    t.string "reason", null: false
-    t.bigint "round_run_id"
-    t.bigint "team_id", null: false
-    t.datetime "updated_at", null: false
-    t.integer "xp", default: 0, null: false
-    t.index ["game_session_id"], name: "index_score_events_on_game_session_id"
-    t.index ["round_run_id", "team_id", "kind"], name: "index_score_events_unique_round_kind", unique: true, where: "((round_run_id IS NOT NULL) AND ((kind)::text = ANY ((ARRAY['correct'::character varying, 'fastest_buzz'::character varying, 'rapid_tap'::character varying, 'participation'::character varying])::text[])))"
-    t.index ["round_run_id"], name: "index_score_events_on_round_run_id"
-    t.index ["team_id"], name: "index_score_events_on_team_id"
   end
 
   create_table "scripture_chapter_guides", force: :cascade do |t|
@@ -476,6 +328,20 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_30_141000) do
     t.datetime "updated_at", null: false
     t.index ["reads_count", "reference"], name: "index_scripture_chapter_stats_on_reads_count_and_reference"
     t.index ["reference"], name: "index_scripture_chapter_stats_on_reference", unique: true
+  end
+
+  create_table "scripture_circle_conversation_votes", force: :cascade do |t|
+    t.bigint "conversation_root_id", null: false
+    t.datetime "created_at", null: false
+    t.string "direction", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "voter_person_id", null: false
+    t.bigint "ward_id", null: false
+    t.index ["conversation_root_id", "voter_person_id"], name: "index_circle_conversation_votes_unique", unique: true
+    t.index ["voter_person_id"], name: "index_circle_conversation_votes_on_voter"
+    t.index ["ward_id", "conversation_root_id"], name: "index_circle_conversation_votes_for_ranking"
+    t.index ["ward_id"], name: "index_scripture_circle_conversation_votes_on_ward_id"
+    t.check_constraint "direction::text = ANY (ARRAY['up'::character varying, 'down'::character varying]::text[])", name: "scripture_circle_conversation_votes_direction"
   end
 
   create_table "scripture_circle_moderation_ballot_revisions", force: :cascade do |t|
@@ -550,8 +416,25 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_30_141000) do
     t.check_constraint "yes_count >= 0 AND no_count >= 0 AND valid_ballot_count >= 0", name: "scripture_circle_proposals_nonnegative_counts"
   end
 
+  create_table "scripture_circle_moderation_reports", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "reason_details"
+    t.string "reason_key", null: false
+    t.bigint "reporter_person_id", null: false
+    t.bigint "scripture_circle_post_id", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "ward_id", null: false
+    t.index ["reporter_person_id"], name: "index_scripture_circle_reports_on_reporter_id"
+    t.index ["scripture_circle_post_id", "reporter_person_id"], name: "index_scripture_circle_reports_unique", unique: true
+    t.index ["scripture_circle_post_id"], name: "index_scripture_circle_reports_on_post_id"
+    t.index ["ward_id", "scripture_circle_post_id"], name: "index_scripture_circle_reports_on_ward_and_post"
+    t.index ["ward_id"], name: "index_scripture_circle_moderation_reports_on_ward_id"
+    t.check_constraint "reason_details IS NULL OR char_length(reason_details::text) <= 240", name: "scripture_circle_reports_reason_length"
+  end
+
   create_table "scripture_circle_post_revisions", force: :cascade do |t|
     t.boolean "anonymous", default: true, null: false
+    t.string "author_visibility", default: "named", null: false
     t.text "body", null: false
     t.string "change_kind", null: false
     t.string "content_digest", null: false
@@ -566,12 +449,29 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_30_141000) do
     t.index ["scripture_circle_post_id", "revision_number"], name: "index_scripture_circle_revisions_unique", unique: true
     t.index ["scripture_circle_post_id"], name: "index_scripture_circle_revisions_on_post_id"
     t.index ["ward_id"], name: "index_scripture_circle_post_revisions_on_ward_id"
+    t.check_constraint "author_visibility::text = ANY (ARRAY['named'::character varying, 'anonymous_to_ward'::character varying]::text[])", name: "scripture_circle_revisions_author_visibility"
     t.check_constraint "char_length(body) >= 1 AND char_length(body) <= 500", name: "scripture_circle_revisions_body_length"
+  end
+
+  create_table "scripture_circle_post_votes", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "direction", null: false
+    t.bigint "scripture_circle_post_id", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "voter_person_id", null: false
+    t.bigint "ward_id", null: false
+    t.index ["scripture_circle_post_id", "voter_person_id"], name: "index_circle_post_votes_unique", unique: true
+    t.index ["voter_person_id"], name: "index_circle_post_votes_on_voter"
+    t.index ["ward_id", "scripture_circle_post_id"], name: "index_circle_post_votes_for_scoring"
+    t.index ["ward_id"], name: "index_scripture_circle_post_votes_on_ward_id"
+    t.check_constraint "direction::text = ANY (ARRAY['up'::character varying, 'down'::character varying]::text[])", name: "scripture_circle_post_votes_direction"
   end
 
   create_table "scripture_circle_posts", force: :cascade do |t|
     t.boolean "anonymous", default: true, null: false
+    t.string "author_visibility", default: "named", null: false
     t.text "body", null: false
+    t.bigint "conversation_root_id"
     t.datetime "created_at", null: false
     t.datetime "deleted_at"
     t.datetime "edited_at"
@@ -582,18 +482,24 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_30_141000) do
     t.bigint "person_id"
     t.bigint "scripture_circle_thread_id", null: false
     t.text "selected_text"
+    t.string "selected_verses"
     t.integer "start_verse"
     t.string "status", default: "visible", null: false
     t.datetime "updated_at", null: false
     t.bigint "ward_id", null: false
     t.index ["parent_id"], name: "index_scripture_circle_posts_on_parent_id"
     t.index ["person_id", "created_at"], name: "index_scripture_circle_posts_for_profile", order: { created_at: :desc }
+    t.index ["person_id", "ward_id", "conversation_root_id"], name: "index_circle_visible_person_conversations", where: "((status)::text = 'visible'::text)"
     t.index ["person_id"], name: "index_scripture_circle_posts_on_person_id"
     t.index ["scripture_circle_thread_id"], name: "index_scripture_circle_posts_on_thread_id"
+    t.index ["ward_id", "conversation_root_id", "created_at"], name: "index_circle_visible_conversation_activity", where: "((status)::text = 'visible'::text)"
+    t.index ["ward_id", "kind", "created_at"], name: "index_circle_visible_roots", where: "(((status)::text = 'visible'::text) AND (parent_id IS NULL))"
     t.index ["ward_id", "status", "created_at"], name: "index_scripture_circle_posts_for_ward"
     t.index ["ward_id"], name: "index_scripture_circle_posts_on_ward_id"
+    t.check_constraint "author_visibility::text = ANY (ARRAY['named'::character varying, 'anonymous_to_ward'::character varying]::text[])", name: "scripture_circle_posts_author_visibility"
     t.check_constraint "char_length(body) >= 1 AND char_length(body) <= 500", name: "scripture_circle_posts_body_length"
     t.check_constraint "selected_text IS NULL OR char_length(selected_text) <= 1000", name: "scripture_circle_posts_selected_text_length"
+    t.check_constraint "selected_verses IS NULL OR char_length(selected_verses::text) <= 120", name: "scripture_circle_posts_selected_verses_length"
   end
 
   create_table "scripture_circle_threads", force: :cascade do |t|
@@ -1034,20 +940,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_30_141000) do
     t.index ["study_program_id"], name: "index_study_units_on_study_program_id"
   end
 
-  create_table "tap_runs", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.boolean "finished", default: false, null: false
-    t.bigint "player_id", null: false
-    t.bigint "round_run_id", null: false
-    t.integer "taps", default: 0, null: false
-    t.bigint "team_id", null: false
-    t.datetime "updated_at", null: false
-    t.index ["player_id"], name: "index_tap_runs_on_player_id"
-    t.index ["round_run_id", "team_id"], name: "index_tap_runs_on_round_run_id_and_team_id", unique: true
-    t.index ["round_run_id"], name: "index_tap_runs_on_round_run_id"
-    t.index ["team_id"], name: "index_tap_runs_on_team_id"
-  end
-
   create_table "team_memberships", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.bigint "player_id", null: false
@@ -1064,15 +956,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_30_141000) do
     t.string "emblem", null: false
     t.bigint "game_session_id", null: false
     t.string "name", null: false
-    t.boolean "next_correct_doubled", default: false, null: false
-    t.string "pending_rank_up"
-    t.string "rank_key", default: "novicio", null: false
-    t.string "season_rank_up"
-    t.boolean "solo", default: false, null: false
-    t.integer "streak", default: 0, null: false
     t.datetime "updated_at", null: false
     t.bigint "ward_team_id"
-    t.integer "xp", default: 0, null: false
     t.index ["game_session_id", "name"], name: "index_teams_on_game_session_id_and_name", unique: true
     t.index ["game_session_id"], name: "index_teams_on_game_session_id"
     t.index ["ward_team_id"], name: "index_teams_on_ward_team_id"
@@ -1097,6 +982,53 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_30_141000) do
     t.index ["street_duel_id"], name: "index_viral_events_on_street_duel_id"
   end
 
+  create_table "ward_event_audits", force: :cascade do |t|
+    t.string "action", null: false
+    t.string "actor_label", null: false
+    t.datetime "created_at", null: false
+    t.jsonb "metadata", default: {}, null: false
+    t.bigint "ward_event_id", null: false
+    t.bigint "ward_id", null: false
+    t.index ["ward_event_id", "created_at", "id"], name: "index_ward_event_audits_timeline"
+    t.index ["ward_event_id"], name: "index_ward_event_audits_on_ward_event_id"
+    t.index ["ward_id"], name: "index_ward_event_audits_on_ward_id"
+    t.check_constraint "action::text = ANY (ARRAY['created'::character varying, 'updated'::character varying, 'published'::character varying, 'cancelled'::character varying]::text[])", name: "ward_event_audits_action"
+    t.check_constraint "char_length(actor_label::text) >= 1 AND char_length(actor_label::text) <= 120", name: "ward_event_audits_actor_length"
+  end
+
+  create_table "ward_events", force: :cascade do |t|
+    t.datetime "approved_at"
+    t.string "approved_by"
+    t.string "artwork_path"
+    t.string "cancellation_reason"
+    t.datetime "cancelled_at"
+    t.string "cancelled_by"
+    t.datetime "created_at", null: false
+    t.string "destination_path"
+    t.string "destination_url"
+    t.datetime "ends_at", null: false
+    t.string "kind", null: false
+    t.string "location_label", null: false
+    t.datetime "starts_at", null: false
+    t.string "status", default: "draft", null: false
+    t.text "summary", null: false
+    t.string "title", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "ward_id", null: false
+    t.index ["ward_id", "status", "starts_at", "ends_at", "id"], name: "index_ward_events_for_hub"
+    t.index ["ward_id"], name: "index_ward_events_on_ward_id"
+    t.check_constraint "cancellation_reason IS NULL OR char_length(cancellation_reason::text) <= 280", name: "ward_events_cancellation_reason_length"
+    t.check_constraint "char_length(location_label::text) >= 1 AND char_length(location_label::text) <= 120", name: "ward_events_location_length"
+    t.check_constraint "char_length(summary) >= 1 AND char_length(summary) <= 280", name: "ward_events_summary_length"
+    t.check_constraint "char_length(title::text) >= 1 AND char_length(title::text) <= 120", name: "ward_events_title_length"
+    t.check_constraint "destination_path IS NOT NULL AND destination_url IS NULL OR destination_path IS NULL AND destination_url IS NOT NULL", name: "ward_events_one_destination"
+    t.check_constraint "ends_at >= starts_at", name: "ward_events_time_order"
+    t.check_constraint "kind::text = ANY (ARRAY['clothing_drive'::character varying, 'toy_drive'::character varying, 'books_and_school_supplies_drive'::character varying, 'food_drive'::character varying, 'sports_activity'::character varying, 'music_activity'::character varying, 'art_activity'::character varying]::text[])", name: "ward_events_kind"
+    t.check_constraint "status::text <> 'cancelled'::text OR cancelled_by IS NOT NULL AND cancelled_at IS NOT NULL AND cancellation_reason IS NOT NULL", name: "ward_events_cancellation_audit"
+    t.check_constraint "status::text <> 'published'::text OR approved_by IS NOT NULL AND approved_at IS NOT NULL", name: "ward_events_publication_audit"
+    t.check_constraint "status::text = ANY (ARRAY['draft'::character varying, 'published'::character varying, 'cancelled'::character varying]::text[])", name: "ward_events_status"
+  end
+
   create_table "ward_teams", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "emblem", null: false
@@ -1110,6 +1042,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_30_141000) do
   end
 
   create_table "wards", force: :cascade do |t|
+    t.string "admin_token_digest", null: false
     t.string "chapel_address"
     t.string "chapel_name"
     t.string "church_unit_id"
@@ -1125,7 +1058,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_30_141000) do
     t.decimal "longitude", precision: 10, scale: 6
     t.string "name", null: false
     t.string "postal_code"
-    t.string "presenter_token_digest", null: false
     t.string "region"
     t.string "scripture_circle_mode", default: "disabled", null: false
     t.string "stake_name"
@@ -1167,21 +1099,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_30_141000) do
     t.index ["revoked_at"], name: "index_web_push_subscriptions_on_revoked_at"
   end
 
-  add_foreign_key "answers", "players"
-  add_foreign_key "answers", "round_runs"
-  add_foreign_key "answers", "teams"
-  add_foreign_key "audience_reactions", "round_runs"
-  add_foreign_key "audience_responses", "round_runs"
-  add_foreign_key "ballots", "players"
-  add_foreign_key "ballots", "round_runs"
-  add_foreign_key "ballots", "teams"
-  add_foreign_key "ballots", "teams", column: "choice_team_id"
-  add_foreign_key "buzzes", "players"
-  add_foreign_key "buzzes", "round_runs"
-  add_foreign_key "buzzes", "teams"
-  add_foreign_key "cheers", "players"
-  add_foreign_key "cheers", "players", column: "to_player_id"
-  add_foreign_key "cheers", "round_runs"
   add_foreign_key "duel_invitations", "duel_invitations", column: "acquisition_parent_invitation_id"
   add_foreign_key "duel_invitations", "people", column: "challenger_person_id"
   add_foreign_key "duel_invitations", "people", column: "claimed_by_person_id"
@@ -1190,7 +1107,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_30_141000) do
   add_foreign_key "duel_invitations", "street_duels"
   add_foreign_key "duel_invitations", "street_duels", column: "rematch_of_duel_id"
   add_foreign_key "game_sessions", "wards"
-  add_foreign_key "missionaries", "game_sessions"
+  add_foreign_key "live_events", "game_sessions"
   add_foreign_key "notification_deliveries", "people"
   add_foreign_key "notification_deliveries", "web_push_subscriptions"
   add_foreign_key "notification_preferences", "people"
@@ -1200,22 +1117,18 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_30_141000) do
   add_foreign_key "person_devices", "people"
   add_foreign_key "players", "game_sessions"
   add_foreign_key "players", "people"
-  add_foreign_key "pose_holds", "players"
-  add_foreign_key "pose_holds", "round_runs"
-  add_foreign_key "pose_holds", "teams"
-  add_foreign_key "presenter_blocks", "game_sessions"
-  add_foreign_key "presenter_claims", "game_sessions"
   add_foreign_key "quiz_answers", "quiz_runs"
+  add_foreign_key "quiz_runs", "game_sessions"
   add_foreign_key "quiz_runs", "people"
+  add_foreign_key "quiz_runs", "players"
+  add_foreign_key "quiz_runs", "teams"
   add_foreign_key "reading_progresses", "people"
   add_foreign_key "reading_progresses", "study_units"
-  add_foreign_key "reward_grants", "teams"
-  add_foreign_key "round_runs", "game_sessions"
-  add_foreign_key "score_events", "game_sessions"
-  add_foreign_key "score_events", "round_runs"
-  add_foreign_key "score_events", "teams"
   add_foreign_key "scripture_chapter_reads", "people", on_delete: :nullify
   add_foreign_key "scripture_chapter_reads", "wards", on_delete: :nullify
+  add_foreign_key "scripture_circle_conversation_votes", "people", column: "voter_person_id", on_delete: :cascade
+  add_foreign_key "scripture_circle_conversation_votes", "scripture_circle_posts", column: "conversation_root_id", on_delete: :cascade
+  add_foreign_key "scripture_circle_conversation_votes", "wards", on_delete: :cascade
   add_foreign_key "scripture_circle_moderation_ballot_revisions", "people", column: "voter_person_id", on_delete: :nullify
   add_foreign_key "scripture_circle_moderation_ballot_revisions", "scripture_circle_moderation_ballots", on_delete: :cascade
   add_foreign_key "scripture_circle_moderation_ballot_revisions", "scripture_circle_moderation_proposals", column: "proposal_id", on_delete: :cascade
@@ -1231,10 +1144,17 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_30_141000) do
   add_foreign_key "scripture_circle_moderation_proposals", "scripture_circle_post_revisions", column: "post_revision_id", on_delete: :restrict
   add_foreign_key "scripture_circle_moderation_proposals", "scripture_circle_posts", on_delete: :cascade
   add_foreign_key "scripture_circle_moderation_proposals", "wards", on_delete: :cascade
+  add_foreign_key "scripture_circle_moderation_reports", "people", column: "reporter_person_id", on_delete: :cascade
+  add_foreign_key "scripture_circle_moderation_reports", "scripture_circle_posts", on_delete: :cascade
+  add_foreign_key "scripture_circle_moderation_reports", "wards", on_delete: :cascade
   add_foreign_key "scripture_circle_post_revisions", "people", column: "editor_person_id", on_delete: :nullify
   add_foreign_key "scripture_circle_post_revisions", "scripture_circle_posts", on_delete: :cascade
   add_foreign_key "scripture_circle_post_revisions", "wards", on_delete: :cascade
+  add_foreign_key "scripture_circle_post_votes", "people", column: "voter_person_id", on_delete: :cascade
+  add_foreign_key "scripture_circle_post_votes", "scripture_circle_posts", on_delete: :cascade
+  add_foreign_key "scripture_circle_post_votes", "wards", on_delete: :cascade
   add_foreign_key "scripture_circle_posts", "people", on_delete: :nullify
+  add_foreign_key "scripture_circle_posts", "scripture_circle_posts", column: "conversation_root_id", on_delete: :cascade
   add_foreign_key "scripture_circle_posts", "scripture_circle_posts", column: "parent_id", on_delete: :nullify
   add_foreign_key "scripture_circle_posts", "scripture_circle_threads", on_delete: :cascade
   add_foreign_key "scripture_circle_posts", "wards", on_delete: :cascade
@@ -1269,9 +1189,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_30_141000) do
   add_foreign_key "study_runs", "people"
   add_foreign_key "study_runs", "study_quiz_versions"
   add_foreign_key "study_units", "study_programs"
-  add_foreign_key "tap_runs", "players"
-  add_foreign_key "tap_runs", "round_runs"
-  add_foreign_key "tap_runs", "teams"
   add_foreign_key "team_memberships", "players"
   add_foreign_key "team_memberships", "teams"
   add_foreign_key "teams", "game_sessions"
@@ -1279,6 +1196,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_30_141000) do
   add_foreign_key "viral_events", "duel_invitations"
   add_foreign_key "viral_events", "people"
   add_foreign_key "viral_events", "street_duels"
+  add_foreign_key "ward_event_audits", "ward_events", on_delete: :cascade
+  add_foreign_key "ward_event_audits", "wards", on_delete: :cascade
+  add_foreign_key "ward_events", "wards", on_delete: :cascade
   add_foreign_key "ward_teams", "wards"
   add_foreign_key "web_push_subscriptions", "people"
 end

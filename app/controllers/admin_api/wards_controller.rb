@@ -22,19 +22,11 @@ module AdminApi
       render json: { ward: ward_json(ward).merge(people:) }
     end
 
-    def rotate_presenter_token
-      ward = find_ward
-      token = Array.new(16) { GameSession::CODE_CHARS.sample }.join
-      ward.update!(presenter_token_digest: GameSession.digest_token(token))
-      admin_audit!("rotate_presenter_token", ward_id: ward.id)
-      render json: { ward: ward_json(ward), presenter_token: token, warning: "shown_once" }
-    end
-
     def stats
       ward = find_ward
       person_ids = ward.people.select(:id)
       scores = Quizzes::Leaderboard.pack_best_totals(ward:)
-      answers = QuizAnswer.joins(:quiz_run).where(quiz_runs: { person_id: person_ids })
+      answers = QuizAnswer.joins(:quiz_run).merge(QuizRun.street).where(quiz_runs: { person_id: person_ids })
       duels = StreetDuel.where(challenger_person_id: person_ids)
         .or(StreetDuel.where(opponent_person_id: person_ids))
       render json: {
@@ -42,7 +34,7 @@ module AdminApi
           live_people: Presences::Registry.online_person_ids(ward_id: ward.id).size,
           players_with_points: scores.size,
           total_best_points: scores.values.sum,
-          finished_quiz_runs: QuizRun.finished.where(person_id: person_ids).count,
+          finished_quiz_runs: QuizRun.street.finished.where(person_id: person_ids).count,
           quiz_answers: answers.count,
           correct_answers: answers.where(correct: true).count,
           completed_study_runs: StudyRun.completed.where(person_id: person_ids).count,
@@ -66,7 +58,10 @@ module AdminApi
           name: ward.name,
           city: ward.city,
           people_count: ward.people.count,
-          nights_count: ward.game_sessions.count
+          nights_count: ward.game_sessions.count,
+          teams: ward.ward_teams.order(:name).map do |team|
+            { id: team.id, name: team.name, emblem: team.emblem }
+          end
         }
       end
   end

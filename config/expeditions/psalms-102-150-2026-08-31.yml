@@ -1,0 +1,1843 @@
+schema_version: 6
+kind: expedition_council_dossier
+
+lifecycle:
+  status: locally_published
+  runtime_mode: local
+  current_revision: 14
+  human_approval_required: true
+  publish_authorized: true
+  created_at: "2026-08-30"
+  updated_at: "2026-08-31"
+
+brief:
+  id: psalms-102-150-2026-08-31
+  programme: come_follow_me
+  source_page: "Programme hebdomadaire fourni par l'utilisateur"
+  source_locale: fr
+  requested_locales: [fr]
+  target_player:
+    id: 22
+    name: TRACY
+    locale: fr
+    ward_id: 1
+    ward_name: "Rama Benidorm"
+    verified_from_local_database_on: "2026-08-31"
+  audience: "Joueurs Noche Live souhaitant apprendre, voyager, visualiser et ressentir"
+  duration_days: 7
+  supplied_theme:
+    fr: "Le Dieu qui me connaît et me relève est digne de toute ma louange."
+  authorized_scope: local_rama_benidorm
+  schedule:
+    starts_on: "2026-08-31"
+    ends_on: "2026-09-06"
+    timezone: Europe/Madrid
+    noche_live:
+      - starts_at: "2026-08-31T20:00:00+02:00"
+        pack_ids: [exp_psalms_disappearing_voice, exp_psalms_nameless_king, exp_psalms_cry_stone_seek]
+      - starts_at: "2026-09-04T20:00:00+02:00"
+        pack_ids: [exp_psalms_house_table_city, exp_psalms_suspended_harps, exp_psalms_everything_breathes]
+  constraints:
+    - "Recherche historique et exégétique avant toute dramatisation."
+    - "Ne jamais attribuer un psaume ou une scène historique sans preuve."
+    - "Questions successives, apprentissage actif et explications après réponse."
+    - "Question mobile ≤ 72 graphèmes; chaque réponse ≤ 32; correction ≤ 120."
+    - "Couvrir récit, personnages, histoire, Évangile, plan de Dieu et espérance sans inventer une doctrine absente."
+    - "Trailer conçu comme bande-annonce des intrigues, pas comme résumé du programme."
+
+source:
+  readings:
+    - { reference: "ot/ps/102", label: "Psaume 102", required: true }
+    - { reference: "ot/ps/103", label: "Psaume 103", required: true }
+    - { reference: "ot/ps/110", label: "Psaume 110", required: true }
+    - { reference: "ot/ps/116", label: "Psaume 116", required: true }
+    - { reference: "ot/ps/117", label: "Psaume 117", required: true }
+    - { reference: "ot/ps/118", label: "Psaume 118", required: true }
+    - { reference: "ot/ps/119", label: "Psaume 119", required: true }
+    - { reference: "ot/ps/127", label: "Psaume 127", required: true }
+    - { reference: "ot/ps/128", label: "Psaume 128", required: true }
+    - { reference: "ot/ps/135", label: "Psaume 135", required: true }
+    - { reference: "ot/ps/136", label: "Psaume 136", required: true }
+    - { reference: "ot/ps/137", label: "Psaume 137", required: true }
+    - { reference: "ot/ps/138", label: "Psaume 138", required: true }
+    - { reference: "ot/ps/139", label: "Psaume 139", required: true }
+    - { reference: "ot/ps/146", label: "Psaume 146", required: true }
+    - { reference: "ot/ps/147", label: "Psaume 147", required: true }
+    - { reference: "ot/ps/148", label: "Psaume 148", required: true }
+    - { reference: "ot/ps/149", label: "Psaume 149", required: true }
+    - { reference: "ot/ps/150", label: "Psaume 150", required: true }
+
+council:
+  current_stage: human_validation_checkpoint
+  section_owners:
+    "brief": expedition-director
+    "source": expedition-director
+    "council": expedition-director
+    "facts.historical": expedition-historian
+    "facts.exegetical": expedition-exegete
+    "concepts.candidates": expedition-showrunner
+    "concepts.critiques": expedition-director
+    "concepts.arbitration": expedition-director
+    "expedition": expedition-showrunner
+    "editorial_structure": expedition-showrunner
+    "legacy_dramatic_arc": expedition-showrunner
+    "coverage": expedition-showrunner
+    "experience_design": expedition-spiritual-experience-director
+    "formation_quizzes": expedition-spiritual-experience-director
+    "public_story": expedition-incarnate-writer
+    "packs": expedition-game-designer
+    "visual_language": expedition-art-director
+    "trailer.directing": expedition-film-director
+    "trailer.edit": expedition-social-video-editor
+    "review.truth_gate": expedition-fact-checker
+    "review.structure_gate": expedition-director
+    "review.experience_gate": expedition-spiritual-experience-director
+    "review.attention_gate": reel-editor-retention
+    "review.human_voice_gate": human-voice-reviewer
+    "review.publish_ready": expedition-director
+  revision_log:
+    - revision: 1
+      owner: expedition-director
+      paths: [brief, source, council]
+      summary: "Brief et inventaire canonique figés."
+      invalidates: []
+    - revision: 2
+      owner: expedition-director
+      paths: [facts.historical, facts.exegetical]
+      summary: "Dossiers historique et exégétique intégrés après travail parallèle."
+      invalidates: [concepts, packs, visual_language, trailer]
+    - revision: 3
+      owner: expedition-director
+      paths: [concepts, expedition, dramatic_arc, coverage]
+      summary: "Trois concepts critiqués; concept A arbitré et réparé."
+      invalidates: [packs, visual_language, trailer, review.truth_gate, review.attention_gate]
+    - revision: 4
+      owner: expedition-director
+      paths: [review.structure_gate, editorial_structure, legacy_dramatic_arc]
+      summary: "Structure Gate NO/high : l'arc global est supersédé par une constellation à navigation libre."
+      invalidates: [dramatic_arc, packs, visual_language, trailer, review.experience_gate, review.truth_gate, review.attention_gate, review.human_voice_gate]
+    - revision: 5
+      owner: expedition-incarnate-writer
+      paths: [public_story]
+      summary: "Révision 2 après rejets Truth, Attention et Human Voice de la révision 1."
+      invalidates: [review.truth_gate, review.attention_gate, review.human_voice_gate, trailer]
+    - revision: 6
+      owner: expedition-incarnate-writer
+      paths: [public_story]
+      summary: "Révision 3 : langue parlée, dramatisation autorisée et preuve de jeu déplacée vers Psaume 119."
+      invalidates: [review.truth_gate, review.attention_gate, review.human_voice_gate, trailer]
+    - revision: 7
+      owner: expedition-incarnate-writer
+      paths: [public_story]
+      summary: "Révision 4 : sept lignes UNSAYABLE réparées; transitions remplacées par silence et hard cuts."
+      invalidates: [review.truth_gate, review.attention_gate, review.human_voice_gate, trailer]
+    - revision: 8
+      owner: expedition-director
+      paths: [review.truth_gate, review.attention_gate, review.human_voice_gate]
+      summary: "Public story revision 4 : Truth, Attention et Human Voice PASS; remise à Tracy pour validation."
+      invalidates: []
+    - revision: 9
+      owner: expedition-film-director
+      paths: [experience_design, trailer.directing]
+      summary: "Révision personnage : chaque scène narrative est désormais portée par un être humain visible avec désir, action et résistance."
+      invalidates: [review.truth_gate.visual_scope, review.attention_gate.directed_scope]
+    - revision: 10
+      owner: expedition-incarnate-writer
+      paths: [public_story, trailer.directing]
+      summary: "Révision audio seul : la VO explique chaque situation sans image ni culture biblique préalable avant d'introduire les noms inconnus."
+      invalidates: [review.truth_gate, review.attention_gate, review.human_voice_gate]
+    - revision: 11
+      owner: expedition-spiritual-experience-director
+      paths: [formation_quizzes, public_story.trailer.game_proof]
+      summary: "Le QCM technique 22 × 8 est rejeté; la première série forme le retour vers Dieu, la demande d'être enseigné et la distinction entre discipline et autosuffisance."
+      invalidates: [packs, review.experience_gate, review.truth_gate, review.attention_gate, review.human_voice_gate]
+    - revision: 12
+      owner: expedition-spiritual-experience-director
+      paths: [formation_quizzes, public_story.trailer.game_proof]
+      summary: "Mobile Copy Gate ajouté; les quatre questions sont autonomes et tiennent dans 72/32/120 graphèmes. La couverture inclut désormais récit, personnages, histoire, Évangile, plan de Dieu et espérance éternelle."
+      invalidates: [packs, review.experience_gate, review.truth_gate, review.attention_gate, review.human_voice_gate]
+    - revision: 13
+      owner: expedition-game-designer
+      paths: [packs, formation_quizzes.expanded_pack_source]
+      summary: "Six packs de dix questions générés en français pour le profil 22; les 19 psaumes et les neuf lentilles sont couverts. Psaume 149 reste une rencontre calme non notée."
+      invalidates: [review.experience_gate, review.truth_gate, review.attention_gate, review.human_voice_gate]
+  objections:
+    - id: veto-a-causality-hist
+      raised_by: expedition-historian
+      gate: truth
+      severity: VETO
+      target_path: "concepts.candidates[id=concept-a].payoff.fr"
+      target_revision: 1
+      claim_ids: [hist-002, hist-003]
+      reason: "La cause historique de conservation est inconnue."
+      required_repair: "Présenter la puissance mémorielle comme thèse de l'expédition."
+      assigned_to: expedition-showrunner
+      status: repaired
+      resolution_revision: 3
+    - id: veto-a-causality-exeg
+      raised_by: expedition-exegete
+      gate: truth
+      severity: VETO
+      target_path: "concepts.candidates[id=concept-a].why_this_text_endures.fr"
+      target_revision: 1
+      claim_ids: [exeg-001, hist-002]
+      reason: "Une proposition éditoriale est formulée comme causalité historique."
+      required_repair: "Employer une question et distinguer ce que l'expédition propose."
+      assigned_to: expedition-showrunner
+      status: repaired
+      resolution_revision: 3
+    - id: veto-a-11q5-scope
+      raised_by: expedition-historian
+      gate: truth
+      severity: VETO
+      target_path: "concepts.candidates[id=concept-a].opening_image.fr"
+      target_revision: 1
+      claim_ids: [hist-003]
+      reason: "11Q5 ne transmet pas nécessairement tout le corpus et ne doit pas devenir son manuscrit-source."
+      required_repair: "Retarder le rouleau et limiter explicitement sa portée à plusieurs psaumes."
+      assigned_to: expedition-showrunner
+      status: repaired
+      resolution_revision: 3
+    - id: warning-a-single-voice
+      raised_by: expedition-exegete
+      gate: truth
+      severity: BLOCKING
+      target_path: "concepts.candidates[id=concept-a].dramatic_thesis.fr"
+      target_revision: 1
+      claim_ids: [exeg-001]
+      reason: "Le singulier peut recréer un héros continu."
+      required_repair: "Rendre visible la pluralité des voix et des périodes possibles."
+      assigned_to: expedition-showrunner
+      status: repaired
+      resolution_revision: 3
+    - id: ret-a-museum
+      raised_by: reel-editor-retention
+      gate: attention
+      severity: BLOCKING
+      target_path: "concepts.candidates[id=concept-a].opening_image.fr"
+      target_revision: 1
+      claim_ids: [hist-003]
+      reason: "Le rouleau transforme trop tôt le mystère humain en visite de musée."
+      required_repair: "Ouvrir sur le cri; garder le manuscrit comme révélation."
+      assigned_to: expedition-showrunner
+      status: repaired
+      resolution_revision: 3
+
+facts:
+  historical:
+    owner: expedition-historian
+    revision: 1
+    status: complete
+    sources:
+      - id: src-hist-yale
+        institution: "Yale Divinity School — Yale Bible Study"
+        title: "What Are the Psalms?"
+        url: "https://yalebiblestudy.org/courses/psalms/lessons/what-are-the-psalms-study-guide/"
+        consulted_on: "2026-08-30"
+        limits: "Synthèse universitaire; ne date pas chaque psaume."
+      - id: src-hist-11q5
+        institution: "Israel Antiquities Authority"
+        title: "11Q Psalms Scroll — 11Q5"
+        url: "https://www.deadseascrolls.org.il/explore-the-archive/manuscript/11Q5-2?locale=en_US"
+        consulted_on: "2026-08-30"
+        limits: "Un manuscrit ne représente pas tous les groupes juifs anciens."
+      - id: src-hist-loc
+        institution: "Library of Congress"
+        title: "Scrolls from the Dead Sea — Introduction"
+        url: "https://www.loc.gov/exhibits/scrolls/intr.html"
+        consulted_on: "2026-08-30"
+        limits: "Notice d'exposition, sans apparat critique complet."
+      - id: src-hist-royal
+        institution: "Yale Divinity School — Yale Bible Study"
+        title: "The Royal Psalms"
+        url: "https://yalebiblestudy.org/courses/psalms/lessons/the-royal-psalms-study-guide/"
+        consulted_on: "2026-08-30"
+        limits: "Le genre royal ne permet pas d'identifier un roi ou une cérémonie."
+      - id: src-hist-melchizedek
+        institution: "Oxford University Press"
+        title: "Psalm 110: From Davidic King to Melchizedek"
+        url: "https://academic.oup.com/book/32343/chapter-abstract/268596194"
+        consulted_on: "2026-08-30"
+        limits: "Résumé libre uniquement; signale les ambiguïtés sans les résoudre."
+      - id: src-hist-hallel
+        institution: "Project TABS — TheTorah.com"
+        title: "Hallel: How Many Psalms?"
+        url: "https://www.thetorah.com/article/hallel-how-many-psalms"
+        consulted_on: "2026-08-30"
+        limits: "L'usage reçu ne doit pas être rétrojeté intact dans le Premier Temple."
+      - id: src-hist-ascents
+        institution: "University of St Andrews"
+        title: "Pilgrimage — Songs of Ascents"
+        url: "https://www.saet.ac.uk/Christianity/Pilgrimage"
+        consulted_on: "2026-08-30"
+        limits: "Le pèlerinage est l'hypothèse principale, pas un itinéraire documenté."
+      - id: src-hist-usccb
+        institution: "United States Conference of Catholic Bishops"
+        title: "Psalms — texts and scholarly notes"
+        url: "https://bible.usccb.org/bible/psalms/102"
+        consulted_on: "2026-08-30"
+        limits: "Les notes de genre et contexte ne constituent pas une datation indépendante."
+      - id: src-hist-babylon
+        institution: "British Museum"
+        title: "Babylonian Chronicle tablet 21946"
+        url: "https://www.britishmuseum.org/collection/object/W_1896-0409-51"
+        consulted_on: "2026-08-30"
+        limits: "Atteste la campagne de 597 avant notre ère; ne date pas le Psaume 137."
+      - id: src-hist-music
+        institution: "The Bible and Interpretation — University of Arizona"
+        title: "Music and Musical Instruments in the Hebrew Bible"
+        url: "https://bibleinterp.arizona.edu/articles/Music"
+        consulted_on: "2026-08-30"
+        limits: "Les comparaisons régionales ne restituent ni instruments ni sons exacts du Temple."
+    claims:
+      - id: hist-001
+        certainty: ATTESTÉ
+        statement: "Les titres reçus associent 103, 110, 138 et 139 à David, et 127 à Salomon; 102 ne nomme aucun auteur."
+        source_ids: [src-hist-yale, src-hist-usccb]
+        allowed_copy: "Le titre transmis associe ce psaume à David ou Salomon; l'auteur historique demeure inconnu."
+        forbidden_copy: ["David écrit la scène montrée.", "Salomon compose 127 pendant la construction du Temple."]
+        depiction_mode: textual_superscription_only
+        quiz_eligible: true
+      - id: hist-002
+        certainty: INCERTAIN
+        statement: "La date précise de la plupart de ces psaumes ne peut être établie."
+        source_ids: [src-hist-yale]
+        allowed_copy: "Conservé depuis l'Antiquité; horizon exilique ou postexilique probable lorsque précisé."
+        forbidden_copy: ["Écrit il y a exactement trois mille ans.", "Tous appartiennent à la même époque."]
+        depiction_mode: atmosphere_without_dated_event
+        quiz_eligible: true
+      - id: hist-003
+        certainty: ATTESTÉ
+        statement: "11Q5 conserve de nombreux psaumes de la zone 101–150 dans un ordre différent, avec d'autres compositions."
+        source_ids: [src-hist-11q5, src-hist-loc]
+        allowed_copy: "Un ancien rouleau place plusieurs de ces psaumes dans un autre ordre."
+        forbidden_copy: ["Qumran possédait le seul vrai Psautier.", "Des psaumes ont été cachés."]
+        depiction_mode: attested_manuscript
+        quiz_eligible: true
+      - id: hist-004
+        certainty: PROBABLE
+        statement: "Le Psaume 102 est une plainte anonyme dont les pierres, la poussière et Sion rendent plausible un horizon de destruction et restauration."
+        source_ids: [src-hist-usccb, src-hist-yale]
+        allowed_copy: "Sa douleur personnelle se mêle à une ville qui attend d'être relevée."
+        forbidden_copy: ["Un déporté nommé écrit depuis Babylone.", "Un diagnostic médical précis."]
+        depiction_mode: anonymous_restoration_atmosphere
+        quiz_eligible: true
+      - id: hist-005
+        certainty: PROBABLE
+        statement: "Le Psaume 110 est royal et reflète probablement l'idéologie monarchique de Juda; le roi et la cérémonie restent inconnus."
+        source_ids: [src-hist-royal, src-hist-melchizedek]
+        allowed_copy: "Une voix s'adresse à un roi placé sous l'autorité divine. Mais lequel?"
+        forbidden_copy: ["Couronnement historique de David.", "Melchisédek couronne David."]
+        depiction_mode: royal_mystery
+        quiz_eligible: true
+      - id: hist-006
+        certainty: INCERTAIN
+        statement: "La traduction de Psaume 110:4, le statut sacerdotal et le rapport originel à Melchisédek restent discutés."
+        source_ids: [src-hist-melchizedek]
+        allowed_copy: "Pourquoi ce roi est-il aussi prêtre, et que vient faire Melchisédek ici?"
+        forbidden_copy: ["Un ordre sacerdotal historique univoque est déjà organisé."]
+        depiction_mode: competing_readings
+        quiz_eligible: false
+      - id: hist-007
+        certainty: TRADITION
+        statement: "Dans la liturgie juive reçue, 113–118 forment le Hallel; 116–118 en constituent la fin."
+        source_ids: [src-hist-hallel]
+        allowed_copy: "Ces psaumes vivent dans le Hallel des fêtes juives."
+        forbidden_copy: ["Rite identique attesté dans le Temple de Salomon."]
+        depiction_mode: later_liturgical_tradition
+        quiz_eligible: true
+      - id: hist-008
+        certainty: ATTESTÉ
+        statement: "Psaume 119 est un acrostiche de vingt-deux strophes de huit vers selon les lettres hébraïques."
+        source_ids: [src-hist-usccb]
+        allowed_copy: "Cent soixante-seize vers cachent une architecture alphabétique."
+        forbidden_copy: ["Un scribe identifié l'a composé dans une école précise."]
+        depiction_mode: scribal_visualization
+        quiz_eligible: true
+      - id: hist-009
+        certainty: PROBABLE
+        statement: "Les Chants des montées 120–134, dont 127–128, sont généralement associés aux pèlerinages vers Jérusalem."
+        source_ids: [src-hist-ascents]
+        allowed_copy: "Une collection longtemps associée à la montée vers Jérusalem."
+        forbidden_copy: ["Chaque psaume correspond à une marche ou étape certaine."]
+        depiction_mode: labeled_probable_pilgrimage
+        quiz_eligible: true
+      - id: hist-010
+        certainty: PROBABLE
+        statement: "La porte de Psaume 127:5 est probablement l'espace civique et judiciaire, pas un rempart de bataille."
+        source_ids: [src-hist-usccb]
+        allowed_copy: "La porte est aussi le lieu où la cité règle ses affaires."
+        forbidden_copy: ["Les fils tirent des flèches depuis les remparts."]
+        depiction_mode: civic_city_gate
+        quiz_eligible: true
+      - id: hist-011
+        certainty: PROBABLE
+        statement: "Le refrain répété vingt-six fois en Psaume 136 suggère une performance antiphonale."
+        source_ids: [src-hist-usccb]
+        allowed_copy: "Une voix pouvait raconter et l'assemblée répondre."
+        forbidden_copy: ["Voici le rythme authentique et l'effectif exact."]
+        depiction_mode: probable_call_and_response
+        quiz_eligible: true
+      - id: hist-012
+        certainty: PROBABLE
+        statement: "Psaume 137 provient très probablement d'un contexte babylonien après la chute de Jérusalem; ni chanteur, ni canal, ni date exacte ne sont connus."
+        source_ids: [src-hist-usccb, src-hist-babylon]
+        allowed_copy: "À Babylone, des exilés refusent de transformer leurs chants de Sion en divertissement."
+        forbidden_copy: ["Un musicien nommé sur une rive exacte.", "Écrit le jour même de la chute."]
+        depiction_mode: probable_exilic_collective_memory
+        quiz_eligible: true
+      - id: hist-013
+        certainty: ATTESTÉ
+        statement: "Psaume 137 se termine par une imprécation extrême; il ne rapporte pas l'exécution de cette violence."
+        source_ids: [src-hist-usccb]
+        allowed_copy: "Le chant conserve une colère que le lecteur préférerait peut-être ne pas entendre."
+        forbidden_copy: ["Violence graphique contre des enfants.", "Ordre contemporain."]
+        depiction_mode: non_graphic_trauma_memory
+        quiz_eligible: false
+      - id: hist-014
+        certainty: PROBABLE
+        statement: "La reconstruction de Jérusalem en Psaume 147 rend un horizon postexilique très probable sans identifier un chantier."
+        source_ids: [src-hist-usccb]
+        allowed_copy: "Après la dispersion, Jérusalem se rebâtit et les blessés sont rassemblés."
+        forbidden_copy: ["Néhémie dirige la scène.", "Une année de composition précise."]
+        depiction_mode: probable_postexilic_restoration
+        quiz_eligible: true
+      - id: hist-015
+        certainty: INCERTAIN
+        statement: "La situation de Psaume 149 et la relation entre louange et combat réel sont inconnues."
+        source_ids: [src-hist-usccb]
+        allowed_copy: "La louange place soudain une épée dans l'image — pourquoi?"
+        forbidden_copy: ["Bataille inventée.", "Peuple moderne visé.", "Appel contemporain à la violence."]
+        depiction_mode: symbolic_non_graphic_tension
+        quiz_eligible: false
+      - id: hist-016
+        certainty: ATTESTÉ
+        statement: "Psaume 150 nomme cor, cordes, tambour, danse, souffle et cymbales; leurs équivalents et sons exacts sont parfois incertains."
+        source_ids: [src-hist-music]
+        allowed_copy: "Tout ce qui peut sonner, puis tout ce qui respire."
+        forbidden_copy: ["Reconstruction sonore authentique du Temple.", "Harpe moderne identifiée avec certitude."]
+        depiction_mode: comparative_archaeology_only
+        quiz_eligible: true
+    unknowns:
+      - "Aucun auteur historique certain pour les dix-neuf psaumes."
+      - "Aucune chronologie unique ni événement commun à tout le corpus."
+      - "Aucun héros nommé autorisé pour Psaumes 102, 116, 118, 137–139."
+      - "Aucun Temple, costume, orchestre ou cérémonie précisément datable."
+    preventive_vetoes:
+      - { id: veto-hist-authorship, reason: "Superscription transformée en biographie.", status: open_preventive }
+      - { id: veto-hist-110, reason: "Lecture de Melchisédek transformée en archive univoque.", status: open_preventive }
+      - { id: veto-hist-137, reason: "Trauma et violence exploités graphiquement.", status: open_preventive }
+      - { id: veto-hist-149, reason: "Psaume converti en propagande militaire.", status: open_preventive }
+      - { id: veto-hist-music, reason: "Évocation sonore appelée reconstruction authentique.", status: open_preventive }
+  exegetical:
+    owner: expedition-exegete
+    revision: 1
+    status: complete
+    sources:
+      - id: src-text-psalms-fr
+        institution: "Église de Jésus-Christ des Saints des Derniers Jours"
+        title: "Livre des Psaumes — texte français"
+        url: "https://www.churchofjesuschrist.org/study/scriptures/ot/ps?lang=fra"
+        consulted_on: "2026-08-30"
+        limits: "Les résumés éditoriaux ne font pas partie des versets."
+      - id: src-cfm-2026
+        institution: "Église de Jésus-Christ des Saints des Derniers Jours"
+        title: "31 août–6 septembre — Que tout ce qui respire loue l'Éternel !"
+        url: "https://www.churchofjesuschrist.org/study/manual/come-follow-me-for-home-and-church-old-testament-2026/36?lang=fra"
+        consulted_on: "2026-08-30"
+        limits: "Réception spirituelle LDS, pas reconstruction du premier contexte."
+      - id: src-lds-helps
+        institution: "Église de Jésus-Christ des Saints des Derniers Jours"
+        title: "Scripture Helps — Psalms 102–150"
+        url: "https://www.churchofjesuschrist.org/study/manual/scripture-helps-old-testament/34-psalms-102-103-110-116-119-127-128-135-139-146-150?lang=eng"
+        consulted_on: "2026-08-30"
+        limits: "Les lectures christologiques sont une réception doctrinale explicite."
+      - id: src-exeg-yale-poetry
+        institution: "Yale Divinity School — Yale Bible Study"
+        title: "Psalms as Poetry"
+        url: "https://yalebiblestudy.org/courses/psalms/lessons/psalms-of-poetry-study-guide/"
+        consulted_on: "2026-08-30"
+        limits: "Les fonctions proposées pour les acrostiches restent interprétatives."
+      - id: src-exeg-melchizedek
+        institution: "Project TABS — TheTorah.com"
+        title: "Who Assumed Melchizedek's Priesthood?"
+        url: "https://www.thetorah.com/article/who-assumed-melchizedeks-priesthood"
+        consulted_on: "2026-08-30"
+        limits: "Présente plusieurs lectures sans résoudre le destinataire initial."
+      - id: src-exeg-137
+        institution: "Project TABS — TheTorah.com"
+        title: "Violent Fantasies on the Rivers of Babylon"
+        url: "https://www.thetorah.com/symposium/psalm-137-9"
+        consulted_on: "2026-08-30"
+        limits: "Réunit plusieurs lectures contemporaines de l'imprécation."
+    claims:
+      - id: exeg-001
+        certainty: ATTESTÉ
+        statement: "Le corpus réunit plusieurs genres et voix; il ne forme pas un récit historique continu."
+        references: ["Psaumes 102–103; 110; 116–119; 127–128; 135–139; 146–150"]
+        source_ids: [src-text-psalms-fr]
+        allowed_copy: "Dix-neuf chants, plusieurs voix, un chemin éditorial du cri vers la louange."
+        forbidden_copy: ["L'histoire vraie d'un seul auteur."]
+        quiz_eligible: true
+      - id: exeg-002
+        certainty: ATTESTÉ
+        statement: "Psaume 102 passe du corps consumé et de la solitude au pivot « Mais toi », à Sion et aux générations futures."
+        references: ["Psaume 102:1-29"]
+        source_ids: [src-text-psalms-fr]
+        allowed_copy: "Ses jours partent en fumée; puis deux mots renversent l'horizon : « Mais toi »."
+        forbidden_copy: ["Dieu le guérit immédiatement.", "La voix est David."]
+        quiz_eligible: true
+      - id: exeg-003
+        certainty: ATTESTÉ
+        statement: "Psaume 103 commande à l'âme de ne pas oublier, puis élargit la compassion de Dieu jusqu'à toutes ses œuvres."
+        references: ["Psaume 103:1-22"]
+        source_ids: [src-text-psalms-fr, src-lds-helps]
+        allowed_copy: "La mémoire devient résistance : n'oublie aucun de ses bienfaits."
+        forbidden_copy: ["Toute maladie disparaît immédiatement si la foi suffit."]
+        quiz_eligible: true
+      - id: exeg-004
+        certainty: ATTESTÉ
+        statement: "Psaume 110 contient deux oracles, royal puis sacerdotal, avant une conclusion violente de victoire."
+        references: ["Psaume 110:1-7"]
+        source_ids: [src-text-psalms-fr, src-exeg-melchizedek]
+        allowed_copy: "Un roi reçoit un siège; un serment le déclare prêtre selon Melchisédek."
+        forbidden_copy: ["Le premier destinataire est identifié avec certitude."]
+        quiz_eligible: true
+      - id: exeg-005
+        certainty: ATTESTÉ
+        statement: "Psaume 116 transforme les liens de la mort et un cri bref en repos, marche, coupe, vœux et action de grâce publique."
+        references: ["Psaume 116:1-19"]
+        source_ids: [src-text-psalms-fr]
+        allowed_copy: "Le cri tient en quelques mots; la réponse remplit les parvis."
+        forbidden_copy: ["La coupe désigne explicitement la Sainte-Cène."]
+        quiz_eligible: true
+      - id: exeg-006
+        certainty: ATTESTÉ
+        statement: "Les deux versets de Psaume 117 convoquent toutes les nations et tous les peuples."
+        references: ["Psaume 117:1-2"]
+        source_ids: [src-text-psalms-fr]
+        allowed_copy: "Le chant le plus court ouvre l'horizon le plus vaste."
+        forbidden_copy: ["Un psaume sans intrigue parce qu'il est court."]
+        quiz_eligible: true
+      - id: exeg-007
+        certainty: ATTESTÉ
+        statement: "Psaume 118 va de la détresse et de l'encerclement aux portes, à la pierre rejetée devenue principale et à la bénédiction de celui qui vient."
+        references: ["Psaume 118:1-29"]
+        source_ids: [src-text-psalms-fr]
+        allowed_copy: "Ils l'avaient rejetée; elle devient la pierre dont tout dépend."
+        forbidden_copy: ["Le premier sens nomme explicitement Jésus."]
+        quiz_eligible: true
+      - id: exeg-008
+        certainty: ATTESTÉ
+        statement: "Psaume 119 compte 176 vers en vingt-deux strophes et finit par une brebis égarée qui demande à être cherchée."
+        references: ["Psaume 119:1-176"]
+        source_ids: [src-text-psalms-fr, src-exeg-yale-poetry]
+        allowed_copy: "Il connaît toutes les lettres, mais sa dernière prière demande encore : cherche-moi."
+        forbidden_copy: ["Un score de fidélité parfait.", "Le juste ne s'égare jamais."]
+        quiz_eligible: true
+      - id: exeg-009
+        certainty: ATTESTÉ
+        statement: "Psaume 127 oppose l'effort vain sans Dieu à ce que l'humain reçoit comme don; Psaume 128 va de la table au bien de Jérusalem."
+        references: ["Psaumes 127–128"]
+        source_ids: [src-text-psalms-fr, src-lds-helps]
+        allowed_copy: "Maison, garde, travail, table et ville : qu'est-ce qui tient vraiment?"
+        forbidden_copy: ["La fertilité mesure la justice.", "Toutes les familles doivent avoir la même forme."]
+        quiz_eligible: true
+      - id: exeg-010
+        certainty: ATTESTÉ
+        statement: "Psaume 135 oppose les actes de Dieu à des idoles dotées d'organes sans parole, vue, écoute ni souffle."
+        references: ["Psaume 135:1-21"]
+        source_ids: [src-text-psalms-fr]
+        allowed_copy: "Elles ont des yeux et une bouche, mais pas de souffle."
+        forbidden_copy: ["Caricature de peuples voisins comme stupides."]
+        quiz_eligible: true
+      - id: exeg-011
+        certainty: ATTESTÉ
+        statement: "Chacun des vingt-six versets de Psaume 136 porte le même refrain, jusque dans les mémoires difficiles de violence."
+        references: ["Psaume 136:1-26"]
+        source_ids: [src-text-psalms-fr]
+        allowed_copy: "Vingt-six fois, la même réponse refuse de disparaître."
+        forbidden_copy: ["La partition exacte du chœur est connue."]
+        quiz_eligible: true
+      - id: exeg-012
+        certainty: ATTESTÉ
+        statement: "Psaume 137 va des harpes suspendues et du refus de chanter à la fidélité à Jérusalem, puis à l'imprécation."
+        references: ["Psaume 137:1-9"]
+        source_ids: [src-text-psalms-fr, src-exeg-137]
+        allowed_copy: "On leur ordonne de chanter la ville qu'on leur a détruite."
+        forbidden_copy: ["La vengeance est héroïque.", "La violence est montrée."]
+        quiz_eligible: false
+      - id: exeg-013
+        certainty: ATTESTÉ
+        statement: "Psaume 138 élargit la louange aux rois mais revient à une voix encore au milieu de la détresse."
+        references: ["Psaume 138:1-8"]
+        source_ids: [src-text-psalms-fr]
+        allowed_copy: "La confiance cohabite avec : ne m'abandonne pas."
+        forbidden_copy: ["Rassemblement diplomatique historique de tous les rois."]
+        quiz_eligible: true
+      - id: exeg-014
+        certainty: ATTESTÉ
+        statement: "Psaume 139 est encadré par « sonder » et passe de la connaissance à la fuite impossible, la formation cachée, la haine, puis l'examen de soi."
+        references: ["Psaume 139:1-24"]
+        source_ids: [src-text-psalms-fr, src-lds-helps]
+        allowed_copy: "Après avoir dénoncé le mal, la voix accepte d'être elle-même sondée."
+        forbidden_copy: ["Poème uniquement doux sur l'estime de soi.", "La haine devient devoir chrétien."]
+        quiz_eligible: true
+      - id: exeg-015
+        certainty: ATTESTÉ
+        statement: "Psaume 146 oppose le souffle perdu des puissants au Dieu qui agit pour affamés, captifs, étrangers, orphelins et veuves."
+        references: ["Psaume 146:1-10"]
+        source_ids: [src-text-psalms-fr]
+        allowed_copy: "Les projets des puissants meurent avec leur souffle."
+        forbidden_copy: ["Louange abstraite sans les vulnérables nommés."]
+        quiz_eligible: true
+      - id: exeg-016
+        certainty: ATTESTÉ
+        statement: "Psaume 147 joint reconstruction de Jérusalem, cœurs brisés, étoiles comptées et puissance militaire relativisée."
+        references: ["Psaume 147:1-20"]
+        source_ids: [src-text-psalms-fr]
+        allowed_copy: "Celui qui compte les étoiles s'arrête aussi devant un cœur brisé."
+        forbidden_copy: ["La force physique déplaît toujours à Dieu."]
+        quiz_eligible: true
+      - id: exeg-017
+        certainty: ATTESTÉ
+        statement: "Psaume 148 fait descendre le chœur des astres vers météo, reliefs, animaux, rois, peuples, jeunes et vieux."
+        references: ["Psaume 148:1-14"]
+        source_ids: [src-text-psalms-fr]
+        allowed_copy: "Le chœur descend des étoiles jusqu'aux enfants."
+        forbidden_copy: ["Cosmologie scientifique moderne."]
+        quiz_eligible: true
+      - id: exeg-018
+        certainty: ATTESTÉ
+        statement: "Psaume 149 bascule explicitement du chant, de la danse et des instruments vers le glaive et le jugement."
+        references: ["Psaume 149:1-9"]
+        source_ids: [src-text-psalms-fr, src-lds-helps]
+        allowed_copy: "La louange danse, puis le poème place soudain un glaive dans la main du chœur."
+        forbidden_copy: ["Le glaive signifie seulement la Bible.", "Autorisation de violence contemporaine."]
+        quiz_eligible: false
+      - id: exeg-019
+        certainty: ATTESTÉ
+        statement: "Psaume 150 répond où, pourquoi, comment et qui doit louer, jusqu'à tout ce qui respire."
+        references: ["Psaume 150:1-6"]
+        source_ids: [src-text-psalms-fr]
+        allowed_copy: "L'instrument ultime n'est pas un objet : c'est tout ce qui respire."
+        forbidden_copy: ["Partition ou chorégraphie historique exacte."]
+        quiz_eligible: true
+      - id: exeg-020
+        certainty: PROBABLE
+        statement: "L'expédition peut faire résonner un motif du souffle entre 135:17, 146:4 et 150:6, sans prétendre à un code intentionnel."
+        references: ["Psaume 135:17", "Psaume 146:4", "Psaume 150:6"]
+        source_ids: [src-text-psalms-fr]
+        allowed_copy: "Les idoles n'ont pas de souffle; les puissants le perdent; à la fin, tout souffle devient louange."
+        forbidden_copy: ["Un code hébreu secret relie les trois textes."]
+        quiz_eligible: true
+      - id: exeg-021
+        certainty: ATTESTÉ
+        statement: "Le Nouveau Testament relit Psaume 102 pour le Fils, 110 pour le Seigneur et prêtre, 117 pour les nations et 118 pour Jésus comme pierre."
+        references: ["Hébreux 1", "Matthieu 22", "Actes 2", "Hébreux 5–7", "Romains 15", "Matthieu 21", "Actes 4", "1 Pierre 2"]
+        source_ids: [src-cfm-2026, src-lds-helps]
+        allowed_copy: "Des textes anciens deviennent des clés majeures de la lecture chrétienne du Christ."
+        forbidden_copy: ["La réception ultérieure prouve chaque intention historique initiale."]
+        quiz_eligible: true
+      - id: exeg-022
+        certainty: ATTESTÉ
+        statement: "La réception LDS relie Psaume 110:4 au Christ et à la prêtrise selon l'ordre du Fils de Dieu."
+        references: ["Alma 13", "Doctrine et Alliances 84", "Doctrine et Alliances 107"]
+        source_ids: [src-lds-helps]
+        allowed_copy: "Pour les saints des derniers jours, ce serment ouvre aussi sur la prêtrise selon l'ordre du Fils de Dieu."
+        forbidden_copy: ["Cette lecture donne l'identité historique certaine du premier roi."]
+        quiz_eligible: true
+    literary_map:
+      - { reference: "Psaumes 102–103", movement: "cri → mémoire", turn: "« Mais toi » puis « n'oublie aucun de ses bienfaits »", claim_ids: [exeg-002, exeg-003] }
+      - { reference: "Psaume 110", movement: "roi → prêtre → jugement", turn: "le serment de Melchisédek", claim_ids: [exeg-004, exeg-021, exeg-022] }
+      - { reference: "Psaumes 116–119", movement: "délivrance → monde entier → porte/pierre → parole", turn: "la brebis perdue après l'acrostiche parfait", claim_ids: [exeg-005, exeg-006, exeg-007, exeg-008] }
+      - { reference: "Psaumes 127–128", movement: "effort → don → table → paix de la ville", turn: "la bénédiction sort de la maison", claim_ids: [exeg-009] }
+      - { reference: "Psaumes 135–139", movement: "idoles sans souffle → refrain → chant refusé → présence qui sonde", turn: "la voix demande à être examinée", claim_ids: [exeg-010, exeg-011, exeg-012, exeg-013, exeg-014] }
+      - { reference: "Psaumes 146–150", movement: "puissants mortels → cœur relevé → chœur cosmique → glaive → tout souffle", turn: "le vivant devient l'instrument final", claim_ids: [exeg-015, exeg-016, exeg-017, exeg-018, exeg-019, exeg-020] }
+    reception_layers:
+      - { id: reception-102, layer: NEW_TESTAMENT, source: "Psaume 102:25-27", receiving: "Hébreux 1:10-12", boundary: "Ne pas identifier toute la plainte à Jésus." }
+      - { id: reception-110, layer: NEW_TESTAMENT_AND_LDS, source: "Psaume 110:1,4", receiving: "Matthieu 22; Actes 2; Hébreux 5–7; Alma 13; D&A 84,107", boundary: "Premier destinataire toujours discuté." }
+      - { id: reception-117-118, layer: NEW_TESTAMENT, source: "Psaumes 117:1; 118:22,26", receiving: "Romains 15; Matthieu 21; Actes 4; 1 Pierre 2", boundary: "La première pierre reste ouverte." }
+      - { id: reception-116-118, layer: JEWISH_LITURGY, source: "Psaumes 113–118", receiving: "Hallel", boundary: "Usage reçu, pas composition simultanée certaine." }
+      - { id: reception-149, layer: LDS_STUDY_HELP, source: "Psaume 149:6", receiving: "D&A 6:2", boundary: "Lecture symbolique; le sens martial reste visible." }
+    preventive_vetoes:
+      - { id: veto-exeg-single-hero, reason: "Les voix ne forment pas la biographie d'un héros unique.", status: open_preventive }
+      - { id: veto-exeg-110, reason: "Texte, réception chrétienne et réception LDS doivent rester stratifiés.", status: open_preventive }
+      - { id: veto-exeg-137, reason: "Trauma et imprécation ne deviennent ni score ni spectacle.", status: open_preventive }
+      - { id: veto-exeg-family, reason: "127–128 ne classent ni fertilité ni forme familiale.", status: open_preventive }
+      - { id: veto-exeg-149, reason: "Le glaive n'est ni effacé ni transformé en consigne contemporaine.", status: open_preventive }
+      - { id: veto-exeg-arc, reason: "Cri → louange est un arc éditorial, jamais une chronologie historique.", status: open_preventive }
+
+concepts:
+  candidates:
+    - id: concept-a
+      owner: expedition-showrunner
+      revision: 2
+      supersedes_revision: 1
+      title: { fr: "Leurs voix nous atteignent encore" }
+      promise:
+        fr: "Dix-neuf chants, plusieurs voix : suivre ce qu'elles disent lorsque le corps s'épuise, que l'autorité devient mystérieuse, que la maison paraît fragile, que la ville est perdue ou que la louange rencontre la colère."
+      human_question:
+        fr: "Pourquoi des paroles venues de vies si différentes peuvent-elles encore devenir les nôtres ?"
+      why_this_text_endures:
+        fr: "L'expédition ne prétend pas expliquer par une cause unique pourquoi ces textes ont été conservés. Elle explore les gestes dans lesquels des lecteurs peuvent encore se reconnaître : crier, se souvenir, distinguer, structurer, bâtir, refuser, accepter d'être sondé et louer."
+      dramatic_thesis:
+        fr: "Aucune voix ne porte seule cette histoire; leur pluralité traverse effacement, mémoire, exil, ambiguïté et louange sans devenir une biographie continue."
+      opening_image:
+        fr: "Une voix anonyme, sans visage ni date, décrit ses jours qui partent en fumée et son cœur desséché; puis le poème pivote : « Mais toi »."
+      opening_claim_ids: [exeg-002, hist-002, hist-004]
+      emotional_arc: [effacement, mémoire, transmission, déracinement, vérité_difficile, héritage_vivant]
+      proposed_pack_movements:
+        - { order: 1, name: { fr: "La voix qui pensait disparaître" }, readings: ["Psaume 102", "Psaume 103"], movement: { fr: "Du corps consumé au refus d'oublier." }, claim_ids: [exeg-002, exeg-003, hist-004] }
+        - { order: 2, name: { fr: "L'énigme transmise" }, readings: ["Psaume 110"], movement: { fr: "Un roi inconnu, un serment et des siècles de relectures." }, claim_ids: [hist-005, hist-006, exeg-004, exeg-021, exeg-022] }
+        - { order: 3, name: { fr: "Donner une forme à la survie" }, readings: ["Psaume 116", "Psaume 117", "Psaume 118", "Psaume 119"], movement: { fr: "Le cri devient témoignage, horizon universel, pierre relevée puis alphabet de fidélité." }, claim_ids: [exeg-005, exeg-006, exeg-007, exeg-008, hist-007, hist-008] }
+        - { order: 4, name: { fr: "Ce que l'on espère transmettre" }, readings: ["Psaume 127", "Psaume 128"], movement: { fr: "De l'effort insuffisant au don, à la table et au bien de la cité." }, claim_ids: [exeg-009, hist-009, hist-010] }
+        - { order: 5, name: { fr: "Se souvenir sans falsifier la douleur" }, readings: ["Psaume 135", "Psaume 136", "Psaume 137", "Psaume 138", "Psaume 139"], movement: { fr: "Des idoles sans souffle au refrain, au chant refusé et à l'examen de soi." }, claim_ids: [exeg-010, exeg-011, exeg-012, exeg-013, exeg-014, hist-011, hist-012, hist-013] }
+        - { order: 6, name: { fr: "Quand l'héritage recommence à respirer" }, readings: ["Psaume 146", "Psaume 147", "Psaume 148", "Psaume 149", "Psaume 150"], movement: { fr: "Les puissants perdent leur souffle; le cosmos rejoint le chœur; le glaive demeure une tension; tout souffle devient louange." }, claim_ids: [exeg-015, exeg-016, exeg-017, exeg-018, exeg-019, exeg-020, hist-014, hist-015, hist-016] }
+      payoff:
+        fr: "Le joueur n'obtient pas une cause unique de conservation : il éprouve comment des paroles anciennes offrent encore des formes au cri, à la mémoire, à la vigilance et à la louange."
+      risks:
+        historical: ["Faire de 11Q5 le témoin direct de chaque lecture.", "Transformer les titres en biographies."]
+        exegetical: ["Présenter les voix comme un héros unique.", "Adoucir 137 et 149."]
+        retention: ["Transformer la transmission en visite de musée."]
+      supporting_claim_ids: [hist-001, hist-002, hist-003, hist-004, hist-005, hist-006, hist-007, hist-008, hist-009, hist-010, hist-011, hist-012, hist-013, hist-014, hist-015, hist-016, exeg-001, exeg-002, exeg-003, exeg-004, exeg-005, exeg-006, exeg-007, exeg-008, exeg-009, exeg-010, exeg-011, exeg-012, exeg-013, exeg-014, exeg-015, exeg-016, exeg-017, exeg-018, exeg-019, exeg-020, exeg-021, exeg-022]
+      repair_notes:
+        - { objection_ids: [veto-a-causality-hist, veto-a-causality-exeg], repair: "Aucune cause certaine n'est affirmée." }
+        - { objection_ids: [veto-a-11q5-scope, ret-a-museum], repair: "11Q5 devient une découverte du mouvement 3." }
+        - { objection_ids: [warning-a-single-voice], repair: "La pluralité des voix est explicite." }
+    - id: concept-b
+      owner: expedition-showrunner
+      revision: 1
+      title: { fr: "Ce qui tient quand tout s'effondre" }
+      promise:
+        fr: "Soumettre nos appuis à six épreuves : corps, effort, images, puissants, maison et certitude."
+      human_question:
+        fr: "À quoi confier sa vie lorsque le corps, les chefs, la maison et la ville peuvent tous céder ?"
+      why_this_text_endures:
+        fr: "Le corpus examine des appuis concrets, expose leur fragilité et fait de la louange un verdict éprouvé plutôt qu'un optimisme automatique."
+      dramatic_thesis:
+        fr: "La foi devient crédible lorsqu'elle accepte de comparer ses fondations à tout ce qui peut mourir, mentir, tomber ou rester sans souffle."
+      opening_image:
+        fr: "Un corps consumé, des gardes qui veillent en vain et les projets d'un puissant qui s'arrêtent avec son souffle."
+      opening_claim_ids: [exeg-002, exeg-009, exeg-015]
+      emotional_arc: [assurance, mise_à_l_épreuve, ambiguïté, perte, reconstruction, verdict]
+      proposed_pack_movements:
+        - { order: 1, name: { fr: "Épreuve du corps et de la force" }, readings: ["Psaume 102", "Psaume 127", "Psaume 146"], claim_ids: [exeg-002, exeg-009, exeg-015, hist-004] }
+        - { order: 2, name: { fr: "Épreuve des faux visages" }, readings: ["Psaume 135", "Psaume 139"], claim_ids: [exeg-010, exeg-014] }
+        - { order: 3, name: { fr: "Épreuve de la promesse" }, readings: ["Psaume 103", "Psaume 116", "Psaume 119", "Psaume 136"], claim_ids: [exeg-003, exeg-005, exeg-008, exeg-011] }
+        - { order: 4, name: { fr: "Épreuve de l'autorité" }, readings: ["Psaume 110", "Psaume 118", "Psaume 149"], claim_ids: [exeg-004, exeg-007, exeg-018, hist-005, hist-006, hist-015] }
+        - { order: 5, name: { fr: "Épreuve de la maison perdue" }, readings: ["Psaume 128", "Psaume 137", "Psaume 147"], claim_ids: [exeg-009, exeg-012, exeg-016, hist-012, hist-014] }
+        - { order: 6, name: { fr: "Le verdict du vivant" }, readings: ["Psaume 117", "Psaume 138", "Psaume 148", "Psaume 150"], claim_ids: [exeg-006, exeg-013, exeg-017, exeg-019] }
+      payoff:
+        fr: "Le joueur termine avec une carte exigeante de la confiance : l'idole sans souffle, le pouvoir qui le perd et Dieu qui relève les vulnérables n'ont pas le même poids."
+      risks:
+        historical: ["Transformer les épreuves en ordre historique."]
+        exegetical: ["Réduire chaque psaume au thème de la confiance.", "Faire de 127–128 une récompense automatique."]
+        retention: ["Ton abstrait.", "Six révélations trop semblables."]
+      supporting_claim_ids: [hist-002, hist-004, hist-005, hist-006, hist-008, hist-009, hist-010, hist-011, hist-012, hist-013, hist-014, hist-015, hist-016, exeg-001, exeg-002, exeg-003, exeg-004, exeg-005, exeg-006, exeg-007, exeg-008, exeg-009, exeg-010, exeg-011, exeg-012, exeg-013, exeg-014, exeg-015, exeg-016, exeg-017, exeg-018, exeg-019, exeg-020]
+    - id: concept-c
+      owner: expedition-showrunner
+      revision: 1
+      title: { fr: "Le chant qu'on ne peut pas commander" }
+      promise:
+        fr: "Commencer devant des harpes suspendues et découvrir pourquoi la louange peut crier, refuser, se souvenir et seulement ensuite offrir librement son souffle."
+      human_question:
+        fr: "Peut-on encore appeler cela une louange lorsque le chant refuse d'être joyeux sur commande ?"
+      why_this_text_endures:
+        fr: "La voix peut être presque éteinte, publique, alphabétique, familiale, antiphonale, interdite, cosmique ou traversée par le glaive."
+      dramatic_thesis:
+        fr: "Un chant imposé devient humiliation; un chant offert librement peut porter cri, mémoire, doute et louange."
+      opening_image:
+        fr: "À Babylone, des harpes restent suspendues; des exilés refusent de divertir ceux qui ont détruit leur ville."
+      opening_claim_ids: [hist-012, hist-013, exeg-012]
+      emotional_arc: [confiscation, cri, reprise, confrontation, appartenance, dissonance, consentement]
+      proposed_pack_movements:
+        - { order: 1, name: { fr: "Chante pour nous" }, readings: ["Psaume 137"], claim_ids: [hist-012, hist-013, exeg-012] }
+        - { order: 2, name: { fr: "Quand il ne reste qu'un cri" }, readings: ["Psaume 102", "Psaume 116"], claim_ids: [hist-004, exeg-002, exeg-005] }
+        - { order: 3, name: { fr: "La voix devient un peuple" }, readings: ["Psaume 103", "Psaume 117", "Psaume 118", "Psaume 136"], claim_ids: [exeg-003, exeg-006, exeg-007, exeg-011, hist-007, hist-011] }
+        - { order: 4, name: { fr: "Les mots qui nous jugent" }, readings: ["Psaume 110", "Psaume 119", "Psaume 139"], claim_ids: [exeg-004, exeg-008, exeg-014, exeg-021, exeg-022] }
+        - { order: 5, name: { fr: "Rendre une maison au chant" }, readings: ["Psaume 127", "Psaume 128", "Psaume 138"], claim_ids: [exeg-009, exeg-013, hist-009, hist-010] }
+        - { order: 6, name: { fr: "Qui possède vraiment un souffle ?" }, readings: ["Psaume 135", "Psaume 146"], claim_ids: [exeg-010, exeg-015, exeg-020] }
+        - { order: 7, name: { fr: "Le chœur et le glaive" }, readings: ["Psaume 147", "Psaume 148", "Psaume 149", "Psaume 150"], claim_ids: [exeg-016, exeg-017, exeg-018, exeg-019, hist-014, hist-015, hist-016] }
+      payoff:
+        fr: "La destination n'est pas nier la douleur pour chanter, mais retrouver la liberté d'offrir sa voix."
+      risks:
+        historical: ["Inventer les exilés, leurs ravisseurs ou un canal précis."]
+        exegetical: ["Exploiter 137 comme choc.", "Effacer le glaive de 149."]
+        retention: ["Laisser 137 absorber les dix-huit autres lectures.", "Répéter silence contre chant."]
+      supporting_claim_ids: [hist-002, hist-004, hist-005, hist-006, hist-007, hist-008, hist-009, hist-010, hist-011, hist-012, hist-013, hist-014, hist-015, hist-016, exeg-001, exeg-002, exeg-003, exeg-004, exeg-005, exeg-006, exeg-007, exeg-008, exeg-009, exeg-010, exeg-011, exeg-012, exeg-013, exeg-014, exeg-015, exeg-016, exeg-017, exeg-018, exeg-019, exeg-020, exeg-021, exeg-022]
+  critiques:
+    - reviewer: expedition-historian
+      concept_id: concept-a
+      verdict: REVISE
+      strengths: ["Anonymat respecté.", "Mystères historiques légitimes.", "137 et 149 restent visibles."]
+      risks: ["Causalité de conservation non démontrée.", "11Q5 pourrait sembler transmettre tout le corpus."]
+      objection_ids: [veto-a-causality-hist, veto-a-11q5-scope]
+    - reviewer: expedition-historian
+      concept_id: concept-b
+      verdict: REVISE
+      strengths: ["Images textuelles solides et peu de dépendance à une datation."]
+      risks: ["Pseudo-chronologie 128 → 137 → 147.", "Contextes de 110, 118 et 149 fusionnés."]
+      objection_ids: [veto-b-pseudo-chronology]
+    - reviewer: expedition-historian
+      concept_id: concept-c
+      verdict: REVISE
+      strengths: ["137 offre le cadre historique le plus solide et un refus attesté."]
+      risks: ["Ouverture trop documentaire.", "Trauma susceptible d'absorber le corpus."]
+      objection_ids: [veto-c-documentary-babylon, veto-c-trauma]
+    - reviewer: expedition-exegete
+      concept_id: concept-a
+      verdict: REVISE
+      strengths: ["Pluralité des voix.", "Réceptions de 110 stratifiées.", "137 et 149 non effacés."]
+      risks: ["Cause de transmission affirmée.", "Un héros singulier pourrait réapparaître."]
+      objection_ids: [veto-a-causality-exeg, warning-a-single-voice]
+    - reviewer: expedition-exegete
+      concept_id: concept-b
+      verdict: REJECT
+      strengths: ["Le motif des appuis est humain."]
+      risks: ["139 trahi.", "110, 118 et 149 collapsés sous autorité.", "128 n'est pas une maison perdue."]
+      objection_ids: [veto-b-139, veto-b-reception, veto-b-lost-house]
+    - reviewer: expedition-exegete
+      concept_id: concept-c
+      verdict: REVISE
+      strengths: ["Le chant est traité comme acte de voix.", "149 n'est pas spiritualisé."]
+      risks: ["Fausse opposition entre chant commandé et chant libre.", "150 pourrait sembler résoudre 149."]
+      objection_ids: [veto-c-command-paradox, veto-c-149-resolution]
+    - reviewer: expedition-game-designer
+      concept_id: concept-a
+      verdict: REVISE
+      strengths: ["Meilleur socle de quiz.", "Six mouvements observables.", "Mystères défendables."]
+      risks: ["Packs 3, 5 et 6 trop vastes.", "Récompense collective encore faible."]
+      objection_ids: [game-a-internal-missions]
+    - reviewer: expedition-game-designer
+      concept_id: concept-b
+      verdict: REJECT
+      strengths: ["Mécanique de tests de fondation réutilisable."]
+      risks: ["Même geste répété.", "Le joueur connaît le verdict avant de jouer."]
+      objection_ids: [game-b-repetition]
+    - reviewer: expedition-game-designer
+      concept_id: concept-c
+      verdict: REVISE
+      strengths: ["Excellent moteur sonore et collectif."]
+      risks: ["137 est un prologue non noté, pas un premier pack de quiz.", "149 ne peut être scoré."]
+      objection_ids: [game-c-sensitive-opening]
+    - reviewer: expedition-art-director
+      concept_id: concept-a
+      verdict: PASS
+      strengths: ["Meilleure variété de mondes.", "Trace d'or comme continuité.", "Dark → Light naturel."]
+      risks: ["Éviter l'esthétique musée et les faux portraits."]
+      objection_ids: []
+    - reviewer: expedition-art-director
+      concept_id: concept-b
+      verdict: REVISE
+      strengths: ["Maison, porte, pierre et reconstruction sont visuels."]
+      risks: ["Six variations sombres génériques."]
+      objection_ids: [art-b-generic-collapse]
+    - reviewer: expedition-art-director
+      concept_id: concept-c
+      verdict: REVISE
+      strengths: ["Meilleur hook visuel.", "Progression sonore et lumineuse forte."]
+      risks: ["Toute l'identité visuelle repose sur le trauma de 137."]
+      objection_ids: [art-c-trauma-dependence]
+    - reviewer: reel-editor-retention
+      concept_id: concept-a
+      verdict: REVISE
+      scores: { stop_power: 9.0, question_at_5s: 9.1, escalation: 7.8, variety: 9.0, payoff: 8.8, desire_to_open: 8.7 }
+      risks: ["Le rouleau arrive trop tôt et transforme le hook en visite de musée."]
+      objection_ids: [ret-a-museum]
+    - reviewer: reel-editor-retention
+      concept_id: concept-b
+      verdict: REJECT
+      scores: { stop_power: 7.5, question_at_5s: 7.6, escalation: 7.2, variety: 8.1, payoff: 8.0, desire_to_open: 7.4 }
+      risks: ["Promesse générique et six épreuves répétitives."]
+      objection_ids: [ret-b-abstraction]
+    - reviewer: reel-editor-retention
+      concept_id: concept-c
+      verdict: PASS
+      scores: { stop_power: 9.3, question_at_5s: 9.4, escalation: 8.7, variety: 8.6, payoff: 9.0, desire_to_open: 9.1 }
+      risks: ["Veto social immédiat si le trauma devient choc ou spectacle."]
+      objection_ids: [ret-c-trauma-conditional]
+  arbitration:
+    owner: expedition-director
+    status: superseded_by_structure_gate_revision_4
+    selected_concept_id: concept-a
+    decision: "Concept A retenu comme promesse éditoriale. B est rejeté comme concept mais son test de fondation peut devenir une mécanique. C est rejeté comme promesse principale malgré sa rétention supérieure; sa montée sonore peut devenir le système de récompense."
+    accepted_critiques:
+      - veto-a-causality-hist
+      - veto-a-causality-exeg
+      - veto-a-11q5-scope
+      - warning-a-single-voice
+      - ret-a-museum
+      - game-a-internal-missions
+    rejected_advisories: []
+    conditions:
+      - "Reformuler titre et promesse sans conservateur unique ni cause historique certaine."
+      - "Ouvrir sur une voix humaine anonyme; retarder 11Q5 comme découverte."
+      - "Montrer plusieurs voix et plusieurs formes, jamais un héros continu."
+      - "Créer six packs avec missions internes courtes et verbes différents."
+      - "Chaque pack libère un éclat de voix dans un chœur collectif moderne, jamais une reconstruction historique."
+      - "137 et 149 disposent d'une voie calme non notée."
+      - "150 élargit le chœur sans effacer le cri, l'exil ou le glaive."
+    supporting_claim_ids: [exeg-001, exeg-002, exeg-020, hist-002, hist-003]
+
+expedition:
+  owner: expedition-showrunner
+  revision: 1
+  status: internal_legacy_superseded
+  visibility: audit_only
+  superseded_by: editorial_structure_revision_2
+  selected_concept_id: concept-a
+  title: { fr: "Leurs voix nous atteignent encore" }
+  subtitle: { fr: "Du cri anonyme au souffle partagé" }
+  promise:
+    fr: "Dix-neuf chants, plusieurs voix : apprendre à reconnaître ce qu'elles font de l'effacement, de la mémoire, du pouvoir, de la maison, de l'exil et de la louange."
+  weekly_logline:
+    fr: "Une voix croit disparaître; d'autres lui répondent par des formes différentes jusqu'à un chœur final qui accueille davantage de souffle sans effacer les paroles difficiles."
+  human_question:
+    fr: "Pourquoi des paroles venues de vies si différentes peuvent-elles encore devenir les nôtres ?"
+  why_this_text_endures:
+    fr: "L'expédition ne tranche pas la cause historique de leur conservation. Elle fait éprouver la pertinence durable de gestes inscrits dans les textes : crier, se souvenir, distinguer, structurer, bâtir, refuser, examiner et louer."
+  protagonist_model:
+    type: plural_textual_voices
+    rule: { fr: "Le protagonisme circule entre voix anonymes, assemblées et images poétiques; aucun héros continu n'est inventé." }
+    claim_ids: [exeg-001, hist-001, hist-002]
+  dramatic_contract:
+    beginning: { fr: "Une voix anonyme craint l'effacement." }
+    middle: { fr: "D'autres voix proposent mémoire, parole, maison et chant, puis rencontrent exil, colère et examen de soi." }
+    ending: { fr: "Le chœur s'élargit à tout ce qui respire sans réécrire les tensions antérieures." }
+  research_reveal:
+    id: reveal-11q5
+    timing: after_movement_03_human_attachment
+    fr: "11Q5 conserve plusieurs psaumes de la zone 101–150 dans un autre ordre et avec d'autres compositions; il illustre une histoire textuelle complexe sans expliquer seul la conservation de l'ensemble."
+    claim_ids: [hist-003]
+  mechanical_briefs:
+    foundation_probe:
+      source_concept: concept-b
+      scope: mechanic_only
+      fr: "Éprouver un appui nommé par le texte — force, autorité, perfection, effort, image ou pouvoir — sans réduire tous les psaumes au même verdict."
+    collective_voice_reward:
+      source_concept: concept-c
+      scope: reward_only
+      fr: "Chaque mouvement libère un éclat d'un chœur contemporain, du souffle isolé vers des voix superposées; ce n'est pas une reconstruction du Temple."
+      exclusions: ["Aucun score ni éclat gagné sur le trauma de 137.", "Aucun score ni éclat gagné sur le glaive de 149."]
+      claim_ids: [hist-016, exeg-019, exeg-020]
+  content_boundaries:
+    - "Psaumes 137 et 149 empruntent une voie calme non notée."
+    - "Les formes familiales réelles du joueur ne sont jamais évaluées."
+    - "Les réceptions chrétienne et LDS de 110 sont nommées comme réceptions."
+    - "L'arc ne devient ni datation, ni histoire continue, ni promesse de guérison."
+    - "Le dernier mouvement ajoute des voix; il ne gomme aucune voix précédente."
+
+editorial_structure:
+  owner: expedition-showrunner
+  revision: 2
+  status: selected
+  type: constellation
+  confidence: high
+  reason:
+    fr: >-
+      Les dix-neuf psaumes ne partagent ni narrateur, ni événement, ni auteur,
+      ni chronologie. La semaine propose donc des destinations autonomes. Six
+      histoires portent la bande-annonce; quatre autres restent visibles et
+      comptent autant dans la progression.
+  navigation: free_choice
+  completion:
+    fr: "La progression mesure les découvertes accomplies, jamais l'avancée dans un récit."
+  units:
+    - id: disappearing-voice
+      working_title: { fr: "La voix qui disparaît" }
+      featured_in_trailer: true
+      references: ["Psaume 102", "Psaume 103"]
+      claim_ids: [hist-004, exeg-002, exeg-003]
+      boundary: { fr: "Diptyque de deux voix; aucune identité commune ni guérison causale n'est affirmée." }
+    - id: nameless-king
+      working_title: { fr: "Le roi sans nom" }
+      featured_in_trailer: true
+      references: ["Psaume 110"]
+      claim_ids: [hist-005, hist-006, exeg-004, exeg-021, exeg-022]
+      boundary: { fr: "Le roi, la cérémonie et la première situation historique restent inconnus." }
+    - id: cry-nations-stone
+      working_title: { fr: "Le cri, les nations et la pierre" }
+      featured_in_trailer: false
+      references: ["Psaume 116", "Psaume 117", "Psaume 118"]
+      claim_ids: [hist-007, exeg-005, exeg-006, exeg-007, exeg-021]
+      boundary: { fr: "Mini-anthologie; aucun événement ni auteur commun n'est affirmé." }
+    - id: seek-me
+      working_title: { fr: "Cherche-moi" }
+      featured_in_trailer: true
+      references: ["Psaume 119"]
+      claim_ids: [hist-008, exeg-008]
+    - id: house-table-city
+      working_title: { fr: "La maison, la table et la ville" }
+      featured_in_trailer: false
+      references: ["Psaume 127", "Psaume 128"]
+      claim_ids: [hist-009, hist-010, exeg-009]
+      boundary: { fr: "Aucune forme familiale, fertilité ou prospérité n'est évaluée." }
+    - id: breathless-images-answer
+      working_title: { fr: "Les bouches sans souffle et la réponse répétée" }
+      featured_in_trailer: false
+      references: ["Psaume 135", "Psaume 136"]
+      claim_ids: [hist-011, exeg-010, exeg-011]
+      boundary: { fr: "Contraste éditorial entre deux psaumes; aucune unité de composition n'est affirmée." }
+    - id: suspended-harps
+      working_title: { fr: "Les harpes suspendues" }
+      featured_in_trailer: true
+      references: ["Psaume 137"]
+      claim_ids: [hist-012, hist-013, exeg-012]
+      quiet_route: { scored: false, timed: false, fanfare: false, depiction: non_graphic }
+    - id: still-in-distress
+      working_title: { fr: "Encore au milieu de la détresse" }
+      featured_in_trailer: false
+      references: ["Psaume 138"]
+      claim_ids: [exeg-013]
+    - id: you-know-me
+      working_title: { fr: "Tu me connais" }
+      featured_in_trailer: true
+      references: ["Psaume 139"]
+      claim_ids: [exeg-014]
+    - id: everything-breathes
+      working_title: { fr: "Tout ce qui respire" }
+      featured_in_trailer: true
+      references: ["Psaume 146", "Psaume 147", "Psaume 148", "Psaume 149", "Psaume 150"]
+      claim_ids: [hist-014, hist-015, hist-016, exeg-015, exeg-016, exeg-017, exeg-018, exeg-019, exeg-020]
+      boundary: { fr: "Constellation interne; Psaume 150 ne résout ni n'efface Psaume 149." }
+  echoes:
+    - motif: souffle
+      unit_ids: [breathless-images-answer, everything-breathes]
+      claim_ids: [exeg-010, exeg-015, exeg-019, exeg-020]
+      limits: { fr: "Écho éditorial, jamais code intentionnel démontré." }
+    - motif: etre_cherche_ou_sonde
+      unit_ids: [seek-me, you-know-me]
+      claim_ids: [exeg-008, exeg-014]
+      limits: { fr: "Deux gestes textuels distincts, sans auteur ou projet commun affirmé." }
+  forced_connections: []
+
+public_story:
+  owner: expedition-incarnate-writer
+  revision: 5
+  status: human_validation_requested
+  speaker: "Tracy face caméra / vocal WhatsApp à un ami"
+  title_candidates:
+    - { text: "Ça aussi, c'est dans les Psaumes", spoken_test: PASS, claim_ids: [] }
+    - { text: "Attends… ça, c'est dans les Psaumes ?", spoken_test: PASS, claim_ids: [] }
+    - { text: "Mes jours partent en fumée", spoken_test: PASS, claim_ids: [exeg-002] }
+  selected_title:
+    text: "Ça aussi, c'est dans les Psaumes"
+    reason: "Une réaction humaine qui promet plusieurs surprises sans les relier artificiellement."
+  spoken_promise:
+    text: "Un roi dirige. Un prêtre sert Dieu. Mais dans le Psaume 110, Dieu donne les deux rôles au même homme. Puis un nom surgit : Melchisédek. Qui est-ce ?"
+    claim_ids: [hist-005, hist-006, exeg-004]
+  pack_labels:
+    - { unit_id: disappearing-voice, title: "Des jours qui s'évanouissent en fumée", claim_ids: [exeg-002] }
+    - { unit_id: nameless-king, title: "Qui est le roi-prêtre ?", claim_ids: [hist-005, hist-006, exeg-004] }
+    - { unit_id: seek-me, title: "176 vers… et toujours perdu", claim_ids: [hist-008, exeg-008] }
+    - { unit_id: suspended-harps, title: "Les harpes restent suspendues", claim_ids: [hist-012, exeg-012] }
+    - { unit_id: you-know-me, title: "Tu me sondes. Sonde-moi.", claim_ids: [exeg-014] }
+    - { unit_id: everything-breathes, title: "Tout ce qui respire", claim_ids: [exeg-019] }
+  trailer:
+    hook_variants:
+      - id: hook-a
+        text: "Un roi dirige un pays. Un prêtre sert Dieu. Mais dans un psaume, Dieu donne les deux rôles au même homme."
+        claim_ids: [hist-005, hist-006, exeg-004]
+      - id: hook-b
+        text: "On a détruit leur ville. Puis on les a emmenés loin de chez eux. Maintenant, on leur demande de la chanter. Ils refusent."
+        claim_ids: [hist-012, exeg-012]
+      - id: hook-c
+        text: "Un homme dit que ses jours partent en fumée. Il a peur de disparaître. Pourtant, son chant est encore là."
+        claim_ids: [hist-002, exeg-002]
+    spoken_script:
+      - { id: line-01, from: "00:00", to: "00:05", text: "Un roi dirige un pays. Un prêtre sert Dieu. Ce n'est pas le même travail.", claim_ids: [hist-005, exeg-004], image_or_effect: "deux rôles immédiatement compréhensibles" }
+      - { id: line-02, from: "00:05", to: "00:12", text: "Mais dans un psaume — un chant ancien de la Bible — Dieu donne les deux rôles au même homme. Pour toujours.", claim_ids: [hist-005, hist-006, exeg-004], image_or_effect: "la règle familière se brise" }
+      - { id: line-03, from: "00:12", to: "00:17", text: "Puis un nom surgit : Melchisédek. Qui est-ce ? Et pourquoi apparaît-il ici ?", claim_ids: [hist-006, exeg-004], image_or_effect: "le nom inconnu devient la question" }
+      - { id: line-04, from: "00:17", to: "00:23", text: "Ailleurs, un homme dit que ses jours partent en fumée. Il a peur de disparaître.", claim_ids: [exeg-002], image_or_effect: "peur humaine avant référence biblique" }
+      - { id: line-05, from: "00:23", to: "00:28.700", text: "Plus loin, des prisonniers doivent chanter la ville qu'on leur a détruite. Ils refusent.", claim_ids: [hist-012, exeg-012], image_or_effect: "injustice et refus compréhensibles sans image" }
+      - { id: transition-05-06, from: "00:28.700", to: "00:29.000", text: null, direction: "brief silence after refusal", claim_ids: [] }
+      - { id: line-06, from: "00:29", to: "00:36", text: "Cette semaine, six histoires comme celles-là. Une question à chaque porte. Tu commences où ?", claim_ids: [], image_or_effect: "promesse de jeu audible" }
+    screen_text:
+      - { from: "00:00", text: "UN ROI + UN PRÊTRE ?", claim_ids: [hist-005, hist-006, exeg-004] }
+      - { from: "00:12", text: "MELCHISÉDEK : QUI EST-CE ?", claim_ids: [hist-006, exeg-004] }
+      - { from: "00:17", text: "SES JOURS PARTENT EN FUMÉE", claim_ids: [exeg-002] }
+      - { from: "00:23", text: "ON LEUR DEMANDE DE CHANTER LEUR VILLE DÉTRUITE", claim_ids: [hist-012, exeg-012] }
+      - { from: "00:33", text: "QUAND TU TE PERDS : TE CACHER OU DEMANDER DE L'AIDE ?", claim_ids: [exeg-008] }
+    featured_cards:
+      - { unit_id: disappearing-voice, text: "Des jours qui s'évanouissent en fumée", claim_ids: [exeg-002] }
+      - { unit_id: nameless-king, text: "Le roi sans nom", claim_ids: [hist-005, hist-006, exeg-004] }
+      - { unit_id: seek-me, text: "La brebis du dernier vers", claim_ids: [hist-008, exeg-008] }
+      - { unit_id: suspended-harps, text: "Les harpes suspendues", claim_ids: [hist-012, exeg-012] }
+      - { unit_id: you-know-me, text: "Sonde-moi", claim_ids: [exeg-014] }
+      - { unit_id: everything-breathes, text: "Tout ce qui respire", claim_ids: [exeg-019] }
+    game_proof:
+      selected_unit_id: seek-me
+      status: formative_replacement
+      formation_question_id: ps119-return-01
+      situation: "Tu avais enfin une bonne routine. Puis tu rates trois jours et tu as l'impression d'avoir tout gâché."
+      prompt: "Tu as raté trois jours. Que faire d’après la fin du Psaume 119 ?"
+      choices:
+        - { id: a, text: "Me cacher jusqu’à aller mieux", diagnosis: honte_performance }
+        - { id: b, text: "Me promettre de ne plus échouer", diagnosis: perfection_autosuffisante }
+        - { id: c, text: "Demander à Dieu de me chercher", diagnosis: retour_et_dependance }
+        - { id: d, text: "Abandonner le chemin", diagnosis: decouragement_renoncement }
+      correct_choice: c
+      claim_ids: [hist-008, exeg-008]
+      reveal: "La voix ne dit pas « j’ai réussi ». Elle reconnaît qu’elle s’est perdue et demande à Dieu de la chercher."
+      copy_metrics: { prompt_graphemes: 64, choice_graphemes: { a: 29, b: 31, c: 30, d: 20 }, reveal_graphemes: 105, mobile_copy_gate: PASS }
+      feedback: { fanfare: restrained, silence_preserved_from_previous_unit: true, scores: discernement_textuel, never_scores: [foi, repentance, priere, salut] }
+    programme_payoff: "102–103 · 110 · 116–119 · 127–128 · 135–139 · 146–150"
+  read_aloud_revision: 5
+  writer_self_check:
+    slowed_to_understand: false
+    double_abstractions: []
+    dissertation_lines: []
+    imageless_lines: []
+    duplicate_image_explanations: []
+    whatsapp_voice_note_pass: true
+    no_context_audio_test:
+      listener: "fatigué, une oreillette, zéro culture biblique"
+      subject_clear_at_5s: true
+      logical_links_audible: true
+      unknown_names_framed_as_questions: true
+      product_promise_clear: true
+      depends_on_picture: false
+      checkpoints:
+        "00:05": "Un roi et un prêtre ont des rôles différents."
+        "00:17": "Le psaume réunit les deux rôles et introduit un nom mystérieux."
+        "00:29": "Deux autres situations humaines ont été comprises sans référence à l'image."
+        end: "La semaine propose six histoires et une question à chaque porte."
+
+legacy_dramatic_arc:
+  owner: expedition-showrunner
+  revision: 1
+  status: superseded_by_editorial_structure_revision_2
+  visibility: audit_only
+  movements:
+    - id: movement-01
+      order: 1
+      name: { fr: "Dire quand on s'efface" }
+      player_verb: DIRE
+      references: ["Psaume 102", "Psaume 103"]
+      human_turn: { fr: "De « mes jours disparaissent » à « mon âme, n'oublie pas »." }
+      dramatic_function: { fr: "Créer l'attachement à une voix anonyme puis introduire une autre voix et un autre geste." }
+      foundation_probe: { fr: "Lorsque le corps et le temps cèdent, que fait la mémoire ?" }
+      collective_voice_reward: { fr: "Un souffle isolé reçoit une deuxième voix contemporaine." }
+      claim_ids: [exeg-002, exeg-003, hist-004]
+    - id: movement-02
+      order: 2
+      name: { fr: "Distinguer le roi, le prêtre et les relectures" }
+      player_verb: DISTINGUER
+      references: ["Psaume 110"]
+      human_turn: { fr: "De l'envie de nommer immédiatement le héros à la capacité de vivre avec une énigme stratifiée." }
+      dramatic_function: { fr: "Séparer texte, contexte probable, réception chrétienne et réception LDS." }
+      foundation_probe: { fr: "Cette affirmation repose-t-elle sur le verset, une hypothèse ou une réception ?" }
+      collective_voice_reward: { fr: "Une voix grave rejoint le chœur moderne sans simuler une cérémonie antique." }
+      claim_ids: [hist-005, hist-006, exeg-004, exeg-021, exeg-022]
+    - id: movement-03
+      order: 3
+      name: { fr: "Donner une forme à la voix" }
+      player_verb: TRACER
+      references: ["Psaume 116", "Psaume 117", "Psaume 118", "Psaume 119"]
+      human_turn: { fr: "Du cri bref à une parole publique, universelle et alphabétique qui avoue encore être égarée." }
+      dramatic_function: { fr: "Augmenter la complexité sans confondre forme parfaite et personne parfaite." }
+      delayed_research_discovery: { fr: "Ouverture du dossier 11Q5 avec sa portée strictement limitée.", claim_ids: [hist-003] }
+      collective_voice_reward: { fr: "Une réponse courte devient plusieurs lignes vocales contemporaines." }
+      claim_ids: [exeg-005, exeg-006, exeg-007, exeg-008, hist-003, hist-007, hist-008]
+    - id: movement-04
+      order: 4
+      name: { fr: "Éprouver ce qui fait tenir une maison" }
+      player_verb: BÂTIR
+      references: ["Psaume 127", "Psaume 128"]
+      human_turn: { fr: "De « tout dépend de mon effort » à une relation entre travail, don, table et cité." }
+      dramatic_function: { fr: "Déplacer la réussite vers ce qui rend une vie habitable sans classer les familles." }
+      foundation_probe: { fr: "Qu'attribue le texte à l'effort et que reçoit-il comme don ?" }
+      collective_voice_reward: { fr: "Plusieurs âges rejoignent le chœur sans représenter un foyer normatif." }
+      claim_ids: [exeg-009, hist-009, hist-010]
+    - id: movement-05
+      order: 5
+      name: { fr: "Écouter ce qui résiste au beau récit" }
+      player_verb: ÉCOUTER
+      references: ["Psaume 135", "Psaume 136", "Psaume 137", "Psaume 138", "Psaume 139"]
+      human_turn: { fr: "Du refrain assuré à la mémoire traumatique, puis de la dénonciation du mal à l'examen de soi." }
+      dramatic_function: { fr: "Empêcher mémoire et louange de devenir une surface où colère et responsabilité disparaissent." }
+      quiet_route:
+        reference: "Psaume 137"
+        required: true
+        scored: false
+        depiction: non_graphic
+      collective_voice_reward: { fr: "La voie calme ne déclenche ni score, ni fanfare, ni récompense émotionnelle." }
+      claim_ids: [exeg-010, exeg-011, exeg-012, exeg-013, exeg-014, hist-011, hist-012, hist-013]
+    - id: movement-06
+      order: 6
+      name: { fr: "Répondre avec tout ce qui respire" }
+      player_verb: RÉPONDRE
+      references: ["Psaume 146", "Psaume 147", "Psaume 148", "Psaume 149", "Psaume 150"]
+      human_turn: { fr: "Des projets mortels et cœurs brisés à un chœur cosmique qui garde une dissonance avant l'appel final." }
+      dramatic_function: { fr: "Produire une montée sans présenter la louange comme effacement." }
+      quiet_route:
+        reference: "Psaume 149"
+        required: true
+        scored: false
+        depiction: symbolic_non_graphic_tension
+      ending_rule: { fr: "Psaume 150 ouvre le chœur; il ne résout pas rétroactivement 102, 137 ou 149." }
+      collective_voice_reward: { fr: "Le chœur atteint sa plus grande ampleur mais conserve un souffle isolé et des silences." }
+      claim_ids: [exeg-015, exeg-016, exeg-017, exeg-018, exeg-019, exeg-020, hist-014, hist-015, hist-016]
+
+experience_design:
+  owner: expedition-spiritual-experience-director
+  revision: 2
+  status: featured_units_pass_character_revision
+  structure: { model: constellation, navigation: free_choice, global_arc: none, forced_connections: [] }
+  units:
+    - unit_id: disappearing-voice
+      references: ["Psaume 102", "Psaume 103"]
+      claim_ids: [exeg-001, exeg-002, exeg-003, hist-002, hist-004]
+      first_encounter:
+        see: { fr: "Le visage d'un adulte anonyme lutte pour finir sa phrase tandis que ses jours lui semblent partir en fumée; une autre personne refuse d'oublier. La seconde ne répare pas la première." }
+        hear: { fr: "Deux voix différentes, séparées par un vrai silence et sans musique de soulagement." }
+        feel: { fr: "Épuisement et mémoire peuvent rester côte à côte sans devenir un récit de guérison." }
+      human_presence:
+        who: { fr: "Un adulte anonyme dont le visage reste visible; jamais identifié comme auteur." }
+        wants: { fr: "Finir sa phrase et être entendu avant de se sentir disparaître." }
+        does: { fr: "Il se redresse, cherche son souffle et continue malgré la main qui tremble." }
+        resists: { fr: "Son corps, la fatigue et la sensation que le temps lui échappe." }
+      tension_to_inhabit: { fr: "L'une craint de disparaître; l'autre se commande de ne pas oublier." }
+      question_before_explanation: { fr: "Que peut encore faire la mémoire quand la souffrance n'est pas terminée ?" }
+      symbol_left_open: { fr: "La fumée à côté d'une trace conservée; aucune flèche ni « donc » entre elles." }
+      silence_or_pause: { fr: "Plusieurs secondes de vide entre les deux parties." }
+      memorable_act: { fr: "Garder côte à côte un fragment de chaque voix sans les fusionner." }
+      tomorrow_memory: { fr: "L'une partait en fumée; l'autre refusait d'oublier." }
+      explanation_delayed_until: { fr: "Après la rencontre séparée des deux voix." }
+      prohibited_shortcuts: ["Même héros", "Guérison causale", "Auteur ou diagnostic inventé", "Émotion personnelle scorée"]
+    - unit_id: nameless-king
+      references: ["Psaume 110"]
+      claim_ids: [hist-005, hist-006, exeg-004, exeg-021, exeg-022]
+      first_encounter:
+        see: { fr: "Un roi sans nom avance avec assurance vers sa place, puis se retourne quand une seconde déclaration le désigne comme prêtre selon Melchisédek." }
+        hear: { fr: "Les deux déclarations arrivent séparément; les relectures ultérieures attendent." }
+        feel: { fr: "L'importance est perceptible, l'identité reste hors d'atteinte." }
+      human_presence:
+        who: { fr: "Un homme traité visuellement comme roi, mais sans nom, emblème ou visage historique reconnaissable." }
+        wants: { fr: "Avancer avec l'assurance de celui qui connaît sa place." }
+        does: { fr: "Il s'approche du siège, puis se retourne lorsque la déclaration sacerdotale le vise." }
+        resists: { fr: "Des paroles qui agrandissent son rôle au point de le rendre énigmatique même pour lui." }
+      tension_to_inhabit: { fr: "Le texte parle de quelqu'un d'immense importance sans nous autoriser à le nommer historiquement." }
+      question_before_explanation: { fr: "Qui reçoit ces paroles — et pourquoi ne peut-on pas remplir tout de suite la place vide ?" }
+      symbol_left_open: { fr: "Un siège préparé dont le nom manque." }
+      silence_or_pause: { fr: "Après Melchisédek, laisser l'énigme sans définition immédiate." }
+      memorable_act: { fr: "Soulever séparément texte, contexte probable et relectures ultérieures." }
+      tomorrow_memory: { fr: "Un roi et un prêtre dans le même psaume; le siège gardait son nom vide." }
+      explanation_delayed_until: { fr: "Après avoir éprouvé l'envie de nommer le destinataire." }
+      prohibited_shortcuts: ["Couronnement inventé", "Melchisédek mis en scène", "Réponse historique certaine", "Violence héroïsée"]
+    - unit_id: seek-me
+      references: ["Psaume 119"]
+      claim_ids: [hist-008, exeg-008]
+      first_encounter:
+        see: { fr: "Une jeune lectrice aligne vingt-deux ensembles de huit; dans la dernière case, elle rencontre une brebis égarée qui demande encore à être cherchée." }
+        hear: { fr: "La régularité tient jusqu'au bout, puis cesse sans son de réussite." }
+        feel: { fr: "Une forme parfaitement tenue et une voix qui n'est toujours pas arrivée." }
+      human_presence:
+        who: { fr: "Une jeune lectrice contemporaine; elle explore le poème, elle ne joue pas son auteur." }
+        wants: { fr: "Comprendre et maîtriser l'architecture du texte." }
+        does: { fr: "Elle aligne les lettres avec assurance, atteint le dernier vers, puis lève les yeux vers la brebis isolée." }
+        resists: { fr: "La dernière image défait l'idée que tout savoir mettre en ordre signifie être arrivé." }
+      tension_to_inhabit: { fr: "Maîtriser l'alphabet ne rend pas le locuteur spirituellement parfait." }
+      question_before_explanation: { fr: "Comment un poème aussi parfaitement construit finit-il par demander : « Cherche-moi » ?" }
+      symbol_left_open: { fr: "Une architecture complète dont la dernière case ouvre encore un chemin." }
+      silence_or_pause: { fr: "Laisser la dernière demande sans réponse rassurante." }
+      memorable_act: { fr: "Parcourir toute la structure et ouvrir la dernière case." }
+      tomorrow_memory: { fr: "176 vers tenaient ensemble; le dernier demandait encore d'être cherché." }
+      explanation_delayed_until: { fr: "Après la régularité et le retournement final." }
+      prohibited_shortcuts: ["Forme qui s'effondre", "Perfection spirituelle", "Scribe ou date inventés", "Foi scorée"]
+    - unit_id: suspended-harps
+      references: ["Psaume 137"]
+      claim_ids: [hist-002, hist-012, hist-013, exeg-012]
+      route: { mode: quiet, scored: false, timed: false, fanfare: false, exit_available: true }
+      first_encounter:
+        see: { fr: "Une musicienne exilée soutient le regard de celui qui exige un chant; derrière elle, les instruments restent suspendus près d'une eau non localisée." }
+        hear: { fr: "Aucun instrument; la demande de chanter arrive, puis aucun morceau ne commence." }
+        feel: { fr: "Un chant de mémoire transformé en divertissement imposé, avec le droit de rester à distance." }
+      human_presence:
+        who: { fr: "Plusieurs exilés adultes et un captor dramatisé; aucun personnage nommé ni violence montrée." }
+        wants: { fr: "Les exilés veulent garder leur chant hors de portée de l'humiliation." }
+        does: { fr: "Une musicienne fixe celui qui réclame le chant, échange un regard avec les siens et ne décroche pas l'instrument." }
+        resists: { fr: "Un homme qui transforme leur mémoire en ordre de divertissement." }
+      tension_to_inhabit: { fr: "Chanter garde une ville présente; chanter sur commande peut devenir une humiliation." }
+      question_before_explanation: { fr: "Pourquoi refusent-ils de chanter ?" }
+      symbol_left_open: { fr: "Les instruments restent suspendus, sans verdict immédiat sur le geste." }
+      silence_or_pause: { fr: "Silence incompressible; continuer ou quitter sans pénalité." }
+      memorable_act: { fr: "Suspendre l'instrument et ne recevoir aucune commande de le jouer." }
+      tomorrow_memory: { fr: "On leur demandait une chanson de chez eux; les instruments sont restés suspendus." }
+      explanation_delayed_until: { fr: "Après le silence et une continuation volontaire." }
+      prohibited_shortcuts: ["Ravisseur ou date inventés", "Violence montrée", "Colère héroïsée", "Score ou fanfare", "Louange réparatrice automatique"]
+    - unit_id: you-know-me
+      references: ["Psaume 139"]
+      claim_ids: [hist-001, hist-002, exeg-014]
+      first_encounter:
+        see: { fr: "Un lecteur cherche à partir, s'arrête sous les étoiles, puis déplie une page qui relie « tu me sondes » à « sonde-moi »." }
+        hear: { fr: "Le même verbe revient : connaissance déjà là, puis demande volontaire." }
+        feel: { fr: "Une proximité qui peut être consolante et inconfortable." }
+      human_presence:
+        who: { fr: "Un lecteur contemporain seul sous un ciel étoilé, visage découvert." }
+        wants: { fr: "Échapper un instant au regard qui semble le connaître partout." }
+        does: { fr: "Il marche, s'arrête, déplie la page et finit par soutenir lui-même ce regard." }
+        resists: { fr: "L'impossibilité de trouver un lieu où sa vie intérieure serait totalement cachée." }
+      tension_to_inhabit: { fr: "Après avoir nommé le mal et sa propre haine, la voix accepte que le regard se tourne aussi vers elle." }
+      question_before_explanation: { fr: "Pourquoi la voix qui envisage de fuir finit-elle par demander : « Sonde-moi » ?" }
+      symbol_left_open: { fr: "Le pli entre « tu me sondes » et « sonde-moi »." }
+      silence_or_pause: { fr: "Garder les deux extrémités visibles avant de révéler le milieu." }
+      memorable_act: { fr: "Déplier la page et découvrir que le fait d'être connu devient une demande." }
+      tomorrow_memory: { fr: "Le même mot encadrait le psaume : « tu me sondes », puis « sonde-moi »." }
+      explanation_delayed_until: { fr: "Après l'ouverture complète du pli." }
+      prohibited_shortcuts: ["Estime de soi simplifiée", "Horreur de surveillance", "Haine effacée ou validée", "Confession du joueur", "David historicisé"]
+    - unit_id: everything-breathes
+      references: ["Psaume 146", "Psaume 147", "Psaume 148", "Psaume 149", "Psaume 150"]
+      claim_ids: [hist-014, hist-015, hist-016, exeg-015, exeg-016, exeg-017, exeg-018, exeg-019, exeg-020]
+      local_structure: { model: constellation, navigation: free_choice, forced_sequence: false }
+      first_encounter:
+        see: { fr: "Des personnes de plusieurs générations se regardent avant de prendre souffle ensemble; l'une reste silencieuse et le groupe l'attend." }
+        hear: { fr: "Chaque présence garde son espace; Psaume 149 reste sans effet martial et Psaume 150 ne recouvre pas son silence." }
+        feel: { fr: "Une vaste ouverture traversée par une dissonance qui reste visible." }
+      human_presence:
+        who: { fr: "Un groupe contemporain de plusieurs générations, jamais présenté comme musiciens du Temple." }
+        wants: { fr: "Trouver comment répondre ensemble sans effacer la personne encore silencieuse." }
+        does: { fr: "Ils se regardent, prennent le même souffle et commencent seulement lorsque chacun est prêt." }
+        resists: { fr: "La tentation de transformer la louange finale en euphorie obligatoire." }
+      tension_to_inhabit: { fr: "La louange élargit le monde, mais le glaive empêche une image simplement euphorique." }
+      question_before_explanation: { fr: "Que devient l'image du glaive lorsque le psaume suivant appelle tout ce qui respire à louer ?" }
+      symbol_left_open: { fr: "Un souffle près d'un glaive immobile; l'un n'efface pas l'autre." }
+      silence_or_pause: { fr: "Psaume 149 garde son propre silence et une sortie libre." }
+      memorable_act: { fr: "Visiter les cinq présences dans l'ordre choisi et les laisser toutes visibles." }
+      tomorrow_memory: { fr: "Celui qui compte les étoiles s'arrête aussi devant un cœur brisé; le souffle final n'efface pas le glaive." }
+      explanation_delayed_until: { fr: "Après l'exploration libre d'au moins une présence." }
+      prohibited_shortcuts: ["Crescendo obligatoire", "150 résout 149", "Combat animé", "149 scoré", "Instruments authentiques revendiqués", "Code secret du souffle"]
+
+formation_quizzes:
+  owner: expedition-spiritual-experience-director
+  revision: 2
+  status: psalm_119_initial_series_human_validation
+  expanded_pack_source:
+    path: config/expeditions/fragments/psalms-102-150-2026-08-31-quiz-packs.fr.yml
+    revision: 1
+    locale: fr
+    status: human_validation
+    total_questions: 60
+  method: code_de_la_route
+  rejected_questions:
+    - id: ps119-structure-trivia
+      prompt: "Les 176 vers du Psaume 119, ils sont rangés comment ?"
+      verdict: REJECT
+      reason: "La bonne réponse vérifie une curiosité littéraire sans former un discernement réutilisable dans la relation à Dieu, à soi-même ou aux autres."
+      retained_as: "Révélation visuelle qui rend plus fort le contraste entre une forme parfaitement ordonnée et une voix encore perdue."
+  mastery_rule: "Le même discernement doit être reconnu dans plusieurs contextes; aucune déclaration de foi n'est scorée."
+  copy_limits:
+    counting_unit: unicode_graphemes_including_spaces_and_punctuation
+    reference_surface: street_quiz_390x667
+    prompt: { hard_max: 72, max_lines: 3, must_be_self_contained: true }
+    choice: { hard_max: 32, max_lines: 2 }
+    correction: { hard_max: 120 }
+    max_choices: 4
+    locale_policy: validate_every_translation_independently
+    overflow_policy: REJECT_COPY_OVERFLOW
+    forbidden_fixes: [font_shrink, truncation, ellipsis, answer_scroll]
+  learning_lenses:
+    allowed_statuses: [covered, planned, not_supported, pending_claims]
+    coverage:
+      - { lens: RECIT_DU_TEXTE, status: planned, candidate_units: [disappearing-voice, suspended-harps] }
+      - { lens: PERSONNAGES, status: planned, candidate_units: [disappearing-voice, nameless-king] }
+      - { lens: MONDE_HISTORIQUE, status: planned, candidate_units: [nameless-king, suspended-harps] }
+      - { lens: LECTURE_DU_TEXTE, status: covered, question_ids: [ps119-order-03] }
+      - { lens: PRINCIPES_DE_L_EVANGILE, status: covered, question_ids: [ps119-return-01, ps119-teach-02, ps119-help-and-step-04] }
+      - { lens: PLAN_DE_DIEU, status: pending_claims, candidate_units: [nameless-king, everything-breathes] }
+      - { lens: ESPERANCE_ETERNELLE, status: pending_claims, candidate_units: [disappearing-voice, everything-breathes] }
+      - { lens: RECEPTION_CANONIQUE, status: planned, candidate_units: [nameless-king] }
+      - { lens: DISCERNEMENT_DE_VIE, status: covered, question_ids: [ps119-return-01, ps119-help-and-step-04] }
+  assessment:
+    scores: [observation_du_texte, discernement_textuel, transfert]
+    never_scores: [foi, saintete, emotion, confession, priere, repentance, salut]
+  items:
+    - id: ps119-return-01
+      unit_id: seek-me
+      formation_goal: "Revenir à Dieu sans attendre d'avoir repris le contrôle."
+      soul_relevance: "L'échec d'une routine ne transforme pas le besoin d'aide en motif de fuite ou de honte."
+      scripture_references: ["Psaume 119:176"]
+      claim_ids: [exeg-008]
+      learning_lens: PRINCIPES_DE_L_EVANGILE
+      source_layer: textual
+      situation: "Tu avais enfin une bonne routine. Puis tu rates trois jours et tu as l'impression d'avoir tout gâché."
+      prompt: "Tu as raté trois jours. Que faire d’après la fin du Psaume 119 ?"
+      choices:
+        - { id: a, text: "Me cacher jusqu’à aller mieux", diagnosis: honte_performance }
+        - { id: b, text: "Me promettre de ne plus échouer", diagnosis: perfection_autosuffisante }
+        - { id: c, text: "Demander à Dieu de me chercher", diagnosis: retour_et_dependance }
+        - { id: d, text: "Abandonner le chemin", diagnosis: decouragement_renoncement }
+      correct_choice: c
+      correction: "La voix ne dit pas « j’ai réussi ». Elle reconnaît qu’elle s’est perdue et demande à Dieu de la chercher."
+      misconception_targeted: "La connaissance ou la discipline devrait supprimer tout besoin d'aide."
+      practice_invitation: "Si tu le souhaites, transforme une promesse impossible en une demande simple : « Cherche-moi ici. »"
+      transfer_question_id: ps119-return-01b
+      spaced_repetition: { after_questions: 3, changed_context: "Après trois bonnes journées, une vieille habitude revient. Quel est le prochain geste qui ne soit ni fuite ni abandon ?" }
+      pastoral_boundary: "La réponse évalue la lecture du psaume, jamais l'état spirituel ni une rechute réelle du joueur."
+      copy_metrics: { prompt_graphemes: 64, choice_graphemes: { a: 29, b: 31, c: 30, d: 20 }, correction_graphemes: 105, mobile_copy_gate: PASS }
+    - id: ps119-teach-02
+      unit_id: seek-me
+      formation_goal: "Demander lumière et compréhension au lieu de simuler la maîtrise."
+      soul_relevance: "Une attention dispersée n'empêche pas de revenir à Dieu par une demande simple."
+      scripture_references: ["Psaume 119:12", "Psaume 119:26-27", "Psaume 119:33-34", "Psaume 119:124-125", "Psaume 119:135"]
+      claim_ids: [exeg-008]
+      learning_lens: PRINCIPES_DE_L_EVANGILE
+      source_layer: textual
+      situation: "Dans le métro, tu essaies de lire, mais ton esprit retourne au travail, aux messages et aux problèmes."
+      prompt: "Ton esprit part ailleurs. Quel réflexe revient dans le Psaume 119 ?"
+      choices:
+        - { id: a, text: "Faire comme si j’avais compris", diagnosis: apparence_spirituelle }
+        - { id: b, text: "Demander à Dieu de m’enseigner", diagnosis: demande_de_lumiere }
+        - { id: c, text: "Arrêter dès que je me disperse", diagnosis: tout_ou_rien }
+        - { id: d, text: "Réciter pour mériter son aide", diagnosis: logique_du_merite }
+      correct_choice: b
+      correction: "Le psaume revient à cette prière : « Enseigne-moi. Donne-moi de comprendre. Fais-moi vivre. »"
+      misconception_targeted: "Il faudrait paraître concentré ou mériter l'aide avant de la demander."
+      practice_invitation: "Avant une prochaine lecture, tu peux commencer par : « Enseigne-moi ce que j'ai besoin de voir. »"
+      transfer_question_id: ps119-teach-02b
+      spaced_repetition: { after_questions: 5, changed_context: "Dans une réunion stressante, tu ne sais plus quelle décision prendre. Quel premier geste reprend le réflexe du psaume ?" }
+      pastoral_boundary: "Aucune difficulté d'attention n'est interprétée comme faute morale ou manque de foi."
+      copy_metrics: { prompt_graphemes: 67, choice_graphemes: { a: 30, b: 30, c: 30, d: 29 }, correction_graphemes: 93, mobile_copy_gate: PASS }
+    - id: ps119-order-03
+      unit_id: seek-me
+      formation_goal: "Utiliser la discipline comme chemin de retour, jamais comme preuve de valeur."
+      soul_relevance: "Une routine peut aider sans devenir un trophée ni une garantie de ne plus se perdre."
+      scripture_references: ["Psaume 119:1-176"]
+      claim_ids: [hist-008, exeg-008]
+      learning_lens: LECTURE_DU_TEXTE
+      source_layer: textual
+      situation: "Ton agenda est propre, ta routine tient et tu as coché toutes tes habitudes."
+      prompt: "Ta routine tient. Que rappelle pourtant la fin du Psaume 119 ?"
+      choices:
+        - { id: a, text: "Une routine empêche de se perdre", diagnosis: controle }
+        - { id: b, text: "L’ordre aide sans remplacer Dieu", diagnosis: discipline_au_service_de_la_relation }
+        - { id: c, text: "Toute discipline est inutile", diagnosis: cynisme }
+        - { id: d, text: "Dieu aide, donc je n’agis plus", diagnosis: passivite }
+      correct_choice: b
+      correction: "Le poème est très ordonné, mais il finit avec une brebis perdue. La discipline aide ; elle ne remplace pas Dieu."
+      misconception_targeted: "La routine garantit la sécurité spirituelle, ou bien elle ne sert à rien."
+      practice_invitation: "Choisis un rythme assez petit pour servir la relation plutôt que ta performance."
+      transfer_question_id: ps119-order-03b
+      spaced_repetition: { after_questions: 7, changed_context: "Une série de trente jours vient de se briser. Qu'est-ce qui a réellement été perdu, et quel prochain pas reste possible ?" }
+      pastoral_boundary: "Aucune routine religieuse, familiale ou psychique n'est imposée au joueur."
+      copy_metrics: { prompt_graphemes: 62, choice_graphemes: { a: 32, b: 32, c: 28, d: 30 }, correction_graphemes: 112, mobile_copy_gate: PASS }
+    - id: ps119-help-and-step-04
+      unit_id: seek-me
+      formation_goal: "Tenir ensemble l'aide de Dieu et la reprise du chemin."
+      soul_relevance: "Recevoir de l'aide ne signifie ni attendre passivement ni devoir mériter d'être secouru."
+      scripture_references: ["Psaume 119:10", "Psaume 119:33-40", "Psaume 119:176"]
+      claim_ids: [exeg-008]
+      learning_lens: DISCERNEMENT_DE_VIE
+      source_layer: textual
+      situation: "Une amie dit : « Si Dieu vient me chercher, je n'ai plus rien à faire. »"
+      prompt: "« Dieu me cherche, donc je n’ai rien à faire. » Que répond le psaume ?"
+      choices:
+        - { id: a, text: "Attendre suffit toujours", diagnosis: passivite }
+        - { id: b, text: "Dieu n’aide que les parfaits", diagnosis: merite_perfection }
+        - { id: c, text: "Demander son aide, puis agir", diagnosis: aide_et_reponse }
+        - { id: d, text: "Les règles passent avant Dieu", diagnosis: legalisme }
+      correct_choice: c
+      correction: "La voix cherche Dieu, demande d’être enseignée, puis d’être cherchée. Recevoir de l’aide et faire un pas vont ensemble."
+      misconception_targeted: "Il faudrait choisir entre dépendre de Dieu et agir."
+      practice_invitation: "Pour aider quelqu'un, offre d'abord une présence, puis un seul prochain pas possible."
+      transfer_question_id: ps119-help-and-step-04b
+      spaced_repetition: { after_questions: 9, changed_context: "Après un engagement manqué, quelle réponse évite à la fois la passivité et la honte ?" }
+      pastoral_boundary: "Le jeu n'affirme jamais que Dieu a révélé personnellement une action au joueur."
+      copy_metrics: { prompt_graphemes: 70, choice_graphemes: { a: 24, b: 28, c: 28, d: 29 }, correction_graphemes: 119, mobile_copy_gate: PASS }
+  pastoral_boundaries:
+    - "Une mauvaise réponse révèle une confusion de lecture à retravailler, jamais une faute morale."
+    - "Aucun témoignage, traumatisme, péché, sentiment ou engagement personnel n'est exigé."
+    - "La détresse psychique n'est jamais assimilée automatiquement au péché ou à l'égarement."
+    - "Aucun feedback humiliant, aucune culpabilité et aucune promesse de guérison immédiate."
+    - "Le salut n'est ni gagné ni vérifié par le quiz."
+    - "Le joueur conserve le droit au silence, au désaccord et à la sortie."
+
+# Every required reading must appear here even when packs use another order.
+coverage:
+  - { reference: "Psaume 102", unit_ids: [disappearing-voice], pack_ids: [], status: constellation_covered_pack_pending, assessment_policy: claim_eligible }
+  - { reference: "Psaume 103", unit_ids: [disappearing-voice], pack_ids: [], status: constellation_covered_pack_pending, assessment_policy: claim_eligible }
+  - { reference: "Psaume 110", unit_ids: [nameless-king], pack_ids: [], status: constellation_covered_pack_pending, assessment_policy: mixed_reception_layers }
+  - { reference: "Psaume 116", unit_ids: [cry-nations-stone], pack_ids: [], status: constellation_covered_pack_pending, assessment_policy: claim_eligible }
+  - { reference: "Psaume 117", unit_ids: [cry-nations-stone], pack_ids: [], status: constellation_covered_pack_pending, assessment_policy: claim_eligible }
+  - { reference: "Psaume 118", unit_ids: [cry-nations-stone], pack_ids: [], status: constellation_covered_pack_pending, assessment_policy: mixed_reception_layers }
+  - { reference: "Psaume 119", unit_ids: [seek-me], pack_ids: [], status: constellation_covered_pack_pending, assessment_policy: claim_eligible }
+  - { reference: "Psaume 127", unit_ids: [house-table-city], pack_ids: [], status: constellation_covered_pack_pending, assessment_policy: family_boundary }
+  - { reference: "Psaume 128", unit_ids: [house-table-city], pack_ids: [], status: constellation_covered_pack_pending, assessment_policy: family_boundary }
+  - { reference: "Psaume 135", unit_ids: [breathless-images-answer], pack_ids: [], status: constellation_covered_pack_pending, assessment_policy: claim_eligible }
+  - { reference: "Psaume 136", unit_ids: [breathless-images-answer], pack_ids: [], status: constellation_covered_pack_pending, assessment_policy: claim_eligible }
+  - { reference: "Psaume 137", unit_ids: [suspended-harps], pack_ids: [], status: quiet_route_required, assessment_policy: non_scored }
+  - { reference: "Psaume 138", unit_ids: [still-in-distress], pack_ids: [], status: constellation_covered_pack_pending, assessment_policy: claim_eligible }
+  - { reference: "Psaume 139", unit_ids: [you-know-me], pack_ids: [], status: constellation_covered_pack_pending, assessment_policy: claim_eligible }
+  - { reference: "Psaume 146", unit_ids: [everything-breathes], pack_ids: [], status: constellation_covered_pack_pending, assessment_policy: claim_eligible }
+  - { reference: "Psaume 147", unit_ids: [everything-breathes], pack_ids: [], status: constellation_covered_pack_pending, assessment_policy: claim_eligible }
+  - { reference: "Psaume 148", unit_ids: [everything-breathes], pack_ids: [], status: constellation_covered_pack_pending, assessment_policy: claim_eligible }
+  - { reference: "Psaume 149", unit_ids: [everything-breathes], pack_ids: [], status: quiet_route_required, assessment_policy: non_scored }
+  - { reference: "Psaume 150", unit_ids: [everything-breathes], pack_ids: [], status: constellation_covered_pack_pending, assessment_policy: claim_eligible }
+packs:
+  owner: expedition-game-designer
+  revision: 1
+  status: human_validation
+  source_file: config/expeditions/fragments/psalms-102-150-2026-08-31-quiz-packs.fr.yml
+  total_packs: 6
+  questions_per_pack: 10
+  total_questions: 60
+  required_psalms_covered: 19
+  learning_lenses_covered: 9
+  quiet_encounters: [ps149-glaive-pause]
+  runtime_integration: blocked_until_editorial_and_truth_approval
+visual_language: { owner: expedition-art-director, revision: 0, status: pending }
+trailer:
+  id: weekly-launch
+  status: production_package
+  disclosure: "Illustration dramatisée · route d'étude"
+  directing:
+    owner: expedition-film-director
+    revision: 1
+    status: human_validation_requested_audio_revision
+    duration_seconds: 36
+    central_principle: "Les visages portent le mystère; fumée, trône, lettres, harpes et instruments ne sont que leurs partenaires de jeu."
+    cast:
+      - id: guide-tracy
+        role: "Guide face caméra et joueuse au payoff"
+        identity_status: modern_presenter
+        claim_ids: []
+        wants: "Faire découvrir que les Psaumes contiennent des situations humaines inattendues."
+        obstacle: "Le préjugé que ces textes ne sont qu'une louange uniforme."
+        prohibited_claims: []
+      - id: voice-102
+        role: "La voix qui croit disparaître"
+        identity_status: anonymous_dramatization
+        claim_ids: [exeg-002]
+        wants: "Être entendue avant que ses jours ne lui échappent."
+        obstacle: "Fatigue, souffle court et sensation du temps qui se consume."
+        prohibited_claims: ["Auteur identifié", "Diagnostic médical", "Date ou lieu exact"]
+      - id: royal-110
+        role: "Le roi sans nom"
+        identity_status: anonymous_probable_royal_dramatization
+        claim_ids: [hist-005, hist-006, exeg-004]
+        wants: "Comprendre la parole royale qui le désigne."
+        obstacle: "Une seconde déclaration le nomme aussi prêtre selon Melchisédek."
+        prohibited_claims: ["David", "Couronnement précis", "Identité de Melchisédek", "Cérémonie historique certaine"]
+      - id: reader-119
+        role: "La lectrice qui croit avoir compris la structure"
+        identity_status: modern_reader
+        claim_ids: [hist-008, exeg-008]
+        wants: "Mettre les 176 vers en ordre."
+        obstacle: "Le dernier vers demande encore à être cherché."
+        prohibited_claims: ["Autrice du psaume", "École scribale identifiée"]
+      - id: exiles-137
+        role: "Le groupe qui refuse de chanter"
+        identity_status: anonymous_collective_dramatization
+        claim_ids: [hist-012, exeg-012]
+        wants: "Garder son chant et sa ville hors de portée de l'humiliation."
+        obstacle: "Un captor exige un chant de Sion comme divertissement."
+        prohibited_claims: ["Noms", "Canal exact", "Date exacte", "Violence montrée"]
+      - id: captor-137
+        role: "Celui qui réclame le chant"
+        identity_status: anonymous_attested_role_dramatization
+        claim_ids: [exeg-012]
+        wants: "Obtenir une performance."
+        obstacle: "Le silence volontaire du groupe."
+        prohibited_claims: ["Ethnie ou armée identifiée", "Violence graphique"]
+      - id: reader-139
+        role: "La personne qui tente de fuir puis demande à être sondée"
+        identity_status: modern_reader
+        claim_ids: [exeg-014]
+        wants: "Trouver un lieu où elle ne serait pas connue."
+        obstacle: "Le texte la ramène de la fuite à l'examen d'elle-même."
+        prohibited_claims: ["Auteur du psaume", "Confession réelle de l'interprète"]
+      - id: breath-ensemble
+        role: "Le groupe qui prend souffle ensemble"
+        identity_status: contemporary_symbolic_ensemble
+        claim_ids: [exeg-019]
+        wants: "Répondre ensemble sans forcer la personne encore silencieuse."
+        obstacle: "La louange ne doit pas devenir euphorie obligatoire."
+        prohibited_claims: ["Reconstruction de la musique du Temple", "Instruments authentiques revendiqués"]
+    character_gate:
+      status: PASS
+      narrative_shots: 9
+      shots_with_characters: 9
+      object_only_scene_ids: []
+      rule: "Chaque scène narrative est portée par un personnage visible qui veut, agit et rencontre une résistance."
+    shots:
+      - id: shot-01-guide-hook
+        from: "00:00.000"
+        to: "00:05.000"
+        dramatic_job: "Installer avec des mots ordinaires les deux rôles avant le mystère."
+        claim_ids: [hist-005, exeg-004]
+        depiction_mode: modern_presenter
+        characters:
+          - { cast_id: guide-tracy, visible: true, wants: "Faire comprendre la différence roi/prêtre en cinq secondes", obstacle: "L'attention divisée du spectateur", performance_direction: "Compte les deux rôles sur ses doigts, phrases courtes, regard direct, aucun ton de cours." }
+        framing: "Très gros plan téléphone, yeux au tiers supérieur."
+        camera_move: "Léger recul quand Tracy s'approche."
+        subject_action: "Tracy entre dans le plan et marque physiquement deux rôles différents."
+        environment: "Obscurité chaude; deux espaces humains apparaissent derrière elle sans texte nécessaire."
+        light: celestial_dark
+        vo_text: { fr: "Un roi dirige un pays. Un prêtre sert Dieu. Ce n'est pas le même travail." }
+        transition_out: "Tracy rapproche ses deux mains; match cut sur le même homme recevant les deux rôles."
+      - id: shot-02-royal-rule-break
+        from: "00:05.000"
+        to: "00:12.000"
+        dramatic_job: "Montrer le même homme placé dans deux rôles après les avoir rendus compréhensibles."
+        claim_ids: [hist-005, hist-006, exeg-004]
+        depiction_mode: dramatized_text
+        characters:
+          - { cast_id: royal-110, visible: true, wants: "Comprendre pourquoi les deux rôles le désignent", obstacle: "Une parole qui le place là où il ne s'attendait pas", performance_direction: "Il avance comme roi; au mot prêtre, son assurance se fissure et il regarde ses propres mains comme si son rôle venait de changer." }
+        framing: "Plan taille continu; le visage ne quitte jamais le cadre."
+        camera_move: "Travelling arrière qui révèle successivement l'espace royal puis l'espace sacerdotal symbolique."
+        subject_action: "Il traverse le premier espace; le second s'ouvre autour de lui sans changement de personnage."
+        environment: "Deux espaces symboliques, aucune cérémonie historique reconstituée."
+        light: celestial_dark
+        vo_text: { fr: "Mais dans un psaume — un chant ancien de la Bible — Dieu donne les deux rôles au même homme. Pour toujours." }
+        disclosure_required: true
+        transition_out: "L'espace se referme; il reste seul lorsqu'un nom inconnu arrive."
+      - id: shot-03-royal-110
+        from: "00:12.000"
+        to: "00:17.000"
+        dramatic_job: "Faire du nom inconnu une question après que la situation est comprise."
+        claim_ids: [hist-005, hist-006, exeg-004]
+        depiction_mode: dramatized_text
+        characters:
+          - { cast_id: royal-110, visible: true, wants: "Comprendre qui est invoqué dans la déclaration", obstacle: "Le nom Melchisédek ne lui donne aucune réponse immédiate", performance_direction: "Il s'arrête net au nom; son regard cherche qui vient de parler, puis revient vers nous avec la même question que la VO." }
+        framing: "Plan taille qui devient gros plan au retournement."
+        camera_move: "Travelling arrière, arrêt brutal sur Pourquoi."
+        subject_action: "Il se retourne au nom de Melchisédek et reste sans réponse."
+        environment: "Chambre royale symbolique; aucun blason, aucune cérémonie reconstituée."
+        light: celestial_dark
+        vo_text: { fr: "Puis un nom surgit : Melchisédek. Qui est-ce ? Et pourquoi apparaît-il ici ?" }
+        disclosure_required: true
+        transition_out: "Son souffle devient celui de l'homme du Psaume 102."
+      - id: shot-04-voice-102
+        from: "00:17.000"
+        to: "00:23.000"
+        dramatic_job: "Faire comprendre la peur de disparaître à travers un corps, même sans voir la fumée."
+        claim_ids: [exeg-002]
+        depiction_mode: dramatized_text
+        characters:
+          - { cast_id: voice-102, visible: true, wants: "Finir sa phrase et rester présent", obstacle: "Son corps et le sentiment que le temps se consume", performance_direction: "Il reprend son souffle, regarde sa main trembler et continue; aucune pathologie jouée." }
+        framing: "Gros plan visage et main dans le même axe; la fumée reste secondaire."
+        camera_move: "Push-in lent, légèrement instable."
+        subject_action: "Il relève la tête et poursuit sa phrase tandis que la lampe fume derrière lui."
+        environment: "Pièce symbolique non localisée, aucun marqueur d'auteur ou de date."
+        light: celestial_dark
+        vo_text: { fr: "Ailleurs, un homme dit que ses jours partent en fumée. Il a peur de disparaître." }
+        disclosure_required: true
+        transition_out: "Hard cut sur le visage de la musicienne exilée."
+      - id: shot-05-exile-face
+        from: "00:23.000"
+        to: "00:23.300"
+        dramatic_job: "Faire du silence une décision humaine."
+        claim_ids: [hist-012, exeg-012]
+        depiction_mode: dramatized_text
+        characters:
+          - { cast_id: exiles-137, visible: true, wants: "Protéger le chant", obstacle: "La demande humiliante", performance_direction: "Très gros plan sur la musicienne; elle entend l'ordre hors champ, fixe celui qui parle et ne baisse pas les yeux." }
+        framing: "Très gros plan visage; harpe suspendue floue derrière."
+        camera_move: "Aucun."
+        subject_action: "Elle reste absolument immobile."
+        environment: "Rive symbolique non localisée."
+        light: celestial_dark
+        vo_text: null
+        disclosure_required: true
+        transition_out: "Maintenir le regard pendant le silence."
+      - id: shot-06-exiles-refuse
+        from: "00:23.300"
+        to: "00:28.700"
+        dramatic_job: "Mettre en scène une relation de pouvoir et un refus collectif."
+        claim_ids: [hist-012, exeg-012]
+        depiction_mode: probable_context_dramatization
+        characters:
+          - { cast_id: exiles-137, visible: true, wants: "Ne pas livrer le chant", obstacle: "Le captor qui attend", performance_direction: "Les regards circulent; une main en rejoint une autre; personne ne joue ni ne s'effondre." }
+          - { cast_id: captor-137, visible: true, wants: "Faire commencer la performance", obstacle: "Leur silence", performance_direction: "Il fait un geste impatient vers les instruments; aucune arme, aucun coup, aucune caricature." }
+        framing: "Champ-contrechamp serré entre les visages, puis plan de groupe."
+        camera_move: "Latéral lent qui révèle la relation, pas le paysage."
+        subject_action: "Le captor réclame; les exilés se regardent et choisissent ensemble de ne pas décrocher les harpes."
+        environment: "Eau et arbres non identifiés; pas de Babylone carte postale."
+        light: celestial_dark
+        vo_text: { fr: "Plus loin, des prisonniers doivent chanter la ville qu'on leur a détruite. Ils refusent." }
+        disclosure_required: true
+        transition_out: "Silence de 300 ms; les visages deviennent les portes de l'expédition."
+      - id: shot-07-reader-119
+        from: "00:29.000"
+        to: "00:31.000"
+        dramatic_job: "Révéler que chaque porte contient une situation humaine, pas un cours."
+        claim_ids: [hist-008, exeg-008]
+        depiction_mode: contemporary_symbolic
+        characters:
+          - { cast_id: reader-119, visible: true, wants: "Tenir sa routine et comprendre le texte", obstacle: "Le dernier vers lui montre qu'elle peut encore avoir besoin d'être cherchée", performance_direction: "Elle coche une série, voit la dernière case brisée, puis relève les yeux sans honte ni triomphe." }
+        framing: "Plan poitrine; la structure reste visible derrière le visage."
+        camera_move: "Whip-pan depuis la dernière case, arrêt sur les yeux."
+        subject_action: "Elle ferme la grille parfaite et ouvre la porte marquée Cherche-moi."
+        environment: "Espace d'étude contemporain qui ouvre sur la constellation."
+        light: celestial_dark
+        vo_text: { fr: "Cette semaine, six histoires comme celles-là." }
+        disclosure_required: true
+        transition_out: "La porte devient un cercle de visages."
+      - id: shot-08-breath-ensemble
+        from: "00:31.000"
+        to: "00:33.000"
+        dramatic_job: "Donner des corps et des visages au souffle final."
+        claim_ids: [exeg-019]
+        depiction_mode: contemporary_symbolic
+        characters:
+          - { cast_id: breath-ensemble, visible: true, wants: "Commencer ensemble", obstacle: "Une personne n'est pas encore prête", performance_direction: "Le groupe se regarde et attend; la dernière personne acquiesce; tous inspirent, sans euphorie publicitaire." }
+        framing: "Visages en cercle, caméra au milieu."
+        camera_move: "Rotation courte qui s'arrête sur l'acquiescement."
+        subject_action: "Ils prennent le même souffle avant de jouer."
+        environment: "Espace contemporain baigné de lumière; pas de Temple reconstruit."
+        light: celestial_light
+        vo_text: { fr: "Une question à chaque porte." }
+        disclosure_required: true
+        transition_out: "Les visages deviennent les six portraits vivants de la map."
+      - id: shot-09-product-choice
+        from: "00:33.000"
+        to: "00:36.000"
+        dramatic_job: "Prouver que le spectateur devient joueur."
+        claim_ids: [hist-008, exeg-008]
+        depiction_mode: concept_product_ui
+        characters:
+          - { cast_id: guide-tracy, visible: true, wants: "Choisir un prochain geste fidèle au texte", obstacle: "Quatre réflexes humains plausibles", performance_direction: "Tracy hésite entre se cacher et demander à être cherchée; elle regarde le spectateur avant de choisir." }
+        framing: "Profil de Tracy avec téléphone; les six portes sont des portraits animés derrière elle."
+        camera_move: "Push vers la question, mais le visage reste dans le cadre."
+        subject_action: "Elle choisit La brebis du dernier vers; une situation de routine brisée et quatre réactions apparaissent."
+        environment: "Map Noche Live conceptuelle, constellation de six portraits humains."
+        light: "celestial glass sur monde visible"
+        product_proof: "Question formative réelle du Psaume 119 : revenir, se cacher, se croire parfait ou abandonner. Aucun faux écran livré n'est revendiqué."
+        vo_text: { fr: "Tu commences où ?" }
+        transition_out: "Cut avant la réponse."
+  edit: { owner: expedition-social-video-editor, revision: 0 }
+daily_clips: []
+
+safety_accessibility:
+  content_notes:
+    - "Le Psaume 137 contient une mémoire de destruction et une imprécation violente."
+    - "Le Psaume 149 contient une imagerie de jugement et de combat."
+  quiet_routes: []
+  captions_required: true
+  transcript_required: true
+  reduced_motion_required: true
+
+review:
+  structure_gate:
+    owner: expedition-director
+    status: PASS
+    consulted: [expedition-historian, expedition-exegete]
+    arc_fit: "NO"
+    confidence: high
+    reason: "Aucun narrateur, événement, auteur ou ordre historique commun; les arcs locaux et les échos éditoriaux restent permis."
+    permitted_types: [constellation, anthology, dossiers, clusters, mini_expeditions]
+    rejected_types: [global_historical_arc, single_hero_arc, mandatory_suffering_to_praise_arc]
+    supporting_claim_ids: [exeg-001, exeg-020, hist-001, hist-002, hist-005, hist-006, hist-012, hist-015]
+    rejected_connections:
+      - { from: "Psaume 102", to: "Psaume 150", reason: "Aucune progression voulue de la détresse vers une résolution finale.", claim_ids: [exeg-001, exeg-019, hist-002] }
+      - { from: "Psaume 137", to: "Psaume 139", reason: "Psaume 139 n'est ni la réponse ni la repentance historique du chanteur de 137.", claim_ids: [exeg-012, exeg-014, hist-012] }
+      - { from: "Psaume 149", to: "Psaume 150", reason: "Le souffle final ne résout pas la violence de 149.", claim_ids: [exeg-018, exeg-019, hist-015] }
+    absence_of_arc_is_valid: true
+  experience_gate:
+    owner: expedition-spiritual-experience-director
+    status: pending_pack_review
+    target_revision: 13
+    scope: [featured_units, packs, quiet_encounters]
+    architecture: PASS
+    see: PASS
+    feel: PASS
+    inhabit_tension: PASS
+    question_before_explanation: PASS
+    symbol_allowed_to_work: PASS
+    human_presence: PASS
+    formation_scope_status: six_pack_draft_human_validation
+    formation_relevance_test: PASS
+    mobile_copy_gate: PASS
+    learning_lens_coverage: complete_draft
+    rejected_quiz_ids: [ps119-structure-trivia]
+    tomorrow_memory: "Les six unités vedettes ont chacune un personnage, un désir, une résistance, une image, une question et un acte distincts."
+    pending_unit_ids: [cry-nations-stone, house-table-city, breathless-images-answer, still-in-distress]
+    objection_ids: []
+  truth_gate:
+    owner: expedition-fact-checker
+    status: pending
+    target_revision: 13
+    scope: [public_story, formation_quizzes, packs, trailer.directing]
+    historical: pending
+    exegetical: pending
+    canon: pending
+    canonical_coverage: PASS
+    checked_elements: 0
+    verdict_counts: { OK: 0, FAUX: 0, TROP_CERTAIN: 0, AMBIGU: 0 }
+    objection_ids: []
+  attention_gate:
+    owner: reel-editor-retention
+    status: pending
+    target_revision: 13
+    scope: [public_story.trailer, trailer.directing, public_story.trailer.game_proof, packs]
+    scores: { stop_power: 0.0, curiosity: 0.0, escalation: 0.0, novelty: 0.0, payoff: 0.0, desire_to_open: 0.0 }
+    audio_alone:
+      verdict: pending
+      listener: "fatigué, une oreillette, zéro culture biblique"
+      subject_clear_at_5s: true
+      logical_links_audible: true
+      unknown_names_framed_as_questions: true
+      product_promise_clear: true
+      depends_on_picture: false
+    root_cause_owner:
+    objection_ids: []
+  human_voice_gate:
+    owner: human-voice-reviewer
+    status: pending
+    target_revision: 13
+    read_aloud_performed: false
+    speaker_test: "Tracy face caméra sans avoir l'air de réciter"
+    superseded_lines_revision_4:
+      - { target_path: "public_story.spoken_promise.text[sentence-1]", verdict: SAYABLE }
+      - { target_path: "public_story.spoken_promise.text[sentence-2]", verdict: SAYABLE }
+      - { target_path: "public_story.spoken_promise.text[sentence-3]", verdict: SAYABLE }
+      - { target_path: "public_story.spoken_promise.text[sentence-4]", verdict: SAYABLE }
+      - { target_path: "public_story.spoken_promise.text[sentence-5]", verdict: SAYABLE }
+      - { target_path: "public_story.spoken_promise.transition[sentence-1->sentence-2]", verdict: SAYABLE }
+      - { target_path: "public_story.spoken_promise.transition[sentence-2->sentence-3]", verdict: SAYABLE }
+      - { target_path: "public_story.spoken_promise.transition[sentence-3->sentence-4]", verdict: SAYABLE }
+      - { target_path: "public_story.spoken_promise.transition[sentence-4->sentence-5]", verdict: SAYABLE }
+      - { target_path: "public_story.trailer.hook_variants[1].text[sentence-1]", verdict: SAYABLE }
+      - { target_path: "public_story.trailer.hook_variants[1].text[sentence-2]", verdict: SAYABLE }
+      - { target_path: "public_story.trailer.hook_variants[1].text[sentence-3]", verdict: SAYABLE }
+      - { target_path: "public_story.trailer.hook_variants[1].transition[sentence-1->sentence-2]", verdict: SAYABLE }
+      - { target_path: "public_story.trailer.hook_variants[1].transition[sentence-2->sentence-3]", verdict: SAYABLE }
+      - { target_path: "public_story.trailer.spoken_script[0].text[sentence-1]", verdict: SAYABLE }
+      - { target_path: "public_story.trailer.spoken_script[0].text[sentence-2]", verdict: SAYABLE }
+      - { target_path: "public_story.trailer.spoken_script[1].text", verdict: SAYABLE }
+      - { target_path: "public_story.trailer.spoken_script[2].text[sentence-1]", verdict: SAYABLE }
+      - { target_path: "public_story.trailer.spoken_script[2].text[sentence-2]", verdict: SAYABLE }
+      - { target_path: "public_story.trailer.spoken_script[2].text[sentence-3]", verdict: SAYABLE }
+      - { target_path: "public_story.trailer.spoken_script[2].text[sentence-4]", verdict: SAYABLE }
+      - { target_path: "public_story.trailer.spoken_script[3].text[sentence-1]", verdict: SAYABLE }
+      - { target_path: "public_story.trailer.spoken_script[3].text[sentence-2]", verdict: SAYABLE }
+      - { target_path: "public_story.trailer.spoken_script[3].text[sentence-3]", verdict: SAYABLE }
+      - { target_path: "public_story.trailer.spoken_script[4]", verdict: SAYABLE }
+      - { target_path: "public_story.trailer.spoken_script[5].text[sentence-1]", verdict: SAYABLE }
+      - { target_path: "public_story.trailer.spoken_script[5].text[sentence-2]", verdict: SAYABLE }
+      - { target_path: "public_story.trailer.spoken_script[5].text[sentence-3]", verdict: SAYABLE }
+      - { target_path: "public_story.trailer.spoken_script[6]", verdict: SAYABLE }
+      - { target_path: "public_story.trailer.spoken_script[7].text[sentence-1]", verdict: SAYABLE }
+      - { target_path: "public_story.trailer.spoken_script[7].text[sentence-2]", verdict: SAYABLE }
+      - { target_path: "public_story.trailer.spoken_script.transition[line-01->line-02]", verdict: SAYABLE }
+      - { target_path: "public_story.trailer.spoken_script.transition[line-02->line-03]", verdict: SAYABLE }
+      - { target_path: "public_story.trailer.spoken_script.transition[line-03->line-04]", verdict: SAYABLE }
+      - { target_path: "public_story.trailer.spoken_script.transition[line-04->transition-04-05]", verdict: SAYABLE }
+      - { target_path: "public_story.trailer.spoken_script.transition[transition-04-05->line-05]", verdict: SAYABLE }
+      - { target_path: "public_story.trailer.spoken_script.transition[line-05->transition-05-06]", verdict: SAYABLE }
+      - { target_path: "public_story.trailer.spoken_script.transition[transition-05-06->line-06]", verdict: SAYABLE }
+      - { target_path: "public_story.trailer.game_proof.prompt", verdict: SAYABLE }
+      - { target_path: "public_story.trailer.game_proof.reveal[sentence-1]", verdict: SAYABLE }
+      - { target_path: "public_story.trailer.game_proof.reveal[sentence-2]", verdict: SAYABLE }
+    superseded_counts_revision_4: { SAYABLE: 41, UNSAYABLE: 0 }
+    lines: []
+    counts: { SAYABLE: 0, UNSAYABLE: 0 }
+  publish_ready:
+    owner: expedition-director
+    status: false
+    structure_gate_required: PASS
+    experience_gate_required: PASS
+    truth_gate_required: PASS
+    attention_gate_required: PASS
+    human_voice_gate_required: PASS
+    human_approval_required: true

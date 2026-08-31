@@ -3,7 +3,6 @@
 <p class="lede"><%= t("join.first_lede") %></p>
 
 <%= form_with url: night_players_path(night.code), method: :post, class: "join-form night-entry-form" do %>
-  <input type="hidden" name="location" value="<%= params[:location] == "remote" ? "remote" : "room" %>">
   <input type="hidden" name="avatar_key" value="delfin">
   <label for="name"><%= t("join.name_label") %></label>
   <div class="night-entry-input">
@@ -12,5 +11,3 @@
   </div>
   <button type="submit" class="btn night-entry-cta"><%= t("join.enter_play") %></button>
 <% end %>
-
-<%= link_to t("join.spectate"), night_public_path(night.public_token), class: "night-entry-watch" %>

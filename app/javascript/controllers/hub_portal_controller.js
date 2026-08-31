@@ -2,7 +2,7 @@ import { Controller } from "@hotwired/stimulus"
 import { audioLoader } from "platform/audio/loader"
 
 export default class extends Controller {
-  static targets = ["hero", "still", "play"]
+  static targets = ["hero"]
 
   launch(event) {
     if (this.launching) return
@@ -14,8 +14,6 @@ export default class extends Controller {
 
     event.preventDefault()
     this.launching = true
-    this.playTarget?.classList.add("is-launch")
-
     if (navigator.vibrate) navigator.vibrate(18)
     // The Home opens a place; it does not award a chest for navigation.
     // Keep this as one short transition cue so it survives the 360 ms portal.

@@ -1,0 +1,69 @@
+- generic [ref=e1]:
+  - link "Aller au jeu" [ref=e2] [cursor=pointer]:
+    - /url: "#main"
+  - main [ref=e4]:
+    - dialog [ref=e5]:
+      - generic [ref=e6]:
+        - generic [ref=e7]:
+          - button "Fermer la liseuse" [active] [ref=e8] [cursor=pointer]
+          - generic [ref=e12]:
+            - button "Ouvrir mes repères" [ref=e13] [cursor=pointer]
+            - link "Aller au cercle" [ref=e16] [cursor=pointer]:
+              - /url: "#reader-circle"
+            - button "Régler le confort de lecture" [ref=e21] [cursor=pointer]: Aa
+        - generic [ref=e22]:
+          - main [ref=e23]:
+            - article [ref=e24]:
+              - heading "Psaume 52" [level=1] [ref=e26]
+              - group [ref=e27]:
+                - generic "Pour accueillir ce chapitre David face aux paroles qui blessent Le psaume oppose la langue qui détruit à la confiance qui prend racine dans la bonté de Dieu. Le titre situe cette prière après la dénonciation de David auprès de Saül par Doëg l’Édomite, alors que David vivait sous la menace." [ref=e28] [cursor=pointer]:
+                  - generic [ref=e34]:
+                    - generic [ref=e35]: Pour accueillir ce chapitre
+                    - strong [ref=e36]: David face aux paroles qui blessent
+                    - emphasis [ref=e37]: Le psaume oppose la langue qui détruit à la confiance qui prend racine dans la bonté de Dieu.
+                    - generic [ref=e38]: Le titre situe cette prière après la dénonciation de David auprès de Saül par Doëg l’Édomite, alors que David vivait sous la menace.
+                  - generic [ref=e39]: ⌃
+              - generic [ref=e40]:
+                - paragraph [ref=e41]:
+                  - generic [ref=e42]: "1"
+                  - generic [ref=e43]: Au chef des chantres. Cantique de David.
+                - paragraph [ref=e44]:
+                  - generic [ref=e45]: "2"
+                  - generic [ref=e46]: "À l’occasion du rapport que Doëg, l’Édomite, vint faire à Saül en lui disant : David s’est rendu dans la maison d’Achimélec."
+                - paragraph [ref=e47]:
+                  - generic [ref=e48]: "3"
+                  - generic [ref=e49]: Pourquoi te glorifies-tu de ta méchanceté, tyran ? La bonté de Dieu subsiste toujours.
+                - paragraph [ref=e50]:
+                  - generic [ref=e51]: "4"
+                  - generic [ref=e52]: Ta langue n’invente que malice comme un rasoir affilé, fourbe que tu es !
+                - paragraph [ref=e53]:
+                  - generic [ref=e54]: "5"
+                  - generic [ref=e55]: Tu aimes le mal plutôt que le bien, Le mensonge plutôt que la droiture. — Sélah.
+                - paragraph [ref=e56]:
+                  - generic [ref=e57]: "6"
+                  - generic [ref=e58]: Tu aimes toutes les paroles de destruction, Langue trompeuse !
+                - paragraph [ref=e59]:
+                  - generic [ref=e60]: "7"
+                  - generic [ref=e61]: Aussi Dieu t’abattra pour toujours, Il te saisira et t’enlèvera de ta tente ; Il te déracinera de la terre des vivants. — Sélah.
+                - paragraph [ref=e62]:
+                  - generic [ref=e63]: "8"
+                  - generic [ref=e64]: "Les justes le verront et auront de la crainte, Et ils feront de lui le sujet de leurs moqueries :"
+                - paragraph [ref=e65]:
+                  - generic [ref=e66]: "9"
+                  - generic [ref=e67]: Voilà l’homme qui ne prenait pas Dieu pour protecteur, Mais qui se confiait en ses grandes richesses, Et qui triomphait dans sa malice !
+                - paragraph [ref=e68]:
+                  - generic [ref=e69]: "10"
+                  - generic [ref=e70]: Et moi, je suis dans la maison de Dieu comme un olivier verdoyant, Je me confie dans la bonté de Dieu, éternellement et à jamais.
+                - paragraph [ref=e71]:
+                  - generic [ref=e72]: "11"
+                  - generic [ref=e73]: Je te louerai toujours parce que tu as agi ; Et je veux espérer en ton nom parce qu’il est favorable, En présence de tes fidèles.
+              - generic [ref=e74]:
+                - paragraph [ref=e75]: Origine du texte
+                - strong [ref=e76]: Les Saintes Écritures
+                - link "Lire ce chapitre sur le site de l’Église de Jésus-Christ des Saints des Derniers Jours" [ref=e77] [cursor=pointer]:
+                  - /url: https://www.churchofjesuschrist.org/study/scriptures/ot/ps/52?lang=fra
+                  - generic [ref=e79]: ↗
+            - region [ref=e80]:
+              - heading "Le cercle" [level=2] [ref=e81]
+              - paragraph [ref=e89]: Le cercle n’est pas ouvert dans ta paroisse. La lecture et tes repères restent disponibles.
+          - complementary "1 sur 11"

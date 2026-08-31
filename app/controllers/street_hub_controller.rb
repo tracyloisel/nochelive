@@ -7,20 +7,28 @@ class StreetHubController < ApplicationController
     end
     remember_device
     touch_street_presence
-    @profile_gate = false
     @open_run = preferred_open_run
     @duel_campus = Quizzes::DuelCampus.call(person: current_street_person)
-    @pulse = Platform::Pulse.call
+    @duel_summary = Quizzes::DuelCampusSummary.call(person: current_street_person, campus: @duel_campus)
     @screen = Hubs::Screen.call(
       device_digest: street_digest,
       person: current_street_person,
       ward: current_ward,
-      open_run: @open_run,
-      pulse: @pulse,
-      random_backdrop: true,
-      previous_backdrop_id: session[:hub_backdrop_id]
+      open_run: @open_run
     )
-    session[:hub_backdrop_id] = @screen.backdrop.id
+    @hub_identity_state = hub_identity_state
+    # A guest can play the public adventure, but must never be shown a fake
+    # personal task, reading state, or Campus relationship merely to fill the
+    # Hub. The short "Now" stack is therefore a signed-in member surface.
+    @now_cards = if @screen.player.guest
+      []
+    else
+      Hubs::NowCards.call(
+        campus: @duel_campus,
+        reading_cards: @screen.reading_cards,
+        weekly_reading_cards: @screen.study&.weekly_reading_cards
+      )
+    end
     @push_prompt = night_push_prompt
   end
 
@@ -55,23 +63,10 @@ class StreetHubController < ApplicationController
       { category: "nights", context: "live_upcoming" } if eligibility.eligible
     end
 
-    def assign_profile_identity
-      gate = StreetProfiles::Screen.call(
-        people_on_device: @gate_people,
-        current_person: current_street_person,
-        fresh: params[:fresh].present?,
-        not_me: params[:not_me].present?
-      )
-      @gate_screen = gate.name
-      @gate_person = gate.person
-      @gate_people = gate.people
-    end
+    def hub_identity_state
+      return if current_street_person || current_ward.nil?
 
-    def assign_ward_picker
-      @search = Wards::Search.call(query: "")
-      @wards = @search.wards
-      @pick_url = street_ward_pick_path
-      @picker_pick = "rama"
+      street_people_on_device.exists? ? :player_unselected : :player_missing
     end
 
     def unlock_pack_id_param
@@ -83,7 +78,7 @@ class StreetHubController < ApplicationController
     end
 
     def preferred_open_run
-      open = QuizRun.open_runs.where(device_digest: street_digest, person_id: current_street_person&.id)
+      open = QuizRun.street.open_runs.where(device_digest: street_digest, person_id: current_street_person&.id)
       open.order(:id).last
     end
 end

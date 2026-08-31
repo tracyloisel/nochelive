@@ -4,7 +4,7 @@
 <ul class="team-list person-list">
   <% people.each do |person| %>
     <li>
-      <%= button_to night_players_path(night.code), params: { person_id: person.id, location: "room" }, class: "team-pick person-pick is-here" do %>
+      <%= button_to night_players_path(night.code), params: { person_id: person.id }, class: "team-pick person-pick is-here" do %>
         <%= render "people/card", person: person, show_year: false %>
       <% end %>
     </li>
@@ -14,4 +14,3 @@
 <%= link_to night_name_path(night.code, fresh: 1), class: "btn btn-ghost" do %>
   <%= picto("plus") %><%= t("join.other_person") %>
 <% end %>
-<%= link_to t("join.spectate"), night_public_path(night.public_token), class: "quiet-link" %>

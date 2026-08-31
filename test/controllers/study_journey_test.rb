@@ -35,7 +35,7 @@ class StudyJourneyTest < ActionDispatch::IntegrationTest
     assert_select ".study-current", text: /#{Regexp.escape(I18n.t("study.psalms_theme"))}/
     assert_select ".study-path-nav a[href='#{study_history_path}']", text: I18n.t("study.my_journey")
     assert_select "a.study-profile-invite[href='#{street_profile_path(fresh: 1)}']", text: /#{Regexp.escape(I18n.t("study.profile_invite_cta"))}/
-    assert_select ".navigation-dock .navigation-dock__item.is-active[href='#{study_program_path}']"
+    assert_select ".navigation-dock .navigation-dock__item.is-active[href='#{scripture_library_path}']"
     assert_select ".study-appendix-row", count: 4
 
     css = frontend_css("study")
@@ -173,7 +173,7 @@ class StudyJourneyTest < ActionDispatch::IntegrationTest
     assert_select ".study-highlight-card", text: /Moi, Néphi/, count: 0
     assert_select ".study-journey-total", text: /#{Regexp.escape(I18n.t("study.journey_progress", count: 1, total: 1))}/
     assert_select ".study-history-card.is-complete[href='#{study_run_path(run)}']"
-    assert_select ".navigation-dock .navigation-dock__item.is-active[href='#{study_program_path}']"
+    assert_select ".navigation-dock .navigation-dock__item.is-active[href='#{scripture_library_path}']"
 
     get study_run_path(run)
     assert_response :success
@@ -272,7 +272,7 @@ class StudyJourneyTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select "#study_run[data-stage-bed-value=study_refuge]"
     assert_select ".home-menu.is-hud[data-hud-theme='celestial-dark'] .quiz-hud[data-hud-theme='celestial-dark']", count: 1
-    assert_select ".navigation-dock .navigation-dock__item.is-active[href='#{study_program_path}']", count: 1
+    assert_select ".navigation-dock .navigation-dock__item.is-active[href='#{scripture_library_path}']", count: 1
     assert_select ".study-choice", count: 4
     assert_select "a.study-question-reading[data-turbo-frame=scripture_reader]", count: 1
     assert_select "a.study-question-reading[data-scripture-chapter-title]", count: 1
@@ -385,12 +385,11 @@ class StudyJourneyTest < ActionDispatch::IntegrationTest
 
     get root_path
     assert_response :success
-    assert_select ".hub-study-progress strong", text: "10/10"
-    assert_select "a.hub-study[href='#{study_program_path}']" do
-      assert_select ".hub-study-action", text: I18n.t("study.continue")
-      assert_select ".hub-study-action[href]", count: 0
-    end
-    assert_select "a.hub-study a", count: 0
+    # This journey is anonymous: the public Hub must not invent a personal
+    # reading task. A signed-in member sees the compact weekly programme route
+    # (covered by the Hub controller contract); a visitor sees the public
+    # adventure only.
+    assert_select ".hub-now, .hub-now__programme", count: 0
   end
 
   test "completed journey celebrates and lists the first finisher" do

@@ -86,7 +86,7 @@ module Wards
               code: code,
               listed: true,
               emblem: "paloma",
-              presenter_token_digest: GameSession.digest_token(token)
+              admin_token_digest: GameSession.digest_token(token)
             )
           )
           return

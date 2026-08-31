@@ -50,13 +50,10 @@ class ChurchVideosControllerTest < ActionDispatch::IntegrationTest
     assert_select "a.church-video-back[href=?]", root_path(locale: I18n.locale)
   end
 
-  test "the home tile is local artwork and never embeds YouTube" do
+  test "the home keeps official videos on their dedicated page and never embeds YouTube" do
     get root_path
 
     assert_response :success
-    assert_select "a.hub-videos[href*='/videos']"
-    assert_select ".hub-videos picture img[src^='/media/generated/']"
-    assert_select ".hub-videos .picto-video-library"
     assert_select "iframe[src*='youtube']", count: 0
   end
 

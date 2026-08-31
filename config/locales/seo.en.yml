@@ -32,7 +32,7 @@ en:
             - title: "Play, then want to read again"
               body: "Every question opens a Bible story. Points, crowns, and challenges make the journey exciting, but the real win is recognizing the prophets and kings—and, above all, drawing closer to Jesus Christ."
             - title: "An experience for the whole room"
-              body: "Noche Live works on a phone and brings people together. A family can play from the sofa, a youth group can form teams, and a congregation can share a full night with a host and a big screen."
+              body: "Noche Live works on a phone and brings people together. A family can play from the sofa, youth can form teams, and a congregation can follow the live race on a big screen."
             - title: "There is always a next step"
               body: "After a game, open the passage, follow a weekly study plan, or talk with someone from the Church. Nothing is rushed or forced. Each door stays open for whenever you are ready."
         bible_games:
@@ -48,7 +48,7 @@ en:
             - title: "A story behind every question"
               body: "Every answer connects to a real passage. Make a guess, be surprised, and open scripture to see why David, Esther, Moses, or Elijah made that choice."
             - title: "From the phone back to the room"
-              body: "The phone is for choosing, voting, or buzzing. Attention quickly returns to the people around you: talk over an answer, celebrate a streak, help the team, and wait for the host’s reveal."
+              body: "The phone is for answering and building a streak. Attention quickly returns to the people around you: discuss an answer, celebrate a feat, and help the team take the lead."
             - title: "For one person or fifty"
               body: "Play a short solo round, challenge a friend, or prepare a whole night for youth and families. The pace changes, while the warm voice and sense of adventure stay the same."
         bible_quiz:
@@ -78,14 +78,14 @@ en:
           card_body: "Ideas to gather, play, and talk together."
           sections:
             - title: "Start in under two minutes"
-              body: "A short code gets everyone in on their phone. The host can read the room and move between questions, motion, voting, and challenges without handing out papers or explaining endless rules."
+              body: "A short code gets everyone in on their phone. The game starts on schedule and everyone moves through the quizzes without handouts or endless rules."
             - title: "A place for everyone"
               body: "There are moments for the person who knows a lot, the one who just arrived, the loud voice, and the quiet observer. Teams keep anyone from carrying the whole answer alone."
             - title: "The conversation keeps going"
               body: "A surprise in the game can open a conversation about courage, service, faith, or Jesus Christ. The activity does not replace that moment; it prepares it and gives everyone a shared story."
         youth_activities:
           title: "Christian youth activities that hold attention | Noche Live"
-          description: "Lively Christian youth activities with team Bible games, challenges, questions, and a format that is easy to host."
+          description: "Lively Christian youth activities with team Bible games, challenges, questions, and an automatic live format."
           kicker: "Youth activities"
           h1: "Less explaining. More playing together."
           lede: "Young people understand what to do in seconds. The phone becomes a controller, the room becomes a stage, and scripture is where every challenge begins."
@@ -94,7 +94,7 @@ en:
           card_body: "Pace, teams, and faith without feeling like class."
           sections:
             - title: "A start that leaves nobody behind"
-              body: "Enter a code, choose a team, and begin. The interface offers one clear action while the host controls the pace, cutting out dead waits and long speeches."
+              body: "Enter a code, choose a team, and begin. The interface offers one clear action while the live screen updates progress and standings automatically."
             - title: "Compete without shutting anyone out"
               body: "Points and crowns create tension, while challenges mix memory, instinct, movement, and cooperation. Different strengths can save the team."
             - title: "A night worth repeating"

@@ -1,15 +1,14 @@
 module Locales
   class Set
-    def self.call(locale:, player: nil, person: nil, night: nil, presenter: false)
-      new(locale:, player:, person:, night:, presenter:).call
+    def self.call(locale:, player: nil, person: nil, night: nil)
+      new(locale:, player:, person:, night:).call
     end
 
-    def initialize(locale:, player:, person:, night:, presenter:)
+    def initialize(locale:, player:, person:, night:)
       @locale = Locale.cast(locale)
       @player = player
       @person = person || player&.person
       @night = night || player&.game_session
-      @presenter = presenter
     end
 
     def call
@@ -21,7 +20,6 @@ module Locales
             row.update!(locale: @locale)
           end
         end
-        @night.update!(presenter_locale: @locale) if @presenter && @night
       end
 
       broadcast_affected

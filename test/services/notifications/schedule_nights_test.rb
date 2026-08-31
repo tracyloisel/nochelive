@@ -20,7 +20,7 @@ class Notifications::ScheduleNightsTest < ActiveSupport::TestCase
 
       delivery = NotificationDelivery.find_by!(kind: "night_tomorrow", person: people(:carmen_garcia))
       assert_equal night, delivery.subject
-      assert_equal Rails.application.routes.url_helpers.night_name_path(night.code), delivery.destination
+      assert_equal Rails.application.routes.url_helpers.night_path(night.code), delivery.destination
       assert_enqueued_jobs 1, only: NotificationDeliveryJob
     end
   end
@@ -32,7 +32,7 @@ class Notifications::ScheduleNightsTest < ActiveSupport::TestCase
       preference = notification_preferences(:carmen_notifications)
       preference.enable!("nights")
       night.players.create!(
-        person: people(:carmen_garcia), name: "Carmen", role: "participant", location: "room",
+        person: people(:carmen_garcia), name: "Carmen",
         client_token: "already-in-night", avatar_key: "delfin"
       )
 

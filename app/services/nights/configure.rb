@@ -1,6 +1,6 @@
 module Nights
   class Configure
-    EDITABLE = %i[starts_at presenter_locale broadcast_delay_ms missionary_names poster_path].freeze
+    EDITABLE = %i[starts_at quiz_pack_ids].freeze
 
     def self.call(night:, attributes:, broadcast: true)
       new(night:, attributes:, broadcast:).call
@@ -13,26 +13,31 @@ module Nights
     end
 
     def call
-      GameSession.transaction do
-        @night.update!(night_attributes)
-        replace_missionaries! if @attributes.key?(:missionary_names)
-      end
+      raise ArgumentError, "a started Noche Live cannot be rescheduled" if @night.starts_at <= Time.current
+
+      @night.update!(night_attributes)
+      Nights::ScheduleLifecycle.call(night: @night)
       @night.reload.tap { |night| night.broadcast_state if @broadcast }
     end
 
     private
 
       def night_attributes
-        @attributes.slice(:starts_at, :presenter_locale, :broadcast_delay_ms, :poster_path)
-      end
-
-      def replace_missionaries!
-        names = Array(@attributes[:missionary_names]).map { |name| name.to_s.strip }
-        raise ArgumentError, "missionary_names cannot contain blank names" if names.any?(&:blank?)
-
-        names = names.uniq
-        @night.missionaries.where.not(name: names).destroy_all
-        names.each { |name| @night.missionaries.find_or_create_by!(name:) }
+        attributes = {}
+        if @attributes.key?(:starts_at)
+          starts_at = @attributes[:starts_at].in_time_zone
+          attributes.merge!(starts_at:, ends_at: starts_at + GameSession::DURATION)
+        end
+        if @attributes.key?(:quiz_pack_ids)
+          ids = Array(@attributes[:quiz_pack_ids]).map { |id| id.to_s.strip }.reject(&:blank?)
+          raise ArgumentError, "quiz_ids must contain at least one quiz" if ids.empty?
+          raise ArgumentError, "quiz_ids cannot contain duplicates" if ids.uniq.size != ids.size
+          ids.each { |id| QuizDefinition.catalog.find_pack(id) }
+          attributes.merge!(quiz_pack_ids: ids)
+        end
+        attributes
+      rescue QuizDefinition::Error => error
+        raise ArgumentError, error.message
       end
   end
 end

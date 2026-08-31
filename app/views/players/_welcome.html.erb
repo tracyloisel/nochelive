@@ -8,11 +8,9 @@
 </div>
 <%= form_with url: night_players_path(night.code), method: :post, class: "join-form" do %>
   <input type="hidden" name="person_id" value="<%= person.id %>">
-  <input type="hidden" name="location" value="room">
   <button type="submit" class="btn night-entry-cta"><%= t("join.enter_now") %></button>
 <% end %>
 
 <div class="night-entry-quiet-row">
   <%= link_to t("join.change_person"), night_name_path(night.code, fresh: 1), class: "quiet-link" %>
-  <%= link_to t("join.spectate"), night_public_path(night.public_token), class: "quiet-link" %>
 </div>

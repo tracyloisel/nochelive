@@ -1,5 +1,6 @@
-<% src = local_assigns[:art].presence || church_still_src(still) %>
-<%= link_to path, class: [ "paper-door", ("is-cinematic" if local_assigns[:art].present?) ], style: ("--portal-art: url('#{src}'); --portal-order: #{local_assigns[:chapter].to_i}" if local_assigns[:art].present?) do %>
+<% art = local_assigns[:art].presence %>
+<% src = media_src(art) || art || church_still_src(still) %>
+<%= link_to path, class: [ "paper-door", ("is-cinematic" if art) ], style: ("--portal-art: url('#{src}'); --portal-order: #{local_assigns[:chapter].to_i}" if art) do %>
   <% if src.present? %>
     <figure class="paper-door-still">
       <%= noche_media_picture(src, alt: "", class_name: "night-poster", loading: local_assigns.fetch(:loading, "lazy")) %>
