@@ -1,14 +1,12 @@
 module Players
   class Join
-    def self.call(night:, name:, role:, location:, device_token:, person: nil, avatar_key: nil, locale: nil)
-      new(night:, name:, role:, location:, device_token:, person:, avatar_key:, locale:).call
+    def self.call(night:, name:, device_token:, person: nil, avatar_key: nil, locale: nil)
+      new(night:, name:, device_token:, person:, avatar_key:, locale:).call
     end
 
-    def initialize(night:, name:, role:, location:, device_token:, person:, avatar_key:, locale:)
+    def initialize(night:, name:, device_token:, person:, avatar_key:, locale:)
       @night = night
       @name = name.to_s.strip.first(24)
-      @role = role
-      @location = location
       @device_token = device_token
       @person = person
       @avatar_key = avatar_key
@@ -21,7 +19,6 @@ module Players
       if @person
         existing = @night.players.find_by(person_id: @person.id)
         if existing
-          seat(existing)
           return existing
         end
       end
@@ -29,15 +26,12 @@ module Players
       player = @night.players.create!(
         person: @person,
         name: @person&.given_name || @name,
-        role: @role,
-        location: @location,
         client_token: SecureRandom.uuid,
         avatar_key: @person&.avatar_key || safe_avatar,
         device_token: @device_token,
         locale: @locale,
         last_seen_at: Time.current
       )
-      seat(player)
 
       if @person && @device_token.present?
         PersonDevice.find_or_create_by!(person: @person, device_token: @device_token) do |row|
@@ -45,11 +39,12 @@ module Players
         end
       end
 
-      if player.spectator?
-        Nights::BroadcastPresence.call(night: @night)
-      else
-        @night.broadcast_state(pulse: { kind: "join", player: player })
-      end
+      Nights::Events.emit(
+        night: @night,
+        kind: "join",
+        dedupe_key: "join:#{player.id}",
+        payload: { player_id: player.id, player_name: player.name }
+      )
       player
     end
 
@@ -59,8 +54,5 @@ module Players
         Player::AVATARS.include?(@avatar_key.to_s) ? @avatar_key : "delfin"
       end
 
-      def seat(player)
-        Teams::AutoSeat.call(night: @night, player: player) if player.participant?
-      end
   end
 end

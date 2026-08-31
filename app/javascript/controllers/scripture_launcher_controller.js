@@ -20,6 +20,7 @@ export default class extends Controller {
     this.effectScope.listen(this.frameTarget, "turbo:frame-load", () => this.loaded())
     this.effectScope.listen(this.frameTarget, "turbo:frame-missing", (event) => this.missing(event))
     this.effectScope.listen(window, "keydown", (event) => this.keydown(event))
+    this.effectScope.listen(this.frameTarget, "scripture:closed", () => this.restoreFocus())
   }
 
   disconnect() {
@@ -30,7 +31,8 @@ export default class extends Controller {
   }
 
   prepare(event) {
-    this.pendingReadingLink = event?.currentTarget?.closest("[data-scripture-reading-link]")
+    this.pendingReadingLink = event?.currentTarget?.closest("a[href], [data-scripture-reading-link]")
+    this.returnFocusTarget = this.pendingReadingLink || document.activeElement
     this.pendingUrl = event?.currentTarget?.href || this.pendingReadingLink?.href || this.pendingUrl
     this.cancelled = false
     this.setLoadingChapter(this.chapterTitleFor(this.pendingReadingLink || event?.currentTarget))
@@ -52,7 +54,8 @@ export default class extends Controller {
     this.loadingDirector.resolve(this.loadingSequence)
     if (this.cancelled) {
       this.frameTarget.replaceChildren()
-      return this.unlock()
+      this.unlock()
+      return this.restoreFocus()
     }
     if (!this.frameTarget.querySelector(".scripture-veil")) return this.unlock()
 
@@ -86,6 +89,7 @@ export default class extends Controller {
     this.pendingReadingLink = null
     this.loadingDirector.resolve(this.loadingSequence)
     this.unlock()
+    this.restoreFocus()
   }
 
   keydown(event) {
@@ -95,9 +99,9 @@ export default class extends Controller {
       this.cancel(event)
       return
     }
-    if (!this.frameTarget.querySelector(".scripture-veil")) return
-    // The contextual reader owns dialogs and selection cleanup once mounted.
-    this.frameTarget.querySelector("[data-scripture-close]")?.click()
+    // Once mounted, the contextual reader owns Escape so its own dialogs and
+    // audience picker close before the reader itself does.
+    if (this.frameTarget.querySelector(".scripture-veil")) return
   }
 
   renderLoading(state) {
@@ -111,7 +115,7 @@ export default class extends Controller {
     if (visible) this.lock()
 
     if (state === "failed") {
-      window.requestAnimationFrame(() => this.loadingTarget.querySelector("[data-reader-loading-retry]")?.focus({ preventScroll: true }))
+      this.effectScope.frame(() => this.loadingTarget.querySelector("[data-reader-loading-retry]")?.focus({ preventScroll: true }))
     }
   }
 
@@ -159,6 +163,23 @@ export default class extends Controller {
     progress.textContent = progress.dataset.labelTemplate
       .replace("__OPENED__", opened)
       .replace("__TOTAL__", total)
+  }
+
+  restoreFocus() {
+    const target = this.returnFocusTarget
+    this.returnFocusTarget = null
+    this.effectScope.frame(() => {
+      const usable = target?.isConnected &&
+        !target.matches("[aria-disabled='true']") &&
+        !target.closest("[hidden], [inert]") &&
+        target.getClientRects().length > 0
+      const librarySearch = document.getElementById("scripture_library_query")
+      const fallback = librarySearch?.isConnected &&
+        !librarySearch.closest("[hidden], [inert]") &&
+        librarySearch.getClientRects().length > 0 ? librarySearch : null
+      const focusTarget = usable ? target : fallback
+      focusTarget?.focus({ preventScroll: true })
+    })
   }
 
   lock() {

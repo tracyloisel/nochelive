@@ -1,8 +1,14 @@
 require "test_helper"
 
 class WardTeamTest < ActiveSupport::TestCase
-  test "season thresholds are four times the night ranks" do
-    assert_equal 100, WardTeam::SEASON_RANKS[1][0]
-    assert_equal "Novicio", ward_teams(:leones_season).season_rank_label
+  test "persistent teams are unique within their ward" do
+    duplicate = WardTeam.new(
+      ward: ward_teams(:leones_ward_team).ward,
+      name: ward_teams(:leones_ward_team).name,
+      emblem: "paloma"
+    )
+
+    assert_not duplicate.valid?
+    assert duplicate.errors.of_kind?(:name, :taken)
   end
 end

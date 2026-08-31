@@ -128,7 +128,7 @@ class StreetLeaderboardsControllerTest < ActionDispatch::IntegrationTest
     alicante = Ward.create!(
       name: "Rama Alicante", code: "ALICANTE", emblem: "paloma", city: "Alicante",
       country_code: "ES", listed: true, stake_unit_id: wards(:demo).stake_unit_id,
-      presenter_token_digest: GameSession.digest_token("rama-alicante")
+      admin_token_digest: GameSession.digest_token("rama-alicante")
     )
     lucas = alicante.people.create!(given_name: "Lucas", avatar_key: "gato", favorite_year: 2010)
     finish_pack(people(:pili), score: 55)

@@ -106,75 +106,27 @@ class ScriptureShareTest < ApplicationSystemTestCase
     assert_equal 0, page.evaluate_script("CSS.highlights.get('scripture-profile-highlights')?.size || 0")
   end
 
-  test "shares a saved highlight again from its history" do
+  test "opens a saved passage from the single library bookmark picker" do
     visit street_profile_path
     find("input[name=name]").set("Lectora")
     find("form.profile-gate-new button[type=submit]").click
     assert_selector "body.is-street-hub"
 
     person = Person.find_by!(given_name: "Lectora")
-    person.scripture_highlights.create!(
-      reference: "ot/1-sam/16", locale: "fr", start_verse: 1, end_verse: 2,
-      start_offset: 2, end_offset: 14, selected_text: "Le Seigneur regarde au cœur"
-    )
-    2.times do |days_ago|
-      ScriptureChapterRead.create!(
-        person:, reference: "ot/1-sam/16", reader_digest: "same-reader",
-        locale: "fr", read_on: days_ago.days.ago.to_date
-      )
-    end
-
-    visit study_history_path(locale: "fr")
-
-    assert_selector ".study-highlight-readers", text: I18n.t("study.highlight_reads", count: 1, locale: :fr)
-    find(".study-highlight-share").click
-    assert_selector "dialog.study-highlight-share-dialog[open]"
-    assert_selector "#study-highlight-share-title",
-      text: I18n.t("quiz.scripture_share_title", reference: "1 Samuel 16:1–2", locale: :fr)
-
-    whatsapp = find("[data-study-highlight-share-target=whatsapp]")[:href]
-    shared_text = CGI.parse(URI.parse(whatsapp).query).fetch("text").first
-    assert_includes shared_text, "/fr/bible/1-samuel/16/1-2?"
-    assert_includes shared_text, "start=2"
-    assert_includes shared_text, "end=14"
-
-    x_url = URI.parse(find("[data-study-highlight-share-target=x]")[:href])
-    assert_includes CGI.parse(x_url.query).fetch("url").first, "/fr/bible/1-samuel/16/1-2?"
-  end
-
-  test "searches and filters a year of saved highlights" do
-    visit street_profile_path
-    find("input[name=name]").set("Lectora")
-    find("form.profile-gate-new button[type=submit]").click
-    assert_selector "body.is-street-hub"
-
-    person = Person.find_by!(given_name: "Lectora")
-    9.times do |index|
-      person.scripture_highlights.create!(
-        reference: "ot/1-sam/16", locale: "fr", start_verse: 1, end_verse: 1,
-        start_offset: index, end_offset: index + 1, selected_text: "Parole de Samuel #{index + 1}"
-      )
-    end
-    person.scripture_highlights.create!(
-      reference: "nt/john/1", locale: "fr", start_verse: 1, end_verse: 1,
-      start_offset: 0, end_offset: 5, selected_text: "Lumière unique de Jean"
+    person.scripture_marks.create!(
+      reference: "ot/1-sam/16", locale: "fr", anchor_scope: "passage", visual_style: "none",
+      start_verse: 1, start_offset: 2, end_verse: 2, end_offset: 14,
+      selected_text: "Le Seigneur regarde au cœur", bookmarked_at: Time.current
     )
 
     visit study_history_path(locale: "fr")
 
-    assert_selector ".study-highlight-results", text: I18n.t("study.highlight_results", count: 10, locale: :fr)
-    assert_selector ".study-highlight-card", count: 8
-    find(".study-highlight-search input").set("Lumiere unique")
-    assert_selector ".study-highlight-card", count: 1, text: "Lumière unique de Jean"
-
-    find(".study-highlight-search input").set("")
-    find(".study-highlight-filters button", text: I18n.t("study.collections.new_testament", locale: :fr)).click
-    assert_selector ".study-highlight-card", count: 1, text: /Jean 1:1/
-
-    find(".study-highlight-filters button", text: I18n.t("study.highlight_filter_all", locale: :fr), exact_text: true).click
-    assert_selector ".study-highlight-card", count: 8
-    find(".study-highlights-more").click
-    assert_selector ".study-highlight-card", count: 10
+    assert_selector "body.is-scripture-library"
+    assert_selector ".scripture-library-row[data-library-row='bookmarks'][aria-current='true']"
+    assert_selector "#selection a.scripture-library-selection__item[data-turbo-frame='scripture_reader']",
+      text: "1 Samuel 16:1–2", count: 1
+    find("#selection a.scripture-library-selection__item", text: "1 Samuel 16:1–2").click
+    assert_selector "turbo-frame#scripture_reader .scripture-reader-room", wait: 8
   end
 
   private

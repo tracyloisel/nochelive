@@ -20,6 +20,9 @@ class WardProfilesControllerTest < ActionDispatch::IntegrationTest
   test "public profile shows the Benidorm chapel pin and one gold live door" do
     get ward_profile_path("RAMA")
     assert_response :success
+    manifest = JSON.parse(css_select("#noche_resource_manifest").first.text)
+    assert_includes manifest.fetch("styles"), "rama"
+    assert_select "link[href*='surfaces/rama'][data-turbo-track='dynamic']", count: 1
     assert_select "h1", text: "Rama Benidorm"
     assert_select "a.rama-pin[href*='Alfonso']"
     assert_select "a.rama-pin[href*='Benidorm']"
@@ -30,8 +33,7 @@ class WardProfilesControllerTest < ActionDispatch::IntegrationTest
     assert_select "a.rama-pin[href*='google.com/maps']"
     assert_select ".btn.btn-gold", text: /Entrar/
     assert_select ".btn.btn-gold", count: 1
-    assert_select "a.quiet-link", text: /Solo ver/
-    assert_select ".btn.btn-gold", text: /Solo ver/, count: 0
+    assert_select "a.quiet-link", text: /Solo ver/, count: 0
     assert_select "nav.home-menu"
     assert_select ".chrome-drawer a[href=?]", about_path
     assert_select ".chrome-drawer a[href=?]", ward_profile_path("RAMA")
@@ -41,15 +43,13 @@ class WardProfilesControllerTest < ActionDispatch::IntegrationTest
     assert_select ".gate", count: 0
     assert_select "p.skip", count: 0
     assert_select ".rama-grid", count: 0
-    assert_select ".rama-next a[href=?]", night_name_path("DAVID")
+    assert_select ".rama-next a[href=?]", night_path("DAVID")
     assert_select "ul.rama-nights"
     assert_select "a.rama-night", count: 1
-    assert_select "a.rama-night[href=?]", night_name_path("ELIAS")
-    assert_select ".rama-last a[href=?]", ward_memory_path("RAMA", "QUIT")
-    assert_select ".rama-last", text: /#{Regexp.escape(I18n.l(game_sessions(:cerrada).starts_at.to_date))}/
+    assert_select "a.rama-night[href=?]", night_path("ELIAS")
     assert_select ".rama-visit a[href*='google.com/maps']"
     assert_select ".navigation-dock__item.is-active[href=?]", church_path
-    assert_select ".navigation-dock__item[href=?] > .picto-scripture-book", study_program_path
+    assert_select ".navigation-dock__item[href=?] > .picto-scripture-book", scripture_library_path
     assert_select "a.rama-liga.street-league[href=?]", ward_leaderboard_path("RAMA")
     assert_select ".rama-liga .street-league-head h2", text: I18n.t("street.world_league")
     assert_select ".rama-liga .street-league-slot", text: /Pili/
@@ -61,17 +61,16 @@ class WardProfilesControllerTest < ActionDispatch::IntegrationTest
     assert_select ".btn.btn-gold", count: 1
   end
 
-  test "host without a live night gets Abrir la noche as the gold CTA" do
+  test "host without a live night does not get a local creation control" do
     sign_in_ward(wards(:blank), token: "rama-blank")
     get ward_profile_path("BLANK")
     assert_response :success
-    assert_select ".btn.btn-gold", text: /Abrir la noche/
-    assert_select ".btn.btn-gold", count: 1
+    assert_select ".btn.btn-gold", text: /Abrir la noche/, count: 0
     assert_select ".btn.btn-gold", text: /Entrar/, count: 0
     assert_select ".rama-cta a.quiet-link[href=?]", ward_leaderboard_path("BLANK"), count: 0
     assert_select "a.rama-liga.street-league[href=?]", ward_leaderboard_path("BLANK")
     assert_select ".rama-liga-empty", text: I18n.t("street.leaderboard_empty_ward")
-    assert_select ".navigation-dock__item[href=?] > .picto-scripture-book", study_program_path
+    assert_select ".navigation-dock__item[href=?] > .picto-scripture-book", scripture_library_path
   end
 
   test "rama liga tile shows this ward podium" do

@@ -814,9 +814,6 @@ body.is-church-videos .shell {
 .street-liga-search-mark .picto { width: 1rem; height: 1rem; }
 .street-leaderboard-page.is-searching .street-liga-podium { opacity: .38; filter: saturate(.7); transform: translateY(-3px); }
 .home-menu .home-search { width: 100%; }
-.home-paper .street-temple-hub-title {
-  text-shadow: var(--temple-type-halo);
-}
 .belief-stack {
   display: flex;
   flex-direction: column;
@@ -1276,17 +1273,6 @@ body.is-church-videos .shell {
 .home-search { display: flex; flex-direction: column; gap: var(--space-3); width: 100%; }
 .home-search-fold > summary { list-style: none; cursor: pointer; }
 .home-search-fold > summary::-webkit-details-marker { display: none; }
-.rama-night-missionaries {
-  margin: 0; color: var(--ink); font-weight: 650;
-  font-size: var(--type-ui); line-height: 1.35;
-}
-.rama-night.is-compact .rama-night-missionaries { display: none; }
-.play-sheet .missionary-card {
-  background: var(--paper);
-  border: 1px solid var(--line);
-  border-radius: var(--radius-m);
-  overflow: hidden;
-}
 .desk-search { display: flex; }
 .desk-search input {
   width: 100%; min-height: 2.75rem; padding: var(--space-3) var(--space-4);
@@ -1296,13 +1282,6 @@ body.is-church-videos .shell {
 .desk-search input:focus {
   outline: 3px solid rgba(212, 160, 23, 0.35); outline-offset: 2px; border-color: var(--gold);
 }
-.roster-missionaries {
-  display: flex; flex-direction: column; gap: var(--space-3);
-  padding: var(--space-5); background: var(--paper); border: 1px solid var(--line);
-  border-radius: var(--radius-m);
-}
-.missionary-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: var(--space-3); }
-.missionary-row { display: flex; justify-content: space-between; align-items: center; gap: var(--space-3); }
 .street-leaderboard-search {
   display: grid;
   grid-template-columns: minmax(6.75rem, 1.1fr) minmax(9rem, 1fr);
@@ -1389,28 +1368,6 @@ body.is-church-videos .shell {
 }
 .play-sheet .missionary-card { padding: var(--space-5); gap: var(--space-4); display: flex; flex-direction: column; }
 .play-sheet .home-search { padding-top: var(--space-2); }
-.street-temple-pill,
-.street-temple-hub-title {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-2);
-  margin: 0.06rem 0 0;
-  padding: 0;
-  border: 0;
-  border-radius: 0;
-  background: none;
-  box-shadow: none;
-  font-family: var(--font-display);
-  font-size: var(--type-min);
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--ink);
-}
-.street-temple-hub-title::before,
-.street-temple-hub-title::after { content: none; }
-.street-temple-pill .street-hub-rule { display: block; }
 .ward-picker-search { display: flex; flex-direction: column; gap: var(--space-2); }
 body.is-rama-search {
   --street-hub-col: 52rem;
@@ -1673,11 +1630,6 @@ body.is-rama-search .sky::after {
   z-index: 1;
 }
 .ceremony-temple > *:not(.ceremony-column-scrim) { position: relative; z-index: 1; }
-body.is-presenter.is-celestial-dark .desk-search input {
-  color: #fff8e8;
-  border-color: rgba(237, 197, 104, .25);
-  background: rgba(2, 8, 18, .7);
-}
 .street-leaderboard-page .street-leaderboard-search-row {
   min-height: 3.35rem;
   border-color: color-mix(in srgb, var(--gold-deep) 28%, transparent);
@@ -1709,7 +1661,6 @@ body.is-church-journey .home-menu.is-split:not(.is-hud) {
   left: max(env(safe-area-inset-left), var(--church-chrome-inset));
   right: max(env(safe-area-inset-right), var(--church-chrome-inset));
 }
-body.is-church-journey .church-scene-head { display: none; }
 .about-journey {
   width: 100%;
   max-width: none;
@@ -1898,7 +1849,29 @@ body.is-church-journey .church-scene-head { display: none; }
 .about-journey .about-reach-copy strong { color: #fffaf0; }
 .about-journey .about-reach-rule { background: rgba(240,204,99,.28); }
 .about-journey-foot { display: flex; justify-content: center; padding: .65rem 0 1rem; }
-.about-journey-foot .quiet-link { color: rgba(255,250,240,.72); }
+.about-journey-foot .about-stats-link {
+  min-height: 2.75rem;
+  padding: .55rem .85rem;
+  border: 1px solid rgba(240,204,99,.34);
+  border-radius: 999px;
+  background: linear-gradient(135deg, rgba(20,36,58,.58), rgba(5,11,23,.28));
+  color: #fffaf0;
+  box-shadow: 0 12px 30px rgba(0,0,0,.18), inset 0 1px 0 rgba(255,255,255,.1);
+  text-decoration: none;
+  -webkit-backdrop-filter: blur(14px) saturate(1.12);
+  backdrop-filter: blur(14px) saturate(1.12);
+}
+.about-journey-foot .about-stats-link .picto {
+  width: 1rem;
+  height: 1rem;
+  color: #f1cf70;
+}
+.about-journey-foot .about-stats-link:hover,
+.about-journey-foot .about-stats-link:focus-visible {
+  border-color: rgba(240,204,99,.52);
+  background: linear-gradient(135deg, rgba(35,52,75,.66), rgba(241,207,112,.1));
+  color: #fffaf0;
+}
 @media (min-width: 720px) {
 .about-journey-hero { background-position: 50% 50%; }
 .about-journey-act { grid-template-columns: 2.5rem minmax(0, 1fr); padding: 1.6rem; }
@@ -2058,22 +2031,60 @@ body.is-charter-journey .sky { background: var(--charter-bg); }
   text-underline-offset: .22em;
 }
 .charter-journey .paper-facts {
-  gap: 1rem;
+  display: grid;
+  gap: 0;
+  margin: 0;
   color: var(--charter-text);
 }
 .charter-journey .paper-facts > div {
+  position: relative;
+  display: grid;
+  gap: .45rem;
   min-width: 0;
-  padding-block: .2rem;
+  padding: 1rem 0;
+}
+.charter-journey .paper-facts > div:first-child { padding-top: .15rem; }
+.charter-journey .paper-facts > div:last-child { padding-bottom: .15rem; }
+.charter-journey .paper-facts > div + div {
+  border-top: 1px solid var(--charter-line);
 }
 .charter-journey .paper-facts dt {
   color: var(--charter-gold);
   font-size: .72rem;
+  font-weight: 850;
+  letter-spacing: .1em;
+  line-height: 1.2;
+  text-transform: uppercase;
 }
 .charter-journey .paper-facts dd {
+  display: grid;
+  gap: .18rem;
+  margin: 0;
   color: var(--charter-text);
   font-size: clamp(.94rem, 2.35vw, 1.03rem);
   line-height: 1.5;
   overflow-wrap: anywhere;
+}
+.charter-journey .paper-facts dd strong {
+  color: var(--charter-text);
+  font-weight: 800;
+}
+.charter-journey .paper-facts dd span { color: var(--charter-text-soft); }
+.charter-journey .paper-facts .quiet-link {
+  justify-self: start;
+  min-height: 2.75rem;
+  margin-top: .45rem;
+  padding: .65rem .9rem;
+  border: 1px solid var(--charter-line);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--charter-gold) 8%, transparent);
+  font-weight: 800;
+  line-height: 1.35;
+  text-decoration: none;
+}
+.charter-journey .paper-facts .quiet-link:is(:hover, :focus-visible) {
+  border-color: color-mix(in srgb, var(--charter-gold) 64%, transparent);
+  background: color-mix(in srgb, var(--charter-gold) 14%, transparent);
 }
 .charter-cookies {
   display: grid;
@@ -2138,8 +2149,23 @@ body.is-charter-journey .sky { background: var(--charter-bg); }
 .charter-journey-act::before { top: 1.5rem; right: 1.6rem; }
 .charter-journey-act--facts .paper-facts {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 1.35rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 1.75rem;
+  }
+  .charter-journey-act--facts .paper-fact {
+    padding: .2rem 0 1.25rem;
+  }
+  .charter-journey-act--facts .paper-fact--contact {
+    border-top: 0;
+    border-left: 1px solid var(--charter-line);
+    padding-left: 1.75rem;
+  }
+  .charter-journey-act--facts .paper-fact--host {
+    grid-column: 1 / -1;
+    grid-template-columns: minmax(8.5rem, .55fr) minmax(0, 1.45fr);
+    align-items: start;
+    gap: 1.75rem;
+    padding: 1.35rem 0 .2rem;
   }
 .charter-cookies {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -2151,7 +2177,6 @@ body.is-charter-journey .sky { background: var(--charter-bg); }
 .charter-journey-act { animation: none !important; }
 }
 .church-landing,
-.church-scene,
 .church-beliefs {
   position: relative;
   isolation: isolate;
@@ -2167,7 +2192,6 @@ body.is-charter-journey .sky { background: var(--charter-bg); }
   max-width: none;
 }
 .church-landing::before,
-.church-scene::before,
 .church-beliefs-hero::before {
   content: "";
   position: absolute;
@@ -2188,7 +2212,6 @@ body.is-charter-journey .sky { background: var(--charter-bg); }
 .church-landing-copy { max-width: 36rem; text-align: left; text-shadow: 0 2px 14px #000; animation: church-copy-in 600ms var(--ease-out) 120ms both; }
 .church-scene-kicker { margin: 0 0 .45rem; color: #f1cf70; font: 800 .75rem/1 var(--font-ui); letter-spacing: .15em; text-transform: uppercase; }
 .church-landing-copy h1,
-.church-scene-copy h1,
 .church-beliefs-intro h1 { margin: 0; color: #fffaf0; font: 700 clamp(2.2rem, 9vw, 4.5rem)/.96 var(--font-display); letter-spacing: -.03em; text-wrap: balance; }
 .church-landing-copy > p:last-child { max-width: 34rem; margin: .8rem 0 0; font-size: clamp(.98rem, 2.8vw, 1.18rem); line-height: 1.5; }
 .church-portals { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .65rem; animation: church-portals-in 650ms var(--ease-out) 260ms both; }
@@ -2202,6 +2225,7 @@ body.is-charter-journey .sky { background: var(--charter-bg); }
   border-radius: 1.15rem;
   background: #111a2c var(--portal-art) 50% 44% / cover no-repeat;
   color: #fffaf0;
+  text-decoration: none;
   box-shadow: 0 18px 38px rgba(0,0,0,.34), inset 0 0 0 1px rgba(255,255,255,.08);
   transform: translateZ(0);
   transition: transform 260ms var(--ease-out), border-color 260ms ease, box-shadow 260ms ease;
@@ -2242,7 +2266,7 @@ body.is-charter-journey .sky { background: var(--charter-bg); }
   position: relative;
   z-index: 2;
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: minmax(0, 1fr) auto;
   align-content: end;
   align-items: end;
   gap: .25rem .65rem;
@@ -2267,8 +2291,10 @@ body.is-charter-journey .sky { background: var(--charter-bg); }
   backdrop-filter: blur(12px);
 }
 .church-portals .paper-door-ico { display: none; }
-.church-portals .paper-door-words { align-self: end; text-shadow: 0 2px 12px #000; }
+.church-portals .paper-door-words { min-width: 0; align-self: end; text-shadow: 0 2px 12px #000; }
 .church-portals .paper-door strong { color: #fffaf0; font: 700 clamp(1rem,3vw,1.28rem)/1.05 var(--font-display); text-wrap: balance; }
+.church-portals .paper-door strong,
+.church-portals .paper-door-hint { display: block; overflow-wrap: anywhere; text-decoration: none; }
 .church-portals .paper-door-hint { margin-top: .35rem; color: rgba(255,250,240,.78); font-size: clamp(.68rem,1.9vw,.8rem); line-height: 1.25; }
 .church-portals .paper-door-enter {
   display: grid;
@@ -2281,15 +2307,10 @@ body.is-charter-journey .sky { background: var(--charter-bg); }
   box-shadow: inset 0 1px 0 rgba(255,255,255,.7), 0 5px 14px rgba(0,0,0,.3);
 }
 .church-portals .paper-door-enter .picto { width: 1rem; height: 1rem; }
-.church-scene { display: grid; grid-template-rows: 1fr auto; padding: max(5.5rem,calc(env(safe-area-inset-top) + 5rem)) var(--space-4) var(--church-dock-h); }
 .church-scene-head { position: relative; z-index: 2; display: grid; grid-template-columns: 2.8rem 1fr auto; align-items: center; gap: .7rem; color: #fffaf0; font-size: .75rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; text-shadow: 0 2px 10px #000; }
 .church-back { display: grid; place-items: center; width: 2.75rem; height: 2.75rem; border: 1px solid rgba(241,207,112,.55); border-radius: 50%; background: rgba(8,14,28,.54); color: #fffaf0; backdrop-filter: blur(14px); }
 .church-back .picto { width: 1.1rem; transform: rotate(180deg); }
 .church-chapter { color: #f1cf70; }
-.church-scene-copy { align-self: end; max-width: 38rem; padding-bottom: 1.2rem; animation: church-copy-in 550ms var(--ease-out) 160ms both; }
-.church-story-card { display: grid; gap: .8rem; margin-top: 1.1rem; padding: 1rem; border: 1px solid rgba(241,207,112,.42); border-radius: 1.2rem; background: linear-gradient(145deg,rgba(10,17,32,.82),rgba(26,38,62,.64)); box-shadow: 0 18px 44px rgba(0,0,0,.32); backdrop-filter: blur(18px) saturate(1.08); }
-.church-story-card .lede { margin: 0; color: rgba(255,250,240,.9); font-size: clamp(.94rem,2.5vw,1.08rem); line-height: 1.48; }
-.church-story-card .btn { width: 100%; margin-top: .2rem; }
 .church-meet { min-height:100dvh; padding-bottom:var(--church-dock-h); overflow:hidden; background:#091326; color:#fffaf0; }
 .church-meet-hero { position:relative; isolation:isolate; display:flex; align-items:flex-end; min-height:100svh; padding:max(5.5rem,calc(env(safe-area-inset-top) + 5rem)) var(--space-4) calc(var(--church-dock-h) + 1.15rem); background:var(--church-scene) 50% 44% / cover no-repeat; }
 .church-meet-hero::before { content:""; position:absolute; inset:0; z-index:-1; background:linear-gradient(180deg,rgba(5,10,20,.2) 0%,rgba(5,10,20,.05) 30%,rgba(5,10,20,.32) 58%,rgba(5,10,20,.94) 84%,#091326 100%),radial-gradient(circle at 52% 35%,transparent 0 26%,rgba(5,10,20,.2) 76%); }
@@ -2562,7 +2583,7 @@ body.is-charter-journey .sky { background: var(--charter-bg); }
 .belief-invitation-back:hover,
 .belief-invitation-back:focus-visible { background:rgba(20,32,56,.78); border-color:#f1cf70; transform:translateY(-1px); }
 .belief-official-link { justify-self:center; margin-top:.2rem; color:rgba(255,250,240,.62); font-size:.76rem; font-weight:750; text-underline-offset:.25em; }
-.church-beliefs-paths { width:calc(100% - 2rem); max-width:44rem; margin:0 auto 2rem; }
+.church-beliefs-paths { width:calc(100% - 2rem); max-width:44rem; margin:1rem auto 2rem; }
 .belief-passage { display:flex; align-items:center; gap:.75rem; width:calc(100% - 2rem); max-width:44rem; margin:0 auto; padding-top:1.2rem; color:#e8bf4f; }
 .belief-passage span { height:1px; flex:1; background:linear-gradient(90deg,transparent,rgba(232,191,79,.7)); }
 .belief-passage span:last-child { transform:scaleX(-1); }
@@ -2644,7 +2665,6 @@ body.is-charter-journey .sky { background: var(--charter-bg); }
 .church-landing { padding-inline: 2rem; }
 .church-portals { grid-template-columns: repeat(4,minmax(0,1fr)); gap: .8rem; }
 .church-portals .paper-door.is-cinematic { min-height: clamp(13rem,32vh,19rem); }
-.church-scene { padding-inline: 2rem; }
 }
 @media (max-height: 760px) {
 .church-landing { padding-top: 3.8rem; gap: .55rem; }
@@ -2658,7 +2678,6 @@ body.is-charter-journey .sky { background: var(--charter-bg); }
 .church-landing-copy,
 .church-portals,
 .church-portals .paper-door.is-cinematic,
-.church-scene-copy,
 .church-beliefs-intro,
 .church-scene-atmosphere i { animation:none !important; }
 }

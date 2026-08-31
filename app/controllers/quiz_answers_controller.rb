@@ -1,16 +1,21 @@
 class QuizAnswersController < ApplicationController
   include StreetQuiz
-  before_action :require_street_identity, :load_street_run
+  before_action :load_quiz_run, :authorize_quiz_run
 
   def create
-    track_first_invited_question if @run.position == 1 && @run.quiz_answers.none?
+    track_first_invited_question if @run.street? && @run.position == 1 && @run.quiz_answers.none?
     previous_score = @run.score
     Quizzes::Submit.call(run: @run, choice_key: params[:choice].to_s)
     run = @run.reload
-    Quizzes::DuelRaceBroadcast.progress(run:, previous_score:)
+    if run.live?
+      answer = run.current_answer
+      Nights::Events.after_answer(run:, answer:, previous_score:) if answer
+    else
+      Quizzes::DuelRaceBroadcast.progress(run:, previous_score:)
+    end
     replace_street_result(run, previous_score:)
   rescue RuntimeError, ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique
-    redirect_to jugar_path
+    redirect_to quiz_error_path
   end
 
   private

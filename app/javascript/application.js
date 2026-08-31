@@ -2,6 +2,12 @@
 import "@hotwired/turbo-rails"
 import "controllers"
 
+window.Turbo.StreamActions.circle_refresh = function() {
+  this.targetElements.forEach((target) => {
+    target.dispatchEvent(new CustomEvent("circle:refresh", { bubbles: true }))
+  })
+}
+
 window.Turbo.StreamActions.quiz_state = function() {
   const marker = this.templateContent.firstElementChild
   if (!marker) return

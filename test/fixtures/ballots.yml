@@ -1,7 +1,0 @@
-# frozen_string_literal: true
-
-lucia_for_casa:
-  round_run: vote_solomon
-  team: leones
-  player: lucia
-  choice_team: casa

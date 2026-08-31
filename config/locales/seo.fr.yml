@@ -32,7 +32,7 @@ fr:
             - title: "Jouer pour avoir envie de relire"
               body: "Chaque question ouvre une histoire biblique. Les points, les couronnes et les défis donnent envie de continuer, mais la vraie victoire consiste à mieux reconnaître les prophètes, les rois et, surtout, à s’approcher de Jésus-Christ."
             - title: "Une expérience pour toute la salle"
-              body: "Noche Live fonctionne sur mobile et rassemble les personnes. Une famille joue depuis le canapé, un groupe de jeunes forme des équipes, une paroisse vit une soirée menée par un présentateur sur grand écran."
+              body: "Noche Live fonctionne sur mobile et rassemble les personnes. Une famille joue depuis le canapé, un groupe de jeunes forme des équipes et la course se vit en direct sur grand écran."
             - title: "Toujours un prochain pas"
               body: "Après le jeu, tu peux ouvrir le passage, suivre un programme hebdomadaire ou parler avec quelqu’un de l’Église. Rien ne presse et rien n’oblige : chaque porte reste ouverte pour le moment où tu voudras avancer."
         bible_games:
@@ -48,7 +48,7 @@ fr:
             - title: "Une histoire derrière chaque question"
               body: "Chaque réponse rejoint un passage réel. Tu peux tenter, être surpris, puis ouvrir les Écritures pour comprendre pourquoi David, Esther, Moïse ou Élie ont pris cette décision."
             - title: "Du téléphone à la salle"
-              body: "Le téléphone sert à choisir, voter ou buzzer. L’attention revient vite vers les autres : commenter une réponse, célébrer une série, aider son équipe et attendre la révélation du présentateur."
+              body: "Le téléphone sert à répondre et à suivre sa série. L’attention revient vite vers les autres : commenter une réponse, célébrer un exploit et aider son équipe à prendre la tête."
             - title: "Pour une personne ou pour cinquante"
               body: "Lance une courte partie seul, défie un ami ou prépare une soirée entière pour des jeunes et des familles. Le rythme change, mais l’aventure et le ton chaleureux restent les mêmes."
         bible_quiz:
@@ -78,7 +78,7 @@ fr:
           card_body: "Des idées pour se retrouver, jouer et échanger."
           sections:
             - title: "Commencer en moins de deux minutes"
-              body: "Un code court suffit pour entrer sur mobile. Le présentateur voit le rythme de la salle et alterne questions, mouvements, votes et défis sans distribuer de feuilles ni réciter de longues règles."
+              body: "Un code court suffit pour entrer sur mobile. Le jeu démarre à l’heure prévue et chacun avance dans les quiz, sans feuilles à distribuer ni longues règles à expliquer."
             - title: "Une place pour chacun"
               body: "Il y a des moments pour celui qui connaît beaucoup, celle qui vient d’arriver, celui qui parle fort et celle qui préfère observer. Les équipes évitent qu’une seule personne porte toute la réponse."
             - title: "La conversation continue"
@@ -94,7 +94,7 @@ fr:
           card_body: "Du rythme, des équipes et de la foi sans ambiance de classe."
           sections:
             - title: "Un départ qui ne perd personne"
-              body: "Entrer avec un code, choisir son équipe et commencer. L’interface montre une action claire et le présentateur garde la main sur le rythme pour éviter les attentes et les discours trop longs."
+              body: "Entrer avec un code, choisir son équipe et commencer. L’interface montre une action claire, tandis que le direct affiche automatiquement la progression et le classement."
             - title: "Se mesurer sans exclure"
               body: "Les points et les couronnes créent de la tension, mais les épreuves mélangent mémoire, intuition, mouvement et coopération. Différents talents peuvent sauver l’équipe."
             - title: "Une soirée qu’on veut recommencer"

@@ -1,0 +1,21 @@
+<% complete = street.complete %>
+<% has_next = run.live_sequence_position < night.quiz_pack_ids.size && night.playable? %>
+<div class="play-shot quiz-world duel-ceremony-world is-duel-victory">
+  <div class="challenge-media duel-ceremony-art"><%= noche_media_picture(chrome.image, alt: "", class_name: "challenge-story", loading: "eager", fetchpriority: "high") %></div>
+  <span class="street-ceremony-rays" aria-hidden="true"></span>
+  <div class="street-ceremony-scroll">
+    <div class="street-win street-ceremony duel-ceremony is-duel-victory" role="status" tabindex="0">
+      <header class="street-ceremony-hero"><span class="duel-ceremony-seal" aria-hidden="true">✦</span><p class="street-ceremony-shout is-win"><%= t("nights.quiz_complete") %></p><p class="street-ceremony-kicker"><%= pack.copy(:title) %></p></header>
+      <div class="street-ceremony-medallion"><span class="street-ceremony-medallion-glow" aria-hidden="true"></span><span class="street-ceremony-crown" aria-hidden="true"><%= picto("crown") %></span><p class="street-ceremony-score-label"><%= t("street.ceremony_score_label") %></p><p class="street-win-score"><%= complete.score %></p><p class="street-ceremony-crowns"><%= t("chrome.crowns_word") %></p></div>
+      <ul class="street-ceremony-stats">
+        <li class="street-ceremony-stat"><%= picto("found") %><span class="street-ceremony-stat-label"><%= t("street.ceremony_stat_answered") %></span><strong><%= complete.answered %> / <%= pack.questions.size %></strong></li>
+        <li class="street-ceremony-stat"><%= picto("check") %><span class="street-ceremony-stat-label"><%= t("street.ceremony_stat_correct") %></span><strong><%= complete.correct %></strong></li>
+        <li class="street-ceremony-stat"><%= picto("hourglass") %><span class="street-ceremony-stat-label"><%= t("street.ceremony_stat_time") %></span><strong><%= street_clock(complete.duration_s) %></strong></li>
+      </ul>
+      <footer class="street-ceremony-actions noche-live-result-actions">
+        <% if has_next %><%= button_to quiz_advance_path(run), class: "btn btn-gold", form: { data: { turbo_stream: true } } do %><span><%= t("nights.next_quiz") %></span><%= picto("arrow") %><% end %><% end %>
+        <%= link_to night_path(night.code), class: "btn btn-navy" do %><%= picto("trophy") %><span><%= t("nights.back_to_live") %></span><% end %>
+      </footer>
+    </div>
+  </div>
+</div>

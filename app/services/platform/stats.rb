@@ -35,7 +35,7 @@ module Platform
         path_share: answers.positive? ? correct.to_f / answers : 0.0,
         duels: StreetDuel.count,
         nights: GameSession.count,
-        teams: Team.chapel.count,
+        teams: Team.count,
         invitations_sent: invitation_stats[:sent],
         invitations_opened: invitation_stats[:opened],
         friends_joined: invitation_stats[:joined],

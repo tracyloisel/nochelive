@@ -1,18 +1,91 @@
-<main class="scripture-community-page"
-      data-controller="scripture-room"
-      data-scripture-room-initial-panel="circle"
-      data-scripture-room-reference="<%= @reference %>"
-      data-scripture-room-locale="<%= I18n.locale %>"
-      data-message-limit-error="<%= t("scripture_reader.circle.too_long") %>"
-      data-message-blank-error="<%= t("scripture_reader.circle.message_required") %>"
-      data-circle-person-id="<%= current_street_person&.id %>"
-      data-circle-draft-restored="<%= t("scripture_reader.circle.draft_restored") %>"
-      data-circle-send-failed="<%= t("scripture_reader.circle.send_failed") %>">
-  <header>
-    <%= link_to "← #{t("scripture_reader.back")}", scripture_path(@reference), class: "reader-text-action" %>
-    <p><%= t("scripture_reader.tabs.circle") %></p>
-    <h1><%= t("scripture_reader.circle.title") %></h1>
-  </header>
-  <%= render "scriptures/circle_panel", posts: @posts, circle_mode: @circle_mode,
-        reference: @reference, active: true %>
-</main>
+<% screen = @screen %>
+<% state = screen.state.to_s.presence || "unavailable" %>
+<% readable = %w[active read_only].include?(state) %>
+<% writable = state == "active" %>
+<% ward = screen.ward %>
+<% ward_label = ward&.name.presence || ward&.code %>
+<% member_count = ward&.people&.count.to_i %>
+<% circle_art_key = "scripture_circle.gathering.light" %>
+<% frame_query = { view: screen.active_view, page: screen.page } %>
+<% frame_query[:conversation] = screen.selected.root_id if screen.selected_explicitly && screen.selected %>
+<% content_for :title, t("scripture_circle.title") %>
+<% content_for :body_class, "is-kid is-scripture-circle-index is-celestial-light" %>
+<% content_for :head do %>
+  <%= noche_picture_preload(circle_art_key, role: :hub_backdrop) %>
+<% end %>
+<% declare_frontend_resources(
+     context: "shell",
+     styles: %w[shell circle],
+     controllers: %w[loading press circle-feed],
+     classes: {
+       "style.shell" => "critical",
+       "style.circle" => "critical",
+       "controller.circle-feed" => "contextual"
+     }
+   ) %>
+<% page_hud(hud: true, theme: "celestial-light") { site_menu } %>
+
+<section id="circle_index" class="circle-page" data-controller="circle-feed">
+  <div class="circle-world">
+    <header class="circle-hero" aria-labelledby="circle-title">
+      <div class="circle-hero-copy">
+        <p class="circle-eyebrow"><%= picto("scripture-book") %><span><%= t("scripture_circle.eyebrow") %></span></p>
+        <h1 id="circle-title" tabindex="-1"><%= t("scripture_circle.title") %></h1>
+        <p class="circle-hero-lede"><%= t("scripture_circle.lede") %></p>
+      </div>
+
+      <% if ward_label.present? %>
+        <%= link_to ward_profile_path(ward.code),
+              class: "circle-ward-control",
+              aria: { label: t("scripture_circle.ward_scope", ward: ward_label) } do %>
+          <span class="circle-ward-control-mark" aria-hidden="true"><%= picto("people") %></span>
+          <span class="circle-ward-control-copy">
+            <strong><%= ward_label %></strong>
+            <small><%= t("scripture_circle.overview.members", count: member_count) %></small>
+          </span>
+          <span class="circle-ward-control-arrow" aria-hidden="true"><%= picto("arrow") %></span>
+        <% end %>
+      <% end %>
+
+      <%= noche_picture(
+            circle_art_key,
+            role: :hub_backdrop,
+            alt: "",
+            class_name: "circle-hero-art",
+            loading: "eager",
+            fetchpriority: "high",
+            sizes: "100vw"
+          ) %>
+    </header>
+
+    <% if readable %>
+      <%= turbo_stream_from ward, ScriptureCircles::RamaRefresh::STREAM %>
+      <turbo-frame id="circle_live_feed"
+                   class="circle-live-feed"
+                   data-circle-feed-target="liveFeed"
+                   data-circle-feed-url="<%= scripture_circle_path(frame_query) %>"
+                   data-action="turbo:frame-load->circle-feed#liveLoaded"
+                   aria-busy="false">
+        <%= render "scripture_circles/workspace",
+              screen: screen,
+              writable: writable,
+              draft: @circle_draft,
+              error: @circle_error %>
+      </turbo-frame>
+      <div class="circle-refresh-notice" data-circle-feed-target="refreshNotice" role="status" aria-live="polite" hidden>
+        <span data-circle-feed-target="pendingRefresh" hidden><%= t("scripture_circle.inbox.pending_refresh") %></span>
+        <button type="button"
+                class="circle-refresh-action"
+                data-circle-feed-target="refreshAction"
+                data-action="click->circle-feed#refreshNow"
+                hidden><%= t("scripture_circle.inbox.refresh") %></button>
+      </div>
+    <% else %>
+      <%= render "scripture_circles/empty",
+            title: t("scripture_circle.state.unavailable_title"),
+            body: t("scripture_circle.state.unavailable") %>
+    <% end %>
+  </div>
+</section>
+
+<% page_dock(active: :word) %>

@@ -32,7 +32,9 @@ class WardAddsControllerTest < ActionDispatch::IntegrationTest
     assert_select ".about-reach-chip strong", text: "+34 689 22 67 54"
     assert_select ".about-reach-chip strong", text: "@tracy_loisel"
     assert_select "a.about-github[href=?]", "https://github.com/tracyloisel/nochelive"
-    assert_select "a.quiet-link[href=?]", platform_stats_path
+    assert_select "a.quiet-link.about-stats-link[href=?]", platform_stats_path, text: I18n.t("stats.menu") do
+      assert_select ".picto-arrow", count: 1
+    end
     assert_select ".btn.btn-gold.about-github", count: 1
     assert_select "a[href=?]", ward_profile_path("RAMA"), count: 0
     assert_select "form[action=?]", wards_path, count: 0

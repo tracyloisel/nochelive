@@ -1,92 +1,221 @@
-<section class="reader-companion-section reader-circle-panel"
-         data-scripture-room-target="panel"
-         data-reader-panel="circle"
-         aria-labelledby="reader-circle-title"
-         <%= "hidden" unless active %>>
-  <% circle_event = local_assigns[:circle_event].to_s %>
-  <% circle_event_post = local_assigns[:circle_event_post] %>
-  <header class="reader-companion-heading">
-    <h2 id="reader-circle-title" tabindex="-1"><%= t("scripture_reader.circle.title") %></h2>
-    <button type="button" class="reader-return-to-reading" data-action="scripture-room#returnToReading">
-      <%= picto("arrow") %><span><%= t("scripture_reader.companion.return_to_reading") %></span>
-    </button>
-  </header>
+<% circle_event = local_assigns[:circle_event].to_s %>
+<% circle_event_post = local_assigns[:circle_event_post] %>
+<% circle_focus_post = local_assigns[:circle_focus_post] %>
+<% circle_focus_unavailable = local_assigns[:circle_focus_unavailable] %>
+<% requested_sort = local_assigns[:circle_sort].to_s %>
+<% circle_sort = requested_sort.in?(%w[recent popular unresolved]) ? requested_sort : "recent" %>
+<% circle_counts = local_assigns[:circle_counts].respond_to?(:to_h) ? local_assigns[:circle_counts].to_h.stringify_keys : {} %>
+<% grouped_conversations = posts.group_by { |post| post.conversation_root_id.presence || post.root_post&.id || post.id } %>
 
-  <% if circle_mode == "disabled" %>
+<section id="reader-circle"
+         class="reader-circle-panel"
+         data-scripture-room-target="circleSection"
+         aria-labelledby="reader-circle-title">
+  <h2 id="reader-circle-title" class="visually-hidden" tabindex="-1"><%= t("scripture_reader.circle.title") %></h2>
+
+  <% if circle_focus_unavailable %>
+    <div class="reader-empty-state" data-circle-focus-unavailable>
+      <span aria-hidden="true"><%= picto("people") %></span>
+      <p><%= t("scripture_reader.selection.discussion_unavailable") %></p>
+      <%= link_to t("scripture_reader.circle.title"), scripture_path(reference, circle: 1, circle_sort: circle_sort), class: "reader-text-action" %>
+    </div>
+  <% elsif circle_mode == "disabled" %>
     <div class="reader-empty-state"><span aria-hidden="true"><%= picto("people") %></span><p><%= t("scripture_reader.circle.disabled") %></p></div>
   <% else %>
     <% if circle_mode == "read_only" %>
-      <p class="circle-mode-notice"><%= t("scripture_reader.circle.read_only") %></p>
+      <p class="reader-circle-state-note"><%= t("scripture_reader.circle.read_only") %></p>
     <% end %>
 
     <% if circle_mode == "active" %>
-      <div class="circle-compose-region">
+      <section class="reader-circle-compose-region" aria-label="<%= t("scripture_reader.circle.title") %>">
         <% if circle_event_post %>
-          <p class="circle-compose-status is-success" data-circle-send-status role="status"><%= t("scripture_reader.circle.#{circle_event}") %></p>
+          <p class="reader-circle-compose-status is-success" data-circle-send-status role="status"><%= t("scripture_reader.circle.#{circle_event}") %></p>
         <% end %>
 
-        <div class="circle-compose-card" data-circle-composer-shell>
-          <div class="circle-compose-body">
-            <% if current_street_person&.ward %><p class="circle-compose-scope"><%= t("scripture_reader.circle.ward_scope", ward: current_street_person.ward.name) %></p><% end %>
-            <%= form_with url: scripture_circle_posts_path,
-                          scope: :post,
-                          class: "circle-compose-form",
-                          data: {
-                            circle_composer: true,
-                            circle_composer_kind: "post",
-                            scripture_room_target: "circleComposer",
-                            action: "turbo:submit-start->scripture-room#composerSubmitStart turbo:submit-end->scripture-room#composerSubmitEnd"
-                          } do |form| %>
-              <%= form.hidden_field :reference, value: reference %>
-              <%= form.hidden_field :locale, value: I18n.locale %>
-              <%= form.hidden_field :start_verse, value: "", data: { scripture_room_target: "circleSelectionStart" } %>
-              <%= form.hidden_field :end_verse, value: "", data: { scripture_room_target: "circleSelectionEnd" } %>
-              <%= form.hidden_field :selected_text, value: "", data: { scripture_room_target: "circleSelectionText" } %>
-              <fieldset class="circle-kind-options">
-                <legend class="visually-hidden"><%= t("scripture_reader.circle.kind_label") %></legend>
-                <label><%= form.radio_button :kind, "reflection", checked: true, data: { action: "change->scripture-room#messageMetadataChanged" } %><span><%= t("scripture_reader.circle.kind_reflection") %></span></label>
-                <label><%= form.radio_button :kind, "question", data: { action: "change->scripture-room#messageMetadataChanged" } %><span><%= t("scripture_reader.circle.kind_question") %></span></label>
-              </fieldset>
-
-              <label class="circle-anonymous-toggle"><%= form.check_box :anonymous, { checked: true, data: { action: "change->scripture-room#messageMetadataChanged" } } %><span><%= t("scripture_reader.circle.post_anonymously") %></span></label>
-
-              <aside class="circle-selection-context" data-scripture-room-target="circleSelectionContext" hidden>
-                <p><span><%= t("scripture_reader.selection.discussion_context") %></span><strong data-scripture-room-target="circleSelectionReference"></strong></p>
-                <button type="button" data-action="scripture-room#clearCircleSelection"><%= t("scripture_reader.selection.clear_discussion_context") %></button>
-                <blockquote data-scripture-room-target="circleSelectionQuote" aria-label="<%= t("scripture_reader.selection.discussion_context") %>"></blockquote>
-              </aside>
-
-              <label class="circle-message-field" for="circle-post-body">
-                <span><%= t("scripture_reader.circle.message_label") %></span>
-                <%= form.text_area :body,
-                                   id: "circle-post-body",
-                                   rows: 3,
-                                   placeholder: t("scripture_reader.circle.placeholder"),
-                                   aria: { describedby: "circle-post-counter circle-post-error" },
-                                   data: { action: "focus->scripture-room#composerFieldFocused input->scripture-room#messageInput" } %>
-              </label>
-
-              <div class="circle-compose-foot">
-                <span id="circle-post-counter" data-message-counter>0 / <%= ScriptureCirclePost::MAX_BODY_LENGTH %></span>
-                <div class="circle-compose-actions">
-                  <button type="submit" class="circle-submit" data-circle-submit data-circle-sending-label="<%= t("scripture_reader.circle.publishing") %>"><span data-circle-submit-label><%= t("scripture_reader.circle.publish") %></span></button>
-                </div>
-              </div>
-              <p id="circle-post-error" class="circle-compose-error" data-message-error role="alert" hidden></p>
-              <p class="circle-compose-status" data-message-status role="status" hidden></p>
+        <div class="reader-circle-compose-card" data-circle-composer-shell>
+          <span class="reader-circle-compose-avatar" aria-hidden="true">
+            <% if (avatar = avatar_mark(current_street_person)) %>
+              <img src="<%= avatar %>" alt="" width="48" height="48">
+            <% else %>
+              <%= picto("person") %>
             <% end %>
-          </div>
+          </span>
+
+          <%= form_with url: scripture_circle_posts_path,
+                        scope: :post,
+                        class: "reader-circle-compose-form",
+                        data: {
+                          circle_composer: true,
+                          circle_composer_kind: "post",
+                          circle_composer_id: "root",
+                          scripture_room_target: "circleComposer",
+                          action: "turbo:submit-start->scripture-room#composerSubmitStart turbo:submit-end->scripture-room#composerSubmitEnd"
+                        } do |form| %>
+            <%= form.hidden_field :reference, value: reference %>
+            <%= form.hidden_field :locale, value: I18n.locale %>
+            <%= hidden_field_tag :circle_sort, circle_sort %>
+            <%= form.hidden_field :start_verse, value: "", data: { scripture_room_target: "circleSelectionStart" } %>
+            <%= form.hidden_field :end_verse, value: "", data: { scripture_room_target: "circleSelectionEnd" } %>
+            <%= form.hidden_field :selected_text, value: "", data: { scripture_room_target: "circleSelectionText" } %>
+            <%= form.hidden_field :selected_verses, value: "", data: { scripture_room_target: "circleSelectionVerses" } %>
+            <%= form.hidden_field :kind, value: "question" %>
+
+            <aside class="reader-circle-selection-context" data-scripture-room-target="circleSelectionContext" hidden>
+              <p><span><%= t("scripture_reader.selection.discussion_context") %></span><strong data-scripture-room-target="circleSelectionReference"></strong></p>
+              <button type="button" data-action="scripture-room#clearCircleSelection"><%= t("scripture_reader.selection.clear_discussion_context") %></button>
+              <blockquote data-scripture-room-target="circleSelectionQuote" aria-label="<%= t("scripture_reader.selection.discussion_context") %>"></blockquote>
+            </aside>
+
+            <label class="visually-hidden" for="circle-post-body" data-circle-message-label><%= t("scripture_reader.circle.question_message_label") %></label>
+            <%= form.text_area :body,
+                               id: "circle-post-body",
+                               rows: 2,
+                               placeholder: t("scripture_reader.circle.compose_placeholder"),
+                               aria: { describedby: "circle-post-counter circle-post-error" },
+                               data: { action: "focus->scripture-room#composerFieldFocused input->scripture-room#messageInput" } %>
+
+            <footer class="reader-circle-compose-foot">
+              <div class="reader-circle-compose-contexts">
+                <button type="button"
+                        class="reader-circle-verse-context reader-circle-verse-picker-trigger"
+                        data-action="scripture-room#toggleManualVersePicker"
+                        data-scripture-room-target="circleVersePickerTrigger"
+                        aria-controls="circle-manual-verse-picker"
+                        aria-expanded="false">
+                  <%= picto("scripture-book") %>
+                  <span data-scripture-room-target="circleVersePickerLabel" data-circle-verse-default-label="<%= t("scripture_reader.circle.verse_context") %>"><%= t("scripture_reader.circle.verse_context") %></span>
+                </button>
+              </div>
+
+              <div class="reader-circle-compose-actions">
+                <details class="reader-circle-audience"
+                         data-circle-author-visibility
+                         data-action="toggle->scripture-room#authorVisibilityToggled click@window->scripture-room#closeAuthorVisibilityFromOutside keydown@window->scripture-room#closeAuthorVisibilityOnEscape">
+                  <%= form.hidden_field :author_visibility,
+                                        value: "named",
+                                        id: "circle-post-author-visibility",
+                                        data: { circle_author_visibility_input: true } %>
+                  <summary class="reader-circle-audience-trigger"
+                           aria-haspopup="listbox"
+                           aria-controls="circle-post-author-visibility-options"
+                           aria-expanded="false">
+                    <span data-circle-author-visibility-label><%= t("scripture_reader.circle.author_visibility_named") %></span>
+                    <i aria-hidden="true"></i>
+                  </summary>
+                  <div id="circle-post-author-visibility-options"
+                       class="reader-circle-audience-menu"
+                       role="listbox"
+                       aria-label="<%= t("scripture_reader.circle.publication_identity") %>">
+                    <% [["named", t("scripture_reader.circle.author_visibility_named")], ["anonymous_to_ward", t("scripture_reader.circle.author_visibility_anonymous")]].each do |value, label| %>
+                      <button type="button"
+                              role="option"
+                              aria-selected="<%= value == "named" %>"
+                              data-author-visibility-value="<%= value %>"
+                              data-author-visibility-label="<%= label %>"
+                              data-action="scripture-room#chooseAuthorVisibility">
+                        <span class="reader-circle-audience-check" aria-hidden="true">✓</span>
+                        <span><%= label %></span>
+                      </button>
+                    <% end %>
+                  </div>
+                </details>
+                <button type="submit" class="reader-circle-submit" data-circle-submit data-circle-sending-label="<%= t("scripture_reader.circle.publishing") %>"><%= picto("send") %><span data-circle-submit-label><%= t("scripture_reader.circle.publish_compact") %></span></button>
+              </div>
+              <span id="circle-post-counter" class="reader-circle-counter" data-message-counter>0 / <%= ScriptureCirclePost::MAX_BODY_LENGTH %></span>
+            </footer>
+            <section id="circle-manual-verse-picker"
+                     class="reader-circle-manual-verse-picker"
+                     data-scripture-room-target="circleVersePicker"
+                     aria-label="<%= t("scripture_reader.circle.manual_verse_picker_label") %>"
+                     hidden>
+              <label for="circle-manual-verse-input"><%= t("scripture_reader.circle.manual_verse_field") %></label>
+              <div class="reader-circle-manual-verse-input-row">
+                <input id="circle-manual-verse-input"
+                       type="text"
+                       inputmode="numeric"
+                       autocomplete="off"
+                       spellcheck="false"
+                       placeholder="<%= t("scripture_reader.circle.manual_verse_placeholder") %>"
+                       aria-describedby="circle-manual-verse-hint circle-manual-verse-error"
+                       data-scripture-room-target="circleVersePickerInput"
+                       data-action="input->scripture-room#manualVerseInput keydown->scripture-room#manualVerseKeydown">
+                <button type="button" data-action="scripture-room#applyManualVerseSelection"><%= t("scripture_reader.circle.manual_verse_add") %></button>
+              </div>
+              <p id="circle-manual-verse-hint"><%= t("scripture_reader.circle.manual_verse_hint") %></p>
+              <p id="circle-manual-verse-error" data-scripture-room-target="circleVersePickerError" role="alert" hidden></p>
+            </section>
+            <p id="circle-post-error" class="reader-circle-compose-error" data-message-error role="alert" hidden></p>
+            <p class="reader-circle-compose-status" data-message-status role="status" hidden></p>
+          <% end %>
         </div>
-      </div>
+      </section>
     <% end %>
 
-    <div class="circle-message-list">
-      <% if posts.any? %>
-        <%= render partial: "scriptures/circle_post", collection: posts, as: :post,
-              locals: { circle_mode:, reference:, circle_event:, circle_event_post_id: circle_event_post&.id } %>
-      <% else %>
-        <div class="reader-empty-state"><span aria-hidden="true"><%= picto("people") %></span><p><%= t("scripture_reader.circle.empty") %></p></div>
-      <% end %>
+    <div class="reader-circle-workspace">
+      <section class="reader-circle-feed" aria-label="<%= t("scripture_circle.results_heading") %>">
+        <nav class="reader-circle-tabs" aria-label="<%= t("scripture_circle.filters.label") %>">
+          <% { "recent" => t("scripture_circle.filters.recent"), "popular" => t("scripture_reader.circle.filter_popular"), "unresolved" => t("scripture_reader.circle.filter_unresolved") }.each do |sort, label| %>
+            <%= link_to scripture_path(reference, circle: 1, circle_sort: sort), class: ["reader-circle-tab", ("is-active" if circle_sort == sort)].compact.join(" "), aria: { current: ("page" if circle_sort == sort) } do %>
+              <span><%= label %></span>
+              <% if sort == "unresolved" && circle_counts.fetch("unresolved", 0).to_i.positive? %><b><%= circle_counts.fetch("unresolved", 0) %></b><% end %>
+            <% end %>
+          <% end %>
+        </nav>
+
+        <% if grouped_conversations.any? %>
+          <div class="reader-circle-conversations">
+            <% grouped_conversations.each do |conversation_root_id, conversation_posts| %>
+              <% conversation_root = conversation_posts.find { |post| post.id == conversation_root_id } || conversation_posts.find(&:root?) %>
+              <% next unless conversation_root %>
+              <% ordered_posts = [conversation_root, *conversation_posts.reject { |post| post.id == conversation_root.id }] %>
+              <% replies = ordered_posts.reject { |post| post.id == conversation_root.id } %>
+              <% history_replies = replies.select { |post| post.status.in?(%w[visible community_censored]) } %>
+              <% reply_count = history_replies.size %>
+              <% preview_replies = history_replies.last(5) %>
+              <% older_replies = history_replies.first([ history_replies.size - preview_replies.size, 0 ].max) %>
+              <% participant_count = ([ conversation_root, *history_replies ].filter_map(&:person_id).uniq.size) %>
+              <% focused_conversation = circle_focus_post && (circle_focus_post.conversation_root_id.presence || circle_focus_post.root_post&.id || circle_focus_post.id) == conversation_root.id %>
+
+              <section class="reader-circle-conversation <%= "is-focused" if focused_conversation %>" data-circle-conversation-root-id="<%= conversation_root.id %>" data-circle-score="<%= conversation_root.conversation_vote_score %>">
+                <%= render "scriptures/circle_post", post: conversation_root, circle_mode:, reference:, chapter_title: local_assigns[:chapter_title], circle_event:, circle_event_post_id: circle_event_post&.id, circle_focus_post_id: circle_focus_post&.id, circle_sort:, presentation: "conversation_root", reply_count:, participant_count: %>
+
+                <% if history_replies.any? %>
+                  <div class="reader-circle-replies">
+                    <% if older_replies.any? %>
+                      <div id="reader-circle-history-<%= conversation_root.id %>" class="reader-circle-history-messages" hidden>
+                        <%= render partial: "scriptures/circle_post", collection: older_replies, as: :post, locals: { circle_mode:, reference:, chapter_title: local_assigns[:chapter_title], circle_event:, circle_event_post_id: circle_event_post&.id, circle_focus_post_id: circle_focus_post&.id, circle_sort:, presentation: "reply" } %>
+                      </div>
+                    <% end %>
+                    <div class="reader-circle-latest-replies">
+                      <%= render partial: "scriptures/circle_post", collection: preview_replies, as: :post, locals: { circle_mode:, reference:, chapter_title: local_assigns[:chapter_title], circle_event:, circle_event_post_id: circle_event_post&.id, circle_focus_post_id: circle_focus_post&.id, circle_sort:, presentation: "reply" } %>
+                    </div>
+                    <% if older_replies.any? %>
+                      <button type="button"
+                              class="reader-circle-history-toggle"
+                              data-action="scripture-room#toggleCircleHistory"
+                              data-circle-history="reader-circle-history-<%= conversation_root.id %>"
+                              aria-controls="reader-circle-history-<%= conversation_root.id %>"
+                              aria-expanded="false">
+                        <span class="reader-circle-history-closed"><%= t("scripture_circle.card.show_previous_replies", count: older_replies.size) %></span>
+                        <span class="reader-circle-history-open" hidden><%= t("scripture_circle.card.hide_previous_replies") %></span>
+                        <span aria-hidden="true" data-circle-history-arrow>↑</span>
+                      </button>
+                    <% end %>
+                  </div>
+                <% end %>
+                <% if conversation_root.status == "visible" && circle_mode == "active" %>
+                  <%= render "scriptures/circle_reply_composer", conversation_root:, reference:, circle_sort:, dom_prefix: "reader-feed-" %>
+                <% end %>
+              </section>
+            <% end %>
+          </div>
+        <% else %>
+          <div class="reader-empty-state"><span aria-hidden="true"><%= picto("people") %></span><p><%= t("scripture_reader.circle.empty") %></p></div>
+        <% end %>
+      </section>
+
     </div>
+
+    <p class="reader-circle-privacy"><%= picto("lock") %><span><%= t("scripture_circle.inbox.privacy") %></span></p>
   <% end %>
 </section>

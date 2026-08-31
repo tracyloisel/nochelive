@@ -294,6 +294,20 @@
     <path d="M8 14c8-2 16 0 24 6v32c-8-6-16-8-24-6z" fill="#fffaf0" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
     <path d="M56 14c-8-2-16 0-24 6v32c8-6 16-8 24-6z" fill="#fffaf0" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
     <path d="M32 20v32M16 24c4 0 8 1 11 3M48 24c-4 0-8 1-11 3" fill="none" stroke="#d4a017" stroke-width="3" stroke-linecap="round"/>
+  <% when "bookmark" %>
+    <path d="M18 9h28a4 4 0 0 1 4 4v43L32 45 14 56V13a4 4 0 0 1 4-4Z" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M22 19h20" stroke="currentColor" stroke-width="3" stroke-linecap="round" opacity=".45"/>
+  <% when "conversation" %>
+    <path d="M28 13h18a8 8 0 0 1 8 8v12a8 8 0 0 1-8 8H39l-7 6v-6h-4" fill="none" stroke="currentColor" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round" opacity=".78"/>
+    <path d="M11 24a8 8 0 0 1 8-8h22a8 8 0 0 1 8 8v15a8 8 0 0 1-8 8H28l-9 7v-7a8 8 0 0 1-8-8Z" fill="none" stroke="currentColor" stroke-width="3.8" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M21 31h18M21 37h12" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"/>
+  <% when "highlight" %>
+    <path d="m15 43 26-26 8 8-26 26H15Z" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
+    <path d="m38 20 8 8M12 55h40" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+    <path d="m15 43 8 8-8 2Z" fill="currentColor"/>
+  <% when "note" %>
+    <path d="M14 8h29l8 8v40H14Z" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M43 8v10h8M22 29h21M22 38h21M22 47h13" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
   <% when "scripture-book" %>
     <path d="M7 15.5c8.8-2.3 17.1-.2 25 6.2v31.8C24.1 47.1 15.8 45 7 47.3Z" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linejoin="round"/>
     <path d="M57 15.5c-8.8-2.3-17.1-.2-25 6.2v31.8c7.9-6.4 16.2-8.5 25-6.2Z" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linejoin="round"/>

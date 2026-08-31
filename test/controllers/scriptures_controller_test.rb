@@ -23,16 +23,15 @@ class ScripturesControllerTest < ActionDispatch::IntegrationTest
     assert_select ".scripture-selection-hint", count: 0
     assert_select ".scripture-selection-bar[hidden][role=toolbar][aria-label=?] button[data-action*='scripture-room#discussSelection']", I18n.t("scripture_reader.selection.actions")
     assert_select ".scripture-selection-bar button[data-action*='scripture-room#discussSelection']", text: I18n.t("scripture_reader.selection.discuss")
-    assert_select "dialog.reader-tools-dialog button[data-action='scripture-room#bookmarkSelection']", text: I18n.t("scripture_reader.selection.bookmark")
+    assert_select "dialog.reader-tools-dialog button[data-action='scripture-room#bookmarkSelection'] strong", text: I18n.t("scripture_reader.selection.bookmark")
     assert_select "dialog.reader-tools-dialog button[data-action*='scripture#openShare']", text: /#{Regexp.escape(I18n.t("scripture_reader.selection.share"))}/
     assert_select "dialog.scripture-share-dialog[tabindex='-1'][data-scripture-target=shareDialog]"
     assert_select ".scripture-share-option[data-action='scripture#copyLink']", text: I18n.t("quiz.scripture_copy_link")
     assert_select ".scripture-share-option[data-scripture-target=whatsapp][href='https://wa.me/']", text: I18n.t("quiz.scripture_share_whatsapp")
     assert_select ".scripture-share-option[data-scripture-target=x][href='https://twitter.com/intent/tweet'] > span:last-child", text: I18n.t("quiz.scripture_share_x")
     assert_select ".scripture-share-remove[hidden][data-action='scripture#removeHighlight'] > span:last-child", text: I18n.t("quiz.scripture_remove_highlight")
-    assert_select ".scripture-read-count[hidden]", text: "0 lecturas"
     assert_select ".reader-chapter-art picture", count: 1
-    assert_select ".reader-close[type=button][data-action='click->scripture#close'][aria-label=?]", I18n.t("scripture_reader.close")
+    assert_select ".reader-close[type=button][data-action='click->scripture-room#closeMarksOnMobile click->scripture#close'][data-scripture-room-target='closeTrigger'][aria-label=?]", I18n.t("scripture_reader.close")
     assert_select ".reader-source-card a[href*='churchofjesuschrist.org'][target=_blank]", text: /#{Regexp.escape(I18n.t("scripture_reader.source.open"))}/
     assert_select "turbo-frame#scripture_reader"
   end
@@ -44,6 +43,40 @@ class ScripturesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select "turbo-frame#scripture_reader .scripture-veil[data-stage-bed-value=study_refuge]"
     assert_select "body", count: 0
+  end
+
+  test "offers an honest chapter-linked quiz at the end of the reading" do
+    get scripture_path("bofm/alma/32", locale: "fr")
+
+    assert_response :success
+    assert_select "section.reader-chapter-quiz[data-reader-chapter-quiz][data-quiz-state='locked']" do
+      assert_select ".reader-chapter-quiz-copy h2", text: "Symboles du Livre de Mormon"
+      assert_select ".reader-chapter-quiz-copy", text: /3 questions/
+      assert_select ".reader-chapter-quiz-lock", text: /se débloque plus loin/
+      assert_select "a.reader-chapter-quiz-button[href='#{street_map_path}'][data-turbo-frame='_top']", text: /Voir sur la carte/
+    end
+  end
+
+  test "starts an unlocked chapter-linked quiz outside the reader frame" do
+    world = Quizzes::World::Result.new(
+      packs: [Quizzes::World::PackView.new(id: "simbolos_mormon", state: :current)]
+    )
+
+    original_call = Quizzes::World.method(:call)
+    Quizzes::World.define_singleton_method(:call) { |**| world }
+    begin
+      get scripture_path("bofm/alma/32", locale: "fr")
+    ensure
+      Quizzes::World.define_singleton_method(:call, original_call)
+    end
+
+    assert_response :success
+    assert_select "section.reader-chapter-quiz[data-quiz-state='current']" do
+      assert_select "form.reader-chapter-quiz-form[action='#{street_pack_start_path("simbolos_mormon")}'][data-turbo-frame='_top']" do
+        assert_select "button.reader-chapter-quiz-button", text: /Jouer au quiz/
+      end
+      assert_select ".reader-chapter-quiz-lock", count: 0
+    end
   end
 
   test "embeds the current profile highlights for the active scripture locale" do
@@ -116,13 +149,13 @@ class ScripturesControllerTest < ActionDispatch::IntegrationTest
     assert_match(/\.scripture-close \.picto-close circle \{ fill: transparent; \}/, css)
   end
 
-  test "shows the confirmed chapter count in the reader" do
+  test "does not expose the global chapter count in the personal reader" do
     ScriptureChapterStat.create!(reference: "ot/1-sam/16", reads_count: 1)
 
     get scripture_path("ot/1-sam/16")
 
     assert_response :success
-    assert_select ".scripture-read-count:not([hidden])", text: "1 lectura"
+    assert_select ".scripture-read-count", count: 0
   end
 
   test "keeps scripture order by default and can sort a book by reads" do

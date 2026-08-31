@@ -18,22 +18,42 @@
 <% guide = reader&.guide %>
 <% circle_mode = reader&.circle_mode || "disabled" %>
 <% circle_posts = Array(reader&.circle_posts) %>
+<% circle_focus_post = reader&.circle_focus_post %>
+<% circle_focus_unavailable = reader&.circle_focus_unavailable %>
+<% circle_sort = if reader&.respond_to?(:circle_sort)
+                   reader.circle_sort
+                 else
+                   params[:circle_sort].to_s.presence || "recent"
+                 end %>
+<% circle_counts = reader&.respond_to?(:circle_counts) ? reader.circle_counts : {} %>
+<% circle_thread_detail = circle_focus_post.present? && params[:circle_post].present? %>
+<% reader_return_path = scripture_path(@study, **{
+     cite: @cite.presence,
+     study_unit_id: params[:study_unit_id].presence,
+     circle: 1,
+     circle_sort: circle_sort
+   }.compact) %>
 <% verses = Array(@chapter&.verses) %>
 <% chapter_title = scripture_reader_chapter_title(@chapter, @study) if @chapter %>
 <% chapter_bookmark = marks.find { |mark| mark.chapter_anchor? && mark.bookmarked_at? } %>
 <% current_verse = reader&.progress&.last_verse.presence || initial_focus.first || verses.first&.number || 1 %>
 <% current_index = [verses.index { |verse| verse.number == current_verse }.to_i + 1, 1].max %>
-<% initial_panel = params[:circle].to_s == "1" ? "circle" : "read" %>
+<% initial_panel = "read" %>
+<% initial_circle = params[:circle].to_s == "1" || params[:circle_post].present? %>
 <% circle_event = params[:circle_event].to_s if %w[published replied updated].include?(params[:circle_event].to_s) %>
 <% circle_event_post = nil %>
 <% if circle_event.present? %>
-  <% circle_event_post = circle_posts.find do |post|
-       post.id == params[:circle_post].to_i && post.person_id == current_street_person&.id
-     end %>
+  <% requested_event_post_id = params[:circle_event_post].to_i %>
+  <% event_candidate = if requested_event_post_id.positive?
+                         circle_posts.find { |post| post.id == requested_event_post_id }
+                       else
+                         circle_focus_post
+                       end %>
+  <% circle_event_post = event_candidate if event_candidate&.person_id == current_street_person&.id %>
 <% end %>
 <% circle_event = nil unless circle_event_post %>
 
-<aside class="scripture-veil scripture-reader-room"
+<aside class="scripture-veil scripture-reader-room <%= "is-circle-thread-detail" if circle_thread_detail %>"
        data-controller="scripture scripture-room church-video"
        data-active-panel="<%= initial_panel %>"
        role="dialog"
@@ -46,6 +66,20 @@
        data-scripture-room-reference="<%= @study %>"
        data-scripture-room-locale="<%= I18n.locale %>"
        data-scripture-room-initial-panel="<%= initial_panel %>"
+       data-scripture-room-initial-circle="<%= initial_circle %>"
+       data-message-limit-error="<%= t("scripture_reader.circle.too_long") %>"
+       data-message-blank-error="<%= t("scripture_reader.circle.message_required") %>"
+       data-circle-person-id="<%= current_street_person&.id %>"
+       data-scripture-room-circle-mode="<%= circle_mode %>"
+       data-circle-selection-limit-error="<%= t("scripture_reader.selection.discussion_too_long") %>"
+       data-circle-manual-verse-invalid="<%= t("scripture_reader.circle.manual_verse_invalid", count: verses.length) %>"
+       data-circle-unavailable="<%= t("scripture_reader.selection.discussion_unavailable") %>"
+       data-circle-event="<%= circle_event %>"
+       data-circle-event-post-id="<%= circle_event_post&.id %>"
+       data-circle-focus-post-id="<%= circle_focus_post&.id %>"
+       data-circle-focus-unavailable="<%= circle_focus_unavailable ? "true" : "false" %>"
+       data-circle-draft-restored="<%= t("scripture_reader.circle.draft_restored") %>"
+       data-circle-send-failed="<%= t("scripture_reader.circle.send_failed") %>"
        data-scripture-room-font-scale="<%= preference.font_scale || 100 %>"
        data-scripture-room-line-height="<%= preference.line_height_key || "comfortable" %>"
        data-scripture-room-measure="<%= preference.measure_key || "comfortable" %>"
@@ -66,16 +100,6 @@
        data-definition-unavailable="<%= t("scripture_reader.selection.definition_unavailable") %>"
        data-selection-copied="<%= t("scripture_reader.selection.copied") %>"
        data-reader-chapter-title="<%= chapter_title %>"
-       data-message-limit-error="<%= t("scripture_reader.circle.too_long") %>"
-       data-message-blank-error="<%= t("scripture_reader.circle.message_required") %>"
-       data-circle-person-id="<%= current_street_person&.id %>"
-       data-scripture-room-circle-mode="<%= circle_mode %>"
-       data-circle-selection-limit-error="<%= t("scripture_reader.selection.discussion_too_long") %>"
-       data-circle-unavailable="<%= t("scripture_reader.selection.discussion_unavailable") %>"
-       data-circle-event="<%= circle_event %>"
-       data-circle-event-post-id="<%= circle_event_post&.id %>"
-       data-circle-draft-restored="<%= t("scripture_reader.circle.draft_restored") %>"
-       data-circle-send-failed="<%= t("scripture_reader.circle.send_failed") %>"
        data-church-video-locale-value="<%= I18n.locale %>"
        data-church-video-player-title-value="<%= t("church_videos.player_title") %>"
        <% if @chapter %>
@@ -90,9 +114,26 @@
   <div class="scripture-sheet">
     <% if @chapter %>
       <header class="reader-room-topbar">
-        <button type="button" class="reader-close" data-action="click->scripture#close" data-scripture-close aria-label="<%= t("scripture_reader.close") %>" title="<%= t("scripture_reader.close") %>">
-          <%= picto("cross") %><span><%= t("scripture_reader.close") %></span>
-        </button>
+        <% if circle_thread_detail %>
+          <%= link_to reader_return_path,
+                      class: "reader-thread-return",
+                      aria: { label: t("scripture_reader.companion.return_to_reading") },
+                      data: { turbo_frame: "scripture_reader", scripture_reading_link: true } do %>
+            <%= picto("arrow") %><span><%= t("scripture_reader.companion.return_to_reading") %></span>
+          <% end %>
+        <% else %>
+          <button type="button"
+                  class="reader-close"
+                  data-action="click->scripture-room#closeMarksOnMobile click->scripture#close"
+                  data-scripture-room-target="closeTrigger"
+                  data-reader-dismiss-label="<%= t("scripture_reader.close") %>"
+                  data-reader-panel-dismiss-label="<%= t("scripture_reader.companion.return_to_reading") %>"
+                  data-scripture-close
+                  aria-label="<%= t("scripture_reader.close") %>"
+                  title="<%= t("scripture_reader.close") %>">
+            <%= picto("cross") %><span><%= t("scripture_reader.close") %></span>
+          </button>
+        <% end %>
         <strong class="reader-mobile-title">
           <% if movement&.exact? %>
             <span class="reader-mobile-readers" aria-label="<%= movement_label %>">
@@ -105,27 +146,43 @@
         <div class="reader-topbar-actions">
           <button type="button"
                   class="reader-panel-trigger reader-marks-trigger"
-                  data-action="scripture-room#openMarks"
+                  data-action="scripture-room#toggleMarks"
                   data-scripture-room-target="marksTrigger"
+                  data-reader-open-label="<%= t("scripture_reader.companion.marks_label") %>"
+                  data-reader-close-label="<%= t("scripture_reader.companion.return_to_reading") %>"
                   aria-controls="reader-companion"
                   aria-expanded="false"
                   aria-label="<%= t("scripture_reader.companion.marks_label") %>"
                   title="<%= t("scripture_reader.companion.marks_label") %>">
             <%= picto("bookmark") %>
           </button>
-          <button type="button"
-                  class="reader-panel-trigger reader-circle-trigger"
-                  data-action="scripture-room#openCircle"
-                  data-scripture-room-target="circleTrigger"
-                  aria-controls="reader-companion"
-                  aria-expanded="<%= initial_panel == "circle" %>"
-                  aria-label="<%= t("scripture_reader.companion.circle_label") %>"
-                  title="<%= t("scripture_reader.companion.circle_label") %>">
+          <a href="#reader-circle"
+             class="reader-panel-trigger reader-circle-trigger"
+             data-action="click->scripture-room#toggleCircle"
+             data-scripture-room-target="circleTrigger"
+             data-reader-open-label="<%= t("scripture_reader.companion.circle_jump_label") %>"
+             data-reader-close-label="<%= t("scripture_reader.companion.return_to_reading") %>"
+             aria-controls="reader-circle"
+             aria-expanded="false"
+             aria-label="<%= t("scripture_reader.companion.circle_jump_label") %>"
+             title="<%= t("scripture_reader.companion.circle_jump_label") %>">
             <%= picto("conversation") %>
-          </button>
+          </a>
           <button type="button" class="reader-aa-button" data-action="scripture-room#openSettings" aria-label="<%= t("scripture_reader.settings_label") %>">Aa</button>
         </div>
       </header>
+
+      <% if circle_thread_detail %>
+        <%= render "scriptures/circle_thread_detail",
+                   posts: circle_posts,
+                   circle_mode:,
+                   reference: @study,
+                   chapter_title:,
+                   circle_sort:,
+                   circle_focus_post:,
+                   circle_event:,
+                   circle_event_post: %>
+      <% end %>
 
       <div class="reader-mobile-progress" aria-label="<%= t("scripture_reader.progress.label", current: current_index, total: verses.length) %>">
         <span data-reading-progress-label><%= t("scripture_reader.progress.label", current: current_index, total: verses.length) %></span>
@@ -176,6 +233,10 @@
               <% end %>
             </div>
 
+            <% if @scripture_quiz_recommendation %>
+              <%= render "scriptures/chapter_quiz", recommendation: @scripture_quiz_recommendation, chapter_title: chapter_title %>
+            <% end %>
+
             <footer class="scripture-foot reader-source-card">
               <p><%= t("scripture_reader.source.kicker") %></p>
               <strong><%= t("scripture_reader.source.title") %></strong>
@@ -206,7 +267,20 @@
                 <% end %>
               </section>
             <% end %>
+
           </article>
+
+          <%= render "scriptures/circle_panel",
+                     posts: circle_posts,
+                     circle_mode:,
+                     reference: @study,
+                     chapter_title:,
+                     circle_sort:,
+                     circle_counts:,
+                     circle_event:,
+                     circle_event_post:,
+                     circle_focus_post:,
+                     circle_focus_unavailable: %>
 
         </main>
 
@@ -216,9 +290,7 @@
         </aside>
 
         <aside id="reader-companion" class="reader-companion" data-scripture-room-target="companion" <%= "hidden" if initial_panel == "read" %>>
-          <%= render "scriptures/marks_panel", marks:, history: reader&.chapter_history, chapter_title:, chapter_bookmark:, active: initial_panel != "circle" %>
-          <%= render "scriptures/circle_panel", posts: circle_posts, circle_mode:, reference: @study,
-                active: initial_panel == "circle", circle_event:, circle_event_post: %>
+          <%= render "scriptures/marks_panel", marks:, history: reader&.chapter_history, chapter_title:, chapter_bookmark:, active: false %>
         </aside>
       </div>
 

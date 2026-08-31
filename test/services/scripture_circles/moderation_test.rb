@@ -8,6 +8,7 @@ class ScriptureCircles::ModerationTest < ActiveSupport::TestCase
     @author = people(:carmen_garcia)
     @proposer = people(:carmen_lopez)
     @voter = people(:pili)
+    @third_reporter = Person.create!(ward: @ward, given_name: "Noémie", avatar_key: "colibri", locale: "fr")
     @post = ScriptureCircles::Publish.call(
       person: @author,
       reference: "ot/ps/52",
@@ -15,16 +16,44 @@ class ScriptureCircles::ModerationTest < ActiveSupport::TestCase
     )
   end
 
-  test "ward isolation applies to reads publications proposals and ballots" do
+  test "ward isolation applies to reads publications reports and ballots" do
     other_ward = extra_ward(32, scripture_circle_mode: "active")
     outsider = Person.create!(ward: other_ward, given_name: "Visiteur", avatar_key: "delfin", locale: "fr")
 
     assert_raises(ActiveRecord::RecordNotFound) { ScriptureCircles::Access.new(person: outsider).post!(@post.id) }
     assert_raises(ActiveRecord::RecordNotFound) do
-      ScriptureCircles::Moderations::Propose.call(
+      ScriptureCircles::Moderations::Report.call(
         person: outsider, post_id: @post.id, reason_key: "off_topic"
       )
     end
+  end
+
+  test "three independent reports are required before opening a community vote" do
+    first = report(person: @proposer)
+    second = report(person: @voter)
+
+    assert_not first.opened
+    assert_not second.opened
+    assert_equal "visible", @post.reload.status
+    assert_empty @post.scripture_circle_moderation_proposals
+
+    third = report(person: @third_reporter)
+
+    assert third.opened
+    assert_equal "vote_open", @post.reload.status
+    assert_equal 3, @post.scripture_circle_moderation_reports.distinct.count(:reporter_person_id)
+    assert_equal 3, third.proposal.scripture_circle_moderation_events.find_by!(event_type: "opened").metadata.fetch("independent_report_count")
+  end
+
+  test "an author cannot report their own message and one member counts only once" do
+    assert_raises(ActiveRecord::RecordInvalid) { report(person: @author) }
+
+    first = report(person: @proposer)
+    second = report(person: @proposer)
+
+    assert_equal first.report.id, second.report.id
+    assert_equal 1, @post.scripture_circle_moderation_reports.count
+    assert_equal "visible", @post.reload.status
   end
 
   test "moderation lasts at least two days and exposes live vote changes" do
@@ -87,8 +116,14 @@ class ScriptureCircles::ModerationTest < ActiveSupport::TestCase
   private
 
     def propose
-      ScriptureCircles::Moderations::Propose.call(
-        person: @proposer, post_id: @post.id, reason_key: "uncharitable"
+      report(person: @proposer)
+      report(person: @voter)
+      report(person: @third_reporter).proposal
+    end
+
+    def report(person:)
+      ScriptureCircles::Moderations::Report.call(
+        person:, post_id: @post.id, reason_key: "uncharitable"
       )
     end
 end

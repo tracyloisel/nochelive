@@ -1,0 +1,64 @@
+<% active_view = screen.active_view.to_s %>
+<% selected = screen.selected %>
+<% selected_explicitly = screen.selected_explicitly %>
+<% conversations = Array(screen.conversations) %>
+<% workspace_class = [ "circle-workspace", ("is-thread-open" if selected_explicitly) ].compact.join(" ") %>
+
+<section class="<%= workspace_class %>" aria-label="<%= t("scripture_circle.results_heading") %>">
+  <aside id="circle_inbox" class="circle-inbox" aria-label="<%= t("scripture_circle.results_heading") %>">
+    <nav class="circle-inbox-tabs" aria-label="<%= t("scripture_circle.filters.label") %>">
+      <% { "all" => t("scripture_circle.filters.all"), "mine" => t("scripture_circle.filters.mine") }.each do |view, label| %>
+        <%= link_to scripture_circle_path(view: view),
+              class: [ "circle-inbox-tab", ("is-active" if active_view == view) ].compact.join(" "),
+              aria: { current: ("page" if active_view == view) },
+              data: {
+                turbo_frame: "circle_live_feed",
+                turbo_action: "advance",
+                action: "keydown->circle-feed#key click->circle-feed#filter"
+              } do %>
+          <span><%= label %></span>
+        <% end %>
+      <% end %>
+    </nav>
+
+    <% if conversations.any? %>
+      <div class="circle-inbox-list" role="list">
+        <% conversations.each do |card| %>
+          <%= render "scripture_circles/inbox_row", card: card, active_view: active_view, page: screen.page, selected: selected %>
+        <% end %>
+      </div>
+      <% if screen.next_page.present? %>
+        <nav class="circle-pagination" aria-label="<%= t("scripture_circle.pagination.label") %>">
+          <%= link_to t("scripture_circle.pagination.more"),
+                scripture_circle_path(view: active_view, page: screen.next_page),
+                class: "circle-pagination-link",
+                data: {
+                  turbo_frame: "circle_live_feed",
+                  turbo_action: "advance",
+                  action: "keydown->circle-feed#key click->circle-feed#filter"
+                } %>
+        </nav>
+      <% end %>
+    <% else %>
+      <%= render "scripture_circles/empty",
+            title: t("scripture_circle.empty.title"),
+            body: t("scripture_circle.empty.body") %>
+    <% end %>
+  </aside>
+
+  <section id="circle_thread" class="circle-thread" aria-live="polite">
+    <% if selected %>
+      <%= render "scripture_circles/thread",
+            card: selected,
+            active_view: active_view,
+            page: screen.page,
+            writable: writable,
+            draft: local_assigns[:draft],
+            error: local_assigns[:error] %>
+    <% else %>
+      <%= render "scripture_circles/empty",
+            title: t("scripture_circle.empty.title"),
+            body: t("scripture_circle.empty.body") %>
+    <% end %>
+  </section>
+</section>

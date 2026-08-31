@@ -53,7 +53,7 @@ export default class extends Controller {
 
   prepare(event) {
     this.dismissed = false
-    this.pendingReadingLink = event?.currentTarget?.closest("[data-scripture-reading-link]")
+    this.pendingReadingLink = event?.currentTarget?.closest("a[href], [data-scripture-reading-link]")
     this.lock()
     if (this.hasLoadingTarget) this.loadingTarget.hidden = false
   }
@@ -71,6 +71,7 @@ export default class extends Controller {
       await this.animateReaderExit(this.readerVeil())
       frame.replaceChildren()
       this.unlock()
+      this.notifyClosed()
       audioLoader.playFrom(document)
       return
     }
@@ -84,6 +85,7 @@ export default class extends Controller {
     if (this.dismissed) {
       this.frameTarget?.replaceChildren()
       this.unlock()
+      this.notifyClosed()
       audioLoader.playFrom(document)
       return
     }
@@ -102,12 +104,28 @@ export default class extends Controller {
   }
 
   onKey(event) {
+    if (event.key === "Tab" && this.open()) {
+      this.trapFocus(event)
+      return
+    }
     if (event.key !== "Escape") return
+    const audiencePicker = this.readerVeil()?.querySelector("details[data-circle-author-visibility][open]")
+    if (audiencePicker) {
+      event.preventDefault()
+      event.stopImmediatePropagation()
+      audiencePicker.open = false
+      audiencePicker.querySelector("summary")?.focus({ preventScroll: true })
+      return
+    }
     if (this.hasShareDialogTarget && this.shareDialogTarget.open) {
       event.preventDefault()
       this.closeShare()
       return
     }
+    // Native reader dialogs (settings, tools, notes, video) own Escape first.
+    // Do not cancel the key here: the browser closes the active dialog and the
+    // contextual reader stays available underneath it.
+    if (this.readerVeil()?.querySelector("dialog[open]")) return
     if (!this.open() && this.loadingHidden()) return
     event.preventDefault()
     this.close(event)
@@ -600,6 +618,41 @@ export default class extends Controller {
 
   readerFrame() {
     return this.element.closest("turbo-frame") || document.getElementById("scripture_reader")
+  }
+
+  trapFocus(event) {
+    const veil = this.readerVeil()
+    if (!veil || veil.querySelector("dialog[open]")) return
+
+    const focusable = Array.from(veil.querySelectorAll([
+      "a[href]",
+      "button:not([disabled])",
+      "input:not([disabled])",
+      "select:not([disabled])",
+      "textarea:not([disabled])",
+      "[tabindex]:not([tabindex='-1'])"
+    ].join(","))).filter((element) =>
+      !element.matches("[aria-disabled='true']") &&
+        !element.closest("[hidden], [inert]") &&
+        element.getClientRects().length > 0
+    )
+    if (focusable.length === 0) return
+
+    const first = focusable[0]
+    const last = focusable.at(-1)
+    const active = document.activeElement
+    const inside = veil.contains(active)
+    if (event.shiftKey && (!inside || active === first)) {
+      event.preventDefault()
+      last.focus({ preventScroll: true })
+    } else if (!event.shiftKey && (!inside || active === last)) {
+      event.preventDefault()
+      first.focus({ preventScroll: true })
+    }
+  }
+
+  notifyClosed() {
+    this.readerFrame()?.dispatchEvent(new CustomEvent("scripture:closed", { bubbles: true }))
   }
 
   startReadTracking() {

@@ -1,0 +1,151 @@
+- generic [active] [ref=e1]:
+  - link "Aller au jeu" [ref=e2] [cursor=pointer]:
+    - /url: "#main"
+  - navigation "Menu":
+    - generic "Tracy" [ref=e4]:
+      - link "Accueil" [ref=e5] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e7]:
+          - paragraph [ref=e8]: Tracy
+          - paragraph [ref=e9]:
+            - generic [ref=e10]: Légende
+            - generic [ref=e11]: "6"
+          - progressbar "Progression vers le prochain rang" [ref=e12]
+      - generic [ref=e15]:
+        - paragraph [ref=e16]: L’Éternel sauve
+        - paragraph [ref=e17]: 5 / 10
+        - navigation [ref=e18]
+      - generic [ref=e29]:
+        - paragraph [ref=e30]:
+          - generic [ref=e38]: "697"
+        - paragraph [ref=e39]:
+          - generic [ref=e40]: "1"
+    - button "Menu" [ref=e42] [cursor=pointer]
+    - text: · ·
+  - main [ref=e46]:
+    - main [ref=e47]:
+      - generic [ref=e48]:
+        - generic [ref=e51]:
+          - paragraph [ref=e52]: Ma paroisse
+          - heading "Rama Benidorm" [level=1] [ref=e53]
+          - link "Benidorm, Espagne" [ref=e54] [cursor=pointer]:
+            - /url: https://www.google.com/maps/search/?api=1&query=Avinguda+Alfonso+Puchades%2C+27%2C+03502%2C+Benidorm%2C+Alicante
+        - generic [ref=e60]:
+          - strong [ref=e62]: 19 joueurs
+          - strong [ref=e64]: 1 en ligne
+        - generic [ref=e65]: Ma paroisse
+      - generic [ref=e68]:
+        - generic [ref=e69]:
+          - generic [ref=e70]:
+            - paragraph [ref=e71]: Ce dimanche
+            - heading "Une place vous attend" [level=2] [ref=e72]
+            - paragraph [ref=e73]: Venez comme vous êtes. Si c’est votre première fois, quelqu’un peut vous attendre à la porte et s’asseoir avec vous.
+            - link "Être accueilli à la porte ›" [ref=e74] [cursor=pointer]:
+              - /url: /iglesia/mision
+              - generic [ref=e80]: Être accueilli à la porte
+              - generic [ref=e81]: ›
+            - text: Sans inscription · Entrée libre
+          - generic [ref=e82]:
+            - strong [ref=e88]: Horaires du dimanche
+            - generic [ref=e89]:
+              - generic [ref=e90]:
+                - generic [ref=e91]: Réunion de Sainte-Cène
+                - time [ref=e92]: 10:00
+              - generic [ref=e93]:
+                - generic [ref=e94]: Réunions du dimanche
+                - time [ref=e95]: 10:00–12:00
+        - link "La Parole · cette semaine Trouver refuge en Dieu Psaumes 49-51 ; 61-66 ; 69-72 ; 77-78 ; 85-86 0 lumières sur 10 1 personne avance cette semaine Voir la lumière de la paroisse ›" [ref=e96] [cursor=pointer]:
+          - /url: /parole/paroisse/RAMA
+          - generic [ref=e97]:
+            - paragraph [ref=e98]: La Parole · cette semaine
+            - heading "Trouver refuge en Dieu" [level=2] [ref=e99]
+            - paragraph [ref=e100]: Psaumes 49-51 ; 61-66 ; 69-72 ; 77-78 ; 85-86
+            - generic "0 lumières sur 10" [ref=e101]:
+              - strong [ref=e103]: 0/10
+            - paragraph [ref=e104]: 1 personne avance cette semaine
+          - generic [ref=e110]:
+            - text: Voir la lumière de la paroisse
+            - generic [ref=e111]: ›
+        - link "L’EXPÉDITION DE TA PAROISSE Sur le chemin de l’Alliance Se termine dans 4 jours · 0 / 5 étapes Voir l’expédition" [ref=e112] [cursor=pointer]:
+          - /url: /ramas/RAMA/expeditions/chemin-de-l-alliance
+          - generic [ref=e115]:
+            - generic [ref=e116]: L’EXPÉDITION DE TA PAROISSE
+            - strong [ref=e117]: Sur le chemin de l’Alliance
+            - generic [ref=e118]: Se termine dans 4 jours · 0 / 5 étapes
+          - generic [ref=e120]: Voir l’expédition
+        - generic [ref=e124]:
+          - paragraph [ref=e125]: Prochaine Noche Live
+          - heading "30/08/2026" [level=2] [ref=e126]
+          - paragraph [ref=e127]: 15:34
+          - paragraph [ref=e132]:
+            - generic [ref=e133]: Thème
+            - text: David, Saül et Salomon
+          - paragraph [ref=e134]: 1 participant attendu
+          - link "Entrer" [ref=e140] [cursor=pointer]:
+            - /url: /s/9W9NX
+        - generic [ref=e142]:
+          - heading "À venir 0" [level=2] [ref=e143]:
+            - text: À venir
+            - generic [ref=e144]: "0"
+          - paragraph [ref=e145]: Pas de soirée dans les 14 prochains jours.
+        - link "Ligue de la paroisse" [ref=e146] [cursor=pointer]:
+          - /url: /ramas/RAMA/liga
+          - generic [ref=e147]:
+            - heading "Ligue de la paroisse" [level=2] [ref=e148]
+            - paragraph [ref=e149]:
+              - text: 19 joueurs
+              - generic [ref=e150]: Voir le classement complet
+          - generic [ref=e151]:
+            - generic [ref=e152]:
+              - generic [ref=e153]: ♛ 1
+              - generic [ref=e155]: Miguel
+              - generic [ref=e156]: "840"
+            - generic [ref=e164]:
+              - generic [ref=e165]: ♛ 2
+              - generic [ref=e167]: Test Feu
+              - generic [ref=e168]: "475"
+            - generic [ref=e176]:
+              - generic [ref=e177]: ♛ 3
+              - generic [ref=e179]: TRACY
+              - generic [ref=e180]: "346"
+          - generic [ref=e188]:
+            - generic [ref=e189]:
+              - generic [ref=e190]: "4"
+              - strong [ref=e192]: Tracy
+              - generic [ref=e193]: "331"
+            - generic [ref=e201]:
+              - generic [ref=e202]: "5"
+              - strong [ref=e204]: Codex QA
+              - generic [ref=e205]: "113"
+        - generic [ref=e213]:
+          - heading "Venir nous voir" [level=2] [ref=e214]
+          - generic [ref=e215]:
+            - link "Itinéraire Ouvrir dans Google Maps ↗" [ref=e216] [cursor=pointer]:
+              - /url: https://www.google.com/maps/search/?api=1&query=Avinguda+Alfonso+Puchades%2C+27%2C+03502%2C+Benidorm%2C+Alicante
+              - generic [ref=e221]:
+                - strong [ref=e222]: Itinéraire
+                - generic [ref=e223]: Ouvrir dans Google Maps
+              - generic [ref=e224]: ↗
+            - link "Contacter les missionnaires Envoyer un message ›" [ref=e225] [cursor=pointer]:
+              - /url: /iglesia/mision
+              - generic [ref=e231]:
+                - strong [ref=e232]: Contacter les missionnaires
+                - generic [ref=e233]: Envoyer un message
+              - generic [ref=e234]: ›
+            - link "Viens à l’Église Capilla de Benidorm ›" [ref=e235] [cursor=pointer]:
+              - /url: /iglesia
+              - generic [ref=e239]:
+                - strong [ref=e240]: Viens à l’Église
+                - generic [ref=e241]: Capilla de Benidorm
+              - generic [ref=e242]: ›
+  - navigation "Accueil" [ref=e243]:
+    - link "Accueil" [ref=e244] [cursor=pointer]:
+      - /url: /
+    - link "Aventure" [ref=e251] [cursor=pointer]:
+      - /url: /mapa
+    - link "Parole" [ref=e260] [cursor=pointer]:
+      - /url: /parole
+    - link "Église" [ref=e268] [cursor=pointer]:
+      - /url: /iglesia
+    - link "Profil" [ref=e275] [cursor=pointer]:
+      - /url: /jugadores/36/perfil

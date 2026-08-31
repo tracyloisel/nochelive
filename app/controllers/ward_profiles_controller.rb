@@ -12,13 +12,11 @@ class WardProfilesController < ApplicationController
     configure_ward_seo
     @ward_display_name = params[:slug].present? ? t("seo.ward.heading", city: @ward.city.presence || @ward.name) : @ward.name
     live_nights = @ward.game_sessions.live
-    @featured_night = live_nights.includes(:missionaries).order(:starts_at, :id).first
+    @featured_night = live_nights.order(:starts_at, :id).first
     remaining_live = @featured_night ? live_nights.where.not(id: @featured_night.id) : live_nights
     @upcoming_nights_count = remaining_live.count
-    @upcoming_nights = remaining_live.includes(:missionaries).order(:starts_at, :id).limit(3).to_a
+    @upcoming_nights = remaining_live.order(:starts_at, :id).limit(3).to_a
     @featured_participants_count = @featured_night&.players&.count.to_i
-    @last_finished_night = @ward.game_sessions.finished.order(starts_at: :desc, id: :desc).first
-    @last_finished_champion = unique_champion(@last_finished_night)
     online_ids = Presences::Registry.online_person_ids(ward_id: @ward.id)
     @online_people = @ward.people
       .where(id: online_ids)
@@ -48,15 +46,6 @@ class WardProfilesController < ApplicationController
   end
 
   private
-
-    def unique_champion(night)
-      return unless night
-
-      leaders = night.teams.order(cached_score: :desc, name: :asc).limit(2).to_a
-      return if leaders.empty? || (leaders.second && leaders.first.cached_score == leaders.second.cached_score)
-
-      leaders.first
-    end
 
     def configure_ward_seo
       city = @ward.city.presence || @ward.name

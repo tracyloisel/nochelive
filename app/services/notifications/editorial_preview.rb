@@ -77,7 +77,7 @@ module Notifications
         when "daily_verse"
           Notifications::VerseCatalog.entries.first.destination(locale)
         when "study_reading" then "/parole/parcours/123"
-        when "night_tomorrow", "night_starting_soon" then "/s/DAVID/name"
+        when "night_tomorrow", "night_starting_soon" then "/s/DAVID"
         else "/desafio/example-token"
         end
       end

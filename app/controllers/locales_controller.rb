@@ -5,11 +5,7 @@ class LocalesController < ApplicationController
 
     if params[:session_code].present?
       set_night
-      if current_player
-        Locales::Set.call(locale:, player: current_player)
-      elsif presenter_for?(@night)
-        Locales::Set.call(locale:, night: @night, presenter: true)
-      end
+      Locales::Set.call(locale:, player: current_player) if current_player
     end
 
     redirect_back fallback_location: root_path

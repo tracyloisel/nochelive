@@ -9,7 +9,10 @@ export default class extends Controller {
   connect() {
     this.tick = this.tick.bind(this)
     this.tick()
-    if (this.stateValue !== "playing" && this.stateValue !== "none") {
+    // The full clock is rendered only in the imminent state. A scheduled
+    // evening already has a clear date; ticking seconds for days spends work
+    // and creates false urgency.
+    if (this.stateValue === "imminent") {
       this.timer = setInterval(this.tick, 1000)
     }
   }
@@ -65,6 +68,7 @@ export default class extends Controller {
     if (this.hasClockTarget) this.clockTarget.classList.remove("is-on")
     if (this.hasBadgeTarget) {
       this.badgeTarget.textContent = this.badgeTarget.dataset.liveLabel
+      this.badgeTarget.hidden = false
       this.badgeTarget.classList.add("is-live", "is-live-start")
       this.badgeTarget.addEventListener("animationend", () => {
         this.badgeTarget.classList.remove("is-live-start")

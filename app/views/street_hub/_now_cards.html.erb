@@ -1,0 +1,94 @@
+<% cards = Array(local_assigns[:cards]).compact.first(2) %>
+<% study = local_assigns[:study] %>
+<% program_path = scripture_library_path(section: "weekly", unit: study.week.id, anchor: "selection") if study&.week.present? %>
+<% return if cards.empty? && program_path.blank? %>
+
+<section class="hub-now" aria-labelledby="hub-now-title">
+  <header class="hub-now__head">
+    <p class="hub-now__eyebrow"><%= picto("compass") %><%= t("hub.now.eyebrow") %></p>
+    <h2 id="hub-now-title"><%= t("hub.now.title") %></h2>
+  </header>
+
+  <div class="hub-now__grid" role="list">
+    <% cards.each do |card| %>
+      <% reading = card.kind.in?([ :quiz_reading, :weekly_reading ]) %>
+      <% status_label = if reading
+        case card.progress_status
+        when :completed then t("hub.rails.reading_completed")
+        when :in_progress then t("hub.rails.reading_in_progress", percent: card.progress_percent)
+        else t("hub.rails.reading_to_read")
+        end
+      end %>
+      <% kicker = if card.kind == :quiz_reading
+        t("hub.now.reading_recommended")
+      elsif card.kind == :weekly_reading
+        t("hub.now.reading_weekly")
+      elsif card.state == :incoming
+        t("hub.now.challenge_incoming")
+      else
+        t("hub.now.challenge_active")
+      end %>
+      <% action = if reading
+        t("hub.now.reading_action")
+      elsif card.state == :incoming
+        t("hub.now.challenge_accept")
+      else
+        t("hub.now.challenge_open")
+      end %>
+      <% label = if reading
+        t("hub.now.reading_card_label", title: card.title, status: status_label)
+      else
+        t("hub.now.challenge_card_label", title: card.title, action: action)
+      end %>
+      <% card_content = capture do %>
+        <% if card.artwork.present? %>
+          <span class="hub-now-card__art" aria-hidden="true"><%= noche_media_picture(card.artwork, alt: "", loading: "lazy") %></span>
+        <% end %>
+        <span class="hub-now-card__scrim" aria-hidden="true"></span>
+        <span class="hub-now-card__copy">
+          <span class="hub-now-card__kicker"><%= kicker %></span>
+          <strong><%= card.title %></strong>
+          <% if reading %>
+            <% if card.cite.present? %><span class="hub-now-card__cite"><%= card.cite %></span><% end %>
+            <span class="hub-now-card__status is-<%= card.progress_status || :unread %>" aria-label="<%= status_label %>">
+              <%= picto(card.progress_status == :completed ? "check" : "scripture-book") %>
+              <span><%= status_label %></span>
+            </span>
+            <% if card.progress_status.in?([ :in_progress, :completed ]) %>
+              <span class="hub-now-card__meter" aria-hidden="true"><i style="--hub-now-progress: <%= card.progress_percent %>%"></i></span>
+            <% end %>
+          <% elsif card.state == :incoming %>
+            <span class="hub-now-card__detail"><%= t("hub.now.challenge_due", time: duel_time_left(card.due_at)) %></span>
+          <% else %>
+            <span class="hub-now-card__detail"><%= t("hub.now.challenge_state.#{card.state}") %></span>
+            <% if card.mine.present? || card.theirs.present? %>
+              <span class="hub-now-card__score"><%= card.mine || "—" %><i aria-hidden="true"><%= t("hub.rails.versus") %></i><%= card.theirs || "—" %></span>
+            <% end %>
+          <% end %>
+          <span class="hub-now-card__action"><%= action %><%= picto("arrow") %></span>
+        </span>
+      <% end %>
+      <% card_family = reading ? "reading" : "challenge" %>
+      <% classes = "hub-now-card hub-now-card--#{card_family} is-#{card.state}" %>
+      <% if card.method == :post %>
+        <%= button_to card.path,
+              class: classes,
+              form: { class: "hub-now-card__form", role: "listitem" },
+              aria: { label: } do %>
+          <%= card_content %>
+        <% end %>
+      <% else %>
+        <%= link_to card.path, class: classes, role: "listitem", aria: { label: } do %>
+          <%= card_content %>
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
+
+  <% if program_path.present? %>
+    <%= link_to program_path, class: "hub-now__programme" do %>
+      <span><%= picto("scripture-book") %><%= t("hub.now.weekly_programme") %></span>
+      <%= picto("arrow") %>
+    <% end %>
+  <% end %>
+</section>

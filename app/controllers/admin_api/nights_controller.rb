@@ -3,12 +3,8 @@ module AdminApi
     def create
       ward = find_ward
       night = GameSession.transaction do
-        created = Nights::Start.call(ward:, theme_id: params[:theme_id].presence || "reyes_y_profetas")
-        Nights::Configure.call(
-          night: created,
-          attributes: configuration_attributes(required_starts_at: true),
-          broadcast: false
-        )
+        starts_at = configuration_attributes(required_starts_at: true).fetch(:starts_at)
+        Nights::Start.call(ward:, quiz_ids: quiz_ids(required: true), starts_at:)
       end
       night.broadcast_state
       admin_audit!("create_night", ward_id: ward.id, night_id: night.id)
@@ -30,7 +26,7 @@ module AdminApi
     def finish
       ward = find_ward
       night = ward.game_sessions.find_by!(code: GameSession.normalize_code(params[:session_code]))
-      Nights::Finish.call(night:)
+      Nights::Close.call(night:)
       admin_audit!("finish_night", ward_id: ward.id, night_id: night.id)
       render json: { night: night_json(night) }
     end
@@ -49,15 +45,19 @@ module AdminApi
           raise ArgumentError, "starts_at is required and must be an ISO 8601 timestamp"
         end
 
-        if params.key?(:presenter_locale)
-          locale = params[:presenter_locale].to_s
-          raise ArgumentError, "presenter_locale must be one of #{Locale::AVAILABLE.join(', ')}" unless Locale::AVAILABLE.include?(locale)
-          attributes[:presenter_locale] = locale
-        end
-        attributes[:broadcast_delay_ms] = params[:broadcast_delay_ms] if params.key?(:broadcast_delay_ms)
-        attributes[:missionary_names] = params[:missionary_names] if params.key?(:missionary_names)
-        attributes[:poster_path] = params[:poster_path].presence if params.key?(:poster_path)
+        attributes[:quiz_pack_ids] = quiz_ids if params.key?(:quiz_ids)
         attributes
+      end
+
+      def quiz_ids(required: false)
+        unless params.key?(:quiz_ids)
+          raise ArgumentError, "quiz_ids is required" if required
+          return nil
+        end
+
+        ids = Array(params[:quiz_ids]).map { |id| id.to_s.strip }.reject(&:blank?)
+        raise ArgumentError, "quiz_ids must contain at least one quiz" if ids.empty?
+        ids
       end
 
       def night_json(night)
@@ -67,16 +67,20 @@ module AdminApi
           code: night.code,
           status: night.status,
           starts_at: night.starts_at.iso8601,
-          theme_id: night.theme_id,
-          theme_title: night.theme_title,
-          presenter_locale: night.presenter_locale,
-          broadcast_delay_ms: night.broadcast_delay_ms,
-          poster_path: night.poster_path,
-          missionary_names: night.missionaries.order(:id).pluck(:name),
+          ends_at: night.ends_at.iso8601,
+          quiz_ids: night.quiz_pack_ids,
+          quizzes: night.quiz_packs.map do |pack|
+            {
+              id: pack.id,
+              title: pack.copy(:title),
+              question_count: pack.questions.size,
+              artwork: pack.questions.first&.presentation&.fetch("image", nil)
+            }
+          end,
           paths: {
+            canonical: "/s/#{night.code}",
             players: "/s/#{night.code}/name",
-            presenter: "/p/#{night.code}",
-            public: "/public/#{night.public_token}"
+            play: "/s/#{night.code}/play"
           },
           created_at: night.created_at.iso8601,
           updated_at: night.updated_at.iso8601

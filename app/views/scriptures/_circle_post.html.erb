@@ -1,49 +1,86 @@
 <% current_person = current_street_person %>
 <% author_in_ward = post.person&.ward_id == post.ward_id %>
 <% own_post = current_person&.id == post.person_id %>
-<% display_author = post.author_name_for(current_person) %>
+<% own_report = post.scripture_circle_moderation_reports.find { |report| report.reporter_person_id == current_person&.id } if current_person %>
 <% proposal = post.scripture_circle_moderation_proposals.find(&:open?) || post.scripture_circle_moderation_proposals.max_by(&:created_at) %>
 <% reply_post = post.parent_id.present? %>
+<% nested_reply = reply_post && post.parent&.parent_id.present? %>
+<% conversation_root = !reply_post && (!post.respond_to?(:conversation_root_id) || post.conversation_root_id.blank? || post.conversation_root_id == post.id) %>
+<% root_question = !reply_post && post.kind == "question" %>
+<% conversation_vote_score = post.has_attribute?(:circle_vote_score) ? post.conversation_vote_score : 0 %>
+<% conversation_vote = post.conversation_vote_for(current_person) if conversation_root && current_person && post.respond_to?(:conversation_vote_for) %>
+<% post_vote_score = post.post_vote_score if reply_post && post.respond_to?(:post_vote_score) %>
+<% post_vote = post.post_vote_for(current_person) if reply_post && current_person && post.respond_to?(:post_vote_for) %>
+<% post_author_visibility = post.respond_to?(:author_visibility) ? post.author_visibility : (post.anonymous? ? "anonymous_to_ward" : "named") %>
+<% anonymous_to_ward = post.respond_to?(:anonymous_to_ward?) ? post.anonymous_to_ward? : post.anonymous? %>
+<% display_author = anonymous_to_ward && !own_post ? t("scripture_reader.circle.anonymous_for_circle") : post.author_name_for(current_person) %>
+<% anonymous_time_label = if anonymous_to_ward
+                             case post.created_at.to_date
+                             when Time.zone.today then t("scripture_reader.circle.anonymous_today")
+                             when Time.zone.yesterday then t("scripture_reader.circle.anonymous_yesterday")
+                             else t("scripture_reader.circle.anonymous_this_week")
+                             end
+                           end %>
 <% circle_event = local_assigns[:circle_event].to_s %>
 <% circle_event_post_id = local_assigns[:circle_event_post_id].to_i %>
+<% circle_focus_post_id = local_assigns[:circle_focus_post_id].to_i %>
+<% dom_prefix = local_assigns[:dom_prefix].to_s %>
+<% presentation = local_assigns[:presentation].to_s %>
+<% circle_sort = local_assigns[:circle_sort].to_s.presence || params[:circle_sort].to_s.presence || "recent" %>
+<% focus_target = post.id == circle_focus_post_id %>
+<% selected_text_for_display = post.selected_text_for_display %>
+<% show_passage_excerpt = presentation.start_with?("thread_") %>
+<% citation_chapter_title = local_assigns[:chapter_title].presence || scripture_reader_reference_label(reference) %>
+<% citation_verses = if post.selected_verses.present?
+                       post.selected_verses
+                     elsif post.start_verse.present?
+                       post.start_verse == post.end_verse ? post.start_verse.to_s : "#{post.start_verse}-#{post.end_verse}"
+                     end %>
+<% citation_label = scripture_reader_citation_label(citation_chapter_title, citation_verses) if citation_verses.present? %>
 <% message_state = if own_post && post.id == circle_event_post_id
                      circle_event.in?(%w[published replied]) ? "new" : (circle_event == "updated" ? "updated" : nil)
                    end %>
 
-<article class="circle-message <%= "is-reply" if reply_post %> <%= "is-circle-message-#{message_state}" if message_state %> is-<%= post.status.tr("_", "-") %>"
-         id="circle-post-<%= post.id %>"
+<article class="reader-circle-message circle-message <%= "is-own" if own_post %> <%= "is-root" if conversation_root %> <%= "is-reply" if reply_post %> <%= "is-nested" if nested_reply %> <%= "is-#{presentation.tr("_", "-")}" if presentation.present? %> <%= "is-circle-message-#{message_state}" if message_state %> is-<%= post.status.tr("_", "-") %>"
+         id="<%= dom_prefix %>circle-post-<%= post.id %>"
          data-circle-post-id="<%= post.id %>"
-         <% if message_state %>data-circle-message-state="<%= message_state %>" tabindex="-1"<% end %>>
-  <header class="circle-message-author">
-    <span class="circle-avatar" aria-hidden="true">
-      <% if author_in_ward && !post.anonymous? && (avatar = avatar_mark(post.person)) %>
-        <img src="<%= avatar %>" alt="" width="36" height="36">
-      <% else %>
-        <%= picto("person") %>
-      <% end %>
-    </span>
-    <span>
+         <% if presentation.present? %>data-circle-presentation="<%= presentation %>"<% end %>
+         <% if message_state %>data-circle-message-state="<%= message_state %>"<% end %>
+         <% if reply_post %>data-action="click->scripture-room#activateCircleReplyContext focus->scripture-room#activateCircleReplyContext" data-circle-reply-name="<%= display_author %>" data-circle-reply-body="<%= post.body %>"<% end %>
+         <% if focus_target %>data-circle-focus-target<% end %>
+         <% if reply_post %>tabindex="0"<% elsif message_state || focus_target %>tabindex="-1"<% end %>>
+  <header class="reader-circle-message-author circle-message-author">
+    <% if reply_post || conversation_root %>
+      <span class="circle-avatar" aria-hidden="true">
+        <% if author_in_ward && !anonymous_to_ward && (avatar = avatar_mark(post.person)) %>
+          <img src="<%= avatar %>" alt="" width="36" height="36">
+        <% else %>
+          <%= picto("person") %>
+        <% end %>
+      </span>
+    <% end %>
+    <span class="reader-circle-message-meta">
       <strong><%= display_author %></strong>
       <small>
-        <%= l(post.created_at, format: :short) rescue l(post.created_at.to_date) %>
-        <%= " · #{t("scripture_reader.circle.anonymous_for_circle")}" if own_post && post.anonymous? %>
+        <%= anonymous_time_label || (l(post.created_at, format: :short) rescue l(post.created_at.to_date)) %>
+        <%= " · #{local_assigns[:chapter_title]}" if conversation_root && local_assigns[:chapter_title].present? %>
+        <%= " · #{t("scripture_reader.circle.anonymous_published")}" if own_post && anonymous_to_ward %>
         <%= " · #{t("scripture_reader.circle.edited")}" if post.edited_at? && post.status == "visible" %>
       </small>
     </span>
-    <% if post.status == "visible" %>
+    <% if post.status == "visible" && circle_mode == "active" %>
       <details class="circle-message-menu">
         <summary aria-label="<%= t("scripture_reader.circle.actions") %>">•••</summary>
         <div>
           <% if own_post %>
-            <button type="button"
-                    data-action="scripture-room#togglePostEditor"
-                    data-post-editor="edit-post-<%= post.id %>"
-                    aria-controls="edit-post-<%= post.id %>"
-                    aria-expanded="false"><%= t("scripture_reader.circle.edit") %></button>
-            <%= button_to t("scripture_reader.circle.delete"), scripture_circle_post_path(post), method: :delete,
-                  form: { data: { turbo_confirm: t("scripture_reader.circle.delete_confirm") } } %>
-          <% elsif circle_mode == "active" %>
-            <button type="button" data-action="scripture-room#togglePostEditor" data-post-editor="moderate-post-<%= post.id %>"><%= t("scripture_reader.circle.propose") %></button>
+            <button type="button" data-action="scripture-room#togglePostEditor" data-post-editor="<%= dom_prefix %>edit-post-<%= post.id %>" aria-controls="<%= dom_prefix %>edit-post-<%= post.id %>" aria-expanded="false"><%= t("scripture_reader.circle.edit") %></button>
+            <%= button_to t("scripture_reader.circle.delete"), scripture_circle_post_path(post, circle_sort: circle_sort), method: :delete, form: { data: { turbo_confirm: t("scripture_reader.circle.delete_confirm") } } %>
+          <% else %>
+            <% if own_report %>
+              <span class="circle-menu-status"><%= t("scripture_reader.circle.report_recorded") %></span>
+            <% else %>
+              <button type="button" data-action="scripture-room#togglePostEditor" data-post-editor="<%= dom_prefix %>moderate-post-<%= post.id %>"><%= t("scripture_reader.circle.report_abuse") %></button>
+            <% end %>
           <% end %>
         </div>
       </details>
@@ -52,174 +89,109 @@
 
   <% case post.status %>
   <% when "visible" %>
-    <% if reply_post %>
-      <p class="circle-reply-to"><%= t("scripture_reader.circle.reply_to", name: post.parent&.author_name_for(current_person) || t("scripture_reader.circle.former_member")) %></p>
-    <% end %>
-    <% if post.start_verse.present? %>
-      <p class="circle-message-anchor"><%= post.start_verse == post.end_verse ? t("scripture_reader.marks.verse", verse: post.start_verse) : t("scripture_reader.marks.verses", from: post.start_verse, to: post.end_verse) %></p>
-    <% end %>
-    <% if post.selected_text.present? %>
-      <blockquote class="circle-message-passage">
-        <span><%= t("scripture_reader.selection.discussion_context") %></span>
-        <p>“<%= post.selected_text %>”</p>
-      </blockquote>
-    <% end %>
     <p class="circle-message-body"><%= post.body %></p>
-
-    <% if own_post %>
-      <div class="circle-inline-editor" id="edit-post-<%= post.id %>" data-circle-inline-editor hidden>
-        <%= form_with url: scripture_circle_post_path(post),
-                      method: :patch,
-                      scope: :post,
-                      class: "circle-edit-form",
-                      data: {
-                        circle_composer: true,
-                        circle_composer_kind: "edit",
-                        action: "turbo:submit-start->scripture-room#composerSubmitStart turbo:submit-end->scripture-room#composerSubmitEnd"
-                      } do |form| %>
-          <label class="circle-anonymous-toggle">
-            <%= form.check_box :anonymous, { checked: post.anonymous?, data: { action: "change->scripture-room#messageMetadataChanged" } } %>
-            <span><%= t("scripture_reader.circle.post_anonymously") %></span>
-          </label>
-          <label class="circle-message-field" for="edit-post-<%= post.id %>-body">
-            <span><%= t("scripture_reader.circle.edit_message_label") %></span>
-            <%= form.text_area :body,
-                               id: "edit-post-#{post.id}-body",
-                               value: post.body,
-                               rows: 3,
-                               aria: { describedby: "edit-post-#{post.id}-counter edit-post-#{post.id}-error" },
-                               data: {
-                                 circle_initial_value: post.body,
-                                 action: "focus->scripture-room#composerFieldFocused input->scripture-room#messageInput"
-                               } %>
-          </label>
-          <div class="circle-compose-foot">
-            <span id="edit-post-<%= post.id %>-counter" data-message-counter><%= post.body.length %> / <%= ScriptureCirclePost::MAX_BODY_LENGTH %></span>
-            <div class="circle-compose-actions">
-              <button type="button" class="circle-composer-secondary" data-action="scripture-room#togglePostEditor" data-post-editor="edit-post-<%= post.id %>"><%= t("scripture_reader.circle.cancel_edit") %></button>
-              <button type="submit" class="circle-submit" data-circle-submit data-circle-sending-label="<%= t("scripture_reader.circle.saving") %>"><span data-circle-submit-label><%= t("scripture_reader.circle.save_edit") %></span></button>
-            </div>
-          </div>
-          <p id="edit-post-<%= post.id %>-error" class="circle-compose-error" data-message-error role="alert" hidden></p>
-          <p class="circle-compose-status" data-message-status role="status" hidden></p>
-        <% end %>
-      </div>
-    <% elsif circle_mode == "active" %>
-      <div class="circle-inline-editor circle-moderation-form" id="moderate-post-<%= post.id %>" hidden>
-        <%= form_with url: scripture_circle_moderation_proposals_path(post_id: post.id), scope: :proposal do |form| %>
-          <%= form.label :reason_key, t("scripture_reader.circle.reason") %>
-          <%= form.select :reason_key, ScriptureCircleModerationProposal::REASON_KEYS.map { |key| [t("scripture_reader.circle.reason_#{key}"), key] } %>
-          <%= form.label :reason_details, t("scripture_reader.circle.reason_details") %>
-          <%= form.text_field :reason_details, maxlength: 240 %>
-          <%= form.submit t("scripture_reader.circle.confirm_proposal") %>
-        <% end %>
-      </div>
+    <% if citation_label.present? %><p class="circle-message-anchor"><%= citation_label %></p><% end %>
+    <% if show_passage_excerpt && selected_text_for_display.present? %>
+      <blockquote class="circle-message-passage"><span><%= t("scripture_reader.selection.discussion_context") %></span><p>“<%= selected_text_for_display %>”</p></blockquote>
     <% end %>
 
-    <% if circle_mode == "active" %>
-      <details class="circle-reply-composer"
-               data-circle-composer-shell
-               data-action="toggle->scripture-room#composerToggled">
-        <summary><span aria-hidden="true"><%= picto("send") %></span><span><%= t("scripture_reader.circle.reply") %></span></summary>
-        <div class="circle-reply-body">
-          <p class="circle-reply-context"><%= t("scripture_reader.circle.reply_to", name: display_author) %></p>
-          <%= form_with url: scripture_circle_posts_path,
-                        scope: :post,
-                        class: "circle-reply-form",
-                        data: {
-                          circle_composer: true,
-                          circle_composer_kind: "reply",
-                          action: "turbo:submit-start->scripture-room#composerSubmitStart turbo:submit-end->scripture-room#composerSubmitEnd"
-                        } do |form| %>
-            <%= form.hidden_field :reference, value: reference %>
-            <%= form.hidden_field :locale, value: I18n.locale %>
-            <%= form.hidden_field :kind, value: "reply" %>
-            <%= form.hidden_field :parent_id, value: post.id %>
-            <label class="circle-anonymous-toggle"><%= form.check_box :anonymous, { checked: true, data: { action: "change->scripture-room#messageMetadataChanged" } } %><span><%= t("scripture_reader.circle.post_anonymously") %></span></label>
-            <label class="circle-message-field" for="reply-post-<%= post.id %>-body">
-              <span><%= t("scripture_reader.circle.reply_message_label", name: post.author_name) %></span>
-              <%= form.text_area :body,
-                                 id: "reply-post-#{post.id}-body",
-                                 rows: 3,
-                                 placeholder: t("scripture_reader.circle.reply_placeholder"),
-                                 aria: { describedby: "reply-post-#{post.id}-counter reply-post-#{post.id}-error" },
-                                 data: { action: "focus->scripture-room#composerFieldFocused input->scripture-room#messageInput" } %>
-            </label>
-            <div class="circle-compose-foot">
-              <span id="reply-post-<%= post.id %>-counter" data-message-counter>0 / <%= ScriptureCirclePost::MAX_BODY_LENGTH %></span>
-              <div class="circle-compose-actions">
-                <button type="button" class="circle-composer-secondary" data-action="scripture-room#collapseComposer"><%= t("scripture_reader.circle.collapse") %></button>
-                <button type="submit" class="circle-submit" data-circle-submit data-circle-sending-label="<%= t("scripture_reader.circle.publishing_reply") %>"><span data-circle-submit-label><%= t("scripture_reader.circle.publish_reply") %></span></button>
-              </div>
-            </div>
-            <p id="reply-post-<%= post.id %>-error" class="circle-compose-error" data-message-error role="alert" hidden></p>
-            <p class="circle-compose-status" data-message-status role="status" hidden></p>
+    <% if conversation_root %>
+      <div class="circle-conversation-vote" aria-label="<%= t("scripture_reader.circle.ranking_label") %>">
+        <% if circle_mode == "active" && current_person && !own_post %>
+          <%= form_with url: scripture_circle_conversation_vote_path(conversation_root_id: post.id), method: :put, scope: :conversation_vote, class: "circle-conversation-vote-form" do %>
+            <%= hidden_field_tag :circle_sort, circle_sort %>
+            <button type="submit" name="conversation_vote[direction]" value="up" class="<%= "is-selected" if conversation_vote&.direction == "up" %>" aria-pressed="<%= conversation_vote&.direction == "up" %>" aria-label="<%= t("scripture_reader.circle.upvote") %>" title="<%= t("scripture_reader.circle.upvote") %>"><span aria-hidden="true">↑</span></button>
+            <output class="circle-conversation-vote-score" data-circle-conversation-vote-score aria-live="polite" aria-label="<%= t("scripture_reader.circle.ranking_score", score: conversation_vote_score) %>"><%= conversation_vote_score %></output>
+            <button type="submit" name="conversation_vote[direction]" value="down" class="<%= "is-selected" if conversation_vote&.direction == "down" %>" aria-pressed="<%= conversation_vote&.direction == "down" %>" aria-label="<%= t("scripture_reader.circle.downvote") %>" title="<%= t("scripture_reader.circle.downvote") %>"><span aria-hidden="true">↓</span></button>
           <% end %>
-        </div>
-      </details>
+        <% else %>
+          <output class="circle-conversation-vote-score" data-circle-conversation-vote-score aria-live="polite" aria-label="<%= t("scripture_reader.circle.ranking_score", score: conversation_vote_score) %>"><%= conversation_vote_score %></output>
+        <% end %>
+      </div>
     <% end %>
+
+    <% if conversation_root && presentation == "conversation_root" %>
+      <p class="reader-circle-thread-stats">
+        <span><%= picto("conversation") %><%= t("scripture_circle.card.reply_count", count: local_assigns.fetch(:reply_count, 0)) %></span>
+        <span><%= t("scripture_circle.card.participant_count", count: local_assigns.fetch(:participant_count, 0)) %></span>
+      </p>
+    <% end %>
+
+    <% if reply_post %>
+      <div class="circle-post-vote" aria-label="<%= t("scripture_reader.circle.reply_ranking_label") %>">
+        <% if circle_mode == "active" && current_person && !own_post %>
+          <%= form_with url: scripture_circle_post_vote_path(post_id: post.id), method: :put, scope: :post_vote, class: "circle-post-vote-form" do %>
+            <%= hidden_field_tag :circle_sort, circle_sort %>
+            <button type="submit" name="post_vote[direction]" value="up" class="<%= "is-selected" if post_vote&.direction == "up" %>" aria-pressed="<%= post_vote&.direction == "up" %>" aria-label="<%= t("scripture_reader.circle.reply_upvote") %>"><span aria-hidden="true">↑</span></button>
+            <output aria-live="polite" aria-label="<%= t("scripture_reader.circle.ranking_score", score: post_vote_score) %>"><%= post_vote_score %></output>
+            <button type="submit" name="post_vote[direction]" value="down" class="<%= "is-selected" if post_vote&.direction == "down" %>" aria-pressed="<%= post_vote&.direction == "down" %>" aria-label="<%= t("scripture_reader.circle.reply_downvote") %>"><span aria-hidden="true">↓</span></button>
+          <% end %>
+        <% else %>
+          <output aria-live="polite" aria-label="<%= t("scripture_reader.circle.ranking_score", score: post_vote_score) %>"><%= post_vote_score %></output>
+        <% end %>
+      </div>
+      <button type="button"
+              class="circle-post-reply-action"
+              data-action="click->scripture-room#replyToCirclePost"
+              aria-label="<%= t("scripture_reader.circle.reply_to_message", name: display_author) %>"
+              title="<%= t("scripture_reader.circle.reply_to_message", name: display_author) %>">
+        <span aria-hidden="true">↩</span>
+      </button>
+    <% end %>
+
+    <% if own_post && circle_mode == "active" %>
+      <div class="circle-inline-editor" id="<%= dom_prefix %>edit-post-<%= post.id %>" data-circle-inline-editor hidden>
+        <%= form_with url: scripture_circle_post_path(post), method: :patch, scope: :post, class: "circle-edit-form", data: { circle_composer: true, circle_composer_kind: "edit", circle_composer_id: "edit-#{post.id}", action: "turbo:submit-start->scripture-room#composerSubmitStart turbo:submit-end->scripture-room#composerSubmitEnd" } do |form| %>
+          <%= hidden_field_tag :circle_sort, circle_sort %>
+          <% if root_question %>
+            <div class="circle-author-visibility" data-circle-author-visibility data-circle-author-visibility-fixed="true">
+              <fieldset class="circle-kind-options">
+                <legend class="visually-hidden"><%= t("scripture_reader.circle.publication_identity") %></legend>
+                <label><%= form.radio_button :author_visibility, "named", checked: post_author_visibility == "named", data: { action: "change->scripture-room#messageMetadataChanged" } %><span><%= t("scripture_reader.circle.author_visibility_named") %></span></label>
+                <label><%= form.radio_button :author_visibility, "anonymous_to_ward", checked: post_author_visibility == "anonymous_to_ward", data: { action: "change->scripture-room#messageMetadataChanged" } %><span><%= t("scripture_reader.circle.author_visibility_anonymous") %></span></label>
+              </fieldset>
+              <p class="circle-mode-notice"><%= t("scripture_reader.circle.anonymous_question_hint") %> <%= t("scripture_reader.circle.anonymous_question_privacy") %></p>
+            </div>
+          <% end %>
+          <label class="circle-message-field" for="<%= dom_prefix %>edit-post-<%= post.id %>-body"><span><%= t("scripture_reader.circle.edit_message_label") %></span><%= form.text_area :body, id: "#{dom_prefix}edit-post-#{post.id}-body", value: post.body, rows: 3, aria: { describedby: "#{dom_prefix}edit-post-#{post.id}-counter #{dom_prefix}edit-post-#{post.id}-error" }, data: { circle_initial_value: post.body, action: "focus->scripture-room#composerFieldFocused input->scripture-room#messageInput" } %></label>
+          <div class="circle-compose-foot"><span id="<%= dom_prefix %>edit-post-<%= post.id %>-counter" data-message-counter><%= post.body.length %> / <%= ScriptureCirclePost::MAX_BODY_LENGTH %></span><div class="circle-compose-actions"><button type="button" class="circle-composer-secondary" data-action="scripture-room#togglePostEditor" data-post-editor="<%= dom_prefix %>edit-post-<%= post.id %>"><%= t("scripture_reader.circle.cancel_edit") %></button><button type="submit" class="circle-submit" data-circle-submit data-circle-sending-label="<%= t("scripture_reader.circle.saving") %>"><span data-circle-submit-label><%= t("scripture_reader.circle.save_edit") %></span></button></div></div>
+          <p id="<%= dom_prefix %>edit-post-<%= post.id %>-error" class="circle-compose-error" data-message-error role="alert" hidden></p><p class="circle-compose-status" data-message-status role="status" hidden></p>
+        <% end %>
+      </div>
+    <% elsif circle_mode == "active" && own_report.nil? %>
+      <div class="circle-inline-editor circle-moderation-form" id="<%= dom_prefix %>moderate-post-<%= post.id %>" hidden>
+        <%= form_with url: scripture_circle_moderation_reports_path(post_id: post.id), scope: :report do |form| %>
+          <%= hidden_field_tag :circle_sort, circle_sort %>
+          <%= form.label :reason_key, t("scripture_reader.circle.reason") %><%= form.select :reason_key, ScriptureCircleModerationReport::REASON_KEYS.map { |key| [t("scripture_reader.circle.reason_#{key}"), key] } %>
+          <%= form.label :reason_details, t("scripture_reader.circle.reason_details") %><%= form.text_field :reason_details, maxlength: 240 %><%= form.submit t("scripture_reader.circle.confirm_report") %>
+        <% end %>
+      </div>
+    <% end %>
+
   <% when "vote_open" %>
-    <% if proposal %>
+    <% if presentation == "conversation_root" && proposal %>
+      <section class="reader-circle-moderation-summary"><p><%= t("scripture_reader.circle.vote_kicker") %></p><strong><%= t("scripture_reader.circle.vote_title") %></strong><p><%= t("scripture_reader.circle.votes", count: proposal.total_count) %></p><%= link_to t("scripture_circle.card.open"), scripture_path(reference, circle: 1, circle_sort: circle_sort, circle_post: post.id) %></section>
+    <% elsif proposal %>
       <% own_ballot = proposal.scripture_circle_moderation_ballots.find { |ballot| ballot.voter_person_id == current_person&.id } %>
       <% total = proposal.total_count %>
       <% vote_expired = proposal.ends_at <= Time.current %>
-      <section class="circle-vote-card"
-               data-moderation-card
-               data-moderation-results-url="<%= scripture_circle_moderation_results_path(proposal_id: proposal.id) %>"
-               data-votes-template="<%= t("scripture_reader.circle.votes", count: "__COUNT__") %>">
-        <p class="circle-vote-kicker"><%= t(vote_expired ? "scripture_reader.circle.vote_pending_kicker" : "scripture_reader.circle.vote_kicker") %></p>
-        <h3><%= t(vote_expired ? "scripture_reader.circle.vote_pending" : "scripture_reader.circle.vote_title") %></h3>
-        <p><%= t("scripture_reader.circle.proposed_by", name: proposal.proposer_person&.display_name || t("scripture_reader.circle.former_member")) %></p>
-        <p class="circle-vote-reason"><%= t("scripture_reader.circle.reason") %> · <%= t("scripture_reader.circle.reason_#{proposal.reason_key}") %></p>
-        <section class="circle-vote-message" aria-labelledby="circle-vote-message-<%= post.id %>">
-          <p id="circle-vote-message-<%= post.id %>" class="circle-vote-message-label"><%= t("scripture_reader.circle.vote_message_label") %></p>
-          <blockquote><%= post.body %></blockquote>
-          <% if post.selected_text.present? %>
-            <blockquote class="circle-message-passage">
-              <span><%= t("scripture_reader.selection.discussion_context") %></span>
-              <p>“<%= post.selected_text %>”</p>
-            </blockquote>
-          <% end %>
-        </section>
+      <section class="circle-vote-card" data-moderation-card data-moderation-results-url="<%= scripture_circle_moderation_results_path(proposal_id: proposal.id) %>" data-votes-template="<%= t("scripture_reader.circle.votes", count: "__COUNT__") %>">
+        <p class="circle-vote-kicker"><%= t(vote_expired ? "scripture_reader.circle.vote_pending_kicker" : "scripture_reader.circle.vote_kicker") %></p><h3><%= t(vote_expired ? "scripture_reader.circle.vote_pending" : "scripture_reader.circle.vote_title") %></h3><p><%= t("scripture_reader.circle.opened_after_reports") %></p><p class="circle-vote-reason"><%= t("scripture_reader.circle.reason") %> · <%= t("scripture_reader.circle.reason_#{proposal.reason_key}") %></p>
+        <section class="circle-vote-message" aria-labelledby="<%= dom_prefix %>circle-vote-message-<%= post.id %>"><p id="<%= dom_prefix %>circle-vote-message-<%= post.id %>" class="circle-vote-message-label"><%= t("scripture_reader.circle.vote_message_label") %></p><blockquote><%= post.body %></blockquote></section>
         <p class="circle-vote-explanation"><%= t(vote_expired ? "scripture_reader.circle.vote_pending_explanation" : "scripture_reader.circle.vote_explanation") %></p>
-        <% unless vote_expired %>
-          <%= form_with url: scripture_circle_moderation_ballot_path(proposal_id: proposal.id), method: :put, scope: :ballot, class: "circle-vote-actions" do |form| %>
-            <button name="ballot[choice]" value="yes" class="<%= "is-selected" if own_ballot&.choice == "yes" %>"><%= t("scripture_reader.circle.vote_yes") %></button>
-            <button name="ballot[choice]" value="no" class="<%= "is-selected" if own_ballot&.choice == "no" %>"><%= t("scripture_reader.circle.vote_no") %></button>
-          <% end %>
-        <% end %>
-        <% if own_ballot %><p class="circle-own-vote"><%= t("scripture_reader.circle.own_vote", choice: t("scripture_reader.circle.vote_#{own_ballot.choice}_short").downcase) %></p><% end %>
-        <div class="circle-live-results" aria-live="polite">
-          <div class="circle-live-heading">
-            <strong><%= t("scripture_reader.circle.live_results") %></strong>
-            <span data-vote-total><%= t("scripture_reader.circle.votes", count: total) %></span>
-          </div>
-          <div class="circle-result-row">
-            <span><%= t("scripture_reader.circle.vote_yes_short") %> · <b data-vote-yes-count><%= proposal.yes_count %></b></span>
-            <span data-vote-yes-percent><%= proposal.yes_percentage %>%</span>
-          </div>
-          <div class="circle-result-track"><i data-vote-yes-bar style="width: <%= proposal.yes_percentage %>%"></i></div>
-          <div class="circle-result-row">
-            <span><%= t("scripture_reader.circle.vote_no_short") %> · <b data-vote-no-count><%= proposal.no_count %></b></span>
-            <span data-vote-no-percent><%= proposal.no_percentage %>%</span>
-          </div>
-          <div class="circle-result-track"><i data-vote-no-bar style="width: <%= proposal.no_percentage %>%"></i></div>
-        </div>
-        <p class="circle-vote-deadline"><%= t(vote_expired ? "scripture_reader.circle.ended_at" : "scripture_reader.circle.ends_at", date: l(proposal.ends_at, format: :short)) %></p>
-        <%= link_to t("scripture_reader.circle.history"), scripture_circle_moderation_history_path(proposal_id: proposal.id), class: "reader-text-action" %>
-        <% if own_post %>
-          <%= button_to t("scripture_reader.circle.delete_during_vote"), scripture_circle_post_path(post), method: :delete,
-                class: "reader-text-action circle-vote-delete",
-                form: { data: { turbo_confirm: t("scripture_reader.circle.delete_vote_confirm") } } %>
-        <% end %>
+        <% if !vote_expired && circle_mode == "active" %><%= form_with url: scripture_circle_moderation_ballot_path(proposal_id: proposal.id), method: :put, scope: :ballot, class: "circle-vote-actions" do |form| %><%= hidden_field_tag :circle_sort, circle_sort %><button name="ballot[choice]" value="yes" class="<%= "is-selected" if own_ballot&.choice == "yes" %>"><%= t("scripture_reader.circle.vote_yes") %></button><button name="ballot[choice]" value="no" class="<%= "is-selected" if own_ballot&.choice == "no" %>"><%= t("scripture_reader.circle.vote_no") %></button><% end %><% end %>
+        <div class="circle-live-results" aria-live="polite"><div class="circle-live-heading"><strong><%= t("scripture_reader.circle.live_results") %></strong><span data-vote-total><%= t("scripture_reader.circle.votes", count: total) %></span></div><div class="circle-result-row"><span><%= t("scripture_reader.circle.vote_yes_short") %> · <b data-vote-yes-count><%= proposal.yes_count %></b></span><span data-vote-yes-percent><%= proposal.yes_percentage %>%</span></div><div class="circle-result-track"><i data-vote-yes-bar style="width: <%= proposal.yes_percentage %>%"></i></div><div class="circle-result-row"><span><%= t("scripture_reader.circle.vote_no_short") %> · <b data-vote-no-count><%= proposal.no_count %></b></span><span data-vote-no-percent><%= proposal.no_percentage %>%</span></div><div class="circle-result-track"><i data-vote-no-bar style="width: <%= proposal.no_percentage %>%"></i></div></div>
+        <p class="circle-vote-deadline"><%= t(vote_expired ? "scripture_reader.circle.ended_at" : "scripture_reader.circle.ends_at", date: l(proposal.ends_at, format: :short)) %></p><%= link_to t("scripture_reader.circle.history"), scripture_circle_moderation_history_path(proposal_id: proposal.id), class: "reader-text-action" %>
       </section>
     <% end %>
   <% when "author_deleted" %>
     <p class="circle-tombstone"><%= t("scripture_reader.circle.author_deleted") %></p>
   <% when "community_censored" %>
     <p class="circle-tombstone"><%= t("scripture_reader.circle.community_censored") %></p>
-    <% if proposal %>
-      <%= link_to t("scripture_reader.circle.history"), scripture_circle_moderation_history_path(proposal_id: proposal.id), class: "reader-text-action" %>
-    <% end %>
+    <details class="circle-masked-message">
+      <summary><%= t("scripture_reader.circle.show_masked_message") %></summary>
+      <p><%= post.body %></p>
+    </details>
+    <% if proposal %><%= link_to t("scripture_reader.circle.history"), scripture_circle_moderation_history_path(proposal_id: proposal.id), class: "reader-text-action" %><% end %>
   <% end %>
 </article>

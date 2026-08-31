@@ -3,7 +3,6 @@ class Sfx
 
   CUES = %w[
     round_start
-    buzzer_hit
     correct_gold
     notification_glint
     wrong_soft
@@ -32,37 +31,6 @@ class Sfx
     study_miss
     study_turn
   ].freeze
-
-  PULSE = {
-    "join" => "chest",
-    "pose" => "chest",
-    "open" => "round_open",
-    "advance" => "question_change",
-    "lock" => "round_lock",
-    "freeze" => "dramatic_fire",
-    "reveal" => "reveal",
-    "score" => "correct_gold",
-    "miss" => "wrong_soft",
-    "cheer" => "chest",
-    "buzz" => "buzzer_hit",
-    "found" => "buzzer_hit",
-    "shout" => "buzzer_hit",
-    "answer" => "buzzer_hit"
-  }.freeze
-
-  PULSE_YAML = {
-    "open" => "intro",
-    "lock" => "lock",
-    "freeze" => "lock",
-    "score" => "correct",
-    "miss" => "wrong",
-    "buzz" => "buzz",
-    "found" => "buzz",
-    "shout" => "buzz",
-    "answer" => "buzz"
-  }.freeze
-
-  PULSE_SOLO = %w[lock reveal score open advance miss].freeze
 
   def self.catalog
     @catalog ||= CUES.index_with { |name| build_versioned_path_for(name) }.compact.freeze
@@ -96,30 +64,4 @@ class Sfx
   end
   private_class_method :build_versioned_path_for
 
-  def self.for_pulse(kind, source = nil)
-    kind = kind.to_s
-    round = source if source.respond_to?(:yaml_round_id)
-    definition = round ? round.definition : source
-    if kind == "open" && round&.definition&.layered_finale? && !round.intro?
-      return PULSE.fetch("open")
-    end
-
-    yaml_key = PULSE_YAML[kind]
-    override = definition&.sfx&.[](yaml_key).presence
-    return override if override && known?(override)
-
-    PULSE.fetch(kind, "buzzer_hit")
-  end
-
-  def self.for_grade(definition, correct:)
-    key = correct ? "correct" : "wrong"
-    override = definition&.sfx&.[](key).presence
-    return override if override && known?(override)
-
-    correct ? "correct_gold" : "wrong_soft"
-  end
-
-  def self.pulse_without_player?(kind)
-    PULSE_SOLO.include?(kind.to_s)
-  end
 end

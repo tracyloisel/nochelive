@@ -1,0 +1,87 @@
+<% current_person = current_street_person %>
+<% dom_prefix = local_assigns[:dom_prefix].to_s %>
+<% composer_id = "#{dom_prefix}reply-#{conversation_root.id}" %>
+<% circle_sort = local_assigns[:circle_sort].to_s.presence || params[:circle_sort].to_s.presence || "recent" %>
+<% own_post = current_person&.id == conversation_root.person_id %>
+<% anonymous_to_ward = conversation_root.respond_to?(:anonymous_to_ward?) ? conversation_root.anonymous_to_ward? : conversation_root.anonymous? %>
+<% reply_to_name = if anonymous_to_ward && !own_post
+                     t("scripture_reader.circle.anonymous_for_circle")
+                   else
+                     conversation_root.author_name_for(current_person)
+                   end %>
+
+<section class="reader-circle-reply-composer circle-reply-composer"
+         data-circle-composer-shell
+         data-circle-reply-composer
+         data-circle-reply-root-id="<%= conversation_root.id %>"
+         data-circle-reply-conversation-label="<%= t("scripture_reader.circle.reply_to_conversation") %>"
+         data-circle-reply-person-template="<%= t("scripture_reader.circle.reply_to_person", name: "__NAME__") %>"
+         aria-labelledby="<%= dom_prefix %>reply-post-<%= conversation_root.id %>-title">
+  <header class="reader-circle-reply-heading">
+    <span aria-hidden="true">↩</span>
+    <h3 id="<%= dom_prefix %>reply-post-<%= conversation_root.id %>-title" data-circle-reply-heading><%= t("scripture_reader.circle.reply_to_conversation") %></h3>
+    <button type="button" data-action="scripture-room#resetCircleReplyTarget" data-circle-reply-reset aria-label="<%= t("scripture_reader.circle.clear_reply_target") %>" hidden>×</button>
+  </header>
+  <blockquote class="reader-circle-reply-quote" data-circle-reply-quote hidden></blockquote>
+  <div class="circle-reply-body">
+    <%= form_with url: scripture_circle_posts_path,
+                  scope: :post,
+                  class: "circle-reply-form",
+                  data: {
+                    circle_composer: true,
+                    circle_composer_kind: "reply",
+                    circle_composer_id: composer_id,
+                    action: "turbo:submit-start->scripture-room#composerSubmitStart turbo:submit-end->scripture-room#composerSubmitEnd"
+                  } do |form| %>
+      <%= form.hidden_field :reference, value: reference %>
+      <%= form.hidden_field :locale, value: I18n.locale %>
+      <%= hidden_field_tag :circle_sort, circle_sort %>
+      <%= form.hidden_field :kind, value: "reply" %>
+      <%= form.hidden_field :parent_id, value: conversation_root.id, id: "#{dom_prefix}reply-post-#{conversation_root.id}-parent", data: { circle_reply_parent: true } %>
+      <%= form.hidden_field :start_verse, value: "", id: "#{dom_prefix}reply-post-#{conversation_root.id}-start-verse" %>
+      <%= form.hidden_field :end_verse, value: "", id: "#{dom_prefix}reply-post-#{conversation_root.id}-end-verse" %>
+      <%= form.hidden_field :selected_text, value: "", id: "#{dom_prefix}reply-post-#{conversation_root.id}-selected-text" %>
+      <%= form.hidden_field :selected_verses, value: "", id: "#{dom_prefix}reply-post-#{conversation_root.id}-selected-verses" %>
+
+      <label class="circle-message-field" for="<%= dom_prefix %>reply-post-<%= conversation_root.id %>-body">
+        <span class="visually-hidden"><%= t("scripture_reader.circle.reply_message_label", name: reply_to_name) %></span>
+        <%= form.text_area :body,
+                           id: "#{dom_prefix}reply-post-#{conversation_root.id}-body",
+                           rows: 1,
+                           placeholder: t("scripture_reader.circle.reply_placeholder"),
+                           aria: { describedby: "#{dom_prefix}reply-post-#{conversation_root.id}-counter #{dom_prefix}reply-post-#{conversation_root.id}-error" },
+                           data: { action: "focus->scripture-room#composerFieldFocused input->scripture-room#messageInput" } %>
+      </label>
+
+      <div class="circle-compose-foot">
+        <span id="<%= dom_prefix %>reply-post-<%= conversation_root.id %>-counter" data-message-counter>0 / <%= ScriptureCirclePost::MAX_BODY_LENGTH %></span>
+        <div class="circle-compose-actions">
+          <button type="button"
+                  class="circle-reply-verse-trigger"
+                  data-action="scripture-room#toggleReplyVersePicker"
+                  data-circle-reply-verse-picker="<%= dom_prefix %>reply-verse-picker-<%= conversation_root.id %>"
+                  aria-controls="<%= dom_prefix %>reply-verse-picker-<%= conversation_root.id %>"
+                  aria-expanded="false">
+            <%= picto("scripture-book") %><span data-circle-reply-verse-label data-default-label="<%= t("scripture_reader.circle.verse_context") %>"><%= t("scripture_reader.circle.verse_context") %></span>
+          </button>
+          <button type="submit"
+                  class="circle-submit"
+                  data-circle-submit
+                  data-circle-sending-label="<%= t("scripture_reader.circle.publishing_reply") %>">
+            <%= picto("send") %><span class="visually-hidden" data-circle-submit-label><%= t("scripture_reader.circle.publish_reply") %></span>
+          </button>
+        </div>
+      </div>
+      <section id="<%= dom_prefix %>reply-verse-picker-<%= conversation_root.id %>" class="circle-reply-verse-picker" data-circle-reply-verse-picker-panel hidden>
+        <label for="<%= dom_prefix %>reply-verse-input-<%= conversation_root.id %>"><%= t("scripture_reader.circle.manual_verse_field") %></label>
+        <div>
+          <input id="<%= dom_prefix %>reply-verse-input-<%= conversation_root.id %>" type="text" inputmode="numeric" autocomplete="off" spellcheck="false" placeholder="<%= t("scripture_reader.circle.manual_verse_placeholder") %>" data-circle-reply-verse-input>
+          <button type="button" data-action="scripture-room#applyReplyVerseSelection"><%= t("scripture_reader.circle.manual_verse_add") %></button>
+        </div>
+        <p data-circle-reply-verse-error role="alert" hidden></p>
+      </section>
+      <p id="<%= dom_prefix %>reply-post-<%= conversation_root.id %>-error" class="circle-compose-error" data-message-error role="alert" hidden></p>
+      <p class="circle-compose-status" data-message-status role="status" hidden></p>
+    <% end %>
+  </div>
+</section>

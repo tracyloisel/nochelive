@@ -1,161 +1,61 @@
 # Decisions
 
-## ADR-001 — Empty repo is a product fact
+## ADR-001 — One automatic Noche lifecycle
 
-Decision:
-Score the shipped product as absent. Do not pretend YAML in a brief is a game.
+A Noche is scheduled with a ward, a start time and a non-empty ordered list of
+existing quiz packs. Its phases are derived from timestamps: registration,
+lobby at T−30 minutes, Live at T0 and closed at T+60 minutes. No actor can pause,
+open, reveal or advance the shared night.
 
-Why:
-The game-quality loop must review what a family can play tonight.
+## ADR-002 — Reuse the normal quiz engine
 
-Consequences:
-M0 review scores 0/75. The first build must be a playable night, not a model inventory.
+Live play is a normal `QuizRun` with Noche, player, team and sequence context.
+Noche owns no question renderer, answer grader or separate quiz theme. The
+current quiz pack supplies its own illustration and artwork manifest.
 
-## ADR-002 — First slice is the buzz moment, not join-only
+## ADR-003 — Persistent teams, immutable night snapshots
 
-Decision:
-M1 includes create/join/teams AND the first authoritative buzz + score payoff.
+The admin MCP creates `WardTeam`s outside a Noche. Starting a Noche snapshots
+those records into session `Team`s. Players may select one of the snapshots in
+lobby or Live, and that choice locks after their first Live run. Team score is
+the raw sum of member Live run scores.
 
-Why:
-Join-by-code is software. The first gold lock-in is the game. Shipping join without payoff would fail the player-first test.
+## ADR-004 — Canonical URL becomes Watch
 
-Rejected:
-Building every model and every round type first.
+`/s/:code` is the only public Noche destination. It shows registration and
+readings before lobby, then automatically becomes Watch. Watch remains open to
+late registration and displays team ranking, per-question completion and
+semantic realtime events. TV QR codes point to this same URL.
 
-## ADR-003 — Session-local progression only (v1)
+## ADR-005 — Realtime is a projection, not game authority
 
-Decision:
-XP, ranks, streaks, and chests live on the night. No user accounts required.
+PostgreSQL is authoritative. Answer transactions deduplicate semantic events;
+one background job computes a projection and broadcasts localized Turbo Stream
+updates. A GET can always reconstruct Watch without prior broadcasts.
 
-Why:
-A Noche de Hogar is a single evening. Accounts would slow Abuela María and Lucía.
+## ADR-006 — Admin mutation belongs to the MCP/API
 
-Superseded by ADR-012 for persistent fichas. Night XP / Rey / coffre remain session-local.
+The admin contract creates persistent teams, schedules/edits a future Noche and
+closes a Noche early when explicitly requested. There is no presenter token,
+console, custom poster, broadcast delay or manual round command.
 
-## ADR-012 — Rama fichas, not passwords
+## ADR-007 — Use cases live in `app/services`
 
-Decision:
-A `Ward` (rama) owns `Person` fichas and `WardTeam` season records. A night still has its own `Player` / `Team` / XP. Returning players pick a ficha with a chosen avatar. Homonyms (Carmen, Pilar) use apellido when needed. The memorable year is `favorite_year` — four digits, « ¿Cuál es tu año favorito? Puedes usar el año en que naciste. » It is not a date of birth, PIN, or age. Guests may play « Solo esta noche » with no ficha. Season XP is applied once at `Nights::Finish` using 4× night rank thresholds. The presenter has a ficha desk (edit, merge, read the year aloud) and a night roster that can name visiting missionaries so they stay in the memory of that night.
+Controllers validate HTTP input and delegate. `Nights::Start`,
+`Nights::Configure`, `Nights::Reconcile`, `Nights::Close`,
+`Nights::QuizSequence`, `Nights::Events` and `Nights::Broadcast` own their
+transactions and orchestration. Active Record models retain associations,
+validations, scopes and predicates.
 
-Why:
-Several ramas will play. First names do not identify anyone in Spain. Church Account SSO is not available to third parties. Email/password would block children.
+## ADR-008 — Rails testing contract
 
-Rejected:
-Unique given names. 4-digit PIN. Storing `birth_year` / inferring age. Merging night XP into the live buzz bar. FamilySearch/Church OAuth.
+Minitest, YAML fixtures and idempotent development data remain the project
+standard. The full suite enforces its existing SimpleCov floor. Noche changes
+must cover lifecycle boundaries, idempotence, late join, team locking, raw score
+aggregation, per-question completion and admin authorization.
 
-## ADR-007 — Pose hold is server-clamped, not camera-based
+## ADR-009 — Single PostgreSQL production authority
 
-Decision:
-Remote statue sends `held_ms`. The server clamps and awards once at 8 seconds. The room puts the phone down.
-
-Why:
-A family night needs a body verb at home without requiring a camera pipeline.
-
-Rejected:
-"Press OK when the room is finished."
-
-## ADR-005 — `Buzz` inflection and `night` routes
-
-Decision:
-Irregular inflection `buzz` / `buzzes`. Player routes use `/s/:session_code` named `night_*` so they do not collide with the Rack `session`.
-
-Why:
-Rails otherwise looks for `buzzs` / `Buzze`. `as: :session` hid path helpers from controllers.
-
-## ADR-006 — Single PostgreSQL on Render
-
-Decision:
-Production uses one `DATABASE_URL`. Solid Cable and Solid Queue tables live on primary. Cache stays in-process. Notification jobs run persistently in one Render background worker; its Solid Queue supervisor also runs the recurring scheduler. There is no parallel Render cron service for these jobs.
-
-Why:
-A family night does not need three extra databases or Redis for this volume. Invitations and scheduled verses must nevertheless survive a web restart and must not block Puma.
-
-Amended 2026-08-28 by the Web Push implementation. The earlier in-process job decision remains valid only for environments without notifications enabled.
-
-## ADR-009 — Meetinghouse rooms, never a temple
-
-Decision:
-Challenge media (OpenRouter stills/clips) depicts an LDS meetinghouse. Seated rounds use the chapel pews. Movement rounds use the cultural hall. Temple interiors are forbidden.
-
-Why:
-A Noche de Hogar with foam balls and a harp hunt happens in the cultural hall. Generating a temple would be inaccurate and disrespectful.
-
-Rejected:
-Photoreal close-ups of young children, Catholic chapel dressing, readable UI in the frame.
-
-## ADR-008 — The ending is a ceremony
-
-Decision:
-When a night is `finished`, play / watch / presenter all render the same stand-up ceremony. Leftover round controls and score adjusters hide.
-
-Why:
-A leaderboard refresh is software. Standing up and reading a name is the game.
-
-Rejected:
-Leaving the presenter on “Abrir” for the next unused round after Cerrar noche.
-
-## ADR-004 — Synthesized SFX, original SVG
-
-Decision:
-Sound uses named Web Audio cues. Art uses original SVG marks. No hotlinked or copyrighted assets.
-
-Why:
-Family-safe, deployable, muteable, and ours.
-
-## ADR-010 — Use cases live in `app/services`
-
-Decision:
-Every player or presenter action is a service object (`Buzzes::Accept.call`, `Answers::Submit.call`). Controllers are HTTP only. ActiveRecord models persist; they do not orchestrate transactions, scoring, or broadcasts.
-
-Why:
-Fat models and controller orchestration are not Rails simplicity. A service per use case is the maintainable default. "Prefer fewer abstractions" does not authorize skipping this layer.
-
-Rejected:
-POROs in `app/models` (`ScoreApplier`, `NightBroadcaster`). `Model.accept!` / `submit!` / `tap!` class methods that lock, write related rows, score, and broadcast. God objects (`GameEngine`).
-
-## ADR-011 — Tests, fixtures, seeds, 90% coverage
-
-Decision:
-Minitest under `test/`. YAML fixtures for every ActiveRecord model. `db/seeds.rb` creates a playable DEMO night. SimpleCov fails the full suite and CI below 90% line coverage of `app/`.
-
-Why:
-A new app with logic only in controllers/models and no fixtures/seeds/coverage bar cannot be maintained. Specs ship in the same change as the behavior.
-
-Rejected:
-FactoryBot instead of fixtures. RSpec alongside Minitest. Lowering the coverage threshold. Empty `db/seeds.rb`.
-
-## ADR-013 — Worldwide rama directory, first unit Benidorm
-
-Decision:
-Home is a congregation directory, not a night-code portal. A `Ward` carries chapel address, city, country, and emblem. Empty search shows up to six unidades with Rama Benidorm first (Avinguda Alfonso Puchades, 27). A query filters the world (max 24). Search and night codes live in the home hamburger, never as the first sheet on the painting. Live nights live on that rama’s public profile. `noche_ward` remembers the congregation; `noche_ward_host` (secreto / create) is required for fichas and opening a night. Maps is a search link, not an embed.
-
-Why:
-Noche Live is the worldwide family-night directory. Madrid DEMO as the face of the product was a lie. Church Account SSO and the meetinghouse locator are not available to third parties in this slice.
-
-Rejected:
-Dumping every live night on earth on the home page. Embedding Google Maps. Scraping Church meetinghouse locator. GPS “near me”. Importing the Church directory API.
-
-## ADR-014 — Hosted directory is listed unidades only
-
-Decision:
-`wards.listed` (boolean, default false) is the public mosaic. `Wards::Search` returns listed rows only. Rama Benidorm (`code: RAMA`) is listed. Fixture `blank` and self-serve `Wards::Create` are not, unless the directory has nobody listed yet (first OSS host). Add-rama lives in the hamburger and goes to `/ramas/anadir`, not the create form. The form stays in the repo for people who fork and host themselves.
-
-Why:
-The hosted app is Rama Benidorm’s night, not a worldwide self-serve directory. Env checks would make the filter untestable. A fake contact email does not exist; the mission leader writes to Rama Benidorm. The other door is GitHub.
-
-Rejected:
-`Rails.env.production?` to hide unidades. Deleting `Wards::Create`. Inventing a mailbox.
-
-## ADR-015 — Public meetinghouse import, listed directory
-
-Decision:
-Live search asks the **public** Church Maps proxy (`locations/search` for the typed query; `locations/identify` for one nearby unit from the phone’s coordinates; then `locations?ids=WARD:…` on pick). Hits are not written on keystroke. On pick, `Wards::Ensure` upserts one listed row via `Wards::SyncDirectory`; that person is simply the first ficha. Empty search does **not** dump listed ramas. There is no country → estaca browse. Coordinates are not stored. The one-shot `noche:import_wards` script remains a fixture/ops tool, not the product path and never CI or boot. Self-serve `Wards::Create` stays **unlisted** (ADR-014). Rama Benidorm (`code: RAMA`) is merged, never duplicated; name, code, and demo token stay. First visit on `/` is a temple-hall arrival then live search — not a dump of every country or every live night. Empty leagues on a rama with no players are honest.
-
-This amends ADR-013’s “locator not available in this slice” and ADR-014’s “hosted app is not a worldwide directory”: the hosted mosaic **grows as families enter**. It does not amend: no member directory, no Maps embed, no dumping every live night on `/`. Device geolocation is only used to ask identify for **one** nearby congregación.
-
-Why:
-Families outside Benidorm cannot play a street league if the mosaic is one row. Downloading ~30k unidades is unnecessary when the locator already answers a city query or a point. The Maps JSON is public (name, chapel address, congregation type). Member households, photos, and Church Account SSO stay out.
-
-Rejected:
-Scraping Directory (login). Importing stakes as playable `Ward` rows. Hitting the locator at boot or in CI. Bulk world import as the join path. Autoplay SFX on first paint. Showing 150 countries under the empty search field. Dumping every listed rama as “suggestions”.
-
+Production uses the primary PostgreSQL database for domain state and durable
+jobs. Redis/Valkey may transport Action Cable updates and ephemeral presence but
+never decides a Noche phase, score or winner.

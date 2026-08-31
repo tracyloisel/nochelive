@@ -76,7 +76,7 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
       [ root_path, nil, "hub" ],
       [ street_map_path, "celestial-light", "adventure" ],
       [ street_leaderboard_path, "celestial-light", "league" ],
-      [ study_program_path, "celestial-light", "word" ],
+      [ scripture_library_path, "celestial-dark", "word" ],
       [ church_path, "celestial-dark", "church" ],
       [ ward_profile_path(wards(:demo).code), "celestial-dark", "ward" ]
     ].each do |path, expected_theme, shot_name|
@@ -150,7 +150,7 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
             var titleStyle = getComputedStyle(title);
             var play = document.querySelector(".hub-play").getBoundingClientRect();
             var reward = document.querySelector(".hub-reward").getBoundingClientRect();
-            var nextTile = document.querySelector(".hub-study, .hub-live").getBoundingClientRect();
+            var nextTile = document.querySelector(".hub-live").getBoundingClientRect();
             var install = document.querySelector(".hub-install:not([hidden])");
             var installBox = install && install.getBoundingClientRect();
             return {
@@ -591,8 +591,8 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
     set_system_viewport(390, 844)
     sign_in_fixture_person_direct!(people(:pili))
     assert_no_selector "#profile_gate"
-    assert_selector ".street-map-door-play", wait: 5
-    find(".street-map-door-play").click
+    assert_selector ".hub-play", wait: 5
+    find(".hub-play").click
     assert_selector "#street_quiz.play-reel.is-quiz.is-street.is-overlay"
     assert_no_selector ".street-shot-rival"
     assert_selector ".quiz-hud-avatar"
@@ -658,7 +658,7 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
     )
     Quizzes::DuelInvitationClaim.call(invitation:, person: pili)
     sign_in_fixture_person_direct!(pili)
-    find(".street-map-door-play").click if page.has_css?(".street-map-door-play", wait: 2)
+    find(".hub-play").click if page.has_css?(".hub-play", wait: 2)
     assert_selector "#street_quiz.play-reel.is-quiz.is-street"
     run = QuizRun.open_runs.order(:id).last
     run.update!(position: 4, ends_at: 20.seconds.from_now)
@@ -744,28 +744,11 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
     assert_selector "dialog.chrome-drawer[open] .home-menu-nav-hub"
     assert_selector ".home-menu-invite[href='#{street_challenges_path(anchor: "inviter")}']", text: I18n.t("hub_menu.invite_friend")
     assert_selector ".home-menu-row[href='#{street_leaderboard_path}']", text: I18n.t("hub_menu.leaderboard")
-    assert_selector ".home-menu-row[href='#{study_program_path}']", text: I18n.t("study.title")
+    assert_selector ".home-menu-row[href='#{scripture_library_path}']", text: I18n.t("scripture_library.title")
     assert_selector ".hub-menu-legal a", count: 3
     find(".home-menu-invite").click
     assert_selector "#inviter.duel-campus-section.is-friends"
     assert_equal "#inviter", page.evaluate_script("window.location.hash")
-  end
-
-  test "hub pulse receives live count without polling or leaving the hub" do
-    set_system_viewport(390, 844)
-    visit root_path
-    assert_selector ".street-pulse[data-pulse-online='0']"
-    assert_selector "#street_world"
-    change = Presences::Registry.enter(
-      connection_id: "system-live-pulse",
-      person_id: people(:pili).id,
-      ward_id: people(:pili).ward_id,
-      role: "test"
-    )
-    Presences::BroadcastChange.call(change)
-    assert_selector ".street-pulse[data-pulse-online='1']", wait: 5
-    assert_selector "#street_world"
-    assert_no_selector "#street_quiz"
   end
 
   test "hub league strip with signed-in profile" do
@@ -798,22 +781,18 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
     assert_no_selector "#profile_gate"
     assert_selector ".quiz-hud"
     assert_no_selector ".hub-mini"
-    assert_selector ".hub-online.is-empty"
-    assert_selector ".hub-online-ranking.street-league"
     assert_selector ".quiz-hud-name", text: person.given_name
     assert_selector ".quiz-hud-rank"
     assert_no_selector ".street-xp-bar"
-    assert_selector ".street-card.is-map-door"
-    assert_selector ".street-map-door-kicker"
+    assert_selector ".hub-hero"
+    assert_selector ".hub-hero-title"
     assert_selector ".hub-hero-stage"
     assert_selector ".hub-hero-continue"
     assert_selector ".hub-reward-label"
     assert_selector ".hub-reward img.hub-reward-chest"
-    assert_selector ".street-map-door-play", text: /#{Regexp.escape(I18n.t("street.world_play"))}/i
-    assert_selector ".street-pulse"
+    assert_selector ".hub-play", text: /#{Regexp.escape(I18n.t("street.world_play"))}/i
     assert_no_selector ".navigation-dock .street-play-cta"
-    assert_no_selector ".street-map-door-open"
-    assert_selector ".street-map-door-step"
+    assert_selector ".hub-hero-step"
     assert_selector ".street-rank-banner", count: 0
     assert_selector ".quiz-hud-rank"
     page.execute_script("window.scrollTo(0, 0)")
@@ -829,14 +808,13 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
     assert_no_selector "dialog.chrome-drawer[open]"
     assert_hub_shell_pinned
     assert_above_hub_dock ".hub-hero"
-    assert_above_hub_dock ".street-card.is-map-door"
     assert_no_selector ".chrome-tools"
     assert_selector ".navigation-dock a.navigation-dock__item", count: 5
     assert_selector ".navigation-dock a[href='/']"
     assert_selector ".navigation-dock a[href='/mapa']"
-    assert_selector ".navigation-dock a[href='/parole']"
+    assert_selector ".navigation-dock a[href='#{scripture_library_path}']"
     assert_selector ".navigation-dock a[href='/iglesia']"
-    assert_selector ".navigation-dock__item[href='/parole'] > .picto-scripture-book"
+    assert_selector ".navigation-dock__item[href='#{scripture_library_path}'] > .picto-scripture-book"
     assert_no_selector ".street-hub-word-medallion"
     assert_no_selector ".navigation-dock .picto-bell"
     assert_no_selector ".hub-shortcuts"
@@ -865,7 +843,7 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
     assert_operator map_title_gap, :>=, 16
     shot("map-phone")
     find(".navigation-dock a[href='/']").click
-    assert_selector ".street-card.is-map-door"
+    assert_selector ".hub-hero"
     assert_abuelo_type_floor
     [
       [ 768, 1024, "hub-ipad" ],
@@ -1046,7 +1024,7 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
     set_quiz_viewport(390, 844)
     QuizRun.where(status: "open").update_all(status: "finished")
     sign_in_fixture_person_direct!(people(:pili))
-    find(".street-map-door-play").click
+    find(".hub-play").click
     assert_selector "#street_quiz"
     run = QuizRun.open_runs.order(:id).last
     pack = QuizDefinition.catalog.find_pack(run.pack_id)
@@ -1093,7 +1071,7 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
     sign_in_fixture_person_direct!(people(:pili))
     QuizRun.where(status: "open").update_all(status: "finished")
     visit root_path
-    find(".street-map-door-play").click
+    find(".hub-play").click
     assert_selector "#street_quiz"
     run = QuizRun.open_runs.order(:id).last
     assert run, "expected open quiz run after starting pack"
@@ -1434,7 +1412,7 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
 
   def ready_street_quiz!
     sign_in_fixture_person_direct!(people(:pili))
-    find(".street-map-door-play").click if page.has_css?(".street-map-door-play", wait: 1)
+    find(".hub-play").click if page.has_css?(".hub-play", wait: 1)
     assert_selector "#street_quiz.play-reel.is-quiz.is-street"
   end
 
@@ -1560,7 +1538,7 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
     page.driver.browser.manage.add_cookie(name: Locale::COOKIE.to_s, value: "fr", path: "/")
     QuizRun.where(person: pili, status: "open").update_all(status: "finished")
     visit root_path
-    find(".street-map-door-play").click
+    find(".hub-play").click
     answer_action = find(".choice-btn", match: :first).find(:xpath, "ancestor::form")[:action]
     run = QuizRun.find(answer_action.match(%r{/quiz/(\d+)/answers})[1])
     pack = QuizDefinition.catalog.find_pack(run.pack_id)
@@ -1766,7 +1744,7 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
     assert_no_selector ".hub-menu-profile .home-menu-row-caret"
     assert_selector ".home-menu-invite[href='#{street_challenges_path(anchor: "inviter")}']", text: I18n.t("hub_menu.invite_friend")
     assert_selector ".home-menu-row[href='#{street_leaderboard_path}']", text: I18n.t("hub_menu.leaderboard")
-    assert_selector ".home-menu-row[href='#{study_program_path}']", text: I18n.t("study.title")
+    assert_selector ".home-menu-row[href='#{scripture_library_path}']", text: I18n.t("scripture_library.title")
     assert_selector ".hub-menu-legal a", count: 3
 
     metrics = page.evaluate_script(<<~JS)
@@ -1842,7 +1820,7 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
           && burgerBox.right <= before.right + 6
           && burgerBox.top >= before.top - 6
           && burgerBox.bottom <= before.bottom + 6;
-        var hero = document.querySelector(".hub-hero") || document.querySelector(".street-hub-feed .street-card.is-map-door");
+        var hero = document.querySelector(".hub-hero");
         var heroBefore = hero ? hero.getBoundingClientRect().top : before.bottom + 8;
         var dockBefore = dock.getBoundingClientRect().top;
         feed.scrollTop = Math.min(feed.scrollHeight, 280);
@@ -1913,7 +1891,7 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
         var el = document.querySelector(#{selector.to_json});
         if (!el) return false;
         var r = el.getBoundingClientRect();
-        var cta = document.querySelector(".navigation-dock") || document.querySelector(".street-pulse") || document.querySelector(".street-play-cta");
+        var cta = document.querySelector(".navigation-dock") || document.querySelector(".street-play-cta");
         var limit = cta ? cta.getBoundingClientRect().top : window.innerHeight;
         return r.top >= -8 && r.bottom <= (limit + 8) && r.height > 0;
       })()
@@ -2123,7 +2101,7 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
         };
         return {
           minPx: minPx,
-          pack: read(".street-map-door-pack"),
+          pack: read(".hub-hero-name"),
           banner: read(".quiz-hud-rank"),
           name: read(".quiz-hud-name")
         };

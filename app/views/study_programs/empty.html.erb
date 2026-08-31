@@ -1,9 +1,0 @@
-<% content_for :title, t("study.title") %>
-<% content_for :body_class, "is-study-program is-celestial-light" %>
-<% page_hud(hud: true) { site_menu } %>
-<% page_dock(active: :word) %>
-<main id="study_program" class="study-paper study-empty">
-  <h1><%= t("study.title") %></h1>
-  <p><%= t("study.not_ready") %></p>
-  <%= link_to t("study.back_home"), root_path, class: "btn btn-gold" %>
-</main>

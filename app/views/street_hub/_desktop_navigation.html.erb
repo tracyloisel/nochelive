@@ -1,0 +1,20 @@
+<nav class="hub-desktop-navigation" aria-label="<%= t("hub.rails.primary_navigation") %>">
+  <%= link_to root_path, class: "is-active", aria: { current: "page" } do %>
+    <%= t("hub.nav_home") %>
+  <% end %>
+  <%= link_to street_map_path do %>
+    <%= t("hub.nav_adventure") %>
+  <% end %>
+  <%= link_to scripture_library_path do %>
+    <%= t("scripture_library.nav") %>
+  <% end %>
+  <%= link_to street_challenges_path do %>
+    <%= t("duel_campus.title") %>
+  <% end %>
+  <%= link_to street_leaderboard_path do %>
+    <%= t("hub.shortcut_ranking") %>
+  <% end %>
+  <%= link_to church_path do %>
+    <%= t("hub.nav_church") %>
+  <% end %>
+</nav>

@@ -73,7 +73,7 @@ class DiscoveryController < ApplicationController
       file = case @page.key
       when :bible_study, :psalms_study then "media/study/psalms-refuge-2026.png"
       when :group_activities, :youth_activities then "media/study/community-scripture-gathering-v1.png"
-      else "media/nights/noche_live_stage_v2.png"
+      else "media/quizzes/coronas/ungio_david.jpg"
       end
       "#{request.base_url}/#{file}"
     end

@@ -85,7 +85,7 @@ module Quizzes
       end
 
       def current_run_for(person, duel: nil)
-        scope = QuizRun.open_runs.where(person:).order(id: :desc)
+        scope = QuizRun.street.open_runs.where(person:).order(id: :desc)
         scope = scope.where("opened_at >= ?", duel.accepted_at) if duel&.accepted_at
         scope.first
       end

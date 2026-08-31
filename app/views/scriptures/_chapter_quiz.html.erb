@@ -1,0 +1,35 @@
+<% recommendation = local_assigns.fetch(:recommendation) %>
+<% chapter_title = local_assigns.fetch(:chapter_title) %>
+<% locked = recommendation.state == :locked %>
+<% action_label = case recommendation.state
+                  when :open then t("scripture_reader.chapter_quiz.resume")
+                  when :finished then t("scripture_reader.chapter_quiz.replay")
+                  else t("scripture_reader.chapter_quiz.play")
+                  end %>
+
+<section class="reader-chapter-quiz <%= "is-locked" if locked %>"
+         aria-labelledby="reader-chapter-quiz-title"
+         data-reader-chapter-quiz
+         data-quiz-state="<%= recommendation.state %>">
+  <span class="reader-chapter-quiz-emblem" aria-hidden="true"><%= picto("stats-question") %></span>
+  <div class="reader-chapter-quiz-copy">
+    <p><%= t("scripture_reader.chapter_quiz.kicker") %></p>
+    <h2 id="reader-chapter-quiz-title"><%= recommendation.title %></h2>
+    <span><%= t("scripture_reader.chapter_quiz.connection", count: recommendation.question_count, quiz: recommendation.title, chapter: chapter_title) %></span>
+    <% if recommendation.kicker.present? %><small><%= recommendation.kicker %></small><% end %>
+  </div>
+  <div class="reader-chapter-quiz-action">
+    <% if locked %>
+      <span class="reader-chapter-quiz-lock"><%= picto("lock") %><%= t("scripture_reader.chapter_quiz.locked") %></span>
+      <%= link_to street_map_path, class: "reader-chapter-quiz-button is-secondary", data: { turbo_frame: "_top" } do %>
+        <span><%= t("scripture_reader.chapter_quiz.see_path") %></span><b aria-hidden="true">→</b>
+      <% end %>
+    <% else %>
+      <%= button_to street_pack_start_path(recommendation.pack_id), method: :post,
+                    class: "reader-chapter-quiz-button",
+                    form: { class: "reader-chapter-quiz-form", data: { turbo_frame: "_top" } } do %>
+        <span><%= action_label %></span><b aria-hidden="true">→</b>
+      <% end %>
+    <% end %>
+  </div>
+</section>

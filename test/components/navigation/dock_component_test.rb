@@ -13,15 +13,15 @@ class Navigation::DockComponentTest < ViewComponent::TestCase
     assert_selector "svg.navigation-dock__icon", count: 5
     assert_selector ".navigation-dock__icon .navigation-dock__icon-metal", minimum: 5
     assert_selector ".navigation-dock__icon .navigation-dock__icon-jewel", count: 5
-    parole = Rails.application.routes.url_helpers.study_program_path
-    assert_selector "a.navigation-dock__item[href='#{parole}'] > .picto-scripture-book"
+    library = Rails.application.routes.url_helpers.scripture_library_path
+    assert_selector "a.navigation-dock__item[href='#{library}'] > .picto-scripture-book"
     assert_no_selector ".street-hub-word-medallion"
   end
 
   test "marks the word destination active" do
     render_inline(Navigation::DockComponent.new(active: :word))
 
-    assert_selector "a.navigation-dock__item.is-active[href='/parole'] > .picto-scripture-book"
+    assert_selector "a.navigation-dock__item.is-active[href='/bibliotheque'] > .picto-scripture-book"
   end
 
   test "owns the only global dock contract" do

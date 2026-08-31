@@ -1,27 +1,39 @@
-<% light_theme = local_assigns[:theme].to_s == "light" %>
-<button type="button"
-        class="hub-panel hub-install hub-light-tile--install pwa-install-action"
-        data-pwa-install-target="action tile"
-        data-action="pwa-install#install"
-        aria-label="<%= t("pwa.install") %>"
-        aria-describedby="hub_install_hint"
-        hidden>
-  <% if light_theme %>
-    <span class="hub-install-art" aria-hidden="true">
-      <%= noche_media_picture("media/hub/light/install-portal-v2.png", alt: "", loading: "lazy") %>
+<article class="hub-panel hub-install hub-install--compact"
+         data-pwa-install-target="tile"
+         data-pwa-install-state="idle"
+         aria-busy="false"
+         hidden>
+  <button type="button"
+          class="hub-install-action pwa-install-action"
+          data-pwa-install-target="action"
+          data-action="pwa-install#install"
+          aria-describedby="hub_install_hint hub_install_status">
+    <span class="hub-install-emblem" aria-hidden="true">
+      <img src="/apple-touch-icon.png" width="72" height="72" alt="">
     </span>
-    <span class="hub-install-art-scrim" aria-hidden="true"></span>
-  <% end %>
-  <span class="hub-install-emblem" aria-hidden="true">
-    <img src="/apple-touch-icon.png" width="72" height="72" alt="">
-  </span>
-  <span class="hub-install-copy">
-    <span class="hub-kicker"><%= t("pwa.kicker") %></span>
-    <strong><%= t("pwa.banner_title") %></strong>
-    <span id="hub_install_hint"><%= t("pwa.banner_hint") %></span>
-  </span>
-  <span class="hub-install-cta" aria-hidden="true">
-    <span><%= t("pwa.install") %></span>
-    <%= picto("arrow") %>
-  </span>
-</button>
+    <span class="hub-install-copy">
+      <span class="hub-kicker"><%= t("pwa.kicker") %></span>
+      <strong><%= t("pwa.banner_title") %></strong>
+      <span id="hub_install_hint"><%= t("pwa.banner_hint") %></span>
+      <span id="hub_install_status"
+            class="hub-install-status"
+            data-pwa-install-target="status"
+            data-pwa-install-installing-label="<%= t("pwa.installing") %>"
+            role="status"
+            aria-live="polite"
+            aria-atomic="true"
+            hidden></span>
+    </span>
+    <span class="hub-install-cta" aria-hidden="true">
+      <span><%= t("pwa.install") %></span>
+      <%= picto("arrow") %>
+    </span>
+  </button>
+  <button type="button"
+          class="hub-install-dismiss"
+          data-pwa-install-target="dismiss"
+          data-action="pwa-install#dismissTile"
+          aria-label="<%= t("pwa.not_now") %>">
+    <span aria-hidden="true">×</span>
+  </button>
+</article>

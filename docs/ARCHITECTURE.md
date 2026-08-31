@@ -28,7 +28,7 @@ app/services     Use cases: transactions, locks, scoring, broadcasts
 app/models       Persistence: associations, validations, scopes, predicates
 ```
 
-- One service class per use case, named as a verb, Zeitwerk path `app/services/buzzes/accept.rb` → `Buzzes::Accept`.
+- One service class per use case, named as a verb, Zeitwerk path `app/services/nights/start.rb` → `Nights::Start`.
 - Public API is `.call(**kwargs)`.
 - Controllers and ActiveRecord models must not orchestrate use cases.
 - POROs such as scoring or broadcasting do **not** live in `app/models`.
@@ -50,31 +50,34 @@ SimpleCov             Full suite must stay ≥ 90% line coverage of app/
 
 ## Authority
 
-The browser never decides:
+The browser never decides the Noche phase, quiz correctness, points, streaks,
+team ranking, question completion or event deduplication. These values are
+derived from PostgreSQL and the timestamps stored on `GameSession`.
 
-- who buzzed first
-- whether a round is open
-- scores
-- correct answers
-- current round
-- winners
-
-Turbo Streams distribute server state. A normal GET must reconstruct durable night state. Ephemeral presence is reconstructed from Redis TTL entries and may degrade to offline without writing to PostgreSQL.
+Turbo Streams distribute projections and semantic event tiles. A normal GET on
+`/s/:code` reconstructs the same Watch state without depending on Redis or on a
+present browser. Redis/Valkey transports realtime updates but is not the source
+of truth.
 
 ## Domain (intended)
 
 ```text
 Ward → People, WardTeams, GameSessions
-GameSession → Teams, Players, RoundRuns, ScoreEvents
+GameSession → Teams, Players, QuizRuns, LiveEvents
 Person → PersonDevices, Players
-WardTeam → Teams (night clones)
+WardTeam → Teams (immutable night snapshot)
 Player → TeamMembership → Team
-RoundRun → Buzzes, Answers
+QuizRun → QuizAnswers
 ```
 
-Round phases: `pending → intro → open → locked → answering → revealed → completed`
+The ordered `quiz_pack_ids` sequence can contain any existing quiz pack. Noche
+does not copy quiz content or own a parallel game engine: Live `QuizRun`s use the
+normal `/jugar` engine with `game_session_id`, `player_id`, `team_id` and
+`live_sequence_position` as context.
 
-Session states: `lobby → playing → paused → finished`
+Session phases are time-derived:
+`scheduled → lobby (T−30 min) → playing (T0) → finished (T+60 min)`.
+There is no paused phase and no manual phase command.
 
 ## Campus des Écritures — défis asynchrones
 
@@ -107,29 +110,20 @@ association du moteur mono-duel ne peut être réintroduit silencieusement.
 
 ## Broadcast scopes
 
-```text
-game_session
-game_session:presenter
-game_session:spectators
-game_session:team:<id>
-```
+`GameSession#locale_stream(locale)` isolates localized Live projections. One
+answer can create several semantic events in a single transaction, but queues a
+single broadcast job. The job computes one projection, then renders it for all
+locales. No raw answer choice or private player payload is broadcast.
 
-Private team answers never go to other teams.
+## Noche Live contract
 
-## First slice contract
-
-SLICE: First Buzz Night
-
-DONE WHEN:
-
-- presenter creates a session and keeps a secret console
-- players join by code, name, and team
-- spectators watch without acting
-- presenter opens a buzzer round
-- phones update without navigation
-- one tap locks a team buzz
-- PostgreSQL allocates unique positions
-- first place is an event (visual + sound + rank)
-- presenter can mark correct/incorrect and scores move
-- refresh/rejoin does not clone the player
-- remote players use the same buzzer (Grade A)
+- Admin/MCP creates persistent `WardTeam`s outside a Noche.
+- Admin/MCP schedules one Noche with a ward, start date and ordered quiz list.
+- `Nights::ScheduleLifecycle` queues lobby, start and close reconciliation.
+- Before T−30, `/s/:code` accepts registrations and lists players/readings.
+- During lobby and Live, a player chooses one snapshotted team; the choice locks
+  after the first Live quiz run.
+- During T0…T+60, `/s/:code` is Watch and late registration remains available.
+- Team score is the raw sum of members' Live `QuizRun#score` values.
+- The normal score screen links to the next quiz or back to Watch.
+- T+60 expires open runs and closes the Noche idempotently.

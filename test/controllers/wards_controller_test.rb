@@ -1,7 +1,7 @@
 require "test_helper"
 
 class WardsControllerTest < ActionDispatch::IntegrationTest
-  test "create a rama then a night" do
+  test "create a rama without exposing live administration" do
     get new_ward_path
     assert_response :success
     assert_select "body.is-paper-hall"
@@ -28,8 +28,6 @@ class WardsControllerTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_response :success
 
-    assert_difference -> { GameSession.count }, 1 do
-      post game_sessions_path
-    end
+    assert_select "form[action*='game_sessions']", count: 0
   end
 end

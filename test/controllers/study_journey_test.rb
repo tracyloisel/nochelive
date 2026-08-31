@@ -18,64 +18,17 @@ class StudyJourneyTest < ActionDispatch::IntegrationTest
     )
   end
 
-  test "program exposes the current week and every appendix section" do
-    4.times do |index|
-      @program.study_units.create!(
-        slug: "appendix-#{index}", kind: "appendix", position: index + 1,
-        title: "Annexe #{('A'.ord + index).chr} : Ressource", source_url: "https://example.test/a#{index}", status: "imported"
-      )
-    end
-
+  test "the legacy program URL returns to the single reading picker" do
     get study_program_path
 
-    assert_response :success
-    assert_select "body.is-study-program.is-celestial-dark"
-    assert_select ".home-menu.is-hud[data-hud-theme='celestial-dark'] .quiz-hud[data-hud-theme='celestial-dark']"
-    assert_select "#study_program"
-    assert_select ".study-current", text: /#{Regexp.escape(I18n.t("study.psalms_theme"))}/
-    assert_select ".study-path-nav a[href='#{study_history_path}']", text: I18n.t("study.my_journey")
-    assert_select "a.study-profile-invite[href='#{street_profile_path(fresh: 1)}']", text: /#{Regexp.escape(I18n.t("study.profile_invite_cta"))}/
-    assert_select ".navigation-dock .navigation-dock__item.is-active[href='#{study_program_path}']"
-    assert_select ".study-appendix-row", count: 4
-
-    css = frontend_css("study")
-    assert_match(/\.study-world > \*/, css)
-    refute_match(/\.study-world > :not\(\.navigation-dock\)/, css)
-
-    person = people(:pili)
-    sign_in_congregation(person.ward)
-    post street_profile_path, params: { person_id: person.id, favorite_year: person.favorite_year }
-    assert_redirected_to root_path
-
-    get study_program_path
-    assert_response :success
-    assert_select ".study-profile-invite", count: 0
-    assert_select ".study-path-nav a[href='#{study_community_path(ward_code: person.ward.code)}']", text: I18n.t("study.ward")
+    assert_redirected_to scripture_library_path(section: "program", anchor: "selection")
   end
 
-  test "annual program follows the active language" do
-    @unit.update!(copy: {
-      "es" => { "title" => "24–30 de agosto: Salmos 49–86", "scripture_refs" => [ "Salmos 49–86" ] },
-      "fr" => { "title" => "24–30 août : Psaumes 49–86", "scripture_refs" => [ "Psaumes 49–86" ] },
-      "en" => { "title" => "August 24–30: Psalms 49–86", "scripture_refs" => [ "Psalms 49–86" ] },
-      "pt-BR" => { "title" => "24 a 30 de agosto: Salmos 49–86", "scripture_refs" => [ "Salmos 49–86" ] }
-    })
-
-    {
-      "es" => [ "Programa anual", "Ven, sígueme — Antiguo Testamento 2026", "Salmos 49–86", "Esta semana" ],
-      "fr" => [ "Programme annuel", "Viens et suis-moi — Ancien Testament 2026", "Psaumes 49–86", "Cette semaine" ],
-      "en" => [ "Annual program", "Come, Follow Me — Old Testament 2026", "Psalms 49–86", "This week" ],
-      "pt-BR" => [ "Programa anual", "Vem, e Segue-Me — Velho Testamento 2026", "Salmos 49–86", "Nesta semana" ]
-    }.each do |locale, (kicker, program_title, week_title, current_week)|
+  test "the legacy program URL preserves every active language" do
+    %w[es fr en pt-BR].each do |locale|
       get study_program_path(locale:)
 
-      assert_response :success
-      assert_select "html[lang='#{locale}']"
-      assert_select ".study-year > header .study-kicker", text: kicker
-      assert_select ".study-year > header h2", text: program_title
-      assert_select ".study-week-row strong", text: week_title
-      assert_select ".study-week-row small", text: current_week
-      assert_select ".study-current", text: /#{Regexp.escape(week_title)}/
+      assert_redirected_to scripture_library_path(locale:, section: "program", anchor: "selection")
     end
   end
 
@@ -87,153 +40,43 @@ class StudyJourneyTest < ActionDispatch::IntegrationTest
     run = QuizRun.create!(person:, device_digest: "suggestion-study", pack_id: "coronas", position: 10, score: 0, status: "finished", opened_at: Time.current)
     QuizAnswer.create!(quiz_run: run, device_digest: run.device_digest, pack_id: run.pack_id, question_id: question.id, correct: false)
 
-    get study_program_path
+    get scripture_library_path
 
     assert_response :success
-    assert_select ".quiz-reading-suggestions.is-study a[href=?]", scripture_path(question.scripture.study, cite: question.scripture.cite), text: /#{Regexp.escape(question.scripture.cite)}/
+    assert_select ".scripture-library-row[data-library-row=recommendation]", text: /#{Regexp.escape(question.scripture.cite)}/
   end
 
-  test "history restores the four scripture books and profile-wide progress" do
-    sign_in_congregation
+  test "the legacy history URL opens bookmarks inside the single reading picker" do
     person = people(:pili)
+    sign_in_congregation(person.ward)
     post street_profile_path, params: { person_id: person.id, favorite_year: person.favorite_year }
     follow_redirect!
-
-    [
-      [ "ot/psalms/49", "reader-ot-49", Date.current ],
-      [ "ot/psalms/50", "reader-ot-50", Date.current ],
-      [ "ot/psalms/49", "reader-ot-49-revisit", Date.yesterday ],
-      [ "ot/1-sam/16", "reader-highlight-chapter", Date.current ],
-      [ "ot/1-sam/16", "reader-highlight-chapter", Date.yesterday ],
-      [ "nt/john/1", "reader-nt-1", Date.current ],
-      [ "bofm/1-ne/1", "reader-bom-1", Date.current ],
-      [ "dc-testament/dc/1", "reader-dc-1", Date.current ]
-    ].each do |reference, reader_digest, read_on|
-      ScriptureChapterRead.create!(person:, reference:, reader_digest:, locale: "fr", read_on:)
-    end
-    ScriptureChapterRead.create!(
-      person: people(:carmen_garcia), reference: "ot/gen/1", reader_digest: "another-profile",
-      locale: "fr", read_on: Date.current
-    )
-    run = StudyRun.create!(
-      person:, study_quiz_version: @quiz, device_digest: "another-device", position: 10, score: 7,
-      status: "completed", opened_at: 2.days.ago, completed_at: 1.day.ago
-    )
-    first_highlight = person.scripture_highlights.create!(
-      reference: "ot/1-sam/16", locale: "fr", start_verse: 1, end_verse: 2,
-      start_offset: 2, end_offset: 14, selected_text: "dit l’Éternel à Samuel"
-    )
-    person.scripture_highlights.create!(
-      reference: "nt/john/1", locale: "fr", start_verse: 1, end_verse: 1,
-      start_offset: 0, end_offset: 12, selected_text: "Au commencement"
-    )
-    people(:carmen_garcia).scripture_highlights.create!(
-      reference: "bofm/1-ne/1", locale: "fr", start_verse: 1, end_verse: 1,
-      start_offset: 0, end_offset: 10, selected_text: "Moi, Néphi"
+    person.scripture_marks.create!(
+      reference: "ot/1-sam/16", locale: "fr", anchor_scope: "passage", visual_style: "none",
+      start_verse: 1, start_offset: 2, end_verse: 2, end_offset: 14,
+      selected_text: "dit l’Éternel à Samuel", bookmarked_at: Time.current
     )
 
-    get study_history_path
+    get study_history_path(locale: :fr)
 
-    assert_response :success
-    assert_select "body.is-study-history.is-celestial-light"
-    assert_select ".home-menu.is-hud[data-hud-theme='celestial-light']"
-    assert_select "#study_history.study-paper"
-    assert_select ".study-history-nav a[href='#{study_program_path}']", text: I18n.t("study.title")
-    assert_select ".study-history-nav a[href='#{study_community_path(ward_code: person.ward.code)}']", text: I18n.t("study.ward")
-    assert_select ".study-now", count: 0
-    assert_select ".study-scripture-seal", count: 4
-    assert_select ".study-scripture-book img", count: 4
-    assert_select ".study-scripture-book img[src=?]", generated_media_src("media/study/scripture-covers/old-testament-v1.png")
-    assert_select ".study-scripture-book img[src=?]", generated_media_src("media/study/scripture-covers/new-testament-v1.png")
-    assert_select ".study-scripture-book img[src=?]", generated_media_src("media/study/scripture-covers/book-of-mormon-v1.png")
-    assert_select ".study-scripture-book img[src=?]", generated_media_src("media/study/scripture-covers/doctrine-covenants-v1.png")
-    assert_select ".study-scripture-seal", text: /#{Regexp.escape(I18n.t("study.collections.old_testament"))}/ do
-      assert_select "strong", text: "3"
-    end
-    %i[new_testament book_of_mormon doctrine_and_covenants].each do |collection|
-      assert_select ".study-scripture-seal", text: /#{Regexp.escape(I18n.t("study.collections.#{collection}"))}/ do
-        assert_select "strong", text: "1"
-      end
-    end
-    assert_select ".study-highlights > header > strong", text: "2"
-    assert_select ".study-highlight-card", count: 2
-    sections = Nokogiri::HTML(response.body).css("#study_history > section").map { |section| section["class"] }
-    assert_operator sections.index("study-history-timeline"), :<, sections.index("study-highlights")
-    assert_select ".study-highlight-card", text: /1 Samuel 16:1–2/ do
-      assert_select "blockquote", text: "dit l’Éternel à Samuel"
-      assert_select ".study-highlight-readers", text: I18n.t("study.highlight_reads", count: 1)
-      assert_select "button.study-highlight-share[data-action='study-highlight-share#open']", text: I18n.t("study.highlight_share")
-    end
-    assert_select "dialog.study-highlight-share-dialog .scripture-share-option", count: 3
-    expected_highlight_path = scripture_passage_path(
-      locale: "fr", scripture_section: "bible", book: "1-samuel", chapter: 16, verse: "1-2",
-      start: first_highlight.start_offset, end: first_highlight.end_offset
-    )
-    assert_select ".study-highlight-open[href='#{expected_highlight_path}']"
-    assert_select ".study-highlight-card", text: /Moi, Néphi/, count: 0
-    assert_select ".study-journey-total", text: /#{Regexp.escape(I18n.t("study.journey_progress", count: 1, total: 1))}/
-    assert_select ".study-history-card.is-complete[href='#{study_run_path(run)}']"
-    assert_select ".navigation-dock .navigation-dock__item.is-active[href='#{study_program_path}']"
-
-    get study_run_path(run)
-    assert_response :success
-  end
-
-  test "history keeps a year of highlights compact and expandable" do
-    sign_in_congregation
-    person = people(:pili)
-    post street_profile_path, params: { person_id: person.id, favorite_year: person.favorite_year }
+    assert_redirected_to scripture_library_path(locale: :fr, section: "bookmarks", anchor: "selection")
     follow_redirect!
-
-    40.times do |index|
-      person.scripture_highlights.create!(
-        reference: "ot/1-sam/16", locale: "fr",
-        start_verse: 1, end_verse: 1, start_offset: index, end_offset: index + 1,
-        selected_text: "Passage #{index + 1}"
-      )
-    end
-
-    get study_history_path
-
     assert_response :success
-    assert_select ".study-highlight-card", count: 40
-    assert_select ".study-highlights[data-controller~='study-highlight-library'][data-study-highlight-library-limit-value='8']"
-    assert_select "input[type=search][data-action='input->study-highlight-library#search']", count: 1
-    assert_select ".study-highlight-filters button[data-study-highlight-library-target=filter]", count: 5
-    assert_select ".study-highlight-card[data-study-highlight-library-target=item]", count: 40
-    assert_select ".study-highlights-more[data-action='study-highlight-library#toggleMore']", count: 1
+    assert_select "body.is-scripture-library.is-celestial-dark"
+    assert_select ".scripture-library-row[data-library-row='bookmarks'][aria-current='true'] + turbo-frame#library_selection"
+    assert_select "#selection a.scripture-library-selection__item[data-turbo-frame='scripture_reader']",
+      text: /1 Samuel 16:1–2/, count: 1
   end
 
-  test "week page keeps its paper column inside a fullscreen artwork scene" do
+  test "legacy week links open that week's choices inside the full screen library" do
     get study_unit_path(@unit)
 
+    assert_redirected_to scripture_library_path(section: "weekly", unit: @unit.id, anchor: "selection")
+    follow_redirect!
     assert_response :success
-    assert_select "body.is-study-unit.is-celestial-dark main.shell #study_unit.study-unit-world"
-    assert_select ".home-menu.is-hud[data-hud-theme='celestial-dark'] .quiz-hud[data-hud-theme='celestial-dark']"
-    assert_select "#study_unit > .study-lockup" do
-      assert_select ".study-seal", text: "✦"
-      assert_select "h1", text: I18n.t("study.title")
-      assert_select "p", text: I18n.t("study.motto")
-    end
-    assert_select "#study_unit .study-unit-sheet"
-    assert_select ".study-path-nav a[href='#{study_history_path}']", text: I18n.t("study.my_journey")
-
-    css = frontend_css("study")
-    fullscreen_shell = css[/body\.is-study-unit \.shell \{[^}]+\}/m]
-    assert fullscreen_shell, "expected the study unit shell to own the full viewport"
-    assert_match(/width: 100%/, fullscreen_shell)
-    assert_match(/max-width: none/, fullscreen_shell)
-    assert_match(/padding: 0/, fullscreen_shell)
-    assert_match(/\.study-unit-sheet \{ width: min\(100%, 42rem\)/, css)
-    assert_match(/\.study-unit-world \{[\s\S]*?--street-hub-col: 24\.375rem/, css)
-    assert_match(/\.study-unit-world \{[\s\S]*?padding-top: max\(5\.5rem/, css)
-    assert_match(/@media \(min-width: 1024px\) \{[\s\S]*?\.study-unit-world \{ --street-hub-col: 44rem; \}/, css)
-    assert_match(/\.home-menu\.is-hud \{[^}]*position: fixed;[^}]*left: env\(safe-area-inset-left\);[^}]*right: env\(safe-area-inset-right\);[^}]*width: auto;[^}]*transform: none;/m, css)
-    assert_match(/\.navigation-dock \{[^}]*position: fixed;[^}]*left: 0;[^}]*right: 0;[^}]*transform: none;[^}]*width: auto;/m, css)
-    assert_select "body > .home-menu.is-hud", count: 1
-    assert_select "body > .navigation-dock", count: 1
-    assert_select "#study_unit > .home-menu", count: 0
-    assert_select "#study_unit > .navigation-dock", count: 0
+    assert_select "body.is-scripture-library.is-celestial-dark"
+    assert_select ".scripture-library-row[data-library-row='weekly'][aria-current='true'] + turbo-frame#library_selection"
+    assert_select "#selection a.scripture-library-selection__item[data-turbo-frame='scripture_reader']", count: 10
   end
 
   test "study refuge bed follows the active journey and leaves before ceremony" do
@@ -252,27 +95,20 @@ class StudyJourneyTest < ActionDispatch::IntegrationTest
 
   test "guest can answer and advance through an immutable quiz version" do
     get study_unit_path(@unit)
-    assert_response :success
-    assert_select ".study-reading-gate"
-    assert_select "a.study-reading-link[data-turbo-frame=scripture_reader]", count: 10
-    assert_select "a.study-reading-link[data-scripture-chapter-title]", count: 10
-    assert_select "[data-scripture-progress]", count: 0
-    assert_select "[data-scripture-reading-link]", count: 0
+    assert_redirected_to scripture_library_path(section: "weekly", unit: @unit.id, anchor: "selection")
+    follow_redirect!
+    assert_select "#selection a.scripture-library-selection__item[data-turbo-frame=scripture_reader]", count: 10
+    assert_select "#selection a[data-scripture-chapter-title]", count: 10
 
     post study_run_start_path(@unit)
     assert_redirected_to study_run_path(StudyRun.last)
     run = StudyRun.last
 
-    get study_unit_path(@unit)
-    assert_select "a.study-unit-continue[href='#{study_run_path(run)}']", text: I18n.t("study.continue")
-    assert_select ".study-unit-continue .picto-arrow", count: 1
-    assert_select "a.quiet-link[href='#{study_program_path}']", text: I18n.t("study.back_program")
-
     get study_run_path(run)
     assert_response :success
     assert_select "#study_run[data-stage-bed-value=study_refuge]"
     assert_select ".home-menu.is-hud[data-hud-theme='celestial-dark'] .quiz-hud[data-hud-theme='celestial-dark']", count: 1
-    assert_select ".navigation-dock .navigation-dock__item.is-active[href='#{study_program_path}']", count: 1
+    assert_select ".navigation-dock .navigation-dock__item.is-active[href='#{scripture_library_path}']", count: 1
     assert_select ".study-choice", count: 4
     assert_select "a.study-question-reading[data-turbo-frame=scripture_reader]", count: 1
     assert_select "a.study-question-reading[data-scripture-chapter-title]", count: 1
@@ -314,9 +150,9 @@ class StudyJourneyTest < ActionDispatch::IntegrationTest
     progress = ReadingProgress.find_by!(person:, study_unit: @unit, reference: reading.fetch("study"))
     assert_equal "opened", progress.status
 
-    get study_unit_path(@unit)
-    assert_select ".study-reading-progress", text: I18n.t("study.readings_opened", opened: 1, total: @quiz.readings.size)
-    assert_select ".study-reading-link.is-opened[href*='study_unit_id=#{@unit.id}']", text: /#{Regexp.escape(I18n.t("study.already_opened"))}/, count: 1
+    get scripture_library_path(section: "weekly", unit: @unit.id, anchor: "selection")
+    assert_response :success
+    assert_select "#selection a.scripture-library-selection__item[href*='study_unit_id=#{@unit.id}'][data-turbo-frame='scripture_reader']", count: @quiz.readings.size
   ensure
     Scriptures::Read.fetcher = nil
   end
@@ -354,7 +190,7 @@ class StudyJourneyTest < ActionDispatch::IntegrationTest
     get study_run_path(run)
     assert_response :success
     assert_select "#study_run[data-stage-bed-value]", count: 0
-    assert_select ".study-ceremony blockquote + a.btn.btn-gold[href='#{study_program_path}']", text: I18n.t("study.view_annual_program")
+    assert_select ".study-ceremony blockquote + a.btn.btn-gold[href='#{scripture_library_path(section: "program", anchor: "selection")}']", text: I18n.t("study.view_annual_program")
     assert_select ".study-validated-program", text: /#{Regexp.escape(@program.display_title)}/
     assert_select ".study-validated-program", text: /#{Regexp.escape(@unit.display_scripture_refs.first)}/
     assert_select "#study-finishers-title", text: I18n.t("study.finishers_title", count: 2)
@@ -385,12 +221,11 @@ class StudyJourneyTest < ActionDispatch::IntegrationTest
 
     get root_path
     assert_response :success
-    assert_select ".hub-study-progress strong", text: "10/10"
-    assert_select "a.hub-study[href='#{study_program_path}']" do
-      assert_select ".hub-study-action", text: I18n.t("study.continue")
-      assert_select ".hub-study-action[href]", count: 0
-    end
-    assert_select "a.hub-study a", count: 0
+    # This journey is anonymous: the public Hub must not invent a personal
+    # reading task. A signed-in member sees the compact weekly programme route
+    # (covered by the Hub controller contract); a visitor sees the public
+    # adventure only.
+    assert_select ".hub-now, .hub-now__programme", count: 0
   end
 
   test "completed journey celebrates and lists the first finisher" do
@@ -446,56 +281,9 @@ class StudyJourneyTest < ActionDispatch::IntegrationTest
     assert_select "a[href='#{study_run_path(run, finishers_page: 1, anchor: "study-finishers-title")}']", text: I18n.t("study.previous_finishers")
   end
 
-  test "ward conversation page presents the week and only readers who finished it" do
-    finished_reader = people(:pili)
-    reading_reader = people(:carmen_garcia)
-    StudyRun.create!(person: finished_reader, study_quiz_version: @quiz, device_digest: "finished-reader", position: 10, score: 8, status: "completed", opened_at: 2.days.ago)
-    StudyRun.create!(person: reading_reader, study_quiz_version: @quiz, device_digest: "reading-reader", position: 4, score: 3, status: "open", opened_at: 1.day.ago)
-    sign_in_congregation(wards(:demo))
-
-    get study_community_path(ward_code: wards(:demo).code)
-
-    assert_response :success
-    assert_select "body.is-study-community main.shell #study_community.study-community-world"
-    assert_select "#study_community[style*=?]", generated_media_src("media/study/community-scripture-gathering-v1.png", format: "webp")
-    assert_select ".study-community-week", text: /#{Regexp.escape(@unit.display_scripture_refs.first)}/
-    assert_select ".study-community-ward-link[href='#{ward_profile_path(wards(:demo).code)}']"
-    assert_select ".study-community-invite", text: /#{Regexp.escape(I18n.t("study.community_finished_total", count: 1))}/
-    assert_select ".study-community-list article", count: 1
-    assert_select ".study-community-list", text: /#{finished_reader.given_name}/
-    assert_select ".study-community-list", text: /#{reading_reader.given_name}/, count: 0
-    assert_select ".study-community-week + .study-community-actions" do
-      assert_select "a.btn.btn-gold[href='#{study_unit_path(@unit)}']", text: I18n.t("study.community_read_week")
-      assert_select "a[href='#{study_program_path}']", text: I18n.t("study.back_program")
-    end
-    assert_select ".study-community-actions + .study-community-invite"
-    assert_select "#study-community-readers", text: I18n.t("study.community_finished_total", count: 1)
-
-    css = frontend_css("study")
-    assert_match(/body\.is-study-community \.shell \{[^}]*width: 100%;[^}]*max-width: none/m, css)
-    assert_match(/\.home-menu\.is-hud \{[^}]*position: fixed;[^}]*left: env\(safe-area-inset-left\);[^}]*right: env\(safe-area-inset-right\);[^}]*width: auto;[^}]*max-width: none;/m, css)
-  end
-
-  test "ward conversation page paginates completed readers one hundred at a time" do
-    first_person_id = Person.maximum(:id).to_i + 1
-    readers = 101.times.map do |index|
-      Person.create!(id: first_person_id + index, ward: wards(:demo), given_name: "Paroissien#{index}", family_name: "Test", avatar_key: "delfin", locale: "fr")
-    end
-    now = Time.current
-    StudyRun.insert_all!(readers.map.with_index do |person, index|
-      { person_id: person.id, study_quiz_version_id: @quiz.id, device_digest: "ward-reader-#{index}", position: 10,
-        score: index % 11, status: "completed", opened_at: now, completed_at: now, created_at: now, updated_at: now }
-    end)
-
-    get study_community_path(ward_code: wards(:demo).code)
-    assert_response :success
-    assert_select "#study-community-readers", text: I18n.t("study.community_finished_total", count: 101)
-    assert_select ".study-community-list article", count: 100
-    assert_select "a.study-community-more[href='#{study_community_path(ward_code: wards(:demo).code, readers_page: 2, anchor: "study-community-readers")}']"
-
+  test "the legacy parish URL leaves the picker for Circle" do
     get study_community_path(ward_code: wards(:demo).code, readers_page: 2)
-    assert_response :success
-    assert_select ".study-community-list article", count: 1
-    assert_select "a.study-community-more", count: 0
+
+    assert_redirected_to scripture_circle_path
   end
 end

@@ -14302,6 +14302,214 @@
         }
       }
     },
+    "catalog.hub.dark.coronas-anointing-hero-v1": {
+      "role": "catalog_landscape",
+      "source": "media/hub/dark/coronas-anointing-hero-v1.png",
+      "source_sha256": "cf30542ffae351ad0bdeb04565c4d6b19b060139190ae3254ae1f055f7abe731",
+      "source_width": 1915,
+      "source_height": 821,
+      "source_bytes": 2007250,
+      "ratio": "2.3325",
+      "focus": "50% 50%",
+      "theme": "neutral",
+      "sizes": "(max-width: 768px) 100vw, 70vw",
+      "variants": {
+        "avif": [
+          {
+            "src": "/media/generated/catalog/hub/dark/coronas-anointing-hero-v1/cf30542ffae3-390.avif",
+            "width": 390,
+            "height": 167,
+            "bytes": 3340,
+            "sha256": "3b7229954fd2dfa3b02086d3e7151e9b2babcbc66c5edeef82acbd985f42d3a5"
+          },
+          {
+            "src": "/media/generated/catalog/hub/dark/coronas-anointing-hero-v1/cf30542ffae3-768.avif",
+            "width": 768,
+            "height": 329,
+            "bytes": 9740,
+            "sha256": "bf28964854fb284edb7485fe551f90c03dad3197b5f199a7930f755844067813"
+          },
+          {
+            "src": "/media/generated/catalog/hub/dark/coronas-anointing-hero-v1/cf30542ffae3-1440.avif",
+            "width": 1440,
+            "height": 617,
+            "bytes": 28319,
+            "sha256": "0aa5b0697f7add9cb42fd32d70e16eecd79b161e584e05827e0e6349eda7dd4a"
+          },
+          {
+            "src": "/media/generated/catalog/hub/dark/coronas-anointing-hero-v1/cf30542ffae3-1915.avif",
+            "width": 1915,
+            "height": 821,
+            "bytes": 43852,
+            "sha256": "80db4c0b5a4be5800fd22248c28e1d3dd4483038a5a2e2e19414750eafb0dc37"
+          }
+        ],
+        "webp": [
+          {
+            "src": "/media/generated/catalog/hub/dark/coronas-anointing-hero-v1/cf30542ffae3-390.webp",
+            "width": 390,
+            "height": 167,
+            "bytes": 4768,
+            "sha256": "410a7bd892095ab5521dc8b610b58343810ea2ab1eb3f2efa5ab09092a6995b1"
+          },
+          {
+            "src": "/media/generated/catalog/hub/dark/coronas-anointing-hero-v1/cf30542ffae3-768.webp",
+            "width": 768,
+            "height": 329,
+            "bytes": 14646,
+            "sha256": "e0d27db3785a3205d9246c9d767d5639d1f0aedcbc3ebbff407063071ce91273"
+          },
+          {
+            "src": "/media/generated/catalog/hub/dark/coronas-anointing-hero-v1/cf30542ffae3-1440.webp",
+            "width": 1440,
+            "height": 617,
+            "bytes": 40504,
+            "sha256": "9ce7a09cf42ff5efc19f58c91afd19364a5731a66fce1f08fb149de0e7aa59e2"
+          },
+          {
+            "src": "/media/generated/catalog/hub/dark/coronas-anointing-hero-v1/cf30542ffae3-1915.webp",
+            "width": 1915,
+            "height": 821,
+            "bytes": 60606,
+            "sha256": "ce03099779bde504c8aa4e07203ba45ed876b1bb8573919245bba0c9aaa05a72"
+          }
+        ],
+        "jpeg": [
+          {
+            "src": "/media/generated/catalog/hub/dark/coronas-anointing-hero-v1/cf30542ffae3-390.jpg",
+            "width": 390,
+            "height": 167,
+            "bytes": 8702,
+            "sha256": "305e15fef7c79504a70f39d2c6892fc783c417e70a60342265f1b4e24009b475"
+          },
+          {
+            "src": "/media/generated/catalog/hub/dark/coronas-anointing-hero-v1/cf30542ffae3-768.jpg",
+            "width": 768,
+            "height": 329,
+            "bytes": 27599,
+            "sha256": "1ba8a05bd1f95c85aa332d42b9c4d1018aa2b8f1e298b58350958173edb25e92"
+          },
+          {
+            "src": "/media/generated/catalog/hub/dark/coronas-anointing-hero-v1/cf30542ffae3-1440.jpg",
+            "width": 1440,
+            "height": 617,
+            "bytes": 82982,
+            "sha256": "63c3ef9d194ecf3b1a42d80fd3155645c103b12282549c8a3363dbd8097ac481"
+          },
+          {
+            "src": "/media/generated/catalog/hub/dark/coronas-anointing-hero-v1/cf30542ffae3-1915.jpg",
+            "width": 1915,
+            "height": 821,
+            "bytes": 135030,
+            "sha256": "14bb492ec86e318c824cc3ab96fb148ac902b1f69ea0a119d5ffcd3cb3744650"
+          }
+        ]
+      },
+      "renditions": {
+        "default": {
+          "source": "media/hub/dark/coronas-anointing-hero-v1.png",
+          "source_sha256": "cf30542ffae351ad0bdeb04565c4d6b19b060139190ae3254ae1f055f7abe731",
+          "source_width": 1915,
+          "source_height": 821,
+          "source_bytes": 2007250,
+          "media": null,
+          "ratio": "2.3325",
+          "sizes": "(max-width: 768px) 100vw, 70vw",
+          "variants": {
+            "avif": [
+              {
+                "src": "/media/generated/catalog/hub/dark/coronas-anointing-hero-v1/cf30542ffae3-390.avif",
+                "width": 390,
+                "height": 167,
+                "bytes": 3340,
+                "sha256": "3b7229954fd2dfa3b02086d3e7151e9b2babcbc66c5edeef82acbd985f42d3a5"
+              },
+              {
+                "src": "/media/generated/catalog/hub/dark/coronas-anointing-hero-v1/cf30542ffae3-768.avif",
+                "width": 768,
+                "height": 329,
+                "bytes": 9740,
+                "sha256": "bf28964854fb284edb7485fe551f90c03dad3197b5f199a7930f755844067813"
+              },
+              {
+                "src": "/media/generated/catalog/hub/dark/coronas-anointing-hero-v1/cf30542ffae3-1440.avif",
+                "width": 1440,
+                "height": 617,
+                "bytes": 28319,
+                "sha256": "0aa5b0697f7add9cb42fd32d70e16eecd79b161e584e05827e0e6349eda7dd4a"
+              },
+              {
+                "src": "/media/generated/catalog/hub/dark/coronas-anointing-hero-v1/cf30542ffae3-1915.avif",
+                "width": 1915,
+                "height": 821,
+                "bytes": 43852,
+                "sha256": "80db4c0b5a4be5800fd22248c28e1d3dd4483038a5a2e2e19414750eafb0dc37"
+              }
+            ],
+            "webp": [
+              {
+                "src": "/media/generated/catalog/hub/dark/coronas-anointing-hero-v1/cf30542ffae3-390.webp",
+                "width": 390,
+                "height": 167,
+                "bytes": 4768,
+                "sha256": "410a7bd892095ab5521dc8b610b58343810ea2ab1eb3f2efa5ab09092a6995b1"
+              },
+              {
+                "src": "/media/generated/catalog/hub/dark/coronas-anointing-hero-v1/cf30542ffae3-768.webp",
+                "width": 768,
+                "height": 329,
+                "bytes": 14646,
+                "sha256": "e0d27db3785a3205d9246c9d767d5639d1f0aedcbc3ebbff407063071ce91273"
+              },
+              {
+                "src": "/media/generated/catalog/hub/dark/coronas-anointing-hero-v1/cf30542ffae3-1440.webp",
+                "width": 1440,
+                "height": 617,
+                "bytes": 40504,
+                "sha256": "9ce7a09cf42ff5efc19f58c91afd19364a5731a66fce1f08fb149de0e7aa59e2"
+              },
+              {
+                "src": "/media/generated/catalog/hub/dark/coronas-anointing-hero-v1/cf30542ffae3-1915.webp",
+                "width": 1915,
+                "height": 821,
+                "bytes": 60606,
+                "sha256": "ce03099779bde504c8aa4e07203ba45ed876b1bb8573919245bba0c9aaa05a72"
+              }
+            ],
+            "jpeg": [
+              {
+                "src": "/media/generated/catalog/hub/dark/coronas-anointing-hero-v1/cf30542ffae3-390.jpg",
+                "width": 390,
+                "height": 167,
+                "bytes": 8702,
+                "sha256": "305e15fef7c79504a70f39d2c6892fc783c417e70a60342265f1b4e24009b475"
+              },
+              {
+                "src": "/media/generated/catalog/hub/dark/coronas-anointing-hero-v1/cf30542ffae3-768.jpg",
+                "width": 768,
+                "height": 329,
+                "bytes": 27599,
+                "sha256": "1ba8a05bd1f95c85aa332d42b9c4d1018aa2b8f1e298b58350958173edb25e92"
+              },
+              {
+                "src": "/media/generated/catalog/hub/dark/coronas-anointing-hero-v1/cf30542ffae3-1440.jpg",
+                "width": 1440,
+                "height": 617,
+                "bytes": 82982,
+                "sha256": "63c3ef9d194ecf3b1a42d80fd3155645c103b12282549c8a3363dbd8097ac481"
+              },
+              {
+                "src": "/media/generated/catalog/hub/dark/coronas-anointing-hero-v1/cf30542ffae3-1915.jpg",
+                "width": 1915,
+                "height": 821,
+                "bytes": 135030,
+                "sha256": "14bb492ec86e318c824cc3ab96fb148ac902b1f69ea0a119d5ffcd3cb3744650"
+              }
+            ]
+          }
+        }
+      }
+    },
     "catalog.hub.light.campus-scriptures-v2": {
       "role": "catalog_landscape",
       "source": "media/hub/light/campus-scriptures-v2.png",
@@ -15758,6 +15966,214 @@
         }
       }
     },
+    "catalog.hub.light.royal-jerusalem-hero-v1": {
+      "role": "catalog_landscape",
+      "source": "media/hub/light/royal-jerusalem-hero-v1.png",
+      "source_sha256": "cd2589e802a2941ecc7734884b8f7d0276d0befc1312761b63a53dab6955053d",
+      "source_width": 1536,
+      "source_height": 1024,
+      "source_bytes": 2813829,
+      "ratio": "1.5000",
+      "focus": "50% 50%",
+      "theme": "neutral",
+      "sizes": "(max-width: 768px) 100vw, 70vw",
+      "variants": {
+        "avif": [
+          {
+            "src": "/media/generated/catalog/hub/light/royal-jerusalem-hero-v1/cd2589e802a2-390.avif",
+            "width": 390,
+            "height": 260,
+            "bytes": 6579,
+            "sha256": "5c5c5ee7ab3d745a1824b7ec30720e692f8db85c0b4690caf4ea88dc526a9c61"
+          },
+          {
+            "src": "/media/generated/catalog/hub/light/royal-jerusalem-hero-v1/cd2589e802a2-768.avif",
+            "width": 768,
+            "height": 512,
+            "bytes": 21774,
+            "sha256": "17dd1f3d34e6271052843a5530654017049d6e5dff4ac725e57e1c00f7e6df76"
+          },
+          {
+            "src": "/media/generated/catalog/hub/light/royal-jerusalem-hero-v1/cd2589e802a2-1440.avif",
+            "width": 1440,
+            "height": 960,
+            "bytes": 75892,
+            "sha256": "1d2ff042c37fb9538f81126938002d3f3c15b4ad58d0ebfc979e4edb83dfefc8"
+          },
+          {
+            "src": "/media/generated/catalog/hub/light/royal-jerusalem-hero-v1/cd2589e802a2-1536.avif",
+            "width": 1536,
+            "height": 1024,
+            "bytes": 85199,
+            "sha256": "bb9db0f238cdd59d55a12974952de69023a60fb728b8769b93a5703f6d13474e"
+          }
+        ],
+        "webp": [
+          {
+            "src": "/media/generated/catalog/hub/light/royal-jerusalem-hero-v1/cd2589e802a2-390.webp",
+            "width": 390,
+            "height": 260,
+            "bytes": 11260,
+            "sha256": "e7bdbf1b4bbadcbd664bc370e7086948a67a6ec62de6a9adc3b90efe3884f748"
+          },
+          {
+            "src": "/media/generated/catalog/hub/light/royal-jerusalem-hero-v1/cd2589e802a2-768.webp",
+            "width": 768,
+            "height": 512,
+            "bytes": 40142,
+            "sha256": "a5069662133346be8ea97c3e9a009f22bf254fc5f519a6b3102f19cf2dd13ab7"
+          },
+          {
+            "src": "/media/generated/catalog/hub/light/royal-jerusalem-hero-v1/cd2589e802a2-1440.webp",
+            "width": 1440,
+            "height": 960,
+            "bytes": 127310,
+            "sha256": "0defad0a36f8e1c481849902b94893caaa318bdae677fc797bd83b0caaff0feb"
+          },
+          {
+            "src": "/media/generated/catalog/hub/light/royal-jerusalem-hero-v1/cd2589e802a2-1536.webp",
+            "width": 1536,
+            "height": 1024,
+            "bytes": 146640,
+            "sha256": "cb42f668281c27ed6ebbc3e2f2124655437fc186df76511bdfa6f1dfc17aa705"
+          }
+        ],
+        "jpeg": [
+          {
+            "src": "/media/generated/catalog/hub/light/royal-jerusalem-hero-v1/cd2589e802a2-390.jpg",
+            "width": 390,
+            "height": 260,
+            "bytes": 17107,
+            "sha256": "99cf33aa94ae9c704587066c8fbca90ae1edafddf37231af04989a5b2fba1be7"
+          },
+          {
+            "src": "/media/generated/catalog/hub/light/royal-jerusalem-hero-v1/cd2589e802a2-768.jpg",
+            "width": 768,
+            "height": 512,
+            "bytes": 59961,
+            "sha256": "a95c4bb8ea2c23bb1cf607420681a9954738d309452ffe28cf701e02afac3a14"
+          },
+          {
+            "src": "/media/generated/catalog/hub/light/royal-jerusalem-hero-v1/cd2589e802a2-1440.jpg",
+            "width": 1440,
+            "height": 960,
+            "bytes": 204923,
+            "sha256": "50473b8c2779a364883954a6637c2ededc5206b8d464ff19ad1c44e87167f9a1"
+          },
+          {
+            "src": "/media/generated/catalog/hub/light/royal-jerusalem-hero-v1/cd2589e802a2-1536.jpg",
+            "width": 1536,
+            "height": 1024,
+            "bytes": 233252,
+            "sha256": "324258f1b45a6c5641b652ad9dc7a30411e17a1279428b1da62fdbf288f2c24e"
+          }
+        ]
+      },
+      "renditions": {
+        "default": {
+          "source": "media/hub/light/royal-jerusalem-hero-v1.png",
+          "source_sha256": "cd2589e802a2941ecc7734884b8f7d0276d0befc1312761b63a53dab6955053d",
+          "source_width": 1536,
+          "source_height": 1024,
+          "source_bytes": 2813829,
+          "media": null,
+          "ratio": "1.5000",
+          "sizes": "(max-width: 768px) 100vw, 70vw",
+          "variants": {
+            "avif": [
+              {
+                "src": "/media/generated/catalog/hub/light/royal-jerusalem-hero-v1/cd2589e802a2-390.avif",
+                "width": 390,
+                "height": 260,
+                "bytes": 6579,
+                "sha256": "5c5c5ee7ab3d745a1824b7ec30720e692f8db85c0b4690caf4ea88dc526a9c61"
+              },
+              {
+                "src": "/media/generated/catalog/hub/light/royal-jerusalem-hero-v1/cd2589e802a2-768.avif",
+                "width": 768,
+                "height": 512,
+                "bytes": 21774,
+                "sha256": "17dd1f3d34e6271052843a5530654017049d6e5dff4ac725e57e1c00f7e6df76"
+              },
+              {
+                "src": "/media/generated/catalog/hub/light/royal-jerusalem-hero-v1/cd2589e802a2-1440.avif",
+                "width": 1440,
+                "height": 960,
+                "bytes": 75892,
+                "sha256": "1d2ff042c37fb9538f81126938002d3f3c15b4ad58d0ebfc979e4edb83dfefc8"
+              },
+              {
+                "src": "/media/generated/catalog/hub/light/royal-jerusalem-hero-v1/cd2589e802a2-1536.avif",
+                "width": 1536,
+                "height": 1024,
+                "bytes": 85199,
+                "sha256": "bb9db0f238cdd59d55a12974952de69023a60fb728b8769b93a5703f6d13474e"
+              }
+            ],
+            "webp": [
+              {
+                "src": "/media/generated/catalog/hub/light/royal-jerusalem-hero-v1/cd2589e802a2-390.webp",
+                "width": 390,
+                "height": 260,
+                "bytes": 11260,
+                "sha256": "e7bdbf1b4bbadcbd664bc370e7086948a67a6ec62de6a9adc3b90efe3884f748"
+              },
+              {
+                "src": "/media/generated/catalog/hub/light/royal-jerusalem-hero-v1/cd2589e802a2-768.webp",
+                "width": 768,
+                "height": 512,
+                "bytes": 40142,
+                "sha256": "a5069662133346be8ea97c3e9a009f22bf254fc5f519a6b3102f19cf2dd13ab7"
+              },
+              {
+                "src": "/media/generated/catalog/hub/light/royal-jerusalem-hero-v1/cd2589e802a2-1440.webp",
+                "width": 1440,
+                "height": 960,
+                "bytes": 127310,
+                "sha256": "0defad0a36f8e1c481849902b94893caaa318bdae677fc797bd83b0caaff0feb"
+              },
+              {
+                "src": "/media/generated/catalog/hub/light/royal-jerusalem-hero-v1/cd2589e802a2-1536.webp",
+                "width": 1536,
+                "height": 1024,
+                "bytes": 146640,
+                "sha256": "cb42f668281c27ed6ebbc3e2f2124655437fc186df76511bdfa6f1dfc17aa705"
+              }
+            ],
+            "jpeg": [
+              {
+                "src": "/media/generated/catalog/hub/light/royal-jerusalem-hero-v1/cd2589e802a2-390.jpg",
+                "width": 390,
+                "height": 260,
+                "bytes": 17107,
+                "sha256": "99cf33aa94ae9c704587066c8fbca90ae1edafddf37231af04989a5b2fba1be7"
+              },
+              {
+                "src": "/media/generated/catalog/hub/light/royal-jerusalem-hero-v1/cd2589e802a2-768.jpg",
+                "width": 768,
+                "height": 512,
+                "bytes": 59961,
+                "sha256": "a95c4bb8ea2c23bb1cf607420681a9954738d309452ffe28cf701e02afac3a14"
+              },
+              {
+                "src": "/media/generated/catalog/hub/light/royal-jerusalem-hero-v1/cd2589e802a2-1440.jpg",
+                "width": 1440,
+                "height": 960,
+                "bytes": 204923,
+                "sha256": "50473b8c2779a364883954a6637c2ededc5206b8d464ff19ad1c44e87167f9a1"
+              },
+              {
+                "src": "/media/generated/catalog/hub/light/royal-jerusalem-hero-v1/cd2589e802a2-1536.jpg",
+                "width": 1536,
+                "height": 1024,
+                "bytes": 233252,
+                "sha256": "324258f1b45a6c5641b652ad9dc7a30411e17a1279428b1da62fdbf288f2c24e"
+              }
+            ]
+          }
+        }
+      }
+    },
     "catalog.hub.light.study-refuge-v2": {
       "role": "catalog_landscape",
       "source": "media/hub/light/study-refuge-v2.png",
@@ -16168,6 +16584,422 @@
                 "height": 946,
                 "bytes": 236742,
                 "sha256": "0003756b5c8850b9a970b845ae8b5d61d73a745366fd660aef6cbd992a88602d"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "catalog.hub.rama.ward-discovery-celestial-dark-v1": {
+      "role": "catalog_landscape",
+      "source": "media/hub/rama/ward-discovery-celestial-dark-v1.png",
+      "source_sha256": "be2361003d87e0c08acdced5629410d2758d4af19b50cbd8f2b3603dceab96bb",
+      "source_width": 1536,
+      "source_height": 1024,
+      "source_bytes": 2364946,
+      "ratio": "1.5000",
+      "focus": "50% 50%",
+      "theme": "neutral",
+      "sizes": "(max-width: 768px) 100vw, 70vw",
+      "variants": {
+        "avif": [
+          {
+            "src": "/media/generated/catalog/hub/rama/ward-discovery-celestial-dark-v1/be2361003d87-390.avif",
+            "width": 390,
+            "height": 260,
+            "bytes": 5050,
+            "sha256": "8be3322c899cca98c0f693fe38792c5f5d6ca39c7f3de9269afbdc27ea7cf8da"
+          },
+          {
+            "src": "/media/generated/catalog/hub/rama/ward-discovery-celestial-dark-v1/be2361003d87-768.avif",
+            "width": 768,
+            "height": 512,
+            "bytes": 17498,
+            "sha256": "643bd62296768766e708a52b994dc463e11e1acf41268dd29894a0748fe9c64e"
+          },
+          {
+            "src": "/media/generated/catalog/hub/rama/ward-discovery-celestial-dark-v1/be2361003d87-1440.avif",
+            "width": 1440,
+            "height": 960,
+            "bytes": 61034,
+            "sha256": "b87d5eb344fbe52318fec74314ddf2f18fa4e844517fe25a5385a79d3fc867c7"
+          },
+          {
+            "src": "/media/generated/catalog/hub/rama/ward-discovery-celestial-dark-v1/be2361003d87-1536.avif",
+            "width": 1536,
+            "height": 1024,
+            "bytes": 68242,
+            "sha256": "2b8a884257660ab8e1576976b0b147fb4c2d46639ab33e15016b72d6dea3b471"
+          }
+        ],
+        "webp": [
+          {
+            "src": "/media/generated/catalog/hub/rama/ward-discovery-celestial-dark-v1/be2361003d87-390.webp",
+            "width": 390,
+            "height": 260,
+            "bytes": 7908,
+            "sha256": "943fc81ace8dcbe59de3fbce2fe8ed4805e2cec6fb0ed6a159211cea231cd89a"
+          },
+          {
+            "src": "/media/generated/catalog/hub/rama/ward-discovery-celestial-dark-v1/be2361003d87-768.webp",
+            "width": 768,
+            "height": 512,
+            "bytes": 30336,
+            "sha256": "2195238e11690c47b2c4ef0664ebf19169cb31e87bb5966c115131a1c25a0b6d"
+          },
+          {
+            "src": "/media/generated/catalog/hub/rama/ward-discovery-celestial-dark-v1/be2361003d87-1440.webp",
+            "width": 1440,
+            "height": 960,
+            "bytes": 99978,
+            "sha256": "18df1f07c4b81dea8395540818c74fdf57f345294f8c0dca6e671b22654b90d0"
+          },
+          {
+            "src": "/media/generated/catalog/hub/rama/ward-discovery-celestial-dark-v1/be2361003d87-1536.webp",
+            "width": 1536,
+            "height": 1024,
+            "bytes": 114814,
+            "sha256": "1a27337ec2839d43095d50afa67be4867c150b5585da1debd360f413d6b5cc52"
+          }
+        ],
+        "jpeg": [
+          {
+            "src": "/media/generated/catalog/hub/rama/ward-discovery-celestial-dark-v1/be2361003d87-390.jpg",
+            "width": 390,
+            "height": 260,
+            "bytes": 13057,
+            "sha256": "c7c4742740ef84ab1fddd8ba81de92b95c816bdeb6d153310d9b9da4db2f8d50"
+          },
+          {
+            "src": "/media/generated/catalog/hub/rama/ward-discovery-celestial-dark-v1/be2361003d87-768.jpg",
+            "width": 768,
+            "height": 512,
+            "bytes": 45664,
+            "sha256": "fbbdbac5747e2a6c2e1732845a3326b819d9f7b2274c8c8f21eba013398c5cd7"
+          },
+          {
+            "src": "/media/generated/catalog/hub/rama/ward-discovery-celestial-dark-v1/be2361003d87-1440.jpg",
+            "width": 1440,
+            "height": 960,
+            "bytes": 154092,
+            "sha256": "aea73031ac0b621769bd2b3774a8c8b507dcaef3993fa723d2da911e6969213a"
+          },
+          {
+            "src": "/media/generated/catalog/hub/rama/ward-discovery-celestial-dark-v1/be2361003d87-1536.jpg",
+            "width": 1536,
+            "height": 1024,
+            "bytes": 174915,
+            "sha256": "4073083c6ad86ac8b3543448c9cf76dfa11467e9b6a5f13a0911d89227a7876b"
+          }
+        ]
+      },
+      "renditions": {
+        "default": {
+          "source": "media/hub/rama/ward-discovery-celestial-dark-v1.png",
+          "source_sha256": "be2361003d87e0c08acdced5629410d2758d4af19b50cbd8f2b3603dceab96bb",
+          "source_width": 1536,
+          "source_height": 1024,
+          "source_bytes": 2364946,
+          "media": null,
+          "ratio": "1.5000",
+          "sizes": "(max-width: 768px) 100vw, 70vw",
+          "variants": {
+            "avif": [
+              {
+                "src": "/media/generated/catalog/hub/rama/ward-discovery-celestial-dark-v1/be2361003d87-390.avif",
+                "width": 390,
+                "height": 260,
+                "bytes": 5050,
+                "sha256": "8be3322c899cca98c0f693fe38792c5f5d6ca39c7f3de9269afbdc27ea7cf8da"
+              },
+              {
+                "src": "/media/generated/catalog/hub/rama/ward-discovery-celestial-dark-v1/be2361003d87-768.avif",
+                "width": 768,
+                "height": 512,
+                "bytes": 17498,
+                "sha256": "643bd62296768766e708a52b994dc463e11e1acf41268dd29894a0748fe9c64e"
+              },
+              {
+                "src": "/media/generated/catalog/hub/rama/ward-discovery-celestial-dark-v1/be2361003d87-1440.avif",
+                "width": 1440,
+                "height": 960,
+                "bytes": 61034,
+                "sha256": "b87d5eb344fbe52318fec74314ddf2f18fa4e844517fe25a5385a79d3fc867c7"
+              },
+              {
+                "src": "/media/generated/catalog/hub/rama/ward-discovery-celestial-dark-v1/be2361003d87-1536.avif",
+                "width": 1536,
+                "height": 1024,
+                "bytes": 68242,
+                "sha256": "2b8a884257660ab8e1576976b0b147fb4c2d46639ab33e15016b72d6dea3b471"
+              }
+            ],
+            "webp": [
+              {
+                "src": "/media/generated/catalog/hub/rama/ward-discovery-celestial-dark-v1/be2361003d87-390.webp",
+                "width": 390,
+                "height": 260,
+                "bytes": 7908,
+                "sha256": "943fc81ace8dcbe59de3fbce2fe8ed4805e2cec6fb0ed6a159211cea231cd89a"
+              },
+              {
+                "src": "/media/generated/catalog/hub/rama/ward-discovery-celestial-dark-v1/be2361003d87-768.webp",
+                "width": 768,
+                "height": 512,
+                "bytes": 30336,
+                "sha256": "2195238e11690c47b2c4ef0664ebf19169cb31e87bb5966c115131a1c25a0b6d"
+              },
+              {
+                "src": "/media/generated/catalog/hub/rama/ward-discovery-celestial-dark-v1/be2361003d87-1440.webp",
+                "width": 1440,
+                "height": 960,
+                "bytes": 99978,
+                "sha256": "18df1f07c4b81dea8395540818c74fdf57f345294f8c0dca6e671b22654b90d0"
+              },
+              {
+                "src": "/media/generated/catalog/hub/rama/ward-discovery-celestial-dark-v1/be2361003d87-1536.webp",
+                "width": 1536,
+                "height": 1024,
+                "bytes": 114814,
+                "sha256": "1a27337ec2839d43095d50afa67be4867c150b5585da1debd360f413d6b5cc52"
+              }
+            ],
+            "jpeg": [
+              {
+                "src": "/media/generated/catalog/hub/rama/ward-discovery-celestial-dark-v1/be2361003d87-390.jpg",
+                "width": 390,
+                "height": 260,
+                "bytes": 13057,
+                "sha256": "c7c4742740ef84ab1fddd8ba81de92b95c816bdeb6d153310d9b9da4db2f8d50"
+              },
+              {
+                "src": "/media/generated/catalog/hub/rama/ward-discovery-celestial-dark-v1/be2361003d87-768.jpg",
+                "width": 768,
+                "height": 512,
+                "bytes": 45664,
+                "sha256": "fbbdbac5747e2a6c2e1732845a3326b819d9f7b2274c8c8f21eba013398c5cd7"
+              },
+              {
+                "src": "/media/generated/catalog/hub/rama/ward-discovery-celestial-dark-v1/be2361003d87-1440.jpg",
+                "width": 1440,
+                "height": 960,
+                "bytes": 154092,
+                "sha256": "aea73031ac0b621769bd2b3774a8c8b507dcaef3993fa723d2da911e6969213a"
+              },
+              {
+                "src": "/media/generated/catalog/hub/rama/ward-discovery-celestial-dark-v1/be2361003d87-1536.jpg",
+                "width": 1536,
+                "height": 1024,
+                "bytes": 174915,
+                "sha256": "4073083c6ad86ac8b3543448c9cf76dfa11467e9b6a5f13a0911d89227a7876b"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "catalog.hub.rama.ward-discovery-celestial-light-v1": {
+      "role": "catalog_landscape",
+      "source": "media/hub/rama/ward-discovery-celestial-light-v1.png",
+      "source_sha256": "46e1e89e901db0dfcf1cce07de777853d20c64720d03bd8d88e4426e68bc2aa7",
+      "source_width": 1536,
+      "source_height": 1024,
+      "source_bytes": 2491148,
+      "ratio": "1.5000",
+      "focus": "50% 50%",
+      "theme": "neutral",
+      "sizes": "(max-width: 768px) 100vw, 70vw",
+      "variants": {
+        "avif": [
+          {
+            "src": "/media/generated/catalog/hub/rama/ward-discovery-celestial-light-v1/46e1e89e901d-390.avif",
+            "width": 390,
+            "height": 260,
+            "bytes": 6983,
+            "sha256": "d87bed495a3b1b1a3b3a2186635f0ec602e23fe162c7af1e82e200f9dd8d1819"
+          },
+          {
+            "src": "/media/generated/catalog/hub/rama/ward-discovery-celestial-light-v1/46e1e89e901d-768.avif",
+            "width": 768,
+            "height": 512,
+            "bytes": 23876,
+            "sha256": "94ddd33698557057315f1925671139dacd196393f3e2fee2518cdbd7b8448027"
+          },
+          {
+            "src": "/media/generated/catalog/hub/rama/ward-discovery-celestial-light-v1/46e1e89e901d-1440.avif",
+            "width": 1440,
+            "height": 960,
+            "bytes": 69821,
+            "sha256": "b6f58ee5ece5ef533be93ebaad2b1779f7e349110a9dda115673956bf31ff5d6"
+          },
+          {
+            "src": "/media/generated/catalog/hub/rama/ward-discovery-celestial-light-v1/46e1e89e901d-1536.avif",
+            "width": 1536,
+            "height": 1024,
+            "bytes": 77361,
+            "sha256": "a122ed64629e36374054fc58806f77fa22daca886257020d44035553dd5b10d6"
+          }
+        ],
+        "webp": [
+          {
+            "src": "/media/generated/catalog/hub/rama/ward-discovery-celestial-light-v1/46e1e89e901d-390.webp",
+            "width": 390,
+            "height": 260,
+            "bytes": 13166,
+            "sha256": "82d013668036475666414a059439952550231288bdf0206e6b185cf1cbd65fa8"
+          },
+          {
+            "src": "/media/generated/catalog/hub/rama/ward-discovery-celestial-light-v1/46e1e89e901d-768.webp",
+            "width": 768,
+            "height": 512,
+            "bytes": 44204,
+            "sha256": "c87c05db7fe5c037e82bd0ce3fc9ad60b570d87d4e3a4358f6ea55563f54d511"
+          },
+          {
+            "src": "/media/generated/catalog/hub/rama/ward-discovery-celestial-light-v1/46e1e89e901d-1440.webp",
+            "width": 1440,
+            "height": 960,
+            "bytes": 121076,
+            "sha256": "3a4673be813b62e5c2d502d0ba0755a632a8d67328dcc97815473f25d82ddc06"
+          },
+          {
+            "src": "/media/generated/catalog/hub/rama/ward-discovery-celestial-light-v1/46e1e89e901d-1536.webp",
+            "width": 1536,
+            "height": 1024,
+            "bytes": 135328,
+            "sha256": "32db9c02af420b7aa7a0f22676dc2ca5c7724df2dc3c9407baded2b409efd02b"
+          }
+        ],
+        "jpeg": [
+          {
+            "src": "/media/generated/catalog/hub/rama/ward-discovery-celestial-light-v1/46e1e89e901d-390.jpg",
+            "width": 390,
+            "height": 260,
+            "bytes": 18467,
+            "sha256": "6e7ebc59d31d866d4c2d9c0210c69f59f01f558b250821aeaecb2ac7001263a0"
+          },
+          {
+            "src": "/media/generated/catalog/hub/rama/ward-discovery-celestial-light-v1/46e1e89e901d-768.jpg",
+            "width": 768,
+            "height": 512,
+            "bytes": 62609,
+            "sha256": "c79b5022daf049068d1074490a26769ebf4898567445999181415da549dbcafb"
+          },
+          {
+            "src": "/media/generated/catalog/hub/rama/ward-discovery-celestial-light-v1/46e1e89e901d-1440.jpg",
+            "width": 1440,
+            "height": 960,
+            "bytes": 187129,
+            "sha256": "78b9eca910fd75b57473030ed113920e982f2fb67d3d2a6cf1e5e83e35c3ca31"
+          },
+          {
+            "src": "/media/generated/catalog/hub/rama/ward-discovery-celestial-light-v1/46e1e89e901d-1536.jpg",
+            "width": 1536,
+            "height": 1024,
+            "bytes": 209173,
+            "sha256": "b577d62eb324f7fe8f8898622bed3abbbf66bc7b597be433df5f6eba7cf10e96"
+          }
+        ]
+      },
+      "renditions": {
+        "default": {
+          "source": "media/hub/rama/ward-discovery-celestial-light-v1.png",
+          "source_sha256": "46e1e89e901db0dfcf1cce07de777853d20c64720d03bd8d88e4426e68bc2aa7",
+          "source_width": 1536,
+          "source_height": 1024,
+          "source_bytes": 2491148,
+          "media": null,
+          "ratio": "1.5000",
+          "sizes": "(max-width: 768px) 100vw, 70vw",
+          "variants": {
+            "avif": [
+              {
+                "src": "/media/generated/catalog/hub/rama/ward-discovery-celestial-light-v1/46e1e89e901d-390.avif",
+                "width": 390,
+                "height": 260,
+                "bytes": 6983,
+                "sha256": "d87bed495a3b1b1a3b3a2186635f0ec602e23fe162c7af1e82e200f9dd8d1819"
+              },
+              {
+                "src": "/media/generated/catalog/hub/rama/ward-discovery-celestial-light-v1/46e1e89e901d-768.avif",
+                "width": 768,
+                "height": 512,
+                "bytes": 23876,
+                "sha256": "94ddd33698557057315f1925671139dacd196393f3e2fee2518cdbd7b8448027"
+              },
+              {
+                "src": "/media/generated/catalog/hub/rama/ward-discovery-celestial-light-v1/46e1e89e901d-1440.avif",
+                "width": 1440,
+                "height": 960,
+                "bytes": 69821,
+                "sha256": "b6f58ee5ece5ef533be93ebaad2b1779f7e349110a9dda115673956bf31ff5d6"
+              },
+              {
+                "src": "/media/generated/catalog/hub/rama/ward-discovery-celestial-light-v1/46e1e89e901d-1536.avif",
+                "width": 1536,
+                "height": 1024,
+                "bytes": 77361,
+                "sha256": "a122ed64629e36374054fc58806f77fa22daca886257020d44035553dd5b10d6"
+              }
+            ],
+            "webp": [
+              {
+                "src": "/media/generated/catalog/hub/rama/ward-discovery-celestial-light-v1/46e1e89e901d-390.webp",
+                "width": 390,
+                "height": 260,
+                "bytes": 13166,
+                "sha256": "82d013668036475666414a059439952550231288bdf0206e6b185cf1cbd65fa8"
+              },
+              {
+                "src": "/media/generated/catalog/hub/rama/ward-discovery-celestial-light-v1/46e1e89e901d-768.webp",
+                "width": 768,
+                "height": 512,
+                "bytes": 44204,
+                "sha256": "c87c05db7fe5c037e82bd0ce3fc9ad60b570d87d4e3a4358f6ea55563f54d511"
+              },
+              {
+                "src": "/media/generated/catalog/hub/rama/ward-discovery-celestial-light-v1/46e1e89e901d-1440.webp",
+                "width": 1440,
+                "height": 960,
+                "bytes": 121076,
+                "sha256": "3a4673be813b62e5c2d502d0ba0755a632a8d67328dcc97815473f25d82ddc06"
+              },
+              {
+                "src": "/media/generated/catalog/hub/rama/ward-discovery-celestial-light-v1/46e1e89e901d-1536.webp",
+                "width": 1536,
+                "height": 1024,
+                "bytes": 135328,
+                "sha256": "32db9c02af420b7aa7a0f22676dc2ca5c7724df2dc3c9407baded2b409efd02b"
+              }
+            ],
+            "jpeg": [
+              {
+                "src": "/media/generated/catalog/hub/rama/ward-discovery-celestial-light-v1/46e1e89e901d-390.jpg",
+                "width": 390,
+                "height": 260,
+                "bytes": 18467,
+                "sha256": "6e7ebc59d31d866d4c2d9c0210c69f59f01f558b250821aeaecb2ac7001263a0"
+              },
+              {
+                "src": "/media/generated/catalog/hub/rama/ward-discovery-celestial-light-v1/46e1e89e901d-768.jpg",
+                "width": 768,
+                "height": 512,
+                "bytes": 62609,
+                "sha256": "c79b5022daf049068d1074490a26769ebf4898567445999181415da549dbcafb"
+              },
+              {
+                "src": "/media/generated/catalog/hub/rama/ward-discovery-celestial-light-v1/46e1e89e901d-1440.jpg",
+                "width": 1440,
+                "height": 960,
+                "bytes": 187129,
+                "sha256": "78b9eca910fd75b57473030ed113920e982f2fb67d3d2a6cf1e5e83e35c3ca31"
+              },
+              {
+                "src": "/media/generated/catalog/hub/rama/ward-discovery-celestial-light-v1/46e1e89e901d-1536.jpg",
+                "width": 1536,
+                "height": 1024,
+                "bytes": 209173,
+                "sha256": "b577d62eb324f7fe8f8898622bed3abbbf66bc7b597be433df5f6eba7cf10e96"
               }
             ]
           }
@@ -72622,172 +73454,6 @@
         }
       }
     },
-    "catalog.study.psalms-refuge-2026": {
-      "role": "catalog_portrait",
-      "source": "media/study/psalms-refuge-2026.png",
-      "source_sha256": "c5d9387fbf410b72232516351272a4d7c045bd9bf78e4d48bc961ef7f46795fd",
-      "source_width": 1024,
-      "source_height": 1536,
-      "source_bytes": 2060629,
-      "ratio": "0.6667",
-      "focus": "50% 50%",
-      "theme": "neutral",
-      "sizes": "(max-width: 768px) 100vw, 768px",
-      "variants": {
-        "avif": [
-          {
-            "src": "/media/generated/catalog/study/psalms-refuge-2026/c5d9387fbf41-390.avif",
-            "width": 390,
-            "height": 585,
-            "bytes": 8613,
-            "sha256": "4388ace3fc734855de758ad559bffbc90236eb916cf9c731c27a87495ec918a9"
-          },
-          {
-            "src": "/media/generated/catalog/study/psalms-refuge-2026/c5d9387fbf41-768.avif",
-            "width": 768,
-            "height": 1152,
-            "bytes": 28650,
-            "sha256": "55d3a4e403fddf26d1873c82d8d77ec4aed8ac9e90306cbf796d53fc1fd7cd94"
-          },
-          {
-            "src": "/media/generated/catalog/study/psalms-refuge-2026/c5d9387fbf41-1024.avif",
-            "width": 1024,
-            "height": 1536,
-            "bytes": 46983,
-            "sha256": "db95b51ece7b2d8b7c476f64cdca0ce8d749e94ea3b5486e5bddff4b8e533cf4"
-          }
-        ],
-        "webp": [
-          {
-            "src": "/media/generated/catalog/study/psalms-refuge-2026/c5d9387fbf41-390.webp",
-            "width": 390,
-            "height": 585,
-            "bytes": 13094,
-            "sha256": "3194be352e7746b3f87763de846e4049921fdf46fed5b3797f6017bf9fcae120"
-          },
-          {
-            "src": "/media/generated/catalog/study/psalms-refuge-2026/c5d9387fbf41-768.webp",
-            "width": 768,
-            "height": 1152,
-            "bytes": 42914,
-            "sha256": "9e7011222ef1e4d5a78ab60074b2b02aaae111dd523db6db1e0e7a4a5907de4c"
-          },
-          {
-            "src": "/media/generated/catalog/study/psalms-refuge-2026/c5d9387fbf41-1024.webp",
-            "width": 1024,
-            "height": 1536,
-            "bytes": 67974,
-            "sha256": "d0c53d1fd670e5d446529cea9e6bce4fee0bb1d6e690377a5f5eea892fb60315"
-          }
-        ],
-        "jpeg": [
-          {
-            "src": "/media/generated/catalog/study/psalms-refuge-2026/c5d9387fbf41-390.jpg",
-            "width": 390,
-            "height": 585,
-            "bytes": 24242,
-            "sha256": "fe95581421491774ec3f56bd5cb87ee1dd1ed402d50e84f889d8abde60ef01ac"
-          },
-          {
-            "src": "/media/generated/catalog/study/psalms-refuge-2026/c5d9387fbf41-768.jpg",
-            "width": 768,
-            "height": 1152,
-            "bytes": 81615,
-            "sha256": "a3d078ee17a90e6848e41bf7241058d59e55e90b478661f344a140da1c3363ea"
-          },
-          {
-            "src": "/media/generated/catalog/study/psalms-refuge-2026/c5d9387fbf41-1024.jpg",
-            "width": 1024,
-            "height": 1536,
-            "bytes": 134854,
-            "sha256": "93bbe8f7ae6c4e617c090a52c9c25d9432753da634e55cd365472d2d7b57c5fa"
-          }
-        ]
-      },
-      "renditions": {
-        "default": {
-          "source": "media/study/psalms-refuge-2026.png",
-          "source_sha256": "c5d9387fbf410b72232516351272a4d7c045bd9bf78e4d48bc961ef7f46795fd",
-          "source_width": 1024,
-          "source_height": 1536,
-          "source_bytes": 2060629,
-          "media": null,
-          "ratio": "0.6667",
-          "sizes": "(max-width: 768px) 100vw, 768px",
-          "variants": {
-            "avif": [
-              {
-                "src": "/media/generated/catalog/study/psalms-refuge-2026/c5d9387fbf41-390.avif",
-                "width": 390,
-                "height": 585,
-                "bytes": 8613,
-                "sha256": "4388ace3fc734855de758ad559bffbc90236eb916cf9c731c27a87495ec918a9"
-              },
-              {
-                "src": "/media/generated/catalog/study/psalms-refuge-2026/c5d9387fbf41-768.avif",
-                "width": 768,
-                "height": 1152,
-                "bytes": 28650,
-                "sha256": "55d3a4e403fddf26d1873c82d8d77ec4aed8ac9e90306cbf796d53fc1fd7cd94"
-              },
-              {
-                "src": "/media/generated/catalog/study/psalms-refuge-2026/c5d9387fbf41-1024.avif",
-                "width": 1024,
-                "height": 1536,
-                "bytes": 46983,
-                "sha256": "db95b51ece7b2d8b7c476f64cdca0ce8d749e94ea3b5486e5bddff4b8e533cf4"
-              }
-            ],
-            "webp": [
-              {
-                "src": "/media/generated/catalog/study/psalms-refuge-2026/c5d9387fbf41-390.webp",
-                "width": 390,
-                "height": 585,
-                "bytes": 13094,
-                "sha256": "3194be352e7746b3f87763de846e4049921fdf46fed5b3797f6017bf9fcae120"
-              },
-              {
-                "src": "/media/generated/catalog/study/psalms-refuge-2026/c5d9387fbf41-768.webp",
-                "width": 768,
-                "height": 1152,
-                "bytes": 42914,
-                "sha256": "9e7011222ef1e4d5a78ab60074b2b02aaae111dd523db6db1e0e7a4a5907de4c"
-              },
-              {
-                "src": "/media/generated/catalog/study/psalms-refuge-2026/c5d9387fbf41-1024.webp",
-                "width": 1024,
-                "height": 1536,
-                "bytes": 67974,
-                "sha256": "d0c53d1fd670e5d446529cea9e6bce4fee0bb1d6e690377a5f5eea892fb60315"
-              }
-            ],
-            "jpeg": [
-              {
-                "src": "/media/generated/catalog/study/psalms-refuge-2026/c5d9387fbf41-390.jpg",
-                "width": 390,
-                "height": 585,
-                "bytes": 24242,
-                "sha256": "fe95581421491774ec3f56bd5cb87ee1dd1ed402d50e84f889d8abde60ef01ac"
-              },
-              {
-                "src": "/media/generated/catalog/study/psalms-refuge-2026/c5d9387fbf41-768.jpg",
-                "width": 768,
-                "height": 1152,
-                "bytes": 81615,
-                "sha256": "a3d078ee17a90e6848e41bf7241058d59e55e90b478661f344a140da1c3363ea"
-              },
-              {
-                "src": "/media/generated/catalog/study/psalms-refuge-2026/c5d9387fbf41-1024.jpg",
-                "width": 1024,
-                "height": 1536,
-                "bytes": 134854,
-                "sha256": "93bbe8f7ae6c4e617c090a52c9c25d9432753da634e55cd365472d2d7b57c5fa"
-              }
-            ]
-          }
-        }
-      }
-    },
     "catalog.study.scripture-covers.book-of-mormon-v1": {
       "role": "catalog_icon",
       "source": "media/study/scripture-covers/book-of-mormon-v1.png",
@@ -76436,6 +77102,256 @@
         }
       }
     },
+    "expedition.psalms-2026.home": {
+      "role": "hub_card",
+      "source": "media/expeditions/psalms-2026/home-key-art-v1.png",
+      "source_sha256": "a5c1a85f81a1d6ad87a9a58a0434a780cffecb8c895a7fa18a522448e2744383",
+      "source_width": 1672,
+      "source_height": 941,
+      "source_bytes": 2848955,
+      "ratio": "1.7768",
+      "focus": "50% 50%",
+      "theme": "dark",
+      "sizes": "(max-width: 767px) 82vw, (max-width: 1199px) 50vw, 33vw",
+      "variants": {
+        "avif": [
+          {
+            "src": "/media/generated/expedition/psalms-2026/home/a5c1a85f81a1-390.avif",
+            "width": 390,
+            "height": 219,
+            "bytes": 9499,
+            "sha256": "0d2aa3d8ae1640224d7d490558f7eb5c4cbb12ce72431bdb6ed3bc9907e1e6ba"
+          },
+          {
+            "src": "/media/generated/expedition/psalms-2026/home/a5c1a85f81a1-768.avif",
+            "width": 768,
+            "height": 432,
+            "bytes": 32820,
+            "sha256": "89a77d92ae06c3894ec945ba13bafb5ff727e7b26e53ae0d1eb2b4e611d0a6c1"
+          },
+          {
+            "src": "/media/generated/expedition/psalms-2026/home/a5c1a85f81a1-1280.avif",
+            "width": 1280,
+            "height": 720,
+            "bytes": 87526,
+            "sha256": "48b86342e97f2ffec8a260ee1e743658c12a04986753f723c7286981e57ef678"
+          },
+          {
+            "src": "/media/generated/expedition/psalms-2026/home/a5c1a85f81a1-1600.avif",
+            "width": 1600,
+            "height": 900,
+            "bytes": 127141,
+            "sha256": "e774e400dd54838c451a1b35d90c9845ceca7480fb28ad84b32431b616dc54e0"
+          },
+          {
+            "src": "/media/generated/expedition/psalms-2026/home/a5c1a85f81a1-1672.avif",
+            "width": 1672,
+            "height": 941,
+            "bytes": 137132,
+            "sha256": "e9097a4708b62108ca2157ef734329ea436b12dfee70271343f2043af9589eec"
+          }
+        ],
+        "webp": [
+          {
+            "src": "/media/generated/expedition/psalms-2026/home/a5c1a85f81a1-390.webp",
+            "width": 390,
+            "height": 219,
+            "bytes": 17542,
+            "sha256": "fb2df7a144589e0b509cd9ef795719d5b739f8a6b629bcf2c2a52d1e6cc85126"
+          },
+          {
+            "src": "/media/generated/expedition/psalms-2026/home/a5c1a85f81a1-768.webp",
+            "width": 768,
+            "height": 432,
+            "bytes": 61988,
+            "sha256": "138bda97b4a50c22d0da75b03d32caa76f80f7a620269e8e07bbb9c5c1d7ef6c"
+          },
+          {
+            "src": "/media/generated/expedition/psalms-2026/home/a5c1a85f81a1-1280.webp",
+            "width": 1280,
+            "height": 720,
+            "bytes": 157048,
+            "sha256": "54ff80314a9d4723d9259daf7a24a4af12b6e5bd15a8be3ae2db2c9b999e99d8"
+          },
+          {
+            "src": "/media/generated/expedition/psalms-2026/home/a5c1a85f81a1-1600.webp",
+            "width": 1600,
+            "height": 900,
+            "bytes": 218892,
+            "sha256": "f8b9c0b20f33791e200000f8d7b48ca54f5f3847941849cd9caad4f2ba319043"
+          },
+          {
+            "src": "/media/generated/expedition/psalms-2026/home/a5c1a85f81a1-1672.webp",
+            "width": 1672,
+            "height": 941,
+            "bytes": 238566,
+            "sha256": "1c476e00eedb38ac6c2c575a2ddc2b8a4d41c335e211743bf8bc553bed6f315b"
+          }
+        ],
+        "jpeg": [
+          {
+            "src": "/media/generated/expedition/psalms-2026/home/a5c1a85f81a1-390.jpg",
+            "width": 390,
+            "height": 219,
+            "bytes": 21868,
+            "sha256": "9077711066b21c4feefc99fcfeffb18c206930d723f55888b5ae8c7e11336405"
+          },
+          {
+            "src": "/media/generated/expedition/psalms-2026/home/a5c1a85f81a1-768.jpg",
+            "width": 768,
+            "height": 432,
+            "bytes": 77047,
+            "sha256": "e8e82d1f7e27c4244014c6de9117ae857d5f3955a5484a8f288a209e35661eea"
+          },
+          {
+            "src": "/media/generated/expedition/psalms-2026/home/a5c1a85f81a1-1280.jpg",
+            "width": 1280,
+            "height": 720,
+            "bytes": 202432,
+            "sha256": "d5beb08b3541fc2073292c61756bab10b457abd4f4449c8de6017bf80c8f438a"
+          },
+          {
+            "src": "/media/generated/expedition/psalms-2026/home/a5c1a85f81a1-1600.jpg",
+            "width": 1600,
+            "height": 900,
+            "bytes": 297937,
+            "sha256": "89b85a82a91caf7c8009b02c58ad98572bbf32805d3215a60bf055d2d89a6965"
+          },
+          {
+            "src": "/media/generated/expedition/psalms-2026/home/a5c1a85f81a1-1672.jpg",
+            "width": 1672,
+            "height": 941,
+            "bytes": 322829,
+            "sha256": "dd76178cc8cf2cd3a4d01476aeb9bc640ac095e32baf0f90395d6d265346e155"
+          }
+        ]
+      },
+      "renditions": {
+        "default": {
+          "source": "media/expeditions/psalms-2026/home-key-art-v1.png",
+          "source_sha256": "a5c1a85f81a1d6ad87a9a58a0434a780cffecb8c895a7fa18a522448e2744383",
+          "source_width": 1672,
+          "source_height": 941,
+          "source_bytes": 2848955,
+          "media": null,
+          "ratio": "1.7768",
+          "sizes": "(max-width: 767px) 82vw, (max-width: 1199px) 50vw, 33vw",
+          "variants": {
+            "avif": [
+              {
+                "src": "/media/generated/expedition/psalms-2026/home/a5c1a85f81a1-390.avif",
+                "width": 390,
+                "height": 219,
+                "bytes": 9499,
+                "sha256": "0d2aa3d8ae1640224d7d490558f7eb5c4cbb12ce72431bdb6ed3bc9907e1e6ba"
+              },
+              {
+                "src": "/media/generated/expedition/psalms-2026/home/a5c1a85f81a1-768.avif",
+                "width": 768,
+                "height": 432,
+                "bytes": 32820,
+                "sha256": "89a77d92ae06c3894ec945ba13bafb5ff727e7b26e53ae0d1eb2b4e611d0a6c1"
+              },
+              {
+                "src": "/media/generated/expedition/psalms-2026/home/a5c1a85f81a1-1280.avif",
+                "width": 1280,
+                "height": 720,
+                "bytes": 87526,
+                "sha256": "48b86342e97f2ffec8a260ee1e743658c12a04986753f723c7286981e57ef678"
+              },
+              {
+                "src": "/media/generated/expedition/psalms-2026/home/a5c1a85f81a1-1600.avif",
+                "width": 1600,
+                "height": 900,
+                "bytes": 127141,
+                "sha256": "e774e400dd54838c451a1b35d90c9845ceca7480fb28ad84b32431b616dc54e0"
+              },
+              {
+                "src": "/media/generated/expedition/psalms-2026/home/a5c1a85f81a1-1672.avif",
+                "width": 1672,
+                "height": 941,
+                "bytes": 137132,
+                "sha256": "e9097a4708b62108ca2157ef734329ea436b12dfee70271343f2043af9589eec"
+              }
+            ],
+            "webp": [
+              {
+                "src": "/media/generated/expedition/psalms-2026/home/a5c1a85f81a1-390.webp",
+                "width": 390,
+                "height": 219,
+                "bytes": 17542,
+                "sha256": "fb2df7a144589e0b509cd9ef795719d5b739f8a6b629bcf2c2a52d1e6cc85126"
+              },
+              {
+                "src": "/media/generated/expedition/psalms-2026/home/a5c1a85f81a1-768.webp",
+                "width": 768,
+                "height": 432,
+                "bytes": 61988,
+                "sha256": "138bda97b4a50c22d0da75b03d32caa76f80f7a620269e8e07bbb9c5c1d7ef6c"
+              },
+              {
+                "src": "/media/generated/expedition/psalms-2026/home/a5c1a85f81a1-1280.webp",
+                "width": 1280,
+                "height": 720,
+                "bytes": 157048,
+                "sha256": "54ff80314a9d4723d9259daf7a24a4af12b6e5bd15a8be3ae2db2c9b999e99d8"
+              },
+              {
+                "src": "/media/generated/expedition/psalms-2026/home/a5c1a85f81a1-1600.webp",
+                "width": 1600,
+                "height": 900,
+                "bytes": 218892,
+                "sha256": "f8b9c0b20f33791e200000f8d7b48ca54f5f3847941849cd9caad4f2ba319043"
+              },
+              {
+                "src": "/media/generated/expedition/psalms-2026/home/a5c1a85f81a1-1672.webp",
+                "width": 1672,
+                "height": 941,
+                "bytes": 238566,
+                "sha256": "1c476e00eedb38ac6c2c575a2ddc2b8a4d41c335e211743bf8bc553bed6f315b"
+              }
+            ],
+            "jpeg": [
+              {
+                "src": "/media/generated/expedition/psalms-2026/home/a5c1a85f81a1-390.jpg",
+                "width": 390,
+                "height": 219,
+                "bytes": 21868,
+                "sha256": "9077711066b21c4feefc99fcfeffb18c206930d723f55888b5ae8c7e11336405"
+              },
+              {
+                "src": "/media/generated/expedition/psalms-2026/home/a5c1a85f81a1-768.jpg",
+                "width": 768,
+                "height": 432,
+                "bytes": 77047,
+                "sha256": "e8e82d1f7e27c4244014c6de9117ae857d5f3955a5484a8f288a209e35661eea"
+              },
+              {
+                "src": "/media/generated/expedition/psalms-2026/home/a5c1a85f81a1-1280.jpg",
+                "width": 1280,
+                "height": 720,
+                "bytes": 202432,
+                "sha256": "d5beb08b3541fc2073292c61756bab10b457abd4f4449c8de6017bf80c8f438a"
+              },
+              {
+                "src": "/media/generated/expedition/psalms-2026/home/a5c1a85f81a1-1600.jpg",
+                "width": 1600,
+                "height": 900,
+                "bytes": 297937,
+                "sha256": "89b85a82a91caf7c8009b02c58ad98572bbf32805d3215a60bf055d2d89a6965"
+              },
+              {
+                "src": "/media/generated/expedition/psalms-2026/home/a5c1a85f81a1-1672.jpg",
+                "width": 1672,
+                "height": 941,
+                "bytes": 322829,
+                "sha256": "dd76178cc8cf2cd3a4d01476aeb9bc640ac095e32baf0f90395d6d265346e155"
+              }
+            ]
+          }
+        }
+      }
+    },
     "hub.backdrop.coronas-ungido": {
       "role": "hub_backdrop",
       "source": "media/home/coronas-reino.jpg",
@@ -77918,6 +78834,1348 @@
         }
       }
     },
+    "hub.backdrop.royal-jerusalem-dawn": {
+      "role": "hub_backdrop",
+      "source": "media/home/royal-jerusalem-dawn-v1.png",
+      "source_sha256": "f5d3d92080fa2ea1a236acb2de8200f1d52ca55d5de963f4afdd9e8cc7f80ecb",
+      "source_width": 1536,
+      "source_height": 1024,
+      "source_bytes": 2653822,
+      "ratio": "1.5000",
+      "focus": "70% 58%",
+      "theme": "light",
+      "sizes": "100vw",
+      "variants": {
+        "avif": [
+          {
+            "src": "/media/generated/hub/backdrop/royal-jerusalem-dawn/f5d3d92080fa-portrait-390.avif",
+            "width": 390,
+            "height": 693,
+            "bytes": 13954,
+            "sha256": "8ed89a992bede55df1ff21c433a69e2c7ec85eb6c026f93fbb1098f65380e5ee"
+          },
+          {
+            "src": "/media/generated/hub/backdrop/royal-jerusalem-dawn/f5d3d92080fa-portrait-768.avif",
+            "width": 768,
+            "height": 1365,
+            "bytes": 38288,
+            "sha256": "bc43a7e98573bfd842b0734c50d9c70a5992ba5c941685e4560500358203a06b"
+          },
+          {
+            "src": "/media/generated/hub/backdrop/royal-jerusalem-dawn/f5d3d92080fa-portrait-941.avif",
+            "width": 941,
+            "height": 1673,
+            "bytes": 50377,
+            "sha256": "48ab316d98949715c40236a06c553f428423975e8bfcb765a52ea7ec7ffe10d3"
+          }
+        ],
+        "webp": [
+          {
+            "src": "/media/generated/hub/backdrop/royal-jerusalem-dawn/f5d3d92080fa-portrait-390.webp",
+            "width": 390,
+            "height": 693,
+            "bytes": 20608,
+            "sha256": "63f3e84c6e069c6bb3807599355a795118ce365dbb97cf0325782e2cf06a0060"
+          },
+          {
+            "src": "/media/generated/hub/backdrop/royal-jerusalem-dawn/f5d3d92080fa-portrait-768.webp",
+            "width": 768,
+            "height": 1365,
+            "bytes": 47194,
+            "sha256": "1bb053db53841b39a6136ff68faaecf03f3249c587525101aa33e5632c1777ef"
+          },
+          {
+            "src": "/media/generated/hub/backdrop/royal-jerusalem-dawn/f5d3d92080fa-portrait-941.webp",
+            "width": 941,
+            "height": 1673,
+            "bytes": 61132,
+            "sha256": "084e575b6606b7c18d968d5899ab3058a626b58ba04ce25e78984afd300849eb"
+          }
+        ],
+        "jpeg": [
+          {
+            "src": "/media/generated/hub/backdrop/royal-jerusalem-dawn/f5d3d92080fa-portrait-390.jpg",
+            "width": 390,
+            "height": 693,
+            "bytes": 34721,
+            "sha256": "cffdaa470853690936cc36a328361c681f10b14f9c5bcb8a4c3ccfb92e4bc294"
+          },
+          {
+            "src": "/media/generated/hub/backdrop/royal-jerusalem-dawn/f5d3d92080fa-portrait-768.jpg",
+            "width": 768,
+            "height": 1365,
+            "bytes": 103236,
+            "sha256": "2ec8c3e2160f036884e862ed6244836803cdccf603eea7567087f2562dc28eab"
+          },
+          {
+            "src": "/media/generated/hub/backdrop/royal-jerusalem-dawn/f5d3d92080fa-portrait-941.jpg",
+            "width": 941,
+            "height": 1673,
+            "bytes": 141853,
+            "sha256": "71ceb0572037ebd795b870f206561188bb18d44b3cd26bb8329cda75a0c97b2e"
+          }
+        ]
+      },
+      "renditions": {
+        "portrait": {
+          "source": "media/home/royal-jerusalem-dawn-v1.png",
+          "source_sha256": "f5d3d92080fa2ea1a236acb2de8200f1d52ca55d5de963f4afdd9e8cc7f80ecb",
+          "source_width": 1536,
+          "source_height": 1024,
+          "source_bytes": 2653822,
+          "media": "(max-width: 767px)",
+          "ratio": "9:16",
+          "sizes": "100vw",
+          "variants": {
+            "avif": [
+              {
+                "src": "/media/generated/hub/backdrop/royal-jerusalem-dawn/f5d3d92080fa-portrait-390.avif",
+                "width": 390,
+                "height": 693,
+                "bytes": 13954,
+                "sha256": "8ed89a992bede55df1ff21c433a69e2c7ec85eb6c026f93fbb1098f65380e5ee"
+              },
+              {
+                "src": "/media/generated/hub/backdrop/royal-jerusalem-dawn/f5d3d92080fa-portrait-768.avif",
+                "width": 768,
+                "height": 1365,
+                "bytes": 38288,
+                "sha256": "bc43a7e98573bfd842b0734c50d9c70a5992ba5c941685e4560500358203a06b"
+              },
+              {
+                "src": "/media/generated/hub/backdrop/royal-jerusalem-dawn/f5d3d92080fa-portrait-941.avif",
+                "width": 941,
+                "height": 1673,
+                "bytes": 50377,
+                "sha256": "48ab316d98949715c40236a06c553f428423975e8bfcb765a52ea7ec7ffe10d3"
+              }
+            ],
+            "webp": [
+              {
+                "src": "/media/generated/hub/backdrop/royal-jerusalem-dawn/f5d3d92080fa-portrait-390.webp",
+                "width": 390,
+                "height": 693,
+                "bytes": 20608,
+                "sha256": "63f3e84c6e069c6bb3807599355a795118ce365dbb97cf0325782e2cf06a0060"
+              },
+              {
+                "src": "/media/generated/hub/backdrop/royal-jerusalem-dawn/f5d3d92080fa-portrait-768.webp",
+                "width": 768,
+                "height": 1365,
+                "bytes": 47194,
+                "sha256": "1bb053db53841b39a6136ff68faaecf03f3249c587525101aa33e5632c1777ef"
+              },
+              {
+                "src": "/media/generated/hub/backdrop/royal-jerusalem-dawn/f5d3d92080fa-portrait-941.webp",
+                "width": 941,
+                "height": 1673,
+                "bytes": 61132,
+                "sha256": "084e575b6606b7c18d968d5899ab3058a626b58ba04ce25e78984afd300849eb"
+              }
+            ],
+            "jpeg": [
+              {
+                "src": "/media/generated/hub/backdrop/royal-jerusalem-dawn/f5d3d92080fa-portrait-390.jpg",
+                "width": 390,
+                "height": 693,
+                "bytes": 34721,
+                "sha256": "cffdaa470853690936cc36a328361c681f10b14f9c5bcb8a4c3ccfb92e4bc294"
+              },
+              {
+                "src": "/media/generated/hub/backdrop/royal-jerusalem-dawn/f5d3d92080fa-portrait-768.jpg",
+                "width": 768,
+                "height": 1365,
+                "bytes": 103236,
+                "sha256": "2ec8c3e2160f036884e862ed6244836803cdccf603eea7567087f2562dc28eab"
+              },
+              {
+                "src": "/media/generated/hub/backdrop/royal-jerusalem-dawn/f5d3d92080fa-portrait-941.jpg",
+                "width": 941,
+                "height": 1673,
+                "bytes": 141853,
+                "sha256": "71ceb0572037ebd795b870f206561188bb18d44b3cd26bb8329cda75a0c97b2e"
+              }
+            ]
+          }
+        },
+        "landscape": {
+          "source": "media/home/royal-jerusalem-dawn-v1.png",
+          "source_sha256": "f5d3d92080fa2ea1a236acb2de8200f1d52ca55d5de963f4afdd9e8cc7f80ecb",
+          "source_width": 1536,
+          "source_height": 1024,
+          "source_bytes": 2653822,
+          "media": "(min-width: 768px)",
+          "ratio": "16:9",
+          "sizes": "100vw",
+          "variants": {
+            "avif": [
+              {
+                "src": "/media/generated/hub/backdrop/royal-jerusalem-dawn/f5d3d92080fa-landscape-768.avif",
+                "width": 768,
+                "height": 432,
+                "bytes": 18903,
+                "sha256": "53b54ab05f93d2f7c9e3737ce667a5e27d52a8e065e812b9a914f15b3328d87b"
+              },
+              {
+                "src": "/media/generated/hub/backdrop/royal-jerusalem-dawn/f5d3d92080fa-landscape-1440.avif",
+                "width": 1440,
+                "height": 810,
+                "bytes": 58451,
+                "sha256": "dbaa50ceb66d8edebd46beb151250acf1c7c46cd2d1262cfb8a08a9cd6d46464"
+              }
+            ],
+            "webp": [
+              {
+                "src": "/media/generated/hub/backdrop/royal-jerusalem-dawn/f5d3d92080fa-landscape-768.webp",
+                "width": 768,
+                "height": 432,
+                "bytes": 30290,
+                "sha256": "9d2ecd5ab0a2eb13af4172f3e4429fb57cb0f24369754a0418dc8564f3546836"
+              },
+              {
+                "src": "/media/generated/hub/backdrop/royal-jerusalem-dawn/f5d3d92080fa-landscape-1440.webp",
+                "width": 1440,
+                "height": 810,
+                "bytes": 86348,
+                "sha256": "f44de881f1f51314b5e1c80b1efc2f53c571a8257fe14d3f562a1a535a3d8328"
+              }
+            ],
+            "jpeg": [
+              {
+                "src": "/media/generated/hub/backdrop/royal-jerusalem-dawn/f5d3d92080fa-landscape-768.jpg",
+                "width": 768,
+                "height": 432,
+                "bytes": 46471,
+                "sha256": "52496a8545a7fdb8d2eaa89b3154064126968bd941ae72f75728ae8013794a31"
+              },
+              {
+                "src": "/media/generated/hub/backdrop/royal-jerusalem-dawn/f5d3d92080fa-landscape-1440.jpg",
+                "width": 1440,
+                "height": 810,
+                "bytes": 148356,
+                "sha256": "3a2ce32d185e1e314f8d8f7b868c7040e41b59d1388a10882bf03596d71dfa92"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "hub.card.circle-study": {
+      "role": "hub_card",
+      "source": "media/hub/noche-hub-circle-study-v1.png",
+      "source_sha256": "95d7298c2cdb1d3635c1ad483229a2c41386d6877965a1efa163bbee44eeee1b",
+      "source_width": 1122,
+      "source_height": 1402,
+      "source_bytes": 2015019,
+      "ratio": "0.8003",
+      "focus": "50% 50%",
+      "theme": "dark",
+      "sizes": "(max-width: 767px) 82vw, (max-width: 1199px) 50vw, 33vw",
+      "variants": {
+        "avif": [
+          {
+            "src": "/media/generated/hub/card/circle-study/95d7298c2cdb-390.avif",
+            "width": 390,
+            "height": 487,
+            "bytes": 11326,
+            "sha256": "faae4a126f3b98d5b8e22eb0b4af7148afa74398ed1fd86fe6af5d8c9868e0e6"
+          },
+          {
+            "src": "/media/generated/hub/card/circle-study/95d7298c2cdb-768.avif",
+            "width": 768,
+            "height": 960,
+            "bytes": 34830,
+            "sha256": "19498220719de7983b8e9a28e276d490ed469e3a27983700ef63fdd504fac14f"
+          },
+          {
+            "src": "/media/generated/hub/card/circle-study/95d7298c2cdb-1122.avif",
+            "width": 1122,
+            "height": 1402,
+            "bytes": 62465,
+            "sha256": "ce2185cd19e44f01ae74af8c5e6c200af6bae9fe88105a62d508e8cac58a35dc"
+          }
+        ],
+        "webp": [
+          {
+            "src": "/media/generated/hub/card/circle-study/95d7298c2cdb-390.webp",
+            "width": 390,
+            "height": 487,
+            "bytes": 17102,
+            "sha256": "8595ff851ce87de107c1e3904f66bafcc43f2ae8c1ca5d14647847cb7daed90c"
+          },
+          {
+            "src": "/media/generated/hub/card/circle-study/95d7298c2cdb-768.webp",
+            "width": 768,
+            "height": 960,
+            "bytes": 50802,
+            "sha256": "6ab2b46529ed4f64f0014df11ccfe117638ca7589e60000b993b19b8ae733713"
+          },
+          {
+            "src": "/media/generated/hub/card/circle-study/95d7298c2cdb-1122.webp",
+            "width": 1122,
+            "height": 1402,
+            "bytes": 83860,
+            "sha256": "5f029de24d3f4626528640e42d0bb0116cb4df299d7c2f282e9418ad9b3da4ab"
+          }
+        ],
+        "jpeg": [
+          {
+            "src": "/media/generated/hub/card/circle-study/95d7298c2cdb-390.jpg",
+            "width": 390,
+            "height": 487,
+            "bytes": 28071,
+            "sha256": "5b4547f118d9786ac4a35594457f79a28836422a54e07fa087e5dba2a7861165"
+          },
+          {
+            "src": "/media/generated/hub/card/circle-study/95d7298c2cdb-768.jpg",
+            "width": 768,
+            "height": 960,
+            "bytes": 91534,
+            "sha256": "96e24f3371e342afa978440b680789c16e608320780f65c6197d704a60471d2c"
+          },
+          {
+            "src": "/media/generated/hub/card/circle-study/95d7298c2cdb-1122.jpg",
+            "width": 1122,
+            "height": 1402,
+            "bytes": 172395,
+            "sha256": "3a19d4b9cae7629a04ad1c978d2c1b9f950558e81463b410f7691b0458319204"
+          }
+        ]
+      },
+      "renditions": {
+        "default": {
+          "source": "media/hub/noche-hub-circle-study-v1.png",
+          "source_sha256": "95d7298c2cdb1d3635c1ad483229a2c41386d6877965a1efa163bbee44eeee1b",
+          "source_width": 1122,
+          "source_height": 1402,
+          "source_bytes": 2015019,
+          "media": null,
+          "ratio": "0.8003",
+          "sizes": "(max-width: 767px) 82vw, (max-width: 1199px) 50vw, 33vw",
+          "variants": {
+            "avif": [
+              {
+                "src": "/media/generated/hub/card/circle-study/95d7298c2cdb-390.avif",
+                "width": 390,
+                "height": 487,
+                "bytes": 11326,
+                "sha256": "faae4a126f3b98d5b8e22eb0b4af7148afa74398ed1fd86fe6af5d8c9868e0e6"
+              },
+              {
+                "src": "/media/generated/hub/card/circle-study/95d7298c2cdb-768.avif",
+                "width": 768,
+                "height": 960,
+                "bytes": 34830,
+                "sha256": "19498220719de7983b8e9a28e276d490ed469e3a27983700ef63fdd504fac14f"
+              },
+              {
+                "src": "/media/generated/hub/card/circle-study/95d7298c2cdb-1122.avif",
+                "width": 1122,
+                "height": 1402,
+                "bytes": 62465,
+                "sha256": "ce2185cd19e44f01ae74af8c5e6c200af6bae9fe88105a62d508e8cac58a35dc"
+              }
+            ],
+            "webp": [
+              {
+                "src": "/media/generated/hub/card/circle-study/95d7298c2cdb-390.webp",
+                "width": 390,
+                "height": 487,
+                "bytes": 17102,
+                "sha256": "8595ff851ce87de107c1e3904f66bafcc43f2ae8c1ca5d14647847cb7daed90c"
+              },
+              {
+                "src": "/media/generated/hub/card/circle-study/95d7298c2cdb-768.webp",
+                "width": 768,
+                "height": 960,
+                "bytes": 50802,
+                "sha256": "6ab2b46529ed4f64f0014df11ccfe117638ca7589e60000b993b19b8ae733713"
+              },
+              {
+                "src": "/media/generated/hub/card/circle-study/95d7298c2cdb-1122.webp",
+                "width": 1122,
+                "height": 1402,
+                "bytes": 83860,
+                "sha256": "5f029de24d3f4626528640e42d0bb0116cb4df299d7c2f282e9418ad9b3da4ab"
+              }
+            ],
+            "jpeg": [
+              {
+                "src": "/media/generated/hub/card/circle-study/95d7298c2cdb-390.jpg",
+                "width": 390,
+                "height": 487,
+                "bytes": 28071,
+                "sha256": "5b4547f118d9786ac4a35594457f79a28836422a54e07fa087e5dba2a7861165"
+              },
+              {
+                "src": "/media/generated/hub/card/circle-study/95d7298c2cdb-768.jpg",
+                "width": 768,
+                "height": 960,
+                "bytes": 91534,
+                "sha256": "96e24f3371e342afa978440b680789c16e608320780f65c6197d704a60471d2c"
+              },
+              {
+                "src": "/media/generated/hub/card/circle-study/95d7298c2cdb-1122.jpg",
+                "width": 1122,
+                "height": 1402,
+                "bytes": 172395,
+                "sha256": "3a19d4b9cae7629a04ad1c978d2c1b9f950558e81463b410f7691b0458319204"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "hub.card.live-king": {
+      "role": "hub_card",
+      "source": "media/hub/noche-hub-live-king-v1.png",
+      "source_sha256": "eed347068c921958bec34eac46ff2bb49a1033da16ea4fbafd7ea36af1e6f361",
+      "source_width": 1448,
+      "source_height": 1086,
+      "source_bytes": 2192057,
+      "ratio": "1.3333",
+      "focus": "66% 46%",
+      "theme": "dark",
+      "sizes": "(max-width: 767px) 82vw, (max-width: 1199px) 50vw, 33vw",
+      "variants": {
+        "avif": [
+          {
+            "src": "/media/generated/hub/card/live-king/eed347068c92-390.avif",
+            "width": 390,
+            "height": 293,
+            "bytes": 9114,
+            "sha256": "650508b9e50e03e337d4d790d0d086bb576e60f8ed9b194f502d69efc98924ed"
+          },
+          {
+            "src": "/media/generated/hub/card/live-king/eed347068c92-768.avif",
+            "width": 768,
+            "height": 576,
+            "bytes": 29556,
+            "sha256": "4bdf7dcc15f9d5ee17e820cf33c95de7350f4993d05a38837a2b51175f247e29"
+          },
+          {
+            "src": "/media/generated/hub/card/live-king/eed347068c92-1280.avif",
+            "width": 1280,
+            "height": 960,
+            "bytes": 69650,
+            "sha256": "5e7c4e92b1b949205fe8b3b88a88de9b0b30a08c5fd56031fd39ebfc1a70ba43"
+          },
+          {
+            "src": "/media/generated/hub/card/live-king/eed347068c92-1448.avif",
+            "width": 1448,
+            "height": 1086,
+            "bytes": 83949,
+            "sha256": "53547f02256168055fd931053411d34bc8b71c6fde621cca6f7d6976163c7d04"
+          }
+        ],
+        "webp": [
+          {
+            "src": "/media/generated/hub/card/live-king/eed347068c92-390.webp",
+            "width": 390,
+            "height": 293,
+            "bytes": 14724,
+            "sha256": "e629254cffeaa23313d37490a6ab02e1edf22839d8412bafff43854d308d012a"
+          },
+          {
+            "src": "/media/generated/hub/card/live-king/eed347068c92-768.webp",
+            "width": 768,
+            "height": 576,
+            "bytes": 45790,
+            "sha256": "86981a104deb1e5fc649dac01ae500887d85d04fa4e5ca22d64704b156206dad"
+          },
+          {
+            "src": "/media/generated/hub/card/live-king/eed347068c92-1280.webp",
+            "width": 1280,
+            "height": 960,
+            "bytes": 100362,
+            "sha256": "4a5b56d848e99bf0c963e4c50ac860c97f1ae2c90cb3825f5abf67a9c0fa2816"
+          },
+          {
+            "src": "/media/generated/hub/card/live-king/eed347068c92-1448.webp",
+            "width": 1448,
+            "height": 1086,
+            "bytes": 117316,
+            "sha256": "df7f00337c955539b561f7c5ca198e4a2a2a99037a86b5cad69671e776024fd1"
+          }
+        ],
+        "jpeg": [
+          {
+            "src": "/media/generated/hub/card/live-king/eed347068c92-390.jpg",
+            "width": 390,
+            "height": 293,
+            "bytes": 21525,
+            "sha256": "1f849d86c0a5a639514f06cb09b2d83554585623d444083e8bf654de96df370d"
+          },
+          {
+            "src": "/media/generated/hub/card/live-king/eed347068c92-768.jpg",
+            "width": 768,
+            "height": 576,
+            "bytes": 71186,
+            "sha256": "d03eeb5f0db83b7738d20e331866b1bfbfba57800efb664632d55bdfae02e8ca"
+          },
+          {
+            "src": "/media/generated/hub/card/live-king/eed347068c92-1280.jpg",
+            "width": 1280,
+            "height": 960,
+            "bytes": 171424,
+            "sha256": "cd5a49dfc6af4ce10fb5f21b19c074736894d5d63119761ccadac02cc16d2866"
+          },
+          {
+            "src": "/media/generated/hub/card/live-king/eed347068c92-1448.jpg",
+            "width": 1448,
+            "height": 1086,
+            "bytes": 209264,
+            "sha256": "bb3d5b8ef05822374bb0a73266b9d2be53aa91c6ff0c892cc4d2d47a949fe925"
+          }
+        ]
+      },
+      "renditions": {
+        "default": {
+          "source": "media/hub/noche-hub-live-king-v1.png",
+          "source_sha256": "eed347068c921958bec34eac46ff2bb49a1033da16ea4fbafd7ea36af1e6f361",
+          "source_width": 1448,
+          "source_height": 1086,
+          "source_bytes": 2192057,
+          "media": null,
+          "ratio": "1.3333",
+          "sizes": "(max-width: 767px) 82vw, (max-width: 1199px) 50vw, 33vw",
+          "variants": {
+            "avif": [
+              {
+                "src": "/media/generated/hub/card/live-king/eed347068c92-390.avif",
+                "width": 390,
+                "height": 293,
+                "bytes": 9114,
+                "sha256": "650508b9e50e03e337d4d790d0d086bb576e60f8ed9b194f502d69efc98924ed"
+              },
+              {
+                "src": "/media/generated/hub/card/live-king/eed347068c92-768.avif",
+                "width": 768,
+                "height": 576,
+                "bytes": 29556,
+                "sha256": "4bdf7dcc15f9d5ee17e820cf33c95de7350f4993d05a38837a2b51175f247e29"
+              },
+              {
+                "src": "/media/generated/hub/card/live-king/eed347068c92-1280.avif",
+                "width": 1280,
+                "height": 960,
+                "bytes": 69650,
+                "sha256": "5e7c4e92b1b949205fe8b3b88a88de9b0b30a08c5fd56031fd39ebfc1a70ba43"
+              },
+              {
+                "src": "/media/generated/hub/card/live-king/eed347068c92-1448.avif",
+                "width": 1448,
+                "height": 1086,
+                "bytes": 83949,
+                "sha256": "53547f02256168055fd931053411d34bc8b71c6fde621cca6f7d6976163c7d04"
+              }
+            ],
+            "webp": [
+              {
+                "src": "/media/generated/hub/card/live-king/eed347068c92-390.webp",
+                "width": 390,
+                "height": 293,
+                "bytes": 14724,
+                "sha256": "e629254cffeaa23313d37490a6ab02e1edf22839d8412bafff43854d308d012a"
+              },
+              {
+                "src": "/media/generated/hub/card/live-king/eed347068c92-768.webp",
+                "width": 768,
+                "height": 576,
+                "bytes": 45790,
+                "sha256": "86981a104deb1e5fc649dac01ae500887d85d04fa4e5ca22d64704b156206dad"
+              },
+              {
+                "src": "/media/generated/hub/card/live-king/eed347068c92-1280.webp",
+                "width": 1280,
+                "height": 960,
+                "bytes": 100362,
+                "sha256": "4a5b56d848e99bf0c963e4c50ac860c97f1ae2c90cb3825f5abf67a9c0fa2816"
+              },
+              {
+                "src": "/media/generated/hub/card/live-king/eed347068c92-1448.webp",
+                "width": 1448,
+                "height": 1086,
+                "bytes": 117316,
+                "sha256": "df7f00337c955539b561f7c5ca198e4a2a2a99037a86b5cad69671e776024fd1"
+              }
+            ],
+            "jpeg": [
+              {
+                "src": "/media/generated/hub/card/live-king/eed347068c92-390.jpg",
+                "width": 390,
+                "height": 293,
+                "bytes": 21525,
+                "sha256": "1f849d86c0a5a639514f06cb09b2d83554585623d444083e8bf654de96df370d"
+              },
+              {
+                "src": "/media/generated/hub/card/live-king/eed347068c92-768.jpg",
+                "width": 768,
+                "height": 576,
+                "bytes": 71186,
+                "sha256": "d03eeb5f0db83b7738d20e331866b1bfbfba57800efb664632d55bdfae02e8ca"
+              },
+              {
+                "src": "/media/generated/hub/card/live-king/eed347068c92-1280.jpg",
+                "width": 1280,
+                "height": 960,
+                "bytes": 171424,
+                "sha256": "cd5a49dfc6af4ce10fb5f21b19c074736894d5d63119761ccadac02cc16d2866"
+              },
+              {
+                "src": "/media/generated/hub/card/live-king/eed347068c92-1448.jpg",
+                "width": 1448,
+                "height": 1086,
+                "bytes": 209264,
+                "sha256": "bb3d5b8ef05822374bb0a73266b9d2be53aa91c6ff0c892cc4d2d47a949fe925"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "hub.card.rama-vigil": {
+      "role": "hub_card",
+      "source": "media/hub/noche-hub-rama-vigil-v1.png",
+      "source_sha256": "3f96713a7bf6dc7cb77320fb7eeed0a4ee19e0a4774b537e7266a8df7096c1d5",
+      "source_width": 1086,
+      "source_height": 1448,
+      "source_bytes": 2395877,
+      "ratio": "0.7500",
+      "focus": "55% 50%",
+      "theme": "dark",
+      "sizes": "(max-width: 767px) 82vw, (max-width: 1199px) 50vw, 33vw",
+      "variants": {
+        "avif": [
+          {
+            "src": "/media/generated/hub/card/rama-vigil/3f96713a7bf6-390.avif",
+            "width": 390,
+            "height": 520,
+            "bytes": 14869,
+            "sha256": "e41fed670feae792853550a602c758a73288de04a18871f96fd9ad4b348f8533"
+          },
+          {
+            "src": "/media/generated/hub/card/rama-vigil/3f96713a7bf6-768.avif",
+            "width": 768,
+            "height": 1024,
+            "bytes": 53370,
+            "sha256": "95107321614cbc0c64136615e6b36e242ad8ea030eacf9d84efc7a0968c0f48c"
+          },
+          {
+            "src": "/media/generated/hub/card/rama-vigil/3f96713a7bf6-1086.avif",
+            "width": 1086,
+            "height": 1448,
+            "bytes": 95751,
+            "sha256": "24eabf1094c9a1ff68dc823a51fb6855e38605e3ed1cf2510d5fbb0222fd2e0c"
+          }
+        ],
+        "webp": [
+          {
+            "src": "/media/generated/hub/card/rama-vigil/3f96713a7bf6-390.webp",
+            "width": 390,
+            "height": 520,
+            "bytes": 23636,
+            "sha256": "e3fa664e9a702165d3704d53a84c6abd81a983dd622c0531e32a0160ac55c147"
+          },
+          {
+            "src": "/media/generated/hub/card/rama-vigil/3f96713a7bf6-768.webp",
+            "width": 768,
+            "height": 1024,
+            "bytes": 80852,
+            "sha256": "2acdb14667a8a52695e67582097d1aa66398d5e807f84f81c4f7b5e9f3327c07"
+          },
+          {
+            "src": "/media/generated/hub/card/rama-vigil/3f96713a7bf6-1086.webp",
+            "width": 1086,
+            "height": 1448,
+            "bytes": 134466,
+            "sha256": "5aef26785a9fd63048df3fc04ee7bca2b20bce3de9ea2ff130d9e155f928c6cf"
+          }
+        ],
+        "jpeg": [
+          {
+            "src": "/media/generated/hub/card/rama-vigil/3f96713a7bf6-390.jpg",
+            "width": 390,
+            "height": 520,
+            "bytes": 35636,
+            "sha256": "4ecbdceb02566130bd7b80a0a2c584d95cdb2a8bc8b5ee00c9b629575c021071"
+          },
+          {
+            "src": "/media/generated/hub/card/rama-vigil/3f96713a7bf6-768.jpg",
+            "width": 768,
+            "height": 1024,
+            "bytes": 127237,
+            "sha256": "4c200962a5cecd5993f812bcc8ba07df9a2d9a82f65c0de7660685f7acf008ff"
+          },
+          {
+            "src": "/media/generated/hub/card/rama-vigil/3f96713a7bf6-1086.jpg",
+            "width": 1086,
+            "height": 1448,
+            "bytes": 232722,
+            "sha256": "3fcab55084758bb046910e56f089b5e5108f9b6ae13aa3faedf68a26c0df0926"
+          }
+        ]
+      },
+      "renditions": {
+        "default": {
+          "source": "media/hub/noche-hub-rama-vigil-v1.png",
+          "source_sha256": "3f96713a7bf6dc7cb77320fb7eeed0a4ee19e0a4774b537e7266a8df7096c1d5",
+          "source_width": 1086,
+          "source_height": 1448,
+          "source_bytes": 2395877,
+          "media": null,
+          "ratio": "0.7500",
+          "sizes": "(max-width: 767px) 82vw, (max-width: 1199px) 50vw, 33vw",
+          "variants": {
+            "avif": [
+              {
+                "src": "/media/generated/hub/card/rama-vigil/3f96713a7bf6-390.avif",
+                "width": 390,
+                "height": 520,
+                "bytes": 14869,
+                "sha256": "e41fed670feae792853550a602c758a73288de04a18871f96fd9ad4b348f8533"
+              },
+              {
+                "src": "/media/generated/hub/card/rama-vigil/3f96713a7bf6-768.avif",
+                "width": 768,
+                "height": 1024,
+                "bytes": 53370,
+                "sha256": "95107321614cbc0c64136615e6b36e242ad8ea030eacf9d84efc7a0968c0f48c"
+              },
+              {
+                "src": "/media/generated/hub/card/rama-vigil/3f96713a7bf6-1086.avif",
+                "width": 1086,
+                "height": 1448,
+                "bytes": 95751,
+                "sha256": "24eabf1094c9a1ff68dc823a51fb6855e38605e3ed1cf2510d5fbb0222fd2e0c"
+              }
+            ],
+            "webp": [
+              {
+                "src": "/media/generated/hub/card/rama-vigil/3f96713a7bf6-390.webp",
+                "width": 390,
+                "height": 520,
+                "bytes": 23636,
+                "sha256": "e3fa664e9a702165d3704d53a84c6abd81a983dd622c0531e32a0160ac55c147"
+              },
+              {
+                "src": "/media/generated/hub/card/rama-vigil/3f96713a7bf6-768.webp",
+                "width": 768,
+                "height": 1024,
+                "bytes": 80852,
+                "sha256": "2acdb14667a8a52695e67582097d1aa66398d5e807f84f81c4f7b5e9f3327c07"
+              },
+              {
+                "src": "/media/generated/hub/card/rama-vigil/3f96713a7bf6-1086.webp",
+                "width": 1086,
+                "height": 1448,
+                "bytes": 134466,
+                "sha256": "5aef26785a9fd63048df3fc04ee7bca2b20bce3de9ea2ff130d9e155f928c6cf"
+              }
+            ],
+            "jpeg": [
+              {
+                "src": "/media/generated/hub/card/rama-vigil/3f96713a7bf6-390.jpg",
+                "width": 390,
+                "height": 520,
+                "bytes": 35636,
+                "sha256": "4ecbdceb02566130bd7b80a0a2c584d95cdb2a8bc8b5ee00c9b629575c021071"
+              },
+              {
+                "src": "/media/generated/hub/card/rama-vigil/3f96713a7bf6-768.jpg",
+                "width": 768,
+                "height": 1024,
+                "bytes": 127237,
+                "sha256": "4c200962a5cecd5993f812bcc8ba07df9a2d9a82f65c0de7660685f7acf008ff"
+              },
+              {
+                "src": "/media/generated/hub/card/rama-vigil/3f96713a7bf6-1086.jpg",
+                "width": 1086,
+                "height": 1448,
+                "bytes": 232722,
+                "sha256": "3fcab55084758bb046910e56f089b5e5108f9b6ae13aa3faedf68a26c0df0926"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "hub.card.service-bread": {
+      "role": "hub_card",
+      "source": "media/hub/noche-hub-service-bread-v1.png",
+      "source_sha256": "86029f5b48bf2cc5edc3f17dd6fae6d14cca45f51e9c27b2ef968151dcab2cc9",
+      "source_width": 1448,
+      "source_height": 1086,
+      "source_bytes": 1833623,
+      "ratio": "1.3333",
+      "focus": "66% 52%",
+      "theme": "dark",
+      "sizes": "(max-width: 767px) 82vw, (max-width: 1199px) 50vw, 33vw",
+      "variants": {
+        "avif": [
+          {
+            "src": "/media/generated/hub/card/service-bread/86029f5b48bf-390.avif",
+            "width": 390,
+            "height": 293,
+            "bytes": 7211,
+            "sha256": "a962c98c40313c421ad1e2d980b6d252e9da12688035dabb6fe3aac65268bedc"
+          },
+          {
+            "src": "/media/generated/hub/card/service-bread/86029f5b48bf-768.avif",
+            "width": 768,
+            "height": 576,
+            "bytes": 19355,
+            "sha256": "ff46f89a8a383f8d169999b3eea8a4ab80465ca2c110c31f98e27693572383b3"
+          },
+          {
+            "src": "/media/generated/hub/card/service-bread/86029f5b48bf-1280.avif",
+            "width": 1280,
+            "height": 960,
+            "bytes": 41732,
+            "sha256": "edd5a91ea6b61b5d579e526246fa04d5721ae7873a7ba4eb473bc4689d93e54f"
+          },
+          {
+            "src": "/media/generated/hub/card/service-bread/86029f5b48bf-1448.avif",
+            "width": 1448,
+            "height": 1086,
+            "bytes": 49850,
+            "sha256": "95fe69ce0b29d2ad6e52c35030b50de288623958fa997bdde4ed6989733197c9"
+          }
+        ],
+        "webp": [
+          {
+            "src": "/media/generated/hub/card/service-bread/86029f5b48bf-390.webp",
+            "width": 390,
+            "height": 293,
+            "bytes": 10578,
+            "sha256": "cf08f01f28373fd385c01b2500d2ea404f754f6932c0a414a3f73070f53a9df0"
+          },
+          {
+            "src": "/media/generated/hub/card/service-bread/86029f5b48bf-768.webp",
+            "width": 768,
+            "height": 576,
+            "bytes": 28974,
+            "sha256": "14544dfab80cb154db5244b662829b136e00beac8bfbb50904d5e8d9967d8a81"
+          },
+          {
+            "src": "/media/generated/hub/card/service-bread/86029f5b48bf-1280.webp",
+            "width": 1280,
+            "height": 960,
+            "bytes": 60596,
+            "sha256": "37289c2832917ba95740fa228245416e7e3843e7845805c738b00c12430223ee"
+          },
+          {
+            "src": "/media/generated/hub/card/service-bread/86029f5b48bf-1448.webp",
+            "width": 1448,
+            "height": 1086,
+            "bytes": 71850,
+            "sha256": "33b2f6e2e1bf0f0df2e88e53f155388de34aa1bada761980224e8d2ffc66fb2a"
+          }
+        ],
+        "jpeg": [
+          {
+            "src": "/media/generated/hub/card/service-bread/86029f5b48bf-390.jpg",
+            "width": 390,
+            "height": 293,
+            "bytes": 17584,
+            "sha256": "46ebce3f9f05fed0a47c395b87129575646c089a7d4c22c28a999b58db765089"
+          },
+          {
+            "src": "/media/generated/hub/card/service-bread/86029f5b48bf-768.jpg",
+            "width": 768,
+            "height": 576,
+            "bytes": 51034,
+            "sha256": "f3f4668b8209bb9ee52bb31deb6d53fa3df33603578e8f2290865df6d7b7a0d4"
+          },
+          {
+            "src": "/media/generated/hub/card/service-bread/86029f5b48bf-1280.jpg",
+            "width": 1280,
+            "height": 960,
+            "bytes": 115776,
+            "sha256": "f6f8f0f406c529f684ef6b0ff0ccd5e904f777209ea6248acc70537a7d5db11d"
+          },
+          {
+            "src": "/media/generated/hub/card/service-bread/86029f5b48bf-1448.jpg",
+            "width": 1448,
+            "height": 1086,
+            "bytes": 140292,
+            "sha256": "22d62086684266ab71e37cc208aed353d55d333a08e1d75d9bfe428cc9722107"
+          }
+        ]
+      },
+      "renditions": {
+        "default": {
+          "source": "media/hub/noche-hub-service-bread-v1.png",
+          "source_sha256": "86029f5b48bf2cc5edc3f17dd6fae6d14cca45f51e9c27b2ef968151dcab2cc9",
+          "source_width": 1448,
+          "source_height": 1086,
+          "source_bytes": 1833623,
+          "media": null,
+          "ratio": "1.3333",
+          "sizes": "(max-width: 767px) 82vw, (max-width: 1199px) 50vw, 33vw",
+          "variants": {
+            "avif": [
+              {
+                "src": "/media/generated/hub/card/service-bread/86029f5b48bf-390.avif",
+                "width": 390,
+                "height": 293,
+                "bytes": 7211,
+                "sha256": "a962c98c40313c421ad1e2d980b6d252e9da12688035dabb6fe3aac65268bedc"
+              },
+              {
+                "src": "/media/generated/hub/card/service-bread/86029f5b48bf-768.avif",
+                "width": 768,
+                "height": 576,
+                "bytes": 19355,
+                "sha256": "ff46f89a8a383f8d169999b3eea8a4ab80465ca2c110c31f98e27693572383b3"
+              },
+              {
+                "src": "/media/generated/hub/card/service-bread/86029f5b48bf-1280.avif",
+                "width": 1280,
+                "height": 960,
+                "bytes": 41732,
+                "sha256": "edd5a91ea6b61b5d579e526246fa04d5721ae7873a7ba4eb473bc4689d93e54f"
+              },
+              {
+                "src": "/media/generated/hub/card/service-bread/86029f5b48bf-1448.avif",
+                "width": 1448,
+                "height": 1086,
+                "bytes": 49850,
+                "sha256": "95fe69ce0b29d2ad6e52c35030b50de288623958fa997bdde4ed6989733197c9"
+              }
+            ],
+            "webp": [
+              {
+                "src": "/media/generated/hub/card/service-bread/86029f5b48bf-390.webp",
+                "width": 390,
+                "height": 293,
+                "bytes": 10578,
+                "sha256": "cf08f01f28373fd385c01b2500d2ea404f754f6932c0a414a3f73070f53a9df0"
+              },
+              {
+                "src": "/media/generated/hub/card/service-bread/86029f5b48bf-768.webp",
+                "width": 768,
+                "height": 576,
+                "bytes": 28974,
+                "sha256": "14544dfab80cb154db5244b662829b136e00beac8bfbb50904d5e8d9967d8a81"
+              },
+              {
+                "src": "/media/generated/hub/card/service-bread/86029f5b48bf-1280.webp",
+                "width": 1280,
+                "height": 960,
+                "bytes": 60596,
+                "sha256": "37289c2832917ba95740fa228245416e7e3843e7845805c738b00c12430223ee"
+              },
+              {
+                "src": "/media/generated/hub/card/service-bread/86029f5b48bf-1448.webp",
+                "width": 1448,
+                "height": 1086,
+                "bytes": 71850,
+                "sha256": "33b2f6e2e1bf0f0df2e88e53f155388de34aa1bada761980224e8d2ffc66fb2a"
+              }
+            ],
+            "jpeg": [
+              {
+                "src": "/media/generated/hub/card/service-bread/86029f5b48bf-390.jpg",
+                "width": 390,
+                "height": 293,
+                "bytes": 17584,
+                "sha256": "46ebce3f9f05fed0a47c395b87129575646c089a7d4c22c28a999b58db765089"
+              },
+              {
+                "src": "/media/generated/hub/card/service-bread/86029f5b48bf-768.jpg",
+                "width": 768,
+                "height": 576,
+                "bytes": 51034,
+                "sha256": "f3f4668b8209bb9ee52bb31deb6d53fa3df33603578e8f2290865df6d7b7a0d4"
+              },
+              {
+                "src": "/media/generated/hub/card/service-bread/86029f5b48bf-1280.jpg",
+                "width": 1280,
+                "height": 960,
+                "bytes": 115776,
+                "sha256": "f6f8f0f406c529f684ef6b0ff0ccd5e904f777209ea6248acc70537a7d5db11d"
+              },
+              {
+                "src": "/media/generated/hub/card/service-bread/86029f5b48bf-1448.jpg",
+                "width": 1448,
+                "height": 1086,
+                "bytes": 140292,
+                "sha256": "22d62086684266ab71e37cc208aed353d55d333a08e1d75d9bfe428cc9722107"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "hub.hero.salt-lake-temple-night": {
+      "role": "hub_hero",
+      "source": "media/hub/noche-hub-salt-lake-temple-portrait-v1.png",
+      "source_sha256": "a4b57c649c2849793b035be2e7331c39d62220f556bbbccf433738f16936ce3e",
+      "source_width": 941,
+      "source_height": 1672,
+      "source_bytes": 2171032,
+      "ratio": "0.5628",
+      "focus": "50% 50%",
+      "theme": "dark",
+      "sizes": "100vw",
+      "variants": {
+        "avif": [
+          {
+            "src": "/media/generated/hub/hero/salt-lake-temple-night/a4b57c649c28-portrait-390.avif",
+            "width": 390,
+            "height": 693,
+            "bytes": 16664,
+            "sha256": "3266f08575a1fcfa1818dc6bd666d33b52bcbcd1fc2e97e9d2d04a5d009c353b"
+          },
+          {
+            "src": "/media/generated/hub/hero/salt-lake-temple-night/a4b57c649c28-portrait-768.avif",
+            "width": 768,
+            "height": 1365,
+            "bytes": 61605,
+            "sha256": "26aa653c1f59941c90afc417bf2d40f36cbffb3f3feba82434f34b40a76a6bf7"
+          }
+        ],
+        "webp": [
+          {
+            "src": "/media/generated/hub/hero/salt-lake-temple-night/a4b57c649c28-portrait-390.webp",
+            "width": 390,
+            "height": 693,
+            "bytes": 25902,
+            "sha256": "875630cbfa292b0459ff1e4840fc141333dc2cfc288535e4f9c42604b1e4dae6"
+          },
+          {
+            "src": "/media/generated/hub/hero/salt-lake-temple-night/a4b57c649c28-portrait-768.webp",
+            "width": 768,
+            "height": 1365,
+            "bytes": 85680,
+            "sha256": "8edcfc7db4e800131b5691f2c71ece966407cf1d03b3ca68657a7ea817117604"
+          }
+        ],
+        "jpeg": [
+          {
+            "src": "/media/generated/hub/hero/salt-lake-temple-night/a4b57c649c28-portrait-390.jpg",
+            "width": 390,
+            "height": 693,
+            "bytes": 41661,
+            "sha256": "0fe0c4a4554e9f2097888d3075a8f2b136712832dede43364f988e83760b4d1c"
+          },
+          {
+            "src": "/media/generated/hub/hero/salt-lake-temple-night/a4b57c649c28-portrait-768.jpg",
+            "width": 768,
+            "height": 1365,
+            "bytes": 148690,
+            "sha256": "c0739f24da923d9803fe7f26db9cca2e67f858aab20c033822f20478a9630a19"
+          }
+        ]
+      },
+      "renditions": {
+        "portrait": {
+          "source": "media/hub/noche-hub-salt-lake-temple-portrait-v1.png",
+          "source_sha256": "a4b57c649c2849793b035be2e7331c39d62220f556bbbccf433738f16936ce3e",
+          "source_width": 941,
+          "source_height": 1672,
+          "source_bytes": 2171032,
+          "media": "(max-width: 767px)",
+          "ratio": "9:16",
+          "sizes": "100vw",
+          "variants": {
+            "avif": [
+              {
+                "src": "/media/generated/hub/hero/salt-lake-temple-night/a4b57c649c28-portrait-390.avif",
+                "width": 390,
+                "height": 693,
+                "bytes": 16664,
+                "sha256": "3266f08575a1fcfa1818dc6bd666d33b52bcbcd1fc2e97e9d2d04a5d009c353b"
+              },
+              {
+                "src": "/media/generated/hub/hero/salt-lake-temple-night/a4b57c649c28-portrait-768.avif",
+                "width": 768,
+                "height": 1365,
+                "bytes": 61605,
+                "sha256": "26aa653c1f59941c90afc417bf2d40f36cbffb3f3feba82434f34b40a76a6bf7"
+              }
+            ],
+            "webp": [
+              {
+                "src": "/media/generated/hub/hero/salt-lake-temple-night/a4b57c649c28-portrait-390.webp",
+                "width": 390,
+                "height": 693,
+                "bytes": 25902,
+                "sha256": "875630cbfa292b0459ff1e4840fc141333dc2cfc288535e4f9c42604b1e4dae6"
+              },
+              {
+                "src": "/media/generated/hub/hero/salt-lake-temple-night/a4b57c649c28-portrait-768.webp",
+                "width": 768,
+                "height": 1365,
+                "bytes": 85680,
+                "sha256": "8edcfc7db4e800131b5691f2c71ece966407cf1d03b3ca68657a7ea817117604"
+              }
+            ],
+            "jpeg": [
+              {
+                "src": "/media/generated/hub/hero/salt-lake-temple-night/a4b57c649c28-portrait-390.jpg",
+                "width": 390,
+                "height": 693,
+                "bytes": 41661,
+                "sha256": "0fe0c4a4554e9f2097888d3075a8f2b136712832dede43364f988e83760b4d1c"
+              },
+              {
+                "src": "/media/generated/hub/hero/salt-lake-temple-night/a4b57c649c28-portrait-768.jpg",
+                "width": 768,
+                "height": 1365,
+                "bytes": 148690,
+                "sha256": "c0739f24da923d9803fe7f26db9cca2e67f858aab20c033822f20478a9630a19"
+              }
+            ]
+          }
+        },
+        "landscape": {
+          "source": "media/hub/noche-hub-salt-lake-temple-landscape-v1.png",
+          "source_sha256": "496ecef98065fc4f136b60c8830a0e625aeb81b9497053f1dd4ae700542e4f4d",
+          "source_width": 1672,
+          "source_height": 941,
+          "source_bytes": 2248750,
+          "media": "(min-width: 768px)",
+          "ratio": "16:9",
+          "sizes": "100vw",
+          "variants": {
+            "avif": [
+              {
+                "src": "/media/generated/hub/hero/salt-lake-temple-night/496ecef98065-landscape-768.avif",
+                "width": 768,
+                "height": 432,
+                "bytes": 21885,
+                "sha256": "9f7e7064d2788c90a68c1560ad95c71fd18a13dbd712ae49af0cd618db041f3f"
+              },
+              {
+                "src": "/media/generated/hub/hero/salt-lake-temple-night/496ecef98065-landscape-1440.avif",
+                "width": 1440,
+                "height": 810,
+                "bytes": 70274,
+                "sha256": "ff5fa0f4266546ad9c4d6a0f08fd01aff32c363c59a0c05794b344fc74075ab6"
+              }
+            ],
+            "webp": [
+              {
+                "src": "/media/generated/hub/hero/salt-lake-temple-night/496ecef98065-landscape-768.webp",
+                "width": 768,
+                "height": 432,
+                "bytes": 36994,
+                "sha256": "b1441ddbc5ca9bfa9c997ba285f4fddebf115aafdbe9e25d574af6e9d974bbd4"
+              },
+              {
+                "src": "/media/generated/hub/hero/salt-lake-temple-night/496ecef98065-landscape-1440.webp",
+                "width": 1440,
+                "height": 810,
+                "bytes": 111834,
+                "sha256": "2454654ff521ceb3472b5303840f19ad15cb8f7c7a7e519b86dd03c905400314"
+              }
+            ],
+            "jpeg": [
+              {
+                "src": "/media/generated/hub/hero/salt-lake-temple-night/496ecef98065-landscape-768.jpg",
+                "width": 768,
+                "height": 432,
+                "bytes": 54909,
+                "sha256": "b66067f202d26f240d9b71d3cb061f8f19325a29797bca2f6d23da4ed310bf75"
+              },
+              {
+                "src": "/media/generated/hub/hero/salt-lake-temple-night/496ecef98065-landscape-1440.jpg",
+                "width": 1440,
+                "height": 810,
+                "bytes": 176631,
+                "sha256": "15ea3e8bdf8b1a27cf2f2bf2fc75a7725fb9d69604101a951cfd2c808252c8e5"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "scripture.library.psalms-refuge": {
+      "role": "hub_hero",
+      "source": "media/study/psalms-refuge-2026.png",
+      "source_sha256": "c5d9387fbf410b72232516351272a4d7c045bd9bf78e4d48bc961ef7f46795fd",
+      "source_width": 1024,
+      "source_height": 1536,
+      "source_bytes": 2060629,
+      "ratio": "0.6667",
+      "focus": "62% 58%",
+      "theme": "dark",
+      "sizes": "100vw",
+      "variants": {
+        "avif": [
+          {
+            "src": "/media/generated/scripture/library/psalms-refuge/c5d9387fbf41-portrait-390.avif",
+            "width": 390,
+            "height": 693,
+            "bytes": 12688,
+            "sha256": "97c25be4489813b7e4f123994eb8ad44b64a065f9e4fc5e7aa3d39356041b35d"
+          },
+          {
+            "src": "/media/generated/scripture/library/psalms-refuge/c5d9387fbf41-portrait-768.avif",
+            "width": 768,
+            "height": 1365,
+            "bytes": 42189,
+            "sha256": "6abdeefdba0b7cc9557449e0e95b6509392ae7c4253ec70f14762573972448a8"
+          }
+        ],
+        "webp": [
+          {
+            "src": "/media/generated/scripture/library/psalms-refuge/c5d9387fbf41-portrait-390.webp",
+            "width": 390,
+            "height": 693,
+            "bytes": 19096,
+            "sha256": "bd903c55f1d7505e6bbf1fb4391d16907912d61ae63a22d63ba155a80a79af05"
+          },
+          {
+            "src": "/media/generated/scripture/library/psalms-refuge/c5d9387fbf41-portrait-768.webp",
+            "width": 768,
+            "height": 1365,
+            "bytes": 59160,
+            "sha256": "1f334661f57d062b59834ffa2c30045d803835002a85a45609819a87c86256b5"
+          }
+        ],
+        "jpeg": [
+          {
+            "src": "/media/generated/scripture/library/psalms-refuge/c5d9387fbf41-portrait-390.jpg",
+            "width": 390,
+            "height": 693,
+            "bytes": 33326,
+            "sha256": "550a4a94caf01715c7e86c1239b79e1d432fd3cf2b83c3693fb3e92e5c2f3d7b"
+          },
+          {
+            "src": "/media/generated/scripture/library/psalms-refuge/c5d9387fbf41-portrait-768.jpg",
+            "width": 768,
+            "height": 1365,
+            "bytes": 110874,
+            "sha256": "a344957c7b4d831af40a373fe485c58017ed40944b52e1172603a2c145bf69d0"
+          }
+        ]
+      },
+      "renditions": {
+        "portrait": {
+          "source": "media/study/psalms-refuge-2026.png",
+          "source_sha256": "c5d9387fbf410b72232516351272a4d7c045bd9bf78e4d48bc961ef7f46795fd",
+          "source_width": 1024,
+          "source_height": 1536,
+          "source_bytes": 2060629,
+          "media": "(max-width: 767px)",
+          "ratio": "9:16",
+          "sizes": "100vw",
+          "variants": {
+            "avif": [
+              {
+                "src": "/media/generated/scripture/library/psalms-refuge/c5d9387fbf41-portrait-390.avif",
+                "width": 390,
+                "height": 693,
+                "bytes": 12688,
+                "sha256": "97c25be4489813b7e4f123994eb8ad44b64a065f9e4fc5e7aa3d39356041b35d"
+              },
+              {
+                "src": "/media/generated/scripture/library/psalms-refuge/c5d9387fbf41-portrait-768.avif",
+                "width": 768,
+                "height": 1365,
+                "bytes": 42189,
+                "sha256": "6abdeefdba0b7cc9557449e0e95b6509392ae7c4253ec70f14762573972448a8"
+              }
+            ],
+            "webp": [
+              {
+                "src": "/media/generated/scripture/library/psalms-refuge/c5d9387fbf41-portrait-390.webp",
+                "width": 390,
+                "height": 693,
+                "bytes": 19096,
+                "sha256": "bd903c55f1d7505e6bbf1fb4391d16907912d61ae63a22d63ba155a80a79af05"
+              },
+              {
+                "src": "/media/generated/scripture/library/psalms-refuge/c5d9387fbf41-portrait-768.webp",
+                "width": 768,
+                "height": 1365,
+                "bytes": 59160,
+                "sha256": "1f334661f57d062b59834ffa2c30045d803835002a85a45609819a87c86256b5"
+              }
+            ],
+            "jpeg": [
+              {
+                "src": "/media/generated/scripture/library/psalms-refuge/c5d9387fbf41-portrait-390.jpg",
+                "width": 390,
+                "height": 693,
+                "bytes": 33326,
+                "sha256": "550a4a94caf01715c7e86c1239b79e1d432fd3cf2b83c3693fb3e92e5c2f3d7b"
+              },
+              {
+                "src": "/media/generated/scripture/library/psalms-refuge/c5d9387fbf41-portrait-768.jpg",
+                "width": 768,
+                "height": 1365,
+                "bytes": 110874,
+                "sha256": "a344957c7b4d831af40a373fe485c58017ed40944b52e1172603a2c145bf69d0"
+              }
+            ]
+          }
+        },
+        "landscape": {
+          "source": "media/study/psalms-refuge-library-wide-v2.png",
+          "source_sha256": "c10fa68bbcb7cef54c27b008b88451ecd472df42866773ca9b2a49cfd4500a28",
+          "source_width": 1672,
+          "source_height": 941,
+          "source_bytes": 1876848,
+          "media": "(min-width: 768px)",
+          "ratio": "16:9",
+          "sizes": "100vw",
+          "variants": {
+            "avif": [
+              {
+                "src": "/media/generated/scripture/library/psalms-refuge/c10fa68bbcb7-landscape-768.avif",
+                "width": 768,
+                "height": 432,
+                "bytes": 14232,
+                "sha256": "8ce5d7f5137055e78c48ba924026c050cd072520c037c85fa31e4106360a9356"
+              },
+              {
+                "src": "/media/generated/scripture/library/psalms-refuge/c10fa68bbcb7-landscape-1440.avif",
+                "width": 1440,
+                "height": 810,
+                "bytes": 44392,
+                "sha256": "d1b373b2a929365300d4840b1298d390ad14db9acdfa3fe7c1306cc3109754fe"
+              }
+            ],
+            "webp": [
+              {
+                "src": "/media/generated/scripture/library/psalms-refuge/c10fa68bbcb7-landscape-768.webp",
+                "width": 768,
+                "height": 432,
+                "bytes": 20210,
+                "sha256": "aa44387a308f8f685641c30f54fa05978f5b33c2f8fdbaa4c6a5d62f032a2f10"
+              },
+              {
+                "src": "/media/generated/scripture/library/psalms-refuge/c10fa68bbcb7-landscape-1440.webp",
+                "width": 1440,
+                "height": 810,
+                "bytes": 58056,
+                "sha256": "6a27092a2216bef8e96be0647aa4c0497bf110fba4f81a8a392ad290c5f03219"
+              }
+            ],
+            "jpeg": [
+              {
+                "src": "/media/generated/scripture/library/psalms-refuge/c10fa68bbcb7-landscape-768.jpg",
+                "width": 768,
+                "height": 432,
+                "bytes": 37509,
+                "sha256": "7f0ad555b9e642b8cf5e5ffd6f8639114d9e3c2ade2cb48fdc34b9fd1dcae9ff"
+              },
+              {
+                "src": "/media/generated/scripture/library/psalms-refuge/c10fa68bbcb7-landscape-1440.jpg",
+                "width": 1440,
+                "height": 810,
+                "bytes": 115936,
+                "sha256": "f1ec21b6590541cecb7f91cbfc2852d9ec6f9b59c13ebd7518544e3017fd2491"
+              }
+            ]
+          }
+        }
+      }
+    },
     "scripture.reader.mountains-gold-ivory": {
       "role": "catalog_landscape",
       "source": "media/scripture/reader-mountains-gold-ivory-v1.png",
@@ -78120,6 +80378,747 @@
                 "height": 887,
                 "bytes": 108155,
                 "sha256": "f336ff96f475fb80f778d911e70b28da934072a187533fa7b2274ed3b8bfa6ed"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "scripture_circle.backdrop.dark": {
+      "role": "hub_backdrop",
+      "source": "media/hub/rama/circle-scripture-celestial-dark-v1.png",
+      "source_sha256": "99d83647a2ea960b0fb1a0a3565d2b2b08d4e17544a0c4b68915ab11777d289d",
+      "source_width": 1672,
+      "source_height": 941,
+      "source_bytes": 2338221,
+      "ratio": "1.7768",
+      "focus": "50% 40%",
+      "theme": "dark",
+      "sizes": "100vw",
+      "variants": {
+        "avif": [
+          {
+            "src": "/media/generated/scripture_circle/backdrop/dark/99d83647a2ea-portrait-390.avif",
+            "width": 390,
+            "height": 693,
+            "bytes": 17280,
+            "sha256": "aafcfad99ce2fe47fda67573a5392523f1dff7a30c8760cf702c972bf92d45c0"
+          },
+          {
+            "src": "/media/generated/scripture_circle/backdrop/dark/99d83647a2ea-portrait-768.avif",
+            "width": 768,
+            "height": 1365,
+            "bytes": 42081,
+            "sha256": "d5331088f6170d274c66028b9423025e66b503e1ba8f8083a6488ac53b8e14ce"
+          },
+          {
+            "src": "/media/generated/scripture_circle/backdrop/dark/99d83647a2ea-portrait-941.avif",
+            "width": 941,
+            "height": 1673,
+            "bytes": 53709,
+            "sha256": "41e817b3ebda58f4803d598d8f2774e7ac7c3718015dddaa7c854fa9d5a9b621"
+          }
+        ],
+        "webp": [
+          {
+            "src": "/media/generated/scripture_circle/backdrop/dark/99d83647a2ea-portrait-390.webp",
+            "width": 390,
+            "height": 693,
+            "bytes": 24370,
+            "sha256": "78fdce1acd009456ef43b304fa220b653bd6eed778f484c3bc0e496459e0c5d3"
+          },
+          {
+            "src": "/media/generated/scripture_circle/backdrop/dark/99d83647a2ea-portrait-768.webp",
+            "width": 768,
+            "height": 1365,
+            "bytes": 50206,
+            "sha256": "c06c34b2a9b135efc3e9befc456894c0a5a1298c3f0078bf279c4377d001e2c0"
+          },
+          {
+            "src": "/media/generated/scripture_circle/backdrop/dark/99d83647a2ea-portrait-941.webp",
+            "width": 941,
+            "height": 1673,
+            "bytes": 64638,
+            "sha256": "af61eb85705f3a3c5dd79a2ad7738d4542bd4f150a8384aacc247b0f8379e91d"
+          }
+        ],
+        "jpeg": [
+          {
+            "src": "/media/generated/scripture_circle/backdrop/dark/99d83647a2ea-portrait-390.jpg",
+            "width": 390,
+            "height": 693,
+            "bytes": 38455,
+            "sha256": "70b262dad91b43e23a824fd1fa6c5583bf5edb67784cf7ecb6450d93a84069ed"
+          },
+          {
+            "src": "/media/generated/scripture_circle/backdrop/dark/99d83647a2ea-portrait-768.jpg",
+            "width": 768,
+            "height": 1365,
+            "bytes": 106346,
+            "sha256": "059dbb856c46dff6c0727cafb48bf055c1cf1b25cb63c3a074225292e93c7089"
+          },
+          {
+            "src": "/media/generated/scripture_circle/backdrop/dark/99d83647a2ea-portrait-941.jpg",
+            "width": 941,
+            "height": 1673,
+            "bytes": 143501,
+            "sha256": "3f328cf1d19e9abd45fa06dbfc31c9a08ad7466fc1fe6db9c719baf6df518e0e"
+          }
+        ]
+      },
+      "renditions": {
+        "portrait": {
+          "source": "media/hub/rama/circle-scripture-celestial-dark-v1.png",
+          "source_sha256": "99d83647a2ea960b0fb1a0a3565d2b2b08d4e17544a0c4b68915ab11777d289d",
+          "source_width": 1672,
+          "source_height": 941,
+          "source_bytes": 2338221,
+          "media": "(max-width: 767px)",
+          "ratio": "9:16",
+          "sizes": "100vw",
+          "variants": {
+            "avif": [
+              {
+                "src": "/media/generated/scripture_circle/backdrop/dark/99d83647a2ea-portrait-390.avif",
+                "width": 390,
+                "height": 693,
+                "bytes": 17280,
+                "sha256": "aafcfad99ce2fe47fda67573a5392523f1dff7a30c8760cf702c972bf92d45c0"
+              },
+              {
+                "src": "/media/generated/scripture_circle/backdrop/dark/99d83647a2ea-portrait-768.avif",
+                "width": 768,
+                "height": 1365,
+                "bytes": 42081,
+                "sha256": "d5331088f6170d274c66028b9423025e66b503e1ba8f8083a6488ac53b8e14ce"
+              },
+              {
+                "src": "/media/generated/scripture_circle/backdrop/dark/99d83647a2ea-portrait-941.avif",
+                "width": 941,
+                "height": 1673,
+                "bytes": 53709,
+                "sha256": "41e817b3ebda58f4803d598d8f2774e7ac7c3718015dddaa7c854fa9d5a9b621"
+              }
+            ],
+            "webp": [
+              {
+                "src": "/media/generated/scripture_circle/backdrop/dark/99d83647a2ea-portrait-390.webp",
+                "width": 390,
+                "height": 693,
+                "bytes": 24370,
+                "sha256": "78fdce1acd009456ef43b304fa220b653bd6eed778f484c3bc0e496459e0c5d3"
+              },
+              {
+                "src": "/media/generated/scripture_circle/backdrop/dark/99d83647a2ea-portrait-768.webp",
+                "width": 768,
+                "height": 1365,
+                "bytes": 50206,
+                "sha256": "c06c34b2a9b135efc3e9befc456894c0a5a1298c3f0078bf279c4377d001e2c0"
+              },
+              {
+                "src": "/media/generated/scripture_circle/backdrop/dark/99d83647a2ea-portrait-941.webp",
+                "width": 941,
+                "height": 1673,
+                "bytes": 64638,
+                "sha256": "af61eb85705f3a3c5dd79a2ad7738d4542bd4f150a8384aacc247b0f8379e91d"
+              }
+            ],
+            "jpeg": [
+              {
+                "src": "/media/generated/scripture_circle/backdrop/dark/99d83647a2ea-portrait-390.jpg",
+                "width": 390,
+                "height": 693,
+                "bytes": 38455,
+                "sha256": "70b262dad91b43e23a824fd1fa6c5583bf5edb67784cf7ecb6450d93a84069ed"
+              },
+              {
+                "src": "/media/generated/scripture_circle/backdrop/dark/99d83647a2ea-portrait-768.jpg",
+                "width": 768,
+                "height": 1365,
+                "bytes": 106346,
+                "sha256": "059dbb856c46dff6c0727cafb48bf055c1cf1b25cb63c3a074225292e93c7089"
+              },
+              {
+                "src": "/media/generated/scripture_circle/backdrop/dark/99d83647a2ea-portrait-941.jpg",
+                "width": 941,
+                "height": 1673,
+                "bytes": 143501,
+                "sha256": "3f328cf1d19e9abd45fa06dbfc31c9a08ad7466fc1fe6db9c719baf6df518e0e"
+              }
+            ]
+          }
+        },
+        "landscape": {
+          "source": "media/hub/rama/circle-scripture-celestial-dark-v1.png",
+          "source_sha256": "99d83647a2ea960b0fb1a0a3565d2b2b08d4e17544a0c4b68915ab11777d289d",
+          "source_width": 1672,
+          "source_height": 941,
+          "source_bytes": 2338221,
+          "media": "(min-width: 768px)",
+          "ratio": "16:9",
+          "sizes": "100vw",
+          "variants": {
+            "avif": [
+              {
+                "src": "/media/generated/scripture_circle/backdrop/dark/99d83647a2ea-landscape-768.avif",
+                "width": 768,
+                "height": 432,
+                "bytes": 21865,
+                "sha256": "e17aca90c124035fec101ed1c2598ca7315fdfed454d3e305c5dc96289e2186b"
+              },
+              {
+                "src": "/media/generated/scripture_circle/backdrop/dark/99d83647a2ea-landscape-1440.avif",
+                "width": 1440,
+                "height": 810,
+                "bytes": 71789,
+                "sha256": "6dba84062ed956af204663e629d85828bb33ab4cf3622cbec271f162a7187cd7"
+              },
+              {
+                "src": "/media/generated/scripture_circle/backdrop/dark/99d83647a2ea-landscape-1672.avif",
+                "width": 1672,
+                "height": 941,
+                "bytes": 90925,
+                "sha256": "2f526362b3b35ac194e4d3973e4dfd9ac25f696b2636e3f4991c2fe8c54655c9"
+              }
+            ],
+            "webp": [
+              {
+                "src": "/media/generated/scripture_circle/backdrop/dark/99d83647a2ea-landscape-768.webp",
+                "width": 768,
+                "height": 432,
+                "bytes": 32000,
+                "sha256": "d3f106842bd24000b2e5999b3c3d39ed04db9e9fb881ff247e8241ee42b2dbd0"
+              },
+              {
+                "src": "/media/generated/scripture_circle/backdrop/dark/99d83647a2ea-landscape-1440.webp",
+                "width": 1440,
+                "height": 810,
+                "bytes": 97650,
+                "sha256": "553f4302395de214c1f0371a39e987fc314423974624577a0c130267cbd316c8"
+              },
+              {
+                "src": "/media/generated/scripture_circle/backdrop/dark/99d83647a2ea-landscape-1672.webp",
+                "width": 1672,
+                "height": 941,
+                "bytes": 122264,
+                "sha256": "ed0ca271df87185d04922f5834f118b26d7e5620c2c9fd0f20bee8aaa0014c56"
+              }
+            ],
+            "jpeg": [
+              {
+                "src": "/media/generated/scripture_circle/backdrop/dark/99d83647a2ea-landscape-768.jpg",
+                "width": 768,
+                "height": 432,
+                "bytes": 49317,
+                "sha256": "4a05d8d140f29c9aaf6dca9f47650e81dab42ce3511fd1cca5d43d594d74a59c"
+              },
+              {
+                "src": "/media/generated/scripture_circle/backdrop/dark/99d83647a2ea-landscape-1440.jpg",
+                "width": 1440,
+                "height": 810,
+                "bytes": 162726,
+                "sha256": "f1d4d6401366b41a0b4b41cc54d67187567afb1b46c3067a59fb5215bffdd06e"
+              },
+              {
+                "src": "/media/generated/scripture_circle/backdrop/dark/99d83647a2ea-landscape-1672.jpg",
+                "width": 1672,
+                "height": 941,
+                "bytes": 210441,
+                "sha256": "d7e60cbe3e17b1d420bfefc077b3ac4e77c1255ce07254d9882b49b31495555e"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "scripture_circle.backdrop.light": {
+      "role": "hub_backdrop",
+      "source": "media/hub/rama/circle-scripture-celestial-light-v1.png",
+      "source_sha256": "548f1b3b8b28d88a14606ee041d9f20b925c0d967b0897f0021cff9e6aee6e14",
+      "source_width": 1672,
+      "source_height": 941,
+      "source_bytes": 2559042,
+      "ratio": "1.7768",
+      "focus": "50% 40%",
+      "theme": "light",
+      "sizes": "100vw",
+      "variants": {
+        "avif": [
+          {
+            "src": "/media/generated/scripture_circle/backdrop/light/548f1b3b8b28-portrait-390.avif",
+            "width": 390,
+            "height": 693,
+            "bytes": 19449,
+            "sha256": "8669b78d8e375a8d2d9cd3dd03ef7ddbc426d7d51b3b3e2ecde6847de8cd7fce"
+          },
+          {
+            "src": "/media/generated/scripture_circle/backdrop/light/548f1b3b8b28-portrait-768.avif",
+            "width": 768,
+            "height": 1365,
+            "bytes": 44718,
+            "sha256": "747932482b28b8bfd6efa44f4518c57100dfffa5e78acb0520b8df3ab37b70a3"
+          },
+          {
+            "src": "/media/generated/scripture_circle/backdrop/light/548f1b3b8b28-portrait-941.avif",
+            "width": 941,
+            "height": 1673,
+            "bytes": 56288,
+            "sha256": "a76c93f68f20bd6fb6663f06f9a16f0e155483b56f5dcebd693c6e9f3a19112b"
+          }
+        ],
+        "webp": [
+          {
+            "src": "/media/generated/scripture_circle/backdrop/light/548f1b3b8b28-portrait-390.webp",
+            "width": 390,
+            "height": 693,
+            "bytes": 32428,
+            "sha256": "b10fa3b7a591451357b6e14f0a2a88d4e900fcaabf4e28f24b301123472d83ab"
+          },
+          {
+            "src": "/media/generated/scripture_circle/backdrop/light/548f1b3b8b28-portrait-768.webp",
+            "width": 768,
+            "height": 1365,
+            "bytes": 63338,
+            "sha256": "d65eec805ef08ff7a41aa90200dcc3716266c0310e35348fdd090e2cf317f601"
+          },
+          {
+            "src": "/media/generated/scripture_circle/backdrop/light/548f1b3b8b28-portrait-941.webp",
+            "width": 941,
+            "height": 1673,
+            "bytes": 80408,
+            "sha256": "80ce31f423a0162b838d3073f9a1a5a017435118244b670a76532d963115f7a1"
+          }
+        ],
+        "jpeg": [
+          {
+            "src": "/media/generated/scripture_circle/backdrop/light/548f1b3b8b28-portrait-390.jpg",
+            "width": 390,
+            "height": 693,
+            "bytes": 46138,
+            "sha256": "4c7b94226860d79462f1d9591f49e56b94d5a72458acb41bb9fedfc91d3a8f96"
+          },
+          {
+            "src": "/media/generated/scripture_circle/backdrop/light/548f1b3b8b28-portrait-768.jpg",
+            "width": 768,
+            "height": 1365,
+            "bytes": 121876,
+            "sha256": "1b70d34c421aef78d543e46675088bb335dfa14949fc87f5025d5618afa9a7ed"
+          },
+          {
+            "src": "/media/generated/scripture_circle/backdrop/light/548f1b3b8b28-portrait-941.jpg",
+            "width": 941,
+            "height": 1673,
+            "bytes": 163345,
+            "sha256": "8e2e1f60c2bde0bc329cf7f5b6781a8e7f117926c8573387faf65b8b3379e2f6"
+          }
+        ]
+      },
+      "renditions": {
+        "portrait": {
+          "source": "media/hub/rama/circle-scripture-celestial-light-v1.png",
+          "source_sha256": "548f1b3b8b28d88a14606ee041d9f20b925c0d967b0897f0021cff9e6aee6e14",
+          "source_width": 1672,
+          "source_height": 941,
+          "source_bytes": 2559042,
+          "media": "(max-width: 767px)",
+          "ratio": "9:16",
+          "sizes": "100vw",
+          "variants": {
+            "avif": [
+              {
+                "src": "/media/generated/scripture_circle/backdrop/light/548f1b3b8b28-portrait-390.avif",
+                "width": 390,
+                "height": 693,
+                "bytes": 19449,
+                "sha256": "8669b78d8e375a8d2d9cd3dd03ef7ddbc426d7d51b3b3e2ecde6847de8cd7fce"
+              },
+              {
+                "src": "/media/generated/scripture_circle/backdrop/light/548f1b3b8b28-portrait-768.avif",
+                "width": 768,
+                "height": 1365,
+                "bytes": 44718,
+                "sha256": "747932482b28b8bfd6efa44f4518c57100dfffa5e78acb0520b8df3ab37b70a3"
+              },
+              {
+                "src": "/media/generated/scripture_circle/backdrop/light/548f1b3b8b28-portrait-941.avif",
+                "width": 941,
+                "height": 1673,
+                "bytes": 56288,
+                "sha256": "a76c93f68f20bd6fb6663f06f9a16f0e155483b56f5dcebd693c6e9f3a19112b"
+              }
+            ],
+            "webp": [
+              {
+                "src": "/media/generated/scripture_circle/backdrop/light/548f1b3b8b28-portrait-390.webp",
+                "width": 390,
+                "height": 693,
+                "bytes": 32428,
+                "sha256": "b10fa3b7a591451357b6e14f0a2a88d4e900fcaabf4e28f24b301123472d83ab"
+              },
+              {
+                "src": "/media/generated/scripture_circle/backdrop/light/548f1b3b8b28-portrait-768.webp",
+                "width": 768,
+                "height": 1365,
+                "bytes": 63338,
+                "sha256": "d65eec805ef08ff7a41aa90200dcc3716266c0310e35348fdd090e2cf317f601"
+              },
+              {
+                "src": "/media/generated/scripture_circle/backdrop/light/548f1b3b8b28-portrait-941.webp",
+                "width": 941,
+                "height": 1673,
+                "bytes": 80408,
+                "sha256": "80ce31f423a0162b838d3073f9a1a5a017435118244b670a76532d963115f7a1"
+              }
+            ],
+            "jpeg": [
+              {
+                "src": "/media/generated/scripture_circle/backdrop/light/548f1b3b8b28-portrait-390.jpg",
+                "width": 390,
+                "height": 693,
+                "bytes": 46138,
+                "sha256": "4c7b94226860d79462f1d9591f49e56b94d5a72458acb41bb9fedfc91d3a8f96"
+              },
+              {
+                "src": "/media/generated/scripture_circle/backdrop/light/548f1b3b8b28-portrait-768.jpg",
+                "width": 768,
+                "height": 1365,
+                "bytes": 121876,
+                "sha256": "1b70d34c421aef78d543e46675088bb335dfa14949fc87f5025d5618afa9a7ed"
+              },
+              {
+                "src": "/media/generated/scripture_circle/backdrop/light/548f1b3b8b28-portrait-941.jpg",
+                "width": 941,
+                "height": 1673,
+                "bytes": 163345,
+                "sha256": "8e2e1f60c2bde0bc329cf7f5b6781a8e7f117926c8573387faf65b8b3379e2f6"
+              }
+            ]
+          }
+        },
+        "landscape": {
+          "source": "media/hub/rama/circle-scripture-celestial-light-v1.png",
+          "source_sha256": "548f1b3b8b28d88a14606ee041d9f20b925c0d967b0897f0021cff9e6aee6e14",
+          "source_width": 1672,
+          "source_height": 941,
+          "source_bytes": 2559042,
+          "media": "(min-width: 768px)",
+          "ratio": "16:9",
+          "sizes": "100vw",
+          "variants": {
+            "avif": [
+              {
+                "src": "/media/generated/scripture_circle/backdrop/light/548f1b3b8b28-landscape-768.avif",
+                "width": 768,
+                "height": 432,
+                "bytes": 28794,
+                "sha256": "54e41946ba013ff7bb1477d4c434b2f1b926746bf50a3c9e8443a6f9710d940a"
+              },
+              {
+                "src": "/media/generated/scripture_circle/backdrop/light/548f1b3b8b28-landscape-1440.avif",
+                "width": 1440,
+                "height": 810,
+                "bytes": 87541,
+                "sha256": "2a536e8df653fd93c0e5480a4bc14d3f6236428c45a3584c96a847fb77770cd0"
+              },
+              {
+                "src": "/media/generated/scripture_circle/backdrop/light/548f1b3b8b28-landscape-1672.avif",
+                "width": 1672,
+                "height": 941,
+                "bytes": 108378,
+                "sha256": "180bf85c567840c8005b7e356fa35ab8d3c171dc9644ee984eae778336ccf656"
+              }
+            ],
+            "webp": [
+              {
+                "src": "/media/generated/scripture_circle/backdrop/light/548f1b3b8b28-landscape-768.webp",
+                "width": 768,
+                "height": 432,
+                "bytes": 51190,
+                "sha256": "69fb05c90a8903a42c611379fc1816c349b6b88731bba7420ae11016661b55e4"
+              },
+              {
+                "src": "/media/generated/scripture_circle/backdrop/light/548f1b3b8b28-landscape-1440.webp",
+                "width": 1440,
+                "height": 810,
+                "bytes": 141074,
+                "sha256": "f05c4b31fc08c8ca5b026b5bc5e623f9c80b6c676d6059d30a10e5786dc38c27"
+              },
+              {
+                "src": "/media/generated/scripture_circle/backdrop/light/548f1b3b8b28-landscape-1672.webp",
+                "width": 1672,
+                "height": 941,
+                "bytes": 172816,
+                "sha256": "ccba939e29e57fc19cdbe2e5d53d294bcdbc564dc092df4dbb17fcce120dfcd5"
+              }
+            ],
+            "jpeg": [
+              {
+                "src": "/media/generated/scripture_circle/backdrop/light/548f1b3b8b28-landscape-768.jpg",
+                "width": 768,
+                "height": 432,
+                "bytes": 66315,
+                "sha256": "9a0e65625991063e8e856d0e25044c1b6189d97b2c434c0b0025d7f142a6a9d3"
+              },
+              {
+                "src": "/media/generated/scripture_circle/backdrop/light/548f1b3b8b28-landscape-1440.jpg",
+                "width": 1440,
+                "height": 810,
+                "bytes": 204717,
+                "sha256": "53ca00bfdc3d2df815b45b33afebaa3720d56c30300e131d4e88ecd7238db115"
+              },
+              {
+                "src": "/media/generated/scripture_circle/backdrop/light/548f1b3b8b28-landscape-1672.jpg",
+                "width": 1672,
+                "height": 941,
+                "bytes": 260724,
+                "sha256": "cd7a3b0a48152d287939ee5a113eaae9c8c2402f7d1b2f662cdd69f65336ca58"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "scripture_circle.gathering.light": {
+      "role": "hub_backdrop",
+      "source": "media/hub/rama/circle-scripture-gathering-celestial-light-v1.png",
+      "source_sha256": "5342334d86677a663dfe674a5a2eb782a120cac0c9dba800c1fa34e950c08451",
+      "source_width": 1672,
+      "source_height": 941,
+      "source_bytes": 1966831,
+      "ratio": "1.7768",
+      "focus": "69% 63%",
+      "theme": "light",
+      "sizes": "100vw",
+      "variants": {
+        "avif": [
+          {
+            "src": "/media/generated/scripture_circle/gathering/light/5342334d8667-portrait-390.avif",
+            "width": 390,
+            "height": 693,
+            "bytes": 11499,
+            "sha256": "e76cc161815d7692ee6d3c914258a9e532cc775b03a42d8b51378e8a4355d1a1"
+          },
+          {
+            "src": "/media/generated/scripture_circle/gathering/light/5342334d8667-portrait-768.avif",
+            "width": 768,
+            "height": 1365,
+            "bytes": 25504,
+            "sha256": "069abff8a74969e7dfc8645f423b09291a3bb7764ac2e43eea74dddb31ed183e"
+          },
+          {
+            "src": "/media/generated/scripture_circle/gathering/light/5342334d8667-portrait-941.avif",
+            "width": 941,
+            "height": 1673,
+            "bytes": 31956,
+            "sha256": "d4e74a3639338e5291ae08e7103749edce8980df558c37bc53d2f47a82815dac"
+          }
+        ],
+        "webp": [
+          {
+            "src": "/media/generated/scripture_circle/gathering/light/5342334d8667-portrait-390.webp",
+            "width": 390,
+            "height": 693,
+            "bytes": 17062,
+            "sha256": "bc1a4b26c37821c1ae95c78e454d955a71ada087965a2712866101af9c9d454c"
+          },
+          {
+            "src": "/media/generated/scripture_circle/gathering/light/5342334d8667-portrait-768.webp",
+            "width": 768,
+            "height": 1365,
+            "bytes": 35008,
+            "sha256": "81dcdf168dfc17645c9a5faedc9e23ee5c6e6f3c67aa1565959e163cc03d206b"
+          },
+          {
+            "src": "/media/generated/scripture_circle/gathering/light/5342334d8667-portrait-941.webp",
+            "width": 941,
+            "height": 1673,
+            "bytes": 45014,
+            "sha256": "a787b025ca35a42840c7d15c9ea07a6e82f6a16ab60ac3021945866054909853"
+          }
+        ],
+        "jpeg": [
+          {
+            "src": "/media/generated/scripture_circle/gathering/light/5342334d8667-portrait-390.jpg",
+            "width": 390,
+            "height": 693,
+            "bytes": 28683,
+            "sha256": "59276ec634abe9467d79e99b24e754a7c96c8d18863c95c86eebd48e3c272f17"
+          },
+          {
+            "src": "/media/generated/scripture_circle/gathering/light/5342334d8667-portrait-768.jpg",
+            "width": 768,
+            "height": 1365,
+            "bytes": 74210,
+            "sha256": "b2ec4db185f81ecba0563065535540aa9e57da6d83618503050fa880f345ee25"
+          },
+          {
+            "src": "/media/generated/scripture_circle/gathering/light/5342334d8667-portrait-941.jpg",
+            "width": 941,
+            "height": 1673,
+            "bytes": 99513,
+            "sha256": "9824871d59f7dc699181ab8edb2f4b5104d7b1aa188bcd3e40acc3c7126b513e"
+          }
+        ]
+      },
+      "renditions": {
+        "portrait": {
+          "source": "media/hub/rama/circle-scripture-gathering-celestial-light-v1.png",
+          "source_sha256": "5342334d86677a663dfe674a5a2eb782a120cac0c9dba800c1fa34e950c08451",
+          "source_width": 1672,
+          "source_height": 941,
+          "source_bytes": 1966831,
+          "media": "(max-width: 767px)",
+          "ratio": "9:16",
+          "sizes": "100vw",
+          "variants": {
+            "avif": [
+              {
+                "src": "/media/generated/scripture_circle/gathering/light/5342334d8667-portrait-390.avif",
+                "width": 390,
+                "height": 693,
+                "bytes": 11499,
+                "sha256": "e76cc161815d7692ee6d3c914258a9e532cc775b03a42d8b51378e8a4355d1a1"
+              },
+              {
+                "src": "/media/generated/scripture_circle/gathering/light/5342334d8667-portrait-768.avif",
+                "width": 768,
+                "height": 1365,
+                "bytes": 25504,
+                "sha256": "069abff8a74969e7dfc8645f423b09291a3bb7764ac2e43eea74dddb31ed183e"
+              },
+              {
+                "src": "/media/generated/scripture_circle/gathering/light/5342334d8667-portrait-941.avif",
+                "width": 941,
+                "height": 1673,
+                "bytes": 31956,
+                "sha256": "d4e74a3639338e5291ae08e7103749edce8980df558c37bc53d2f47a82815dac"
+              }
+            ],
+            "webp": [
+              {
+                "src": "/media/generated/scripture_circle/gathering/light/5342334d8667-portrait-390.webp",
+                "width": 390,
+                "height": 693,
+                "bytes": 17062,
+                "sha256": "bc1a4b26c37821c1ae95c78e454d955a71ada087965a2712866101af9c9d454c"
+              },
+              {
+                "src": "/media/generated/scripture_circle/gathering/light/5342334d8667-portrait-768.webp",
+                "width": 768,
+                "height": 1365,
+                "bytes": 35008,
+                "sha256": "81dcdf168dfc17645c9a5faedc9e23ee5c6e6f3c67aa1565959e163cc03d206b"
+              },
+              {
+                "src": "/media/generated/scripture_circle/gathering/light/5342334d8667-portrait-941.webp",
+                "width": 941,
+                "height": 1673,
+                "bytes": 45014,
+                "sha256": "a787b025ca35a42840c7d15c9ea07a6e82f6a16ab60ac3021945866054909853"
+              }
+            ],
+            "jpeg": [
+              {
+                "src": "/media/generated/scripture_circle/gathering/light/5342334d8667-portrait-390.jpg",
+                "width": 390,
+                "height": 693,
+                "bytes": 28683,
+                "sha256": "59276ec634abe9467d79e99b24e754a7c96c8d18863c95c86eebd48e3c272f17"
+              },
+              {
+                "src": "/media/generated/scripture_circle/gathering/light/5342334d8667-portrait-768.jpg",
+                "width": 768,
+                "height": 1365,
+                "bytes": 74210,
+                "sha256": "b2ec4db185f81ecba0563065535540aa9e57da6d83618503050fa880f345ee25"
+              },
+              {
+                "src": "/media/generated/scripture_circle/gathering/light/5342334d8667-portrait-941.jpg",
+                "width": 941,
+                "height": 1673,
+                "bytes": 99513,
+                "sha256": "9824871d59f7dc699181ab8edb2f4b5104d7b1aa188bcd3e40acc3c7126b513e"
+              }
+            ]
+          }
+        },
+        "landscape": {
+          "source": "media/hub/rama/circle-scripture-gathering-celestial-light-v1.png",
+          "source_sha256": "5342334d86677a663dfe674a5a2eb782a120cac0c9dba800c1fa34e950c08451",
+          "source_width": 1672,
+          "source_height": 941,
+          "source_bytes": 1966831,
+          "media": "(min-width: 768px)",
+          "ratio": "16:9",
+          "sizes": "100vw",
+          "variants": {
+            "avif": [
+              {
+                "src": "/media/generated/scripture_circle/gathering/light/5342334d8667-landscape-768.avif",
+                "width": 768,
+                "height": 432,
+                "bytes": 18712,
+                "sha256": "203890a73a931b137a01c56d7bfed1341f938564a92a370a2cf493e0a63dc997"
+              },
+              {
+                "src": "/media/generated/scripture_circle/gathering/light/5342334d8667-landscape-1440.avif",
+                "width": 1440,
+                "height": 810,
+                "bytes": 49567,
+                "sha256": "9493ab428cca9a632dd6b6908c261d7fc7c36afde94eec77ff1f5daae5408161"
+              },
+              {
+                "src": "/media/generated/scripture_circle/gathering/light/5342334d8667-landscape-1672.avif",
+                "width": 1672,
+                "height": 941,
+                "bytes": 60178,
+                "sha256": "d753d6af66a6299eb902a4168e4eb72e5610e5a72ad929ac28bae604302c4000"
+              }
+            ],
+            "webp": [
+              {
+                "src": "/media/generated/scripture_circle/gathering/light/5342334d8667-landscape-768.webp",
+                "width": 768,
+                "height": 432,
+                "bytes": 30252,
+                "sha256": "6e138942b68b34fdd8d5976b2749801e68125c2f633fcc71831f9d8b1eeab8ca"
+              },
+              {
+                "src": "/media/generated/scripture_circle/gathering/light/5342334d8667-landscape-1440.webp",
+                "width": 1440,
+                "height": 810,
+                "bytes": 75492,
+                "sha256": "e6c2fac210cd134115960efdf72726f8575f74544aad46b0d912ac4a8838ba9d"
+              },
+              {
+                "src": "/media/generated/scripture_circle/gathering/light/5342334d8667-landscape-1672.webp",
+                "width": 1672,
+                "height": 941,
+                "bytes": 91296,
+                "sha256": "01f939129e8f44c36cd1328e3e0fa82b7af654c6b4b7571a0ae5af4bc79fb116"
+              }
+            ],
+            "jpeg": [
+              {
+                "src": "/media/generated/scripture_circle/gathering/light/5342334d8667-landscape-768.jpg",
+                "width": 768,
+                "height": 432,
+                "bytes": 45259,
+                "sha256": "35a2412569781548c81208a016ea27907dbcc79a250867486c72db2c754a2606"
+              },
+              {
+                "src": "/media/generated/scripture_circle/gathering/light/5342334d8667-landscape-1440.jpg",
+                "width": 1440,
+                "height": 810,
+                "bytes": 126299,
+                "sha256": "aaef040d1b61e6b1f7e0730a98c6cba63ee8dbdfb9175152a1e69f23e41ced09"
+              },
+              {
+                "src": "/media/generated/scripture_circle/gathering/light/5342334d8667-landscape-1672.jpg",
+                "width": 1672,
+                "height": 941,
+                "bytes": 158762,
+                "sha256": "b21e92a6fe01f724d8270d65ae94d9ecf1034400cd82fe64239a8a9da9f727dc"
               }
             ]
           }

@@ -29,13 +29,18 @@ class Ward < ApplicationRecord
   has_many :people, dependent: :destroy
   has_many :ward_teams, dependent: :destroy
   has_many :game_sessions, dependent: :restrict_with_exception
+  has_many :ward_events, dependent: :destroy
+  has_many :ward_event_audits, dependent: :destroy
   has_many :person_devices, through: :people
   has_many :scripture_circle_threads, dependent: :destroy
   has_many :scripture_circle_posts, dependent: :destroy
+  has_many :scripture_circle_conversation_votes, dependent: :destroy
+  has_many :scripture_circle_post_votes, dependent: :destroy
+  has_many :scripture_circle_moderation_reports, dependent: :destroy
 
   scope :listed, -> { where(listed: true) }
 
-  validates :name, :code, :presenter_token_digest, presence: true
+  validates :name, :code, :admin_token_digest, presence: true
   validates :code, uniqueness: true
   validates :church_unit_id, uniqueness: true, allow_nil: true
   validates :name, length: { maximum: NAME_MAX }
@@ -45,7 +50,7 @@ class Ward < ApplicationRecord
   validates :scripture_circle_mode, inclusion: { in: SCRIPTURE_CIRCLE_MODES }
   validates :chapel_name, :chapel_address, :city, :region, :postal_code, :stake_name, :stake_unit_id, :country_name, length: { maximum: 80 }, allow_blank: true
 
-  attr_accessor :presenter_token
+  attr_accessor :admin_token
 
   private
 
@@ -63,9 +68,9 @@ class Ward < ApplicationRecord
     Array.new(5) { GameSession::CODE_CHARS.sample }.join
   end
 
-  def presenter_token_matches?(token)
+  def admin_token_matches?(token)
     digest = GameSession.digest_token(token)
-    ActiveSupport::SecurityUtils.secure_compare(presenter_token_digest, digest)
+    ActiveSupport::SecurityUtils.secure_compare(admin_token_digest, digest)
   end
 
   def live_night

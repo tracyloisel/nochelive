@@ -1,12 +1,12 @@
 <h1><%= t("join.homonyms_title") %></h1>
-<p class="lede"><%= t("join.homonyms_lede", name: @given_name.presence || t("presenter.someone")) %></p>
+<p class="lede"><%= t("join.homonyms_lede", name: @given_name.presence || t("nights.someone")) %></p>
 
 <ul class="team-list person-list">
   <% cards.each do |card| %>
     <li>
       <% on_device = @people_on_device.any? { |row| row.id == card.person.id } %>
       <% if on_device %>
-        <%= button_to night_players_path(night.code), params: { person_id: card.person.id, location: @location.presence || "room" }, class: "team-pick person-pick is-here" do %>
+        <%= button_to night_players_path(night.code), params: { person_id: card.person.id }, class: "team-pick person-pick is-here" do %>
           <%= render "people/card", person: card.person, show_year: card.show_year, hint: t("join.this_phone") %>
         <% end %>
       <% else %>
@@ -24,7 +24,6 @@
   <input type="hidden" name="name" value="<%= @given_name %>">
   <input type="hidden" name="avatar_key" value="<%= @avatar_key.presence || "delfin" %>">
   <input type="hidden" name="favorite_year" value="<%= @favorite_year %>">
-  <input type="hidden" name="location" value="<%= @location.presence || "room" %>">
   <input type="hidden" name="soy_nueva" value="1">
   <button type="submit" class="btn btn-navy"><%= picto("plus") %><%= t("join.new_person") %></button>
 <% end %>

@@ -44,11 +44,13 @@ Créer la session uniquement après une confirmation humaine explicite.
 
 ### 5. `get_live_state`
 
-Fournir au présentateur les informations utiles pendant la soirée : étape actuelle, temps, réponses reçues, classement, joueurs bloqués et rythme général.
+Fournir la projection Watch de la soirée : phase dérivée de l'heure, classement
+des équipes, complétion des questions et événements sémantiques récents.
 
 ### 6. `suggest_next_move`
 
-Conseiller une prochaine action — révéler, relancer, raccourcir, expliquer ou célébrer — sans l’exécuter automatiquement.
+Proposer une action d'organisation hors moteur de jeu — partager le lien,
+préparer les lectures ou rappeler l'heure — sans contrôler la progression des quiz.
 
 ## Autres services possibles
 
@@ -64,7 +66,7 @@ Conseiller une prochaine action — révéler, relancer, raccourcir, expliquer o
 - `recommend_next_study` : proposer le prochain parcours à partir de la progression que le joueur a autorisé l’agent à consulter.
 - `summarize_game_night` : produire un compte rendu de soirée sans divulguer de données personnelles.
 - `draft_invitation` : préparer une invitation WhatsApp dans la bonne langue, sans l’envoyer.
-- `translate_live` : adapter les consignes du présentateur aux langues des participants.
+- `translate_live` : localiser les notifications sémantiques destinées aux participants.
 
 ## Interfaces techniques envisagées
 

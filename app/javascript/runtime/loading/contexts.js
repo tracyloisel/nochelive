@@ -4,7 +4,6 @@ export const CONTEXTS = Object.freeze({
   streetAsk: "street.quiz.ask",
   streetResult: "street.quiz.result",
   livePlay: "live.play",
-  presenter: "live.presenter",
   watch: "live.watch",
   study: "study.program",
   church: "church.journey",

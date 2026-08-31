@@ -536,53 +536,6 @@ body.is-street-play .sky {
 }
 .street-share-toast { position: fixed; bottom: 5rem; left: 50%; transform: translateX(-50%); padding: var(--space-3) var(--space-4); border-radius: 999px; background: var(--ink); color: var(--paper); z-index: 30; opacity: 0; transition: opacity 240ms ease; }
 .street-share-toast.is-visible { opacity: 1; }
-body.is-play #night_play .play-round.is-night-live .night-quiz-head .street-quiz-lockup {
-  position: relative;
-  z-index: 1;
-}
-body.is-play #night_play .play-round.is-night-live .street-quiz-lockup {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.05rem;
-  text-align: center;
-}
-body.is-play #night_play .play-round.is-night-live .street-quiz-lockup-name {
-  margin: 0;
-  font-family: var(--font-display);
-  font-size: 1.05rem;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  color: var(--ink);
-  line-height: 1;
-}
-body.is-play #night_play .play-round.is-night-live .street-quiz-lockup-tag {
-  margin: 0;
-  font-family: var(--font-display);
-  font-size: var(--type-min);
-  font-weight: 650;
-  letter-spacing: 0.22em;
-  color: var(--ink);
-}
-body.is-play #night_play .play-round.is-night-live .street-quiz-lockup-tag::before,
-body.is-play #night_play .play-round.is-night-live .street-quiz-lockup-tag::after {
-  content: "";
-  display: inline-block;
-  vertical-align: middle;
-  width: 1.65rem;
-  height: 1px;
-  margin-inline: 0.35rem;
-  background: var(--temple-gold-leaf, var(--gold-deep));
-}
-body.is-play #night_play .play-round.is-night-live .street-quiz-lockup-name::before {
-  content: "";
-  display: block;
-  width: 0.55rem;
-  height: 0.55rem;
-  margin: 0 auto 0.2rem;
-  clip-path: var(--temple-star);
-  background: var(--temple-gold-leaf, var(--gold-deep));
-}
 @media (min-width: 720px) {
 body.is-street-play .sky {
     background-color: var(--temple-ivory);
@@ -2777,9 +2730,4 @@ body.is-street-play .chrome-drawer {
   inset: 0;
   width: 100vw;
   max-width: 100vw;
-}
-body.is-play.is-celestial-dark #night_play .play-round.is-night-live .street-quiz-lockup-name,
-body.is-play.is-celestial-dark #night_play .play-round.is-night-live .street-quiz-lockup-tag {
-  color: #fff3c2;
-  text-shadow: 0 .15rem .8rem rgba(0, 0, 0, .7);
 }

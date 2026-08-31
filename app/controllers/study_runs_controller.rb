@@ -71,6 +71,6 @@ class StudyRunsController < ApplicationController
   rescue ActiveRecord::RecordNotFound
     run = study_runs_for_identity.open.order(updated_at: :desc).first
 
-    redirect_to(run ? study_run_path(run) : study_program_path)
+    redirect_to(run ? study_run_path(run) : scripture_library_path(section: "program", anchor: "selection"))
   end
 end

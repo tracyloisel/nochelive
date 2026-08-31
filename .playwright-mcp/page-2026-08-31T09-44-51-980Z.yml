@@ -1,0 +1,245 @@
+- generic [ref=e1]:
+  - link "Aller au jeu" [ref=e2] [cursor=pointer]:
+    - /url: "#main"
+  - main [ref=e22]:
+    - article [ref=e23]:
+      - generic [ref=e24]:
+        - generic [ref=e25]:
+          - generic [ref=e26]:
+            - paragraph [ref=e27]:
+              - generic [ref=e28]: ✦
+              - text: Tes Écritures
+            - heading "Bibliothèque" [level=1] [ref=e29]
+            - blockquote [ref=e30]: Dieu est pour nous un refuge et un appui.
+          - search [ref=e31]:
+            - generic [ref=e32]: Rechercher dans les Écritures
+            - generic [ref=e33]:
+              - combobox "Rechercher dans les Écritures" [expanded] [ref=e38]: Jean 3:36
+              - button "Effacer la recherche" [ref=e39] [cursor=pointer]: ×
+              - button "Ouvrir" [ref=e40] [cursor=pointer]
+            - status [ref=e41]
+            - listbox "Rechercher dans les Écritures" [ref=e313]:
+              - option "Jean 3:36" [ref=e314] [cursor=pointer]:
+                - generic [ref=e316]: →
+          - link "Continuer la lecture Psaume 49 Verset 17 sur 21 81 Continuer" [ref=e43] [cursor=pointer]:
+            - /url: /escrituras/ot/ps/49?cite=Psaume+49%3A17&locale=fr
+            - generic [ref=e51]:
+              - generic [ref=e52]: Continuer la lecture
+              - strong [ref=e53]: Psaume 49
+              - generic [ref=e54]: Verset 17 sur 21
+              - progressbar "Progression de lecture" [ref=e55]
+            - generic [ref=e57]:
+              - generic [ref=e58]: Continuer
+              - generic [ref=e59]: →
+        - link:
+          - /url: "#choisir-lecture"
+          - generic: ⌄
+      - region "Ta bibliothèque personnelle" [ref=e60]:
+        - generic [ref=e61]: ✦
+        - generic [ref=e65]:
+          - link "Recommandé pour toi 1 Néphi 5:1 Comprendre pourquoi Léhi et sa famille quittent Jérusalem Lire" [ref=e66] [cursor=pointer]:
+            - /url: /escrituras/bofm/1-ne/5?cite=1+N%C3%A9phi+5%3A1&locale=fr
+            - generic [ref=e72]:
+              - generic [ref=e73]: Recommandé pour toi
+              - strong [ref=e74]: 1 Néphi 5:1
+              - generic [ref=e75]: Comprendre pourquoi Léhi et sa famille quittent Jérusalem
+            - generic [ref=e76]:
+              - generic [ref=e77]: Lire
+              - generic [ref=e78]: →
+          - link "Cette semaine · Viens et suis-moi Trouver refuge en Dieu Psaumes 49–51 ; 61–66… 58 Ouvrir" [ref=e79] [cursor=pointer]:
+            - /url: /bibliotheque?locale=fr&preview=1&section=weekly&unit=preview#cette-semaine
+            - generic [ref=e85]:
+              - generic [ref=e86]: Cette semaine · Viens et suis-moi
+              - strong [ref=e87]: Trouver refuge en Dieu
+              - generic [ref=e88]: Psaumes 49–51 ; 61–66…
+              - progressbar "Progression de lecture" [ref=e89]
+            - generic [ref=e91]:
+              - generic [ref=e92]: Ouvrir
+              - generic [ref=e93]: →
+          - 'link "Mes signets 4 signets Dernier : Psaume 49:17 — Gloire passagère Retrouver" [ref=e94] [cursor=pointer]':
+            - /url: /bibliotheque?locale=fr&preview=1&section=bookmarks#mes-signets
+            - generic [ref=e98]:
+              - generic [ref=e99]: Mes signets
+              - strong [ref=e100]: 4 signets
+              - generic [ref=e101]: "Dernier : Psaume 49:17 — Gloire passagère"
+            - generic [ref=e102]:
+              - generic [ref=e103]: Retrouver
+              - generic [ref=e104]: →
+          - link "Mes Écritures Ancien Testament 2 chapitres lus Parcourir" [ref=e105] [cursor=pointer]:
+            - /url: /bibliotheque?collection=old_testament&locale=fr&preview=1&section=canon#mes-ecritures
+            - generic [ref=e111]:
+              - generic [ref=e112]: Mes Écritures
+              - strong [ref=e113]: Ancien Testament
+              - generic [ref=e114]: 2 chapitres lus
+            - generic [ref=e115]:
+              - generic [ref=e116]: Parcourir
+              - generic [ref=e117]: →
+          - generic [ref=e118]:
+            - generic [ref=e125]:
+              - generic [ref=e126]: Mon Cercle
+              - strong [ref=e127]: 7 membres ont terminé les lectures de la semaine
+              - generic [ref=e128]: Le Cercle s’ouvre avec un profil rattaché à une paroisse participante.
+            - generic [ref=e129]:
+              - generic [ref=e130]: À activer
+              - generic [ref=e131]: ·
+          - link "Programme annuel Semaine 34 — Psaumes 17–23 août 65 Voir l’année" [ref=e132] [cursor=pointer]:
+            - /url: /bibliotheque?locale=fr&preview=1&section=program&unit=preview#programme-annuel
+            - generic [ref=e138]:
+              - generic [ref=e139]: Programme annuel
+              - strong [ref=e140]: Semaine 34 — Psaumes
+              - generic [ref=e141]: 17–23 août
+              - progressbar "Progression de lecture" [ref=e142]
+            - generic [ref=e144]:
+              - generic [ref=e145]: Voir l’année
+              - generic [ref=e146]: →
+        - generic [ref=e147]: ✦
+  - navigation "Accueil" [ref=e151]:
+    - link "Accueil" [ref=e152] [cursor=pointer]:
+      - /url: /
+    - link "Aventure" [ref=e159] [cursor=pointer]:
+      - /url: /mapa
+    - link "Bibliothèque" [ref=e168] [cursor=pointer]:
+      - /url: /bibliotheque
+    - link "Église" [ref=e176] [cursor=pointer]:
+      - /url: /iglesia
+    - link "Profil" [ref=e183] [cursor=pointer]:
+      - /url: /ficha
+  - dialog [ref=e317]:
+    - generic [ref=e318]:
+      - banner [ref=e319]:
+        - button "Fermer la liseuse" [active] [ref=e320] [cursor=pointer]
+        - generic [ref=e324]:
+          - button "Ouvrir mes repères" [ref=e325] [cursor=pointer]
+          - link "Aller au cercle" [ref=e328] [cursor=pointer]:
+            - /url: "#reader-circle"
+          - button "Régler le confort de lecture" [ref=e333] [cursor=pointer]: Aa
+      - generic [ref=e334]:
+        - main [ref=e335]:
+          - article [ref=e336]:
+            - heading "Jean 3" [level=1] [ref=e338]
+            - group [ref=e339]:
+              - generic "Pour accueillir ce chapitre Une parole à recevoir Jésus enseigne à Nicodème que l’homme doit naître de nouveau. Dieu a tant aimé le monde qu’il a envoyé son Fils unique pour sauver le genre humain. Jean-Baptiste rend témoignage que celui qui croit au Fils a la vie éternelle." [ref=e340] [cursor=pointer]:
+                - generic [ref=e346]:
+                  - generic [ref=e347]: Pour accueillir ce chapitre
+                  - strong [ref=e348]: Une parole à recevoir
+                  - emphasis [ref=e349]: Jésus enseigne à Nicodème que l’homme doit naître de nouveau. Dieu a tant aimé le monde qu’il a envoyé son Fils unique pour sauver le genre humain. Jean-Baptiste rend témoignage que celui qui croit au Fils a la vie éternelle.
+                - generic [ref=e350]: ⌃
+            - generic [ref=e351]:
+              - paragraph [ref=e352]:
+                - generic [ref=e353]: "1"
+                - generic [ref=e354]: Mais il y eut un homme d’entre les pharisiens, nommé Nicodème, un chef des Juifs,
+              - paragraph [ref=e355]:
+                - generic [ref=e356]: "2"
+                - generic [ref=e357]: "qui vint, lui, auprès de Jésus de nuit et lui dit : Rabbi, nous savons que tu es un docteur venu de Dieu ; car personne ne peut faire ces miracles que tu fais, si Dieu n’est avec lui."
+              - paragraph [ref=e358]:
+                - generic [ref=e359]: "3"
+                - generic [ref=e360]: "Jésus lui répondit : En vérité, en vérité, je te le dis, si un homme ne naît de nouveau, il ne peut voir le royaume de Dieu."
+              - paragraph [ref=e361]:
+                - generic [ref=e362]: "4"
+                - generic [ref=e363]: "Nicodème lui dit : Comment un homme peut-il naître quand il est vieux ? Peut-il rentrer dans le sein de sa mère et naître ?"
+              - paragraph [ref=e364]:
+                - generic [ref=e365]: "5"
+                - generic [ref=e366]: "Jésus répondit : En vérité, en vérité, je te le dis, si un homme ne naît d’eau et d’Esprit, il ne peut entrer dans le royaume de Dieu."
+              - paragraph [ref=e367]:
+                - generic [ref=e368]: "6"
+                - generic [ref=e369]: Ce qui est né de la chair est chair, et ce qui est né de l’Esprit est Esprit.
+              - paragraph [ref=e370]:
+                - generic [ref=e371]: "7"
+                - generic [ref=e372]: "Ne t’étonne pas que je t’aie dit : Il faut que vous naissiez de nouveau."
+              - paragraph [ref=e373]:
+                - generic [ref=e374]: "8"
+                - generic [ref=e375]: Le vent souffle où il veut et tu en entends le bruit ; mais tu ne sais d’où il vient, ni où il va. Il en est ainsi de tout homme qui est né de l’Esprit.
+              - paragraph [ref=e376]:
+                - generic [ref=e377]: "9"
+                - generic [ref=e378]: "Nicodème lui dit : Comment cela peut-il se faire ?"
+              - paragraph [ref=e379]:
+                - generic [ref=e380]: "10"
+                - generic [ref=e381]: "Jésus lui répondit : Tu es un docteur d’Israël et tu ne sais pas ces choses !"
+              - paragraph [ref=e382]:
+                - generic [ref=e383]: "11"
+                - generic [ref=e384]: En vérité, en vérité, je te le dis, nous disons ce que nous savons et nous rendons témoignage de ce que nous avons vu ; et vous ne recevez pas notre témoignage.
+              - paragraph [ref=e385]:
+                - generic [ref=e386]: "12"
+                - generic [ref=e387]: Si vous ne croyez pas quand je vous parle des choses terrestres, comment croirez-vous quand je vous parlerai des choses célestes ?
+              - paragraph [ref=e388]:
+                - generic [ref=e389]: "13"
+                - generic [ref=e390]: Personne n’est monté au ciel, si ce n’est celui qui est descendu du ciel, le Fils de l’homme qui est dans le ciel.
+              - paragraph [ref=e391]:
+                - generic [ref=e392]: "14"
+                - generic [ref=e393]: Et comme Moïse éleva le serpent dans le désert, il faut de même que le Fils de l’homme soit élevé,
+              - paragraph [ref=e394]:
+                - generic [ref=e395]: "15"
+                - generic [ref=e396]: afin que quiconque croit en lui ait la vie éternelle.
+              - paragraph [ref=e397]:
+                - generic [ref=e398]: "16"
+                - generic [ref=e399]: Car Dieu a tant aimé le monde qu’il a donné son Fils unique, afin que quiconque croit en lui ne périsse pas, mais qu’il ait la vie éternelle.
+              - paragraph [ref=e400]:
+                - generic [ref=e401]: "17"
+                - generic [ref=e402]: Dieu, en effet, n’a pas envoyé son Fils dans le monde pour qu’il juge le monde, mais pour que le monde soit sauvé par lui.
+              - paragraph [ref=e403]:
+                - generic [ref=e404]: "18"
+                - generic [ref=e405]: Celui qui croit en lui n’est pas jugé ; mais celui qui ne croit pas est déjà jugé, parce qu’il n’a pas cru au nom du Fils unique de Dieu.
+              - paragraph [ref=e406]:
+                - generic [ref=e407]: "19"
+                - generic [ref=e408]: Et ce jugement c’est que, la lumière étant venue dans le monde, les hommes ont préféré les ténèbres à la lumière, parce que leurs œuvres étaient mauvaises.
+              - paragraph [ref=e409]:
+                - generic [ref=e410]: "20"
+                - generic [ref=e411]: Car quiconque fait le mal hait la lumière et ne vient pas à la lumière de peur que ses œuvres ne soient dévoilées ;
+              - paragraph [ref=e412]:
+                - generic [ref=e413]: "21"
+                - generic [ref=e414]: mais celui qui agit selon la vérité vient à la lumière afin que ses œuvres soient manifestées parce qu’elles sont faites en Dieu.
+              - paragraph [ref=e415]:
+                - generic [ref=e416]: "22"
+                - generic [ref=e417]: Après cela, Jésus, accompagné de ses disciples, se rendit dans la terre de Judée ; et là il demeurait avec eux et il baptisait.
+              - paragraph [ref=e418]:
+                - generic [ref=e419]: "23"
+                - generic [ref=e420]: Jean aussi baptisait à Énon, près de Salim, parce qu’il y avait là beaucoup d’eau ; et on y venait pour être baptisé.
+              - paragraph [ref=e421]:
+                - generic [ref=e422]: "24"
+                - generic [ref=e423]: Car Jean n’avait pas encore été mis en prison.
+              - paragraph [ref=e424]:
+                - generic [ref=e425]: "25"
+                - generic [ref=e426]: Or, il s’éleva de la part des disciples de Jean une dispute avec un Juif touchant la purification.
+              - paragraph [ref=e427]:
+                - generic [ref=e428]: "26"
+                - generic [ref=e429]: "Ils vinrent trouver Jean et lui dirent : Rabbi, celui qui était avec toi de l’autre côté du Jourdain, et à qui tu as rendu témoignage, voici, il baptise, et tous vont à lui."
+              - paragraph [ref=e430]:
+                - generic [ref=e431]: "27"
+                - generic [ref=e432]: "Jean répondit : Un homme ne peut recevoir que ce qui lui a été donné du ciel."
+              - paragraph [ref=e433]:
+                - generic [ref=e434]: "28"
+                - generic [ref=e435]: "Vous-mêmes m’êtes témoins que j’ai dit : Je ne suis pas le Christ mais j’ai été envoyé devant lui."
+              - paragraph [ref=e436]:
+                - generic [ref=e437]: "29"
+                - generic [ref=e438]: "Celui à qui appartient l’épouse, c’est l’époux ; mais l’ami de l’époux, qui se tient là et qui l’entend, éprouve une grande joie à cause de la voix de l’époux : aussi cette joie, qui est la mienne, est parfaite."
+              - paragraph [ref=e439]:
+                - generic [ref=e440]: "30"
+                - generic [ref=e441]: Il faut qu’il grandisse et que moi, je diminue.
+              - paragraph [ref=e442]:
+                - generic [ref=e443]: "31"
+                - generic [ref=e444]: Celui qui vient d’en haut est au-dessus de tous ; celui qui est de la terre est de la terre, et il parle comme étant de la terre. Celui qui vient du ciel est au-dessus de tous,
+              - paragraph [ref=e445]:
+                - generic [ref=e446]: "32"
+                - generic [ref=e447]: il rend témoignage de ce qu’il a vu et entendu et personne ne reçoit son témoignage.
+              - paragraph [ref=e448]:
+                - generic [ref=e449]: "33"
+                - generic [ref=e450]: Celui qui a reçu son témoignage a certifié que Dieu est vrai ;
+              - paragraph [ref=e451]:
+                - generic [ref=e452]: "34"
+                - generic [ref=e453]: car celui que Dieu a envoyé dit les paroles de Dieu, parce que Dieu ne lui donne pas l’Esprit avec mesure.
+              - paragraph [ref=e454]:
+                - generic [ref=e455]: "35"
+                - generic [ref=e456]: Le Père aime le Fils, et il a remis toutes choses entre ses mains.
+              - paragraph [ref=e457]:
+                - generic [ref=e458]: "36"
+                - generic [ref=e459]: Celui qui croit au Fils a la vie éternelle ; celui qui ne croit pas au Fils ne verra pas la vie, mais la colère de Dieu demeure sur lui.
+            - generic [ref=e460]:
+              - paragraph [ref=e461]: Origine du texte
+              - strong [ref=e462]: Les Saintes Écritures
+              - link "Lire ce chapitre sur le site de l’Église de Jésus-Christ des Saints des Derniers Jours" [ref=e463] [cursor=pointer]:
+                - /url: https://www.churchofjesuschrist.org/study/scriptures/nt/john/3?lang=fra
+                - generic [ref=e465]: ↗
+          - region [ref=e466]:
+            - heading "Le cercle" [level=2] [ref=e467]
+            - paragraph [ref=e475]: Le cercle n’est pas ouvert dans ta paroisse. La lecture et tes repères restent disponibles.
+        - complementary "29 sur 36"

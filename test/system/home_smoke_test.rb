@@ -17,7 +17,7 @@ class HomeSmokeTest < ApplicationSystemTestCase
     assert_selector ".home-menu-invite", text: I18n.t("hub_menu.invite_friend")
     assert_selector ".home-menu-invite[href='#{street_challenges_path(anchor: "inviter")}']"
     assert_selector ".home-menu-row[href='#{street_leaderboard_path}']", text: I18n.t("hub_menu.leaderboard")
-    assert_selector ".home-menu-row[href='#{study_program_path}']", text: I18n.t("study.title")
+    assert_selector ".home-menu-row[href='#{scripture_library_path}']", text: I18n.t("scripture_library.title")
     assert_selector ".home-menu-kicker", text: /#{Regexp.escape(I18n.t("hub_menu.space"))}/i
     assert_selector ".home-menu-kicker", text: /#{Regexp.escape(I18n.t("hub_menu.settings"))}/i
     assert_selector ".hub-menu-legal a", count: 3

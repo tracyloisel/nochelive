@@ -1,0 +1,72 @@
+<% root = card.conversation.first %>
+<% participant_names = card.participants.map(&:name).compact.uniq %>
+
+<div class="circle-thread-pane">
+  <header class="circle-thread-header">
+    <%= link_to scripture_circle_path(view: active_view, page: page),
+          class: "circle-thread-back",
+          aria: { label: t("scripture_circle.inbox.back") },
+          data: {
+            turbo_frame: "circle_live_feed",
+            turbo_action: "advance",
+            action: "keydown->circle-feed#key click->circle-feed#filter"
+          } do %>
+      <%= picto("arrow") %><span><%= t("scripture_circle.inbox.back") %></span>
+    <% end %>
+    <div class="circle-thread-heading">
+      <h2 data-circle-feed-focus tabindex="-1"><%= card.chapter.title %></h2>
+      <% if participant_names.any? %><p><%= participant_names.join(", ") %></p><% end %>
+      <% if card.participants.any? %>
+        <span class="circle-thread-participants" aria-label="<%= participant_names.join(", ") %>">
+          <% card.participants.first(4).each do |participant| %>
+            <% avatar = avatar_mark(participant.avatar_key) if participant.avatar_key.present? && !participant.anonymous? %>
+            <span aria-hidden="true">
+              <% if avatar.present? %>
+                <img src="<%= avatar %>" alt="" class="avatar-img" width="24" height="24">
+              <% else %>
+                <%= picto("person") %>
+              <% end %>
+            </span>
+          <% end %>
+        </span>
+      <% end %>
+    </div>
+    <%= link_to card.chapter.reader_path,
+          class: "circle-reader-link",
+          data: {
+            turbo_frame: "scripture_reader",
+            action: "click->scripture-launcher#prepare",
+            scripture_reading_link: true,
+            scripture_chapter_title: card.chapter.title
+          } do %>
+      <%= picto("scripture-book") %><span><%= t("scripture_circle.inbox.reread") %></span>
+    <% end %>
+  </header>
+
+  <% if root.selected_text.present? %>
+    <blockquote class="circle-thread-passage">
+      <span aria-hidden="true">“</span>
+      <p><%= root.selected_text %></p>
+    </blockquote>
+  <% end %>
+
+  <div class="circle-thread-messages" aria-label="<%= card.chapter.title %>">
+    <% card.conversation.each do |row| %>
+      <%= render "scripture_circles/thread_message", row: row %>
+    <% end %>
+  </div>
+
+  <% if writable %>
+    <%= render "scripture_circles/composer",
+          card: card,
+          root: root,
+          active_view: active_view,
+          page: page,
+          draft: local_assigns[:draft],
+          error: local_assigns[:error] %>
+  <% else %>
+    <p class="circle-state-note" role="status"><%= picto("lock") %><span><%= t("scripture_circle.state.read_only") %></span></p>
+  <% end %>
+
+  <p class="circle-thread-privacy"><%= picto("lock") %><span><%= t("scripture_circle.inbox.privacy") %></span></p>
+</div>

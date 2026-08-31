@@ -2,8 +2,8 @@ module ScriptureCircles
   module Moderations
     class CastBallot
       def self.call(person:, proposal_id:, choice:, device_digest: nil, at: Time.current)
-        access = Access.new(person:).readable!
-        proposal = access.proposal!(proposal_id)
+        access = Access.new(person:)
+        proposal = access.proposal!(proposal_id, write: true)
         RateLimit.check!(action: :ballot, person:, device_digest:)
 
         ScriptureCircleModerationProposal.transaction do

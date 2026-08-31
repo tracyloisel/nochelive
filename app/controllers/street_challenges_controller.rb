@@ -226,7 +226,7 @@ class StreetChallengesController < ApplicationController
       id = params[:run_id].presence
       return unless id
 
-      QuizRun.finished.find_by!(id:, person_id: person.id)
+      QuizRun.street.finished.find_by!(id:, person_id: person.id)
     end
 
     def invitation_payload(result)

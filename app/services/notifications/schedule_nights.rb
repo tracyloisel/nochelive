@@ -26,7 +26,7 @@ module Notifications
     private
 
       def due_nights(advance)
-        GameSession.where(status: "lobby", starts_at: (@at + advance - LOOKBACK)..(@at + advance))
+        GameSession.active.where(starts_at: (@at + advance - LOOKBACK)..(@at + advance))
           .includes(:ward)
       end
 
@@ -37,7 +37,7 @@ module Notifications
             person:,
             kind:,
             subject: night,
-            destination: @helpers.night_name_path(night.code),
+            destination: @helpers.night_path(night.code),
             dedupe_token: [ night.id, night.starts_at.to_i, kind ].join(":"),
             scheduled_for: @at
           )

@@ -12,7 +12,7 @@ demo:
   country_code: ES
   listed: true
   stake_unit_id: "527556"
-  presenter_token_digest: <%= Digest::SHA256.hexdigest("rama-demo") %>
+  admin_token_digest: <%= Digest::SHA256.hexdigest("rama-demo") %>
 
 blank:
   name: Rama vacía
@@ -21,4 +21,4 @@ blank:
   city: Madrid
   country_code: ES
   listed: false
-  presenter_token_digest: <%= Digest::SHA256.hexdigest("rama-blank") %>
+  admin_token_digest: <%= Digest::SHA256.hexdigest("rama-blank") %>

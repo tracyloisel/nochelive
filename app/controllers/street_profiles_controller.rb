@@ -263,8 +263,16 @@ class StreetProfilesController < ApplicationController
 
     def assign_profile
       @snapshot = StreetProfiles::Snapshot.call(person: @person)
+      @visible_circle_count = ScriptureCircles::ProfilePosts.visible_count(
+        viewer_person: current_street_person,
+        profile_person: @person
+      ) if current_street_person
       @editor_key ||= EDITOR_KEYS.include?(params[:edit].to_s) ? params[:edit].to_s : nil
       assign_merge_candidates if @editor_key == "merge"
+    rescue ScriptureCircles::Access::Error
+      # The Circle destination is omitted whenever the current ward cannot
+      # read it. A profile must never become an alternate disclosure path.
+      @visible_circle_count = nil
     end
 
     def profile_updates

@@ -1,0 +1,143 @@
+<% selection_key = value_for.call(selection, :key).to_s %>
+<% title_key = value_for.call(selection, :title_key) %>
+<% lede_key = value_for.call(selection, :lede_key) %>
+<% items = Array(value_for.call(selection, :items)) %>
+<% breadcrumbs = Array(value_for.call(selection, :breadcrumbs)) %>
+<% empty_key = value_for.call(selection, :empty_key) %>
+<% library_translation = lambda do |key|
+     next if key.blank?
+     key = key.to_s
+     t(key.start_with?("scripture_library.") ? key : "scripture_library.#{key}")
+   end %>
+
+<turbo-frame id="library_selection"
+             data-turbo-action="advance"
+             data-library-search-target="selectionFrame">
+<section id="selection"
+         class="scripture-library-selection"
+         aria-labelledby="scripture-library-selection-title"
+         tabindex="-1"
+         data-selection-key="<%= selection_key %>"
+         data-more-loading-message="<%= t("scripture_library.selection.more_loading") %>"
+         data-more-loaded-message="<%= t("scripture_library.selection.more_loaded") %>"
+         data-more-error-message="<%= t("scripture_library.selection.more_error") %>"
+         data-action="keydown@window->library-search#closeSelectionOnEscape"
+         data-library-search-target="selection">
+  <a class="scripture-library-selection__close"
+     href="#choisir-lecture"
+     data-library-selection-close
+     data-action="click->library-search#closeSelection">
+    <%= picto("cross") %><span><%= t("scripture_library.selection.close") %></span>
+  </a>
+
+  <% if breadcrumbs.any? %>
+    <nav class="scripture-library-selection__breadcrumbs"
+         aria-label="<%= library_translation.call(title_key) %>">
+      <% breadcrumbs.each_with_index do |breadcrumb, index| %>
+        <% label = value_for.call(breadcrumb, :label) %>
+        <% path = value_for.call(breadcrumb, :path) %>
+        <% if path.present? %>
+          <%= link_to path,
+                { data: {
+                  action: "click->library-search#navigateSelection",
+                  turbo_frame: "library_selection",
+                  turbo_action: "advance"
+                } } do %>
+            <% if index.positive? %><span aria-hidden="true">/</span><% end %>
+            <b><%= label %></b>
+          <% end %>
+        <% else %>
+          <span aria-current="page">
+          <% if index.positive? %><span aria-hidden="true">/</span><% end %>
+          <b><%= label %></b>
+          </span>
+        <% end %>
+      <% end %>
+    </nav>
+  <% end %>
+
+  <div class="scripture-library-selection__heading">
+    <span class="scripture-library-selection__star" aria-hidden="true">✦</span>
+    <div>
+      <h2 id="scripture-library-selection-title"><%= library_translation.call(title_key) %></h2>
+      <% if lede_key.present? %><p><%= library_translation.call(lede_key) %></p><% end %>
+    </div>
+  </div>
+
+  <% if items.any? %>
+    <ul id="scripture-library-selection-items"
+        class="scripture-library-selection__items"
+        role="list"
+        aria-labelledby="scripture-library-selection-title">
+      <% items.each do |item| %>
+        <% item_title = value_for.call(item, :title) %>
+        <% item_detail = value_for.call(item, :detail) %>
+        <% item_path = value_for.call(item, :path) %>
+        <% item_icon = value_for.call(item, :icon).presence || "scripture-book" %>
+        <% item_kind = value_for.call(item, :kind).to_s.parameterize %>
+        <% item_progress = value_for.call(item, :progress) %>
+        <% item_reader = !!value_for.call(item, :reader) %>
+        <% item_pagination = item_kind == "pagination" %>
+        <% item_data = { action: "click->library-search#navigateSelection" } %>
+        <% if item_pagination %>
+          <% item_data = {
+               action: "click->library-search#loadMore",
+               library_search_target: "more"
+             } %>
+        <% elsif item_reader %>
+          <% item_data[:turbo_frame] = "scripture_reader" %>
+          <% item_data[:action] = "click->scripture-launcher#prepare" %>
+          <% item_data[:scripture_chapter_title] = item_title %>
+        <% else %>
+          <% item_data[:turbo_frame] = "library_selection" %>
+          <% item_data[:turbo_action] = "advance" %>
+        <% end %>
+        <% item_classes = [ "scripture-library-selection__item", ("is-#{item_kind}" if item_kind.present?), ("is-reader" if item_reader) ] %>
+
+        <li class="scripture-library-selection__list-item" role="listitem">
+          <% if item_path.present? %>
+            <%= link_to item_path, { class: item_classes, data: item_data } do %>
+              <span class="scripture-library-selection__item-icon" aria-hidden="true"><%= picto(item_icon) %></span>
+              <span class="scripture-library-selection__item-copy">
+                <strong><%= item_title %></strong>
+                <% if item_detail.present? %><span><%= item_detail %></span><% end %>
+                <% if item_progress.present? %>
+                  <% progress = item_progress.to_f <= 1 ? item_progress.to_f * 100 : item_progress.to_f %>
+                  <span class="scripture-library-selection__progress"
+                        role="progressbar"
+                        aria-label="<%= t("scripture_library.progress_label") %>"
+                        aria-valuemin="0"
+                        aria-valuemax="100"
+                        aria-valuenow="<%= progress.round %>">
+                    <i style="--library-progress:<%= progress.clamp(0, 100).round %>%"></i>
+                  </span>
+                <% end %>
+              </span>
+              <span class="scripture-library-selection__item-action">
+                <% unless item_pagination %>
+                  <span><%= t(item_reader ? "scripture_library.actions.read" : "scripture_library.actions.open") %></span>
+                <% end %>
+                <b aria-hidden="true">→</b>
+              </span>
+            <% end %>
+          <% else %>
+            <div class="<%= item_classes.join(" ") %> is-disabled" aria-disabled="true">
+              <span class="scripture-library-selection__item-icon" aria-hidden="true"><%= picto(item_icon) %></span>
+              <span class="scripture-library-selection__item-copy"><strong><%= item_title %></strong><% if item_detail.present? %><span><%= item_detail %></span><% end %></span>
+            </div>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+    <p class="scripture-library-selection__status"
+       role="status"
+       aria-live="polite"
+       data-library-search-target="selectionStatus"></p>
+  <% elsif empty_key.present? %>
+    <div class="scripture-library-selection__empty" role="status">
+      <span aria-hidden="true"><%= picto("scripture-book") %></span>
+      <p><%= library_translation.call(empty_key) %></p>
+    </div>
+  <% end %>
+</section>
+</turbo-frame>

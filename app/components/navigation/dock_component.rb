@@ -15,7 +15,7 @@ module Navigation
       [
         Item.new(key: :home, path: helpers.root_path, icon: "meetinghouse", label_key: "hub.nav_home"),
         Item.new(key: :adventure, path: helpers.street_map_path, icon: "compass", label_key: "hub.nav_adventure"),
-        Item.new(key: :word, path: helpers.study_program_path, icon: "scripture-book", label_key: "hub.nav_word"),
+        Item.new(key: :word, path: helpers.scripture_library_path, icon: "scripture-book", label_key: "scripture_library.nav"),
         Item.new(key: :church, path: helpers.church_path, icon: "church", label_key: "hub.nav_church"),
         Item.new(
           key: :profile,

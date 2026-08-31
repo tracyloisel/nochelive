@@ -70,6 +70,41 @@ class LoadingIndicatorTest < ApplicationSystemTestCase
     assert_selector "html[data-loading-state='idle']", visible: :all
   end
 
+  test "the Scripture loading threshold is intentional on phone tablet and desktop" do
+    [ [ 390, 844 ], [ 768, 1024 ], [ 1440, 900 ] ].each do |width, height|
+      set_system_viewport(width, height)
+      visit root_path
+
+      page.execute_script(<<~JS)
+        document.documentElement.classList.add("is-scripture-open")
+        const loader = document.getElementById("scripture_loading")
+        loader.hidden = false
+        loader.dataset.state = "slow"
+        loader.setAttribute("aria-hidden", "false")
+        loader.querySelector("[data-reader-loading-chapter]").textContent = "Salmo 52"
+        loader.querySelectorAll("[data-reader-loading-template]").forEach((node) => {
+          node.textContent = node.dataset.readerLoadingTemplate.replace("__CHAPTER__", "Salmo 52")
+        })
+      JS
+
+      assert_selector "#scripture_loading[data-state='slow']:not([hidden])"
+      assert_selector ".reader-loading-copy.is-slow", visible: true
+      assert_selector ".reader-loading-chapter", text: "Salmo 52", visible: true
+      assert_selector ".reader-loading-dismiss", visible: true
+      assert_selector ".noche-loading[hidden]", visible: :all
+      assert_equal false, page.evaluate_script("document.documentElement.scrollWidth > window.innerWidth")
+      sleep 0.25
+      shot("scripture-slow-#{width}x#{height}")
+      assert_empty page.driver.browser.logs.get(:browser).select { |entry| entry.level == "SEVERE" }
+    end
+
+    page.execute_script("document.getElementById('scripture_loading').dataset.state = 'failed'")
+    assert_selector ".reader-loading-copy.is-failed", visible: true
+    assert_selector ".reader-loading-retry", visible: true
+    sleep 0.25
+    shot("scripture-failed-1440x900")
+  end
+
   private
 
     def shot(name)

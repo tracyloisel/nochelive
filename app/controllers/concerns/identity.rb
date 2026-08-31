@@ -3,7 +3,7 @@ module Identity
 
   included do
     helper_method :current_player, :current_team, :current_person, :current_ward, :current_street_person,
-                  :street_people_on_device, :street_guest?, :hosted_ward, :presenter_for?, :ward_presenter?, :ward_host?,
+                  :street_people_on_device, :street_guest?, :managed_ward, :ward_admin?,
                   :current_locale, :locale_path_for, :street_device_digest, :audience_digest,
                   :push_subscription_on_device?
   end
@@ -35,11 +35,11 @@ module Identity
       @current_ward = Ward.find_by(id: ward_id) if ward_id
     end
 
-    def hosted_ward
-      return @hosted_ward if defined?(@hosted_ward)
+    def managed_ward
+      return @managed_ward if defined?(@managed_ward)
 
-      ward_id = signed_cookie(:noche_ward_host)
-      @hosted_ward = Ward.find_by(id: ward_id) if ward_id
+      ward_id = signed_cookie(:noche_ward_admin)
+      @managed_ward = Ward.find_by(id: ward_id) if ward_id
     end
 
     def current_person
@@ -168,18 +168,14 @@ module Identity
       Presences::StreetHeartbeat.call(person:, device_token: device_token)
     end
 
-    def remember_presenter(night)
-      cookies.signed[:noche_presenter] = { value: night.id, expires: 1.day, httponly: true, same_site: :lax }
-    end
-
     def remember_ward(ward)
       cookies.signed[:noche_ward] = { value: ward.id, expires: 1.year, httponly: true, same_site: :lax }
       @current_ward = ward
     end
 
-    def remember_ward_host(ward)
+    def remember_ward_admin(ward)
       remember_ward(ward)
-      cookies.signed[:noche_ward_host] = { value: ward.id, expires: 1.year, httponly: true, same_site: :lax }
+      cookies.signed[:noche_ward_admin] = { value: ward.id, expires: 1.year, httponly: true, same_site: :lax }
     end
 
     def remember_locale(locale)
@@ -201,7 +197,6 @@ module Identity
 
     def locale_preference
       return current_player.locale if current_player&.locale.present?
-      return @night.presenter_locale if @night && presenter_for?(@night) && @night.presenter_locale.present?
       return cookies[Locale::COOKIE] if cookies[Locale::COOKIE].present?
 
       Locale.from_accept_language(request.env["HTTP_ACCEPT_LANGUAGE"])
@@ -222,25 +217,13 @@ module Identity
       nil
     end
 
-    def presenter_for?(night)
-      return false unless cookies.signed[:noche_presenter].to_i == night.id
-      return true if night.presenter_device_digest.blank?
-
-      token = cookies.signed[:noche_device].to_s
-      token.present? && night.presenter_held_by?(token)
-    end
-
-    def ward_presenter?
-      hosted_ward.present?
-    end
-
-    def ward_host?(ward = current_ward)
-      hosted_ward.present? && ward.present? && hosted_ward.id == ward.id
+    def ward_admin?(ward = current_ward)
+      managed_ward.present? && ward.present? && managed_ward.id == ward.id
     end
 
     def require_player
       player = current_player
-      if player&.participant? && player.person.present? && player.person.ward_id != @night.ward_id
+      if player&.person.present? && player.person.ward_id != @night.ward_id
         forget_player
         redirect_to night_name_path(@night.code), alert: I18n.t("flashes.profile_required")
         return
@@ -250,8 +233,8 @@ module Identity
     end
 
     def require_team
-      unless current_player&.participant?
-        redirect_to(current_player&.spectator? ? night_public_path(@night.public_token) : night_name_path(@night.code))
+      unless current_player
+        redirect_to night_name_path(@night.code)
         return
       end
 
@@ -260,32 +243,9 @@ module Identity
     end
 
     def require_participant_profile
-      return if current_player&.participant? && current_player.person.present?
+      return if current_player&.person.present?
 
-      destination = current_player&.spectator? ? night_watch_path(@night.code) : night_name_path(@night.code)
-      redirect_to destination, alert: I18n.t("flashes.profile_required")
-    end
-
-    def require_presenter
-      expire_pending_presenter_claim
-      if presenter_for?(@night)
-        if @night.presenter_device_digest.blank?
-          Presenters::Seat.call(night: @night, device_token: device_token)
-        end
-        return
-      end
-
-      redirect_to presenter_gate_path(@night.code), alert: I18n.t("flashes.presenter_required")
-    end
-
-    def expire_pending_presenter_claim
-      return unless @night
-
-      claim = @night.pending_presenter_claim
-      return unless claim&.pending?
-
-      expired = Presenters::Expire.call(claim: claim)
-      @night.reload if expired&.granted?
+      redirect_to night_name_path(@night.code), alert: I18n.t("flashes.profile_required")
     end
 
     def require_ward
@@ -320,8 +280,8 @@ module Identity
       remember_ward(person.ward) if person.ward && current_ward&.id != person.ward_id
     end
 
-    def require_ward_presenter
-      return if hosted_ward
+    def require_ward_admin
+      return if managed_ward
 
       if current_ward
         redirect_to ward_profile_path(current_ward.code), alert: I18n.t("flashes.open_ward_first")

@@ -8,12 +8,9 @@
   <header class="reader-companion-heading">
     <div class="reader-companion-heading-copy">
       <p><%= t("scripture_reader.tabs.marks") %></p>
-      <h2 id="reader-marks-title" tabindex="-1"><%= t("scripture_reader.marks.title") %></h2>
+      <h2 id="reader-marks-title"><%= t("scripture_reader.marks.title") %></h2>
       <span><%= t("scripture_reader.marks.subtitle") %></span>
     </div>
-    <button type="button" class="reader-return-to-reading" data-action="scripture-room#returnToReading">
-      <%= picto("arrow") %><span><%= t("scripture_reader.companion.return_to_reading") %></span>
-    </button>
   </header>
 
   <button type="button"
@@ -29,7 +26,7 @@
       <header><p><%= t("scripture_reader.chapter_history.kicker") %></p><h3 id="reader-chapter-history-title"><%= t("scripture_reader.chapter_history.title") %></h3></header>
       <dl>
         <div><dt><%= t("scripture_reader.chapter_history.days") %></dt><dd><%= history.qualified_days %></dd></div>
-        <div><dt><%= t("scripture_reader.chapter_history.last_position") %></dt><dd><%= history.last_verse ? t("scripture_reader.marks.verse", verse: history.last_verse) : "—" %></dd></div>
+        <div><dt><%= t("scripture_reader.chapter_history.last_position") %></dt><dd><%= history.last_verse ? scripture_reader_citation_label(chapter_title, history.last_verse) : "—" %></dd></div>
         <div><dt><%= t("scripture_reader.chapter_history.marks") %></dt><dd><%= history.marks_count %></dd></div>
       </dl>
       <% if history.first_read_at || history.last_read_at %>
@@ -57,9 +54,9 @@
         <% verse_label = if mark.chapter_anchor?
           chapter_title
         elsif mark.start_verse == mark.end_verse
-          t("scripture_reader.marks.verse", verse: mark.start_verse)
+          scripture_reader_citation_label(chapter_title, mark.start_verse)
         else
-          t("scripture_reader.marks.verses", from: mark.start_verse, to: mark.end_verse)
+          scripture_reader_citation_label(chapter_title, "#{mark.start_verse}-#{mark.end_verse}")
         end %>
         <% mark_type = mark.note_body.present? ? "note" : (mark.bookmarked_at? ? "bookmark" : "highlight") %>
         <article class="reader-mark-card" data-mark-id="<%= mark.id %>" data-mark-type="<%= mark_type %>">

@@ -3,10 +3,14 @@ Rails.application.routes.draw do
     get :stats, to: "stats#index"
     get :people_seen_today, to: "presences#index"
     resources :wards, only: [ :index, :show ], param: :code do
-      post :rotate_presenter_token, on: :member
       get :stats, on: :member
+      resources :ward_teams, only: [ :create ], controller: "ward_teams"
       resources :nights, only: [ :create, :update ], param: :session_code, controller: "nights"
       post "nights/:session_code/finish", to: "nights#finish", as: :finish_night
+      resources :ward_events, only: %i[index show create update] do
+        post :publish, on: :member
+        post :cancel, on: :member
+      end
     end
     post "profile_merges/preview", to: "profile_merges#preview"
     post "profile_merges", to: "profile_merges#create"
@@ -31,9 +35,6 @@ Rails.application.routes.draw do
   post "migration/identity/merge", to: "identity_transfers#merge", as: :identity_transfer_merge
 
   root "street_hub#index"
-  get "public/:public_token", to: "public#show", as: :night_public
-  post "public/:public_token/rounds/:round_run_id/response", to: "audience_responses#create", as: :night_public_response
-  post "public/:public_token/rounds/:round_run_id/reaction", to: "audience_reactions#create", as: :night_public_reaction
   get "jugar", to: "street_plays#show", as: :jugar
   get "mapa", to: "street_hub#map", as: :street_map
   post "packs/:pack_id", to: "street_pack_starts#create", as: :street_pack_start
@@ -93,7 +94,6 @@ Rails.application.routes.draw do
   get "legal", to: "pages#legal", as: :legal
   get "privacidad", to: "pages#privacy", as: :privacy
   get "cifras", to: "pages#stats", as: :platform_stats
-  get "pulso", to: "street_pulses#show", as: :street_pulse
   get "buscar", to: "searches#show", as: :search
   get ":locale/:church_section(/:church_page)",
       to: "pages#localized_church",
@@ -136,6 +136,8 @@ Rails.application.routes.draw do
   get ":locale", to: "discovery#show", as: :discovery_home, constraints: { locale: /es|fr|en|pt-br/ }
   get ":locale/*slug", to: "discovery#show", as: :discovery, constraints: { locale: /es|fr|en|pt-br/ }, format: false
   post "escrituras/lectures", to: "scripture_reads#create", as: :scripture_reads
+  get "bibliotheque", to: "scripture_libraries#show", as: :scripture_library
+  get "bibliotheque/recherche", to: "scripture_libraries#search", as: :scripture_library_search
   patch "escrituras/preferencias", to: "scripture_reader_preferences#update", as: :scripture_reader_preferences
   put "escrituras/progreso", to: "scripture_reading_progresses#update", as: :scripture_reading_progress
   post "escrituras/reperes", to: "scripture_marks#create", as: :scripture_marks
@@ -146,8 +148,12 @@ Rails.application.routes.draw do
   post "escrituras/cercle/messages", to: "scripture_circle_posts#create", as: :scripture_circle_posts
   patch "escrituras/cercle/messages/:id", to: "scripture_circle_posts#update", as: :scripture_circle_post
   delete "escrituras/cercle/messages/:id", to: "scripture_circle_posts#destroy"
-  post "escrituras/cercle/messages/:post_id/propositions-de-censure",
-    to: "scripture_circle_moderation_proposals#create", as: :scripture_circle_moderation_proposals
+  put "escrituras/cercle/conversations/:conversation_root_id/vote",
+    to: "scripture_circle_conversation_votes#update", as: :scripture_circle_conversation_vote
+  put "escrituras/cercle/messages/:post_id/vote",
+    to: "scripture_circle_post_votes#update", as: :scripture_circle_post_vote
+  post "escrituras/cercle/messages/:post_id/signalements",
+    to: "scripture_circle_moderation_reports#create", as: :scripture_circle_moderation_reports
   put "escrituras/cercle/propositions/:proposal_id/vote",
     to: "scripture_circle_moderation_ballots#update", as: :scripture_circle_moderation_ballot
   get "escrituras/cercle/propositions/:proposal_id/resultats",
@@ -157,10 +163,10 @@ Rails.application.routes.draw do
   post "escrituras/surlignages", to: "scripture_highlights#create", as: :scripture_highlights
   delete "escrituras/surlignages/:id", to: "scripture_highlights#destroy", as: :scripture_highlight
   get "escrituras/*study", to: "scriptures#show", as: :scripture, format: false
-  get "parole", to: "study_programs#show", as: :study_program
-  get "parole/historique", to: "study_histories#show", as: :study_history
-  get "parole/paroisse/:ward_code", to: "study_communities#show", as: :study_community
-  get "parole/semaines/:id", to: "study_units#show", as: :study_unit
+  get "parole", to: "scripture_libraries#legacy_program", as: :study_program
+  get "parole/historique", to: "scripture_libraries#legacy_history", as: :study_history
+  get "parole/paroisse/:ward_code", to: "scripture_libraries#legacy_community", as: :study_community
+  get "parole/semaines/:id", to: "scripture_libraries#legacy_week", as: :study_unit
   post "parole/semaines/:study_unit_id/commencer", to: "study_runs#create", as: :study_run_start
   get "parole/parcours/:id", to: "study_runs#show", as: :study_run
   post "parole/parcours/:study_run_id/reponses", to: "study_answers#create", as: :study_run_answers
@@ -174,63 +180,17 @@ Rails.application.routes.draw do
   get "ramas/fichas/:id", to: "fichas#show", as: :ward_ficha
   patch "ramas/fichas/:id", to: "fichas#update"
   post "ramas/fichas/:id/merge", to: "fichas#merge", as: :ward_ficha_merge
-  get "ramas/:code/n/:session_code", to: "ward_memories#show", as: :ward_memory
   get "ramas/:code/liga", to: "street_leaderboards#show", as: :ward_leaderboard
   get "ramas/:code", to: "ward_profiles#show", as: :ward_profile
-  resources :game_sessions, only: [ :new, :create ] do
-    get :created, on: :member
-  end
-
   scope "/s/:session_code", as: :night do
+    get "/", to: "nights#show"
     get "name", to: "players#new"
     post "players", to: "players#create"
     get "play", to: "play#show"
-    get "watch", to: "watch#show"
-    post "presence", to: "presences#create"
-    resources :teams, only: [ :create ] do
+    resources :teams, only: [] do
       resources :memberships, only: [ :create ]
     end
-    resources :round_runs, only: [] do
-      resource :buzz, only: [ :create ]
-      resource :answer, only: [ :create ]
-      resource :cheer, only: [ :create ]
-      resource :forward, only: [ :create ], controller: "round_forwards"
-      resource :tap, only: [ :create ]
-      resource :pose_hold, only: [ :create ]
-      resource :freeze, only: [ :create ]
-      resource :vote, only: [ :create ]
-    end
-    post "chests/:id", to: "chests#create", as: :chest
-    post "rank_up", to: "rank_ups#create", as: :rank_up
     patch "locale", to: "locales#update"
   end
 
-  get "/p/:session_code", to: "presenter/gates#show", as: :presenter_gate
-  post "/p/:session_code", to: "presenter/gates#create"
-  get "/p/:session_code/claim", to: "presenter/claims#show", as: :presenter_claim
-  post "/p/:session_code/claim", to: "presenter/claims#create"
-  post "/p/:session_code/claims/:id/resolve", to: "presenter/claims#resolve", as: :presenter_claim_resolve
-  get "/p/:session_code/console", to: "presenter/consoles#show", as: :presenter_console
-  post "/p/:session_code/start", to: "presenter/nights#start", as: :presenter_start
-  post "/p/:session_code/pause", to: "presenter/nights#pause", as: :presenter_pause
-  post "/p/:session_code/resume", to: "presenter/nights#resume", as: :presenter_resume
-  post "/p/:session_code/finish", to: "presenter/nights#finish", as: :presenter_finish
-  post "/p/:session_code/rounds/:id/crown", to: "presenter/nights#crown", as: :presenter_crown
-  post "/p/:session_code/rounds/:id/open", to: "presenter/round_runs#open", as: :presenter_open_round
-  post "/p/:session_code/rounds/:id/peel", to: "presenter/round_runs#peel", as: :presenter_peel_round
-  post "/p/:session_code/rounds/:id/lock", to: "presenter/round_runs#lock", as: :presenter_lock_round
-  post "/p/:session_code/rounds/:id/reveal", to: "presenter/round_runs#reveal", as: :presenter_reveal_round
-  post "/p/:session_code/rounds/:id/complete", to: "presenter/round_runs#complete", as: :presenter_complete_round
-  post "/p/:session_code/people/link", to: "presenter/people#create", as: :presenter_people_link
-  post "/p/:session_code/people/:id/link", to: "presenter/people#create", as: :presenter_person_link
-  post "/p/:session_code/scores", to: "presenter/score_events#create", as: :presenter_scores
-  get "/p/:session_code/lista", to: "presenter/rosters#show", as: :presenter_roster
-  post "/p/:session_code/missionaries", to: "presenter/missionaries#create", as: :presenter_missionaries
-  delete "/p/:session_code/missionaries/:id", to: "presenter/missionaries#destroy", as: :presenter_missionary
-  get "/p/:session_code/fichas", to: "presenter/fichas#index", as: :presenter_fichas
-  get "/p/:session_code/fichas/:id", to: "presenter/fichas#show", as: :presenter_ficha
-  patch "/p/:session_code/fichas/:id", to: "presenter/fichas#update"
-  post "/p/:session_code/fichas/:id/merge", to: "presenter/fichas#merge", as: :presenter_ficha_merge
-  patch "/p/:session_code/people/:person_id/locale", to: "presenter/locales#update", as: :presenter_person_locale
-  patch "/p/:session_code/players/:player_id/locale", to: "presenter/locales#update", as: :presenter_player_locale
 end

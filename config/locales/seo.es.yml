@@ -32,7 +32,7 @@ es:
             - title: "Juega, no solo leas"
               body: "Cada pregunta abre una historia bíblica. Los puntos, las coronas y los retos dan ganas de seguir, pero la victoria verdadera es reconocer mejor a los profetas, los reyes y, sobre todo, acercarse a Jesucristo."
             - title: "Una experiencia para la sala entera"
-              body: "Noche Live funciona en el móvil y también reúne a la gente. Una familia puede jugar desde el sofá; una clase de jóvenes puede competir por equipos; una congregación puede vivir una noche con presentador y pantalla grande."
+              body: "Noche Live funciona en el móvil y reúne a la gente. Una familia puede jugar desde el sofá, los jóvenes competir por equipos y toda la congregación seguir la carrera en una pantalla grande."
             - title: "Aprender con un próximo paso"
               body: "Después del juego puedes abrir el pasaje, seguir un programa semanal o hablar con alguien de la Iglesia. Nada obliga ni mete prisa: cada puerta está ahí para ayudarte a continuar cuando tú quieras."
         bible_games:
@@ -48,7 +48,7 @@ es:
             - title: "Preguntas con una historia detrás"
               body: "Cada respuesta se conecta con un pasaje real. Puedes adivinar, sorprenderte y abrir las Escrituras para entender por qué David, Ester, Moisés o Elías tomaron aquella decisión."
             - title: "Del móvil a la sala"
-              body: "El teléfono sirve para elegir, votar o pulsar. La atención vuelve a las personas: comentar una respuesta, celebrar una racha, ayudar al equipo y escuchar la revelación del presentador."
+              body: "El teléfono sirve para responder y seguir la racha. La atención vuelve a las personas: comentar una respuesta, celebrar un logro y ayudar al equipo a tomar la delantera."
             - title: "Para una persona o para cincuenta"
               body: "Juega una partida corta a solas, lanza un desafío a un amigo o prepara una noche completa para jóvenes y familias. El ritmo cambia; la aventura y el lenguaje cercano se mantienen."
         bible_quiz:
@@ -78,7 +78,7 @@ es:
           card_body: "Ideas para reunir, jugar y conversar."
           sections:
             - title: "Empieza en menos de dos minutos"
-              body: "Un código corto permite entrar desde el móvil. El presentador ve el ritmo de la sala y puede alternar preguntas, movimientos, votos y desafíos sin repartir papeles ni explicar reglas eternas."
+              body: "Un código corto permite entrar desde el móvil. El juego empieza a la hora prevista y cada persona avanza por los quizzes sin papeles ni reglas eternas."
             - title: "Todos encuentran un lugar"
               body: "Hay momentos para quien sabe mucho, para quien acaba de llegar, para quien habla fuerte y para quien prefiere observar. Los equipos ayudan a que nadie cargue solo con la respuesta."
             - title: "La conversación continúa"
@@ -94,7 +94,7 @@ es:
           card_body: "Ritmo, equipos y fe sin ambiente de clase."
           sections:
             - title: "Un comienzo que no pierde a nadie"
-              body: "Entrar con un código, escoger equipo y empezar. La interfaz da una acción clara y el presentador conserva el control del ritmo para evitar esperas y discursos largos."
+              body: "Entrar con un código, escoger equipo y empezar. La interfaz da una acción clara mientras el directo actualiza automáticamente el progreso y la clasificación."
             - title: "Competir sin dejar a nadie fuera"
               body: "Puntos y coronas crean tensión, pero las pruebas mezclan memoria, intuición, movimiento y cooperación. Diferentes talentos pueden salvar al equipo."
             - title: "Una noche que merece repetirse"

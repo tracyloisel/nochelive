@@ -60,7 +60,7 @@ class Notifications::ContentTest < ActiveSupport::TestCase
       web_push_subscription: web_push_subscriptions(:carmen_phone_push),
       person: people(:carmen_garcia), kind: "night_starting_soon",
       dedupe_key: "night-content-test", subject: night,
-      destination: Rails.application.routes.url_helpers.night_name_path(night.code), status: "queued"
+      destination: Rails.application.routes.url_helpers.night_path(night.code), status: "queued"
     )
 
     Locale::AVAILABLE.each do |locale|
@@ -70,7 +70,7 @@ class Notifications::ContentTest < ActiveSupport::TestCase
       assert payload[:title].present?, locale
       assert payload[:body].include?(night.starts_at.in_time_zone("Europe/Madrid").strftime("%H:%M")), locale
       refute_match(/translation missing/i, payload.values_at(:title, :body).join(" "), locale)
-      assert_equal "/s/#{night.code}/name?nl_delivery=#{delivery.id}", payload.dig(:data, :path)
+      assert_equal "/s/#{night.code}?nl_delivery=#{delivery.id}", payload.dig(:data, :path)
     end
   end
 end

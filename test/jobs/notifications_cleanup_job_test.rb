@@ -9,7 +9,7 @@ class NotificationsCleanupJobTest < ActiveJob::TestCase
     expired_log = NotificationDelivery.create!(
       web_push_subscription: web_push_subscriptions(:pili_tablet_push),
       person: people(:pili), kind: "study_reading",
-      dedupe_key: "expired-delivery-log", destination: "/parole",
+      dedupe_key: "expired-delivery-log", destination: "/bibliotheque",
       status: "sent", sent_at: 91.days.ago, created_at: 91.days.ago, updated_at: 91.days.ago
     )
 

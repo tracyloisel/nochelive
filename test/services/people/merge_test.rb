@@ -8,8 +8,6 @@ class People::MergeTest < ActiveSupport::TestCase
     player = Players::Join.call(
       night:,
       name: "Carmen",
-      role: "participant",
-      location: "room",
       device_token: "lopez-phone",
       person: source
     )
@@ -28,29 +26,26 @@ class People::MergeTest < ActiveSupport::TestCase
     source_player = players(:daniel)
     keeper_player.update!(person: keeper)
     source_player.update!(person: source)
-    duplicate_ballot = Ballot.create!(
-      round_run: round_runs(:vote_solomon),
-      team: teams(:casa),
+    run = QuizRun.create!(
+      person: source,
+      game_session: source_player.game_session,
       player: source_player,
-      choice_team: teams(:leones)
-    )
-    cheer = Cheer.create!(
-      round_run: round_runs(:daniel_lions),
-      player: source_player,
-      to_player: keeper_player,
-      layer_index: 1,
-      mark: "fire"
+      team: source_player.team,
+      live_sequence_position: 1,
+      device_digest: "source-live-run",
+      pack_id: "coronas",
+      position: 3,
+      score: 24,
+      opened_at: Time.current,
+      status: "open"
     )
 
     People::Merge.call(keeper:, source:)
 
     assert_not Player.exists?(source_player.id)
     assert_equal keeper, keeper_player.reload.person
-    assert_equal keeper_player, pose_holds(:daniel_short).reload.player
-    assert_equal keeper_player, tap_runs(:casa_sling).reload.player
-    assert_not Ballot.exists?(duplicate_ballot.id)
-    assert_equal keeper_player.id, cheer.reload.player_id
-    assert_equal keeper_player.id, cheer.to_player_id
+    assert_equal keeper_player, run.reload.player
+    assert_equal 24, run.score
   end
 
   test "preserves viral attribution when the source profile is merged" do
@@ -234,6 +229,59 @@ class People::MergeTest < ActiveSupport::TestCase
     assert_equal [ "Prières" ], source_mark.scripture_notebooks.pluck(:title)
     assert_equal [ "ot/ps/51" ], source_mark.scripture_mark_links.pluck(:target_reference)
     assert_not Person.exists?(source.id)
+  end
+
+  test "deduplicates conversation votes and keeps the newest direction" do
+    keeper = people(:carmen_garcia)
+    source = people(:carmen_lopez)
+    author = people(:pili)
+    keeper.ward.update!(scripture_circle_mode: "active")
+    root = ScriptureCircles::Publish.call(
+      person: author,
+      reference: "ot/ps/52",
+      attributes: { kind: "question", locale: "fr", body: "Comment méditer cette parole ensemble ?" }
+    )
+    keeper_vote = ScriptureCircleConversationVote.create!(
+      conversation_root: root, ward: root.ward, voter_person: keeper, direction: "up"
+    )
+    source_vote = ScriptureCircleConversationVote.create!(
+      conversation_root: root, ward: root.ward, voter_person: source, direction: "down"
+    )
+    keeper_vote.update_columns(updated_at: 2.days.ago)
+    source_vote.update_columns(updated_at: 1.day.ago)
+
+    People::Merge.call(keeper:, source:)
+
+    votes = ScriptureCircleConversationVote.where(conversation_root: root)
+    assert_equal 1, votes.count
+    assert_equal [ [ keeper.id, "down" ] ], votes.pluck(:voter_person_id, :direction)
+    assert_not Person.exists?(source.id)
+  end
+
+  test "removes conversation votes that would become self votes during a merge" do
+    keeper = people(:carmen_garcia)
+    source = people(:carmen_lopez)
+    keeper.ward.update!(scripture_circle_mode: "active")
+    source_root = ScriptureCircles::Publish.call(
+      person: source,
+      reference: "ot/ps/52",
+      attributes: { kind: "reflection", locale: "fr", body: "Cette réflexion appartient au profil source." }
+    )
+    keeper_root = ScriptureCircles::Publish.call(
+      person: keeper,
+      reference: "ot/ps/52",
+      attributes: { kind: "question", locale: "fr", body: "Cette question appartient au profil gardé." }
+    )
+    ScriptureCircleConversationVote.create!(
+      conversation_root: source_root, ward: keeper.ward, voter_person: keeper, direction: "up"
+    )
+    ScriptureCircleConversationVote.create!(
+      conversation_root: keeper_root, ward: keeper.ward, voter_person: source, direction: "down"
+    )
+
+    People::Merge.call(keeper:, source:)
+
+    assert_empty ScriptureCircleConversationVote.where(conversation_root_id: [ source_root.id, keeper_root.id ])
   end
 
   test "merges notification consent subscriptions prompts and delivery history" do

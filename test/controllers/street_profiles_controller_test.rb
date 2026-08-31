@@ -75,7 +75,9 @@ class StreetProfilesControllerTest < ActionDispatch::IntegrationTest
     end
     assert_select "a.profile-destination-card[href=?]", player_quiz_history_path(pili),
                   text: /#{Regexp.escape(I18n.t("street.profile_dashboard.answers_title"))}/
-    assert_select "a.profile-destination-card[href=?]", study_history_path, text: /#{Regexp.escape(I18n.t("street.profile_dashboard.word_title"))}/
+    assert_select "a.profile-destination-card[href=?]",
+                  scripture_library_path(section: "bookmarks", anchor: "selection"),
+                  text: /#{Regexp.escape(I18n.t("street.profile_dashboard.word_title"))}/
     assert_select "a.profile-destination-card[href=?]", street_challenges_path
     assert_select "a.profile-destination-card[href=?]", player_profile_path(pili, ward_next: 1)
     assert_select "a[href=?]", privacy_path

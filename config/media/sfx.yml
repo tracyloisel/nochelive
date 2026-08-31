@@ -14,14 +14,6 @@ cues:
       restrained warm brass bloom. Adventurous and important, never bombastic.
       Same sonic family as correct_gold. No continuing melody, no voice.
 
-  buzzer_hit:
-    kind: oneshot
-    max_seconds: 0.6
-    prompt: >
-      Isolated 0.4 second game-show slam: palm hitting a wooden desk
-      plus a short warm brass stab. Punchy, close, no reverb tail.
-      No voice, no music bed, then complete silence.
-
   correct_gold:
     kind: oneshot
     max_seconds: 0.70

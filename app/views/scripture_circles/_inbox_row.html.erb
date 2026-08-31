@@ -1,0 +1,35 @@
+<% root = card.conversation.first %>
+<% latest = card.conversation.last || root %>
+<% selected_root_id = selected&.conversation&.first&.id %>
+<% root_id = root.id %>
+<% reply_count = card.reply_count.to_i %>
+<% selected_row = selected_root_id == root_id %>
+<% avatar = avatar_mark(latest.avatar_key) if latest.avatar_key.present? && !latest.anonymous? %>
+
+<article class="circle-inbox-row<%= " is-selected" if selected_row %>" role="listitem">
+  <%= link_to scripture_circle_path(view: active_view, page: page, conversation: root_id),
+        class: "circle-inbox-row-link",
+        aria: { current: ("page" if selected_row) },
+        data: {
+          turbo_frame: "circle_live_feed",
+          turbo_action: "advance",
+          action: "keydown->circle-feed#key click->circle-feed#filter"
+        } do %>
+    <span class="circle-inbox-sender">
+      <span aria-hidden="true"><%= picto("scripture-book") %></span>
+      <strong><%= card.chapter.title %></strong>
+    </span>
+    <strong class="circle-inbox-subject"><%= root.body %></strong>
+    <span class="circle-inbox-meta">
+      <span class="circle-message-avatar is-small" aria-hidden="true">
+        <% if avatar.present? %>
+          <img src="<%= avatar %>" alt="" class="avatar-img" width="28" height="28">
+        <% else %>
+          <%= picto("person") %>
+        <% end %>
+      </span>
+      <span class="circle-inbox-activity"><%= latest.author_name %> · <%= l(latest.created_at, format: :short) %></span>
+      <span class="circle-inbox-count<%= " is-empty" if reply_count.zero? %>"><%= reply_count.positive? ? t("scripture_circle.card.reply_count", count: reply_count) : t("scripture_circle.card.no_reply") %></span>
+    </span>
+  <% end %>
+</article>

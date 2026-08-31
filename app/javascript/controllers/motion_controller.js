@@ -23,7 +23,8 @@ export default class extends Controller {
   onStream(event) {
     const target = event.target.getAttribute("target")
     const action = event.target.getAttribute("action")
-    if (target === "live_pulses" || target === "night_presence" || target === "quiz_board" || target === "night_play") return
+    if (target === "quiz_board") return
+    if (target === "circle_live_feed" && action === "circle_refresh") return
     if (PASSIVE_STREAM_TARGETS.has(target)) return
     if (target === "street_quiz" && action === "quiz_state") return
     if (target === "street_quiz") {
@@ -34,9 +35,9 @@ export default class extends Controller {
   }
 
   onFrame(event) {
-    // The community pulse refreshes every five seconds. A document-level view
-    // transition for that background update makes unrelated hub chrome blink.
-    if (event.target.id === "scripture_reader" || event.target.id === "street_pulse") return
+    // Reading and inline picking are direct, repeated actions. A whole-page
+    // View Transition briefly duplicates the list beneath the new panel.
+    if ([ "scripture_reader", "library_selection" ].includes(event.target.id)) return
     event.detail.render = this.wrap(event.detail.render)
   }
 
@@ -76,7 +77,7 @@ export default class extends Controller {
 
   markArrive() {
     if (this.reduced()) return
-    document.querySelectorAll(".play-card, .watch, .console, .gate, .reveal, .lock, .claim-modal").forEach((el) => {
+    document.querySelectorAll(".play-card, .gate").forEach((el) => {
       el.classList.remove("is-arriving")
       void el.offsetWidth
       el.classList.add("is-arriving")

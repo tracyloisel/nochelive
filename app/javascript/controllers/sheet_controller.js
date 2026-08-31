@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 const SNAPS = ["open", "mid", "peek"]
-const AVOID = "button, a, input, textarea, select, .buzz, .choice-btn, .quiz-bar, .quiz-next, label, .btn, summary, details, .home-menu"
+const AVOID = "button, a, input, textarea, select, .choice-btn, .quiz-bar, .quiz-next, label, .btn, summary, details, .home-menu"
 
 export default class extends Controller {
   static targets = ["handle", "body"]

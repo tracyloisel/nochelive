@@ -47,13 +47,11 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
     page.current_window.resize_to(width, height)
   end
 
-  def join_night(code, name:, location: "room", team: nil, emblem: nil)
-    visit night_name_path(code, location: ("remote" if location == "remote"))
+  def join_night(code, name:, team: nil, emblem: nil)
+    visit night_name_path(code)
     assert_text I18n.t("join.first_title")
     fill_in I18n.t("join.name_label"), with: name
     click_button I18n.t("join.enter_play")
-    return if location == "remote"
-
     assert_current_path night_play_path(code)
     assert_selector ".play-reel"
   end

@@ -1,0 +1,985 @@
+schema_version: 1
+kind: expedition_quiz_pack_draft
+parent_dossier: config/expeditions/psalms-102-150-2026-08-31.yml
+locale: fr
+target: { player_id: 22, player_name: TRACY, ward_id: 1, ward_name: "Rama Benidorm" }
+editorial_status: locally_published_for_review
+runtime_status: local_rama_benidorm
+localization_status:
+  fr: complete_draft
+  es: pending_after_french_editorial_approval
+  en: pending_after_french_editorial_approval
+  pt-BR: pending_after_french_editorial_approval
+
+formation_quizzes:
+  owner: expedition-spiritual-experience-director
+  revision: 1
+  method: code_de_la_route
+  copy_limits:
+    counting_unit: unicode_graphemes_including_spaces_and_punctuation
+    reference_surface: street_quiz_390x667
+    prompt: { hard_max: 72, max_lines: 3, must_be_self_contained: true }
+    choice: { hard_max: 32, max_lines: 2 }
+    correction: { hard_max: 120 }
+    max_choices: 4
+    locale_policy: validate_every_translation_independently
+    overflow_policy: REJECT_COPY_OVERFLOW
+    forbidden_fixes: [font_shrink, truncation, ellipsis, answer_scroll]
+  assessment_policy:
+    scores: [observation_du_texte, contexte, discernement, transfert]
+    never_scores: [foi, saintete, emotion, confession, priere, repentance, salut]
+  items:
+    - id: ps102-fumee-01
+      pack_id: disappearing-voice
+      learning_lens: RECIT_DU_TEXTE
+      source_layer: textual
+      formation_goal: "Reconnaître la peur humaine qui ouvre le psaume."
+      scripture_references: ["Psaume 102:2-12"]
+      claim_ids: [exeg-002]
+      prompt: "Que craint la voix au début du Psaume 102 ?"
+      choices:
+        - { id: a, text: "Disparaître", diagnosis: correct_text }
+        - { id: b, text: "Perdre son trône", diagnosis: invented_royal_plot }
+        - { id: c, text: "Oublier une victoire", diagnosis: invented_triumph }
+      correct_choice: a
+      correction: "Ses jours partent en fumée et son corps s’épuise : elle craint de disparaître."
+    - id: ps102-herbe-02
+      pack_id: disappearing-voice
+      learning_lens: LECTURE_DU_TEXTE
+      source_layer: textual
+      formation_goal: "Voir comment une image rend la détresse physique."
+      scripture_references: ["Psaume 102:5"]
+      claim_ids: [exeg-002]
+      prompt: "À quoi son cœur est-il comparé ?"
+      choices:
+        - { id: a, text: "À de l’herbe desséchée", diagnosis: correct_image }
+        - { id: b, text: "À une muraille fissurée", diagnosis: imported_city_image }
+        - { id: c, text: "À une rivière tarie", diagnosis: invented_image }
+      correct_choice: a
+      correction: "Son cœur est comme une herbe frappée et desséchée : la souffrance atteint tout son être."
+    - id: ps102-mais-toi-03
+      pack_id: disappearing-voice
+      learning_lens: PRINCIPES_DE_L_EVANGILE
+      source_layer: textual
+      formation_goal: "Distinguer la fragilité humaine de la permanence de Dieu."
+      scripture_references: ["Psaume 102:13-14"]
+      claim_ids: [exeg-002]
+      prompt: "Quel tournant ouvre enfin un avenir ?"
+      choices:
+        - { id: a, text: "Mais toi, tu subsistes", diagnosis: correct_turn }
+        - { id: b, text: "Moi seul, je résisterai", diagnosis: self_sufficiency }
+        - { id: c, text: "Tout est déjà réparé", diagnosis: premature_resolution }
+      correct_choice: a
+      correction: "La voix ne prétend pas aller mieux. Elle tourne son regard vers Dieu, qui demeure."
+    - id: ps102-sion-04
+      pack_id: disappearing-voice
+      learning_lens: MONDE_HISTORIQUE
+      source_layer: historical
+      formation_goal: "Relier la douleur personnelle à l’attente de Sion."
+      scripture_references: ["Psaume 102:14-23"]
+      claim_ids: [hist-004, exeg-002]
+      prompt: "À quelle ville sa douleur finit-elle par se mêler ?"
+      choices:
+        - { id: a, text: "Sion", diagnosis: correct_place }
+        - { id: b, text: "Rome", diagnosis: later_world }
+        - { id: c, text: "Ninive", diagnosis: unrelated_city }
+      correct_choice: a
+      correction: "Sa plainte personnelle rejoint les pierres et la poussière de Sion, qui attend d’être relevée."
+    - id: ps102-avenir-05
+      pack_id: disappearing-voice
+      learning_lens: PLAN_DE_DIEU
+      source_layer: textual
+      formation_goal: "Voir que la prière regarde au-delà d’une seule vie."
+      scripture_references: ["Psaume 102:19-29"]
+      claim_ids: [exeg-002]
+      prompt: "Qui devra encore louer Dieu après cette génération ?"
+      choices:
+        - { id: a, text: "Un peuple à venir", diagnosis: correct_future }
+        - { id: b, text: "Seulement les rois", diagnosis: narrowed_people }
+        - { id: c, text: "Personne après elle", diagnosis: erased_future }
+      correct_choice: a
+      correction: "Le psaume imagine une génération future qui lira, louera Dieu et trouvera encore Sion devant elle."
+    - id: ps103-memoire-06
+      pack_id: disappearing-voice
+      learning_lens: PRINCIPES_DE_L_EVANGILE
+      source_layer: textual
+      formation_goal: "Comprendre la mémoire comme acte spirituel."
+      scripture_references: ["Psaume 103:1-5"]
+      claim_ids: [exeg-003]
+      prompt: "Que demande le Psaume 103 à l’âme ?"
+      choices:
+        - { id: a, text: "N’oublie aucun bienfait", diagnosis: correct_command }
+        - { id: b, text: "Ne regarde que tes fautes", diagnosis: shame_filter }
+        - { id: c, text: "Oublie ce qui t’a blessé", diagnosis: false_forgetting }
+      correct_choice: a
+      correction: "La voix commande à son âme de bénir Dieu et de ne pas oublier ses bienfaits."
+    - id: ps103-distance-07
+      pack_id: disappearing-voice
+      learning_lens: PRINCIPES_DE_L_EVANGILE
+      source_layer: textual
+      formation_goal: "Recevoir l’image du pardon sans la réduire à une performance."
+      scripture_references: ["Psaume 103:8-12"]
+      claim_ids: [exeg-003]
+      prompt: "Que fait Dieu des fautes dans l’image du psaume ?"
+      choices:
+        - { id: a, text: "Il les éloigne très loin", diagnosis: correct_mercy }
+        - { id: b, text: "Il les garde pour humilier", diagnosis: punitive_memory }
+        - { id: c, text: "Il nie qu’elles existent", diagnosis: denial }
+      correct_choice: a
+      correction: "Comme l’orient est loin de l’occident, le psaume représente Dieu éloignant les fautes."
+    - id: ps103-fragilite-08
+      pack_id: disappearing-voice
+      learning_lens: PRINCIPES_DE_L_EVANGILE
+      source_layer: textual
+      formation_goal: "Relier la compassion de Dieu à la fragilité humaine."
+      scripture_references: ["Psaume 103:13-14"]
+      claim_ids: [exeg-003]
+      prompt: "Comment Dieu regarde-t-il notre fragilité ?"
+      choices:
+        - { id: a, text: "Avec compassion", diagnosis: correct_compassion }
+        - { id: b, text: "Avec surprise", diagnosis: forgets_dust }
+        - { id: c, text: "Avec mépris", diagnosis: harsh_projection }
+      correct_choice: a
+      correction: "Le psaume dit que Dieu se souvient que nous sommes poussière et nous regarde avec compassion."
+    - id: ps103-eternite-09
+      pack_id: disappearing-voice
+      learning_lens: ESPERANCE_ETERNELLE
+      source_layer: textual
+      formation_goal: "Distinguer la brièveté humaine de l’amour durable de Dieu."
+      scripture_references: ["Psaume 103:15-18"]
+      claim_ids: [exeg-003]
+      prompt: "La vie passe comme l’herbe. Qu’est-ce qui demeure ?"
+      choices:
+        - { id: a, text: "L’amour fidèle de Dieu", diagnosis: correct_hope }
+        - { id: b, text: "La force du corps", diagnosis: mortal_strength }
+        - { id: c, text: "La renommée humaine", diagnosis: passing_glory }
+      correct_choice: a
+      correction: "La vie humaine est brève, mais l’amour de Dieu est présenté comme allant d’éternité en éternité."
+    - id: ps102-hebreux-10
+      pack_id: disappearing-voice
+      learning_lens: RECEPTION_CANONIQUE
+      source_layer: canonical
+      formation_goal: "Reconnaître une relecture chrétienne sans effacer le premier psaume."
+      scripture_references: ["Psaume 102:26-28", "Hébreux 1:10-12"]
+      claim_ids: [exeg-021]
+      prompt: "Dans Hébreux 1, ces mots du Psaume 102 parlent de qui ?"
+      choices:
+        - { id: a, text: "Du Fils", diagnosis: correct_reception }
+        - { id: b, text: "Du chanteur anonyme", diagnosis: layers_confused }
+        - { id: c, text: "De Melchisédek", diagnosis: wrong_reception }
+      correct_choice: a
+      correction: "Hébreux applique au Fils les mots sur celui qui demeure. Cela ne fait pas de toute la plainte la voix de Jésus."
+
+    - id: ps110-roles-01
+      pack_id: nameless-king
+      learning_lens: RECIT_DU_TEXTE
+      source_layer: textual
+      formation_goal: "Identifier la combinaison qui crée l’énigme du psaume."
+      scripture_references: ["Psaume 110:1-4"]
+      claim_ids: [exeg-004]
+      prompt: "Quels deux rôles le Psaume 110 réunit-il ?"
+      choices:
+        - { id: a, text: "Roi et prêtre", diagnosis: correct_roles }
+        - { id: b, text: "Prophète et juge", diagnosis: imported_roles }
+        - { id: c, text: "Scribe et soldat", diagnosis: invented_roles }
+      correct_choice: a
+      correction: "Une première parole concerne un roi ; une seconde le déclare prêtre selon Melchisédek."
+    - id: ps110-roi-inconnu-02
+      pack_id: nameless-king
+      learning_lens: PERSONNAGES
+      source_layer: historical
+      formation_goal: "Apprendre à respecter un personnage que le texte ne nomme pas."
+      scripture_references: ["Psaume 110:1-7"]
+      claim_ids: [hist-001, hist-005]
+      prompt: "Le texte permet-il de nommer ce roi avec certitude ?"
+      choices:
+        - { id: a, text: "Non, il reste inconnu", diagnosis: correct_uncertainty }
+        - { id: b, text: "Oui, c’est David", diagnosis: title_as_biography }
+        - { id: c, text: "Oui, c’est Salomon", diagnosis: invented_identity }
+      correct_choice: a
+      correction: "Le titre transmis l’associe à David, mais le roi visé et la première scène historique restent inconnus."
+    - id: ps110-droite-03
+      pack_id: nameless-king
+      learning_lens: LECTURE_DU_TEXTE
+      source_layer: textual
+      formation_goal: "Voir l’autorité accordée au personnage royal."
+      scripture_references: ["Psaume 110:1"]
+      claim_ids: [exeg-004]
+      prompt: "Où Dieu invite-t-il ce seigneur à s’asseoir ?"
+      choices:
+        - { id: a, text: "À sa droite", diagnosis: correct_position }
+        - { id: b, text: "Derrière l’autel", diagnosis: invented_location }
+        - { id: c, text: "Hors de Jérusalem", diagnosis: invented_exile }
+      correct_choice: a
+      correction: "La droite représente ici une place d’autorité accordée par Dieu."
+    - id: ps110-melchisedek-04
+      pack_id: nameless-king
+      learning_lens: PERSONNAGES
+      source_layer: textual
+      formation_goal: "Comprendre pourquoi le nom de Melchisédek ouvre une enquête."
+      scripture_references: ["Psaume 110:4"]
+      claim_ids: [exeg-004]
+      prompt: "Pourquoi Melchisédek surprend-il au verset 4 ?"
+      choices:
+        - { id: a, text: "Le roi devient aussi prêtre", diagnosis: correct_tension }
+        - { id: b, text: "Il détruit Jérusalem", diagnosis: invented_action }
+        - { id: c, text: "Il écrit le psaume", diagnosis: invented_authorship }
+      correct_choice: a
+      correction: "Le serment ajoute un rôle sacerdotal au roi. Le rapport historique exact à Melchisédek reste discuté."
+    - id: ps110-fin-05
+      pack_id: nameless-king
+      learning_lens: LECTURE_DU_TEXTE
+      source_layer: textual
+      formation_goal: "Ne pas arrêter la lecture avant la violence finale."
+      scripture_references: ["Psaume 110:5-7"]
+      claim_ids: [exeg-004]
+      prompt: "Le psaume finit-il avec le serment sacerdotal ?"
+      choices:
+        - { id: a, text: "Non, il poursuit vers le combat", diagnosis: correct_difficult_ending }
+        - { id: b, text: "Oui, tout s’arrête là", diagnosis: truncated_reading }
+        - { id: c, text: "Non, il raconte l’exil", diagnosis: wrong_ending }
+      correct_choice: a
+      correction: "Après le serment, le poème poursuit avec une victoire violente. L’expédition ne doit pas l’effacer."
+    - id: ps110-scene-06
+      pack_id: nameless-king
+      learning_lens: MONDE_HISTORIQUE
+      source_layer: historical
+      formation_goal: "Distinguer atmosphère royale et reconstitution certaine."
+      scripture_references: ["Psaume 110:1-7"]
+      claim_ids: [hist-005]
+      prompt: "Que reste-t-il inconnu derrière cette scène royale ?"
+      choices:
+        - { id: a, text: "Le roi et la cérémonie", diagnosis: correct_unknowns }
+        - { id: b, text: "Le nom de Jérusalem", diagnosis: false_unknown }
+        - { id: c, text: "L’existence de la royauté", diagnosis: false_unknown }
+      correct_choice: a
+      correction: "Le psaume est royal, mais il ne permet pas de reconstruire avec certitude le roi ni la cérémonie."
+    - id: ps110-matthieu-07
+      pack_id: nameless-king
+      learning_lens: RECEPTION_CANONIQUE
+      source_layer: canonical
+      formation_goal: "Suivre l’énigme que Jésus tire du premier verset."
+      scripture_references: ["Psaume 110:1", "Matthieu 22:41-46"]
+      claim_ids: [exeg-021]
+      prompt: "Dans Matthieu 22, quelle énigme Jésus pose-t-il ?"
+      choices:
+        - { id: a, text: "David appelle son fils Seigneur", diagnosis: correct_riddle }
+        - { id: b, text: "Moïse refuse d’être roi", diagnosis: wrong_character }
+        - { id: c, text: "Salomon devient prophète", diagnosis: wrong_reception }
+      correct_choice: a
+      correction: "Jésus demande comment le Messie peut être fils de David si David l’appelle aussi Seigneur."
+    - id: ps110-hebreux5-08
+      pack_id: nameless-king
+      learning_lens: PLAN_DE_DIEU
+      source_layer: canonical
+      formation_goal: "Relier le serment du psaume au rôle salvateur du Christ."
+      scripture_references: ["Psaume 110:4", "Hébreux 5:5-10"]
+      claim_ids: [exeg-021]
+      prompt: "Dans Hébreux 5, qui est le prêtre pour toujours ?"
+      choices:
+        - { id: a, text: "Jésus-Christ", diagnosis: correct_christ }
+        - { id: b, text: "Le roi historique certain", diagnosis: layers_confused }
+        - { id: c, text: "Le chanteur du psaume", diagnosis: wrong_voice }
+      correct_choice: a
+      correction: "Hébreux reprend le serment pour le Christ et le nomme auteur d’un salut éternel."
+    - id: ps110-hebreux7-09
+      pack_id: nameless-king
+      learning_lens: ESPERANCE_ETERNELLE
+      source_layer: canonical
+      formation_goal: "Comprendre l’espérance attachée à l’intercession durable du Christ."
+      scripture_references: ["Psaume 110:4", "Hébreux 7:23-25"]
+      claim_ids: [exeg-021]
+      prompt: "Selon Hébreux 7, pourquoi peut-il sauver pleinement ?"
+      choices:
+        - { id: a, text: "Il vit toujours et intercède", diagnosis: correct_eternal_intercession }
+        - { id: b, text: "Il gagne chaque bataille", diagnosis: military_reduction }
+        - { id: c, text: "Il ignore toute faiblesse", diagnosis: false_priesthood }
+      correct_choice: a
+      correction: "Hébreux fonde cette espérance sur le Christ vivant toujours pour intercéder."
+    - id: ps110-lds-10
+      pack_id: nameless-king
+      learning_lens: PLAN_DE_DIEU
+      source_layer: doctrinal
+      formation_goal: "Identifier la lecture LDS tout en la gardant dans sa couche."
+      scripture_references: ["Psaume 110:4", "Alma 13", "D&A 84", "D&A 107"]
+      claim_ids: [exeg-022]
+      prompt: "Dans la lecture LDS, quel ordre éclaire ce serment ?"
+      choices:
+        - { id: a, text: "L’ordre du Fils de Dieu", diagnosis: correct_lds_reception }
+        - { id: b, text: "L’ordre des rois de Juda", diagnosis: invented_order }
+        - { id: c, text: "L’ordre des scribes", diagnosis: invented_order }
+      correct_choice: a
+      correction: "Alma et Doctrine et Alliances relient cet ordre au Fils de Dieu et à la prêtrise de Melchisédek."
+
+    - id: ps116-appel-01
+      pack_id: cry-stone-seek
+      learning_lens: RECIT_DU_TEXTE
+      source_layer: textual
+      formation_goal: "Voir le premier geste de la voix prise par la mort."
+      scripture_references: ["Psaume 116:1-4"]
+      claim_ids: [exeg-005]
+      prompt: "Quand la mort l’enserre, que fait d’abord la voix ?"
+      choices:
+        - { id: a, text: "Elle appelle Dieu", diagnosis: correct_first_act }
+        - { id: b, text: "Elle cache sa peur", diagnosis: avoidance }
+        - { id: c, text: "Elle promet de tout contrôler", diagnosis: self_sufficiency }
+      correct_choice: a
+      correction: "Son cri tient en peu de mots : elle appelle le nom de Dieu et demande d’être délivrée."
+    - id: ps116-public-02
+      pack_id: cry-stone-seek
+      learning_lens: PRINCIPES_DE_L_EVANGILE
+      source_layer: textual
+      formation_goal: "Suivre le passage du cri privé à la gratitude publique."
+      scripture_references: ["Psaume 116:12-19"]
+      claim_ids: [exeg-005]
+      prompt: "Après la délivrance, où porte-t-elle sa gratitude ?"
+      choices:
+        - { id: a, text: "Devant tout le peuple", diagnosis: correct_public_thanks }
+        - { id: b, text: "Dans un lieu secret", diagnosis: private_only }
+        - { id: c, text: "Devant les armées", diagnosis: invented_audience }
+      correct_choice: a
+      correction: "La voix accomplit ses vœux publiquement et transforme sa délivrance en témoignage partagé."
+    - id: ps117-nations-03
+      pack_id: cry-stone-seek
+      learning_lens: PLAN_DE_DIEU
+      source_layer: textual
+      formation_goal: "Voir l’horizon universel d’un psaume très court."
+      scripture_references: ["Psaume 117:1-2"]
+      claim_ids: [exeg-006]
+      prompt: "Qui le Psaume 117 invite-t-il à louer Dieu ?"
+      choices:
+        - { id: a, text: "Toutes les nations", diagnosis: correct_universal_call }
+        - { id: b, text: "Seulement les prêtres", diagnosis: narrowed_call }
+        - { id: c, text: "Seulement Jérusalem", diagnosis: narrowed_place }
+      correct_choice: a
+      correction: "En deux versets, le psaume appelle toutes les nations et tous les peuples."
+    - id: ps117-romains-04
+      pack_id: cry-stone-seek
+      learning_lens: RECEPTION_CANONIQUE
+      source_layer: canonical
+      formation_goal: "Comprendre pourquoi Paul reprend l’appel aux nations."
+      scripture_references: ["Psaume 117:1", "Romains 15:7-13"]
+      claim_ids: [exeg-021]
+      prompt: "Pourquoi Paul reprend-il le Psaume 117 dans Romains 15 ?"
+      choices:
+        - { id: a, text: "Les nations louent Dieu", diagnosis: correct_gentile_inclusion }
+        - { id: b, text: "Le Temple doit être rebâti", diagnosis: wrong_context }
+        - { id: c, text: "David doit devenir prêtre", diagnosis: wrong_psalm }
+      correct_choice: a
+      correction: "Paul y voit les nations accueillies avec le peuple de Dieu dans la louange et l’espérance."
+    - id: ps118-pierre-05
+      pack_id: cry-stone-seek
+      learning_lens: LECTURE_DU_TEXTE
+      source_layer: textual
+      formation_goal: "Reconnaître le renversement de la pierre rejetée."
+      scripture_references: ["Psaume 118:22-23"]
+      claim_ids: [exeg-007]
+      prompt: "Que devient la pierre rejetée du Psaume 118 ?"
+      choices:
+        - { id: a, text: "La pierre principale", diagnosis: correct_reversal }
+        - { id: b, text: "Une pierre oubliée", diagnosis: rejection_final }
+        - { id: c, text: "Une arme de guerre", diagnosis: invented_use }
+      correct_choice: a
+      correction: "Ce que les bâtisseurs avaient rejeté devient la pierre dont la construction dépend."
+    - id: ps118-actes-06
+      pack_id: cry-stone-seek
+      learning_lens: PLAN_DE_DIEU
+      source_layer: canonical
+      formation_goal: "Relier la pierre au Christ ressuscité et au salut."
+      scripture_references: ["Psaume 118:22", "Actes 4:10-12"]
+      claim_ids: [exeg-021]
+      prompt: "Dans Actes 4, qui devient cette pierre ?"
+      choices:
+        - { id: a, text: "Jésus-Christ", diagnosis: correct_christological_reception }
+        - { id: b, text: "Pierre l’apôtre", diagnosis: wordplay_confusion }
+        - { id: c, text: "Le roi du Psaume 110", diagnosis: psalms_confused }
+      correct_choice: a
+      correction: "Pierre applique l’image à Jésus ressuscité et affirme que le salut se trouve en lui."
+    - id: ps119-return-07
+      pack_id: cry-stone-seek
+      learning_lens: PRINCIPES_DE_L_EVANGILE
+      source_layer: textual
+      formation_goal: "Revenir à Dieu sans attendre d’avoir repris le contrôle."
+      scripture_references: ["Psaume 119:176"]
+      claim_ids: [exeg-008]
+      prompt: "Tu as raté trois jours. Que faire d’après la fin du Psaume 119 ?"
+      choices:
+        - { id: a, text: "Me cacher jusqu’à aller mieux", diagnosis: shame_performance }
+        - { id: b, text: "Me promettre de ne plus échouer", diagnosis: self_perfection }
+        - { id: c, text: "Demander à Dieu de me chercher", diagnosis: correct_return }
+        - { id: d, text: "Abandonner le chemin", diagnosis: discouragement }
+      correct_choice: c
+      correction: "La voix ne dit pas qu’elle a réussi. Elle reconnaît s’être perdue et demande à Dieu de la chercher."
+    - id: ps119-teach-08
+      pack_id: cry-stone-seek
+      learning_lens: PRINCIPES_DE_L_EVANGILE
+      source_layer: textual
+      formation_goal: "Demander d’être enseigné au lieu de simuler la maîtrise."
+      scripture_references: ["Psaume 119:12", "Psaume 119:33-34", "Psaume 119:125"]
+      claim_ids: [exeg-008]
+      prompt: "Ton esprit part ailleurs. Quel réflexe revient dans le Psaume 119 ?"
+      choices:
+        - { id: a, text: "Faire comme si j’avais compris", diagnosis: spiritual_appearance }
+        - { id: b, text: "Demander à Dieu de m’enseigner", diagnosis: correct_request }
+        - { id: c, text: "Arrêter dès que je me disperse", diagnosis: all_or_nothing }
+        - { id: d, text: "Réciter pour mériter son aide", diagnosis: merit_logic }
+      correct_choice: b
+      correction: "Le psaume revient à cette demande : enseigne-moi, donne-moi de comprendre et fais-moi vivre."
+    - id: ps119-order-09
+      pack_id: cry-stone-seek
+      learning_lens: LECTURE_DU_TEXTE
+      source_layer: textual
+      formation_goal: "Utiliser la discipline comme aide, jamais comme preuve de valeur."
+      scripture_references: ["Psaume 119:1-176"]
+      claim_ids: [hist-008, exeg-008]
+      prompt: "Ta routine tient. Que rappelle pourtant la fin du Psaume 119 ?"
+      choices:
+        - { id: a, text: "Une routine empêche de se perdre", diagnosis: control }
+        - { id: b, text: "L’ordre aide sans remplacer Dieu", diagnosis: correct_discipline }
+        - { id: c, text: "Toute discipline est inutile", diagnosis: cynicism }
+        - { id: d, text: "Dieu aide, donc je n’agis plus", diagnosis: passivity }
+      correct_choice: b
+      correction: "Le poème est très ordonné, mais il finit avec une brebis perdue. La discipline ne remplace pas Dieu."
+    - id: ps119-help-10
+      pack_id: cry-stone-seek
+      learning_lens: DISCERNEMENT_DE_VIE
+      source_layer: textual
+      formation_goal: "Tenir ensemble l’aide de Dieu et la reprise du chemin."
+      scripture_references: ["Psaume 119:10", "Psaume 119:33-40", "Psaume 119:176"]
+      claim_ids: [exeg-008]
+      prompt: "« Dieu me cherche, donc je n’ai rien à faire. » Que répond le psaume ?"
+      choices:
+        - { id: a, text: "Attendre suffit toujours", diagnosis: passivity }
+        - { id: b, text: "Dieu n’aide que les parfaits", diagnosis: merit_perfection }
+        - { id: c, text: "Demander son aide, puis agir", diagnosis: correct_help_and_step }
+        - { id: d, text: "Les règles passent avant Dieu", diagnosis: legalism }
+      correct_choice: c
+      correction: "La voix cherche Dieu, demande d’être enseignée, puis d’être cherchée. L’aide et le prochain pas vont ensemble."
+
+    - id: ps127-batir-01
+      pack_id: house-table-city
+      learning_lens: PRINCIPES_DE_L_EVANGILE
+      source_layer: textual
+      formation_goal: "Comprendre la limite de l’effort isolé de Dieu."
+      scripture_references: ["Psaume 127:1"]
+      claim_ids: [exeg-009]
+      prompt: "Sans Dieu, que devient le travail des bâtisseurs ?"
+      choices:
+        - { id: a, text: "Un effort vain", diagnosis: correct_vanity }
+        - { id: b, text: "Une faute impardonnable", diagnosis: moral_overreach }
+        - { id: c, text: "Une victoire certaine", diagnosis: self_sufficiency }
+      correct_choice: a
+      correction: "Le psaume ne méprise pas le travail ; il refuse d’en faire une fondation suffisante sans Dieu."
+    - id: ps127-garde-02
+      pack_id: house-table-city
+      learning_lens: RECIT_DU_TEXTE
+      source_layer: textual
+      formation_goal: "Voir le même contraste appliqué à la sécurité."
+      scripture_references: ["Psaume 127:1"]
+      claim_ids: [exeg-009]
+      prompt: "Sans Dieu, que vaut la veille du gardien ?"
+      choices:
+        - { id: a, text: "Elle devient vaine", diagnosis: correct_watch }
+        - { id: b, text: "Elle garantit la ville", diagnosis: control }
+        - { id: c, text: "Elle remplace la prière", diagnosis: false_substitution }
+      correct_choice: a
+      correction: "Le gardien veille réellement, mais sa vigilance n’est pas présentée comme une sécurité absolue."
+    - id: ps127-labeur-03
+      pack_id: house-table-city
+      learning_lens: DISCERNEMENT_DE_VIE
+      source_layer: textual
+      formation_goal: "Distinguer travail fidèle et anxiété qui prétend tout porter."
+      scripture_references: ["Psaume 127:2"]
+      claim_ids: [exeg-009]
+      prompt: "Que dénonce le Psaume 127 dans le travail ?"
+      choices:
+        - { id: a, text: "Le labeur anxieux sans Dieu", diagnosis: correct_anxious_toil }
+        - { id: b, text: "Tout effort humain", diagnosis: anti_work }
+        - { id: c, text: "Le besoin de dormir", diagnosis: wrong_target }
+      correct_choice: a
+      correction: "Il vise l’effort qui se lève tôt, se couche tard et vit comme si tout dépendait de lui seul."
+    - id: ps127-enfants-04
+      pack_id: house-table-city
+      learning_lens: LECTURE_DU_TEXTE
+      source_layer: textual
+      formation_goal: "Lire l’image des enfants comme don, sans noter les familles."
+      scripture_references: ["Psaume 127:3-5"]
+      claim_ids: [exeg-009]
+      prompt: "Comment les enfants sont-ils présentés dans le psaume ?"
+      choices:
+        - { id: a, text: "Comme un héritage reçu", diagnosis: correct_gift }
+        - { id: b, text: "Comme une preuve de mérite", diagnosis: fertility_as_score }
+        - { id: c, text: "Comme une charge honteuse", diagnosis: contempt }
+      correct_choice: a
+      correction: "Le texte parle d’un héritage reçu. Le jeu ne classe ni fertilité ni forme familiale."
+    - id: ps127-porte-05
+      pack_id: house-table-city
+      learning_lens: MONDE_HISTORIQUE
+      source_layer: historical
+      formation_goal: "Découvrir la fonction civique de la porte."
+      scripture_references: ["Psaume 127:5"]
+      claim_ids: [hist-010]
+      prompt: "Dans le monde ancien, que se passait aussi à la porte ?"
+      choices:
+        - { id: a, text: "Les affaires de la cité", diagnosis: correct_civic_gate }
+        - { id: b, text: "Les sacrifices du Temple", diagnosis: wrong_place }
+        - { id: c, text: "Les récoltes des champs", diagnosis: wrong_activity }
+      correct_choice: a
+      correction: "La porte était probablement un lieu civique et judiciaire, pas seulement une défense militaire."
+    - id: ps127-montee-06
+      pack_id: house-table-city
+      learning_lens: MONDE_HISTORIQUE
+      source_layer: historical
+      formation_goal: "Situer les deux psaumes dans la collection des montées."
+      scripture_references: ["Psaumes 127–128"]
+      claim_ids: [hist-009]
+      prompt: "À quel voyage associe-t-on les Chants des montées ?"
+      choices:
+        - { id: a, text: "La montée vers Jérusalem", diagnosis: correct_pilgrimage }
+        - { id: b, text: "La fuite vers l’Égypte", diagnosis: wrong_journey }
+        - { id: c, text: "La conquête de Babylone", diagnosis: wrong_event }
+      correct_choice: a
+      correction: "On les associe généralement aux pèlerinages vers Jérusalem, sans connaître un itinéraire précis."
+    - id: ps128-travail-07
+      pack_id: house-table-city
+      learning_lens: PRINCIPES_DE_L_EVANGILE
+      source_layer: textual
+      formation_goal: "Voir le travail reçu comme fruit plutôt que comme idole."
+      scripture_references: ["Psaume 128:1-2"]
+      claim_ids: [exeg-009]
+      prompt: "Dans le Psaume 128, que mange le travailleur ?"
+      choices:
+        - { id: a, text: "Le fruit de son travail", diagnosis: correct_work_fruit }
+        - { id: b, text: "Le pain de ses voisins", diagnosis: invented_exploitation }
+        - { id: c, text: "La nourriture du roi", diagnosis: invented_privilege }
+      correct_choice: a
+      correction: "Le bonheur inclut ici le fruit concret du travail, reçu dans une vie tournée vers Dieu."
+    - id: ps128-voies-08
+      pack_id: house-table-city
+      learning_lens: PRINCIPES_DE_L_EVANGILE
+      source_layer: textual
+      formation_goal: "Relier la bénédiction à une manière de marcher."
+      scripture_references: ["Psaume 128:1"]
+      claim_ids: [exeg-009]
+      prompt: "À quoi le Psaume 128 relie-t-il le bonheur ?"
+      choices:
+        - { id: a, text: "Craindre Dieu, suivre ses voies", diagnosis: correct_walk }
+        - { id: b, text: "Posséder la plus grande maison", diagnosis: prosperity_reduction }
+        - { id: c, text: "Ne jamais connaître l’effort", diagnosis: effortless_life }
+      correct_choice: a
+      correction: "Le texte parle de craindre Dieu et de marcher dans ses voies, pas d’acheter une vie parfaite."
+    - id: ps128-ville-09
+      pack_id: house-table-city
+      learning_lens: PLAN_DE_DIEU
+      source_layer: textual
+      formation_goal: "Voir la bénédiction sortir de la maison vers la cité."
+      scripture_references: ["Psaume 128:5-6"]
+      claim_ids: [exeg-009]
+      prompt: "Où la bénédiction de la maison finit-elle par regarder ?"
+      choices:
+        - { id: a, text: "Vers le bien de Jérusalem", diagnosis: correct_city_good }
+        - { id: b, text: "Vers une richesse privée", diagnosis: private_prosperity }
+        - { id: c, text: "Vers la chute des voisins", diagnosis: hostile_blessing }
+      correct_choice: a
+      correction: "La vision s’élargit de la table au bien de Jérusalem et à la paix sur Israël."
+    - id: ps127-agir-10
+      pack_id: house-table-city
+      learning_lens: DISCERNEMENT_DE_VIE
+      source_layer: textual
+      formation_goal: "Tenir ensemble confiance en Dieu et responsabilité humaine."
+      scripture_references: ["Psaume 127:1-2"]
+      claim_ids: [exeg-009]
+      prompt: "S’appuyer sur Dieu signifie-t-il cesser de bâtir ?"
+      choices:
+        - { id: a, text: "Non, bâtir avec lui", diagnosis: correct_cooperation }
+        - { id: b, text: "Oui, attendre sans agir", diagnosis: passivity }
+        - { id: c, text: "Non, tout porter seul", diagnosis: self_sufficiency }
+      correct_choice: a
+      correction: "Le psaume garde bâtisseurs et gardiens à l’œuvre, mais refuse qu’ils se prennent pour la fondation."
+
+    - id: ps135-souffle-01
+      pack_id: suspended-harps
+      learning_lens: LECTURE_DU_TEXTE
+      source_layer: textual
+      formation_goal: "Voir le contraste entre apparence et vie."
+      scripture_references: ["Psaume 135:15-17"]
+      claim_ids: [exeg-010]
+      prompt: "Que manque-t-il aux idoles malgré leur bouche ?"
+      choices:
+        - { id: a, text: "Le souffle et la parole", diagnosis: correct_lifelessness }
+        - { id: b, text: "Une couronne", diagnosis: irrelevant_object }
+        - { id: c, text: "Des serviteurs", diagnosis: wrong_contrast }
+      correct_choice: a
+      correction: "Elles ont bouche, yeux et oreilles, mais elles ne parlent, ne voient, n’entendent ni ne respirent."
+    - id: ps135-ressembler-02
+      pack_id: suspended-harps
+      learning_lens: PRINCIPES_DE_L_EVANGILE
+      source_layer: textual
+      formation_goal: "Comprendre que l’objet de confiance nous façonne."
+      scripture_references: ["Psaume 135:18"]
+      claim_ids: [exeg-010]
+      prompt: "Que risquent ceux qui font confiance à ces idoles ?"
+      choices:
+        - { id: a, text: "De leur ressembler", diagnosis: correct_formation }
+        - { id: b, text: "De devenir rois", diagnosis: false_reward }
+        - { id: c, text: "De quitter Jérusalem", diagnosis: invented_exile }
+      correct_choice: a
+      correction: "Le psaume avertit que ceux qui les fabriquent et leur font confiance deviennent comme elles."
+    - id: ps136-refrain-03
+      pack_id: suspended-harps
+      learning_lens: RECIT_DU_TEXTE
+      source_layer: textual
+      formation_goal: "Reconnaître la réponse qui traverse toute l’histoire."
+      scripture_references: ["Psaume 136:1-26"]
+      claim_ids: [exeg-011]
+      prompt: "Que répète chaque verset du Psaume 136 ?"
+      choices:
+        - { id: a, text: "Son amour dure toujours", diagnosis: correct_refrain }
+        - { id: b, text: "Le roi vaincra toujours", diagnosis: invented_refrain }
+        - { id: c, text: "La ville ne tombera jamais", diagnosis: false_promise }
+      correct_choice: a
+      correction: "Le même refrain revient vingt-six fois, jusque dans les souvenirs les plus difficiles."
+    - id: ps136-assemblee-04
+      pack_id: suspended-harps
+      learning_lens: MONDE_HISTORIQUE
+      source_layer: historical
+      formation_goal: "Imaginer une performance probable sans la présenter comme certaine."
+      scripture_references: ["Psaume 136:1-26"]
+      claim_ids: [hist-011, exeg-011]
+      prompt: "Comment ce refrain pouvait-il être chanté ?"
+      choices:
+        - { id: a, text: "Une voix, puis l’assemblée", diagnosis: correct_probable_response }
+        - { id: b, text: "Un soliste sans réponse", diagnosis: ignores_refrain }
+        - { id: c, text: "Une armée en marche", diagnosis: invented_performance }
+      correct_choice: a
+      correction: "La répétition suggère un appel et une réponse, sans nous donner le rythme ni l’effectif exacts."
+    - id: ps137-harpes-05
+      pack_id: suspended-harps
+      learning_lens: PERSONNAGES
+      source_layer: textual
+      formation_goal: "Habiter le refus des exilés avant toute explication."
+      scripture_references: ["Psaume 137:1-4"]
+      claim_ids: [hist-012]
+      prompt: "Pourquoi les exilés suspendent-ils leurs harpes ?"
+      choices:
+        - { id: a, text: "Ils refusent l’humiliation", diagnosis: correct_refusal }
+        - { id: b, text: "Ils ont oublié la musique", diagnosis: trivialized_trauma }
+        - { id: c, text: "Ils préparent une fête", diagnosis: reversed_scene }
+      correct_choice: a
+      correction: "Leurs vainqueurs demandent un chant de Sion. Ils refusent de faire de leur ville détruite un divertissement."
+      scored: false
+      time_pressure: none
+      feedback: quiet_no_fanfare
+    - id: ps137-babylone-06
+      pack_id: suspended-harps
+      learning_lens: MONDE_HISTORIQUE
+      source_layer: historical
+      formation_goal: "Situer l’exil sans inventer un chanteur ou une date."
+      scripture_references: ["Psaume 137:1-4"]
+      claim_ids: [hist-012]
+      prompt: "Où ces exilés se trouvent-ils probablement ?"
+      choices:
+        - { id: a, text: "À Babylone", diagnosis: correct_exilic_context }
+        - { id: b, text: "À Rome", diagnosis: later_empire }
+        - { id: c, text: "En Égypte", diagnosis: different_exile }
+      correct_choice: a
+      correction: "Le contexte babylonien après la chute de Jérusalem est très probable, mais le chanteur reste inconnu."
+      scored: false
+      time_pressure: none
+      feedback: quiet_no_fanfare
+    - id: ps138-detresse-07
+      pack_id: suspended-harps
+      learning_lens: PRINCIPES_DE_L_EVANGILE
+      source_layer: textual
+      formation_goal: "Refuser de confondre confiance et absence de détresse."
+      scripture_references: ["Psaume 138:7-8"]
+      claim_ids: [exeg-013]
+      prompt: "La détresse a-t-elle déjà disparu dans le Psaume 138 ?"
+      choices:
+        - { id: a, text: "Non, elle est encore présente", diagnosis: correct_coexistence }
+        - { id: b, text: "Oui, tout est déjà réglé", diagnosis: easy_resolution }
+        - { id: c, text: "Le psaume n’en parle pas", diagnosis: ignored_text }
+      correct_choice: a
+      correction: "La voix loue Dieu tout en marchant encore dans la détresse et en demandant de ne pas être abandonnée."
+    - id: ps139-fuir-08
+      pack_id: suspended-harps
+      learning_lens: LECTURE_DU_TEXTE
+      source_layer: textual
+      formation_goal: "Suivre l’expérience de la présence impossible à fuir."
+      scripture_references: ["Psaume 139:7-12"]
+      claim_ids: [exeg-014]
+      prompt: "Où peut-on fuir loin de Dieu dans le Psaume 139 ?"
+      choices:
+        - { id: a, text: "Nulle part", diagnosis: correct_presence }
+        - { id: b, text: "Au fond de la mer", diagnosis: image_misread }
+        - { id: c, text: "Dans la nuit", diagnosis: image_misread }
+      correct_choice: a
+      correction: "Ciel, séjour des morts, mer et nuit deviennent autant de lieux où la présence de Dieu rejoint la voix."
+    - id: ps139-parole-09
+      pack_id: suspended-harps
+      learning_lens: PRINCIPES_DE_L_EVANGILE
+      source_layer: textual
+      formation_goal: "Comprendre la connaissance de Dieu comme antérieure à la performance."
+      scripture_references: ["Psaume 139:1-6"]
+      claim_ids: [exeg-014]
+      prompt: "Que connaît Dieu avant même qu’une parole soit dite ?"
+      choices:
+        - { id: a, text: "La parole tout entière", diagnosis: correct_foreknowledge }
+        - { id: b, text: "Seulement sa dernière syllabe", diagnosis: fragmentary_knowledge }
+        - { id: c, text: "Rien avant de l’entendre", diagnosis: humanized_limit }
+      correct_choice: a
+      correction: "Le psaume présente Dieu connaissant déjà la parole entière avant qu’elle arrive sur la langue."
+    - id: ps139-sonde-10
+      pack_id: suspended-harps
+      learning_lens: DISCERNEMENT_DE_VIE
+      source_layer: textual
+      formation_goal: "Retourner l’examen du mal vers son propre chemin."
+      scripture_references: ["Psaume 139:19-24"]
+      claim_ids: [exeg-014]
+      prompt: "Après avoir jugé le mal, que demande finalement la voix ?"
+      choices:
+        - { id: a, text: "Sonde-moi et conduis-moi", diagnosis: correct_self_examination }
+        - { id: b, text: "Dire que j’ai toujours raison", diagnosis: self_justification }
+        - { id: c, text: "Cache-moi de toute question", diagnosis: avoidance }
+      correct_choice: a
+      correction: "Après sa colère, la voix accepte d’être elle-même sondée et demande à être conduite sur le bon chemin."
+
+    - id: ps146-princes-01
+      pack_id: everything-breathes
+      learning_lens: LECTURE_DU_TEXTE
+      source_layer: textual
+      formation_goal: "Voir pourquoi le pouvoir humain ne peut porter l’espérance ultime."
+      scripture_references: ["Psaume 146:3-4"]
+      claim_ids: [exeg-015]
+      prompt: "Pourquoi ne pas placer l’espérance ultime dans les princes ?"
+      choices:
+        - { id: a, text: "Leur souffle finit", diagnosis: correct_mortality }
+        - { id: b, text: "Ils ne parlent jamais", diagnosis: false_absolute }
+        - { id: c, text: "Ils vivent hors des villes", diagnosis: invented_reason }
+      correct_choice: a
+      correction: "Quand leur souffle s’en va, leurs projets cessent. Le psaume oppose ce pouvoir mortel à Dieu."
+    - id: ps146-vulnerables-02
+      pack_id: everything-breathes
+      learning_lens: PLAN_DE_DIEU
+      source_layer: textual
+      formation_goal: "Rendre la louange inséparable de la justice concrète de Dieu."
+      scripture_references: ["Psaume 146:5-9"]
+      claim_ids: [exeg-015]
+      prompt: "De qui Dieu prend-il concrètement soin dans ce psaume ?"
+      choices:
+        - { id: a, text: "Affamés, captifs, étrangers", diagnosis: correct_vulnerable_people }
+        - { id: b, text: "Seulement des rois puissants", diagnosis: power_only }
+        - { id: c, text: "Seulement des soldats", diagnosis: military_reduction }
+      correct_choice: a
+      correction: "Le texte nomme affamés, captifs, aveugles, étrangers, orphelins et veuves."
+    - id: ps146-regne-03
+      pack_id: everything-breathes
+      learning_lens: ESPERANCE_ETERNELLE
+      source_layer: textual
+      formation_goal: "Fonder l’espérance sur le règne durable de Dieu."
+      scripture_references: ["Psaume 146:10"]
+      claim_ids: [exeg-015]
+      prompt: "Quel règne ne s’arrête pas avec un souffle ?"
+      choices:
+        - { id: a, text: "Le règne de Dieu", diagnosis: correct_eternal_reign }
+        - { id: b, text: "Le règne des princes", diagnosis: mortal_rule }
+        - { id: c, text: "Le règne d’une armée", diagnosis: military_rule }
+      correct_choice: a
+      correction: "Les princes meurent ; le psaume affirme que Dieu règne de génération en génération."
+    - id: ps147-coeurs-04
+      pack_id: everything-breathes
+      learning_lens: PRINCIPES_DE_L_EVANGILE
+      source_layer: textual
+      formation_goal: "Tenir ensemble grandeur cosmique et attention aux blessés."
+      scripture_references: ["Psaume 147:2-5"]
+      claim_ids: [exeg-016]
+      prompt: "Que fait celui qui compte les étoiles aux cœurs brisés ?"
+      choices:
+        - { id: a, text: "Il les guérit", diagnosis: correct_healing }
+        - { id: b, text: "Il les oublie", diagnosis: cosmic_distance }
+        - { id: c, text: "Il les juge trop faibles", diagnosis: contempt }
+      correct_choice: a
+      correction: "Le même Dieu compte les étoiles, rassemble les dispersés et soigne les cœurs brisés."
+    - id: ps147-reconstruction-05
+      pack_id: everything-breathes
+      learning_lens: MONDE_HISTORIQUE
+      source_layer: historical
+      formation_goal: "Reconnaître un horizon postexilique sans inventer un chantier."
+      scripture_references: ["Psaume 147:2-3"]
+      claim_ids: [hist-014, exeg-016]
+      prompt: "Quel horizon le Psaume 147 rend-il très probable ?"
+      choices:
+        - { id: a, text: "Jérusalem rebâtie après l’exil", diagnosis: correct_postexilic_horizon }
+        - { id: b, text: "Rome fondée par David", diagnosis: invented_history }
+        - { id: c, text: "Le Temple construit par Noé", diagnosis: invented_history }
+      correct_choice: a
+      correction: "Le rassemblement des dispersés et la reconstruction de Jérusalem suggèrent fortement l’après-exil."
+    - id: ps148-choeur-06
+      pack_id: everything-breathes
+      learning_lens: RECIT_DU_TEXTE
+      source_layer: textual
+      formation_goal: "Suivre le chœur depuis le ciel jusqu’à toute la terre."
+      scripture_references: ["Psaume 148:1-13"]
+      claim_ids: [exeg-017]
+      prompt: "Qui rejoint le chœur après les astres ?"
+      choices:
+        - { id: a, text: "Reliefs, animaux et humains", diagnosis: correct_cosmic_descent }
+        - { id: b, text: "Seulement les prêtres", diagnosis: narrowed_choir }
+        - { id: c, text: "Seulement les adultes", diagnosis: age_exclusion }
+      correct_choice: a
+      correction: "Le chant descend vers météo, reliefs, animaux, rois, peuples, jeunes et vieux."
+    - id: ps148-ages-07
+      pack_id: everything-breathes
+      learning_lens: PLAN_DE_DIEU
+      source_layer: textual
+      formation_goal: "Voir les générations réunies dans la même louange."
+      scripture_references: ["Psaume 148:11-13"]
+      claim_ids: [exeg-017]
+      prompt: "Quels âges le Psaume 148 réunit-il dans la louange ?"
+      choices:
+        - { id: a, text: "Jeunes et vieux", diagnosis: correct_generations }
+        - { id: b, text: "Seulement les enfants", diagnosis: age_exclusion }
+        - { id: c, text: "Seulement les anciens", diagnosis: age_exclusion }
+      correct_choice: a
+      correction: "Le psaume appelle ensemble jeunes hommes, jeunes filles, vieillards et enfants."
+    - id: ps150-lieu-08
+      pack_id: everything-breathes
+      learning_lens: LECTURE_DU_TEXTE
+      source_layer: textual
+      formation_goal: "Lire le premier cercle de la louange finale."
+      scripture_references: ["Psaume 150:1"]
+      claim_ids: [exeg-019]
+      prompt: "Où le Psaume 150 invite-t-il d’abord à louer Dieu ?"
+      choices:
+        - { id: a, text: "Dans son sanctuaire", diagnosis: correct_place }
+        - { id: b, text: "Dans le palais du roi", diagnosis: invented_place }
+        - { id: c, text: "Dans une ville étrangère", diagnosis: invented_place }
+      correct_choice: a
+      correction: "Le psaume commence dans le sanctuaire et l’étendue céleste, puis élargit l’appel à tout souffle."
+    - id: ps150-instrument-09
+      pack_id: everything-breathes
+      learning_lens: ESPERANCE_ETERNELLE
+      source_layer: textual
+      formation_goal: "Voir le vivant devenir l’instrument final de la louange."
+      scripture_references: ["Psaume 150:1-6"]
+      claim_ids: [exeg-019]
+      prompt: "Dans le Psaume 150, quel est le dernier instrument ?"
+      choices:
+        - { id: a, text: "Tout ce qui respire", diagnosis: correct_breathing_choir }
+        - { id: b, text: "La cymbale la plus forte", diagnosis: object_as_finale }
+        - { id: c, text: "Le cor du roi", diagnosis: invented_hierarchy }
+      correct_choice: a
+      correction: "Après tous les instruments, l’appel final vise tout être vivant qui possède un souffle."
+    - id: souffle-echo-10
+      pack_id: everything-breathes
+      learning_lens: LECTURE_DU_TEXTE
+      source_layer: textual
+      formation_goal: "Relier un motif sans le transformer en code secret."
+      scripture_references: ["Psaume 135:17", "Psaume 146:4", "Psaume 150:6"]
+      claim_ids: [exeg-020]
+      prompt: "Quel motif relie idoles, princes et louange finale ?"
+      choices:
+        - { id: a, text: "Le souffle", diagnosis: correct_editorial_echo }
+        - { id: b, text: "La couronne", diagnosis: invented_echo }
+        - { id: c, text: "La porte de la ville", diagnosis: wrong_motif }
+      correct_choice: a
+      correction: "Les idoles n’en ont pas, les princes le perdent, puis tout souffle loue. C’est un écho, pas un code secret."
+
+packs:
+  owner: expedition-game-designer
+  revision: 1
+  status: human_validation
+  navigation: free_choice_constellation
+  collective_goal: "Rama Benidorm — pourcentage des découvertes accomplies"
+  common_loop: "anticipation → choix → révélation → correction courte → progression visible → prochaine question"
+  difficulty_curve:
+    questions_1_3: { points: 5, duration_seconds: 0, intensity: 1 }
+    questions_4_6: { points: 8, duration_seconds: 20, intensity: 2 }
+    questions_7_9: { points: 12, duration_seconds: 15, intensity: 3 }
+    question_10: { points: 15, duration_seconds: 15, intensity: 4 }
+    quiet_route_override: { points: 0, duration_seconds: 0, intensity: 1, fanfare: false }
+  items:
+    - id: disappearing-voice
+      title: "La voix qui disparaît"
+      references: ["Psaume 102", "Psaume 103"]
+      feeling: "De l’étouffement à une espérance qui dépasse une vie."
+      player_verb: "Retrouver ce qui demeure"
+      reward: "Une lampe encore allumée au-dessus de Sion"
+      question_ids: [ps102-fumee-01, ps102-herbe-02, ps102-mais-toi-03, ps102-sion-04, ps102-avenir-05, ps103-memoire-06, ps103-distance-07, ps103-fragilite-08, ps103-eternite-09, ps102-hebreux-10]
+    - id: nameless-king
+      title: "Le roi sans nom"
+      references: ["Psaume 110"]
+      feeling: "Entrer dans une cérémonie royale dont la pièce centrale manque."
+      player_verb: "Séparer ce que l’on sait de ce que l’on reçoit ensuite"
+      reward: "Un sceau royal traversé par un serment"
+      question_ids: [ps110-roles-01, ps110-roi-inconnu-02, ps110-droite-03, ps110-melchisedek-04, ps110-fin-05, ps110-scene-06, ps110-matthieu-07, ps110-hebreux5-08, ps110-hebreux7-09, ps110-lds-10]
+    - id: cry-stone-seek
+      title: "Le cri, la pierre, la brebis"
+      references: ["Psaume 116", "Psaume 117", "Psaume 118", "Psaume 119"]
+      feeling: "Appeler, être relevé, puis admettre que l’on a encore besoin d’être cherché."
+      player_verb: "Reconnaître le prochain geste"
+      reward: "Une pierre marquée d’une trace de brebis"
+      question_ids: [ps116-appel-01, ps116-public-02, ps117-nations-03, ps117-romains-04, ps118-pierre-05, ps118-actes-06, ps119-return-07, ps119-teach-08, ps119-order-09, ps119-help-10]
+    - id: house-table-city
+      title: "La maison, la table, la ville"
+      references: ["Psaume 127", "Psaume 128"]
+      feeling: "Travailler vraiment sans prétendre être sa propre fondation."
+      player_verb: "Replacer l’effort"
+      reward: "Une porte ouverte de la maison vers Jérusalem"
+      question_ids: [ps127-batir-01, ps127-garde-02, ps127-labeur-03, ps127-enfants-04, ps127-porte-05, ps127-montee-06, ps128-travail-07, ps128-voies-08, ps128-ville-09, ps127-agir-10]
+    - id: suspended-harps
+      title: "Les harpes suspendues"
+      references: ["Psaume 135", "Psaume 136", "Psaume 137", "Psaume 138", "Psaume 139"]
+      feeling: "Écouter ce qui refuse de chanter, puis accepter d’être soi-même sondé."
+      player_verb: "Écouter avant de répondre"
+      reward: "Une harpe demeure silencieuse, mais visible"
+      quiet_question_ids: [ps137-harpes-05, ps137-babylone-06]
+      question_ids: [ps135-souffle-01, ps135-ressembler-02, ps136-refrain-03, ps136-assemblee-04, ps137-harpes-05, ps137-babylone-06, ps138-detresse-07, ps139-fuir-08, ps139-parole-09, ps139-sonde-10]
+    - id: everything-breathes
+      title: "Tout ce qui respire"
+      references: ["Psaume 146", "Psaume 147", "Psaume 148", "Psaume 149", "Psaume 150"]
+      feeling: "Passer des puissants mortels à un chœur vivant sans effacer le glaive."
+      player_verb: "Choisir où placer son espérance"
+      reward: "Un souffle de lumière traverse le chœur"
+      quiet_encounter_ids: [ps149-glaive-pause]
+      question_ids: [ps146-princes-01, ps146-vulnerables-02, ps146-regne-03, ps147-coeurs-04, ps147-reconstruction-05, ps148-choeur-06, ps148-ages-07, ps150-lieu-08, ps150-instrument-09, souffle-echo-10]
+
+quiet_encounters:
+  owner: expedition-spiritual-experience-director
+  scored: false
+  timed: false
+  fanfare: false
+  right_to_silence: true
+  items:
+    - id: ps149-glaive-pause
+      pack_id: everything-breathes
+      scripture_references: ["Psaume 149:1-9"]
+      claim_ids: [hist-015, exeg-018]
+      first_image: "La danse continue. Puis un glaive entre dans le cadre et personne ne frappe."
+      text_before_question: "Le poème place soudain le jugement et le glaive près de la louange. La scène historique reste inconnue."
+      open_question: "Qu’est-ce que cette image empêche de simplifier ?"
+      interaction: ["Rester en silence", "Relire le passage", "Continuer"]
+      prohibited_feedback: [correct, incorrect, points, streak, celebration]
+
+review:
+  content_scope:
+    total_packs: 6
+    questions_per_pack: 10
+    total_questions: 60
+    all_required_psalms_covered: true
+  learning_lenses:
+    RECIT_DU_TEXTE: covered
+    PERSONNAGES: covered
+    MONDE_HISTORIQUE: covered
+    LECTURE_DU_TEXTE: covered
+    PRINCIPES_DE_L_EVANGILE: covered
+    PLAN_DE_DIEU: covered
+    ESPERANCE_ETERNELLE: covered
+    RECEPTION_CANONIQUE: covered
+    DISCERNEMENT_DE_VIE: covered
+  gates:
+    mobile_copy: pending_automated_validation
+    truth: pending_fact_checker
+    experience: pending_spiritual_director_review
+    human_voice: pending_read_aloud
+    i18n: fr_draft_only

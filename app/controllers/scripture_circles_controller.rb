@@ -1,14 +1,36 @@
 class ScriptureCirclesController < ApplicationController
+  # Legacy chapter-scoped Circle links still open the reader at that chapter.
   def show
-    access = ScriptureCircles::Access.new(person: current_street_person).readable!
-    @reference = params[:reference].to_s
-    @thread = access.thread_for(reference: @reference)
-    @posts = @thread ? @thread.scripture_circle_posts
-      .includes(:person, :parent, scripture_circle_moderation_proposals: [ :proposer_person, :scripture_circle_moderation_ballots ])
-      .order(created_at: :desc, id: :desc).limit(20).to_a.reverse : []
-    @circle_mode = access.ward.scripture_circle_mode
-    @ward = access.ward
+    return redirect_legacy_reference if legacy_reference_request?
+
+    @screen = ScriptureCircles::RamaScreen.call(
+      person: current_street_person,
+      locale: I18n.locale,
+      view: params[:view],
+      conversation: params[:conversation],
+      page: params[:page]
+    )
+
+    # Turbo extracts the matching frame from this layout-free response. The
+    # same `show` markup therefore remains the accessible non-JavaScript page.
+    render :show, layout: false if turbo_frame_request?
   rescue ScriptureCircles::Access::Error
+    # Do not disclose whether another ward has Circle data. This matches the
+    # existing access contract for guests, people without a ward, and disabled
+    # wards.
     head :forbidden
   end
+
+  private
+
+    def legacy_reference_request?
+      params[:reference].present?
+    end
+
+    def redirect_legacy_reference
+      reference = params[:reference].to_s
+      return head :not_found unless Scriptures::Reference.known_study?(reference)
+
+      redirect_to scripture_path(reference, locale: I18n.locale, circle: 1)
+    end
 end

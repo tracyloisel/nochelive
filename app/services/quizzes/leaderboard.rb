@@ -19,7 +19,7 @@ module Quizzes
     end
 
     def self.pack_best_totals(ward: nil, wards: nil)
-      scope = QuizRun.finished
+      scope = QuizRun.street.finished
       if wards || ward
         ward_ids = wards ? wards.select(:id) : ward.id
         scope = scope.joins(:person).where(people: { ward_id: ward_ids })
@@ -36,7 +36,7 @@ module Quizzes
       ids = Array(person_ids).compact.uniq
       return {} if ids.empty?
 
-      bests = QuizRun.finished
+      bests = QuizRun.street.finished
         .where(person_id: ids)
         .group(:person_id, :pack_id)
         .maximum(:score)
@@ -165,7 +165,7 @@ module Quizzes
       def latest_open_runs(person_ids)
         return {} if person_ids.empty?
 
-        QuizRun.open_runs.where(person_id: person_ids).order(id: :desc).each_with_object({}) do |run, rows|
+        QuizRun.street.open_runs.where(person_id: person_ids).order(id: :desc).each_with_object({}) do |run, rows|
           rows[run.person_id] ||= run
         end
       end
@@ -234,7 +234,7 @@ module Quizzes
       end
 
       def pack_scores
-        QuizRun.finished
+        QuizRun.street.finished
           .joins(:person)
           .where(people: { ward_id: ward_ids }, pack_id: @pack_id)
           .group(:person_id)

@@ -1,24 +1,24 @@
 # Current state
 
-Inspected 2026-08-24 after M14 tests.
+Inspected 30 August 2026 after the automatic Noche Live cutover.
 
 ## Working
 
-- All 15 Reyes y Profetas rounds are real verbs
-- Remote Jonah lives the story (storm → fish → shore). He does not guess the room mime
-- Rey on rank-up; Solomon vote; remaining M1–M12 as before
-- Capybara two-session live buzz when Chrome is present (skips otherwise)
-- Minitest + YAML fixtures + `db/seeds.rb` DEMO night; SimpleCov floor 90%
+- Persistent ward teams created by the admin MCP and snapshotted into each Noche.
+- Scheduled registration, T−30 lobby, T0 Live and automatic T+60 close.
+- Ordered lists of existing quiz packs played through the normal `/jugar` engine.
+- Late registration and team selection from the canonical `/s/:code` Watch URL.
+- Realtime semantic challenge tiles, team score sums and per-question completion.
+- Normal final score screen with next-quiz and return-to-Watch actions.
+- Responsive Watch, registration and team selection surfaces.
 
-## Partially working
+## Removed
 
-- Remote hold trusts client milliseconds (clamped)
-- Remote scavenger confirm is trust if there is no video call
+The hosted round engine, presenter console, public companion, manual phase
+commands, buzz/action models, custom posters and historical compatibility paths
+are not part of the application anymore.
 
-## Broken
+## Remaining release gate
 
-- None known in M1–M14 paths
-
-## Current milestone
-
-M14 — Two-browser live buzz. Quality **67/75**. Remote 5. Reliability stays 4. Playtest is still due.
+Run an in-person multi-device playtest and production-load observation; neither
+requires restoring legacy concepts.

@@ -33,7 +33,7 @@
         </div>
       </header>
       <blockquote><%= quiz.content.dig("light", I18n.locale.to_s) || quiz.content.dig("light", "fr") %></blockquote>
-      <%= link_to t("study.view_annual_program"), study_program_path, class: "btn btn-gold" %>
+      <%= link_to t("study.view_annual_program"), scripture_library_path(section: "program", anchor: "selection"), class: "btn btn-gold" %>
       <section class="study-validated-program" aria-labelledby="study-validated-program-title">
         <p class="study-kicker"><%= t("study.validated_program_kicker") %></p>
         <h2 id="study-validated-program-title"><%= @run.study_unit.study_program.display_title %></h2>

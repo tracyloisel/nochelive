@@ -1,15 +1,21 @@
 # frozen_string_literal: true
 
-leones_season:
+leones_ward_team:
   ward: demo
   name: Leones de Judá
   emblem: leon
-  season_xp: 0
-  season_rank_key: novicio
 
-casa_season:
+casa_ward_team:
   ward: demo
   name: Casa de David
   emblem: ola
-  season_xp: 0
-  season_rank_key: novicio
+
+daniel_ward_team:
+  ward: demo
+  name: Daniel
+  emblem: estrella
+
+campeones_ward_team:
+  ward: demo
+  name: Campeones
+  emblem: corona

@@ -40,7 +40,6 @@ const translationsSchema = z.object({
   fr: translationSchema,
   en: translationSchema
 })
-
 function createServer() {
   const server = new McpServer({ name: "nochelive-admin", version: "0.1.0" })
 
@@ -78,23 +77,24 @@ function createServer() {
     return result(await api(`/internal/admin/people_seen_today?${query}`))
   })
 
-  server.registerTool("rotate_presenter_code", {
-    description: "Invalidate a ward's old presenter code and return a new code once.",
-    inputSchema: { ward_code: z.string() }
-  }, async ({ ward_code }) => result(await api(
-    `/internal/admin/wards/${encodeURIComponent(ward_code)}/rotate_presenter_token`,
-    { method: "POST", body: "{}" }
+  server.registerTool("create_ward_team", {
+    description: "Create a persistent team in one ward. Noche Live participants can only choose among these pre-created ward teams.",
+    inputSchema: {
+      ward_code: z.string().describe("Public code of the ward that owns the team"),
+      name: z.string().trim().min(1).max(80),
+      emblem: z.enum(["leon", "fuego", "paloma", "corona", "ola", "estrella"])
+    }
+  }, async ({ ward_code, name, emblem }) => result(await api(
+    `/internal/admin/wards/${encodeURIComponent(ward_code)}/ward_teams`,
+    { method: "POST", body: JSON.stringify({ name, emblem }) }
   )))
 
   server.registerTool("create_noche_live", {
-    description: "Create a new scheduled Noche Live inside one ward. Returns its session code and player, presenter, and public paths.",
+    description: "Create a scheduled one-hour Noche Live from an ordered list of existing quizzes. Lobby opens automatically 30 minutes before launch and the canonical URL becomes Watch during play.",
     inputSchema: {
       ward_code: z.string().describe("Public code of the ward that will own the Noche Live"),
       starts_at: z.string().describe("ISO 8601 timestamp with timezone, for example 2026-08-29T19:00:00+02:00"),
-      presenter_locale: z.enum(["es", "pt-BR", "fr", "en"]).default("es"),
-      broadcast_delay_ms: z.number().int().min(0).max(30000).default(0),
-      missionary_names: z.array(z.string().min(1).max(32)).default([]),
-      theme_id: z.string().default("reyes_y_profetas")
+      quiz_ids: z.array(z.string().min(1)).min(1).describe("Ordered quiz pack IDs from the existing /jugar catalog")
     }
   }, async ({ ward_code, ...input }) => result(await api(
     `/internal/admin/wards/${encodeURIComponent(ward_code)}/nights`,
@@ -102,15 +102,12 @@ function createServer() {
   )))
 
   server.registerTool("edit_noche_live", {
-    description: "Edit the schedule, presenter language, broadcast delay, event poster, or missionary list of a Noche Live. It can only edit a session belonging to the supplied ward.",
+    description: "Edit the launch date or complete ordered quiz list of a scheduled Noche Live. It can only edit a session belonging to the supplied ward.",
     inputSchema: {
       ward_code: z.string(),
       session_code: z.string(),
       starts_at: z.string().optional().describe("ISO 8601 timestamp with timezone"),
-      presenter_locale: z.enum(["es", "pt-BR", "fr", "en"]).optional(),
-      broadcast_delay_ms: z.number().int().min(0).max(30000).optional(),
-      poster_path: z.string().regex(/^\/media\/nights\/events\/[a-z0-9][a-z0-9._-]*\.(?:jpe?g|png|webp)$/i).nullable().optional().describe("Deployed event poster path, or null to restore the theme poster"),
-      missionary_names: z.array(z.string().min(1).max(32)).optional().describe("Complete replacement list; pass [] to remove all missionaries")
+      quiz_ids: z.array(z.string().min(1)).min(1).optional().describe("Complete ordered replacement list of existing quiz pack IDs")
     }
   }, async ({ ward_code, session_code, ...input }) => result(await api(
     `/internal/admin/wards/${encodeURIComponent(ward_code)}/nights/${encodeURIComponent(session_code)}`,
@@ -118,7 +115,7 @@ function createServer() {
   )))
 
   server.registerTool("finish_noche_live", {
-    description: "Finish a Noche Live, record its final team results in the ward season, and broadcast the final state. The supplied session must belong to the supplied ward. Safe to retry if the first response is lost.",
+    description: "Close a Noche Live immediately and broadcast its final Watch state. The supplied session must belong to the supplied ward. Safe to retry if the first response is lost.",
     inputSchema: {
       ward_code: z.string().describe("Public code of the ward that owns the Noche Live"),
       session_code: z.string().describe("Session code of the Noche Live to finish")

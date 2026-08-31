@@ -4,8 +4,10 @@ module ScriptureCircles
 
     LIMITS = {
       post: [ 6, 10.minutes ],
-      proposal: [ 2, 7.days ],
-      ballot: [ 30, 1.day ]
+      report: [ 10, 7.days ],
+      ballot: [ 30, 1.day ],
+      conversation_vote: [ 60, 1.day ],
+      post_vote: [ 120, 1.day ]
     }.freeze
 
     def self.check!(action:, person:, device_digest: nil, cache: Rails.cache)

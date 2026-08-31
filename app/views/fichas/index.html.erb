@@ -1,6 +1,6 @@
 <% content_for :title, t("fichas.title", ward: @ward.name) %>
 <% content_for :body_class, "is-kid is-paper-hall" %>
-<% still_src = @night ? night_still_src(@night) : night_poster_src("reyes_y_profetas") %>
+<% still_src = night_poster_src("reyes_y_profetas") %>
 <% page_hud { site_menu } %>
 
 <%= paper_hall id: "ficha_index", kicker: "#{@ward.name} · #{@ward.code}" do %>
@@ -42,13 +42,8 @@
     <% end %>
 
     <p class="cluster">
-      <% if @night %>
-        <%= link_to t("fichas.night_list"), presenter_roster_path(@night.code), class: "btn btn-navy" %>
-        <%= link_to t("presenter.console_link"), presenter_console_path(@night.code), class: "quiet-link" %>
-      <% else %>
-        <%= link_to t("fichas.open_night"), ward_profile_path(@ward.code), class: "btn btn-gold" %>
-        <%= link_to t("chrome.close"), ward_profile_path(@ward.code), class: "quiet-link" %>
-      <% end %>
+      <%= link_to t("fichas.open_night"), ward_profile_path(@ward.code), class: "btn btn-gold" %>
+      <%= link_to t("chrome.close"), ward_profile_path(@ward.code), class: "quiet-link" %>
     </p>
   </section>
 <% end %>

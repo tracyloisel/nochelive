@@ -24,20 +24,30 @@ module Quizzes
           fire_bonus: reward.streak_bonus
         )
       end
-      DuelRunFanout.call(run: run.reload)
+      run.reload
+      if run.live?
+        Nights::Events.emit(
+          night: run.game_session,
+          kind: "quiz_finish",
+          dedupe_key: "quiz-finish:#{run.id}",
+          payload: { player_id: run.player_id, player_name: run.player.name, team_id: run.team_id, team_name: run.team.name, score: run.score, pack_id: run.pack_id }
+        )
+      else
+        DuelRunFanout.call(run:)
+      end
       run
     end
 
     def self.summary(run, ward: nil, person: nil)
-      finished = QuizRun.where(pack_id: run.pack_id, status: "finished")
+      finished = QuizRun.street.where(pack_id: run.pack_id, status: "finished")
       n = finished.count
       average = n >= 2 ? finished.average(:score).to_f.round : nil
       ward ||= person&.ward
-      standings = ward && person ? Standings.call(ward:, person:, pack_id: run.pack_id) : nil
+      standings = !run.live? && ward && person ? Standings.call(ward:, person:, pack_id: run.pack_id) : nil
       pack_board = standings&.pack_board
-      pack_board ||= ward ? Leaderboard.call(ward:, pack_id: run.pack_id, person:, limit: 3) : nil
+      pack_board ||= !run.live? && ward ? Leaderboard.call(ward:, pack_id: run.pack_id, person:, limit: 3) : nil
       total_board = standings&.total_board
-      total_board ||= ward ? Leaderboard.call(ward:, person:, limit: 3) : nil
+      total_board ||= !run.live? && ward ? Leaderboard.call(ward:, person:, limit: 3) : nil
       answers = run.quiz_answers.to_a
       last_q = run.pack.question_at(run.position)
       last_answer = answers.find { |row| row.question_id == last_q.id }
@@ -50,8 +60,8 @@ module Quizzes
         standings:,
         pack_board:,
         total_board:,
-        rank_up: rank_up?(person, run),
-        duel_impacts: DuelCampus.call(person:, run:).impacts,
+        rank_up: !run.live? && rank_up?(person, run),
+        duel_impacts: run.live? ? [] : DuelCampus.call(person:, run:).impacts,
         answered: answers.size,
         correct: answers.count(&:correct?),
         max_streak: HitStreak.max_count(run:),
@@ -72,7 +82,7 @@ module Quizzes
       return false unless person
 
       after_total = QuizDefinition.catalog.pack_ids.sum { |pid| best_for_pack(person, pid) }
-      previous_best = QuizRun.finished
+      previous_best = QuizRun.street.finished
         .where(person_id: person.id, pack_id: run.pack_id)
         .where.not(id: run.id)
         .maximum(:score)
@@ -90,7 +100,7 @@ module Quizzes
     end
 
     def self.best_for_pack(person, pack_id)
-      QuizRun.finished.where(person_id: person.id, pack_id:).maximum(:score).to_i
+      QuizRun.street.finished.where(person_id: person.id, pack_id:).maximum(:score).to_i
     end
 
     def self.rank_key_for(score)
@@ -112,7 +122,7 @@ module Quizzes
     end
 
     def self.first_finish?(run)
-      QuizRun.finished
+      QuizRun.street.finished
         .where(pack_id: run.pack_id, device_digest: run.device_digest, person_id: run.person_id)
         .where.not(id: run.id)
         .none?

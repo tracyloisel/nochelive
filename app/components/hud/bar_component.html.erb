@@ -9,14 +9,8 @@
         <p class="quiz-hud-name"><%= t("hub.guest_invite") %></p>
         <p class="quiz-hud-rank"><%= t("hub.guest_in_ward") %></p>
       </div>
+      <span class="quiz-hud-guest-go" aria-hidden="true"><%= picto("arrow") %></span>
     <% end %>
-    <div class="quiz-hud-pack is-invite">
-      <%= link_to who_path, class: "quiz-hud-cta" do %>
-        <span class="quiz-hud-cta-long"><%= t("hub.guest_cta") %></span>
-        <span class="quiz-hud-cta-short"><%= t("hub.guest_cta_short") %></span>
-        <%= picto("arrow") %>
-      <% end %>
-    </div>
   <% else %>
     <% if quiz? %>
       <%= link_to who_path, class: "quiz-hud-who", aria: { label: t("hub.nav_home") } do %>

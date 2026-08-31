@@ -1,7 +1,6 @@
 # Visual lock for /iglesia stills.
 # UI chrome is the Salt Lake celestial marble hall (same plate as the hub).
 # These paintings sit on that hall — painterly, not Church stock photos.
-# Night round stills stay in chapel_world.yml (meetinghouse, never temple).
 
 style: >
   Warm cinematic painterly classical illustration in the Salt Lake City Temple

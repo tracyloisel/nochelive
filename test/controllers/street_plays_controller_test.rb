@@ -33,7 +33,7 @@ class StreetPlaysControllerTest < ActionDispatch::IntegrationTest
     assert_select ".street-back-map", count: 0
     assert_select ".street-map", count: 0
     assert_select "a.home-menu-invite[href=?]", street_challenges_path(anchor: "inviter"), text: /#{Regexp.escape(I18n.t("hub_menu.invite_friend"))}/
-    assert_select "a.home-menu-row[href=?]", study_program_path, text: /#{Regexp.escape(I18n.t("study.title"))}/
+    assert_select "a.home-menu-row[href=?]", scripture_library_path, text: /#{Regexp.escape(I18n.t("scripture_library.title"))}/
     assert_select ".home-menu.is-split .chrome-face"
     assert_select ".chrome-drawer .mute"
     assert_select ".chrome-drawer .lang-switch.is-drawer"

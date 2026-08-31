@@ -1,7 +1,7 @@
 require "test_helper"
 
 class People::UpdateTest < ActiveSupport::TestCase
-  test "presenter can change the favorite year and name" do
+  test "ward admin can change the favorite year and name" do
     person = People::Update.call(
       person: people(:pili),
       given_name: "Pilar",

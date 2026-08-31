@@ -1,12 +1,11 @@
 <% live = local_assigns[:live] %>
 <% ward_missing = live.state == :ward_missing %>
 <% empty = live.state == :none || ward_missing %>
-<% hosts = Array(live.hosts).compact_blank %>
 <% theme = %w[light dark].include?(live.theme_mode.to_s) ? live.theme_mode : "light" %>
 <% atmosphere = %w[peaceful dramatic solemn glorious].include?(live.theme_atmosphere.to_s) ? live.theme_atmosphere : "peaceful" %>
-<% still_source = theme == "light" ? "media/hub/light/live-stage-v2.png" : live.still %>
-<% still = media_src(still_source) if still_source.present? %>
-<article class="hub-live hub-panel hub-light-tile--live is-<%= live.state %> is-celestial-<%= theme %><%= " is-empty" if empty %><%= " is-still" if still %>"
+<% still = media_src(live.still) if live.still.present? %>
+<% countdown_visible = live.state == :imminent %>
+<article class="hub-live hub-live--feature hub-panel hub-light-tile--live is-<%= live.state %> is-celestial-<%= theme %><%= " is-empty" if empty %><%= " is-still" if still %>"
          data-hub-live-theme="<%= theme %>"
          data-hub-live-atmosphere="<%= atmosphere %>"
          data-controller="hub-countdown"
@@ -17,6 +16,10 @@
          <% if live.starts_at %>
          data-hub-countdown-starts-at-value="<%= live.starts_at.iso8601 %>"
          <% end %>>
+  <span class="hub-live-art" aria-hidden="true">
+    <%= noche_picture("hub.card.live-king", role: :hub_card, alt: "", loading: "lazy") %>
+  </span>
+  <span class="hub-live-scrim" aria-hidden="true"></span>
   <% if empty %>
     <% if ward_missing %>
       <div class="hub-live-ward-mark" aria-hidden="true"><%= picto("church") %></div>
@@ -24,11 +27,6 @@
         <p class="hub-kicker"><%= t("hub.next_live") %></p>
         <p class="hub-live-ward-title"><%= t("hub.pick_ward_title") %></p>
         <p class="hub-live-empty"><%= t("hub.pick_ward_live") %></p>
-        <ul class="hub-live-ward-promises" aria-label="<%= t("hub.pick_ward_benefits") %>">
-          <li><%= t("hub.pick_ward_live_benefit") %></li>
-          <li><%= t("hub.pick_ward_challenge_benefit") %></li>
-          <li><%= t("hub.pick_ward_ranking_benefit") %></li>
-        </ul>
       </div>
     <% else %>
       <div class="hub-live-empty-copy">
@@ -45,7 +43,8 @@
       <header class="hub-live-head">
         <span class="hub-live-badge<%= " is-live" if live.state == :playing %>"
               data-hub-countdown-target="badge"
-              data-live-label="<%= t("hub.live_chip") %>"><%= t("hub.live_chip") %></span>
+              data-live-label="<%= t("hub.live_chip") %>"
+              <%= "hidden" unless live.state == :playing %>><%= t("hub.live_chip") %></span>
         <p class="hub-kicker"><%= t("hub.next_live") %></p>
       </header>
       <% when_copy = hub_live_when(live) %>
@@ -55,25 +54,24 @@
         <p class="hub-live-when is-clock-only" data-hub-countdown-target="when" hidden></p>
       <% end %>
       <p class="hub-live-special"><%= t("hub.live_special", theme: live.title) %></p>
-      <% if hosts.any? %>
-        <p class="hub-live-hosts"><%= t("hub.live_hosts", names: hosts.to_sentence) %></p>
+      <% if countdown_visible %>
+        <div class="hub-live-clock is-on" data-hub-countdown-target="clock">
+          <div class="hub-live-unit">
+            <span class="hub-live-digit" data-hub-countdown-target="hours">00</span>
+            <small><%= t("hub.hours") %></small>
+          </div>
+          <span class="hub-live-colon" aria-hidden="true">:</span>
+          <div class="hub-live-unit">
+            <span class="hub-live-digit" data-hub-countdown-target="minutes">00</span>
+            <small><%= t("hub.min") %></small>
+          </div>
+          <span class="hub-live-colon" aria-hidden="true">:</span>
+          <div class="hub-live-unit">
+            <span class="hub-live-digit" data-hub-countdown-target="seconds">00</span>
+            <small><%= t("hub.sec") %></small>
+          </div>
+        </div>
       <% end %>
-      <div class="hub-live-clock<%= " is-on" unless live.state == :playing %>" data-hub-countdown-target="clock">
-        <div class="hub-live-unit">
-          <span class="hub-live-digit" data-hub-countdown-target="hours">00</span>
-          <small><%= t("hub.hours") %></small>
-        </div>
-        <span class="hub-live-colon" aria-hidden="true">:</span>
-        <div class="hub-live-unit">
-          <span class="hub-live-digit" data-hub-countdown-target="minutes">00</span>
-          <small><%= t("hub.min") %></small>
-        </div>
-        <span class="hub-live-colon" aria-hidden="true">:</span>
-        <div class="hub-live-unit">
-          <span class="hub-live-digit" data-hub-countdown-target="seconds">00</span>
-          <small><%= t("hub.sec") %></small>
-        </div>
-      </div>
       <% if live.join_path %>
         <%= link_to live.join_path,
               class: "btn hub-live-join",

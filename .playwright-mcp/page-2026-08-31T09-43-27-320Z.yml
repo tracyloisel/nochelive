@@ -1,0 +1,112 @@
+- generic [active] [ref=e1]:
+  - link "Aller au jeu" [ref=e2] [cursor=pointer]:
+    - /url: "#main"
+  - navigation "Menu":
+    - generic "Garde ta progression" [ref=e3]:
+      - link "Garde ta progression" [ref=e4] [cursor=pointer]:
+        - /url: /ficha?fresh=1
+        - generic [ref=e11]:
+          - paragraph [ref=e12]: Garde ta progression
+          - paragraph [ref=e13]: Crée ton profil gratuitement
+    - button "Menu" [ref=e18] [cursor=pointer]
+    - text: · ·
+  - main [ref=e22]:
+    - article [ref=e23]:
+      - generic [ref=e24]:
+        - generic [ref=e25]:
+          - generic [ref=e26]:
+            - paragraph [ref=e27]:
+              - generic [ref=e28]: ✦
+              - text: Tes Écritures
+            - heading "Bibliothèque" [level=1] [ref=e29]
+            - blockquote [ref=e30]: Dieu est pour nous un refuge et un appui.
+          - search [ref=e31]:
+            - generic [ref=e32]: Rechercher dans les Écritures
+            - generic [ref=e33]:
+              - combobox "Rechercher dans les Écritures" [ref=e38]
+              - button "Effacer la recherche" [ref=e39] [cursor=pointer]: ×
+              - button "Ouvrir" [ref=e40] [cursor=pointer]
+            - status [ref=e41]
+          - link "Continuer la lecture Psaume 49 Verset 17 sur 21 81 Continuer" [ref=e43] [cursor=pointer]:
+            - /url: /escrituras/ot/ps/49?cite=Psaume+49%3A17&locale=fr
+            - generic [ref=e51]:
+              - generic [ref=e52]: Continuer la lecture
+              - strong [ref=e53]: Psaume 49
+              - generic [ref=e54]: Verset 17 sur 21
+              - progressbar "Progression de lecture" [ref=e55]
+            - generic [ref=e57]:
+              - generic [ref=e58]: Continuer
+              - generic [ref=e59]: →
+        - link:
+          - /url: "#choisir-lecture"
+          - generic: ⌄
+      - region "Ta bibliothèque personnelle" [ref=e60]:
+        - generic [ref=e61]: ✦
+        - generic [ref=e65]:
+          - link "Recommandé pour toi 1 Néphi 5:1 Comprendre pourquoi Léhi et sa famille quittent Jérusalem Lire" [ref=e66] [cursor=pointer]:
+            - /url: /escrituras/bofm/1-ne/5?cite=1+N%C3%A9phi+5%3A1&locale=fr
+            - generic [ref=e72]:
+              - generic [ref=e73]: Recommandé pour toi
+              - strong [ref=e74]: 1 Néphi 5:1
+              - generic [ref=e75]: Comprendre pourquoi Léhi et sa famille quittent Jérusalem
+            - generic [ref=e76]:
+              - generic [ref=e77]: Lire
+              - generic [ref=e78]: →
+          - link "Cette semaine · Viens et suis-moi Trouver refuge en Dieu Psaumes 49–51 ; 61–66… 58 Ouvrir" [ref=e79] [cursor=pointer]:
+            - /url: /bibliotheque?locale=fr&preview=1&section=weekly&unit=preview#cette-semaine
+            - generic [ref=e85]:
+              - generic [ref=e86]: Cette semaine · Viens et suis-moi
+              - strong [ref=e87]: Trouver refuge en Dieu
+              - generic [ref=e88]: Psaumes 49–51 ; 61–66…
+              - progressbar "Progression de lecture" [ref=e89]
+            - generic [ref=e91]:
+              - generic [ref=e92]: Ouvrir
+              - generic [ref=e93]: →
+          - 'link "Mes signets 4 signets Dernier : Psaume 49:17 — Gloire passagère Retrouver" [ref=e94] [cursor=pointer]':
+            - /url: /bibliotheque?locale=fr&preview=1&section=bookmarks#mes-signets
+            - generic [ref=e98]:
+              - generic [ref=e99]: Mes signets
+              - strong [ref=e100]: 4 signets
+              - generic [ref=e101]: "Dernier : Psaume 49:17 — Gloire passagère"
+            - generic [ref=e102]:
+              - generic [ref=e103]: Retrouver
+              - generic [ref=e104]: →
+          - link "Mes Écritures Ancien Testament 2 chapitres lus Parcourir" [ref=e105] [cursor=pointer]:
+            - /url: /bibliotheque?collection=old_testament&locale=fr&preview=1&section=canon#mes-ecritures
+            - generic [ref=e111]:
+              - generic [ref=e112]: Mes Écritures
+              - strong [ref=e113]: Ancien Testament
+              - generic [ref=e114]: 2 chapitres lus
+            - generic [ref=e115]:
+              - generic [ref=e116]: Parcourir
+              - generic [ref=e117]: →
+          - generic [ref=e118]:
+            - generic [ref=e125]:
+              - generic [ref=e126]: Mon Cercle
+              - strong [ref=e127]: 7 membres ont terminé les lectures de la semaine
+              - generic [ref=e128]: Le Cercle s’ouvre avec un profil rattaché à une paroisse participante.
+            - generic [ref=e129]:
+              - generic [ref=e130]: À activer
+              - generic [ref=e131]: ·
+          - link "Programme annuel Semaine 34 — Psaumes 17–23 août 65 Voir l’année" [ref=e132] [cursor=pointer]:
+            - /url: /bibliotheque?locale=fr&preview=1&section=program&unit=preview#programme-annuel
+            - generic [ref=e138]:
+              - generic [ref=e139]: Programme annuel
+              - strong [ref=e140]: Semaine 34 — Psaumes
+              - generic [ref=e141]: 17–23 août
+              - progressbar "Progression de lecture" [ref=e142]
+            - generic [ref=e144]:
+              - generic [ref=e145]: Voir l’année
+              - generic [ref=e146]: →
+        - generic [ref=e147]: ✦
+  - navigation "Accueil" [ref=e151]:
+    - link "Accueil" [ref=e152] [cursor=pointer]:
+      - /url: /
+    - link "Aventure" [ref=e159] [cursor=pointer]:
+      - /url: /mapa
+    - link "Bibliothèque" [ref=e168] [cursor=pointer]:
+      - /url: /bibliotheque
+    - link "Église" [ref=e176] [cursor=pointer]:
+      - /url: /iglesia
+    - link "Profil" [ref=e183] [cursor=pointer]:
+      - /url: /ficha

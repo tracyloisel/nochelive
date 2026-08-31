@@ -12,14 +12,12 @@ module Presences
     def call
       return unless @person && @device_token.present?
 
-      change = Registry.enter(
+      Registry.enter(
         connection_id: "legacy:street:#{@person.id}:#{GameSession.digest_token(@device_token).first(16)}",
         person_id: @person.id,
         ward_id: @person.ward_id,
         role: "street"
-      )
-      BroadcastChange.call(change)
-      change.entry
+      ).entry
     rescue Redis::BaseError => error
       Rails.error.report(error, context: { component: "legacy_presence", scope: "street" })
       nil

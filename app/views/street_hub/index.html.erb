@@ -2,33 +2,33 @@
 <% screen = @screen %>
 <% art = screen.backdrop %>
 <% art_src = media_src(art.src) || art.src %>
+<% hero_lcp = art.hero.presence || screen.hero.still %>
 <% content_for :body_class, "is-kid is-street-hub is-game-hub-page is-celestial-#{art.theme.mode}" %>
+<% content_for :head do %>
+  <%= noche_picture_preload(hero_lcp) || tag.link(rel: "preload", as: "image", href: hero_lcp, fetchpriority: "high") %>
+<% end %>
 <% declare_frontend_resources(
      context: "hub.home",
-     styles: %w[shell hub onboarding study],
-     controllers: %w[loading press chrome-menu hub-scroll hub-voyage hub-portal hub-campus hub-countdown hub-online hub-progress presence],
-     media: { lcp: art.src, hero: screen.hero.still },
+     # The Home no longer renders the historical study tile. Keeping that
+     # surface here let its legacy tile rules restyle the cinematic hero after
+     # the Hub stylesheet had loaded.
+     styles: %w[shell hub],
+     controllers: %w[loading press chrome-menu hub-scroll hub-voyage hub-portal presence],
+     media: { lcp: hero_lcp },
      audio: { unlock: true, cues: %w[celestial_breath chest level_up], bed: nil },
      motion: %w[list-enter],
      prefetch: { nextScreen: true, maxBytes: 180_000 },
      classes: {
        "style.shell" => "critical",
        "style.hub" => "critical",
-       "style.onboarding" => "contextual",
        "media.lcp" => "critical",
-       "media.hero" => "critical",
        "controller.hub" => "contextual",
-       "controller.hub_campus" => "viewport",
        "audio.hub" => "interaction",
-       "motion.campus_rail" => "viewport",
        "screen.next" => "predictive"
      }
    ) %>
-<% content_for :head do %>
-  <%= noche_picture_preload(art.media_key, role: :hub_backdrop) || tag.link(rel: "preload", as: "image", href: art_src, fetchpriority: "high") %>
-<% end %>
 <section id="street_world"
-         class="street-world is-game-hub<%= " is-returning-from-quiz" if params[:rank_up].present? %>"
+         class="street-world is-game-hub"
          data-controller="street-share hub-scroll"
          data-street-share-copied-value="<%= t("street.share_copied") %>"
          data-hub-theme="<%= art.theme.mode %>"
@@ -45,30 +45,26 @@
         role: :hub_backdrop,
         alt: "",
         class_name: "street-world-art",
-        loading: "eager",
-        fetchpriority: "high",
+        loading: "lazy",
+        fetchpriority: "low",
         data: { hub_background: true }
       ) %>
   <% page_hud(
         hud: true,
         bar: Huds::Present.from_screen(screen: screen, rank_up: params[:rank_up].present?)
       ) { site_menu(player: screen.player) } %>
+  <% content_for :hud do %>
+    <%= render "street_hub/desktop_navigation" %>
+  <% end %>
 
-  <div class="street-hub-feed">
-    <%= render "street_hub/install", theme: art.theme.mode %>
+  <div class="street-hub-feed hub-streaming-feed hub-streaming-feed--editorial"
+       data-hub-layout="hero-rama-carousel">
     <%= render "street_hub/hero", screen: screen, theme: art.theme.mode %>
-    <%= render "street_hub/live", live: screen.live unless screen.live.state == :none %>
-    <%= render "shared/quiz_reading_suggestions", suggestions: screen.reading_suggestions, surface: :hub %>
-    <%= render "street_hub/study", study: screen.study, theme: art.theme.mode %>
+    <%= render "street_hub/rama_carousel", live: screen.live, events: screen.rama_events, circle: screen.circle %>
+    <%= render "street_hub/install" %>
+    <%= render "street_hub/identity_empty", state: @hub_identity_state if @hub_identity_state %>
+    <%= render "street_hub/now_cards", cards: @now_cards, study: screen.study unless screen.player.guest %>
     <%= render("notifications/prompt", person: current_street_person, **@push_prompt) if @push_prompt %>
-
-    <div class="hub-panel-row">
-      <%= render "street_hub/duel_campus", campus: @duel_campus, theme: art.theme.mode %>
-      <%= render "street_hub/online", rows: screen.online, count: screen.online_count, theme: art.theme.mode %>
-      <%= render "street_hub/progress", progress: screen.progress, theme: art.theme.mode %>
-      <%= render "street_hub/church_videos", theme: art.theme.mode %>
-      <%= render "street_hub/community", community: screen.community, pulse: @pulse, theme: art.theme.mode %>
-    </div>
   </div>
 
   <% page_dock(active: :home) %>

@@ -1,0 +1,5 @@
+<% payload = event.payload.symbolize_keys %>
+<li id="live_event_<%= event.id %>" class="is-<%= event.kind %>">
+  <span aria-hidden="true"><%= picto(event.kind.in?(%w[correct streak]) ? "fire" : event.kind == "lead_change" ? "crown" : "star4") %></span>
+  <p><strong><%= t("nights.events.#{event.kind}", **payload) %></strong><small><%= l(event.occurred_at, format: :short) %></small></p>
+</li>

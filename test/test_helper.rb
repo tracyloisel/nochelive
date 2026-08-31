@@ -34,27 +34,26 @@ module ActiveSupport
     fixtures :all
 
     def create_night
-      Nights::Start.call(ward: wards(:blank))
+      ward = wards(:blank)
+      ward.ward_teams.find_or_create_by!(name: "Leones") { |team| team.emblem = "leon" }
+      Nights::Start.call(ward:, quiz_ids: [ "coronas" ], starts_at: 5.minutes.ago)
     end
 
-    def add_player(night, name:, team: nil, location: "room")
+    def add_player(night, name:, team: nil)
       player = night.players.create!(
         name: name,
-        role: "participant",
-        location: location,
         client_token: SecureRandom.uuid,
         avatar_key: "delfin"
       )
-      if location == "remote"
-        Teams::Seat.call(night:, player:)
-      elsif team
+      if team
         TeamMembership.create!(player: player, team: team)
       end
       player
     end
 
     def add_team(night, name:, emblem: "leon")
-      night.teams.create!(name: name, emblem: emblem)
+      ward_team = night.ward.ward_teams.find_or_create_by!(name:) { |row| row.emblem = emblem }
+      night.teams.create!(name:, emblem:, ward_team:)
     end
 
     def extra_ward(i, listed: false, **attrs)
@@ -67,7 +66,7 @@ module ActiveSupport
         country_name: "Spain",
         stake_name: "Valencia Spain Stake",
         listed: listed,
-        presenter_token_digest: GameSession.digest_token("xt#{i}")
+        admin_token_digest: GameSession.digest_token("xt#{i}")
       }.merge(attrs))
     end
 
@@ -77,19 +76,6 @@ module ActiveSupport
         person_id: person.id,
         ward_id: person.ward_id,
         role: "test"
-      ).entry
-    end
-
-    def mark_player_online(player, connection_id: SecureRandom.uuid)
-      Presences::Registry.enter(
-        connection_id:,
-        person_id: player.person_id,
-        ward_id: player.game_session.ward_id,
-        player_id: player.id,
-        night_id: player.game_session_id,
-        team_id: player.team&.id,
-        role: player.role,
-        location: player.location
       ).entry
     end
 
@@ -123,15 +109,6 @@ module ActiveSupport
       previous&.each { |key, value| value.nil? ? ENV.delete(key) : ENV[key] = value }
     end
 
-    def peel_to_salsa(round)
-      round.intro! if round.pending?
-      4.times do
-        break if round.reload.last_layer?
-        Rounds::Peel.call(round:)
-      end
-      round.reload
-    end
-
     def generated_media_src(source, format: "jpeg", rendition: nil, width: nil)
       asset = Frontend::MediaManifest.fetch_source(source)
       raise "missing responsive media asset for #{source}" unless asset
@@ -161,15 +138,14 @@ module ActiveSupport
 end
 
 class ActionDispatch::IntegrationTest
-  def join_as(night, name:, location: "room")
-    post night_players_path(night.code), params: { name: name, location: location }
+  def join_as(night, name:)
+    post night_players_path(night.code), params: { name: name }
     follow_redirect! while response.redirect?
   end
 
-  def sign_in_as_participant(night, name:, location: "room", team: nil)
-    post night_players_path(night.code), params: { name: name, location: location }
+  def sign_in_as_participant(night, name:, team: nil)
+    post night_players_path(night.code), params: { name: name }
     follow_redirect! while response.redirect?
-    return if location == "remote"
     return unless team
 
     player = night.players.find_by!(name: name)
@@ -196,13 +172,6 @@ class ActionDispatch::IntegrationTest
       follow_redirect!
     end
 
-    def sign_in_presenter(night, token: nil)
-      token ||= presenter_token_for(night)
-      night.update!(presenter_token_digest: GameSession.digest_token(token)) unless night.presenter_token_matches?(token)
-      get presenter_gate_path(night.code, token: token)
-      follow_redirect! if response.redirect?
-    end
-
     def create_street_profile!(name: "Jugador Test", avatar_key: "delfin")
       post street_profile_path, params: { name:, avatar_key: }
       follow_redirect! if response.redirect?
@@ -217,11 +186,4 @@ class ActionDispatch::IntegrationTest
       QuizRun.open_runs.order(:id).last
     end
 
-  def presenter_token_for(night)
-    return "presenter-secret" if night.code == "DAVID"
-    return "lobby-secret" if night.code == "ELIAS"
-    return "ended-secret" if night.code == "QUIT"
-
-    night.presenter_token || "test-token"
-  end
 end

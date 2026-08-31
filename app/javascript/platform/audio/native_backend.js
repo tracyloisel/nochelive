@@ -2,7 +2,6 @@ import { audioSession } from "platform/audio/session"
 
 const FALLBACK_CUES = [
   "round_start",
-  "buzzer_hit",
   "correct_gold",
   "notification_glint",
   "wrong_soft",
@@ -48,11 +47,11 @@ const BED_OUT_MS = 380
 const BED_DUCK_MS = 110
 const BED_UNDUCK_MS = 280
 const TICK_CUES = new Set(["tick", "tick_low"])
-const HIT_CUES = new Set(["buzzer_hit", "fire_whoosh", "flame_gold", "chest", "correct_gold", "notification_glint", "wrong_soft", "street_wrong_soft", "score_transfer", "crown_chime", "duel_send", "stake_gain", "study_light", "study_miss", "study_turn"])
+const HIT_CUES = new Set(["fire_whoosh", "flame_gold", "chest", "correct_gold", "notification_glint", "wrong_soft", "street_wrong_soft", "score_transfer", "crown_chime", "duel_send", "stake_gain", "study_light", "study_miss", "study_turn"])
 const BED_CUES = new Set(["timer_tension", "study_refuge"])
 const BED_IN = { timer_tension: BED_IN_MS, study_refuge: 1400 }
 const BED_OUT = { timer_tension: BED_OUT_MS, study_refuge: 900 }
-const STAGE_NODE_SELECTOR = "#night_play, #night_watch, #night_presenter, #street_quiz, #study_run, [data-stage-bed-value], [data-stage-sfx-value]"
+const STAGE_NODE_SELECTOR = "#street_quiz, #study_run, [data-stage-bed-value], [data-stage-sfx-value]"
 const SCRIPTURE_BED_SELECTOR = ".scripture-veil[data-stage-bed-value]"
 const GESTURES = ["pointerdown", "touchstart", "keydown", "click"]
 
@@ -791,7 +790,7 @@ function syncTimer(node) {
 }
 
 function haloRoot() {
-  return document.querySelector("#street_quiz, #night_play, #night_watch")
+  return document.querySelector("#street_quiz")
 }
 
 function ensureHalo(root) {

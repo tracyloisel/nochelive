@@ -19,7 +19,7 @@ bin/dev
 
 ```text
 code: DEMO
-presenter: /p/DEMO?token=noche-demo
+Noche Live: /s/DEMO
 ```
 
 Open `/`, or join on a phone with `DEMO`.

@@ -1,0 +1,36 @@
+<div id="scripture-library-search-status"
+     class="scripture-library-search__status<%= " is-error" if result&.message_key %>"
+     role="status"
+     aria-live="polite"
+     data-library-search-target="status">
+  <%= t(result.message_key) if result&.message_key %>
+</div>
+<div id="scripture-library-suggestions"
+     class="scripture-library-search__suggestions"
+     role="listbox"
+     aria-label="<%= t("scripture_library.search.label") %>"
+     data-library-search-target="list"
+     <%= "hidden" unless result&.suggestions&.any? %>>
+  <% result&.suggestions&.each_with_index do |suggestion, index| %>
+    <% suggestion_reader = suggestion.path.to_s.match?(%r{/escrituras/}) %>
+    <% suggestion_data = {
+         library_search_target: "option",
+         action: "click->library-search#choose"
+       } %>
+    <% if suggestion_reader %>
+      <% suggestion_data[:turbo_frame] = "scripture_reader" %>
+      <% suggestion_data[:action] = "click->library-search#choose click->scripture-launcher#prepare" %>
+      <% suggestion_data[:scripture_chapter_title] = suggestion.label %>
+    <% else %>
+      <% suggestion_data[:turbo_frame] = "library_selection" %>
+      <% suggestion_data[:turbo_action] = "advance" %>
+    <% end %>
+    <%= link_to suggestion.path,
+          { role: "option",
+          id: "scripture-library-option-#{index}",
+          tabindex: -1,
+          data: suggestion_data } do %>
+      <span><%= suggestion.label %></span><b aria-hidden="true">→</b>
+    <% end %>
+  <% end %>
+</div>

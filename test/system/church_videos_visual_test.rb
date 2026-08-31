@@ -65,21 +65,33 @@ class ChurchVideosVisualTest < ApplicationSystemTestCase
     shot("mockup-church-videos-desktop")
   end
 
-  test "home keeps the official video door secondary and fully local" do
+  test "home leaves approved official videos to their dedicated viewing surface" do
+    create_approved_scripture_video_link!
     set_system_viewport(390, 844)
     visit root_path(locale: "fr")
-    page.execute_script(<<~JS)
-      document.querySelector("#profile_gate")?.remove()
-      document.querySelector("#street_world")?.classList.remove("is-profile-gate")
-    JS
-    assert_selector ".hub-videos"
-    assert_selector ".hub-videos img[src*='/media/generated/catalog/church/videos/celestial-video-sanctuary-v1/']"
-    assert_no_selector ".hub-videos iframe"
-    scroll_to find(".hub-videos"), align: :center
-    shot("mockup-hub-official-videos-tile")
+    assert_selector "html[lang='fr']"
+    assert_no_selector ".street-hub-feed iframe, .street-hub-feed video, .street-hub-feed [autoplay]"
+    shot("mockup-hub-without-video-rail")
   end
 
   private
+
+    def create_approved_scripture_video_link!
+      ScriptureVideoLink.create!(
+        reference: "ot/ps/52",
+        locale: "fr",
+        youtube_video_id: "qaWatchRail",
+        channel_id: ChurchVideos::Catalog.official_channel_id("fr"),
+        editorial_reason: "Une vidéo officiellement approuvée",
+        position: 0,
+        anchor_verse: 4,
+        reviewed_by: "Équipe éditoriale QA",
+        verified_at: Time.current,
+        published_at: Time.current,
+        source_url: "https://www.youtube.com/watch?v=qaWatchRail",
+        status: "published"
+      )
+    end
 
     def catalog
       channel = ChurchVideos::Catalog::Channel.new(

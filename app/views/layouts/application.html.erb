@@ -70,7 +70,6 @@
       <%= yield %>
     </main>
     <%= yield :dock %>
-    <div id="live_pulses" class="live-pulses" aria-live="polite"></div>
     <% if frontend_audio_enabled? %>
       <script type="application/json" id="noche_sfx_catalog"><%= json_escape(frontend_audio_catalog.to_json).html_safe %></script>
       <% tick = Sfx.versioned_path_for("tick") %>

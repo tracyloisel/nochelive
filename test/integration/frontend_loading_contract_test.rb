@@ -1,23 +1,22 @@
 require "test_helper"
 
 class FrontendLoadingContractTest < ActionDispatch::IntegrationTest
-  test "hub declares a validated presentation manifest and one contextual Campus sheet" do
+  test "hub declares the cinematic Rama carousel manifest with one art-directed hero LCP" do
     get root_path, headers: { "HTTP_ACCEPT" => "text/html,image/webp" }
 
     assert_response :success
     assert_select "script#noche_resource_manifest[type='application/json']", count: 1
     manifest = JSON.parse(css_select("#noche_resource_manifest").first.text)
     assert_equal "hub.home", manifest.fetch("context")
-    assert_equal %w[shell hub onboarding study], manifest.fetch("styles")
+    assert_equal %w[shell hub], manifest.fetch("styles")
     assert_equal "critical", manifest.fetch("classes").fetch("media.lcp")
-    assert_includes manifest.fetch("controllers"), "hub-campus"
-    assert_equal "viewport", manifest.fetch("classes").fetch("controller.hub_campus")
+    assert_equal "contextual", manifest.fetch("classes").fetch("controller.hub")
     assert_includes manifest.fetch("motion"), "list-enter"
     assert_equal 180_000, manifest.dig("prefetch", "maxBytes")
     refute manifest.key?("score")
 
     assert_select "link[href*='surfaces/hub'][data-turbo-track='dynamic']", count: 1
-    assert_select "link[href*='surfaces/study'][data-turbo-track='dynamic']", count: 1
+    assert_select "link[href*='surfaces/study'][data-turbo-track='dynamic']", count: 0
     assert_select "link[href*='duel_campus']", count: 0
     assert_select "link[href*='shell/loading'][data-turbo-track='reload']", count: 1
     assert_select "[data-controller~='loading'] .noche-loading[data-loading-target='indicator']", count: 1
@@ -28,10 +27,51 @@ class FrontendLoadingContractTest < ActionDispatch::IntegrationTest
     catalog_script = css_select("script#noche_sfx_catalog").first.text
     assert_includes catalog_script, "celestial_breath"
     refute_includes catalog_script, "timer_tension"
-    assert_select "link[rel='preload'][as='image'][imagesrcset*='390w'][imagesrcset*='941w']", count: 1
+    assert_select "link[rel='preload'][as='image'][type='image/avif'][fetchpriority='high']", count: 2
+    assert_select "link[rel='preload'][as='image'][media='(max-width: 767px)'][imagesrcset*='portrait']", count: 1
+    assert_select "link[rel='preload'][as='image'][media='(min-width: 768px)'][imagesrcset*='landscape']", count: 1
     assert_select "picture.street-world-art-picture source[type='image/avif'][srcset*='390w']", count: 1
     assert_select "picture.street-world-art-picture source[type='image/avif'][media='(min-width: 768px)'][srcset*='landscape']", count: 1
-    assert_select "picture.street-world-art-picture img.street-world-art[width][height][fetchpriority='high']", count: 1
+    assert_select ".hub-slide.is-current img.hub-slide-still[loading='eager'][fetchpriority='high'][decoding='async']", count: 1
+    assert_select "picture.street-world-art-picture img.street-world-art[width][height][loading='lazy'][fetchpriority='low']", count: 1
+    assert_select ".street-hub-feed .hub-hero[data-controller~='hub-voyage']", count: 1
+    assert_select ".street-hub-feed > .hub-hero[data-controller~='hub-voyage']", count: 1
+  end
+
+  test "identity pages load shared entry primitives before their profile material" do
+    get street_profile_path
+
+    assert_response :success
+    stylesheets = css_select("link[data-turbo-track='dynamic']").map { |node| node["href"] }
+    entry_index = stylesheets.index { |href| href.include?("surfaces/entry") }
+    profile_index = stylesheets.index { |href| href.include?("surfaces/profile") }
+
+    assert_not_nil entry_index
+    assert_not_nil profile_index
+    assert_operator entry_index, :<, profile_index
+  end
+
+  test "Circle declares its inbox controller without the obsolete reading rail" do
+    ward = wards(:demo)
+    ward.update!(scripture_circle_mode: "active")
+    person = people(:pili)
+    sign_in_circle_member(person)
+
+    get scripture_circle_path
+
+    assert_response :success
+    manifest = JSON.parse(css_select("#noche_resource_manifest").first.text)
+    assert_equal "shell", manifest.fetch("context")
+    assert_equal %w[shell circle], manifest.fetch("styles")
+    assert_includes manifest.fetch("controllers"), "circle-feed"
+    assert_equal "contextual", manifest.fetch("classes").fetch("controller.circle-feed")
+    assert_empty manifest.fetch("motion")
+    assert_select "section#circle_index[data-controller~='circle-feed']", count: 1
+    assert_select "main#circle_index", count: 0
+    assert_select "turbo-frame#circle_live_feed", count: 1
+    assert_select "header.quiz-hud", count: 1
+    assert_select "nav.navigation-dock", count: 1
+    assert_select ".circle-desktop-rail, .circle-reading-rail", count: 0
   end
 
   test "non Campus surface does not receive the Campus stylesheet" do
@@ -97,4 +137,23 @@ class FrontendLoadingContractTest < ActionDispatch::IntegrationTest
     refute_includes response.body, "<%="
     assert_match %r{/assets/shell/loading(?:-[a-f0-9]+)?\.css}, response.body
   end
+
+  private
+
+    def sign_in_circle_member(person, token: "frontend-circle-device")
+      person.person_devices.find_or_create_by!(device_token: token)
+      set_signed_cookie(:noche_device, token)
+      set_signed_cookie(:noche_ward, person.ward_id)
+      set_signed_cookie(:noche_street_person, person.id)
+    end
+
+    def set_signed_cookie(name, value)
+      signed_value = signed_cookie_jar.tap { |jar| jar.signed[name] = value }[name]
+      uri = URI("http://#{host}/")
+      cookies.merge("#{name}=#{Rack::Utils.escape(signed_value)}; path=/", uri)
+    end
+
+    def signed_cookie_jar(values = {})
+      ActionDispatch::Cookies::CookieJar.build(ActionDispatch::TestRequest.create, values)
+    end
 end

@@ -11,12 +11,9 @@ module Presences
     ENTRY_TTL = 90.seconds
     NAMESPACE = "nochelive:presence:v1"
 
-    Entry = Data.define(
-      :connection_id, :person_id, :ward_id, :player_id, :night_id,
-      :team_id, :role, :location
-    ) do
+    Entry = Data.define(:connection_id, :person_id, :ward_id, :role) do
       def platform_identity
-        person_id ? "person:#{person_id}" : "player:#{player_id}"
+        "person:#{person_id}"
       end
 
       def to_h
@@ -24,27 +21,21 @@ module Presences
       end
     end
 
-    Change = Data.define(:entry, :platform_changed, :night_changed)
+    Change = Data.define(:entry, :platform_changed)
 
     class << self
-      def enter(connection_id:, person_id: nil, ward_id: nil, player_id: nil, night_id: nil,
-        team_id: nil, role: nil, location: nil)
+      def enter(connection_id:, person_id:, ward_id: nil, role: nil)
         entry = Entry.new(
           connection_id: connection_id.to_s,
           person_id: integer_or_nil(person_id),
           ward_id: integer_or_nil(ward_id),
-          player_id: integer_or_nil(player_id),
-          night_id: integer_or_nil(night_id),
-          team_id: integer_or_nil(team_id),
-          role: role&.to_s,
-          location: location&.to_s
+          role: role&.to_s
         )
-        raise ArgumentError, "presence requires a person or player" if entry.person_id.nil? && entry.player_id.nil?
+        raise ArgumentError, "presence requires a person" if entry.person_id.nil?
 
         platform_was_online = identity_online?(entry)
-        night_was_online = entry.player_id && entry.night_id ? player_online?(entry.player_id, night_id: entry.night_id) : false
         write(entry)
-        Change.new(entry:, platform_changed: !platform_was_online, night_changed: !!(entry.night_id && !night_was_online))
+        Change.new(entry:, platform_changed: !platform_was_online)
       end
 
       def touch(entry)
@@ -53,16 +44,12 @@ module Presences
         end
 
         write(entry)
-        Change.new(entry:, platform_changed: false, night_changed: false)
+        Change.new(entry:, platform_changed: false)
       end
 
       def leave(entry)
         remove(entry)
-        Change.new(
-          entry:,
-          platform_changed: !identity_online?(entry),
-          night_changed: !!(entry.night_id && !player_online?(entry.player_id, night_id: entry.night_id))
-        )
+        Change.new(entry:, platform_changed: !identity_online?(entry))
       end
 
       def live_count
@@ -79,14 +66,6 @@ module Presences
         false
       end
 
-      def player_online?(player_id, night_id: nil)
-        rows = active_entries(index_key(:player, player_id))
-        night_id ? rows.any? { |entry| entry.night_id == night_id.to_i } : rows.any?
-      rescue Redis::BaseError => error
-        report_store_error(error, :player_online)
-        false
-      end
-
       def online_person_ids(ward_id: nil, among: nil)
         key = ward_id ? index_key(:ward, ward_id) : index_key(:all)
         ids = active_entries(key).filter_map(&:person_id).to_set
@@ -94,13 +73,6 @@ module Presences
         ids
       rescue Redis::BaseError => error
         report_store_error(error, :online_people)
-        Set.new
-      end
-
-      def online_player_ids(night_id:)
-        active_entries(index_key(:night, night_id)).filter_map(&:player_id).to_set
-      rescue Redis::BaseError => error
-        report_store_error(error, :online_players)
         Set.new
       end
 
@@ -135,7 +107,7 @@ module Presences
         end
 
         def identity_online?(entry)
-          entry.person_id ? person_online?(entry.person_id) : player_online?(entry.player_id)
+          person_online?(entry.person_id)
         end
 
         def write(entry)
@@ -215,8 +187,6 @@ module Presences
           keys = [ index_key(:all) ]
           keys << index_key(:person, entry.person_id) if entry.person_id
           keys << index_key(:ward, entry.ward_id) if entry.ward_id
-          keys << index_key(:player, entry.player_id) if entry.player_id
-          keys << index_key(:night, entry.night_id) if entry.night_id
           keys
         end
 

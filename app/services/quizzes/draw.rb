@@ -46,7 +46,7 @@ module Quizzes
     private
 
       def scoped
-        QuizRun.where(device_digest: @digest, person_id: @person_id)
+        QuizRun.street.where(device_digest: @digest, person_id: @person_id)
       end
 
       def next_pack_id(last)

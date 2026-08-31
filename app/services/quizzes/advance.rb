@@ -10,6 +10,10 @@ module Quizzes
 
     def call
       if @run.finished?
+        if @run.live?
+          next_run = Nights::QuizSequence.next_after(run: @run)
+          return next_run && Draw.frame(next_run, ward: @run.game_session.ward)
+        end
         return Draw.new(device_digest: @run.device_digest).start_next(after: @run)
       end
 

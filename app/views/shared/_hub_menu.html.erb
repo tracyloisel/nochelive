@@ -3,6 +3,8 @@
 <% player = local_assigns.fetch(:player) %>
 <% profile_path = person ? player_profile_path(person) : street_profile_path(fresh: 1) %>
 <% ward_path = ward ? ward_profile_path(ward.code) : search_path %>
+<% circle_ward = person&.ward %>
+<% circle_path = scripture_circle_path if circle_ward&.scripture_circle_readable? %>
 
 <nav class="home-menu-nav home-menu-nav-hub" aria-label="<%= t("chrome.menu") %>">
   <%= link_to profile_path,
@@ -53,13 +55,23 @@
   <section class="home-menu-block" aria-labelledby="hub_menu_space">
     <p id="hub_menu_space" class="home-menu-kicker"><%= t("hub_menu.space") %></p>
     <div class="home-menu-list">
-      <%= link_to study_program_path, class: "home-menu-row" do %>
+      <%= link_to scripture_library_path, class: "home-menu-row" do %>
         <span class="home-menu-ico" aria-hidden="true"><%= picto("book") %></span>
         <span class="home-menu-row-copy">
-          <strong><%= t("study.title") %></strong>
-          <small><%= t("hub_menu.word_hint") %></small>
+          <strong><%= t("scripture_library.title") %></strong>
+          <small><%= t("scripture_library.menu_hint") %></small>
         </span>
         <span class="home-menu-row-caret" aria-hidden="true"><%= picto("arrow") %></span>
+      <% end %>
+      <% if circle_path %>
+        <%= link_to circle_path, class: "home-menu-row" do %>
+          <span class="home-menu-ico" aria-hidden="true"><%= picto("conversation") %></span>
+          <span class="home-menu-row-copy">
+            <strong><%= t("scripture_circle.hub_link") %></strong>
+            <small><%= t("scripture_circle.ward_scope", ward: circle_ward.name) %></small>
+          </span>
+          <span class="home-menu-row-caret" aria-hidden="true"><%= picto("arrow") %></span>
+        <% end %>
       <% end %>
       <%= link_to ward_path, class: "home-menu-row" do %>
         <span class="home-menu-ico" aria-hidden="true"><%= picto("church-temple") %></span>

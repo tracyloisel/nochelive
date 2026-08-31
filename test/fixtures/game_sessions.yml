@@ -3,29 +3,24 @@
 david:
   ward: demo
   code: DAVID
-  public_token: test-david-public-token
   status: playing
-  theme_id: reyes_y_profetas
-  theme_title: Reyes y Profetas
+  quiz_pack_ids: ["coronas"]
   starts_at: <%= Time.current %>
-  presenter_token_digest: <%= Digest::SHA256.hexdigest("presenter-secret") %>
+  ends_at: <%= 1.hour.from_now %>
 
 elias:
   ward: demo
   code: ELIAS
-  public_token: test-elias-public-token
-  status: lobby
-  theme_id: reyes_y_profetas
-  theme_title: Reyes y Profetas
+  status: scheduled
+  quiz_pack_ids: ["coronas"]
   starts_at: <%= 2.days.from_now %>
-  presenter_token_digest: <%= Digest::SHA256.hexdigest("lobby-secret") %>
+  ends_at: <%= 2.days.from_now + 1.hour %>
 
 cerrada:
   ward: demo
   code: QUIT
-  public_token: test-quit-public-token
   status: finished
-  theme_id: reyes_y_profetas
-  theme_title: Reyes y Profetas
+  quiz_pack_ids: ["coronas"]
   starts_at: <%= 10.days.ago %>
-  presenter_token_digest: <%= Digest::SHA256.hexdigest("ended-secret") %>
+  ends_at: <%= 10.days.ago + 1.hour %>
+  closed_at: <%= 10.days.ago + 1.hour %>

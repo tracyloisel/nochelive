@@ -1,7 +1,7 @@
 require "test_helper"
 
 class ProgressiveStreetIdentityTest < ActionDispatch::IntegrationTest
-  test "a first visitor gets the complete hub and a profile invitation" do
+  test "a first visitor gets the essential Hub and an honest ward invitation" do
     get root_path
 
     assert_response :success
@@ -9,13 +9,19 @@ class ProgressiveStreetIdentityTest < ActionDispatch::IntegrationTest
     assert_select ".street-hub-feed"
     assert_select ".navigation-dock"
     assert_select "a.quiz-hud-who.is-guest[href=?]", street_profile_path(fresh: 1)
-    assert_select ".hub-live.is-ward_missing"
-    assert_select ".hub-live.is-ward_missing[data-hub-live-theme]"
+    assert_select ".hub-live.hub-live--feature.is-ward_missing", count: 1
     assert_select "a.hub-live-program.is-ward-pick[href=?]",
-      street_profile_path(quick: 1, fresh: 1, ward_next: 1),
-      text: I18n.t("hub.pick_ward_cta")
+      street_profile_path(quick: 1, fresh: 1, ward_next: 1) do
+      assert_select "span", text: I18n.t("hub.pick_ward_cta")
+    end
     assert_select ".hub-live-ward-title", text: I18n.t("hub.pick_ward_title")
-    assert_select ".hub-live-ward-promises li", count: 3
+    assert_select ".hub-now", count: 0
+    assert_select ".street-hub-feed > section.hub-rama-carousel.hub-rama-block", count: 1
+    assert_select ".street-hub-feed > .hub-install + nav.hub-quick-actions", count: 1 do
+      assert_select "> a.hub-quick-action.is-challenges[href=?]", street_challenges_path, count: 1
+      assert_select "> a.hub-quick-action.is-videos[href=?]", church_videos_path(locale: I18n.locale), count: 1
+    end
+    assert_select ".hub-identity-empty", count: 0
   end
 
 
@@ -32,17 +38,21 @@ class ProgressiveStreetIdentityTest < ActionDispatch::IntegrationTest
     assert_equal "Lina", Person.order(:id).last.given_name
   end
 
-  test "the Campus stays discoverable while ward-scoped community features ask for a ward" do
+  test "a profiled player without a real next action does not receive fabricated Hub cards" do
     post street_profile_path, params: { name: "Lina", avatar_key: "delfin" }
     assert_redirected_to root_path
     follow_redirect!
 
-    assert_select "a.hub-duel-campus[href=?]", street_challenges_path do
-      assert_select ".hub-duel-campus-copy", text: /#{Regexp.escape(I18n.t("duel_campus.hub.title"))}/
+    assert_select ".hub-live.hub-live--feature.is-ward_missing", count: 1
+    assert_select "a.hub-live-program.is-ward-pick[href=?]",
+      search_path(cambiar: 1)
+    assert_select ".hub-now", count: 0
+    assert_select ".street-hub-feed > section.hub-rama-carousel.hub-rama-block", count: 1
+    assert_select ".street-hub-feed > .hub-install + nav.hub-quick-actions", count: 1 do
+      assert_select "> a.hub-quick-action.is-challenges[href=?]", street_challenges_path, count: 1
+      assert_select "> a.hub-quick-action.is-videos[href=?]", church_videos_path(locale: I18n.locale), count: 1
     end
-    assert_select ".hub-online .hub-online-ward-required .hub-online-empty", text: I18n.t("hub.online_pick_ward")
-    assert_select ".hub-online .hub-online-ward-required a[href=?]", search_path(cambiar: 1), text: I18n.t("hub.pick_ward_action")
-    assert_select ".hub-online a[href=?]", street_leaderboard_path, count: 0
+    assert_select ".hub-identity-empty", count: 0
   end
 
   test "the hub paints one preloaded narrative background" do
@@ -53,22 +63,20 @@ class ProgressiveStreetIdentityTest < ActionDispatch::IntegrationTest
     assert_select "#street_world.is-opening", count: 0
     assert_select "#street_world[data-controller~='hub-open']", count: 0
     assert_select ".hub-hero[data-controller~='hub-hero']", count: 0
-    assert_select "link[rel=preload][as=image][media]", count: 2
-    assert_select "link[rel=preload][as=image][media='(max-width: 767px)']", count: 1
-    assert_select "link[rel=preload][as=image][media='(min-width: 768px)']", count: 1
+    # Only the actual hero is urgent: the responsive <picture> itself is eager
+    # and this preload keeps the current source on the LCP path without making
+    # any secondary Hub section compete for the first viewport's bandwidth.
+    assert_select "link[rel=preload][as=image][fetchpriority=high]", minimum: 1
+    assert_select ".hub-slide.is-current img[loading=eager][fetchpriority=high]", count: 1
 
     css = frontend_css("hub")
     hub_sky = css[/body\.is-street-hub\.is-game-hub-page \.sky \{[^}]+\}/m]
     assert hub_sky
     assert_match(/background:\s*none/, hub_sky)
     refute_match(/\.street-world\.is-game-hub\.is-opening::before\s*\{[^}]*opacity:\s*0/m, css)
-    ward_live = css[/\.street-world\.is-game-hub \.hub-live\.is-ward_missing \{[^}]+\}/m]
-    assert ward_live
-    assert_match(/min-height:\s*8\.25rem/, ward_live)
-    refute_match(/\.is-opening \.hub-live,/, css)
-
-    opening = Rails.root.join("app/javascript/controllers/hub_open_controller.js").read
-    refute_includes opening, "is-background-arriving"
+    assert_select ".street-hub-feed .hub-hero[data-controller~='hub-voyage']", count: 1
+    assert_match(/\.hub-streaming-feed--editorial\s*\{/, css)
+    assert_match(/\.hub-live--feature/, css)
 
     refute_match(/\.hub-slide\.is-current \.hub-slide-still\s*\{[^}]*animation:/m, css)
     refute_match(/\.hub-reward-chest\.is-sheening/, css)

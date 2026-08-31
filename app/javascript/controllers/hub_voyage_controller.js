@@ -1,7 +1,6 @@
 import { Controller } from "@hotwired/stimulus"
 
-// Enhanced carousel controller with scale transforms and theme crossfade.
-// Active card at scale(1), neighbors reduced. Dot capsule morph during swipe.
+// Keeps the single adventure carousel accessible by swipe, keyboard, and dots.
 export default class extends Controller {
   static targets = [ "track", "dots" ]
 
@@ -50,7 +49,6 @@ export default class extends Controller {
     const slides = this.slides()
     if (!slides.length || !this.hasDotsTarget) return
 
-    // Find the current slide
     const track = this.trackTarget.getBoundingClientRect()
     const mid = track.left + track.width / 2
     let best = 0
@@ -64,14 +62,9 @@ export default class extends Controller {
       }
     })
 
-    const slideWidth = Math.max(1, this.trackTarget.clientWidth)
-    const rawIndex = this.trackTarget.scrollLeft / slideWidth
-
     this.dotsTarget.querySelectorAll(".hub-dot").forEach((dot, i) => {
       dot.classList.toggle("is-on", i === best)
       dot.setAttribute("aria-current", i === best ? "true" : "false")
-      const proximity = Math.max(0, 1 - Math.abs(rawIndex - i))
-      dot.style.setProperty("--dot-progress", proximity.toFixed(3))
     })
   }
 

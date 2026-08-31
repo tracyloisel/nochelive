@@ -117,10 +117,10 @@ class Notifications::DeliveryTest < ActiveSupport::TestCase
     delivery = NotificationDelivery.create!(
       web_push_subscription: web_push_subscriptions(:carmen_phone_push), person:,
       kind: "night_starting_soon", dedupe_key: "joined-night-delivery",
-      subject: night, destination: "/s/#{night.code}/name", status: "queued"
+      subject: night, destination: "/s/#{night.code}", status: "queued"
     )
     night.players.create!(
-      person:, name: "Carmen", role: "participant", location: "room",
+      person:, name: "Carmen",
       client_token: "delivery-joined", avatar_key: "delfin"
     )
     calls = 0
@@ -140,7 +140,7 @@ class Notifications::DeliveryTest < ActiveSupport::TestCase
     delivery = NotificationDelivery.create!(
       web_push_subscription: web_push_subscriptions(:carmen_phone_push), person:,
       kind: "night_starting_soon", dedupe_key: "timely-night-delivery",
-      subject: night, destination: "/s/#{night.code}/name", status: "queued"
+      subject: night, destination: "/s/#{night.code}", status: "queued"
     )
     calls = 0
     Notifications::Sender.transport = ->(**) { calls += 1 }
@@ -159,7 +159,7 @@ class Notifications::DeliveryTest < ActiveSupport::TestCase
     delivery = NotificationDelivery.create!(
       web_push_subscription: web_push_subscriptions(:carmen_phone_push), person:,
       kind: "night_starting_soon", dedupe_key: "rescheduled-night-delivery",
-      subject: night, destination: "/s/#{night.code}/name", status: "queued"
+      subject: night, destination: "/s/#{night.code}", status: "queued"
     )
     calls = 0
     Notifications::Sender.transport = ->(**) { calls += 1 }

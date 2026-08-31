@@ -19,7 +19,7 @@ class StreetProfileVisualTest < ApplicationSystemTestCase
       assert_selector ".profile-field-row[data-profile-field=player_id]", text: people(:pili).id.to_s
       assert_selector ".profile-field-row[data-profile-field=created_at]",
                       text: I18n.l(people(:pili).created_at.to_date, format: :default)
-      assert_selector "a.profile-destination-card[href='#{study_history_path}']", text: I18n.t("street.profile_dashboard.word_title")
+      assert_selector "a.profile-destination-card[href='#{scripture_library_path(section: "bookmarks", anchor: "selection")}']", text: I18n.t("street.profile_dashboard.word_title")
       assert_profile_geometry!
       assert_dashboard_motion_contract! if width == 390
       shot("profile-#{width}x#{height}")
@@ -71,15 +71,16 @@ class StreetProfileVisualTest < ApplicationSystemTestCase
     assert_empty problem_browser_logs
   end
 
-  test "word row opens the existing study history" do
+  test "word row opens personal passages inside the scripture library" do
     sign_in_fixture_person_direct!(people(:pili))
     visit player_profile_path(people(:pili))
 
-    find("a.profile-destination-card[href='#{study_history_path}']").click
+    find("a.profile-destination-card[href='#{scripture_library_path(section: "bookmarks", anchor: "selection")}']").click
 
-    assert_current_path study_history_path
-    assert_selector "body.is-study-history"
-    assert_selector "a.navigation-dock__item.is-active[aria-current='page'][href='#{study_program_path}']"
+    assert_current_path scripture_library_path(section: "bookmarks", anchor: "selection")
+    assert_selector ".scripture-library"
+    assert_selector "#library_selection"
+    assert_selector "a.navigation-dock__item.is-active[aria-current='page'][href='#{scripture_library_path}']"
   end
 
   test "personal answer history stays readable and private across viewports" do

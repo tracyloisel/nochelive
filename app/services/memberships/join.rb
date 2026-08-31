@@ -11,10 +11,11 @@ module Memberships
     end
 
     def call
-      raise People::Error.new(:location, I18n.t("errors.people.location")) if @player.remote?
-      raise People::Error.new(:team, I18n.t("errors.people.team_solo")) if @team.solo?
       raise People::Error.new(:team, I18n.t("errors.people.team_night")) unless @team.game_session_id == @night.id
       return @player.team_membership if @player.team_membership&.team_id == @team.id
+      if @player.quiz_runs.live.exists?
+        raise People::Error.new(:team, I18n.t("nights.team_locked"))
+      end
 
       ApplicationRecord.transaction do
         @player.team_membership&.destroy
@@ -22,7 +23,12 @@ module Memberships
         if @player.person && @team.ward_team
           @player.person.update!(last_ward_team: @team.ward_team)
         end
-        @night.broadcast_state
+        Nights::Events.emit(
+          night: @night,
+          kind: "team_join",
+          dedupe_key: "team-join:#{@player.id}:#{@team.id}",
+          payload: { player_id: @player.id, player_name: @player.name, team_id: @team.id, team_name: @team.name }
+        )
         membership
       end
     end

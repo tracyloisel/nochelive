@@ -39,8 +39,8 @@ class ChurchVideos::CatalogTest < ActiveSupport::TestCase
     assert_equal "PREV_PAGE", result.previous_page_token
 
     channel_query = query_for("/youtube/v3/channels")
-    assert_equal [ "@IglesiadeJesucristoESP" ], channel_query["forHandle"]
-    refute channel_query.key?("id")
+    assert_equal [ "UCY5dEGAac6AIIB-z5U5E-9w" ], channel_query["id"]
+    refute channel_query.key?("forHandle")
     assert_equal [ "secret" ], channel_query["key"]
     assert_equal [ "UC-official" ], query_for("/youtube/v3/playlists")["channelId"]
   end
@@ -102,6 +102,9 @@ class ChurchVideos::CatalogTest < ActiveSupport::TestCase
     channels = ChurchVideos::Catalog.configuration.fetch("channels")
 
     assert_equal Locale::AVAILABLE.sort, channels.keys.sort
+    assert_equal "UCY5dEGAac6AIIB-z5U5E-9w", channels.dig("es", "id")
+    assert_equal "UCLCN7U7VhortZ_2yO6Px4Rg", channels.dig("pt-BR", "id")
+    assert_equal "UCdNjexbIS_NKJC4ZRwKf9ag", channels.dig("en", "id")
     assert_equal "@IglesiadeJesucristoESP", channels.dig("es", "for_handle")
     assert_equal "@IgrejadeJesusCristoPOR", channels.dig("pt-BR", "for_handle")
     assert_equal "UC3CbfUXOgoOsD7srESW98mA", channels.dig("fr", "id")
