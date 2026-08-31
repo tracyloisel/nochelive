@@ -1,0 +1,36 @@
+<% rows = [
+     [ tools.bookmarks, "bookmarks", "mes-signets", "scripture_library.editorial.tool_labels.bookmarks" ],
+     [ tools.scriptures, "collection", "mes-ecritures", "scripture_library.editorial.tool_labels.scriptures" ],
+     [ tools.annual, "annual", "programme-annuel", "scripture_library.editorial.tool_labels.annual" ]
+   ].select { |tool,| tool.present? } %>
+
+<% if rows.any? %>
+  <section class="scripture-library-block scripture-library-tools" aria-labelledby="scripture-library-tools-title">
+    <p class="scripture-library-kicker"><span aria-hidden="true">✦</span><%= t("scripture_library.editorial.sections.tools") %></p>
+    <h2 id="scripture-library-tools-title" class="visually-hidden"><%= t("scripture_library.editorial.sections.tools") %></h2>
+    <div class="scripture-library-tools__rows">
+      <% rows.each do |tool, key, anchor, label_key| %>
+        <% active = selection_key == key %>
+        <%= link_to tool.path,
+              id: anchor,
+              class: [ "scripture-library-row", "scripture-library-tool", ("is-active" if active) ],
+              aria: { current: ("true" if active), expanded: active.to_s },
+              data: {
+                library_search_target: "row",
+                library_row: key,
+                action: "click->library-search#remember",
+                turbo_frame: "library_selection",
+                turbo_action: "advance"
+              } do %>
+          <span class="scripture-library-tool__icon" aria-hidden="true"><%= picto(tool.icon) %></span>
+          <span class="scripture-library-tool__copy">
+            <small><%= t(label_key) %></small>
+            <strong><%= tool.title %></strong>
+            <% if tool.detail.present? %><span><%= tool.detail %></span><% end %>
+          </span>
+          <b aria-hidden="true">→</b>
+        <% end %>
+      <% end %>
+    </div>
+  </section>
+<% end %>

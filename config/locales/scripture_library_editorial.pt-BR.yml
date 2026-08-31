@@ -1,0 +1,48 @@
+"pt-BR":
+  date:
+    formats:
+      library_day: "%A, %-d de %B"
+    month_names: [~, janeiro, fevereiro, março, abril, maio, junho, julho, agosto, setembro, outubro, novembro, dezembro]
+  scripture_library:
+    editorial:
+      door_open: "Hoje, uma porta se abre."
+      fallback_eyebrow: "Biblioteca das Escrituras"
+      search_toggle: "Abrir uma referência"
+      continue_below: "Continuar na Biblioteca"
+      stream_label: "A Biblioteca viva de hoje"
+      colophon: "O que as escrituras vão mostrar hoje que você nunca tinha percebido?"
+      active_expedition: "Expedição ativa"
+      continue_week: "Continuar a semana"
+      enter_expedition: "Entrar na expedição"
+      understand: "Entender"
+      reply: "Responder"
+      replies:
+        one: "1 resposta"
+        other: "%{count} respostas"
+      reading_progress: "%{done} / %{total} leituras"
+      door_progress: "%{done} / %{total} portas abertas"
+      quiz_answer_correct: "Você respondeu: %{answer}"
+      quiz_answer_chosen: "Você escolheu: %{answer}"
+      sections:
+        resume: "Retomar"
+        week: "Esta semana"
+        rama: "Hoje na sua ala"
+        tools: "Minha biblioteca"
+      tool_labels:
+        bookmarks: "Meus marcadores"
+        scriptures: "Minhas escrituras"
+        annual: "Programa anual"
+      preview:
+        eyebrow: "Hoje nas escrituras"
+        title: "Eles se recusaram a cantar."
+        setup: "Babilônia. Jerusalém foi destruída. Agora, seus vencedores pedem uma canção da terra deles."
+        question: "Por que penduraram suas harpas?"
+        cta: "Descobrir"
+        disclosure: "Evocação simbólica: o salmo não identifica nem o rio nem as pessoas representadas."
+        alt: "À margem de águas tranquilas, figuras exiladas permanecem imóveis perto de uma lira pendurada."
+        resume_detail: "Versículo 72 de 176"
+        melchizedek: "Melquisedeque"
+        quiz_question: "Por que um salmo real fala de repente sobre um sacerdote misterioso?"
+        quiz_explanation: "O rei do poema recebe uma promessa que evoca Melquisedeque."
+        rama_first: "Por que Deus às vezes parece esperar até estarmos completamente esgotados?"
+        rama_second: "Eu nunca tinha percebido Melquisedeque aqui."

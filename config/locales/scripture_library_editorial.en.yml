@@ -1,0 +1,48 @@
+en:
+  date:
+    formats:
+      library_day: "%A, %-d %B"
+    month_names: [~, January, February, March, April, May, June, July, August, September, October, November, December]
+  scripture_library:
+    editorial:
+      door_open: "Today, a door opens."
+      fallback_eyebrow: "Scripture Library"
+      search_toggle: "Open a reference"
+      continue_below: "Continue in the Library"
+      stream_label: "Today’s living Library"
+      colophon: "What will the scriptures show you today that you had never noticed before?"
+      active_expedition: "Active expedition"
+      continue_week: "Continue the week"
+      enter_expedition: "Enter the expedition"
+      understand: "Understand"
+      reply: "Reply"
+      replies:
+        one: "1 reply"
+        other: "%{count} replies"
+      reading_progress: "%{done} / %{total} readings"
+      door_progress: "%{done} / %{total} doors opened"
+      quiz_answer_correct: "You answered: %{answer}"
+      quiz_answer_chosen: "You chose: %{answer}"
+      sections:
+        resume: "Resume"
+        week: "This week"
+        rama: "Today in your ward"
+        tools: "My library"
+      tool_labels:
+        bookmarks: "My bookmarks"
+        scriptures: "My scriptures"
+        annual: "Annual programme"
+      preview:
+        eyebrow: "Today in the scriptures"
+        title: "They refused to sing."
+        setup: "Babylon. Jerusalem has been destroyed. Their captors now ask them for a song from home."
+        question: "Why did they hang up their harps?"
+        cta: "Discover"
+        disclosure: "A symbolic evocation: the psalm names neither the river nor the people shown."
+        alt: "Beside still water, exiled figures remain motionless near a hanging lyre."
+        resume_detail: "Verse 72 of 176"
+        melchizedek: "Melchizedek"
+        quiz_question: "Why does a royal psalm suddenly speak of a mysterious priest?"
+        quiz_explanation: "The king in the poem receives a promise that evokes Melchizedek."
+        rama_first: "Why does God sometimes seem to wait until we are completely exhausted?"
+        rama_second: "I had never noticed Melchizedek here."

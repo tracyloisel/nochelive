@@ -1,59 +1,57 @@
 require "test_helper"
 
 class ScriptureLibrariesControllerTest < ActionDispatch::IntegrationTest
-  ROWS = %w[resume recommendation weekly expedition bookmarks collection rama annual].freeze
-
-  test "preview exposes eight purposeful intentions and one primary action" do
+  test "preview opens on one daily discovery and the editorial stream" do
     get scripture_library_path(preview: 1, locale: :fr)
 
     assert_response :success
     assert_select "body.is-scripture-library.is-celestial-dark"
-    assert_select ".scripture-library__hero h1", text: "Bibliothèque"
-    assert_select ".scripture-library__world picture img", count: 1
+    assert_select ".scripture-library-daily[data-daily-discovery-id='preview-ps137-suspended-harps']", count: 1
+    assert_select ".scripture-library-daily h1", text: "Ils ont refusé de chanter."
+    assert_select ".scripture-library-daily__world picture img[alt*='lyre suspendue']", count: 1
+    assert_select ".scripture-library-action--hero[href^='/escrituras/ot/ps/137'][href*='locale=fr']", count: 1
     assert_select "form#recherche-ecritures[action='#{scripture_library_search_path}'][method=get]"
     assert_select "input[role=combobox][aria-controls=scripture-library-suggestions]"
-    assert_select ".scripture-library-row", count: 8
-    assert_select ".scripture-library-row.is-priority[data-library-row='resume']", count: 1
-    assert_select ".scripture-library-row.is-priority .scripture-library-row__intent", count: 1
-    assert_select ".scripture-library-row[data-library-row='recommendation']", text: /1 Néphi 5:1/
-    assert_select ".scripture-library-row[data-library-row='weekly'] [role='progressbar'][aria-valuenow='58']"
-    assert_select ".scripture-library-row[data-library-row='expedition'] [role='progressbar'][aria-valuenow='33']"
+    assert_select ".scripture-library-resume", text: /Psaumes 119/
+    assert_select ".scripture-library-week .scripture-library-row[data-library-row='weekly']", count: 1 do
+      assert_select "#expedition", count: 1
+      assert_select "[role='progressbar'][aria-valuenow='58']", count: 1
+      assert_select "[role='progressbar'][aria-valuenow='33']", count: 1
+    end
+    assert_select ".scripture-library-quiz", text: /Melchisédek/
+    assert_select ".scripture-library-rama__thought", count: 2
+    assert_select ".scripture-library-tools .scripture-library-row", count: 3
+    assert_select ".scripture-library-row[data-library-row='expedition']", count: 0
     assert_select ".navigation-dock__item.is-active[href='#{scripture_library_path}']", text: "Bibliothèque"
-
-    ROWS.each { |row| assert_select ".scripture-library-row[data-library-row='#{row}']", count: 1 }
-    assert_select ".scripture-library-row[href='#{scripture_library_path}']", count: 0
-    assert_select ".scripture-library-row[data-library-row='resume'][href^='/escrituras/'][href*='locale=fr']", count: 1
-    assert_select ".scripture-library-row[data-library-row='recommendation'][href^='/escrituras/'][href*='locale=fr']", count: 1
-    assert_select ".scripture-library-row[data-library-row='rama'].is-disabled[aria-disabled='true']", count: 1
-    assert_select ".scripture-library-row[data-library-row='rama'][href]", count: 0
-    assert_select ".scripture-library-row[href*='locale=fr']", count: 6
   end
 
-  test "a visitor still gets eight useful choices without fabricated personal data" do
+  test "a visitor never receives fabricated resume quiz bookmarks or rama content" do
     get scripture_library_path(locale: :fr)
 
     assert_response :success
-    assert_select ".scripture-library-row", count: 8
-    assert_select ".scripture-library-row.has-primary-action[data-library-row='resume'][href*='section=canon']", count: 1
-    assert_select ".scripture-library-row[data-library-row='resume'] .scripture-library-row__label", text: "Commencer à lire"
-    assert_select ".scripture-library-row[href='#{scripture_library_path}']", count: 0
+    assert_select ".scripture-library-resume", count: 0
+    assert_select ".scripture-library-quiz", count: 0
+    assert_select ".scripture-library-rama", count: 0
+    assert_select ".scripture-library-row[data-library-row='bookmarks']", count: 0
     assert_select ".scripture-library-row[data-library-row='collection'][href*='section=canon'][href*='locale=fr']", count: 1
-    assert_select ".scripture-library-row[data-library-row='rama'].is-disabled[aria-disabled='true']",
-      text: /#{Regexp.escape(I18n.t("scripture_library.rama.unavailable", locale: :fr))}/, count: 1
+    assert_not_includes response.body, I18n.t("scripture_library.resume.empty_detail", locale: :fr)
+    assert_not_includes response.body, I18n.t("scripture_library.rama.unavailable", locale: :fr)
   end
 
-  test "the honest first action and Forum label stay native in every supported language" do
+  test "the daily opening and stream labels stay native in every supported language" do
     {
-      es: [ "Empezar a leer", "Mi Foro" ],
-      fr: [ "Commencer à lire", "Mon Forum" ],
-      en: [ "Start reading", "My Forum" ],
-      "pt-BR": [ "Comece a ler", "Meu Fórum" ]
-    }.each do |locale, (start_label, forum_label)|
-      get scripture_library_path(locale:)
+      es: [ "Se negaron a cantar.", "Retomar", "Hoy en tu rama" ],
+      fr: [ "Ils ont refusé de chanter.", "Reprendre", "Aujourd’hui dans ta rama" ],
+      en: [ "They refused to sing.", "Resume", "Today in your ward" ],
+      "pt-BR": [ "Eles se recusaram a cantar.", "Retomar", "Hoje na sua ala" ]
+    }.each do |locale, (title, resume_label, rama_label)|
+      get scripture_library_path(preview: 1, locale:)
 
       assert_response :success
-      assert_select ".scripture-library-row[data-library-row='resume'] .scripture-library-row__label", text: start_label
-      assert_select ".scripture-library-row[data-library-row='rama'] .scripture-library-row__label", text: forum_label
+      assert_select ".scripture-library-daily h1", text: title
+      assert_select ".scripture-library-resume .scripture-library-kicker", text: /#{Regexp.escape(resume_label)}/
+      assert_select ".scripture-library-rama .scripture-library-kicker", text: /#{Regexp.escape(rama_label)}/
+      assert_not_includes response.body, "translation missing"
     end
   end
 
@@ -73,12 +71,14 @@ class ScriptureLibrariesControllerTest < ActionDispatch::IntegrationTest
 
     get scripture_library_path(locale: :fr)
     assert_response :success
-    assert_select ".scripture-library-row[data-library-row='resume'][href^='/escrituras/ot/1-sam/16'][href*='locale=fr']", count: 1
-    assert_select ".scripture-library-row[data-library-row='rama'][href='#{scripture_circle_path(locale: :fr)}']", count: 1
+    assert_select ".scripture-library-resume__link[href^='/escrituras/ot/1-sam/16'][href*='locale=fr']", count: 1
+    assert_select ".scripture-library-row[data-library-row='bookmarks'][href*='section=bookmarks']", count: 1
+    assert_select ".scripture-library-rama", count: 0
 
     get scripture_library_path(locale: :fr, section: "bookmarks", anchor: "selection")
     assert_response :success
-    assert_select ".scripture-library-row[data-library-row='bookmarks'][aria-current='true'] + turbo-frame#library_selection", count: 1 do
+    assert_select ".scripture-library-row[data-library-row='bookmarks'][aria-current='true']", count: 1
+    assert_select "turbo-frame#library_selection", count: 1 do
       assert_select ".scripture-library-selection", count: 1
       assert_select "a.scripture-library-selection__item[href^='/escrituras/ot/1-sam/16'][href*='locale=fr'][data-turbo-frame='_top']", minimum: 1
     end
@@ -94,7 +94,8 @@ class ScriptureLibrariesControllerTest < ActionDispatch::IntegrationTest
       get scripture_library_path(**query, preview: 1, locale: :fr, anchor: "selection")
 
       assert_response :success
-      assert_select ".scripture-library-row[data-library-row='#{row}'][aria-current='true'] + turbo-frame#library_selection", count: 1 do
+      assert_select ".scripture-library-row[data-library-row='#{row}'][aria-current='true']", count: 1
+      assert_select "turbo-frame#library_selection", count: 1 do
         assert_select ".scripture-library-selection", count: 1
       end
       assert_select ".scripture-library-selection__item", minimum: 1
@@ -119,7 +120,8 @@ class ScriptureLibrariesControllerTest < ActionDispatch::IntegrationTest
     )
 
     assert_response :success
-    assert_select ".scripture-library-row[data-library-row='collection'][aria-current='true'] + turbo-frame#library_selection", count: 1 do
+    assert_select ".scripture-library-row[data-library-row='collection'][aria-current='true']", count: 1
+    assert_select "turbo-frame#library_selection", count: 1 do
       assert_select ".scripture-library-selection", count: 1
       assert_select ".scripture-library-selection__breadcrumbs > span[aria-current='page'] b", text: "Psaumes", count: 1
       assert_select "a.scripture-library-selection__item[href^='/escrituras/ot/ps/'][href*='locale=fr'][data-turbo-frame='_top']", minimum: 1
@@ -146,7 +148,8 @@ class ScriptureLibrariesControllerTest < ActionDispatch::IntegrationTest
     )
     follow_redirect!
     assert_response :success
-    assert_select ".scripture-library-row[data-library-row='collection'][aria-current='true'] + turbo-frame#library_selection .scripture-library-selection", count: 1
+    assert_select ".scripture-library-row[data-library-row='collection'][aria-current='true']", count: 1
+    assert_select "turbo-frame#library_selection .scripture-library-selection", count: 1
 
     get scripture_library_search_path, params: { q: "Jean 99", locale: :fr }
     assert_response :unprocessable_entity
@@ -187,13 +190,20 @@ class ScriptureLibrariesControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to scripture_library_path(locale: :fr, section: "weekly", unit: 4242, anchor: "selection")
   end
 
-  test "the library copy exists in every supported language" do
-    { es: "Biblioteca", fr: "Bibliothèque", en: "Library", "pt-BR": "Biblioteca" }.each do |locale, title|
+  test "the editorial library copy exists in every supported language" do
+    {
+      es: "Se negaron a cantar.",
+      fr: "Ils ont refusé de chanter.",
+      en: "They refused to sing.",
+      "pt-BR": "Eles se recusaram a cantar."
+    }.each do |locale, title|
       get scripture_library_path(preview: 1, locale:)
 
       assert_response :success
-      assert_select ".scripture-library__hero h1", text: title
-      assert_select ".scripture-library-row", count: 8
+      assert_select ".scripture-library-daily h1", text: title
+      assert_select ".scripture-library-action--hero", count: 1
+      assert_select ".scripture-library-week", count: 1
+      assert_select ".scripture-library-tools", count: 1
     end
   end
 
@@ -215,5 +225,4 @@ class ScriptureLibrariesControllerTest < ActionDispatch::IntegrationTest
     def signed_cookie_jar(values = {})
       ActionDispatch::Cookies::CookieJar.build(ActionDispatch::TestRequest.create, values)
     end
-
 end

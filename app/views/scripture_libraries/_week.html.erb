@@ -1,0 +1,60 @@
+<section class="scripture-library-block scripture-library-week" aria-labelledby="scripture-library-week-title">
+  <p class="scripture-library-kicker">
+    <span aria-hidden="true"><%= picto("scripture-book") %></span>
+    <%= t("scripture_library.editorial.sections.week") %>
+    <small><%= week.period %></small>
+  </p>
+  <%= link_to week.path,
+        id: "cette-semaine",
+        class: [ "scripture-library-row", "scripture-library-week__link", ("is-active" if active) ],
+        aria: { current: ("true" if active), expanded: active.to_s },
+        data: {
+          library_search_target: "row",
+          library_row: "weekly",
+          action: "click->library-search#remember",
+          turbo_frame: "library_selection",
+          turbo_action: "advance"
+        } do %>
+    <span class="scripture-library-week__heading">
+      <strong id="scripture-library-week-title"><%= week.title %></strong>
+      <span><%= week.corpus %></span>
+    </span>
+
+    <% if week.reading_total_count.to_i.positive? %>
+      <span class="scripture-library-week__progress-line">
+        <span><%= t("scripture_library.editorial.reading_progress", done: week.reading_completed_count, total: week.reading_total_count) %></span>
+        <span class="scripture-library-progress"
+              role="progressbar"
+              aria-label="<%= t("scripture_library.progress_label") %>"
+              aria-valuemin="0"
+              aria-valuemax="100"
+              aria-valuenow="<%= (week.reading_progress.to_f * 100).round %>">
+          <i style="--library-progress:<%= (week.reading_progress.to_f * 100).clamp(0, 100).round %>%"></i>
+        </span>
+      </span>
+    <% end %>
+
+    <% if week.expedition_title.present? %>
+      <span id="expedition" class="scripture-library-week__expedition">
+        <span class="scripture-library-week__expedition-label"><span aria-hidden="true">✦</span><%= t("scripture_library.editorial.active_expedition") %></span>
+        <strong><%= week.expedition_title %></strong>
+        <% if week.expedition_promise.present? %><span><%= week.expedition_promise %></span><% end %>
+        <% if week.expedition_total_count.to_i.positive? %>
+          <span class="scripture-library-week__progress-line">
+            <span><%= t("scripture_library.editorial.door_progress", done: week.expedition_completed_count, total: week.expedition_total_count) %></span>
+            <span class="scripture-library-progress"
+                  role="progressbar"
+                  aria-label="<%= t("scripture_library.expedition.progress", done: week.expedition_completed_count, total: week.expedition_total_count) %>"
+                  aria-valuemin="0"
+                  aria-valuemax="100"
+                  aria-valuenow="<%= (week.expedition_progress.to_f * 100).round %>">
+              <i style="--library-progress:<%= (week.expedition_progress.to_f * 100).clamp(0, 100).round %>%"></i>
+            </span>
+          </span>
+        <% end %>
+      </span>
+    <% end %>
+
+    <span class="scripture-library-inline-action"><%= t("scripture_library.editorial.continue_week") %><b aria-hidden="true">→</b></span>
+  <% end %>
+</section>

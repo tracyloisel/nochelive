@@ -4,6 +4,7 @@
 <% items = Array(value_for.call(selection, :items)) %>
 <% breadcrumbs = Array(value_for.call(selection, :breadcrumbs)) %>
 <% empty_key = value_for.call(selection, :empty_key) %>
+<% feature = value_for.call(selection, :feature) %>
 <% library_translation = lambda do |key|
      next if key.blank?
      key = key.to_s
@@ -63,6 +64,56 @@
       <% if lede_key.present? %><p><%= library_translation.call(lede_key) %></p><% end %>
     </div>
   </div>
+
+  <% if feature %>
+    <% reading_progress = value_for.call(feature, :reading_progress) %>
+    <% expedition_progress = value_for.call(feature, :expedition_progress) %>
+    <div class="scripture-library-selection__feature">
+      <div>
+        <small><%= value_for.call(feature, :period) %></small>
+        <strong><%= value_for.call(feature, :title) %></strong>
+        <span><%= value_for.call(feature, :corpus) %></span>
+      </div>
+      <% if value_for.call(feature, :reading_total_count).to_i.positive? %>
+        <p>
+          <span><%= t("scripture_library.editorial.reading_progress", done: value_for.call(feature, :reading_completed_count), total: value_for.call(feature, :reading_total_count)) %></span>
+          <span class="scripture-library-progress"
+                role="progressbar"
+                aria-label="<%= t("scripture_library.progress_label") %>"
+                aria-valuemin="0"
+                aria-valuemax="100"
+                aria-valuenow="<%= (reading_progress.to_f * 100).round %>">
+            <i style="--library-progress:<%= (reading_progress.to_f * 100).clamp(0, 100).round %>%"></i>
+          </span>
+        </p>
+      <% end %>
+      <% if value_for.call(feature, :expedition_title).present? %>
+        <div class="scripture-library-selection__expedition">
+          <small><span aria-hidden="true">✦</span><%= t("scripture_library.editorial.active_expedition") %></small>
+          <strong><%= value_for.call(feature, :expedition_title) %></strong>
+          <% if value_for.call(feature, :expedition_promise).present? %><span><%= value_for.call(feature, :expedition_promise) %></span><% end %>
+          <% if value_for.call(feature, :expedition_total_count).to_i.positive? %>
+            <p>
+              <span><%= t("scripture_library.editorial.door_progress", done: value_for.call(feature, :expedition_completed_count), total: value_for.call(feature, :expedition_total_count)) %></span>
+              <span class="scripture-library-progress"
+                    role="progressbar"
+                    aria-label="<%= t("scripture_library.expedition.progress", done: value_for.call(feature, :expedition_completed_count), total: value_for.call(feature, :expedition_total_count)) %>"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                    aria-valuenow="<%= (expedition_progress.to_f * 100).round %>">
+                <i style="--library-progress:<%= (expedition_progress.to_f * 100).clamp(0, 100).round %>%"></i>
+              </span>
+            </p>
+          <% end %>
+          <% if value_for.call(feature, :expedition_path).present? %>
+            <%= link_to value_for.call(feature, :expedition_path), data: { turbo_frame: "_top" } do %>
+              <span><%= t("scripture_library.editorial.enter_expedition") %></span><b aria-hidden="true">→</b>
+            <% end %>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
 
   <% if items.any? %>
     <ul id="scripture-library-selection-items"

@@ -403,53 +403,123 @@ module ScriptureLibraries
         Result.new(
           editorial: preview_editorial,
           resume: Resume.new(
-            reference: "ot/ps/49",
-            cite: "Psaume 49:17",
-            title: "Psaume 49",
-            detail: t("preview.resume_detail"),
-            path: @routes.scripture_path("ot/ps/49", cite: "Psaume 49:17", locale: @locale),
-            last_verse: 17,
-            progress: 17.0 / 21
+            reference: "ot/ps/119",
+            cite: preview_citation("ot/ps/119", verse: 72),
+            title: preview_citation("ot/ps/119"),
+            detail: t("editorial.preview.resume_detail"),
+            path: @routes.scripture_path(
+              "ot/ps/119",
+              cite: preview_citation("ot/ps/119", verse: 72),
+              locale: @locale
+            ),
+            last_verse: 72,
+            progress: 72.0 / 176
           ),
           week: preview_week,
-          quiz_prompt: QuizPrompt.call(person: @person, locale: @locale),
-          rama_highlights: ScriptureCircles::LibraryHighlights.call(
-            person: @person,
-            locale: @locale,
-            references: %w[ot/ps/102 ot/ps/110 ot/ps/119],
-            at: @at
-          ),
+          quiz_prompt: preview_quiz_prompt,
+          rama_highlights: preview_rama_highlights,
           tools: preview_tools
         )
       end
 
       def preview_editorial
-        reference = Scriptures::Reference.from_study(study: "ot/ps/46", locale: @locale, verse: 1)
-        cite = reference ? "#{reference.book_label} #{reference.chapter}" : "Psaume 46"
+        cite = preview_citation("ot/ps/137")
         Editorial.new(
-          id: "preview-refuge",
+          id: "preview-ps137-suspended-harps",
           kind: "discovery",
           scheduled_on: @on,
           time_zone: @time_zone || @zone.name,
           locale: @locale.to_s,
-          reference: "ot/ps/46",
-          claim_ids: [],
-          eyebrow: t("eyebrow"),
-          title: t("preview.weekly_title"),
-          setup: t("hero.preview_quote"),
-          question: nil,
-          cta_label: t("actions.read"),
-          artwork_key: "scripture.library.psalms-refuge",
+          reference: "ot/ps/137",
+          claim_ids: %w[ps137-jerusalem-destroyed ps137-harps-suspended],
+          eyebrow: t("editorial.preview.eyebrow"),
+          title: t("editorial.preview.title"),
+          setup: t("editorial.preview.setup"),
+          question: t("editorial.preview.question"),
+          cta_label: t("editorial.preview.cta"),
+          artwork_key: "scripture.library.daily.ps137.suspended-harps",
           light_family: "dark",
-          depiction_mode: nil,
-          certainty: nil,
-          disclosure: nil,
-          alt: "",
-          motion: nil,
-          audio: nil,
+          depiction_mode: "symbolic",
+          certainty: "textual_scene_with_unidentified_setting",
+          disclosure: t("editorial.preview.disclosure"),
+          alt: t("editorial.preview.alt"),
+          motion: "still",
+          audio: "silent",
           cite:,
-          path: @routes.scripture_path("ot/ps/46", cite:, locale: @locale)
+          path: @routes.scripture_path("ot/ps/137", cite:, locale: @locale)
         )
+      end
+
+      # Preview data is reachable only through the local-environment gate in
+      # the controller. Production always uses real answers and safe Circle
+      # projections from #call.
+      def preview_quiz_prompt
+        cite = preview_citation("ot/ps/110")
+        QuizPrompt::Result.new(
+          pack_id: "preview-psalms",
+          question_id: "preview-melchizedek",
+          question: t("editorial.preview.quiz_question"),
+          choice_key: "melchizedek",
+          selected_answer: t("editorial.preview.melchizedek"),
+          correct_answer: t("editorial.preview.melchizedek"),
+          correct: true,
+          explanation: t("editorial.preview.quiz_explanation"),
+          study: "ot/ps/110",
+          cite:,
+          path: @routes.scripture_path("ot/ps/110", cite:, locale: @locale),
+          duration_ms: 4_800,
+          answered_at: @at - 1.hour
+        )
+      end
+
+      def preview_rama_highlights
+        [
+          preview_highlight(
+            id: "preview-ps102",
+            author_name: "Carmen",
+            avatar_key: "colibri",
+            study: "ot/ps/102",
+            body: t("editorial.preview.rama_first"),
+            reply_count: 3,
+            created_at: @at - 2.hours
+          ),
+          preview_highlight(
+            id: "preview-ps110",
+            author_name: "Jean-Marc",
+            avatar_key: "delfin",
+            study: "ot/ps/110",
+            body: t("editorial.preview.rama_second"),
+            reply_count: 0,
+            created_at: @at - 3.hours
+          )
+        ].freeze
+      end
+
+      def preview_highlight(id:, author_name:, avatar_key:, study:, body:, reply_count:, created_at:)
+        citation = preview_citation(study)
+        ScriptureCircles::LibraryHighlights::Highlight.new(
+          id:,
+          kind: "reflection",
+          body:,
+          selected_text: nil,
+          created_at:,
+          author_name:,
+          avatar_key:,
+          anonymous: false,
+          own: false,
+          reference: study,
+          citation:,
+          reply_count:,
+          path: @routes.scripture_circle_path(locale: @locale, conversation: id),
+          reader_path: @routes.scripture_path(study, cite: citation, locale: @locale)
+        )
+      end
+
+      def preview_citation(study, verse: nil)
+        reference = Scriptures::Reference.from_study(study:, locale: @locale, verse: verse || 1)
+        return study unless reference
+
+        verse ? reference.citation : "#{reference.book_label} #{reference.chapter}"
       end
 
       def preview_week

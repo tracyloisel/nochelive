@@ -1,0 +1,19 @@
+<section id="recommande" class="scripture-library-block scripture-library-quiz" aria-labelledby="scripture-library-quiz-title">
+  <p class="scripture-library-kicker">
+    <span aria-hidden="true">✦</span>
+    <%= t(prompt.correct? ? "scripture_library.editorial.quiz_answer_correct" : "scripture_library.editorial.quiz_answer_chosen", answer: prompt.selected_answer) %>
+  </p>
+  <%= link_to prompt.path,
+        class: "scripture-library-quiz__link",
+        data: {
+          turbo_frame: "_top",
+          action: "click->scripture-launcher#prepare",
+          scripture_chapter_title: prompt.cite
+        } do %>
+    <span class="scripture-library-quiz__copy">
+      <span><%= prompt.question %></span>
+      <strong id="scripture-library-quiz-title"><%= prompt.explanation %></strong>
+    </span>
+    <span class="scripture-library-inline-action"><%= t("scripture_library.editorial.understand") %><small><%= prompt.cite %></small><b aria-hidden="true">→</b></span>
+  <% end %>
+</section>

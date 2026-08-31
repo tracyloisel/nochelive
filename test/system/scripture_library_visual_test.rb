@@ -17,16 +17,18 @@ class ScriptureLibraryVisualTest < ApplicationSystemTestCase
     Scriptures::Read.fetcher = nil
   end
 
-  test "the artwork and urgent choices fill every production viewport" do
+  test "one daily editorial and its stream fill every production viewport" do
     FileUtils.mkdir_p(screenshot_directory) if capture_screenshots?
 
     VIEWPORTS.each do |width, height|
       set_system_viewport(width, height)
       visit scripture_library_path(preview: 1, locale: :fr)
 
-      assert_selector ".scripture-library__hero h1", text: "Bibliothèque"
-      assert_selector ".scripture-library-row", count: 7
-      assert_selector ".scripture-library-row.has-primary-action", count: 1
+      assert_selector ".scripture-library-daily h1", text: "Ils ont refusé de chanter."
+      assert_selector ".scripture-library-daily[data-daily-discovery-id='preview-ps137-suspended-harps']"
+      assert_selector ".scripture-library-action--hero", count: 1
+      assert_selector ".scripture-library-row", count: 4
+      assert_selector ".scripture-library-rama__thought", count: 2
       assert_selector ".navigation-dock__item.is-active", text: /Bibliothèque/i
 
       geometry = page.evaluate_script(<<~JS)
@@ -42,11 +44,12 @@ class ScriptureLibraryVisualTest < ApplicationSystemTestCase
           };
           return {
             viewport: { width: innerWidth, height: innerHeight },
-            world: rect('.scripture-library__world'),
-            hero: rect('.scripture-library__hero'),
-            objectFit: getComputedStyle(document.querySelector('.scripture-library__world img')).objectFit,
+            world: rect('.scripture-library-daily__world'),
+            hero: rect('.scripture-library-daily'),
+            objectFit: getComputedStyle(document.querySelector('.scripture-library-daily__world img')).objectFit,
+            currentSrc: document.querySelector('.scripture-library-daily__world img').currentSrc,
             overflow: document.documentElement.scrollWidth - document.documentElement.clientWidth,
-            targets: [...document.querySelectorAll('.scripture-library-row, .scripture-library-search input, .scripture-library-search button')]
+            targets: [...document.querySelectorAll('.scripture-library-action, .scripture-library-daily summary, .scripture-library-resume__link, .scripture-library-row, .scripture-library-quiz__link, .scripture-library-rama__reply')]
               .filter(visible)
               .map((node) => {
                 const box = node.getBoundingClientRect();
@@ -60,6 +63,7 @@ class ScriptureLibraryVisualTest < ApplicationSystemTestCase
       assert_in_delta geometry.dig("viewport", "height"), geometry.dig("world", "height"), 1, geometry.inspect
       assert_operator geometry.dig("hero", "height"), :>=, height - 2, geometry.inspect
       assert_equal "cover", geometry.fetch("objectFit")
+      assert_match(%r{ps137/suspended-harps}, geometry.fetch("currentSrc"))
       assert_operator geometry.fetch("overflow"), :<=, 1, geometry.inspect
       assert geometry.fetch("targets").all? { |target| target.fetch("width").round >= 44 && target.fetch("height").round >= 44 }, geometry.inspect
       assert_empty severe_browser_logs
@@ -69,6 +73,8 @@ class ScriptureLibraryVisualTest < ApplicationSystemTestCase
       find(".scripture-library-row[data-library-row='weekly']").click
       assert_selector "#selection[data-selection-key='weekly']", wait: 5
       assert_selector "#selection:focus", wait: 5
+      assert_selector "#selection .scripture-library-selection__feature", count: 1
+      assert_selector "#selection .scripture-library-selection__expedition", count: 1
       panel_geometry = page.evaluate_script(<<~JS)
         (() => {
           const visible = (node) => {
@@ -96,7 +102,7 @@ class ScriptureLibraryVisualTest < ApplicationSystemTestCase
     end
   end
 
-  test "every library intention reaches a chooser reader or Circle" do
+  test "every recovery tool reaches its chooser and editorial actions reach the reader" do
     PANEL_ROWS.each do |row, selection|
       visit scripture_library_path(preview: 1, locale: :fr)
       find(".scripture-library-row[data-library-row='#{row}']").click
@@ -105,26 +111,21 @@ class ScriptureLibraryVisualTest < ApplicationSystemTestCase
       assert_selector "#selection .scripture-library-selection__item", minimum: 1
       assert_selector "#selection:focus", wait: 5
       assert_no_selector ".scripture-library-row[href='/bibliotheque']"
-      assert_selector ".scripture-library-row[href*='locale=fr']", count: 6
-      assert_selector ".scripture-library-row[data-library-row='rama'].is-disabled[aria-disabled='true']"
+      assert_selector ".scripture-library-row[href*='locale=fr']", count: 4
+      assert_no_selector ".scripture-library-row[data-library-row='rama']"
     end
 
-    %w[resume recommendation].each do |row|
+    [ ".scripture-library-action--hero", ".scripture-library-resume__link", ".scripture-library-quiz__link" ].each do |selector|
       visit scripture_library_path(preview: 1, locale: :fr)
-      find(".scripture-library-row[data-library-row='#{row}']").click
+      find(selector).click
 
       assert_current_path %r{\A/escrituras/}
       assert_selector ".scripture-reader-room", wait: 8
     end
 
-    wards(:demo).update!(scripture_circle_mode: "active")
-    sign_in_fixture_person_direct!(people(:pili))
     visit scripture_library_path(preview: 1, locale: :fr)
-    assert_selector ".scripture-library-row[href*='locale=fr']", count: 7
-    find(".scripture-library-row[data-library-row='rama']").click
-
-    assert_current_path scripture_circle_path(locale: :fr)
-    assert_selector "#circle_index.circle-page"
+    assert_selector ".scripture-library-rama__thought", count: 2
+    assert_selector ".scripture-library-rama__reply", count: 2
     assert_empty severe_browser_logs
   end
 
@@ -178,6 +179,7 @@ class ScriptureLibraryVisualTest < ApplicationSystemTestCase
 
   test "search keeps books inline and sends chapters directly to the reader with the keyboard" do
     visit scripture_library_path(preview: 1, locale: :fr)
+    find(".scripture-library-search-drawer > summary").click
 
     fill_in "Rechercher dans les Écritures", with: "Psaumes"
     assert_selector "#scripture-library-suggestions [role=option]", count: 1, wait: 4
@@ -189,6 +191,7 @@ class ScriptureLibraryVisualTest < ApplicationSystemTestCase
     assert_equal "selection", page.evaluate_script("document.activeElement.id")
 
     visit scripture_library_path(preview: 1, locale: :fr)
+    find(".scripture-library-search-drawer > summary").click
     fill_in "Rechercher dans les Écritures", with: "Jean 3:16"
     assert_selector "#scripture-library-suggestions [role=option]", count: 1, wait: 4
     find("#scripture_library_query").send_keys(:arrow_down, :enter)
@@ -199,6 +202,7 @@ class ScriptureLibraryVisualTest < ApplicationSystemTestCase
 
   test "a failed Turbo request leaves the library ready and explains what to do" do
     visit scripture_library_path(preview: 1, locale: :fr)
+    find(".scripture-library-search-drawer > summary").click
     assert_selector "#recherche-ecritures[data-library-search-target='form']"
     assert page.evaluate_async_script(<<~JS), "the connected search controller must receive Turbo failures"
       const done = arguments[0]

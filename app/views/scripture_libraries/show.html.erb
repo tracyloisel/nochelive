@@ -2,8 +2,12 @@
 <% content_for :body_class, "is-scripture-library is-celestial-dark" %>
 <% declare_frontend_resources(context: "scripture.library", styles: %w[library]) %>
 <% page_hud(hud: true, theme: "celestial-dark") { site_menu } %>
+
+<% editorial = @screen.editorial %>
+<% hero_artwork = editorial&.artwork_key || "scripture.library.psalms-refuge" %>
+<% hero_role = editorial ? :library_daily_hero : :hub_hero %>
 <% content_for :head do %>
-  <%= noche_picture_preload("scripture.library.psalms-refuge", role: :hub_hero) %>
+  <%= noche_picture_preload(hero_artwork, role: hero_role) %>
 <% end %>
 
 <% value_for = lambda do |object, key|
@@ -14,138 +18,136 @@
      end
    end %>
 <% selection_key = value_for.call(@selection, :key).to_s %>
-<% rows = [
-     [ :resume, "continuer", @screen.resume, true ],
-     [ :recommendation, "recommande", @screen.recommendation, false ],
-     [ :weekly, "cette-semaine", @screen.weekly, false ],
-     [ :expedition, "expedition", @screen.expedition, false ],
-     [ :bookmarks, "mes-signets", @screen.bookmarks, false ],
-     [ :collection, "mes-ecritures", @screen.collection, false ],
-     [ :rama, "ma-rama", @screen.rama, false ],
-     [ :annual, "programme-annuel", @screen.annual, false ]
-   ] %>
 
 <article id="bibliotheque"
          class="scripture-library"
          aria-labelledby="scripture_library_title"
          data-controller="library-search"
          data-library-search-error-message-value="<%= t("scripture_library.search.errors.network") %>">
-  <div class="scripture-library__world" aria-hidden="true">
-    <%= noche_picture(
-          "scripture.library.psalms-refuge",
-          alt: "",
-          class_name: "scripture-library__art",
-          loading: "eager",
-          fetchpriority: "high",
-          sizes: "100vw"
-        ) %>
-  </div>
-
-  <header class="scripture-library__hero">
-    <div class="scripture-library__hero-content">
-      <div class="scripture-library__hero-copy">
-        <p class="scripture-library__eyebrow"><span aria-hidden="true">✦</span><%= t("scripture_library.eyebrow") %></p>
-        <h1 id="scripture_library_title"><%= t("scripture_library.title") %></h1>
-        <blockquote><%= @screen.quote %></blockquote>
-      </div>
-
-      <form id="recherche-ecritures"
-            class="scripture-library-search"
-            action="<%= scripture_library_search_path %>"
-            method="get"
-            role="search"
-            aria-busy="false"
-            data-library-search-target="form"
-            data-action="submit->library-search#submit">
-        <input type="hidden" name="locale" value="<%= I18n.locale %>">
-        <label for="scripture_library_query"><%= t("scripture_library.search.label") %></label>
-        <div class="scripture-library-search__field">
-          <span class="scripture-library-search__icon" aria-hidden="true"><%= picto("search") %></span>
-          <input id="scripture_library_query"
-                 name="q"
-                 type="search"
-                 value="<%= @query %>"
-                 placeholder="<%= t("scripture_library.search.placeholder") %>"
-                 autocomplete="off"
-                 role="combobox"
-                 aria-autocomplete="list"
-                 aria-expanded="<%= @result&.suggestions&.any? ? 'true' : 'false' %>"
-                 aria-controls="scripture-library-suggestions"
-                 aria-describedby="scripture-library-search-status"
-                 data-library-search-target="input"
-                 data-action="input->library-search#change keydown->library-search#keydown">
-          <button type="button"
-                  class="scripture-library-search__clear"
-                  aria-label="<%= t("scripture_library.search.clear") %>"
-                  data-action="library-search#clear">×</button>
-          <button type="submit" class="scripture-library-search__submit">
-            <span><%= t("scripture_library.search.submit") %></span>
-            <i aria-hidden="true"></i>
-          </button>
-        </div>
-        <%= render "scripture_libraries/search_results", result: @result %>
-      </form>
-
-      <% key, anchor, row, priority = rows.first %>
-      <% row_reader = key.to_sym != :rama && row.path.to_s.match?(%r{/escrituras/}) %>
-      <% primary_action = priority && row.path.present? %>
-      <div class="scripture-library__now">
-        <%= render "scripture_libraries/row",
-              key:,
-              anchor:,
-              row:,
-              priority:,
-              primary_action:,
-              reader: row_reader,
-              active: selection_key == key.to_s %>
-        <% if @selection && selection_key == key.to_s %>
-          <%= render "scripture_libraries/selection", selection: @selection, value_for: %>
-        <% end %>
-      </div>
+  <header class="scripture-library-daily<%= " is-fallback" unless editorial %>"
+          <% if editorial %>data-daily-discovery-id="<%= editorial.id %>" data-daily-discovery-date="<%= editorial.scheduled_on.iso8601 %>"<% end %>>
+    <div class="scripture-library-daily__world">
+      <%= noche_picture(
+            hero_artwork,
+            role: hero_role,
+            alt: editorial&.alt.to_s,
+            class_name: "scripture-library-daily__art",
+            loading: "eager",
+            fetchpriority: "high",
+            sizes: "100vw"
+          ) %>
     </div>
 
-    <a class="scripture-library__continue-cue" href="#choisir-lecture" aria-hidden="true" tabindex="-1">
-      <span></span><b>⌄</b>
+    <div class="scripture-library-daily__veil" aria-hidden="true"></div>
+
+    <div class="scripture-library-daily__chrome">
+      <div class="scripture-library-daily__day">
+        <% if editorial %>
+          <time datetime="<%= editorial.scheduled_on.iso8601 %>"><%= l(editorial.scheduled_on, format: :library_day) %></time>
+          <span><%= t("scripture_library.editorial.door_open") %></span>
+        <% else %>
+          <span><%= t("scripture_library.editorial.fallback_eyebrow") %></span>
+        <% end %>
+      </div>
+
+      <details class="scripture-library-search-drawer" <%= "open" if @query.present? || @result.present? %>>
+        <summary>
+          <span aria-hidden="true"><%= picto("search") %></span>
+          <span><%= t("scripture_library.editorial.search_toggle") %></span>
+        </summary>
+        <form id="recherche-ecritures"
+              class="scripture-library-search"
+              action="<%= scripture_library_search_path %>"
+              method="get"
+              role="search"
+              aria-busy="false"
+              data-library-search-target="form"
+              data-action="submit->library-search#submit">
+          <input type="hidden" name="locale" value="<%= I18n.locale %>">
+          <label for="scripture_library_query"><%= t("scripture_library.search.label") %></label>
+          <div class="scripture-library-search__field">
+            <span class="scripture-library-search__icon" aria-hidden="true"><%= picto("search") %></span>
+            <input id="scripture_library_query"
+                   name="q"
+                   type="search"
+                   value="<%= @query %>"
+                   placeholder="<%= t("scripture_library.search.placeholder") %>"
+                   autocomplete="off"
+                   role="combobox"
+                   aria-autocomplete="list"
+                   aria-expanded="<%= @result&.suggestions&.any? ? 'true' : 'false' %>"
+                   aria-controls="scripture-library-suggestions"
+                   aria-describedby="scripture-library-search-status"
+                   data-library-search-target="input"
+                   data-action="input->library-search#change keydown->library-search#keydown">
+            <button type="button"
+                    class="scripture-library-search__clear"
+                    aria-label="<%= t("scripture_library.search.clear") %>"
+                    data-action="library-search#clear">×</button>
+            <button type="submit" class="scripture-library-search__submit">
+              <span><%= t("scripture_library.search.submit") %></span>
+              <i aria-hidden="true"></i>
+            </button>
+          </div>
+          <%= render "scripture_libraries/search_results", result: @result %>
+        </form>
+      </details>
+    </div>
+
+    <div class="scripture-library-daily__copy">
+      <% if editorial %>
+        <p class="scripture-library-kicker"><span aria-hidden="true">✦</span><%= editorial.eyebrow %></p>
+        <h1 id="scripture_library_title"><%= editorial.title %></h1>
+        <p class="scripture-library-daily__setup"><%= editorial.setup %></p>
+        <% if editorial.question.present? %>
+          <p class="scripture-library-daily__question"><%= editorial.question %></p>
+        <% end %>
+        <%= link_to editorial.path,
+              class: "scripture-library-action scripture-library-action--hero",
+              data: {
+                turbo_frame: "_top",
+                action: "click->scripture-launcher#prepare",
+                scripture_chapter_title: editorial.cite
+              } do %>
+          <span><%= editorial.cta_label %></span><small><%= editorial.cite %></small><b aria-hidden="true">→</b>
+        <% end %>
+        <% if editorial.disclosure.present? %>
+          <p class="scripture-library-daily__disclosure"><%= editorial.disclosure %></p>
+        <% end %>
+      <% else %>
+        <p class="scripture-library-kicker"><span aria-hidden="true">✦</span><%= t("scripture_library.eyebrow") %></p>
+        <h1 id="scripture_library_title"><%= t("scripture_library.title") %></h1>
+        <p class="scripture-library-daily__question"><%= t("scripture_library.hero.fallback_quote") %></p>
+      <% end %>
+    </div>
+
+    <a class="scripture-library-daily__continue" href="#choisir-lecture">
+      <span><%= t("scripture_library.editorial.continue_below") %></span><b aria-hidden="true">⌄</b>
     </a>
   </header>
 
-  <section id="choisir-lecture"
-           class="scripture-library__chooser"
-           aria-label="<%= t("scripture_library.stream_label") %>">
-    <div class="scripture-library__chooser-heading" aria-hidden="true">
-      <span></span><b>✦</b><span></span>
-    </div>
-    <div class="scripture-library__chooser-glass">
-      <% rows.drop(1).each do |key, anchor, row, priority| %>
-        <% row_reader = key.to_sym != :rama && row.path.to_s.match?(%r{/escrituras/}) %>
-        <% active = selection_key == key.to_s %>
-        <%= render "scripture_libraries/row",
-              key:,
-              anchor:,
-              row:,
-              priority:,
-              primary_action: false,
-              reader: row_reader,
-              active: %>
-        <% if @selection && active %>
-          <%= render "scripture_libraries/selection", selection: @selection, value_for: %>
-        <% end %>
-      <% end %>
+  <main id="choisir-lecture" class="scripture-library-stream" aria-label="<%= t("scripture_library.editorial.stream_label") %>">
+    <div class="scripture-library-stream__inner">
+      <%= render "scripture_libraries/resume", resume: @screen.resume if @screen.resume %>
+      <%= render "scripture_libraries/week", week: @screen.week, active: selection_key == "weekly" if @screen.week %>
+      <%= render "scripture_libraries/quiz_prompt", prompt: @screen.quiz_prompt if @screen.quiz_prompt %>
+      <%= render "scripture_libraries/rama_highlights", highlights: @screen.rama_highlights if @screen.rama_highlights.any? %>
+      <%= render "scripture_libraries/tools", tools: @screen.tools, selection_key: %>
 
-      <% if @selection && selection_key.present? && rows.none? { |key,| key.to_s == selection_key } %>
+      <% if @selection %>
         <%= render "scripture_libraries/selection", selection: @selection, value_for: %>
-      <% end %>
-
-      <% unless @selection %>
+      <% else %>
         <turbo-frame id="library_selection"
                      data-turbo-action="advance"
                      data-library-search-target="selectionFrame"></turbo-frame>
       <% end %>
+
+      <footer class="scripture-library-stream__colophon">
+        <span aria-hidden="true">✦</span>
+        <p><%= t("scripture_library.editorial.colophon") %></p>
+      </footer>
     </div>
-    <footer class="scripture-library__colophon" aria-hidden="true">
-      <span></span><b>✦</b><span></span>
-    </footer>
-  </section>
+  </main>
 </article>
 
 <% page_dock(active: :word) %>

@@ -1,0 +1,48 @@
+es:
+  date:
+    formats:
+      library_day: "%A %-d de %B"
+    month_names: [~, enero, febrero, marzo, abril, mayo, junio, julio, agosto, septiembre, octubre, noviembre, diciembre]
+  scripture_library:
+    editorial:
+      door_open: "Hoy se abre una puerta."
+      fallback_eyebrow: "Biblioteca de las Escrituras"
+      search_toggle: "Abrir una referencia"
+      continue_below: "Continuar en la Biblioteca"
+      stream_label: "La Biblioteca viva de hoy"
+      colophon: "¿Qué te mostrarán hoy las Escrituras que nunca habías notado?"
+      active_expedition: "Expedición activa"
+      continue_week: "Continuar la semana"
+      enter_expedition: "Entrar en la expedición"
+      understand: "Comprender"
+      reply: "Responder"
+      replies:
+        one: "1 respuesta"
+        other: "%{count} respuestas"
+      reading_progress: "%{done} / %{total} lecturas"
+      door_progress: "%{done} / %{total} puertas abiertas"
+      quiz_answer_correct: "Respondiste: %{answer}"
+      quiz_answer_chosen: "Elegiste: %{answer}"
+      sections:
+        resume: "Retomar"
+        week: "Esta semana"
+        rama: "Hoy en tu rama"
+        tools: "Mi biblioteca"
+      tool_labels:
+        bookmarks: "Mis marcadores"
+        scriptures: "Mis Escrituras"
+        annual: "Programa anual"
+      preview:
+        eyebrow: "Hoy en las Escrituras"
+        title: "Se negaron a cantar."
+        setup: "Babilonia. Jerusalén ha sido destruida. Sus vencedores les piden ahora una canción de su tierra."
+        question: "¿Por qué colgaron sus arpas?"
+        cta: "Descubrir"
+        disclosure: "Evocación simbólica: el salmo no identifica ni el río ni a las personas representadas."
+        alt: "Junto a unas aguas tranquilas, varias figuras exiliadas permanecen inmóviles cerca de una lira colgada."
+        resume_detail: "Versículo 72 de 176"
+        melchizedek: "Melquisedec"
+        quiz_question: "¿Por qué un salmo real habla de repente de un sacerdote misterioso?"
+        quiz_explanation: "El rey del poema recibe una promesa que evoca a Melquisedec."
+        rama_first: "¿Por qué a veces Dios parece esperar hasta que estemos completamente agotados?"
+        rama_second: "Nunca había reparado en Melquisedec aquí."

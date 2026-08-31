@@ -1,0 +1,24 @@
+<section id="continuer" class="scripture-library-block scripture-library-resume" aria-labelledby="scripture-library-resume-title">
+  <p class="scripture-library-kicker"><span aria-hidden="true">▶</span><%= t("scripture_library.editorial.sections.resume") %></p>
+  <%= link_to resume.path,
+        class: "scripture-library-resume__link",
+        data: {
+          turbo_frame: "_top",
+          action: "click->scripture-launcher#prepare",
+          scripture_chapter_title: resume.cite
+        } do %>
+    <span class="scripture-library-resume__copy">
+      <strong id="scripture-library-resume-title"><%= resume.title %></strong>
+      <span><%= resume.detail %></span>
+      <span class="scripture-library-progress"
+            role="progressbar"
+            aria-label="<%= t("scripture_library.progress_label") %>"
+            aria-valuemin="0"
+            aria-valuemax="100"
+            aria-valuenow="<%= (resume.progress.to_f * 100).round %>">
+        <i style="--library-progress:<%= (resume.progress.to_f * 100).clamp(0, 100).round %>%"></i>
+      </span>
+    </span>
+    <span class="scripture-library-inline-action"><%= t("scripture_library.actions.continue") %><b aria-hidden="true">→</b></span>
+  <% end %>
+</section>

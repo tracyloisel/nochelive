@@ -1,0 +1,48 @@
+fr:
+  date:
+    formats:
+      library_day: "%A %-d %B"
+    month_names: [~, janvier, février, mars, avril, mai, juin, juillet, août, septembre, octobre, novembre, décembre]
+  scripture_library:
+    editorial:
+      door_open: "Aujourd’hui, une porte s’ouvre."
+      fallback_eyebrow: "Bibliothèque des Écritures"
+      search_toggle: "Ouvrir une référence"
+      continue_below: "Continuer dans la Bibliothèque"
+      stream_label: "La Bibliothèque vivante du jour"
+      colophon: "Qu’est-ce que les Écritures vont te montrer aujourd’hui que tu n’avais jamais remarqué ?"
+      active_expedition: "Expédition active"
+      continue_week: "Continuer la semaine"
+      enter_expedition: "Entrer dans l’expédition"
+      understand: "Comprendre"
+      reply: "Répondre"
+      replies:
+        one: "1 réponse"
+        other: "%{count} réponses"
+      reading_progress: "%{done} / %{total} lectures"
+      door_progress: "%{done} / %{total} portes ouvertes"
+      quiz_answer_correct: "Tu as répondu : %{answer}"
+      quiz_answer_chosen: "Tu as choisi : %{answer}"
+      sections:
+        resume: "Reprendre"
+        week: "Cette semaine"
+        rama: "Aujourd’hui dans ta rama"
+        tools: "Ma bibliothèque"
+      tool_labels:
+        bookmarks: "Mes signets"
+        scriptures: "Mes Écritures"
+        annual: "Programme annuel"
+      preview:
+        eyebrow: "Aujourd’hui dans les Écritures"
+        title: "Ils ont refusé de chanter."
+        setup: "Babylone. Jérusalem a été détruite. Leurs vainqueurs leur demandent maintenant une chanson de leur pays."
+        question: "Pourquoi ont-ils suspendu leurs harpes ?"
+        cta: "Découvrir"
+        disclosure: "Évocation symbolique : le psaume ne nomme ni le fleuve ni ses personnages."
+        alt: "Au bord d’une eau calme, des silhouettes exilées restent immobiles près d’une lyre suspendue."
+        resume_detail: "Verset 72 sur 176"
+        melchizedek: "Melchisédek"
+        quiz_question: "Pourquoi un psaume royal parle-t-il soudain d’un prêtre mystérieux ?"
+        quiz_explanation: "Le roi du poème reçoit une promesse qui évoque Melchisédek."
+        rama_first: "Pourquoi Dieu semble-t-il parfois attendre que nous soyons complètement épuisés ?"
+        rama_second: "Je n’avais jamais remarqué Melchisédek ici."

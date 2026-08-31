@@ -1,0 +1,24 @@
+<section id="ma-rama" class="scripture-library-block scripture-library-rama" aria-labelledby="scripture-library-rama-title">
+  <p class="scripture-library-kicker"><span aria-hidden="true">✦</span><%= t("scripture_library.editorial.sections.rama") %></p>
+  <h2 id="scripture-library-rama-title" class="visually-hidden"><%= t("scripture_library.editorial.sections.rama") %></h2>
+  <div class="scripture-library-rama__thoughts">
+    <% highlights.each do |highlight| %>
+      <% avatar = avatar_mark(highlight.avatar_key) unless highlight.anonymous? %>
+      <article class="scripture-library-rama__thought">
+        <header>
+          <% if avatar %>
+            <%= image_tag avatar, alt: "", class: "scripture-library-rama__avatar", loading: "lazy" %>
+          <% else %>
+            <span class="scripture-library-rama__avatar is-placeholder" aria-hidden="true"><%= picto("people") %></span>
+          <% end %>
+          <p><strong><%= highlight.author_name %></strong><%= link_to highlight.citation, highlight.reader_path, data: { turbo_frame: "_top", action: "click->scripture-launcher#prepare", scripture_chapter_title: highlight.citation } %></p>
+        </header>
+        <% if highlight.selected_text.present? %><blockquote><%= highlight.selected_text %></blockquote><% end %>
+        <p class="scripture-library-rama__body">“<%= highlight.body %>”</p>
+        <%= link_to highlight.path, class: "scripture-library-rama__reply" do %>
+          <span><%= highlight.reply_count.positive? ? t("scripture_library.editorial.replies", count: highlight.reply_count) : t("scripture_library.editorial.reply") %></span><b aria-hidden="true">→</b>
+        <% end %>
+      </article>
+    <% end %>
+  </div>
+</section>
