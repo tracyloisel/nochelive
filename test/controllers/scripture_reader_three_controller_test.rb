@@ -97,8 +97,9 @@ class ScriptureReaderThreeControllerTest < ActionDispatch::IntegrationTest
     get scripture_path("ot/ps/52", locale: "fr")
 
     assert_response :success
-    assert_select "#scripture-title", text: "Psaume 52"
-    assert_select ".reader-mobile-title", text: "Psaume 52"
+    assert_select ".reader-room-topbar #scripture-title", count: 0
+    assert_select ".reader-chapter-heading #scripture-title", text: "Psaume 52"
+    assert_select ".reader-mobile-title", count: 0
     assert_select ".reader-chapter-history", text: /Mon histoire avec ce chapitre/
     assert_select ".reader-chapter-history", text: /Psaume 52:4/
     assert_select ".reader-chapter-complete", count: 0

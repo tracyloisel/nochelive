@@ -141,15 +141,14 @@
             <%= picto("cross") %><span><%= t("scripture_reader.close") %></span>
           </button>
         <% end %>
-        <strong class="reader-mobile-title">
+        <span class="reader-topbar-context">
           <% if movement&.exact? %>
             <span class="reader-mobile-readers" aria-label="<%= movement_label %>">
               <%= picto("people") %>
               <span aria-hidden="true"><%= t("scripture_reader.movement.exact_short", count: movement.count) %></span>
             </span>
           <% end %>
-          <span class="reader-mobile-chapter-title"><%= chapter_title %></span>
-        </strong>
+        </span>
         <div class="reader-topbar-actions">
           <button type="button"
                   class="reader-panel-trigger reader-marks-trigger"
