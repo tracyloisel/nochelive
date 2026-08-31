@@ -4,7 +4,7 @@
       aria: { current: playlist_active ? "page" : nil } do %>
   <span class="church-video-playlist-art">
     <% if playlist.thumbnail_video_id.present? %>
-      <%= image_tag church_video_thumbnail_path(playlist.thumbnail_video_id),
+      <%= tag.img src: church_video_thumbnail_path(playlist.thumbnail_video_id),
             alt: "",
             width: 320,
             height: 180,

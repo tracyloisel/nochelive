@@ -112,7 +112,7 @@
                     data-video-id="<%= video.id %>"
                     data-video-title="<%= video.title %>">
               <span class="church-video-thumb">
-                <%= image_tag church_video_thumbnail_path(video.id),
+                <%= tag.img src: church_video_thumbnail_path(video.id),
                       alt: "",
                       width: 320,
                       height: 180,
