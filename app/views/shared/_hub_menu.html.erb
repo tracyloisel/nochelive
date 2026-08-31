@@ -31,14 +31,22 @@
     </span>
   <% end %>
 
-  <section class="home-menu-block" aria-labelledby="hub_menu_campus">
-    <p id="hub_menu_campus" class="home-menu-kicker"><%= t("hub_menu.campus") %></p>
+  <section class="home-menu-block" aria-labelledby="hub_menu_play">
+    <p id="hub_menu_play" class="home-menu-kicker"><%= t("hub_menu.play") %></p>
     <div class="home-menu-list">
       <%= link_to street_challenges_path(anchor: "inviter"), class: "home-menu-row home-menu-invite" do %>
         <span class="home-menu-ico" aria-hidden="true"><%= picto("duel-staffs") %></span>
         <span class="home-menu-row-copy">
           <strong><%= t("hub_menu.invite_friend") %></strong>
           <small><%= t("hub_menu.invite_friend_hint") %></small>
+        </span>
+        <span class="home-menu-row-caret" aria-hidden="true"><%= picto("arrow") %></span>
+      <% end %>
+      <%= link_to street_challenges_path, class: "home-menu-row" do %>
+        <span class="home-menu-ico" aria-hidden="true"><%= picto("duel-books") %></span>
+        <span class="home-menu-row-copy">
+          <strong><%= t("hub_menu.challenges") %></strong>
+          <small><%= t("hub_menu.challenges_hint") %></small>
         </span>
         <span class="home-menu-row-caret" aria-hidden="true"><%= picto("arrow") %></span>
       <% end %>
@@ -52,8 +60,8 @@
     </div>
   </section>
 
-  <section class="home-menu-block" aria-labelledby="hub_menu_space">
-    <p id="hub_menu_space" class="home-menu-kicker"><%= t("hub_menu.space") %></p>
+  <section class="home-menu-block" aria-labelledby="hub_menu_scriptures">
+    <p id="hub_menu_scriptures" class="home-menu-kicker"><%= t("hub_menu.scriptures") %></p>
     <div class="home-menu-list">
       <%= link_to scripture_library_path, class: "home-menu-row" do %>
         <span class="home-menu-ico" aria-hidden="true"><%= picto("book") %></span>
@@ -80,6 +88,16 @@
           <small><%= ward&.city.presence || ward&.name || t("hub_menu.choose_ward") %></small>
         </span>
         <span class="home-menu-row-caret" aria-hidden="true"><%= picto("arrow") %></span>
+      <% end %>
+      <% if ward %>
+        <%= link_to search_path(cambiar: 1), class: "home-menu-row" do %>
+          <span class="home-menu-ico" aria-hidden="true"><%= picto("search") %></span>
+          <span class="home-menu-row-copy">
+            <strong><%= t("hub_menu.change_ward") %></strong>
+            <small><%= t("hub_menu.change_ward_hint") %></small>
+          </span>
+          <span class="home-menu-row-caret" aria-hidden="true"><%= picto("arrow") %></span>
+        <% end %>
       <% end %>
       <% if Notifications::Feature.enabled? %>
         <%= link_to notification_settings_path, class: "home-menu-row" do %>
@@ -131,9 +149,25 @@
     </div>
   </section>
 
-  <nav class="hub-menu-legal" aria-label="<%= t("hub_menu.legal_nav") %>">
-    <%= link_to t("hub_menu.about_us"), about_path %>
-    <%= link_to t("hub_menu.legal"), legal_path %>
-    <%= link_to t("hub_menu.privacy"), privacy_path %>
-  </nav>
+  <section class="home-menu-block hub-menu-information" aria-labelledby="hub_menu_information">
+    <p id="hub_menu_information" class="home-menu-kicker"><%= t("hub_menu.information") %></p>
+    <div class="home-menu-list">
+      <%= link_to about_path, class: "home-menu-row" do %>
+        <span class="home-menu-ico" aria-hidden="true"><%= picto("info") %></span>
+        <span class="home-menu-row-copy"><strong><%= t("hub_menu.about_us") %></strong></span>
+        <span class="home-menu-row-caret" aria-hidden="true"><%= picto("arrow") %></span>
+      <% end %>
+      <%= link_to legal_path, class: "home-menu-row" do %>
+        <span class="home-menu-ico" aria-hidden="true"><%= picto("scroll") %></span>
+        <span class="home-menu-row-copy"><strong><%= t("hub_menu.legal") %></strong></span>
+        <span class="home-menu-row-caret" aria-hidden="true"><%= picto("arrow") %></span>
+      <% end %>
+      <%= link_to privacy_path, class: "home-menu-row" do %>
+        <span class="home-menu-ico" aria-hidden="true"><%= picto("lock") %></span>
+        <span class="home-menu-row-copy"><strong><%= t("hub_menu.privacy") %></strong></span>
+        <span class="home-menu-row-caret" aria-hidden="true"><%= picto("arrow") %></span>
+      <% end %>
+    </div>
+  </section>
+
 </nav>

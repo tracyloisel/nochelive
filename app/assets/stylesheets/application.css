@@ -2560,40 +2560,10 @@ body:has(#street_quien) .chrome-drawer .lang-switch.is-drawer > summary {
   background: var(--button-primary, var(--temple-gold-leaf));
   filter: brightness(1.035);
 }
-.chrome-drawer :is(.home-menu-row, .home-menu-me, .lang-switch.is-drawer > summary, .hub-menu-legal a):focus-visible,
+.chrome-drawer :is(.home-menu-row, .home-menu-me, .lang-switch.is-drawer > summary):focus-visible,
 .chrome-drawer .is-drawer-close:focus-visible {
   outline: 3px solid color-mix(in srgb, var(--gold-highlight, var(--gold)) 62%, transparent);
   outline-offset: 2px;
-}
-.hub-menu-legal {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  gap: 0 var(--space-2);
-  width: 100%;
-  padding: var(--space-2) var(--space-2) 0;
-  border-top: 1px solid color-mix(in srgb, var(--line) 72%, transparent);
-  text-align: center;
-}
-.hub-menu-legal a {
-  min-height: 2.75rem;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding-inline: 0.1rem;
-  color: color-mix(in srgb, var(--muted) 82%, transparent);
-  font-size: 0.68rem;
-  font-weight: 550;
-  line-height: 1.2;
-  letter-spacing: 0.01em;
-  text-decoration: none;
-}
-.hub-menu-legal a:is(:hover, :focus-visible) { color: var(--muted); }
-.hub-menu-legal a + a::before {
-  margin-right: var(--space-2);
-  color: color-mix(in srgb, var(--muted) 42%, transparent);
-  content: "·";
 }
 .home-menu[data-hud-theme="celestial-dark"] .chrome-drawer-sheet {
   color: var(--text-primary);
@@ -2628,18 +2598,6 @@ body:has(#street_quien) .chrome-drawer .lang-switch.is-drawer > summary {
 }
 .home-menu[data-hud-theme="celestial-dark"] .home-menu-row:not(.home-menu-invite) .home-menu-ico [stroke="#1a2744"] {
   stroke: currentColor;
-}
-.home-menu[data-hud-theme="celestial-dark"] .hub-menu-legal {
-  border-color: color-mix(in srgb, var(--border-primary) 66%, transparent);
-}
-.home-menu[data-hud-theme="celestial-dark"] .hub-menu-legal a {
-  color: color-mix(in srgb, var(--text-muted) 82%, transparent);
-}
-.home-menu[data-hud-theme="celestial-dark"] .hub-menu-legal a:is(:hover, :focus-visible) {
-  color: var(--text-muted);
-}
-.home-menu[data-hud-theme="celestial-dark"] .hub-menu-legal a + a::before {
-  color: color-mix(in srgb, var(--text-muted) 44%, transparent);
 }
 .home-menu[data-hud-theme="celestial-dark"] .is-drawer-close {
   color: var(--text-primary);
