@@ -69,7 +69,6 @@ class ScripturesController < ApplicationController
     @source_url = @chapter.source_url
     @scripture_illustrations = Scriptures::Illustrations.call(chapter: @chapter, locale: @reference.locale)
     @scripture_reads_count = ScriptureChapterStat.count_for(@study)
-    assign_scripture_highlights
     configure_passage_seo
     Rails.logger.info("event=seo_scripture reference=#{@reference.study}:#{@passage_verse_label} locale=#{@reference.route_locale}")
   end
@@ -103,7 +102,6 @@ class ScripturesController < ApplicationController
           person_id: current_street_person&.id
         )
       )
-      assign_scripture_highlights
       remember_study_reading
     end
     render :frame, layout: false if turbo_frame_request?
@@ -266,9 +264,4 @@ class ScripturesController < ApplicationController
       end
     end
 
-    def assign_scripture_highlights
-      @scripture_highlights = current_street_person&.scripture_highlights
-        &.for_reader(reference: @study, locale: I18n.locale)
-        &.map(&:reader_attributes) || []
-    end
 end

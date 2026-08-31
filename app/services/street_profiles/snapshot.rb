@@ -37,7 +37,7 @@ module StreetProfiles
         challenge_total: duels.where(status: "resolved").count,
         active_challenges: duels.active.not_expired.count,
         device_count: @person.person_devices.count,
-        highlight_count: @person.scripture_highlights.count,
+        highlight_count: @person.scripture_marks.active.where.not(visual_style: "none").count,
         answer_count: answers.sum(&:count),
         correct_answer_count: answers.sum { |scope| scope.where(correct: true).count }
       )

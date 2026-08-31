@@ -13,6 +13,17 @@ class StreetProfiles::SnapshotTest < ActiveSupport::TestCase
       correct: true,
       duration_ms: 1_500
     )
+    visual_marks_before = person.scripture_marks.active.where.not(visual_style: "none").count
+    person.scripture_marks.create!(
+      reference: "ot/1-sam/16", locale: "fr", anchor_scope: "passage",
+      visual_style: "highlight", color_key: "gold",
+      start_verse: 1, start_offset: 2, end_verse: 2, end_offset: 14
+    )
+    person.scripture_marks.create!(
+      reference: "ot/1-sam/16", locale: "fr", anchor_scope: "passage",
+      visual_style: "none", start_verse: 13, start_offset: 0, end_verse: 13, end_offset: 20,
+      bookmarked_at: Time.current
+    )
 
     snapshot = StreetProfiles::Snapshot.call(person:)
 
@@ -28,5 +39,6 @@ class StreetProfiles::SnapshotTest < ActiveSupport::TestCase
     assert_equal 0, snapshot.active_challenges
     assert_equal 1, snapshot.answer_count
     assert_equal 1, snapshot.correct_answer_count
+    assert_equal visual_marks_before + 1, snapshot.highlight_count
   end
 end

@@ -79,11 +79,14 @@ class ScripturesControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test "embeds the current profile highlights for the active scripture locale" do
+  test "embeds the current profile visual marks for the active scripture locale" do
     person = create_street_profile!(name: "Lectora")
-    person.scripture_highlights.create!(
+    person.scripture_marks.create!(
       reference: "ot/1-sam/16",
       locale: "fr",
+      anchor_scope: "passage",
+      visual_style: "highlight",
+      color_key: "gold",
       start_verse: 1,
       end_verse: 2,
       start_offset: 2,
