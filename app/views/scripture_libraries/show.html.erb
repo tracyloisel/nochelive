@@ -50,10 +50,14 @@
         <% end %>
       </div>
 
-      <details class="scripture-library-search-drawer" <%= "open" if @query.present? || @result.present? %>>
-        <summary>
+      <details class="scripture-library-search-drawer"
+               data-library-search-target="drawer"
+               data-action="toggle->library-search#drawerToggled"
+               <%= "open" if @query.present? || @result.present? %>>
+        <summary aria-controls="recherche-ecritures"
+                 aria-label="<%= t("scripture_library.editorial.search_toggle") %>">
           <span aria-hidden="true"><%= picto("search") %></span>
-          <span><%= t("scripture_library.editorial.search_toggle") %></span>
+          <span class="scripture-library-search-drawer__label" aria-hidden="true"><%= t("scripture_library.editorial.search_toggle") %></span>
         </summary>
         <form id="recherche-ecritures"
               class="scripture-library-search"

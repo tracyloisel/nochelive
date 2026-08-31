@@ -3,7 +3,7 @@ import { http } from "platform/http/client"
 import { EffectScope } from "platform/lifecycle/effect_scope"
 
 export default class extends Controller {
-  static targets = ["form", "input", "list", "option", "status", "row", "selection", "selectionFrame", "selectionStatus"]
+  static targets = ["drawer", "form", "input", "list", "option", "status", "row", "selection", "selectionFrame", "selectionStatus"]
   static values = { errorMessage: String }
 
   connect() {
@@ -28,6 +28,12 @@ export default class extends Controller {
     this.clearSearchState()
     if (this.inputTarget.value.trim().length < 2) return this.close()
     this.cancelSuggest = this.effectScope.timeout(() => this.suggest(), 180)
+  }
+
+  drawerToggled() {
+    if (!this.drawerTarget.open) return
+
+    this.effectScope.frame(() => this.inputTarget.focus({ preventScroll: true }))
   }
 
   async suggest() {
@@ -76,7 +82,11 @@ export default class extends Controller {
 
   keydown(event) {
     const options = [...this.listTarget.querySelectorAll("[role=option]")]
-    if (event.key === "Escape") return this.close(true)
+    if (event.key === "Escape") {
+      event.preventDefault()
+      if (this.inputTarget.getAttribute("aria-expanded") === "true") return this.close(true)
+      return this.closeDrawer()
+    }
     if (!["ArrowDown", "ArrowUp", "Enter"].includes(event.key) || options.length === 0) return
 
     if (event.key === "Enter" && this.index >= 0) {
@@ -470,5 +480,11 @@ export default class extends Controller {
     this.index = -1
     this.inputTarget.removeAttribute("aria-activedescendant")
     if (focus) this.inputTarget.focus()
+  }
+
+  closeDrawer() {
+    this.close()
+    this.drawerTarget.open = false
+    this.drawerTarget.querySelector(":scope > summary")?.focus({ preventScroll: true })
   }
 }

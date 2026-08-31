@@ -102,6 +102,59 @@ class ScriptureLibraryVisualTest < ApplicationSystemTestCase
     end
   end
 
+  test "mobile search stays inside the viewport and gives the keyboard a complete flow" do
+    [ [ 320, 844 ], [ 390, 844 ], [ 768, 1024 ], [ 1440, 900 ] ].each do |width, height|
+      set_system_viewport(width, height)
+      visit scripture_library_path(preview: 1, locale: :fr)
+
+      find(".scripture-library-search-drawer > summary").click
+      assert_selector "#scripture_library_query:focus"
+      fill_in "Rechercher dans les Écritures", with: "Psaumes"
+      assert_selector "#scripture-library-suggestions [role=option]", count: 1, wait: 4
+
+      geometry = page.evaluate_script(<<~JS)
+        (() => {
+          const rect = (selector) => {
+            const box = document.querySelector(selector).getBoundingClientRect();
+            return { left: box.left, right: box.right, width: box.width, height: box.height };
+          };
+          return {
+            viewportWidth: innerWidth,
+            form: rect('#recherche-ecritures'),
+            field: rect('.scripture-library-search__field'),
+            input: rect('#scripture_library_query'),
+            submit: rect('.scripture-library-search__submit'),
+            suggestions: rect('#scripture-library-suggestions'),
+            inputOutlineWidth: getComputedStyle(document.querySelector('#scripture_library_query')).outlineWidth,
+            fieldOutlineWidth: getComputedStyle(document.querySelector('.scripture-library-search__field')).outlineWidth,
+            searchRing: getComputedStyle(document.querySelector('.scripture-library-search-drawer > summary .picto-search circle')).stroke
+          };
+        })()
+      JS
+
+      %w[form field input submit suggestions].each do |key|
+        box = geometry.fetch(key)
+        assert_operator box.fetch("left"), :>=, 0, geometry.inspect
+        assert_operator box.fetch("right"), :<=, geometry.fetch("viewportWidth"), geometry.inspect
+      end
+      assert_operator geometry.dig("input", "width"), :>=, 120, geometry.inspect
+      assert_operator geometry.dig("submit", "width"), :>=, 44, geometry.inspect
+      assert_operator geometry.dig("submit", "height"), :>=, 44, geometry.inspect
+      assert_equal "0px", geometry.fetch("inputOutlineWidth"), geometry.inspect
+      assert_operator geometry.fetch("fieldOutlineWidth").to_f, :>=, 2, geometry.inspect
+      assert_not_equal "rgb(26, 39, 68)", geometry.fetch("searchRing"), geometry.inspect
+      assert_empty severe_browser_logs
+
+      save_screenshot screenshot_directory.join("library-search-#{width}x#{height}.png") if capture_screenshots?
+
+      find("#scripture_library_query").send_keys(:escape)
+      assert_selector "#scripture-library-suggestions[hidden]", visible: :all
+      assert_selector "#scripture_library_query:focus"
+      find("#scripture_library_query").send_keys(:escape)
+      assert_selector ".scripture-library-search-drawer:not([open]) > summary:focus"
+    end
+  end
+
   test "every recovery tool reaches its chooser and editorial actions reach the reader" do
     PANEL_ROWS.each do |row, selection|
       visit scripture_library_path(preview: 1, locale: :fr)
