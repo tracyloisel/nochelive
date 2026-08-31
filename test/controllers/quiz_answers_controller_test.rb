@@ -302,3 +302,53 @@ class QuizAnswersControllerTest < ActionDispatch::IntegrationTest
     assert_select ".street-praise.is-miss"
   end
 end
+
+class LiveQuizAnswersControllerTest < ActionDispatch::IntegrationTest
+  test "a live player can submit the first answer after choosing a team" do
+    night = game_sessions(:david)
+    team = teams(:leones)
+    sign_in_as_participant(night, name: "Noa", team:)
+
+    get night_play_path(night.code)
+    assert_response :success
+
+    player = night.players.find_by!(name: "Noa")
+    run = night.quiz_runs.find_by!(player:)
+    post quiz_answers_path(run), params: { choice: run.question.correct_choice }, as: :turbo_stream
+
+    assert_response :success
+    assert_predicate run.reload.current_answer, :correct?
+    assert_select "turbo-stream[action=replace][target=street_quiz]", count: 1
+    assert_select ".quiz-board.is-settled.is-right", count: 1
+  end
+
+  test "another live player cannot submit an answer for the run" do
+    night = game_sessions(:david)
+    team = teams(:leones)
+    sign_in_as_participant(night, name: "Noa", team:)
+    get night_play_path(night.code)
+
+    run = night.quiz_runs.find_by!(player: night.players.find_by!(name: "Noa"))
+    attacker = add_player(night, name: "Intrus", team:)
+    set_signed_cookie(:noche_player, attacker.id)
+    set_signed_cookie(:noche_client, attacker.client_token)
+
+    assert_no_difference "QuizAnswer.count" do
+      post quiz_answers_path(run), params: { choice: run.question.correct_choice }, as: :turbo_stream
+    end
+
+    assert_response :not_found
+    assert_nil run.reload.current_answer
+  end
+
+  private
+
+    def set_signed_cookie(name, value)
+      signed_value = signed_cookie_jar.tap { |jar| jar.signed[name] = value }[name]
+      cookies.merge("#{name}=#{Rack::Utils.escape(signed_value)}; path=/", URI("http://#{host}/"))
+    end
+
+    def signed_cookie_jar
+      ActionDispatch::Cookies::CookieJar.build(ActionDispatch::TestRequest.create, {})
+    end
+end
