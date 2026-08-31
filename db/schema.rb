@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_30_220000) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_31_163000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -59,6 +59,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_30_220000) do
     t.datetime "closed_at"
     t.string "code", null: false
     t.datetime "created_at", null: false
+    t.integer "duration_hours", default: 1, null: false
     t.datetime "ends_at", null: false
     t.jsonb "quiz_pack_ids", default: [], null: false
     t.datetime "starts_at", null: false
@@ -71,6 +72,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_30_220000) do
     t.index ["status", "starts_at", "ends_at"], name: "index_nights_on_lifecycle"
     t.index ["ward_id", "status", "starts_at", "id"], name: "index_game_sessions_on_ward_schedule"
     t.index ["ward_id"], name: "index_game_sessions_on_ward_id"
+    t.check_constraint "duration_hours >= 1 AND duration_hours <= 8", name: "game_sessions_duration_hours_range"
   end
 
   create_table "identity_transfers", force: :cascade do |t|
@@ -1062,6 +1064,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_30_220000) do
     t.string "scripture_circle_mode", default: "disabled", null: false
     t.string "stake_name"
     t.string "stake_unit_id"
+    t.string "time_zone", default: "UTC", null: false
     t.string "unit_kind"
     t.datetime "updated_at", null: false
     t.index ["church_unit_id"], name: "index_wards_on_church_unit_id", unique: true, where: "(church_unit_id IS NOT NULL)"

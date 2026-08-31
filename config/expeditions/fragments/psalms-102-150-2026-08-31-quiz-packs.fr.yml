@@ -830,18 +830,18 @@ formation_quizzes:
       correction: "Le chant descend vers météo, reliefs, animaux, rois, peuples, jeunes et vieux."
     - id: ps148-ages-07
       pack_id: everything-breathes
-      learning_lens: PLAN_DE_DIEU
+      learning_lens: RECIT_DU_TEXTE
       source_layer: textual
-      formation_goal: "Voir les générations réunies dans la même louange."
-      scripture_references: ["Psaume 148:11-13"]
-      claim_ids: [exeg-017]
-      prompt: "Quels âges le Psaume 148 réunit-il dans la louange ?"
+      formation_goal: "Voir la louange du Psaume 149 naître au milieu d'une assemblée réelle."
+      scripture_references: ["Psaume 149:1-3"]
+      claim_ids: [exeg-018]
+      prompt: "Où commence le chant nouveau du Psaume 149 ?"
       choices:
-        - { id: a, text: "Jeunes et vieux", diagnosis: correct_generations }
-        - { id: b, text: "Seulement les enfants", diagnosis: age_exclusion }
-        - { id: c, text: "Seulement les anciens", diagnosis: age_exclusion }
+        - { id: a, text: "Dans l'assemblée", diagnosis: correct_assembly }
+        - { id: b, text: "Dans le palais", diagnosis: invented_setting }
+        - { id: c, text: "Dans le désert", diagnosis: invented_setting }
       correct_choice: a
-      correction: "Le psaume appelle ensemble jeunes hommes, jeunes filles, vieillards et enfants."
+      correction: "Le psaume place le chant nouveau dans l'assemblée et l'accompagne de danse et de tambourin."
     - id: ps150-lieu-08
       pack_id: everything-breathes
       learning_lens: LECTURE_DU_TEXTE

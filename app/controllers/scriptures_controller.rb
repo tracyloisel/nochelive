@@ -94,13 +94,23 @@ class ScripturesController < ApplicationController
         circle_post_id: params[:circle_post],
         circle_sort: params[:circle_sort]
       )
+      quiz_world = Quizzes::World.call(
+        device_digest: street_device_digest,
+        person_id: current_street_person&.id
+      )
+      @scripture_expedition = if params[:study_unit_id].present?
+        Expeditions::Catalog.find(
+          study_unit_id: params[:study_unit_id],
+          world: quiz_world,
+          person: current_street_person,
+          locale: I18n.locale
+        )
+      end
       @scripture_quiz_recommendation = Scriptures::QuizRecommendation.call(
         reference: @study,
         locale: I18n.locale,
-        world: Quizzes::World.call(
-          device_digest: street_device_digest,
-          person_id: current_street_person&.id
-        )
+        world: quiz_world,
+        expedition: @scripture_expedition
       )
       remember_study_reading
     end

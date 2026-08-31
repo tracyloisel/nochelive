@@ -24,7 +24,7 @@ packs:
       cite: Psaume 102:2-12
       study: ot/ps/102
     presentation:
-      image: expeditions/psalms-2026/home-key-art-v1.png
+      image: quizzes/exp_psalms_disappearing_voice/ps102_fumee_01.png
   - id: ps102_herbe_02
     question: À quoi son cœur est-il comparé ?
     choices:
@@ -44,7 +44,7 @@ packs:
       cite: Psaume 102:5
       study: ot/ps/102
     presentation:
-      image: expeditions/psalms-2026/home-key-art-v1.png
+      image: quizzes/exp_psalms_disappearing_voice/ps102_herbe_02.png
   - id: ps102_mais_toi_03
     question: Quel tournant ouvre enfin un avenir ?
     choices:
@@ -64,7 +64,7 @@ packs:
       cite: Psaume 102:13-14
       study: ot/ps/102
     presentation:
-      image: expeditions/psalms-2026/home-key-art-v1.png
+      image: quizzes/exp_psalms_disappearing_voice/ps102_mais_toi_03.png
   - id: ps102_sion_04
     question: À quelle ville sa douleur finit-elle par se mêler ?
     choices:
@@ -84,7 +84,7 @@ packs:
       cite: Psaume 102:14-23
       study: ot/ps/102
     presentation:
-      image: expeditions/psalms-2026/home-key-art-v1.png
+      image: quizzes/exp_psalms_disappearing_voice/ps102_sion_04.png
   - id: ps102_avenir_05
     question: Qui devra encore louer Dieu après cette génération ?
     choices:
@@ -104,7 +104,7 @@ packs:
       cite: Psaume 102:19-29
       study: ot/ps/102
     presentation:
-      image: expeditions/psalms-2026/home-key-art-v1.png
+      image: quizzes/exp_psalms_disappearing_voice/ps102_avenir_05.png
   - id: ps103_memoire_06
     question: Que demande le Psaume 103 à l’âme ?
     choices:
@@ -124,7 +124,7 @@ packs:
       cite: Psaume 103:1-5
       study: ot/ps/103
     presentation:
-      image: expeditions/psalms-2026/home-key-art-v1.png
+      image: quizzes/exp_psalms_disappearing_voice/ps103_memoire_06.png
   - id: ps103_distance_07
     question: Que fait Dieu des fautes dans l’image du psaume ?
     choices:
@@ -144,7 +144,7 @@ packs:
       cite: Psaume 103:8-12
       study: ot/ps/103
     presentation:
-      image: expeditions/psalms-2026/home-key-art-v1.png
+      image: quizzes/exp_psalms_disappearing_voice/ps103_distance_07.png
   - id: ps103_fragilite_08
     question: Comment Dieu regarde-t-il notre fragilité ?
     choices:
@@ -164,7 +164,7 @@ packs:
       cite: Psaume 103:13-14
       study: ot/ps/103
     presentation:
-      image: expeditions/psalms-2026/home-key-art-v1.png
+      image: quizzes/exp_psalms_disappearing_voice/ps103_fragilite_08.png
   - id: ps103_eternite_09
     question: La vie passe comme l’herbe. Qu’est-ce qui demeure ?
     choices:
@@ -184,7 +184,7 @@ packs:
       cite: Psaume 103:15-18
       study: ot/ps/103
     presentation:
-      image: expeditions/psalms-2026/home-key-art-v1.png
+      image: quizzes/exp_psalms_disappearing_voice/ps103_eternite_09.png
   - id: ps102_hebreux_10
     question: Dans Hébreux 1, ces mots du Psaume 102 parlent de qui ?
     choices:
@@ -204,7 +204,7 @@ packs:
       cite: Psaume 102:26-28
       study: ot/ps/102
     presentation:
-      image: expeditions/psalms-2026/home-key-art-v1.png
+      image: quizzes/exp_psalms_disappearing_voice/ps102_hebreux_10.png
 - id: exp_psalms_nameless_king
   title: Le Roi sans nom
   kicker: Psaume 110
@@ -229,7 +229,7 @@ packs:
       cite: Psaume 110:1-4
       study: ot/ps/110
     presentation:
-      image: expeditions/psalms-2026/home-key-art-v1.png
+      image: quizzes/exp_psalms_nameless_king/ps110_roles_01.png
   - id: ps110_roi_inconnu_02
     question: Le texte permet-il de nommer ce roi avec certitude ?
     choices:
@@ -249,7 +249,7 @@ packs:
       cite: Psaume 110:1-7
       study: ot/ps/110
     presentation:
-      image: expeditions/psalms-2026/home-key-art-v1.png
+      image: quizzes/exp_psalms_nameless_king/ps110_roi_inconnu_02.png
   - id: ps110_droite_03
     question: Où Dieu invite-t-il ce seigneur à s’asseoir ?
     choices:
@@ -269,7 +269,7 @@ packs:
       cite: Psaume 110:1
       study: ot/ps/110
     presentation:
-      image: expeditions/psalms-2026/home-key-art-v1.png
+      image: quizzes/exp_psalms_nameless_king/ps110_droite_03.png
   - id: ps110_melchisedek_04
     question: Pourquoi Melchisédek surprend-il au verset 4 ?
     choices:
@@ -289,7 +289,7 @@ packs:
       cite: Psaume 110:4
       study: ot/ps/110
     presentation:
-      image: expeditions/psalms-2026/home-key-art-v1.png
+      image: quizzes/exp_psalms_nameless_king/ps110_melchisedek_04.png
   - id: ps110_fin_05
     question: Le psaume finit-il avec le serment sacerdotal ?
     choices:
@@ -309,7 +309,7 @@ packs:
       cite: Psaume 110:5-7
       study: ot/ps/110
     presentation:
-      image: expeditions/psalms-2026/home-key-art-v1.png
+      image: quizzes/exp_psalms_nameless_king/ps110_fin_05.png
   - id: ps110_scene_06
     question: Que reste-t-il inconnu derrière cette scène royale ?
     choices:
@@ -329,7 +329,7 @@ packs:
       cite: Psaume 110:1-7
       study: ot/ps/110
     presentation:
-      image: expeditions/psalms-2026/home-key-art-v1.png
+      image: quizzes/exp_psalms_nameless_king/ps110_scene_06.png
   - id: ps110_matthieu_07
     question: Dans Matthieu 22, quelle énigme Jésus pose-t-il ?
     choices:
@@ -349,7 +349,7 @@ packs:
       cite: Psaume 110:1
       study: ot/ps/110
     presentation:
-      image: expeditions/psalms-2026/home-key-art-v1.png
+      image: quizzes/exp_psalms_nameless_king/ps110_matthieu_07.png
   - id: ps110_hebreux5_08
     question: Dans Hébreux 5, qui est le prêtre pour toujours ?
     choices:
@@ -369,7 +369,7 @@ packs:
       cite: Psaume 110:4
       study: ot/ps/110
     presentation:
-      image: expeditions/psalms-2026/home-key-art-v1.png
+      image: quizzes/exp_psalms_nameless_king/ps110_hebreux5_08.png
   - id: ps110_hebreux7_09
     question: Selon Hébreux 7, pourquoi peut-il sauver pleinement ?
     choices:
@@ -389,7 +389,7 @@ packs:
       cite: Psaume 110:4
       study: ot/ps/110
     presentation:
-      image: expeditions/psalms-2026/home-key-art-v1.png
+      image: quizzes/exp_psalms_nameless_king/ps110_hebreux7_09.png
   - id: ps110_lds_10
     question: Dans la lecture LDS, quel ordre éclaire ce serment ?
     choices:
@@ -409,7 +409,7 @@ packs:
       cite: Psaume 110:4
       study: ot/ps/110
     presentation:
-      image: expeditions/psalms-2026/home-key-art-v1.png
+      image: quizzes/exp_psalms_nameless_king/ps110_lds_10.png
 - id: exp_psalms_cry_stone_seek
   title: Cherche-moi
   kicker: Psaumes 116–119
@@ -434,7 +434,7 @@ packs:
       cite: Psaume 116:1-4
       study: ot/ps/116
     presentation:
-      image: expeditions/psalms-2026/home-key-art-v1.png
+      image: quizzes/exp_psalms_cry_stone_seek/ps116_appel_01.png
   - id: ps116_public_02
     question: Après la délivrance, où porte-t-elle sa gratitude ?
     choices:
@@ -454,7 +454,7 @@ packs:
       cite: Psaume 116:12-19
       study: ot/ps/116
     presentation:
-      image: expeditions/psalms-2026/home-key-art-v1.png
+      image: quizzes/exp_psalms_cry_stone_seek/ps116_public_02.png
   - id: ps117_nations_03
     question: Qui le Psaume 117 invite-t-il à louer Dieu ?
     choices:
@@ -474,7 +474,7 @@ packs:
       cite: Psaume 117:1-2
       study: ot/ps/117
     presentation:
-      image: expeditions/psalms-2026/home-key-art-v1.png
+      image: quizzes/exp_psalms_cry_stone_seek/ps117_nations_03.png
   - id: ps117_romains_04
     question: Pourquoi Paul reprend-il le Psaume 117 dans Romains 15 ?
     choices:
@@ -494,7 +494,7 @@ packs:
       cite: Psaume 117:1
       study: ot/ps/117
     presentation:
-      image: expeditions/psalms-2026/home-key-art-v1.png
+      image: quizzes/exp_psalms_cry_stone_seek/ps117_romains_04.png
   - id: ps118_pierre_05
     question: Que devient la pierre rejetée du Psaume 118 ?
     choices:
@@ -514,7 +514,7 @@ packs:
       cite: Psaume 118:22-23
       study: ot/ps/118
     presentation:
-      image: expeditions/psalms-2026/home-key-art-v1.png
+      image: quizzes/exp_psalms_cry_stone_seek/ps118_pierre_05.png
   - id: ps118_actes_06
     question: Dans Actes 4, qui devient cette pierre ?
     choices:
@@ -534,7 +534,7 @@ packs:
       cite: Psaume 118:22
       study: ot/ps/118
     presentation:
-      image: expeditions/psalms-2026/home-key-art-v1.png
+      image: quizzes/exp_psalms_cry_stone_seek/ps118_actes_06.png
   - id: ps119_return_07
     question: Tu as raté trois jours. Que faire d’après la fin du Psaume 119 ?
     choices:
@@ -556,7 +556,7 @@ packs:
       cite: Psaume 119:176
       study: ot/ps/119
     presentation:
-      image: expeditions/psalms-2026/home-key-art-v1.png
+      image: quizzes/exp_psalms_cry_stone_seek/ps119_return_07.png
   - id: ps119_teach_08
     question: Ton esprit part ailleurs. Quel réflexe revient dans le Psaume 119 ?
     choices:
@@ -578,7 +578,7 @@ packs:
       cite: Psaume 119:12
       study: ot/ps/119
     presentation:
-      image: expeditions/psalms-2026/home-key-art-v1.png
+      image: quizzes/exp_psalms_cry_stone_seek/ps119_teach_08.png
   - id: ps119_order_09
     question: Ta routine tient. Que rappelle pourtant la fin du Psaume 119 ?
     choices:
@@ -600,7 +600,7 @@ packs:
       cite: Psaume 119:1-176
       study: ot/ps/119
     presentation:
-      image: expeditions/psalms-2026/home-key-art-v1.png
+      image: quizzes/exp_psalms_cry_stone_seek/ps119_order_09.png
   - id: ps119_help_10
     question: "« Dieu me cherche, donc je n’ai rien à faire. » Que répond le psaume ?"
     choices:
@@ -622,7 +622,7 @@ packs:
       cite: Psaume 119:10
       study: ot/ps/119
     presentation:
-      image: expeditions/psalms-2026/home-key-art-v1.png
+      image: quizzes/exp_psalms_cry_stone_seek/ps119_help_10.png
 - id: exp_psalms_house_table_city
   title: La maison que Dieu bâtit
   kicker: Psaumes 127–128
@@ -647,7 +647,7 @@ packs:
       cite: Psaume 127:1
       study: ot/ps/127
     presentation:
-      image: expeditions/psalms-2026/home-key-art-v1.png
+      image: quizzes/exp_psalms_house_table_city/ps127_batir_01.png
   - id: ps127_garde_02
     question: Sans Dieu, que vaut la veille du gardien ?
     choices:
@@ -667,7 +667,7 @@ packs:
       cite: Psaume 127:1
       study: ot/ps/127
     presentation:
-      image: expeditions/psalms-2026/home-key-art-v1.png
+      image: quizzes/exp_psalms_house_table_city/ps127_garde_02.png
   - id: ps127_labeur_03
     question: Que dénonce le Psaume 127 dans le travail ?
     choices:
@@ -687,7 +687,7 @@ packs:
       cite: Psaume 127:2
       study: ot/ps/127
     presentation:
-      image: expeditions/psalms-2026/home-key-art-v1.png
+      image: quizzes/exp_psalms_house_table_city/ps127_labeur_03.png
   - id: ps127_enfants_04
     question: Comment les enfants sont-ils présentés dans le psaume ?
     choices:
@@ -707,7 +707,7 @@ packs:
       cite: Psaume 127:3-5
       study: ot/ps/127
     presentation:
-      image: expeditions/psalms-2026/home-key-art-v1.png
+      image: quizzes/exp_psalms_house_table_city/ps127_enfants_04.png
   - id: ps127_porte_05
     question: Dans le monde ancien, que se passait aussi à la porte ?
     choices:
@@ -727,7 +727,7 @@ packs:
       cite: Psaume 127:5
       study: ot/ps/127
     presentation:
-      image: expeditions/psalms-2026/home-key-art-v1.png
+      image: quizzes/exp_psalms_house_table_city/ps127_porte_05.png
   - id: ps127_montee_06
     question: À quel voyage associe-t-on les Chants des montées ?
     choices:
@@ -747,7 +747,7 @@ packs:
       cite: Psaumes 127–128
       study: ot/ps/127
     presentation:
-      image: expeditions/psalms-2026/home-key-art-v1.png
+      image: quizzes/exp_psalms_house_table_city/ps127_montee_06.png
   - id: ps128_travail_07
     question: Dans le Psaume 128, que mange le travailleur ?
     choices:
@@ -767,7 +767,7 @@ packs:
       cite: Psaume 128:1-2
       study: ot/ps/128
     presentation:
-      image: expeditions/psalms-2026/home-key-art-v1.png
+      image: quizzes/exp_psalms_house_table_city/ps128_travail_07.png
   - id: ps128_voies_08
     question: À quoi le Psaume 128 relie-t-il le bonheur ?
     choices:
@@ -787,7 +787,7 @@ packs:
       cite: Psaume 128:1
       study: ot/ps/128
     presentation:
-      image: expeditions/psalms-2026/home-key-art-v1.png
+      image: quizzes/exp_psalms_house_table_city/ps128_voies_08.png
   - id: ps128_ville_09
     question: Où la bénédiction de la maison finit-elle par regarder ?
     choices:
@@ -807,7 +807,7 @@ packs:
       cite: Psaume 128:5-6
       study: ot/ps/128
     presentation:
-      image: expeditions/psalms-2026/home-key-art-v1.png
+      image: quizzes/exp_psalms_house_table_city/ps128_ville_09.png
   - id: ps127_agir_10
     question: S’appuyer sur Dieu signifie-t-il cesser de bâtir ?
     choices:
@@ -827,7 +827,7 @@ packs:
       cite: Psaume 127:1-2
       study: ot/ps/127
     presentation:
-      image: expeditions/psalms-2026/home-key-art-v1.png
+      image: quizzes/exp_psalms_house_table_city/ps127_agir_10.png
 - id: exp_psalms_suspended_harps
   title: Les harpes suspendues
   kicker: Psaumes 135–139
@@ -852,7 +852,7 @@ packs:
       cite: Psaume 135:15-17
       study: ot/ps/135
     presentation:
-      image: expeditions/psalms-2026/home-key-art-v1.png
+      image: quizzes/exp_psalms_suspended_harps/ps135_souffle_01.png
   - id: ps135_ressembler_02
     question: Que risquent ceux qui font confiance à ces idoles ?
     choices:
@@ -872,7 +872,7 @@ packs:
       cite: Psaume 135:18
       study: ot/ps/135
     presentation:
-      image: expeditions/psalms-2026/home-key-art-v1.png
+      image: quizzes/exp_psalms_suspended_harps/ps135_ressembler_02.png
   - id: ps136_refrain_03
     question: Que répète chaque verset du Psaume 136 ?
     choices:
@@ -892,7 +892,7 @@ packs:
       cite: Psaume 136:1-26
       study: ot/ps/136
     presentation:
-      image: expeditions/psalms-2026/home-key-art-v1.png
+      image: quizzes/exp_psalms_suspended_harps/ps136_refrain_03.png
   - id: ps136_assemblee_04
     question: Comment ce refrain pouvait-il être chanté ?
     choices:
@@ -912,7 +912,7 @@ packs:
       cite: Psaume 136:1-26
       study: ot/ps/136
     presentation:
-      image: expeditions/psalms-2026/home-key-art-v1.png
+      image: quizzes/exp_psalms_suspended_harps/ps136_assemblee_04.png
   - id: ps137_harpes_05
     question: Pourquoi les exilés suspendent-ils leurs harpes ?
     choices:
@@ -932,7 +932,7 @@ packs:
       cite: Psaume 137:1-4
       study: ot/ps/137
     presentation:
-      image: expeditions/psalms-2026/home-key-art-v1.png
+      image: quizzes/exp_psalms_suspended_harps/ps137_harpes_05.png
   - id: ps137_babylone_06
     question: Où ces exilés se trouvent-ils probablement ?
     choices:
@@ -952,7 +952,7 @@ packs:
       cite: Psaume 137:1-4
       study: ot/ps/137
     presentation:
-      image: expeditions/psalms-2026/home-key-art-v1.png
+      image: quizzes/exp_psalms_suspended_harps/ps137_babylone_06.png
   - id: ps138_detresse_07
     question: La détresse a-t-elle déjà disparu dans le Psaume 138 ?
     choices:
@@ -972,7 +972,7 @@ packs:
       cite: Psaume 138:7-8
       study: ot/ps/138
     presentation:
-      image: expeditions/psalms-2026/home-key-art-v1.png
+      image: quizzes/exp_psalms_suspended_harps/ps138_detresse_07.png
   - id: ps139_fuir_08
     question: Où peut-on fuir loin de Dieu dans le Psaume 139 ?
     choices:
@@ -992,7 +992,7 @@ packs:
       cite: Psaume 139:7-12
       study: ot/ps/139
     presentation:
-      image: expeditions/psalms-2026/home-key-art-v1.png
+      image: quizzes/exp_psalms_suspended_harps/ps139_fuir_08.png
   - id: ps139_parole_09
     question: Que connaît Dieu avant même qu’une parole soit dite ?
     choices:
@@ -1012,7 +1012,7 @@ packs:
       cite: Psaume 139:1-6
       study: ot/ps/139
     presentation:
-      image: expeditions/psalms-2026/home-key-art-v1.png
+      image: quizzes/exp_psalms_suspended_harps/ps139_parole_09.png
   - id: ps139_sonde_10
     question: Après avoir jugé le mal, que demande finalement la voix ?
     choices:
@@ -1032,7 +1032,7 @@ packs:
       cite: Psaume 139:19-24
       study: ot/ps/139
     presentation:
-      image: expeditions/psalms-2026/home-key-art-v1.png
+      image: quizzes/exp_psalms_suspended_harps/ps139_sonde_10.png
 - id: exp_psalms_everything_breathes
   title: Tout ce qui respire
   kicker: Psaumes 146–150
@@ -1057,7 +1057,7 @@ packs:
       cite: Psaume 146:3-4
       study: ot/ps/146
     presentation:
-      image: expeditions/psalms-2026/home-key-art-v1.png
+      image: quizzes/exp_psalms_everything_breathes/ps146_princes_01.png
   - id: ps146_vulnerables_02
     question: De qui Dieu prend-il concrètement soin dans ce psaume ?
     choices:
@@ -1077,7 +1077,7 @@ packs:
       cite: Psaume 146:5-9
       study: ot/ps/146
     presentation:
-      image: expeditions/psalms-2026/home-key-art-v1.png
+      image: quizzes/exp_psalms_everything_breathes/ps146_vulnerables_02.png
   - id: ps146_regne_03
     question: Quel règne ne s’arrête pas avec un souffle ?
     choices:
@@ -1097,7 +1097,7 @@ packs:
       cite: Psaume 146:10
       study: ot/ps/146
     presentation:
-      image: expeditions/psalms-2026/home-key-art-v1.png
+      image: quizzes/exp_psalms_everything_breathes/ps146_regne_03.png
   - id: ps147_coeurs_04
     question: Que fait celui qui compte les étoiles aux cœurs brisés ?
     choices:
@@ -1117,7 +1117,7 @@ packs:
       cite: Psaume 147:2-5
       study: ot/ps/147
     presentation:
-      image: expeditions/psalms-2026/home-key-art-v1.png
+      image: quizzes/exp_psalms_everything_breathes/ps147_coeurs_04.png
   - id: ps147_reconstruction_05
     question: Quel horizon le Psaume 147 rend-il très probable ?
     choices:
@@ -1137,7 +1137,7 @@ packs:
       cite: Psaume 147:2-3
       study: ot/ps/147
     presentation:
-      image: expeditions/psalms-2026/home-key-art-v1.png
+      image: quizzes/exp_psalms_everything_breathes/ps147_reconstruction_05.png
   - id: ps148_choeur_06
     question: Qui rejoint le chœur après les astres ?
     choices:
@@ -1157,27 +1157,27 @@ packs:
       cite: Psaume 148:1-13
       study: ot/ps/148
     presentation:
-      image: expeditions/psalms-2026/home-key-art-v1.png
+      image: quizzes/exp_psalms_everything_breathes/ps148_choeur_06.png
   - id: ps148_ages_07
-    question: Quels âges le Psaume 148 réunit-il dans la louange ?
+    question: Où commence le chant nouveau du Psaume 149 ?
     choices:
     - key: a
-      label: Jeunes et vieux
+      label: Dans l'assemblée
     - key: b
-      label: Seulement les enfants
+      label: Dans le palais
     - key: c
-      label: Seulement les anciens
+      label: Dans le désert
     correct_choice: a
-    answer: Le psaume appelle ensemble jeunes hommes, jeunes filles, vieillards et enfants.
+    answer: Le psaume place le chant nouveau dans l'assemblée et l'accompagne de danse et de tambourin.
     points: 12
     duration: 15
     intensity: 3
     scripture:
       canon: bible
-      cite: Psaume 148:11-13
-      study: ot/ps/148
+      cite: Psaume 149:1-3
+      study: ot/ps/149
     presentation:
-      image: expeditions/psalms-2026/home-key-art-v1.png
+      image: quizzes/exp_psalms_everything_breathes/ps148_ages_07.png
   - id: ps150_lieu_08
     question: Où le Psaume 150 invite-t-il d’abord à louer Dieu ?
     choices:
@@ -1197,7 +1197,7 @@ packs:
       cite: Psaume 150:1
       study: ot/ps/150
     presentation:
-      image: expeditions/psalms-2026/home-key-art-v1.png
+      image: quizzes/exp_psalms_everything_breathes/ps150_lieu_08.png
   - id: ps150_instrument_09
     question: Dans le Psaume 150, quel est le dernier instrument ?
     choices:
@@ -1217,7 +1217,7 @@ packs:
       cite: Psaume 150:1-6
       study: ot/ps/150
     presentation:
-      image: expeditions/psalms-2026/home-key-art-v1.png
+      image: quizzes/exp_psalms_everything_breathes/ps150_instrument_09.png
   - id: souffle_echo_10
     question: Quel motif relie idoles, princes et louange finale ?
     choices:
@@ -1237,4 +1237,4 @@ packs:
       cite: Psaume 135:17
       study: ot/ps/135
     presentation:
-      image: expeditions/psalms-2026/home-key-art-v1.png
+      image: quizzes/exp_psalms_everything_breathes/souffle_echo_10.png

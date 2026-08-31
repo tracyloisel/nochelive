@@ -156,6 +156,7 @@ class AdminApiTest < ActionDispatch::IntegrationTest
       post admin_api_ward_nights_path(ward.code),
            params: {
              starts_at: 1.day.from_now.change(usec: 0).iso8601,
+             duration_hours: 3,
              quiz_ids: [ "coronas", "moises", "nazareno" ]
            },
            headers: auth_headers,
@@ -166,7 +167,9 @@ class AdminApiTest < ActionDispatch::IntegrationTest
     code = response.parsed_body.dig("night", "code")
     night = ward.game_sessions.find_by!(code:)
     assert_equal [ "coronas", "moises", "nazareno" ], night.quiz_pack_ids
-    assert_equal night.starts_at + 1.hour, night.ends_at
+    assert_equal night.starts_at + 3.hours, night.ends_at
+    assert_equal 3, night.duration_hours
+    assert_equal 3, response.parsed_body.dig("night", "duration_hours")
     assert_equal "/s/#{code}", response.parsed_body.dig("night", "paths", "canonical")
     assert_equal "/s/#{code}/name", response.parsed_body.dig("night", "paths", "players")
     assert_equal "/s/#{code}/play", response.parsed_body.dig("night", "paths", "play")
@@ -175,6 +178,7 @@ class AdminApiTest < ActionDispatch::IntegrationTest
     patch admin_api_ward_night_path(ward.code, code),
           params: {
             starts_at: 2.days.from_now.change(usec: 0).iso8601,
+            duration_hours: 2,
             quiz_ids: [ "coronas", "placas" ]
           },
           headers: auth_headers,
@@ -182,7 +186,8 @@ class AdminApiTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     assert_equal [ "coronas", "placas" ], night.reload.quiz_pack_ids
-    assert_equal night.starts_at + 1.hour, night.ends_at
+    assert_equal night.starts_at + 2.hours, night.ends_at
+    assert_equal 2, night.duration_hours
   end
 
   test "cannot edit a Noche Live through another ward" do
@@ -239,6 +244,13 @@ class AdminApiTest < ActionDispatch::IntegrationTest
 
     post admin_api_ward_nights_path(wards(:blank).code),
          params: { starts_at: 1.day.from_now.iso8601, quiz_ids: [] },
+         headers: auth_headers,
+         as: :json
+
+    assert_response :unprocessable_entity
+
+    post admin_api_ward_nights_path(wards(:blank).code),
+         params: { starts_at: 1.day.from_now.iso8601, quiz_ids: [ "coronas" ], duration_hours: 9 },
          headers: auth_headers,
          as: :json
 

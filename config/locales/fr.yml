@@ -621,6 +621,13 @@ fr:
   street:
     mapa_title: "Ma carte de progression"
     mapa_subtitle: "%{total} packs · %{q} questions par pack"
+    mapa_modes_label: "Choisir une aventure"
+    mapa_journey: "Parcours complet"
+    mapa_journey_hint: "%{count} packs dans un seul chemin"
+    mapa_expeditions: "Expéditions"
+    mapa_expeditions_hint:
+      one: "1 aventure éditoriale"
+      other: "%{count} aventures éditoriales"
     stat_packs: "Packs"
     stat_questions: "Questions par pack"
     stat_completed: "Terminés"
@@ -639,6 +646,20 @@ fr:
     mapa_progress_label: "%{finished} / %{total} packs terminés"
     mapa_view_leaderboard: "Voir le classement"
     mapa_locked_hint: "Termine le pack %{pack} pour débloquer celui-ci"
+    expeditions:
+      weekly_kicker: "Expédition de la semaine"
+      progress: "%{done} / %{total} packs découverts"
+      questions:
+        one: "1 question"
+        other: "%{count} questions"
+      open_pack: "Ouvrir cette porte"
+      continue_pack: "Continuer"
+      replay_pack: "Rejouer"
+      completed_pack: "Pack terminé"
+      see_map: "Voir toute l’expédition"
+      back_to_expedition: "Retour à l’expédition"
+      empty_title: "Aucune expédition publiée"
+      empty_detail: "Le parcours complet reste ouvert pendant la préparation de la prochaine expédition."
     profile_title: "Qui joue ?"
     profile_menu: "Ta fiche"
     pick_profile: "Choisir une fiche"
@@ -1116,6 +1137,11 @@ fr:
     videos_kicker: "Vidéothèque officielle"
     videos_title: "Apprenez avec les vidéos de l’Église"
     videos_body: "Messages, musique et histoires de l’Église, sans quitter Noche Live."
+    expedition:
+      kicker: "Expédition de la semaine"
+      progress: "%{done} / %{total} portes ouvertes"
+      doors: "Les six découvertes de l’expédition"
+      open: "Ouvrir l’expédition"
     now:
       eyebrow: "Tes priorités"
       title: "À faire maintenant"
@@ -2356,7 +2382,7 @@ fr:
     pack_progress: "%{pack} : %{completed} questions terminées sur %{total}"
     countdown: "Compte à rebours"
     quiz_count: { one: "1 quiz", other: "%{count} quiz" }
-    one_hour: "1 heure en direct"
+    duration_hours: { one: "1 heure en direct", other: "%{count} heures en direct" }
     players_count: { one: "1 joueur", other: "%{count} joueurs" }
     phases: { scheduled: "À venir", lobby: "Lobby ouvert", playing: "En direct", finished: "Terminée", cancelled: "Annulée" }
     events:
@@ -2436,6 +2462,7 @@ fr:
       resume: "Continuer la lecture"
       recommendation: "Recommandé pour toi"
       weekly: "Cette semaine · Viens et suis-moi"
+      expedition: "Expédition de la semaine"
       bookmarks: "Mes signets"
       collection: "Mes Écritures"
       rama: "Mon Cercle"
@@ -2452,6 +2479,10 @@ fr:
       progress: "%{done} / %{total} chapitres"
       empty_title: "La prochaine semaine arrive bientôt"
       empty_detail: "Le programme apparaîtra ici dès sa publication."
+    expedition:
+      progress: "%{done} / %{total} portes ouvertes"
+      empty_title: "La prochaine expédition se prépare"
+      empty_detail: "Le Conseil d’expédition rassemble les prochaines découvertes."
     bookmarks:
       count:
         one: "1 signet"
@@ -2481,6 +2512,8 @@ fr:
       resume_detail: "Verset 17 sur 21"
       recommendation_detail: "Comprendre pourquoi Léhi et sa famille quittent Jérusalem"
       weekly_title: "Trouver refuge en Dieu"
+      expedition_title: "Six portes cachées dans les Psaumes"
+      expedition_detail: "Des hommes ont chanté quand il ne leur restait parfois plus que la foi."
       bookmarks_detail: "Dernier : Psaume 49:17 — Gloire passagère"
       annual_title: "Semaine 34 — Psaumes"
       annual_detail: "17–23 août"

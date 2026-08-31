@@ -3,7 +3,8 @@ class GameSession < ApplicationRecord
   CODE_WORDS = %w[DAVID ELIAS SALOMON DANIEL RUT ESTHER JONAS CALEB NOEMI SARA].freeze
   CODE_CHARS = %w[A B C D E F G H J K M N P Q R S T U W X Y Z 2 3 4 5 6 7 8 9].freeze
   LOBBY_LEAD = 30.minutes
-  DURATION = 1.hour
+  DEFAULT_DURATION_HOURS = 1
+  DURATION_HOURS_RANGE = (1..8).freeze
 
   belongs_to :ward
   has_many :teams, dependent: :destroy
@@ -14,8 +15,9 @@ class GameSession < ApplicationRecord
   validates :code, :status, :starts_at, :ends_at, presence: true
   validates :code, uniqueness: { conditions: -> { where.not(status: %w[finished cancelled]) } }
   validates :status, inclusion: { in: STATUSES }
+  validates :duration_hours, numericality: { only_integer: true, in: DURATION_HOURS_RANGE }
   validate :quiz_pack_sequence_is_valid
-  validate :ends_one_hour_after_start
+  validate :ends_after_configured_duration
   before_validation :normalize_schedule
 
   scope :active, -> { where.not(status: %w[finished cancelled]) }
@@ -41,6 +43,9 @@ class GameSession < ApplicationRecord
   def quiz_packs = quiz_pack_ids.map { |pack_id| QuizDefinition.catalog.find_pack(pack_id) }
   def primary_quiz_pack = quiz_packs.first
   def lobby_at = starts_at - LOBBY_LEAD
+  def duration = duration_hours.hours
+  def local_starts_at = starts_at.in_time_zone(ward.time_zone)
+  def local_ends_at = ends_at.in_time_zone(ward.time_zone)
 
   def phase(at: Time.current)
     return :cancelled if cancelled_at? || status == "cancelled"
@@ -74,7 +79,7 @@ class GameSession < ApplicationRecord
   private
 
     def normalize_schedule
-      self.ends_at = starts_at + DURATION if starts_at.present?
+      self.ends_at = starts_at + duration if starts_at.present? && duration_hours.present?
       self.status = phase(at: Time.current).to_s if starts_at.present? && ends_at.present? && status != "cancelled"
     end
 
@@ -91,9 +96,11 @@ class GameSession < ApplicationRecord
       errors.add(:quiz_pack_ids, error.message)
     end
 
-    def ends_one_hour_after_start
-      return unless starts_at && ends_at
+    def ends_after_configured_duration
+      return unless starts_at && ends_at && duration_hours.present?
 
-      errors.add(:ends_at, "must be exactly one hour after starts_at") unless ends_at.to_i == (starts_at + DURATION).to_i
+      return if ends_at.to_i == (starts_at + duration).to_i
+
+      errors.add(:ends_at, "must match the configured duration")
     end
 end

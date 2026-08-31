@@ -47,7 +47,18 @@ end %>
       </div>
     </div>
 
-    <% if play_pack %>
+    <nav class="mapa-mode-tabs" aria-label="<%= t("street.mapa_modes_label") %>">
+      <%= link_to street_map_path(view: "journey"), class: "mapa-mode-tab#{" is-active" if @map_view == :journey}", aria: { current: (@map_view == :journey ? "page" : nil) } do %>
+        <%= picto("mapa-crown") %>
+        <span><strong><%= t("street.mapa_journey") %></strong><small><%= t("street.mapa_journey_hint", count: total_packs) %></small></span>
+      <% end %>
+      <%= link_to street_map_path(view: "expeditions", expedition: @selected_expedition&.study_unit_id), class: "mapa-mode-tab#{" is-active" if @map_view == :expeditions}", aria: { current: (@map_view == :expeditions ? "page" : nil) } do %>
+        <%= picto("compass") %>
+        <span><strong><%= t("street.mapa_expeditions") %></strong><small><%= t("street.mapa_expeditions_hint", count: @expeditions.size) %></small></span>
+      <% end %>
+    </nav>
+
+    <% if @map_view == :journey && play_pack %>
       <article class="mapa-mission" aria-labelledby="mapa_mission_title">
         <span class="mapa-mission-medallion" aria-hidden="true">
           <%= picto("mapa-crown") %>
@@ -94,6 +105,7 @@ end %>
     <% end %>
   </header>
 
+  <% if @map_view == :journey %>
   <nav class="mapa-tabs" role="tablist">
     <button class="mapa-tab<%= " is-active" if active_category == "rois" %>"
             data-category="rois" data-action="hub-map#filter" role="tab" aria-selected="<%= active_category == "rois" %>">
@@ -154,4 +166,7 @@ end %>
       <span class="mapa-cta-arrow">&#8250;</span>
     <% end %>
   </footer>
+  <% else %>
+    <%= render "street_hub/expedition_map", expedition: @selected_expedition, expeditions: @expeditions %>
+  <% end %>
 </section>

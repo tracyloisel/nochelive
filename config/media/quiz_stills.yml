@@ -1124,6 +1124,246 @@ stills:
     mode: dark
     atmosphere: dramatic
     glass: strong
+  quizzes/exp_psalms_disappearing_voice/ps102_fumee_01.png:
+    mode: dark
+    atmosphere: solemn
+    glass: strong
+  quizzes/exp_psalms_disappearing_voice/ps102_herbe_02.png:
+    mode: dark
+    atmosphere: solemn
+    glass: strong
+  quizzes/exp_psalms_disappearing_voice/ps102_mais_toi_03.png:
+    mode: dark
+    atmosphere: dramatic
+    glass: strong
+  quizzes/exp_psalms_disappearing_voice/ps102_sion_04.png:
+    mode: dark
+    atmosphere: solemn
+    glass: strong
+  quizzes/exp_psalms_disappearing_voice/ps102_avenir_05.png:
+    mode: light
+    atmosphere: glorious
+    glass: soft
+  quizzes/exp_psalms_disappearing_voice/ps103_memoire_06.png:
+    mode: light
+    atmosphere: peaceful
+    glass: soft
+  quizzes/exp_psalms_disappearing_voice/ps103_distance_07.png:
+    mode: light
+    atmosphere: glorious
+    glass: soft
+  quizzes/exp_psalms_disappearing_voice/ps103_fragilite_08.png:
+    mode: light
+    atmosphere: peaceful
+    glass: soft
+  quizzes/exp_psalms_disappearing_voice/ps103_eternite_09.png:
+    mode: light
+    atmosphere: glorious
+    glass: soft
+  quizzes/exp_psalms_disappearing_voice/ps102_hebreux_10.png:
+    mode: dark
+    atmosphere: glorious
+    glass: medium
+  quizzes/exp_psalms_nameless_king/ps110_roles_01.png:
+    mode: dark
+    atmosphere: solemn
+    glass: strong
+  quizzes/exp_psalms_nameless_king/ps110_roi_inconnu_02.png:
+    mode: dark
+    atmosphere: dramatic
+    glass: strong
+  quizzes/exp_psalms_nameless_king/ps110_droite_03.png:
+    mode: dark
+    atmosphere: glorious
+    glass: strong
+  quizzes/exp_psalms_nameless_king/ps110_melchisedek_04.png:
+    mode: dark
+    atmosphere: solemn
+    glass: strong
+  quizzes/exp_psalms_nameless_king/ps110_fin_05.png:
+    mode: dark
+    atmosphere: dramatic
+    glass: strong
+  quizzes/exp_psalms_nameless_king/ps110_scene_06.png:
+    mode: dark
+    atmosphere: dramatic
+    glass: strong
+  quizzes/exp_psalms_nameless_king/ps110_matthieu_07.png:
+    mode: light
+    atmosphere: solemn
+    glass: medium
+  quizzes/exp_psalms_nameless_king/ps110_hebreux5_08.png:
+    mode: light
+    atmosphere: glorious
+    glass: soft
+  quizzes/exp_psalms_nameless_king/ps110_hebreux7_09.png:
+    mode: dark
+    atmosphere: glorious
+    glass: medium
+  quizzes/exp_psalms_nameless_king/ps110_lds_10.png:
+    mode: light
+    atmosphere: peaceful
+    glass: soft
+  quizzes/exp_psalms_cry_stone_seek/ps116_appel_01.png:
+    mode: dark
+    atmosphere: dramatic
+    glass: strong
+  quizzes/exp_psalms_cry_stone_seek/ps116_public_02.png:
+    mode: light
+    atmosphere: glorious
+    glass: soft
+  quizzes/exp_psalms_cry_stone_seek/ps117_nations_03.png:
+    mode: light
+    atmosphere: glorious
+    glass: soft
+  quizzes/exp_psalms_cry_stone_seek/ps117_romains_04.png:
+    mode: light
+    atmosphere: peaceful
+    glass: soft
+  quizzes/exp_psalms_cry_stone_seek/ps118_pierre_05.png:
+    mode: light
+    atmosphere: glorious
+    glass: medium
+  quizzes/exp_psalms_cry_stone_seek/ps118_actes_06.png:
+    mode: light
+    atmosphere: glorious
+    glass: soft
+  quizzes/exp_psalms_cry_stone_seek/ps119_return_07.png:
+    mode: dark
+    atmosphere: solemn
+    glass: strong
+  quizzes/exp_psalms_cry_stone_seek/ps119_teach_08.png:
+    mode: light
+    atmosphere: peaceful
+    glass: soft
+  quizzes/exp_psalms_cry_stone_seek/ps119_order_09.png:
+    mode: light
+    atmosphere: peaceful
+    glass: medium
+  quizzes/exp_psalms_cry_stone_seek/ps119_help_10.png:
+    mode: dark
+    atmosphere: solemn
+    glass: strong
+  quizzes/exp_psalms_house_table_city/ps127_batir_01.png:
+    mode: light
+    atmosphere: peaceful
+    glass: soft
+  quizzes/exp_psalms_house_table_city/ps127_garde_02.png:
+    mode: dark
+    atmosphere: dramatic
+    glass: strong
+  quizzes/exp_psalms_house_table_city/ps127_labeur_03.png:
+    mode: light
+    atmosphere: solemn
+    glass: medium
+  quizzes/exp_psalms_house_table_city/ps127_enfants_04.png:
+    mode: light
+    atmosphere: peaceful
+    glass: soft
+  quizzes/exp_psalms_house_table_city/ps127_porte_05.png:
+    mode: dark
+    atmosphere: dramatic
+    glass: strong
+  quizzes/exp_psalms_house_table_city/ps127_montee_06.png:
+    mode: light
+    atmosphere: peaceful
+    glass: soft
+  quizzes/exp_psalms_house_table_city/ps128_travail_07.png:
+    mode: light
+    atmosphere: peaceful
+    glass: soft
+  quizzes/exp_psalms_house_table_city/ps128_voies_08.png:
+    mode: light
+    atmosphere: peaceful
+    glass: soft
+  quizzes/exp_psalms_house_table_city/ps128_ville_09.png:
+    mode: light
+    atmosphere: glorious
+    glass: soft
+  quizzes/exp_psalms_house_table_city/ps127_agir_10.png:
+    mode: light
+    atmosphere: glorious
+    glass: medium
+  quizzes/exp_psalms_suspended_harps/ps135_souffle_01.png:
+    mode: dark
+    atmosphere: solemn
+    glass: strong
+  quizzes/exp_psalms_suspended_harps/ps135_ressembler_02.png:
+    mode: dark
+    atmosphere: solemn
+    glass: strong
+  quizzes/exp_psalms_suspended_harps/ps136_refrain_03.png:
+    mode: light
+    atmosphere: glorious
+    glass: soft
+  quizzes/exp_psalms_suspended_harps/ps136_assemblee_04.png:
+    mode: light
+    atmosphere: glorious
+    glass: medium
+  quizzes/exp_psalms_suspended_harps/ps137_harpes_05.png:
+    mode: dark
+    atmosphere: solemn
+    glass: strong
+  quizzes/exp_psalms_suspended_harps/ps137_babylone_06.png:
+    mode: dark
+    atmosphere: dramatic
+    glass: strong
+  quizzes/exp_psalms_suspended_harps/ps138_detresse_07.png:
+    mode: dark
+    atmosphere: dramatic
+    glass: strong
+  quizzes/exp_psalms_suspended_harps/ps139_fuir_08.png:
+    mode: dark
+    atmosphere: dramatic
+    glass: strong
+  quizzes/exp_psalms_suspended_harps/ps139_parole_09.png:
+    mode: dark
+    atmosphere: solemn
+    glass: strong
+  quizzes/exp_psalms_suspended_harps/ps139_sonde_10.png:
+    mode: light
+    atmosphere: solemn
+    glass: medium
+  quizzes/exp_psalms_everything_breathes/ps146_princes_01.png:
+    mode: dark
+    atmosphere: dramatic
+    glass: strong
+  quizzes/exp_psalms_everything_breathes/ps146_vulnerables_02.png:
+    mode: light
+    atmosphere: peaceful
+    glass: soft
+  quizzes/exp_psalms_everything_breathes/ps146_regne_03.png:
+    mode: light
+    atmosphere: glorious
+    glass: soft
+  quizzes/exp_psalms_everything_breathes/ps147_coeurs_04.png:
+    mode: dark
+    atmosphere: solemn
+    glass: strong
+  quizzes/exp_psalms_everything_breathes/ps147_reconstruction_05.png:
+    mode: light
+    atmosphere: glorious
+    glass: soft
+  quizzes/exp_psalms_everything_breathes/ps148_choeur_06.png:
+    mode: light
+    atmosphere: glorious
+    glass: soft
+  quizzes/exp_psalms_everything_breathes/ps148_ages_07.png:
+    mode: light
+    atmosphere: glorious
+    glass: soft
+  quizzes/exp_psalms_everything_breathes/ps150_lieu_08.png:
+    mode: light
+    atmosphere: glorious
+    glass: soft
+  quizzes/exp_psalms_everything_breathes/ps150_instrument_09.png:
+    mode: light
+    atmosphere: glorious
+    glass: soft
+  quizzes/exp_psalms_everything_breathes/souffle_echo_10.png:
+    mode: light
+    atmosphere: glorious
+    glass: soft
 
 # Generation prompts for the new parable collection. The runtime reads only `stills`.
 packs:

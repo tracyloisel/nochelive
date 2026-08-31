@@ -161,6 +161,11 @@ council:
       paths: [packs, formation_quizzes.expanded_pack_source]
       summary: "Six packs de dix questions générés en français pour le profil 22; les 19 psaumes et les neuf lentilles sont couverts. Psaume 149 reste une rencontre calme non notée."
       invalidates: [review.experience_gate, review.truth_gate, review.attention_gate, review.human_voice_gate]
+    - revision: 14
+      owner: expedition-director
+      paths: [packs, coverage, visual_language, runtime_integration]
+      summary: "Les six packs deviennent permanents; l'expédition ne conserve que leurs identifiants et leur présentation. Psaume 149 reçoit une question textuelle sur 149:1-3."
+      invalidates: []
   objections:
     - id: veto-a-causality-hist
       raised_by: expedition-historian
@@ -1455,38 +1460,38 @@ formation_quizzes:
 
 # Every required reading must appear here even when packs use another order.
 coverage:
-  - { reference: "Psaume 102", unit_ids: [disappearing-voice], pack_ids: [], status: constellation_covered_pack_pending, assessment_policy: claim_eligible }
-  - { reference: "Psaume 103", unit_ids: [disappearing-voice], pack_ids: [], status: constellation_covered_pack_pending, assessment_policy: claim_eligible }
-  - { reference: "Psaume 110", unit_ids: [nameless-king], pack_ids: [], status: constellation_covered_pack_pending, assessment_policy: mixed_reception_layers }
-  - { reference: "Psaume 116", unit_ids: [cry-nations-stone], pack_ids: [], status: constellation_covered_pack_pending, assessment_policy: claim_eligible }
-  - { reference: "Psaume 117", unit_ids: [cry-nations-stone], pack_ids: [], status: constellation_covered_pack_pending, assessment_policy: claim_eligible }
-  - { reference: "Psaume 118", unit_ids: [cry-nations-stone], pack_ids: [], status: constellation_covered_pack_pending, assessment_policy: mixed_reception_layers }
-  - { reference: "Psaume 119", unit_ids: [seek-me], pack_ids: [], status: constellation_covered_pack_pending, assessment_policy: claim_eligible }
-  - { reference: "Psaume 127", unit_ids: [house-table-city], pack_ids: [], status: constellation_covered_pack_pending, assessment_policy: family_boundary }
-  - { reference: "Psaume 128", unit_ids: [house-table-city], pack_ids: [], status: constellation_covered_pack_pending, assessment_policy: family_boundary }
-  - { reference: "Psaume 135", unit_ids: [breathless-images-answer], pack_ids: [], status: constellation_covered_pack_pending, assessment_policy: claim_eligible }
-  - { reference: "Psaume 136", unit_ids: [breathless-images-answer], pack_ids: [], status: constellation_covered_pack_pending, assessment_policy: claim_eligible }
-  - { reference: "Psaume 137", unit_ids: [suspended-harps], pack_ids: [], status: quiet_route_required, assessment_policy: non_scored }
-  - { reference: "Psaume 138", unit_ids: [still-in-distress], pack_ids: [], status: constellation_covered_pack_pending, assessment_policy: claim_eligible }
-  - { reference: "Psaume 139", unit_ids: [you-know-me], pack_ids: [], status: constellation_covered_pack_pending, assessment_policy: claim_eligible }
-  - { reference: "Psaume 146", unit_ids: [everything-breathes], pack_ids: [], status: constellation_covered_pack_pending, assessment_policy: claim_eligible }
-  - { reference: "Psaume 147", unit_ids: [everything-breathes], pack_ids: [], status: constellation_covered_pack_pending, assessment_policy: claim_eligible }
-  - { reference: "Psaume 148", unit_ids: [everything-breathes], pack_ids: [], status: constellation_covered_pack_pending, assessment_policy: claim_eligible }
-  - { reference: "Psaume 149", unit_ids: [everything-breathes], pack_ids: [], status: quiet_route_required, assessment_policy: non_scored }
-  - { reference: "Psaume 150", unit_ids: [everything-breathes], pack_ids: [], status: constellation_covered_pack_pending, assessment_policy: claim_eligible }
+  - { reference: "Psaume 102", unit_ids: [disappearing-voice], pack_ids: [exp_psalms_disappearing_voice], status: published, assessment_policy: claim_eligible }
+  - { reference: "Psaume 103", unit_ids: [disappearing-voice], pack_ids: [exp_psalms_disappearing_voice], status: published, assessment_policy: claim_eligible }
+  - { reference: "Psaume 110", unit_ids: [nameless-king], pack_ids: [exp_psalms_nameless_king], status: published, assessment_policy: mixed_reception_layers }
+  - { reference: "Psaume 116", unit_ids: [cry-nations-stone], pack_ids: [exp_psalms_cry_stone_seek], status: published, assessment_policy: claim_eligible }
+  - { reference: "Psaume 117", unit_ids: [cry-nations-stone], pack_ids: [exp_psalms_cry_stone_seek], status: published, assessment_policy: claim_eligible }
+  - { reference: "Psaume 118", unit_ids: [cry-nations-stone], pack_ids: [exp_psalms_cry_stone_seek], status: published, assessment_policy: mixed_reception_layers }
+  - { reference: "Psaume 119", unit_ids: [seek-me], pack_ids: [exp_psalms_cry_stone_seek], status: published, assessment_policy: claim_eligible }
+  - { reference: "Psaume 127", unit_ids: [house-table-city], pack_ids: [exp_psalms_house_table_city], status: published, assessment_policy: family_boundary }
+  - { reference: "Psaume 128", unit_ids: [house-table-city], pack_ids: [exp_psalms_house_table_city], status: published, assessment_policy: family_boundary }
+  - { reference: "Psaume 135", unit_ids: [breathless-images-answer], pack_ids: [exp_psalms_suspended_harps], status: published, assessment_policy: claim_eligible }
+  - { reference: "Psaume 136", unit_ids: [breathless-images-answer], pack_ids: [exp_psalms_suspended_harps], status: published, assessment_policy: claim_eligible }
+  - { reference: "Psaume 137", unit_ids: [suspended-harps], pack_ids: [exp_psalms_suspended_harps], status: published, assessment_policy: pastoral_textual_only }
+  - { reference: "Psaume 138", unit_ids: [still-in-distress], pack_ids: [exp_psalms_suspended_harps], status: published, assessment_policy: claim_eligible }
+  - { reference: "Psaume 139", unit_ids: [you-know-me], pack_ids: [exp_psalms_suspended_harps], status: published, assessment_policy: claim_eligible }
+  - { reference: "Psaume 146", unit_ids: [everything-breathes], pack_ids: [exp_psalms_everything_breathes], status: published, assessment_policy: claim_eligible }
+  - { reference: "Psaume 147", unit_ids: [everything-breathes], pack_ids: [exp_psalms_everything_breathes], status: published, assessment_policy: claim_eligible }
+  - { reference: "Psaume 148", unit_ids: [everything-breathes], pack_ids: [exp_psalms_everything_breathes], status: published, assessment_policy: claim_eligible }
+  - { reference: "Psaume 149", unit_ids: [everything-breathes], pack_ids: [exp_psalms_everything_breathes], status: published, assessment_policy: textual_opening_only }
+  - { reference: "Psaume 150", unit_ids: [everything-breathes], pack_ids: [exp_psalms_everything_breathes], status: published, assessment_policy: claim_eligible }
 packs:
   owner: expedition-game-designer
-  revision: 1
-  status: human_validation
+  revision: 2
+  status: locally_published
   source_file: config/expeditions/fragments/psalms-102-150-2026-08-31-quiz-packs.fr.yml
   total_packs: 6
   questions_per_pack: 10
   total_questions: 60
   required_psalms_covered: 19
   learning_lenses_covered: 9
-  quiet_encounters: [ps149-glaive-pause]
-  runtime_integration: blocked_until_editorial_and_truth_approval
-visual_language: { owner: expedition-art-director, revision: 0, status: pending }
+  quiet_encounters: []
+  runtime_integration: permanent_catalog_pack_ids_only
+visual_language: { owner: expedition-art-director, revision: 1, status: locally_published, artwork: "/media/expeditions/psalms-2026/home-key-art-v1.png" }
 trailer:
   id: weekly-launch
   status: production_package

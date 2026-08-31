@@ -22,6 +22,13 @@ class StreetPlaysController < ApplicationController
       )
     end
     @duel_campus = Quizzes::DuelCampus.call(person: current_street_person, run: @run)
+    @expedition = Expeditions::Catalog.find(
+      study_unit_id: session[:street_expedition_id],
+      world: @world,
+      person: current_street_person,
+      locale: I18n.locale
+    ) if session[:street_expedition_id].present?
+    session.delete(:street_expedition_id) unless @expedition&.includes_pack?(@run.pack_id)
     @play_context = :jugar
   end
 

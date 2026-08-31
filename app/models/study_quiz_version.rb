@@ -7,10 +7,22 @@ class StudyQuizVersion < ApplicationRecord
   validates :version, :status, :editorial_locale, :content, :content_digest, presence: true
   validates :version, uniqueness: { scope: :study_unit_id }
   validates :status, inclusion: { in: STATUSES }
-  validate :ten_questions
+  validate :learning_content
 
   def questions
     Array(content["questions"])
+  end
+
+  def expedition
+    content["expedition"].is_a?(Hash) ? content["expedition"] : {}
+  end
+
+  def expedition?
+    expedition_pack_ids.any?
+  end
+
+  def expedition_pack_ids
+    Array(expedition["pack_ids"]).filter_map { |pack_id| pack_id.to_s.presence }.uniq
   end
 
   def readings(locale = I18n.locale)
@@ -44,7 +56,13 @@ class StudyQuizVersion < ApplicationRecord
 
   private
 
-    def ten_questions
-      errors.add(:content, "must contain 10 questions") unless questions.size == 10
+    def learning_content
+      if expedition?
+        errors.add(:content, "expedition cannot embed a second quiz set") if questions.any?
+        unknown = expedition_pack_ids.reject { |pack_id| QuizDefinition.catalog.pack_ids.include?(pack_id) }
+        errors.add(:content, "contains unknown expedition packs: #{unknown.join(', ')}") if unknown.any?
+      elsif questions.size != 10
+        errors.add(:content, "must contain 10 questions")
+      end
     end
 end

@@ -25,6 +25,20 @@ class Quizzes::StartPackTest < ActiveSupport::TestCase
     end
   end
 
+  test "a permanent pack selected by a published expedition can open independently" do
+    digest = GameSession.digest_token("start-expedition-pack")
+    pack_id = "exp_psalms_everything_breathes"
+
+    frame = Quizzes::StartPack.call(
+      device_digest: digest,
+      pack_id:,
+      unlocked_pack_ids: [ pack_id ]
+    )
+
+    assert frame.run.open?
+    assert_equal pack_id, frame.run.pack_id
+  end
+
   test "finished pack starts a fresh run" do
     digest = GameSession.digest_token("start-replay")
     first = Quizzes::StartPack.call(device_digest: digest, pack_id: "coronas").run

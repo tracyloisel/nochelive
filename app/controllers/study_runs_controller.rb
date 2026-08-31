@@ -6,6 +6,10 @@ class StudyRunsController < ApplicationController
   def create
     unit = StudyUnit.find(params[:study_unit_id])
     quiz = unit.published_quiz or raise ActiveRecord::RecordNotFound
+    if quiz.expedition?
+      redirect_to street_map_path(view: "expeditions", expedition: unit.id)
+      return
+    end
     run = study_runs_for_identity.open.find_or_create_by!(study_quiz_version: quiz) do |record|
       record.device_digest = street_device_digest
       record.person = current_street_person

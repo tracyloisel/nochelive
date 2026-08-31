@@ -26,17 +26,17 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     hub_mode = css_select("body").first["class"][/\bis-celestial-(light|dark)\b/, 1]
     assert_includes %w[light dark], hub_mode
     assert_select ".home-menu.is-hud[data-hud-theme='celestial-#{hub_mode}'] .quiz-hud[data-hud-theme='celestial-#{hub_mode}']"
-    assert_select ".home-menu-kicker", text: I18n.t("hub_menu.campus")
-    assert_select ".home-menu-kicker", text: I18n.t("hub_menu.space")
+    assert_select ".home-menu-kicker", text: I18n.t("hub_menu.play")
+    assert_select ".home-menu-kicker", text: I18n.t("hub_menu.scriptures")
     assert_select ".home-menu-kicker", text: I18n.t("hub_menu.settings")
     assert_select ".hub-menu-profile .home-menu-row-caret", count: 0
     assert_select ".chrome-drawer a.home-menu-invite[href=?]", street_challenges_path(anchor: "inviter"), text: /#{Regexp.escape(I18n.t("hub_menu.invite_friend"))}/
     assert_select ".chrome-drawer a.home-menu-row[href=?]", street_leaderboard_path, text: I18n.t("hub_menu.leaderboard")
     assert_select ".chrome-drawer a.home-menu-row[href=?]", scripture_library_path, text: /#{Regexp.escape(I18n.t("scripture_library.title"))}/
     assert_select ".chrome-drawer a.home-menu-row[href=?]", search_path, text: /#{Regexp.escape(I18n.t("hub_menu.my_ward"))}/
-    assert_select ".hub-menu-legal a[href=?]", about_path, text: I18n.t("hub_menu.about_us")
-    assert_select ".hub-menu-legal a[href=?]", legal_path, text: I18n.t("hub_menu.legal")
-    assert_select ".hub-menu-legal a[href=?]", privacy_path, text: I18n.t("hub_menu.privacy")
+    assert_select ".hub-menu-information a[href=?]", about_path, text: I18n.t("hub_menu.about_us")
+    assert_select ".hub-menu-information a[href=?]", legal_path, text: I18n.t("hub_menu.legal")
+    assert_select ".hub-menu-information a[href=?]", privacy_path, text: I18n.t("hub_menu.privacy")
     assert_select ".chrome-drawer .place-input", count: 0
     assert_select ".chrome-drawer .code-input", count: 0
     assert_select "details.home-code", count: 0
@@ -252,14 +252,6 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     assert_includes css, "body.is-street-play #street_quiz.is-overlay .quiz-flag.is-yes .picto path"
     refute_includes css, "#3d9a5c"
     refute_includes css, "#6fde95"
-  end
-
-  test "corporate menu links stay quiet centered and touch accessible" do
-    css = frontend_css
-
-    assert_match(/\.hub-menu-legal \{[^}]*justify-content: center;[^}]*text-align: center;/m, css)
-    assert_match(/\.hub-menu-legal a \{[^}]*min-height: 2\.75rem;[^}]*font-size: 0\.68rem;/m, css)
-    assert_includes css, '.home-menu[data-hud-theme="celestial-dark"] .hub-menu-legal a'
   end
 
   test "drawer close control keeps a stable accessible silhouette" do

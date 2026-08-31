@@ -140,5 +140,6 @@ Street hub must answer: who am I, where am I, what now, what is happening around
 | [137](137-defis-celestial-dark-campus.md) | Défis : Campus nocturne continu, verre Celestial Dark et HUD thémé sur toute la page |
 | [138](138-jugar-forged-streak.md) | Jugar : une seule flamme relie le HUD, le ×5 et sa perte |
 | [140](140-hub-empty-live-social-art.md) | Hub : les états sans paroisse retrouvent la scène Live et une vraie illustration d’amis |
+| [168](168-psalms-expedition-permanent-journey.md) | Psaumes : six packs permanents, constellation sur toutes les surfaces et deux Live H+3 à Benidorm |
 
 Older files keep `## Evidence` blocks with the hat name from that slice. That is history, not a Cursor persona to revive. From this charter on, the three-agent table and the /10 scores are the Conseil Noche record.

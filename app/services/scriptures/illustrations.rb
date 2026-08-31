@@ -67,7 +67,10 @@ module Scriptures
         Illustration.new(
           image:,
           alt: question.copy(:question),
-          caption: question.copy(:answer),
+          # The illustration prepares attention for the question. Revealing
+          # its answer in the reader would destroy the learning loop before
+          # the player reaches the permanent pack.
+          caption: question.copy(:question),
           citation: citation(from, to),
           from_verse: from,
           to_verse: to,

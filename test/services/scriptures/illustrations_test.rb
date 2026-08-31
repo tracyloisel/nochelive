@@ -17,7 +17,7 @@ class Scriptures::IllustrationsTest < ActiveSupport::TestCase
     assert_equal 13, illustration.anchor_verse
     assert_equal "1 Samuel 16:13", illustration.citation
     assert_equal "Qui est représenté ?", illustration.alt
-    assert_equal "David est oint.", illustration.caption
+    assert_equal "Qui est représenté ?", illustration.caption
   end
 
   test "keeps at most three paintings spread across an illustrated chapter" do

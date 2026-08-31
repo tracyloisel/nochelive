@@ -18,8 +18,8 @@ class LocalesControllerTest < ActionDispatch::IntegrationTest
     assert_select ".chrome-tools", count: 0
     assert_select ".chrome-drawer .mute"
     assert_select ".chrome-drawer .mute .word", text: "Activé"
-    assert_select ".home-menu-kicker", text: /Mon espace/
-    assert_select ".home-menu-kicker", text: /Campus & défis/
+    assert_select ".home-menu-kicker", text: /Écritures & communauté/
+    assert_select ".home-menu-kicker", text: /Jeu & social/
     assert_select ".chrome-drawer .lang-switch.is-drawer"
     assert_select ".chrome-drawer .lang-switch.is-drawer > summary .picto-flag-fr"
     assert_select ".chrome-drawer .lang-opt.is-on .picto-flag-fr"

@@ -20,7 +20,7 @@ class HomeSmokeTest < ApplicationSystemTestCase
     assert_selector ".home-menu-row[href='#{scripture_library_path}']", text: I18n.t("scripture_library.title")
     assert_selector ".home-menu-kicker", text: /#{Regexp.escape(I18n.t("hub_menu.space"))}/i
     assert_selector ".home-menu-kicker", text: /#{Regexp.escape(I18n.t("hub_menu.settings"))}/i
-    assert_selector ".hub-menu-legal a", count: 3
+    assert_selector ".hub-menu-information a", count: 3
     find(".chrome-drawer .lang-switch.is-drawer > summary").click
     click_button "Français"
     assert_selector "html[lang=fr]"

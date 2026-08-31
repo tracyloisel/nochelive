@@ -61,6 +61,7 @@
        data-hub-layout="hero-rama-carousel">
     <%= render "street_hub/hero", screen: screen, theme: art.theme.mode %>
     <%= render "street_hub/rama_carousel", live: screen.live, events: screen.rama_events, circle: screen.circle, duel_summary: @duel_summary %>
+    <%= render "street_hub/expedition", expedition: screen.study&.expedition if screen.study&.expedition %>
     <%= render "street_hub/install" %>
     <%= render "street_hub/identity_empty", state: @hub_identity_state if @hub_identity_state %>
     <%= render "street_hub/now_cards", cards: @now_cards, study: screen.study unless screen.player.guest %>

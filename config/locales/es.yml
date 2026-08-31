@@ -621,6 +621,13 @@ es:
   street:
     mapa_title: "Mi mapa de progreso"
     mapa_subtitle: "%{total} packs · %{q} preguntas por pack"
+    mapa_modes_label: "Elegir una aventura"
+    mapa_journey: "Recorrido completo"
+    mapa_journey_hint: "%{count} packs en un solo camino"
+    mapa_expeditions: "Expediciones"
+    mapa_expeditions_hint:
+      one: "1 aventura editorial"
+      other: "%{count} aventuras editoriales"
     stat_packs: "Packs"
     stat_questions: "Preguntas por pack"
     stat_completed: "Completados"
@@ -639,6 +646,20 @@ es:
     mapa_progress_label: "%{finished} / %{total} packs completados"
     mapa_view_leaderboard: "Ver la clasificación"
     mapa_locked_hint: "Termina el pack %{pack} para desbloquear este"
+    expeditions:
+      weekly_kicker: "Expedición de la semana"
+      progress: "%{done} / %{total} packs descubiertos"
+      questions:
+        one: "1 pregunta"
+        other: "%{count} preguntas"
+      open_pack: "Abrir esta puerta"
+      continue_pack: "Continuar"
+      replay_pack: "Volver a jugar"
+      completed_pack: "Pack completado"
+      see_map: "Ver toda la expedición"
+      back_to_expedition: "Volver a la expedición"
+      empty_title: "No hay expediciones publicadas"
+      empty_detail: "El recorrido completo sigue abierto mientras preparamos la próxima expedición."
     profile_title: "¿Quién juega?"
     profile_menu: "Tu ficha"
     pick_profile: "Elige ficha"
@@ -1132,6 +1153,11 @@ es:
     videos_kicker: "Videoteca oficial"
     videos_title: "Aprende con los vídeos de la Iglesia"
     videos_body: "Mensajes, música e historias de la Iglesia, sin salir de Noche Live."
+    expedition:
+      kicker: "Expedición de la semana"
+      progress: "%{done} / %{total} puertas abiertas"
+      doors: "Los seis descubrimientos de la expedición"
+      open: "Abrir la expedición"
     now:
       eyebrow: "Tus prioridades"
       title: "Para hacer ahora"
@@ -2371,7 +2397,7 @@ es:
     pack_progress: "%{pack}: %{completed} de %{total} preguntas completadas"
     countdown: "Cuenta atrás"
     quiz_count: { one: "1 quiz", other: "%{count} quizzes" }
-    one_hour: "1 hora en directo"
+    duration_hours: { one: "1 hora en directo", other: "%{count} horas en directo" }
     players_count: { one: "1 jugador", other: "%{count} jugadores" }
     phases: { scheduled: "Próximamente", lobby: "Lobby abierto", playing: "En directo", finished: "Finalizada", cancelled: "Cancelada" }
     events:
@@ -2449,6 +2475,7 @@ es:
       resume: "Continuar leyendo"
       recommendation: "Recomendado para ti"
       weekly: "Esta semana · Ven, sígueme"
+      expedition: "Expedición de la semana"
       bookmarks: "Mis marcadores"
       collection: "Mis Escrituras"
       rama: "Mi Círculo"
@@ -2456,6 +2483,7 @@ es:
     resume: { progress: "Versículo %{verse} · %{percent} % del capítulo", empty_title: "Elige tu próxima lectura", empty_detail: "Todas las Escrituras te esperan." }
     recommendation: { reason: "Un pasaje para profundizar según tus respuestas al Quiz.", empty_title: "Una recomendación después de tu próximo Quiz", empty_detail: "Tus respuestas abrirán un pasaje para profundizar." }
     weekly: { progress: "%{done} / %{total} capítulos", empty_title: "La próxima semana llegará pronto", empty_detail: "El programa aparecerá aquí cuando se publique." }
+    expedition: { progress: "%{done} / %{total} puertas abiertas", empty_title: "La próxima expedición se está preparando", empty_detail: "El Consejo de expedición reúne los próximos descubrimientos." }
     bookmarks:
       count: { one: "1 marcador", other: "%{count} marcadores" }
       empty: "Aún no has guardado ningún pasaje."
@@ -2471,4 +2499,4 @@ es:
       week: "Semana %{number} — %{heading}"
       empty_title: "Programa anual"
       empty_detail: "Las 52 semanas aparecerán aquí cuando se publiquen."
-    preview: { resume_detail: "Versículo 17 de 21", recommendation_detail: "Comprender por qué Lehi y su familia salen de Jerusalén", weekly_title: "Hallar refugio en Dios", bookmarks_detail: "Último: Salmos 49:17 — Gloria pasajera", annual_title: "Semana 34 — Salmos", annual_detail: "17–23 de agosto" }
+    preview: { resume_detail: "Versículo 17 de 21", recommendation_detail: "Comprender por qué Lehi y su familia salen de Jerusalén", weekly_title: "Hallar refugio en Dios", expedition_title: "Seis puertas ocultas en los Salmos", expedition_detail: "Cantaron cuando a veces solo les quedaba la fe.", bookmarks_detail: "Último: Salmos 49:17 — Gloria pasajera", annual_title: "Semana 34 — Salmos", annual_detail: "17–23 de agosto" }

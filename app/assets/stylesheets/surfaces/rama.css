@@ -295,6 +295,7 @@ body.is-rama-profile .home-menu:not(.is-hud) { left: auto; right: max(env(safe-a
 .rama-next-theme span { padding: .25rem .7rem; color: #f2be34; border: 1px solid #bd8a10; border-radius: 999px; }
 .rama-next .btn { width: min(19rem, 100%); margin-top: .7rem; }
 .rama-next .quiet-link { color: #fffaf0; align-self: center; }
+.rama-word-promise { max-width: 48ch; margin: .2rem 0 .35rem; color: rgba(255,250,240,.8); font-size: .82rem; line-height: 1.38; text-wrap: pretty; }
 .rama-empty-live { min-height: 13.5rem; align-content: end; background: linear-gradient(90deg, rgba(4,25,50,.98), rgba(4,25,50,.76) 55%, rgba(4,25,50,.18)), var(--rama-night-poster) center 65% / cover no-repeat; }
 .rama-empty-live h2 { max-width: 18ch; font-size: 1.8rem; }
 .rama-empty-live form { position: relative; z-index: 1; width: min(19rem, 100%); }

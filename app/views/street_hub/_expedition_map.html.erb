@@ -1,0 +1,68 @@
+<% expedition = local_assigns[:expedition] %>
+<% expeditions = Array(local_assigns[:expeditions]) %>
+
+<section class="mapa-expeditions" aria-labelledby="mapa-expedition-title">
+  <% if expedition %>
+    <% artwork = expedition.artwork.to_s.delete_prefix("/") %>
+    <article class="mapa-expedition-hero is-<%= expedition.state %>">
+      <% if artwork.present? %>
+        <span class="mapa-expedition-hero__art" aria-hidden="true">
+          <%= noche_media_picture(artwork, alt: "", loading: "eager", fetchpriority: "high") %>
+        </span>
+      <% end %>
+      <span class="mapa-expedition-hero__scrim" aria-hidden="true"></span>
+      <div class="mapa-expedition-hero__copy">
+        <p><%= t("street.expeditions.weekly_kicker") %></p>
+        <h2 id="mapa-expedition-title"><%= expedition.title %></h2>
+        <% if expedition.subtitle.present? %><strong><%= expedition.subtitle %></strong><% end %>
+        <% if expedition.promise.present? %><span><%= expedition.promise %></span><% end %>
+        <div class="mapa-expedition-hero__progress" role="progressbar"
+             aria-label="<%= t("street.expeditions.progress", done: expedition.completed_count, total: expedition.total_count) %>"
+             aria-valuemin="0" aria-valuemax="100" aria-valuenow="<%= expedition.progress_percent %>">
+          <i><b style="width:<%= expedition.progress_percent %>%"></b></i>
+          <em><%= t("street.expeditions.progress", done: expedition.completed_count, total: expedition.total_count) %></em>
+        </div>
+      </div>
+    </article>
+
+    <div class="mapa-expedition-doors" role="list">
+      <% expedition.packs.each_with_index do |pack, index| %>
+        <article class="mapa-expedition-door is-<%= pack.state %>" role="listitem">
+          <span class="mapa-expedition-door__number" aria-hidden="true"><%= index + 1 %></span>
+          <% if pack.artwork.present? %>
+            <span class="mapa-expedition-door__art" aria-hidden="true"><%= noche_media_picture("media/#{pack.artwork}", alt: "", loading: "lazy") %></span>
+          <% end %>
+          <span class="mapa-expedition-door__scrim" aria-hidden="true"></span>
+          <div class="mapa-expedition-door__copy">
+            <small><%= pack.kicker %></small>
+            <h3><%= pack.title %></h3>
+            <p><%= pack.hook.presence || pack.lede %></p>
+            <span><%= t("street.expeditions.questions", count: pack.question_count) %></span>
+          </div>
+          <% if pack.open_run_id %>
+            <%= link_to jugar_path, class: "mapa-expedition-door__action", data: { turbo: false } do %><%= t("street.expeditions.continue_pack") %><%= picto("arrow") %><% end %>
+          <% else %>
+            <%= button_to street_pack_start_path(pack.id, expedition: expedition.study_unit_id), class: "mapa-expedition-door__action", form: { data: { turbo: false } } do %>
+              <%= t(pack.state == :finished ? "street.expeditions.replay_pack" : "street.expeditions.open_pack") %><%= picto("arrow") %>
+            <% end %>
+          <% end %>
+          <% if pack.state == :finished %><span class="mapa-expedition-door__done" aria-label="<%= t("street.expeditions.completed_pack") %>"><%= picto("check") %></span><% end %>
+        </article>
+      <% end %>
+    </div>
+
+    <% if expeditions.many? %>
+      <nav class="mapa-expedition-list" aria-label="<%= t("street.mapa_expeditions") %>">
+        <% expeditions.each do |entry| %>
+          <%= link_to entry.title, street_map_path(view: "expeditions", expedition: entry.study_unit_id), class: ("is-active" if entry.id == expedition.id) %>
+        <% end %>
+      </nav>
+    <% end %>
+  <% else %>
+    <div class="mapa-expedition-empty">
+      <%= picto("compass") %>
+      <h2 id="mapa-expedition-title"><%= t("street.expeditions.empty_title") %></h2>
+      <p><%= t("street.expeditions.empty_detail") %></p>
+    </div>
+  <% end %>
+</section>

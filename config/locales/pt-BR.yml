@@ -621,6 +621,13 @@ pt-BR:
   street:
     mapa_title: "Meu mapa de progresso"
     mapa_subtitle: "%{total} packs · %{q} perguntas por pack"
+    mapa_modes_label: "Escolher uma aventura"
+    mapa_journey: "Jornada completa"
+    mapa_journey_hint: "%{count} packs em um só caminho"
+    mapa_expeditions: "Expedições"
+    mapa_expeditions_hint:
+      one: "1 aventura editorial"
+      other: "%{count} aventuras editoriais"
     stat_packs: "Packs"
     stat_questions: "Perguntas por pack"
     stat_completed: "Concluídos"
@@ -639,6 +646,20 @@ pt-BR:
     mapa_progress_label: "%{finished} / %{total} packs concluídos"
     mapa_view_leaderboard: "Ver classificação"
     mapa_locked_hint: "Conclua o pack %{pack} para desbloquear este"
+    expeditions:
+      weekly_kicker: "Expedição da semana"
+      progress: "%{done} / %{total} packs descobertos"
+      questions:
+        one: "1 pergunta"
+        other: "%{count} perguntas"
+      open_pack: "Abrir esta porta"
+      continue_pack: "Continuar"
+      replay_pack: "Jogar de novo"
+      completed_pack: "Pack concluído"
+      see_map: "Ver a expedição inteira"
+      back_to_expedition: "Voltar à expedição"
+      empty_title: "Nenhuma expedição publicada"
+      empty_detail: "A jornada completa continua aberta enquanto preparamos a próxima expedição."
     profile_title: "Quem joga?"
     profile_menu: "Sua ficha"
     pick_profile: "Escolher ficha"
@@ -1099,6 +1120,11 @@ pt-BR:
     videos_kicker: "Videoteca oficial"
     videos_title: "Aprenda com os vídeos da Igreja"
     videos_body: "Mensagens, músicas e histórias da Igreja sem sair da Noche Live."
+    expedition:
+      kicker: "Expedição da semana"
+      progress: "%{done} / %{total} portas abertas"
+      doors: "As seis descobertas da expedição"
+      open: "Abrir a expedição"
     now:
       eyebrow: "Suas prioridades"
       title: "Para fazer agora"
@@ -2326,7 +2352,7 @@ pt-BR:
     pack_progress: "%{pack}: %{completed} de %{total} perguntas concluídas"
     countdown: "Contagem regressiva"
     quiz_count: { one: "1 quiz", other: "%{count} quizzes" }
-    one_hour: "1 hora ao vivo"
+    duration_hours: { one: "1 hora ao vivo", other: "%{count} horas ao vivo" }
     players_count: { one: "1 jogador", other: "%{count} jogadores" }
     phases: { scheduled: "Em breve", lobby: "Lobby aberto", playing: "Ao vivo", finished: "Encerrada", cancelled: "Cancelada" }
     events:
@@ -2399,10 +2425,11 @@ pt-BR:
       today: "Para abrir agora"
       memory: "Sua memória viva"
       together: "Ao redor da sua leitura"
-    rows: { start: "Comece a ler", resume: "Continuar a leitura", recommendation: "Recomendado para você", weekly: "Esta semana · Vem, e Segue-Me", bookmarks: "Meus marcadores", collection: "Minhas escrituras", rama: "Meu Círculo", annual: "Programa anual" }
+    rows: { start: "Comece a ler", resume: "Continuar a leitura", recommendation: "Recomendado para você", weekly: "Esta semana · Vem, e Segue-Me", expedition: "Expedição da semana", bookmarks: "Meus marcadores", collection: "Minhas escrituras", rama: "Meu Círculo", annual: "Programa anual" }
     resume: { progress: "Versículo %{verse} · %{percent}% do capítulo", empty_title: "Escolha sua próxima leitura", empty_detail: "Todas as escrituras esperam por você." }
     recommendation: { reason: "Uma passagem para aprofundar com base em suas respostas ao Quiz.", empty_title: "Uma recomendação depois do próximo Quiz", empty_detail: "Suas respostas abrirão uma passagem para aprofundar." }
     weekly: { progress: "%{done} / %{total} capítulos", empty_title: "A próxima semana chega em breve", empty_detail: "O programa aparecerá aqui quando for publicado." }
+    expedition: { progress: "%{done} / %{total} portas abertas", empty_title: "A próxima expedição está sendo preparada", empty_detail: "O Conselho de expedição reúne as próximas descobertas." }
     bookmarks:
       count: { one: "1 marcador", other: "%{count} marcadores" }
       empty: "Nenhuma passagem salva ainda."
@@ -2415,4 +2442,4 @@ pt-BR:
       unavailable: "O Círculo abre com um perfil vinculado a uma ala participante."
       unavailable_action: "Indisponível"
     annual: { week: "Semana %{number} — %{heading}", empty_title: "Programa anual", empty_detail: "As 52 semanas aparecerão aqui quando forem publicadas." }
-    preview: { resume_detail: "Versículo 17 de 21", recommendation_detail: "Entender por que Leí e sua família saem de Jerusalém", weekly_title: "Encontrar refúgio em Deus", bookmarks_detail: "Último: Salmos 49:17 — Glória passageira", annual_title: "Semana 34 — Salmos", annual_detail: "17–23 de agosto" }
+    preview: { resume_detail: "Versículo 17 de 21", recommendation_detail: "Entender por que Leí e sua família saem de Jerusalém", weekly_title: "Encontrar refúgio em Deus", expedition_title: "Seis portas ocultas nos Salmos", expedition_detail: "Eles cantaram quando às vezes só restava a fé.", bookmarks_detail: "Último: Salmos 49:17 — Glória passageira", annual_title: "Semana 34 — Salmos", annual_detail: "17–23 de agosto" }

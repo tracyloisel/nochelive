@@ -3,8 +3,13 @@ module AdminApi
     def create
       ward = find_ward
       night = GameSession.transaction do
-        starts_at = configuration_attributes(required_starts_at: true).fetch(:starts_at)
-        Nights::Start.call(ward:, quiz_ids: quiz_ids(required: true), starts_at:)
+        configuration = configuration_attributes(required_starts_at: true)
+        Nights::Start.call(
+          ward:,
+          quiz_ids: quiz_ids(required: true),
+          starts_at: configuration.fetch(:starts_at),
+          duration_hours: configuration.fetch(:duration_hours, GameSession::DEFAULT_DURATION_HOURS)
+        )
       end
       night.broadcast_state
       admin_audit!("create_night", ward_id: ward.id, night_id: night.id)
@@ -46,7 +51,14 @@ module AdminApi
         end
 
         attributes[:quiz_pack_ids] = quiz_ids if params.key?(:quiz_ids)
+        attributes[:duration_hours] = parsed_duration_hours if params.key?(:duration_hours)
         attributes
+      end
+
+      def parsed_duration_hours
+        Integer(params[:duration_hours])
+      rescue TypeError, ArgumentError
+        raise ArgumentError, "duration_hours must be between 1 and 8"
       end
 
       def quiz_ids(required: false)
@@ -68,6 +80,7 @@ module AdminApi
           status: night.status,
           starts_at: night.starts_at.iso8601,
           ends_at: night.ends_at.iso8601,
+          duration_hours: night.duration_hours,
           quiz_ids: night.quiz_pack_ids,
           quizzes: night.quiz_packs.map do |pack|
             {

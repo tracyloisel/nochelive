@@ -303,7 +303,7 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
     get root_path
 
     assert_response :success
-    assert_select ".hub-menu-legal" do
+    assert_select ".hub-menu-information" do
       assert_select "a[href=?]", about_path, text: I18n.t("hub_menu.about_us")
       assert_select "a[href=?]", legal_path, text: I18n.t("hub_menu.legal")
       assert_select "a[href=?]", privacy_path, text: I18n.t("hub_menu.privacy")
@@ -381,6 +381,35 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
     assert_match(/\.street-world\.street-map-page \{[^}]*padding: calc\(6rem \+ env\(safe-area-inset-top\)\)/m, css)
     refute_includes css, "body.is-street-hub:has(.home-menu.is-hud) .street-map-page"
     refute_includes css, ".street-map-page > .home-menu"
+  end
+
+  test "expedition map is a distinct free-choice view over permanent packs" do
+    week = create_current_expedition_week!
+
+    get street_map_path(view: "expeditions", expedition: week.id)
+
+    assert_response :success
+    assert_select ".mapa-mode-tabs .mapa-mode-tab", count: 2
+    assert_select ".mapa-mode-tab.is-active", text: /#{Regexp.escape(I18n.t("street.mapa_expeditions"))}/
+    assert_select ".mapa-expedition-hero h2", text: "Ça aussi, c’est dans les Psaumes"
+    assert_select ".mapa-expedition-door", count: 6
+    assert_select ".mapa-expedition-door form[action*='expedition=#{week.id}']", count: 6
+    assert_select ".mapa-node", count: 0
+  end
+
+  test "home presents the complete weekly expedition after the Rama rail" do
+    sign_in_congregation
+    create_street_profile!
+    week = create_current_expedition_week!
+
+    get root_path
+
+    assert_response :success
+    assert_select ".street-hub-feed > .hub-expedition", count: 1 do
+      assert_select "h2", text: "Ça aussi, c’est dans les Psaumes"
+      assert_select "ol li", count: 6
+      assert_select ".hub-expedition__cta[href=?]", street_map_path(view: "expeditions", expedition: week.id)
+    end
   end
 
   test "map page stylesheet stays off the home render path" do
@@ -558,6 +587,42 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
       content = YAML.safe_load_file(Rails.root.join("config/study/come_follow_me_2026.yml")).dig("quizzes", 0, "content")
       week.study_quiz_versions.create!(
         version: 1,
+        status: "published",
+        editorial_locale: "fr",
+        content:,
+        content_digest: Digest::SHA256.hexdigest(content.to_json),
+        published_at: Time.current
+      )
+      week
+    end
+
+    def create_current_expedition_week!
+      week = create_current_hub_week!
+      week.study_quiz_versions.update_all(status: "retired")
+      pack_ids = %w[
+        exp_psalms_disappearing_voice exp_psalms_nameless_king
+        exp_psalms_cry_stone_seek exp_psalms_house_table_city
+        exp_psalms_suspended_harps exp_psalms_everything_breathes
+      ]
+      content = {
+        "light" => { "fr" => "Le Dieu qui me relève est digne de louange." },
+        "artwork" => "/media/expeditions/psalms-2026/home-key-art-v1.png",
+        "questions" => [],
+        "readings" => [ { "study" => "ot/ps/102", "labels" => { "fr" => "Psaume 102" } } ],
+        "expedition" => {
+          "id" => "weekly-psalms",
+          "title" => { "fr" => "Ça aussi, c’est dans les Psaumes" },
+          "subtitle" => { "fr" => "Six portes cachées" },
+          "promise" => { "fr" => "Entre dans six histoires humaines." },
+          "artwork" => "/media/expeditions/psalms-2026/home-key-art-v1.png",
+          "pack_ids" => pack_ids,
+          "packs" => pack_ids.map.with_index do |id, index|
+            { "id" => id, "title" => { "fr" => "Porte #{index + 1}" }, "hook" => { "fr" => "Une histoire à ouvrir." } }
+          end
+        }
+      }
+      week.study_quiz_versions.create!(
+        version: 2,
         status: "published",
         editorial_locale: "fr",
         content:,

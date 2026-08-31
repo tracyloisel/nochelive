@@ -1,9 +1,9 @@
 require "test_helper"
 
 class ScriptureLibrariesControllerTest < ActionDispatch::IntegrationTest
-  ROWS = %w[resume recommendation weekly bookmarks collection rama annual].freeze
+  ROWS = %w[resume recommendation weekly expedition bookmarks collection rama annual].freeze
 
-  test "preview exposes seven purposeful intentions and one primary action" do
+  test "preview exposes eight purposeful intentions and one primary action" do
     get scripture_library_path(preview: 1, locale: :fr)
 
     assert_response :success
@@ -12,11 +12,12 @@ class ScriptureLibrariesControllerTest < ActionDispatch::IntegrationTest
     assert_select ".scripture-library__world picture img", count: 1
     assert_select "form#recherche-ecritures[action='#{scripture_library_search_path}'][method=get]"
     assert_select "input[role=combobox][aria-controls=scripture-library-suggestions]"
-    assert_select ".scripture-library-row", count: 7
+    assert_select ".scripture-library-row", count: 8
     assert_select ".scripture-library-row.is-priority[data-library-row='resume']", count: 1
     assert_select ".scripture-library-row.is-priority .scripture-library-row__intent", count: 1
     assert_select ".scripture-library-row[data-library-row='recommendation']", text: /1 Néphi 5:1/
     assert_select ".scripture-library-row[data-library-row='weekly'] [role='progressbar'][aria-valuenow='58']"
+    assert_select ".scripture-library-row[data-library-row='expedition'] [role='progressbar'][aria-valuenow='33']"
     assert_select ".navigation-dock__item.is-active[href='#{scripture_library_path}']", text: "Bibliothèque"
 
     ROWS.each { |row| assert_select ".scripture-library-row[data-library-row='#{row}']", count: 1 }
@@ -28,11 +29,11 @@ class ScriptureLibrariesControllerTest < ActionDispatch::IntegrationTest
     assert_select ".scripture-library-row[href*='locale=fr']", count: 6
   end
 
-  test "a visitor still gets seven useful choices without fabricated personal data" do
+  test "a visitor still gets eight useful choices without fabricated personal data" do
     get scripture_library_path(locale: :fr)
 
     assert_response :success
-    assert_select ".scripture-library-row", count: 7
+    assert_select ".scripture-library-row", count: 8
     assert_select ".scripture-library-row.has-primary-action[data-library-row='resume'][href*='section=canon']", count: 1
     assert_select ".scripture-library-row[data-library-row='resume'] .scripture-library-row__label", text: "Commencer à lire"
     assert_select ".scripture-library-row[href='#{scripture_library_path}']", count: 0
@@ -192,7 +193,7 @@ class ScriptureLibrariesControllerTest < ActionDispatch::IntegrationTest
 
       assert_response :success
       assert_select ".scripture-library__hero h1", text: title
-      assert_select ".scripture-library-row", count: 7
+      assert_select ".scripture-library-row", count: 8
     end
   end
 

@@ -31,6 +31,7 @@
   <% end %>
   <div class="street-win-actions">
     <% if current_street_person %><%= link_to t("duel_campus.actions.open_campus"), street_challenges_path, class: "btn btn-navy" %><% end %>
-    <%= link_to t("street.ceremony_back_map"), street_map_path(unlock: Quizzes::Complete.unlock_pack_id(street.run)), class: "btn btn-gold" %>
+    <% return_path = @expedition ? street_map_path(view: "expeditions", expedition: @expedition.study_unit_id) : street_map_path(unlock: Quizzes::Complete.unlock_pack_id(street.run)) %>
+    <%= link_to t(@expedition ? "street.expeditions.back_to_expedition" : "street.ceremony_back_map"), return_path, class: "btn btn-gold" %>
   </div>
 </section>

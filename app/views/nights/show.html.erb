@@ -23,9 +23,9 @@
         <span class="noche-live-rama-emblem emblem emblem-<%= @night.ward.emblem %>" aria-hidden="true"><%= render "shared/emblem", key: @night.ward.emblem %></span>
         <span><small><%= t("nights.live_from") %></small><strong><%= @night.ward.name %></strong></span>
       </div>
-      <p class="noche-live-date"><%= l(@night.starts_at, format: :short) %></p>
+      <p class="noche-live-date"><%= l(@night.local_starts_at, format: :short) %></p>
       <h1><%= pack.copy(:title) %></h1>
-      <p class="noche-live-sequence"><%= t("nights.quiz_count", count: @night.quiz_pack_ids.size) %> · <%= t("nights.one_hour") %></p>
+      <p class="noche-live-sequence"><%= t("nights.quiz_count", count: @night.quiz_pack_ids.size) %> · <%= t("nights.duration_hours", count: @night.duration_hours) %></p>
       <% unless phase.in?(%i[finished cancelled]) %>
         <div class="noche-live-countdown" aria-label="<%= t("nights.countdown") %>">
           <span data-night-lifecycle-target="hours">00</span><i>:</i><span data-night-lifecycle-target="minutes">00</span><i>:</i><span data-night-lifecycle-target="seconds">00</span>

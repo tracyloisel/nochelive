@@ -11,7 +11,7 @@
     <div class="rama-night-copy">
       <h2><%= night_title(night) %></h2>
       <p class="rama-night-date">
-        <time datetime="<%= night.starts_at.to_date.iso8601 %>"><%= l(night.starts_at.to_date) %></time>
+        <time datetime="<%= night.local_starts_at.to_date.iso8601 %>"><%= l(night.local_starts_at.to_date) %></time>
       </p>
       <% if local_assigns[:compact] %><span class="rama-night-arrow" aria-hidden="true">›</span><% end %>
     </div>

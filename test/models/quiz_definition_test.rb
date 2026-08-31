@@ -8,13 +8,16 @@ class QuizDefinitionTest < ActiveSupport::TestCase
     apocalipsis segunda_venida milenio
     perdido_encontrado secretos_reino amar_projimo velar_servir sobre_roca
     simbolos_mormon parabolas_profetas improbables
+    exp_psalms_disappearing_voice exp_psalms_nameless_king
+    exp_psalms_cry_stone_seek exp_psalms_house_table_city
+    exp_psalms_suspended_harps exp_psalms_everything_breathes
   ].freeze
 
   setup do
     QuizDefinition.reset!
   end
 
-  test "loads twenty-eight packs of ten questions on the curve" do
+  test "loads every permanent pack with ten questions on the curve" do
     catalog = QuizDefinition.catalog
     assert_equal QuizDefinition::PACK_COUNT, catalog.packs.size
     assert_equal LOCKED_PACK_IDS, catalog.pack_ids
@@ -56,12 +59,11 @@ class QuizDefinitionTest < ActiveSupport::TestCase
     end
   end
 
-  test "every question still path is quizzes/pack/id.jpg" do
+  test "every question still path is quizzes pack id with an approved raster extension" do
     questions = QuizDefinition.catalog.all_questions
     questions.each do |question|
       image = question.presentation["image"]
-      assert_equal "quizzes/#{question.pack_id}/#{question.id}.jpg", image
-      assert_match(%r{\Aquizzes/#{Regexp.escape(question.pack_id)}/#{Regexp.escape(question.id)}\.jpg\z}, image)
+      assert_match(%r{\Aquizzes/#{Regexp.escape(question.pack_id)}/#{Regexp.escape(question.id)}\.(?:jpg|png|webp)\z}, image)
     end
 
     existing = questions.select { |question| still_file(question).file? }
@@ -180,7 +182,7 @@ class QuizDefinitionTest < ActiveSupport::TestCase
     QuizDefinition.reset!
     second = QuizDefinition.catalog
     refute_same first, second
-    assert_equal 28, second.packs.size
+    assert_equal QuizDefinition::PACK_COUNT, second.packs.size
   end
 
   test "shuffled choices move the correct key away from first place" do

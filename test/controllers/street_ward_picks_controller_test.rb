@@ -7,7 +7,7 @@ class StreetWardPicksControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to root_path
     assert_equal I18n.t("flashes.street_ward_selected_guest", ward: dest.name), flash[:notice]
     follow_redirect!
-    assert_select "a.home-menu-row[href=?]", search_path(cambiar: 1), count: 0
+    assert_select "a.home-menu-row[href=?]", search_path(cambiar: 1), count: 1
     assert_select ".banner", text: I18n.t("flashes.street_ward_selected_guest", ward: dest.name)
   end
 
@@ -24,7 +24,7 @@ class StreetWardPicksControllerTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_equal dest.id, pili.reload.ward_id
     assert_select ".quiz-hud-name", text: "Pili"
-    assert_select "a.home-menu-row[href=?]", search_path(cambiar: 1), count: 0
+    assert_select "a.home-menu-row[href=?]", search_path(cambiar: 1), count: 1
 
     get street_leaderboard_path
     assert_response :success
@@ -63,7 +63,7 @@ class StreetWardPicksControllerTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert ward.listed?
     assert_equal 0, ward.people.count
-    assert_select "a.home-menu-row[href=?]", search_path(cambiar: 1), count: 0
+    assert_select "a.home-menu-row[href=?]", search_path(cambiar: 1), count: 1
     assert_select ".banner", text: I18n.t("flashes.street_ward_selected_guest", ward: ward.name)
   end
 end

@@ -25,18 +25,32 @@ class WardProfilesController < ApplicationController
       .limit(4)
       .to_a
     @online_count = online_ids.size
-    @study_week = StudyProgram.order(year: :desc).first&.current_week
+    person = current_street_person
+    person = nil unless person&.ward_id == @ward.id
+    @study_week = StudyUnit
+      .joins(:study_program)
+      .where(study_programs: { status: "published" }, study_units: { kind: "week", status: "published" })
+      .where("study_units.starts_on <= ? AND study_units.ends_on >= ?", Date.current, Date.current)
+      .order(Arel.sql("study_programs.year DESC"), :position, :id)
+      .first
     @study_community = Studies::Community.call(ward: @ward, week: @study_week)
-    @study_run = if @study_week
+    study_quiz = @study_week&.published_quiz
+    @expedition = if study_quiz&.expedition?
+      Expeditions::Presentation.call(
+        quiz: study_quiz,
+        world: Quizzes::World.call(device_digest: street_device_digest, person_id: person&.id),
+        person:,
+        locale: I18n.locale
+      )
+    end
+    @study_run = if @study_week && !@expedition
       StudyRun.joins(:study_quiz_version).where(
         study_quiz_versions: { study_unit_id: @study_week.id },
         device_digest: street_device_digest,
         person_id: current_street_person&.id
       ).order(updated_at: :desc).first
     end
-    @study_progress = @study_run ? @study_run.study_answers.count : 0
-    person = current_street_person
-    person = nil unless person&.ward_id == @ward.id
+    @study_progress = @expedition ? @expedition.completed_count : (@study_run ? @study_run.study_answers.count : 0)
     @board = Quizzes::Leaderboard.call(
       ward: @ward,
       person:,

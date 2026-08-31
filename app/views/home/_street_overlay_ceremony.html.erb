@@ -102,7 +102,12 @@ end %>
         <% else %>
           <%= link_to t("duel_campus.actions.join"), street_profile_path(quick: 1, fresh: 1), class: "btn street-challenge-btn" %>
         <% end %>
-        <%= link_to street_map_path(rank_up: complete.rank_up ? 1 : nil, unlock: Quizzes::Complete.unlock_pack_id(street.run)), class: "btn street-ceremony-map" do %><span class="street-ceremony-button-icon" aria-hidden="true"><%= picto("compass") %></span><span class="street-ceremony-button-label"><%= t("street.ceremony_back_map") %></span><span class="street-ceremony-button-tail" aria-hidden="true"><%= picto("arrow") %></span><% end %>
+        <% return_path = if @expedition
+             street_map_path(view: "expeditions", expedition: @expedition.study_unit_id)
+           else
+             street_map_path(rank_up: complete.rank_up ? 1 : nil, unlock: Quizzes::Complete.unlock_pack_id(street.run))
+           end %>
+        <%= link_to return_path, class: "btn street-ceremony-map" do %><span class="street-ceremony-button-icon" aria-hidden="true"><%= picto("compass") %></span><span class="street-ceremony-button-label"><%= t(@expedition ? "street.expeditions.back_to_expedition" : "street.ceremony_back_map") %></span><span class="street-ceremony-button-tail" aria-hidden="true"><%= picto("arrow") %></span><% end %>
       </footer>
     </div>
   </div>

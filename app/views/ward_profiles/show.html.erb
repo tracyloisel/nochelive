@@ -77,18 +77,23 @@
     <% end %>
 
     <% if @study_week %>
-      <%= link_to scripture_library_path, class: "rama-word-card rama-card", style: "--rama-word-art: url('#{media_src("media/study/psalms-refuge-2026.png")}')" do %>
+      <% word_path = @expedition ? street_map_path(view: "expeditions", expedition: @study_week.id) : scripture_library_path %>
+      <% word_art = @expedition&.artwork.presence || "media/study/psalms-refuge-2026.png" %>
+      <%= link_to word_path, class: "rama-word-card rama-card", style: "--rama-word-art: url('#{media_src(word_art)}')" do %>
         <div class="rama-word-copy">
           <p class="rama-kicker"><%= t("ward.word_kicker") %></p>
-          <h2><%= t("study.psalms_theme") %></h2>
-          <p class="rama-word-refs"><%= @study_week.display_scripture_refs.first %></p>
-          <div class="rama-word-progress" aria-label="<%= t("study.progress", n: @study_progress, total: 10) %>">
-            <span><i style="width:<%= @study_progress * 10 %>%"></i></span><strong><%= @study_progress %>/10</strong>
+          <h2><%= @expedition&.title || t("study.psalms_theme") %></h2>
+          <p class="rama-word-refs"><%= @expedition&.subtitle.presence || @study_week.display_scripture_refs.first %></p>
+          <% if @expedition&.promise.present? %><p class="rama-word-promise"><%= @expedition.promise %></p><% end %>
+          <% study_total = @expedition&.total_count || 10 %>
+          <% study_percent = @expedition&.progress_percent || (@study_progress * 10) %>
+          <div class="rama-word-progress" aria-label="<%= t("study.progress", n: @study_progress, total: study_total) %>">
+            <span><i style="width:<%= study_percent %>%"></i></span><strong><%= @study_progress %>/<%= study_total %></strong>
           </div>
           <p class="rama-word-community"><%= t("study.people_advancing", count: @study_community.players) %></p>
         </div>
-        <span class="rama-word-mark" aria-hidden="true"><%= picto("book") %></span>
-        <span class="rama-word-link"><%= t("ward.word_cta") %> <b>›</b></span>
+        <span class="rama-word-mark" aria-hidden="true"><%= picto(@expedition ? "compass" : "book") %></span>
+        <span class="rama-word-link"><%= @expedition ? t("street.expeditions.see_map") : t("ward.word_cta") %> <b>›</b></span>
       <% end %>
     <% end %>
 
@@ -106,8 +111,8 @@
                data-hub-countdown-starts-at-value="<%= night.starts_at.iso8601 %>"<% end %>>
         <div class="rama-next-copy">
           <p class="rama-kicker"><%= index.zero? ? t("hub.next_live") : t("ward.upcoming") %></p>
-          <h2><%= l(night.starts_at.to_date) %></h2>
-          <p class="rama-next-time"><%= picto("calendar") %><%= l(night.starts_at, format: "%H:%M") %></p>
+          <h2><%= l(night.local_starts_at.to_date) %></h2>
+          <p class="rama-next-time"><%= picto("calendar") %><%= l(night.local_starts_at, format: "%H:%M") %></p>
           <p class="rama-next-theme"><span><%= t("ward.theme") %></span><%= night_title(night) %></p>
           <% if index.zero? %><p class="rama-next-players"><%= picto("people") %><%= t("ward.participants", count: @featured_participants_count) %></p><% end %>
           <%= link_to t(night.playing? ? "home.enter" : "ward.see_night"), home_night_path_for(night), class: ["btn", (index.zero? ? "btn-gold" : "btn-ghost")] %>

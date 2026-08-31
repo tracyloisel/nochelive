@@ -621,6 +621,13 @@ en:
   street:
     mapa_title: "My progress map"
     mapa_subtitle: "%{total} packs · %{q} questions per pack"
+    mapa_modes_label: "Choose an adventure"
+    mapa_journey: "Complete journey"
+    mapa_journey_hint: "%{count} packs on one path"
+    mapa_expeditions: "Expeditions"
+    mapa_expeditions_hint:
+      one: "1 editorial adventure"
+      other: "%{count} editorial adventures"
     stat_packs: "Packs"
     stat_questions: "Questions per pack"
     stat_completed: "Completed"
@@ -639,6 +646,20 @@ en:
     mapa_progress_label: "%{finished} / %{total} packs completed"
     mapa_view_leaderboard: "View leaderboard"
     mapa_locked_hint: "Finish pack %{pack} to unlock this one"
+    expeditions:
+      weekly_kicker: "This week’s expedition"
+      progress: "%{done} / %{total} packs discovered"
+      questions:
+        one: "1 question"
+        other: "%{count} questions"
+      open_pack: "Open this door"
+      continue_pack: "Continue"
+      replay_pack: "Play again"
+      completed_pack: "Pack completed"
+      see_map: "See the whole expedition"
+      back_to_expedition: "Back to the expedition"
+      empty_title: "No expedition has been published"
+      empty_detail: "The complete journey stays open while the next expedition is being prepared."
     profile_title: "Who's playing?"
     profile_menu: "Your card"
     pick_profile: "Pick a card"
@@ -1132,6 +1153,11 @@ en:
     videos_kicker: "Official video library"
     videos_title: "Learn with Church videos"
     videos_body: "Church messages, music, and stories without leaving Noche Live."
+    expedition:
+      kicker: "This week’s expedition"
+      progress: "%{done} / %{total} doors opened"
+      doors: "The expedition’s six discoveries"
+      open: "Open the expedition"
     now:
       eyebrow: "Your priorities"
       title: "Do this now"
@@ -2359,7 +2385,7 @@ en:
     pack_progress: "%{pack}: %{completed} of %{total} questions completed"
     countdown: "Countdown"
     quiz_count: { one: "1 quiz", other: "%{count} quizzes" }
-    one_hour: "1 hour live"
+    duration_hours: { one: "1 hour live", other: "%{count} hours live" }
     players_count: { one: "1 player", other: "%{count} players" }
     phases: { scheduled: "Coming up", lobby: "Lobby open", playing: "Live", finished: "Finished", cancelled: "Cancelled" }
     events:
@@ -2432,10 +2458,11 @@ en:
       today: "Open now"
       memory: "Your living memory"
       together: "Around your reading"
-    rows: { start: "Start reading", resume: "Continue reading", recommendation: "Recommended for you", weekly: "This week · Come, Follow Me", bookmarks: "My bookmarks", collection: "My scriptures", rama: "My Circle", annual: "Annual programme" }
+    rows: { start: "Start reading", resume: "Continue reading", recommendation: "Recommended for you", weekly: "This week · Come, Follow Me", expedition: "This week’s expedition", bookmarks: "My bookmarks", collection: "My scriptures", rama: "My Circle", annual: "Annual programme" }
     resume: { progress: "Verse %{verse} · %{percent}% of the chapter", empty_title: "Choose your next reading", empty_detail: "All scripture is waiting for you." }
     recommendation: { reason: "A passage to explore more deeply based on your Quiz answers.", empty_title: "A recommendation after your next Quiz", empty_detail: "Your answers will open a passage to explore." }
     weekly: { progress: "%{done} / %{total} chapters", empty_title: "Next week is coming soon", empty_detail: "The programme will appear here once published." }
+    expedition: { progress: "%{done} / %{total} doors opened", empty_title: "The next expedition is being prepared", empty_detail: "The Expedition Council is gathering the next discoveries." }
     bookmarks:
       count: { one: "1 bookmark", other: "%{count} bookmarks" }
       empty: "No saved passages yet."
@@ -2448,4 +2475,4 @@ en:
       unavailable: "Circle opens with a profile linked to a participating ward."
       unavailable_action: "Unavailable"
     annual: { week: "Week %{number} — %{heading}", empty_title: "Annual programme", empty_detail: "All 52 weeks will appear here once published." }
-    preview: { resume_detail: "Verse 17 of 21", recommendation_detail: "Understand why Lehi and his family leave Jerusalem", weekly_title: "Find refuge in God", bookmarks_detail: "Latest: Psalm 49:17 — Passing glory", annual_title: "Week 34 — Psalms", annual_detail: "17–23 August" }
+    preview: { resume_detail: "Verse 17 of 21", recommendation_detail: "Understand why Lehi and his family leave Jerusalem", weekly_title: "Find refuge in God", expedition_title: "Six hidden doors in the Psalms", expedition_detail: "They sang when faith was sometimes all they had left.", bookmarks_detail: "Latest: Psalm 49:17 — Passing glory", annual_title: "Week 34 — Psalms", annual_detail: "17–23 August" }

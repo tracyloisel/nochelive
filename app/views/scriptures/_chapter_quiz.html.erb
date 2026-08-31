@@ -26,6 +26,7 @@
       <% end %>
     <% else %>
       <%= button_to street_pack_start_path(recommendation.pack_id), method: :post,
+                    params: ({ expedition: recommendation.expedition_id } if recommendation.expedition_id),
                     class: "reader-chapter-quiz-button",
                     form: { class: "reader-chapter-quiz-form", data: { turbo_frame: "_top" } } do %>
         <span><%= action_label %></span><b aria-hidden="true">→</b>

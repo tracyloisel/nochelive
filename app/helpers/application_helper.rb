@@ -233,7 +233,7 @@ module ApplicationHelper
   end
 
   def night_title(night)
-    night.primary_quiz_pack.copy(:title)
+    night.quiz_packs.map { |pack| pack.copy(:title) }.join(" · ")
   end
 
   def night_qr_svg(night)

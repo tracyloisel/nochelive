@@ -26,5 +26,29 @@ module Scriptures
 
       assert_nil QuizRecommendation.call(reference: "scripture/without/quiz", world:)
     end
+
+    test "an expedition makes its permanent chapter pack available from the reader" do
+      world = Struct.new(:packs).new(QuizDefinition.catalog.pack_ids.map do |pack_id|
+        Quizzes::World::PackView.new(id: pack_id, state: :locked)
+      end)
+      expedition_pack = Struct.new(:id, :title, :kicker, :state).new(
+        "exp_psalms_everything_breathes", "Tout ce qui respire", "Psaumes 146–150", :available
+      )
+      expedition = Struct.new(:packs, :pack_ids, :study_unit_id).new(
+        [ expedition_pack ], [ expedition_pack.id ], 42
+      )
+
+      recommendation = QuizRecommendation.call(
+        reference: "ot/ps/149",
+        world:,
+        expedition:,
+        locale: :fr
+      )
+
+      assert_equal expedition_pack.id, recommendation.pack_id
+      assert_equal :available, recommendation.state
+      assert_equal 42, recommendation.expedition_id
+      assert_equal "Tout ce qui respire", recommendation.title
+    end
   end
 end

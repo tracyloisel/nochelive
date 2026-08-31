@@ -26,7 +26,7 @@ module Hubs
     # The Home uses the active week only to offer its real programme and one
     # of its concrete chapters. Historical run/player aggregate data belonged
     # to the retired dashboard, not this editorial surface.
-    Study = Struct.new(:week, :weekly_reading_cards, keyword_init: true)
+    Study = Struct.new(:week, :weekly_reading_cards, :expedition, keyword_init: true)
     Result = Struct.new(
       :player, :hero, :voyage, :live, :rama_events, :circle, :study, :reading_cards, :backdrop, :league,
       keyword_init: true
@@ -326,7 +326,7 @@ module Hubs
         if night.playing?
           return Live.new(
             state: :playing,
-            starts_at: night.starts_at,
+            starts_at: night.local_starts_at,
             title:,
             join_path: @helpers.night_path(night.code),
             program_path: program,
@@ -346,7 +346,7 @@ module Hubs
         end
         Live.new(
           state:,
-          starts_at: night.starts_at,
+          starts_at: night.local_starts_at,
           title:,
           program_path: program,
           still:,
@@ -356,7 +356,7 @@ module Hubs
       end
 
       def night_quiz_title(night)
-        night.primary_quiz_pack.copy(:title)
+        night.quiz_packs.map { |pack| pack.copy(:title) }.join(" · ")
       end
 
       def live_picture(night)
@@ -411,7 +411,14 @@ module Hubs
 
         Study.new(
           week:,
-          weekly_reading_cards: Hubs::WeeklyReadingCards.call(person: @person, week:, quiz:, locale: I18n.locale)
+          weekly_reading_cards: Hubs::WeeklyReadingCards.call(person: @person, week:, quiz:, locale: I18n.locale),
+          expedition: Expeditions::Presentation.call(
+            quiz:,
+            world: @world,
+            person: @person,
+            locale: I18n.locale,
+            at: @at
+          )
         )
       end
   end

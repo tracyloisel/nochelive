@@ -45,6 +45,13 @@ class StreetHubController < ApplicationController
       open_run: @open_run,
       world: @world
     )
+    @expeditions = Expeditions::Catalog.call(
+      world: @world,
+      person: current_street_person,
+      locale: I18n.locale
+    )
+    @selected_expedition = selected_expedition
+    @map_view = params[:view] == "expeditions" || @selected_expedition ? :expeditions : :journey
   end
 
   private
@@ -75,6 +82,13 @@ class StreetHubController < ApplicationController
       return nil unless QuizDefinition.catalog.pack_ids.include?(id)
 
       id
+    end
+
+    def selected_expedition
+      requested = params[:expedition].to_s
+      return @expeditions.find { |entry| entry.study_unit_id.to_s == requested || entry.id == requested } if requested.present?
+
+      @expeditions.find { |entry| entry.state == :active } || @expeditions.first
     end
 
     def preferred_open_run

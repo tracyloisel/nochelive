@@ -28,7 +28,13 @@ module Quizzes
       "sobre_roca" => "sagesse",
       "simbolos_mormon" => "sagesse",
       "parabolas_profetas" => "prophetes",
-      "improbables" => "heros"
+      "improbables" => "heros",
+      "exp_psalms_disappearing_voice" => "sagesse",
+      "exp_psalms_nameless_king" => "rois",
+      "exp_psalms_cry_stone_seek" => "sagesse",
+      "exp_psalms_house_table_city" => "sagesse",
+      "exp_psalms_suspended_harps" => "sagesse",
+      "exp_psalms_everything_breathes" => "sagesse"
     }.freeze
 
     TIER_BOUNDARIES = [
@@ -120,10 +126,10 @@ module Quizzes
         open = open_runs[pack_id]
         state = if open
           :open
-        elsif !unlocked
-          :locked
         elsif fin
           :finished
+        elsif !unlocked
+          :locked
         elsif pack_id == next_id
           :current
         else

@@ -233,7 +233,7 @@ class Hubs::ScreenTest < ActiveSupport::TestCase
     night = game_sessions(:elias)
     screen = Hubs::Screen.call(device_digest: @digest, ward: @ward, at: night.starts_at - 3.days)
     assert_equal :scheduled, screen.live.state
-    assert_equal night.primary_quiz_pack.copy(:title), screen.live.title
+    assert_equal night.quiz_packs.map { |pack| pack.copy(:title) }.join(" · "), screen.live.title
 
     soon = Hubs::Screen.call(device_digest: @digest, ward: @ward, at: night.starts_at - 30.hours)
     assert_equal :soon, soon.live.state

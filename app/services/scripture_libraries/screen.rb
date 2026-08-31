@@ -1,7 +1,7 @@
 module ScriptureLibraries
   class Screen
     Row = Data.define(:title, :detail, :meta, :path, :progress, :icon, :avatars)
-    Result = Data.define(:quote, :resume, :recommendation, :weekly, :bookmarks, :collection, :rama, :annual)
+    Result = Data.define(:quote, :resume, :recommendation, :weekly, :expedition, :bookmarks, :collection, :rama, :annual)
 
     COLLECTIONS = {
       old_testament: "ot/",
@@ -28,11 +28,13 @@ module ScriptureLibraries
       @program = StudyProgram.where(status: "published").order(year: :desc).first
       @week = @program&.current_week(on: @on)
       @quiz = @week&.published_quiz
+      @expedition = Expeditions::Presentation.call(quiz: @quiz, person: @person, locale: @locale) if @quiz&.expedition?
       Result.new(
         quote: editorial_quote,
         resume: resume_row,
         recommendation: recommendation_row,
         weekly: weekly_row,
+        expedition: expedition_row,
         bookmarks: bookmarks_row,
         collection: collection_row,
         rama: rama_row,
@@ -94,6 +96,20 @@ module ScriptureLibraries
           title: @week.theme(@locale), detail: @week.display_scripture_refs(@locale).join(" ; "),
           meta: t("actions.open"), path: library_section_path(:weekly, anchor: "cette-semaine", unit: @week.id),
           progress: completed.fdiv(readings.size), icon: "calendar", avatars: []
+        )
+      end
+
+      def expedition_row
+        return empty_row(:expedition, "compass") unless @expedition
+
+        Row.new(
+          title: @expedition.title,
+          detail: @expedition.promise,
+          meta: "#{@expedition.completed_count}/#{@expedition.total_count}",
+          path: @routes.street_map_path(view: "expeditions", expedition: @expedition.study_unit_id),
+          progress: @expedition.progress_percent.fdiv(100),
+          icon: "compass",
+          avatars: []
         )
       end
 
@@ -189,6 +205,7 @@ module ScriptureLibraries
           resume: row.call("Psaume 49", t("preview.resume_detail"), t("actions.continue"), @routes.scripture_path("ot/ps/49", cite: "Psaume 49:17", locale: @locale), 17.0 / 21, "scripture-book"),
           recommendation: row.call("1 Néphi 5:1", t("preview.recommendation_detail"), t("actions.read"), @routes.scripture_path("bofm/1-ne/5", cite: "1 Néphi 5:1", locale: @locale), nil, "sparkle"),
           weekly: row.call(t("preview.weekly_title"), "Psaumes 49–51 ; 61–66…", t("actions.open"), library_section_path(:weekly, anchor: "cette-semaine", unit: "preview"), 7.0 / 12, "calendar"),
+          expedition: row.call(t("preview.expedition_title"), t("preview.expedition_detail"), "2/6", @routes.street_map_path(view: "expeditions"), 2.0 / 6, "compass"),
           bookmarks: row.call(t("bookmarks.count", count: 4), t("preview.bookmarks_detail"), t("actions.find"), library_section_path(:bookmarks, anchor: "mes-signets"), nil, "bookmark"),
           collection: row.call(t("collections.old_testament"), t("collection.progress", count: 2), t("actions.explore"), library_section_path(:canon, anchor: "mes-ecritures", collection: :old_testament), nil, "book"),
           rama: preview_rama_row(row),

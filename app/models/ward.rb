@@ -40,7 +40,7 @@ class Ward < ApplicationRecord
 
   scope :listed, -> { where(listed: true) }
 
-  validates :name, :code, :admin_token_digest, presence: true
+  validates :name, :code, :admin_token_digest, :time_zone, presence: true
   validates :code, uniqueness: true
   validates :church_unit_id, uniqueness: true, allow_nil: true
   validates :name, length: { maximum: NAME_MAX }
@@ -48,11 +48,20 @@ class Ward < ApplicationRecord
   validates :country_code, format: { with: /\A[A-Z]{2}\z/ }, allow_blank: true
   validates :unit_kind, inclusion: { in: UNIT_KINDS }, allow_blank: true
   validates :scripture_circle_mode, inclusion: { in: SCRIPTURE_CIRCLE_MODES }
+  validate :time_zone_is_valid
   validates :chapel_name, :chapel_address, :city, :region, :postal_code, :stake_name, :stake_unit_id, :country_name, length: { maximum: 80 }, allow_blank: true
 
   attr_accessor :admin_token
 
   private
+
+    def time_zone_is_valid
+      return if time_zone.blank?
+
+      ActiveSupport::TimeZone[time_zone] || TZInfo::Timezone.get(time_zone)
+    rescue TZInfo::InvalidTimezoneIdentifier
+      errors.add(:time_zone, :invalid)
+    end
 
     def short_time(value)
       value.to_s.sub(/:00\z/, "").sub(/\A(\d):/, '0\\1:')

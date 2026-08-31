@@ -6,11 +6,15 @@ class StreetWardPicksController < ApplicationController
       People::Transfer.call(person:, ward:)
       remember_ward(ward)
       if (pack_id = session.delete(:pending_street_pack_id)).present?
+        expedition_id = session.delete(:pending_street_expedition_id)
+        expedition = Expeditions::Catalog.find(study_unit_id: expedition_id, person:) if expedition_id.present?
         frame = Quizzes::StartPack.call(
           device_digest: street_device_digest,
           person_id: person.id,
-          pack_id: pack_id
+          pack_id: pack_id,
+          unlocked_pack_ids: expedition&.pack_ids
         )
+        session[:street_expedition_id] = expedition&.study_unit_id
         session[:street_play_run_id] = frame.run.id
         redirect_to jugar_path, notice: I18n.t("flashes.ready_to_play", name: person.given_name, ward: ward.name)
       else

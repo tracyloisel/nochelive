@@ -3265,6 +3265,59 @@ body.is-street-hub:has(.home-menu.is-hud) .street-world.is-game-hub:has([data-hu
   background: var(--hub-background, var(--surface-primary));
 }
 
+/* Weekly Expedition — the Council's complete promise, not a duplicate quiz. */
+.street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] > .hub-expedition {
+  position: relative;
+  width: 100%;
+  min-height: clamp(34rem, 72svh, 48rem);
+  display: grid;
+  align-items: end;
+  isolation: isolate;
+  overflow: hidden;
+  background: #07111f;
+  color: #fff8e8;
+}
+.hub-expedition__art,
+.hub-expedition__veil { position: absolute; inset: 0; }
+.hub-expedition__art picture,
+.hub-expedition__art img { width: 100%; height: 100%; display: block; object-fit: cover; object-position: 50% 34%; }
+.hub-expedition__veil {
+  z-index: 1;
+  background:
+    linear-gradient(90deg, rgba(3,9,19,.96), rgba(3,9,19,.64) 52%, rgba(3,9,19,.12) 82%),
+    linear-gradient(180deg, rgba(3,9,19,.06) 25%, rgba(3,9,19,.92) 100%);
+}
+.hub-expedition__copy {
+  position: relative;
+  z-index: 2;
+  width: min(48rem, 100%);
+  display: grid;
+  gap: .75rem;
+  padding: clamp(2rem, 7vw, 5rem);
+}
+.hub-expedition__copy > p { margin: 0; color: var(--gold-highlight, #f4cf73); font: 800 .72rem/1 var(--font-ui); letter-spacing: .16em; text-transform: uppercase; }
+.hub-expedition__copy h2 { max-width: 12ch; margin: 0; font: 720 clamp(2.6rem, 7vw, 5.5rem)/.9 var(--font-display); letter-spacing: -.045em; text-wrap: balance; }
+.hub-expedition__copy > strong { color: #f5d98c; font: 760 clamp(1rem, 2vw, 1.3rem)/1.15 var(--font-ui); }
+.hub-expedition__copy > span { max-width: 46ch; color: rgba(255,248,232,.84); font: 620 clamp(.94rem, 1.7vw, 1.1rem)/1.45 var(--font-ui); text-wrap: pretty; }
+.hub-expedition__progress { max-width: 29rem; display: grid; grid-template-columns: minmax(0,1fr) auto; align-items: center; gap: .7rem; }
+.hub-expedition__progress > span { height: 4px; overflow: hidden; border-radius: 999px; background: rgba(255,255,255,.18); }
+.hub-expedition__progress i { display: block; width: var(--hub-expedition-progress); height: 100%; background: linear-gradient(90deg, #b58224, #f5d77d); }
+.hub-expedition__progress b { color: rgba(255,248,232,.76); font: 750 .72rem/1 var(--font-ui); }
+.hub-expedition__copy ol { max-width: 42rem; display: flex; flex-wrap: wrap; gap: .4rem; margin: .15rem 0 .45rem; padding: 0; list-style: none; }
+.hub-expedition__copy li { display: flex; align-items: center; gap: .35rem; padding: .42rem .62rem; border: 1px solid rgba(244,207,115,.3); border-radius: 999px; background: rgba(7,17,31,.55); color: rgba(255,248,232,.82); font: 720 .68rem/1.15 var(--font-ui); backdrop-filter: blur(9px); }
+.hub-expedition__copy li.is-finished { border-color: rgba(244,207,115,.68); color: #f8dd92; }
+.hub-expedition__cta { width: max-content; min-height: 3.35rem; display: inline-flex; align-items: center; gap: .7rem; padding: .8rem 1.15rem; border-radius: 999px; background: linear-gradient(135deg, #f2d27c, #b47b19); color: #102039; box-shadow: 0 .8rem 2rem rgba(0,0,0,.3), inset 0 1px rgba(255,255,255,.55); font: 850 .9rem/1 var(--font-ui); }
+.hub-expedition__cta .picto { width: 1rem; height: 1rem; }
+
+@media (max-width: 767px) {
+  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] > .hub-expedition { min-height: max(46rem, 92svh); }
+  .hub-expedition__art img { object-position: 61% 25%; }
+  .hub-expedition__veil { background: linear-gradient(180deg, rgba(3,9,19,.08) 14%, rgba(3,9,19,.55) 45%, rgba(3,9,19,.98) 78%); }
+  .hub-expedition__copy { gap: .62rem; padding: 12rem 1.25rem 2rem; }
+  .hub-expedition__copy h2 { font-size: clamp(2.45rem, 12vw, 3.65rem); }
+  .hub-expedition__copy ol { max-height: none; overflow: visible; }
+}
+
 .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] {
   /* One semantic material system drives both worlds.  The shared anatomy is
      intentionally identical; only the authored light and depth of the world

@@ -2,7 +2,7 @@
 
 ## Décision
 
-Noche Live est désormais une compétition automatique d'une heure construite avec les
+Noche Live est désormais une compétition automatique à durée configurée construite avec les
 quiz existants de `/jugar`. Il n'existe plus de Host, de Presenter, de régie, de
 manche globale, de thème Live ni d'illustration propre à la soirée.
 
@@ -10,6 +10,7 @@ Une Noche est définie par :
 
 - une rama (`Ward`) ;
 - une date de lancement (`starts_at`) ;
+- une durée entière de 1 à 8 heures (`duration_hours`, 1 heure par défaut) ;
 - une liste ordonnée, non vide et sans doublon de packs du catalogue `/jugar` ;
 - les équipes persistantes de la rama, créées avant la soirée avec le MCP admin.
 
@@ -23,11 +24,11 @@ soirée, ils suivent le pack le plus avancé. La route publique canonique est to
 |---|---|---|
 | avant T−30 min | `scheduled` | inscription, inscrits, lectures |
 | T−30 à T0 | `lobby` | compte à rebours et choix d'une équipe existante |
-| T0 à T+60 | `playing` | Watch, inscription tardive et accès aux quiz |
-| après T+60 | `finished` | Watch final en lecture seule |
+| T0 à T+H | `playing` | Watch, inscription tardive et accès aux quiz |
+| après T+H | `finished` | Watch final en lecture seule |
 
 `GameSession#phase` est la source de vérité. Trois `Nights::LifecycleJob` sont
-programmés pour T−30, T0 et T+60. Chaque requête publique appelle également
+programmés pour T−30, T0 et T+H, où H est `duration_hours`. Chaque requête publique appelle également
 `Nights::Reconcile` : un job retardé ou perdu ne peut donc pas laisser une Noche dans
 un ancien état.
 
@@ -99,7 +100,8 @@ GameSession
   code
   quiz_pack_ids[]
   starts_at
-  ends_at                 toujours starts_at + 1 heure
+  duration_hours          entier de 1 à 8, 1 par défaut
+  ends_at                 toujours starts_at + duration_hours
   status
   closed_at / cancelled_at
 
@@ -153,8 +155,8 @@ langue.
 Le MCP expose quatre outils dédiés :
 
 - `create_ward_team(ward_code, name, emblem)` ;
-- `create_noche_live(ward_code, starts_at, quiz_ids[])` ;
-- `edit_noche_live(ward_code, session_code, starts_at?, quiz_ids[]?)` ;
+- `create_noche_live(ward_code, starts_at, quiz_ids[], duration_hours?)` ;
+- `edit_noche_live(ward_code, session_code, starts_at?, quiz_ids[]?, duration_hours?)` ;
 - `finish_noche_live(ward_code, session_code)`.
 
 La création snapshotte toutes les équipes existantes de la rama. La modification
