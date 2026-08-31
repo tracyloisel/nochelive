@@ -45,10 +45,18 @@ module ChurchVideos
     class << self
       attr_accessor :transport, :forced_result
 
-      def call(locale: I18n.locale, page_token: nil, playlist_id: nil, query: nil, cache: Rails.cache, api_key: ENV["YOUTUBE_API_KEY"])
+      def call(locale: I18n.locale, page_token: nil, playlist_id: nil, query: nil, cache: Rails.cache, api_key: youtube_api_key)
         return forced_result if forced_result
 
         new(locale:, page_token:, playlist_id:, query:, cache:, api_key:).call
+      end
+
+      # Render environment variable names are case-sensitive. Keep the
+      # uppercase name canonical, but accept the lowercase spelling that was
+      # used by an earlier production configuration so the catalog recovers
+      # without requiring the secret to be copied or exposed again.
+      def youtube_api_key
+        ENV["YOUTUBE_API_KEY"].presence || ENV["youtube_api_key"].presence
       end
 
       def configuration
