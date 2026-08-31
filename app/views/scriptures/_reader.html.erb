@@ -15,7 +15,7 @@
                     end %>
 <% marks = Array(reader&.marks) %>
 <% visual_marks = marks.select { |mark| mark.passage_anchor? && mark.visual_style != "none" } %>
-<% reader_illustrations = preference.illustrations_enabled == false ? {} : Array(@scripture_illustrations).index_by(&:anchor_verse) %>
+<% reader_illustrations = Array(@scripture_illustrations).index_by(&:anchor_verse) %>
 <% guide = reader&.guide %>
 <% circle_mode = reader&.circle_mode || "disabled" %>
 <% circle_posts = Array(reader&.circle_posts) %>
@@ -399,7 +399,22 @@
               </div>
             </fieldset>
           <% end %>
-          <label class="reader-illustration-toggle"><input type="checkbox" <%= "checked" if preference.illustrations_enabled.nil? || preference.illustrations_enabled %> data-preference-key="illustrations_enabled" data-action="change->scripture-room#changePreference"><span><%= t("scripture_reader.settings.illustrations") %></span></label>
+          <fieldset class="reader-illustration-options">
+            <legend><%= t("scripture_reader.settings.illustrations") %></legend>
+            <div class="reader-setting-options">
+              <% { "true" => "illustrations_yes", "false" => "illustrations_no" }.each do |value, label_key| %>
+                <label>
+                  <input type="radio"
+                         name="reader-illustrations-enabled"
+                         value="<%= value %>"
+                         <%= "checked" if (preference.illustrations_enabled.nil? ? true : preference.illustrations_enabled) == (value == "true") %>
+                         data-preference-key="illustrations_enabled"
+                         data-action="change->scripture-room#changePreference">
+                  <span><%= t("scripture_reader.settings.#{label_key}") %></span>
+                </label>
+              <% end %>
+            </div>
+          </fieldset>
           <p class="reader-settings-status" data-scripture-room-target="settingsStatus" role="status"></p>
         </section>
       </dialog>

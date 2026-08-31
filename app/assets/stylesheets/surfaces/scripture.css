@@ -650,7 +650,7 @@ html.is-scripture-open .skip:focus {
 .scripture-reader-room[data-reader-font="accessible"] .reader-verses { font-family: ui-serif, Georgia, Cambria, "Times New Roman", serif; }
 .scripture-reader-room[data-reader-background="soft"] .scripture-sheet { background: #f8f0df; }
 .scripture-reader-room[data-reader-background="contrast"] .scripture-sheet { background: #fffef9; }
-.scripture-reader-room[data-reader-illustrations="false"] .reader-chapter-art { display: none; }
+.scripture-reader-room[data-reader-illustrations="false"] .reader-verses .scripture-illustration { display: none; }
 
 .scripture-reader-room .scripture-sheet {
   width: 100%;
@@ -1259,7 +1259,6 @@ textarea[aria-invalid="true"] { border-color: #9a3e2d !important; outline: 2px s
 .reader-setting-options input { position: absolute; opacity: 0; }
 .reader-setting-options span { min-height: 2.75rem; display: flex; align-items: center; padding: .45rem .7rem; border: 1px solid var(--reader-line); border-radius: .45rem; background: var(--reader-paper); color: var(--reader-muted); font-size: .72rem; }
 .reader-setting-options input:checked + span { border-color: var(--reader-gold); background: rgba(229, 199, 139, .17); color: var(--reader-gold); font-weight: 800; }
-.reader-illustration-toggle { min-height: 2.75rem; display: flex; align-items: center; gap: .65rem; font-size: .78rem; font-weight: 700; }
 .reader-settings-status { min-height: 1rem; margin: 0; color: var(--reader-gold); font-size: .72rem; text-align: center; }
 .reader-settings-status[data-state="error"] { color: #9a3e2d; }
 .scripture-reader-room :where(button, a, summary, input, textarea, select):focus-visible { outline: 3px solid rgba(183, 122, 19, .58); outline-offset: 3px; }

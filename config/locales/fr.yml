@@ -2064,7 +2064,9 @@ fr:
       paper: "Ivoire"
       soft: "Crème doux"
       contrast: "Papier contrasté"
-      illustrations: "Illustration discrète"
+      illustrations: "Illustrations"
+      illustrations_yes: "Oui"
+      illustrations_no: "Non"
       saved: "Préférences mémorisées"
       close: "Fermer les réglages"
     progress:

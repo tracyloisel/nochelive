@@ -2080,7 +2080,9 @@ es:
       paper: "Marfil"
       soft: "Crema suave"
       contrast: "Papel contrastado"
-      illustrations: "Ilustración discreta"
+      illustrations: "Ilustraciones"
+      illustrations_yes: "Sí"
+      illustrations_no: "No"
       saved: "Preferencias guardadas"
       close: "Cerrar ajustes"
     progress:

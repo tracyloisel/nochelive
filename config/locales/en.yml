@@ -2075,7 +2075,9 @@ en:
       paper: "Ivory"
       soft: "Soft cream"
       contrast: "Contrasted paper"
-      illustrations: "Subtle illustration"
+      illustrations: "Illustrations"
+      illustrations_yes: "Yes"
+      illustrations_no: "No"
       saved: "Preferences saved"
       close: "Close settings"
     progress: { label: "%{current} of %{total}", resume: "Resume at verse %{verse}", continue: "Continue reading" }

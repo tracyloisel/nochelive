@@ -220,7 +220,9 @@ export default class extends Controller {
     const input = event.currentTarget
     const key = input.dataset.preferenceKey
     if (!key) return
-    this.preferences[key] = input.type === "checkbox" ? input.checked : (key === "font_scale" ? Number(input.value) : input.value)
+    this.preferences[key] = key === "illustrations_enabled"
+      ? input.value === "true"
+      : (key === "font_scale" ? Number(input.value) : input.value)
     this.applyPreferences()
     this.persistPreferences()
   }
@@ -250,10 +252,12 @@ export default class extends Controller {
     this.element.dataset.readerFont = values.font_family_key
     this.element.dataset.readerBackground = values.background_key
     this.element.dataset.readerIllustrations = values.illustrations_enabled ? "true" : "false"
+    this.element.querySelectorAll(".reader-verses [data-scripture-illustration]").forEach((illustration) => {
+      illustration.hidden = !values.illustrations_enabled
+    })
     this.element.querySelectorAll("[data-preference-key]").forEach((input) => {
       const key = input.dataset.preferenceKey
-      if (input.type === "checkbox") input.checked = Boolean(values[key])
-      else input.checked = String(input.value) === String(values[key])
+      input.checked = String(input.value) === String(values[key])
     })
   }
 

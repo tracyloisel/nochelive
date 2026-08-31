@@ -2042,7 +2042,9 @@ pt-BR:
       paper: "Marfim"
       soft: "Creme suave"
       contrast: "Papel contrastado"
-      illustrations: "Ilustração discreta"
+      illustrations: "Ilustrações"
+      illustrations_yes: "Sim"
+      illustrations_no: "Não"
       saved: "Preferências salvas"
       close: "Fechar ajustes"
     progress: { label: "%{current} de %{total}", resume: "Retomar no versículo %{verse}", continue: "Continuar lendo" }

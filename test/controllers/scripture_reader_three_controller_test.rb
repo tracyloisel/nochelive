@@ -18,18 +18,28 @@ class ScriptureReaderThreeControllerTest < ActionDispatch::IntegrationTest
     sign_in_person(@author)
 
     patch scripture_reader_preferences_path, params: {
-      preference: { font_scale: 130, line_height_key: "ample", measure_key: "focused", background_key: "soft" }
+      preference: {
+        font_scale: 130, line_height_key: "ample", measure_key: "focused",
+        background_key: "soft", illustrations_enabled: false
+      }
     }, as: :json
 
     assert_response :success
     assert_equal 130, response.parsed_body.fetch("font_scale")
+    assert_equal false, response.parsed_body.fetch("illustrations_enabled")
     assert_equal "ample", @author.reload.scripture_reader_preference.line_height_key
+    assert_not @author.scripture_reader_preference.illustrations_enabled?
 
     patch scripture_reader_preferences_path, params: {
       preference: { font_scale: 777, background_key: "blue" }
     }, as: :json
     assert_response :unprocessable_entity
     assert_equal 130, @author.scripture_reader_preference.reload.font_scale
+
+    get scripture_path("ot/1-sam/16", locale: "fr")
+    assert_response :success
+    assert_select ".scripture-reader-room[data-scripture-room-illustrations='false']"
+    assert_select ".reader-verses .scripture-illustration[data-after-verse='13']", count: 1
   end
 
   test "creates private marks for the signed-in person and rejects another person's deletion" do
@@ -109,6 +119,23 @@ class ScriptureReaderThreeControllerTest < ActionDispatch::IntegrationTest
       assert_select "button", count: 0
       assert_select "output", count: 0
     end
+  end
+
+  test "offers an explicit yes or no choice for chapter illustrations" do
+    sign_in_person(@author)
+
+    get scripture_path("ot/1-sam/16", locale: "fr")
+
+    assert_response :success
+    assert_select ".scripture-reader-room[data-scripture-room-illustrations='true']"
+    assert_select "fieldset.reader-illustration-options" do
+      assert_select "legend", text: "Illustrations"
+      assert_select "input[type='radio'][name='reader-illustrations-enabled'][value='true'][checked]", count: 1
+      assert_select "input[type='radio'][name='reader-illustrations-enabled'][value='false']", count: 1
+      assert_select "span", text: "Oui", count: 1
+      assert_select "span", text: "Non", count: 1
+    end
+    assert_select ".reader-verses .scripture-illustration[data-after-verse='13']", count: 1
   end
 
   test "places a privacy-safe ward reader count above the chapter title" do
