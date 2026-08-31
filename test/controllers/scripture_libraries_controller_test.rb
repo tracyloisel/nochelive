@@ -79,7 +79,7 @@ class ScriptureLibrariesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select ".scripture-library-row[data-library-row='bookmarks'][aria-current='true'] + turbo-frame#library_selection", count: 1 do
       assert_select ".scripture-library-selection", count: 1
-      assert_select "a.scripture-library-selection__item[href^='/escrituras/ot/1-sam/16'][href*='locale=fr'][data-turbo-frame='scripture_reader']", minimum: 1
+      assert_select "a.scripture-library-selection__item[href^='/escrituras/ot/1-sam/16'][href*='locale=fr'][data-turbo-frame='_top']", minimum: 1
     end
   end
 
@@ -121,7 +121,7 @@ class ScriptureLibrariesControllerTest < ActionDispatch::IntegrationTest
     assert_select ".scripture-library-row[data-library-row='collection'][aria-current='true'] + turbo-frame#library_selection", count: 1 do
       assert_select ".scripture-library-selection", count: 1
       assert_select ".scripture-library-selection__breadcrumbs > span[aria-current='page'] b", text: "Psaumes", count: 1
-      assert_select "a.scripture-library-selection__item[href^='/escrituras/ot/ps/'][href*='locale=fr'][data-turbo-frame='scripture_reader']", minimum: 1
+      assert_select "a.scripture-library-selection__item[href^='/escrituras/ot/ps/'][href*='locale=fr'][data-turbo-frame='_top']", minimum: 1
     end
     assert_select "a[href^='/fr/bible/psaumes']", count: 0
   end
@@ -170,7 +170,7 @@ class ScriptureLibrariesControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     assert_select "#scripture-library-suggestions[role=listbox]" do
-      assert_select "a[role=option][href^='/escrituras/nt/john/3'][href*='locale=fr'][data-turbo-frame='scripture_reader'][data-action*='scripture-launcher#prepare']", count: 1
+      assert_select "a[role=option][href^='/escrituras/nt/john/3'][href*='locale=fr'][data-turbo-frame='_top'][data-action*='scripture-launcher#prepare']", count: 1
     end
   end
 

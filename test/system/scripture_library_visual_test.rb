@@ -113,7 +113,8 @@ class ScriptureLibraryVisualTest < ApplicationSystemTestCase
       visit scripture_library_path(preview: 1, locale: :fr)
       find(".scripture-library-row[data-library-row='#{row}']").click
 
-      assert_selector "turbo-frame#scripture_reader .scripture-reader-room", wait: 8
+      assert_current_path %r{\A/escrituras/}
+      assert_selector ".scripture-reader-room", wait: 8
     end
 
     wards(:demo).update!(scripture_circle_mode: "active")
@@ -191,10 +192,8 @@ class ScriptureLibraryVisualTest < ApplicationSystemTestCase
     fill_in "Rechercher dans les Écritures", with: "Jean 3:16"
     assert_selector "#scripture-library-suggestions [role=option]", count: 1, wait: 4
     find("#scripture_library_query").send_keys(:arrow_down, :enter)
-    assert_selector "turbo-frame#scripture_reader .scripture-reader-room[data-scripture-reference='nt/john/3']", wait: 8
-    find("[data-scripture-close]").click
-    assert_no_selector "turbo-frame#scripture_reader .scripture-reader-room", wait: 5
-    assert_selector "#scripture_library_query:focus", wait: 5
+    assert_current_path %r{\A/escrituras/nt/john/3}
+    assert_selector ".scripture-reader-room[data-scripture-reference='nt/john/3']", wait: 8
     assert_empty severe_browser_logs
   end
 
@@ -239,11 +238,10 @@ class ScriptureLibraryVisualTest < ApplicationSystemTestCase
     assert_empty severe_browser_logs
   end
 
-  test "the reader traps keyboard focus and returns it to the initiating reading action" do
-    visit scripture_library_path(preview: 1, locale: :fr)
-    find(".scripture-library-row[data-library-row='resume']").click
+  test "the standalone reader traps keyboard focus" do
+    visit scripture_path("ot/ps/49", cite: "Psaume 49:17", locale: :fr)
 
-    assert_selector "turbo-frame#scripture_reader .scripture-reader-room", wait: 8
+    assert_selector ".scripture-reader-room", wait: 8
     page.execute_script(<<~JS)
       const close = document.querySelector("[data-scripture-close]");
       close.focus();
@@ -252,10 +250,6 @@ class ScriptureLibraryVisualTest < ApplicationSystemTestCase
       }));
     JS
     assert page.evaluate_script("document.activeElement.closest('.scripture-veil') !== null"), "focus must remain in the reader dialog"
-
-    find("[data-scripture-close]").click
-    assert_no_selector "turbo-frame#scripture_reader .scripture-reader-room", wait: 5
-    assert_selector "#continuer:focus", wait: 5
     assert_empty severe_browser_logs
   end
 

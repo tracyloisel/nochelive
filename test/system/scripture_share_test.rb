@@ -22,9 +22,7 @@ class ScriptureShareTest < ApplicationSystemTestCase
     select_text(from_verse: 1, from_offset: 2, to_verse: 2, to_offset: 14)
 
     assert_selector ".scripture-share-trigger:not([hidden])"
-    assert_selector ".scripture-veil[data-scripture-highlight-state=saved]"
-    assert_equal 1, Person.find_by!(given_name: "Lectora").scripture_highlights.count
-    assert_equal "dijo Jehová a Samuel: ve a Isaí de Belén. Y dijo Samuel:", Person.find_by!(given_name: "Lectora").scripture_highlights.first.selected_text
+    assert_equal 0, Person.find_by!(given_name: "Lectora").scripture_marks.count
     assert_equal false, page.evaluate_script(<<~JS)
       (function() {
         var triggerRect = document.querySelector(".scripture-share-trigger").getBoundingClientRect();
@@ -37,10 +35,13 @@ class ScriptureShareTest < ApplicationSystemTestCase
       })()
     JS
     page.save_screenshot(Rails.root.join("tmp/scripture-selection.png")) if ENV["SCRIPTURE_SHARE_SCREENSHOT"] == "1"
-    find(".scripture-share-trigger").click
+    find(".scripture-selection-bar button", text: I18n.t("scripture_reader.selection.more", locale: :fr)).click
+    assert_selector "dialog.reader-tools-dialog[open]"
+    find("dialog.reader-tools-dialog button", text: I18n.t("scripture_reader.selection.share", locale: :fr)).click
     assert_selector "dialog.scripture-share-dialog[open]"
-    assert_selector ".scripture-share-option", count: 4
-    assert_selector ".scripture-share-remove:not([hidden])", text: I18n.t("quiz.scripture_remove_highlight", locale: :fr)
+    assert_selector ".scripture-share-option", count: 3
+    assert_selector ".scripture-share-remove[hidden]", visible: :all,
+      text: I18n.t("quiz.scripture_remove_highlight", locale: :fr)
     page.evaluate_async_script("var done = arguments[0]; window.setTimeout(done, 320)")
     dialog_position = page.evaluate_script(<<~JS)
       (function() {
@@ -85,25 +86,7 @@ class ScriptureShareTest < ApplicationSystemTestCase
     assert_equal "dijo Jehová a Samuel: ve a Isaí de Belén. Y dijo Samuel:", selected
     assert_no_selector ".scripture-verse.is-focus"
     assert_selector "meta[property='og:url'][content$='/fr/bible/1-samuel/16/1-2']", visible: false
-
-    visit scripture_path("ot/1-sam/16", cite: "1 Samuel 16:13", locale: "fr")
-    persisted = page.evaluate_script(<<~JS)
-      Array.from(CSS.highlights.get("scripture-profile-highlights") || []).map(function(range) {
-        return range.toString().replace(/\s+/g, " ").trim()
-      }).join(" ")
-    JS
-    assert_equal "dijo Jehová a Samuel: ve a Isaí de Belén. Y dijo Samuel:", persisted
-    page.save_screenshot(Rails.root.join("tmp/scripture-highlight-persisted.png")) if ENV["SCRIPTURE_SHARE_SCREENSHOT"] == "1"
-
-    find("[data-scripture-verse-number='1'] [data-scripture-verse-text]").click
-    assert_selector ".scripture-share-trigger:not([hidden])"
-    find(".scripture-share-trigger").click
-    assert_selector ".scripture-share-remove:not([hidden])"
-    find(".scripture-share-remove").click
-
-    assert_no_selector "dialog.scripture-share-dialog[open]"
-    assert_equal 0, Person.find_by!(given_name: "Lectora").scripture_highlights.count
-    assert_equal 0, page.evaluate_script("CSS.highlights.get('scripture-profile-highlights')?.size || 0")
+    assert_equal 0, Person.find_by!(given_name: "Lectora").scripture_marks.count
   end
 
   test "opens a saved passage from the single library bookmark picker" do
@@ -123,10 +106,11 @@ class ScriptureShareTest < ApplicationSystemTestCase
 
     assert_selector "body.is-scripture-library"
     assert_selector ".scripture-library-row[data-library-row='bookmarks'][aria-current='true']"
-    assert_selector "#selection a.scripture-library-selection__item[data-turbo-frame='scripture_reader']",
+    assert_selector "#selection a.scripture-library-selection__item[data-turbo-frame='_top']",
       text: "1 Samuel 16:1–2", count: 1
     find("#selection a.scripture-library-selection__item", text: "1 Samuel 16:1–2").click
-    assert_selector "turbo-frame#scripture_reader .scripture-reader-room", wait: 8
+    assert_current_path %r{\A/escrituras/}
+    assert_selector ".scripture-reader-room", wait: 8
   end
 
   private

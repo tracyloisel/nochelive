@@ -4,7 +4,7 @@
      action: "click->library-search#remember"
    } %>
 <% if reader %>
-  <% row_data[:turbo_frame] = "scripture_reader" %>
+  <% row_data[:turbo_frame] = "_top" %>
   <% row_data[:action] = "click->library-search#remember click->scripture-launcher#prepare" %>
   <% row_data[:scripture_chapter_title] = row.title %>
 <% elsif key.to_sym != :rama %>

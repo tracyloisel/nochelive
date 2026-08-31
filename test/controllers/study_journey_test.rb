@@ -64,7 +64,7 @@ class StudyJourneyTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select "body.is-scripture-library.is-celestial-dark"
     assert_select ".scripture-library-row[data-library-row='bookmarks'][aria-current='true'] + turbo-frame#library_selection"
-    assert_select "#selection a.scripture-library-selection__item[data-turbo-frame='scripture_reader']",
+    assert_select "#selection a.scripture-library-selection__item[data-turbo-frame='_top']",
       text: /1 Samuel 16:1–2/, count: 1
   end
 
@@ -76,7 +76,7 @@ class StudyJourneyTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select "body.is-scripture-library.is-celestial-dark"
     assert_select ".scripture-library-row[data-library-row='weekly'][aria-current='true'] + turbo-frame#library_selection"
-    assert_select "#selection a.scripture-library-selection__item[data-turbo-frame='scripture_reader']", count: 10
+    assert_select "#selection a.scripture-library-selection__item[data-turbo-frame='_top']", count: 10
   end
 
   test "study refuge bed follows the active journey and leaves before ceremony" do
@@ -97,7 +97,7 @@ class StudyJourneyTest < ActionDispatch::IntegrationTest
     get study_unit_path(@unit)
     assert_redirected_to scripture_library_path(section: "weekly", unit: @unit.id, anchor: "selection")
     follow_redirect!
-    assert_select "#selection a.scripture-library-selection__item[data-turbo-frame=scripture_reader]", count: 10
+    assert_select "#selection a.scripture-library-selection__item[data-turbo-frame=_top]", count: 10
     assert_select "#selection a[data-scripture-chapter-title]", count: 10
 
     post study_run_start_path(@unit)
@@ -152,7 +152,7 @@ class StudyJourneyTest < ActionDispatch::IntegrationTest
 
     get scripture_library_path(section: "weekly", unit: @unit.id, anchor: "selection")
     assert_response :success
-    assert_select "#selection a.scripture-library-selection__item[href*='study_unit_id=#{@unit.id}'][data-turbo-frame='scripture_reader']", count: @quiz.readings.size
+    assert_select "#selection a.scripture-library-selection__item[href*='study_unit_id=#{@unit.id}'][data-turbo-frame='_top']", count: @quiz.readings.size
   ensure
     Scriptures::Read.fetcher = nil
   end

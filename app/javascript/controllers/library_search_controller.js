@@ -353,7 +353,7 @@ export default class extends Controller {
     link.role = "option"
     link.tabIndex = -1
     link.dataset.librarySearchTarget = "option"
-    link.dataset.turboFrame = reader ? "scripture_reader" : "library_selection"
+    link.dataset.turboFrame = reader ? "_top" : "library_selection"
     link.dataset.action = reader
       ? "click->library-search#choose click->scripture-launcher#prepare"
       : "click->library-search#choose"
@@ -373,7 +373,7 @@ export default class extends Controller {
   openResolvedURL(url) {
     const resolved = new URL(url, window.location.origin)
     const reader = resolved.pathname.includes("/escrituras/")
-    const target = reader ? "scripture_reader" : "library_selection"
+    const target = reader ? "_top" : "library_selection"
 
     if (!reader) {
       const row = this.rowForURL(resolved)

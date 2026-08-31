@@ -18,7 +18,7 @@
          action: "click->library-search#choose"
        } %>
     <% if suggestion_reader %>
-      <% suggestion_data[:turbo_frame] = "scripture_reader" %>
+      <% suggestion_data[:turbo_frame] = "_top" %>
       <% suggestion_data[:action] = "click->library-search#choose click->scripture-launcher#prepare" %>
       <% suggestion_data[:scripture_chapter_title] = suggestion.label %>
     <% else %>

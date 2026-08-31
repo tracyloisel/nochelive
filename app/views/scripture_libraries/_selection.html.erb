@@ -85,7 +85,7 @@
                library_search_target: "more"
              } %>
         <% elsif item_reader %>
-          <% item_data[:turbo_frame] = "scripture_reader" %>
+          <% item_data[:turbo_frame] = "_top" %>
           <% item_data[:action] = "click->scripture-launcher#prepare" %>
           <% item_data[:scripture_chapter_title] = item_title %>
         <% else %>

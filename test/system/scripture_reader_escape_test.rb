@@ -9,17 +9,16 @@ class ScriptureReaderEscapeTest < ApplicationSystemTestCase
     Scriptures::Read.fetcher = nil
   end
 
-  test "Escape closes a reader setting dialog before it closes the contextual reader" do
-    visit scripture_library_path(preview: 1, locale: :fr)
-    find(".scripture-library-row[data-library-row='resume']").click
+  test "Escape closes a reader setting dialog before it closes the reader" do
+    visit scripture_path("ot/1-sam/16", cite: "1 Samuel 16:13", locale: :fr)
 
-    assert_selector "turbo-frame#scripture_reader .scripture-reader-room", wait: 8
+    assert_selector ".scripture-reader-room", wait: 8
     find(".reader-aa-button").click
     assert_selector "dialog.reader-settings-dialog[open]", wait: 5
 
     find("dialog.reader-settings-dialog").send_keys(:escape)
 
     assert_no_selector "dialog.reader-settings-dialog[open]", wait: 5
-    assert_selector "turbo-frame#scripture_reader .scripture-reader-room", wait: 5
+    assert_selector ".scripture-reader-room", wait: 5
   end
 end
