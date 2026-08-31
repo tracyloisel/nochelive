@@ -1,6 +1,10 @@
 require "test_helper"
 
 class WardTest < ActiveSupport::TestCase
+  test "scripture circles are open by default" do
+    assert_equal "active", Ward.column_defaults.fetch("scripture_circle_mode")
+  end
+
   test "demo rama has a matching secret" do
     assert wards(:demo).admin_token_matches?("rama-demo")
     assert_not wards(:demo).admin_token_matches?("nope")
