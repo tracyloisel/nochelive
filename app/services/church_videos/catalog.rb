@@ -96,7 +96,12 @@ module ChurchVideos
         response = http.request(request)
         return response.body if response.is_a?(Net::HTTPSuccess)
 
-        Rails.logger.warn("ChurchVideos::Catalog YouTube HTTP #{response.code}: #{response.body.to_s.first(500).gsub(@api_key.to_s, '[FILTERED]')}")
+        error_payload = JSON.parse(response.body.to_s)
+        error_info = error_payload.fetch("error", {})
+        reason = error_info["status"] || error_info.dig("errors", 0, "reason") || "unknown"
+        Rails.logger.warn("ChurchVideos::Catalog YouTube HTTP #{response.code}: #{reason}")
+      rescue JSON::ParserError
+        Rails.logger.warn("ChurchVideos::Catalog YouTube HTTP #{response.code}: invalid error response")
         nil
       end
     end
