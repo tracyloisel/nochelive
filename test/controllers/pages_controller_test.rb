@@ -25,7 +25,7 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
     assert_select ".navigation-dock__item.is-active[href=?]", church_path
     assert_select ".btn.btn-gold", count: 0
     assert_select ".story-ticks", count: 0
-    assert_select ".chrome-drawer a.home-menu-invite[href=?]", street_challenges_path(anchor: "inviter")
+    assert_select ".chrome-drawer a.home-menu-adventure[href=?]", street_map_path, text: /#{Regexp.escape(I18n.t("hub_menu.adventure"))}/
     assert_select ".chrome-drawer a.home-menu-row[href=?]", scripture_library_path
   end
 

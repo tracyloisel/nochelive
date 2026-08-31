@@ -14,11 +14,11 @@ class HomeSmokeTest < ApplicationSystemTestCase
     find(".home-menu-btn").click
     assert_selector "dialog.chrome-drawer[open] .home-menu-nav-hub"
     assert_equal "chrome_drawer_title", page.evaluate_script("document.activeElement.id")
-    assert_selector ".home-menu-invite", text: I18n.t("hub_menu.invite_friend")
-    assert_selector ".home-menu-invite[href='#{street_challenges_path(anchor: "inviter")}']"
+    assert_selector ".home-menu-adventure", text: I18n.t("hub_menu.adventure")
+    assert_selector ".home-menu-adventure[href='#{street_map_path}']"
     assert_selector ".home-menu-row[href='#{street_leaderboard_path}']", text: I18n.t("hub_menu.leaderboard")
     assert_selector ".home-menu-row[href='#{scripture_library_path}']", text: I18n.t("scripture_library.title")
-    assert_selector ".home-menu-kicker", text: /#{Regexp.escape(I18n.t("hub_menu.space"))}/i
+    assert_selector ".home-menu-kicker", text: /#{Regexp.escape(I18n.t("hub_menu.scriptures"))}/i
     assert_selector ".home-menu-kicker", text: /#{Regexp.escape(I18n.t("hub_menu.settings"))}/i
     assert_selector ".hub-menu-information a", count: 3
     find(".chrome-drawer .lang-switch.is-drawer > summary").click

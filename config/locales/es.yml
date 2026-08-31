@@ -254,11 +254,11 @@ es:
     player_meta: "%{rank} · %{crowns} coronas"
     guest_meta: "Crea tu ficha para guardar tus coronas"
     play: "Juego y comunidad"
-    invite_friend: "Invitar a un amigo"
-    invite_friend_hint: "Elige un rival o comparte un enlace"
+    adventure: "Aventura"
+    adventure_hint: "Continúa tu recorrido"
     challenges: "Desafíos"
     challenges_hint: "Empieza o retoma tus partidas"
-    leaderboard: "Leaderboard"
+    leaderboard: "Clasificación"
     scriptures: "Escrituras y comunidad"
     word_hint: "Lee · comprende · crece"
     my_ward: "Mi rama"
@@ -648,6 +648,42 @@ es:
     mapa_locked_hint: "Termina el pack %{pack} para desbloquear este"
     expeditions:
       weekly_kicker: "Expedición de la semana"
+      collection_kicker: "Aventuras por tiempo limitado"
+      collection_title: "Elige tu expedición"
+      collection_detail: "Cada aventura tiene su propio ritmo. Tu progreso sigue contigo."
+      collection_count:
+        one: "1 aventura"
+        other: "%{count} aventuras"
+      carousel_label: "Expediciones disponibles"
+      carousel_hint: "Desliza para explorar"
+      previous: "Expedición anterior"
+      next: "Siguiente expedición"
+      duration:
+        one: "%{count} día"
+        other: "%{count} días"
+      duration_unknown: "Aventura editorial"
+      states:
+        active: "En curso"
+        upcoming: "Próximamente"
+        past: "Finalizada"
+      active: "En curso"
+      upcoming: "Disponible pronto"
+      ended: "Expedición finalizada"
+      days_left:
+        one: "Queda 1 día"
+        other: "Quedan %{count} días"
+      starts_on: "Empieza el %{date}"
+      selected: "Expedición elegida"
+      detail_kicker: "Tu aventura"
+      discoveries_title:
+        one: "1 puerta por descubrir"
+        other: "%{count} puertas por descubrir"
+      discoveries_detail: "Cada puerta abre un pack de preguntas y una nueva escena."
+      open_expedition: "Descubrir"
+      continue_expedition: "Continuar"
+      replay_expedition: "Volver a explorar"
+      see_complete_journey: "Ver el recorrido completo"
+      see_complete_journey_detail: "%{count} packs en el camino principal"
       progress: "%{done} / %{total} packs descubiertos"
       questions:
         one: "1 pregunta"
@@ -1179,10 +1215,10 @@ es:
       title: "En tu rama"
       circle_kicker: "En la lectora"
       circle_body: "Lee, medita y comparte las Escrituras con tu rama."
-      circle_action: "Abrir el círculo"
-      circle_card_label: "El círculo de tu rama. Abrir el círculo"
+      circle_action: "Abrir el Foro"
+      circle_card_label: "Foro. Abrir el Foro"
       circle_news_kicker: "Nuevo esta semana"
-      circle_activity_heading: "Actividad reciente del Círculo"
+      circle_activity_heading: "Actividad reciente del Foro"
       circle_threads:
         one: "conversación"
         other: "conversaciones"
@@ -1190,7 +1226,7 @@ es:
         one: "respuesta"
         other: "respuestas"
       circle_last_activity: "Última actividad %{time}"
-      circle_activity_label: "Círculo. Esta semana: %{threads} conversaciones y %{replies} respuestas. Abrir el Círculo"
+      circle_activity_label: "Foro. Esta semana: %{threads} conversaciones y %{replies} respuestas. Abrir el Foro"
     rails:
       rama: "En tu rama"
       readings: "Las lecturas"
@@ -2012,11 +2048,11 @@ es:
       waiting: "Seguimos preparando %{chapter} para una lectura cómoda. Gracias por esperar un momento más."
       failed: "No hemos podido preparar la lectura de %{chapter} por ahora."
       retry: "Volver a intentarlo"
-    tabs: { read: "Leer", marks: "Mis marcas", circle: "El Círculo" }
+    tabs: { read: "Leer", marks: "Mis marcas", circle: "Foro" }
     companion:
       marks_label: "Abrir mis marcas"
-      circle_label: "Abrir el círculo"
-      circle_jump_label: "Ir al círculo"
+      circle_label: "Abrir el Foro"
+      circle_jump_label: "Ir al Foro"
       return_to_reading: "Volver al capítulo"
     welcome:
       kicker: "Para acoger este capítulo"
@@ -2080,15 +2116,15 @@ es:
       discuss: "Conversar"
       discussion_context: "Sobre este pasaje"
       clear_discussion_context: "Quitar el pasaje"
-      discussion_too_long: "Selecciona un pasaje de hasta 1.000 caracteres para hablar de él en el Círculo."
-      discussion_unavailable: "El Círculo no está disponible para este capítulo."
+      discussion_too_long: "Selecciona un pasaje de hasta 1.000 caracteres para hablar de él en el Foro."
+      discussion_unavailable: "El Foro no está disponible para este capítulo."
       more: "Más"
       saved: "Marca guardada"
       error: "No se pudo guardar. Tu selección se conserva."
       note_title: "Guardar una nota"
       note_field: "Nota privada"
       note_placeholder: "Escribe lo que quieras recordar…"
-      note_private: "Esta nota es privada y nunca se publica en el Círculo."
+      note_private: "Esta nota es privada y nunca se publica en el Foro."
       save_note: "Guardar nota"
       close: "Cerrar"
       edit_title: "Editar esta marca"
@@ -2153,10 +2189,10 @@ es:
       watch: "Ver: %{title}"
       external: "Abrir en YouTube"
     circle:
-      title: "El Círculo"
+      title: "Foro"
       ward_scope: "Para tu barrio: %{ward}"
-      disabled: "El Círculo no está abierto en tu barrio. La lectura y tus marcas siguen disponibles."
-      read_only: "El Círculo está en modo solo lectura."
+      disabled: "El Foro no está abierto en tu barrio. La lectura y tus marcas siguen disponibles."
+      read_only: "El Foro está en modo solo lectura."
       empty: "Todavía no hay mensajes en este capítulo. Puedes empezar."
       question_message_label: "Tu pregunta"
       compose_placeholder: "Comparte una reflexión o haz una pregunta a tu rama…"
@@ -2195,7 +2231,7 @@ es:
       reply_to_person: "Responder a %{name}"
       clear_reply_target: "Responder a toda la conversación"
       edit_message_label: "Tu mensaje"
-      publish: "Publicar en el círculo"
+      publish: "Publicar en el Foro"
       publish_compact: "Publicar"
       publishing: "Publicando…"
       counter: "%{count} / 500"
@@ -2251,7 +2287,7 @@ es:
       author_deleted: "Mensaje retirado por su autor."
       community_censored: "Mensaje ocultado por la comunidad."
       show_masked_message: "Mostrar de todos modos"
-      published: "Tu idea se ha unido al círculo."
+      published: "Tu idea se ha unido al Foro."
       replied: "Tu respuesta se ha unido a la conversación."
       updated: "Tu mensaje se ha actualizado."
       deleted: "Tu mensaje se ha retirado."
@@ -2279,17 +2315,17 @@ es:
         resolved: "Decisión registrada"
         resolution_failed: "Resolución pendiente de reintento"
     profile:
-      title: "Publicaciones en el Círculo"
+      title: "Publicaciones en el Foro"
       subtitle: "Reflexiones y preguntas compartidas por %{name}."
-      empty: "No hay publicaciones en el Círculo."
+      empty: "No hay publicaciones en el Foro."
       open_chapter: "Abrir en el capítulo"
-      private_history: "Tu historial incluye barrios anteriores sin reabrir sus círculos."
-      destination_title: "Publicaciones en el Círculo"
+      private_history: "Tu historial incluye barrios anteriores sin reabrir sus foros."
+      destination_title: "Publicaciones en el Foro"
       destination_summary: "%{count} ideas y preguntas compartidas"
       more: "Ver las publicaciones siguientes"
     errors: { invalid: "No se pudo guardar esta acción." }
   scripture_circle:
-    title: "El círculo de tu rama"
+    title: "Foro"
     eyebrow: "La Palabra compartida"
     lede: "Lee, medita y comparte una palabra que pueda ayudar a alguien de tu rama."
     ward_scope: "%{ward} · tu rama"
@@ -2303,10 +2339,10 @@ es:
       view_all: "Ver todo (%{count})"
     navigation:
       label: "Navegación principal"
-      circle: "Círculo"
+      circle: "Foro"
     state:
-      read_only: "El círculo está abierto para leer, pero ahora no admite respuestas."
-      unavailable_title: "El círculo no está disponible"
+      read_only: "El Foro está abierto para leer, pero ahora no admite respuestas."
+      unavailable_title: "El Foro no está disponible"
       unavailable: "Este espacio compartido no está abierto para este perfil ahora mismo."
     help_signal:
       one: "1 pregunta espera una respuesta"
@@ -2316,7 +2352,7 @@ es:
     help_clear_title: "Ahora no hay ninguna pregunta esperando ayuda"
     help_clear_lede: "Aún puedes leer las reflexiones compartidas en tu rama."
     filters:
-      label: "Filtrar el círculo"
+      label: "Filtrar el Foro"
       all: "Todo"
       help: "Para ayudar"
       recent: "Recientes"
@@ -2327,7 +2363,7 @@ es:
       pending_refresh: "Hay actividad nueva en esta conversación."
       refresh: "Actualizar"
       privacy: "Solo los miembros de tu barrio pueden ver estos intercambios."
-    results_heading: "Intercambios del círculo"
+    results_heading: "Intercambios del Foro"
     sections:
       help: "Para ayudar"
       help_lede: "Preguntas que todavía esperan una respuesta atenta."
@@ -2364,13 +2400,13 @@ es:
         other: "Ver los %{count} intercambios"
       open_and_reply: "Abrir y responder"
     pagination:
-      label: "Más intercambios del círculo"
+      label: "Más intercambios del Foro"
       more: "Cargar más intercambios"
     rail:
       controls: "Controles de lecturas"
       previous: "Lecturas anteriores"
       next: "Lecturas siguientes"
-    hub_link: "El círculo de tu rama"
+    hub_link: "Foro"
   nights:
     someone: "Alguien"
     your_team: "Tu equipo"
@@ -2478,7 +2514,7 @@ es:
       expedition: "Expedición de la semana"
       bookmarks: "Mis marcadores"
       collection: "Mis Escrituras"
-      rama: "Mi Círculo"
+      rama: "Mi Foro"
       annual: "Programa anual"
     resume: { progress: "Versículo %{verse} · %{percent} % del capítulo", empty_title: "Elige tu próxima lectura", empty_detail: "Todas las Escrituras te esperan." }
     recommendation: { reason: "Un pasaje para profundizar según tus respuestas al Quiz.", empty_title: "Una recomendación después de tu próximo Quiz", empty_detail: "Tus respuestas abrirán un pasaje para profundizar." }
@@ -2492,8 +2528,8 @@ es:
     collections: { old_testament: "Antiguo Testamento", new_testament: "Nuevo Testamento", book_of_mormon: "Libro de Mormón", doctrine_and_covenants: "Doctrina y Convenios" }
     rama:
       reading_together: { one: "1 miembro terminó las lecturas de la semana", other: "%{count} miembros terminaron las lecturas de la semana" }
-      detail: "Ver las conversaciones del Círculo sobre los pasajes estudiados."
-      unavailable: "El Círculo se abre con un perfil vinculado a una rama participante."
+      detail: "Ver las conversaciones del Foro sobre los pasajes estudiados."
+      unavailable: "El Foro se abre con un perfil vinculado a una rama participante."
       unavailable_action: "Por activar"
     annual:
       week: "Semana %{number} — %{heading}"

@@ -171,7 +171,7 @@ class ScriptureReaderThreeControllerTest < ActionDispatch::IntegrationTest
     assert_select ".reader-mobile-tabs", count: 0
     assert_select ".reader-companion[hidden]", count: 1
     assert_select ".reader-panel-trigger[data-action='scripture-room#toggleMarks'][data-scripture-room-target='marksTrigger'][aria-controls='reader-companion'][aria-expanded='false'][aria-label='Ouvrir mes repères'] svg.picto-bookmark", count: 1
-    assert_select "a.reader-circle-trigger[href='#reader-circle'][data-action='click->scripture-room#toggleCircle'][data-scripture-room-target='circleTrigger'][aria-controls='reader-circle'][aria-expanded='false'][aria-label='Aller au cercle'] svg.picto-conversation", count: 1
+    assert_select "a.reader-circle-trigger[href='#reader-circle'][data-action='click->scripture-room#toggleCircle'][data-scripture-room-target='circleTrigger'][aria-controls='reader-circle'][aria-expanded='false'][aria-label='Aller au Forum'] svg.picto-conversation", count: 1
     assert_select ".reader-marks-panel .reader-return-to-reading", count: 0
     assert_select "dialog#reader-companion-picker", count: 0
     assert_select "main.reader-reading-stage > section#reader-circle.reader-circle-panel", text: /Cette réflexion doit rester discrète/
@@ -442,7 +442,7 @@ class ScriptureReaderThreeControllerTest < ActionDispatch::IntegrationTest
     assert_select ".reader-circle-panel [data-circle-focus-unavailable]", count: 1
     assert_select "#circle-post-#{target.id}", count: 0
     assert_select "body", text: /Cette phrase ne doit jamais sortir de sa cible\./, count: 0
-    assert_select ".reader-circle-panel [data-circle-focus-unavailable] a.reader-text-action", text: "Le cercle"
+    assert_select ".reader-circle-panel [data-circle-focus-unavailable] a.reader-text-action", text: "Forum"
   end
 
   test "keeps a community-masked message as a reversible trace" do

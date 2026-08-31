@@ -159,7 +159,7 @@ class ScriptureReaderCircleVisualTest < ApplicationSystemTestCase
       assert_operator page.evaluate_script("document.querySelector('.scripture-sheet').scrollTop"), :>, sheet_scroll_top
 
       circle_trigger.click
-      assert_selector "[data-scripture-room-target='circleTrigger'][aria-expanded='false'][aria-label='Aller au cercle']"
+      assert_selector "[data-scripture-room-target='circleTrigger'][aria-expanded='false'][aria-label='Aller au Forum']"
       wait_for_reader_scroll!(target: sheet_scroll_top)
       returned_scroll_top = page.evaluate_script("document.querySelector('.scripture-sheet').scrollTop")
       assert_in_delta sheet_scroll_top, returned_scroll_top, 2

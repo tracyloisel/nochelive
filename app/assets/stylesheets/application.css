@@ -2539,22 +2539,22 @@ body:has(#street_quien) .chrome-drawer .lang-switch.is-drawer > summary {
   font-weight: 600;
   line-height: 1.25;
 }
-.chrome-drawer .home-menu-invite {
+.chrome-drawer .home-menu-adventure {
   min-height: 3.55rem;
   color: var(--button-primary-text, var(--navy));
   border-color: var(--border-gold, var(--temple-gold-border));
   background: var(--button-primary, var(--temple-gold-leaf));
   box-shadow: var(--shadow-card, var(--shadow));
 }
-.chrome-drawer .home-menu-invite .home-menu-ico {
+.chrome-drawer .home-menu-adventure .home-menu-ico {
   color: var(--button-primary-text, var(--navy));
   border-color: color-mix(in srgb, var(--button-primary-text, var(--navy)) 24%, transparent);
   background: color-mix(in srgb, white 30%, transparent);
 }
-.chrome-drawer .home-menu-invite .home-menu-row-copy small,
-.chrome-drawer .home-menu-invite .home-menu-row-caret { color: inherit; }
-.chrome-drawer .home-menu-invite:hover,
-.chrome-drawer .home-menu-invite:focus-visible {
+.chrome-drawer .home-menu-adventure .home-menu-row-copy small,
+.chrome-drawer .home-menu-adventure .home-menu-row-caret { color: inherit; }
+.chrome-drawer .home-menu-adventure:hover,
+.chrome-drawer .home-menu-adventure:focus-visible {
   color: var(--button-primary-text, var(--navy));
   border-color: var(--gold-highlight, var(--gold-bright));
   background: var(--button-primary, var(--temple-gold-leaf));
@@ -2578,13 +2578,13 @@ body:has(#street_quien) .chrome-drawer .lang-switch.is-drawer > summary {
 .home-menu[data-hud-theme="celestial-dark"] :is(.home-menu-row-copy small, .home-menu-me-copy small) {
   color: var(--text-secondary);
 }
-.home-menu[data-hud-theme="celestial-dark"] :is(.home-menu-row:not(.home-menu-invite), .home-menu-me, .lang-switch.is-drawer > summary) {
+.home-menu[data-hud-theme="celestial-dark"] :is(.home-menu-row:not(.home-menu-adventure), .home-menu-me, .lang-switch.is-drawer > summary) {
   color: var(--text-primary);
   border-color: var(--border-primary);
   background: color-mix(in srgb, var(--surface-glass) 88%, var(--gold-highlight) 4%);
   box-shadow: inset 0 1px 0 rgba(255, 248, 232, 0.06);
 }
-.home-menu[data-hud-theme="celestial-dark"] :is(.home-menu-row:not(.home-menu-invite), .home-menu-me, .lang-switch.is-drawer > summary):is(:hover, :focus-visible) {
+.home-menu[data-hud-theme="celestial-dark"] :is(.home-menu-row:not(.home-menu-adventure), .home-menu-me, .lang-switch.is-drawer > summary):is(:hover, :focus-visible) {
   border-color: var(--border-gold);
   background: color-mix(in srgb, var(--surface-glass) 82%, var(--gold-highlight) 8%);
 }
@@ -2593,10 +2593,10 @@ body:has(#street_quien) .chrome-drawer .lang-switch.is-drawer > summary {
   border-color: var(--border-primary);
   background: color-mix(in srgb, var(--surface-primary) 82%, var(--gold-highlight) 9%);
 }
-.home-menu[data-hud-theme="celestial-dark"] .home-menu-row:not(.home-menu-invite) .home-menu-ico [fill="#1a2744"] {
+.home-menu[data-hud-theme="celestial-dark"] .home-menu-row:not(.home-menu-adventure) .home-menu-ico [fill="#1a2744"] {
   fill: currentColor;
 }
-.home-menu[data-hud-theme="celestial-dark"] .home-menu-row:not(.home-menu-invite) .home-menu-ico [stroke="#1a2744"] {
+.home-menu[data-hud-theme="celestial-dark"] .home-menu-row:not(.home-menu-adventure) .home-menu-ico [stroke="#1a2744"] {
   stroke: currentColor;
 }
 .home-menu[data-hud-theme="celestial-dark"] .is-drawer-close {

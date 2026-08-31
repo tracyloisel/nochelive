@@ -254,8 +254,8 @@ en:
     player_meta: "%{rank} · %{crowns} crowns"
     guest_meta: "Create your profile to keep your crowns"
     play: "Play & social"
-    invite_friend: "Invite a friend"
-    invite_friend_hint: "Choose a rival or share a link"
+    adventure: "Adventure"
+    adventure_hint: "Continue your journey"
     challenges: "Challenges"
     challenges_hint: "Start or return to your matches"
     leaderboard: "Leaderboard"
@@ -648,6 +648,42 @@ en:
     mapa_locked_hint: "Finish pack %{pack} to unlock this one"
     expeditions:
       weekly_kicker: "This week’s expedition"
+      collection_kicker: "Limited-time adventures"
+      collection_title: "Choose your expedition"
+      collection_detail: "Every adventure has its own pace. Your progress stays with you."
+      collection_count:
+        one: "1 adventure"
+        other: "%{count} adventures"
+      carousel_label: "Available expeditions"
+      carousel_hint: "Swipe to explore"
+      previous: "Previous expedition"
+      next: "Next expedition"
+      duration:
+        one: "%{count} day"
+        other: "%{count} days"
+      duration_unknown: "Editorial adventure"
+      states:
+        active: "In progress"
+        upcoming: "Coming soon"
+        past: "Finished"
+      active: "In progress"
+      upcoming: "Available soon"
+      ended: "Expedition finished"
+      days_left:
+        one: "1 day left"
+        other: "%{count} days left"
+      starts_on: "Starts on %{date}"
+      selected: "Selected expedition"
+      detail_kicker: "Your adventure"
+      discoveries_title:
+        one: "1 door to discover"
+        other: "%{count} doors to discover"
+      discoveries_detail: "Every door opens a question pack and a new scene."
+      open_expedition: "Discover"
+      continue_expedition: "Continue"
+      replay_expedition: "Explore again"
+      see_complete_journey: "See the complete journey"
+      see_complete_journey_detail: "%{count} packs on the main path"
       progress: "%{done} / %{total} packs discovered"
       questions:
         one: "1 question"
@@ -1179,10 +1215,10 @@ en:
       title: "In your ward"
       circle_kicker: "In the reader"
       circle_body: "Read, reflect, and share around the scriptures with your ward."
-      circle_action: "Open the circle"
-      circle_card_label: "The circle of your ward. Open the circle"
+      circle_action: "Open the Forum"
+      circle_card_label: "Forum. Open the Forum"
       circle_news_kicker: "New this week"
-      circle_activity_heading: "Recent Circle activity"
+      circle_activity_heading: "Recent Forum activity"
       circle_threads:
         one: "discussion"
         other: "discussions"
@@ -1190,7 +1226,7 @@ en:
         one: "reply"
         other: "replies"
       circle_last_activity: "Last activity %{time}"
-      circle_activity_label: "Circle. This week: %{threads} discussions and %{replies} replies. Open the Circle"
+      circle_activity_label: "Forum. This week: %{threads} discussions and %{replies} replies. Open the Forum"
     rails:
       rama: "In your ward"
       readings: "Readings"
@@ -2012,11 +2048,11 @@ en:
       waiting: "We’re still preparing %{chapter} for a comfortable read. Thank you for waiting a little longer."
       failed: "We couldn’t prepare the reader for %{chapter} just now."
       retry: "Try again"
-    tabs: { read: "Read", marks: "My marks", circle: "The circle" }
+    tabs: { read: "Read", marks: "My marks", circle: "Forum" }
     companion:
       marks_label: "Open my marks"
-      circle_label: "Open the circle"
-      circle_jump_label: "Jump to the circle"
+      circle_label: "Open the Forum"
+      circle_jump_label: "Jump to the Forum"
       return_to_reading: "Back to the chapter"
     welcome: { kicker: "To welcome this chapter", title: "A word to receive", summary: "Read without rushing and let one sentence remain with you.", collapse: "Collapse introduction", expand: "Expand introduction" }
     settings:
@@ -2072,15 +2108,15 @@ en:
       discuss: "Discuss"
       discussion_context: "About this passage"
       clear_discussion_context: "Remove passage"
-      discussion_too_long: "Select a passage of up to 1,000 characters to discuss in the Circle."
-      discussion_unavailable: "The Circle is not available for this chapter."
+      discussion_too_long: "Select a passage of up to 1,000 characters to discuss in the Forum."
+      discussion_unavailable: "The Forum is not available for this chapter."
       more: "More"
       saved: "Mark saved"
       error: "This mark could not be saved. Your selection is preserved."
       note_title: "Keep a note"
       note_field: "Private note"
       note_placeholder: "Write what you want to remember…"
-      note_private: "This note stays private and is never posted to the Circle."
+      note_private: "This note stays private and is never posted to the Forum."
       save_note: "Save note"
       close: "Close"
       edit_title: "Edit this mark"
@@ -2145,10 +2181,10 @@ en:
       watch: "Watch: %{title}"
       external: "Open on YouTube"
     circle:
-      title: "The Circle"
+      title: "Forum"
       ward_scope: "For your ward: %{ward}"
-      disabled: "The Circle is not open in your ward. Reading and personal marks remain available."
-      read_only: "The Circle is currently read-only."
+      disabled: "The Forum is not open in your ward. Reading and personal marks remain available."
+      read_only: "The Forum is currently read-only."
       empty: "No one has shared on this chapter yet. You can begin."
       question_message_label: "Your question"
       compose_placeholder: "Share a reflection or ask your ward a question…"
@@ -2187,7 +2223,7 @@ en:
       reply_to_person: "Reply to %{name}"
       clear_reply_target: "Reply to the whole conversation"
       edit_message_label: "Your message"
-      publish: "Post to the circle"
+      publish: "Post to the Forum"
       publish_compact: "Post"
       publishing: "Posting…"
       counter: "%{count} / 500"
@@ -2243,7 +2279,7 @@ en:
       author_deleted: "Message removed by its author."
       community_censored: "Message hidden by the community."
       show_masked_message: "Show anyway"
-      published: "Your thought has joined the circle."
+      published: "Your thought has joined the Forum."
       replied: "Your reply has joined the conversation."
       updated: "Your message was updated."
       deleted: "Your message was removed."
@@ -2267,17 +2303,17 @@ en:
         resolved: "Decision recorded"
         resolution_failed: "Resolution awaiting retry"
     profile:
-      title: "Posts in the Circle"
+      title: "Posts in the Forum"
       subtitle: "Reflections and questions shared by %{name}."
-      empty: "No posts in the Circle."
+      empty: "No posts in the Forum."
       open_chapter: "Open in chapter"
-      private_history: "Your history includes previous wards without reopening their circles."
-      destination_title: "Posts in the Circle"
+      private_history: "Your history includes previous wards without reopening their forums."
+      destination_title: "Posts in the Forum"
       destination_summary: "%{count} shared thoughts and questions"
       more: "View the next posts"
     errors: { invalid: "This action could not be saved." }
   scripture_circle:
-    title: "The circle of your ward"
+    title: "Forum"
     eyebrow: "Scripture together"
     lede: "Read, reflect, and share a word that may help someone in your ward."
     ward_scope: "%{ward} · your ward"
@@ -2291,10 +2327,10 @@ en:
       view_all: "View all (%{count})"
     navigation:
       label: "Primary navigation"
-      circle: "Circle"
+      circle: "Forum"
     state:
-      read_only: "The circle is open to read, but not to reply right now."
-      unavailable_title: "The circle is not available"
+      read_only: "The Forum is open to read, but not to reply right now."
+      unavailable_title: "The Forum is not available"
       unavailable: "This shared space is not open for this profile at the moment."
     help_signal:
       one: "1 question is waiting for a reply"
@@ -2304,7 +2340,7 @@ en:
     help_clear_title: "No question is waiting for help right now"
     help_clear_lede: "You can still read the reflections shared in your ward."
     filters:
-      label: "Filter the circle"
+      label: "Filter the Forum"
       all: "All"
       help: "To help"
       recent: "Recent"
@@ -2315,7 +2351,7 @@ en:
       pending_refresh: "There is new activity in this conversation."
       refresh: "Refresh"
       privacy: "Only members of your ward can see these exchanges."
-    results_heading: "Circle exchanges"
+    results_heading: "Forum exchanges"
     sections:
       help: "To help"
       help_lede: "Questions still waiting for a thoughtful reply."
@@ -2352,13 +2388,13 @@ en:
         other: "View all %{count} exchanges"
       open_and_reply: "Open and reply"
     pagination:
-      label: "More circle exchanges"
+      label: "More Forum exchanges"
       more: "Load more exchanges"
     rail:
       controls: "Reading rail controls"
       previous: "Previous readings"
       next: "Next readings"
-    hub_link: "The circle of your ward"
+    hub_link: "Forum"
   nights:
     someone: "Someone"
     your_team: "Your team"
@@ -2458,7 +2494,7 @@ en:
       today: "Open now"
       memory: "Your living memory"
       together: "Around your reading"
-    rows: { start: "Start reading", resume: "Continue reading", recommendation: "Recommended for you", weekly: "This week · Come, Follow Me", expedition: "This week’s expedition", bookmarks: "My bookmarks", collection: "My scriptures", rama: "My Circle", annual: "Annual programme" }
+    rows: { start: "Start reading", resume: "Continue reading", recommendation: "Recommended for you", weekly: "This week · Come, Follow Me", expedition: "This week’s expedition", bookmarks: "My bookmarks", collection: "My scriptures", rama: "My Forum", annual: "Annual programme" }
     resume: { progress: "Verse %{verse} · %{percent}% of the chapter", empty_title: "Choose your next reading", empty_detail: "All scripture is waiting for you." }
     recommendation: { reason: "A passage to explore more deeply based on your Quiz answers.", empty_title: "A recommendation after your next Quiz", empty_detail: "Your answers will open a passage to explore." }
     weekly: { progress: "%{done} / %{total} chapters", empty_title: "Next week is coming soon", empty_detail: "The programme will appear here once published." }
@@ -2471,8 +2507,8 @@ en:
     collections: { old_testament: "Old Testament", new_testament: "New Testament", book_of_mormon: "Book of Mormon", doctrine_and_covenants: "Doctrine and Covenants" }
     rama:
       reading_together: { one: "1 member finished this week’s readings", other: "%{count} members finished this week’s readings" }
-      detail: "Open Circle conversations connected to the passages being studied."
-      unavailable: "Circle opens with a profile linked to a participating ward."
+      detail: "Open Forum conversations connected to the passages being studied."
+      unavailable: "The Forum opens with a profile linked to a participating ward."
       unavailable_action: "Unavailable"
     annual: { week: "Week %{number} — %{heading}", empty_title: "Annual programme", empty_detail: "All 52 weeks will appear here once published." }
     preview: { resume_detail: "Verse 17 of 21", recommendation_detail: "Understand why Lehi and his family leave Jerusalem", weekly_title: "Find refuge in God", expedition_title: "Six hidden doors in the Psalms", expedition_detail: "They sang when faith was sometimes all they had left.", bookmarks_detail: "Latest: Psalm 49:17 — Passing glory", annual_title: "Week 34 — Psalms", annual_detail: "17–23 August" }

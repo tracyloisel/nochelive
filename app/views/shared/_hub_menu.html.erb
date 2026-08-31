@@ -34,11 +34,11 @@
   <section class="home-menu-block" aria-labelledby="hub_menu_play">
     <p id="hub_menu_play" class="home-menu-kicker"><%= t("hub_menu.play") %></p>
     <div class="home-menu-list">
-      <%= link_to street_challenges_path(anchor: "inviter"), class: "home-menu-row home-menu-invite" do %>
-        <span class="home-menu-ico" aria-hidden="true"><%= picto("duel-staffs") %></span>
+      <%= link_to street_map_path, class: "home-menu-row home-menu-adventure" do %>
+        <span class="home-menu-ico" aria-hidden="true"><%= picto("compass") %></span>
         <span class="home-menu-row-copy">
-          <strong><%= t("hub_menu.invite_friend") %></strong>
-          <small><%= t("hub_menu.invite_friend_hint") %></small>
+          <strong><%= t("hub_menu.adventure") %></strong>
+          <small><%= t("hub_menu.adventure_hint") %></small>
         </span>
         <span class="home-menu-row-caret" aria-hidden="true"><%= picto("arrow") %></span>
       <% end %>

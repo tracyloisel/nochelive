@@ -362,10 +362,10 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
     assert_select "body > .navigation-dock .navigation-dock__item.is-active[href=?]", street_map_path
     assert_select "#street_world .home-menu", count: 0
     assert_select "#street_world .navigation-dock", count: 0
-    assert_select "a.home-menu-invite[href=?]", street_challenges_path(anchor: "inviter"), text: /#{Regexp.escape(I18n.t("hub_menu.invite_friend"))}/
+    assert_select "a.home-menu-adventure[href=?]", street_map_path, text: /#{Regexp.escape(I18n.t("hub_menu.adventure"))}/
     assert_select "a.home-menu-row[href=?]", street_leaderboard_path, text: I18n.t("hub_menu.leaderboard")
     assert_select "a.home-menu-row[href=?]", scripture_library_path, text: /#{Regexp.escape(I18n.t("scripture_library.title"))}/
-    assert_select "a.home-menu-row[href=?]", street_map_path, count: 0
+    assert_select "a.home-menu-adventure[href=?]", street_map_path, count: 1
 
     page_css = Rails.root.join("app/assets/stylesheets/pages/street_map.css").read
     css = Rails.root.join("app/assets/stylesheets/application.css").read + Rails.root.join("app/assets/stylesheets/surfaces/hub.css").read + page_css
@@ -383,6 +383,19 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
     refute_includes css, ".street-map-page > .home-menu"
   end
 
+  test "complete journey remains the map landing view when expeditions are published" do
+    create_current_expedition_week!
+
+    get street_map_path
+
+    assert_response :success
+    assert_select ".mapa-mode-tab.is-active[href=?]", street_map_path(view: "journey"), count: 1
+    assert_select ".mapa-mode-tab.is-active", text: /#{Regexp.escape(I18n.t("street.mapa_journey"))}/
+    assert_select ".mapa-node", count: QuizDefinition.catalog.pack_ids.size
+    assert_select ".mapa-expedition-carousel", count: 0
+    assert_select ".mapa-expedition-hero", count: 0
+  end
+
   test "expedition map is a distinct free-choice view over permanent packs" do
     week = create_current_expedition_week!
 
@@ -391,9 +404,26 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select ".mapa-mode-tabs .mapa-mode-tab", count: 2
     assert_select ".mapa-mode-tab.is-active", text: /#{Regexp.escape(I18n.t("street.mapa_expeditions"))}/
+    assert_select ".mapa-expedition-carousel[role=list]", count: 1
+    assert_select ".mapa-expedition-card.is-active .mapa-expedition-card__link[aria-current=page]", count: 1
+    assert_select ".mapa-expedition-card__schedule", minimum: 1
+    assert_select ".mapa-expedition-journey-link[href=?]", street_map_path(view: "journey"), count: 1
     assert_select ".mapa-expedition-hero h2", text: "Ça aussi, c’est dans les Psaumes"
+    assert_select ".mapa-expedition-hero__badges", count: 1
+    assert_select ".mapa-expedition-hero__cta", count: 1
     assert_select ".mapa-expedition-door", count: 6
     assert_select ".mapa-expedition-door form[action*='expedition=#{week.id}']", count: 6
+    assert_select ".mapa-node", count: 0
+  end
+
+  test "an unknown expedition deep link falls back to the current expedition" do
+    week = create_current_expedition_week!
+
+    get street_map_path(view: "expeditions", expedition: "missing-expedition")
+
+    assert_response :success
+    assert_select ".mapa-expedition-hero h2", text: "Ça aussi, c’est dans les Psaumes"
+    assert_select ".mapa-expedition-card.is-active .mapa-expedition-card__link[aria-current=page]", count: 1
     assert_select ".mapa-node", count: 0
   end
 

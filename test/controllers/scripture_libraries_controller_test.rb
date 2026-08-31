@@ -42,18 +42,18 @@ class ScriptureLibrariesControllerTest < ActionDispatch::IntegrationTest
       text: /#{Regexp.escape(I18n.t("scripture_library.rama.unavailable", locale: :fr))}/, count: 1
   end
 
-  test "the honest first action and Circle label stay native in every supported language" do
+  test "the honest first action and Forum label stay native in every supported language" do
     {
-      es: [ "Empezar a leer", "Mi Círculo" ],
-      fr: [ "Commencer à lire", "Mon Cercle" ],
-      en: [ "Start reading", "My Circle" ],
-      "pt-BR": [ "Comece a ler", "Meu Círculo" ]
-    }.each do |locale, (start_label, circle_label)|
+      es: [ "Empezar a leer", "Mi Foro" ],
+      fr: [ "Commencer à lire", "Mon Forum" ],
+      en: [ "Start reading", "My Forum" ],
+      "pt-BR": [ "Comece a ler", "Meu Fórum" ]
+    }.each do |locale, (start_label, forum_label)|
       get scripture_library_path(locale:)
 
       assert_response :success
       assert_select ".scripture-library-row[data-library-row='resume'] .scripture-library-row__label", text: start_label
-      assert_select ".scripture-library-row[data-library-row='rama'] .scripture-library-row__label", text: circle_label
+      assert_select ".scripture-library-row[data-library-row='rama'] .scripture-library-row__label", text: forum_label
     end
   end
 

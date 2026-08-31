@@ -11,7 +11,7 @@ class LocalesControllerTest < ActionDispatch::IntegrationTest
     assert_select "nav.home-menu"
     assert_select ".chrome-drawer a", text: /Ma paroisse/
     assert_select ".chrome-drawer a", text: /About us/
-    assert_select ".chrome-drawer a", text: /Inviter un ami/
+    assert_select ".chrome-drawer a.home-menu-adventure[href=?]", street_map_path, text: /Aventure/
     assert_select ".chrome-drawer a[href='#{street_leaderboard_path}']", text: "Leaderboard"
     assert_select ".chrome-drawer a", text: /Jouer pour une autre paroisse/, count: 0
     assert_select ".home-search", count: 0

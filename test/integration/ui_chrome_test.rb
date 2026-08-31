@@ -30,7 +30,8 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     assert_select ".home-menu-kicker", text: I18n.t("hub_menu.scriptures")
     assert_select ".home-menu-kicker", text: I18n.t("hub_menu.settings")
     assert_select ".hub-menu-profile .home-menu-row-caret", count: 0
-    assert_select ".chrome-drawer a.home-menu-invite[href=?]", street_challenges_path(anchor: "inviter"), text: /#{Regexp.escape(I18n.t("hub_menu.invite_friend"))}/
+    assert_select ".chrome-drawer a.home-menu-adventure[href=?]", street_map_path, text: /#{Regexp.escape(I18n.t("hub_menu.adventure"))}/
+    assert_select ".chrome-drawer a.home-menu-row[href=?]", street_challenges_path, count: 1
     assert_select ".chrome-drawer a.home-menu-row[href=?]", street_leaderboard_path, text: I18n.t("hub_menu.leaderboard")
     assert_select ".chrome-drawer a.home-menu-row[href=?]", scripture_library_path, text: /#{Regexp.escape(I18n.t("scripture_library.title"))}/
     assert_select ".chrome-drawer a.home-menu-row[href=?]", search_path, text: /#{Regexp.escape(I18n.t("hub_menu.my_ward"))}/
@@ -52,7 +53,7 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     get jugar_path
     assert_select "#street_quiz.play-reel.is-quiz.is-street.is-overlay"
     assert_select ".chrome-drawer .home-menu-nav-hub"
-    assert_select "a.home-menu-invite[href=?]", street_challenges_path(anchor: "inviter"), text: /#{Regexp.escape(I18n.t("hub_menu.invite_friend"))}/
+    assert_select "a.home-menu-adventure[href=?]", street_map_path, text: /#{Regexp.escape(I18n.t("hub_menu.adventure"))}/
     assert_select "a.home-menu-row[href=?]", scripture_library_path, text: /#{Regexp.escape(I18n.t("scripture_library.title"))}/
     assert_select ".play-sheet-grip", count: 0
     assert_select ".quiz-hud"

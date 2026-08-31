@@ -742,13 +742,13 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
     ready_street_quiz!
     find(".home-menu-btn").click
     assert_selector "dialog.chrome-drawer[open] .home-menu-nav-hub"
-    assert_selector ".home-menu-invite[href='#{street_challenges_path(anchor: "inviter")}']", text: I18n.t("hub_menu.invite_friend")
+    assert_selector ".home-menu-adventure[href='#{street_map_path}']", text: I18n.t("hub_menu.adventure")
     assert_selector ".home-menu-row[href='#{street_leaderboard_path}']", text: I18n.t("hub_menu.leaderboard")
     assert_selector ".home-menu-row[href='#{scripture_library_path}']", text: I18n.t("scripture_library.title")
-    assert_selector ".hub-menu-legal a", count: 3
-    find(".home-menu-invite").click
-    assert_selector "#inviter.duel-campus-section.is-friends"
-    assert_equal "#inviter", page.evaluate_script("window.location.hash")
+    assert_selector ".hub-menu-information a", count: 3
+    find(".home-menu-adventure").click
+    assert_current_path street_map_path
+    assert_selector "#street_world.street-map-page"
   end
 
   test "hub league strip with signed-in profile" do
@@ -800,7 +800,7 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
     find(".home-menu-btn").click
     assert_selector "dialog.chrome-drawer[open] .home-menu-nav-hub"
     assert_selector ".quiz-hud-avatar"
-    assert_selector ".home-menu-invite", text: I18n.t("hub_menu.invite_friend")
+    assert_selector ".home-menu-adventure", text: I18n.t("hub_menu.adventure")
     assert_selector ".home-menu-row", text: I18n.t("study.title")
     assert_selector ".home-menu-row", text: I18n.t("hub_menu.my_ward")
     shot("hub-menu-phone")
@@ -1742,10 +1742,10 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
   def assert_shared_menu_contract!(standard_mobile:)
     assert_selector "dialog.chrome-drawer[open] .home-menu-nav-hub"
     assert_no_selector ".hub-menu-profile .home-menu-row-caret"
-    assert_selector ".home-menu-invite[href='#{street_challenges_path(anchor: "inviter")}']", text: I18n.t("hub_menu.invite_friend")
+    assert_selector ".home-menu-adventure[href='#{street_map_path}']", text: I18n.t("hub_menu.adventure")
     assert_selector ".home-menu-row[href='#{street_leaderboard_path}']", text: I18n.t("hub_menu.leaderboard")
     assert_selector ".home-menu-row[href='#{scripture_library_path}']", text: I18n.t("scripture_library.title")
-    assert_selector ".hub-menu-legal a", count: 3
+    assert_selector ".hub-menu-information a", count: 3
 
     metrics = page.evaluate_script(<<~JS)
       (function() {
