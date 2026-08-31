@@ -17,7 +17,10 @@ module Identity
 
     def current_player
       return @current_player if defined?(@current_player)
-      return @current_player = nil unless @night
+      # Resource-scoped routes (for example /quiz/:id/answers) discover their
+      # night in a later before_action. Do not permanently cache the locale
+      # lookup that happens before that night is available.
+      return nil unless @night
 
       player_id = cookies.signed[:noche_player]
       token = cookies.signed[:noche_client]
