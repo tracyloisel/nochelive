@@ -1,9 +1,17 @@
 ---
+schema_version: 1
+id: library-2026-08-31-psalms-102-150
 program_slug: come-follow-me-old-testament-2026-fr
 study_unit_slug: week-36
 starts_on: "2026-08-31"
 ends_on: "2026-09-06"
 timezone: Europe/Madrid
+source_dossier: config/expeditions/psalms-102-150-2026-08-31.yml
+publication:
+  state: scheduled
+  activate_at: "2026-08-31T00:00:00+02:00"
+  authorized_by: user
+  authorized_on: "2026-08-31"
 expedition_pack_ids:
   - exp_psalms_disappearing_voice
   - exp_psalms_nameless_king
@@ -14,6 +22,7 @@ expedition_pack_ids:
 expected_discoveries_digest: 974ddd51bf79d27bae804e6e5518e530f82d3344e01d7f7f3795a9b4f50333df
 council_review:
   revision: 4
+  publish_ready: true
   art_gate: { status: PASS }
   experience_gate: { status: PASS, result: "7/7" }
   human_voice_gate: { status: PASS, sayable: 196, unsayable: 0 }

@@ -94,18 +94,15 @@ module ScriptureLibraries
 
       def load_week_context
         identity_time_zone = @requested_time_zone || @person&.ward&.time_zone.presence
-        @program = StudyProgram.where(status: "published").order(year: :desc).first
-
-        if identity_time_zone.present?
-          resolve_clock(identity_time_zone)
-          load_week_and_quiz
-        elsif (context = editorial_week_context)
+        if (context = editorial_week_context)
           @study_week, @quiz, editorial_time_zone = context
+          @program = @study_week.study_program
           resolve_clock(editorial_time_zone)
         else
-          # Time.zone is only a non-editorial calendar fallback. It is never
-          # sent to DailyDiscovery as though it were an approved schedule zone.
-          resolve_clock(nil)
+          # A person's ward clock still owns ordinary week navigation. A
+          # DailyDiscovery, however, always owns its Council-approved clock and
+          # is resolved above before this non-editorial fallback.
+          resolve_clock(identity_time_zone)
           load_week_and_quiz
         end
 
@@ -126,7 +123,21 @@ module ScriptureLibraries
       end
 
       def load_week_and_quiz
-        @study_week = @program&.current_week(on: @on)
+        @study_week = StudyUnit
+          .joins(:study_program)
+          .includes(:study_program, :study_quiz_versions)
+          .where(
+            study_programs: { status: "published" },
+            study_units: { kind: "week", status: "published" }
+          )
+          .where("study_units.starts_on <= ? AND study_units.ends_on >= ?", @on, @on)
+          .order(
+            Arel.sql("study_programs.year DESC"),
+            Arel.sql("study_units.position ASC"),
+            Arel.sql("study_units.id ASC")
+          )
+          .first
+        @program = @study_week&.study_program || fallback_program
         @quiz = @study_week&.published_quiz
       end
 
@@ -135,13 +146,20 @@ module ScriptureLibraries
       # is already Monday. Resolve the candidate quiz and its explicit clock
       # together from the only dates any global timezone can currently see.
       def editorial_week_context
-        return unless @program
-
         range = editorial_candidate_dates
-        candidates = @program.study_units.weeks
-          .where(status: "published")
+        candidates = StudyUnit
+          .joins(:study_program)
+          .includes(:study_program, :study_quiz_versions)
+          .where(
+            study_programs: { status: "published" },
+            study_units: { kind: "week", status: "published" }
+          )
           .where("starts_on <= ? AND ends_on >= ?", range.end, range.begin)
-          .includes(:study_quiz_versions)
+          .order(
+            Arel.sql("study_programs.year DESC"),
+            Arel.sql("study_units.position ASC"),
+            Arel.sql("study_units.id ASC")
+          )
           .filter_map do |candidate_week|
             candidate_quiz = candidate_week.published_quiz
             zone_name = candidate_quiz&.daily_discovery_time_zone
@@ -154,7 +172,12 @@ module ScriptureLibraries
             [ candidate_week, candidate_quiz, zone.name ]
           end
 
-        candidates.one? ? candidates.first : nil
+        candidates.first
+      end
+
+      def fallback_program
+        StudyProgram.where(status: "published", year: @on.year).order(year: :desc, id: :asc).first ||
+          StudyProgram.where(status: "published").order(year: :desc, id: :asc).first
       end
 
       def editorial_candidate_dates

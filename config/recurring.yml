@@ -10,6 +10,10 @@
 #     schedule: at 5am every day
 
 production:
+  publish_scheduled_library_editorials:
+    class: DailyEditorialPublicationCoordinatorJob
+    queue: maintenance
+    schedule: every 15 minutes
   schedule_night_notifications:
     class: NightNotificationCoordinatorJob
     queue: maintenance

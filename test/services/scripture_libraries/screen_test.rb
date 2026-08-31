@@ -50,6 +50,53 @@ module ScriptureLibraries
       assert_equal "daily-0", result.editorial.id
     end
 
+    test "uses the editorial clock even when the member ward has another timezone" do
+      @ward.update!(time_zone: "America/Los_Angeles")
+      madrid_monday = @zone.local(
+        @starts_on.year,
+        @starts_on.month,
+        @starts_on.day,
+        0,
+        30
+      )
+
+      result = Screen.call(person: @person, locale: :fr, at: madrid_monday.utc)
+
+      assert_equal @week.id, result.week.id
+      assert_equal @starts_on, result.editorial.scheduled_on
+      assert_equal "Europe/Madrid", result.editorial.time_zone
+      assert_equal "daily-0", result.editorial.id
+    end
+
+    test "a future published programme does not mask the programme active today" do
+      future_program = StudyProgram.create!(
+        slug: "library-future-#{SecureRandom.hex(6)}",
+        title: "Programme futur",
+        year: 2200,
+        canon: "old_testament",
+        locale: "fr",
+        status: "published",
+        source_url: "https://example.test/library-future"
+      )
+      future_program.study_units.create!(
+        slug: "week-future",
+        kind: "week",
+        position: 1,
+        title: "Semaine future",
+        source_url: "https://example.test/library-future/week",
+        starts_on: Date.new(2200, 1, 3),
+        ends_on: Date.new(2200, 1, 9),
+        scripture_refs: [ "Genèse" ],
+        status: "published"
+      )
+
+      result = screen(person: nil)
+
+      assert_equal @week.id, result.week.id
+      assert_equal "daily-0", result.editorial.id
+      assert_includes result.tools.annual.path, "unit=#{@week.id}"
+    end
+
     test "only exposes the bookmark recovery tool when a bookmark exists" do
       @person.scripture_marks.create!(
         reference: "ot/ps/137",
