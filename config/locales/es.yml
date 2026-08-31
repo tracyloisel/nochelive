@@ -2046,6 +2046,10 @@ es:
     back: "Volver a La Palabra"
     close: "Cerrar el lector"
     settings_label: "Ajustar la comodidad de lectura"
+    audio:
+      play: "Escuchar este capítulo"
+      pause: "Pausar la lectura"
+      unavailable: "No hay ninguna voz en español instalada en este dispositivo."
     loading:
       kicker: "Una lectura a tu ritmo"
       chapter_fallback: "Este capítulo"

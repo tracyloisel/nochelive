@@ -55,7 +55,7 @@
 <% circle_event = nil unless circle_event_post %>
 
 <aside class="scripture-veil scripture-reader-room <%= "is-circle-thread-detail" if circle_thread_detail %>"
-       data-controller="scripture scripture-room church-video"
+       data-controller="scripture scripture-room scripture-audio church-video"
        data-active-panel="<%= initial_panel %>"
        role="dialog"
        aria-modal="true"
@@ -66,6 +66,12 @@
        data-scripture-room-progress-url="<%= scripture_reading_progress_path if current_street_person %>"
        data-scripture-room-reference="<%= @study %>"
        data-scripture-room-locale="<%= I18n.locale %>"
+       data-scripture-audio-locale="<%= I18n.locale %>"
+       data-scripture-audio-start-verse="<%= current_verse %>"
+       data-scripture-audio-play-label="<%= t("scripture_reader.audio.play") %>"
+       data-scripture-audio-pause-label="<%= t("scripture_reader.audio.pause") %>"
+       data-scripture-audio-unavailable-label="<%= t("scripture_reader.audio.unavailable") %>"
+       data-scripture-audio-state="idle"
        data-scripture-room-initial-panel="<%= initial_panel %>"
        data-scripture-room-initial-circle="<%= initial_circle %>"
        data-message-limit-error="<%= t("scripture_reader.circle.too_long") %>"
@@ -186,6 +192,16 @@
       <% end %>
 
       <div class="reader-mobile-progress" aria-label="<%= t("scripture_reader.progress.label", current: current_index, total: verses.length) %>">
+        <button type="button"
+                class="reader-audio-toggle"
+                data-action="scripture-audio#toggle"
+                data-scripture-audio-target="toggle"
+                aria-label="<%= t("scripture_reader.audio.play") %>"
+                title="<%= t("scripture_reader.audio.play") %>"
+                aria-pressed="false">
+          <span data-scripture-audio-target="playIcon"><%= picto("listen-play") %></span>
+          <span data-scripture-audio-target="pauseIcon" hidden><%= picto("listen-pause") %></span>
+        </button>
         <span data-reading-progress-label><%= t("scripture_reader.progress.label", current: current_index, total: verses.length) %></span>
         <i><b data-reading-progress-bar style="width: <%= (current_index.to_f / [verses.length, 1].max * 100).round %>%"></b></i>
       </div>
@@ -227,7 +243,7 @@
             <div class="reader-verses scripture-body" data-scripture-room-target="verses">
               <% verses.each do |verse| %>
                 <% focused = @chapter.focus.include?(verse.number) %>
-                <p class="scripture-verse <%= "is-focus" if focused %>" id="reader-verse-<%= verse.number %>" data-scripture-target="verse" data-scripture-verse-number="<%= verse.number %>" <% if focused && verse.number == @chapter.focus.first %>data-scripture-focus<% end %>>
+                <p class="scripture-verse <%= "is-focus" if focused %>" id="reader-verse-<%= verse.number %>" data-scripture-target="verse" data-scripture-audio-target="verse" data-scripture-verse-number="<%= verse.number %>" <% if focused && verse.number == @chapter.focus.first %>data-scripture-focus<% end %>>
                   <span class="scripture-verse-n" aria-hidden="true"><%= verse.number %></span>
                   <span data-scripture-verse-text><%= verse.text %></span>
                 </p>
@@ -287,6 +303,16 @@
         </main>
 
         <aside class="reader-scroll-progress" aria-label="<%= t("scripture_reader.progress.label", current: current_index, total: verses.length) %>">
+          <button type="button"
+                  class="reader-audio-toggle"
+                  data-action="scripture-audio#toggle"
+                  data-scripture-audio-target="toggle"
+                  aria-label="<%= t("scripture_reader.audio.play") %>"
+                  title="<%= t("scripture_reader.audio.play") %>"
+                  aria-pressed="false">
+            <span data-scripture-audio-target="playIcon"><%= picto("listen-play") %></span>
+            <span data-scripture-audio-target="pauseIcon" hidden><%= picto("listen-pause") %></span>
+          </button>
           <span data-reading-progress-label><%= t("scripture_reader.progress.label", current: current_index, total: verses.length) %></span>
           <i><b data-reading-progress-bar style="height: <%= (current_index.to_f / [verses.length, 1].max * 100).round %>%"></b></i>
         </aside>

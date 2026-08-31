@@ -167,6 +167,11 @@ class ScriptureReaderThreeControllerTest < ActionDispatch::IntegrationTest
     assert_select ".scripture-sheet > .reader-room-topbar + .reader-mobile-progress", count: 1
     assert_select ".reader-mobile-progress [data-reading-progress-label]", text: /1 sur 3/
     assert_select ".reader-chapter-heading .reader-mobile-progress", count: 0
+    assert_select ".scripture-reader-room[data-controller~='scripture-audio'][data-scripture-audio-locale='fr'][data-scripture-audio-state='idle']", count: 1
+    assert_select ".reader-audio-toggle[type='button'][data-action='scripture-audio#toggle'][data-scripture-audio-target='toggle'][aria-label='Écouter ce chapitre'][aria-pressed='false']", count: 2
+    assert_select ".reader-mobile-progress > .reader-audio-toggle .picto-listen-play", count: 1
+    assert_select ".reader-scroll-progress > .reader-audio-toggle .picto-listen-pause", count: 1
+    assert_select ".reader-verses [data-scripture-audio-target='verse'][data-scripture-verse-number]", count: 3
   end
 
   test "does not expose a small ward reader count" do

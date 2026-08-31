@@ -2030,6 +2030,10 @@ fr:
     back: "Retour à La Parole"
     close: "Fermer la liseuse"
     settings_label: "Régler le confort de lecture"
+    audio:
+      play: "Écouter ce chapitre"
+      pause: "Mettre la lecture en pause"
+      unavailable: "Aucune voix française n’est installée sur cet appareil."
     loading:
       kicker: "Une lecture à ton rythme"
       chapter_fallback: "Ce chapitre"

@@ -893,8 +893,9 @@ html.is-scripture-open .skip:focus {
   opacity: 0;
   transition: opacity 160ms ease-out;
 }
-.scripture-reader-room .reader-verses .scripture-verse.is-reading-anchor::before { opacity: .76; }
-.scripture-reader-room .reader-verses .scripture-verse.is-reading-anchor .scripture-verse-n { color: var(--reader-gold); }
+.scripture-reader-room .reader-verses .scripture-verse:is(.is-reading-anchor, .is-speaking)::before { opacity: .76; }
+.scripture-reader-room .reader-verses .scripture-verse:is(.is-reading-anchor, .is-speaking) .scripture-verse-n { color: var(--reader-gold); }
+.scripture-reader-room .reader-verses .scripture-verse.is-speaking::before { height: calc(100% - 1.1em); opacity: 1; }
 .scripture-reader-room .reader-verses .scripture-verse.is-focus { margin-inline: -.6rem; padding: .72rem .75rem .78rem .6rem; background: linear-gradient(90deg, rgba(232, 203, 142, .22), rgba(246, 222, 170, .1)); }
 .scripture-reader-room .reader-verses .scripture-verse.is-focus [data-scripture-verse-text] { background: none; box-shadow: none; }
 .scripture-reader-room .scripture-body ::selection { background: rgba(222, 174, 76, .34); color: var(--reader-ink); }
@@ -965,8 +966,35 @@ html.is-scripture-open .skip:focus {
 .reader-video-card small { color: var(--reader-gold); font-size: .68rem; }
 .reader-video-card > a { min-height: 2.75rem; display: inline-flex; align-items: center; padding: .3rem .5rem; color: var(--reader-muted); font-size: .7rem; text-underline-offset: .2em; }
 
-.reader-scroll-progress { position: sticky; top: calc(4.25rem + 4.2rem); grid-column: 1; grid-row: 1; justify-self: end; align-self: start; margin-inline-end: max(1rem, calc((100% - var(--reader-measure)) / 2 - 4.25rem)); z-index: 4; width: 3rem; height: 15rem; display: grid; justify-items: center; gap: .65rem; color: var(--reader-muted); font: 650 .7rem/1 var(--font-ui); pointer-events: none; transition: opacity 140ms ease-out, visibility 140ms step-end; }
+.reader-scroll-progress { position: sticky; top: calc(4.25rem + 2rem); grid-column: 1; grid-row: 1; justify-self: end; align-self: start; margin-inline-end: max(1rem, calc((100% - var(--reader-measure)) / 2 - 4.25rem)); z-index: 4; width: 3rem; height: 18rem; display: grid; justify-items: center; gap: .65rem; color: var(--reader-muted); font: 650 .7rem/1 var(--font-ui); pointer-events: none; transition: opacity 140ms ease-out, visibility 140ms step-end; }
 .scripture-reader-layout.is-circle-in-view .reader-scroll-progress { visibility: hidden; opacity: 0; }
+.reader-audio-toggle {
+  --picto-accent: var(--reader-gold);
+  appearance: none;
+  position: relative;
+  width: 2.75rem;
+  height: 2.75rem;
+  display: grid;
+  place-items: center;
+  padding: .42rem;
+  border: 1px solid transparent;
+  border-radius: 50%;
+  background: transparent;
+  color: color-mix(in srgb, var(--reader-ink) 72%, var(--reader-gold));
+  box-shadow: none;
+  cursor: pointer;
+  pointer-events: auto;
+  transition: color 150ms ease, filter 150ms ease, transform 150ms ease;
+}
+.reader-audio-toggle > span { width: 100%; height: 100%; display: grid; place-items: center; }
+.reader-audio-toggle > span[hidden] { display: none; }
+.reader-audio-toggle .picto { width: 100%; height: 100%; filter: drop-shadow(0 1px 0 rgba(255, 252, 241, .72)); }
+.reader-audio-toggle:is(:hover, :focus-visible) { color: color-mix(in srgb, var(--reader-gold) 78%, var(--reader-ink)); filter: drop-shadow(0 .2rem .45rem rgba(119, 78, 12, .18)); }
+.scripture-reader-room .reader-audio-toggle:focus-visible { outline: none; }
+.scripture-reader-room .reader-audio-toggle:focus-visible::after { content: ""; position: absolute; right: .62rem; bottom: .18rem; left: .62rem; height: 2px; border-radius: 999px; background: color-mix(in srgb, var(--reader-gold) 62%, transparent); }
+.reader-audio-toggle:active { transform: scale(.94); }
+.reader-audio-toggle:disabled { opacity: .38; cursor: not-allowed; filter: none; }
+.scripture-reader-room[data-scripture-audio-state="playing"] .reader-audio-toggle { color: color-mix(in srgb, var(--reader-gold) 78%, var(--reader-ink)); filter: drop-shadow(0 0 .55rem rgba(190, 131, 29, .34)); }
 .reader-scroll-progress > i { position: relative; width: 1px; height: 11.5rem; overflow: visible; background: rgba(99, 91, 78, .28); }
 .reader-scroll-progress > i b { position: absolute; inset: 0 0 auto; width: 2px; min-height: .35rem; background: var(--reader-gold); }
 .reader-scroll-progress > i b::after { content: ""; position: absolute; left: 50%; bottom: 0; width: .55rem; height: .55rem; border: 2px solid var(--reader-ivory); border-radius: 50%; background: var(--reader-gold); transform: translate(-50%, 50%); transition: box-shadow 160ms ease-out; }
@@ -1891,6 +1919,7 @@ textarea[aria-invalid="true"] { border-color: var(--fire) !important; outline: 2
     pointer-events: none;
   }
   .reader-mobile-progress > span { grid-column: 2; grid-row: 1; }
+  .reader-mobile-progress .reader-audio-toggle { grid-column: 1; grid-row: 1; justify-self: start; align-self: center; }
   .reader-mobile-progress i { grid-column: 1 / -1; grid-row: 2; height: .14rem; overflow: hidden; border-radius: 999px; background: rgba(98, 87, 70, .2); }
   .reader-mobile-progress b { min-width: .42rem; display: block; height: 100%; border-radius: inherit; background: var(--reader-gold); }
   .scripture-reader-room[data-active-panel="marks"] .reader-mobile-progress { display: none; }
@@ -1967,6 +1996,7 @@ textarea[aria-invalid="true"] { border-color: var(--fire) !important; outline: 2
   .scripture-reader-room .reader-verses,
   .scripture-reader-room .reader-verses .scripture-verse::before,
   .reader-scroll-progress > i b::after,
+  .reader-audio-toggle,
   .is-reader-panel-entering,
   .is-reader-feedback-entering,
   .scripture-reader-room.is-reader-closing,
@@ -1998,6 +2028,9 @@ textarea[aria-invalid="true"] { border-color: var(--fire) !important; outline: 2
 }
 
 @media (forced-colors: active) {
+  .reader-audio-toggle { border-color: ButtonText; background: ButtonFace; color: ButtonText; box-shadow: none; forced-color-adjust: auto; }
+  .scripture-reader-room .reader-audio-toggle:focus-visible { outline: 2px solid Highlight; outline-offset: 2px; }
+  .scripture-reader-room .reader-audio-toggle:focus-visible::after { display: none; }
   .reader-chapter-quiz,
   .reader-chapter-quiz-emblem,
   .reader-chapter-quiz-button { border-color: CanvasText; background: Canvas; color: CanvasText; box-shadow: none; forced-color-adjust: auto; }

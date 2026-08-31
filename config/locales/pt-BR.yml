@@ -2013,6 +2013,10 @@ pt-BR:
     back: "Voltar para A Palavra"
     close: "Fechar o leitor"
     settings_label: "Ajustar o conforto de leitura"
+    audio:
+      play: "Ouvir este capítulo"
+      pause: "Pausar a leitura"
+      unavailable: "Nenhuma voz em português está instalada neste dispositivo."
     loading:
       kicker: "Uma leitura no seu ritmo"
       chapter_fallback: "Este capítulo"

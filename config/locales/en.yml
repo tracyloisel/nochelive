@@ -2046,6 +2046,10 @@ en:
     back: "Back to The Word"
     close: "Close reader"
     settings_label: "Adjust reading comfort"
+    audio:
+      play: "Listen to this chapter"
+      pause: "Pause listening"
+      unavailable: "No English voice is installed on this device."
     loading:
       kicker: "Reading at your pace"
       chapter_fallback: "This chapter"
