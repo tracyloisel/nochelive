@@ -2,7 +2,7 @@
 
 Reviewed: 2026-08-31
 Slice: une couverture éditoriale quotidienne, puis la continuité personnelle et la semaine fusionnée
-Tests: contrat éditorial, publication immuable, médias, intégration et QA visuelle ciblés — 0 failure
+Tests: contrat éditorial, publication immuable, médias, intégration et QA visuelle — 79 runs, 758 assertions, 0 failure
 Charter: `.agents/skills/noche-conseil/SKILL.md` (PRIORITY)
 Experience: Conseil d’expédition — Experience Gate PASS 7/7
 UI: `.agents/skills/noche-ui/SKILL.md`

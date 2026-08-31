@@ -29,7 +29,7 @@ class ScriptureLibraryVisualTest < ApplicationSystemTestCase
       assert_selector ".scripture-library-action--hero", count: 1
       assert_selector ".scripture-library-row", count: 4
       assert_selector ".scripture-library-rama__thought", count: 2
-      assert_selector ".navigation-dock__item.is-active", text: /Bibliothèque/i
+      assert_selector ".navigation-dock__item.is-active, .desktop-navigation a.is-active", text: /Bibliothèque/i
 
       geometry = page.evaluate_script(<<~JS)
         (() => {
