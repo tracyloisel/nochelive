@@ -951,6 +951,10 @@ function disarmGestures() {
 }
 
 export function connectAudio() {
+  // The loader unlocks the shared audio session before importing this backend.
+  // Copy that state here so contextual beds (notably the scripture reader's
+  // `study_refuge`) are allowed to start on the first post-load render.
+  store.unlocked = store.unlocked || audioSession.unlocked
   try {
     store.muted = window.localStorage?.getItem("noche_sfx_muted") === "1"
   } catch (_error) {
