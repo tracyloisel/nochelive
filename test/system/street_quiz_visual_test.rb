@@ -374,11 +374,14 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
       [ 760, 1024 ],
       [ 900, 1024 ],
       [ 901, 1024 ],
+      [ 1023, 1024 ],
+      [ 1024, 1024 ],
       [ 1099, 900 ],
       [ 1100, 900 ],
       [ 1440, 900 ]
     ].each do |width, height|
       set_quiz_viewport(width, height)
+      assert_duel_summary_clears_title!(width:)
       assert_duel_priority_clears_summary!(width:)
     end
     set_quiz_viewport(390, 844)
@@ -2640,6 +2643,39 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
       "next-pack card must not overlap the hero at #{width}px: #{geometry.inspect}"
     assert_operator geometry["gap"], :>=, 16,
       "next-pack card needs at least one spacing unit below the summary at #{width}px: #{geometry.inspect}"
+  end
+
+  def assert_duel_summary_clears_title!(width:)
+    geometry = page.evaluate_script(<<~JS)
+      (function() {
+        const title = document.querySelector('.duel-campus-hero h1')
+        const lede = document.querySelector('.duel-campus-hero-copy > p:last-of-type').getBoundingClientRect()
+        const summary = document.querySelector('.duel-campus-counts').getBoundingClientRect()
+        const range = document.createRange()
+        range.selectNodeContents(title)
+        const titleInk = range.getBoundingClientRect()
+        return {
+          titleLeft: titleInk.left,
+          titleRight: titleInk.right,
+          ledeBottom: lede.bottom,
+          summaryLeft: summary.left,
+          summaryRight: summary.right,
+          summaryTop: summary.top,
+          viewportWidth: window.innerWidth
+        }
+      })()
+    JS
+
+    assert_operator geometry["summaryRight"], :<=, geometry["viewportWidth"] + 1,
+      "summary must stay inside the viewport at #{width}px: #{geometry.inspect}"
+
+    if geometry["summaryLeft"] > geometry["titleLeft"] + 32
+      assert_operator geometry["summaryLeft"] - geometry["titleRight"], :>=, 16,
+        "title ink must clear the summary at #{width}px: #{geometry.inspect}"
+    else
+      assert_operator geometry["summaryTop"] - geometry["ledeBottom"], :>=, 8,
+        "stacked summary needs one spacing unit below the lede at #{width}px: #{geometry.inspect}"
+    end
   end
 
   def shot(name)
