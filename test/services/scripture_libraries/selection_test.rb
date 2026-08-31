@@ -85,6 +85,38 @@ module ScriptureLibraries
       assert readings.items.all? { |item| query(item.path).fetch("locale") == "fr" }
     end
 
+    test "the weekly chooser exposes readings and expedition as separate progressions" do
+      person = Person.create!(
+        ward: wards(:demo), given_name: "Weekly#{SecureRandom.hex(3)}",
+        avatar_key: Player::AVATARS.first, locale: "fr"
+      )
+      week = published_expedition_week
+      person.scripture_reading_progresses.create!(
+        reference: "ot/ps/102", locale: "fr",
+        first_opened_at: 2.hours.ago, last_opened_at: 1.hour.ago,
+        last_verse: 28, progress_ratio: 1.0, completed_at: 1.hour.ago
+      )
+      QuizRun.create!(
+        person:, device_digest: Digest::SHA256.hexdigest("selection-expedition"),
+        pack_id: "exp_psalms_disappearing_voice", position: 10, score: 70,
+        status: "finished", opened_at: Time.current
+      )
+
+      selection = select(section: "weekly", unit: week.id, person:)
+      feature = selection.feature
+
+      assert_equal week.id, feature.week_id
+      assert_equal 1, feature.reading_completed_count
+      assert_equal 2, feature.reading_total_count
+      assert_equal 0.5, feature.reading_progress
+      assert_equal 1, feature.expedition_completed_count
+      assert_equal 2, feature.expedition_total_count
+      assert_equal 0.5, feature.expedition_progress
+      assert_equal "Deux portes", feature.expedition_title
+      assert_equal "/mapa", URI.parse(feature.expedition_path).path
+      refute_respond_to feature, :progress
+    end
+
     test "unknown sections and unpublished week ids cannot create a hidden destination" do
       draft_week = published_week(status: "draft")
 
@@ -125,6 +157,38 @@ module ScriptureLibraries
         week.study_quiz_versions.create!(
           version: 1, status:, editorial_locale: "fr", content:,
           content_digest: Digest::SHA256.hexdigest(content.to_json), published_at: (Time.current if status == "published")
+        )
+        week
+      end
+
+      def published_expedition_week
+        program = StudyProgram.create!(
+          slug: "library-expedition-#{SecureRandom.hex(5)}", title: "Viens et suis-moi", year: 2096,
+          canon: "old_testament", locale: "fr", status: "published",
+          source_url: "https://example.test/library-expedition"
+        )
+        week = program.study_units.create!(
+          slug: "library-expedition-week", kind: "week", position: 1, title: "Psaumes 102-110",
+          source_url: "https://example.test/library-expedition/week",
+          starts_on: Date.current.beginning_of_week, ends_on: Date.current.end_of_week,
+          scripture_refs: [ "Psaumes 102-110" ], status: "published"
+        )
+        content = {
+          "questions" => [],
+          "readings" => [
+            { "study" => "ot/ps/102", "labels" => { "fr" => "Psaume 102" } },
+            { "study" => "ot/ps/110", "labels" => { "fr" => "Psaume 110" } }
+          ],
+          "expedition" => {
+            "id" => "selection-two-doors",
+            "title" => { "fr" => "Deux portes" },
+            "promise" => { "fr" => "Ouvre les Psaumes." },
+            "pack_ids" => [ "exp_psalms_disappearing_voice", "exp_psalms_nameless_king" ]
+          }
+        }
+        week.study_quiz_versions.create!(
+          version: 1, status: "published", editorial_locale: "fr", content:,
+          content_digest: Digest::SHA256.hexdigest(content.to_json), published_at: Time.current
         )
         week
       end

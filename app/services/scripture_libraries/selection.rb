@@ -8,7 +8,13 @@ module ScriptureLibraries
   class Selection
     Item = Data.define(:title, :detail, :path, :kind, :icon, :progress, :reader)
     Breadcrumb = Data.define(:label, :path)
-    Result = Data.define(:key, :title_key, :lede_key, :items, :breadcrumbs, :empty_key)
+    WeeklyFeature = Data.define(
+      :week_id, :title, :period, :corpus,
+      :reading_completed_count, :reading_total_count, :reading_progress,
+      :expedition_title, :expedition_promise, :expedition_path,
+      :expedition_completed_count, :expedition_total_count, :expedition_progress
+    )
+    Result = Data.define(:key, :title_key, :lede_key, :items, :breadcrumbs, :empty_key, :feature)
 
     SECTIONS = %w[weekly bookmarks canon program].freeze
     BOOKMARK_PAGE_SIZE = 12
@@ -57,7 +63,8 @@ module ScriptureLibraries
       def weekly
         week = selected_week || current_week
         items = @preview ? preview_readings : reading_items(week)
-        result(:weekly, items:, breadcrumbs: week_breadcrumbs(week))
+        feature = @preview ? preview_weekly_feature : weekly_feature(week, items:)
+        result(:weekly, items:, breadcrumbs: week_breadcrumbs(week), feature:)
       end
 
       def bookmarks
@@ -100,12 +107,60 @@ module ScriptureLibraries
         result(:program, items: reading_items(week), breadcrumbs: program_breadcrumbs(week))
       end
 
-      def result(key, items:, breadcrumbs: [], empty_key: nil)
+      def result(key, items:, breadcrumbs: [], empty_key: nil, feature: nil)
         prefix = "scripture_library.selection.#{key}"
         Result.new(
           key: { canon: :collection, program: :annual }.fetch(key, key),
           title_key: "#{prefix}.title", lede_key: "#{prefix}.lede",
-          items:, breadcrumbs:, empty_key: empty_key || "#{prefix}.empty"
+          items:, breadcrumbs:, empty_key: empty_key || "#{prefix}.empty", feature:
+        )
+      end
+
+      def weekly_feature(week, items:)
+        return unless week
+
+        quiz = week.published_quiz
+        expedition = Expeditions::Presentation.call(quiz:, person: @person, locale: @locale) if quiz&.expedition?
+        reading_total = items.count { |item| item.kind == :reading }
+        reading_completed = items.count { |item| item.kind == :reading && item.progress == 1.0 }
+        WeeklyFeature.new(
+          week_id: week.id,
+          title: week.theme(@locale),
+          period: week.display_period(@locale),
+          corpus: week.display_scripture_refs(@locale).join(" ; "),
+          reading_completed_count: reading_completed,
+          reading_total_count: reading_total,
+          reading_progress: ratio_including_zero(reading_completed, reading_total),
+          expedition_title: expedition&.title,
+          expedition_promise: expedition&.promise,
+          expedition_path: expedition && @routes.street_map_path(
+            view: "expeditions",
+            expedition: expedition.study_unit_id
+          ),
+          expedition_completed_count: expedition&.completed_count,
+          expedition_total_count: expedition&.total_count,
+          expedition_progress: ratio_including_zero(
+            expedition&.completed_count,
+            expedition&.total_count
+          )
+        )
+      end
+
+      def preview_weekly_feature
+        WeeklyFeature.new(
+          week_id: "preview",
+          title: t("scripture_library.preview.weekly_title"),
+          period: t("scripture_library.preview.annual_detail"),
+          corpus: "Psaumes 102–150",
+          reading_completed_count: 1,
+          reading_total_count: 3,
+          reading_progress: 1.0 / 3,
+          expedition_title: t("scripture_library.preview.expedition_title"),
+          expedition_promise: t("scripture_library.preview.expedition_detail"),
+          expedition_path: @routes.street_map_path(view: "expeditions"),
+          expedition_completed_count: 2,
+          expedition_total_count: 6,
+          expedition_progress: 2.0 / 6
         )
       end
 
@@ -411,6 +466,12 @@ module ScriptureLibraries
         return if denominator.to_i <= 0 || numerator.to_i <= 0
 
         numerator.fdiv(denominator).clamp(0.0, 1.0)
+      end
+
+      def ratio_including_zero(numerator, denominator)
+        return unless denominator.to_i.positive?
+
+        numerator.to_i.fdiv(denominator.to_i).clamp(0.0, 1.0)
       end
 
       def library_path(section, **options)

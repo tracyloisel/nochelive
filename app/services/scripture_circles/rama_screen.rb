@@ -266,7 +266,7 @@ module ScriptureCircles
       def display_conversation(ordered_posts)
         participant_states = {}
         conversation = ordered_posts.map do |post|
-          author = safe_author_for(post)
+          author = SafeAuthor.call(post:, viewer: @person, ward: @ward, locale: @locale)
           record_participant!(participant_states, author:)
           ConversationRow.new(
             id: post.id,
@@ -274,66 +274,25 @@ module ScriptureCircles
             body: post.body,
             selected_text: post.selected_text,
             created_at: post.created_at,
-            author_name: author.fetch(:name),
-            avatar_key: author.fetch(:avatar_key),
-            anonymous: author.fetch(:anonymous),
-            own: author.fetch(:own)
+            author_name: author.name,
+            avatar_key: author.avatar_key,
+            anonymous: author.anonymous,
+            own: author.own
           )
         end
 
         [ conversation.freeze, participant_states.values.freeze ]
       end
 
-      def safe_author_for(post)
-        anonymous = post.author_visibility == "anonymous_to_ward" || post.read_attribute("anonymous")
-        own = post.person_id == @person.id
-
-        if anonymous
-          return {
-            identity: [ :anonymous, post.id ],
-            name: own ? translated("scripture_reader.circle.you") : translated("scripture_reader.circle.anonymous"),
-            avatar_key: nil,
-            anonymous: true,
-            own:
-          }
-        end
-
-        if post.read_attribute("circle_person_ward_id") == @ward.id
-          name = [
-            post.read_attribute("circle_person_given_name"),
-            post.read_attribute("circle_person_family_name")
-          ].compact_blank.join(" ").presence || translated("scripture_reader.circle.former_member")
-          return {
-            identity: [ :person, post.person_id ],
-            name: own ? translated("scripture_reader.circle.you") : name,
-            avatar_key: post.read_attribute("circle_person_avatar_key").presence,
-            anonymous: false,
-            own:
-          }
-        end
-
-        {
-          identity: [ :former_member, post.person_id || post.id ],
-          name: translated("scripture_reader.circle.former_member"),
-          avatar_key: nil,
-          anonymous: false,
-          own:
-        }
-      end
-
       def record_participant!(states, author:)
-        identity = author.fetch(:identity)
+        identity = author.identity
         return if states.key?(identity)
 
         states[identity] = Participant.new(
-          name: author.fetch(:name),
-          avatar_key: author.fetch(:avatar_key),
-          anonymous: author.fetch(:anonymous)
+          name: author.name,
+          avatar_key: author.avatar_key,
+          anonymous: author.anonymous
         )
-      end
-
-      def translated(key)
-        I18n.t(key, locale: @locale)
       end
 
       def card_for(root, conversation:, participants:)
