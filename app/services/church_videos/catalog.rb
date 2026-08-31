@@ -94,7 +94,10 @@ module ChurchVideos
         request["Accept"] = "application/json"
         request["User-Agent"] = USER_AGENT
         response = http.request(request)
-        response.body if response.is_a?(Net::HTTPSuccess)
+        return response.body if response.is_a?(Net::HTTPSuccess)
+
+        Rails.logger.warn("ChurchVideos::Catalog YouTube HTTP #{response.code}: #{response.body.to_s.first(500).gsub(@api_key.to_s, '[FILTERED]')}")
+        nil
       end
     end
 
