@@ -15,6 +15,7 @@ class Hubs::ScreenTest < ActiveSupport::TestCase
     assert_equal 10, screen.hero.step_total
     assert_equal Quizzes::StreakReward.max_pack_score, screen.hero.reward
     assert_equal :post, screen.hero.method
+    assert_equal :start, screen.hero.state
     assert_equal :ward_missing, screen.live.state
     assert_equal Rails.application.routes.url_helpers.street_profile_path(quick: 1, fresh: 1, ward_next: 1),
       screen.live.ward_pick_path
@@ -200,6 +201,7 @@ class Hubs::ScreenTest < ActiveSupport::TestCase
     run = Quizzes::StartPack.call(device_digest: @digest, pack_id: "coronas").run
     screen = Hubs::Screen.call(device_digest: @digest, open_run: run)
     assert_equal :get, screen.hero.method
+    assert_equal :resume, screen.hero.state
     assert_equal Rails.application.routes.url_helpers.jugar_path, screen.hero.path
     assert_equal 1, screen.hero.step_n
     assert_equal Quizzes::StreakReward.max_pack_score, screen.hero.reward
@@ -292,32 +294,19 @@ class Hubs::ScreenTest < ActiveSupport::TestCase
     refute_respond_to screen.live, :hosts
   end
 
-  test "voyage is previous current next and Jouer stays on current pack" do
+  test "a completed pack gives the Home one explicit next adventure" do
     run = Quizzes::StartPack.call(device_digest: @digest, pack_id: "coronas").run
     run.update!(position: 10)
     Quizzes::Submit.call(run:, choice_key: run.question.correct_choice)
     Quizzes::Complete.call(run: run.reload)
     screen = Hubs::Screen.call(device_digest: @digest)
-    assert_equal QuizDefinition.catalog.find_pack("coronas").copy(:title), screen.voyage.previous.title
-    assert_equal QuizDefinition.catalog.find_pack("coronas").copy(:kicker), screen.voyage.previous.kicker
-    assert_equal screen.voyage.current.title, screen.hero.title
-    assert_equal screen.hero.kicker, screen.voyage.current.kicker
-    assert_equal screen.hero.path, screen.voyage.current.path
-    assert_equal :post, screen.voyage.previous.method
-    assert screen.voyage.previous.path.present?
-    assert_nil screen.voyage.next.path
-  end
+    next_pack = QuizDefinition.catalog.find_pack("placas")
 
-  test "current voyage slide carries the overlay copy Jouer needs" do
-    screen = Hubs::Screen.call(device_digest: @digest)
-    slide = screen.voyage.current
-    assert_equal screen.hero.kicker, slide.kicker
-    assert_equal screen.hero.lede, slide.lede
-    assert_equal screen.hero.step_n, slide.step_n
-    assert_equal screen.hero.reward, slide.reward
-    assert_equal screen.hero.path, slide.path
-    assert_equal screen.hero.still, slide.still
-    assert_equal :post, slide.method
+    assert_equal :start, screen.hero.state
+    assert_equal next_pack.copy(:title), screen.hero.title
+    assert_equal :post, screen.hero.method
+    assert_equal Rails.application.routes.url_helpers.street_pack_start_path(next_pack.id), screen.hero.path
+    refute_respond_to screen, :voyage
   end
 
 end

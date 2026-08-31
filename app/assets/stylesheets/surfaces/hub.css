@@ -1129,63 +1129,6 @@ body.is-street-hub:has(.home-menu.is-hud) .street-world.is-game-hub {
   text-decoration: none;
 }
 .hub-hero-info .picto { width: 1.05rem; height: 1.05rem; }
-.hub-dots {
-  position: absolute;
-  z-index: 5;
-  left: 50%;
-  bottom: var(--space-3);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 0;
-  min-height: 2rem;
-  padding: 0.18rem 0.38rem;
-  border: 1px solid rgba(255, 248, 232, 0.42);
-  border-radius: 999px;
-  background: rgba(8, 10, 18, 0.64);
-  box-shadow: 0 3px 14px rgba(0, 0, 0, 0.32);
-  backdrop-filter: blur(10px);
-  transform: translateX(-50%);
-}
-.hub-dot {
-  position: relative;
-  width: 2rem;
-  height: 2rem;
-  border: 0;
-  padding: 0;
-  border-radius: 999px;
-  background: transparent;
-  cursor: pointer;
-}
-.hub-dot::before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 0.5rem;
-  height: 0.5rem;
-  border: 1px solid rgba(255, 248, 232, 0.82);
-  border-radius: 999px;
-  background: rgba(255, 248, 232, 0.5);
-  transform: translate(-50%, -50%);
-}
-.hub-dot.is-on::before {
-  width: 1.15rem;
-  border-color: var(--gold-highlight);
-  background: var(--gold-primary);
-  box-shadow: 0 0 10px color-mix(in srgb, var(--gold-primary) 55%, transparent);
-}
-.hub-dot:focus-visible { outline: 2px solid var(--gold-highlight); outline-offset: -2px; }
-@media (max-width: 719px) {
-.hub-dots {
-    position: relative;
-    left: auto;
-    bottom: auto;
-    width: max-content;
-    margin: var(--space-2) auto 0;
-    transform: none;
-  }
-}
 .street-world.is-game-hub .hub-panel:not(.hub-live) .hub-kicker {
   color: var(--gold-deep);
 }
@@ -1395,8 +1338,7 @@ body.is-street-hub:has(.home-menu.is-hud) .street-world.is-game-hub {
 .street-world.is-game-hub.is-entering-quiz .quiz-hud,
 .street-world.is-game-hub.is-entering-quiz .hub-live,
 .street-world.is-game-hub.is-entering-quiz .navigation-dock,
-.street-world.is-game-hub.is-entering-quiz .hub-slide-copy,
-.street-world.is-game-hub.is-entering-quiz .hub-dots {
+.street-world.is-game-hub.is-entering-quiz .hub-slide-copy {
   opacity: 0;
   transition: opacity 220ms ease;
 }
@@ -1653,16 +1595,6 @@ body.is-game-hub-page.is-celestial-light .navigation-dock__item.is-active {
 .street-world.is-game-hub[data-hub-theme="light"] .hub-hero--themed :is(.hub-hero-title, .hub-hero-name) { color: var(--hub-light-type-on-paper-primary); }
 .street-world.is-game-hub[data-hub-theme="light"] .hub-hero--themed .hub-hero-lede { color: var(--hub-light-type-on-paper-secondary); }
 .street-world.is-game-hub[data-hub-theme="light"] .hub-hero--themed .hub-hero-continue { color: var(--hub-light-type-on-paper-primary); }
-.street-world.is-game-hub[data-hub-theme="light"] .hub-hero--themed .hub-dots {
-  border-color: color-mix(in srgb, var(--hub-light-gold-deep) 42%, transparent);
-  background: color-mix(in srgb, var(--hub-light-ivory) 82%, transparent);
-  box-shadow: 0 3px 14px color-mix(in srgb, var(--hub-light-ink) 16%, transparent);
-}
-.street-world.is-game-hub[data-hub-theme="light"] .hub-hero--themed .hub-dot::before {
-  border-color: color-mix(in srgb, var(--hub-light-ink) 58%, transparent);
-  background: color-mix(in srgb, var(--hub-light-ink) 24%, transparent);
-}
-
 /* Pack names are editorial content: on a phone, the voyage must grow with
    their real line count instead of hiding the one decisive action below it. */
 @media (max-width: 719px) {
@@ -2006,12 +1938,6 @@ body.is-game-hub-page.is-celestial-light .navigation-dock {
 .street-world.is-game-hub .hub-streaming-feed--editorial .hub-live--feature.is-playing .hub-live-join::after,
 .street-world.is-game-hub .hub-streaming-feed--editorial .hub-live--feature .hub-live-badge.is-breathe {
   animation: none;
-}
-
-/* The only dot controls on the Hub belong to the hero voyage. */
-.street-world.is-game-hub .hub-streaming-feed--editorial .hub-dot {
-  width: 44px;
-  height: 44px;
 }
 
 .hub-now,
@@ -2798,23 +2724,6 @@ body.is-game-hub-page.is-celestial-light .navigation-dock {
     background: color-mix(in srgb, var(--surface-secondary) 52%, transparent);
   }
 
-  .street-world.is-game-hub .hub-streaming-feed--editorial .hub-dots {
-    bottom: clamp(1.25rem, 2vw, 2rem);
-    left: var(--hub-editorial-gutter);
-    padding: 0;
-    border: 0;
-    background: transparent;
-    box-shadow: none;
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
-    transform: none;
-  }
-
-  .street-world.is-game-hub .hub-streaming-feed--editorial .hub-dot {
-    width: 44px;
-    height: 44px;
-  }
-
   .street-world.is-game-hub .hub-streaming-feed--editorial > .hub-live--feature {
     z-index: 2;
     width: min(100% - (var(--hub-editorial-gutter) * 2), 76rem);
@@ -3029,27 +2938,6 @@ body.is-game-hub-page.is-celestial-light .navigation-dock {
     letter-spacing: 0.06em;
   }
 
-  .street-world.is-game-hub[data-hub-theme] .hub-streaming-feed--editorial .hub-dots {
-    position: absolute;
-    top: calc(var(--hub-hud-clearance) + clamp(4.1rem, 15vw, 5.35rem));
-    bottom: auto;
-    left: clamp(1.05rem, 5vw, 1.65rem);
-    min-height: 2.35rem;
-    margin: 0;
-    padding: 0;
-    border: 0;
-    background: transparent;
-    box-shadow: none;
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
-    transform: none;
-  }
-
-  .street-world.is-game-hub[data-hub-theme] .hub-streaming-feed--editorial .hub-dot {
-    width: 44px;
-    height: 44px;
-  }
-
   .street-world.is-game-hub[data-hub-theme] .hub-streaming-feed--editorial .hub-reward {
     flex: 0 0 auto;
     min-width: min(100%, 9.75rem);
@@ -3091,11 +2979,6 @@ body.is-game-hub-page.is-celestial-light .navigation-dock {
   /* At the narrowest supported width, the decorative signature must yield
      to the real story, its title, and its single primary action. */
   .street-world.is-game-hub .hub-hero-worldmark { display: none; }
-
-  .street-world.is-game-hub .hub-dots {
-    top: calc(var(--hub-hud-clearance) + 0.55rem);
-    left: 0.7rem;
-  }
 
   .street-world.is-game-hub .hub-slide-copy {
     gap: 0.5rem;
@@ -4021,14 +3904,17 @@ body.is-street-hub:has(.home-menu.is-hud) .street-world.is-game-hub:has([data-hu
   .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-hero-info { display: none; }
   .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-slide-copy-top {
     position: absolute;
-    top: clamp(136px, 17.1dvh, 184px);
+    top: clamp(92px, 11dvh, 118px);
     left: clamp(56px, 4.5vw, 86px);
     display: flex;
     width: 360px;
     max-width: 360px;
     gap: 0;
   }
-  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-hero-continue { display: none; }
+  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-hero-continue {
+    display: block;
+    margin-bottom: 12px;
+  }
   .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-hero-title {
     max-width: 7.6ch;
     font-size: clamp(56px, 4.25vw, 68px);
@@ -4259,73 +4145,9 @@ body.is-street-hub:has(.home-menu.is-hud) .street-world.is-game-hub:has([data-hu
   }
 }
 
-/* Hub voyage + after-carousel polish --------------------------------------
- * The hero is a real three-stop voyage, announced by quiet position dots.
- * The lower page is one atmospheric field with
+/* Hub hero + after-carousel polish ----------------------------------------
+ * The hero carries one immediate action. The lower page is one atmospheric field with
  * content-bearing glass panes; it is not a stack of white dashboard cards. */
-.street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-voyage-nav {
-  position: absolute;
-  z-index: 8;
-  top: auto;
-  right: auto;
-  bottom: -26px;
-  left: 50%;
-  display: inline-flex;
-  align-items: center;
-  min-height: 44px;
-  padding: 0;
-  overflow: visible;
-  border: 0;
-  background: transparent;
-  box-shadow: none;
-  color: var(--text-primary);
-  -webkit-backdrop-filter: none;
-  backdrop-filter: none;
-  transform: translateX(-50%);
-}
-
-.street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-voyage-nav .hub-dots {
-  position: static;
-  left: auto;
-  bottom: auto;
-  display: flex;
-  width: auto;
-  min-height: 44px;
-  margin: 0;
-  padding: 0;
-  gap: 0;
-  border: 0;
-  background: transparent;
-  box-shadow: none;
-  -webkit-backdrop-filter: none;
-  backdrop-filter: none;
-  transform: none;
-}
-
-.street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-voyage-nav .hub-dot {
-  width: 44px;
-  height: 44px;
-}
-
-/* Keep the 44 px tap targets while letting the actual position dots read as a
- * quiet, compact pagination cue rather than three floating controls. */
-.street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-voyage-nav .hub-dot + .hub-dot {
-  margin-left: -20px;
-}
-
-.street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-voyage-nav .hub-dot::before {
-  width: 6px;
-  height: 6px;
-  border-color: color-mix(in srgb, var(--text-primary) 72%, transparent);
-  background: color-mix(in srgb, var(--text-primary) 38%, transparent);
-}
-
-.street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-voyage-nav .hub-dot.is-on::before {
-  width: 18px;
-  border-color: var(--gold-highlight);
-  background: var(--gold-primary);
-}
-
 .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-rama-carousel__track {
   box-sizing: border-box;
   padding-block: 4px 12px;
@@ -4554,15 +4376,6 @@ body.is-street-hub:has(.home-menu.is-hud) .street-world.is-game-hub:has([data-hu
 }
 
 @media (max-width: 767px) {
-  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-voyage-nav {
-    top: auto;
-    right: auto;
-    bottom: 14px;
-    left: 50%;
-    min-height: 48px;
-    transform: translateX(-50%);
-  }
-
   .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-rama-carousel__track {
     padding: 4px 17px 12px;
   }
@@ -4734,17 +4547,6 @@ body.is-street-hub:has(.home-menu.is-hud) .street-world.is-game-hub:has([data-hu
     display: none;
   }
 
-  /* The dots live in the quiet breathing band directly under the HUD on the
-     shortest phones. Their visible marks sit clear of both the title and the
-     factual league strip, while the 44 px targets remain intact. */
-  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-voyage-nav {
-    top: calc(var(--hub-hud-clearance) - 0.75rem);
-    right: auto;
-    bottom: auto;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-
   body.is-game-hub-page .navigation-dock__item {
     gap: 0.06rem;
     min-height: 3.68rem;
@@ -4816,17 +4618,6 @@ body.is-street-hub:has(.home-menu.is-hud) .street-world.is-game-hub:has([data-hu
     flex: 0 0 auto;
   }
 
-  /* Salt Lake's spires are the narrative anchor. Start that curated artwork
-     below the opaque HUD instead of sacrificing its crown to an overlay. */
-  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-hero:is(
-    [data-hub-hero-art="hub.hero.salt-lake-temple-night"],
-    [data-hub-hero-art="hub.hero.salt-lake-temple-dawn"]
-  ) .hub-slide.is-current .hub-slide-still {
-    height: calc(100% - var(--hub-hud-clearance));
-    margin-top: var(--hub-hud-clearance);
-    object-position: 50% 50%;
-  }
-
   .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-rama-carousel__track {
     padding: 4px 32px 12px;
   }
@@ -4837,19 +4628,9 @@ body.is-street-hub:has(.home-menu.is-hud) .street-world.is-game-hub:has([data-hu
 }
 
 @media (min-width: 1200px) {
-  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-hero:is(
-    [data-hub-hero-art="hub.hero.salt-lake-temple-night"],
-    [data-hub-hero-art="hub.hero.salt-lake-temple-dawn"]
-  ) .hub-slide.is-current .hub-slide-still {
-    height: calc(100% - var(--hub-hud-clearance));
-    margin-top: var(--hub-hud-clearance);
-    object-position: 50% 50%;
-  }
-
-  /* Reserve a real breathing band above the competitive cockpit, including
-     for two-line editorial titles such as "La vie du Sauveur". */
+  /* Keep the state label and longer localized titles clear of the action row. */
   .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-slide-copy-top {
-    top: clamp(116px, 13.5dvh, 146px);
+    top: clamp(92px, 11dvh, 118px);
   }
 
   .street-world.is-game-hub[data-hub-theme="light"] .hub-streaming-feed--editorial[data-hub-layout="hero-rama-carousel"] .hub-slide-copy-top {
@@ -4886,14 +4667,6 @@ body.is-street-hub:has(.home-menu.is-hud) .street-world.is-game-hub:has([data-hu
     line-height: 1.35;
   }
 
-  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-voyage-nav {
-    top: auto;
-    right: 40px;
-    bottom: calc(41.5dvh + 18px);
-    left: auto;
-    transform: none;
-  }
-
   .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-rama-carousel__track {
     height: calc(clamp(300px, 35.7dvh, 390px) + 16px);
     padding: 4px 0 12px;
@@ -4928,13 +4701,4 @@ body.is-street-hub:has(.home-menu.is-hud) .street-world.is-game-hub:has([data-hu
     box-shadow: none;
   }
 
-  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-voyage-nav .hub-dot::before {
-    border-color: ButtonText;
-    background: Canvas;
-  }
-
-  .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-voyage-nav .hub-dot.is-on::before {
-    border-color: Highlight;
-    background: Highlight;
-  }
 }

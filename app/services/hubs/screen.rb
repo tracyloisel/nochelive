@@ -6,14 +6,8 @@ module Hubs
     )
     Hero = Struct.new(
       :kicker, :title, :lede, :step_n, :step_total, :reward, :still,
-      :method, :path, keyword_init: true
+      :method, :path, :state, keyword_init: true
     )
-    Slide = Struct.new(
-      :kind, :title, :kicker, :lede, :still, :state,
-      :step_n, :step_total, :reward, :method, :path,
-      keyword_init: true
-    )
-    Voyage = Struct.new(:previous, :current, :next, keyword_init: true)
     Live = Struct.new(
       :state, :starts_at, :title, :join_path, :program_path, :still,
       :theme_mode, :theme_atmosphere, :ward_pick_path,
@@ -28,7 +22,7 @@ module Hubs
     # to the retired dashboard, not this editorial surface.
     Study = Struct.new(:week, :weekly_reading_cards, :expedition, keyword_init: true)
     Result = Struct.new(
-      :player, :hero, :voyage, :live, :rama_events, :circle, :study, :reading_cards, :backdrop, :league,
+      :player, :hero, :live, :rama_events, :circle, :study, :reading_cards, :backdrop, :league,
       keyword_init: true
     )
 
@@ -52,7 +46,6 @@ module Hubs
       Result.new(
         player: build_player,
         hero: build_hero,
-        voyage: build_voyage,
         live:,
         # Live is a full-width moment immediately after the hero. The local
         # block intentionally receives only verified ward events so the same
@@ -151,11 +144,12 @@ module Hubs
 
       def build_hero
         pack_view = current_pack
-        return Hero.new(step_n: 1, step_total: QuizDefinition::QUESTIONS_PER_PACK, reward: 0, method: :get, path: @helpers.jugar_path) unless pack_view
+        return Hero.new(step_n: 1, step_total: QuizDefinition::QUESTIONS_PER_PACK, reward: 0, method: :get, path: @helpers.jugar_path, state: :start) unless pack_view
 
         pack = pack_view.pack
         run = hero_run(pack_view)
-        step_n = run&.open? ? run.position : 1
+        resumable = run&.open?
+        step_n = resumable ? run.position : 1
         Hero.new(
           kicker: pack.copy(:kicker),
           title: pack.copy(:title),
@@ -164,8 +158,9 @@ module Hubs
           step_total: pack.questions.size,
           reward: remaining_points(pack, run),
           still: still_src(pack, position: step_n),
-          method: run&.open? ? :get : :post,
-          path: run&.open? ? @helpers.jugar_path : @helpers.street_pack_start_path(pack.id)
+          method: resumable ? :get : :post,
+          path: resumable ? @helpers.jugar_path : @helpers.street_pack_start_path(pack.id),
+          state: resumable ? :resume : :start
         )
       end
 
@@ -193,53 +188,6 @@ module Hubs
         end
 
         "/#{rel}" if Rails.public_path.join(rel).file?
-      end
-
-      def build_voyage
-        packs = @world.packs
-        playing = current_pack
-        idx = packs.index(playing) || packs.index { |pack| pack.id == @world.current_pack_id } || 0
-        Voyage.new(
-          previous: slide_for(:previous, idx.positive? ? packs[idx - 1] : nil),
-          current: slide_for(:current, packs[idx]),
-          next: slide_for(:next, packs[idx + 1])
-        )
-      end
-
-      def slide_for(kind, pack_view)
-        return unless pack_view
-
-        pack = pack_view.pack
-        run = kind == :current ? hero_run(pack_view) : open_run_for(pack_view)
-        playable = pack_view.state != :locked
-        Slide.new(
-          kind:,
-          title: pack.copy(:title),
-          kicker: pack.copy(:kicker),
-          lede: pack.copy(:lede),
-          still: still_src(pack, position: slide_step(pack_view, run)),
-          state: pack_view.state,
-          step_n: slide_step(pack_view, run),
-          step_total: pack.questions.size,
-          reward: remaining_points(pack, run),
-          method: run&.open? ? :get : :post,
-          path: playable ? play_path(pack, run) : nil
-        )
-      end
-
-      def open_run_for(pack_view)
-        pack_view.open_run
-      end
-
-      def slide_step(pack_view, run)
-        return run.position if run&.open?
-        return pack_view.pack.questions.size if pack_view.state == :finished
-
-        1
-      end
-
-      def play_path(pack, run)
-        run&.open? ? @helpers.jugar_path : @helpers.street_pack_start_path(pack.id)
       end
 
       def live_night

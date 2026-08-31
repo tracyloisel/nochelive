@@ -35,10 +35,8 @@ export default class extends Controller {
     }
 
     // Near-live accent (< 1 hour)
-    if (delta < 3600000) {
-      this.clockTarget?.classList.add("is-urgent")
-    } else {
-      this.clockTarget?.classList.remove("is-urgent")
+    if (this.hasClockTarget) {
+      this.clockTarget.classList.toggle("is-urgent", delta < 3600000)
     }
 
     if (this.hasClockTarget) this.clockTarget.classList.add("is-on")

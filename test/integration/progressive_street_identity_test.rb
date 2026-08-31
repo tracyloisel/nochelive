@@ -74,7 +74,9 @@ class ProgressiveStreetIdentityTest < ActionDispatch::IntegrationTest
     assert hub_sky
     assert_match(/background:\s*none/, hub_sky)
     refute_match(/\.street-world\.is-game-hub\.is-opening::before\s*\{[^}]*opacity:\s*0/m, css)
-    assert_select ".street-hub-feed .hub-hero[data-controller~='hub-voyage']", count: 1
+    assert_select ".street-hub-feed .hub-hero[data-controller='hub-portal']", count: 1
+    assert_select ".street-hub-feed .hub-hero .hub-slide", count: 1
+    assert_select ".street-hub-feed .hub-voyage-nav, .street-hub-feed .hub-dot", count: 0
     assert_match(/\.hub-streaming-feed--editorial\s*\{/, css)
     assert_match(/\.hub-live--feature/, css)
 

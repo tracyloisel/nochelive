@@ -36,6 +36,9 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
     end
     assert_select ".hub-now__programme[href=?]", scripture_library_path(section: "weekly", unit: week.id, anchor: "selection"), text: I18n.t("hub.now.weekly_programme")
     assert_select ".hub-hero .hub-play", count: 1
+    assert_select ".hub-hero[data-hero-state='start'] .hub-play", text: I18n.t("hub.start_action")
+    assert_select ".hub-hero .hub-slide", count: 1
+    assert_select ".hub-hero .hub-voyage-nav, .hub-hero .hub-dot", count: 0
     assert_select ".hub-hero-cockpit__row > .hub-hero-progress", count: 1
     assert_select ".hub-hero-league[href=?]", street_leaderboard_path, count: 1
     assert_select ".hub-hero-league-panel .hub-hero-gains-empty", count: 1
@@ -142,6 +145,9 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
         assert I18n.exists?("hub.rama.#{key}", locale), "hub.rama.#{key} is missing in #{locale}"
       end
       %w[hero_league_open hero_recent_gains hero_gained hero_gains_empty].each do |key|
+        assert I18n.exists?("hub.#{key}", locale), "hub.#{key} is missing in #{locale}"
+      end
+      %w[next_eyebrow resume_eyebrow question_step start_action resume_action].each do |key|
         assert I18n.exists?("hub.#{key}", locale), "hub.#{key} is missing in #{locale}"
       end
     end
@@ -285,20 +291,32 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
     assert_select ".hub-live img[fetchpriority='high'], .hub-now img[fetchpriority='high'], .hub-rama-block img[fetchpriority='high'], .hub-install img[fetchpriority='high']", count: 0
   end
 
-  test "the Hero voyage and static Rama carousel keep separate motion contracts" do
+  test "the Hero exposes one action while the Rama carousel stays independently scrollable" do
     get root_path
 
     assert_response :success
-    assert_select ".hub-hero[data-controller~='hub-voyage'] .hub-voyage", count: 1
-    assert_select ".hub-hero nav.hub-voyage-nav[aria-label=?]", I18n.t("hub.continue"), count: 1 do
-      assert_select ".hub-dots[data-hub-voyage-target='dots']", count: 1
-      assert_select ".hub-voyage-nav__button, .hub-voyage-nav__count", count: 0
-    end
+    assert_select ".hub-hero[data-controller='hub-portal'] .hub-voyage > .hub-slide.is-current", count: 1
+    assert_select ".hub-hero[data-controller~='hub-voyage'], .hub-voyage-nav, .hub-dot", count: 0
     assert_select ".hub-rama-carousel .hub-rama-carousel__track[role='list']", count: 1
     assert_select ".hub-rama-carousel[data-controller~='hub-voyage']", count: 0
-    voyage = Rails.root.join("app/javascript/controllers/hub_voyage_controller.js").read
-    refute_includes voyage, "setInterval("
-    assert_includes voyage, "prefers-reduced-motion: reduce"
+    refute Rails.root.join("app/javascript/controllers/hub_voyage_controller.js").exist?
+  end
+
+  test "an open quiz is explicitly presented as the one game to resume" do
+    sign_in_congregation
+    create_street_profile!
+    post street_pack_start_path("coronas")
+
+    assert_response :redirect
+    get root_path
+
+    assert_response :success
+    assert_select ".hub-hero[data-hero-state='resume']", count: 1 do
+      assert_select ".hub-hero-continue", text: I18n.t("hub.resume_eyebrow")
+      assert_select ".hub-hero-step", text: I18n.t("hub.question_step", n: 1, total: 10)
+      assert_select "a.hub-play[href=?]", jugar_path, text: I18n.t("hub.resume_action", n: 1)
+      assert_select ".hub-slide", count: 1
+    end
   end
 
   test "artwork selects a shared light or dark Hub markup without a user theme toggle" do

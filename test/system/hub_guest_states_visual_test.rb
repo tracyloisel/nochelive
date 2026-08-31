@@ -20,7 +20,7 @@ class HubGuestStatesVisualTest < ApplicationSystemTestCase
         visit root_path
 
         assert_selector "#street_world[data-hub-theme='#{theme}']"
-        assert_backdrop_artwork!(theme:)
+        assert_pack_artwork!
         assert_guest_truth!(width:, height:)
         shot("hub-guest-editorial-#{theme}-#{width}x#{height}") if [ 390, 768, 1440 ].include?(width)
         assert_empty severe_browser_logs, "Guest Hub console errors at #{theme} #{width}x#{height}: #{severe_browser_logs.inspect}"
@@ -41,7 +41,7 @@ class HubGuestStatesVisualTest < ApplicationSystemTestCase
         visit root_path
 
         assert_selector "#street_world[data-hub-theme='#{theme}']"
-        assert_backdrop_artwork!(theme:)
+        assert_pack_artwork!
         assert_ward_without_player_truth!(width:, height:)
         assert_empty severe_browser_logs, "Ward-only Hub console errors at #{theme} #{width}x#{height}: #{severe_browser_logs.inspect}"
       end
@@ -62,9 +62,11 @@ class HubGuestStatesVisualTest < ApplicationSystemTestCase
       end
     end
 
-    def assert_backdrop_artwork!(theme:)
-      hero_art = theme == "light" ? "hub.hero.salt-lake-temple-dawn" : "hub.hero.salt-lake-temple-night"
-      assert_selector ".hub-hero[data-hub-hero-art='#{hero_art}']"
+    def assert_pack_artwork!
+      hero = find(".hub-hero[data-hub-hero-art]")
+      assert_includes hero["data-hub-hero-art"], "/quizzes/"
+      refute_includes hero["data-hub-hero-art"], "salt-lake-temple"
+      assert_selector ".hub-hero .hub-slide-still"
     end
 
     def assert_guest_truth!(width:, height:)

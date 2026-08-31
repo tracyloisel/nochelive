@@ -27,15 +27,15 @@ class FrontendLoadingContractTest < ActionDispatch::IntegrationTest
     catalog_script = css_select("script#noche_sfx_catalog").first.text
     assert_includes catalog_script, "celestial_breath"
     refute_includes catalog_script, "timer_tension"
-    assert_select "link[rel='preload'][as='image'][type='image/avif'][fetchpriority='high']", count: 2
-    assert_select "link[rel='preload'][as='image'][media='(max-width: 767px)'][imagesrcset*='portrait']", count: 1
-    assert_select "link[rel='preload'][as='image'][media='(min-width: 768px)'][imagesrcset*='landscape']", count: 1
+    assert_select "link[rel='preload'][as='image'][type='image/avif'][fetchpriority='high'][imagesrcset*='quizzes']", count: 1
     assert_select "picture.street-world-art-picture source[type='image/avif'][srcset*='390w']", count: 1
     assert_select "picture.street-world-art-picture source[type='image/avif'][media='(min-width: 768px)'][srcset*='landscape']", count: 1
     assert_select ".hub-slide.is-current img.hub-slide-still[loading='eager'][fetchpriority='high'][decoding='async']", count: 1
     assert_select "picture.street-world-art-picture img.street-world-art[width][height][loading='lazy'][fetchpriority='low']", count: 1
-    assert_select ".street-hub-feed .hub-hero[data-controller~='hub-voyage']", count: 1
-    assert_select ".street-hub-feed > .hub-hero[data-controller~='hub-voyage']", count: 1
+    assert_select ".street-hub-feed .hub-hero[data-controller='hub-portal']", count: 1
+    assert_select ".street-hub-feed > .hub-hero[data-controller='hub-portal']", count: 1
+    assert_select ".street-hub-feed .hub-hero .hub-slide", count: 1
+    assert_select ".street-hub-feed .hub-voyage-nav, .street-hub-feed .hub-dot", count: 0
   end
 
   test "identity pages load shared entry primitives before their profile material" do

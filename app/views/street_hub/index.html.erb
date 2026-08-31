@@ -2,7 +2,7 @@
 <% screen = @screen %>
 <% art = screen.backdrop %>
 <% art_src = media_src(art.src) || art.src %>
-<% hero_lcp = art.hero.presence || screen.hero.still %>
+<% hero_lcp = screen.hero.still.presence || art.hero %>
 <% content_for :body_class, "is-kid is-street-hub is-game-hub-page is-celestial-#{art.theme.mode}" %>
 <% content_for :head do %>
   <%= noche_picture_preload(hero_lcp) || tag.link(rel: "preload", as: "image", href: hero_lcp, fetchpriority: "high") %>
@@ -13,7 +13,7 @@
      # surface here let its legacy tile rules restyle the cinematic hero after
      # the Hub stylesheet had loaded.
      styles: %w[shell hub],
-     controllers: %w[loading press chrome-menu hud-scroll hub-voyage hub-portal presence],
+     controllers: %w[loading press chrome-menu hud-scroll hub-portal presence],
      media: { lcp: hero_lcp },
      audio: { unlock: true, cues: %w[celestial_breath chest level_up], bed: nil },
      motion: %w[list-enter],
