@@ -65,6 +65,13 @@ class StudyQuizVersionTest < ActiveSupport::TestCase
     assert_nil quiz.readings(:es).first.fetch("label")
   end
 
+  test "uses a canonical digest for reviewed daily discovery content" do
+    first = { "daily_discoveries" => [ { "id" => "daily-01", "copy" => { "fr" => "Texte" } } ], "questions" => [] }
+    reordered = { "questions" => [], "daily_discoveries" => [ { "copy" => { "fr" => "Texte" }, "id" => "daily-01" } ] }
+
+    assert_equal StudyQuizVersion.content_digest_for(first), StudyQuizVersion.content_digest_for(reordered)
+  end
+
   private
 
     def expedition_content
