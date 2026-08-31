@@ -445,3 +445,93 @@ body.is-rama-profile .home-menu:not(.is-hud) { top: max(.7rem, env(safe-area-ins
 .rama-visit-actions small { font-size: .63rem; line-height: 1.25; }
 .rama-visit-actions b { font-size: 1rem; }
 }
+
+/* Rama 2.0: each rail keeps the visual grammar of its destination. */
+.rama-page {
+  --rama-glass: color-mix(in srgb, var(--paper) 82%, transparent);
+  --rama-glass-line: color-mix(in srgb, var(--gold-deep) 25%, var(--line));
+}
+
+.rama-content { gap: clamp(1.35rem, 2.4vw, 2rem); }
+.rama-live-rail { order: 1; }
+.rama-page .rama-liga { order: 2; }
+.rama-word-card { order: 3; }
+.rama-sunday-card { order: 4; }
+.rama-visit { order: 5; }
+.rama-host-tools { order: 6; }
+.rama-card,
+.rama-page .rama-liga {
+  border-color: var(--rama-glass-line);
+  background: var(--rama-glass);
+  box-shadow: 0 1rem 2.5rem rgba(56, 45, 24, .07), inset 0 1px 0 rgba(255,255,255,.85);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+
+.rama-section--gameops { position: relative; }
+.rama-live-head {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-inline: .15rem;
+}
+.rama-live-head h2 { margin: .25rem 0 0; color: var(--ink); font: 760 clamp(1.55rem, 3.6vw, 2.2rem)/1 var(--font-display); }
+.rama-rail-count { display: grid; min-width: 1.8rem; min-height: 1.8rem; place-items: center; border: 1px solid var(--rama-glass-line); border-radius: 50%; }
+.rama-live-carousel {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  gap: 1rem;
+  overflow-x: auto;
+  padding: .3rem .15rem .7rem;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--gold-deep) 60%, transparent) transparent;
+}
+.rama-live-slide { display: grid; flex: 0 0 min(50rem, calc(100% - 2.75rem)); scroll-snap-align: start; }
+.rama-next { min-height: clamp(19rem, 33vw, 25rem); }
+.rama-next .btn-gold { color: var(--ink); background: linear-gradient(135deg, color-mix(in srgb, var(--gold-bright) 88%, white), var(--gold)); border-color: color-mix(in srgb, var(--gold-deep) 70%, transparent); box-shadow: 0 .5rem 1.2rem rgba(205, 157, 28, .25); }
+.rama-next .btn-ghost { color: #fffaf0; border-color: rgba(239,198,83,.72); background: rgba(5,24,43,.62); box-shadow: 0 .35rem 1rem rgba(0,0,0,.18); }
+
+/* Library is a reading invitation: paper, ink, reference, progress. */
+.rama-word-card.is-library {
+  min-height: 12rem;
+  color: var(--ink);
+  border-color: color-mix(in srgb, var(--gold-deep) 22%, var(--line));
+  background:
+    linear-gradient(90deg, color-mix(in srgb, var(--paper) 96%, transparent) 0 54%, color-mix(in srgb, var(--paper) 62%, transparent)),
+    var(--rama-word-art) 82% center / auto 100% no-repeat,
+    var(--paper);
+  box-shadow: 0 .8rem 2rem rgba(83, 66, 34, .08), inset 0 1px 0 white;
+}
+.rama-word-card.is-library::after { background: radial-gradient(circle at 72% 18%, rgba(208, 166, 54, .18), transparent 31%); }
+.rama-word-card.is-library .rama-word-copy { max-width: 48rem; }
+.rama-word-card.is-library .rama-kicker { color: var(--gold-deep); }
+.rama-word-card.is-library .rama-word-copy h2 { color: var(--ink); }
+.rama-word-card.is-library .rama-word-copy > p:not(.rama-kicker) { color: var(--muted); }
+.rama-word-card.is-library .rama-word-progress > span { background: color-mix(in srgb, var(--ink) 12%, transparent); }
+.rama-word-card.is-library .rama-word-progress i { background: var(--gold-deep); }
+.rama-word-card.is-library .rama-word-progress strong,
+.rama-word-card.is-library .rama-word-link { color: var(--gold-deep); }
+.rama-word-card.is-library .rama-word-mark { color: var(--gold-deep); border-color: color-mix(in srgb, var(--gold-deep) 45%, transparent); background: color-mix(in srgb, var(--paper) 70%, transparent); }
+
+/* Leaderboard stays the Liga: quiet rows, podium first, action at the edge. */
+.rama-page .rama-liga { padding: clamp(1rem, 2.2vw, 1.5rem); }
+.rama-page .rama-liga .street-league-head h2 { color: var(--gold-deep); letter-spacing: .08em; }
+.rama-page .rama-liga .street-league-meta { font-size: .78rem; }
+.rama-page .rama-liga .street-league-all { color: var(--ink); }
+.rama-page .rama-liga .street-league-runners { border-top-color: color-mix(in srgb, var(--gold-deep) 18%, var(--line)); }
+
+@media (max-width: 620px) {
+  .rama-live-carousel { margin-inline: -.15rem; padding-inline: .15rem 1rem; }
+  .rama-live-slide { flex-basis: calc(100% - 1.35rem); }
+  .rama-next { min-height: 24rem; }
+  .rama-word-card.is-library { min-height: 12.5rem; background-position: 125% center; background-size: auto 100%; }
+  .rama-word-card.is-library::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, var(--paper) 0 56%, transparent 100%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rama-live-carousel { scroll-behavior: auto; }
+}

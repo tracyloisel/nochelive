@@ -17,50 +17,89 @@ PACK_IDS = %w[
 PACK_PRESENTATION = [
   {
     "id" => "exp_psalms_disappearing_voice",
-    "title" => { "fr" => "La voix qui disparaît" },
-    "kicker" => { "fr" => "Psaumes 102–103" },
-    "hook" => { "fr" => "Un homme dit que ses jours partent en fumée. Pourtant, son chant est encore là." },
-    "experience" => { "fr" => "Passer de la peur de disparaître à une mémoire qui tient." }
+    "title" => { "fr" => "La voix qui disparaît", "es" => "La voz que desaparece" },
+    "kicker" => { "fr" => "Psaumes 102–103", "es" => "Salmos 102–103" },
+    "hook" => {
+      "fr" => "Un homme dit que ses jours partent en fumée. Pourtant, son chant est encore là.",
+      "es" => "Un hombre dice que sus días se disipan como humo. Sin embargo, su canto sigue ahí."
+    },
+    "experience" => {
+      "fr" => "Passer de la peur de disparaître à une mémoire qui tient.",
+      "es" => "Pasar del miedo a desaparecer a una memoria que perdura."
+    }
   },
   {
     "id" => "exp_psalms_nameless_king",
-    "title" => { "fr" => "Le Roi sans nom" },
-    "kicker" => { "fr" => "Psaume 110" },
-    "hook" => { "fr" => "Dieu réunit un roi et un prêtre dans le même homme. Puis un nom surgit : Melchisédek." },
-    "experience" => { "fr" => "Entrer dans une cérémonie royale dont la pièce centrale manque." }
+    "title" => { "fr" => "Le Roi sans nom", "es" => "El Rey sin nombre" },
+    "kicker" => { "fr" => "Psaume 110", "es" => "Salmo 110" },
+    "hook" => {
+      "fr" => "Dieu réunit un roi et un prêtre dans le même homme. Puis un nom surgit : Melchisédek.",
+      "es" => "Dios reúne a un rey y a un sacerdote en la misma persona. Entonces aparece un nombre: Melquisedec."
+    },
+    "experience" => {
+      "fr" => "Entrer dans une cérémonie royale dont la pièce centrale manque.",
+      "es" => "Entrar en una ceremonia real a la que le falta la pieza central."
+    }
   },
   {
     "id" => "exp_psalms_cry_stone_seek",
-    "title" => { "fr" => "Cherche-moi" },
-    "kicker" => { "fr" => "Psaumes 116–119" },
-    "hook" => { "fr" => "Le plus long psaume finit sans triomphe : « Je suis perdu. Cherche-moi. »" },
-    "experience" => { "fr" => "Crier, être relevé, puis admettre qu’on a encore besoin d’aide." }
+    "title" => { "fr" => "Cherche-moi", "es" => "Búscame" },
+    "kicker" => { "fr" => "Psaumes 116–119", "es" => "Salmos 116–119" },
+    "hook" => {
+      "fr" => "Le plus long psaume finit sans triomphe : « Je suis perdu. Cherche-moi. »",
+      "es" => "El salmo más largo termina sin triunfo: «Estoy perdido. Búscame»."
+    },
+    "experience" => {
+      "fr" => "Crier, être relevé, puis admettre qu’on a encore besoin d’aide.",
+      "es" => "Clamar, ser levantado y admitir que aún necesitas ayuda."
+    }
   },
   {
     "id" => "exp_psalms_house_table_city",
-    "title" => { "fr" => "La maison que Dieu bâtit" },
-    "kicker" => { "fr" => "Psaumes 127–128" },
-    "hook" => { "fr" => "Tu travailles, tu veilles, tu recommences. Mais est-ce que tout repose vraiment sur toi ?" },
-    "experience" => { "fr" => "Travailler vraiment sans prétendre être sa propre fondation." }
+    "title" => { "fr" => "La maison que Dieu bâtit", "es" => "La casa que Dios edifica" },
+    "kicker" => { "fr" => "Psaumes 127–128", "es" => "Salmos 127–128" },
+    "hook" => {
+      "fr" => "Tu travailles, tu veilles, tu recommences. Mais est-ce que tout repose vraiment sur toi ?",
+      "es" => "Trabajas, velas, vuelves a empezar. Pero ¿de verdad todo descansa sobre ti?"
+    },
+    "experience" => {
+      "fr" => "Travailler vraiment sans prétendre être sa propre fondation.",
+      "es" => "Trabajar de verdad sin pretender ser tu propio fundamento."
+    }
   },
   {
     "id" => "exp_psalms_suspended_harps",
-    "title" => { "fr" => "Les harpes suspendues" },
-    "kicker" => { "fr" => "Psaumes 135–139" },
-    "hook" => { "fr" => "On détruit leur ville. Puis on leur demande de la chanter. Ils suspendent leurs harpes." },
-    "experience" => { "fr" => "Écouter ce qui refuse de chanter avant de répondre." }
+    "title" => { "fr" => "Les harpes suspendues", "es" => "Las arpas suspendidas" },
+    "kicker" => { "fr" => "Psaumes 135–139", "es" => "Salmos 135–139" },
+    "hook" => {
+      "fr" => "On détruit leur ville. Puis on leur demande de la chanter. Ils suspendent leurs harpes.",
+      "es" => "Destruyen su ciudad. Después les piden que la canten. Ellos cuelgan sus arpas."
+    },
+    "experience" => {
+      "fr" => "Écouter ce qui refuse de chanter avant de répondre.",
+      "es" => "Escuchar lo que se niega a cantar antes de responder."
+    }
   },
   {
     "id" => "exp_psalms_everything_breathes",
-    "title" => { "fr" => "Tout ce qui respire" },
-    "kicker" => { "fr" => "Psaumes 146–150" },
-    "hook" => { "fr" => "Le Dieu qui compte les étoiles s’arrête aussi devant un cœur brisé." },
-    "experience" => { "fr" => "Choisir où placer son espérance, puis rejoindre le chœur." }
+    "title" => { "fr" => "Tout ce qui respire", "es" => "Todo lo que respira" },
+    "kicker" => { "fr" => "Psaumes 146–150", "es" => "Salmos 146–150" },
+    "hook" => {
+      "fr" => "Le Dieu qui compte les étoiles s’arrête aussi devant un cœur brisé.",
+      "es" => "El Dios que cuenta las estrellas también se detiene ante un corazón quebrantado."
+    },
+    "experience" => {
+      "fr" => "Choisir où placer son espérance, puis rejoindre le chœur.",
+      "es" => "Elegir dónde poner tu esperanza y después unirte al coro."
+    }
   }
 ].freeze
 
 READINGS = [ 102, 103, 110, 116, 117, 118, 119, 127, 128, 135, 136, 137, 138, 139, 146, 147, 148, 149, 150 ].map do |chapter|
-  { "study" => "ot/ps/#{chapter}", "labels" => { "fr" => "Psaume #{chapter}" } }
+  {
+    "study" => "ot/ps/#{chapter}",
+    "labels" => { "fr" => "Psaume #{chapter}", "es" => "Salmo #{chapter}" }
+  }
 end.freeze
 
 ward = Ward.find_by!(name: ENV.fetch("WARD_NAME", "Rama Benidorm"))
@@ -72,7 +111,10 @@ unit = StudyUnit.find_by!(starts_on: Date.new(2026, 8, 31), ends_on: Date.new(20
 
 content = {
   "key" => "ils-ont-crie-vers-dieu-2026",
-  "light" => { "fr" => "Le Dieu qui me connaît et me relève est digne de toute ma louange." },
+  "light" => {
+    "fr" => "Le Dieu qui me connaît et me relève est digne de toute ma louange.",
+    "es" => "El Dios que me conoce y me levanta merece toda mi alabanza."
+  },
   "artwork" => "/media/expeditions/psalms-2026/home-key-art-v1.png",
   "ceremony_artwork" => "/media/expeditions/psalms-2026/home-key-art-v1.png",
   "readings" => READINGS,
@@ -112,6 +154,11 @@ StudyQuizVersion.transaction do
         "title" => "31 août – 6 septembre : Ils ont crié vers Dieu",
         "theme" => "Quand il ne reste que la foi",
         "scripture_refs" => READINGS.map { |reading| reading.dig("labels", "fr") }
+      },
+      "es" => {
+        "title" => "31 de agosto–6 de septiembre: Salmos 102–103; 110; 116–119",
+        "theme" => "Cuando solo queda la fe",
+        "scripture_refs" => READINGS.map { |reading| reading.dig("labels", "es") }
       }
     )
   )

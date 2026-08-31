@@ -57,6 +57,14 @@ class StudyQuizVersionTest < ActiveSupport::TestCase
     assert quiz.errors[:content].any? { |error| error.include?("invented-pack") }
   end
 
+  test "does not use French reading labels as a cross-locale fallback" do
+    quiz = StudyQuizVersion.new(content: {
+      "readings" => [ { "study" => "ot/ps/102", "labels" => { "fr" => "Psaume 102" } } ]
+    })
+
+    assert_nil quiz.readings(:es).first.fetch("label")
+  end
+
   private
 
     def expedition_content

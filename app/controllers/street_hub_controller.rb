@@ -51,7 +51,11 @@ class StreetHubController < ApplicationController
       locale: I18n.locale
     )
     @selected_expedition = selected_expedition
-    @map_view = params[:view] == "expeditions" || @selected_expedition ? :expeditions : :journey
+    # The complete journey is the stable landing view. A selected expedition
+    # only changes the view when the player explicitly asks for it (or arrives
+    # through an expedition deep link); merely having published expeditions
+    # must never hide the permanent map.
+    @map_view = expedition_view_requested? ? :expeditions : :journey
   end
 
   private
@@ -86,9 +90,13 @@ class StreetHubController < ApplicationController
 
     def selected_expedition
       requested = params[:expedition].to_s
-      return @expeditions.find { |entry| entry.study_unit_id.to_s == requested || entry.id == requested } if requested.present?
+      requested_expedition = @expeditions.find { |entry| entry.study_unit_id.to_s == requested || entry.id == requested } if requested.present?
 
-      @expeditions.find { |entry| entry.state == :active } || @expeditions.first
+      requested_expedition || @expeditions.find { |entry| entry.state == :active } || @expeditions.first
+    end
+
+    def expedition_view_requested?
+      params[:view].to_s == "expeditions" || params[:expedition].present?
     end
 
     def preferred_open_run

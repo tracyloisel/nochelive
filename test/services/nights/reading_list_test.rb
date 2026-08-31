@@ -20,4 +20,14 @@ class Nights::ReadingListTest < ActiveSupport::TestCase
 
     assert_includes Nights::ReadingList.call(night:).map(&:study), "ot/ps/149"
   end
+
+  test "localizes the scripture citation for the active Noche Live language" do
+    night = Struct.new(:quiz_packs).new([
+      QuizDefinition.catalog.find_pack("exp_psalms_disappearing_voice")
+    ])
+
+    reading = Nights::ReadingList.call(night:, locale: :es).first
+
+    assert_equal "Salmos 102:2–12", reading.cite
+  end
 end

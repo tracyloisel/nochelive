@@ -1,0 +1,473 @@
+es:
+  quizzes:
+    exp_psalms_disappearing_voice:
+      title: "La voz que desaparece"
+      kicker: "Salmos 102–103"
+      lede: "Cuando tus días se disipan como humo, ¿qué puede permanecer?"
+      hook: "Un hombre dice que sus días se disipan como humo. Sin embargo, su canto sigue ahí."
+      experience: "Pasar del miedo a desaparecer a una memoria que perdura."
+      questions:
+        ps102_fumee_01:
+          question: "¿Qué teme la voz al comienzo del Salmo 102?"
+          answer: "Sus días se disipan como humo y su cuerpo se debilita: teme desaparecer."
+          choices:
+            a: "Desaparecer"
+            b: "Perder su trono"
+            c: "Olvidar una victoria"
+        ps102_herbe_02:
+          question: "¿Con qué se compara su corazón?"
+          answer: "Su corazón es como la hierba golpeada y marchita: el sufrimiento alcanza todo su ser."
+          choices:
+            a: "Con la hierba marchita"
+            b: "Con una muralla agrietada"
+            c: "Con un río seco"
+        ps102_mais_toi_03:
+          question: "¿Qué giro abre por fin un futuro?"
+          answer: "La voz no finge estar mejor. Vuelve la mirada hacia Dios, que permanece."
+          choices:
+            a: "Pero tú permaneces"
+            b: "Solo yo resistiré"
+            c: "Todo ya está reparado"
+        ps102_sion_04:
+          question: "¿Con qué ciudad termina mezclándose su dolor?"
+          answer: "Su queja personal se une a las piedras y al polvo de Sion, que espera ser levantada."
+          choices:
+            a: "Sion"
+            b: "Roma"
+            c: "Nínive"
+        ps102_avenir_05:
+          question: "¿Quién tendrá que alabar a Dios después de esta generación?"
+          answer: "El salmo imagina una generación futura que leerá, alabará a Dios y todavía encontrará Sion delante de ella."
+          choices:
+            a: "Un pueblo futuro"
+            b: "Solo los reyes"
+            c: "Nadie después de ella"
+        ps103_memoire_06:
+          question: "¿Qué pide el Salmo 103 al alma?"
+          answer: "La voz ordena a su alma bendecir a Dios y no olvidar sus beneficios."
+          choices:
+            a: "No olvides ningún beneficio"
+            b: "Mira solo tus faltas"
+            c: "Olvida lo que te hirió"
+        ps103_distance_07:
+          question: "¿Qué hace Dios con las faltas en la imagen del salmo?"
+          answer: "Como el oriente está lejos del occidente, el salmo representa a Dios alejando las faltas."
+          choices:
+            a: "Las aleja muy lejos"
+            b: "Las guarda para humillar"
+            c: "Niega que existan"
+        ps103_fragilite_08:
+          question: "¿Cómo mira Dios nuestra fragilidad?"
+          answer: "El salmo dice que Dios recuerda que somos polvo y nos mira con compasión."
+          choices:
+            a: "Con compasión"
+            b: "Con sorpresa"
+            c: "Con desprecio"
+        ps103_eternite_09:
+          question: "La vida pasa como la hierba. ¿Qué permanece?"
+          answer: "La vida humana es breve, pero el amor de Dios aparece como algo que permanece de eternidad en eternidad."
+          choices:
+            a: "El amor fiel de Dios"
+            b: "La fuerza del cuerpo"
+            c: "La fama humana"
+        ps102_hebreux_10:
+          question: "En Hebreos 1, ¿de quién hablan estas palabras del Salmo 102?"
+          answer: "Hebreos aplica al Hijo las palabras sobre quien permanece. Eso no convierte toda la queja en la voz de Jesús."
+          choices:
+            a: "Del Hijo"
+            b: "Del cantante anónimo"
+            c: "De Melquisedec"
+
+    exp_psalms_nameless_king:
+      title: "El Rey sin nombre"
+      kicker: "Salmo 110"
+      lede: "Un rey recibe una promesa extraña: sacerdote para siempre."
+      hook: "Dios reúne a un rey y a un sacerdote en la misma persona. Entonces aparece un nombre: Melquisedec."
+      experience: "Entrar en una ceremonia real a la que le falta la pieza central."
+      questions:
+        ps110_roles_01:
+          question: "¿Qué dos papeles reúne el Salmo 110?"
+          answer: "Una primera palabra se refiere a un rey; una segunda lo declara sacerdote según Melquisedec."
+          choices:
+            a: "Rey y sacerdote"
+            b: "Profeta y juez"
+            c: "Escriba y soldado"
+        ps110_roi_inconnu_02:
+          question: "¿Permite el texto nombrar a este rey con certeza?"
+          answer: "El título transmitido lo relaciona con David, pero el rey al que se refiere y la primera escena histórica siguen siendo desconocidos."
+          choices:
+            a: "No, permanece desconocido"
+            b: "Sí, es David"
+            c: "Sí, es Salomón"
+        ps110_droite_03:
+          question: "¿Dónde invita Dios a sentarse a este señor?"
+          answer: "La derecha representa aquí un lugar de autoridad concedido por Dios."
+          choices:
+            a: "A su derecha"
+            b: "Detrás del altar"
+            c: "Fuera de Jerusalén"
+        ps110_melchisedek_04:
+          question: "¿Por qué sorprende Melquisedec en el versículo 4?"
+          answer: "El juramento añade una función sacerdotal al rey. La relación histórica exacta con Melquisedec sigue siendo objeto de debate."
+          choices:
+            a: "El rey también se convierte en sacerdote"
+            b: "Destruye Jerusalén"
+            c: "Escribe el salmo"
+        ps110_fin_05:
+          question: "¿Termina el salmo con el juramento sacerdotal?"
+          answer: "Después del juramento, el poema continúa con una victoria violenta. La expedición no debe borrarla."
+          choices:
+            a: "No, continúa hacia el combate"
+            b: "Sí, todo termina ahí"
+            c: "No, narra el exilio"
+        ps110_scene_06:
+          question: "¿Qué permanece desconocido detrás de esta escena real?"
+          answer: "El salmo es real, pero no permite reconstruir con certeza ni al rey ni la ceremonia."
+          choices:
+            a: "El rey y la ceremonia"
+            b: "El nombre de Jerusalén"
+            c: "La existencia de la realeza"
+        ps110_matthieu_07:
+          question: "En Mateo 22, ¿qué enigma plantea Jesús?"
+          answer: "Jesús pregunta cómo el Mesías puede ser hijo de David si David también lo llama Señor."
+          choices:
+            a: "David llama Señor a su hijo"
+            b: "Moisés se niega a ser rey"
+            c: "Salomón se convierte en profeta"
+        ps110_hebreux5_08:
+          question: "En Hebreos 5, ¿quién es el sacerdote para siempre?"
+          answer: "Hebreos retoma el juramento para Cristo y lo nombra autor de una salvación eterna."
+          choices:
+            a: "Jesucristo"
+            b: "El rey histórico conocido con certeza"
+            c: "El cantante del salmo"
+        ps110_hebreux7_09:
+          question: "Según Hebreos 7, ¿por qué puede salvar por completo?"
+          answer: "Hebreos fundamenta esta esperanza en Cristo, que vive siempre para interceder."
+          choices:
+            a: "Vive siempre e intercede"
+            b: "Gana todas las batallas"
+            c: "Ignora toda debilidad"
+        ps110_lds_10:
+          question: "En la lectura SUD, ¿qué orden ilumina este juramento?"
+          answer: "Alma y Doctrina y Convenios relacionan este orden con el Hijo de Dios y con el sacerdocio de Melquisedec."
+          choices:
+            a: "El orden del Hijo de Dios"
+            b: "El orden de los reyes de Judá"
+            c: "El orden de los escribas"
+
+    exp_psalms_cry_stone_seek:
+      title: "Búscame"
+      kicker: "Salmos 116–119"
+      lede: "Clamar, atravesar la puerta y pedirle a Dios que venga a buscarte."
+      hook: "El salmo más largo termina sin triunfo: «Estoy perdido. Búscame»."
+      experience: "Clamar, ser levantado y admitir que aún necesitas ayuda."
+      questions:
+        ps116_appel_01:
+          question: "Cuando la muerte la estrecha, ¿qué hace primero la voz?"
+          answer: "Su clamor cabe en pocas palabras: llama al nombre de Dios y pide ser liberada."
+          choices:
+            a: "Llama a Dios"
+            b: "Oculta su miedo"
+            c: "Promete controlarlo todo"
+        ps116_public_02:
+          question: "Después de ser liberada, ¿dónde expresa su gratitud?"
+          answer: "La voz cumple sus promesas públicamente y convierte su liberación en un testimonio compartido."
+          choices:
+            a: "Ante todo el pueblo"
+            b: "En un lugar secreto"
+            c: "Ante los ejércitos"
+        ps117_nations_03:
+          question: "¿A quién invita el Salmo 117 a alabar a Dios?"
+          answer: "En dos versículos, el salmo llama a todas las naciones y a todos los pueblos."
+          choices:
+            a: "A todas las naciones"
+            b: "Solo a los sacerdotes"
+            c: "Solo a Jerusalén"
+        ps117_romains_04:
+          question: "¿Por qué retoma Pablo el Salmo 117 en Romanos 15?"
+          answer: "Pablo ve allí a las naciones acogidas con el pueblo de Dios en la alabanza y la esperanza."
+          choices:
+            a: "Las naciones alaban a Dios"
+            b: "El Templo debe ser reconstruido"
+            c: "David debe convertirse en sacerdote"
+        ps118_pierre_05:
+          question: "¿En qué se convierte la piedra rechazada del Salmo 118?"
+          answer: "Lo que los constructores habían rechazado se convierte en la piedra de la que depende la construcción."
+          choices:
+            a: "En la piedra principal"
+            b: "En una piedra olvidada"
+            c: "En un arma de guerra"
+        ps118_actes_06:
+          question: "En Hechos 4, ¿quién se convierte en esa piedra?"
+          answer: "Pedro aplica la imagen a Jesús resucitado y afirma que la salvación se encuentra en él."
+          choices:
+            a: "Jesucristo"
+            b: "Pedro el apóstol"
+            c: "El rey del Salmo 110"
+        ps119_return_07:
+          question: "Has fallado tres días. ¿Qué hacer según el final del Salmo 119?"
+          answer: "La voz no dice que haya tenido éxito. Reconoce que se ha perdido y pide a Dios que la busque."
+          choices:
+            a: "Esconderme hasta sentirme mejor"
+            b: "Prometerme que no volveré a fallar"
+            c: "Pedirle a Dios que me busque"
+            d: "Abandonar el camino"
+        ps119_teach_08:
+          question: "Tu mente se va a otra parte. ¿Qué reflejo vuelve en el Salmo 119?"
+          answer: "El salmo vuelve a esta petición: enséñame, dame entendimiento y hazme vivir."
+          choices:
+            a: "Fingir que he entendido"
+            b: "Pedirle a Dios que me enseñe"
+            c: "Parar en cuanto me distraiga"
+            d: "Recitar para merecer su ayuda"
+        ps119_order_09:
+          question: "Tu rutina se mantiene. ¿Qué recuerda, sin embargo, el final del Salmo 119?"
+          answer: "El poema está muy ordenado, pero termina con una oveja perdida. La disciplina no reemplaza a Dios."
+          choices:
+            a: "Una rutina evita perderse"
+            b: "El orden ayuda, pero no reemplaza a Dios"
+            c: "Toda disciplina es inútil"
+            d: "Dios ayuda, así que yo ya no actúo"
+        ps119_help_10:
+          question: "«Dios me busca, así que no tengo que hacer nada». ¿Qué responde el salmo?"
+          answer: "La voz busca a Dios, pide que la enseñe y después que la busque. La ayuda y el siguiente paso van juntos."
+          choices:
+            a: "Esperar siempre es suficiente"
+            b: "Dios solo ayuda a los perfectos"
+            c: "Pedir su ayuda y después actuar"
+            d: "Las reglas están por encima de Dios"
+
+    exp_psalms_house_table_city:
+      title: "La casa que Dios edifica"
+      kicker: "Salmos 127–128"
+      lede: "Trabajar, amar y edificar sin cargar tú solo con el peso del mundo."
+      hook: "Trabajas, velas, vuelves a empezar. Pero ¿de verdad todo descansa sobre ti?"
+      experience: "Trabajar de verdad sin pretender ser tu propio fundamento."
+      questions:
+        ps127_batir_01:
+          question: "Sin Dios, ¿en qué se convierte el trabajo de los constructores?"
+          answer: "El salmo no desprecia el trabajo; se niega a convertirlo en un fundamento suficiente sin Dios."
+          choices:
+            a: "En un esfuerzo vano"
+            b: "En una falta imperdonable"
+            c: "En una victoria segura"
+        ps127_garde_02:
+          question: "Sin Dios, ¿qué valor tiene la vigilancia del guardián?"
+          answer: "El guardián vigila de verdad, pero su vigilancia no aparece como una seguridad absoluta."
+          choices:
+            a: "Se vuelve vana"
+            b: "Garantiza la ciudad"
+            c: "Reemplaza la oración"
+        ps127_labeur_03:
+          question: "¿Qué denuncia el Salmo 127 en el trabajo?"
+          answer: "Señala el esfuerzo que se levanta temprano, se acuesta tarde y vive como si todo dependiera solo de él."
+          choices:
+            a: "El trabajo ansioso sin Dios"
+            b: "Todo esfuerzo humano"
+            c: "La necesidad de dormir"
+        ps127_enfants_04:
+          question: "¿Cómo presenta el salmo a los hijos?"
+          answer: "El texto habla de una herencia recibida. El juego no clasifica ni la fertilidad ni las formas de familia."
+          choices:
+            a: "Como una herencia recibida"
+            b: "Como una prueba de mérito"
+            c: "Como una carga vergonzosa"
+        ps127_porte_05:
+          question: "En el mundo antiguo, ¿qué ocurría también en la puerta?"
+          answer: "La puerta probablemente era un lugar cívico y judicial, no solo una defensa militar."
+          choices:
+            a: "Los asuntos de la ciudad"
+            b: "Los sacrificios del Templo"
+            c: "Las cosechas de los campos"
+        ps127_montee_06:
+          question: "¿A qué viaje se asocian los Cánticos de las subidas?"
+          answer: "Generalmente se los relaciona con las peregrinaciones hacia Jerusalén, sin conocer un itinerario preciso."
+          choices:
+            a: "La subida hacia Jerusalén"
+            b: "La huida hacia Egipto"
+            c: "La conquista de Babilonia"
+        ps128_travail_07:
+          question: "En el Salmo 128, ¿qué come el trabajador?"
+          answer: "La felicidad incluye aquí el fruto concreto del trabajo, recibido en una vida orientada hacia Dios."
+          choices:
+            a: "El fruto de su trabajo"
+            b: "El pan de sus vecinos"
+            c: "La comida del rey"
+        ps128_voies_08:
+          question: "¿Con qué relaciona el Salmo 128 la felicidad?"
+          answer: "El texto habla de honrar a Dios y caminar por sus caminos, no de comprar una vida perfecta."
+          choices:
+            a: "Honrar a Dios y seguir sus caminos"
+            b: "Poseer la casa más grande"
+            c: "No conocer nunca el esfuerzo"
+        ps128_ville_09:
+          question: "¿Hacia dónde termina mirando la bendición de la casa?"
+          answer: "La visión se amplía de la mesa al bien de Jerusalén y a la paz sobre Israel."
+          choices:
+            a: "Hacia el bien de Jerusalén"
+            b: "Hacia una riqueza privada"
+            c: "Hacia la caída de los vecinos"
+        ps127_agir_10:
+          question: "¿Apoyarse en Dios significa dejar de edificar?"
+          answer: "El salmo mantiene a constructores y guardianes trabajando, pero se niega a que se crean el fundamento."
+          choices:
+            a: "No, edificar con él"
+            b: "Sí, esperar sin actuar"
+            c: "No, cargarlo todo solo"
+
+    exp_psalms_suspended_harps:
+      title: "Las arpas suspendidas"
+      kicker: "Salmos 135–139"
+      lede: "Destruyeron su ciudad y después les pidieron que la cantaran."
+      hook: "Destruyen su ciudad. Después les piden que la canten. Ellos cuelgan sus arpas."
+      experience: "Escuchar lo que se niega a cantar antes de responder."
+      questions:
+        ps135_souffle_01:
+          question: "A pesar de tener boca, ¿qué les falta a los ídolos?"
+          answer: "Tienen boca, ojos y oídos, pero no hablan, no ven, no oyen ni respiran."
+          choices:
+            a: "El aliento y la palabra"
+            b: "Una corona"
+            c: "Sirvientes"
+        ps135_ressembler_02:
+          question: "¿Qué arriesgan quienes confían en esos ídolos?"
+          answer: "El salmo advierte que quienes los fabrican y confían en ellos llegan a parecerse a ellos."
+          choices:
+            a: "Parecerse a ellos"
+            b: "Convertirse en reyes"
+            c: "Abandonar Jerusalén"
+        ps136_refrain_03:
+          question: "¿Qué repite cada versículo del Salmo 136?"
+          answer: "El mismo estribillo vuelve veintiséis veces, incluso en los recuerdos más difíciles."
+          choices:
+            a: "Su amor dura para siempre"
+            b: "El rey siempre vencerá"
+            c: "La ciudad nunca caerá"
+        ps136_assemblee_04:
+          question: "¿Cómo podía cantarse este estribillo?"
+          answer: "La repetición sugiere una llamada y una respuesta, sin darnos el ritmo ni el número exacto de participantes."
+          choices:
+            a: "Una voz y después la asamblea"
+            b: "Un solista sin respuesta"
+            c: "Un ejército en marcha"
+        ps137_harpes_05:
+          question: "¿Por qué suspenden sus arpas los exiliados?"
+          answer: "Sus vencedores les piden un canto de Sion. Se niegan a convertir su ciudad destruida en un espectáculo."
+          choices:
+            a: "Se niegan a aceptar la humillación"
+            b: "Han olvidado la música"
+            c: "Preparan una fiesta"
+        ps137_babylone_06:
+          question: "¿Dónde se encuentran probablemente estos exiliados?"
+          answer: "El contexto babilónico después de la caída de Jerusalén es muy probable, pero el cantante sigue siendo desconocido."
+          choices:
+            a: "En Babilonia"
+            b: "En Roma"
+            c: "En Egipto"
+        ps138_detresse_07:
+          question: "¿Ya ha desaparecido la angustia en el Salmo 138?"
+          answer: "La voz alaba a Dios mientras todavía atraviesa la angustia y pide no ser abandonada."
+          choices:
+            a: "No, todavía está presente"
+            b: "Sí, ya está todo resuelto"
+            c: "El salmo no habla de ella"
+        ps139_fuir_08:
+          question: "¿Dónde se puede huir lejos de Dios en el Salmo 139?"
+          answer: "El cielo, el reino de los muertos, el mar y la noche se convierten en lugares donde la presencia de Dios alcanza a la voz."
+          choices:
+            a: "En ninguna parte"
+            b: "En el fondo del mar"
+            c: "En la noche"
+        ps139_parole_09:
+          question: "Antes de que se diga una palabra, ¿qué conoce Dios?"
+          answer: "El salmo presenta a Dios conociendo la palabra entera antes de que llegue a la lengua."
+          choices:
+            a: "La palabra entera"
+            b: "Solo su última sílaba"
+            c: "Nada antes de oírla"
+        ps139_sonde_10:
+          question: "Después de juzgar el mal, ¿qué pide finalmente la voz?"
+          answer: "Después de su ira, la voz acepta que Dios también la examine y pide ser guiada por el camino correcto."
+          choices:
+            a: "Examíname y guíame"
+            b: "Decir que siempre tengo razón"
+            c: "Ocultarme de toda pregunta"
+
+    exp_psalms_everything_breathes:
+      title: "Todo lo que respira"
+      kicker: "Salmos 146–150"
+      lede: "El Dios que cuenta las estrellas se detiene ante los corazones quebrantados."
+      hook: "El Dios que cuenta las estrellas también se detiene ante un corazón quebrantado."
+      experience: "Elegir dónde poner tu esperanza y después unirte al coro."
+      questions:
+        ps146_princes_01:
+          question: "¿Por qué no poner la esperanza definitiva en los príncipes?"
+          answer: "Cuando su aliento se va, sus proyectos terminan. El salmo contrapone ese poder mortal a Dios."
+          choices:
+            a: "Su aliento se acaba"
+            b: "Nunca hablan"
+            c: "Viven fuera de las ciudades"
+        ps146_vulnerables_02:
+          question: "¿De quién cuida Dios concretamente en este salmo?"
+          answer: "El texto nombra a hambrientos, cautivos, ciegos, extranjeros, huérfanos y viudas."
+          choices:
+            a: "De hambrientos, cautivos y extranjeros"
+            b: "Solo de reyes poderosos"
+            c: "Solo de soldados"
+        ps146_regne_03:
+          question: "¿Qué reino no se detiene con un aliento?"
+          answer: "Los príncipes mueren; el salmo afirma que Dios reina de generación en generación."
+          choices:
+            a: "El reino de Dios"
+            b: "El reino de los príncipes"
+            c: "El reino de un ejército"
+        ps147_coeurs_04:
+          question: "¿Qué hace con los corazones quebrantados quien cuenta las estrellas?"
+          answer: "El mismo Dios cuenta las estrellas, reúne a los dispersos y cuida de los corazones quebrantados."
+          choices:
+            a: "Los sana"
+            b: "Los olvida"
+            c: "Los juzga demasiado débiles"
+        ps147_reconstruction_05:
+          question: "¿Qué horizonte hace muy probable el Salmo 147?"
+          answer: "La reunión de los dispersos y la reconstrucción de Jerusalén apuntan con fuerza al tiempo posterior al exilio."
+          choices:
+            a: "Jerusalén reconstruida después del exilio"
+            b: "Roma fundada por David"
+            c: "El Templo construido por Noé"
+        ps148_choeur_06:
+          question: "¿Quién se une al coro después de los astros?"
+          answer: "El canto desciende hacia el clima, los relieves, los animales, los reyes, los pueblos, los jóvenes y los ancianos."
+          choices:
+            a: "Relieves, animales y seres humanos"
+            b: "Solo los sacerdotes"
+            c: "Solo los adultos"
+        ps148_ages_07:
+          question: "¿Dónde comienza el canto nuevo del Salmo 149?"
+          answer: "El salmo sitúa el canto nuevo en la asamblea y lo acompaña con danza y pandero."
+          choices:
+            a: "En la asamblea"
+            b: "En el palacio"
+            c: "En el desierto"
+        ps150_lieu_08:
+          question: "¿Dónde invita primero el Salmo 150 a alabar a Dios?"
+          answer: "El salmo comienza en el santuario y en la extensión celestial, y después amplía la llamada a todo lo que respira."
+          choices:
+            a: "En su santuario"
+            b: "En el palacio del rey"
+            c: "En una ciudad extranjera"
+        ps150_instrument_09:
+          question: "En el Salmo 150, ¿cuál es el último instrumento?"
+          answer: "Después de todos los instrumentos, la llamada final se dirige a todo ser vivo que tenga aliento."
+          choices:
+            a: "Todo lo que respira"
+            b: "El címbalo más fuerte"
+            c: "El cuerno del rey"
+        souffle_echo_10:
+          question: "¿Qué motivo relaciona a los ídolos, los príncipes y la alabanza final?"
+          answer: "Los ídolos no tienen aliento, los príncipes lo pierden y después todo lo que respira alaba. Es un eco, no un código secreto."
+          choices:
+            a: "El aliento"
+            b: "La corona"
+            c: "La puerta de la ciudad"

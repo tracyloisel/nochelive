@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_31_163000) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_31_173000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -51,7 +51,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_31_163000) do
     t.index ["street_duel_id"], name: "index_duel_invitations_on_street_duel_id"
     t.index ["token_digest"], name: "index_duel_invitations_on_token_digest", unique: true
     t.check_constraint "recipient_person_id IS NULL OR recipient_person_id <> challenger_person_id", name: "duel_invitations_distinct_people_check"
-    t.check_constraint "status::text = ANY (ARRAY['open'::character varying, 'claimed'::character varying, 'declined'::character varying, 'expired'::character varying, 'revoked'::character varying]::text[])", name: "duel_invitations_status_check"
+    t.check_constraint "status::text = ANY (ARRAY['open'::character varying::text, 'claimed'::character varying::text, 'declined'::character varying::text, 'expired'::character varying::text, 'revoked'::character varying::text])", name: "duel_invitations_status_check"
   end
 
   create_table "game_sessions", force: :cascade do |t|
@@ -66,7 +66,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_31_163000) do
     t.string "status", default: "lobby", null: false
     t.datetime "updated_at", null: false
     t.bigint "ward_id", null: false
-    t.index ["code"], name: "index_game_sessions_active_code", unique: true, where: "((status)::text <> ALL ((ARRAY['finished'::character varying, 'cancelled'::character varying])::text[]))"
+    t.index ["code"], name: "index_game_sessions_active_code", unique: true, where: "((status)::text <> ALL (ARRAY[('finished'::character varying)::text, ('cancelled'::character varying)::text]))"
     t.index ["code"], name: "index_game_sessions_on_code"
     t.index ["starts_at"], name: "index_game_sessions_on_starts_at"
     t.index ["status", "starts_at", "ends_at"], name: "index_nights_on_lifecycle"
@@ -343,7 +343,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_31_163000) do
     t.index ["voter_person_id"], name: "index_circle_conversation_votes_on_voter"
     t.index ["ward_id", "conversation_root_id"], name: "index_circle_conversation_votes_for_ranking"
     t.index ["ward_id"], name: "index_scripture_circle_conversation_votes_on_ward_id"
-    t.check_constraint "direction::text = ANY (ARRAY['up'::character varying, 'down'::character varying]::text[])", name: "scripture_circle_conversation_votes_direction"
+    t.check_constraint "direction::text = ANY (ARRAY['up'::character varying::text, 'down'::character varying::text])", name: "scripture_circle_conversation_votes_direction"
   end
 
   create_table "scripture_circle_moderation_ballot_revisions", force: :cascade do |t|
@@ -451,7 +451,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_31_163000) do
     t.index ["scripture_circle_post_id", "revision_number"], name: "index_scripture_circle_revisions_unique", unique: true
     t.index ["scripture_circle_post_id"], name: "index_scripture_circle_revisions_on_post_id"
     t.index ["ward_id"], name: "index_scripture_circle_post_revisions_on_ward_id"
-    t.check_constraint "author_visibility::text = ANY (ARRAY['named'::character varying, 'anonymous_to_ward'::character varying]::text[])", name: "scripture_circle_revisions_author_visibility"
+    t.check_constraint "author_visibility::text = ANY (ARRAY['named'::character varying::text, 'anonymous_to_ward'::character varying::text])", name: "scripture_circle_revisions_author_visibility"
     t.check_constraint "char_length(body) >= 1 AND char_length(body) <= 500", name: "scripture_circle_revisions_body_length"
   end
 
@@ -466,7 +466,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_31_163000) do
     t.index ["voter_person_id"], name: "index_circle_post_votes_on_voter"
     t.index ["ward_id", "scripture_circle_post_id"], name: "index_circle_post_votes_for_scoring"
     t.index ["ward_id"], name: "index_scripture_circle_post_votes_on_ward_id"
-    t.check_constraint "direction::text = ANY (ARRAY['up'::character varying, 'down'::character varying]::text[])", name: "scripture_circle_post_votes_direction"
+    t.check_constraint "direction::text = ANY (ARRAY['up'::character varying::text, 'down'::character varying::text])", name: "scripture_circle_post_votes_direction"
   end
 
   create_table "scripture_circle_posts", force: :cascade do |t|
@@ -498,7 +498,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_31_163000) do
     t.index ["ward_id", "kind", "created_at"], name: "index_circle_visible_roots", where: "(((status)::text = 'visible'::text) AND (parent_id IS NULL))"
     t.index ["ward_id", "status", "created_at"], name: "index_scripture_circle_posts_for_ward"
     t.index ["ward_id"], name: "index_scripture_circle_posts_on_ward_id"
-    t.check_constraint "author_visibility::text = ANY (ARRAY['named'::character varying, 'anonymous_to_ward'::character varying]::text[])", name: "scripture_circle_posts_author_visibility"
+    t.check_constraint "author_visibility::text = ANY (ARRAY['named'::character varying::text, 'anonymous_to_ward'::character varying::text])", name: "scripture_circle_posts_author_visibility"
     t.check_constraint "char_length(body) >= 1 AND char_length(body) <= 500", name: "scripture_circle_posts_body_length"
     t.check_constraint "selected_text IS NULL OR char_length(selected_text) <= 1000", name: "scripture_circle_posts_selected_text_length"
     t.check_constraint "selected_verses IS NULL OR char_length(selected_verses::text) <= 120", name: "scripture_circle_posts_selected_verses_length"
@@ -853,12 +853,12 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_31_163000) do
     t.index ["opponent_person_id"], name: "index_street_duels_on_opponent_person_id"
     t.index ["opponent_run_id"], name: "index_street_duels_on_opponent_run_id"
     t.index ["origin_invitation_id"], name: "index_street_duels_on_origin_invitation_id"
-    t.index ["pair_low_person_id", "pair_high_person_id"], name: "index_street_duels_on_unique_active_pair", unique: true, where: "((status)::text = ANY ((ARRAY['active'::character varying, 'one_scored'::character varying])::text[]))"
+    t.index ["pair_low_person_id", "pair_high_person_id"], name: "index_street_duels_on_unique_active_pair", unique: true, where: "((status)::text = ANY (ARRAY[('active'::character varying)::text, ('one_scored'::character varying)::text]))"
     t.index ["rematch_of_id"], name: "index_street_duels_on_rematch_of_id"
     t.index ["status"], name: "index_street_duels_on_status"
     t.check_constraint "challenger_person_id <> opponent_person_id", name: "street_duels_distinct_people_check"
     t.check_constraint "pair_low_person_id < pair_high_person_id", name: "street_duels_ordered_pair_check"
-    t.check_constraint "status::text = ANY (ARRAY['active'::character varying, 'one_scored'::character varying, 'resolved'::character varying, 'expired'::character varying, 'archived'::character varying]::text[])", name: "street_duels_status_check"
+    t.check_constraint "status::text = ANY (ARRAY['active'::character varying::text, 'one_scored'::character varying::text, 'resolved'::character varying::text, 'expired'::character varying::text, 'archived'::character varying::text])", name: "street_duels_status_check"
   end
 
   create_table "study_answers", force: :cascade do |t|
@@ -994,7 +994,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_31_163000) do
     t.index ["ward_event_id", "created_at", "id"], name: "index_ward_event_audits_timeline"
     t.index ["ward_event_id"], name: "index_ward_event_audits_on_ward_event_id"
     t.index ["ward_id"], name: "index_ward_event_audits_on_ward_id"
-    t.check_constraint "action::text = ANY (ARRAY['created'::character varying, 'updated'::character varying, 'published'::character varying, 'cancelled'::character varying]::text[])", name: "ward_event_audits_action"
+    t.check_constraint "action::text = ANY (ARRAY['created'::character varying::text, 'updated'::character varying::text, 'published'::character varying::text, 'cancelled'::character varying::text])", name: "ward_event_audits_action"
     t.check_constraint "char_length(actor_label::text) >= 1 AND char_length(actor_label::text) <= 120", name: "ward_event_audits_actor_length"
   end
 
@@ -1025,10 +1025,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_31_163000) do
     t.check_constraint "char_length(title::text) >= 1 AND char_length(title::text) <= 120", name: "ward_events_title_length"
     t.check_constraint "destination_path IS NOT NULL AND destination_url IS NULL OR destination_path IS NULL AND destination_url IS NOT NULL", name: "ward_events_one_destination"
     t.check_constraint "ends_at >= starts_at", name: "ward_events_time_order"
-    t.check_constraint "kind::text = ANY (ARRAY['clothing_drive'::character varying, 'toy_drive'::character varying, 'books_and_school_supplies_drive'::character varying, 'food_drive'::character varying, 'sports_activity'::character varying, 'music_activity'::character varying, 'art_activity'::character varying]::text[])", name: "ward_events_kind"
+    t.check_constraint "kind::text = ANY (ARRAY['clothing_drive'::character varying::text, 'toy_drive'::character varying::text, 'books_and_school_supplies_drive'::character varying::text, 'food_drive'::character varying::text, 'sports_activity'::character varying::text, 'music_activity'::character varying::text, 'art_activity'::character varying::text])", name: "ward_events_kind"
     t.check_constraint "status::text <> 'cancelled'::text OR cancelled_by IS NOT NULL AND cancelled_at IS NOT NULL AND cancellation_reason IS NOT NULL", name: "ward_events_cancellation_audit"
     t.check_constraint "status::text <> 'published'::text OR approved_by IS NOT NULL AND approved_at IS NOT NULL", name: "ward_events_publication_audit"
-    t.check_constraint "status::text = ANY (ARRAY['draft'::character varying, 'published'::character varying, 'cancelled'::character varying]::text[])", name: "ward_events_status"
+    t.check_constraint "status::text = ANY (ARRAY['draft'::character varying::text, 'published'::character varying::text, 'cancelled'::character varying::text])", name: "ward_events_status"
   end
 
   create_table "ward_teams", force: :cascade do |t|
@@ -1061,7 +1061,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_31_163000) do
     t.string "name", null: false
     t.string "postal_code"
     t.string "region"
-    t.string "scripture_circle_mode", default: "disabled", null: false
+    t.string "scripture_circle_mode", default: "active", null: false
     t.string "stake_name"
     t.string "stake_unit_id"
     t.string "time_zone", default: "UTC", null: false
@@ -1077,7 +1077,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_31_163000) do
     t.index ["name"], name: "index_wards_on_name_trgm", opclass: :gin_trgm_ops, using: :gin
     t.index ["stake_name"], name: "index_wards_on_stake_name_trgm", opclass: :gin_trgm_ops, using: :gin
     t.index ["stake_unit_id"], name: "index_wards_on_stake_unit_id"
-    t.check_constraint "scripture_circle_mode::text = ANY (ARRAY['disabled'::character varying, 'read_only'::character varying, 'active'::character varying]::text[])", name: "wards_scripture_circle_mode"
+    t.check_constraint "scripture_circle_mode::text = ANY (ARRAY['disabled'::character varying::text, 'read_only'::character varying::text, 'active'::character varying::text])", name: "wards_scripture_circle_mode"
   end
 
   create_table "web_push_subscriptions", force: :cascade do |t|

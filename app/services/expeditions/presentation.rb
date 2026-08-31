@@ -4,14 +4,14 @@ module Expeditions
   # only selection, dates and the Council's editorial presentation.
   class Presentation
     Pack = Data.define(
-      :id, :definition, :title, :kicker, :lede, :hook, :experience,
-      :question_count, :state, :stars, :open_run_id, :artwork
+      :id, :title, :kicker, :lede, :hook, :question_count, :state, :stars,
+      :open_run_id, :artwork
     )
 
     Result = Data.define(
-      :id, :study_unit, :study_quiz_version, :title, :subtitle, :promise,
-      :artwork, :structure_type, :packs, :completed_count, :total_count,
-      :progress_percent, :reading_count, :state
+      :id, :study_unit, :title, :subtitle, :promise, :artwork, :packs,
+      :completed_count, :total_count, :progress_percent, :state, :starts_on,
+      :ends_on, :duration_days, :days_remaining
     ) do
       def study_unit_id = study_unit.id
       def pack_ids = packs.map(&:id)
@@ -43,18 +43,19 @@ module Expeditions
       Result.new(
         id: @data["id"].presence || "study-unit-#{@unit.id}",
         study_unit: @unit,
-        study_quiz_version: @quiz,
         title: localized("title") || @unit.theme(@locale),
         subtitle: localized("subtitle"),
         promise: localized("promise"),
         artwork: @data["artwork"].presence || @quiz.content["artwork"].to_s,
-        structure_type: @data["structure_type"].presence || "constellation",
         packs:,
         completed_count: completed,
         total_count: packs.size,
         progress_percent: (completed.fdiv(packs.size) * 100).round,
-        reading_count: @quiz.readings(@locale).size,
-        state: date_state
+        state: date_state,
+        starts_on: @unit.starts_on,
+        ends_on: @unit.ends_on,
+        duration_days: duration_days,
+        days_remaining: days_remaining
       )
     rescue QuizDefinition::Error
       nil
@@ -71,12 +72,10 @@ module Expeditions
         I18n.with_locale(@locale) do
           Pack.new(
             id: pack_id,
-            definition:,
-            title: localized_from(metadata, "title") || definition.copy(:title),
-            kicker: localized_from(metadata, "kicker") || definition.copy(:kicker),
-            lede: localized_from(metadata, "lede") || definition.copy(:lede),
-            hook: localized_from(metadata, "hook"),
-            experience: localized_from(metadata, "experience"),
+            title: localized_pack_copy(pack_id, metadata, definition, "title"),
+            kicker: localized_pack_copy(pack_id, metadata, definition, "kicker"),
+            lede: localized_pack_copy(pack_id, metadata, definition, "lede"),
+            hook: localized_pack_copy(pack_id, metadata, definition, "hook"),
             question_count: definition.questions.size,
             state:,
             stars:,
@@ -105,9 +104,17 @@ module Expeditions
         localized_from(@data, key)
       end
 
-      def localized_from(source, key)
+      def localized_pack_copy(pack_id, metadata, definition, key)
+        localized_from(metadata, key, fallback: false).presence ||
+          I18n.t("quizzes.#{pack_id}.#{key}", default: nil).presence ||
+          (definition.copy(key) if %w[title kicker lede].include?(key))
+      end
+
+      def localized_from(source, key, fallback: true)
         value = source[key]
         return value.to_s.presence unless value.is_a?(Hash)
+
+        return value[@locale].presence unless fallback
 
         value[@locale].presence || value["fr"].presence || value.values.find(&:present?)
       end
@@ -118,6 +125,22 @@ module Expeditions
         return :past if @unit.ends_on && date > @unit.ends_on
 
         :active
+      end
+
+      def duration_days
+        if @unit.starts_on && @unit.ends_on
+          return (@unit.ends_on - @unit.starts_on).to_i + 1
+        end
+
+        configured = @data["duration_days"].to_i
+        configured.positive? ? configured : nil
+      end
+
+      def days_remaining
+        return unless @unit.ends_on
+        return 0 if @unit.ends_on < @at.to_date
+
+        (@unit.ends_on - @at.to_date).to_i + 1
       end
   end
 end

@@ -1,10 +1,136 @@
 <% expedition = local_assigns[:expedition] %>
 <% expeditions = Array(local_assigns[:expeditions]) %>
+<% selected_index = expedition ? expeditions.index { |entry| entry.id == expedition.id } : nil %>
+<% selected_index ||= 0 %>
 
-<section class="mapa-expeditions" aria-labelledby="mapa-expedition-title">
+<section class="mapa-expeditions" aria-labelledby="mapa-expeditions-title">
+  <header class="mapa-expeditions-heading">
+    <div class="mapa-expeditions-heading__copy">
+      <p class="mapa-section-kicker"><%= t("street.expeditions.collection_kicker") %></p>
+      <h2 id="mapa-expeditions-title"><%= t("street.expeditions.collection_title") %></h2>
+      <p><%= t("street.expeditions.collection_detail") %></p>
+    </div>
+    <span class="mapa-expeditions-heading__count" aria-label="<%= t("street.expeditions.collection_count", count: expeditions.size) %>">
+      <strong><%= expeditions.size %></strong>
+      <small><%= t("street.expeditions.collection_count", count: expeditions.size) %></small>
+    </span>
+  </header>
+
+  <% if expeditions.any? %>
+    <div class="mapa-expedition-carousel-shell">
+      <div class="mapa-expedition-carousel-toolbar">
+        <p><%= t("street.expeditions.carousel_hint") %></p>
+        <div class="mapa-expedition-carousel-controls" aria-label="<%= t("street.expeditions.carousel_label") %>">
+          <button type="button"
+                  class="mapa-expedition-carousel-control is-previous"
+                  data-hub-map-target="expeditionPrevious"
+                  data-direction="-1"
+                  data-action="hub-map#scrollExpeditions"
+                  aria-label="<%= t("street.expeditions.previous") %>">
+            <%= picto("arrow") %>
+          </button>
+          <button type="button"
+                  class="mapa-expedition-carousel-control"
+                  data-hub-map-target="expeditionNext"
+                  data-direction="1"
+                  data-action="hub-map#scrollExpeditions"
+                  aria-label="<%= t("street.expeditions.next") %>">
+            <%= picto("arrow") %>
+          </button>
+        </div>
+      </div>
+
+      <div id="mapa-expedition-carousel"
+           class="mapa-expedition-carousel"
+           role="list"
+           aria-label="<%= t("street.expeditions.carousel_label") %>"
+           data-hub-map-target="expeditionRail"
+           data-action="scroll->hub-map#updateExpeditionControls">
+        <% expeditions.each_with_index do |entry, index| %>
+          <% active = expedition && entry.id == expedition.id %>
+          <% duration_label = entry.duration_days ? t("street.expeditions.duration", count: entry.duration_days) : t("street.expeditions.duration_unknown") %>
+          <% status_label = t("street.expeditions.states.#{entry.state}") %>
+          <% schedule_label = case entry.state
+             when :active
+               entry.days_remaining.to_i.positive? ? t("street.expeditions.days_left", count: entry.days_remaining) : t("street.expeditions.active")
+             when :upcoming
+               entry.starts_on ? t("street.expeditions.starts_on", date: l(entry.starts_on)) : t("street.expeditions.upcoming")
+             else
+               t("street.expeditions.ended")
+             end %>
+          <% action_key = if entry.state == :past
+             "replay_expedition"
+           elsif entry.completed_count.positive?
+             "continue_expedition"
+           else
+             "open_expedition"
+           end %>
+          <% card_label = [ entry.title, duration_label, schedule_label, t("street.expeditions.progress", done: entry.completed_count, total: entry.total_count) ].join(" · ") %>
+
+          <article class="mapa-expedition-card is-<%= entry.state %><%= " is-active" if active %>" role="listitem">
+            <%= link_to street_map_path(view: "expeditions", expedition: entry.study_unit_id),
+                  class: "mapa-expedition-card__link",
+                  aria: { current: (active ? "page" : nil), label: card_label },
+                  data: { action: "click->hub-map#prepareNavigation", map_destination: "detail" } do %>
+            <span class="mapa-expedition-card__art" aria-hidden="true">
+              <% artwork = entry.artwork.to_s.delete_prefix("/") %>
+              <%= noche_media_picture(artwork, alt: "", loading: (index.zero? ? "eager" : "lazy")) if artwork.present? %>
+            </span>
+            <span class="mapa-expedition-card__veil" aria-hidden="true"></span>
+            <span class="mapa-expedition-card__topline">
+              <span class="mapa-expedition-card__duration"><%= duration_label %></span>
+              <span class="mapa-expedition-card__status"><%= status_label %></span>
+            </span>
+            <span class="mapa-expedition-card__copy">
+              <strong><%= entry.title %></strong>
+              <span class="mapa-expedition-card__schedule"><%= schedule_label %></span>
+              <span class="mapa-expedition-card__progress" role="progressbar"
+                    aria-label="<%= t("street.expeditions.progress", done: entry.completed_count, total: entry.total_count) %>"
+                    aria-valuemin="0" aria-valuemax="100" aria-valuenow="<%= entry.progress_percent %>">
+                <i><b style="width: <%= entry.progress_percent %>%"></b></i>
+                <em><%= t("street.expeditions.progress", done: entry.completed_count, total: entry.total_count) %></em>
+              </span>
+              <span class="mapa-expedition-card__action"><%= t("street.expeditions.#{action_key}") %><%= picto("arrow") %></span>
+            </span>
+            <% end %>
+          </article>
+        <% end %>
+      </div>
+
+      <div class="mapa-expedition-carousel-dots" aria-hidden="true">
+        <% expeditions.each_with_index do |entry, index| %>
+          <i class="<%= "is-active" if index == selected_index %>"
+             data-hub-map-target="expeditionDot"
+             data-expedition-index="<%= index %>"></i>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+
+  <%= link_to street_map_path(view: "journey"), class: "mapa-expedition-journey-link", data: { action: "click->hub-map#prepareNavigation", map_destination: "journey" } do %>
+    <span class="mapa-expedition-journey-link__icon" aria-hidden="true"><%= picto("mapa-crown") %></span>
+    <span>
+      <strong><%= t("street.expeditions.see_complete_journey") %></strong>
+      <small><%= t("street.expeditions.see_complete_journey_detail", count: @world.packs.size) %></small>
+    </span>
+    <%= picto("arrow") %>
+  <% end %>
+
   <% if expedition %>
     <% artwork = expedition.artwork.to_s.delete_prefix("/") %>
-    <article class="mapa-expedition-hero is-<%= expedition.state %>">
+    <% focus_pack = expedition.packs.find { |pack| pack.state == :open } || expedition.packs.find { |pack| pack.state == :available } || expedition.packs.last %>
+    <% focus_copy_key = if focus_pack&.open_run_id
+         "continue_pack"
+       elsif focus_pack&.state == :finished
+         "replay_pack"
+       else
+         "open_pack"
+       end %>
+    <% focus_path = focus_pack&.open_run_id ? jugar_path : nil %>
+
+    <article class="mapa-expedition-hero is-<%= expedition.state %>"
+             aria-labelledby="mapa-expedition-detail-title"
+             style="view-transition-name: street-expedition-hero">
       <% if artwork.present? %>
         <span class="mapa-expedition-hero__art" aria-hidden="true">
           <%= noche_media_picture(artwork, alt: "", loading: "eager", fetchpriority: "high") %>
@@ -12,8 +138,13 @@
       <% end %>
       <span class="mapa-expedition-hero__scrim" aria-hidden="true"></span>
       <div class="mapa-expedition-hero__copy">
-        <p><%= t("street.expeditions.weekly_kicker") %></p>
-        <h2 id="mapa-expedition-title"><%= expedition.title %></h2>
+        <div class="mapa-expedition-hero__badges">
+          <span><%= t("street.expeditions.selected") %></span>
+          <% if expedition.duration_days %><span><%= t("street.expeditions.duration", count: expedition.duration_days) %></span><% end %>
+          <span><%= t("street.expeditions.states.#{expedition.state}") %></span>
+        </div>
+        <p><%= t("street.expeditions.detail_kicker") %></p>
+        <h2 id="mapa-expedition-detail-title"><%= expedition.title %></h2>
         <% if expedition.subtitle.present? %><strong><%= expedition.subtitle %></strong><% end %>
         <% if expedition.promise.present? %><span><%= expedition.promise %></span><% end %>
         <div class="mapa-expedition-hero__progress" role="progressbar"
@@ -22,15 +153,37 @@
           <i><b style="width:<%= expedition.progress_percent %>%"></b></i>
           <em><%= t("street.expeditions.progress", done: expedition.completed_count, total: expedition.total_count) %></em>
         </div>
+        <% if focus_pack %>
+          <% if focus_path %>
+            <%= link_to focus_path, class: "mapa-expedition-hero__cta", data: { turbo: false } do %>
+              <%= t("street.expeditions.#{focus_copy_key}") %><%= picto("arrow") %>
+            <% end %>
+          <% else %>
+            <%= button_to street_pack_start_path(focus_pack.id, expedition: expedition.study_unit_id),
+                  class: "mapa-expedition-hero__cta",
+                  form: { class: "mapa-expedition-hero__cta-form", data: { turbo: false } } do %>
+              <%= t("street.expeditions.#{focus_copy_key}") %><%= picto("arrow") %>
+            <% end %>
+          <% end %>
+        <% end %>
       </div>
     </article>
 
-    <div class="mapa-expedition-doors" role="list">
+    <div class="mapa-expedition-route-heading">
+      <div>
+        <p class="mapa-section-kicker"><%= t("street.expeditions.detail_kicker") %></p>
+        <h3><%= t("street.expeditions.discoveries_title", count: expedition.total_count) %></h3>
+      </div>
+      <p><%= t("street.expeditions.discoveries_detail") %></p>
+    </div>
+
+    <div class="mapa-expedition-doors" role="list" aria-label="<%= t("street.expeditions.discoveries_title", count: expedition.total_count) %>">
       <% expedition.packs.each_with_index do |pack, index| %>
         <article class="mapa-expedition-door is-<%= pack.state %>" role="listitem">
           <span class="mapa-expedition-door__number" aria-hidden="true"><%= index + 1 %></span>
           <% if pack.artwork.present? %>
-            <span class="mapa-expedition-door__art" aria-hidden="true"><%= noche_media_picture("media/#{pack.artwork}", alt: "", loading: "lazy") %></span>
+            <% pack_artwork = pack.artwork.to_s.delete_prefix("/") %>
+            <span class="mapa-expedition-door__art" aria-hidden="true"><%= noche_media_picture("media/#{pack_artwork.delete_prefix("media/")}", alt: "", loading: "lazy") %></span>
           <% end %>
           <span class="mapa-expedition-door__scrim" aria-hidden="true"></span>
           <div class="mapa-expedition-door__copy">
@@ -50,18 +203,10 @@
         </article>
       <% end %>
     </div>
-
-    <% if expeditions.many? %>
-      <nav class="mapa-expedition-list" aria-label="<%= t("street.mapa_expeditions") %>">
-        <% expeditions.each do |entry| %>
-          <%= link_to entry.title, street_map_path(view: "expeditions", expedition: entry.study_unit_id), class: ("is-active" if entry.id == expedition.id) %>
-        <% end %>
-      </nav>
-    <% end %>
   <% else %>
     <div class="mapa-expedition-empty">
       <%= picto("compass") %>
-      <h2 id="mapa-expedition-title"><%= t("street.expeditions.empty_title") %></h2>
+      <h2 id="mapa-expedition-detail-title"><%= t("street.expeditions.empty_title") %></h2>
       <p><%= t("street.expeditions.empty_detail") %></p>
     </div>
   <% end %>

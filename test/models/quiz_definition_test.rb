@@ -148,6 +148,18 @@ class QuizDefinitionTest < ActiveSupport::TestCase
     end
   end
 
+  test "copy for the Psalms expedition returns Spanish" do
+    I18n.with_locale(:es) do
+      pack = QuizDefinition.catalog.find_pack("exp_psalms_disappearing_voice")
+      question = pack.question_at(1)
+
+      assert_equal "La voz que desaparece", pack.copy(:title)
+      assert_equal "Salmos 102–103", pack.copy(:kicker)
+      assert_equal "¿Qué teme la voz al comienzo del Salmo 102?", question.copy(:question)
+      assert_equal "Desaparecer", question.choice_copy(question.choices.first)
+    end
+  end
+
   test "rejects duplicate ids missing scripture intensity drop and wrong points" do
     assert_raises(QuizDefinition::Error) { QuizDefinition.load("nope") }
     assert_raises(QuizDefinition::Error) { QuizDefinition.catalog.find_pack("missing") }

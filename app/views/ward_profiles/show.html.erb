@@ -79,7 +79,7 @@
     <% if @study_week %>
       <% word_path = @expedition ? street_map_path(view: "expeditions", expedition: @study_week.id) : scripture_library_path %>
       <% word_art = @expedition&.artwork.presence || "media/study/psalms-refuge-2026.png" %>
-      <%= link_to word_path, class: "rama-word-card rama-card", style: "--rama-word-art: url('#{media_src(word_art)}')" do %>
+      <%= link_to word_path, class: ["rama-word-card", "rama-card", (@expedition ? "is-gameops" : "is-library")], style: "--rama-word-art: url('#{media_src(word_art)}')" do %>
         <div class="rama-word-copy">
           <p class="rama-kicker"><%= t("ward.word_kicker") %></p>
           <h2><%= @expedition&.title || t("study.psalms_theme") %></h2>
@@ -98,10 +98,10 @@
     <% end %>
 
     <% if @live_nights.any? %>
-      <section class="rama-live-rail" aria-labelledby="rama-live-title">
+      <section class="rama-live-rail rama-section rama-section--gameops" aria-labelledby="rama-live-title">
         <header class="rama-live-head">
           <div><p class="rama-kicker"><%= t("hub.next_live") %></p><h2 id="rama-live-title"><%= t("ward.upcoming") %></h2></div>
-          <span><%= @live_nights.size %></span>
+          <span class="rama-rail-count"><%= @live_nights.size %></span>
         </header>
         <div class="rama-live-carousel" role="list">
         <% @live_nights.each_with_index do |night, index| %>

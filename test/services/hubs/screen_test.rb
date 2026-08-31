@@ -242,6 +242,22 @@ class Hubs::ScreenTest < ActiveSupport::TestCase
     assert_equal :imminent, imminent.live.state
   end
 
+  test "the next Noche Live title follows the active player locale" do
+    game_sessions(:david).update_columns(status: "finished", closed_at: Time.current)
+    night = Nights::Start.call(
+      ward: @ward,
+      quiz_ids: %w[exp_psalms_disappearing_voice exp_psalms_nameless_king],
+      starts_at: 1.day.from_now
+    )
+
+    screen = I18n.with_locale(:es) do
+      Hubs::Screen.call(device_digest: @digest, person: @pili, ward: @ward, at: Time.current)
+    end
+
+    assert_equal "La voz que desaparece · El Rey sin nombre", screen.live.title
+    assert_equal night.quiz_pack_ids, night.reload.quiz_pack_ids
+  end
+
   test "playing night is LIVE with a join path" do
     night = game_sessions(:david)
     screen = Hubs::Screen.call(device_digest: @digest, ward: @ward)

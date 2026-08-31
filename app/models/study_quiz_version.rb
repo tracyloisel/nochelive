@@ -29,7 +29,7 @@ class StudyQuizVersion < ApplicationRecord
     Array(content["readings"]).filter_map do |reading|
       next unless reading["study"].present?
 
-      reading.merge("label" => reading.dig("labels", locale.to_s) || reading.dig("labels", "fr"))
+      reading.merge("label" => reading.dig("labels", locale.to_s))
     end
   end
 

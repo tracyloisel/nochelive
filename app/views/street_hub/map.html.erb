@@ -26,6 +26,7 @@ end %>
 <section id="street_world"
          class="street-world street-map-page"
          data-controller="street-share hub-map"
+         data-hub-map-view-value="<%= @map_view %>"
          data-street-share-copied-value="<%= t("street.share_copied") %>"
          data-hub-map-category-value="<%= @world.current_pack_id ? Quizzes::World.category_for(@world.current_pack_id) : "all" %>"
          data-hub-map-current-pack-id-value="<%= @world.current_pack_id %>"
@@ -48,11 +49,11 @@ end %>
     </div>
 
     <nav class="mapa-mode-tabs" aria-label="<%= t("street.mapa_modes_label") %>">
-      <%= link_to street_map_path(view: "journey"), class: "mapa-mode-tab#{" is-active" if @map_view == :journey}", aria: { current: (@map_view == :journey ? "page" : nil) } do %>
+      <%= link_to street_map_path(view: "journey"), class: "mapa-mode-tab#{" is-active" if @map_view == :journey}", aria: { current: (@map_view == :journey ? "page" : nil) }, data: { action: "click->hub-map#prepareNavigation", map_destination: "journey" } do %>
         <%= picto("mapa-crown") %>
         <span><strong><%= t("street.mapa_journey") %></strong><small><%= t("street.mapa_journey_hint", count: total_packs) %></small></span>
       <% end %>
-      <%= link_to street_map_path(view: "expeditions", expedition: @selected_expedition&.study_unit_id), class: "mapa-mode-tab#{" is-active" if @map_view == :expeditions}", aria: { current: (@map_view == :expeditions ? "page" : nil) } do %>
+      <%= link_to street_map_path(view: "expeditions", expedition: @selected_expedition&.study_unit_id), class: "mapa-mode-tab#{" is-active" if @map_view == :expeditions}", aria: { current: (@map_view == :expeditions ? "page" : nil) }, data: { action: "click->hub-map#prepareNavigation", map_destination: "expeditions" } do %>
         <%= picto("compass") %>
         <span><strong><%= t("street.mapa_expeditions") %></strong><small><%= t("street.mapa_expeditions_hint", count: @expeditions.size) %></small></span>
       <% end %>
