@@ -108,15 +108,18 @@ module ApplicationHelper
     primary = renditions.values.first
     fallback = primary.fetch("variants").fetch("jpeg").last
     sources = renditions.values.flat_map do |rendition|
-      %w[avif webp].map do |format|
+      %w[avif webp jpeg].map do |format|
         variants = rendition.fetch("variants").fetch(format)
         tag.source(
-          type: "image/#{format}",
+          type: format == "jpeg" ? "image/jpeg" : "image/#{format}",
           media: rendition["media"],
           srcset: responsive_srcset(variants),
           sizes: sizes || rendition.fetch("sizes")
         )
       end
+    end
+    focus_data = renditions.each_with_object({}) do |(name, rendition), values|
+      values["media_focus_#{name}"] = rendition.fetch("focus", asset.fetch("focus"))
     end
     image = image_tag(
       fallback.fetch("src"),
@@ -129,7 +132,7 @@ module ApplicationHelper
       loading:,
       decoding:,
       fetchpriority:,
-      data: data.merge(media_focus: asset.fetch("focus"))
+      data: data.merge(media_focus: asset.fetch("focus")).merge(focus_data)
     )
     wrapper_class = picture_class || (class_name.present? ? "#{class_name}-picture" : nil)
     tag.picture(safe_join([ *sources, image ]), class: wrapper_class)

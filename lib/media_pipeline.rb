@@ -133,7 +133,8 @@ class MediaPipeline
         "source_height" => source_height,
         "source_bytes" => source.size,
         "ratio" => format("%.4f", source_width.to_f / source_height),
-        "focus" => row.fetch("focus", "50% 50%"),
+        "focus" => row.fetch("focus", primary.fetch("focus", "50% 50%")),
+        "focuses" => renditions.transform_values { |rendition| rendition.fetch("focus", "50% 50%") },
         "theme" => row.fetch("theme", "neutral"),
         "sizes" => primary.fetch("sizes"),
         "variants" => primary.fetch("variants"),
@@ -146,11 +147,14 @@ class MediaPipeline
         "default" => {
           "widths" => role.fetch("widths"),
           "sizes" => role.fetch("sizes"),
-          "ratio" => nil,
-          "media" => nil
+          "ratio" => role["ratio"],
+          "media" => role["media"],
+          "focus" => role["focus"]
         }
       }
+      validate_rendition_media!(definitions)
       source_overrides = row.fetch("sources", {})
+      focus_overrides = row.fetch("focuses", {})
 
       definitions.to_h do |name, rendition|
         rendition_source_rel = source_overrides.fetch(name, row.fetch("source"))
@@ -165,15 +169,24 @@ class MediaPipeline
           rendition_digest = Digest::SHA256.file(rendition_source).hexdigest
           rendition_width, rendition_height = identify(rendition_source)
         end
-        widths = Array(rendition.fetch("widths")).map(&:to_i)
-          .select { |width| width.positive? && width <= rendition_width }.uniq.sort
-        widths << rendition_width if rendition["ratio"].blank? && !widths.include?(rendition_width)
-        widths = [ rendition_width ] if widths.empty?
+        ratio = rendition["ratio"]
+        focus = focus_overrides.fetch(name, rendition["focus"] || row["focus"] || "50% 50%")
+        validate_source_ratio!(
+          rendition_source_rel, rendition_width, rendition_height, ratio,
+          rendition.fetch("source_ratio_tolerance", role["source_ratio_tolerance"])
+        )
+        maximum_width = maximum_output_width(rendition_width, rendition_height, ratio)
+        requested_widths = Array(rendition.fetch("widths")).map(&:to_i)
+        widths = requested_widths
+          .select { |width| width.positive? && width <= maximum_width }.uniq.sort
+        widths << rendition_width if ratio.blank? && !widths.include?(rendition_width)
+        if ratio.present? && requested_widths.any? { |width| width > maximum_width }
+          widths << maximum_width unless widths.include?(maximum_width)
+        end
+        widths = [ maximum_width ] if widths.empty?
         variants = build_variants(
           key, rendition_source, rendition_digest, widths, role,
-          rendition: name,
-          ratio: rendition["ratio"],
-          focus: rendition.fetch("focus", "50% 50%")
+          rendition: name, ratio:, focus:
         )
         [ name, {
           "source" => rendition_source_rel,
@@ -182,7 +195,8 @@ class MediaPipeline
           "source_height" => rendition_height,
           "source_bytes" => rendition_source.size,
           "media" => rendition["media"],
-          "ratio" => rendition["ratio"] || format("%.4f", rendition_width.to_f / rendition_height),
+          "ratio" => ratio || format("%.4f", rendition_width.to_f / rendition_height),
+          "focus" => focus,
           "sizes" => rendition.fetch("sizes"),
           "variants" => variants
         } ]
@@ -221,7 +235,7 @@ class MediaPipeline
 
       command = [ "magick", source.to_s, "-auto-orient", "-strip" ]
       if ratio.present?
-        ratio_width, ratio_height = ratio.split(":").map(&:to_f)
+        ratio_width, ratio_height = ratio_parts(ratio)
         height = (width * ratio_height / ratio_width).round
         command.concat([ "-resize", "#{width}x#{height}^", "-gravity", gravity_for(focus), "-extent", "#{width}x#{height}" ])
       else
@@ -232,6 +246,44 @@ class MediaPipeline
       command.concat([ "-quality", quality.to_s, output.to_s ])
       _stdout, stderr, status = Open3.capture3(*command)
       raise "media build failed for #{source}: #{stderr}" unless status.success?
+    end
+
+    def validate_rendition_media!(definitions)
+      return if definitions.size <= 1
+
+      media_queries = definitions.values.map { |rendition| rendition["media"].presence }
+      raise "art-directed media renditions require a media query" if media_queries.any?(&:nil?)
+      raise "art-directed media rendition queries must be unique" unless media_queries.uniq.size == media_queries.size
+    end
+
+    def validate_source_ratio!(source, source_width, source_height, ratio, tolerance)
+      return if ratio.blank? || tolerance.blank?
+
+      ratio_width, ratio_height = ratio_parts(ratio)
+      expected = ratio_width / ratio_height
+      actual = source_width.to_f / source_height
+      relative_delta = (actual - expected).abs / expected
+      return if relative_delta <= tolerance.to_f
+
+      raise format(
+        "media source ratio mismatch for %s: expected %s within %.4f, got %dx%d",
+        source, ratio, tolerance.to_f, source_width, source_height
+      )
+    end
+
+    def maximum_output_width(source_width, source_height, ratio)
+      return source_width if ratio.blank?
+
+      ratio_width, ratio_height = ratio_parts(ratio)
+      [ source_width, (source_height * ratio_width / ratio_height).floor ].min.clamp(1, source_width)
+    end
+
+    def ratio_parts(ratio)
+      parts = ratio.to_s.split(":", -1)
+      width, height = parts.map { |part| Float(part, exception: false) }
+      raise "invalid media ratio: #{ratio}" unless parts.size == 2 && width&.positive? && height&.positive?
+
+      [ width, height ]
     end
 
     def gravity_for(focus)

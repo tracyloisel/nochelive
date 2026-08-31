@@ -47,6 +47,32 @@ roles:
       avif: 52
       webp: 78
       jpeg: 82
+  # Daily Library covers use three separately approved compositions. Exact-ratio
+  # masters keep the person, action and copy-safe field intact; the pipeline must
+  # never manufacture tablet or landscape storytelling from the phone crop.
+  library_daily_hero:
+    default_rendition: portrait
+    source_ratio_tolerance: 0.005
+    renditions:
+      portrait:
+        widths: [390, 768, 1170, 1440]
+        sizes: "100vw"
+        ratio: "9:16"
+        media: "(max-width: 599px) and (orientation: portrait)"
+      tablet:
+        widths: [768, 1024, 1536, 1600]
+        sizes: "100vw"
+        ratio: "4:5"
+        media: "(min-width: 600px) and (orientation: portrait)"
+      landscape:
+        widths: [768, 1024, 1440, 1920, 2560]
+        sizes: "100vw"
+        ratio: "16:9"
+        media: "(orientation: landscape)"
+    quality:
+      avif: 54
+      webp: 80
+      jpeg: 84
   # Hub editorial plates retain their approved master ratio. Their layout can
   # crop locally without baking a second, unstable media identity into content.
   hub_card:
@@ -100,6 +126,83 @@ assets:
       landscape: media/study/psalms-refuge-library-wide-v2.png
     role: hub_hero
     focus: "62% 58%"
+    theme: dark
+  scripture.library.daily.ps102.disappearing-voice:
+    source: media/study/library/daily/ps102-disappearing-voice-portrait-v1.png
+    sources:
+      tablet: media/study/library/daily/ps102-disappearing-voice-tablet-v1.png
+      landscape: media/study/library/daily/ps102-disappearing-voice-landscape-v1.png
+    role: library_daily_hero
+    focuses:
+      portrait: "72% 72%"
+      tablet: "72% 68%"
+      landscape: "78% 68%"
+    theme: dark
+  scripture.library.daily.ps110.nameless-king:
+    source: media/study/library/daily/ps110-nameless-king-portrait-v1.png
+    sources:
+      tablet: media/study/library/daily/ps110-nameless-king-tablet-v1.png
+      landscape: media/study/library/daily/ps110-nameless-king-landscape-v1.png
+    role: library_daily_hero
+    focuses:
+      portrait: "60% 74%"
+      tablet: "65% 68%"
+      landscape: "78% 58%"
+    theme: dark
+  scripture.library.daily.ps119.seek-me:
+    source: media/study/library/daily/ps119-seek-me-portrait-v1.png
+    sources:
+      tablet: media/study/library/daily/ps119-seek-me-tablet-v1.png
+      landscape: media/study/library/daily/ps119-seek-me-landscape-v1.png
+    role: library_daily_hero
+    focuses:
+      portrait: "58% 72%"
+      tablet: "72% 72%"
+      landscape: "76% 68%"
+    theme: dark
+  scripture.library.daily.ps127-128.house-table-city:
+    source: media/study/library/daily/ps127-128-house-table-city-portrait-v1.png
+    sources:
+      tablet: media/study/library/daily/ps127-128-house-table-city-tablet-v1.png
+      landscape: media/study/library/daily/ps127-128-house-table-city-landscape-v1.png
+    role: library_daily_hero
+    focuses:
+      portrait: "45% 72%"
+      tablet: "68% 72%"
+      landscape: "76% 62%"
+    theme: dark
+  scripture.library.daily.ps137.suspended-harps:
+    source: media/study/library/daily/ps137-suspended-harps-portrait-v1.png
+    sources:
+      tablet: media/study/library/daily/ps137-suspended-harps-tablet-v1.png
+      landscape: media/study/library/daily/ps137-suspended-harps-landscape-v1.png
+    role: library_daily_hero
+    focuses:
+      portrait: "62% 72%"
+      tablet: "74% 72%"
+      landscape: "76% 68%"
+    theme: dark
+  scripture.library.daily.ps146-150.everything-breathes:
+    source: media/study/library/daily/ps146-150-everything-breathes-portrait-v1.png
+    sources:
+      tablet: media/study/library/daily/ps146-150-everything-breathes-tablet-v1.png
+      landscape: media/study/library/daily/ps146-150-everything-breathes-landscape-v1.png
+    role: library_daily_hero
+    focuses:
+      portrait: "52% 76%"
+      tablet: "68% 74%"
+      landscape: "77% 70%"
+    theme: dark
+  scripture.library.daily.ps102-150.weekly-contemplation:
+    source: media/study/library/daily/ps102-150-weekly-contemplation-portrait-v1.png
+    sources:
+      tablet: media/study/library/daily/ps102-150-weekly-contemplation-tablet-v1.png
+      landscape: media/study/library/daily/ps102-150-weekly-contemplation-landscape-v1.png
+    role: library_daily_hero
+    focuses:
+      portrait: "52% 72%"
+      tablet: "66% 66%"
+      landscape: "76% 58%"
     theme: dark
   scripture_circle.backdrop.light:
     source: media/hub/rama/circle-scripture-celestial-light-v1.png
