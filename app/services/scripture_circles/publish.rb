@@ -18,7 +18,7 @@ module ScriptureCircles
       post = ScriptureCirclePost.transaction do
         thread.scripture_circle_posts.create!(values.merge(ward: access.ward, person:, parent:))
       end
-      RamaRefresh.call(ward: access.ward)
+      RamaRefresh.call(ward: access.ward, post_id: post.id)
       post
     end
 

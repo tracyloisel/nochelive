@@ -7,6 +7,8 @@ const DRAFT_FIELD_SELECTOR = [
   "input:not([type='hidden']):not([type='button']):not([type='submit']):not([type='reset']):not([type='image'])",
   "[contenteditable='true']"
 ].join(", ")
+const MESSAGE_SELECTOR = ".circle-thread-message[id]"
+const WORKSPACE_MOTION_CLASSES = [ "is-entering-thread", "is-returning-inbox", "is-filtering-inbox" ]
 
 // The Circle receives deliberately content-free WebSocket signals. Reloading
 // the live frame keeps the current query and lets the server remain the single
@@ -21,6 +23,12 @@ export default class extends Controller {
     this.submittingComposers = new Set()
     this.pendingRefreshCheck = null
     this.deferredRefreshTimer = null
+    this.submissionAnchor = null
+    this.submissionAnchorFrame = null
+    this.submissionAnchorTimer = null
+    this.messageIdsBeforeUpdate = null
+    this.pendingWorkspaceMotion = null
+    this.pendingRefreshPostIds = new Set()
 
     this.refreshFromStream = this.refreshFromStream.bind(this)
     this.composerChanged = this.composerChanged.bind(this)
@@ -52,6 +60,8 @@ export default class extends Controller {
 
     if (this.pendingRefreshCheck) window.clearTimeout(this.pendingRefreshCheck)
     if (this.deferredRefreshTimer) window.clearTimeout(this.deferredRefreshTimer)
+    if (this.submissionAnchorFrame) window.cancelAnimationFrame(this.submissionAnchorFrame)
+    if (this.submissionAnchorTimer) window.clearTimeout(this.submissionAnchorTimer)
     this.submittingComposers.clear()
   }
 
@@ -64,6 +74,7 @@ export default class extends Controller {
     // when the browser follows with a click event whose detail is omitted.
     this.focusLiveFeedAfterLoad ||= event.detail === 0
     if (this.modifiedActivation(event)) return
+    this.pendingWorkspaceMotion = this.workspaceMotionFor(event.currentTarget)
     this.frameForLink(event.currentTarget)?.setAttribute("aria-busy", "true")
   }
 
@@ -74,13 +85,20 @@ export default class extends Controller {
     this.syncCurrentURL(frame)
     this.restorePreservedComposerDrafts()
     this.resizeCircleComposers(frame)
+    this.restoreSubmissionAnchor(frame)
     this.focusAfterLiveFeedLoad(frame)
-    this.markUpdated(frame)
+    this.presentNewMessages(frame)
+    this.presentWorkspaceMotion(frame)
+    this.resolveRenderedRefreshPosts(frame)
     this.refreshIfPending()
   }
 
-  refreshFromStream() {
+  refreshFromStream(event) {
     if (!this.hasLiveFeedTarget) return
+
+    const postId = event?.detail?.postId?.toString()
+    if (postId && this.hasRenderedPost(postId, this.liveFeedTarget)) return
+    if (postId) this.pendingRefreshPostIds.add(postId)
 
     if (this.refreshMustWait()) {
       this.deferRealtimeRefresh()
@@ -121,6 +139,8 @@ export default class extends Controller {
     const frame = this.liveFeedTarget
     const currentURL = window.location.href
     this.clearDeferredRefresh()
+    this.captureMessageIds(frame)
+    this.pendingRefreshPostIds.clear()
     frame.setAttribute("aria-busy", "true")
 
     if (frame.src === currentURL && typeof frame.reload === "function") {
@@ -197,6 +217,10 @@ export default class extends Controller {
     if (!composer) return
 
     this.submittingComposers.add(composer)
+    composer.dataset.circleSubmitting = "true"
+    composer.setAttribute("aria-busy", "true")
+    this.captureSubmissionAnchor(composer)
+    if (this.hasLiveFeedTarget) this.captureMessageIds(this.liveFeedTarget)
     this.queuePendingRefreshCheck()
   }
 
@@ -205,6 +229,11 @@ export default class extends Controller {
     if (!composer) return
 
     this.submittingComposers.delete(composer)
+    if (composer.isConnected) {
+      composer.removeAttribute("data-circle-submitting")
+      composer.removeAttribute("aria-busy")
+    }
+    if (this.hasLiveFeedTarget && this.submissionAnchor) this.restoreSubmissionAnchor(this.liveFeedTarget)
     this.queuePendingRefreshCheck()
   }
 
@@ -433,17 +462,113 @@ export default class extends Controller {
     return null
   }
 
+  workspaceMotionFor(link) {
+    if (!(link instanceof HTMLAnchorElement)) return null
+    if (link.classList.contains("circle-inbox-row-link")) return "is-entering-thread"
+    if (link.classList.contains("circle-thread-back")) return "is-returning-inbox"
+    if (link.classList.contains("circle-inbox-tab") || link.classList.contains("circle-pagination-link")) return "is-filtering-inbox"
+    return null
+  }
+
+  captureSubmissionAnchor(composer) {
+    if (!this.hasLiveFeedTarget || !this.liveFeedTarget.contains(composer)) return
+
+    const anchor = composer.closest("[data-circle-composer-shell]") || composer
+    this.submissionAnchor = {
+      composerKey: this.composerKey(composer, this.circleComposers().indexOf(composer)),
+      top: anchor.getBoundingClientRect().top
+    }
+
+    // Turbo keeps the frame element but replaces its children. Holding its
+    // current height prevents the document from briefly collapsing and
+    // clamping the member's scroll position during that swap.
+    this.liveFeedTarget.style.minHeight = `${Math.ceil(this.liveFeedTarget.getBoundingClientRect().height)}px`
+  }
+
+  restoreSubmissionAnchor(frame) {
+    const snapshot = this.submissionAnchor
+    if (!snapshot) return
+
+    const restore = () => {
+      if (!this.submissionAnchor || !frame.isConnected) return
+      const composers = this.circleComposers().filter((composer) => frame.contains(composer))
+      const composer = composers.find((candidate, index) => this.composerKey(candidate, index) === snapshot.composerKey)
+      const anchor = composer?.closest("[data-circle-composer-shell]") || composer
+      if (!anchor) return
+
+      const delta = anchor.getBoundingClientRect().top - snapshot.top
+      if (Math.abs(delta) > 0.5) window.scrollTo(0, Math.max(0, window.scrollY + delta))
+    }
+
+    restore()
+    if (this.submissionAnchorFrame) window.cancelAnimationFrame(this.submissionAnchorFrame)
+    if (this.submissionAnchorTimer) window.clearTimeout(this.submissionAnchorTimer)
+    this.submissionAnchorFrame = window.requestAnimationFrame(() => {
+      restore()
+      this.submissionAnchorFrame = window.requestAnimationFrame(() => {
+        this.submissionAnchorFrame = null
+        restore()
+        this.submissionAnchorTimer = window.setTimeout(() => {
+          this.submissionAnchorTimer = null
+          restore()
+          this.submissionAnchor = null
+          frame.style.minHeight = ""
+        }, 48)
+      })
+    })
+  }
+
+  captureMessageIds(frame) {
+    this.messageIdsBeforeUpdate = new Set(
+      Array.from(frame.querySelectorAll(MESSAGE_SELECTOR), (message) => message.id)
+    )
+  }
+
+  presentNewMessages(frame) {
+    const previousIds = this.messageIdsBeforeUpdate
+    this.messageIdsBeforeUpdate = null
+    if (!previousIds || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
+
+    Array.from(frame.querySelectorAll(MESSAGE_SELECTOR))
+      .filter((message) => !previousIds.has(message.id))
+      .forEach((message) => message.classList.add("is-new-arrival"))
+  }
+
+  presentWorkspaceMotion(frame) {
+    const motion = this.pendingWorkspaceMotion
+    this.pendingWorkspaceMotion = null
+    if (!motion || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
+
+    const workspace = frame.querySelector(".circle-workspace")
+    if (!workspace) return
+    workspace.classList.remove(...WORKSPACE_MOTION_CLASSES)
+    workspace.classList.add(motion)
+  }
+
+  resolveRenderedRefreshPosts(frame) {
+    let resolved = false
+    this.pendingRefreshPostIds.forEach((postId) => {
+      if (!this.hasRenderedPost(postId, frame)) return
+
+      this.pendingRefreshPostIds.delete(postId)
+      resolved = true
+    })
+
+    if (resolved && this.pendingRefreshPostIds.size === 0 && this.realtimeRefreshPending) this.clearDeferredRefresh()
+  }
+
+  hasRenderedPost(postId, frame) {
+    return Boolean(frame.querySelector(`#circle-message-${this.escapeSelector(postId)}`))
+  }
+
+  escapeSelector(value) {
+    if (window.CSS?.escape) return window.CSS.escape(value)
+    return value.replace(/[^a-zA-Z0-9_-]/g, "")
+  }
+
   framesBusy() {
     if (!this.hasLiveFeedTarget) return false
     return this.liveFeedTarget.hasAttribute("busy") || this.liveFeedTarget.getAttribute("aria-busy") === "true"
-  }
-
-  markUpdated(frame) {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
-
-    frame.classList.remove("is-updated")
-    void frame.offsetWidth
-    frame.classList.add("is-updated")
   }
 
   syncCurrentURL(frame) {

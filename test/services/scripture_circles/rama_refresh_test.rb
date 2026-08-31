@@ -16,6 +16,18 @@ class ScriptureCircles::RamaRefreshTest < ActiveSupport::TestCase
     assert_equal [ "<turbo-stream action=\"circle_refresh\" target=\"circle_live_feed\"><template></template></turbo-stream>" ], messages
   end
 
+  test "identifies the post that already arrives in the publisher frame" do
+    messages = capture_broadcasts(stream_name(@ward)) do
+      ScriptureCircles::RamaRefresh.call(ward: @ward, post_id: 42)
+    end
+
+    stream = Nokogiri::HTML5.fragment(messages.fetch(0)).at_css("turbo-stream")
+    assert_equal "circle_refresh", stream["action"]
+    assert_equal "circle_live_feed", stream["target"]
+    assert_equal "42", stream["post-id"]
+    assert_empty stream.at_css("template").text
+  end
+
   test "does not broadcast when the Circle is disabled" do
     @ward.update!(scripture_circle_mode: "disabled")
 

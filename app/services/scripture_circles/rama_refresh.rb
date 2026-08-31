@@ -6,11 +6,15 @@ module ScriptureCircles
     STREAM = :scripture_circle
     TARGET = "circle_live_feed".freeze
 
-    def self.call(ward:)
+    def self.call(ward:, post_id: nil)
       return unless ward&.scripture_circle_readable?
 
       Turbo::StreamsChannel.broadcast_action_to(
-        ward, STREAM, action: :circle_refresh, target: TARGET, render: false
+        ward, STREAM,
+        action: :circle_refresh,
+        target: TARGET,
+        attributes: { "post-id" => post_id }.compact,
+        render: false
       )
     rescue StandardError => error
       Rails.logger.warn("scripture circle refresh broadcast failed: #{error.class}: #{error.message}")

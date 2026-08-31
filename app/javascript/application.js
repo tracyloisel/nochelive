@@ -3,8 +3,9 @@ import "@hotwired/turbo-rails"
 import "controllers"
 
 window.Turbo.StreamActions.circle_refresh = function() {
+  const postId = this.getAttribute("post-id")
   this.targetElements.forEach((target) => {
-    target.dispatchEvent(new CustomEvent("circle:refresh", { bubbles: true }))
+    target.dispatchEvent(new CustomEvent("circle:refresh", { bubbles: true, detail: { postId } }))
   })
 }
 

@@ -28,6 +28,14 @@ body.is-scripture-circle-index .shell {
   padding: 0 0 calc(5.45rem + env(safe-area-inset-bottom));
 }
 
+/* Frame navigation has its own local motion below. The global root crossfade
+   would leave the previous inbox/thread visible behind the new frame and make
+   a reply or conversation change look like a page reload. */
+html:has(body.is-scripture-circle-index)::view-transition-old(root),
+html:has(body.is-scripture-circle-index)::view-transition-new(root) {
+  animation: none;
+}
+
 .circle-page {
   min-height: 100dvh;
   overflow: clip;
@@ -283,10 +291,13 @@ body.is-scripture-circle-index .shell {
   padding: .9rem .95rem;
   color: var(--circle-ink);
   text-decoration: none;
-  transition: background 140ms ease, box-shadow 140ms ease;
+  transition: background 140ms ease, box-shadow 140ms ease, transform 140ms var(--ease-out);
 }
 
-.circle-inbox-row-link:active { background: color-mix(in srgb, var(--circle-gold-wash) 52%, transparent); }
+.circle-inbox-row-link:active {
+  background: color-mix(in srgb, var(--circle-gold-wash) 52%, transparent);
+  transform: translateY(1px);
+}
 
 .circle-inbox-row.is-selected .circle-inbox-row-link {
   background: linear-gradient(135deg, rgb(255 247 225 / 95%), rgb(255 252 245 / 92%));
@@ -542,6 +553,7 @@ body.is-scripture-circle-index .shell {
 .circle-thread-message:last-child { border-bottom: 0; }
 .circle-thread-message.is-root { padding-top: 1.1rem; }
 .circle-thread-message.is-own .circle-message-avatar { box-shadow: 0 0 0 2px color-mix(in srgb, var(--circle-gold) 60%, transparent); }
+.circle-thread-message.is-new-arrival { animation: circle-message-arrive 300ms var(--ease-out) both; }
 
 .circle-thread-message-copy { min-width: 0; }
 
@@ -646,11 +658,16 @@ body.is-scripture-circle-index .shell {
   background: linear-gradient(145deg, #c98914, var(--circle-gold-deep));
   box-shadow: 0 .28rem .7rem color-mix(in srgb, var(--circle-gold-deep) 27%, transparent);
   cursor: pointer;
+  transition: transform 120ms var(--ease-out), opacity 140ms ease, box-shadow 140ms ease;
 }
 
 .circle-thread-send .picto { width: 1.12rem; height: 1.12rem; }
 .circle-thread-send:active { transform: translateY(1px) scale(.96); }
 .circle-thread-send[disabled] { cursor: wait; opacity: .62; }
+.circle-thread-compose-form[aria-busy="true"] .circle-thread-send {
+  box-shadow: 0 .12rem .35rem color-mix(in srgb, var(--circle-gold-deep) 18%, transparent);
+  transform: scale(.96);
+}
 
 .circle-thread-compose-error {
   margin: .35rem .72rem .05rem;
@@ -750,8 +767,6 @@ body.is-scripture-circle-index .shell {
   cursor: pointer;
 }
 
-.circle-live-feed.is-updated { animation: circle-feed-updated 340ms ease-out; }
-
 .circle-visually-hidden {
   position: absolute;
   width: 1px;
@@ -763,10 +778,35 @@ body.is-scripture-circle-index .shell {
   border: 0;
 }
 
-@keyframes circle-feed-updated {
-  0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--circle-gold) 28%, transparent); }
-  100% { box-shadow: 0 0 0 .6rem transparent; }
+@keyframes circle-message-arrive {
+  0% {
+    opacity: .28;
+    background: color-mix(in srgb, var(--circle-gold-wash) 72%, transparent);
+    transform: translateY(.45rem);
+  }
+  58% { background: color-mix(in srgb, var(--circle-gold-wash) 38%, transparent); }
+  100% { opacity: 1; background: transparent; transform: translateY(0); }
 }
+
+@keyframes circle-thread-enter {
+  0% { transform: translateX(.7rem); }
+  100% { transform: translateX(0); }
+}
+
+@keyframes circle-inbox-return {
+  0% { transform: translateX(-.55rem); }
+  100% { transform: translateX(0); }
+}
+
+@keyframes circle-inbox-filter {
+  0% { opacity: .5; transform: translateY(.25rem); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.circle-workspace.is-entering-thread .circle-thread-pane { animation: circle-thread-enter 220ms var(--ease-out) both; }
+.circle-workspace.is-returning-inbox .circle-inbox { animation: circle-inbox-return 200ms var(--ease-out) both; }
+.circle-workspace.is-filtering-inbox .circle-inbox-list,
+.circle-workspace.is-filtering-inbox .circle-empty-state { animation: circle-inbox-filter 180ms var(--ease-out) both; }
 
 @media (max-width: 53.99rem) {
   .circle-workspace:not(.is-thread-open) .circle-thread { display: none; }
@@ -908,5 +948,10 @@ body.is-scripture-circle-index .shell {
 @media (prefers-reduced-motion: reduce) {
   .circle-inbox-row-link,
   .circle-thread-send,
-  .circle-live-feed { transition: none; animation: none; }
+  .circle-live-feed,
+  .circle-thread-message,
+  .circle-thread-pane,
+  .circle-inbox,
+  .circle-inbox-list,
+  .circle-empty-state { transition: none; animation: none; }
 }

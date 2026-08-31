@@ -12,7 +12,7 @@ class ScriptureCircles::RealtimeDispatchTest < ActiveSupport::TestCase
   end
 
   test "publishing, editing, and deleting refresh the Circle index" do
-    post = assert_circle_refresh do
+    post = assert_circle_refresh(post_id: :result) do
       ScriptureCircles::Publish.call(
         person: @author,
         reference: "ot/ps/52",
@@ -82,10 +82,16 @@ class ScriptureCircles::RealtimeDispatchTest < ActiveSupport::TestCase
       )
     end
 
-    def assert_circle_refresh
+    def assert_circle_refresh(post_id: nil)
       result, messages = capture_circle_refreshes { yield }
 
-      assert_equal [ "<turbo-stream action=\"circle_refresh\" target=\"circle_live_feed\"><template></template></turbo-stream>" ], messages
+      assert_equal 1, messages.size
+      stream = Nokogiri::HTML5.fragment(messages.fetch(0)).at_css("turbo-stream")
+      assert_equal "circle_refresh", stream["action"]
+      assert_equal "circle_live_feed", stream["target"]
+      expected_post_id = result.id.to_s if post_id == :result
+      expected_post_id ? assert_equal(expected_post_id, stream["post-id"]) : assert_nil(stream["post-id"])
+      assert_empty stream.at_css("template").text
       result
     end
 

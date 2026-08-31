@@ -59,6 +59,7 @@ class ScriptureCircleRealtimeTest < ApplicationSystemTestCase
 
   test "protects a validation draft from a later WebSocket refresh" do
     visit_selected_reflection
+    install_circle_realtime_signals!
 
     invalid_draft = "   "
     find(".circle-thread-compose-form textarea").set(invalid_draft)
@@ -66,10 +67,11 @@ class ScriptureCircleRealtimeTest < ApplicationSystemTestCase
 
     assert_selector ".circle-thread-compose-error", visible: true
     assert_selector ".circle-thread-compose-form[data-has-draft='true']"
+    assert wait_for_circle_realtime_signal("loads"), page.evaluate_script("window.circleRealtimeSignals")
+    page.execute_script("window.circleRealtimeSignals = { refreshes: 0, loads: 0 }")
     field = find(".circle-thread-compose-form textarea")
     assert_equal invalid_draft, field.value
     page.execute_script("arguments[0].blur()", field)
-    install_circle_realtime_signals!
 
     external_reply = publish_circle_post(
       person: @other_member,
@@ -114,7 +116,8 @@ class ScriptureCircleRealtimeTest < ApplicationSystemTestCase
     find(".circle-thread-compose-form textarea").set(reply)
     find(".circle-thread-send").click
 
-    assert_selector ".circle-thread-message.is-own", text: reply
+    assert_selector ".circle-thread-message.is-own.is-new-arrival", text: reply
+    assert_selector ".circle-workspace.is-thread-open"
     assert_selector ".circle-thread-heading h2", text: "Alma 32"
     assert_selector ".circle-thread-compose-form textarea", visible: true
     assert_equal "", find(".circle-thread-compose-form textarea").value
@@ -122,10 +125,96 @@ class ScriptureCircleRealtimeTest < ApplicationSystemTestCase
     assert_empty severe_browser_logs
   end
 
+  test "publishing a reply keeps the conversation anchored without a page jump" do
+    12.times do |index|
+      publish_circle_post(
+        person: index.even? ? @author : @other_member,
+        reference: @reflection.scripture_circle_thread.reference,
+        kind: "reply",
+        parent_id: @reflection.id,
+        body: "Contribution #{index + 1} : je garde cette parole dans le fil pour éprouver sa continuité."
+      )
+    end
+
+    visit_selected_reflection(width: 390, height: 844)
+    page.execute_script("window.scrollTo(0, document.documentElement.scrollHeight)")
+
+    before = page.evaluate_script(<<~JS)
+      (function() {
+        var composer = document.querySelector('.circle-thread-composer');
+        window.circleReplyDiagnostics = {
+          loads: 0,
+          refreshPostIds: []
+        };
+        document.querySelector('#circle_live_feed').addEventListener('turbo:frame-load', function() {
+          window.circleReplyDiagnostics.loads += 1;
+        });
+        document.querySelector('#circle_index').addEventListener('circle:refresh', function(event) {
+          window.circleReplyDiagnostics.refreshPostIds.push(event.detail && event.detail.postId);
+        });
+        window.circlePostScrollMinimum = window.scrollY;
+        window.circlePostScrollListener = function() {
+          window.circlePostScrollMinimum = Math.min(window.circlePostScrollMinimum, window.scrollY);
+        };
+        window.addEventListener('scroll', window.circlePostScrollListener, { passive: true });
+        return { scrollY: window.scrollY, composerTop: composer.getBoundingClientRect().top };
+      })()
+    JS
+
+    reply = "Cette réponse doit apparaître sans déplacer brutalement la conversation."
+    find(".circle-thread-compose-form textarea").set(reply)
+    find(".circle-thread-send").click
+
+    assert_selector ".circle-thread-message.is-own.is-new-arrival", text: reply
+    assert_selector ".circle-workspace.is-thread-open"
+    assert_no_selector ".circle-inbox", visible: true
+    page.driver.browser.execute_async_script(<<~JS)
+      var done = arguments[0];
+      window.requestAnimationFrame(function() {
+        window.requestAnimationFrame(function() { window.setTimeout(done, 70); });
+      });
+    JS
+    after = page.evaluate_script(<<~JS)
+      (function() {
+        window.removeEventListener('scroll', window.circlePostScrollListener);
+        var arrival = document.querySelector('.circle-thread-message.is-new-arrival');
+        return {
+          scrollY: window.scrollY,
+          minimumScrollY: window.circlePostScrollMinimum,
+          composerTop: document.querySelector('.circle-thread-composer').getBoundingClientRect().top,
+          messageTop: arrival && arrival.getBoundingClientRect().top,
+          messageBottom: arrival && arrival.getBoundingClientRect().bottom,
+          arrivalId: arrival && arrival.id.replace('circle-message-', ''),
+          arrivalCount: document.querySelectorAll('.circle-thread-message.is-new-arrival').length,
+          diagnostics: window.circleReplyDiagnostics,
+          viewportHeight: window.innerHeight
+        };
+      })()
+    JS
+    capture_circle_reply_screenshot if ENV["CIRCLE_SCREENSHOT"] == "1"
+
+    assert_operator before.fetch("scrollY"), :>, 0, before.inspect
+    assert_equal 1, after.fetch("diagnostics").fetch("loads"), after.inspect
+    assert_equal 1, after.fetch("arrivalCount"), after.inspect
+    assert_equal [ after.fetch("arrivalId") ], after.fetch("diagnostics").fetch("refreshPostIds"), after.inspect
+    assert_operator after.fetch("minimumScrollY"), :>=, before.fetch("scrollY") - 2, { before:, after: }.inspect
+    assert_in_delta before.fetch("composerTop"), after.fetch("composerTop"), 3, { before:, after: }.inspect
+    assert_operator after.fetch("messageTop"), :<, after.fetch("viewportHeight"), after.inspect
+    assert_operator after.fetch("messageBottom"), :>, 0, after.inspect
+    assert_operator after.fetch("messageBottom"), :<=, after.fetch("composerTop") + 2, after.inspect
+    assert_empty severe_browser_logs
+  end
+
   private
 
-    def visit_selected_reflection
-      set_system_viewport(1440, 900)
+    def capture_circle_reply_screenshot
+      directory = Rails.root.join("tmp/street-shots/scripture-circle-motion")
+      FileUtils.mkdir_p(directory)
+      save_screenshot directory.join("forum-reply-inserted-390x844.png")
+    end
+
+    def visit_selected_reflection(width: 1440, height: 900)
+      set_system_viewport(width, height)
       visit scripture_circle_path(locale: "fr", view: "recent", conversation: @reflection.id)
 
       assert_turbo_cable_stream_source [ @ward, ScriptureCircles::RamaRefresh::STREAM ], connected: true
@@ -165,7 +254,7 @@ class ScriptureCircleRealtimeTest < ApplicationSystemTestCase
       session.post street_profile_path, params: { person_id: person.id, favorite_year: person.favorite_year }
 
       page.driver.browser.manage.delete_all_cookies
-      visit root_path
+      visit "/favicon-32.png"
       session.cookies.to_hash.each do |name, value|
         page.driver.browser.manage.add_cookie(name:, value:, path: "/")
       end
@@ -194,6 +283,7 @@ class ScriptureCircleRealtimeTest < ApplicationSystemTestCase
 
     def severe_browser_logs
       page.driver.browser.logs.get(:browser).select { |entry| entry.level == "SEVERE" }
+        .reject { |entry| entry.message.include?("/favicon.ico") && entry.message.include?("404") }
     end
 
     def expected_circle_validation_response?(entry)

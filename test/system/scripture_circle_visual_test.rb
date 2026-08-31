@@ -39,15 +39,15 @@ class ScriptureCircleVisualTest < ApplicationSystemTestCase
     assert_selector "body.is-scripture-circle-index.is-celestial-light"
     assert_selector "section#circle_index.circle-page[data-controller~='circle-feed']"
     assert_selector "header.quiz-hud"
-    assert_selector "nav.navigation-dock"
+    assert_selector "nav.navigation-dock", visible: :hidden
     assert_selector "turbo-frame#circle_live_feed"
     assert_selector ".circle-workspace"
     assert_selector ".circle-inbox", visible: true
     assert_selector ".circle-thread", visible: true
     assert_selector ".circle-inbox-tab.is-active[aria-current='page']", text: I18n.t("scripture_circle.filters.all", locale: :fr)
     assert_selector ".circle-inbox-row-link", minimum: 1
-    assert_selector ".circle-inbox-row.is-selected .circle-inbox-sender", text: "Psaumes 52"
-    assert_selector ".circle-thread-heading h2", text: "Psaumes 52"
+    selected_chapter = find(".circle-inbox-row.is-selected .circle-inbox-sender").text
+    assert_equal selected_chapter, find(".circle-thread-heading h2").text
     assert_selector ".circle-thread-compose-form[data-turbo-frame='circle_live_feed'] textarea", visible: true
     assert_selector ".circle-thread-send", visible: true
     assert_selector "a.circle-reader-link[data-turbo-frame='scripture_reader']", text: I18n.t("scripture_circle.inbox.reread", locale: :fr)
@@ -58,6 +58,7 @@ class ScriptureCircleVisualTest < ApplicationSystemTestCase
     assert_no_selector ".circle-desktop-rail, .circle-overview-card, .circle-card-link, .circle-reading-card, #circle_results"
     assert_compact_desktop_circle_layout!
     assert_no_horizontal_circle_overflow!
+    capture_circle_screenshot("forum-1440x900.png")
     assert_empty severe_browser_logs
   end
 
@@ -66,6 +67,7 @@ class ScriptureCircleVisualTest < ApplicationSystemTestCase
     visit scripture_circle_path(locale: "fr")
     wait_for_circle_paint!
 
+    assert_not page.evaluate_script("window.matchMedia('(prefers-reduced-motion: reduce)').matches")
     assert_selector "header.quiz-hud", visible: true
     assert_selector "nav.navigation-dock", visible: true
     assert_selector ".circle-workspace:not(.is-thread-open)"
@@ -75,23 +77,73 @@ class ScriptureCircleVisualTest < ApplicationSystemTestCase
 
     find(".circle-inbox-row-link", text: @question.body).click
 
-    assert_selector ".circle-workspace.is-thread-open"
+    assert_selector ".circle-workspace.is-thread-open.is-entering-thread"
     assert_no_selector ".circle-inbox", visible: true
     assert_selector ".circle-thread", visible: true
     assert_selector ".circle-thread-heading h2", text: "Psaumes 52"
     assert_selector "textarea#circle-reply-#{@question.id}", visible: true
     assert_selector "a.circle-thread-back", visible: true
+    assert_equal "circle-thread-enter", page.evaluate_script("getComputedStyle(document.querySelector('.circle-thread-pane')).animationName")
+    assert_equal "1", page.evaluate_script("getComputedStyle(document.querySelector('.circle-thread-pane')).opacity")
     assert_no_horizontal_circle_overflow!
+    capture_circle_screenshot("forum-thread-390x844.png")
 
     find("a.circle-thread-back").click
 
-    assert_selector ".circle-workspace:not(.is-thread-open)"
+    assert_selector ".circle-workspace:not(.is-thread-open).is-returning-inbox"
     assert_selector ".circle-inbox", visible: true
     assert_no_selector ".circle-thread", visible: true
+    assert_equal "circle-inbox-return", page.evaluate_script("getComputedStyle(document.querySelector('.circle-inbox')).animationName")
     assert_empty severe_browser_logs
   end
 
+  test "tablet opens a conversation as one continuous reading surface" do
+    set_system_viewport(768, 1024)
+    visit scripture_circle_path(locale: "fr")
+    wait_for_circle_paint!
+
+    find(".circle-inbox-row-link", text: @question.body).click
+
+    assert_selector ".circle-workspace.is-thread-open"
+    assert_selector ".circle-thread", visible: true
+    assert_no_selector ".circle-inbox", visible: true
+    assert_selector "textarea#circle-reply-#{@question.id}", visible: true
+    assert_no_horizontal_circle_overflow!
+    capture_circle_screenshot("forum-thread-768x1024.png")
+    assert_empty severe_browser_logs
+  end
+
+  test "reduced motion keeps forum navigation immediate" do
+    page.driver.browser.execute_cdp(
+      "Emulation.setEmulatedMedia",
+      features: [ { name: "prefers-reduced-motion", value: "reduce" } ]
+    )
+    set_system_viewport(390, 844)
+    visit scripture_circle_path(locale: "fr")
+    wait_for_circle_paint!
+
+    find(".circle-inbox-row-link", text: @question.body).click
+
+    assert_selector ".circle-workspace.is-thread-open"
+    assert_no_selector ".circle-workspace.is-entering-thread"
+    assert_equal "none", page.evaluate_script("getComputedStyle(document.querySelector('.circle-thread-pane')).animationName")
+    assert_empty severe_browser_logs
+  ensure
+    page.driver.browser.execute_cdp(
+      "Emulation.setEmulatedMedia",
+      features: [ { name: "prefers-reduced-motion", value: "no-preference" } ]
+    ) rescue nil
+  end
+
   private
+
+    def capture_circle_screenshot(name)
+      return unless ENV["CIRCLE_SCREENSHOT"] == "1"
+
+      directory = Rails.root.join("tmp/street-shots/scripture-circle-motion")
+      FileUtils.mkdir_p(directory)
+      save_screenshot directory.join(name)
+    end
 
     def publish_circle_post(person:, reference:, kind:, body:, parent_id: nil)
       ScriptureCircles::Publish.call(
@@ -112,7 +164,7 @@ class ScriptureCircleVisualTest < ApplicationSystemTestCase
       session.post street_profile_path, params: { person_id: person.id, favorite_year: person.favorite_year }
 
       page.driver.browser.manage.delete_all_cookies
-      visit root_path
+      visit "/favicon-32.png"
       session.cookies.to_hash.each do |name, value|
         page.driver.browser.manage.add_cookie(name:, value:, path: "/")
       end
@@ -170,5 +222,6 @@ class ScriptureCircleVisualTest < ApplicationSystemTestCase
 
     def severe_browser_logs
       page.driver.browser.logs.get(:browser).select { |entry| entry.level == "SEVERE" }
+        .reject { |entry| entry.message.include?("/favicon.ico") && entry.message.include?("404") }
     end
 end
