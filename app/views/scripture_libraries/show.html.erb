@@ -102,13 +102,14 @@
         <% if editorial.question.present? %>
           <p class="scripture-library-daily__question"><%= editorial.question %></p>
         <% end %>
+        <% editorial_link_data = { turbo_frame: "_top" } %>
+        <% if editorial.reader? %>
+          <% editorial_link_data[:action] = "click->scripture-launcher#prepare" %>
+          <% editorial_link_data[:scripture_chapter_title] = editorial.cite %>
+        <% end %>
         <%= link_to editorial.path,
               class: "scripture-library-action scripture-library-action--hero",
-              data: {
-                turbo_frame: "_top",
-                action: "click->scripture-launcher#prepare",
-                scripture_chapter_title: editorial.cite
-              } do %>
+              data: editorial_link_data do %>
           <span><%= editorial.cta_label %></span><small><%= editorial.cite %></small><b aria-hidden="true">→</b>
         <% end %>
         <% if editorial.disclosure.present? %>

@@ -85,7 +85,35 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
       assert_selector "body > .navigation-dock"
       assert_layout_chrome_full_width
       assert_hud_theme_contract(expected_theme)
+      assert_shared_hud_morph!
       shot("hud-route-#{shot_name}")
+      assert_empty page.driver.browser.logs.get(:browser).select { |entry| entry.level == "SEVERE" }
+    end
+
+    set_quiz_viewport(1440, 900)
+    [
+      [ root_path, root_path, "hub" ],
+      [ street_map_path, street_map_path, "adventure" ],
+      [ street_leaderboard_path, street_leaderboard_path, "league" ],
+      [ scripture_library_path, scripture_library_path, "word" ],
+      [ street_challenges_path, street_challenges_path, "challenges" ],
+      [ church_path, church_path, "church" ],
+      [ ward_profile_path(wards(:demo).code), church_path, "ward" ],
+      [ player_profile_path(people(:pili)), nil, "profile" ]
+    ].each do |path, active_path, shot_name|
+      visit path
+      assert_selector "body > .home-menu.has-desktop-hud .quiz-hud", visible: true
+      assert_selector ".desktop-navigation", visible: true
+      assert_no_selector "body > .navigation-dock", visible: true
+      if active_path
+        assert_selector ".desktop-navigation a.is-active[aria-current='page'][href='#{active_path}']", count: 1
+      else
+        assert_no_selector ".desktop-navigation a.is-active"
+      end
+      assert_desktop_navigation_readability!
+      assert_desktop_only_hud_morph! if shot_name == "profile"
+      shot("hud-desktop-route-#{shot_name}")
+      assert_empty page.driver.browser.logs.get(:browser).select { |entry| entry.level == "SEVERE" }
     end
   end
 
@@ -121,6 +149,52 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
     end
   ensure
     Hubs::Backdrop.reset!
+  end
+
+  test "desktop hub does not reserve space for its hidden dock" do
+    set_quiz_viewport(1440, 900)
+    sign_in_fixture_person_direct!(people(:pili))
+    catalog = Array(YAML.safe_load_file(Hubs::Backdrop::CATALOG)["backdrops"])
+    worlds = {
+      "celestial-light" => catalog.find { |row| row["id"] == "eden-lumiere" },
+      "celestial-dark" => catalog.find { |row| row["id"] == "coronas-ungido" }
+    }
+
+    worlds.each do |theme, row|
+      Hubs::Backdrop.entries = [ row ]
+      visit root_path
+
+      assert_selector "body.is-#{theme}"
+      assert_no_selector ".navigation-dock", visible: true
+      clearance = page.evaluate_script(<<~JS)
+        (function () {
+          var world = document.querySelector(".street-world.is-game-hub");
+          var feed = document.querySelector('[data-hub-layout="hero-rama-carousel"]');
+          return {
+            value: getComputedStyle(world).getPropertyValue("--street-hub-dock-clearance").trim(),
+            worldPadding: getComputedStyle(world).paddingBottom,
+            feedPadding: getComputedStyle(feed).paddingBottom
+          };
+        })()
+      JS
+      assert_equal({ "value" => "0px", "worldPadding" => "0px", "feedPadding" => "0px" }, clearance)
+      assert_empty page.driver.browser.logs.get(:browser).select { |entry| entry.level == "SEVERE" }
+      shot("hub-no-dock-clearance-#{theme}-1440x900")
+    end
+  ensure
+    Hubs::Backdrop.reset!
+  end
+
+  test "desktop quiz keeps the global HUD navigation and dock away" do
+    set_quiz_viewport(1440, 900)
+    ready_street_quiz!
+
+    assert_selector "body.is-street-play"
+    assert_selector "body > .home-menu:not(.has-desktop-hud)"
+    assert_no_selector ".desktop-navigation", visible: :all
+    assert_no_selector "body > .navigation-dock", visible: true
+    assert_selector "#street_quiz .quiz-hud.is-quiz", visible: true
+    assert_empty page.driver.browser.logs.get(:browser).select { |entry| entry.level == "SEVERE" }
   end
 
   test "a long adventure title keeps Jouer inside the hero without covering the next tile" do
@@ -627,6 +701,10 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
         wait_for_image!("#street_quiz .challenge-story")
         assert_jugar_chrome_on_column
         assert_no_horizontal_layout_overflow
+        if width >= 1200
+          assert_no_selector ".desktop-navigation", visible: true
+          assert_no_selector ".navigation-dock", visible: true
+        end
         shot("jugar-hud-#{theme}-#{width}x#{height}")
         find(".home-menu > .home-menu-btn").click
         assert_shared_menu_contract!(standard_mobile: width == 390 && height == 844)
@@ -1834,11 +1912,11 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
           && burgerInHud
           && before.height >= 44 && before.height <= 104
           && heroBefore >= before.bottom - 12
-          && Math.abs(after.top - before.top) < 10
+          && Math.abs(after.top - before.top) < 24
           && Math.abs(dockBefore - dockAfter) < 2;
       })()
     JS
-    assert pinned, "quiz HUD capsule should stay compact with the hamburger in the slot while the hub feed scrolls"
+    assert pinned, "shared HUD should stay pinned while it changes from page header to floating instrument"
   end
 
   def assert_hub_hud_polish!(centered_pack:)
@@ -1869,7 +1947,7 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
       })()
     JS
     assert geometry, "hub HUD geometry should be measurable"
-    assert_in_delta 16, geometry["hudRadius"], 0.25, "hub HUD corners should stay structured instead of pill-shaped"
+    assert_operator geometry["hudRadius"], :<=, 1, "resting HUD should belong to the page instead of reading as a capsule"
     assert_operator geometry["buttonWidth"], :>=, 44, "hamburger must expose a 44px touch target"
     assert_operator geometry["buttonHeight"], :>=, 44, "hamburger must expose a 44px touch target"
     assert_operator geometry["iconWidth"], :>=, 30, "hamburger glyph should read clearly inside its touch target"
@@ -1914,6 +1992,7 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
           dockW: d.width,
           hudLeft: h.left,
           dockLeft: d.left,
+          dockRight: viewport - d.right,
           hudPosition: getComputedStyle(hud).position,
           dockPosition: getComputedStyle(dock).position
         };
@@ -1923,9 +2002,142 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
     assert_equal "fixed", measured["hudPosition"]
     assert_equal "fixed", measured["dockPosition"]
     assert_in_delta measured["viewport"], measured["hudW"], 2, "HUD should span the viewport"
-    assert_in_delta measured["viewport"], measured["dockW"], 2, "dock should span the viewport"
+    assert_operator measured["dockW"], :<, measured["viewport"], "dock should float inside the viewport"
     assert_in_delta 0, measured["hudLeft"], 2, "HUD should start at the viewport edge"
-    assert_in_delta 0, measured["dockLeft"], 2, "dock should start at the viewport edge"
+    assert_operator measured["dockLeft"], :>=, 11, "dock should detach from the left edge"
+    assert_in_delta measured["dockLeft"], measured["dockRight"], 2, "dock should be centered"
+  end
+
+  def assert_shared_hud_morph!
+    set_hud_scroll_position(0)
+    assert_no_selector ".home-menu.is-hud.is-compact", visible: :all
+    sleep 0.32
+    resting = shared_hud_state
+
+    assert_operator resting.fetch("radius"), :<=, 1, resting.inspect
+    assert_operator resting.fetch("left"), :<=, 1, resting.inspect
+
+    set_hud_scroll_position(128)
+    assert_selector ".home-menu.is-hud.is-compact", visible: :all
+    sleep 0.34
+    floating = shared_hud_state
+
+    assert_operator floating.fetch("radius"), :>=, 20, floating.inspect
+    assert_operator floating.fetch("left"), :>=, 11, floating.inspect
+    assert_operator floating.fetch("height"), :<, resting.fetch("height"), { resting:, floating: }.inspect
+    refute_equal resting.fetch("background"), floating.fetch("background"), { resting:, floating: }.inspect
+  ensure
+    begin
+      set_hud_scroll_position(0)
+      sleep 0.34
+    rescue StandardError
+      nil
+    end
+  end
+
+  def assert_desktop_navigation_readability!
+    links = page.evaluate_script(<<~JS)
+      Array.from(document.querySelectorAll('.desktop-navigation a')).map(function(link) {
+        var style = getComputedStyle(link);
+        var bounds = link.getBoundingClientRect();
+        return {
+          fontSize: parseFloat(style.fontSize),
+          textShadow: style.textShadow,
+          height: bounds.height
+        };
+      })
+    JS
+
+    assert_equal 6, links.length
+    links.each do |link|
+      assert_operator link.fetch("fontSize"), :>=, 16, link.inspect
+      refute_equal "none", link.fetch("textShadow"), link.inspect
+      assert_operator link.fetch("height"), :>=, 44, link.inspect
+    end
+  end
+
+  def assert_desktop_only_hud_morph!
+    set_hud_scroll_position(0)
+    sleep 0.32
+    resting = desktop_only_hud_state
+    assert_operator resting.fetch("radius"), :<=, 1, resting.inspect
+    assert_operator resting.fetch("left"), :<=, 1, resting.inspect
+
+    set_hud_scroll_position(128)
+    assert_selector ".home-menu.has-desktop-hud.is-compact", visible: :all
+    sleep 0.34
+    floating = desktop_only_hud_state
+    assert_operator floating.fetch("radius"), :>=, 20, floating.inspect
+    assert_operator floating.fetch("left"), :>=, 11, floating.inspect
+    assert_operator floating.fetch("height"), :<, resting.fetch("height"), { resting:, floating: }.inspect
+    assert floating.fetch("navigationHidden"), floating.inspect
+    shot("hud-desktop-route-profile-floating")
+  ensure
+    begin
+      set_hud_scroll_position(0)
+      sleep 0.34
+    rescue StandardError
+      nil
+    end
+  end
+
+  def desktop_only_hud_state
+    page.evaluate_script(<<~JS)
+      (function() {
+        var menu = document.querySelector('body > .home-menu.has-desktop-hud');
+        var shell = menu.querySelector('.home-menu-desktop-hud');
+        var hud = shell.querySelector('.quiz-hud');
+        var style = getComputedStyle(hud);
+        var bounds = shell.getBoundingClientRect();
+        var navigation = document.querySelector('.desktop-navigation');
+        return {
+          radius: parseFloat(style.borderTopLeftRadius),
+          left: bounds.left,
+          height: hud.getBoundingClientRect().height,
+          navigationHidden: getComputedStyle(navigation).visibility === 'hidden'
+        };
+      })()
+    JS
+  end
+
+  def set_hud_scroll_position(value)
+    page.execute_script(<<~JS, value)
+      (function(value) {
+        var source = document.querySelector('[data-hud-scroll-source]');
+        if (source) {
+          source.scrollTop = value;
+          source.dispatchEvent(new Event('scroll'));
+        } else {
+          if (value > 0 && document.scrollingElement.scrollHeight < window.innerHeight + value) {
+            document.body.dataset.hudScrollTestMinHeight = document.body.style.minHeight || '';
+            document.body.style.minHeight = (window.innerHeight + value + 1) + 'px';
+          }
+          if (value === 0 && document.body.hasAttribute('data-hud-scroll-test-min-height')) {
+            document.body.style.minHeight = document.body.dataset.hudScrollTestMinHeight;
+            delete document.body.dataset.hudScrollTestMinHeight;
+          }
+          window.scrollTo(0, value);
+          window.dispatchEvent(new Event('scroll'));
+        }
+      })(arguments[0]);
+    JS
+  end
+
+  def shared_hud_state
+    page.evaluate_script(<<~JS)
+      (function() {
+        var menu = document.querySelector('body > .home-menu.is-hud');
+        var hud = menu.querySelector('.quiz-hud');
+        var style = getComputedStyle(hud);
+        var bounds = menu.getBoundingClientRect();
+        return {
+          radius: parseFloat(style.borderTopLeftRadius),
+          left: bounds.left,
+          height: hud.getBoundingClientRect().height,
+          background: [ style.backgroundColor, style.backgroundImage ].join(' | ')
+        };
+      })()
+    JS
   end
 
   def assert_hud_theme_contract(expected_theme = nil)

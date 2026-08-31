@@ -4,11 +4,13 @@ module ScriptureLibraries
   # projected, because they remain useful even with a zero count.
   class Screen
     Editorial = Data.define(
-      :id, :kind, :scheduled_on, :time_zone, :locale, :reference, :claim_ids,
+      :id, :kind, :scheduled_on, :time_zone, :locale, :pack_id, :reference, :references, :claim_ids,
       :eyebrow, :title, :setup, :question, :cta_label, :artwork_key,
       :light_family, :depiction_mode, :certainty, :disclosure, :alt, :motion,
       :audio, :cite, :path
-    )
+    ) do
+      def reader? = kind == "discovery"
+    end
 
     Resume = Data.define(
       :reference, :cite, :title, :detail, :path, :last_verse, :progress
@@ -71,7 +73,7 @@ module ScriptureLibraries
 
       editorial = editorial_discovery
       references = weekly_studies
-      references << editorial.reference if editorial&.reference.present?
+      references.concat(editorial.references) if editorial
 
       Result.new(
         editorial:,
@@ -182,14 +184,16 @@ module ScriptureLibraries
         reference = Scriptures::Reference.from_study(study: discovery.reference, locale: @locale, verse: 1)
         return unless reference
 
-        cite = "#{reference.book_label} #{reference.chapter}"
+        cite = editorial_cite(discovery, reference)
         Editorial.new(
           id: discovery.id,
           kind: discovery.kind,
           scheduled_on: discovery.scheduled_on,
           time_zone: discovery.time_zone,
           locale: discovery.locale,
+          pack_id: discovery.pack_id,
           reference: discovery.reference,
+          references: discovery.references,
           claim_ids: discovery.claim_ids,
           eyebrow: discovery.eyebrow,
           title: discovery.title,
@@ -205,8 +209,30 @@ module ScriptureLibraries
           motion: discovery.motion,
           audio: discovery.audio,
           cite:,
-          path: @routes.scripture_path(discovery.reference, cite:, locale: @locale)
+          path: editorial_path(discovery, cite:)
         )
+      end
+
+      def editorial_cite(discovery, reference)
+        return "#{reference.book_label} #{reference.chapter}" unless discovery.kind == "contemplation"
+
+        references = discovery.references.filter_map do |study|
+          Scriptures::Reference.from_study(study:, locale: @locale, verse: 1)
+        end
+        return "#{reference.book_label} #{reference.chapter}" unless references.size == discovery.references.size
+        return "#{reference.book_label} #{reference.chapter}" unless references.map(&:base_study).uniq.one?
+
+        first, last = references.minmax_by(&:chapter)
+        chapters = first.chapter == last.chapter ? first.chapter.to_s : "#{first.chapter}–#{last.chapter}"
+        "#{first.book_label} #{chapters}"
+      end
+
+      def editorial_path(discovery, cite:)
+        if discovery.kind == "contemplation"
+          library_section_path(:weekly, anchor: "cette-semaine", unit: @study_week.id)
+        else
+          @routes.scripture_path(discovery.reference, cite:, locale: @locale)
+        end
       end
 
       def resume
@@ -430,7 +456,9 @@ module ScriptureLibraries
           scheduled_on: @on,
           time_zone: @time_zone || @zone.name,
           locale: @locale.to_s,
+          pack_id: "exp_psalms_suspended_harps",
           reference: "ot/ps/137",
+          references: %w[ot/ps/135 ot/ps/136 ot/ps/137 ot/ps/138 ot/ps/139],
           claim_ids: %w[ps137-jerusalem-destroyed ps137-harps-suspended],
           eyebrow: t("editorial.preview.eyebrow"),
           title: t("editorial.preview.title"),

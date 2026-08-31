@@ -321,6 +321,25 @@ body.is-rama-profile .home-menu:not(.is-hud) { left: auto; right: max(env(safe-a
 .rama-empty-copy { margin: 0; color: var(--muted); }
 .rama-upcoming .rama-empty-copy + form { margin-top: 1rem; }
 .rama-upcoming .rama-empty-copy + form .btn { width: min(19rem, 100%); }
+.rama-events { padding: .15rem 0 0; }
+.rama-events-head { display: flex; align-items: end; justify-content: space-between; gap: 1rem; padding: 0 .15rem .8rem; }
+.rama-events-head h2 { margin: .25rem 0 0; color: var(--ink); font-family: var(--font-display); font-size: clamp(1.55rem, 3vw, 2.15rem); line-height: 1; }
+.rama-events-head .rama-rail-count { display: grid; place-items: center; width: 2rem; height: 2rem; color: var(--ink); background: var(--paper-deep); border-radius: 50%; font-weight: 800; }
+.rama-events-grid { display: grid; gap: 1rem; }
+.rama-event-tile { position: relative; isolation: isolate; overflow: hidden; min-height: 24rem; display: grid; align-items: end; color: #fffaf0; text-decoration: none; border: 1px solid rgba(166,128,51,.42); border-radius: 1.15rem; background: #0b263b; box-shadow: 0 .6rem 1.4rem rgba(26,40,51,.13); transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease; }
+.rama-event-tile:hover { transform: translateY(-2px); border-color: #dcb84f; box-shadow: 0 .85rem 1.7rem rgba(26,40,51,.2); }
+.rama-event-tile__art, .rama-event-tile__art img, .rama-event-tile__scrim { position: absolute; inset: 0; width: 100%; height: 100%; }
+.rama-event-tile__art img { object-fit: cover; }
+.rama-event-tile__scrim { z-index: -1; background: linear-gradient(180deg, rgba(3,22,39,.04) 15%, rgba(3,22,39,.12) 38%, rgba(3,22,39,.94) 100%); }
+.rama-event-tile__copy { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: flex-start; gap: .42rem; padding: 1.2rem; }
+.rama-event-tile__kicker { color: #f2be34; font-size: .7rem; font-weight: 850; letter-spacing: .09em; text-transform: uppercase; }
+.rama-event-tile strong { max-width: 14ch; font-family: var(--font-display); font-size: clamp(1.6rem, 3vw, 2.15rem); line-height: .98; text-wrap: balance; }
+.rama-event-tile__detail { max-width: 38ch; color: rgba(255,250,240,.86); font-size: .82rem; line-height: 1.35; }
+.rama-event-tile__meta { color: rgba(255,250,240,.7); font-size: .7rem; }
+.rama-event-tile__action { display: flex; align-items: center; gap: .35rem; margin-top: .35rem; color: #f2be34; font-size: .78rem; font-weight: 850; }
+.rama-event-tile__action .picto { width: 1rem; height: 1rem; }
+@media (min-width: 42rem) { .rama-events-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (prefers-reduced-motion: reduce) { .rama-event-tile { transition: none; } .rama-event-tile:hover { transform: none; } }
 .rama-page .rama-liga { padding: 1.45rem 1.55rem 1.3rem; }
 .rama-page .rama-liga .street-league-head { justify-content: space-between; flex-wrap: nowrap; }
 .rama-page .rama-liga .street-league-head h2 { justify-content: flex-start; width: auto; color: var(--gold-deep); font-family: var(--font-ui); font-size: .95rem; }

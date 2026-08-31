@@ -6,6 +6,7 @@ class ScriptureLibrariesControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     assert_select "body.is-scripture-library.is-celestial-dark"
+    assert_select "head link[rel='stylesheet'][href*='surfaces/library']", count: 1
     assert_select ".scripture-library-daily[data-daily-discovery-id='preview-ps137-suspended-harps']", count: 1
     assert_select ".scripture-library-daily h1", text: "Ils ont refusé de chanter."
     assert_select ".scripture-library-daily__world picture img[alt*='lyre suspendue']", count: 1

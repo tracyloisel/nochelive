@@ -257,6 +257,7 @@ body.is-street-hub.is-game-hub-page {
   --hub-hud-height: 5.3rem;
   --hub-hud-clearance: calc(max(var(--space-3), env(safe-area-inset-top)) + var(--hub-hud-height));
 }
+
 @media (min-width: 720px) {
 body.is-street-hub.is-game-hub-page {
     --street-hub-col: min(72rem, 100vw);
@@ -1579,7 +1580,7 @@ body.is-street-hub:has(.home-menu.is-hud) .street-world.is-game-hub {
 }
 
 
-.home-menu.is-hud[data-hud-theme="celestial-light"] .quiz-hud {
+.home-menu.is-hud.is-compact[data-hud-theme="celestial-light"] .quiz-hud {
   --quiz-text: var(--hub-light-ink, #102a49);
   --quiz-muted: color-mix(in srgb, var(--hub-light-ink, #102a49) 66%, #71818a);
   --quiz-border: color-mix(in srgb, var(--hub-light-gold-deep, #93620a) 58%, transparent);
@@ -1594,21 +1595,14 @@ body.is-street-hub:has(.home-menu.is-hud) .street-world.is-game-hub {
   backdrop-filter: blur(18px) saturate(1.18);
 }
 
-.home-menu.is-hud[data-hud-theme="celestial-light"] .quiz-hud-score,
-.home-menu.is-hud[data-hud-theme="celestial-light"] .quiz-hud-streak {
-  background: linear-gradient(145deg, color-mix(in srgb, var(--hub-light-ivory, #fffaf0) 94%, transparent), color-mix(in srgb, var(--hub-light-sky, #cfe3ee) 32%, var(--hub-light-pearl, #edf4f6)));
-  border-color: color-mix(in srgb, var(--hub-light-gold, #d9aa22) 52%, transparent);
-  box-shadow: 0 5px 14px color-mix(in srgb, var(--hub-light-ink, #102a49) 13%, transparent), inset 0 1px 0 color-mix(in srgb, white 88%, transparent);
-}
-
 body.is-game-hub-page.is-celestial-light .navigation-dock {
   --navigation-dock-surface: color-mix(in srgb, var(--hub-light-pearl, #edf4f6) 86%, transparent);
-  border-top-color: color-mix(in srgb, var(--hub-light-gold-deep, #93620a) 62%, transparent);
+  border-color: color-mix(in srgb, var(--hub-light-gold-deep, #93620a) 28%, transparent);
   background:
     linear-gradient(180deg, color-mix(in srgb, var(--hub-light-gold-glint, #fff0a6) 19%, transparent), color-mix(in srgb, var(--hub-light-sky, #cfe3ee) 11%, transparent) 48%, transparent),
     var(--navigation-dock-surface);
   box-shadow:
-    0 -12px 34px color-mix(in srgb, var(--hub-light-ink, #102a49) 18%, transparent),
+    0 -7px 20px color-mix(in srgb, var(--hub-light-ink, #102a49) 10%, transparent),
     inset 0 1px 0 color-mix(in srgb, white 72%, transparent);
   backdrop-filter: blur(24px) saturate(1.22);
 }
@@ -1619,13 +1613,6 @@ body.is-game-hub-page.is-celestial-light .navigation-dock__item {
 
 body.is-game-hub-page.is-celestial-light .navigation-dock__item.is-active {
   color: var(--hub-light-gold-deep, #93620a);
-}
-
-body.is-game-hub-page.is-celestial-light .navigation-dock__item.is-active::before {
-  background: linear-gradient(180deg, color-mix(in srgb, var(--hub-light-gold-glint, #fff0a6) 38%, transparent), color-mix(in srgb, var(--hub-light-gold, #d9aa22) 13%, transparent));
-  box-shadow:
-    inset 0 0 0 1px color-mix(in srgb, var(--hub-light-gold-deep, #93620a) 28%, transparent),
-    0 4px 14px color-mix(in srgb, var(--hub-light-gold, #d9aa22) 16%, transparent);
 }
 
 /* Empty social states keep the Hub's people and live-show fantasy visible. */
@@ -1736,78 +1723,13 @@ body.is-game-hub-page.is-celestial-light .navigation-dock__item.is-active::befor
 }
 .street-world.is-game-hub .hub-streaming-feed::-webkit-scrollbar { display: none; }
 .street-world.is-game-hub .hub-streaming-feed > * { min-width: 0; }
-.hub-desktop-navigation { display: none; }
 
 @media (min-width: 1200px) {
-  body.is-street-hub.is-game-hub-page { --street-hub-dock-clearance: var(--space-7); }
-  body.is-street-hub.is-game-hub-page .navigation-dock { display: none; }
-  body.is-game-hub-page > .home-menu.is-hud .quiz-hud-pack {
-    visibility: hidden;
-    pointer-events: none;
+  /* The shared desktop HUD removes the Hub's mobile dock clearance. */
+  body.is-street-hub.is-game-hub-page,
+  body.is-street-hub.is-game-hub-page .street-world.is-game-hub {
+    --street-hub-dock-clearance: 0px;
   }
-  body.is-game-hub-page .hub-desktop-navigation {
-    position: fixed;
-    z-index: 41;
-    top: max(var(--space-3), env(safe-area-inset-top));
-    left: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: clamp(0.35rem, 0.9vw, 0.9rem);
-    width: min(40vw, 34rem);
-    min-height: 2.75rem;
-    padding-inline: var(--space-2);
-    transform: translateX(-50%);
-    pointer-events: auto;
-  }
-  .hub-desktop-navigation a {
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 2.75rem;
-    min-height: 2.75rem;
-    padding: 0.3rem 0.1rem;
-    color: var(--text-on-glass);
-    font-family: var(--font-ui);
-    font-size: clamp(0.68rem, 0.78vw, 0.82rem);
-    font-weight: 800;
-    letter-spacing: 0.025em;
-    line-height: 1.1;
-    text-align: center;
-    text-decoration: none;
-    white-space: nowrap;
-  }
-  .hub-desktop-navigation a::after {
-    position: absolute;
-    right: 20%;
-    bottom: 0.08rem;
-    left: 20%;
-    height: 0.14rem;
-    border-radius: var(--radius-pill);
-    background: transparent;
-    content: "";
-    transform: scaleX(0.35);
-    transition: background var(--dur-press) var(--ease-out), transform var(--dur-press) var(--ease-out);
-  }
-  .hub-desktop-navigation a:hover,
-  .hub-desktop-navigation a:focus-visible,
-  .hub-desktop-navigation a.is-active { color: var(--gold-primary); }
-  .hub-desktop-navigation a.is-active::after,
-  .hub-desktop-navigation a:hover::after,
-  .hub-desktop-navigation a:focus-visible::after {
-    background: var(--gold-primary);
-    transform: scaleX(1);
-  }
-  .hub-desktop-navigation a:focus-visible {
-    outline: 3px solid var(--gold-primary);
-    outline-offset: 2px;
-    border-radius: var(--radius-s);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .hub-desktop-navigation a::after { transition: none; }
 }
 
 /*
@@ -1915,13 +1837,6 @@ body.is-game-hub-page.is-celestial-dark {
     0 0.45rem 1.15rem color-mix(in srgb, var(--hub-dark-abyss) 74%, transparent),
     0 0 0.82rem color-mix(in srgb, var(--gold-primary) 9%, transparent),
     inset 0 1px 0 color-mix(in srgb, var(--hub-dark-gold-specular) 22%, transparent);
-}
-
-@media (min-width: 1200px) {
-  .street-world.is-game-hub[data-hub-theme="dark"] .hub-desktop-navigation a {
-    color: var(--text-secondary);
-    font-size: clamp(0.78rem, 0.86vw, 0.92rem);
-  }
 }
 
 @media (forced-colors: active) {

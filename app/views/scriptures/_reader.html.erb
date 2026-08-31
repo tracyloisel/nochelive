@@ -15,6 +15,7 @@
                     end %>
 <% marks = Array(reader&.marks) %>
 <% visual_marks = marks.select { |mark| mark.passage_anchor? && mark.visual_style != "none" } %>
+<% reader_illustrations = preference.illustrations_enabled == false ? {} : Array(@scripture_illustrations).index_by(&:anchor_verse) %>
 <% guide = reader&.guide %>
 <% circle_mode = reader&.circle_mode || "disabled" %>
 <% circle_posts = Array(reader&.circle_posts) %>
@@ -230,6 +231,7 @@
                   <span class="scripture-verse-n" aria-hidden="true"><%= verse.number %></span>
                   <span data-scripture-verse-text><%= verse.text %></span>
                 </p>
+                <%= render "scriptures/illustration", illustration: reader_illustrations[verse.number] if reader_illustrations[verse.number] %>
               <% end %>
             </div>
 

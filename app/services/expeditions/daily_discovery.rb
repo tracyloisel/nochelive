@@ -4,7 +4,7 @@ module Expeditions
   # nil: callers own the non-editorial Library fallback.
   class DailyDiscovery
     Result = Data.define(
-      :id, :kind, :scheduled_on, :time_zone, :locale, :reference, :claim_ids,
+      :id, :kind, :scheduled_on, :time_zone, :locale, :pack_id, :reference, :references, :claim_ids,
       :eyebrow, :title, :setup, :question, :cta_label, :artwork_key,
       :light_family, :depiction_mode, :certainty, :disclosure, :alt, :motion,
       :audio
@@ -68,7 +68,9 @@ module Expeditions
           scheduled_on: local_date,
           time_zone: @time_zone,
           locale: @locale,
+          pack_id: row["pack_id"],
           reference: row.fetch("reference"),
+          references: Array(row.fetch("references")).map(&:to_s).uniq.freeze,
           claim_ids: Array(row["claim_ids"]).map(&:to_s).uniq.freeze,
           eyebrow: copy.fetch("eyebrow"),
           title: copy.fetch("title"),

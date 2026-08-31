@@ -13,7 +13,7 @@
      # surface here let its legacy tile rules restyle the cinematic hero after
      # the Hub stylesheet had loaded.
      styles: %w[shell hub],
-     controllers: %w[loading press chrome-menu hub-scroll hub-voyage hub-portal presence],
+     controllers: %w[loading press chrome-menu hud-scroll hub-voyage hub-portal presence],
      media: { lcp: hero_lcp },
      audio: { unlock: true, cues: %w[celestial_breath chest level_up], bed: nil },
      motion: %w[list-enter],
@@ -29,7 +29,7 @@
    ) %>
 <section id="street_world"
          class="street-world is-game-hub"
-         data-controller="street-share hub-scroll"
+         data-controller="street-share"
          data-street-share-copied-value="<%= t("street.share_copied") %>"
          data-hub-theme="<%= art.theme.mode %>"
          data-hub-atmosphere="<%= art.theme.atmosphere %>"
@@ -53,11 +53,9 @@
         hud: true,
         bar: Huds::Present.from_screen(screen: screen, rank_up: params[:rank_up].present?)
       ) { site_menu(player: screen.player) } %>
-  <% content_for :hud do %>
-    <%= render "street_hub/desktop_navigation" %>
-  <% end %>
 
   <div class="street-hub-feed hub-streaming-feed hub-streaming-feed--editorial"
+       data-hud-scroll-source
        data-hub-layout="hero-rama-carousel">
     <%= render "street_hub/hero", screen: screen, theme: art.theme.mode %>
     <%= render "street_hub/rama_carousel", live: screen.live, events: screen.rama_events, circle: screen.circle, duel_summary: @duel_summary %>

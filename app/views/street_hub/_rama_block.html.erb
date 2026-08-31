@@ -1,4 +1,4 @@
-<% event_cards = Array(local_assigns[:events]).first(2) %>
+<% event_cards = Array(local_assigns[:events]) %>
 <% circle = local_assigns[:circle] %>
 <% return if event_cards.empty? && circle.blank? %>
 
@@ -10,6 +10,8 @@
   <div class="hub-rama-block__events" role="list">
     <% event_cards.each do |event| %>
       <% cancelled = event.state == :cancelled %>
+      <% service_event = %i[clothing_drive toy_drive books_and_school_supplies_drive food_drive].include?(event.kind) %>
+      <% event_art = service_event ? "hub.card.service-bread" : "hub.card.rama-vigil" %>
       <% kicker = cancelled ? t("hub.rails.rama_cancelled_kicker") : t("hub.rails.event_kinds.#{event.kind}") %>
       <% meta = if event.starts_at.blank?
         nil
@@ -25,9 +27,13 @@
         t("hub.rails.rama_card_label", title: event.title, action: action)
       end %>
       <% event_content = capture do %>
-        <% if event.still.present? %>
-          <span class="hub-rama-event__art" aria-hidden="true"><%= noche_media_picture(event.still, alt: "", loading: "lazy") %></span>
-        <% end %>
+        <span class="hub-rama-event__art" aria-hidden="true">
+          <% if event.still.present? %>
+            <%= noche_media_picture(event.still, alt: "", loading: "lazy") %>
+          <% else %>
+            <%= noche_picture(event_art, role: :hub_card, alt: "", loading: "lazy") %>
+          <% end %>
+        </span>
         <span class="hub-rama-event__scrim" aria-hidden="true"></span>
         <span class="hub-rama-event__copy">
           <span class="hub-rama-event__kicker"><%= kicker %></span>

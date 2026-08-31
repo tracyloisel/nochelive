@@ -18,7 +18,10 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
     assert_select ".street-hub-feed > section.hub-rama-carousel.hub-rama-block", count: 1 do
       assert_select "> .hub-rama-carousel__track.hub-rama-block__events[role='list']", count: 1 do
         assert_select "> .hub-rama-card[role='listitem']", minimum: 2
-        assert_select "> .hub-rama-card--live[role='listitem'] > .hub-live--feature", count: 1
+        assert_select "> .hub-rama-card--live[role='listitem'] > .hub-live--feature", count: 1 do
+          assert_select ".hub-live-art img[src*='ungio_david']", count: 1
+          assert_select ".hub-live-art img[src*='live-king']", count: 0
+        end
       end
     end
 
@@ -38,6 +41,31 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
     assert_select ".hub-hero-league-panel .hub-hero-gains-empty", count: 1
     assert_select ".hub-identity-empty", count: 0
     assert_hub_quick_actions!
+  end
+
+  test "home renders every supported ward event kind with its published artwork" do
+    sign_in_congregation
+    create_street_profile!
+    WardEvent::KINDS.each_with_index do |kind, index|
+      publish_hub_event!(
+        title: "Événement #{kind}",
+        kind:,
+        starts_at: 2.hours.from_now + index.minutes
+      )
+    end
+
+    get root_path
+
+    assert_response :success
+    assert_select ".hub-rama-carousel__track" do
+      assert_select "> .hub-rama-card--event", count: WardEvent::KINDS.size
+      assert_select "> .hub-rama-card--event .hub-rama-event__art img[src*='worship']", count: WardEvent::KINDS.size
+      assert_select "> .hub-rama-card--event .hub-rama-event__art img[src*='service-bread']", count: 0
+      assert_select "> .hub-rama-card--event .hub-rama-event__art img[src*='rama-vigil']", count: 0
+      WardEvent::KINDS.each do |kind|
+        assert_select "> .hub-rama-card--event", text: /#{Regexp.escape(I18n.t("hub.rails.event_kinds.#{kind}"))}/, count: 1
+      end
+    end
   end
 
   test "home only exposes approved ward events and renders future cancellations without a destination" do
@@ -376,8 +404,9 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
     refute_includes map_body, "--hud-inset"
     refute_includes map_body, "--navigation-dock-width"
     assert_includes css, "body.is-street-map-page .sky { background: none; }"
-    assert_match(/\.home-menu\.is-hud \{[^}]*position: fixed;[^}]*left: env\(safe-area-inset-left\);[^}]*right: env\(safe-area-inset-right\);[^}]*max-width: none;[^}]*transform: none;/m, css)
-    assert_match(/\.navigation-dock \{[^}]*position: fixed;[^}]*left: 0;[^}]*right: 0;[^}]*width: auto;/m, css)
+    assert_match(/\.home-menu\.is-hud \{[^}]*position: fixed;[^}]*left: 0;[^}]*right: 0;[^}]*max-width: none;[^}]*transform: none;[^}]*padding-inline: max\(clamp\(0\.9rem, 3vw, 2\.25rem\), env\(safe-area-inset-left\)\);/m, css)
+    assert_match(/\.home-menu\.is-hud\.is-compact \{[^}]*left: max\(var\(--hud-floating-inset\), env\(safe-area-inset-left\)\);[^}]*right: max\(var\(--hud-floating-inset\), env\(safe-area-inset-right\)\);/m, css)
+    assert_match(/\.navigation-dock \{[^}]*position: fixed;[^}]*left: max\(0\.75rem, env\(safe-area-inset-left\)\);[^}]*right: max\(0\.75rem, env\(safe-area-inset-right\)\);[^}]*width: auto;/m, css)
     assert_match(/\.street-world\.street-map-page \{[^}]*padding: calc\(6rem \+ env\(safe-area-inset-top\)\)/m, css)
     refute_includes css, "body.is-street-hub:has(.home-menu.is-hud) .street-map-page"
     refute_includes css, ".street-map-page > .home-menu"

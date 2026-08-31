@@ -1,5 +1,5 @@
 <% live = local_assigns[:live] %>
-<% event_cards = Array(local_assigns[:events]).first(2) %>
+<% event_cards = Array(local_assigns[:events]) %>
 <% circle = local_assigns[:circle] %>
 <% duel_summary = local_assigns[:duel_summary] %>
 
@@ -33,7 +33,11 @@
       end %>
       <% event_content = capture do %>
         <span class="hub-rama-event__art" aria-hidden="true">
-          <%= noche_picture(event_art, role: :hub_card, alt: "", loading: "lazy") || noche_media_picture(event.still, alt: "", loading: "lazy") %>
+          <% if event.still.present? %>
+            <%= noche_media_picture(event.still, alt: "", loading: "lazy") %>
+          <% else %>
+            <%= noche_picture(event_art, role: :hub_card, alt: "", loading: "lazy") %>
+          <% end %>
         </span>
         <span class="hub-rama-event__scrim" aria-hidden="true"></span>
         <span class="hub-rama-event__copy">

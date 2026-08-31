@@ -104,10 +104,10 @@ class ArchitectureContractTest < ActiveSupport::TestCase
 
   test "global body controllers are small allowlisted adapters" do
     layout = Rails.root.join("app/views/layouts/application.html.erb").read
-    assert_includes layout, 'data-controller="loading press motion scripture-launcher pwa-install'
+    assert_includes layout, 'data-controller="loading press motion hud-scroll scripture-launcher pwa-install'
     refute_match(/data-controller="[^"]*(?:^|\s)scripture(?:\s|\")/, layout)
 
-    adapters = %w[loading press motion scripture_launcher pwa_install stage].map do |name|
+    adapters = %w[loading press motion hud_scroll scripture_launcher pwa_install stage].map do |name|
       path = Rails.root.join("app/javascript/controllers/#{name}_controller.js")
       assert_operator path.readlines.size, :<=, 200, "global adapter is too large: #{path.relative_path_from(Rails.root)}"
       path
@@ -169,7 +169,7 @@ class ArchitectureContractTest < ActiveSupport::TestCase
     expected_paths = []
 
     manifest.fetch("assets").each do |key, asset|
-      assert_includes %w[hub_backdrop hub_hero hub_card catalog_portrait catalog_landscape catalog_square catalog_icon], asset.fetch("role"), key
+      assert_includes %w[hub_backdrop hub_hero library_daily_hero hub_card catalog_portrait catalog_landscape catalog_square catalog_icon], asset.fetch("role"), key
       assert asset.fetch("source_width").positive?, key
       assert asset.fetch("source_bytes").positive?, key
       assert asset.fetch("ratio").present?, key

@@ -1,0 +1,416 @@
+---
+program_slug: come-follow-me-old-testament-2026-fr
+study_unit_slug: week-36
+starts_on: "2026-08-31"
+ends_on: "2026-09-06"
+timezone: Europe/Madrid
+expedition_pack_ids:
+  - exp_psalms_disappearing_voice
+  - exp_psalms_nameless_king
+  - exp_psalms_cry_stone_seek
+  - exp_psalms_house_table_city
+  - exp_psalms_suspended_harps
+  - exp_psalms_everything_breathes
+expected_discoveries_digest: 974ddd51bf79d27bae804e6e5518e530f82d3344e01d7f7f3795a9b4f50333df
+council_review:
+  revision: 4
+  art_gate: { status: PASS }
+  experience_gate: { status: PASS, result: "7/7" }
+  human_voice_gate: { status: PASS, sayable: 196, unsayable: 0 }
+  truth_gate: { status: PASS, ok: 441, unsupported: 0 }
+daily_discoveries:
+  - id: psalms-2026-08-31-day-1-ps102
+    kind: discovery
+    status: approved
+    revision: 4
+    scheduled_on: "2026-08-31"
+    timezone: Europe/Madrid
+    pack_id: exp_psalms_disappearing_voice
+    reference: ot/ps/102
+    references: [ot/ps/102]
+    claim_ids: [hist-004, exeg-002]
+    artwork_key: scripture.library.daily.ps102.disappearing-voice
+    light_family: celestial_dark
+    depiction_mode: contemporary_symbolic_ps102
+    certainty:
+      textual: ATTESTÉ
+      historical_context: PROBABLE
+    motion: still
+    audio: silent
+    truth_gate: { status: PASS, reviewed_revision: 4 }
+    experience_gate: { status: PASS, reviewed_revision: 4 }
+    copy:
+      fr:
+        eyebrow: "Aujourd’hui dans les Écritures"
+        title: "La voix qui disparaît"
+        setup: "Une voix anonyme sent ses jours partir en fumée. Puis le psaume pivote : « Mais toi »."
+        question: "Que changent ces deux mots si la douleur, elle, n’a pas disparu ?"
+        cta_label: "Lire le Psaume 102"
+      es:
+        eyebrow: "Hoy en las Escrituras"
+        title: "La voz que se desvanece"
+        setup: "Una voz anónima siente que sus días se deshacen como humo. Entonces el salmo gira: Pero tú."
+        question: "¿Qué cambian esas dos palabras si el dolor sigue ahí?"
+        cta_label: "Leer el Salmo 102"
+      en:
+        eyebrow: "Today in Scripture"
+        title: "A voice fading away"
+        setup: "An unnamed speaker feels their days vanish like smoke. Then the psalm turns: But you."
+        question: "What do those two words change if the pain is still there?"
+        cta_label: "Read Psalm 102"
+      pt-BR:
+        eyebrow: "Hoje nas Escrituras"
+        title: "A voz que desaparece"
+        setup: "Uma voz anônima sente seus dias sumirem como fumaça. Então o salmo muda de rumo: Mas tu."
+        question: "O que essas duas palavras mudam se a dor ainda está ali?"
+        cta_label: "Ler o Salmo 102"
+    alt:
+      fr: "Pour le Psaume 102, une personne d’aujourd’hui lit et écrit tandis que de la fumée monte autour d’elle."
+      es: "En esta imagen del Salmo 102, una persona de hoy lee y escribe mientras el humo se eleva a su alrededor."
+      en: "In this image for Psalm 102, a present-day reader reads and writes as smoke rises nearby."
+      pt-BR: "Nesta imagem do Salmo 102, uma pessoa de hoje lê e escreve enquanto a fumaça sobe ao seu redor."
+    disclosure:
+      fr: "Image symbolique contemporaine du Psaume 102, pas une reconstitution de son auteur ou de son époque."
+      es: "Imagen simbólica contemporánea del Salmo 102, no una reconstrucción de su autor ni de su época."
+      en: "A contemporary symbolic image of Psalm 102, not a reconstruction of its author or period."
+      pt-BR: "Imagem simbólica contemporânea do Salmo 102, não uma reconstituição de seu autor ou de sua época."
+
+  - id: psalms-2026-08-31-day-2-ps110
+    kind: discovery
+    status: approved
+    revision: 4
+    scheduled_on: "2026-09-01"
+    timezone: Europe/Madrid
+    pack_id: exp_psalms_nameless_king
+    reference: ot/ps/110
+    references: [ot/ps/110]
+    claim_ids: [hist-005, hist-006, exeg-004, exeg-021, exeg-022]
+    artwork_key: scripture.library.daily.ps110.nameless-king
+    light_family: celestial_dark
+    depiction_mode: contemporary_symbolic_royal_mystery
+    certainty:
+      textual: ATTESTÉ
+      royal_setting: PROBABLE
+      king_and_ritual: INCERTAIN
+      reception_layers: ATTESTÉ
+    motion: still
+    audio: silent
+    truth_gate: { status: PASS, reviewed_revision: 4 }
+    experience_gate: { status: PASS, reviewed_revision: 4 }
+    copy:
+      fr:
+        eyebrow: "Aujourd’hui dans les Écritures"
+        title: "Le roi sans nom"
+        setup: "Le psaume s’adresse à un roi. Puis un serment le déclare prêtre selon Melchisédek, mais ne donne pas son nom."
+        question: "Pourquoi Jésus reviendra-t-il sur ce psaume des siècles plus tard ?"
+        cta_label: "Lire le Psaume 110"
+      es:
+        eyebrow: "Hoy en las Escrituras"
+        title: "El rey sin nombre"
+        setup: "El salmo se dirige a un rey. Después, un juramento lo declara sacerdote según Melquisedec, pero no dice su nombre."
+        question: "¿Por qué Jesús volverá a este salmo siglos después?"
+        cta_label: "Leer el Salmo 110"
+      en:
+        eyebrow: "Today in Scripture"
+        title: "The nameless king"
+        setup: "The psalm addresses a king. Then an oath links his priesthood to Melchizedek, but never names the king."
+        question: "Why will Jesus return to this psalm centuries later?"
+        cta_label: "Read Psalm 110"
+      pt-BR:
+        eyebrow: "Hoje nas Escrituras"
+        title: "O rei sem nome"
+        setup: "O salmo se dirige a um rei. Depois, um juramento liga seu sacerdócio a Melquisedeque, mas não diz o nome do rei."
+        question: "Por que Jesus voltará a este salmo séculos depois?"
+        cta_label: "Ler o Salmo 110"
+    alt:
+      fr: "Évocation du Psaume 110 : une personne contemporaine fait face à un siège vide et à une carte sans nom."
+      es: "Evocación del Salmo 110: una persona de hoy mira un asiento vacío y una tarjeta sin nombre."
+      en: "In this image for Psalm 110, a present-day reader faces an empty chair and a blank name card."
+      pt-BR: "Evocação do Salmo 110: uma pessoa de hoje diante de uma cadeira vazia e de um cartão sem nome."
+    disclosure:
+      fr: "Image symbolique contemporaine du Psaume 110, pas la reconstitution d’un roi ou d’une cérémonie."
+      es: "Imagen simbólica contemporánea del Salmo 110, no la reconstrucción de un rey ni de una ceremonia."
+      en: "A contemporary symbolic image of Psalm 110, not a reconstruction of a king or ceremony."
+      pt-BR: "Imagem simbólica contemporânea do Salmo 110, não uma reconstituição de um rei nem de uma cerimônia."
+
+  - id: psalms-2026-08-31-day-3-ps119
+    kind: discovery
+    status: approved
+    revision: 4
+    scheduled_on: "2026-09-02"
+    timezone: Europe/Madrid
+    pack_id: exp_psalms_cry_stone_seek
+    reference: ot/ps/119
+    references: [ot/ps/119]
+    claim_ids: [hist-008, exeg-008]
+    artwork_key: scripture.library.daily.ps119.seek-me
+    light_family: celestial_dark
+    depiction_mode: contemporary_symbolic_scribal_visualization
+    certainty:
+      textual: ATTESTÉ
+      alphabetic_structure: ATTESTÉ
+    motion: still
+    audio: silent
+    truth_gate: { status: PASS, reviewed_revision: 4 }
+    experience_gate: { status: PASS, reviewed_revision: 4 }
+    copy:
+      fr:
+        eyebrow: "Aujourd’hui dans les Écritures"
+        title: "Cherche-moi"
+        setup: "Le Psaume 119 compte 22 strophes de huit vers, soit 176. Et dans le dernier, une brebis perdue demande qu’on la cherche."
+        question: "Pourquoi un texte si précis finit-il avec une brebis encore perdue ?"
+        cta_label: "Lire le Psaume 119"
+      es:
+        eyebrow: "Hoy en las Escrituras"
+        title: "Búscame"
+        setup: "El Salmo 119 tiene 22 estrofas de ocho versículos: 176 en total. Y en el último, una oveja perdida pide que la busquen."
+        question: "¿Por qué un texto tan preciso termina con una oveja todavía perdida?"
+        cta_label: "Leer el Salmo 119"
+      en:
+        eyebrow: "Today in Scripture"
+        title: "Look for me"
+        setup: "Psalm 119 has 22 stanzas of eight verses: 176 in all. In the last verse, a lost sheep asks to be sought."
+        question: "Why does such a precise text end with a sheep still lost?"
+        cta_label: "Read Psalm 119"
+      pt-BR:
+        eyebrow: "Hoje nas Escrituras"
+        title: "Procura por mim"
+        setup: "O Salmo 119 tem 22 estrofes de oito versículos: 176 no total. No último, uma ovelha perdida pede que a procurem."
+        question: "Por que um texto tão preciso termina com uma ovelha ainda perdida?"
+        cta_label: "Ler o Salmo 119"
+    alt:
+      fr: "Pour le Psaume 119, un livre ouvert montre plusieurs marque-pages alignés, avec un repère placé à part."
+      es: "Evocación del Salmo 119: un libro abierto con varios marcadores ordenados y otro separado."
+      en: "In this image for Psalm 119, an open book has several bookmarks in a row, with one marker set apart."
+      pt-BR: "Evocação do Salmo 119: um livro aberto com vários marcadores de página organizados e outro separado."
+    disclosure:
+      fr: "Cette image actuelle du Psaume 119 est symbolique : elle ne prétend montrer ni ses lettres hébraïques ni son auteur."
+      es: "Esta imagen actual del Salmo 119 es simbólica: no intenta mostrar sus letras hebreas ni a su autor."
+      en: "This present-day image of Psalm 119 is symbolic; it does not claim to show its Hebrew letters or its author."
+      pt-BR: "Esta imagem atual do Salmo 119 é simbólica: ela não pretende mostrar suas letras hebraicas nem seu autor."
+
+  - id: psalms-2026-08-31-day-4-ps127-128
+    kind: discovery
+    status: approved
+    revision: 4
+    scheduled_on: "2026-09-03"
+    timezone: Europe/Madrid
+    pack_id: exp_psalms_house_table_city
+    reference: ot/ps/127
+    references: [ot/ps/127, ot/ps/128]
+    claim_ids: [exeg-009]
+    artwork_key: scripture.library.daily.ps127-128.house-table-city
+    light_family: celestial_dark
+    depiction_mode: contemporary_symbolic_house_table_city
+    certainty:
+      textual: ATTESTÉ
+    motion: still
+    audio: silent
+    truth_gate: { status: PASS, reviewed_revision: 4 }
+    experience_gate: { status: PASS, reviewed_revision: 4 }
+    copy:
+      fr:
+        eyebrow: "Aujourd’hui dans les Écritures"
+        title: "La maison"
+        setup: "Le travail n’est pas condamné. Mais sans Dieu pour bâtir et garder, il peut s’épuiser en vain."
+        question: "Après avoir vraiment travaillé, que reste-t-il à recevoir ?"
+        cta_label: "Lire Psaumes 127–128"
+      es:
+        eyebrow: "Hoy en las Escrituras"
+        title: "La casa"
+        setup: "El salmo no desprecia el trabajo. Pero dice que, sin Dios para construir y proteger, tanto esfuerzo puede ser en vano."
+        question: "Después de trabajar de verdad, ¿qué queda por recibir?"
+        cta_label: "Leer Salmos 127–128"
+      en:
+        eyebrow: "Today in Scripture"
+        title: "The house"
+        setup: "Work is not condemned. But without God building and guarding, it can still be in vain."
+        question: "After doing all that work, what is still left to receive?"
+        cta_label: "Read Psalms 127–128"
+      pt-BR:
+        eyebrow: "Hoje nas Escrituras"
+        title: "A casa"
+        setup: "O trabalho não é condenado. Mas, sem Deus edificando e guardando, ele ainda pode acabar sendo em vão."
+        question: "Depois de trabalhar de verdade, o que ainda resta receber?"
+        cta_label: "Ler Salmos 127–128"
+    alt:
+      fr: "Évocation des Psaumes 127–128 : un adulte contemporain se tient entre une poutre, une table vide et une ville."
+      es: "Evocación de los Salmos 127–128: una persona adulta de hoy entre una viga, una mesa vacía y una ciudad."
+      en: "In this image for Psalms 127–128, a present-day adult stands between a wooden beam, an empty table, and a city."
+      pt-BR: "Evocação dos Salmos 127–128: uma pessoa adulta de hoje entre uma viga, uma mesa vazia e uma cidade."
+    disclosure:
+      fr: "Image symbolique contemporaine des Psaumes 127–128, pas une scène historique ni un modèle de famille."
+      es: "Imagen simbólica contemporánea de los Salmos 127–128, no una escena histórica ni un modelo de familia."
+      en: "This symbolic image of Psalms 127–128 is set today; it does not reconstruct history or present one kind of family as the model."
+      pt-BR: "Imagem simbólica contemporânea dos Salmos 127–128, não uma cena histórica nem um modelo de família."
+
+  - id: psalms-2026-08-31-day-5-ps137
+    kind: discovery
+    status: approved
+    revision: 4
+    scheduled_on: "2026-09-04"
+    timezone: Europe/Madrid
+    pack_id: exp_psalms_suspended_harps
+    reference: ot/ps/137
+    references: [ot/ps/137]
+    claim_ids: [hist-012, hist-013, exeg-012]
+    artwork_key: scripture.library.daily.ps137.suspended-harps
+    light_family: celestial_dark
+    depiction_mode: symbolic_atmosphere
+    certainty:
+      textual: ATTESTÉ
+      exilic_context: PROBABLE
+      depicted_place_people_instrument: INCERTAIN
+    motion: still
+    audio: silent
+    truth_gate: { status: PASS, reviewed_revision: 4 }
+    experience_gate: { status: PASS, reviewed_revision: 4 }
+    copy:
+      fr:
+        eyebrow: "Aujourd’hui dans les Écritures"
+        title: "Les harpes suspendues"
+        setup: "À Babylone, des ravisseurs demandent aux exilés un chant de Sion, et les harpes restent suspendues. Puis le psaume finit sur une terrible malédiction, sans dire qu’elle s’accomplit."
+        question: "Pourquoi refusent-ils, et pourquoi le texte garde-t-il cette colère ?"
+        cta_label: "Lire le Psaume 137"
+      es:
+        eyebrow: "Hoy en las Escrituras"
+        title: "Las arpas colgadas"
+        setup: "En Babilonia, los captores piden a los exiliados un canto de Sion. Las arpas siguen colgadas. El salmo termina con una maldición terrible, pero no dice que esa violencia ocurriera."
+        question: "¿Por qué se niegan, y por qué el texto conserva esa ira?"
+        cta_label: "Leer el Salmo 137"
+      en:
+        eyebrow: "Today in Scripture"
+        title: "Harps left hanging"
+        setup: "In Babylon, captors ask the exiles for a song of Zion, but the harps stay hanging. The psalm ends with a terrible curse. It never says anyone carries out the violence."
+        question: "Why do they refuse, and why does the text preserve such anger?"
+        cta_label: "Read Psalm 137"
+      pt-BR:
+        eyebrow: "Hoje nas Escrituras"
+        title: "As harpas penduradas"
+        setup: "Na Babilônia, os captores pedem aos exilados um cântico de Sião. As harpas continuam penduradas. O salmo termina com uma maldição terrível, mas não diz que a violência aconteceu."
+        question: "Por que eles se recusam, e por que o texto guarda tanta ira?"
+        cta_label: "Ler o Salmo 137"
+    alt:
+      fr: "Évocation du Psaume 137 : des silhouettes anonymes près de l’eau, dans un lieu non identifié, sous un instrument suspendu."
+      es: "Evocación del Salmo 137: siluetas anónimas junto al agua, en un lugar no identificado, bajo un instrumento suspendido."
+      en: "In this image for Psalm 137, anonymous figures stand by water in an unidentified place beneath a hanging instrument."
+      pt-BR: "Evocação do Salmo 137: silhuetas anônimas junto à água, em um lugar não identificado, sob um instrumento pendurado."
+    disclosure:
+      fr: "Cette image actuelle du Psaume 137 est symbolique : elle n’essaie pas de recréer les personnes, le lieu ou l’instrument, et elle ne montre aucune violence."
+      es: "Esta imagen actual del Salmo 137 es simbólica: no intenta recrear a las personas, el lugar ni el instrumento, y no muestra violencia."
+      en: "This present-day image of Psalm 137 is symbolic; it does not recreate the people, place, or instrument, and it shows no violence."
+      pt-BR: "Esta imagem atual do Salmo 137 é simbólica: ela não tenta recriar as pessoas, o lugar nem o instrumento e não mostra violência."
+
+  - id: psalms-2026-08-31-day-6-ps146-150
+    kind: discovery
+    status: approved
+    revision: 4
+    scheduled_on: "2026-09-05"
+    timezone: Europe/Madrid
+    pack_id: exp_psalms_everything_breathes
+    reference: ot/ps/149
+    references: [ot/ps/146, ot/ps/147, ot/ps/148, ot/ps/149, ot/ps/150]
+    claim_ids: [hist-014, hist-015, hist-016, exeg-015, exeg-016, exeg-017, exeg-018, exeg-019, exeg-020]
+    artwork_key: scripture.library.daily.ps146-150.everything-breathes
+    light_family: celestial_dark
+    depiction_mode: contemporary_symbolic_non_graphic_tension
+    certainty:
+      textual: ATTESTÉ
+      psalm_147_context: PROBABLE
+      psalm_149_situation: INCERTAIN
+      breath_motif: PROBABLE
+    motion: still
+    audio: silent
+    truth_gate: { status: PASS, reviewed_revision: 4 }
+    experience_gate: { status: PASS, reviewed_revision: 4 }
+    copy:
+      fr:
+        eyebrow: "Aujourd’hui dans les Écritures"
+        title: "Tout ce qui respire"
+        setup: "Le Psaume 149 tient ensemble la danse et le glaive. Le 150 appelle à la louange tout ce qui respire."
+        question: "Peut-on ouvrir le Psaume 150 sans refermer trop vite le 149 ?"
+        cta_label: "Lire Psaumes 146–150"
+      es:
+        eyebrow: "Hoy en las Escrituras"
+        title: "Todo lo que respira"
+        setup: "El Salmo 149 mantiene juntas la danza y la espada. El 150 llama a alabar a todo lo que respira."
+        question: "¿Podemos abrir el Salmo 150 sin cerrar demasiado pronto el 149?"
+        cta_label: "Leer Salmos 146–150"
+      en:
+        eyebrow: "Today in Scripture"
+        title: "Everything that breathes"
+        setup: "Psalm 149 holds dance and a sword together. Psalm 150 calls everything that breathes to praise."
+        question: "Can we open Psalm 150 without closing Psalm 149 too quickly?"
+        cta_label: "Read Psalms 146–150"
+      pt-BR:
+        eyebrow: "Hoje nas Escrituras"
+        title: "Tudo o que respira"
+        setup: "O Salmo 149 mantém lado a lado a dança e a espada. O 150 chama ao louvor tudo o que respira."
+        question: "Dá para abrir o Salmo 150 sem fechar cedo demais o 149?"
+        cta_label: "Ler Salmos 146–150"
+    alt:
+      fr: "Évocation des Psaumes 149–150 : un lecteur contemporain garde deux pages ouvertes côte à côte."
+      es: "Evocación de los Salmos 149–150: un lector actual mantiene dos páginas abiertas, una junto a la otra."
+      en: "In this image for Psalms 149–150, a present-day reader keeps two pages open side by side."
+      pt-BR: "Evocação dos Salmos 149–150: um leitor contemporâneo mantém duas páginas abertas lado a lado."
+    disclosure:
+      fr: "Image symbolique contemporaine des Psaumes 149–150, pas une reconstitution de bataille, de danse ou d’instruments anciens."
+      es: "Imagen simbólica contemporánea de los Salmos 149–150, no una reconstrucción de una batalla, una danza ni instrumentos antiguos."
+      en: "A contemporary symbolic image of Psalms 149–150, not a reconstruction of a battle, dance, or ancient instruments."
+      pt-BR: "Imagem simbólica contemporânea dos Salmos 149–150, não uma reconstituição de batalha, dança ou instrumentos antigos."
+
+  - id: psalms-2026-08-31-day-7-contemplation
+    kind: contemplation
+    status: approved
+    revision: 4
+    scheduled_on: "2026-09-06"
+    timezone: Europe/Madrid
+    pack_id:
+    reference: ot/ps/102
+    references: [ot/ps/102, ot/ps/110, ot/ps/119, ot/ps/127, ot/ps/128, ot/ps/137, ot/ps/146, ot/ps/147, ot/ps/148, ot/ps/149, ot/ps/150]
+    claim_ids: [exeg-001, hist-004, exeg-002, hist-005, hist-006, exeg-004, exeg-021, exeg-022, hist-008, exeg-008, exeg-009, hist-012, hist-013, exeg-012, hist-014, hist-015, hist-016, exeg-015, exeg-016, exeg-017, exeg-018, exeg-019, exeg-020]
+    artwork_key: scripture.library.daily.ps102-150.weekly-contemplation
+    light_family: celestial_dark
+    depiction_mode: editorial_constellation_no_historical_arc
+    certainty:
+      plurality_of_voices: ATTESTÉ
+      sequence: EDITORIAL
+    motion: still
+    audio: silent
+    truth_gate: { status: PASS, reviewed_revision: 4 }
+    experience_gate: { status: PASS, reviewed_revision: 4 }
+    copy:
+      fr:
+        eyebrow: "Contemplation de la semaine"
+        title: "Laquelle te suit encore ?"
+        setup: "La fumée, le siège vide, le dernier vers, la maison, le chant refusé, les deux pages. Six portes restent ouvertes ; aucune n’a besoin d’être la première ou la dernière."
+        question: "Quelle porte veux-tu rouvrir aujourd’hui ?"
+        cta_label: "Revenir aux six portes"
+      es:
+        eyebrow: "Contemplación de la semana"
+        title: "¿Cuál sigue contigo?"
+        setup: "El humo, el asiento vacío, el último versículo, la casa, la negativa a cantar, las dos páginas. Seis puertas siguen abiertas; ninguna tiene que ser la primera ni la última."
+        question: "¿Qué puerta quieres volver a abrir hoy?"
+        cta_label: "Reabrir las seis puertas"
+      en:
+        eyebrow: "This week’s contemplation"
+        title: "Which one stayed with you?"
+        setup: "The smoke, the empty chair, the final verse, the house, the refusal to sing, the two open pages. Six doors remain open; none has to come first or last."
+        question: "Which door do you want to open again today?"
+        cta_label: "Return to the six doors"
+      pt-BR:
+        eyebrow: "Contemplação da semana"
+        title: "Qual ainda acompanha você?"
+        setup: "A fumaça, a cadeira vazia, o último versículo, a casa, a recusa em cantar, as duas páginas. Seis portas continuam abertas; nenhuma precisa ser a primeira nem a última."
+        question: "Qual porta você quer reabrir hoje?"
+        cta_label: "Voltar às seis portas"
+    alt:
+      fr: "Pour les Psaumes 102–150, un lecteur d’aujourd’hui est entouré de six fenêtres différentes, toutes mises en valeur de la même façon."
+      es: "Para los Salmos 102–150, un lector de hoy está rodeado de seis ventanas distintas, todas resaltadas por igual."
+      en: "For Psalms 102–150, a present-day reader is surrounded by six different windows, each shown as clearly as the others."
+      pt-BR: "Para os Salmos 102–150, um leitor de hoje aparece cercado por seis janelas diferentes, todas destacadas por igual."
+    disclosure:
+      fr: "Cette image actuelle des Psaumes 102–150 est symbolique : les six fenêtres ne suivent aucune chronologie et ne reconstituent pas une seule histoire du passé."
+      es: "Esta imagen actual de los Salmos 102–150 es simbólica: las seis ventanas no siguen una cronología ni reconstruyen una sola historia del pasado."
+      en: "This present-day image of Psalms 102–150 is symbolic; the six windows follow no timeline and do not reconstruct a single story from the past."
+      pt-BR: "Esta imagem atual dos Salmos 102–150 é simbólica: as seis janelas não seguem uma cronologia nem reconstituem uma só história do passado."

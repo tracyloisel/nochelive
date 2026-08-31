@@ -3,7 +3,7 @@
 <% empty = live.state == :none || ward_missing %>
 <% theme = %w[light dark].include?(live.theme_mode.to_s) ? live.theme_mode : "light" %>
 <% atmosphere = %w[peaceful dramatic solemn glorious].include?(live.theme_atmosphere.to_s) ? live.theme_atmosphere : "peaceful" %>
-<% still = media_src(live.still) if live.still.present? %>
+<% still = (media_src(live.still) || live.still) if live.still.present? %>
 <% countdown_visible = live.state == :imminent %>
 <article class="hub-live hub-live--feature hub-panel hub-light-tile--live is-<%= live.state %> is-celestial-<%= theme %><%= " is-empty" if empty %><%= " is-still" if still %>"
          data-hub-live-theme="<%= theme %>"
@@ -17,7 +17,11 @@
          data-hub-countdown-starts-at-value="<%= live.starts_at.iso8601 %>"
          <% end %>>
   <span class="hub-live-art" aria-hidden="true">
-    <%= noche_picture("hub.card.live-king", role: :hub_card, alt: "", loading: "lazy") %>
+    <% if !empty && still.present? %>
+      <%= noche_media_picture(still, alt: "", loading: "lazy") %>
+    <% else %>
+      <%= noche_picture("hub.card.live-king", role: :hub_card, alt: "", loading: "lazy") %>
+    <% end %>
   </span>
   <span class="hub-live-scrim" aria-hidden="true"></span>
   <% if empty %>

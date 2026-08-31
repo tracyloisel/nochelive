@@ -145,7 +145,9 @@ module ScriptureLibraries
         scheduled_on: @starts_on,
         time_zone: @zone.name,
         locale: "fr",
+        pack_id: "exp_psalms_nameless_king",
         reference: "ot/ps/110",
+        references: %w[ot/ps/110 ot/ps/102],
         claim_ids: [ "exeg-004" ],
         eyebrow: "Aujourd'hui dans les Ecritures",
         title: "Un roi devient pretre.",
@@ -175,11 +177,60 @@ module ScriptureLibraries
       assert_equal :fr, received.fetch(:locale)
       assert_equal @zone.name, received.fetch(:time_zone)
       assert_equal @at, received.fetch(:at)
+      assert_equal "exp_psalms_nameless_king", result.editorial.pack_id
+      assert_equal %w[ot/ps/110 ot/ps/102], result.editorial.references
       assert_equal "Psaumes 110", result.editorial.cite
       assert_equal "/escrituras/ot/ps/110", URI.parse(result.editorial.path).path
       assert_equal "fr", Rack::Utils.parse_nested_query(URI.parse(result.editorial.path).query).fetch("locale")
+      assert result.editorial.reader?
       assert_equal "symbolic_atmosphere", result.editorial.depiction_mode
       assert_equal "DISCUTE", result.editorial.certainty
+    ensure
+      Expeditions::DailyDiscovery.define_singleton_method(:call, original) if original
+    end
+
+    test "routes the seventh-day contemplation to the merged weekly destination" do
+      discovery = Expeditions::DailyDiscovery::Result.new(
+        id: "daily-week-contemplation",
+        kind: "contemplation",
+        scheduled_on: @starts_on + 6.days,
+        time_zone: @zone.name,
+        locale: "fr",
+        pack_id: nil,
+        reference: "ot/ps/150",
+        references: %w[ot/ps/150 ot/ps/102 ot/ps/119],
+        claim_ids: [ "exeg-week" ],
+        eyebrow: "Cette semaine dans les Ecritures",
+        title: "Six portes restent ouvertes.",
+        setup: "Reviens sur ce qui t'a retenu.",
+        question: "Qu'est-ce que tu n'avais jamais remarque ?",
+        cta_label: "Contempler la semaine",
+        artwork_key: "scripture.library.daily.week",
+        light_family: "celestial_dark",
+        depiction_mode: "symbolic_atmosphere",
+        certainty: "SYMBOLIQUE",
+        disclosure: "Composition symbolique.",
+        alt: "Six fenetres distinctes.",
+        motion: "still",
+        audio: "silent"
+      )
+      original = Expeditions::DailyDiscovery.method(:call)
+      Expeditions::DailyDiscovery.define_singleton_method(:call) { |**| discovery }
+
+      result = Screen.call(
+        person: @person,
+        locale: :fr,
+        at: @zone.local(2199, 9, 1, 12),
+        time_zone: @zone.name
+      )
+
+      refute result.editorial.reader?
+      assert_nil result.editorial.pack_id
+      assert_equal "Psaumes 102–150", result.editorial.cite
+      query = Rack::Utils.parse_nested_query(URI.parse(result.editorial.path).query)
+      assert_equal "weekly", query.fetch("section")
+      assert_equal @week.id.to_s, query.fetch("unit")
+      assert_equal "cette-semaine", URI.parse(result.editorial.path).fragment
     ensure
       Expeditions::DailyDiscovery.define_singleton_method(:call, original) if original
     end
@@ -260,7 +311,7 @@ module ScriptureLibraries
       end
 
       def daily_discoveries
-        6.times.map do |offset|
+        7.times.map do |offset|
           copy = Locale::AVAILABLE.index_with do |_locale|
             {
               "eyebrow" => "Aujourd'hui dans les Ecritures",
@@ -274,11 +325,13 @@ module ScriptureLibraries
 
           {
             "id" => "daily-#{offset}",
-            "kind" => offset == 5 ? "contemplation" : "discovery",
+            "kind" => offset == 6 ? "contemplation" : "discovery",
             "status" => "approved",
             "scheduled_on" => (@starts_on + offset.days).iso8601,
             "timezone" => @zone.name,
+            "pack_id" => offset == 6 ? nil : (offset.even? ? "exp_psalms_disappearing_voice" : "exp_psalms_nameless_king"),
             "reference" => offset.even? ? "ot/ps/102" : "ot/ps/110",
+            "references" => [ offset.even? ? "ot/ps/102" : "ot/ps/110" ],
             "claim_ids" => [ "claim-#{offset}" ],
             "artwork_key" => "scripture.library.daily.#{offset}",
             "light_family" => "celestial_dark",

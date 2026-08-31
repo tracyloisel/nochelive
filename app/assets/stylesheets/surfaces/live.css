@@ -220,6 +220,13 @@ body.is-night-watch > .home-menu.is-hud {
   width: min(92rem,calc(100% - 2rem));
   transform: translateX(-50%);
 }
+body.is-night-watch > .home-menu.is-hud.is-compact {
+  top: max(var(--hud-floating-inset), env(safe-area-inset-top));
+  right: max(var(--hud-floating-inset), env(safe-area-inset-right));
+  left: max(var(--hud-floating-inset), env(safe-area-inset-left));
+  width: auto;
+  transform: none;
+}
 @media (min-width: 48rem) {
   .noche-live-topline, .noche-live-heading, .noche-live-body { width: min(92rem, calc(100% - 3rem)); }
   .noche-live-before { grid-template-columns: 1.2fr .8fr; }

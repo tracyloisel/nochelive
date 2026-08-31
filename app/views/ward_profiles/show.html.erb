@@ -76,6 +76,43 @@
       </section>
     <% end %>
 
+    <% if @rama_events.any? %>
+      <section class="rama-events rama-section" aria-labelledby="rama-events-title">
+        <header class="rama-events-head">
+          <div>
+            <p class="rama-kicker"><%= t("ward.events_kicker") %></p>
+            <h2 id="rama-events-title"><%= t("ward.events_title") %></h2>
+          </div>
+          <span class="rama-rail-count"><%= @rama_events.size %></span>
+        </header>
+        <div class="rama-events-grid" role="list">
+          <% @rama_events.each do |event| %>
+            <% cancelled = event.state == :cancelled %>
+            <% meta = t("hub.rails.rama_meta", date: l(event.starts_at, format: :short), location: event.location_label) %>
+            <% label = cancelled ? t("hub.rails.rama_cancelled_card_label", title: event.title, reason: event.cancellation_reason) : t("hub.rails.rama_card_label", title: event.title, action: t("ward.event_open")) %>
+            <% content = capture do %>
+              <% if event.still.present? %>
+                <span class="rama-event-tile__art" aria-hidden="true"><%= noche_media_picture(event.still, alt: "", loading: "lazy") %></span>
+              <% end %>
+              <span class="rama-event-tile__scrim" aria-hidden="true"></span>
+              <span class="rama-event-tile__copy">
+                <span class="rama-event-tile__kicker"><%= t("hub.rails.event_kinds.#{event.kind}") %></span>
+                <strong><%= event.title %></strong>
+                <span class="rama-event-tile__detail"><%= event.summary %></span>
+                <span class="rama-event-tile__meta"><%= meta %></span>
+                <span class="rama-event-tile__action"><%= cancelled ? t("hub.rails.rama_cancelled") : t("ward.event_open") %> <%= picto("arrow") %></span>
+              </span>
+            <% end %>
+            <% if cancelled %>
+              <article class="rama-event-tile is-cancelled" role="listitem" aria-label="<%= label %>"><%= content %></article>
+            <% else %>
+              <%= link_to event.path, class: "rama-event-tile is-#{event.state}", role: "listitem", aria: { label: } do %><%= content %><% end %>
+            <% end %>
+          <% end %>
+        </div>
+      </section>
+    <% end %>
+
     <% if @study_week %>
       <% word_path = @expedition ? street_map_path(view: "expeditions", expedition: @study_week.id) : scripture_library_path %>
       <% word_art = @expedition&.artwork.presence || "media/study/psalms-refuge-2026.png" %>

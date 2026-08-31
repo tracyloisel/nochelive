@@ -27,7 +27,15 @@ module Navigation
     end
 
     def item_class(item)
-      [ "navigation-dock__item", ("is-active" if active == item.key) ].compact
+      [
+        "navigation-dock__item",
+        ("is-active" if active == item.key),
+        ("is-adventure" if item.key == :adventure)
+      ].compact
+    end
+
+    def active_index
+      items.index { |item| item.key == active } || 0
     end
 
     def item_aria(item)

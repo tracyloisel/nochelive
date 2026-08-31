@@ -1,4 +1,4 @@
-<nav class="home-menu<%= " is-split" if local_assigns[:face] || local_assigns[:hud] %><%= " is-hud" if local_assigns[:hud] %>"
+<nav class="home-menu<%= " is-split" if local_assigns[:face] || local_assigns[:hud] || local_assigns[:desktop_hud] %><%= " is-hud" if local_assigns[:hud] %><%= " has-desktop-hud" if local_assigns[:desktop_hud] %>"
      data-hud-theme="<%= theme %>"
      data-controller="chrome-menu"
      data-chrome-menu-open-label-value="<%= t("chrome.menu") %>"
@@ -6,8 +6,13 @@
      aria-label="<%= t("chrome.menu") %>">
   <% if local_assigns[:hud] && local_assigns[:bar] %>
     <%= render Hud::BarComponent.new(bar: bar, theme: theme) %>
-  <% elsif local_assigns[:face] %>
-    <%= render "shared/chrome_face" %>
+  <% else %>
+    <%= render "shared/chrome_face" if local_assigns[:face] %>
+    <% if local_assigns[:desktop_hud] && local_assigns[:desktop_bar] %>
+      <div class="home-menu-desktop-hud">
+        <%= render Hud::BarComponent.new(bar: desktop_bar, theme: theme) %>
+      </div>
+    <% end %>
   <% end %>
   <button type="button"
           class="home-menu-btn quiet-link"

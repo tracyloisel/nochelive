@@ -127,7 +127,7 @@ class HubGuestStatesVisualTest < ApplicationSystemTestCase
           var challenges = feed && feed.querySelector(':scope > .hub-rama-carousel .hub-rama-card--challenge');
           var videos = feed && feed.querySelector(':scope > .hub-rama-carousel .hub-rama-card--videos');
           var dock = document.querySelector('.navigation-dock');
-          var nav = document.querySelector('.hub-desktop-navigation');
+          var nav = document.querySelector('.desktop-navigation');
           return {
             editorial: feed && feed.classList.contains('hub-streaming-feed--editorial'),
             layout: feed && feed.dataset.hubLayout,

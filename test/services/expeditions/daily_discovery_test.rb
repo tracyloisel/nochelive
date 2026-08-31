@@ -28,20 +28,26 @@ module Expeditions
       assert_equal "fr titre 3", result.title
       assert_equal "fr question 3", result.question
       assert_equal "ot/ps/102", result.reference
+      assert_equal "exp_psalms_suspended_harps", result.pack_id
+      assert_equal [ "ot/ps/102" ], result.references
       assert_equal [ "exeg-003" ], result.claim_ids
       assert_equal "Illustration fr 3", result.alt
       assert_equal "Europe/Madrid", result.time_zone
     end
 
-    test "returns nil outside the dated study week instead of wrapping with modulo" do
+    test "resolves the seventh contemplation then returns nil outside the dated week" do
       zone = Time.find_zone!("Europe/Madrid")
+
+      seventh = DailyDiscovery.call(
+        quiz: @quiz, locale: :fr, at: zone.local(2044, 9, 4, 12), time_zone: "Europe/Madrid"
+      )
+      assert_equal "daily-07", seventh.id
+      assert_equal "contemplation", seventh.kind
+      assert_nil seventh.pack_id
 
       assert_nil DailyDiscovery.call(
         quiz: @quiz, locale: :fr, at: zone.local(2044, 9, 5, 12), time_zone: "Europe/Madrid"
       )
-      assert_nil DailyDiscovery.call(
-        quiz: @quiz, locale: :fr, at: zone.local(2044, 9, 4, 12), time_zone: "Europe/Madrid"
-      ), "a six-entry schedule must not synthesize a seventh discovery"
     end
 
     test "requires the caller's explicit timezone to match the approved schedule" do
@@ -61,6 +67,20 @@ module Expeditions
       unapproved = version_content
       unapproved["daily_discoveries"].first["truth_gate"]["status"] = "REJECT"
       replace_content!(unapproved)
+
+      assert_nil resolved_first_day
+    end
+
+    test "fails closed when its expedition pack or scripture route is not approved" do
+      wrong_pack = version_content
+      wrong_pack["daily_discoveries"].first["pack_id"] = "invented-pack"
+      replace_content!(wrong_pack)
+
+      assert_nil resolved_first_day
+
+      wrong_route = version_content
+      wrong_route["daily_discoveries"].first["references"] = [ "ot/ps/110" ]
+      replace_content!(wrong_route)
 
       assert_nil resolved_first_day
     end
@@ -110,7 +130,7 @@ module Expeditions
             "id" => "daily-psalms",
             "pack_ids" => [ "exp_psalms_suspended_harps" ]
           },
-          "daily_discoveries" => 6.times.map { |index| discovery(index) }
+          "daily_discoveries" => 7.times.map { |index| discovery(index) }
         }
       end
 
@@ -118,12 +138,14 @@ module Expeditions
         number = index + 1
         {
           "id" => format("daily-%02d", number),
-          "kind" => "discovery",
+          "kind" => index == 6 ? "contemplation" : "discovery",
           "revision" => 1,
           "scheduled_on" => (@starts_on + index.days).iso8601,
           "timezone" => "Europe/Madrid",
           "status" => "approved",
+          "pack_id" => index == 6 ? nil : "exp_psalms_suspended_harps",
           "reference" => "ot/ps/102",
+          "references" => [ "ot/ps/102" ],
           "claim_ids" => [ format("exeg-%03d", number) ],
           "depiction_mode" => "symbolic_atmosphere",
           "certainty" => "ATTESTE",

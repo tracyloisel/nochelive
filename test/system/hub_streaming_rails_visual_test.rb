@@ -49,6 +49,7 @@ class HubStreamingRailsVisualTest < ApplicationSystemTestCase
           page.execute_script("window.scrollTo(0, 0)")
           shot("hub-editorial-#{theme}-#{width}x#{height}-top")
         end
+        assert_hud_transformation!(theme:, width:, height:) if [ 390, 768, 1440 ].include?(width)
         shot_block(".hub-now", "hub-editorial-#{theme}-#{width}x#{height}-now") if [ 390, 1440 ].include?(width)
         shot_block(".hub-rama-carousel", "hub-editorial-#{theme}-#{width}x#{height}-rama") if [ 390, 1440 ].include?(width)
         if [ 390, 1440 ].include?(width)
@@ -132,11 +133,14 @@ class HubStreamingRailsVisualTest < ApplicationSystemTestCase
         var art = card.querySelector('.hub-now-card__art');
         var scrim = card.querySelector('.hub-now-card__scrim');
         var style = getComputedStyle(card);
+        var hudStyle = getComputedStyle(document.querySelector('.home-menu.is-hud .quiz-hud'));
         return {
           overflow: document.documentElement.scrollWidth > document.documentElement.clientWidth + 1,
           artHidden: !art || getComputedStyle(art).display === 'none',
           scrimHidden: getComputedStyle(scrim).display === 'none',
-          contrast: style.backgroundColor !== style.color
+          contrast: style.backgroundColor !== style.color,
+          hudContrast: hudStyle.backgroundColor !== hudStyle.color && hudStyle.borderTopColor !== 'rgba(0, 0, 0, 0)',
+          hudBlurRemoved: hudStyle.backdropFilter === 'none'
         };
       })()
     JS
@@ -144,6 +148,8 @@ class HubStreamingRailsVisualTest < ApplicationSystemTestCase
     assert forced.fetch("artHidden"), forced.inspect
     assert forced.fetch("scrimHidden"), forced.inspect
     assert forced.fetch("contrast"), forced.inspect
+    assert forced.fetch("hudContrast"), forced.inspect
+    assert forced.fetch("hudBlurRemoved"), forced.inspect
     shot("hub-editorial-dark-390x844-forced-colors")
     assert_empty severe_browser_logs
   ensure
@@ -369,6 +375,75 @@ class HubStreamingRailsVisualTest < ApplicationSystemTestCase
       assert snapshot.fetch("nowAfterInstall"), snapshot.inspect
     end
 
+    def assert_hud_transformation!(theme:, width:, height:)
+      page.execute_script(<<~JS)
+        document.querySelector('.street-hub-feed').scrollTop = 0;
+        document.querySelector('.street-hub-feed').dispatchEvent(new Event('scroll'));
+      JS
+      assert_no_selector ".home-menu.is-hud.is-compact", visible: :all
+      sleep 0.32
+      resting = hud_state_snapshot
+
+      assert_operator resting.fetch("radius"), :<=, 1.0, resting.inspect
+      assert_operator resting.fetch("left"), :<=, 1.0, resting.inspect
+      assert resting.fetch("statsOpen"), resting.inspect
+
+      page.execute_script(<<~JS)
+        document.querySelector('.street-hub-feed').scrollTop = 128;
+        document.querySelector('.street-hub-feed').dispatchEvent(new Event('scroll'));
+      JS
+      assert_selector ".home-menu.is-hud.is-compact", visible: :all
+      sleep 0.34
+      floating = hud_state_snapshot
+
+      assert_operator floating.fetch("radius"), :>=, 20.0, floating.inspect
+      assert_operator floating.fetch("left"), :>=, 11.0, floating.inspect
+      assert_operator floating.fetch("height"), :<, resting.fetch("height"), { resting:, floating: }.inspect
+      refute_equal resting.fetch("background"), floating.fetch("background"), { resting:, floating: }.inspect
+      assert floating.fetch("statsOpen"), floating.inspect
+
+      if width >= DESKTOP_WIDTH
+        assert floating.fetch("desktopNavigationHidden"), floating.inspect
+        assert floating.fetch("packVisible"), floating.inspect
+      end
+
+      shot("hub-hud-#{theme}-#{width}x#{height}-floating")
+    ensure
+      page.execute_script(<<~JS) rescue nil
+        var feed = document.querySelector('.street-hub-feed');
+        if (feed) {
+          feed.scrollTop = 0;
+          feed.dispatchEvent(new Event('scroll'));
+        }
+      JS
+    end
+
+    def hud_state_snapshot
+      page.evaluate_script(<<~JS)
+        (function() {
+          var menu = document.querySelector('.home-menu.is-hud');
+          var hud = menu.querySelector('.quiz-hud');
+          var hudStyle = getComputedStyle(hud);
+          var menuRect = menu.getBoundingClientRect();
+          var stats = Array.from(hud.querySelectorAll('.quiz-hud-score, .quiz-hud-streak'));
+          var nav = document.querySelector('.desktop-navigation');
+          var pack = hud.querySelector('.quiz-hud-pack');
+          return {
+            radius: parseFloat(hudStyle.borderTopLeftRadius),
+            left: menuRect.left,
+            height: hud.getBoundingClientRect().height,
+            background: [ hudStyle.backgroundColor, hudStyle.backgroundImage ].join(' | '),
+            statsOpen: stats.every(function(node) {
+              var style = getComputedStyle(node);
+              return style.backgroundImage === 'none' && style.borderTopColor === 'rgba(0, 0, 0, 0)';
+            }),
+            desktopNavigationHidden: !nav || getComputedStyle(nav).visibility === 'hidden',
+            packVisible: !pack || (getComputedStyle(pack).visibility !== 'hidden' && getComputedStyle(pack).opacity !== '0')
+          };
+        })()
+      JS
+    end
+
     def assert_editorial_geometry!(width:, height:)
       geometry = page.evaluate_script(<<~JS)
         (function() {
@@ -394,7 +469,7 @@ class HubStreamingRailsVisualTest < ApplicationSystemTestCase
           var cards = Array.from(document.querySelectorAll('.hub-rama-carousel__track > .hub-rama-card'));
           var dock = document.querySelector('.navigation-dock');
           var hud = document.querySelector('body > .home-menu.is-hud');
-          var nav = document.querySelector('.hub-desktop-navigation');
+          var nav = document.querySelector('.desktop-navigation');
           var stage = document.querySelector('.hub-hero-stage');
           var currentMark = document.querySelector('.hub-slide.is-current .hub-hero-worldmark');
           var heroElement = document.querySelector('.hub-hero');
@@ -552,9 +627,33 @@ class HubStreamingRailsVisualTest < ApplicationSystemTestCase
 
     def assert_navigation_affordance!(width:)
       if width < DESKTOP_WIDTH
-        assert_no_selector ".hub-desktop-navigation", visible: true
+        assert_no_selector ".desktop-navigation", visible: true
       else
-        assert_selector ".hub-desktop-navigation a[aria-current='page']", text: I18n.t("hub.nav_home", locale: :fr)
+        assert_selector ".desktop-navigation a[aria-current='page']", text: I18n.t("hub.nav_home", locale: :fr)
+        navigation = page.evaluate_script(<<~JS)
+          (function() {
+            var nav = document.querySelector('.desktop-navigation');
+            var links = Array.from(nav.querySelectorAll('a'));
+            var identity = Array.from(document.querySelectorAll('.home-menu.is-hud .quiz-hud-avatar, .home-menu.is-hud .quiz-hud-meta'))
+              .map(function(node) { return node.getBoundingClientRect(); });
+            var stats = document.querySelector('.home-menu.is-hud .quiz-hud-stats').getBoundingClientRect();
+            var bounds = nav.getBoundingClientRect();
+            return {
+              leftGap: bounds.left - Math.max.apply(null, identity.map(function(rect) { return rect.right; })),
+              rightGap: stats.left - bounds.right,
+              links: links.map(function(link) {
+                var style = getComputedStyle(link);
+                var rect = link.getBoundingClientRect();
+                return { fontSize: parseFloat(style.fontSize), textShadow: style.textShadow, height: rect.height };
+              })
+            };
+          })()
+        JS
+        assert navigation.fetch("links").all? { |link| link.fetch("fontSize") >= 16 }, navigation.inspect
+        assert navigation.fetch("links").all? { |link| link.fetch("textShadow") != "none" }, navigation.inspect
+        assert navigation.fetch("links").all? { |link| link.fetch("height") >= 44 }, navigation.inspect
+        assert_operator navigation.fetch("leftGap"), :>=, 8, navigation.inspect
+        assert_operator navigation.fetch("rightGap"), :>=, 8, navigation.inspect
       end
     end
 

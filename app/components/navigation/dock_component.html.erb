@@ -1,4 +1,6 @@
-<nav class="navigation-dock" aria-label="<%= t("hub.nav_home") %>">
+<nav class="navigation-dock <%= "has-active" if active.present? %>" style="--dock-active-index: <%= active_index %>;" aria-label="<%= t("hub.nav_home") %>">
+  <span class="navigation-dock__active-halo" aria-hidden="true"></span>
+  <span class="navigation-dock__active-rail" aria-hidden="true"></span>
   <% items.each do |item| %>
     <%= link_to item.path, class: item_class(item), aria: item_aria(item) do %>
       <%= render "shared/dock_icon", name: item.icon %>

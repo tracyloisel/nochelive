@@ -96,6 +96,22 @@ module Studies
       assert_equal "published", @previous.reload.status
     end
 
+    test "requires exactly one daily discovery for each of the seven days" do
+      changed = @candidate.content.deep_dup
+      changed["daily_discoveries"].pop
+      replace_candidate_content!(changed)
+
+      error = assert_raises(PublishQuizVersion::Error) do
+        PublishQuizVersion.call(
+          version: @candidate, expected_content_digest: @candidate.content_digest
+        )
+      end
+
+      assert_includes error.message, "daily_discoveries must contain exactly 7 entries"
+      assert_equal "needs_review", @candidate.reload.status
+      assert_equal "published", @previous.reload.status
+    end
+
     test "allows only the needs_review to published transition" do
       @candidate.update!(status: "draft")
 
@@ -148,7 +164,7 @@ module Studies
 
       def daily_content
         expedition_content.merge(
-          "daily_discoveries" => 6.times.map { |index| discovery(index) }
+          "daily_discoveries" => 7.times.map { |index| discovery(index) }
         )
       end
 
@@ -156,12 +172,14 @@ module Studies
         number = index + 1
         {
           "id" => format("daily-%02d", number),
-          "kind" => "discovery",
+          "kind" => index == 6 ? "contemplation" : "discovery",
           "revision" => 1,
           "scheduled_on" => (@starts_on + index.days).iso8601,
           "timezone" => "Europe/Madrid",
           "status" => "approved",
+          "pack_id" => index == 6 ? nil : "exp_psalms_disappearing_voice",
           "reference" => "ot/ps/137",
+          "references" => [ "ot/ps/137" ],
           "claim_ids" => [ format("exeg-%03d", number) ],
           "depiction_mode" => "symbolic_atmosphere",
           "certainty" => "ATTESTE",

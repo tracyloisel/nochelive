@@ -141,5 +141,6 @@ Street hub must answer: who am I, where am I, what now, what is happening around
 | [138](138-jugar-forged-streak.md) | Jugar : une seule flamme relie le HUD, le ×5 et sa perte |
 | [140](140-hub-empty-live-social-art.md) | Hub : les états sans paroisse retrouvent la scène Live et une vraie illustration d’amis |
 | [168](168-psalms-expedition-permanent-journey.md) | Psaumes : six packs permanents, constellation sur toutes les surfaces et deux Live H+3 à Benidorm |
+| [170](170-scripture-library-daily-edition.md) | Bibliothèque : sept couvertures quotidiennes, continuité réelle et édition immuable |
 
 Older files keep `## Evidence` blocks with the hat name from that slice. That is history, not a Cursor persona to revive. From this charter on, the three-agent table and the /10 scores are the Conseil Noche record.

@@ -17,6 +17,7 @@ class WardProfilesController < ApplicationController
     remaining_live = @featured_night ? live_nights.where.not(id: @featured_night.id) : live_nights
     @upcoming_nights_count = remaining_live.count
     @upcoming_nights = remaining_live.order(:starts_at, :id).limit(3).to_a
+    @rama_events = Hubs::RamaEvents.call(ward: @ward, at: Time.current, limit: 4)
     @featured_participants_count = @featured_night&.players&.count.to_i
     online_ids = Presences::Registry.online_person_ids(ward_id: @ward.id)
     @online_people = @ward.people

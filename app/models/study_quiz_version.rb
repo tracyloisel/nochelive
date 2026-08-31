@@ -62,7 +62,7 @@ class StudyQuizVersion < ApplicationRecord
 
     rows = daily_discoveries
     issues = []
-    issues << "daily_discoveries must contain 6 or 7 entries" unless rows.size.between?(6, 7)
+    issues << "daily_discoveries must contain exactly 7 entries" unless rows.size == 7
     rows.each_with_index { |row, index| validate_daily_discovery(row, index, issues) }
     validate_daily_discovery_schedule(rows, issues)
     issues
@@ -159,6 +159,7 @@ class StudyQuizVersion < ApplicationRecord
       issues << "#{prefix}.kind is invalid" unless DAILY_DISCOVERY_KINDS.include?(row["kind"].to_s)
       issues << "#{prefix}.status must be approved" unless DAILY_DISCOVERY_STATUSES.include?(row["status"].to_s)
       issues << "#{prefix}.reference is invalid" unless Scriptures::Reference.known_study?(row["reference"])
+      validate_daily_discovery_route(row, prefix, issues)
       issues << "#{prefix}.claim_ids must not be empty" if normalized_claim_ids(row).empty?
       issues << "#{prefix}.artwork_key is required" if row["artwork_key"].to_s.strip.blank?
       issues << "#{prefix}.light_family is required" if row["light_family"].to_s.strip.blank?
@@ -179,6 +180,22 @@ class StudyQuizVersion < ApplicationRecord
       prefix = "daily_discoveries[#{index}].#{key}"
       issues << "#{prefix} must pass the current revision" unless
         revision&.positive? && gate.is_a?(Hash) && gate["status"] == "PASS" && reviewed_revision == revision
+    end
+
+    def validate_daily_discovery_route(row, prefix, issues)
+      references = Array(row["references"]).map(&:to_s).uniq
+      issues << "#{prefix}.references must not be empty" if references.empty?
+      issues << "#{prefix}.references contains an invalid study" unless
+        references.all? { |study| Scriptures::Reference.known_study?(study) }
+      issues << "#{prefix}.references must include reference" unless references.include?(row["reference"].to_s)
+
+      pack_id = row["pack_id"].to_s.presence
+      if row["kind"].to_s == "discovery"
+        issues << "#{prefix}.pack_id must belong to the expedition" unless
+          pack_id && expedition_pack_ids.include?(pack_id)
+      elsif pack_id && !expedition_pack_ids.include?(pack_id)
+        issues << "#{prefix}.pack_id must belong to the expedition"
+      end
     end
 
     def validate_daily_discovery_locales(row, index, issues)

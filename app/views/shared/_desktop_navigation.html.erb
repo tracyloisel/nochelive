@@ -1,0 +1,23 @@
+<nav class="desktop-navigation"
+     data-hud-scroll-companion
+     aria-label="<%= t("hub.rails.primary_navigation") %>">
+  <% active = local_assigns[:active]&.to_sym %>
+  <%= link_to root_path, class: ("is-active" if active == :home), aria: { current: ("page" if active == :home) }.compact do %>
+    <%= t("hub.nav_home") %>
+  <% end %>
+  <%= link_to street_map_path, class: ("is-active" if active == :adventure), aria: { current: ("page" if active == :adventure) }.compact do %>
+    <%= t("hub.nav_adventure") %>
+  <% end %>
+  <%= link_to scripture_library_path, class: ("is-active" if active == :word), aria: { current: ("page" if active == :word) }.compact do %>
+    <%= t("scripture_library.nav") %>
+  <% end %>
+  <%= link_to street_challenges_path, class: ("is-active" if active == :challenges), aria: { current: ("page" if active == :challenges) }.compact do %>
+    <%= t("duel_campus.title") %>
+  <% end %>
+  <%= link_to street_leaderboard_path, class: ("is-active" if active == :leaderboard), aria: { current: ("page" if active == :leaderboard) }.compact do %>
+    <%= t("hub.shortcut_ranking") %>
+  <% end %>
+  <%= link_to church_path, class: ("is-active" if active == :church), aria: { current: ("page" if active == :church) }.compact do %>
+    <%= t("hub.nav_church") %>
+  <% end %>
+</nav>

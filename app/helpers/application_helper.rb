@@ -365,13 +365,22 @@ module ApplicationHelper
       body: capture(&block)
   end
 
-  def chrome_menu(face: nil, hud: nil, bar: nil, theme: nil, &block)
+  def chrome_menu(face: nil, hud: nil, bar: nil, theme: nil, desktop_hud: nil, &block)
     face = chrome_face? if face.nil?
     hud = chrome_hud?(face) if hud.nil?
     bar = chrome_hud_bar if hud && bar.nil?
     theme = normalize_hud_theme(theme || chrome_hud_theme)
+    desktop_hud = desktop_hud_navigation? if desktop_hud.nil?
+    desktop_bar = chrome_hud_bar if desktop_hud && !hud
     face = false if hud
-    render "shared/chrome_menu", face: face, hud: hud, bar: bar, theme: theme, body: capture(&block)
+    render "shared/chrome_menu",
+      face: face,
+      hud: hud,
+      bar: bar,
+      theme: theme,
+      desktop_hud: desktop_hud,
+      desktop_bar: desktop_bar,
+      body: capture(&block)
   end
 
   def page_hud(**options, &block)
@@ -380,6 +389,33 @@ module ApplicationHelper
 
   def page_dock(active:)
     content_for(:dock) { render Navigation::DockComponent.new(active:) }
+  end
+
+  def desktop_hud_navigation?
+    return false unless request
+
+    css = content_for(:body_class).to_s
+    !css.match?(/\b(?:is-street-play|is-study-run)\b/)
+  end
+
+  def desktop_navigation_active
+    case controller_path
+    when "street_hub"
+      action_name == "map" ? :adventure : :home
+    when "street_challenges"
+      :challenges
+    when "street_leaderboards"
+      :leaderboard
+    when "scripture_libraries", "scripture_circles", "scriptures"
+      :word
+    when "pages"
+      return :church if action_name.start_with?("church")
+      return :home if action_name == "stats"
+
+      nil
+    when "church_videos", "ward_profiles"
+      :church
+    end
   end
 
   def chrome_hud?(face)
