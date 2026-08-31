@@ -92554,6 +92554,2505 @@
         }
       }
     },
+    "scripture.library.daily.eccl1.repeating-sun": {
+      "role": "library_daily_hero",
+      "source": "media/study/library/daily/eccl1-one-more-take-portrait-v2.png",
+      "source_sha256": "3babe1e2151114ba9e898639eb7d909edbd462040d9744f64fdf8cc854405acf",
+      "source_width": 941,
+      "source_height": 1672,
+      "source_bytes": 1672595,
+      "ratio": "0.5628",
+      "focus": "76% 72%",
+      "focuses": {
+        "portrait": "76% 72%",
+        "tablet": "76% 68%",
+        "landscape": "80% 66%"
+      },
+      "theme": "dark",
+      "sizes": "100vw",
+      "variants": {
+        "avif": [
+          {
+            "src": "/media/generated/scripture/library/daily/eccl1/repeating-sun/3babe1e21511-portrait-390.avif",
+            "width": 390,
+            "height": 693,
+            "bytes": 11626,
+            "sha256": "8899a22d9d8d5fdcfd3683aaeb5288c5f5f25f9ebd0ed1b2280ecc4327b78219"
+          },
+          {
+            "src": "/media/generated/scripture/library/daily/eccl1/repeating-sun/3babe1e21511-portrait-768.avif",
+            "width": 768,
+            "height": 1365,
+            "bytes": 31385,
+            "sha256": "6944a1a0ad9f510cae613d4e303ef5c9f858e7907386581a0497fbd60a87de01"
+          },
+          {
+            "src": "/media/generated/scripture/library/daily/eccl1/repeating-sun/3babe1e21511-portrait-940.avif",
+            "width": 940,
+            "height": 1671,
+            "bytes": 41726,
+            "sha256": "533b8a2961e6595e902019e4adb0624b9e33868918ca92c300c5789ddc586b66"
+          }
+        ],
+        "webp": [
+          {
+            "src": "/media/generated/scripture/library/daily/eccl1/repeating-sun/3babe1e21511-portrait-390.webp",
+            "width": 390,
+            "height": 693,
+            "bytes": 16480,
+            "sha256": "fca73d230f702e871ba82dc8d7d6bd1c0f4c00806c7e65be95afcabfbda3ef81"
+          },
+          {
+            "src": "/media/generated/scripture/library/daily/eccl1/repeating-sun/3babe1e21511-portrait-768.webp",
+            "width": 768,
+            "height": 1365,
+            "bytes": 42310,
+            "sha256": "f4990c6390a21551e33b4bd3b42fd7e0cebe9a2ca16c669c6b17dbea43f7ea9e"
+          },
+          {
+            "src": "/media/generated/scripture/library/daily/eccl1/repeating-sun/3babe1e21511-portrait-940.webp",
+            "width": 940,
+            "height": 1671,
+            "bytes": 55770,
+            "sha256": "89ea7637581fb3638242609588eb082799b94742059ba37754bed6598fcff530"
+          }
+        ],
+        "jpeg": [
+          {
+            "src": "/media/generated/scripture/library/daily/eccl1/repeating-sun/3babe1e21511-portrait-390.jpg",
+            "width": 390,
+            "height": 693,
+            "bytes": 31847,
+            "sha256": "a633c568351cdba9fbce0ed071239ea2b0f6ad5dc97f8bace6d6dadd9463d4af"
+          },
+          {
+            "src": "/media/generated/scripture/library/daily/eccl1/repeating-sun/3babe1e21511-portrait-768.jpg",
+            "width": 768,
+            "height": 1365,
+            "bytes": 95917,
+            "sha256": "68323b7848d10d736765ef5bf4c739a3c098bb95ab8983f6e4315c8e58ada4bb"
+          },
+          {
+            "src": "/media/generated/scripture/library/daily/eccl1/repeating-sun/3babe1e21511-portrait-940.jpg",
+            "width": 940,
+            "height": 1671,
+            "bytes": 133337,
+            "sha256": "7f4c54d0ff2994b4a8c17a7b4d481d97d75845edbb31ebdf4ac99115bb62efa4"
+          }
+        ]
+      },
+      "renditions": {
+        "portrait": {
+          "source": "media/study/library/daily/eccl1-one-more-take-portrait-v2.png",
+          "source_sha256": "3babe1e2151114ba9e898639eb7d909edbd462040d9744f64fdf8cc854405acf",
+          "source_width": 941,
+          "source_height": 1672,
+          "source_bytes": 1672595,
+          "media": "(max-width: 599px) and (orientation: portrait)",
+          "ratio": "9:16",
+          "focus": "76% 72%",
+          "sizes": "100vw",
+          "variants": {
+            "avif": [
+              {
+                "src": "/media/generated/scripture/library/daily/eccl1/repeating-sun/3babe1e21511-portrait-390.avif",
+                "width": 390,
+                "height": 693,
+                "bytes": 11626,
+                "sha256": "8899a22d9d8d5fdcfd3683aaeb5288c5f5f25f9ebd0ed1b2280ecc4327b78219"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/eccl1/repeating-sun/3babe1e21511-portrait-768.avif",
+                "width": 768,
+                "height": 1365,
+                "bytes": 31385,
+                "sha256": "6944a1a0ad9f510cae613d4e303ef5c9f858e7907386581a0497fbd60a87de01"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/eccl1/repeating-sun/3babe1e21511-portrait-940.avif",
+                "width": 940,
+                "height": 1671,
+                "bytes": 41726,
+                "sha256": "533b8a2961e6595e902019e4adb0624b9e33868918ca92c300c5789ddc586b66"
+              }
+            ],
+            "webp": [
+              {
+                "src": "/media/generated/scripture/library/daily/eccl1/repeating-sun/3babe1e21511-portrait-390.webp",
+                "width": 390,
+                "height": 693,
+                "bytes": 16480,
+                "sha256": "fca73d230f702e871ba82dc8d7d6bd1c0f4c00806c7e65be95afcabfbda3ef81"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/eccl1/repeating-sun/3babe1e21511-portrait-768.webp",
+                "width": 768,
+                "height": 1365,
+                "bytes": 42310,
+                "sha256": "f4990c6390a21551e33b4bd3b42fd7e0cebe9a2ca16c669c6b17dbea43f7ea9e"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/eccl1/repeating-sun/3babe1e21511-portrait-940.webp",
+                "width": 940,
+                "height": 1671,
+                "bytes": 55770,
+                "sha256": "89ea7637581fb3638242609588eb082799b94742059ba37754bed6598fcff530"
+              }
+            ],
+            "jpeg": [
+              {
+                "src": "/media/generated/scripture/library/daily/eccl1/repeating-sun/3babe1e21511-portrait-390.jpg",
+                "width": 390,
+                "height": 693,
+                "bytes": 31847,
+                "sha256": "a633c568351cdba9fbce0ed071239ea2b0f6ad5dc97f8bace6d6dadd9463d4af"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/eccl1/repeating-sun/3babe1e21511-portrait-768.jpg",
+                "width": 768,
+                "height": 1365,
+                "bytes": 95917,
+                "sha256": "68323b7848d10d736765ef5bf4c739a3c098bb95ab8983f6e4315c8e58ada4bb"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/eccl1/repeating-sun/3babe1e21511-portrait-940.jpg",
+                "width": 940,
+                "height": 1671,
+                "bytes": 133337,
+                "sha256": "7f4c54d0ff2994b4a8c17a7b4d481d97d75845edbb31ebdf4ac99115bb62efa4"
+              }
+            ]
+          }
+        },
+        "tablet": {
+          "source": "media/study/library/daily/eccl1-one-more-take-tablet-v2.png",
+          "source_sha256": "92f1b7b7231cddbd2f1985630dd789d8c3e3738d727c79abd3d616167088837d",
+          "source_width": 1122,
+          "source_height": 1402,
+          "source_bytes": 1814602,
+          "media": "(min-width: 600px) and (orientation: portrait)",
+          "ratio": "4:5",
+          "focus": "76% 68%",
+          "sizes": "100vw",
+          "variants": {
+            "avif": [
+              {
+                "src": "/media/generated/scripture/library/daily/eccl1/repeating-sun/92f1b7b7231c-tablet-768.avif",
+                "width": 768,
+                "height": 960,
+                "bytes": 31949,
+                "sha256": "a5623c68197ef829f0d7eda9d8a3778df2ba07a63148c77ce4dfa160aead8643"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/eccl1/repeating-sun/92f1b7b7231c-tablet-1024.avif",
+                "width": 1024,
+                "height": 1280,
+                "bytes": 48048,
+                "sha256": "f4d30fbabfc4719bc6155c6908af404f95efc7321e2804331cdf9817b245f039"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/eccl1/repeating-sun/92f1b7b7231c-tablet-1121.avif",
+                "width": 1121,
+                "height": 1401,
+                "bytes": 55198,
+                "sha256": "14b9bb3bf97d4fcedd6dd799dc9e2a17160a9f3f1ac38e6cc61fa220b9ab6bce"
+              }
+            ],
+            "webp": [
+              {
+                "src": "/media/generated/scripture/library/daily/eccl1/repeating-sun/92f1b7b7231c-tablet-768.webp",
+                "width": 768,
+                "height": 960,
+                "bytes": 46294,
+                "sha256": "7d1e4253b2663688277073e2bc097582ab76066de0e0cc12da1b6e825bfbd11f"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/eccl1/repeating-sun/92f1b7b7231c-tablet-1024.webp",
+                "width": 1024,
+                "height": 1280,
+                "bytes": 67490,
+                "sha256": "67c649430ffed496342f9855d8879ca2c516421668e2740219d8d0275cc39d91"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/eccl1/repeating-sun/92f1b7b7231c-tablet-1121.webp",
+                "width": 1121,
+                "height": 1401,
+                "bytes": 76202,
+                "sha256": "c6e2817b53a0fd3f6f11fbc6b814c12732f52825c604100193c3465261bb4cd9"
+              }
+            ],
+            "jpeg": [
+              {
+                "src": "/media/generated/scripture/library/daily/eccl1/repeating-sun/92f1b7b7231c-tablet-768.jpg",
+                "width": 768,
+                "height": 960,
+                "bytes": 90061,
+                "sha256": "9737f7d06d339c26b9364b55bf44170b3f12a163509c8922613cc0ef01258d47"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/eccl1/repeating-sun/92f1b7b7231c-tablet-1024.jpg",
+                "width": 1024,
+                "height": 1280,
+                "bytes": 141788,
+                "sha256": "6a8362e05609d70bc5e405a4086037c6011f93ae7a726e001aae6678489c8b2c"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/eccl1/repeating-sun/92f1b7b7231c-tablet-1121.jpg",
+                "width": 1121,
+                "height": 1401,
+                "bytes": 164550,
+                "sha256": "bc8489d2ba688e665a9701fcc5c12fb1aa44b14b13953593174c31566c69a540"
+              }
+            ]
+          }
+        },
+        "landscape": {
+          "source": "media/study/library/daily/eccl1-one-more-take-landscape-v2.png",
+          "source_sha256": "bf189aaffc2f079f620056fbabe79c92eab441ee9a048d83c410d252005333f3",
+          "source_width": 1672,
+          "source_height": 941,
+          "source_bytes": 1880993,
+          "media": "(orientation: landscape)",
+          "ratio": "16:9",
+          "focus": "80% 66%",
+          "sizes": "100vw",
+          "variants": {
+            "avif": [
+              {
+                "src": "/media/generated/scripture/library/daily/eccl1/repeating-sun/bf189aaffc2f-landscape-768.avif",
+                "width": 768,
+                "height": 432,
+                "bytes": 16102,
+                "sha256": "7eb1b8983a7eefe43061abf17d2227f09a73611ea6a5b8c0cb9b5c09d09eb069"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/eccl1/repeating-sun/bf189aaffc2f-landscape-1024.avif",
+                "width": 1024,
+                "height": 576,
+                "bytes": 24985,
+                "sha256": "bf9dd9f5b34ddfb59e308ce6489cf006beeeab7bafe6c7712c090019dde6e954"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/eccl1/repeating-sun/bf189aaffc2f-landscape-1440.avif",
+                "width": 1440,
+                "height": 810,
+                "bytes": 41523,
+                "sha256": "7b285569e49b7e94c7f1b38cd2633891280f0dd89edaa93434abf9f1025526d3"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/eccl1/repeating-sun/bf189aaffc2f-landscape-1672.avif",
+                "width": 1672,
+                "height": 941,
+                "bytes": 51291,
+                "sha256": "d8f249d0c5827566d2660101bd51972993a6ff0ad6b3a80b5ad5cee778432c08"
+              }
+            ],
+            "webp": [
+              {
+                "src": "/media/generated/scripture/library/daily/eccl1/repeating-sun/bf189aaffc2f-landscape-768.webp",
+                "width": 768,
+                "height": 432,
+                "bytes": 24500,
+                "sha256": "62f458c0c7021a1be2fbdbfa6da9a991ccab07336cdd804972369ea11ad80990"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/eccl1/repeating-sun/bf189aaffc2f-landscape-1024.webp",
+                "width": 1024,
+                "height": 576,
+                "bytes": 37212,
+                "sha256": "3a76bb36ae3ca1f62b61a03646de563988281f6727e7c3157ca84610db790455"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/eccl1/repeating-sun/bf189aaffc2f-landscape-1440.webp",
+                "width": 1440,
+                "height": 810,
+                "bytes": 58178,
+                "sha256": "97271747dc41184021e8c776e17b6ca1f9c4318b519bfef392a990297caf67a2"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/eccl1/repeating-sun/bf189aaffc2f-landscape-1672.webp",
+                "width": 1672,
+                "height": 941,
+                "bytes": 71796,
+                "sha256": "59e2b7203f1d42fe4db75167662d6b32af887ba79b175426ec26ab12b43d4f48"
+              }
+            ],
+            "jpeg": [
+              {
+                "src": "/media/generated/scripture/library/daily/eccl1/repeating-sun/bf189aaffc2f-landscape-768.jpg",
+                "width": 768,
+                "height": 432,
+                "bytes": 43057,
+                "sha256": "471dd6668d778d33565eff3783b9dd34acc7c34df4b0ca3788a884d65a7a87be"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/eccl1/repeating-sun/bf189aaffc2f-landscape-1024.jpg",
+                "width": 1024,
+                "height": 576,
+                "bytes": 69182,
+                "sha256": "c442291fddb3e775a190a281d0e9b5832a1de3d69c8674e1fff09095d4b37a1a"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/eccl1/repeating-sun/bf189aaffc2f-landscape-1440.jpg",
+                "width": 1440,
+                "height": 810,
+                "bytes": 121691,
+                "sha256": "0e14ea7b8edcaa88d598ea0befb69969d00d613c9c815421fa2454f5123abc51"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/eccl1/repeating-sun/bf189aaffc2f-landscape-1672.jpg",
+                "width": 1672,
+                "height": 941,
+                "bytes": 155814,
+                "sha256": "42fbb6737bf31d1f0b7c47dd5a61f2b35933ea2c2567d39d8d013f656a7653e4"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "scripture.library.daily.eccl3-eccl12.time-and-memory": {
+      "role": "library_daily_hero",
+      "source": "media/study/library/daily/eccl3-12-learning-now-portrait-v2.png",
+      "source_sha256": "3b641e3403a715270b2aa30912c1cb35a5c7846240da254de1e5c0b5248cf7bd",
+      "source_width": 941,
+      "source_height": 1672,
+      "source_bytes": 1854350,
+      "ratio": "0.5628",
+      "focus": "74% 68%",
+      "focuses": {
+        "portrait": "74% 68%",
+        "tablet": "74% 64%",
+        "landscape": "78% 62%"
+      },
+      "theme": "dark",
+      "sizes": "100vw",
+      "variants": {
+        "avif": [
+          {
+            "src": "/media/generated/scripture/library/daily/eccl3-eccl12/time-and-memory/3b641e3403a7-portrait-390.avif",
+            "width": 390,
+            "height": 693,
+            "bytes": 13899,
+            "sha256": "cd338410980f5b7a5c723a0f0d4860df4da4f697277a63857aacc9bbfa5654f1"
+          },
+          {
+            "src": "/media/generated/scripture/library/daily/eccl3-eccl12/time-and-memory/3b641e3403a7-portrait-768.avif",
+            "width": 768,
+            "height": 1365,
+            "bytes": 40320,
+            "sha256": "beab11e491ab97e2ee0b446f6d978ba8a89b9f6bcebec92b6a55961d500c4c43"
+          },
+          {
+            "src": "/media/generated/scripture/library/daily/eccl3-eccl12/time-and-memory/3b641e3403a7-portrait-940.avif",
+            "width": 940,
+            "height": 1671,
+            "bytes": 54584,
+            "sha256": "f33a4a2d6778c07b52c5c3a9faac198eb81ef15e2659ffbacd2ebd6d4d49675f"
+          }
+        ],
+        "webp": [
+          {
+            "src": "/media/generated/scripture/library/daily/eccl3-eccl12/time-and-memory/3b641e3403a7-portrait-390.webp",
+            "width": 390,
+            "height": 693,
+            "bytes": 21292,
+            "sha256": "aefade606305b97bea97f61a69ea1846203bbbd1025fb7ca40b0de355f61070f"
+          },
+          {
+            "src": "/media/generated/scripture/library/daily/eccl3-eccl12/time-and-memory/3b641e3403a7-portrait-768.webp",
+            "width": 768,
+            "height": 1365,
+            "bytes": 58610,
+            "sha256": "af957bb31519803dddd096e2ba9d2daa607288bfbfcd1045ba696868b6c7cb45"
+          },
+          {
+            "src": "/media/generated/scripture/library/daily/eccl3-eccl12/time-and-memory/3b641e3403a7-portrait-940.webp",
+            "width": 940,
+            "height": 1671,
+            "bytes": 75738,
+            "sha256": "14e4a0263aeeb78906122db53447d6d81835fdc9f9f7c68d143facb6f6db96fc"
+          }
+        ],
+        "jpeg": [
+          {
+            "src": "/media/generated/scripture/library/daily/eccl3-eccl12/time-and-memory/3b641e3403a7-portrait-390.jpg",
+            "width": 390,
+            "height": 693,
+            "bytes": 37614,
+            "sha256": "a6e42ce87464defbc2cedf13cf63b88bd568ae26d3fc78505ccb50c70c695912"
+          },
+          {
+            "src": "/media/generated/scripture/library/daily/eccl3-eccl12/time-and-memory/3b641e3403a7-portrait-768.jpg",
+            "width": 768,
+            "height": 1365,
+            "bytes": 117256,
+            "sha256": "d76478a7e2814ee8739bf264b5641149de3e5ab3ca26a002931bce2e0fb3eca8"
+          },
+          {
+            "src": "/media/generated/scripture/library/daily/eccl3-eccl12/time-and-memory/3b641e3403a7-portrait-940.jpg",
+            "width": 940,
+            "height": 1671,
+            "bytes": 163487,
+            "sha256": "6fbff483756a53959892362b97b5580995b506b7da3a50afcb5eef0fd6976e29"
+          }
+        ]
+      },
+      "renditions": {
+        "portrait": {
+          "source": "media/study/library/daily/eccl3-12-learning-now-portrait-v2.png",
+          "source_sha256": "3b641e3403a715270b2aa30912c1cb35a5c7846240da254de1e5c0b5248cf7bd",
+          "source_width": 941,
+          "source_height": 1672,
+          "source_bytes": 1854350,
+          "media": "(max-width: 599px) and (orientation: portrait)",
+          "ratio": "9:16",
+          "focus": "74% 68%",
+          "sizes": "100vw",
+          "variants": {
+            "avif": [
+              {
+                "src": "/media/generated/scripture/library/daily/eccl3-eccl12/time-and-memory/3b641e3403a7-portrait-390.avif",
+                "width": 390,
+                "height": 693,
+                "bytes": 13899,
+                "sha256": "cd338410980f5b7a5c723a0f0d4860df4da4f697277a63857aacc9bbfa5654f1"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/eccl3-eccl12/time-and-memory/3b641e3403a7-portrait-768.avif",
+                "width": 768,
+                "height": 1365,
+                "bytes": 40320,
+                "sha256": "beab11e491ab97e2ee0b446f6d978ba8a89b9f6bcebec92b6a55961d500c4c43"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/eccl3-eccl12/time-and-memory/3b641e3403a7-portrait-940.avif",
+                "width": 940,
+                "height": 1671,
+                "bytes": 54584,
+                "sha256": "f33a4a2d6778c07b52c5c3a9faac198eb81ef15e2659ffbacd2ebd6d4d49675f"
+              }
+            ],
+            "webp": [
+              {
+                "src": "/media/generated/scripture/library/daily/eccl3-eccl12/time-and-memory/3b641e3403a7-portrait-390.webp",
+                "width": 390,
+                "height": 693,
+                "bytes": 21292,
+                "sha256": "aefade606305b97bea97f61a69ea1846203bbbd1025fb7ca40b0de355f61070f"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/eccl3-eccl12/time-and-memory/3b641e3403a7-portrait-768.webp",
+                "width": 768,
+                "height": 1365,
+                "bytes": 58610,
+                "sha256": "af957bb31519803dddd096e2ba9d2daa607288bfbfcd1045ba696868b6c7cb45"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/eccl3-eccl12/time-and-memory/3b641e3403a7-portrait-940.webp",
+                "width": 940,
+                "height": 1671,
+                "bytes": 75738,
+                "sha256": "14e4a0263aeeb78906122db53447d6d81835fdc9f9f7c68d143facb6f6db96fc"
+              }
+            ],
+            "jpeg": [
+              {
+                "src": "/media/generated/scripture/library/daily/eccl3-eccl12/time-and-memory/3b641e3403a7-portrait-390.jpg",
+                "width": 390,
+                "height": 693,
+                "bytes": 37614,
+                "sha256": "a6e42ce87464defbc2cedf13cf63b88bd568ae26d3fc78505ccb50c70c695912"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/eccl3-eccl12/time-and-memory/3b641e3403a7-portrait-768.jpg",
+                "width": 768,
+                "height": 1365,
+                "bytes": 117256,
+                "sha256": "d76478a7e2814ee8739bf264b5641149de3e5ab3ca26a002931bce2e0fb3eca8"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/eccl3-eccl12/time-and-memory/3b641e3403a7-portrait-940.jpg",
+                "width": 940,
+                "height": 1671,
+                "bytes": 163487,
+                "sha256": "6fbff483756a53959892362b97b5580995b506b7da3a50afcb5eef0fd6976e29"
+              }
+            ]
+          }
+        },
+        "tablet": {
+          "source": "media/study/library/daily/eccl3-12-learning-now-tablet-v2.png",
+          "source_sha256": "50552727a3b1adf64571355cc7ef06ff19f0620aad39432512b80bd73e212c5b",
+          "source_width": 1122,
+          "source_height": 1402,
+          "source_bytes": 1983620,
+          "media": "(min-width: 600px) and (orientation: portrait)",
+          "ratio": "4:5",
+          "focus": "74% 64%",
+          "sizes": "100vw",
+          "variants": {
+            "avif": [
+              {
+                "src": "/media/generated/scripture/library/daily/eccl3-eccl12/time-and-memory/50552727a3b1-tablet-768.avif",
+                "width": 768,
+                "height": 960,
+                "bytes": 32606,
+                "sha256": "dd922edcce68c26fdcefe17e87a5efb2601179f2b21495bb7538ff0df52cfc1c"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/eccl3-eccl12/time-and-memory/50552727a3b1-tablet-1024.avif",
+                "width": 1024,
+                "height": 1280,
+                "bytes": 50780,
+                "sha256": "25f9d49c0d2b073204e7a089ee1cc0a3551b462ba1c3d73dcf62cff1a9b3534c"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/eccl3-eccl12/time-and-memory/50552727a3b1-tablet-1121.avif",
+                "width": 1121,
+                "height": 1401,
+                "bytes": 58657,
+                "sha256": "4c5131b4fb854bb89f4bb87bdd25ba21a0778a363dc3247e2eb27360ad7564a4"
+              }
+            ],
+            "webp": [
+              {
+                "src": "/media/generated/scripture/library/daily/eccl3-eccl12/time-and-memory/50552727a3b1-tablet-768.webp",
+                "width": 768,
+                "height": 960,
+                "bytes": 53246,
+                "sha256": "2916821e709b1d26de05a6670038e91631a31c1e4f3f195eaae8480a833b4f91"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/eccl3-eccl12/time-and-memory/50552727a3b1-tablet-1024.webp",
+                "width": 1024,
+                "height": 1280,
+                "bytes": 80552,
+                "sha256": "24f6f10bfc6bc530231bc3e51928710faa47fcf771618af3f43af8efa3b06954"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/eccl3-eccl12/time-and-memory/50552727a3b1-tablet-1121.webp",
+                "width": 1121,
+                "height": 1401,
+                "bytes": 89492,
+                "sha256": "9b31521801d13cbca6221e24b3e172f89fd1d81dc90e376616e182fdef618a5c"
+              }
+            ],
+            "jpeg": [
+              {
+                "src": "/media/generated/scripture/library/daily/eccl3-eccl12/time-and-memory/50552727a3b1-tablet-768.jpg",
+                "width": 768,
+                "height": 960,
+                "bytes": 96512,
+                "sha256": "85ca9da37083e5c7257fa45366ba9c54101bc1a90fe943c0017b4133960008a0"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/eccl3-eccl12/time-and-memory/50552727a3b1-tablet-1024.jpg",
+                "width": 1024,
+                "height": 1280,
+                "bytes": 155738,
+                "sha256": "b4abc1419d3116d8d805af92951c5783ab9fdf3b94564d21dc50c1ad9eba1e20"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/eccl3-eccl12/time-and-memory/50552727a3b1-tablet-1121.jpg",
+                "width": 1121,
+                "height": 1401,
+                "bytes": 180847,
+                "sha256": "10409b0d8e901f2d8dfdd21fd6e50cadc4407781a487a0d1c0eb334b31a70a9a"
+              }
+            ]
+          }
+        },
+        "landscape": {
+          "source": "media/study/library/daily/eccl3-12-learning-now-landscape-v2.png",
+          "source_sha256": "155f9eb3e29b18c9dc325d1115735e8842fbbcb55071c3cd40021fcfbdec1988",
+          "source_width": 1672,
+          "source_height": 941,
+          "source_bytes": 1972891,
+          "media": "(orientation: landscape)",
+          "ratio": "16:9",
+          "focus": "78% 62%",
+          "sizes": "100vw",
+          "variants": {
+            "avif": [
+              {
+                "src": "/media/generated/scripture/library/daily/eccl3-eccl12/time-and-memory/155f9eb3e29b-landscape-768.avif",
+                "width": 768,
+                "height": 432,
+                "bytes": 19555,
+                "sha256": "fff5d61b8a4793c24f5692b3717e852fc6b229f563e0827212130aabe31f3987"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/eccl3-eccl12/time-and-memory/155f9eb3e29b-landscape-1024.avif",
+                "width": 1024,
+                "height": 576,
+                "bytes": 30321,
+                "sha256": "9f94da919301e5dd504187be5b40032ea17d40826ee5f97bb1c9a8f337dff36c"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/eccl3-eccl12/time-and-memory/155f9eb3e29b-landscape-1440.avif",
+                "width": 1440,
+                "height": 810,
+                "bytes": 50056,
+                "sha256": "e6599424da3dd3f8ae75afd62c088e57963f0ca1eadc741e1f49a1eb0091e9b6"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/eccl3-eccl12/time-and-memory/155f9eb3e29b-landscape-1672.avif",
+                "width": 1672,
+                "height": 941,
+                "bytes": 61095,
+                "sha256": "1ad0b422947af70fd3f1a2ba9ff9b6daa3889b2c3220bd8469bf88fe44e2e544"
+              }
+            ],
+            "webp": [
+              {
+                "src": "/media/generated/scripture/library/daily/eccl3-eccl12/time-and-memory/155f9eb3e29b-landscape-768.webp",
+                "width": 768,
+                "height": 432,
+                "bytes": 30944,
+                "sha256": "a5b5391d5189052e725531c7b94a052d774f6b29b1794487fb958ee3b04330a4"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/eccl3-eccl12/time-and-memory/155f9eb3e29b-landscape-1024.webp",
+                "width": 1024,
+                "height": 576,
+                "bytes": 48064,
+                "sha256": "792a87e61710132d099d3ae42ae8e05594716838f3f9865010e1de7269dc216c"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/eccl3-eccl12/time-and-memory/155f9eb3e29b-landscape-1440.webp",
+                "width": 1440,
+                "height": 810,
+                "bytes": 75234,
+                "sha256": "cdac695fbac6c636515da88bf8ac5487669bdf9a6038d395b3ad7a5448bc0153"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/eccl3-eccl12/time-and-memory/155f9eb3e29b-landscape-1672.webp",
+                "width": 1672,
+                "height": 941,
+                "bytes": 94188,
+                "sha256": "67211cdc7a2e79cd4011c3933a46db8d3ae020b860eb91abedf14f540c9cc72f"
+              }
+            ],
+            "jpeg": [
+              {
+                "src": "/media/generated/scripture/library/daily/eccl3-eccl12/time-and-memory/155f9eb3e29b-landscape-768.jpg",
+                "width": 768,
+                "height": 432,
+                "bytes": 53494,
+                "sha256": "dced8a8c87b4a620d90c7e7b650de432925ad9a485be44466c40ad19ffefa2d9"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/eccl3-eccl12/time-and-memory/155f9eb3e29b-landscape-1024.jpg",
+                "width": 1024,
+                "height": 576,
+                "bytes": 85017,
+                "sha256": "82caaa9d1d2447de5d4f5bafd62790e90116eb8ab196bda24a5d1a1a3a828351"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/eccl3-eccl12/time-and-memory/155f9eb3e29b-landscape-1440.jpg",
+                "width": 1440,
+                "height": 810,
+                "bytes": 146983,
+                "sha256": "3e29d4cb295257a4614080a2ef449516f036d1075849e6c160d3d9e1a16bb481"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/eccl3-eccl12/time-and-memory/155f9eb3e29b-landscape-1672.jpg",
+                "width": 1672,
+                "height": 941,
+                "bytes": 186255,
+                "sha256": "22b5ab3bcfc461c16e41e06618f42ee3113ef4ec52b26f84f5a87036c7d48d44"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "scripture.library.daily.prov1-3-4-15-16-22-31-eccl1-3-12.weekly-contemplation": {
+      "role": "library_daily_hero",
+      "source": "media/study/library/daily/prov1-3-4-15-16-22-31-eccl1-3-12-six-scenes-remembered-portrait-v5.png",
+      "source_sha256": "0064376076192a9a36f584a6106540d60104b53e83506c864e0852f67f9e2977",
+      "source_width": 941,
+      "source_height": 1672,
+      "source_bytes": 1884653,
+      "ratio": "0.5628",
+      "focus": "72% 68%",
+      "focuses": {
+        "portrait": "72% 68%",
+        "tablet": "72% 64%",
+        "landscape": "78% 62%"
+      },
+      "theme": "dark",
+      "sizes": "100vw",
+      "variants": {
+        "avif": [
+          {
+            "src": "/media/generated/scripture/library/daily/prov1-3-4-15-16-22-31-eccl1-3-12/weekly-contemplation/006437607619-portrait-390.avif",
+            "width": 390,
+            "height": 693,
+            "bytes": 13118,
+            "sha256": "97a9d5d1cfbcea8bd5e7400a039b9293f39c708d0438dc1a9fea9a36ea1cb43a"
+          },
+          {
+            "src": "/media/generated/scripture/library/daily/prov1-3-4-15-16-22-31-eccl1-3-12/weekly-contemplation/006437607619-portrait-768.avif",
+            "width": 768,
+            "height": 1365,
+            "bytes": 38429,
+            "sha256": "29b7f47a2974f9586a0340f91158a0ac47dff7faf690aff3854ab4feef31b280"
+          },
+          {
+            "src": "/media/generated/scripture/library/daily/prov1-3-4-15-16-22-31-eccl1-3-12/weekly-contemplation/006437607619-portrait-940.avif",
+            "width": 940,
+            "height": 1671,
+            "bytes": 51535,
+            "sha256": "07cb3ef4451027b13e16fdf56d15112d747ac029397341bdb4c0feb084dde338"
+          }
+        ],
+        "webp": [
+          {
+            "src": "/media/generated/scripture/library/daily/prov1-3-4-15-16-22-31-eccl1-3-12/weekly-contemplation/006437607619-portrait-390.webp",
+            "width": 390,
+            "height": 693,
+            "bytes": 24924,
+            "sha256": "4ecac674c2225134ae6325abda81d20b9868e1e61f8b6a8840ea89c31df3e72e"
+          },
+          {
+            "src": "/media/generated/scripture/library/daily/prov1-3-4-15-16-22-31-eccl1-3-12/weekly-contemplation/006437607619-portrait-768.webp",
+            "width": 768,
+            "height": 1365,
+            "bytes": 69524,
+            "sha256": "4c36cc60a51276cf691854713d2f948a6ed7d72d3887ff70377bc451aba9f9ac"
+          },
+          {
+            "src": "/media/generated/scripture/library/daily/prov1-3-4-15-16-22-31-eccl1-3-12/weekly-contemplation/006437607619-portrait-940.webp",
+            "width": 940,
+            "height": 1671,
+            "bytes": 89494,
+            "sha256": "2c77c5aca2c21565f91e5df111561f71e3e375af6e7561ca222f4d948bee5910"
+          }
+        ],
+        "jpeg": [
+          {
+            "src": "/media/generated/scripture/library/daily/prov1-3-4-15-16-22-31-eccl1-3-12/weekly-contemplation/006437607619-portrait-390.jpg",
+            "width": 390,
+            "height": 693,
+            "bytes": 39881,
+            "sha256": "caf0d308d23e3e24251cbaca12345be5ad91fd3ae97009ce43922841c15a1c52"
+          },
+          {
+            "src": "/media/generated/scripture/library/daily/prov1-3-4-15-16-22-31-eccl1-3-12/weekly-contemplation/006437607619-portrait-768.jpg",
+            "width": 768,
+            "height": 1365,
+            "bytes": 125244,
+            "sha256": "159d273084e498a5bcb6e688b9bc72231f435ba38eb485d86a07d626ed21a5fd"
+          },
+          {
+            "src": "/media/generated/scripture/library/daily/prov1-3-4-15-16-22-31-eccl1-3-12/weekly-contemplation/006437607619-portrait-940.jpg",
+            "width": 940,
+            "height": 1671,
+            "bytes": 174370,
+            "sha256": "e8d62c2b27373c0402908ddf6a563590deb1a21142d36876d5d14faac8240f4e"
+          }
+        ]
+      },
+      "renditions": {
+        "portrait": {
+          "source": "media/study/library/daily/prov1-3-4-15-16-22-31-eccl1-3-12-six-scenes-remembered-portrait-v5.png",
+          "source_sha256": "0064376076192a9a36f584a6106540d60104b53e83506c864e0852f67f9e2977",
+          "source_width": 941,
+          "source_height": 1672,
+          "source_bytes": 1884653,
+          "media": "(max-width: 599px) and (orientation: portrait)",
+          "ratio": "9:16",
+          "focus": "72% 68%",
+          "sizes": "100vw",
+          "variants": {
+            "avif": [
+              {
+                "src": "/media/generated/scripture/library/daily/prov1-3-4-15-16-22-31-eccl1-3-12/weekly-contemplation/006437607619-portrait-390.avif",
+                "width": 390,
+                "height": 693,
+                "bytes": 13118,
+                "sha256": "97a9d5d1cfbcea8bd5e7400a039b9293f39c708d0438dc1a9fea9a36ea1cb43a"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov1-3-4-15-16-22-31-eccl1-3-12/weekly-contemplation/006437607619-portrait-768.avif",
+                "width": 768,
+                "height": 1365,
+                "bytes": 38429,
+                "sha256": "29b7f47a2974f9586a0340f91158a0ac47dff7faf690aff3854ab4feef31b280"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov1-3-4-15-16-22-31-eccl1-3-12/weekly-contemplation/006437607619-portrait-940.avif",
+                "width": 940,
+                "height": 1671,
+                "bytes": 51535,
+                "sha256": "07cb3ef4451027b13e16fdf56d15112d747ac029397341bdb4c0feb084dde338"
+              }
+            ],
+            "webp": [
+              {
+                "src": "/media/generated/scripture/library/daily/prov1-3-4-15-16-22-31-eccl1-3-12/weekly-contemplation/006437607619-portrait-390.webp",
+                "width": 390,
+                "height": 693,
+                "bytes": 24924,
+                "sha256": "4ecac674c2225134ae6325abda81d20b9868e1e61f8b6a8840ea89c31df3e72e"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov1-3-4-15-16-22-31-eccl1-3-12/weekly-contemplation/006437607619-portrait-768.webp",
+                "width": 768,
+                "height": 1365,
+                "bytes": 69524,
+                "sha256": "4c36cc60a51276cf691854713d2f948a6ed7d72d3887ff70377bc451aba9f9ac"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov1-3-4-15-16-22-31-eccl1-3-12/weekly-contemplation/006437607619-portrait-940.webp",
+                "width": 940,
+                "height": 1671,
+                "bytes": 89494,
+                "sha256": "2c77c5aca2c21565f91e5df111561f71e3e375af6e7561ca222f4d948bee5910"
+              }
+            ],
+            "jpeg": [
+              {
+                "src": "/media/generated/scripture/library/daily/prov1-3-4-15-16-22-31-eccl1-3-12/weekly-contemplation/006437607619-portrait-390.jpg",
+                "width": 390,
+                "height": 693,
+                "bytes": 39881,
+                "sha256": "caf0d308d23e3e24251cbaca12345be5ad91fd3ae97009ce43922841c15a1c52"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov1-3-4-15-16-22-31-eccl1-3-12/weekly-contemplation/006437607619-portrait-768.jpg",
+                "width": 768,
+                "height": 1365,
+                "bytes": 125244,
+                "sha256": "159d273084e498a5bcb6e688b9bc72231f435ba38eb485d86a07d626ed21a5fd"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov1-3-4-15-16-22-31-eccl1-3-12/weekly-contemplation/006437607619-portrait-940.jpg",
+                "width": 940,
+                "height": 1671,
+                "bytes": 174370,
+                "sha256": "e8d62c2b27373c0402908ddf6a563590deb1a21142d36876d5d14faac8240f4e"
+              }
+            ]
+          }
+        },
+        "tablet": {
+          "source": "media/study/library/daily/prov1-3-4-15-16-22-31-eccl1-3-12-six-scenes-remembered-tablet-v5.png",
+          "source_sha256": "38a76674a9a658cc786e51838dfb859bf46b8174f2992667281b76d42a3529a1",
+          "source_width": 1122,
+          "source_height": 1402,
+          "source_bytes": 1904916,
+          "media": "(min-width: 600px) and (orientation: portrait)",
+          "ratio": "4:5",
+          "focus": "72% 64%",
+          "sizes": "100vw",
+          "variants": {
+            "avif": [
+              {
+                "src": "/media/generated/scripture/library/daily/prov1-3-4-15-16-22-31-eccl1-3-12/weekly-contemplation/38a76674a9a6-tablet-768.avif",
+                "width": 768,
+                "height": 960,
+                "bytes": 30113,
+                "sha256": "f3b794a05194e76eb653972b33619373f43301b13313b90a8a97e3713ec67df4"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov1-3-4-15-16-22-31-eccl1-3-12/weekly-contemplation/38a76674a9a6-tablet-1024.avif",
+                "width": 1024,
+                "height": 1280,
+                "bytes": 46927,
+                "sha256": "6ecf3cd24ea5aea7abaa9b69aba268cc49d5b7f2f4f321026acfc0b7f83c1ece"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov1-3-4-15-16-22-31-eccl1-3-12/weekly-contemplation/38a76674a9a6-tablet-1121.avif",
+                "width": 1121,
+                "height": 1401,
+                "bytes": 54379,
+                "sha256": "5a339a500f41f31c5093163d6ad07376c54c918ecf079975c7de698ce1912807"
+              }
+            ],
+            "webp": [
+              {
+                "src": "/media/generated/scripture/library/daily/prov1-3-4-15-16-22-31-eccl1-3-12/weekly-contemplation/38a76674a9a6-tablet-768.webp",
+                "width": 768,
+                "height": 960,
+                "bytes": 53408,
+                "sha256": "78ecc70f6fd8e0a7e97a26dd05a7a7f25b000484a853c25b1ff8d6833163ff9a"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov1-3-4-15-16-22-31-eccl1-3-12/weekly-contemplation/38a76674a9a6-tablet-1024.webp",
+                "width": 1024,
+                "height": 1280,
+                "bytes": 78718,
+                "sha256": "1d459a56ac4b1ec0f441253fa800c44c265d237e7462575002ff45864735ccea"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov1-3-4-15-16-22-31-eccl1-3-12/weekly-contemplation/38a76674a9a6-tablet-1121.webp",
+                "width": 1121,
+                "height": 1401,
+                "bytes": 88716,
+                "sha256": "c33159bb75a6641bbc3e0fc797fe4b243a03dc3888a3d45b74d404e5e53be343"
+              }
+            ],
+            "jpeg": [
+              {
+                "src": "/media/generated/scripture/library/daily/prov1-3-4-15-16-22-31-eccl1-3-12/weekly-contemplation/38a76674a9a6-tablet-768.jpg",
+                "width": 768,
+                "height": 960,
+                "bytes": 94374,
+                "sha256": "785008168076fe3b33c89b259e08976cff2141532746227a78fe598647ea7169"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov1-3-4-15-16-22-31-eccl1-3-12/weekly-contemplation/38a76674a9a6-tablet-1024.jpg",
+                "width": 1024,
+                "height": 1280,
+                "bytes": 151907,
+                "sha256": "64572ca971d90facef841df0f90bfc8e4e6fac57e4a1e60656df6ecc75355970"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov1-3-4-15-16-22-31-eccl1-3-12/weekly-contemplation/38a76674a9a6-tablet-1121.jpg",
+                "width": 1121,
+                "height": 1401,
+                "bytes": 176127,
+                "sha256": "999493249b58cafa8d51f483e80cac159e4c812f1c5b75233da1322304c2d1cb"
+              }
+            ]
+          }
+        },
+        "landscape": {
+          "source": "media/study/library/daily/prov1-3-4-15-16-22-31-eccl1-3-12-six-scenes-remembered-landscape-v5.png",
+          "source_sha256": "5d9eca9bcc36a68878104f926e961dbf6196125b09eb13db47f60f537d358c4e",
+          "source_width": 1672,
+          "source_height": 941,
+          "source_bytes": 1895166,
+          "media": "(orientation: landscape)",
+          "ratio": "16:9",
+          "focus": "78% 62%",
+          "sizes": "100vw",
+          "variants": {
+            "avif": [
+              {
+                "src": "/media/generated/scripture/library/daily/prov1-3-4-15-16-22-31-eccl1-3-12/weekly-contemplation/5d9eca9bcc36-landscape-768.avif",
+                "width": 768,
+                "height": 432,
+                "bytes": 16474,
+                "sha256": "4da039848b7bce4be1219a91f1a6a2f30cad3a62a89c11ba0cafc692ca931df7"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov1-3-4-15-16-22-31-eccl1-3-12/weekly-contemplation/5d9eca9bcc36-landscape-1024.avif",
+                "width": 1024,
+                "height": 576,
+                "bytes": 25865,
+                "sha256": "f3f45064439bf4fd3114f8a37c77dfd7fccf6d4105e302b78ed8112bcb57ea38"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov1-3-4-15-16-22-31-eccl1-3-12/weekly-contemplation/5d9eca9bcc36-landscape-1440.avif",
+                "width": 1440,
+                "height": 810,
+                "bytes": 44910,
+                "sha256": "38a680eb29d44a68e93171d62f17e7396f9b7209574e2b2ecc8dbb0f7fc2a721"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov1-3-4-15-16-22-31-eccl1-3-12/weekly-contemplation/5d9eca9bcc36-landscape-1672.avif",
+                "width": 1672,
+                "height": 941,
+                "bytes": 57209,
+                "sha256": "0b897693a9f8d9dd68c480a1a48f47570ddfe2fca84bb027da74880b15db6264"
+              }
+            ],
+            "webp": [
+              {
+                "src": "/media/generated/scripture/library/daily/prov1-3-4-15-16-22-31-eccl1-3-12/weekly-contemplation/5d9eca9bcc36-landscape-768.webp",
+                "width": 768,
+                "height": 432,
+                "bytes": 28552,
+                "sha256": "ddaf601a8150de5e1179080d49a8170b4763892d5c3495aef057dc0a13ed43b8"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov1-3-4-15-16-22-31-eccl1-3-12/weekly-contemplation/5d9eca9bcc36-landscape-1024.webp",
+                "width": 1024,
+                "height": 576,
+                "bytes": 44936,
+                "sha256": "dc260eaf05d67fdb60534d875448e95e26c8ebf97186061548dd94bd75972a8b"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov1-3-4-15-16-22-31-eccl1-3-12/weekly-contemplation/5d9eca9bcc36-landscape-1440.webp",
+                "width": 1440,
+                "height": 810,
+                "bytes": 75304,
+                "sha256": "5f06829f2e588b3a4482113b107646be55ade107e2249e4edc3df1c8e9a056fb"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov1-3-4-15-16-22-31-eccl1-3-12/weekly-contemplation/5d9eca9bcc36-landscape-1672.webp",
+                "width": 1672,
+                "height": 941,
+                "bytes": 90354,
+                "sha256": "7a99de88b172078f3245fdc5d71aed4bc9628e5753f99ebcd5b85e28baad86b9"
+              }
+            ],
+            "jpeg": [
+              {
+                "src": "/media/generated/scripture/library/daily/prov1-3-4-15-16-22-31-eccl1-3-12/weekly-contemplation/5d9eca9bcc36-landscape-768.jpg",
+                "width": 768,
+                "height": 432,
+                "bytes": 48537,
+                "sha256": "6cd9100a726ef3c124c6b85a67dcd0982bd04c1968c528d8d0621e81e4917194"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov1-3-4-15-16-22-31-eccl1-3-12/weekly-contemplation/5d9eca9bcc36-landscape-1024.jpg",
+                "width": 1024,
+                "height": 576,
+                "bytes": 78595,
+                "sha256": "f6419796f2b94adf1f75b77ee6b2fcf979723807f0dfaf210c708a8b892535f8"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov1-3-4-15-16-22-31-eccl1-3-12/weekly-contemplation/5d9eca9bcc36-landscape-1440.jpg",
+                "width": 1440,
+                "height": 810,
+                "bytes": 139873,
+                "sha256": "f805abde05bee27a72e123fcb76bb281bd13511fc2735471d2eb1b8a6423f8c0"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov1-3-4-15-16-22-31-eccl1-3-12/weekly-contemplation/5d9eca9bcc36-landscape-1672.jpg",
+                "width": 1672,
+                "height": 941,
+                "bytes": 178556,
+                "sha256": "c190646ce5916c09d3b38701dc4c0a0fe7483c8cfeab8660a4218ede4564c782"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "scripture.library.daily.prov1.wisdom-cries": {
+      "role": "library_daily_hero",
+      "source": "media/study/library/daily/prov1-public-threshold-listening-portrait-v2.png",
+      "source_sha256": "acebd23b2b74aea8fc554ba8e8d66f61b47112d2a01781b1749a0275f1e6ea12",
+      "source_width": 941,
+      "source_height": 1672,
+      "source_bytes": 1820618,
+      "ratio": "0.5628",
+      "focus": "76% 72%",
+      "focuses": {
+        "portrait": "76% 72%",
+        "tablet": "76% 68%",
+        "landscape": "80% 66%"
+      },
+      "theme": "dark",
+      "sizes": "100vw",
+      "variants": {
+        "avif": [
+          {
+            "src": "/media/generated/scripture/library/daily/prov1/wisdom-cries/acebd23b2b74-portrait-390.avif",
+            "width": 390,
+            "height": 693,
+            "bytes": 15781,
+            "sha256": "bb9833f75e6612914478dafa9df085b982738f560f4562406eb1b8aa5d645a92"
+          },
+          {
+            "src": "/media/generated/scripture/library/daily/prov1/wisdom-cries/acebd23b2b74-portrait-768.avif",
+            "width": 768,
+            "height": 1365,
+            "bytes": 42605,
+            "sha256": "81bca8df4d596076581391a00c78eae908e8331aa2465a5fedac3d7e85a3b7c8"
+          },
+          {
+            "src": "/media/generated/scripture/library/daily/prov1/wisdom-cries/acebd23b2b74-portrait-940.avif",
+            "width": 940,
+            "height": 1671,
+            "bytes": 56227,
+            "sha256": "2183777f63a1ef1d029a8f54245612812c58878de776406dd11929c3fa47ca48"
+          }
+        ],
+        "webp": [
+          {
+            "src": "/media/generated/scripture/library/daily/prov1/wisdom-cries/acebd23b2b74-portrait-390.webp",
+            "width": 390,
+            "height": 693,
+            "bytes": 25702,
+            "sha256": "7f3e0042239e435dd4d68313addbd4ec135b37b9bc1bb5df8e1eff275d841325"
+          },
+          {
+            "src": "/media/generated/scripture/library/daily/prov1/wisdom-cries/acebd23b2b74-portrait-768.webp",
+            "width": 768,
+            "height": 1365,
+            "bytes": 64714,
+            "sha256": "2243a5d43401fc3dd558c44e5bff8afc0384c5e0e3dde9ed642d22dd83012e2f"
+          },
+          {
+            "src": "/media/generated/scripture/library/daily/prov1/wisdom-cries/acebd23b2b74-portrait-940.webp",
+            "width": 940,
+            "height": 1671,
+            "bytes": 82058,
+            "sha256": "8bc445c67264d99eb9f96c3b9baa673cc71b2414af41e5962b80180e35719c9e"
+          }
+        ],
+        "jpeg": [
+          {
+            "src": "/media/generated/scripture/library/daily/prov1/wisdom-cries/acebd23b2b74-portrait-390.jpg",
+            "width": 390,
+            "height": 693,
+            "bytes": 44666,
+            "sha256": "5736cabb127474728d62b88142d0c8380ce923de07ac283a81432c0cafd3effe"
+          },
+          {
+            "src": "/media/generated/scripture/library/daily/prov1/wisdom-cries/acebd23b2b74-portrait-768.jpg",
+            "width": 768,
+            "height": 1365,
+            "bytes": 130426,
+            "sha256": "56fa7f8fba3dabed7ad50278d0965ca4588491bffa59fb35cf632e83a5403c7e"
+          },
+          {
+            "src": "/media/generated/scripture/library/daily/prov1/wisdom-cries/acebd23b2b74-portrait-940.jpg",
+            "width": 940,
+            "height": 1671,
+            "bytes": 178967,
+            "sha256": "b747de34e436be0ee75124bd37112e4dc9c9793ba4c7408aea0bd39fc69b4b46"
+          }
+        ]
+      },
+      "renditions": {
+        "portrait": {
+          "source": "media/study/library/daily/prov1-public-threshold-listening-portrait-v2.png",
+          "source_sha256": "acebd23b2b74aea8fc554ba8e8d66f61b47112d2a01781b1749a0275f1e6ea12",
+          "source_width": 941,
+          "source_height": 1672,
+          "source_bytes": 1820618,
+          "media": "(max-width: 599px) and (orientation: portrait)",
+          "ratio": "9:16",
+          "focus": "76% 72%",
+          "sizes": "100vw",
+          "variants": {
+            "avif": [
+              {
+                "src": "/media/generated/scripture/library/daily/prov1/wisdom-cries/acebd23b2b74-portrait-390.avif",
+                "width": 390,
+                "height": 693,
+                "bytes": 15781,
+                "sha256": "bb9833f75e6612914478dafa9df085b982738f560f4562406eb1b8aa5d645a92"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov1/wisdom-cries/acebd23b2b74-portrait-768.avif",
+                "width": 768,
+                "height": 1365,
+                "bytes": 42605,
+                "sha256": "81bca8df4d596076581391a00c78eae908e8331aa2465a5fedac3d7e85a3b7c8"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov1/wisdom-cries/acebd23b2b74-portrait-940.avif",
+                "width": 940,
+                "height": 1671,
+                "bytes": 56227,
+                "sha256": "2183777f63a1ef1d029a8f54245612812c58878de776406dd11929c3fa47ca48"
+              }
+            ],
+            "webp": [
+              {
+                "src": "/media/generated/scripture/library/daily/prov1/wisdom-cries/acebd23b2b74-portrait-390.webp",
+                "width": 390,
+                "height": 693,
+                "bytes": 25702,
+                "sha256": "7f3e0042239e435dd4d68313addbd4ec135b37b9bc1bb5df8e1eff275d841325"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov1/wisdom-cries/acebd23b2b74-portrait-768.webp",
+                "width": 768,
+                "height": 1365,
+                "bytes": 64714,
+                "sha256": "2243a5d43401fc3dd558c44e5bff8afc0384c5e0e3dde9ed642d22dd83012e2f"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov1/wisdom-cries/acebd23b2b74-portrait-940.webp",
+                "width": 940,
+                "height": 1671,
+                "bytes": 82058,
+                "sha256": "8bc445c67264d99eb9f96c3b9baa673cc71b2414af41e5962b80180e35719c9e"
+              }
+            ],
+            "jpeg": [
+              {
+                "src": "/media/generated/scripture/library/daily/prov1/wisdom-cries/acebd23b2b74-portrait-390.jpg",
+                "width": 390,
+                "height": 693,
+                "bytes": 44666,
+                "sha256": "5736cabb127474728d62b88142d0c8380ce923de07ac283a81432c0cafd3effe"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov1/wisdom-cries/acebd23b2b74-portrait-768.jpg",
+                "width": 768,
+                "height": 1365,
+                "bytes": 130426,
+                "sha256": "56fa7f8fba3dabed7ad50278d0965ca4588491bffa59fb35cf632e83a5403c7e"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov1/wisdom-cries/acebd23b2b74-portrait-940.jpg",
+                "width": 940,
+                "height": 1671,
+                "bytes": 178967,
+                "sha256": "b747de34e436be0ee75124bd37112e4dc9c9793ba4c7408aea0bd39fc69b4b46"
+              }
+            ]
+          }
+        },
+        "tablet": {
+          "source": "media/study/library/daily/prov1-public-threshold-listening-tablet-v2.png",
+          "source_sha256": "fdddad8bdb43e85a77f74a0adf5f3e03b82d270c946d247c16fcc834a708a9cc",
+          "source_width": 1122,
+          "source_height": 1402,
+          "source_bytes": 1886055,
+          "media": "(min-width: 600px) and (orientation: portrait)",
+          "ratio": "4:5",
+          "focus": "76% 68%",
+          "sizes": "100vw",
+          "variants": {
+            "avif": [
+              {
+                "src": "/media/generated/scripture/library/daily/prov1/wisdom-cries/fdddad8bdb43-tablet-768.avif",
+                "width": 768,
+                "height": 960,
+                "bytes": 24872,
+                "sha256": "ae10206d03dcc5f7243386f74b121915606bdf439653d5f14ece3e88991c7006"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov1/wisdom-cries/fdddad8bdb43-tablet-1024.avif",
+                "width": 1024,
+                "height": 1280,
+                "bytes": 39414,
+                "sha256": "23e11a8e86668901374d18c0e2701f8354e9850981142b8077d9307e9880c88f"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov1/wisdom-cries/fdddad8bdb43-tablet-1121.avif",
+                "width": 1121,
+                "height": 1401,
+                "bytes": 45654,
+                "sha256": "2111e3dd929005debed611ba678893338fba241c32bb5d5af3f91a68ed8188ed"
+              }
+            ],
+            "webp": [
+              {
+                "src": "/media/generated/scripture/library/daily/prov1/wisdom-cries/fdddad8bdb43-tablet-768.webp",
+                "width": 768,
+                "height": 960,
+                "bytes": 35676,
+                "sha256": "5f0e3399f48117473c3f7a9ef318f348340cdecfc310419c35886d931a0319f2"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov1/wisdom-cries/fdddad8bdb43-tablet-1024.webp",
+                "width": 1024,
+                "height": 1280,
+                "bytes": 50540,
+                "sha256": "8b7f4f8973426109ae94acafaf62f80e0f9ae5706a93d79f5564dd444526f67d"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov1/wisdom-cries/fdddad8bdb43-tablet-1121.webp",
+                "width": 1121,
+                "height": 1401,
+                "bytes": 58570,
+                "sha256": "e5a5f104aa31c3a9730ec3d57051bd9672fea3383d9c9d4f1d0ba20f2b04159d"
+              }
+            ],
+            "jpeg": [
+              {
+                "src": "/media/generated/scripture/library/daily/prov1/wisdom-cries/fdddad8bdb43-tablet-768.jpg",
+                "width": 768,
+                "height": 960,
+                "bytes": 83008,
+                "sha256": "b1b313bdceb75b2041293a5a6dde3de1d5adb52febd4fcc24309c12ac4e39f47"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov1/wisdom-cries/fdddad8bdb43-tablet-1024.jpg",
+                "width": 1024,
+                "height": 1280,
+                "bytes": 135109,
+                "sha256": "6e7806b12284d69358e39ed14c2ab1d4effb5bdd8201cc5d7f8457452fab0190"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov1/wisdom-cries/fdddad8bdb43-tablet-1121.jpg",
+                "width": 1121,
+                "height": 1401,
+                "bytes": 158507,
+                "sha256": "517770c274fed76c7e115d5ea59dbc6ccfceb2d13f8df0dbd3cae7fdfc9630dc"
+              }
+            ]
+          }
+        },
+        "landscape": {
+          "source": "media/study/library/daily/prov1-public-threshold-listening-landscape-v2.png",
+          "source_sha256": "37ff89908117bbc42ec48bd4ce4f6709e45b799eeba38cf25128f747ebdd780c",
+          "source_width": 1672,
+          "source_height": 941,
+          "source_bytes": 1727009,
+          "media": "(orientation: landscape)",
+          "ratio": "16:9",
+          "focus": "80% 66%",
+          "sizes": "100vw",
+          "variants": {
+            "avif": [
+              {
+                "src": "/media/generated/scripture/library/daily/prov1/wisdom-cries/37ff89908117-landscape-768.avif",
+                "width": 768,
+                "height": 432,
+                "bytes": 16428,
+                "sha256": "62b13b18eeecb21b1e764bacac2fcc3e8ecbf6c98a90e4a4757cec52cf64ed32"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov1/wisdom-cries/37ff89908117-landscape-1024.avif",
+                "width": 1024,
+                "height": 576,
+                "bytes": 24235,
+                "sha256": "df0bff33fd3dccb51979a5e531365d70396fbe79e269d66f9acaee4b6bf0ae31"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov1/wisdom-cries/37ff89908117-landscape-1440.avif",
+                "width": 1440,
+                "height": 810,
+                "bytes": 38813,
+                "sha256": "ca71f01fb57923444d3278321c652015e122d83a086e115b2c1cb12b30c42246"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov1/wisdom-cries/37ff89908117-landscape-1672.avif",
+                "width": 1672,
+                "height": 941,
+                "bytes": 46854,
+                "sha256": "c4696bfdc82aca1f02194bad5a524b54200d6e3b1d9a07494b03924f3a6c8f14"
+              }
+            ],
+            "webp": [
+              {
+                "src": "/media/generated/scripture/library/daily/prov1/wisdom-cries/37ff89908117-landscape-768.webp",
+                "width": 768,
+                "height": 432,
+                "bytes": 25250,
+                "sha256": "632373748d291f496d28c17fb2ebf3ee494988fa7a21d27cfa4d5be88a9f86ef"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov1/wisdom-cries/37ff89908117-landscape-1024.webp",
+                "width": 1024,
+                "height": 576,
+                "bytes": 36680,
+                "sha256": "33bcf476bd8c97b48822df4d2d9606500730fb463be60c0e2f9d8dd54fcd998e"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov1/wisdom-cries/37ff89908117-landscape-1440.webp",
+                "width": 1440,
+                "height": 810,
+                "bytes": 57700,
+                "sha256": "91a1aac9c057ab6ff9f8516c24631d4e23e4a6abdc749a03d4afbb7d0a8ee87c"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov1/wisdom-cries/37ff89908117-landscape-1672.webp",
+                "width": 1672,
+                "height": 941,
+                "bytes": 68398,
+                "sha256": "612769186a63812aba227e47fd42b99f8f5ae327a40c1f6b0ead45da93617cdb"
+              }
+            ],
+            "jpeg": [
+              {
+                "src": "/media/generated/scripture/library/daily/prov1/wisdom-cries/37ff89908117-landscape-768.jpg",
+                "width": 768,
+                "height": 432,
+                "bytes": 47308,
+                "sha256": "3c9890fa89d3e57f55973aa99eca1a7c89358257144637625327ac1be441d33a"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov1/wisdom-cries/37ff89908117-landscape-1024.jpg",
+                "width": 1024,
+                "height": 576,
+                "bytes": 73318,
+                "sha256": "634edd278aa07715a22bee2bbea567cff5d81861ed43f3e3f2fe94152cfbbd61"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov1/wisdom-cries/37ff89908117-landscape-1440.jpg",
+                "width": 1440,
+                "height": 810,
+                "bytes": 123269,
+                "sha256": "ed408dfb96d35472060deba5a40e21146a8c3c3825ba6745782b26bb14390c08"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov1/wisdom-cries/37ff89908117-landscape-1672.jpg",
+                "width": 1672,
+                "height": 941,
+                "bytes": 154148,
+                "sha256": "8e5dd5bdc51f9e1ef1c31648d7689ec1e945116f154886c010988c5d942956bb"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "scripture.library.daily.prov22-prov31.open-hand": {
+      "role": "library_daily_hero",
+      "source": "media/study/library/daily/prov22-31-bread-between-equals-portrait-v2.png",
+      "source_sha256": "c99634117d5d00f84e3a0041a7e379473bac68af603c6dc4b2b2050063a3fefd",
+      "source_width": 941,
+      "source_height": 1672,
+      "source_bytes": 1783626,
+      "ratio": "0.5628",
+      "focus": "72% 66%",
+      "focuses": {
+        "portrait": "72% 66%",
+        "tablet": "72% 62%",
+        "landscape": "78% 62%"
+      },
+      "theme": "dark",
+      "sizes": "100vw",
+      "variants": {
+        "avif": [
+          {
+            "src": "/media/generated/scripture/library/daily/prov22-prov31/open-hand/c99634117d5d-portrait-390.avif",
+            "width": 390,
+            "height": 693,
+            "bytes": 13660,
+            "sha256": "9c8b96233c48fe28db8531821652e0586cc6a6f6c424dd3d122d4c5ba904e771"
+          },
+          {
+            "src": "/media/generated/scripture/library/daily/prov22-prov31/open-hand/c99634117d5d-portrait-768.avif",
+            "width": 768,
+            "height": 1365,
+            "bytes": 36008,
+            "sha256": "cc6a22cda13f0557893bfc1009fe51c40fdc452f22f37fcd65a63c838e8d30a0"
+          },
+          {
+            "src": "/media/generated/scripture/library/daily/prov22-prov31/open-hand/c99634117d5d-portrait-940.avif",
+            "width": 940,
+            "height": 1671,
+            "bytes": 48351,
+            "sha256": "d7c3f4e5534c62afdc8cbf7d87d606037ec1ce0d8fe3163daba3f5de54e3b70a"
+          }
+        ],
+        "webp": [
+          {
+            "src": "/media/generated/scripture/library/daily/prov22-prov31/open-hand/c99634117d5d-portrait-390.webp",
+            "width": 390,
+            "height": 693,
+            "bytes": 22188,
+            "sha256": "ae560fbcd528f82a73d222c670d8ac9d171cae4b015c59cb1da37a95375b0ab6"
+          },
+          {
+            "src": "/media/generated/scripture/library/daily/prov22-prov31/open-hand/c99634117d5d-portrait-768.webp",
+            "width": 768,
+            "height": 1365,
+            "bytes": 55188,
+            "sha256": "5a6b84bc42653cdbe51882b8a831176c322b4109641c56ada8f331c9a55f608a"
+          },
+          {
+            "src": "/media/generated/scripture/library/daily/prov22-prov31/open-hand/c99634117d5d-portrait-940.webp",
+            "width": 940,
+            "height": 1671,
+            "bytes": 71078,
+            "sha256": "3e4027b082663a22f23c7ec200948b71dd44cc1ad2bf3793709931e1f66a24db"
+          }
+        ],
+        "jpeg": [
+          {
+            "src": "/media/generated/scripture/library/daily/prov22-prov31/open-hand/c99634117d5d-portrait-390.jpg",
+            "width": 390,
+            "height": 693,
+            "bytes": 39358,
+            "sha256": "0795212a93b301f45cbd63691cb18aa702b70ec9e404ce42dfda5c5436800a79"
+          },
+          {
+            "src": "/media/generated/scripture/library/daily/prov22-prov31/open-hand/c99634117d5d-portrait-768.jpg",
+            "width": 768,
+            "height": 1365,
+            "bytes": 112979,
+            "sha256": "e4213ab5c03dfc63f2a203de3d3e5f27aac7bd46f109e7a0e6eca6a75794a7fa"
+          },
+          {
+            "src": "/media/generated/scripture/library/daily/prov22-prov31/open-hand/c99634117d5d-portrait-940.jpg",
+            "width": 940,
+            "height": 1671,
+            "bytes": 155105,
+            "sha256": "593d971d404b9b45971eba2f606ca1b2de170077e8697f0deb266efaff0485ab"
+          }
+        ]
+      },
+      "renditions": {
+        "portrait": {
+          "source": "media/study/library/daily/prov22-31-bread-between-equals-portrait-v2.png",
+          "source_sha256": "c99634117d5d00f84e3a0041a7e379473bac68af603c6dc4b2b2050063a3fefd",
+          "source_width": 941,
+          "source_height": 1672,
+          "source_bytes": 1783626,
+          "media": "(max-width: 599px) and (orientation: portrait)",
+          "ratio": "9:16",
+          "focus": "72% 66%",
+          "sizes": "100vw",
+          "variants": {
+            "avif": [
+              {
+                "src": "/media/generated/scripture/library/daily/prov22-prov31/open-hand/c99634117d5d-portrait-390.avif",
+                "width": 390,
+                "height": 693,
+                "bytes": 13660,
+                "sha256": "9c8b96233c48fe28db8531821652e0586cc6a6f6c424dd3d122d4c5ba904e771"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov22-prov31/open-hand/c99634117d5d-portrait-768.avif",
+                "width": 768,
+                "height": 1365,
+                "bytes": 36008,
+                "sha256": "cc6a22cda13f0557893bfc1009fe51c40fdc452f22f37fcd65a63c838e8d30a0"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov22-prov31/open-hand/c99634117d5d-portrait-940.avif",
+                "width": 940,
+                "height": 1671,
+                "bytes": 48351,
+                "sha256": "d7c3f4e5534c62afdc8cbf7d87d606037ec1ce0d8fe3163daba3f5de54e3b70a"
+              }
+            ],
+            "webp": [
+              {
+                "src": "/media/generated/scripture/library/daily/prov22-prov31/open-hand/c99634117d5d-portrait-390.webp",
+                "width": 390,
+                "height": 693,
+                "bytes": 22188,
+                "sha256": "ae560fbcd528f82a73d222c670d8ac9d171cae4b015c59cb1da37a95375b0ab6"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov22-prov31/open-hand/c99634117d5d-portrait-768.webp",
+                "width": 768,
+                "height": 1365,
+                "bytes": 55188,
+                "sha256": "5a6b84bc42653cdbe51882b8a831176c322b4109641c56ada8f331c9a55f608a"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov22-prov31/open-hand/c99634117d5d-portrait-940.webp",
+                "width": 940,
+                "height": 1671,
+                "bytes": 71078,
+                "sha256": "3e4027b082663a22f23c7ec200948b71dd44cc1ad2bf3793709931e1f66a24db"
+              }
+            ],
+            "jpeg": [
+              {
+                "src": "/media/generated/scripture/library/daily/prov22-prov31/open-hand/c99634117d5d-portrait-390.jpg",
+                "width": 390,
+                "height": 693,
+                "bytes": 39358,
+                "sha256": "0795212a93b301f45cbd63691cb18aa702b70ec9e404ce42dfda5c5436800a79"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov22-prov31/open-hand/c99634117d5d-portrait-768.jpg",
+                "width": 768,
+                "height": 1365,
+                "bytes": 112979,
+                "sha256": "e4213ab5c03dfc63f2a203de3d3e5f27aac7bd46f109e7a0e6eca6a75794a7fa"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov22-prov31/open-hand/c99634117d5d-portrait-940.jpg",
+                "width": 940,
+                "height": 1671,
+                "bytes": 155105,
+                "sha256": "593d971d404b9b45971eba2f606ca1b2de170077e8697f0deb266efaff0485ab"
+              }
+            ]
+          }
+        },
+        "tablet": {
+          "source": "media/study/library/daily/prov22-31-bread-between-equals-tablet-v2.png",
+          "source_sha256": "a20bc93b331ea5914c74a5b4a3b6970f5c244dbb32f39a7d71fbff6f868cfbff",
+          "source_width": 1122,
+          "source_height": 1402,
+          "source_bytes": 1903564,
+          "media": "(min-width: 600px) and (orientation: portrait)",
+          "ratio": "4:5",
+          "focus": "72% 62%",
+          "sizes": "100vw",
+          "variants": {
+            "avif": [
+              {
+                "src": "/media/generated/scripture/library/daily/prov22-prov31/open-hand/a20bc93b331e-tablet-768.avif",
+                "width": 768,
+                "height": 960,
+                "bytes": 30211,
+                "sha256": "8ca896865beaec183b988408f4ccd1a92254c416740880e14db55156cf4bb9cf"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov22-prov31/open-hand/a20bc93b331e-tablet-1024.avif",
+                "width": 1024,
+                "height": 1280,
+                "bytes": 45818,
+                "sha256": "bef690675d8341adc53c670137b0d89f8f00874b9048258df330adb6203bbee9"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov22-prov31/open-hand/a20bc93b331e-tablet-1121.avif",
+                "width": 1121,
+                "height": 1401,
+                "bytes": 52938,
+                "sha256": "1321c89cebce640f6172935f3f631591a75f40e3ec57a803bbe9cf370580f5ce"
+              }
+            ],
+            "webp": [
+              {
+                "src": "/media/generated/scripture/library/daily/prov22-prov31/open-hand/a20bc93b331e-tablet-768.webp",
+                "width": 768,
+                "height": 960,
+                "bytes": 47344,
+                "sha256": "b18d036ab401cd7940046f9e3abec3f31be31c6e702ce0be0d834b900ce3b844"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov22-prov31/open-hand/a20bc93b331e-tablet-1024.webp",
+                "width": 1024,
+                "height": 1280,
+                "bytes": 70054,
+                "sha256": "d569d6e80e06ec38b400c0bb116248e6fced8333a5074f3733501059121a29f2"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov22-prov31/open-hand/a20bc93b331e-tablet-1121.webp",
+                "width": 1121,
+                "height": 1401,
+                "bytes": 77662,
+                "sha256": "c99f89b3be7025e835dab10260129c4dc369f253ea93a4c0973e5fbbb176ad5a"
+              }
+            ],
+            "jpeg": [
+              {
+                "src": "/media/generated/scripture/library/daily/prov22-prov31/open-hand/a20bc93b331e-tablet-768.jpg",
+                "width": 768,
+                "height": 960,
+                "bytes": 88721,
+                "sha256": "ea5bea392755f6b01902e7625d957ee8adccb4669d1af03348d54d1bbd85ca5c"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov22-prov31/open-hand/a20bc93b331e-tablet-1024.jpg",
+                "width": 1024,
+                "height": 1280,
+                "bytes": 141832,
+                "sha256": "6b69935393b9c5b7b4398550e337caff22fbc1877797c02067bc97b49e4155d0"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov22-prov31/open-hand/a20bc93b331e-tablet-1121.jpg",
+                "width": 1121,
+                "height": 1401,
+                "bytes": 165391,
+                "sha256": "ec03075f855253b11f6cb84283482b7d3bff14e9acac176d336823b482350cdc"
+              }
+            ]
+          }
+        },
+        "landscape": {
+          "source": "media/study/library/daily/prov22-31-bread-between-equals-landscape-v2.png",
+          "source_sha256": "309e19b09afac6dc8b451cde1181ab095da1a1d125f5aa3c3a68d39a4ff8c7b4",
+          "source_width": 1672,
+          "source_height": 941,
+          "source_bytes": 1913244,
+          "media": "(orientation: landscape)",
+          "ratio": "16:9",
+          "focus": "78% 62%",
+          "sizes": "100vw",
+          "variants": {
+            "avif": [
+              {
+                "src": "/media/generated/scripture/library/daily/prov22-prov31/open-hand/309e19b09afa-landscape-768.avif",
+                "width": 768,
+                "height": 432,
+                "bytes": 17911,
+                "sha256": "ff580228954a9c7949e8e3164fe4d6c3923fc871d019c98dd48267c41953b7f5"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov22-prov31/open-hand/309e19b09afa-landscape-1024.avif",
+                "width": 1024,
+                "height": 576,
+                "bytes": 27015,
+                "sha256": "dcd333a1ec6855cd5f3c2234acda5aea0554dffd84b0163f60825cdd65bd7b00"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov22-prov31/open-hand/309e19b09afa-landscape-1440.avif",
+                "width": 1440,
+                "height": 810,
+                "bytes": 45198,
+                "sha256": "a7fffa73bb7330878d0c9a59610cf58cd26dd2ddb476bedf5110b4ee0192fe2b"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov22-prov31/open-hand/309e19b09afa-landscape-1672.avif",
+                "width": 1672,
+                "height": 941,
+                "bytes": 55897,
+                "sha256": "c7554f3dd8b41e3bdad200c74140dc23049ce73f0b1f91ca072e60d24626d611"
+              }
+            ],
+            "webp": [
+              {
+                "src": "/media/generated/scripture/library/daily/prov22-prov31/open-hand/309e19b09afa-landscape-768.webp",
+                "width": 768,
+                "height": 432,
+                "bytes": 26804,
+                "sha256": "a29d4e0e707a08d7a100c12bdf95cc33d4b5c2e02c12beb6dc076fa29aee9d95"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov22-prov31/open-hand/309e19b09afa-landscape-1024.webp",
+                "width": 1024,
+                "height": 576,
+                "bytes": 41082,
+                "sha256": "cbacfd19b6fd0fce1ea1880f4f75d6766b0ea2fd4ef941732c08dc2d517edca6"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov22-prov31/open-hand/309e19b09afa-landscape-1440.webp",
+                "width": 1440,
+                "height": 810,
+                "bytes": 66768,
+                "sha256": "31519c2ee8dd7e63c8f12f17f220515dfaf2fda83987a97dff7ccd8ea82e3b9d"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov22-prov31/open-hand/309e19b09afa-landscape-1672.webp",
+                "width": 1672,
+                "height": 941,
+                "bytes": 81862,
+                "sha256": "31643357619688a40e2e2dfdbfe7fcd6d7efb5d9c4351a6baf64ebf7aafcb638"
+              }
+            ],
+            "jpeg": [
+              {
+                "src": "/media/generated/scripture/library/daily/prov22-prov31/open-hand/309e19b09afa-landscape-768.jpg",
+                "width": 768,
+                "height": 432,
+                "bytes": 48018,
+                "sha256": "b1b9e1fb376335818b8450e75e66714ae8a3d783679d8765d88a2481e1fb8f0b"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov22-prov31/open-hand/309e19b09afa-landscape-1024.jpg",
+                "width": 1024,
+                "height": 576,
+                "bytes": 76128,
+                "sha256": "bb037cd63b6b189b4dc9d7d3a0785c5371e59ef7313a5344385aa5c862bd2966"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov22-prov31/open-hand/309e19b09afa-landscape-1440.jpg",
+                "width": 1440,
+                "height": 810,
+                "bytes": 132477,
+                "sha256": "42709ecbb5b984862f8009f863781e85ab0847a482cd91d17552a48f68de7dd6"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov22-prov31/open-hand/309e19b09afa-landscape-1672.jpg",
+                "width": 1672,
+                "height": 941,
+                "bytes": 168211,
+                "sha256": "b82ce912155fba56c6337c7f12a0a0b7262f60446db81bf8a347826d056ef362"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "scripture.library.daily.prov3-prov16.joy-while-waiting": {
+      "role": "library_daily_hero",
+      "source": "media/study/library/daily/prov3-16-audition-friends-portrait-v2.png",
+      "source_sha256": "1b28efa7ccb0cabc9a315598d2b70344406b20161e3d4fe0ba96212ca29fb408",
+      "source_width": 941,
+      "source_height": 1672,
+      "source_bytes": 1875116,
+      "ratio": "0.5628",
+      "focus": "70% 68%",
+      "focuses": {
+        "portrait": "70% 68%",
+        "tablet": "72% 64%",
+        "landscape": "76% 64%"
+      },
+      "theme": "dark",
+      "sizes": "100vw",
+      "variants": {
+        "avif": [
+          {
+            "src": "/media/generated/scripture/library/daily/prov3-prov16/joy-while-waiting/1b28efa7ccb0-portrait-390.avif",
+            "width": 390,
+            "height": 693,
+            "bytes": 13832,
+            "sha256": "1c105b0606adf9a84ad81f69a0d86c6500defb5a48d4e39219b79317efd9c054"
+          },
+          {
+            "src": "/media/generated/scripture/library/daily/prov3-prov16/joy-while-waiting/1b28efa7ccb0-portrait-768.avif",
+            "width": 768,
+            "height": 1365,
+            "bytes": 38353,
+            "sha256": "c04a0fe600bbd8d34201229e4252a4f9afbc49ab92030cae98ff21dece7e53dc"
+          },
+          {
+            "src": "/media/generated/scripture/library/daily/prov3-prov16/joy-while-waiting/1b28efa7ccb0-portrait-940.avif",
+            "width": 940,
+            "height": 1671,
+            "bytes": 51607,
+            "sha256": "4a9eadd357ac929c651f493ea1fec2a332c9438b83491629b3af3615c7f71b1d"
+          }
+        ],
+        "webp": [
+          {
+            "src": "/media/generated/scripture/library/daily/prov3-prov16/joy-while-waiting/1b28efa7ccb0-portrait-390.webp",
+            "width": 390,
+            "height": 693,
+            "bytes": 19774,
+            "sha256": "f34b2aa61edf4566f1c93ef78fcf1a02df502002059467322f43ccfa6bb85a5a"
+          },
+          {
+            "src": "/media/generated/scripture/library/daily/prov3-prov16/joy-while-waiting/1b28efa7ccb0-portrait-768.webp",
+            "width": 768,
+            "height": 1365,
+            "bytes": 53256,
+            "sha256": "8158d888399b295907c38f7eb81b3328c43dc6f99b988c11d834688f357a438b"
+          },
+          {
+            "src": "/media/generated/scripture/library/daily/prov3-prov16/joy-while-waiting/1b28efa7ccb0-portrait-940.webp",
+            "width": 940,
+            "height": 1671,
+            "bytes": 68768,
+            "sha256": "0f9c72ecdcaf02844fb1a420356f54eee85201a57d489e4b26d65a4e1114ebf7"
+          }
+        ],
+        "jpeg": [
+          {
+            "src": "/media/generated/scripture/library/daily/prov3-prov16/joy-while-waiting/1b28efa7ccb0-portrait-390.jpg",
+            "width": 390,
+            "height": 693,
+            "bytes": 36350,
+            "sha256": "d07c9810d1a85d95ccaab1420a2d288a5e0399174591d937d88e77de285b1570"
+          },
+          {
+            "src": "/media/generated/scripture/library/daily/prov3-prov16/joy-while-waiting/1b28efa7ccb0-portrait-768.jpg",
+            "width": 768,
+            "height": 1365,
+            "bytes": 110438,
+            "sha256": "7b6815309e60baa7d8d9d3b85d1cb3f11e32349fd3d011f01feacff00883bd35"
+          },
+          {
+            "src": "/media/generated/scripture/library/daily/prov3-prov16/joy-while-waiting/1b28efa7ccb0-portrait-940.jpg",
+            "width": 940,
+            "height": 1671,
+            "bytes": 154155,
+            "sha256": "f3b7fedf6b8046eb2844386dcc3af654a53a1e8dbf001ca1cb32f05cc6b84138"
+          }
+        ]
+      },
+      "renditions": {
+        "portrait": {
+          "source": "media/study/library/daily/prov3-16-audition-friends-portrait-v2.png",
+          "source_sha256": "1b28efa7ccb0cabc9a315598d2b70344406b20161e3d4fe0ba96212ca29fb408",
+          "source_width": 941,
+          "source_height": 1672,
+          "source_bytes": 1875116,
+          "media": "(max-width: 599px) and (orientation: portrait)",
+          "ratio": "9:16",
+          "focus": "70% 68%",
+          "sizes": "100vw",
+          "variants": {
+            "avif": [
+              {
+                "src": "/media/generated/scripture/library/daily/prov3-prov16/joy-while-waiting/1b28efa7ccb0-portrait-390.avif",
+                "width": 390,
+                "height": 693,
+                "bytes": 13832,
+                "sha256": "1c105b0606adf9a84ad81f69a0d86c6500defb5a48d4e39219b79317efd9c054"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov3-prov16/joy-while-waiting/1b28efa7ccb0-portrait-768.avif",
+                "width": 768,
+                "height": 1365,
+                "bytes": 38353,
+                "sha256": "c04a0fe600bbd8d34201229e4252a4f9afbc49ab92030cae98ff21dece7e53dc"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov3-prov16/joy-while-waiting/1b28efa7ccb0-portrait-940.avif",
+                "width": 940,
+                "height": 1671,
+                "bytes": 51607,
+                "sha256": "4a9eadd357ac929c651f493ea1fec2a332c9438b83491629b3af3615c7f71b1d"
+              }
+            ],
+            "webp": [
+              {
+                "src": "/media/generated/scripture/library/daily/prov3-prov16/joy-while-waiting/1b28efa7ccb0-portrait-390.webp",
+                "width": 390,
+                "height": 693,
+                "bytes": 19774,
+                "sha256": "f34b2aa61edf4566f1c93ef78fcf1a02df502002059467322f43ccfa6bb85a5a"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov3-prov16/joy-while-waiting/1b28efa7ccb0-portrait-768.webp",
+                "width": 768,
+                "height": 1365,
+                "bytes": 53256,
+                "sha256": "8158d888399b295907c38f7eb81b3328c43dc6f99b988c11d834688f357a438b"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov3-prov16/joy-while-waiting/1b28efa7ccb0-portrait-940.webp",
+                "width": 940,
+                "height": 1671,
+                "bytes": 68768,
+                "sha256": "0f9c72ecdcaf02844fb1a420356f54eee85201a57d489e4b26d65a4e1114ebf7"
+              }
+            ],
+            "jpeg": [
+              {
+                "src": "/media/generated/scripture/library/daily/prov3-prov16/joy-while-waiting/1b28efa7ccb0-portrait-390.jpg",
+                "width": 390,
+                "height": 693,
+                "bytes": 36350,
+                "sha256": "d07c9810d1a85d95ccaab1420a2d288a5e0399174591d937d88e77de285b1570"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov3-prov16/joy-while-waiting/1b28efa7ccb0-portrait-768.jpg",
+                "width": 768,
+                "height": 1365,
+                "bytes": 110438,
+                "sha256": "7b6815309e60baa7d8d9d3b85d1cb3f11e32349fd3d011f01feacff00883bd35"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov3-prov16/joy-while-waiting/1b28efa7ccb0-portrait-940.jpg",
+                "width": 940,
+                "height": 1671,
+                "bytes": 154155,
+                "sha256": "f3b7fedf6b8046eb2844386dcc3af654a53a1e8dbf001ca1cb32f05cc6b84138"
+              }
+            ]
+          }
+        },
+        "tablet": {
+          "source": "media/study/library/daily/prov3-16-audition-friends-tablet-v2.png",
+          "source_sha256": "de5104d85de8bb82c1fc6794481cbce8a44216943754015bb1f1614099eb6e5f",
+          "source_width": 1122,
+          "source_height": 1402,
+          "source_bytes": 2251079,
+          "media": "(min-width: 600px) and (orientation: portrait)",
+          "ratio": "4:5",
+          "focus": "72% 64%",
+          "sizes": "100vw",
+          "variants": {
+            "avif": [
+              {
+                "src": "/media/generated/scripture/library/daily/prov3-prov16/joy-while-waiting/de5104d85de8-tablet-768.avif",
+                "width": 768,
+                "height": 960,
+                "bytes": 39268,
+                "sha256": "0622fac76713f2693cfede26a6ee3637463e8ddb82face6d037d1bc83ee595f5"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov3-prov16/joy-while-waiting/de5104d85de8-tablet-1024.avif",
+                "width": 1024,
+                "height": 1280,
+                "bytes": 65206,
+                "sha256": "e08e0e4e5e67364f7ee0117c29ea86836c503031e973b4082786d04d68542ab4"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov3-prov16/joy-while-waiting/de5104d85de8-tablet-1121.avif",
+                "width": 1121,
+                "height": 1401,
+                "bytes": 76552,
+                "sha256": "ef95f64f851249c469deb9c6457f3fdc372444ee2532625da5a3fa2159e00f76"
+              }
+            ],
+            "webp": [
+              {
+                "src": "/media/generated/scripture/library/daily/prov3-prov16/joy-while-waiting/de5104d85de8-tablet-768.webp",
+                "width": 768,
+                "height": 960,
+                "bytes": 60240,
+                "sha256": "1b4a60ad806cd3fae56d216afbc4e851005409713fd630dc95739ec963b5cead"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov3-prov16/joy-while-waiting/de5104d85de8-tablet-1024.webp",
+                "width": 1024,
+                "height": 1280,
+                "bytes": 96068,
+                "sha256": "5aa7ecb9c7b559521c027093ed7280727256b1f2a9123f2a7f15c501eb93f287"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov3-prov16/joy-while-waiting/de5104d85de8-tablet-1121.webp",
+                "width": 1121,
+                "height": 1401,
+                "bytes": 110178,
+                "sha256": "d754e315967390ee0e4c246748b683a113dbd9f390a32947942142da637f1e98"
+              }
+            ],
+            "jpeg": [
+              {
+                "src": "/media/generated/scripture/library/daily/prov3-prov16/joy-while-waiting/de5104d85de8-tablet-768.jpg",
+                "width": 768,
+                "height": 960,
+                "bytes": 106382,
+                "sha256": "9a1f52c4b2207cbf9765e345ea6935b44a0ee5dd04bdcfc4db804ce697596145"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov3-prov16/joy-while-waiting/de5104d85de8-tablet-1024.jpg",
+                "width": 1024,
+                "height": 1280,
+                "bytes": 178959,
+                "sha256": "de118afa38dc979e9f75bc102823521615d845888f5f0086b422fa3719792bd9"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov3-prov16/joy-while-waiting/de5104d85de8-tablet-1121.jpg",
+                "width": 1121,
+                "height": 1401,
+                "bytes": 210652,
+                "sha256": "033f710c5505928149d796db5e09e447e8deceae70b18781b0b994f821b963e7"
+              }
+            ]
+          }
+        },
+        "landscape": {
+          "source": "media/study/library/daily/prov3-16-audition-friends-landscape-v2.png",
+          "source_sha256": "6ccfcfded036bb540bc4afea36419b9d3c57785011b907db776cfdef6cc09a38",
+          "source_width": 1672,
+          "source_height": 941,
+          "source_bytes": 1860283,
+          "media": "(orientation: landscape)",
+          "ratio": "16:9",
+          "focus": "76% 64%",
+          "sizes": "100vw",
+          "variants": {
+            "avif": [
+              {
+                "src": "/media/generated/scripture/library/daily/prov3-prov16/joy-while-waiting/6ccfcfded036-landscape-768.avif",
+                "width": 768,
+                "height": 432,
+                "bytes": 15780,
+                "sha256": "d11105e0b0a8c3a60cd7c0109128e5d0dd1de1a8cb0f9d1f9b93a9072cf2210d"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov3-prov16/joy-while-waiting/6ccfcfded036-landscape-1024.avif",
+                "width": 1024,
+                "height": 576,
+                "bytes": 24145,
+                "sha256": "047236bc2f9b24a0fe9d0bb8508fc2f4beb2fe9de888c0b3dbd397af323ad657"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov3-prov16/joy-while-waiting/6ccfcfded036-landscape-1440.avif",
+                "width": 1440,
+                "height": 810,
+                "bytes": 39277,
+                "sha256": "205872480127e1555d4908bb31ac7e02a06a6de5c316ce81a59d956d55089220"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov3-prov16/joy-while-waiting/6ccfcfded036-landscape-1672.avif",
+                "width": 1672,
+                "height": 941,
+                "bytes": 48124,
+                "sha256": "d8f88947c801dfa8e0c1f159a64d8f69053fd22ef1742004ae4d90129d8a372d"
+              }
+            ],
+            "webp": [
+              {
+                "src": "/media/generated/scripture/library/daily/prov3-prov16/joy-while-waiting/6ccfcfded036-landscape-768.webp",
+                "width": 768,
+                "height": 432,
+                "bytes": 23886,
+                "sha256": "701434d82a1d72f3064425cdafabc6ba1caab6abf092378e3d91633e4e0af6eb"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov3-prov16/joy-while-waiting/6ccfcfded036-landscape-1024.webp",
+                "width": 1024,
+                "height": 576,
+                "bytes": 35284,
+                "sha256": "53cae0558d9d164f06786952b204dfc4424e0f6d23de4a18e1a022e24a1b2557"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov3-prov16/joy-while-waiting/6ccfcfded036-landscape-1440.webp",
+                "width": 1440,
+                "height": 810,
+                "bytes": 56530,
+                "sha256": "854a23115a57dee073480c948c7ad640ad99421be147c7b0db6b2337366ad6aa"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov3-prov16/joy-while-waiting/6ccfcfded036-landscape-1672.webp",
+                "width": 1672,
+                "height": 941,
+                "bytes": 68352,
+                "sha256": "c1c23b208d1cb93379b92badaf09d97db37d155fbdb9ea1e40639d1b0df4072c"
+              }
+            ],
+            "jpeg": [
+              {
+                "src": "/media/generated/scripture/library/daily/prov3-prov16/joy-while-waiting/6ccfcfded036-landscape-768.jpg",
+                "width": 768,
+                "height": 432,
+                "bytes": 43256,
+                "sha256": "849379d220fd8787affc91a058713de860bf10e05abfead13759b3ca3f71d2e9"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov3-prov16/joy-while-waiting/6ccfcfded036-landscape-1024.jpg",
+                "width": 1024,
+                "height": 576,
+                "bytes": 68315,
+                "sha256": "4306ff260937ee95700dbc5fc9f088f926d75724cd6fcf46ba5c7ba0f3de627b"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov3-prov16/joy-while-waiting/6ccfcfded036-landscape-1440.jpg",
+                "width": 1440,
+                "height": 810,
+                "bytes": 118319,
+                "sha256": "43f3f5fa46a6e87fcbf7084c1bb1dc938150a74beaa0fdf631d9f17c916706a6"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov3-prov16/joy-while-waiting/6ccfcfded036-landscape-1672.jpg",
+                "width": 1672,
+                "height": 941,
+                "bytes": 149558,
+                "sha256": "9f23eea50f9fffdf3ac82965545d5abb57fb7cc3d2dbd14b69bac5666874824e"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "scripture.library.daily.prov4-prov15.gentle-answer": {
+      "role": "library_daily_hero",
+      "source": "media/study/library/daily/prov4-15-chair-before-words-portrait-v3.png",
+      "source_sha256": "09bf1f2cd300cd77138c716ae1b2b6aa4632ce78936d50b3f996ba33dca12b40",
+      "source_width": 941,
+      "source_height": 1672,
+      "source_bytes": 1921720,
+      "ratio": "0.5628",
+      "focus": "74% 70%",
+      "focuses": {
+        "portrait": "74% 70%",
+        "tablet": "74% 66%",
+        "landscape": "78% 66%"
+      },
+      "theme": "dark",
+      "sizes": "100vw",
+      "variants": {
+        "avif": [
+          {
+            "src": "/media/generated/scripture/library/daily/prov4-prov15/gentle-answer/09bf1f2cd300-portrait-390.avif",
+            "width": 390,
+            "height": 693,
+            "bytes": 15064,
+            "sha256": "29dd3dd9d0172926cb11605f684129672162b441bb511650accd1107a3ff4339"
+          },
+          {
+            "src": "/media/generated/scripture/library/daily/prov4-prov15/gentle-answer/09bf1f2cd300-portrait-768.avif",
+            "width": 768,
+            "height": 1365,
+            "bytes": 42650,
+            "sha256": "27cfb85b9cc9064e527188d0fc81230bc5054ef3110538d7fdaa5e4849973f5d"
+          },
+          {
+            "src": "/media/generated/scripture/library/daily/prov4-prov15/gentle-answer/09bf1f2cd300-portrait-940.avif",
+            "width": 940,
+            "height": 1671,
+            "bytes": 57743,
+            "sha256": "ca816ce15bf53bd499782d9079829811fd2475085c30b4e029c7e06ece6c24d9"
+          }
+        ],
+        "webp": [
+          {
+            "src": "/media/generated/scripture/library/daily/prov4-prov15/gentle-answer/09bf1f2cd300-portrait-390.webp",
+            "width": 390,
+            "height": 693,
+            "bytes": 21778,
+            "sha256": "91184ac411323beb4e815b3800969a5c7fab44393f1fdd6fd29912b42389774d"
+          },
+          {
+            "src": "/media/generated/scripture/library/daily/prov4-prov15/gentle-answer/09bf1f2cd300-portrait-768.webp",
+            "width": 768,
+            "height": 1365,
+            "bytes": 59392,
+            "sha256": "ef8aa02d2f57bc9d7072facb882ba8298d3e92bb730ab00f42fd05ee8635c695"
+          },
+          {
+            "src": "/media/generated/scripture/library/daily/prov4-prov15/gentle-answer/09bf1f2cd300-portrait-940.webp",
+            "width": 940,
+            "height": 1671,
+            "bytes": 78024,
+            "sha256": "ad7ca50255819b91849f401d59def553848e4eaabd4ca12a130a758574622718"
+          }
+        ],
+        "jpeg": [
+          {
+            "src": "/media/generated/scripture/library/daily/prov4-prov15/gentle-answer/09bf1f2cd300-portrait-390.jpg",
+            "width": 390,
+            "height": 693,
+            "bytes": 39733,
+            "sha256": "109aa3322153529d453ac8cb700ad0d6b193cf54a5befd2f443839e60808c285"
+          },
+          {
+            "src": "/media/generated/scripture/library/daily/prov4-prov15/gentle-answer/09bf1f2cd300-portrait-768.jpg",
+            "width": 768,
+            "height": 1365,
+            "bytes": 125015,
+            "sha256": "e55f529bcc5f0c63d4793c8579a35a0cc6a6d5e6fbf3909373b40f51ae434fcb"
+          },
+          {
+            "src": "/media/generated/scripture/library/daily/prov4-prov15/gentle-answer/09bf1f2cd300-portrait-940.jpg",
+            "width": 940,
+            "height": 1671,
+            "bytes": 173932,
+            "sha256": "7b69e77f5c5e3e6475b402183578eebf8f8c1ab11ed618db0d511d9857309e13"
+          }
+        ]
+      },
+      "renditions": {
+        "portrait": {
+          "source": "media/study/library/daily/prov4-15-chair-before-words-portrait-v3.png",
+          "source_sha256": "09bf1f2cd300cd77138c716ae1b2b6aa4632ce78936d50b3f996ba33dca12b40",
+          "source_width": 941,
+          "source_height": 1672,
+          "source_bytes": 1921720,
+          "media": "(max-width: 599px) and (orientation: portrait)",
+          "ratio": "9:16",
+          "focus": "74% 70%",
+          "sizes": "100vw",
+          "variants": {
+            "avif": [
+              {
+                "src": "/media/generated/scripture/library/daily/prov4-prov15/gentle-answer/09bf1f2cd300-portrait-390.avif",
+                "width": 390,
+                "height": 693,
+                "bytes": 15064,
+                "sha256": "29dd3dd9d0172926cb11605f684129672162b441bb511650accd1107a3ff4339"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov4-prov15/gentle-answer/09bf1f2cd300-portrait-768.avif",
+                "width": 768,
+                "height": 1365,
+                "bytes": 42650,
+                "sha256": "27cfb85b9cc9064e527188d0fc81230bc5054ef3110538d7fdaa5e4849973f5d"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov4-prov15/gentle-answer/09bf1f2cd300-portrait-940.avif",
+                "width": 940,
+                "height": 1671,
+                "bytes": 57743,
+                "sha256": "ca816ce15bf53bd499782d9079829811fd2475085c30b4e029c7e06ece6c24d9"
+              }
+            ],
+            "webp": [
+              {
+                "src": "/media/generated/scripture/library/daily/prov4-prov15/gentle-answer/09bf1f2cd300-portrait-390.webp",
+                "width": 390,
+                "height": 693,
+                "bytes": 21778,
+                "sha256": "91184ac411323beb4e815b3800969a5c7fab44393f1fdd6fd29912b42389774d"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov4-prov15/gentle-answer/09bf1f2cd300-portrait-768.webp",
+                "width": 768,
+                "height": 1365,
+                "bytes": 59392,
+                "sha256": "ef8aa02d2f57bc9d7072facb882ba8298d3e92bb730ab00f42fd05ee8635c695"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov4-prov15/gentle-answer/09bf1f2cd300-portrait-940.webp",
+                "width": 940,
+                "height": 1671,
+                "bytes": 78024,
+                "sha256": "ad7ca50255819b91849f401d59def553848e4eaabd4ca12a130a758574622718"
+              }
+            ],
+            "jpeg": [
+              {
+                "src": "/media/generated/scripture/library/daily/prov4-prov15/gentle-answer/09bf1f2cd300-portrait-390.jpg",
+                "width": 390,
+                "height": 693,
+                "bytes": 39733,
+                "sha256": "109aa3322153529d453ac8cb700ad0d6b193cf54a5befd2f443839e60808c285"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov4-prov15/gentle-answer/09bf1f2cd300-portrait-768.jpg",
+                "width": 768,
+                "height": 1365,
+                "bytes": 125015,
+                "sha256": "e55f529bcc5f0c63d4793c8579a35a0cc6a6d5e6fbf3909373b40f51ae434fcb"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov4-prov15/gentle-answer/09bf1f2cd300-portrait-940.jpg",
+                "width": 940,
+                "height": 1671,
+                "bytes": 173932,
+                "sha256": "7b69e77f5c5e3e6475b402183578eebf8f8c1ab11ed618db0d511d9857309e13"
+              }
+            ]
+          }
+        },
+        "tablet": {
+          "source": "media/study/library/daily/prov4-15-chair-before-words-tablet-v3.png",
+          "source_sha256": "3d0fe16d1d863470e0427ff262d3b3e6369b72b93d28212b63c6215c2ddab72c",
+          "source_width": 1122,
+          "source_height": 1402,
+          "source_bytes": 1946590,
+          "media": "(min-width: 600px) and (orientation: portrait)",
+          "ratio": "4:5",
+          "focus": "74% 66%",
+          "sizes": "100vw",
+          "variants": {
+            "avif": [
+              {
+                "src": "/media/generated/scripture/library/daily/prov4-prov15/gentle-answer/3d0fe16d1d86-tablet-768.avif",
+                "width": 768,
+                "height": 960,
+                "bytes": 31370,
+                "sha256": "3b7fe3d5e2eb96f0dad17d66e91de40ea318632aa74e0d9cfff81b113e07ab92"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov4-prov15/gentle-answer/3d0fe16d1d86-tablet-1024.avif",
+                "width": 1024,
+                "height": 1280,
+                "bytes": 49459,
+                "sha256": "b502566f55f1031b22c139e9d9135c1e0de3fefc5974ac6c166fe71dfbb2937e"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov4-prov15/gentle-answer/3d0fe16d1d86-tablet-1121.avif",
+                "width": 1121,
+                "height": 1401,
+                "bytes": 56843,
+                "sha256": "18501ec0d6f8f4025b26bd525e1cdae458e503f0c458392957bf34c9665cc820"
+              }
+            ],
+            "webp": [
+              {
+                "src": "/media/generated/scripture/library/daily/prov4-prov15/gentle-answer/3d0fe16d1d86-tablet-768.webp",
+                "width": 768,
+                "height": 960,
+                "bytes": 46324,
+                "sha256": "9c68403d281c9bb145a7382453178eb22105b0ad388342e48d8e61b4e45bdb7e"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov4-prov15/gentle-answer/3d0fe16d1d86-tablet-1024.webp",
+                "width": 1024,
+                "height": 1280,
+                "bytes": 69672,
+                "sha256": "7409625590658e356b9f0c24b4577ede2073401f32dbd2e91eadeb257d2404ff"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov4-prov15/gentle-answer/3d0fe16d1d86-tablet-1121.webp",
+                "width": 1121,
+                "height": 1401,
+                "bytes": 78832,
+                "sha256": "47b0ff47899e1c46f9e85b42cc07af44b6ca919dfc054c1a911d47ca047f9b0e"
+              }
+            ],
+            "jpeg": [
+              {
+                "src": "/media/generated/scripture/library/daily/prov4-prov15/gentle-answer/3d0fe16d1d86-tablet-768.jpg",
+                "width": 768,
+                "height": 960,
+                "bytes": 93633,
+                "sha256": "1c3c4f3b1ef237d5513afced29500690a06424b42b9fd476fe1d6100b44899a1"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov4-prov15/gentle-answer/3d0fe16d1d86-tablet-1024.jpg",
+                "width": 1024,
+                "height": 1280,
+                "bytes": 149899,
+                "sha256": "59dcd5674c21f7efd73459a3e9da290c4e58cf00bac768026519e577aafc3ff1"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov4-prov15/gentle-answer/3d0fe16d1d86-tablet-1121.jpg",
+                "width": 1121,
+                "height": 1401,
+                "bytes": 175194,
+                "sha256": "e03c65e19d37f7a2ff03a9cde769b4cfbf22cf032978b76f96617382032274e6"
+              }
+            ]
+          }
+        },
+        "landscape": {
+          "source": "media/study/library/daily/prov4-15-chair-before-words-landscape-v3.png",
+          "source_sha256": "350da03a189d05cd9b579a3419473cbf1e727f8ceeca6dfe425ede9ecd5b5046",
+          "source_width": 1672,
+          "source_height": 941,
+          "source_bytes": 2052087,
+          "media": "(orientation: landscape)",
+          "ratio": "16:9",
+          "focus": "78% 66%",
+          "sizes": "100vw",
+          "variants": {
+            "avif": [
+              {
+                "src": "/media/generated/scripture/library/daily/prov4-prov15/gentle-answer/350da03a189d-landscape-768.avif",
+                "width": 768,
+                "height": 432,
+                "bytes": 17381,
+                "sha256": "318e5048322ce6f54e25bde4654c05b71ffd615b8f0bd92ddfe575b80cb383b8"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov4-prov15/gentle-answer/350da03a189d-landscape-1024.avif",
+                "width": 1024,
+                "height": 576,
+                "bytes": 28644,
+                "sha256": "6de0eae797f4cc4f6fc96196bd3982bab987c513865732f9753c80ae9f66a184"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov4-prov15/gentle-answer/350da03a189d-landscape-1440.avif",
+                "width": 1440,
+                "height": 810,
+                "bytes": 51474,
+                "sha256": "7861f278fc872cc1c6994c2f001ee41135e93ed880d20975bacadb9e9c800eff"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov4-prov15/gentle-answer/350da03a189d-landscape-1672.avif",
+                "width": 1672,
+                "height": 941,
+                "bytes": 65376,
+                "sha256": "e367184bbea72d47b93cca021e14f9bc4d17620e8b13094f28eee3e8eb35599e"
+              }
+            ],
+            "webp": [
+              {
+                "src": "/media/generated/scripture/library/daily/prov4-prov15/gentle-answer/350da03a189d-landscape-768.webp",
+                "width": 768,
+                "height": 432,
+                "bytes": 26560,
+                "sha256": "05c1d1337aa0826a181fd1388ba8d9cf09c00a8c13a5b19cd5b922f4f1d0f0ac"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov4-prov15/gentle-answer/350da03a189d-landscape-1024.webp",
+                "width": 1024,
+                "height": 576,
+                "bytes": 43386,
+                "sha256": "e06022a3fa94add82bd1aa004815f22c1eb4232bdad93e0abda6ab7c8582e4c5"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov4-prov15/gentle-answer/350da03a189d-landscape-1440.webp",
+                "width": 1440,
+                "height": 810,
+                "bytes": 75284,
+                "sha256": "0c48caac7fc08d7e4f0e04bce761458aee6e087f719f4a4b0e488d964084eb24"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov4-prov15/gentle-answer/350da03a189d-landscape-1672.webp",
+                "width": 1672,
+                "height": 941,
+                "bytes": 94836,
+                "sha256": "edcc4341d7673b639e7ae59d29e0653688a53030e007958a8f6d1d24d8231484"
+              }
+            ],
+            "jpeg": [
+              {
+                "src": "/media/generated/scripture/library/daily/prov4-prov15/gentle-answer/350da03a189d-landscape-768.jpg",
+                "width": 768,
+                "height": 432,
+                "bytes": 46903,
+                "sha256": "51d955f6ce0574a4783b4f4200346d7af9d7e5d976708834f3b99a8d49330a51"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov4-prov15/gentle-answer/350da03a189d-landscape-1024.jpg",
+                "width": 1024,
+                "height": 576,
+                "bytes": 78640,
+                "sha256": "2d487a2e5d26e5b32dc8cf7276740a6111f8c8d39bd0c3c272629d9b2be58aff"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov4-prov15/gentle-answer/350da03a189d-landscape-1440.jpg",
+                "width": 1440,
+                "height": 810,
+                "bytes": 144410,
+                "sha256": "35e669cac0cce5f76a47f816e2b9683501e9038f7b951b81c07b5fbff2686277"
+              },
+              {
+                "src": "/media/generated/scripture/library/daily/prov4-prov15/gentle-answer/350da03a189d-landscape-1672.jpg",
+                "width": 1672,
+                "height": 941,
+                "bytes": 186317,
+                "sha256": "9c21f2bee64181356f1984a5c6c90f7d85d2e45d72385b024658cbd05cedc7d2"
+              }
+            ]
+          }
+        }
+      }
+    },
     "scripture.library.daily.ps102-150.weekly-contemplation": {
       "role": "library_daily_hero",
       "source": "media/study/library/daily/ps102-150-weekly-contemplation-portrait-v1.png",

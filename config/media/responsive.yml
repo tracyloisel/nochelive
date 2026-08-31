@@ -204,6 +204,83 @@ assets:
       tablet: "66% 66%"
       landscape: "76% 58%"
     theme: dark
+  scripture.library.daily.prov1.wisdom-cries:
+    source: media/study/library/daily/prov1-public-threshold-listening-portrait-v2.png
+    sources:
+      tablet: media/study/library/daily/prov1-public-threshold-listening-tablet-v2.png
+      landscape: media/study/library/daily/prov1-public-threshold-listening-landscape-v2.png
+    role: library_daily_hero
+    focuses:
+      portrait: "76% 72%"
+      tablet: "76% 68%"
+      landscape: "80% 66%"
+    theme: dark
+  scripture.library.daily.prov3-prov16.joy-while-waiting:
+    source: media/study/library/daily/prov3-16-audition-friends-portrait-v2.png
+    sources:
+      tablet: media/study/library/daily/prov3-16-audition-friends-tablet-v2.png
+      landscape: media/study/library/daily/prov3-16-audition-friends-landscape-v2.png
+    role: library_daily_hero
+    focuses:
+      portrait: "70% 68%"
+      tablet: "72% 64%"
+      landscape: "76% 64%"
+    theme: dark
+  scripture.library.daily.prov4-prov15.gentle-answer:
+    source: media/study/library/daily/prov4-15-chair-before-words-portrait-v3.png
+    sources:
+      tablet: media/study/library/daily/prov4-15-chair-before-words-tablet-v3.png
+      landscape: media/study/library/daily/prov4-15-chair-before-words-landscape-v3.png
+    role: library_daily_hero
+    focuses:
+      portrait: "74% 70%"
+      tablet: "74% 66%"
+      landscape: "78% 66%"
+    theme: dark
+  scripture.library.daily.prov22-prov31.open-hand:
+    source: media/study/library/daily/prov22-31-bread-between-equals-portrait-v2.png
+    sources:
+      tablet: media/study/library/daily/prov22-31-bread-between-equals-tablet-v2.png
+      landscape: media/study/library/daily/prov22-31-bread-between-equals-landscape-v2.png
+    role: library_daily_hero
+    focuses:
+      portrait: "72% 66%"
+      tablet: "72% 62%"
+      landscape: "78% 62%"
+    theme: dark
+  scripture.library.daily.eccl1.repeating-sun:
+    source: media/study/library/daily/eccl1-one-more-take-portrait-v2.png
+    sources:
+      tablet: media/study/library/daily/eccl1-one-more-take-tablet-v2.png
+      landscape: media/study/library/daily/eccl1-one-more-take-landscape-v2.png
+    role: library_daily_hero
+    focuses:
+      portrait: "76% 72%"
+      tablet: "76% 68%"
+      landscape: "80% 66%"
+    theme: dark
+  scripture.library.daily.eccl3-eccl12.time-and-memory:
+    source: media/study/library/daily/eccl3-12-learning-now-portrait-v2.png
+    sources:
+      tablet: media/study/library/daily/eccl3-12-learning-now-tablet-v2.png
+      landscape: media/study/library/daily/eccl3-12-learning-now-landscape-v2.png
+    role: library_daily_hero
+    focuses:
+      portrait: "74% 68%"
+      tablet: "74% 64%"
+      landscape: "78% 62%"
+    theme: dark
+  scripture.library.daily.prov1-3-4-15-16-22-31-eccl1-3-12.weekly-contemplation:
+    source: media/study/library/daily/prov1-3-4-15-16-22-31-eccl1-3-12-six-scenes-remembered-portrait-v5.png
+    sources:
+      tablet: media/study/library/daily/prov1-3-4-15-16-22-31-eccl1-3-12-six-scenes-remembered-tablet-v5.png
+      landscape: media/study/library/daily/prov1-3-4-15-16-22-31-eccl1-3-12-six-scenes-remembered-landscape-v5.png
+    role: library_daily_hero
+    focuses:
+      portrait: "72% 68%"
+      tablet: "72% 64%"
+      landscape: "78% 62%"
+    theme: dark
   scripture_circle.backdrop.light:
     source: media/hub/rama/circle-scripture-celestial-light-v1.png
     role: hub_backdrop

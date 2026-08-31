@@ -15,15 +15,21 @@ class MediaPipelineTest < ActiveSupport::TestCase
     assert_equal media_queries.size, media_queries.uniq.size
     assert_equal 0.005, role.fetch("source_ratio_tolerance")
     daily_assets = config.fetch("assets").select { |_key, asset| asset["role"] == "library_daily_hero" }
-    assert_equal 7, daily_assets.size
+    assert_operator daily_assets.size, :>=, 7
+    assert_equal 0, daily_assets.size % 7,
+      "Library daily artwork must be delivered as complete seven-day editions"
+    weekly_sources = []
     daily_assets.each do |key, asset|
-      reference = key.match(/\.ps(?<reference>\d+(?:-\d+)?)\./)[:reference]
       sources = [ asset.fetch("source"), *asset.fetch("sources").values ]
+      weekly_sources.concat(sources)
 
       assert_equal %w[landscape tablet], asset.fetch("sources").keys.sort
-      assert sources.all? { |source| File.basename(source).start_with?("ps#{reference}-") },
-        "daily Library filenames must begin with their Bible reference: #{key}"
+      assert_equal 3, sources.uniq.size, "each responsive proof needs its own master: #{key}"
+      assert sources.all? { |source| File.basename(source).match?(/\A(?:[1-4][a-z]+|[a-z]+)\d+(?:-\d+)*/) },
+        "daily Library filenames must begin with a Bible reference: #{key}"
     end
+    assert_equal daily_assets.size * 3, weekly_sources.uniq.size,
+      "every Library day and ratio must own a distinct source master"
   end
 
   test "catalog build is deterministic and keeps the master outside public" do

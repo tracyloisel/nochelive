@@ -1,0 +1,425 @@
+---
+schema_version: 2
+id: library-2026-09-07-prov1-3-4-15-16-22-31-eccl1-3-12
+program_slug: come-follow-me-old-testament-2026-fr
+study_unit_slug: week-37
+starts_on: "2026-09-07"
+ends_on: "2026-09-13"
+timezone: Europe/Madrid
+source_dossier: config/expeditions/proverbs-ecclesiastes-2026-09-07.yml
+publication:
+  state: publish_ready
+  activate_at: "2026-09-07T00:00:00+02:00"
+  workflow_note: "Cinq gates PASS; prêt pour autorisation humaine, mais ni programmé ni importé."
+expedition_pack_ids: []
+expected_discoveries_digest: dfa2777492d41a3ae578c17d0936d51a6ebf8d07f01ef849ccd94b685278f71b
+expected_artwork_digest: c4dbfd0a728abbd77f240d491c576fa2dad5691f36f1e4199e7234522154ef30
+council_review:
+  revision: 7
+  publish_ready: true
+  art_gate:
+    status: PASS
+    reviewed_revision: 7
+    reason: "21/21 masters natifs inspectés; sept scènes, trois ratios, références bibliques et intégrité média validés."
+  experience_gate:
+    status: PASS
+    reviewed_revision: 7
+    reason: "21/21 compositions transmettent l’expérience attendue; la contemplation n’ajoute aucun septième enseignement."
+  human_dramaturgy_gate:
+    status: PASS
+    reviewed_revision: 7
+    reason: "21/21 scènes lisibles sans titre, relationnelles, non littérales et sans esthétique de banque d’images."
+  human_voice_gate:
+    status: PASS
+    reviewed_revision: 7
+    reason: "140/140 champs publics SAYABLE après lecture à voix haute dans les quatre langues."
+  truth_gate:
+    status: PASS
+    reviewed_revision: 7
+    reason: "140/140 copies, 56/56 alt texts et disclosures, et 21/21 masters validés contre les claims."
+
+daily_discoveries:
+  - id: wisdom-2026-09-07-day-1-prov1
+    kind: discovery
+    status: approved
+    revision: 4
+    scheduled_on: "2026-09-07"
+    timezone: Europe/Madrid
+    reference: ot/prov/1
+    references: [ot/prov/1]
+    claim_ids: [exeg-001]
+    artwork_key: scripture.library.daily.prov1.wisdom-cries
+    light_family: celestial_dark
+    depiction_mode: contemporary_sibling_listening_scene
+    certainty:
+      textual: ATTESTÉ
+      depicted_people: CONTEMPORARY_INVENTED
+    motion: still
+    audio: silent
+    truth_gate: { status: PASS, reviewed_revision: 4 }
+    experience_gate: { status: PASS, reviewed_revision: 4 }
+    copy:
+      fr:
+        eyebrow: "Aujourd’hui dans les Écritures"
+        title: "La sagesse n’attend pas le silence"
+        setup: "Dans Proverbes 1, la sagesse crie dehors, en pleine ville. Elle parle à tout le monde — mais encore faut-il s’arrêter pour l’entendre."
+        question: "Qu’est-ce que le bruit t’empêche d’entendre aujourd’hui ?"
+        cta_label: "Lire Proverbes 1"
+      es:
+        eyebrow: "Hoy en las Escrituras"
+        title: "La sabiduría no espera a que haya silencio"
+        setup: "En Proverbios 1, la sabiduría grita fuera, en plena ciudad. Habla a todo el mundo, pero todavía hay que pararse a escucharla."
+        question: "¿Qué no estás oyendo hoy por culpa del ruido?"
+        cta_label: "Leer Proverbios 1"
+      en:
+        eyebrow: "Today in Scripture"
+        title: "Wisdom does not wait for silence"
+        setup: "In Proverbs 1, wisdom calls out right in the middle of the city. She speaks to everyone—but you still have to stop and listen."
+        question: "What can’t you hear over all the noise today?"
+        cta_label: "Read Proverbs 1"
+      pt-BR:
+        eyebrow: "Hoje nas Escrituras"
+        title: "A sabedoria não espera o silêncio"
+        setup: "Em Provérbios 1, a sabedoria grita do lado de fora, bem no meio da cidade. Ela fala com todo mundo — mas ainda é preciso parar e escutar."
+        question: "O que você não está ouvindo por causa do barulho de hoje?"
+        cta_label: "Ler Provérbios 1"
+    alt:
+      fr: "Dans le seuil d’un lieu public bruyant, une jeune femme appelle son frère qui repart; il retire un écouteur et se retourne tandis que les passants continuent."
+      es: "En el umbral de un lugar público lleno de ruido, una joven llama a su hermano, que ya se marcha; él se quita un auricular y se vuelve mientras los demás siguen pasando."
+      en: "At the threshold of a noisy public venue, a young woman calls to her departing brother; he removes one earbud and turns back as people continue past them."
+      pt-BR: "Na entrada de um lugar público barulhento, uma jovem chama o irmão que já está indo embora; ele tira um fone e se vira enquanto as pessoas continuam passando."
+    disclosure:
+      fr: "Scène contemporaine inventée pour évoquer Proverbes 1; le frère et la sœur ne sont pas des personnages bibliques et le contenu de leur échange reste inconnu."
+      es: "Escena contemporánea inventada para evocar Proverbios 1; los hermanos no son personajes bíblicos y no sabemos qué quiere decirle ella."
+      en: "An invented contemporary scene evoking Proverbs 1; the siblings are not biblical figures, and what she needs to tell him remains unknown."
+      pt-BR: "Cena contemporânea inventada para evocar Provérbios 1; os irmãos não são personagens bíblicos e não sabemos o que ela precisa dizer."
+
+  - id: wisdom-2026-09-07-day-2-prov3-prov16
+    kind: discovery
+    status: approved
+    revision: 4
+    scheduled_on: "2026-09-08"
+    timezone: Europe/Madrid
+    reference: ot/prov/3
+    references: [ot/prov/3, ot/prov/16]
+    claim_ids: [exeg-002, exeg-005]
+    artwork_key: scripture.library.daily.prov3-prov16.joy-while-waiting
+    light_family: celestial_dark
+    depiction_mode: contemporary_relational_waiting
+    certainty:
+      textual: ATTESTÉ
+      depicted_blessing: SYMBOLIC_NOT_PROMISED
+    motion: still
+    audio: silent
+    truth_gate: { status: PASS, reviewed_revision: 4 }
+    experience_gate: { status: PASS, reviewed_revision: 4 }
+    copy:
+      fr:
+        eyebrow: "Aujourd’hui dans les Écritures"
+        title: "Applaudir même quand ça fait mal"
+        setup: "Proverbes 3 te dit de ne pas t’appuyer seulement sur ce que tu comprends. Proverbes 16 ajoute que tu peux faire des projets sans maîtriser chaque pas."
+        question: "Peux-tu te réjouir pour lui sans faire semblant que ça ne te fait rien ?"
+        cta_label: "Lire Proverbes 3 et 16"
+      es:
+        eyebrow: "Hoy en las Escrituras"
+        title: "Aplaudir aunque duela"
+        setup: "Proverbios 3 te pide que no te apoyes solo en lo que entiendes. Proverbios 16 añade que puedes hacer planes sin controlar cada paso."
+        question: "¿Puedes alegrarte por él sin fingir que a ti no te duele?"
+        cta_label: "Leer Proverbios 3 y 16"
+      en:
+        eyebrow: "Today in Scripture"
+        title: "Cheering even when it hurts"
+        setup: "Proverbs 3 says not to rely only on what you understand. Proverbs 16 says you can make plans without controlling every step."
+        question: "Can you be happy for them without pretending it doesn’t hurt?"
+        cta_label: "Read Proverbs 3 and 16"
+      pt-BR:
+        eyebrow: "Hoje nas Escrituras"
+        title: "Aplaudir mesmo quando dói"
+        setup: "Provérbios 3 diz para você não se apoiar só no que entende. Provérbios 16 lembra que dá para fazer planos sem controlar cada passo."
+        question: "Você consegue ficar feliz por ele sem fingir que não doeu?"
+        cta_label: "Ler Provérbios 3 e 16"
+    alt:
+      fr: "Après une audition de danse, le danseur non retenu cesse de froisser son numéro et prend la main tremblante de son ami choisi, les yeux humides mais le sourire sincère."
+      es: "Después de una audición de baile, el bailarín no elegido deja de arrugar su número y toma la mano temblorosa de su amigo elegido, con los ojos húmedos y una sonrisa sincera."
+      en: "After a dance audition, the dancer who was not cast stops crumpling his audition number and takes his selected friend’s trembling hand, smiling sincerely through wet eyes."
+      pt-BR: "Depois de uma audição de dança, o bailarino não escolhido para de amassar o número da audição e segura a mão trêmula do amigo escolhido, com os olhos marejados e um sorriso sincero."
+    disclosure:
+      fr: "Scène contemporaine inventée pour Proverbes 3 et 16; elle ne prouve aucune faveur divine et ne promet ni rôle ni réussite future au danseur non retenu."
+      es: "Escena contemporánea inventada para Proverbios 3 y 16; no demuestra ningún favor divino ni promete al bailarín no elegido un papel o un éxito futuro."
+      en: "An invented contemporary scene for Proverbs 3 and 16; it neither proves divine favor nor promises the unselected dancer a future role or success."
+      pt-BR: "Cena contemporânea inventada para Provérbios 3 e 16; ela não comprova favor divino nem promete ao bailarino não escolhido um papel ou sucesso futuro."
+
+  - id: wisdom-2026-09-07-day-3-prov4-prov15
+    kind: discovery
+    status: approved
+    revision: 4
+    scheduled_on: "2026-09-09"
+    timezone: Europe/Madrid
+    reference: ot/prov/4
+    references: [ot/prov/4, ot/prov/15]
+    claim_ids: [exeg-003, exeg-004]
+    artwork_key: scripture.library.daily.prov4-prov15.gentle-answer
+    light_family: celestial_dark
+    depiction_mode: contemporary_family_restraint
+    certainty:
+      textual: ATTESTÉ
+      outcome: NON_GARANTI
+    motion: still
+    audio: silent
+    truth_gate: { status: PASS, reviewed_revision: 4 }
+    experience_gate: { status: PASS, reviewed_revision: 4 }
+    copy:
+      fr:
+        eyebrow: "Aujourd’hui dans les Écritures"
+        title: "La douceur n’efface pas ce qui s’est passé"
+        setup: "Proverbes 15 ne dit pas que tout va s’arranger, seulement qu’une réponse douce peut calmer la colère. Dans Proverbes 4, tout se tient : le cœur, les mots, le regard et les pas."
+        question: "Peux-tu parler de ce qui s’est passé sans blesser encore ?"
+        cta_label: "Lire Proverbes 4 et 15"
+      es:
+        eyebrow: "Hoy en las Escrituras"
+        title: "Una respuesta suave no borra lo ocurrido"
+        setup: "Proverbios 15 no dice que todo vaya a arreglarse, solo que una respuesta suave puede calmar la ira. En Proverbios 4 van juntos el corazón, las palabras, la mirada y los pasos."
+        question: "¿Puedes afrontar lo ocurrido sin causar otra herida?"
+        cta_label: "Leer Proverbios 4 y 15"
+      en:
+        eyebrow: "Today in Scripture"
+        title: "Gentleness does not erase what happened"
+        setup: "Proverbs 15 doesn’t say everything will work out. It says a gentle answer can calm anger, and Proverbs 4 brings in your heart, words, eyes, and steps."
+        question: "Can you talk about what happened without causing more hurt?"
+        cta_label: "Read Proverbs 4 and 15"
+      pt-BR:
+        eyebrow: "Hoje nas Escrituras"
+        title: "Uma resposta branda não apaga o que aconteceu"
+        setup: "Provérbios 15 não diz que tudo vai se resolver, só que uma resposta branda pode acalmar a raiva. Em Provérbios 4, coração, palavras, olhar e passos andam juntos."
+        question: "Você consegue encarar o que aconteceu sem causar outra ferida?"
+        cta_label: "Ler Provérbios 4 e 15"
+    alt:
+      fr: "Une portière abîmée reste visible derrière une mère qui interrompt son geste accusateur, pose la main ouverte et tire une chaise; sa fille adulte tient les clés et relève les yeux."
+      es: "La puerta dañada de un coche queda visible detrás de una madre que detiene su gesto acusador, abre la mano y acerca una silla; su hija adulta sostiene las llaves y levanta la mirada."
+      en: "A damaged car door remains visible behind a mother who stops her accusing gesture, opens her hand, and pulls out a chair; her adult daughter holds the keys and looks up."
+      pt-BR: "A porta amassada de um carro aparece atrás de uma mãe que interrompe o gesto acusador, abre a mão e puxa uma cadeira; a filha adulta segura as chaves e levanta os olhos."
+    disclosure:
+      fr: "Scène contemporaine inventée pour Proverbes 4 et 15; la chaise offerte ne garantit pas une réconciliation et ne demande à personne de rester en danger."
+      es: "Escena contemporánea inventada para Proverbios 4 y 15; ofrecer una silla no garantiza la reconciliación ni obliga a nadie a permanecer en peligro."
+      en: "An invented contemporary scene for Proverbs 4 and 15; offering the chair neither guarantees reconciliation nor asks anyone to remain in danger."
+      pt-BR: "Cena contemporânea inventada para Provérbios 4 e 15; oferecer a cadeira não garante reconciliação nem pede que alguém permaneça em perigo."
+
+  - id: wisdom-2026-09-07-day-4-prov22-prov31
+    kind: discovery
+    status: approved
+    revision: 4
+    scheduled_on: "2026-09-10"
+    timezone: Europe/Madrid
+    reference: ot/prov/22
+    references: [ot/prov/22, ot/prov/31]
+    claim_ids: [hist-003a, hist-003b, exeg-006, exeg-007]
+    artwork_key: scripture.library.daily.prov22-prov31.open-hand
+    light_family: celestial_dark
+    depiction_mode: contemporary_equal_dignity_scene
+    certainty:
+      textual: ATTESTÉ
+      depicted_people: CONTEMPORARY_INVENTED
+    motion: still
+    audio: silent
+    truth_gate: { status: PASS, reviewed_revision: 4 }
+    experience_gate: { status: PASS, reviewed_revision: 4 }
+    copy:
+      fr:
+        eyebrow: "Aujourd’hui dans les Écritures"
+        title: "Aider sans diminuer personne"
+        setup: "Proverbes 22 place riche et pauvre devant le même Créateur et loue celui qui partage son pain. Proverbes 31 demande à Lemuel de défendre ceux qu’on n’entend pas ; plus loin, la femme célébrée parle avec sagesse et tend la main."
+        question: "Comment aider sans te placer au-dessus ?"
+        cta_label: "Lire Proverbes 22 et 31"
+      es:
+        eyebrow: "Hoy en las Escrituras"
+        title: "Ayudar sin hacer de menos a nadie"
+        setup: "Proverbios 22 pone al rico y al pobre ante el mismo Creador y elogia a quien comparte su pan. Proverbios 31 pide a Lemuel que defienda a quienes no tienen voz; más adelante, la mujer elogiada habla con sabiduría y tiende la mano."
+        question: "¿Cómo puedes ayudar sin situarte por encima?"
+        cta_label: "Leer Proverbios 22 y 31"
+      en:
+        eyebrow: "Today in Scripture"
+        title: "Helping without making anyone feel small"
+        setup: "Proverbs 22 puts rich and poor before the same Creator and praises the person who shares bread. Proverbs 31 tells Lemuel to speak up for those without a voice; later, the woman it celebrates speaks with wisdom and opens her hand to those in need."
+        question: "How do you help without placing yourself above someone?"
+        cta_label: "Read Proverbs 22 and 31"
+      pt-BR:
+        eyebrow: "Hoje nas Escrituras"
+        title: "Ajudar sem diminuir ninguém"
+        setup: "Provérbios 22 põe o rico e o pobre diante do mesmo Criador e elogia quem reparte o pão. Provérbios 31 pede a Lemuel que defenda quem não tem voz; mais adiante, a mulher elogiada fala com sabedoria e estende a mão aos necessitados."
+        question: "Como ajudar sem se colocar acima de alguém?"
+        cta_label: "Ler Provérbios 22 e 31"
+    alt:
+      fr: "Dans une épicerie solidaire, une bénévole a retiré son badge et son tablier pour s’asseoir auprès de son ancienne professeure; elles ouvrent le pain entre elles et se regardent."
+      es: "En una tienda solidaria, una voluntaria se ha quitado la acreditación y el delantal para sentarse junto a su antigua profesora; abren el pan entre las dos y se miran."
+      en: "In a community pantry, a volunteer has removed her badge and apron to sit beside her former teacher; they open a loaf between them and meet each other’s eyes."
+      pt-BR: "Em uma mercearia solidária, uma voluntária tirou o crachá e o avental para se sentar ao lado de sua antiga professora; as duas abrem o pão entre elas e se olham."
+    disclosure:
+      fr: "Scène contemporaine inventée pour Proverbes 22 et 31; ces femmes ne sont pas des personnages bibliques et leurs retrouvailles comme leur situation matérielle ne sont pas des faits du texte."
+      es: "Escena contemporánea inventada para Proverbios 22 y 31; estas mujeres no son personajes bíblicos, y ni su reencuentro ni su situación material aparecen en el texto."
+      en: "An invented contemporary scene for Proverbs 22 and 31; the women are not biblical figures, and neither their reunion nor their material circumstances comes from the text."
+      pt-BR: "Cena contemporânea inventada para Provérbios 22 e 31; essas mulheres não são personagens bíblicas, e nem o reencontro nem a situação material delas vêm do texto."
+
+  - id: wisdom-2026-09-07-day-5-eccl1
+    kind: discovery
+    status: approved
+    revision: 4
+    scheduled_on: "2026-09-11"
+    timezone: Europe/Madrid
+    reference: ot/eccl/1
+    references: [ot/eccl/1]
+    claim_ids: [hist-005a, hist-005b, hist-005c, exeg-008]
+    artwork_key: scripture.library.daily.eccl1.repeating-sun
+    light_family: celestial_dark
+    depiction_mode: contemporary_repetition_scene
+    certainty:
+      textual: ATTESTÉ
+      author_identity: INCERTAIN
+    motion: still
+    audio: silent
+    truth_gate: { status: PASS, reviewed_revision: 4 }
+    experience_gate: { status: PASS, reviewed_revision: 4 }
+    copy:
+      fr:
+        eyebrow: "Aujourd’hui dans les Écritures"
+        title: "L’œil n’en a jamais assez"
+        setup: "Dans Ecclésiaste 1, le soleil se lève, le vent tourne et les rivières continuent de courir. Puis le texte ajoute que l’œil n’est jamais rassasié de voir."
+        question: "Sais-tu t’arrêter sur ce qui a réussi avant de recommencer ?"
+        cta_label: "Lire Ecclésiaste 1"
+      es:
+        eyebrow: "Hoy en las Escrituras"
+        title: "Los ojos nunca se dan por satisfechos"
+        setup: "En Eclesiastés 1, el sol sale, el viento gira y los ríos siguen corriendo. Después, el texto añade que los ojos nunca se sacian de ver."
+        question: "¿Sabes detenerte en lo que ha salido bien antes de volver a empezar?"
+        cta_label: "Leer Eclesiastés 1"
+      en:
+        eyebrow: "Today in Scripture"
+        title: "The eye is never satisfied"
+        setup: "In Ecclesiastes 1, the sun rises, the wind turns, and the rivers keep running. Then the text adds that the eye is never satisfied with seeing."
+        question: "Can you pause long enough to take in what went well before starting again?"
+        cta_label: "Read Ecclesiastes 1"
+      pt-BR:
+        eyebrow: "Hoje nas Escrituras"
+        title: "Os olhos nunca se dão por satisfeitos"
+        setup: "Em Eclesiastes 1, o sol nasce, o vento gira e os rios continuam correndo. Depois, o texto acrescenta que os olhos nunca se fartam de ver."
+        question: "Você consegue parar e perceber o que deu certo antes de começar de novo?"
+        cta_label: "Ler Eclesiastes 1"
+    alt:
+      fr: "Après une répétition de danse, la danseuse principale relance la caméra tandis que la troupe vient la féliciter; son amie garde les bras ouverts et elle reprend déjà le premier mouvement."
+      es: "Después de un ensayo de baile, la bailarina principal vuelve a poner en marcha la cámara mientras el grupo se acerca para felicitarla; su amiga mantiene los brazos abiertos y ella ya repite el primer movimiento."
+      en: "After a dance rehearsal, the lead dancer restarts the camera as the group approaches to congratulate her; her friend’s arms remain open while she begins the first move again."
+      pt-BR: "Depois de um ensaio de dança, a bailarina principal reinicia a câmera enquanto o grupo se aproxima para parabenizá-la; a amiga continua de braços abertos e ela já repete o primeiro movimento."
+    disclosure:
+      fr: "Scène contemporaine inventée pour Ecclésiaste 1; la danseuse ne représente pas l’auteur du livre et son comportement ne constitue pas un diagnostic psychologique."
+      es: "Escena contemporánea inventada para Eclesiastés 1; la bailarina no representa al autor del libro y su conducta no constituye un diagnóstico psicológico."
+      en: "An invented contemporary scene for Ecclesiastes 1; the dancer does not represent the book’s author, and her behavior is not presented as a psychological diagnosis."
+      pt-BR: "Cena contemporânea inventada para Eclesiastes 1; a bailarina não representa o autor do livro, e seu comportamento não é apresentado como diagnóstico psicológico."
+
+  - id: wisdom-2026-09-07-day-6-eccl3-eccl12
+    kind: discovery
+    status: approved
+    revision: 4
+    scheduled_on: "2026-09-12"
+    timezone: Europe/Madrid
+    reference: ot/eccl/3
+    references: [ot/eccl/3, ot/eccl/12]
+    claim_ids: [exeg-009, exeg-010]
+    artwork_key: scripture.library.daily.eccl3-eccl12.time-and-memory
+    light_family: celestial_dark
+    depiction_mode: contemporary_intergenerational_presence
+    certainty:
+      textual: ATTESTÉ
+      metaphor_decoding: OPEN
+    motion: still
+    audio: silent
+    truth_gate: { status: PASS, reviewed_revision: 4 }
+    experience_gate: { status: PASS, reviewed_revision: 4 }
+    copy:
+      fr:
+        eyebrow: "Aujourd’hui dans les Écritures"
+        title: "Plus tard n’est pas une date"
+        setup: "Ecclésiaste 3 dit qu’il y a un temps pour chaque chose, mais pas que nous comprenons tout. Au chapitre 12, il nous demande de nous souvenir du Créateur avant les jours difficiles."
+        question: "Qui ne veux-tu plus remettre à une prochaine fois ?"
+        cta_label: "Lire Ecclésiaste 3 et 12"
+      es:
+        eyebrow: "Hoy en las Escrituras"
+        title: "Más adelante no es una fecha"
+        setup: "Eclesiastés 3 dice que hay un tiempo para cada cosa, pero no que podamos entenderlo todo. En el capítulo 12 nos pide que recordemos al Creador antes de que lleguen los días difíciles."
+        question: "¿A quién no quieres seguir dejando para otro día?"
+        cta_label: "Leer Eclesiastés 3 y 12"
+      en:
+        eyebrow: "Today in Scripture"
+        title: "Later is not a date"
+        setup: "Ecclesiastes 3 says there is a time for everything without giving us the whole story. Chapter 12 calls us to remember the Creator before difficult days come."
+        question: "Who have you been meaning to make time for?"
+        cta_label: "Read Ecclesiastes 3 and 12"
+      pt-BR:
+        eyebrow: "Hoje nas Escrituras"
+        title: "Depois não é uma data"
+        setup: "Eclesiastes 3 diz que há um tempo para cada coisa, mas não que a gente entenda tudo. No capítulo 12, o texto pede que a gente se lembre do Criador antes dos dias difíceis."
+        question: "Quem você não quer mais deixar para depois?"
+        cta_label: "Ler Eclesiastes 3 e 12"
+    alt:
+      fr: "Un père âgé, actif et élégant, travaille à une machine à coudre et tend un second outil; sa fille pose téléphone et clés hors de portée, rapproche un tabouret et place ses mains près des siennes."
+      es: "Un padre mayor, activo y elegante, trabaja con una máquina de coser y ofrece una segunda herramienta; su hija deja lejos el móvil y las llaves, acerca un taburete y coloca las manos junto a las suyas."
+      en: "An active, elegant older father works at a sewing machine and offers a second tool; his daughter sets her phone and keys out of reach, pulls over a stool, and places her hands beside his."
+      pt-BR: "Um pai idoso, ativo e elegante, trabalha em uma máquina de costura e oferece uma segunda ferramenta; a filha deixa o celular e as chaves longe, aproxima um banco e coloca as mãos ao lado das dele."
+    disclosure:
+      fr: "Scène contemporaine inventée pour Ecclésiaste 3 et 12; elle n’établit ni déclin ni pronostic et ne décode pas littéralement les images poétiques du chapitre 12."
+      es: "Escena contemporánea inventada para Eclesiastés 3 y 12; no establece deterioro ni pronóstico y no descifra de forma literal las imágenes poéticas del capítulo 12."
+      en: "An invented contemporary scene for Ecclesiastes 3 and 12; it establishes neither decline nor prognosis and does not literally decode chapter 12’s poetic images."
+      pt-BR: "Cena contemporânea inventada para Eclesiastes 3 e 12; ela não estabelece declínio nem prognóstico e não decifra literalmente as imagens poéticas do capítulo 12."
+
+  - id: wisdom-2026-09-07-day-7-selected-chapters
+    kind: contemplation
+    status: approved
+    revision: 4
+    scheduled_on: "2026-09-13"
+    timezone: Europe/Madrid
+    reference: ot/prov/1
+    references: [ot/prov/1, ot/prov/3, ot/prov/4, ot/prov/15, ot/prov/16, ot/prov/22, ot/prov/31, ot/eccl/1, ot/eccl/3, ot/eccl/12]
+    claim_ids: [hist-002, exeg-001, exeg-002, exeg-003, exeg-004, exeg-005, exeg-006, exeg-007, exeg-008, exeg-009, exeg-010, exeg-011]
+    artwork_key: scripture.library.daily.prov1-3-4-15-16-22-31-eccl1-3-12.weekly-contemplation
+    light_family: celestial_dark
+    depiction_mode: contemporary_editorial_contemplation
+    certainty:
+      textual_sources: ATTESTÉ
+      sequence: EDITORIAL
+    motion: still
+    audio: silent
+    truth_gate: { status: PASS, reviewed_revision: 4 }
+    experience_gate: { status: PASS, reviewed_revision: 4 }
+    copy:
+      fr:
+        eyebrow: "Contemplation de la semaine"
+        title: "Tu n’as pas à tout emporter"
+        setup: "Tu as vu six images cette semaine. Garde-en une aujourd’hui, sans décider que les cinq autres comptent moins."
+        question: "Laquelle veux-tu rouvrir ?"
+        cta_label: "Revoir les six passages"
+      es:
+        eyebrow: "Contemplación de la semana"
+        title: "No tienes que llevártelo todo"
+        setup: "Has visto seis imágenes esta semana. Quédate hoy con una, sin decidir que las otras cinco importan menos."
+        question: "¿Cuál quieres volver a abrir?"
+        cta_label: "Volver a los seis pasajes"
+      en:
+        eyebrow: "This week’s contemplation"
+        title: "You do not have to carry it all"
+        setup: "You have seen six images this week. Hold on to one today without deciding the other five matter less."
+        question: "Which one do you want to reopen?"
+        cta_label: "Return to the six passages"
+      pt-BR:
+        eyebrow: "Contemplação da semana"
+        title: "Você não precisa levar tudo com você"
+        setup: "Você viu seis imagens nesta semana. Fique hoje com uma delas, sem achar que as outras cinco valem menos."
+        question: "Qual delas você quer reabrir?"
+        cta_label: "Voltar às seis passagens"
+    alt:
+      fr: "Une personne retient près d’elle une des six images déjà vues cette semaine; les cinq autres restent ouvertes, visibles et éclairées de façon égale."
+      es: "Una persona guarda cerca una de las seis imágenes ya vistas esta semana; las otras cinco permanecen abiertas, visibles e iluminadas por igual."
+      en: "A person keeps one of the six images already seen this week close; the other five remain open, visible, and equally lit."
+      pt-BR: "Uma pessoa mantém perto de si uma das seis imagens já vistas nesta semana; as outras cinco continuam abertas, visíveis e iluminadas por igual."
+    disclosure:
+      fr: "Geste éditorial contemporain; le choix n’ajoute aucun événement aux textes, ne classe pas les cinq autres images et ne crée ni dénouement ni récit historique unique."
+      es: "Gesto editorial contemporáneo; la elección no añade ningún acontecimiento a los textos, no ordena las otras cinco imágenes y no crea un desenlace ni un único relato histórico."
+      en: "A contemporary editorial gesture; the choice adds no event to the texts, does not rank the other five images, and creates neither a resolution nor a single historical narrative."
+      pt-BR: "Gesto editorial contemporâneo; a escolha não acrescenta acontecimentos aos textos, não classifica as outras cinco imagens e não cria desfecho nem uma única narrativa histórica."

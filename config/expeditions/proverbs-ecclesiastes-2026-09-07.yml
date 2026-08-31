@@ -1,0 +1,1085 @@
+---
+schema_version: 6
+kind: expedition_council_dossier
+
+lifecycle:
+  status: publish_ready
+  runtime_mode: detached
+  current_revision: 7
+  human_approval_required: true
+  publish_authorized: false
+  created_at: "2026-08-31"
+  updated_at: "2026-09-01"
+
+brief:
+  id: proverbs-ecclesiastes-2026-09-07
+  programme: come_follow_me
+  source_page: "37"
+  source_locale: fr
+  requested_locales: [fr, es, en, pt-BR]
+  audience: "Visiteurs connectés ou non de la Bibliothèque Noche Live"
+  duration_days: 7
+  authorized_scope: prepare_only
+  deliverable: library_daily_editorials
+  schedule:
+    starts_on: "2026-09-07"
+    ends_on: "2026-09-13"
+    timezone: Europe/Madrid
+  constraints:
+    - "Exactement six découvertes quotidiennes puis une contemplation le dimanche."
+    - "Aucun pack_id : la semaine 37 ne possède pas de packs d’expédition."
+    - "Le corpus runtime est l’inventaire déjà importé, pas l’intégralité des chapitres imprimés sur la page 37."
+    - "Toute image reste contemporaine et symbolique; aucune identité, date ou scène historique n’est reconstruite."
+    - "Les noms de fichiers d’artwork contiennent toujours les références bibliques."
+    - "Préparer n’autorise ni l’import, ni la programmation, ni la publication."
+  dramatization_policy:
+    allowed: true
+    purpose: "Faire voir une image et habiter une tension avant l’explication."
+    permitted: [contemporary_people, symbolic_space, weather, light, gesture, silence]
+    forbidden_as_fact: [single_solomonic_author, exact_date, exact_place, invented_event, guaranteed_outcome]
+    disclosure: "Illustration symbolique contemporaine, pas une reconstitution historique."
+
+source:
+  inventory_contract:
+    config_path: config/study/come_follow_me_2026.yml
+    source_page: "37"
+    content_key: wisdom-paths-2026
+    included_readings: 10
+    deliberately_not_added_from_printed_lesson: [ot/prov/2, ot/eccl/2, ot/eccl/11]
+    reason: "La Bibliothèque doit suivre le corpus réellement importé pour week-37."
+  readings:
+    - { reference: ot/prov/1, label: "Proverbes 1", required: true }
+    - { reference: ot/prov/3, label: "Proverbes 3", required: true }
+    - { reference: ot/prov/4, label: "Proverbes 4", required: true }
+    - { reference: ot/prov/15, label: "Proverbes 15", required: true }
+    - { reference: ot/prov/16, label: "Proverbes 16", required: true }
+    - { reference: ot/prov/22, label: "Proverbes 22", required: true }
+    - { reference: ot/prov/31, label: "Proverbes 31", required: true }
+    - { reference: ot/eccl/1, label: "Ecclésiaste 1", required: true }
+    - { reference: ot/eccl/3, label: "Ecclésiaste 3", required: true }
+    - { reference: ot/eccl/12, label: "Ecclésiaste 12", required: true }
+
+council:
+  current_stage: publish_ready
+  section_owners:
+    brief: expedition-director
+    source: expedition-director
+    facts.historical: expedition-historian
+    facts.exegetical: expedition-exegete
+    concepts.candidates: expedition-showrunner
+    concepts.arbitration: expedition-director
+    editorial_structure: expedition-showrunner
+    experience_design: expedition-spiritual-experience-director
+    human_dramaturgy: expedition-human-dramaturge
+    public_story: expedition-incarnate-writer
+    visual_language: expedition-art-director
+    review.structure_gate: expedition-director
+    review.experience_gate: expedition-spiritual-experience-director
+    review.human_dramaturgy_gate: expedition-human-dramaturge
+    review.truth_gate: expedition-fact-checker
+    review.human_voice_gate: human-voice-reviewer
+    review.art_gate: expedition-art-director
+    review.publish_ready: expedition-director
+  revision_log:
+    - revision: 1
+      owner: expedition-director
+      paths: [brief, source, facts, concepts, editorial_structure, experience_design, public_story, visual_language]
+      summary: "Dossier source et proposition de sept jours préparés pour les revues ciblées."
+      invalidates: [review.experience_gate, review.truth_gate, review.human_voice_gate, review.art_gate, review.publish_ready]
+    - revision: 2
+      owner: expedition-director
+      paths: [facts.historical, facts.exegetical, editorial_structure, experience_design, public_story, visual_language]
+      summary: "Claims historiques atomisées, versification d’Ecclésiaste 12 localisée, portée du dimanche explicitée et prompts visuels remis en cohérence avec les masters."
+      supersedes: [hist-003@1, hist-005@1]
+      invalidates: [review.experience_gate, review.truth_gate, review.human_voice_gate, review.art_gate, review.publish_ready]
+    - revision: 3
+      owner: expedition-art-director
+      paths: [experience_design.days.planned_path, visual_language.daily_artworks.planned_path, public_story.alt.planned_path]
+      summary: "Objection EXP-W37-D2-PASSIVITY réparée : le premier pas est commencé au centre de la bifurcation, sans privilégier une branche, et les alts sont alignés."
+      resolves: [EXP-W37-D2-PASSIVITY]
+      invalidates: [review.experience_gate, review.truth_gate, review.human_voice_gate, review.art_gate, review.publish_ready]
+    - revision: 4
+      owner: expedition-art-director
+      paths: [editorial_structure.units.joy_while_waiting, experience_design.days.joy_while_waiting, public_story, visual_language.daily_artworks.joy_while_waiting, visual_language.daily_artworks.weekly_contemplation]
+      summary: "À la demande éditoriale, J2 quitte la bifurcation pour une joie partagée au milieu d’une attente encore ouverte; copie, disclosures, trois masters et contemplation du dimanche sont réalignés sans promettre une réussite future."
+      supersedes: [planned_path@3]
+      invalidates: [review.experience_gate, review.truth_gate, review.human_voice_gate, review.art_gate, review.publish_ready]
+    - revision: 5
+      owner: expedition-human-dramaturge
+      paths: [human_dramaturgy, experience_design, visual_language, review.human_dramaturgy_gate]
+      summary: "Le nouveau Dramaturge humain rejette les 21 masters trop littéraux ou convenus et livre sept scènes vécues de remplacement, avec présence magnétique, émotions contradictoires et sous-texte lisible sans titre."
+      invalidates: [review.experience_gate, review.human_dramaturgy_gate, review.truth_gate, review.human_voice_gate, review.art_gate, review.publish_ready]
+    - revision: 6
+      owner: expedition-human-dramaturge
+      paths: [human_dramaturgy.scenes.wisdom_voice, human_dramaturgy.scenes.weekly_contemplation, experience_design]
+      summary: "Les objections Experience de J1 et J7 sont réparées: la voix traverse un seuil public encore bruyant et la contemplation retient une image sans classer ni refermer les cinq autres; les sept contrats humains passent Experience."
+      resolves: [EXP-W37-R5-J1-PUBLIC-VOICE-ERASED, EXP-W37-R5-J7-SEVENTH-CLAIM]
+      invalidates: [review.human_dramaturgy_gate, review.truth_gate, review.human_voice_gate, review.art_gate, review.publish_ready]
+    - revision: 7
+      owner: expedition-director
+      paths: [public_story, visual_language, library_editorial, config.study.library_daily_editorials]
+      summary: "La copie quatre langues passe le test oral 140/140 après réparation ciblée; les sept scènes humaines remplacent les métaphores convenues par 21 compositions natives, belles, désirables et vulnérables, puis les anciens masters sont archivés."
+      resolves: [EXP-W37-HD-J1-LITERAL-VOICE, EXP-W37-HD-J2-LONGING-INVISIBLE, EXP-W37-HD-J3-GESTURE-MISSING, EXP-W37-HD-J4-STOCK-CHARITY, EXP-W37-HD-J5-HORIZON, EXP-W37-HD-J6-LITERAL-TIME-LIGHT, EXP-W37-HD-J7-COLLAGE, EXP-W37-HD-J7-L-WELLNESS-MOODBOARD, EXP-W37-HD-J7-T-WELLNESS-MOODBOARD, EXP-W37-HD-J7-P-SOLITARY-CONTEMPLATION, LIB-W37-TRUTH-J4-MERGED-VOICE]
+      invalidates: [review.experience_gate, review.human_dramaturgy_gate, review.truth_gate, review.human_voice_gate, review.art_gate, review.publish_ready]
+  objections: []
+
+facts:
+  historical:
+    owner: expedition-historian
+    revision: 2
+    status: proposed_for_review
+    sources:
+      - id: src-runtime-week37
+        institution: Noche Live
+        title: "Come Follow Me 2026 — unité importée source_page 37"
+        url: config/study/come_follow_me_2026.yml
+        consulted_on: "2026-08-31"
+        supports: [hist-001]
+        limits: "Décrit l’inventaire produit, pas l’histoire de composition des livres bibliques."
+      - id: src-cfm-37
+        institution: "Église de Jésus-Christ des Saints des Derniers Jours"
+        title: "7–13 septembre — Il aplanira tes sentiers"
+        url: "https://www.churchofjesuschrist.org/study/manual/come-follow-me-for-home-and-church-old-testament-2026/37?lang=fra"
+        consulted_on: "2026-08-31"
+        supports: [hist-002, hist-004]
+        limits: "Réception pédagogique chrétienne et LDS; ne prouve pas une composition commune des deux livres."
+      - id: src-prov-text
+        institution: "Église de Jésus-Christ des Saints des Derniers Jours"
+        title: "Livre des Proverbes — texte biblique"
+        url: "https://www.churchofjesuschrist.org/study/scriptures/ot/prov?lang=fra"
+        consulted_on: "2026-08-31"
+        supports: [hist-003a, hist-003b]
+        limits: "Les suscriptions internes attestent des attributions littéraires, pas une biographie complète de chaque auteur ou compilateur."
+      - id: src-yale-proverbs
+        institution: "Yale Bible Study — Yale Divinity School"
+        title: "Proverbial Wisdom — Study Guide"
+        url: "https://yalebiblestudy.org/courses/first-isaiah/lessons/proverbial-wisdom-study-guide/"
+        consulted_on: "2026-08-31"
+        supports: [hist-003b]
+        limits: "Synthèse universitaire pédagogique; elle atteste la pluralité des collections et l’absence d’identification de Lemuel, pas une date précise pour chaque unité."
+      - id: src-oxford-qoheleth
+        institution: Oxford Research Encyclopedia of Religion
+        title: "The Book of Ecclesiastes (Qohelet)"
+        url: "https://academic.oup.com/edited-volume/62249/chapter-abstract/551380615"
+        consulted_on: "2026-08-31"
+        supports: [hist-005b, hist-005c]
+        limits: "Synthèse de recherche; l’identité exacte et la formation finale du livre restent discutées."
+      - id: src-eccl-text
+        institution: "Église de Jésus-Christ des Saints des Derniers Jours"
+        title: "Ecclésiaste 1 — texte biblique"
+        url: "https://www.churchofjesuschrist.org/study/scriptures/ot/eccl/1?lang=fra"
+        consulted_on: "2026-08-31"
+        supports: [hist-005a]
+        limits: "Atteste la persona littéraire du livre, pas l’identité historique de son auteur."
+    claims:
+      - id: hist-001
+        owner: expedition-historian
+        revision: 1
+        status: active
+        assertion_kind: ARCHIVE
+        certainty: ATTESTÉ
+        statement: "L’unité Noche Live source_page 37 contient dix lectures précises et omet Proverbes 2 ainsi qu’Ecclésiaste 2 et 11."
+        source_ids: [src-runtime-week37]
+        limits: "Ne pas élargir automatiquement le corpus à la page imprimée."
+        allowed_copy: "Cette semaine ouvre dix chapitres de Proverbes et de l’Ecclésiaste."
+        forbidden_copy: ["Tous les chapitres de la leçon sont déjà importés."]
+        depiction_mode: editorial_inventory_only
+        quiz_eligible: false
+      - id: hist-002
+        owner: expedition-historian
+        revision: 1
+        status: active
+        assertion_kind: RÉCEPTION
+        certainty: ATTESTÉ
+        statement: "Le programme Come Follow Me 2026 place Proverbes et Ecclésiaste en dialogue et formule explicitement la tension : la sagesse aide, mais la vie n’est pas toujours simple."
+        source_ids: [src-cfm-37]
+        limits: "C’est une architecture pédagogique de 2026, pas un lien de composition historique."
+        allowed_copy: "Deux livres de sagesse se répondent cette semaine."
+        forbidden_copy: ["Proverbes et Ecclésiaste ont été écrits ensemble.", "L’Ecclésiaste réfute Proverbes."]
+        depiction_mode: contemporary_symbolic_dialogue
+        quiz_eligible: false
+      - id: hist-003a
+        owner: expedition-historian
+        revision: 2
+        supersedes: hist-003@1
+        status: active
+        assertion_kind: TEXTE
+        certainty: ATTESTÉ
+        statement: "Le livre des Proverbes porte plusieurs suscriptions et voix internes; selon Proverbes 31:1, les paroles du roi Lemuel sont l’enseignement reçu de sa mère."
+        source_ids: [src-prov-text]
+        limits: "L’histoire exacte de compilation n’est pas reconstruite ici."
+        allowed_copy: "Selon le texte, Lemuel reçoit cette instruction de sa mère."
+        forbidden_copy: ["Lemuel ou sa mère ont été historiquement identifiés.", "Salomon a écrit personnellement chaque ligne de Proverbes."]
+        depiction_mode: contemporary_symbolic_no_author_portrait
+        quiz_eligible: true
+        quiz_scope: "Autorise seulement une question formulée comme attribution interne du texte, jamais comme preuve d’auteur historique."
+      - id: hist-003b
+        owner: expedition-historian
+        revision: 2
+        supersedes: hist-003@1
+        status: active
+        assertion_kind: HYPOTHÈSE
+        certainty: INCERTAIN
+        statement: "L’identité et l’historicité de Lemuel et de sa mère, ainsi que l’histoire précise de compilation des collections de Proverbes, restent inconnues."
+        source_ids: [src-prov-text, src-yale-proverbs]
+        limits: "Une suscription littéraire ne suffit pas à reconstruire une biographie."
+        allowed_copy: "Le texte ne permet pas d’identifier historiquement Lemuel ou sa mère."
+        forbidden_copy: ["Nous savons qui étaient Lemuel et sa mère.", "Proverbes 31 décrit une femme historique identifiée."]
+        depiction_mode: no_historical_portrait
+        quiz_eligible: false
+      - id: hist-004
+        owner: expedition-historian
+        revision: 1
+        status: active
+        assertion_kind: RÉCEPTION
+        certainty: ATTESTÉ
+        statement: "Come Follow Me lit la confiance de Proverbes 3 et la conclusion d’Ecclésiaste 12 comme une invitation chrétienne à suivre Jésus-Christ."
+        source_ids: [src-cfm-37]
+        limits: "Cette lecture christologique doit être identifiée comme réception LDS, non comme sens historique exclusif."
+        allowed_copy: "Dans la lecture Come Follow Me, faire confiance au Seigneur conduit à suivre Jésus-Christ."
+        forbidden_copy: ["Proverbes 3 nomme explicitement Jésus de Nazareth."]
+        depiction_mode: reception_only_no_jesus_reconstruction
+        quiz_eligible: false
+      - id: hist-005a
+        owner: expedition-historian
+        revision: 2
+        supersedes: hist-005@1
+        status: active
+        assertion_kind: TEXTE
+        certainty: ATTESTÉ
+        statement: "Dans Ecclésiaste 1:1 et 1:12, la voix littéraire se présente comme fils de David et roi à Jérusalem."
+        source_ids: [src-eccl-text]
+        limits: "Cette persona littéraire n’établit pas l’identité historique de l’auteur."
+        allowed_copy: "Le livre donne à sa voix une identité royale liée à Jérusalem."
+        forbidden_copy: ["Cette présentation établit l’identité historique de l’auteur."]
+        depiction_mode: literary_persona_only
+        quiz_eligible: true
+        quiz_scope: "Autorise seulement une question sur la manière dont la voix littéraire se présente dans le texte, jamais sur l’identité historique de l’auteur."
+      - id: hist-005b
+        owner: expedition-historian
+        revision: 2
+        supersedes: hist-005@1
+        status: active
+        assertion_kind: RÉCEPTION
+        certainty: TRADITION
+        statement: "Une longue tradition juive et chrétienne a identifié cette persona royale à Salomon."
+        source_ids: [src-oxford-qoheleth]
+        limits: "Une attribution traditionnelle n’est pas une identité historique certaine."
+        allowed_copy: "Traditionnellement associé à Salomon."
+        forbidden_copy: ["Salomon a certainement écrit l’Ecclésiaste."]
+        depiction_mode: no_historical_portrait
+        quiz_eligible: false
+      - id: hist-005c
+        owner: expedition-historian
+        revision: 2
+        supersedes: hist-005@1
+        status: active
+        assertion_kind: HYPOTHÈSE
+        certainty: PROBABLE
+        statement: "La langue tardive et l’état de la recherche favorisent une composition postexilique, souvent située à l’époque hellénistique; l’auteur, la date précise, le lieu et les étapes de rédaction restent inconnus."
+        source_ids: [src-oxford-qoheleth]
+        limits: "Ne jamais transformer une datation savante probable en archive datée."
+        allowed_copy: "Le livre est probablement bien plus tardif que Salomon."
+        forbidden_copy: ["Le livre a été écrit en telle année, dans tel palais ou par un auteur identifié."]
+        depiction_mode: uncertainty_only
+        quiz_eligible: false
+    unknowns:
+      - "Auteur exact, date et lieu de composition de l’Ecclésiaste."
+      - "Histoire précise d’assemblage de chaque collection de Proverbes."
+      - "Situation historique concrète derrière chacun des proverbes retenus."
+
+  exegetical:
+    owner: expedition-exegete
+    revision: 1
+    status: proposed_for_review
+    sources:
+      - id: src-prov-1
+        institution: "Église de Jésus-Christ des Saints des Derniers Jours"
+        title: "Proverbes 1"
+        url: "https://www.churchofjesuschrist.org/study/scriptures/ot/prov/1?lang=fra"
+        consulted_on: "2026-08-31"
+        supports: [exeg-001]
+        limits: "La personnification de la Sagesse ne doit pas devenir une femme historique identifiée."
+      - id: src-prov-3
+        institution: "Église de Jésus-Christ des Saints des Derniers Jours"
+        title: "Proverbes 3"
+        url: "https://www.churchofjesuschrist.org/study/scriptures/ot/prov/3?lang=fra"
+        consulted_on: "2026-08-31"
+        supports: [exeg-002]
+        limits: "Un proverbe forme le discernement; il ne garantit pas une vie sans détour."
+      - id: src-prov-4
+        institution: "Église de Jésus-Christ des Saints des Derniers Jours"
+        title: "Proverbes 4"
+        url: "https://www.churchofjesuschrist.org/study/scriptures/ot/prov/4?lang=fra"
+        consulted_on: "2026-08-31"
+        supports: [exeg-003]
+        limits: "Le cœur est le centre figuré de la vie intérieure, pas une affirmation médicale."
+      - id: src-prov-15
+        institution: "Église de Jésus-Christ des Saints des Derniers Jours"
+        title: "Proverbes 15"
+        url: "https://www.churchofjesuschrist.org/study/scriptures/ot/prov/15?lang=fra"
+        consulted_on: "2026-08-31"
+        supports: [exeg-004]
+        limits: "La douceur n’est pas une garantie mécanique ni une injonction à rester en danger."
+      - id: src-prov-16
+        institution: "Église de Jésus-Christ des Saints des Derniers Jours"
+        title: "Proverbes 16"
+        url: "https://www.churchofjesuschrist.org/study/scriptures/ot/prov/16?lang=fra"
+        consulted_on: "2026-08-31"
+        supports: [exeg-005]
+        limits: "Le texte tient ensemble préparation humaine et direction divine; il n’abolit pas l’action humaine."
+      - id: src-prov-22
+        institution: "Église de Jésus-Christ des Saints des Derniers Jours"
+        title: "Proverbes 22"
+        url: "https://www.churchofjesuschrist.org/study/scriptures/ot/prov/22?lang=fra"
+        consulted_on: "2026-08-31"
+        supports: [exeg-006]
+        limits: "Un bon nom n’est pas une promesse de popularité."
+      - id: src-prov-31
+        institution: "Église de Jésus-Christ des Saints des Derniers Jours"
+        title: "Proverbes 31"
+        url: "https://www.churchofjesuschrist.org/study/scriptures/ot/prov/31?lang=fra"
+        consulted_on: "2026-08-31"
+        supports: [exeg-007]
+        limits: "Ne pas réduire le poème à un standard domestique ou corporel imposé aux femmes."
+      - id: src-eccl-1
+        institution: "Église de Jésus-Christ des Saints des Derniers Jours"
+        title: "Ecclésiaste 1"
+        url: "https://www.churchofjesuschrist.org/study/scriptures/ot/eccl/1?lang=fra"
+        consulted_on: "2026-08-31"
+        supports: [exeg-008]
+        limits: "Vanité traduit une image complexe; le public ne doit pas recevoir une définition lexicale trop certaine."
+      - id: src-eccl-3
+        institution: "Église de Jésus-Christ des Saints des Derniers Jours"
+        title: "Ecclésiaste 3"
+        url: "https://www.churchofjesuschrist.org/study/scriptures/ot/eccl/3?lang=fra"
+        consulted_on: "2026-08-31"
+        supports: [exeg-009]
+        limits: "La liste des temps n’approuve pas moralement chaque événement cité."
+      - id: src-eccl-12
+        institution: "Église de Jésus-Christ des Saints des Derniers Jours"
+        title: "Ecclésiaste 12"
+        url: "https://www.churchofjesuschrist.org/study/scriptures/ot/eccl/12?lang=fra"
+        consulted_on: "2026-08-31"
+        supports: [exeg-010]
+        limits: "Les images de la maison, de la corde et de la cruche restent poétiques; ne pas les décoder détail par détail comme certitude."
+      - id: src-eccl-12-en
+        institution: "The Church of Jesus Christ of Latter-day Saints"
+        title: "Ecclesiastes 12"
+        url: "https://www.churchofjesuschrist.org/study/scriptures/ot/eccl/12?lang=eng"
+        consulted_on: "2026-08-31"
+        supports: [exeg-010]
+        limits: "English versification has 14 verses; it supports the localized reference, not a separate interpretation."
+      - id: src-eccl-12-es
+        institution: "La Iglesia de Jesucristo de los Santos de los Últimos Días"
+        title: "Eclesiastés 12"
+        url: "https://www.churchofjesuschrist.org/study/scriptures/ot/eccl/12?lang=spa"
+        consulted_on: "2026-08-31"
+        supports: [exeg-010]
+        limits: "La versificación española tiene 14 versículos; sustenta la referencia localizada, no otra interpretación."
+      - id: src-eccl-12-pt
+        institution: "A Igreja de Jesus Cristo dos Santos dos Últimos Dias"
+        title: "Eclesiastes 12"
+        url: "https://www.churchofjesuschrist.org/study/scriptures/ot/eccl/12?lang=por"
+        consulted_on: "2026-08-31"
+        supports: [exeg-010]
+        limits: "A versificação portuguesa tem 14 versículos; sustenta a referência localizada, não outra interpretação."
+    claims:
+      - id: exeg-001
+        owner: expedition-exegete
+        revision: 1
+        status: active
+        source_layer: textual
+        assertion_kind: TEXTE
+        certainty: ATTESTÉ
+        statement: "Proverbes 1 personnifie la Sagesse comme une femme qui élève sa voix dans les rues et aux portes de la ville."
+        references: ["Proverbes 1:20-23"]
+        source_ids: [src-prov-1]
+        interpretive_limits: "Personnification poétique, pas biographie."
+        allowed_copy: "La sagesse crie dehors, au milieu du bruit."
+        forbidden_copy: ["Une prophétesse nommée prêche dans une ville identifiée."]
+        quiz_eligible: true
+      - id: exeg-002
+        owner: expedition-exegete
+        revision: 1
+        status: active
+        source_layer: textual
+        assertion_kind: TEXTE
+        certainty: ATTESTÉ
+        statement: "Proverbes 3:5-6 oppose la confiance entière en l’Éternel à l’appui exclusif sur sa propre intelligence et demande de le reconnaître dans ses voies."
+        references: ["Proverbes 3:5-6"]
+        source_ids: [src-prov-3]
+        interpretive_limits: "Le passage ne condamne pas la réflexion ni la préparation."
+        allowed_copy: "Fais confiance sans faire de ta propre compréhension ton seul appui."
+        forbidden_copy: ["Ne réfléchis pas.", "Dieu révélera chaque décision à l’avance."]
+        quiz_eligible: true
+      - id: exeg-003
+        owner: expedition-exegete
+        revision: 1
+        status: active
+        source_layer: textual
+        assertion_kind: TEXTE
+        certainty: ATTESTÉ
+        statement: "Proverbes 4:23-27 enchaîne la garde du cœur, la discipline de la bouche, le regard et le chemin des pieds."
+        references: ["Proverbes 4:23-27"]
+        source_ids: [src-prov-4]
+        interpretive_limits: "Image morale et poétique."
+        allowed_copy: "Garde ton cœur; regarde aussi où tes pieds te conduisent."
+        forbidden_copy: ["Une émotion mauvaise rend physiquement malade."]
+        quiz_eligible: true
+      - id: exeg-004
+        owner: expedition-exegete
+        revision: 1
+        status: active
+        source_layer: textual
+        assertion_kind: TEXTE
+        certainty: ATTESTÉ
+        statement: "Proverbes 15:1 met en parallèle la réponse douce qui détourne la fureur et la parole blessante qui excite la colère."
+        references: ["Proverbes 15:1"]
+        source_ids: [src-prov-15]
+        interpretive_limits: "Orientation de sagesse, pas résultat garanti dans chaque conflit."
+        allowed_copy: "Une parole douce peut interrompre l’escalade."
+        forbidden_copy: ["Parle doucement et toute violence cessera.", "Reste dans une situation dangereuse."]
+        quiz_eligible: true
+      - id: exeg-005
+        owner: expedition-exegete
+        revision: 1
+        status: active
+        source_layer: textual
+        assertion_kind: TEXTE
+        certainty: ATTESTÉ
+        statement: "Proverbes 16:3,9 tient ensemble les œuvres confiées à l’Éternel, les projets du cœur et la direction des pas par Dieu."
+        references: ["Proverbes 16:3", "Proverbes 16:9"]
+        source_ids: [src-prov-16]
+        interpretive_limits: "La souveraineté divine n’est pas présentée comme fatalisme."
+        allowed_copy: "Le cœur prépare un chemin; l’Éternel dirige les pas."
+        forbidden_copy: ["Tes choix ne comptent pas.", "Tout projet réussi prouve l’approbation divine."]
+        quiz_eligible: true
+      - id: exeg-006
+        owner: expedition-exegete
+        revision: 1
+        status: active
+        source_layer: textual
+        assertion_kind: TEXTE
+        certainty: ATTESTÉ
+        statement: "Proverbes 22 préfère un bon nom aux grandes richesses, rappelle que Dieu est le créateur du riche et du pauvre et loue celui qui partage son pain."
+        references: ["Proverbes 22:1-2", "Proverbes 22:9"]
+        source_ids: [src-prov-22]
+        interpretive_limits: "Ne pas identifier automatiquement richesse et faute, pauvreté et vertu."
+        allowed_copy: "Un bon nom vaut mieux que de grandes richesses; riche et pauvre ont le même Créateur; celui qui partage son pain est déclaré heureux."
+        forbidden_copy: ["Toute personne riche est méchante.", "Un bon croyant sera toujours respecté."]
+        quiz_eligible: true
+      - id: exeg-007
+        owner: expedition-exegete
+        revision: 1
+        status: active
+        source_layer: textual
+        assertion_kind: TEXTE
+        certainty: ATTESTÉ
+        statement: "Proverbes 31:8-9 demande de parler pour ceux qui ne peuvent se défendre; le poème de 31:10-31 célèbre force, travail, sagesse, bonté et main ouverte envers le pauvre."
+        references: ["Proverbes 31:8-9", "Proverbes 31:10-31"]
+        source_ids: [src-prov-31]
+        interpretive_limits: "Ne pas transformer le poème en liste de conformité imposée aux femmes."
+        allowed_copy: "La femme célébrée ouvre sa bouche avec sagesse et sa main vers les personnes dans le besoin."
+        forbidden_copy: ["Une femme vertueuse doit accomplir seule toutes ces tâches.", "Le poème décrit une femme historique connue."]
+        quiz_eligible: true
+      - id: exeg-008
+        owner: expedition-exegete
+        revision: 1
+        status: active
+        source_layer: textual
+        assertion_kind: TEXTE
+        certainty: ATTESTÉ
+        statement: "Ecclésiaste 1 fait tourner soleil, vent et rivières, puis affirme que l’œil et l’oreille ne sont pas rassasiés."
+        references: ["Ecclésiaste 1:4-9"]
+        source_ids: [src-eccl-1]
+        interpretive_limits: "La répétition cosmique sert la question du profit; ce n’est pas une leçon scientifique."
+        allowed_copy: "Tout recommence, sans rassasier le regard."
+        forbidden_copy: ["L’auteur connaissait la météorologie moderne.", "Rien n’a jamais aucun sens."]
+        quiz_eligible: true
+      - id: exeg-009
+        owner: expedition-exegete
+        revision: 1
+        status: active
+        source_layer: textual
+        assertion_kind: TEXTE
+        certainty: ATTESTÉ
+        statement: "Ecclésiaste 3 énumère des temps opposés et maintient que l’humain ne saisit pas l’œuvre de Dieu du commencement à la fin."
+        references: ["Ecclésiaste 3:1-11"]
+        source_ids: [src-eccl-3]
+        interpretive_limits: "La liste décrit l’amplitude de la vie; elle ne sanctifie pas chaque violence nommée."
+        allowed_copy: "Il y a des temps opposés, mais nous ne tenons pas toute l’histoire."
+        forbidden_copy: ["Chaque tragédie arrive au moment parfait.", "La guerre est voulue par Dieu."]
+        quiz_eligible: true
+      - id: exeg-010
+        owner: expedition-exegete
+        revision: 1
+        status: active
+        source_layer: textual
+        assertion_kind: TEXTE
+        certainty: ATTESTÉ
+        statement: "Ecclésiaste 12 demande de se souvenir du Créateur avant les jours difficiles, déroule des images de lumière qui baisse et d’objets qui se brisent, puis conclut par la crainte de Dieu et les commandements."
+        references:
+          - "Ecclésiaste 12:3-16 (versification française utilisée)"
+          - "Ecclesiastes/Eclesiastés/Eclesiastes 12:1-14 (en/es/pt-BR)"
+        source_ids: [src-eccl-12, src-eccl-12-en, src-eccl-12-es, src-eccl-12-pt]
+        interpretive_limits: "La conclusion finale parle de Qohéleth à la troisième personne; ne pas l’attribuer automatiquement à la même voix. Garder aussi l’ouverture poétique des images."
+        allowed_copy: "Souviens-toi de ton Créateur avant que la lumière baisse."
+        forbidden_copy: ["Chaque objet correspond avec certitude à un organe précis.", "La vieillesse rend la vie sans valeur."]
+        quiz_eligible: true
+      - id: exeg-011
+        owner: expedition-exegete
+        revision: 1
+        status: active
+        source_layer: canonical
+        assertion_kind: RÉCEPTION
+        certainty: ATTESTÉ
+        statement: "Le rapprochement hebdomadaire entre ces passages est une constellation éditoriale; ils ne forment ni récit continu ni voix historique unique."
+        references: ["Proverbes 1; 3–4; 15–16; 22; 31", "Ecclésiaste 1; 3; 12"]
+        source_ids: [src-cfm-37, src-prov-text, src-eccl-1, src-eccl-3, src-eccl-12]
+        interpretive_limits: "Les échos sont proposés au lecteur et ne deviennent pas une chronologie."
+        allowed_copy: "Six portes éditoriales, sans histoire inventée entre elles."
+        forbidden_copy: ["Un seul sage traverse les sept jours.", "L’Ecclésiaste est la suite narrative de Proverbes."]
+        quiz_eligible: false
+
+review:
+  structure_gate:
+    owner: expedition-director
+    revision: 1
+    status: PASS
+    verdict: PARTIAL
+    arc_strength: low
+    permitted_types: [constellation, clusters, anthology]
+    rejected_types: [historical_arc, single_hero_arc, chronological_journey]
+    accepted_connections:
+      - "Le programme 2026 autorise une mise en dialogue pédagogique entre confiance proverbiale et limites observées par l’Ecclésiaste."
+      - "Les images de voie, parole, valeur, répétition et temps offrent six expériences autonomes."
+    rejected_connections:
+      - "Un même auteur, Salomon, parle de lundi à dimanche."
+      - "Proverbes promet une réussite mécanique qu’Ecclésiaste viendrait réfuter."
+      - "Les jours reconstituent une chronologie de la sagesse israélite."
+    supporting_claim_ids: [hist-002, hist-003a, hist-003b, hist-005a, hist-005b, hist-005c, exeg-011]
+  experience_gate:
+    owner: expedition-spiritual-experience-director
+    revision: 7
+    status: PASS
+    reviewed_revision: 7
+    score: "21/21 masters"
+    verdict: "Les six expériences restent distinctes et le dimanche contemple les six scènes sans ajouter de septième enseignement."
+    objections_open: []
+  human_dramaturgy_gate:
+    owner: expedition-human-dramaturge
+    revision: 7
+    status: PASS
+    reviewed_revision: 7
+    score: "21/21 masters"
+    verdict: "Les scènes sont vécues, relationnelles et lisibles sans titre; les personnages sont magnétiques et vulnérables sans pose publicitaire."
+    objections_open: []
+  truth_gate:
+    owner: expedition-fact-checker
+    revision: 7
+    status: PASS
+    reviewed_revision: 7
+    checked_elements: 217
+    coverage: { copy: "140/140", alt_and_disclosures: "56/56", masters: "21/21" }
+    objections_resolved: [LIB-W37-TRUTH-J4-MERGED-VOICE]
+    objections_open: []
+  human_voice_gate:
+    owner: human-voice-reviewer
+    revision: 7
+    status: PASS
+    reviewed_revision: 7
+    read_aloud_performed: true
+    counts: { SAYABLE: 140, UNSAYABLE: 0 }
+  art_gate:
+    owner: expedition-art-director
+    revision: 7
+    status: PASS
+    reviewed_revision: 7
+    score: "21/21 masters natifs"
+    verdict: "Sept artworks, trois compositions natives chacun, noms bibliques, dimensions, palette et intentions inspectés."
+  attention_gate:
+    status: NOT_REQUIRED
+    reason: "Aucun trailer ni montage social demandé."
+  publish_ready:
+    owner: expedition-director
+    status: true
+    reviewed_revision: 7
+    blockers: [human_authorization]
+    scheduling_authorized: false
+    note: "Le contenu est prêt; seul un humain peut le faire passer de publish_ready à scheduled."
+
+concepts:
+  candidates:
+    - id: concept-a
+      owner: expedition-showrunner
+      revision: 1
+      structure_type: constellation
+      title: "La sagesse dans le bruit"
+      promise: "Chaque jour, une situation ordinaire fait entendre une phrase biblique que le bruit couvrait."
+      human_question: "Comment vivre avec sagesse quand la vie ne suit pas une formule ?"
+      opening_image: "Au seuil d’un lieu public bruyant, une sœur appelle son frère déjà repris par le flux; il retire son écouteur sans que l’on sache encore ce qu’elle veut lui dire."
+      opening_claim_ids: [exeg-001]
+      units: [wisdom_voice, joy_while_waiting, gentle_answer, good_name_open_hand, repeating_sun, time_and_memory]
+      echoes: ["cœur et pas", "parole et colère", "or et nom", "cycles et temps"]
+      forced_connections: []
+      payoff: "La sagesse n’offre pas le contrôle; elle apprend où placer son cœur, sa parole, sa valeur et son temps."
+      supporting_claim_ids: [exeg-001, exeg-002, exeg-003, exeg-004, exeg-005, exeg-006, exeg-007, exeg-008, exeg-009, exeg-010]
+    - id: concept-b
+      owner: expedition-showrunner
+      revision: 1
+      structure_type: clusters
+      title: "Deux livres à la même table"
+      promise: "Proverbes propose un geste; Ecclésiaste demande ce qu’il devient quand le monde résiste."
+      human_question: "La sagesse tient-elle encore quand elle ne produit pas le résultat attendu ?"
+      opening_image: "Deux livres ouverts face à face, sans duel ni vainqueur."
+      opening_claim_ids: [hist-002, exeg-011]
+      units: [trust_and_limits, words_and_grief, value_and_time]
+      echoes: ["craindre Dieu", "agir sans tout comprendre"]
+      forced_connections: []
+      payoff: "Les deux voix se rapprochent dans la confiance et l’obéissance, sans devenir identiques."
+      supporting_claim_ids: [hist-002, hist-004, exeg-002, exeg-009, exeg-010, exeg-011]
+    - id: concept-c
+      owner: expedition-showrunner
+      revision: 1
+      structure_type: dossiers
+      title: "Six choses à garder"
+      promise: "Une voix, un chemin, une réponse, un nom, un soleil et un temps deviennent six dossiers visuels."
+      human_question: "Quelle image continuera de travailler en moi demain ?"
+      opening_image: "Six objets contemporains éclairés séparément autour d’un lecteur."
+      opening_claim_ids: [exeg-011]
+      units: [voice, path, table, name, sun, clock]
+      echoes: []
+      forced_connections: []
+      payoff: "Le dimanche ne ferme rien; il demande quelle image rouvrir."
+      supporting_claim_ids: [exeg-001, exeg-002, exeg-004, exeg-006, exeg-008, exeg-009]
+  critiques:
+    - reviewer: expedition-historian
+      concept_id: concept-a
+      target_revision: 1
+      verdict: REVIEW_REQUIRED
+      strengths: ["Aucune reconstitution historique nécessaire."]
+      risks: ["Ne jamais transformer la constellation en parcours biographique de Salomon."]
+      objection_ids: []
+    - reviewer: expedition-exegete
+      concept_id: concept-b
+      target_revision: 1
+      verdict: REVIEW_REQUIRED
+      strengths: ["La friction est soutenue par la page Come Follow Me 37."]
+      risks: ["Ne pas présenter les livres comme des adversaires ni des blocs homogènes."
+      ]
+      objection_ids: []
+    - reviewer: expedition-spiritual-experience-director
+      concept_id: concept-c
+      target_revision: 1
+      verdict: REVIEW_REQUIRED
+      strengths: ["Très mémorisable visuellement."]
+      risks: ["Les objets seuls seraient plats; chaque jour doit montrer un humain qui choisit ou résiste."]
+      objection_ids: []
+  arbitration:
+    owner: expedition-director
+    status: selected_for_specialist_review
+    selected_concept_id: concept-a
+    merged_from: [concept-c]
+    decision: "Conserver la constellation humaine de A et la discipline d’un symbole mémorable par jour de C."
+    accepted_critiques:
+      - "Aucun Salomon historique à l’image ou dans la copie."
+      - "Chaque symbole est porté par une action humaine visible."
+      - "Ecclésiaste complique les attentes sans annuler Proverbes."
+    conditions:
+      - "Les six jours restent indépendants."
+      - "Le dimanche est contemplation, pas septième leçon artificielle."
+    supporting_claim_ids: [hist-002, hist-003a, hist-003b, hist-005a, hist-005b, hist-005c, exeg-011]
+
+editorial_structure:
+  owner: expedition-showrunner
+  revision: 2
+  selected_concept_id: concept-a
+  public_week_title:
+    fr: "Quand la sagesse ne contrôle pas tout"
+    es: "Cuando la sabiduría no lo controla todo"
+    en: "When wisdom cannot control everything"
+    pt-BR: "Quando a sabedoria não controla tudo"
+  navigation: fixed_calendar_free_reading
+  units:
+    - { day: 1, date: "2026-09-07", id: wisdom_voice, references: [ot/prov/1], claim_ids: [exeg-001] }
+    - { day: 2, date: "2026-09-08", id: joy_while_waiting, references: [ot/prov/3, ot/prov/16], claim_ids: [exeg-002, exeg-005] }
+    - { day: 3, date: "2026-09-09", id: gentle_answer, references: [ot/prov/4, ot/prov/15], claim_ids: [exeg-003, exeg-004] }
+    - { day: 4, date: "2026-09-10", id: good_name_open_hand, references: [ot/prov/22, ot/prov/31], claim_ids: [hist-003a, hist-003b, exeg-006, exeg-007] }
+    - { day: 5, date: "2026-09-11", id: repeating_sun, references: [ot/eccl/1], claim_ids: [hist-005a, hist-005b, hist-005c, exeg-008] }
+    - { day: 6, date: "2026-09-12", id: time_and_memory, references: [ot/eccl/3, ot/eccl/12], claim_ids: [exeg-009, exeg-010] }
+    - { day: 7, date: "2026-09-13", id: weekly_contemplation, references: [ot/prov/1, ot/prov/3, ot/prov/4, ot/prov/15, ot/prov/16, ot/prov/22, ot/prov/31, ot/eccl/1, ot/eccl/3, ot/eccl/12], claim_ids: [hist-002, exeg-001, exeg-002, exeg-003, exeg-004, exeg-005, exeg-006, exeg-007, exeg-008, exeg-009, exeg-010, exeg-011] }
+  coverage:
+    required: [ot/prov/1, ot/prov/3, ot/prov/4, ot/prov/15, ot/prov/16, ot/prov/22, ot/prov/31, ot/eccl/1, ot/eccl/3, ot/eccl/12]
+    covered: [ot/prov/1, ot/prov/3, ot/prov/4, ot/prov/15, ot/prov/16, ot/prov/22, ot/prov/31, ot/eccl/1, ot/eccl/3, ot/eccl/12]
+    missing: []
+    extras: []
+
+experience_design:
+  owner: expedition-spiritual-experience-director
+  revision: 3
+  status: approved_for_art
+  days:
+    - id: wisdom_voice
+      see: "Au seuil d’un lieu public animé, une sœur appelle son frère déjà repris par le flux; il suspend son départ et retire son écouteur tandis que les passants continuent."
+      tension: "La voix est publique et proche, mais l’écoute ne commence que lorsque quelqu’un interrompt son mouvement."
+      question: "Quelle voix réelle te demande de ralentir avant de disparaître dans le bruit ?"
+      memorable_act: "Retirer un écouteur et laisser le contenu de l’appel encore inconnu."
+      tomorrow_memory: "Un corps encore tourné vers le départ, un visage revenu vers sa sœur."
+      claim_ids: [exeg-001]
+    - id: joy_while_waiting
+      see: "Deux amis ont passé la même audition; celui qui n’a pas été choisi cesse de froisser son numéro pour prendre la main tremblante de l’autre."
+      tension: "La joie offerte à l’autre peut rester vraie sans effacer la déception ni promettre une compensation."
+      question: "Peux-tu applaudir sa joie sans nier ce que tu attends encore ?"
+      memorable_act: "Cesser de froisser ce qui rappelle l’échec pour offrir une main réellement présente."
+      tomorrow_memory: "Un numéro d’audition froissé entre deux doigts et une autre main accueillie."
+      claim_ids: [exeg-002, exeg-005]
+    - id: gentle_answer
+      see: "Une mère découvre la voiture familiale abîmée; son doigt accusateur s’ouvre en main posée et tire une chaise pour sa fille restée au seuil avec les clés."
+      tension: "La faute et la colère demeurent; le prochain geste peut toutefois éviter une blessure supplémentaire."
+      question: "Que veux-tu laisser sortir quand la colère entre ?"
+      memorable_act: "Ouvrir la main qui allait pointer, sans sourire ni résoudre trop vite."
+      tomorrow_memory: "Une chaise tirée dans une pièce où rien n’est encore réglé."
+      claim_ids: [exeg-003, exeg-004]
+    - id: good_name_open_hand
+      see: "Une bénévole reconnaît son ancienne professeure dans une épicerie solidaire; elle retire son tablier, contourne le comptoir et partage le pain à côté d’elle."
+      tension: "Un besoin matériel peut être reçu sans réduire une personne à ce besoin ni transformer l’aide en domination."
+      question: "Qu’est-ce qu’une main révèle qu’un compte ne dira jamais ?"
+      memorable_act: "Quitter le côté du comptoir qui sépare et s’asseoir à hauteur égale."
+      tomorrow_memory: "Deux femmes élégantes de part et d’autre d’un pain ouvert entre elles."
+      claim_ids: [hist-003a, hist-003b, exeg-006, exeg-007]
+    - id: repeating_sun
+      see: "Après une répétition réussie, une danseuse quitte déjà l’étreinte du groupe, relance la caméra et reprend le premier mouvement; le bras de son amie reste suspendu."
+      tension: "Quelque chose vient de réussir sans pouvoir être habité avant que le cycle recommence."
+      question: "Pourquoi tant de mouvement peut-il sembler ne mener nulle part ?"
+      memorable_act: "Voir le premier mouvement recommencer alors que les autres attendaient encore un regard."
+      tomorrow_memory: "Un bras tendu vers quelqu’un qui regarde déjà la prise suivante."
+      claim_ids: [hist-005a, hist-005b, hist-005c, exeg-008]
+    - id: time_and_memory
+      see: "Un père âgé répare un vêtement et tend un second outil; sa fille venue cinq minutes pose téléphone et clés hors de portée puis rapproche le tabouret."
+      tension: "Une présence longtemps reportée peut encore être choisie sans réduire l’âge à la fragilité ni annoncer l’avenir."
+      question: "Qu’est-ce que tu ne veux plus remettre à plus tard ?"
+      memorable_act: "Mettre ce qui presse hors de portée et placer ses mains à côté de celles qui transmettent."
+      tomorrow_memory: "Deux tabourets rapprochés pendant que le téléphone vibre ailleurs."
+      claim_ids: [exeg-009, exeg-010]
+    - id: weekly_contemplation
+      see: "Une personne soulève l’une des six reproductions de même format; les cinq autres restent ouvertes, visibles et égales."
+      tension: "Une image peut compter davantage aujourd’hui sans devenir un classement, un résumé ou une morale finale."
+      question: "Quelle image veux-tu emporter ?"
+      memorable_act: "Retenir une image sans retourner, couvrir ni diminuer les cinq autres."
+      tomorrow_memory: "Une reproduction légèrement soulevée, cinq encore disponibles."
+      claim_ids: [hist-002, exeg-001, exeg-002, exeg-003, exeg-004, exeg-005, exeg-006, exeg-007, exeg-008, exeg-009, exeg-010, exeg-011]
+
+human_dramaturgy:
+  owner: expedition-human-dramaturge
+  revision: 2
+  status: proposed_for_experience_and_truth_review
+  casting_rule: "Personnages beaux, charismatiques et désirables par leur présence, leur style et la relation qu’on veut habiter; jamais sexualisés, plastiques, publicitaires ni privés de vulnérabilité."
+  scenes:
+    - unit_id: wisdom_voice
+      references: [ot/prov/1]
+      claim_ids: [exeg-001]
+      truth_to_inhabit: "Au milieu d’un seuil public bruyant, entendre commence lorsque celui qui part interrompt son mouvement pour la voix qui l’appelle."
+      people:
+        - { role: sœur aînée, wants: "être entendue avant que son frère ne disparaisse dans le flux", lacks: "son attention à cet instant", does: "l’appelle clairement depuis le seuil", hides_or_resists: "l’impulsion de le poursuivre ou de le retenir physiquement" }
+        - { role: jeune frère, wants: "continuer son départ avec le mouvement des autres", lacks: "un instant d’écoute réelle", does: "avance avec un écouteur déjà en place", hides_or_resists: "l’impulsion de continuer sans se retourner" }
+      relationship: "Frère et sœur reconnaissables par leur familiarité immédiate, séparés de quelques pas par un courant de personnes qui entrent et sortent."
+      contradictory_emotions: [élan_du_départ_et_attention_naissante, insistance_et_respect_de_la_distance]
+      observable_moment: "Au seuil d’un lieu public animé, elle l’appelle alors qu’il a déjà rejoint les passants; sa main, qui allait remettre l’écouteur, s’immobilise et il le retire entièrement."
+      decisive_gesture_or_look: "Son corps reste orienté vers le départ, mais son visage revient vers elle; elle demeure au seuil et soutient simplement son regard."
+      silence_or_distance: "Deux ou trois pas et plusieurs passants restent entre eux; le bruit continue et aucun dialogue ultérieur n’est montré."
+      subtext_without_scripture: "Quelqu’un qui part vient de choisir d’entendre la personne qui l’appelle."
+      first_literal_idea_rejected: "Une femme anonyme personnifiant la Sagesse prêche seule au milieu d’un carrefour."
+      stock_image_risk: "Publicité pour écouteurs, retrouvailles fraternelles parfaites ou campagne civique sur l’attention."
+      magnetic_human_presence: "Deux adultes beaux et soignés, avec des styles distincts et une familiarité visible dans le regard; leur magnétisme vient du presque-départ et de l’attention retrouvée, jamais d’une pose."
+      forbidden_visual_shortcuts: [street_preacher, metaphorical_crossroads, megaphone, raised_moralizing_finger, halo_or_providential_beam, frozen_crowd, explained_message, danger_cue, hug_or_reconciliation, guaranteed_outcome, advertising_pose]
+      handoff_to_art: "Conserver exactement l’instant suspendu: elle appelle, il cesse d’avancer et retire l’écouteur, les autres continuent de passer; ne rien révéler du contenu, de la conversation suivante ou de son issue."
+
+    - unit_id: joy_while_waiting
+      references: [ot/prov/3, ot/prov/16]
+      claim_ids: [exeg-002, exeg-005]
+      truth_to_inhabit: "Ne pas contrôler son propre résultat n’empêche ni la confiance ni la joie offerte à l’autre."
+      people:
+        - { role: danseur choisi, wants: "accueillir enfin le rôle obtenu", lacks: "le calme après l’annonce", does: "laisse ses proches le célébrer", hides_or_resists: "sa main tremble encore" }
+        - { role: ami non choisi, wants: "le même rôle et la relation intacte", lacks: "la victoire espérée", does: "applaudit puis vient serrer la main de son ami", hides_or_resists: "sa déception vive derrière un sourire sincère" }
+      relationship: "Deux amis proches qui ont passé la même audition de danse."
+      contradictory_emotions: [fierté_et_déception, joie_et_manque, confiance_sans_garantie]
+      observable_moment: "L’ami non choisi cesse de froisser son numéro d’audition pour prendre la main tremblante du danseur choisi."
+      decisive_gesture_or_look: "Sourire tourné vers l’ami, yeux légèrement humides, papier froissé encore visible entre deux doigts."
+      silence_or_distance: "Un seul pas de retrait, jamais une exclusion du groupe."
+      subtext_without_scripture: "Il ne nie ni la joie de l’autre ni sa propre peine et choisit la relation."
+      first_literal_idea_rejected: "Un voyageur devant deux routes avec une carte."
+      stock_image_risk: "Groupe uniformément euphorique autour d’une victoire vague."
+      magnetic_human_presence: "Deux danseurs athlétiques, expressifs et élégants; l’attraction vient de leur complicité vulnérable."
+      forbidden_visual_shortcuts: [fork, map, trophy, luxury, providential_beam, luminous_path, jealousy_caricature]
+      handoff_to_art: "Faire lire simultanément le papier froissé, la main qui cesse de le froisser et le contact avec l’ami."
+
+    - unit_id: gentle_answer
+      references: [ot/prov/4, ot/prov/15]
+      claim_ids: [exeg-003, exeg-004]
+      truth_to_inhabit: "La faute reste réelle; une parole retenue peut empêcher la blessure suivante sans garantir la réconciliation."
+      people:
+        - { role: mère, wants: "vérité et responsabilité", lacks: "la certitude de pouvoir parler sans blesser", does: "voit la portière abîmée, commence à pointer puis s’arrête", hides_or_resists: "l’amour encore présent sous sa colère" }
+        - { role: fille adulte, wants: "être reçue malgré sa faute", lacks: "le courage de soutenir le regard", does: "reste dans l’encadrement avec les clés", hides_or_resists: "sa honte derrière une posture prête à encaisser" }
+      relationship: "Une mère et sa fille adulte devant la voiture familiale endommagée."
+      contradictory_emotions: [colère_et_amour_retenu, honte_et_espoir_fragile]
+      observable_moment: "La mère pose sa main ouverte sur la table et tire une chaise sans sourire; la fille relève les yeux."
+      decisive_gesture_or_look: "Le doigt qui allait accuser s’ouvre en main posée; les clés restent dans la main de la fille."
+      silence_or_distance: "Une chaise vide devient une invitation concrète avant toute parole."
+      subtext_without_scripture: "La blessure n’a pas disparu, mais la prochaine parole ne sera pas une arme."
+      first_literal_idea_rejected: "Un couple générique pose un téléphone sous une lampe chaude."
+      stock_image_risk: "Conflit familial déjà résolu par un sourire ou un câlin."
+      magnetic_human_presence: "Deux femmes soignées et expressives dont la ressemblance et la tension rendent la relation désirable malgré la faute."
+      forbidden_visual_shortcuts: [phone_prop, theatrical_shouting, instant_hug, resolved_conflict, unsafe_submission]
+      handoff_to_art: "Montrer la portière, les clés, la main ouverte et la chaise dans un même instant non résolu."
+
+    - unit_id: good_name_open_hand
+      references: [ot/prov/22, ot/prov/31]
+      claim_ids: [hist-003a, hist-003b, exeg-006, exeg-007]
+      truth_to_inhabit: "Le besoin matériel n’efface ni l’histoire, ni l’égalité, ni la valeur d’une personne."
+      people:
+        - { role: ancienne élève bénévole, wants: "aider sans dominer", lacks: "une manière de contourner l’humiliation", does: "retire badge et tablier puis contourne le comptoir", hides_or_resists: "son émotion de reconnaître son ancienne professeure" }
+        - { role: ancienne professeure, wants: "recevoir de quoi manger sans être réduite à son besoin", lacks: "la sécurité matérielle", does: "commence à rendre le sac", hides_or_resists: "sa gêne derrière une élégance intacte" }
+      relationship: "Une ancienne élève reconnaît son ancienne professeure dans une épicerie solidaire en fermeture."
+      contradictory_emotions: [gêne_et_fierté, reconnaissance_et_tendresse]
+      observable_moment: "La bénévole s’assied à côté d’elle et ouvre le pain entre elles au lieu de lui présenter le sac."
+      decisive_gesture_or_look: "Après une hésitation, la professeure soutient enfin son regard."
+      silence_or_distance: "Le comptoir cesse de les séparer."
+      subtext_without_scripture: "L’aide devient une rencontre entre égales plutôt qu’une scène de sauvetage."
+      first_literal_idea_rejected: "Deux inconnues sourient en se passant un sac devant une caméra."
+      stock_image_risk: "Charité corporate avec sauveur et bénéficiaire."
+      magnetic_human_presence: "Deux femmes élégantes et charismatiques, belles dans leur histoire partagée et leur dignité, jamais dans la mise en scène du manque."
+      forbidden_visual_shortcuts: [bag_handoff_pose, savior_pose, coin_rebus, badge_rebus, poverty_costume, branded_charity]
+      handoff_to_art: "Faire du contournement du comptoir, du pain partagé et du regard retrouvé le centre émotionnel."
+
+    - unit_id: repeating_sun
+      references: [ot/eccl/1]
+      claim_ids: [hist-005a, hist-005b, hist-005c, exeg-008]
+      truth_to_inhabit: "Quelque chose peut réussir sans rassasier celui qui relance déjà le cycle."
+      people:
+        - { role: danseuse principale, wants: "atteindre enfin la prise parfaite", lacks: "la capacité d’habiter la réussite présente", does: "sort du cercle, relance la caméra et reprend le premier mouvement", hides_or_resists: "son insatisfaction derrière l’exigence" }
+        - { role: meilleure amie et partenaire, wants: "partager la réussite et la ramener au groupe", lacks: "un regard rendu par son amie", does: "tend les bras puis reste suspendue", hides_or_resists: "son inquiétude derrière l’admiration" }
+      relationship: "Une troupe de danse après une répétition objectivement réussie."
+      contradictory_emotions: [fierté_et_insatisfaction, admiration_et_inquiétude]
+      observable_moment: "Tous s’approchent pour l’embrasser; elle regarde l’écran, relance l’enregistrement et reprend."
+      decisive_gesture_or_look: "Le bras de son amie reste dans le vide tandis que la danseuse se détourne des visages."
+      silence_or_distance: "Une distance d’un pas ouvre déjà un nouveau cycle."
+      subtext_without_scripture: "La réussite vient d’avoir lieu, mais elle ne peut pas l’habiter avant de recommencer."
+      first_literal_idea_rejected: "Une personne seule regarde le soleil se lever sur un fleuve."
+      stock_image_risk: "Silhouette contemplative devant horizon ou clip de danse victorieux sans manque."
+      magnetic_human_presence: "Troupe athlétique et stylée; la danseuse magnétique reste belle dans l’effort et lisiblement vulnérable."
+      forbidden_visual_shortcuts: [horizon, sunrise, river, wind_cycle, time_loop, lonely_silhouette]
+      handoff_to_art: "La caméra relancée, le premier mouvement repris et le bras suspendu de l’amie doivent raconter la scène sans texte."
+
+    - unit_id: time_and_memory
+      references: [ot/eccl/3, ot/eccl/12]
+      claim_ids: [exeg-009, exeg-010]
+      truth_to_inhabit: "Une présence longtemps reportée peut encore être choisie maintenant, sans réduire l’âge au déclin."
+      people:
+        - { role: père âgé, wants: "transmettre un geste familial", lacks: "la certitude d’une prochaine occasion", does: "répare un vêtement à la machine puis tend le second outil", hides_or_resists: "son urgence pour ne pas culpabiliser sa fille" }
+        - { role: fille adulte, wants: "tenir son agenda et ne pas regretter", lacks: "du temps qu’elle croit pouvoir toujours remettre", does: "arrive manteau, clés et téléphone en main", hides_or_resists: "son pressentiment du regret derrière l’impatience" }
+      relationship: "Un père actif transmet son savoir-faire à sa fille venue seulement cinq minutes."
+      contradictory_emotions: [affection_et_urgence, impatience_et_pressentiment]
+      observable_moment: "Elle pose téléphone et clés hors de portée, rapproche le second tabouret et place ses mains à côté des siennes."
+      decisive_gesture_or_look: "Le second outil reste tendu jusqu’à ce qu’elle s’assoie."
+      silence_or_distance: "Le téléphone vibre encore, désormais hors de portée."
+      subtext_without_scripture: "Elle décide que cette présence ne sera pas encore reportée; l’aîné reste sujet et transmetteur."
+      first_literal_idea_rejected: "Une personne âgée allume une lampe au crépuscule devant un agenda."
+      stock_image_risk: "Vieillesse fragile, album souvenir ou coucher de soleil mélancolique."
+      magnetic_human_presence: "Père élégant, actif et assuré; fille adulte sophistiquée dont l’attention retrouvée rend leur lien désirable."
+      forbidden_visual_shortcuts: [lamp_at_dusk, calendar, clock, photo_album, frail_elder, broken_body, sunset]
+      handoff_to_art: "Cadrer la transmission par les mains et les outils, avec les clés et le téléphone volontairement écartés."
+
+    - unit_id: weekly_contemplation
+      references: [ot/prov/1, ot/prov/3, ot/prov/4, ot/prov/15, ot/prov/16, ot/prov/22, ot/prov/31, ot/eccl/1, ot/eccl/3, ot/eccl/12]
+      claim_ids: [hist-002, exeg-001, exeg-002, exeg-003, exeg-004, exeg-005, exeg-006, exeg-007, exeg-008, exeg-009, exeg-010, exeg-011]
+      truth_to_inhabit: "Contempler consiste ici à retenir une image qui continue de travailler en soi sans fermer, classer ni résoudre les cinq autres."
+      people:
+        - { role: personne ayant traversé les six découvertes, wants: "emporter une image précise avec elle", lacks: "une réponse capable de résumer toute la semaine", does: "soulève une seule des six reproductions", hides_or_resists: "l’envie de transformer son choix en classement ou en conclusion" }
+      relationship: "Une personne face aux six scènes déjà vécues; son geste exprime une proximité particulière avec l’une d’elles, sans désavouer les autres."
+      contradictory_emotions: [reconnaissance_et_hésitation, attachement_et_non_clôture]
+      observable_moment: "Six reproductions de même format sont ouvertes et entièrement visibles; la personne glisse une main sous l’une d’elles et la soulève, tandis que les cinq autres restent face visible, espacées de manière égale et intactes."
+      decisive_gesture_or_look: "Son regard demeure sur l’image choisie; sa main libre ne rassemble, ne retourne et ne couvre aucune des cinq autres."
+      silence_or_distance: "Aucun second geste, aucune annotation et aucune réaction de révélation; le choix reste calme et les cinq images non retenues demeurent disponibles."
+      subtext_without_scripture: "Cette image compte davantage pour elle aujourd’hui, mais elle ne prétend ni résumer ni refermer les autres."
+      first_literal_idea_rejected: "Un lecteur solitaire devant six fenêtres symboliques."
+      stock_image_risk: "Vision board de développement personnel, journaling d’influenceur, cartes inspirantes classées ou révélation spirituelle publicitaire."
+      magnetic_human_presence: "Visage pleinement visible, style personnel soigné et concentration expressive; la présence est attirante par son attention silencieuse, sans mélancolie solitaire, perfection plastique ni pose de méditation."
+      forbidden_visual_shortcuts: [six_windows, symbolic_collage, constellation, ranked_images, timeline, glowing_chosen_image, dimmed_unselected_images, five_closed_images, seventh_symbol, caption_or_label, moral_revelation, resolved_smile, hands_only, solitary_horizon, wellness_advertising]
+      handoff_to_art: "Le sens repose exclusivement sur ce rapport visible: une reproduction retenue, cinq encore ouvertes et égales; ne créer aucun nouvel événement, aucune morale, aucun dénouement et aucun signe distinguant la bonne image."
+
+library_editorial:
+  owner: expedition-director
+  revision: 7
+  required_locales: [fr, es, en, pt-BR]
+  timezone: Europe/Madrid
+  starts_on: "2026-09-07"
+  ends_on: "2026-09-13"
+  composition: { discoveries: 6, contemplations: 1, total_days: 7 }
+  workflow:
+    owner: expedition-director
+    status: publish_ready
+    schedule_file: config/study/library_daily_editorials/2026-09-07-prov1-3-4-15-16-22-31-eccl1-3-12.yml
+    schedule_file_state: publish_ready
+    database_state: not_authorized
+    screen_state: hidden_until_scheduled_and_local_date
+    file_presence_authorizes_nothing: true
+    human_authorization_required_for: scheduled
+    activate_at: "2026-09-07T00:00:00+02:00"
+    authorized_by:
+    authorized_on:
+    prepared_at: "2026-09-01"
+    publish_ready_at: "2026-09-01"
+    activation_rule: exact_scheduled_on_in_declared_timezone
+  plan:
+    owner: expedition-showrunner
+    revision: 3
+    status: approved_for_art
+    rule: "Six découvertes distinctes puis une contemplation, sur sept dates locales consécutives; aucun pack_id sans expédition."
+    days:
+      - { day_id: wisdom-2026-09-07-day-1-prov1, scheduled_on: "2026-09-07", kind: discovery, unit_id: wisdom_voice, references: [ot/prov/1], claim_ids: [exeg-001] }
+      - { day_id: wisdom-2026-09-07-day-2-prov3-prov16, scheduled_on: "2026-09-08", kind: discovery, unit_id: joy_while_waiting, references: [ot/prov/3, ot/prov/16], claim_ids: [exeg-002, exeg-005] }
+      - { day_id: wisdom-2026-09-07-day-3-prov4-prov15, scheduled_on: "2026-09-09", kind: discovery, unit_id: gentle_answer, references: [ot/prov/4, ot/prov/15], claim_ids: [exeg-003, exeg-004] }
+      - { day_id: wisdom-2026-09-07-day-4-prov22-prov31, scheduled_on: "2026-09-10", kind: discovery, unit_id: good_name_open_hand, references: [ot/prov/22, ot/prov/31], claim_ids: [hist-003a, hist-003b, exeg-006, exeg-007] }
+      - { day_id: wisdom-2026-09-07-day-5-eccl1, scheduled_on: "2026-09-11", kind: discovery, unit_id: repeating_sun, references: [ot/eccl/1], claim_ids: [hist-005a, hist-005b, hist-005c, exeg-008] }
+      - { day_id: wisdom-2026-09-07-day-6-eccl3-eccl12, scheduled_on: "2026-09-12", kind: discovery, unit_id: time_and_memory, references: [ot/eccl/3, ot/eccl/12], claim_ids: [exeg-009, exeg-010] }
+      - { day_id: wisdom-2026-09-07-day-7-selected-chapters, scheduled_on: "2026-09-13", kind: contemplation, unit_id: weekly_contemplation, references: [ot/prov/1, ot/prov/3, ot/prov/4, ot/prov/15, ot/prov/16, ot/prov/22, ot/prov/31, ot/eccl/1, ot/eccl/3, ot/eccl/12], claim_ids: [hist-002, exeg-001, exeg-002, exeg-003, exeg-004, exeg-005, exeg-006, exeg-007, exeg-008, exeg-009, exeg-010, exeg-011] }
+  days:
+    - { id: wisdom-2026-09-07-day-1-prov1, experience_ref: experience_design.days.wisdom_voice, human_scene_ref: human_dramaturgy.scenes.wisdom_voice, copy_ref: daily_discoveries.wisdom-2026-09-07-day-1-prov1, artwork_ref: visual_language.daily_artworks.wisdom_voice }
+    - { id: wisdom-2026-09-07-day-2-prov3-prov16, experience_ref: experience_design.days.joy_while_waiting, human_scene_ref: human_dramaturgy.scenes.joy_while_waiting, copy_ref: daily_discoveries.wisdom-2026-09-07-day-2-prov3-prov16, artwork_ref: visual_language.daily_artworks.joy_while_waiting }
+    - { id: wisdom-2026-09-07-day-3-prov4-prov15, experience_ref: experience_design.days.gentle_answer, human_scene_ref: human_dramaturgy.scenes.gentle_answer, copy_ref: daily_discoveries.wisdom-2026-09-07-day-3-prov4-prov15, artwork_ref: visual_language.daily_artworks.gentle_answer }
+    - { id: wisdom-2026-09-07-day-4-prov22-prov31, experience_ref: experience_design.days.good_name_open_hand, human_scene_ref: human_dramaturgy.scenes.good_name_open_hand, copy_ref: daily_discoveries.wisdom-2026-09-07-day-4-prov22-prov31, artwork_ref: visual_language.daily_artworks.good_name_open_hand }
+    - { id: wisdom-2026-09-07-day-5-eccl1, experience_ref: experience_design.days.repeating_sun, human_scene_ref: human_dramaturgy.scenes.repeating_sun, copy_ref: daily_discoveries.wisdom-2026-09-07-day-5-eccl1, artwork_ref: visual_language.daily_artworks.repeating_sun }
+    - { id: wisdom-2026-09-07-day-6-eccl3-eccl12, experience_ref: experience_design.days.time_and_memory, human_scene_ref: human_dramaturgy.scenes.time_and_memory, copy_ref: daily_discoveries.wisdom-2026-09-07-day-6-eccl3-eccl12, artwork_ref: visual_language.daily_artworks.time_and_memory }
+    - { id: wisdom-2026-09-07-day-7-selected-chapters, experience_ref: experience_design.days.weekly_contemplation, human_scene_ref: human_dramaturgy.scenes.weekly_contemplation, copy_ref: daily_discoveries.wisdom-2026-09-07-day-7-selected-chapters, artwork_ref: visual_language.daily_artworks.weekly_contemplation }
+  expected_discoveries_digest: dfa2777492d41a3ae578c17d0936d51a6ebf8d07f01ef849ccd94b685278f71b
+  expected_artwork_digest: c4dbfd0a728abbd77f240d491c576fa2dad5691f36f1e4199e7234522154ef30
+
+public_story:
+  owner: expedition-incarnate-writer
+  revision: 4
+  status: approved
+  canonical_copy_path: config/study/library_daily_editorials/2026-09-07-prov1-3-4-15-16-22-31-eccl1-3-12.yml
+  speaking_register: "Une personne qui vient de remarquer quelque chose dans le texte et le partage à un ami."
+  forbidden_terms: [constellation, tension éditoriale, structure gate, corpus, Qohéleth historique]
+  language_review_required: [fr, es, en, pt-BR]
+
+visual_language:
+  owner: expedition-art-director
+  revision: 3
+  status: approved
+  library_identity: "Conserver le bleu profond de la Bibliothèque; laisser chaque artwork décider Celestial Light ou Dark, avec une signature or locale."
+  common_prompt:
+    render: "Premium cinematic editorial illustration for Noche Live, painterly realism, an emotionally legible contemporary relationship and decisive human gesture, deep navy and restrained gold signature, flattering but honest light, layered depth, generous negative space for localized Library copy, no text inside the image."
+    casting: "Beautiful, charismatic and desirable adults through magnetic presence, personal style, expressive faces, living bodies and precise vulnerability; never sexualized, plastically perfected, airbrushed or posed like interchangeable advertising talent."
+    safety: "No literal illustration of a word or biblical metaphor, no historical reconstruction, no portrait of Solomon or Qoheleth, no identifiable sacred figure, no logos, no readable writing, no infographic, no UI, no providential beam, no poverty spectacle and no prosperity symbolism."
+    responsive_contract:
+      mobile: "9:16 master, subject in lower-right or lower-center, calm negative space in upper-left."
+      tablet: "4:5 master, prove the same decisive human behavior independently, negative space left."
+      landscape: "16:9 master, subject on right third, story environment across frame, copy-safe left half."
+  daily_artworks:
+    - id: wisdom_voice
+      artwork_key: scripture.library.daily.prov1.wisdom-cries
+      references: [ot/prov/1]
+      light_family: celestial_dark
+      filenames:
+        mobile: media/masters/media/study/library/daily/prov1-public-threshold-listening-portrait-v2.png
+        tablet: media/masters/media/study/library/daily/prov1-public-threshold-listening-tablet-v2.png
+        landscape: media/masters/media/study/library/daily/prov1-public-threshold-listening-landscape-v2.png
+      exact_prompt: "At the busy threshold of a stylish contemporary public venue, an adult sister calls to her younger adult brother already moving away with the crowd. She stays in place. His body remains oriented toward departure, but he stops, fully removes one earbud and turns his face back to meet her gaze while everyone else continues walking. Show only the choice to hear, never the content or outcome."
+      forbidden: [street_preacher, crossroads, megaphone, raised_moralizing_finger, halo, providential_beam, earbuds_advertisement, frozen_crowd, hug, resolved_outcome]
+      alt_fact: "Au seuil d’un lieu public bruyant, une sœur appelle son frère qui repart; il retire un écouteur et se retourne tandis que les passants continuent."
+      disclosure_fact: "Scène contemporaine inventée pour évoquer Proverbes 1; le frère et la sœur ne sont pas des personnages bibliques et le contenu de leur échange reste inconnu."
+      claim_ids: [exeg-001]
+    - id: joy_while_waiting
+      artwork_key: scripture.library.daily.prov3-prov16.joy-while-waiting
+      references: [ot/prov/3, ot/prov/16]
+      light_family: celestial_dark
+      filenames:
+        mobile: media/masters/media/study/library/daily/prov3-16-audition-friends-portrait-v2.png
+        tablet: media/masters/media/study/library/daily/prov3-16-audition-friends-tablet-v2.png
+        landscape: media/masters/media/study/library/daily/prov3-16-audition-friends-landscape-v2.png
+      exact_prompt: "After a contemporary dance audition, one dancer is being celebrated because he was selected. His closest friend wanted the same role and was not selected. The nonselected friend stops crumpling a blank audition slip and clasps the selected dancer’s trembling hand, the wrinkled paper still visible between two fingers; his sincere wet-eyed smile holds pride and disappointment together. Suggest no later compensation or success."
+      forbidden: [trophy, money, luxury, prosperity_proof, divine_beam, magic_path, guaranteed_future_victory, jealousy_caricature, uniform_euphoria, isolated_loser]
+      alt_fact: "Après une audition, le danseur non retenu cesse de froisser son numéro et prend la main tremblante de son ami choisi, les yeux humides mais le sourire sincère."
+      disclosure_fact: "Scène contemporaine inventée pour Proverbes 3 et 16; elle ne prouve aucune faveur divine et ne promet ni rôle ni réussite future au danseur non retenu."
+      claim_ids: [exeg-002, exeg-005]
+    - id: gentle_answer
+      artwork_key: scripture.library.daily.prov4-prov15.gentle-answer
+      references: [ot/prov/4, ot/prov/15]
+      light_family: celestial_dark
+      filenames:
+        mobile: media/masters/media/study/library/daily/prov4-15-chair-before-words-portrait-v3.png
+        tablet: media/masters/media/study/library/daily/prov4-15-chair-before-words-tablet-v3.png
+        landscape: media/masters/media/study/library/daily/prov4-15-chair-before-words-landscape-v3.png
+      exact_prompt: "Beside the visibly dented door of a family car, an adult daughter stands in the garage entry holding the keys, ashamed and braced for accusation. Her mother stops the pointing gesture she was beginning: one hand opens and rests on a small table while the other pulls out an empty chair. The mother does not smile; the daughter cautiously raises her eyes. The fault remains and no reconciliation is guaranteed."
+      forbidden: [phone_prop, shouting_caricature, instant_hug, resolved_smile, unsafe_submission, punishment, glowing_doorway]
+      alt_fact: "Une portière abîmée reste visible derrière une mère qui interrompt son geste accusateur, pose la main ouverte et tire une chaise; sa fille adulte tient les clés et relève les yeux."
+      disclosure_fact: "Scène contemporaine inventée pour Proverbes 4 et 15; la chaise offerte ne garantit pas une réconciliation et ne demande à personne de rester en danger."
+      claim_ids: [exeg-003, exeg-004]
+    - id: good_name_open_hand
+      artwork_key: scripture.library.daily.prov22-prov31.open-hand
+      references: [ot/prov/22, ot/prov/31]
+      light_family: celestial_dark
+      filenames:
+        mobile: media/masters/media/study/library/daily/prov22-31-bread-between-equals-portrait-v2.png
+        tablet: media/masters/media/study/library/daily/prov22-31-bread-between-equals-tablet-v2.png
+        landscape: media/masters/media/study/library/daily/prov22-31-bread-between-equals-landscape-v2.png
+      exact_prompt: "Inside a dignified contemporary community pantry, a volunteer recognizes her elegant former teacher. She removes her blank badge and apron, walks around the counter and sits beside her at exactly equal height. They open one simple loaf of bread together as the former teacher, who had begun to return a grocery bag, finally meets her former student’s eyes."
+      forbidden: [poverty_stereotype, savior_pose, bag_handoff, corporate_charity, visible_brand, named_biblical_woman]
+      alt_fact: "Dans une épicerie solidaire, une bénévole a retiré badge et tablier pour s’asseoir auprès de son ancienne professeure; elles ouvrent le pain entre elles et se regardent."
+      disclosure_fact: "Scène contemporaine inventée pour Proverbes 22 et 31; ces femmes ne sont pas des personnages bibliques et leur situation matérielle ne vient pas du texte."
+      claim_ids: [hist-003a, hist-003b, exeg-006, exeg-007]
+    - id: repeating_sun
+      artwork_key: scripture.library.daily.eccl1.repeating-sun
+      references: [ot/eccl/1]
+      light_family: celestial_dark
+      filenames:
+        mobile: media/masters/media/study/library/daily/eccl1-one-more-take-portrait-v2.png
+        tablet: media/masters/media/study/library/daily/eccl1-one-more-take-tablet-v2.png
+        landscape: media/masters/media/study/library/daily/eccl1-one-more-take-landscape-v2.png
+      exact_prompt: "The instant after a successful dance rehearsal, a magnetic lead dancer slips out of the troupe’s approaching celebration, taps restart on a phone camera mounted to a small tripod and returns to the exact first dance position. One step behind, her best friend still holds both arms open for the embrace that never arrived, admiration and concern visible as the group moves in."
+      forbidden: [sunrise, river, horizon, literal_time_loop, portrait_of_solomon, despair_cliche, victory_advertisement]
+      alt_fact: "Après une répétition, la danseuse principale relance la caméra tandis que la troupe vient la féliciter; son amie garde les bras ouverts et elle reprend déjà le premier mouvement."
+      disclosure_fact: "Scène contemporaine inventée pour Ecclésiaste 1; la danseuse ne représente pas l’auteur du livre et son comportement n’est pas un diagnostic psychologique."
+      claim_ids: [hist-005a, hist-005b, hist-005c, exeg-008]
+    - id: time_and_memory
+      artwork_key: scripture.library.daily.eccl3-eccl12.time-and-memory
+      references: [ot/eccl/3, ot/eccl/12]
+      light_family: celestial_dark
+      filenames:
+        mobile: media/masters/media/study/library/daily/eccl3-12-learning-now-portrait-v2.png
+        tablet: media/masters/media/study/library/daily/eccl3-12-learning-now-tablet-v2.png
+        landscape: media/masters/media/study/library/daily/eccl3-12-learning-now-landscape-v2.png
+      exact_prompt: "In a contemporary tailoring workroom, an elegant active older father teaches his adult daughter at a sewing machine and quietly holds out a second tool. She has pulled a stool beside him and placed her hands next to his to learn. Her phone lies face-down beside a distinct keyring on a small table near the doorway, unmistakably separated from her by empty floor but secondary to the faces and hands."
+      forbidden: [frail_elder_stereotype, funeral, broken_body_metaphor, calendar, clock, photo_album, sunset, regret_melodrama]
+      alt_fact: "Un père âgé, actif et élégant, travaille à une machine à coudre et tend un second outil; sa fille pose téléphone et clés hors de portée, rapproche un tabouret et place ses mains près des siennes."
+      disclosure_fact: "Scène contemporaine inventée pour Ecclésiaste 3 et 12; elle n’établit ni déclin ni pronostic et ne décode pas littéralement les images du chapitre 12."
+      claim_ids: [exeg-009, exeg-010]
+    - id: weekly_contemplation
+      artwork_key: scripture.library.daily.prov1-3-4-15-16-22-31-eccl1-3-12.weekly-contemplation
+      references: [ot/prov/1, ot/prov/3, ot/prov/4, ot/prov/15, ot/prov/16, ot/prov/22, ot/prov/31, ot/eccl/1, ot/eccl/3, ot/eccl/12]
+      light_family: celestial_dark
+      filenames:
+        mobile: media/masters/media/study/library/daily/prov1-3-4-15-16-22-31-eccl1-3-12-six-scenes-remembered-portrait-v5.png
+        tablet: media/masters/media/study/library/daily/prov1-3-4-15-16-22-31-eccl1-3-12-six-scenes-remembered-tablet-v5.png
+        landscape: media/masters/media/study/library/daily/prov1-3-4-15-16-22-31-eccl1-3-12-six-scenes-remembered-landscape-v5.png
+      exact_prompt: "Rebuild the Library-table contemplation, but replace its six generic print images one-for-one with faithful, immediately recognizable miniature reproductions of the six weekly scenes. Split them into exactly six separate physical prints; never place a contact sheet inside one print. One beautiful, charismatic contemporary adult with a fully visible expressive face sits at a refined deep-navy Library table. Exactly six physical art prints are present, all identical landscape dimensions, all face-up, all equally illuminated and equally important. Exactly five remain flat, fully visible and evenly spaced. The person slides one hand under only the near edge of the sixth print and lifts that edge no more than fifteen degrees; the entire sixth artwork remains visible. Every print retains its decisive signature: siblings at a warm public threshold with one earbud removed; two dancers clasping hands after an audition with the crumpled number visible; mother and adult daughter beside a damaged car with a chair and keys; former student and former teacher seated as equals around shared bread; lead dancer restarting the tripod camera while her friend keeps an embrace open; active silver-haired father extending a tailoring tool to his daughter at the sewing machine. Premium cinematic editorial painterly realism, natural faces and paper texture, Noche Live deep navy with restrained antique gold. No duplicated or missing scene, no extra print or loose paper, no chosen-image glow, dimmed print, hierarchy, ranking, order marker, label, caption, writing, timeline, constellation, collage wall, vision board, scrapbook, aura, halo, seventh symbol, UI, logo or watermark."
+      forbidden: [six_windows, symbolic_collage, constellation, ranked_images, timeline, glowing_chosen_image, dimmed_unselected_images, seventh_symbol, caption, moral_revelation, wellness_advertising]
+      alt_fact: "Une personne soulève une des six scènes relationnelles déjà vues cette semaine; les cinq autres restent ouvertes, visibles et éclairées de façon égale."
+      disclosure_fact: "Geste éditorial contemporain; le choix n’ajoute aucun événement aux textes, ne classe pas les cinq autres images et ne crée ni dénouement ni récit historique unique."
+      claim_ids: [hist-002, exeg-001, exeg-002, exeg-003, exeg-004, exeg-005, exeg-006, exeg-007, exeg-008, exeg-009, exeg-010, exeg-011]
+  generation_inventory:
+    expected_masters: 21
+    present_masters: 21
+    art_gate_rule: "Les 21 masters ont été inspectés en dimensions natives; le PASS final reste lié à la révision complète du dossier."
+
+safety_accessibility:
+  no_scored_private_response: true
+  no_streak: true
+  no_audio_required: true
+  reduced_motion_safe: true
+  alt_locales_required: [fr, es, en, pt-BR]
+  disclosures_locales_required: [fr, es, en, pt-BR]
+  public_without_login: true
+  fallback_if_not_published: "La Bibliothèque ne doit ni anticiper cette semaine, ni recycler une découverte d’une autre date."
