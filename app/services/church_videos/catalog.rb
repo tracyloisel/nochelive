@@ -117,7 +117,8 @@ module ChurchVideos
       result = fetch_catalog
       @cache.write(page_key, result, expires_in: PAGE_TTL)
       result
-    rescue StandardError
+    rescue StandardError => error
+      Rails.logger.warn("ChurchVideos::Catalog unavailable: #{error.class}: #{error.message.to_s.gsub(@api_key, '[FILTERED]')}")
       @cache.write(miss_key, true, expires_in: MISS_TTL)
       failure(:unavailable)
     end
