@@ -77,6 +77,16 @@ class Navigation::DockComponentTest < ViewComponent::TestCase
     assert_includes hud_contract, "padding-inline: max(clamp(0.9rem, 3vw, 2.25rem), env(safe-area-inset-left));"
     assert_equal 1, css.scan(/^[^{\n]*\.home-menu\.is-hud\s*\{/).size
 
+    hud_seam_contract = css[/^\.home-menu\.is-hud::before \{[^}]+\}/m]
+    assert_includes hud_seam_contract, "inset: 0;"
+    assert_includes hud_seam_contract, "box-shadow: inset 0 -1px 0"
+    assert_includes css, ".home-menu.is-hud.is-compact::before { opacity: 0; }"
+
+    hud_button_contract = css.scan(/^\.home-menu\.is-hud > \.home-menu-btn\.quiet-link \{[^}]+\}/m)
+      .find { |contract| contract.include?("position: absolute;") }
+    assert_includes hud_button_contract, "calc(clamp(0.9rem, 3vw, 2.25rem) + 0.4rem)"
+    assert_includes css, "body > .home-menu.is-hud > .home-menu-btn.quiet-link"
+
     compact_contract = css[/^\.home-menu\.is-hud\.is-compact \{[^}]+\}/m]
     assert_includes compact_contract, "left: max(var(--hud-floating-inset), env(safe-area-inset-left));"
     assert_includes compact_contract, "right: max(var(--hud-floating-inset), env(safe-area-inset-right));"

@@ -116,6 +116,13 @@ class ArchitectureContractTest < ActiveSupport::TestCase
     assert_operator compressed, :<=, 8.kilobytes, "global Stimulus adapters exceed their transition budget"
   end
 
+  test "contextual reader waits for its stylesheet before mounting the Turbo Frame" do
+    launcher = Rails.root.join("app/javascript/controllers/scripture_launcher_controller.js").read
+
+    assert_match(/async prepare\(event\)[\s\S]*event\.preventDefault\(\)[\s\S]*await this\.ensureStylesheet\(\)[\s\S]*frameTarget\.setAttribute\("src", this\.pendingUrl\)/, launcher)
+    assert_match(/async retry\(event\)[\s\S]*await this\.ensureStylesheet\(\)/, launcher)
+  end
+
   test "CSS is partitioned into a small shell and bounded route surfaces" do
     root = Rails.root.join("app/assets/stylesheets")
     shell = root.join("application.css")

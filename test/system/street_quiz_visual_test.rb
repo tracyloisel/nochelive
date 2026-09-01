@@ -1935,6 +1935,8 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
         var button = document.querySelector(".home-menu.is-hud > .home-menu-btn");
         if (!hud || !stats || !slot || !button) return null;
         var icon = button.querySelector(".home-menu-icon .picto");
+        var buttonStyle = getComputedStyle(button);
+        var menu = hud.closest(".home-menu");
         var h = hud.getBoundingClientRect();
         var p = pack && pack.getBoundingClientRect();
         var s = stats.getBoundingClientRect();
@@ -1946,7 +1948,12 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
           buttonWidth: b.width,
           buttonHeight: b.height,
           iconWidth: icon ? icon.getBoundingClientRect().width : 0,
-          statsGap: b.left - s.right
+          statsGap: b.left - s.right,
+          buttonRightInset: h.right - b.right,
+          buttonBackground: buttonStyle.backgroundColor,
+          buttonShadow: buttonStyle.boxShadow,
+          hudShadow: getComputedStyle(hud).boxShadow,
+          seamShadow: getComputedStyle(menu, "::before").boxShadow
         };
       })()
     JS
@@ -1956,6 +1963,11 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
     assert_operator geometry["buttonHeight"], :>=, 44, "hamburger must expose a 44px touch target"
     assert_operator geometry["iconWidth"], :>=, 30, "hamburger glyph should read clearly inside its touch target"
     assert_operator geometry["statsGap"], :>=, 4, "hamburger should not crowd the streak counter"
+    assert_operator geometry["buttonRightInset"], :>=, 0, "hamburger must stay inside the HUD material"
+    assert_equal "rgba(0, 0, 0, 0)", geometry["buttonBackground"], "hamburger must belong to the HUD instead of restoring the detached white disc"
+    assert_equal "none", geometry["buttonShadow"], "hamburger must not cast a detached-card shadow inside the HUD"
+    assert_equal "none", geometry["hudShadow"], "the inset HUD content must not draw a partial-width seam"
+    refute_equal "none", geometry["seamShadow"], "the full-width HUD shell must own the continuous lower hairline"
   end
 
   def assert_hub_league_on_cta

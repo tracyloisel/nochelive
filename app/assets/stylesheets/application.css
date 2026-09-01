@@ -1942,6 +1942,16 @@ a.quiz-hud-who {
     right 300ms var(--ease-out),
     padding 300ms var(--ease-out);
 }
+.home-menu.is-hud::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: transparent;
+  box-shadow: inset 0 -1px 0 color-mix(in srgb, var(--gold-primary, var(--gold)) 26%, transparent);
+  opacity: 1;
+  transition: opacity 220ms ease;
+}
 .home-menu.is-hud .quiz-hud {
   width: 100%;
   min-height: 4.15rem;
@@ -1949,7 +1959,7 @@ a.quiz-hud-who {
   border-color: transparent;
   border-radius: 0;
   background: transparent;
-  box-shadow: inset 0 -1px 0 color-mix(in srgb, var(--gold-primary, var(--gold)) 26%, transparent);
+  box-shadow: none;
   -webkit-backdrop-filter: none;
   backdrop-filter: none;
   pointer-events: auto;
@@ -1978,7 +1988,7 @@ a.quiz-hud-who {
   height: clamp(2rem, 3vw, 2.35rem);
   object-fit: contain;
 }
-.home-menu.is-hud[data-hud-theme="celestial-dark"] .quiz-hud {
+.home-menu.is-hud[data-hud-theme="celestial-dark"]::before {
   background:
     radial-gradient(circle at 10% 4%, color-mix(in srgb, var(--gold-primary) 7%, transparent), transparent 36%),
     linear-gradient(180deg, color-mix(in srgb, var(--surface-secondary) 28%, transparent), transparent 94%);
@@ -1989,6 +1999,7 @@ a.quiz-hud-who {
   right: max(var(--hud-floating-inset), env(safe-area-inset-right));
   padding-inline: 0;
 }
+.home-menu.is-hud.is-compact::before { opacity: 0; }
 .home-menu.is-hud.is-compact .quiz-hud {
   min-height: 3.25rem;
   padding: 0.25rem 0.35rem;
@@ -2011,7 +2022,10 @@ a.quiz-hud-who {
 .home-menu.is-hud > .home-menu-btn.quiet-link {
   position: absolute;
   top: 50%;
-  right: 0.4rem;
+  right: max(
+    calc(clamp(0.9rem, 3vw, 2.25rem) + 0.4rem),
+    calc(env(safe-area-inset-right) + 0.4rem)
+  );
   width: 2.75rem;
   height: 2.75rem;
   min-height: 2.75rem;
@@ -2023,7 +2037,18 @@ a.quiz-hud-who {
   backdrop-filter: none;
   border-radius: 0.55rem;
 }
-.home-menu.is-hud > .home-menu-btn .picto {
+/* Street pages otherwise restore the detached white mobile button with a
+   more specific selector. The HUD owns this control while it is present. */
+body > .home-menu.is-hud > .home-menu-btn.quiet-link {
+  border-color: transparent;
+  border-radius: 0.55rem;
+  background: transparent;
+  box-shadow: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+.home-menu.is-hud.is-compact > .home-menu-btn.quiet-link { right: 0.4rem; }
+body > .home-menu.is-hud > .home-menu-btn .picto {
   width: 2rem;
   height: 2rem;
   color: var(--quiz-text, var(--ink));
@@ -2037,6 +2062,7 @@ body.is-paper-hall:has(.home-menu.is-hud) .home-paper {
 }
 @media (prefers-reduced-motion: reduce) {
   .home-menu.is-hud,
+  .home-menu.is-hud::before,
   .home-menu.is-hud .quiz-hud,
   .home-menu.is-hud .quiz-hud::before,
   .home-menu.is-hud.is-compact .quiz-hud-xp {

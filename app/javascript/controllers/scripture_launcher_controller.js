@@ -30,14 +30,19 @@ export default class extends Controller {
     this.unlock()
   }
 
-  prepare(event) {
+  async prepare(event) {
     this.pendingReadingLink = event?.currentTarget?.closest("a[href], [data-scripture-reading-link]")
     this.returnFocusTarget = this.pendingReadingLink || document.activeElement
     this.pendingUrl = event?.currentTarget?.href || this.pendingReadingLink?.href || this.pendingUrl
+    const opensContextualReader = this.pendingReadingLink?.dataset.turboFrame === this.frameTarget.id
+    if (opensContextualReader && this.hasStylesheetValue) event.preventDefault()
     this.cancelled = false
     this.setLoadingChapter(this.chapterTitleFor(this.pendingReadingLink || event?.currentTarget))
-    this.ensureStylesheet()
     this.loadingSequence = this.loadingDirector.start()
+    const stylesheet = await this.ensureStylesheet()
+    if (!opensContextualReader || this.cancelled) return
+    if (!stylesheet || !this.pendingUrl) return this.loadingDirector.fail(this.loadingSequence)
+    this.frameTarget.setAttribute("src", this.pendingUrl)
   }
 
   async ensureStylesheet() {
@@ -68,11 +73,13 @@ export default class extends Controller {
     this.loadingDirector.fail(this.loadingSequence)
   }
 
-  retry(event) {
+  async retry(event) {
     event?.preventDefault()
     this.cancelled = false
-    this.ensureStylesheet()
     this.loadingSequence = this.loadingDirector.start()
+    const stylesheet = await this.ensureStylesheet()
+    if (this.cancelled) return
+    if (this.hasStylesheetValue && !stylesheet) return this.loadingDirector.fail(this.loadingSequence)
 
     if (typeof this.frameTarget.reload === "function" && this.frameTarget.src) {
       this.frameTarget.reload()
