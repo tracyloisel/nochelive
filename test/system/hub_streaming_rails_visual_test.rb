@@ -22,8 +22,16 @@ class HubStreamingRailsVisualTest < ApplicationSystemTestCase
     seed_recent_gain!
     seed_circle_activity!
     seed_published_event!
+    ChurchVideos::Catalog.forced_result = video_highlights_catalog
+    thumbnail = Rails.root.join("media/masters/media/church/videos/celestial-video-sanctuary-v1.webp").binread
+    ChurchVideos::Thumbnail.forced_response = ChurchVideos::Thumbnail::Image.new(body: thumbnail, content_type: "image/webp")
     sign_in_fixture_person_direct!(@person)
     page.driver.browser.manage.add_cookie(name: Locale::COOKIE.to_s, value: "fr", path: "/")
+  end
+
+  teardown do
+    ChurchVideos::Catalog.forced_result = nil
+    ChurchVideos::Thumbnail.forced_response = nil
   end
 
   test "an active player sees one Hero then Today expedition Rama and artwork rails in both themes" do
@@ -38,7 +46,11 @@ class HubStreamingRailsVisualTest < ApplicationSystemTestCase
         assert_selector "#street_world[data-hub-theme='#{theme}']"
         assert_member_editorial_contract!
         assert_editorial_geometry!(width:, height:)
+        assert_today_readability!(width:) if [ 390, 1440 ].include?(width)
+        assert_mobile_hero_controls! if width == 390
         assert_rail_geometry!(width:)
+        assert_rama_tile_readability! if [ 390, 1440 ].include?(width) && page.has_css?(".hub-rama-carousel")
+        assert_watch_rail_geometry!(width:) if [ 390, 1440 ].include?(width)
         assert_navigation_affordance!(width:, height:)
         assert_first_viewport_invitation!(height:) if [ [ 390, 844 ], [ 1440, 900 ] ].include?([ width, height ])
         assert_long_hero_copy_does_not_collide!(theme:, width:, height:) if [ 390, 1440 ].include?(width)
@@ -58,6 +70,27 @@ class HubStreamingRailsVisualTest < ApplicationSystemTestCase
 
         logs = severe_browser_logs
         assert_empty logs, "Hub console errors at #{theme} #{width}x#{height}: #{logs.inspect}"
+      end
+    end
+  ensure
+    Hubs::Backdrop.reset!
+  end
+
+  test "a scheduled Rama Live keeps its chip title and artwork labels readable" do
+    game_sessions(:david).update_columns(status: "finished", closed_at: Time.current)
+    game_sessions(:elias).update_columns(status: "lobby", starts_at: 5.days.from_now, closed_at: nil)
+
+    theme_worlds.each do |_theme, world|
+      Hubs::Backdrop.entries = [ world ]
+
+      [ [ 390, 844 ], [ 1440, 900 ] ].each do |width, height|
+        set_system_viewport(width, height)
+        visit root_path
+
+        assert_selector ".hub-rama-carousel .hub-rama-presence__track > .hub-rama-card--live:first-child"
+        assert_rama_tile_readability!
+        logs = severe_browser_logs
+        assert_empty logs, "Rama rail console errors at #{width}x#{height}: #{logs.inspect}"
       end
     end
   ensure
@@ -362,6 +395,20 @@ class HubStreamingRailsVisualTest < ApplicationSystemTestCase
       )
     end
 
+    def video_highlights_catalog
+      videos = 6.times.map do |index|
+        ChurchVideos::Catalog::Video.new(
+          id: format("video%06d", index),
+          title: "Une histoire officielle #{index + 1}",
+          description: "",
+          published_at: Time.utc(2026, 8, 20 - index, 12, 30),
+          duration_seconds: 183 + index,
+          made_for_kids: false
+        )
+      end
+      ChurchVideos::Catalog::Result.new(videos:, error: nil)
+    end
+
     def sign_in_fixture_person_direct!(person)
       session = ActionDispatch::Integration::Session.new(Rails.application)
       session.post enter_ward_path, params: { code: person.ward.code }
@@ -502,6 +549,11 @@ class HubStreamingRailsVisualTest < ApplicationSystemTestCase
       assert_operator geometry.dig("today", "top"), :>=, geometry.dig("hero", "bottom") - 1, geometry.inspect
       assert_operator geometry.dig("expedition", "top"), :>, geometry.dig("today", "bottom"), geometry.inspect
       assert_operator geometry.dig("rama", "top"), :>=, geometry.dig("expedition", "bottom") + 20, geometry.inspect
+      if [ [ 390, 844 ], [ 1440, 900 ] ].include?([ width, height ])
+        assert_in_delta 0, geometry.dig("hero", "left"), 1, geometry.inspect
+        assert_in_delta width, geometry.dig("hero", "right"), 1, geometry.inspect
+        assert_in_delta width, geometry.dig("hero", "width"), 2, geometry.inspect
+      end
       assert_equal 1, page.all(".hub-hero .hub-play").size
       assert_no_selector ".hub-voyage-nav, .hub-dot"
     end
@@ -543,6 +595,203 @@ class HubStreamingRailsVisualTest < ApplicationSystemTestCase
         assert_operator second.fetch("left"), :<, width - 16, rail.inspect
         assert_operator second.fetch("right"), :>, width + 24, rail.inspect
       end
+    end
+
+    def assert_today_readability!(width:)
+      geometry = page.evaluate_script(<<~JS)
+        (function() {
+          var today = document.querySelector('.hub-today');
+          var story = today.querySelector('.hub-today__story');
+          var copy = today.querySelector('.hub-today__copy');
+          var dailyText = Array.from(copy.querySelectorAll('.hub-today__setup, .hub-today__body, em'))
+            .filter(function(node) { return getComputedStyle(node).display !== 'none'; })
+            .map(function(node) { return parseFloat(getComputedStyle(node).fontSize); });
+          return {
+            kind: today.dataset.todayKind,
+            storyHeight: story.getBoundingClientRect().height,
+            copyHeight: copy.getBoundingClientRect().height,
+            copyClientHeight: copy.clientHeight,
+            copyScrollHeight: copy.scrollHeight,
+            dailyTextMinimum: dailyText.length ? Math.min.apply(Math, dailyText) : null
+          };
+        })()
+      JS
+
+      assert_operator geometry.fetch("storyHeight"), :>=, 360, { width:, geometry: }.inspect
+      assert_operator geometry.fetch("copyHeight"), :>=, 360, { width:, geometry: }.inspect
+      assert_operator geometry.fetch("copyScrollHeight"), :<=, geometry.fetch("copyClientHeight") + 1, { width:, geometry: }.inspect
+      if geometry.fetch("kind") == "daily_discovery"
+        assert_operator geometry.fetch("dailyTextMinimum"), :>=, 17, { width:, geometry: }.inspect
+      end
+    end
+
+    def assert_mobile_hero_controls!
+      geometry = page.evaluate_script(<<~JS)
+        (function() {
+          var play = document.querySelector('.hub-hero .hub-play');
+          var playBox = play.getBoundingClientRect();
+          var playStyle = getComputedStyle(play);
+          var emblem = document.querySelector('.hub-hero-progress__emblem');
+          var emblemBox = emblem.getBoundingClientRect();
+          var emblemStyle = getComputedStyle(emblem);
+          var iconBox = emblem.querySelector('svg').getBoundingClientRect();
+          var rail = document.querySelector('.hub-hero-progress__rail');
+          var railBox = rail.getBoundingClientRect();
+          var railStyle = getComputedStyle(rail);
+          return {
+            playHeight: playBox.height,
+            playRadius: parseFloat(playStyle.borderTopLeftRadius),
+            emblemWidth: emblemBox.width,
+            emblemHeight: emblemBox.height,
+            emblemBorder: parseFloat(emblemStyle.borderTopWidth),
+            emblemRadius: parseFloat(emblemStyle.borderTopLeftRadius),
+            emblemIconDeltaX: Math.abs((emblemBox.left + emblemBox.width / 2) - (iconBox.left + iconBox.width / 2)),
+            emblemIconDeltaY: Math.abs((emblemBox.top + emblemBox.height / 2) - (iconBox.top + iconBox.height / 2)),
+            railDisplay: railStyle.display,
+            railWidth: railBox.width,
+            railHeight: railBox.height
+          };
+        })()
+      JS
+
+      assert_includes 10.0..16.0, geometry.fetch("playRadius"), geometry.inspect
+      assert_operator geometry.fetch("playRadius"), :<, geometry.fetch("playHeight") / 3.0, geometry.inspect
+      assert_operator geometry.fetch("emblemWidth"), :>=, 44, geometry.inspect
+      assert_in_delta geometry.fetch("emblemWidth"), geometry.fetch("emblemHeight"), 1, geometry.inspect
+      assert_operator geometry.fetch("emblemBorder"), :>=, 2, geometry.inspect
+      assert_operator geometry.fetch("emblemRadius"), :>=, geometry.fetch("emblemWidth") / 2.0 - 1, geometry.inspect
+      assert_operator geometry.fetch("emblemIconDeltaX"), :<=, 1, geometry.inspect
+      assert_operator geometry.fetch("emblemIconDeltaY"), :<=, 1, geometry.inspect
+      assert_equal "block", geometry.fetch("railDisplay"), geometry.inspect
+      assert_operator geometry.fetch("railWidth"), :>, 80, geometry.inspect
+      assert_operator geometry.fetch("railHeight"), :>=, 6, geometry.inspect
+    end
+
+    def assert_watch_rail_geometry!(width:)
+      page.execute_script(<<~JS)
+        document.querySelector('turbo-frame#hub_watch_rail').scrollIntoView({ block: 'center', behavior: 'auto' });
+      JS
+      assert_selector "turbo-frame#hub_watch_rail .hub-watch-rail"
+      geometry = page.evaluate_script(<<~JS)
+        (function() {
+          var explore = document.querySelector('.hub-explore-rail').getBoundingClientRect();
+          var frame = document.querySelector('turbo-frame#hub_watch_rail').getBoundingClientRect();
+          var overlay = document.querySelector('.hub-watch-rail .hub-content-card__play');
+          var overlayBox = overlay.getBoundingClientRect();
+          var overlayStyle = getComputedStyle(overlay);
+          var transparentPlate = [ 'transparent', 'rgba(0, 0, 0, 0)' ].includes(overlayStyle.backgroundColor);
+          var icon = overlay.querySelector('.picto-play');
+          var circle = icon && icon.querySelector('circle');
+          var triangle = icon && icon.querySelector('path');
+          var contrast = function(first, second) {
+            var channels = function(value) {
+              var match = String(value).match(/[\\d.]+/g);
+              if (!match || match.length < 3) return null;
+              return match.slice(0, 3).map(function(channel) {
+                var normalized = Number(channel) / 255;
+                return normalized <= 0.04045 ? normalized / 12.92 : Math.pow((normalized + 0.055) / 1.055, 2.4);
+              });
+            };
+            var a = channels(first);
+            var b = channels(second);
+            if (!a || !b) return null;
+            var luminance = function(rgb) { return 0.2126 * rgb[0] + 0.7152 * rgb[1] + 0.0722 * rgb[2]; };
+            var light = Math.max(luminance(a), luminance(b));
+            var dark = Math.min(luminance(a), luminance(b));
+            return (light + 0.05) / (dark + 0.05);
+          };
+          var circleFill = circle && getComputedStyle(circle).fill;
+          var triangleFill = triangle && getComputedStyle(triangle).fill;
+          return {
+            gap: frame.top - explore.bottom,
+            exploreLeft: explore.left,
+            exploreWidth: explore.width,
+            frameLeft: frame.left,
+            frameWidth: frame.width,
+            overlayWidth: overlayBox.width,
+            overlayHeight: overlayBox.height,
+            overlayHasPlate: !transparentPlate || overlayStyle.backgroundImage !== 'none',
+            iconPresent: !!icon,
+            circleFill: circleFill,
+            triangleFill: triangleFill,
+            iconContrast: contrast(circleFill, triangleFill)
+          };
+        })()
+      JS
+
+      assert_operator geometry.fetch("gap"), :>=, 40, { width:, geometry: }.inspect
+      assert_in_delta geometry.fetch("exploreLeft"), geometry.fetch("frameLeft"), 1, geometry.inspect
+      assert_in_delta geometry.fetch("exploreWidth"), geometry.fetch("frameWidth"), 2, geometry.inspect
+      assert_operator geometry.fetch("overlayWidth"), :>=, 44, geometry.inspect
+      assert_operator geometry.fetch("overlayHeight"), :>=, 44, geometry.inspect
+      assert geometry.fetch("overlayHasPlate"), geometry.inspect
+      assert geometry.fetch("iconPresent"), geometry.inspect
+      refute_equal geometry.fetch("circleFill"), geometry.fetch("triangleFill"), geometry.inspect
+      assert_operator geometry.fetch("iconContrast"), :>=, 3.0, geometry.inspect
+    end
+
+    def assert_rama_tile_readability!
+      geometry = page.evaluate_script(<<~JS)
+        (function() {
+          var carousel = document.querySelector('.hub-rama-carousel');
+          var track = carousel.querySelector('.hub-rama-presence__track');
+          var liveCard = track.querySelector('.hub-rama-card--live');
+          var within = function(inner, outer) {
+            var item = inner.getBoundingClientRect();
+            var container = outer.getBoundingClientRect();
+            return item.left >= container.left - 1 &&
+              item.right <= container.right + 1 &&
+              item.top >= container.top - 1 &&
+              item.bottom <= container.bottom + 1;
+          };
+          var hasPlate = function(node) {
+            var style = getComputedStyle(node);
+            var transparent = [ 'transparent', 'rgba(0, 0, 0, 0)' ].includes(style.backgroundColor);
+            return !transparent || style.backgroundImage !== 'none';
+          };
+          var hiddenBadges = Array.from(carousel.querySelectorAll('.hub-live-badge[hidden]'));
+          var eventKickers = Array.from(carousel.querySelectorAll('.hub-rama-event__kicker'));
+          var eventMetas = Array.from(carousel.querySelectorAll('.hub-rama-event__meta'));
+          var eventTitles = Array.from(carousel.querySelectorAll('.hub-rama-event strong'));
+          var live = null;
+          if (liveCard) {
+            var header = liveCard.querySelector('.hub-live-head');
+            var kicker = liveCard.querySelector('.hub-live-head .hub-kicker');
+            var title = liveCard.querySelector('.hub-live-special');
+            live = {
+              isFirstCard: track.firstElementChild === liveCard,
+              headerPresent: !!header,
+              kickerPresent: !!kicker,
+              headerWithinCard: !!header && within(header, liveCard),
+              kickerWithinCard: !!kicker && within(kicker, liveCard),
+              titleClamp: title && getComputedStyle(title).webkitLineClamp
+            };
+          }
+          return {
+            live: live,
+            hiddenBadgesAreHidden: hiddenBadges.every(function(badge) { return getComputedStyle(badge).display === 'none'; }),
+            kickerCount: eventKickers.length,
+            kickersHavePlate: eventKickers.every(hasPlate),
+            metaCount: eventMetas.length,
+            metasHavePlate: eventMetas.every(hasPlate),
+            titleCount: eventTitles.length,
+            titlesHaveShadow: eventTitles.every(function(title) { return getComputedStyle(title).textShadow !== 'none'; })
+          };
+        })()
+      JS
+
+      if geometry.fetch("live")
+        assert geometry.dig("live", "isFirstCard"), geometry.inspect
+        assert geometry.dig("live", "headerPresent"), geometry.inspect
+        assert geometry.dig("live", "kickerPresent"), geometry.inspect
+        assert geometry.dig("live", "headerWithinCard"), geometry.inspect
+        assert geometry.dig("live", "kickerWithinCard"), geometry.inspect
+        assert_equal "2", geometry.dig("live", "titleClamp"), geometry.inspect
+      end
+      assert geometry.fetch("hiddenBadgesAreHidden"), geometry.inspect
+      assert geometry.fetch("kickersHavePlate"), geometry.inspect if geometry.fetch("kickerCount").positive?
+      assert geometry.fetch("metasHavePlate"), geometry.inspect if geometry.fetch("metaCount").positive?
+      assert geometry.fetch("titlesHaveShadow"), geometry.inspect if geometry.fetch("titleCount").positive?
     end
 
     def assert_first_viewport_invitation!(height:)

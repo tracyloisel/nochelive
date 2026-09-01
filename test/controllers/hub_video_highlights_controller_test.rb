@@ -50,6 +50,9 @@ class HubVideoHighlightsControllerTest < ActionDispatch::IntegrationTest
       assert_select "img[src=?][loading='lazy'][decoding='async'][width='320'][height='180']",
         church_video_thumbnail_path("video000000"),
         count: 1
+      assert_select ".hub-content-card__play .picto-play", count: 6
+      assert_select ".hub-content-card__play .picto-play circle", count: 6
+      assert_select ".hub-content-card__play .picto-play path", count: 6
       assert_select ".hub-content-card__duration", text: "3:03", count: 6
       assert_select "time[datetime='2026-08-20T12:30:00Z']", count: 6
     end
@@ -68,6 +71,7 @@ class HubVideoHighlightsControllerTest < ActionDispatch::IntegrationTest
       assert_select "turbo-frame#hub_watch_rail", count: 1 do
         assert_select "section", count: 0
         assert_select ".hub-content-card", count: 0
+        assert_select ".hub-content-card__play, .hub-content-rail__head", count: 0
       end
     end
   end
