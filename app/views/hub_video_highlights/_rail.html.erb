@@ -1,0 +1,44 @@
+<section class="hub-content-rail hub-watch-rail" aria-labelledby="hub-watch-rail-title">
+  <header class="hub-content-rail__head">
+    <div>
+      <p class="hub-content-rail__kicker"><%= t("hub.rails.watch_official") %></p>
+      <h2 id="hub-watch-rail-title"><%= t("hub.rails.watch") %></h2>
+    </div>
+    <%= link_to t("hub.rails.see_all"),
+          church_videos_path(locale: I18n.locale),
+          class: "hub-content-rail__all",
+          data: { turbo_frame: "_top" } %>
+  </header>
+
+  <div class="hub-content-rail__track" role="list">
+    <% videos.each do |video| %>
+      <% anchor = "video-#{video.id}" %>
+      <article class="hub-content-card hub-content-card--video" role="listitem">
+        <%= link_to church_videos_path(locale: I18n.locale, anchor:),
+              class: "hub-content-card__link",
+              aria: { label: t("church_videos.watch", title: video.title) },
+              data: { turbo_frame: "_top" } do %>
+          <span class="hub-content-card__art">
+            <%= tag.img src: church_video_thumbnail_path(video.id),
+                  alt: "",
+                  width: 320,
+                  height: 180,
+                  loading: "lazy",
+                  decoding: "async" %>
+            <span class="hub-content-card__play" aria-hidden="true"><%= picto("play") %></span>
+            <% if video.duration_seconds.to_i.positive? %>
+              <span class="hub-content-card__duration"><%= church_video_duration(video.duration_seconds) %></span>
+            <% end %>
+          </span>
+          <span class="hub-content-card__copy">
+            <small><%= t("hub.rails.watch_official") %></small>
+            <strong><%= video.title %></strong>
+            <% if video.published_at %>
+              <time datetime="<%= video.published_at.iso8601 %>"><%= video.published_at.strftime(t("church_videos.date_format")) %></time>
+            <% end %>
+          </span>
+        <% end %>
+      </article>
+    <% end %>
+  </div>
+</section>

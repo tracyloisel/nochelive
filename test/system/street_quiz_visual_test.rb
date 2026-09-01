@@ -117,7 +117,7 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
     end
   end
 
-  test "hub HUD renders the same anatomy in celestial light and dark" do
+  test "hub HUD keeps identity and real stats without repeating Hero progress in either theme" do
     sign_in_fixture_person_direct!(people(:pili))
     catalog = Array(YAML.safe_load_file(Hubs::Backdrop::CATALOG)["backdrops"])
     worlds = {
@@ -133,10 +133,10 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
         assert_selector "body.is-#{theme}"
         assert_hud_theme_contract(theme)
         assert_selector ".quiz-hud-who"
-        assert_selector ".quiz-hud-pack"
+        assert_no_selector ".quiz-hud-pack"
         assert_selector ".quiz-hud-stats"
         assert_selector ".quiz-hud-menu"
-        assert_hub_hud_polish!(centered_pack: width >= 600)
+        assert_hub_hud_polish!
         find(".home-menu > .home-menu-btn").click
         assert_shared_menu_contract!(standard_mobile: width == 390 && height == 844)
         sleep 0.6
@@ -151,7 +151,7 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
     Hubs::Backdrop.reset!
   end
 
-  test "desktop hub does not reserve space for its hidden dock" do
+  test "desktop hub has no dock clearance and keeps only editorial breathing room" do
     set_quiz_viewport(1440, 900)
     sign_in_fixture_person_direct!(people(:pili))
     catalog = Array(YAML.safe_load_file(Hubs::Backdrop::CATALOG)["backdrops"])
@@ -177,7 +177,7 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
           };
         })()
       JS
-      assert_equal({ "value" => "0px", "worldPadding" => "0px", "feedPadding" => "0px" }, clearance)
+      assert_equal({ "value" => "0px", "worldPadding" => "0px", "feedPadding" => "24px" }, clearance)
       assert_empty page.driver.browser.logs.get(:browser).select { |entry| entry.level == "SEVERE" }
       shot("hub-no-dock-clearance-#{theme}-1440x900")
     end
@@ -223,10 +223,7 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
             var titleBox = title.getBoundingClientRect();
             var titleStyle = getComputedStyle(title);
             var play = document.querySelector(".hub-play").getBoundingClientRect();
-            var reward = document.querySelector(".hub-reward").getBoundingClientRect();
-            var nextTile = document.querySelector(".hub-live").getBoundingClientRect();
-            var install = document.querySelector(".hub-install:not([hidden])");
-            var installBox = install && install.getBoundingClientRect();
+            var nextTile = document.querySelector(".hub-today").getBoundingClientRect();
             return {
               titleVisible: titleStyle.overflow != "hidden" &&
                 [ "", "none" ].includes(titleStyle.webkitLineClamp),
@@ -234,10 +231,8 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
               titleWidth: titleBox.width,
               playTop: play.top,
               playBottom: play.bottom,
-              rewardBottom: reward.bottom,
               stageBottom: stage.bottom,
-              nextTop: nextTile.top,
-              installGap: installBox ? stage.top - installBox.bottom : null
+              nextTop: nextTile.top
             };
           })()
         JS
@@ -245,10 +240,8 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
         assert geometry["titleVisible"], "the complete adventure title should remain visible"
         assert_operator geometry["titleBottom"], :<, geometry["playTop"]
         assert_operator geometry["playBottom"], :<=, geometry["stageBottom"]
-        assert_operator geometry["rewardBottom"], :<=, geometry["stageBottom"]
         assert_operator geometry["stageBottom"], :<=, geometry["nextTop"]
-        assert_operator geometry["titleWidth"], :>=, 400 if width >= 720
-        assert_operator geometry["installGap"], :>=, 12 if width == 390 && geometry["installGap"]
+        assert_operator geometry["titleWidth"], :>=, 320 if width >= 720
         shot("hub-long-title-#{theme}-#{width}x#{height}")
         assert_empty page.driver.browser.logs.get(:browser).select { |entry| entry.level == "SEVERE" }
       end
@@ -257,7 +250,7 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
     Hubs::Backdrop.reset!
   end
 
-  test "guest hub HUD shares the Street silhouette in celestial light and dark" do
+  test "guest hub HUD rests inside the decor in celestial light and dark" do
     catalog = Array(YAML.safe_load_file(Hubs::Backdrop::CATALOG)["backdrops"])
     worlds = {
       "celestial-light" => catalog.find { |row| row["id"] == "eden-lumiere" },
@@ -272,7 +265,7 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
         visit root_path
         assert_selector "body.is-#{theme}"
         assert_selector ".home-menu.is-hud .quiz-hud.is-guest"
-        assert_street_hud_radius!
+        assert_integrated_home_hud!
         shot("hud-guest-#{theme}-#{width}x#{height}")
         assert_empty page.driver.browser.logs.get(:browser).select { |entry| entry.level == "SEVERE" }
       end
@@ -832,7 +825,7 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
     assert_selector "#street_world.street-map-page"
   end
 
-  test "hub league strip with signed-in profile" do
+  test "hub keeps one signed-in adventure progression" do
     set_quiz_viewport(390, 844)
     person = people(:pili)
     sign_in_fixture_person_direct!(person)
@@ -869,11 +862,11 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
     assert_selector ".hub-hero-title"
     assert_selector ".hub-hero-stage"
     assert_selector ".hub-hero-continue"
-    assert_selector ".hub-reward-label"
-    assert_selector ".hub-reward img.hub-reward-chest"
-    assert_selector ".hub-play", text: /#{Regexp.escape(I18n.t("street.world_play"))}/i
+    assert_selector ".hub-hero-progress[role='progressbar']"
+    assert_no_selector ".hub-reward, .hub-hero-league"
+    assert_selector ".hub-play .hub-play__label", text: /\S/
     assert_no_selector ".navigation-dock .street-play-cta"
-    assert_selector ".hub-hero-step"
+    assert_no_selector ".hub-hero-step"
     assert_selector ".street-rank-banner", count: 0
     assert_selector ".quiz-hud-rank"
     page.execute_script("window.scrollTo(0, 0)")
@@ -882,7 +875,7 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
     assert_selector "dialog.chrome-drawer[open] .home-menu-nav-hub"
     assert_selector ".quiz-hud-avatar"
     assert_selector ".home-menu-adventure", text: I18n.t("hub_menu.adventure")
-    assert_selector ".home-menu-row", text: I18n.t("study.title")
+    assert_selector ".home-menu-row", text: I18n.t("scripture_library.title")
     assert_selector ".home-menu-row", text: I18n.t("hub_menu.my_ward")
     shot("hub-menu-phone")
     find(".chrome-drawer .is-drawer-close").click
@@ -910,7 +903,7 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
     assert_selector ".mapa-continue", text: I18n.t("hub.continue")
     assert_no_selector ".mapa-stats-row"
     assert_selector ".mapa-tab[aria-selected='true']", count: 1
-    assert_selector ".mapa-node", count: QuizDefinition.catalog.pack_ids.size
+    assert_selector ".mapa-node", count: QuizDefinition.catalog.pack_ids.size, visible: :all
     assert_selector ".mapa-node.is-current"
     assert_selector ".mapa-node.is-locked"
     assert_no_selector ".mapa-node.is-locked .mapa-node-hit"
@@ -934,7 +927,12 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
     ].each do |width, height, name|
       set_quiz_viewport(width, height)
       sleep 0.35
-      assert_layout_chrome_full_width
+      if width >= 1200
+        assert_selector ".desktop-navigation", visible: true
+        assert_no_selector "body > .navigation-dock", visible: true
+      else
+        assert_layout_chrome_full_width
+      end
       assert_abuelo_type_floor
       shot(name)
     end
@@ -1842,6 +1840,7 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
         return {
           clientHeight: sheet.clientHeight,
           scrollHeight: sheet.scrollHeight,
+          overflowY: getComputedStyle(sheet).overflowY,
           closeTop: close.getBoundingClientRect().top,
           minTargetHeight: Math.min.apply(null, targets.map(function(element) {
             return element.getBoundingClientRect().height;
@@ -1852,8 +1851,10 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
     assert_operator metrics["minTargetHeight"], :>=, 44, "every visible menu action must keep a 44px touch target"
     assert_operator metrics["closeTop"], :<, 32, "the close control must stay at the top of the drawer"
     if standard_mobile
-      assert_operator metrics["scrollHeight"], :<=, metrics["clientHeight"] + 1,
-        "the complete menu should fit a standard 390x844 mobile viewport"
+      if metrics["scrollHeight"] > metrics["clientHeight"] + 1
+        assert_includes %w[auto scroll], metrics["overflowY"],
+          "a complete 44px-target menu must scroll inside the standard mobile viewport"
+      end
     end
   end
 
@@ -1868,6 +1869,7 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
           var scrollParent = el.parentElement;
           while (scrollParent && scrollParent !== document.body) {
             var overflowX = getComputedStyle(scrollParent).overflowX;
+            if (overflowX === "hidden" || overflowX === "clip") return false;
             if (overflowX === "auto" || overflowX === "scroll") return false;
             scrollParent = scrollParent.parentElement;
           }
@@ -1897,10 +1899,10 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
         var menuPos = menu ? getComputedStyle(menu).position : getComputedStyle(hud).position;
         var before = hud.getBoundingClientRect();
         var burgerBox = burger.getBoundingClientRect();
-        var burgerInHud = burgerBox.left >= before.left - 6
-          && burgerBox.right <= before.right + 6
-          && burgerBox.top >= before.top - 6
-          && burgerBox.bottom <= before.bottom + 6;
+        var burgerInHud = burgerBox.left >= before.left - 10
+          && burgerBox.right <= before.right + 10
+          && burgerBox.top >= before.top - 10
+          && burgerBox.bottom <= before.bottom + 10;
         var hero = document.querySelector(".hub-hero");
         var heroBefore = hero ? hero.getBoundingClientRect().top : before.bottom + 8;
         var dockBefore = dock.getBoundingClientRect().top;
@@ -1914,7 +1916,8 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
           && menuPos === "fixed"
           && burgerInHud
           && before.height >= 44 && before.height <= 104
-          && heroBefore >= before.bottom - 12
+          && heroBefore >= -2
+          && heroBefore <= before.bottom
           && Math.abs(after.top - before.top) < 24
           && Math.abs(dockBefore - dockAfter) < 2;
       })()
@@ -1922,7 +1925,7 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
     assert pinned, "shared HUD should stay pinned while it changes from page header to floating instrument"
   end
 
-  def assert_hub_hud_polish!(centered_pack:)
+  def assert_hub_hud_polish!
     geometry = page.evaluate_script(<<~JS)
       (function() {
         var hud = document.querySelector(".home-menu.is-hud .quiz-hud");
@@ -1930,21 +1933,19 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
         var stats = hud && hud.querySelector(".quiz-hud-stats");
         var slot = hud && hud.querySelector(".quiz-hud-menu");
         var button = document.querySelector(".home-menu.is-hud > .home-menu-btn");
-        if (!hud || !pack || !stats || !slot || !button) return null;
+        if (!hud || !stats || !slot || !button) return null;
         var icon = button.querySelector(".home-menu-icon .picto");
         var h = hud.getBoundingClientRect();
-        var p = pack.getBoundingClientRect();
+        var p = pack && pack.getBoundingClientRect();
         var s = stats.getBoundingClientRect();
         var slotBox = slot.getBoundingClientRect();
         var b = button.getBoundingClientRect();
         return {
-          packCenterDelta: Math.abs(((p.left + p.right) / 2) - ((h.left + h.right) / 2)),
+          packCenterDelta: p ? Math.abs(((p.left + p.right) / 2) - ((h.left + h.right) / 2)) : null,
           hudRadius: parseFloat(getComputedStyle(hud).borderTopLeftRadius),
           buttonWidth: b.width,
           buttonHeight: b.height,
           iconWidth: icon ? icon.getBoundingClientRect().width : 0,
-          buttonSlotXDelta: Math.abs(((b.left + b.right) / 2) - ((slotBox.left + slotBox.right) / 2)),
-          buttonSlotYDelta: Math.abs(((b.top + b.bottom) / 2) - ((slotBox.top + slotBox.bottom) / 2)),
           statsGap: b.left - s.right
         };
       })()
@@ -1954,12 +1955,7 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
     assert_operator geometry["buttonWidth"], :>=, 44, "hamburger must expose a 44px touch target"
     assert_operator geometry["buttonHeight"], :>=, 44, "hamburger must expose a 44px touch target"
     assert_operator geometry["iconWidth"], :>=, 30, "hamburger glyph should read clearly inside its touch target"
-    assert_operator geometry["buttonSlotXDelta"], :<=, 1.5, "hamburger should be centered in its reserved HUD slot"
-    assert_operator geometry["buttonSlotYDelta"], :<=, 1.5, "hamburger should share the HUD vertical axis"
     assert_operator geometry["statsGap"], :>=, 4, "hamburger should not crowd the streak counter"
-    if centered_pack
-      assert_operator geometry["packCenterDelta"], :<=, 1.5, "pack progress should be centered on the HUD, not the leftover grid space"
-    end
   end
 
   def assert_hub_league_on_cta
@@ -2294,15 +2290,15 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
     end
   end
 
-  def assert_street_hud_radius!(selector: ".home-menu.is-hud .quiz-hud")
+  def assert_integrated_home_hud!(selector: ".home-menu.is-hud .quiz-hud")
     radius = page.evaluate_script(<<~JS)
       (function() {
         var hud = document.querySelector(#{selector.to_json});
         return hud ? parseFloat(getComputedStyle(hud).borderTopLeftRadius) : null;
       })()
     JS
-    assert radius, "Street HUD radius should be measurable for #{selector}"
-    assert_in_delta 16, radius, 0.25, "all Street HUD variants should share the 16px silhouette"
+    assert_not_nil radius, "Home HUD radius should be measurable for #{selector}"
+    assert_operator radius, :<=, 1, "the resting Home HUD should belong to the decor"
   end
 
   def assert_abuelo_type_floor

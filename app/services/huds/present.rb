@@ -17,11 +17,11 @@ module Huds
       new(person:, ward:, device_digest:, rank_up:, open_run:).call
     end
 
-    def self.from_screen(screen:, rank_up: false)
+    def self.from_screen(screen:, rank_up: false, show_adventure: true, show_empty_stats: true)
       player = screen.player
       hero = screen.hero
-      total = hero&.step_total.to_i
-      position = hero&.step_n.to_i
+      total = show_adventure ? hero&.step_total.to_i : 0
+      position = show_adventure ? hero&.step_n.to_i : 0
       Result.new(
         kind: :street,
         guest: player.guest,
@@ -33,12 +33,12 @@ module Huds
         xp_progress: player.xp_progress,
         avatar_key: player.avatar_key,
         rank_up:,
-        pack_title: hero&.title,
+        pack_title: (hero&.title if show_adventure),
         progress_n: position,
         progress_total: total,
         dots: player.guest ? [] : dots_for(position:, total:),
-        crowns: player.crowns,
-        streak: player.streak
+        crowns: (player.crowns if show_empty_stats || player.crowns.to_i.positive?),
+        streak: (player.streak if show_empty_stats || player.streak.to_i.positive?)
       )
     end
 

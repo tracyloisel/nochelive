@@ -88,6 +88,7 @@ Rails.application.routes.draw do
   get "iglesia/creencias", to: "pages#church_beliefs", as: :church_beliefs
   get "iglesia/mision", to: "pages#church_missionaries", as: :church_missionaries
   get "iglesia/adorar", to: "pages#church_worship", as: :church_worship
+  get "home/video-highlights", to: "hub_video_highlights#show", as: :hub_video_highlights
   get "videos", to: "church_videos#index", as: :church_videos
   get "videos/miniatures/:id", to: "church_video_thumbnails#show", as: :church_video_thumbnail,
       constraints: { id: /[A-Za-z0-9_-]{11}/ }

@@ -3,7 +3,7 @@ require "application_system_test_case"
 class HubCampusVisualTest < ApplicationSystemTestCase
   SHOT_DIR = Rails.root.join("tmp/street-shots/temple-themed")
 
-  test "one real incoming challenge becomes the top Now action instead of a Hub rail" do
+  test "one real incoming challenge becomes a focused Rama presence" do
     person = people(:pili)
     seed_campus_actions!(person)
     sign_in_fixture_person_direct!(person)
@@ -17,17 +17,16 @@ class HubCampusVisualTest < ApplicationSystemTestCase
 
         snapshot = page.evaluate_script(<<~JS)
           (function() {
-            var now = document.querySelector('.hub-now');
-            var cards = Array.from(now ? now.querySelectorAll('.hub-now-card') : []);
-            var first = cards[0];
-            var rect = first && first.getBoundingClientRect();
+            var rama = document.querySelector('.hub-rama-presence');
+            var cards = Array.from(rama ? rama.querySelectorAll('.hub-rama-event') : []);
+            var challenge = rama && rama.querySelector('.hub-rama-event--challenge');
+            var rect = challenge && challenge.getBoundingClientRect();
             return {
-              now: Boolean(now),
+              rama: Boolean(rama),
               cards: cards.length,
-              incoming: now ? now.querySelectorAll('.hub-now-card--challenge.is-incoming').length : -1,
-              active: now ? now.querySelectorAll('.hub-now-card--challenge.is-your_turn, .hub-now-card--challenge.is-ready').length : -1,
-              formAction: first && first.closest('form')?.getAttribute('action'),
-              formMethod: first && first.closest('form')?.getAttribute('method'),
+              challenge: rama ? rama.querySelectorAll('.hub-rama-event--challenge').length : -1,
+              formAction: challenge && challenge.closest('form')?.getAttribute('action'),
+              formMethod: challenge && challenge.closest('form')?.getAttribute('method'),
               overflow: document.documentElement.scrollWidth > document.documentElement.clientWidth + 1,
               card: rect && { width: rect.width, height: rect.height }
             };
@@ -35,10 +34,9 @@ class HubCampusVisualTest < ApplicationSystemTestCase
         JS
 
         assert_selector "#street_world[data-hub-theme='#{theme}']"
-        assert snapshot.fetch("now"), snapshot.inspect
-        assert_equal 1, snapshot.fetch("incoming"), snapshot.inspect
-        assert_equal 0, snapshot.fetch("active"), snapshot.inspect
-        assert_operator snapshot.fetch("cards"), :<=, 2, snapshot.inspect
+        assert snapshot.fetch("rama"), snapshot.inspect
+        assert_equal 1, snapshot.fetch("challenge"), snapshot.inspect
+        assert_operator snapshot.fetch("cards"), :<=, 3, snapshot.inspect
         assert_match(%r{\A/desafio/.+\z}, snapshot.fetch("formAction"), snapshot.inspect)
         assert_equal "post", snapshot.fetch("formMethod"), snapshot.inspect
         assert_not snapshot.fetch("overflow"), snapshot.inspect
@@ -46,9 +44,9 @@ class HubCampusVisualTest < ApplicationSystemTestCase
         assert_operator snapshot.dig("card", "height"), :>=, 44, snapshot.inspect
         assert_empty severe_browser_logs
 
-        page.execute_script("document.querySelector('.hub-now').scrollIntoView({ block: 'center', behavior: 'auto' })")
+        page.execute_script("document.querySelector('.hub-rama-presence').scrollIntoView({ block: 'center', behavior: 'auto' })")
         FileUtils.mkdir_p(SHOT_DIR)
-        page.save_screenshot(SHOT_DIR.join("hub-now-challenge-#{theme}-#{width}x#{height}.png"))
+        page.save_screenshot(SHOT_DIR.join("hub-rama-challenge-#{theme}-#{width}x#{height}.png"))
       end
     end
   ensure
@@ -83,7 +81,7 @@ class HubCampusVisualTest < ApplicationSystemTestCase
         recipient_person: person,
         token_digest: SecureRandom.hex(32),
         status: "open",
-        source: "hub-now-early",
+        source: "hub-rama-early",
         channel: "campus",
         expires_at: 1.day.from_now
       )
@@ -92,7 +90,7 @@ class HubCampusVisualTest < ApplicationSystemTestCase
         recipient_person: person,
         token_digest: SecureRandom.hex(32),
         status: "open",
-        source: "hub-now-late",
+        source: "hub-rama-late",
         channel: "campus",
         expires_at: 2.days.from_now
       )

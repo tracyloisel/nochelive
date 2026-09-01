@@ -11,17 +11,17 @@
     <h2 id="hub-expedition-title"><%= expedition.title %></h2>
     <% if expedition.subtitle.present? %><strong><%= expedition.subtitle %></strong><% end %>
     <span><%= expedition.promise %></span>
+    <% if expedition.starts_on && expedition.ends_on %>
+      <time datetime="<%= expedition.starts_on.iso8601 %>/<%= expedition.ends_on.iso8601 %>">
+        <%= t("hub.expedition.dates", start: l(expedition.starts_on), finish: l(expedition.ends_on)) %>
+      </time>
+    <% end %>
     <div class="hub-expedition__progress">
       <span><i style="--hub-expedition-progress:<%= expedition.progress_percent %>%"></i></span>
       <b><%= t("hub.expedition.progress", done: expedition.completed_count, total: expedition.total_count) %></b>
     </div>
-    <ol aria-label="<%= t("hub.expedition.doors") %>">
-      <% expedition.packs.each do |pack| %>
-        <li class="is-<%= pack.state %>"><span><%= pack.title %></span><% if pack.state == :finished %><b>✓</b><% end %></li>
-      <% end %>
-    </ol>
     <%= link_to street_map_path(view: "expeditions", expedition: expedition.study_unit_id), class: "hub-expedition__cta" do %>
-      <%= t("hub.expedition.open") %><%= picto("arrow") %>
+      <%= t(expedition.completed_count.positive? ? "hub.expedition.continue" : "hub.expedition.open") %><%= picto("arrow") %>
     <% end %>
   </div>
 </section>

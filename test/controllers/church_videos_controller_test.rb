@@ -27,7 +27,7 @@ class ChurchVideosControllerTest < ActionDispatch::IntegrationTest
     assert_select ".chrome-tools", count: 0
     assert_select ".chrome-drawer .mute", count: 1
     assert_select ".chrome-drawer .lang-switch.is-drawer", count: 1
-    assert_select ".church-video-card", count: 1
+    assert_select "article#video-abc123DEF_4.church-video-card", count: 1
     assert_select "button.church-video-trigger[data-video-id=abc123DEF_4]"
     assert_select "img[src=?]", church_video_thumbnail_path("abc123DEF_4")
     assert_select ".church-video-duration", text: "3:03"

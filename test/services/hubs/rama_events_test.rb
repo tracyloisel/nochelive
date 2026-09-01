@@ -61,6 +61,19 @@ class Hubs::RamaEventsTest < ActiveSupport::TestCase
     assert_equal :published, card.state
   end
 
+  test "presents event times in the ward civil time zone" do
+    @ward.update!(time_zone: "Europe/Madrid")
+    utc_start = Time.utc(2026, 9, 13, 7, 30)
+    event = create_published_event(starts_at: utc_start)
+
+    card = Hubs::RamaEvents.call(ward: @ward, at: @at).sole
+
+    assert_equal utc_start.to_i, card.starts_at.to_i
+    assert_equal @ward.time_zone, card.starts_at.time_zone.name
+    assert_equal 9, card.starts_at.hour
+    assert_equal event.starts_at.to_i, card.starts_at.to_i
+  end
+
   test "omits the block when there is no ward or no published local event" do
     assert_empty Hubs::RamaEvents.call(ward: nil, at: @at)
     assert_empty Hubs::RamaEvents.call(ward: @ward, at: @at)

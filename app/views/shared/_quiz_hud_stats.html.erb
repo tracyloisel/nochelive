@@ -1,3 +1,4 @@
+<% if bar.quiz? || !bar.crowns.nil? || !bar.streak.nil? %>
 <%= tag.div id: ("street_quiz_hud_stats" if bar.quiz?), class: "quiz-hud-stats" do %>
   <% if bar.quiz? %>
     <p class="street-score quiz-hud-score"
@@ -33,10 +34,13 @@
       </span>
     </p>
   <% else %>
+    <% unless bar.crowns.nil? %>
     <p class="quiz-hud-score" aria-label="<%= t("hub.crowns") %>">
       <%= picto("crown") %>
       <span><%= number_with_delimiter(bar.crowns.to_i) %></span>
     </p>
+    <% end %>
+    <% unless bar.streak.nil? %>
     <p class="quiz-hud-streak<%= " is-idle" if bar.streak.to_i.zero? %>"
        data-tier="<%= bar.streak.to_i.positive? ? "spark" : "idle" %>"
        data-hub-streak-target="streak"
@@ -50,5 +54,7 @@
            decoding="async">
       <span class="quiz-hud-streak-num"><%= bar.streak.to_i %></span>
     </p>
+    <% end %>
   <% end %>
+<% end %>
 <% end %>

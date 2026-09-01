@@ -15,14 +15,12 @@ module Hubs
     )
     CHAPEL_STILL = "media/church/worship.jpg"
     LIVE_WINDOW = 14.days
-    Gain = Struct.new(:name, :points, :at, :avatar_key, keyword_init: true)
-    League = Struct.new(:rank, :players, :rival_name, :rival_gap, :recent_gains, keyword_init: true)
     # The Home uses the active week only to offer its real programme and one
     # of its concrete chapters. Historical run/player aggregate data belonged
     # to the retired dashboard, not this editorial surface.
-    Study = Struct.new(:week, :weekly_reading_cards, :expedition, keyword_init: true)
+    Study = Struct.new(:week, :weekly_reading_cards, :expedition, :daily_discovery, keyword_init: true)
     Result = Struct.new(
-      :player, :hero, :live, :rama_events, :circle, :study, :reading_cards, :backdrop, :league,
+      :player, :hero, :today, :live, :rama_events, :circle, :study, :reading_cards, :backdrop,
       keyword_init: true
     )
 
@@ -42,64 +40,38 @@ module Hubs
 
     def call
       live = build_live
+      rama_events = Hubs::RamaEvents.call(ward: @ward, at: @at)
+      study = build_study
+      hero = build_hero
+      current_backdrop = backdrop
       reading_suggestions = Quizzes::ReadingSuggestions.call(person: @person)
       Result.new(
         player: build_player,
-        hero: build_hero,
+        hero:,
+        today: Hubs::Today.call(
+          live:,
+          study:,
+          rama_events:,
+          locale: I18n.locale
+        ),
         live:,
         # Live is a full-width moment immediately after the hero. The local
         # block intentionally receives only verified ward events so the same
         # Noche Live can never be rendered twice on the Hub.
-        rama_events: Hubs::RamaEvents.call(ward: @ward, at: @at),
-        circle: Hubs::CircleDiscovery.call(person: @person, ward: @ward, theme: backdrop.theme.mode),
-        study: build_study,
+        rama_events:,
+        circle: Hubs::CircleDiscovery.call(person: @person, ward: @ward, theme: current_backdrop.theme.mode),
+        study:,
         reading_cards: Hubs::ReadingCards.call(person: @person, suggestions: reading_suggestions),
-        backdrop:,
-        league: build_league
+        backdrop: current_backdrop
       )
     end
 
     private
 
       def total_score
-        return 0 unless @ward && @person
+        return 0 unless @person
 
         @total_score ||= Quizzes::Leaderboard.total_score(person: @person)
-      end
-
-      def build_league
-        return unless @ward && @person
-
-        board = Quizzes::Leaderboard.call(ward: @ward, person: @person, limit: 0)
-        rival = board.rival
-        League.new(
-          rank: board.your_rank,
-          players: board.players,
-          rival_name: rival&.person&.given_name,
-          rival_gap: rival ? (rival.score - board.your_score.to_i) : nil,
-          recent_gains: recent_league_gains
-        )
-      end
-
-      def recent_league_gains
-        QuizAnswer
-          .joins(quiz_run: :person)
-          .includes(quiz_run: :person)
-          .where(quiz_runs: { game_session_id: nil })
-          .where(people: { ward_id: @ward.id })
-          .where(created_at: (@at - 7.days)..@at)
-          .where("quiz_answers.points_awarded > 0")
-          .order(created_at: :desc, id: :desc)
-          .limit(3)
-          .map do |answer|
-            gain_person = answer.quiz_run.person
-            Gain.new(
-              name: gain_person.given_name,
-              points: answer.points_awarded,
-              at: answer.created_at,
-              avatar_key: gain_person.avatar_key
-            )
-          end
       end
 
       def current_pack
@@ -338,24 +310,49 @@ module Hubs
       # Editorial teams can publish next year's programme before its first
       # week begins. The Hub therefore selects the published week that is
       # actually active today, rather than assuming the greatest year is the
-      # one a player should see now.
+      # one a player should see now. A DailyDiscovery calendar owns an
+      # explicit clock, so its local Monday must not disappear while the
+      # server is still on Sunday.
       def current_study_week
-        @current_study_week ||= StudyUnit
+        return @current_study_week if defined?(@current_study_week)
+
+        utc_date = @at.to_time.utc.to_date
+        candidate_dates = (utc_date - 1.day)..(utc_date + 1.day)
+        candidates = StudyUnit
           .joins(:study_program)
-          .includes(:study_program)
+          .includes(:study_program, :study_quiz_versions)
           .where(
             study_programs: { status: "published" },
             study_units: { kind: "week", status: "published" }
           )
-          .where("study_units.starts_on <= ? AND study_units.ends_on >= ?", @at.to_date, @at.to_date)
+          .where(
+            "study_units.starts_on <= ? AND study_units.ends_on >= ?",
+            candidate_dates.end,
+            candidate_dates.begin
+          )
           .order(Arel.sql("study_programs.year DESC"), Arel.sql("study_units.position ASC"), Arel.sql("study_units.id ASC"))
-          .first
+
+        @current_study_week = candidates.find do |week|
+          quiz = week.published_quiz
+          zone = Time.find_zone(quiz&.daily_discovery_time_zone)
+          local_date = zone ? @at.in_time_zone(zone).to_date : @at.to_date
+          local_date.between?(week.starts_on, week.ends_on)
+        end
       end
 
       def build_study
         week = current_study_week
         quiz = week&.published_quiz
         return unless week && quiz
+
+        daily_discovery = if (time_zone = quiz.daily_discovery_time_zone)
+          Expeditions::DailyDiscovery.call(
+            quiz:,
+            locale: Locale.i18n(I18n.locale),
+            at: @at,
+            time_zone:
+          )
+        end
 
         Study.new(
           week:,
@@ -366,7 +363,8 @@ module Hubs
             person: @person,
             locale: I18n.locale,
             at: @at
-          )
+          ),
+          daily_discovery:
         )
       end
   end

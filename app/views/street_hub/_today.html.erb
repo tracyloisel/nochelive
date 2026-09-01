@@ -1,0 +1,53 @@
+<% item = local_assigns.fetch(:item) %>
+<% fallback = item.kind == :fallback %>
+<% action_label = item.action_label.presence || t("hub.today.actions.#{item.kind}") unless fallback %>
+<% eyebrow = item.eyebrow.presence || t("hub.today.kinds.#{item.kind}") %>
+<% title = item.title.presence || (t("hub.today.fallback_title") if fallback) %>
+<% body = item.body.presence || (t("hub.today.fallback_body") if fallback) %>
+<% date_label = if item.starts_at.present?
+  l(item.starts_at, format: :short)
+elsif item.scheduled_on.present?
+  l(item.scheduled_on)
+elsif item.starts_on.present? && item.ends_on.present?
+  t("hub.today.date_range", start: l(item.starts_on), finish: l(item.ends_on))
+end %>
+<% content = capture do %>
+  <span class="hub-today__art" aria-hidden="true">
+    <% if item.kind == :daily_discovery %>
+      <%= noche_picture(item.artwork, role: :library_daily_hero, alt: "", loading: "lazy") if item.artwork.present? %>
+    <% elsif item.artwork.present? %>
+      <%= noche_media_picture(item.artwork, alt: "", loading: "lazy") %>
+    <% end %>
+  </span>
+  <span class="hub-today__scrim" aria-hidden="true"></span>
+  <span class="hub-today__copy">
+    <span class="hub-today__eyebrow"><%= eyebrow %></span>
+    <strong><%= title %></strong>
+    <% if item.setup.present? %><span class="hub-today__setup"><%= item.setup %></span><% end %>
+    <% if item.question.present? %><em><%= item.question %></em><% elsif body.present? %><span class="hub-today__body"><%= body %></span><% end %>
+    <% if fallback %>
+      <span class="hub-today__meta"><time data-controller="local-date" hidden></time></span>
+    <% elsif item.cite.present? || item.meta.present? || date_label.present? %>
+      <span class="hub-today__meta"><%= [ item.cite, item.meta, date_label ].compact_blank.join(" · ") %></span>
+    <% end %>
+    <% if action_label.present? %><span class="hub-today__action"><%= action_label %><%= picto("arrow") %></span><% end %>
+  </span>
+<% end %>
+
+<section class="hub-today" aria-labelledby="hub-today-title" data-today-kind="<%= item.kind %>">
+  <header class="hub-today__head">
+    <h2 id="hub-today-title"><%= t("hub.today.title") %></h2>
+  </header>
+  <% if fallback %>
+    <article class="hub-today__story"><%= content %></article>
+  <% elsif item.method == :post %>
+    <%= button_to item.path, class: "hub-today__story", form: { class: "hub-today__form" } do %><%= content %><% end %>
+  <% else %>
+    <%= link_to item.path,
+          class: "hub-today__story",
+          target: ("_blank" if item.external),
+          rel: ("noopener noreferrer" if item.external) do %>
+      <%= content %>
+    <% end %>
+  <% end %>
+</section>

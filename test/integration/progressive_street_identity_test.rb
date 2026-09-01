@@ -9,18 +9,16 @@ class ProgressiveStreetIdentityTest < ActionDispatch::IntegrationTest
     assert_select ".street-hub-feed"
     assert_select ".navigation-dock"
     assert_select "a.quiz-hud-who.is-guest[href=?]", street_profile_path(fresh: 1)
-    assert_select ".hub-live.hub-live--feature.is-ward_missing", count: 1
-    assert_select "a.hub-live-program.is-ward-pick[href=?]",
-      street_profile_path(quick: 1, fresh: 1, ward_next: 1) do
-      assert_select "span", text: I18n.t("hub.pick_ward_cta")
+    assert_select ".hub-today", count: 1
+    assert_select "section.hub-rama-presence.hub-rama-presence--missing", count: 1 do
+      assert_select "h2", text: I18n.t("hub.rama.find_title")
+      assert_select "a.hub-rama-presence__action[href=?]",
+        street_profile_path(quick: 1, fresh: 1, ward_next: 1),
+        text: /#{Regexp.escape(I18n.t("hub.rama.find_action"))}/
     end
-    assert_select ".hub-live-ward-title", text: I18n.t("hub.pick_ward_title")
     assert_select ".hub-now", count: 0
-    assert_select ".street-hub-feed > section.hub-rama-carousel.hub-rama-block", count: 1
-    assert_select ".street-hub-feed > section.hub-rama-carousel.hub-rama-block", count: 1 do
-      assert_select ".hub-rama-carousel__track > a.hub-rama-card--challenge[href=?]", street_challenges_path, count: 1
-      assert_select ".hub-rama-carousel__track > a.hub-rama-card--videos[href=?]", church_videos_path(locale: I18n.locale), count: 1
-    end
+    assert_select ".hub-rama-carousel", count: 0
+    assert_select ".hub-rama-card--challenge, .hub-rama-card--videos", count: 0
     assert_select ".hub-identity-empty", count: 0
   end
 
@@ -43,15 +41,15 @@ class ProgressiveStreetIdentityTest < ActionDispatch::IntegrationTest
     assert_redirected_to root_path
     follow_redirect!
 
-    assert_select ".hub-live.hub-live--feature.is-ward_missing", count: 1
-    assert_select "a.hub-live-program.is-ward-pick[href=?]",
-      search_path(cambiar: 1)
-    assert_select ".hub-now", count: 0
-    assert_select ".street-hub-feed > section.hub-rama-carousel.hub-rama-block", count: 1
-    assert_select ".street-hub-feed > section.hub-rama-carousel.hub-rama-block", count: 1 do
-      assert_select ".hub-rama-carousel__track > a.hub-rama-card--challenge[href=?]", street_challenges_path, count: 1
-      assert_select ".hub-rama-carousel__track > a.hub-rama-card--videos[href=?]", church_videos_path(locale: I18n.locale), count: 1
+    assert_select ".hub-today", count: 1
+    assert_select "section.hub-rama-presence.hub-rama-presence--missing", count: 1 do
+      assert_select "a.hub-rama-presence__action[href=?]",
+        search_path(cambiar: 1),
+        text: /#{Regexp.escape(I18n.t("hub.rama.find_action"))}/
     end
+    assert_select ".hub-now", count: 0
+    assert_select ".hub-rama-carousel", count: 0
+    assert_select ".hub-rama-card--challenge, .hub-rama-card--videos", count: 0
     assert_select ".hub-identity-empty", count: 0
   end
 
@@ -78,7 +76,8 @@ class ProgressiveStreetIdentityTest < ActionDispatch::IntegrationTest
     assert_select ".street-hub-feed .hub-hero .hub-slide", count: 1
     assert_select ".street-hub-feed .hub-voyage-nav, .street-hub-feed .hub-dot", count: 0
     assert_match(/\.hub-streaming-feed--editorial\s*\{/, css)
-    assert_match(/\.hub-live--feature/, css)
+    assert_match(/\.hub-today__story/, css)
+    assert_match(/\.hub-rama-presence--missing/, css)
 
     refute_match(/\.hub-slide\.is-current \.hub-slide-still\s*\{[^}]*animation:/m, css)
     refute_match(/\.hub-reward-chest\.is-sheening/, css)

@@ -66,13 +66,13 @@ class NotificationExperienceTest < ActionDispatch::IntegrationTest
 
   test "an upcoming ward night offers its own consent only from the live context" do
     with_web_push_enabled do
-      game_sessions(:david).update!(status: "finished")
+      game_sessions(:david).update_columns(status: "finished", closed_at: Time.current)
       sign_in_congregation
       create_street_profile!(name: "Noche Demain")
       get root_path
 
       assert_response :success
-      assert_select ".hub-live.is-soon, .hub-live.is-imminent, .hub-live.is-scheduled", count: 1
+      assert_select ".hub-rama-card--live .hub-live.is-soon, .hub-rama-card--live .hub-live.is-scheduled", count: 1
       assert_select ".push-invitation.is-nights", count: 1
       assert_select ".push-invitation.is-challenges", count: 0
       assert_select ".push-invitation.is-verses", count: 0
@@ -81,15 +81,27 @@ class NotificationExperienceTest < ActionDispatch::IntegrationTest
 
   test "a future session incorrectly marked playing does not suppress the Noche consent" do
     with_web_push_enabled do
-      game_sessions(:david).update!(status: "playing", starts_at: 20.hours.from_now)
-      game_sessions(:elias).update!(status: "lobby", starts_at: 21.hours.from_now)
+      game_sessions(:david).update_columns(
+        status: "playing",
+        starts_at: 20.hours.from_now,
+        ends_at: 21.hours.from_now,
+        closed_at: nil
+      )
+      game_sessions(:elias).update_columns(
+        status: "lobby",
+        starts_at: 21.hours.from_now,
+        ends_at: 22.hours.from_now,
+        closed_at: nil
+      )
       sign_in_congregation
       create_street_profile!(name: "Noche Prioritaire")
 
       get root_path
 
       assert_response :success
-      assert_select ".hub-live.is-imminent", count: 1
+      assert_select ".hub-today[data-today-kind='live_upcoming']", count: 1 do
+        assert_select ".hub-today__eyebrow", text: I18n.t("hub.today.kinds.live_upcoming")
+      end
       assert_select ".push-invitation.is-nights", count: 1
     end
   end

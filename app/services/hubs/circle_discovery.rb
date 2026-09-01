@@ -52,7 +52,7 @@ module Hubs
         Activity.new(
           threads: threads.to_i,
           replies: total.to_i - threads.to_i,
-          last_at:
+          last_at: last_at&.in_time_zone(@ward.time_zone)
         )
       end
   end

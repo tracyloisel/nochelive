@@ -28,11 +28,11 @@ class PwaInstallTileVisualTest < ApplicationSystemTestCase
       assert_selector ".hub-install.hub-install--compact"
       assert_no_selector ".pwa-install-banner"
 
-      assert page.evaluate_script(<<~JS), "install stays a compact utility immediately after the Rama carousel and before follow-up cards"
+      assert page.evaluate_script(<<~JS), "install stays a compact utility after the editorial programme"
         (function() {
           var feed = document.querySelector(".hub-streaming-feed--editorial");
           var install = feed && feed.querySelector(".hub-install--compact");
-          var carousel = feed && feed.querySelector(".hub-rama-carousel");
+          var rama = feed && feed.querySelector(".hub-rama-presence");
           if (!feed || !install) return false;
 
           var children = Array.from(feed.children);
@@ -41,16 +41,12 @@ class PwaInstallTileVisualTest < ApplicationSystemTestCase
             var node = feed.querySelector(selector);
             return !node || children.indexOf(node) < installIndex;
           };
-          var afterInstall = function(selector) {
-            var node = feed.querySelector(selector);
-            return !node || children.indexOf(node) > installIndex;
-          };
-
-          return Boolean(carousel) &&
+          return Boolean(rama) &&
             beforeInstall(".hub-hero") &&
-            beforeInstall(".hub-rama-carousel") &&
-            carousel.nextElementSibling === install &&
-            afterInstall(".hub-now");
+            beforeInstall(".hub-today") &&
+            beforeInstall(".hub-rama-presence") &&
+            beforeInstall(".hub-explore-rail") &&
+            beforeInstall("#hub_watch_rail");
         })()
       JS
 
@@ -75,16 +71,15 @@ class PwaInstallTileVisualTest < ApplicationSystemTestCase
           ]).then(done);
         JS
 
-        assert page.evaluate_script(<<~JS), "install tile must stay inside the hub and below the Rama carousel at #{width}px"
+        assert page.evaluate_script(<<~JS), "install tile must stay inside the hub and below the editorial surfaces at #{width}px"
           (function() {
             var tile = document.querySelector('.hub-install').getBoundingClientRect();
-            var carouselNode = document.querySelector('.hub-rama-carousel');
-            var carousel = carouselNode.getBoundingClientRect();
+            var ramaNode = document.querySelector('.hub-rama-presence');
+            var rama = ramaNode.getBoundingClientRect();
             var action = document.querySelector('.hub-install-action').getBoundingClientRect();
             var dismiss = document.querySelector('.hub-install-dismiss').getBoundingClientRect();
             var viewport = document.documentElement.clientWidth;
-            return carouselNode.nextElementSibling === document.querySelector('.hub-install') &&
-              tile.top >= carousel.bottom - 1 &&
+            return tile.top >= rama.bottom - 1 &&
               tile.left >= -2 && tile.right <= viewport + 2 &&
               tile.height >= 44 &&
               action.width >= 44 && action.height >= 44 &&

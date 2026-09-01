@@ -9,7 +9,6 @@ class StreetHubController < ApplicationController
     touch_street_presence
     @open_run = preferred_open_run
     @duel_campus = Quizzes::DuelCampus.call(person: current_street_person)
-    @duel_summary = Quizzes::DuelCampusSummary.call(person: current_street_person, campus: @duel_campus)
     @screen = Hubs::Screen.call(
       device_digest: street_digest,
       person: current_street_person,
@@ -17,18 +16,17 @@ class StreetHubController < ApplicationController
       open_run: @open_run
     )
     @hub_identity_state = hub_identity_state
-    # A guest can play the public adventure, but must never be shown a fake
-    # personal task, reading state, or Campus relationship merely to fill the
-    # Hub. The short "Now" stack is therefore a signed-in member surface.
-    @now_cards = if @screen.player.guest
-      []
-    else
-      Hubs::NowCards.call(
-        campus: @duel_campus,
-        reading_cards: @screen.reading_cards,
-        weekly_reading_cards: @screen.study&.weekly_reading_cards
-      )
+    # Campus only earns a Home surface when it contains one concrete action.
+    # Zero-count summaries and duel history belong on the Campus itself.
+    @hub_challenge = unless @screen.player.guest
+      Hubs::ChallengeCard.call(campus: @duel_campus)
     end
+    today_study = @screen.today.source_id if @screen.today.kind.in?([ :daily_discovery, :weekly_reading ])
+    @explore_cards = Hubs::ExploreCards.call(
+      reading_cards: @screen.reading_cards,
+      weekly_reading_cards: @screen.study&.weekly_reading_cards,
+      exclude_studies: [ today_study ]
+    )
     @push_prompt = night_push_prompt
   end
 

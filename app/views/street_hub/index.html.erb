@@ -13,7 +13,7 @@
      # surface here let its legacy tile rules restyle the cinematic hero after
      # the Hub stylesheet had loaded.
      styles: %w[shell hub],
-     controllers: %w[loading press chrome-menu hud-scroll hub-portal presence],
+     controllers: %w[loading press chrome-menu hud-scroll hub-portal presence local-date],
      media: { lcp: hero_lcp },
      audio: { unlock: true, cues: %w[celestial_breath chest level_up], bed: nil },
      motion: %w[list-enter],
@@ -51,18 +51,35 @@
       ) %>
   <% page_hud(
         hud: true,
-        bar: Huds::Present.from_screen(screen: screen, rank_up: params[:rank_up].present?)
+        bar: Huds::Present.from_screen(
+          screen: screen,
+          rank_up: params[:rank_up].present?,
+          show_adventure: false,
+          show_empty_stats: false
+        )
       ) { site_menu(player: screen.player) } %>
 
   <div class="street-hub-feed hub-streaming-feed hub-streaming-feed--editorial"
        data-hud-scroll-source
        data-hub-layout="hero-rama-carousel">
     <%= render "street_hub/hero", screen: screen, theme: art.theme.mode %>
-    <%= render "street_hub/rama_carousel", live: screen.live, events: screen.rama_events, circle: screen.circle, duel_summary: @duel_summary %>
+    <%= render "street_hub/today", item: screen.today %>
     <%= render "street_hub/expedition", expedition: screen.study&.expedition if screen.study&.expedition %>
-    <%= render "street_hub/install" %>
+    <%= render "street_hub/rama_carousel",
+          live: screen.live,
+          events: screen.rama_events,
+          circle: screen.circle,
+          ward: current_ward,
+          person: current_street_person,
+          today: screen.today,
+          challenge: @hub_challenge %>
+    <%= render "street_hub/explore_rail", cards: @explore_cards %>
+    <%= turbo_frame_tag "hub_watch_rail",
+          src: hub_video_highlights_path(locale: I18n.locale),
+          loading: :lazy,
+          class: "hub-watch-frame" %>
     <%= render "street_hub/identity_empty", state: @hub_identity_state if @hub_identity_state %>
-    <%= render "street_hub/now_cards", cards: @now_cards, study: screen.study unless screen.player.guest %>
+    <%= render "street_hub/install" %>
     <%= render("notifications/prompt", person: current_street_person, **@push_prompt) if @push_prompt %>
   </div>
 

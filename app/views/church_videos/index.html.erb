@@ -104,7 +104,7 @@
     <% if @catalog.available? && @catalog.videos.any? %>
       <div class="church-video-grid">
         <% @catalog.videos.each do |video| %>
-          <article class="church-video-card">
+          <article id="video-<%= video.id %>" class="church-video-card">
             <button type="button"
                     class="church-video-trigger"
                     aria-label="<%= t("church_videos.watch", title: video.title) %>"

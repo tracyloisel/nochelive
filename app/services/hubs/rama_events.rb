@@ -44,7 +44,7 @@ module Hubs
           title: event.title,
           summary: event.summary,
           cancellation_reason: event.cancellation_reason,
-          starts_at: event.starts_at,
+          starts_at: event.starts_at.in_time_zone(@ward.time_zone),
           location_label: event.location_label,
           path: cancelled ? nil : event.destination,
           external: !cancelled && event.external_destination?,

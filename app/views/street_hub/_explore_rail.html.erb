@@ -1,0 +1,35 @@
+<% cards = Array(local_assigns[:cards]).compact %>
+<% return if cards.empty? %>
+
+<section class="hub-content-rail hub-explore-rail" aria-labelledby="hub-explore-title">
+  <header class="hub-content-rail__head">
+    <h2 id="hub-explore-title"><%= t("hub.rails.explore") %></h2>
+  </header>
+
+  <div class="hub-content-rail__track" role="list">
+    <% cards.each do |card| %>
+      <% status_label = case card.status
+      when :completed then t("hub.rails.reading_completed")
+      when :in_progress then t("hub.rails.reading_in_progress", percent: card.progress_percent)
+      else t("hub.rails.reading_to_read")
+      end %>
+      <%= link_to card.path,
+            class: "hub-content-card hub-content-card--reading is-#{card.status || :unread}",
+            role: "listitem",
+            aria: { label: t("hub.rails.reading_card_label", title: card.title, status: status_label) } do %>
+        <span class="hub-content-card__art" aria-hidden="true">
+          <%= noche_media_picture(card.artwork, alt: "", loading: "lazy") if card.artwork.present? %>
+        </span>
+        <span class="hub-content-card__scrim" aria-hidden="true"></span>
+        <span class="hub-content-card__copy">
+          <strong><%= card.title %></strong>
+          <% if card.cite.present? %><span><%= card.cite %></span><% end %>
+          <small><%= status_label %></small>
+        </span>
+        <% if card.status.in?([ :in_progress, :completed ]) %>
+          <span class="hub-content-card__progress" aria-hidden="true"><i style="--hub-card-progress: <%= card.progress_percent %>%"></i></span>
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
+</section>

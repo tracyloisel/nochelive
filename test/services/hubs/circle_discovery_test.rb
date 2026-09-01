@@ -3,7 +3,7 @@ require "test_helper"
 class Hubs::CircleDiscoveryTest < ActiveSupport::TestCase
   setup do
     @ward = wards(:demo)
-    @ward.update!(scripture_circle_mode: "active")
+    @ward.update!(scripture_circle_mode: "active", time_zone: "Europe/Madrid")
     @ward.scripture_circle_posts.delete_all
     @ward.scripture_circle_threads.delete_all
     @person = people(:pili)
@@ -35,6 +35,7 @@ class Hubs::CircleDiscoveryTest < ActiveSupport::TestCase
     assert_equal 1, card.activity.threads
     assert_equal 1, card.activity.replies
     assert_equal recent_reply.created_at.to_i, card.activity.last_at.to_i
+    assert_equal @ward.time_zone, card.activity.last_at.time_zone.name
     assert_predicate card.activity, :present?
   end
 

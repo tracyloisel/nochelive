@@ -5,6 +5,14 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
     sign_in_congregation
     person = create_street_profile!
     person.ward.update!(scripture_circle_mode: "active")
+    circle_thread = person.ward.scripture_circle_threads.create!(reference: "ot/ps/52")
+    circle_thread.scripture_circle_posts.create!(
+      ward: person.ward,
+      person:,
+      kind: "reflection",
+      locale: I18n.locale.to_s,
+      body: "Une réflexion récente de la rama."
+    )
     week = create_current_hub_week!
     question = QuizDefinition.catalog.find_pack("coronas").questions.first
     add_unresolved_hub_answer!(person, question:)
@@ -13,70 +21,68 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
     get root_path
 
     assert_response :success
-    assert_equal %i[hero rama_carousel install now], hub_feed_sequence
+    assert_equal %i[hero today rama_presence explore watch_frame install], hub_feed_sequence
     assert_select ".street-hub-feed[data-hub-layout='hero-rama-carousel'] > .hub-hero", count: 1
-    assert_select ".street-hub-feed > section.hub-rama-carousel.hub-rama-block", count: 1 do
-      assert_select "> .hub-rama-carousel__track.hub-rama-block__events[role='list']", count: 1 do
-        assert_select "> .hub-rama-card[role='listitem']", minimum: 2
-        assert_select "> .hub-rama-card--live[role='listitem'] > .hub-live--feature", count: 1 do
-          assert_select ".hub-live-art img[src*='ungio_david']", count: 1
-          assert_select ".hub-live-art img[src*='live-king']", count: 0
-        end
-      end
+    assert_select "h1.hub-hero-title", count: 1
+    assert_select ".street-hub-feed h1", count: 1
+    assert_select ".street-hub-feed > .hub-today[data-today-kind='live']", count: 1
+    assert_select ".street-hub-feed > section.hub-rama-carousel.hub-rama-presence", count: 1 do
+      assert_select "> .hub-rama-presence__track.hub-content-rail__track[role='list']", count: 1
+      assert_select ".hub-rama-card--live", count: 0
     end
 
-    assert_select ".hub-rama-block .hub-rama-event.is-published[href=?]", event.destination_path, count: 1 do
+    assert_select ".hub-rama-presence .hub-rama-event.is-published[href=?]", event.destination_path, count: 1 do
       assert_select "strong", text: event.title
     end
-    assert_select ".hub-rama-carousel__track > a.hub-rama-card--circle[role='listitem'][href=?]", scripture_circle_path, count: 1
-    assert_select ".hub-now a.hub-now-card.is-unread[href=?]",
+    assert_select ".hub-rama-presence__track > a.hub-rama-event--circle[role='listitem'][href=?]", scripture_circle_path, count: 1
+    assert_select ".hub-explore-rail a.hub-content-card--reading.is-unread[href=?]",
       scripture_path(question.scripture.study, cite: question.scripture.cite), count: 1 do
-      assert_select ".hub-now-card__cite", text: question.scripture.cite
-      assert_select ".hub-now-card__status.is-unread", text: I18n.t("hub.rails.reading_to_read")
+      assert_select ".hub-content-card__copy > span", text: question.scripture.cite
+      assert_select ".hub-content-card__copy > small", text: I18n.t("hub.rails.reading_to_read")
     end
-    assert_select ".hub-now__programme[href=?]", scripture_library_path(section: "weekly", unit: week.id, anchor: "selection"), text: I18n.t("hub.now.weekly_programme")
     assert_select ".hub-hero .hub-play", count: 1
     assert_select ".hub-hero[data-hero-state='start'] .hub-play", text: I18n.t("hub.start_action")
     assert_select ".hub-hero .hub-slide", count: 1
     assert_select ".hub-hero .hub-voyage-nav, .hub-hero .hub-dot", count: 0
     assert_select ".hub-hero-cockpit__row > .hub-hero-progress", count: 1
-    assert_select ".hub-hero-league[href=?]", street_leaderboard_path, count: 1
-    assert_select ".hub-hero-league-panel .hub-hero-gains-empty", count: 1
+    assert_select ".hub-hero-league, .hub-hero-league-panel, .hub-hero-reward, .hub-hero-step", count: 0
+    assert_select ".quiz-hud-pack, .quiz-hud-progress, .quiz-hud-rail", count: 0
     assert_select ".hub-identity-empty", count: 0
-    assert_hub_quick_actions!
+    assert_hub_editorial_contract!
   end
 
   test "home renders every supported ward event kind with its published artwork" do
     sign_in_congregation
     create_street_profile!
-    WardEvent::KINDS.each_with_index do |kind, index|
-      publish_hub_event!(
+    WardEvent::KINDS.each do |kind|
+      event = publish_hub_event!(
         title: "Événement #{kind}",
         kind:,
-        starts_at: 2.hours.from_now + index.minutes
+        starts_at: 10.minutes.from_now
       )
-    end
 
-    get root_path
+      get root_path
 
-    assert_response :success
-    assert_select ".hub-rama-carousel__track" do
-      assert_select "> .hub-rama-card--event", count: WardEvent::KINDS.size
-      assert_select "> .hub-rama-card--event .hub-rama-event__art img[src*='worship']", count: WardEvent::KINDS.size
-      assert_select "> .hub-rama-card--event .hub-rama-event__art img[src*='service-bread']", count: 0
-      assert_select "> .hub-rama-card--event .hub-rama-event__art img[src*='rama-vigil']", count: 0
-      WardEvent::KINDS.each do |kind|
-        assert_select "> .hub-rama-card--event", text: /#{Regexp.escape(I18n.t("hub.rails.event_kinds.#{kind}"))}/, count: 1
+      assert_response :success
+      assert_select ".hub-rama-presence__track" do
+        assert_select "> .hub-rama-event.is-published[href=?]", event.destination_path,
+          text: /#{Regexp.escape(I18n.t("hub.rails.event_kinds.#{kind}"))}/, count: 1 do
+          assert_select ".hub-rama-event__art img[src*='worship']", count: 1
+          assert_select ".hub-rama-event__art img[src*='service-bread'], .hub-rama-event__art img[src*='rama-vigil']", count: 0
+        end
       end
+      assert_operator hub_rama_event_cards.size, :<=, 2
+      event.destroy!
     end
   end
 
   test "home only exposes approved ward events and renders future cancellations without a destination" do
     sign_in_congregation
     create_street_profile!
-    published = publish_hub_event!(title: "Collecte alimentaire publiée")
-    draft = draft_hub_event!(title: "Brouillon privé")
-    cancelled = publish_hub_event!(title: "Collecte annulée")
+    GameSession.where(ward: wards(:demo)).update_all(status: "finished")
+    published = publish_hub_event!(title: "Collecte alimentaire publiée", starts_at: 10.minutes.from_now)
+    draft = draft_hub_event!(title: "Brouillon privé", starts_at: 12.minutes.from_now)
+    cancelled = publish_hub_event!(title: "Collecte annulée", starts_at: 11.minutes.from_now)
     cancelled.cancel!(actor: "Présidence de rama", reason: "La salle est indisponible", at: Time.current)
     bypass = WardEvent.create!(
       ward: wards(:demo),
@@ -100,18 +106,20 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
     get root_path
 
     assert_response :success
-    assert_select ".hub-rama-block .hub-rama-event.is-published[href=?]", published.destination_path, count: 1 do
+    assert_select ".hub-today[data-today-kind='rama_event'] .hub-today__story[href=?]", published.destination_path, count: 1 do
       assert_select "strong", text: published.title
     end
-    assert_select ".hub-rama-carousel__track > article.hub-rama-card--event.hub-rama-event.is-cancelled[role='listitem']", count: 1 do
+    assert_select ".hub-rama-presence .hub-rama-event.is-published[href=?]", published.destination_path, count: 0
+    assert_select ".hub-rama-presence__track > article.hub-rama-event.is-cancelled[role='listitem']", count: 1 do
       assert_select "strong", text: cancelled.title
       assert_select ".hub-rama-event__cancelled", text: I18n.t("hub.rails.rama_cancelled")
-      assert_select ".hub-rama-event__detail", text: I18n.t("hub.rails.rama_cancelled_reason", reason: cancelled.cancellation_reason)
+      assert_select ".hub-rama-event__detail", text: cancelled.cancellation_reason
       assert_select "a", count: 0
     end
-    assert_select ".hub-rama-block", text: /#{Regexp.escape(draft.title)}/, count: 0
-    assert_select ".hub-rama-block", text: /#{Regexp.escape(bypass.title)}/, count: 0
-    assert_select ".hub-rama-block", text: /Événement de l’autre rama/, count: 0
+    assert_select ".hub-rama-presence", text: /#{Regexp.escape(draft.title)}/, count: 0
+    assert_select ".hub-rama-presence", text: /#{Regexp.escape(bypass.title)}/, count: 0
+    assert_select ".hub-rama-presence", text: /Événement de l’autre rama/, count: 0
+    assert_operator hub_rama_event_cards.size, :<=, 2
   end
 
   test "a guest without a ward gets ward discovery without a fabricated identity or local moment" do
@@ -119,37 +127,83 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
     get root_path
 
     assert_response :success
-    assert_equal %i[hero rama_carousel install], hub_feed_sequence
-    assert_select ".hub-rama-carousel .hub-live--feature.is-ward_missing a.hub-live-program[href=?]",
-      street_profile_path(quick: 1, fresh: 1, ward_next: 1), count: 1
-    assert_select ".hub-rama-carousel", count: 1
-    assert_select ".hub-rama-carousel__track > .hub-rama-card--live[role='listitem'] > .hub-live--feature.is-ward_missing", count: 1
-    assert_select ".hub-rama-carousel .hub-rama-card--event, .hub-rama-carousel .hub-rama-card--circle", count: 0
+    assert_equal %i[hero today rama_presence explore watch_frame install], hub_feed_sequence
+    assert_select ".hub-today[data-today-kind='weekly_reading']", count: 1
+    today_href = css_select(".hub-today__story").first["href"]
+    assert_select ".hub-explore-rail a[href=?]", today_href, count: 0
+    assert_select ".hub-rama-presence--missing", count: 1 do
+      assert_select ".hub-rama-presence__action[href=?]",
+        street_profile_path(quick: 1, fresh: 1, ward_next: 1), count: 1
+      assert_select "h2", text: I18n.t("hub.rama.find_title")
+    end
+    assert_select ".hub-live--feature, .hub-rama-event, dl", count: 0
     assert_select ".hub-now", count: 0
     assert_select ".hub-identity-empty", count: 0
     assert_select ".quiz-hud.is-guest .quiz-hud-cta", count: 0
     assert_select ".hub-hero .hub-play", count: 1
-    assert_hub_quick_actions!
+    assert_hub_editorial_contract!
+  end
+
+  test "a signed-in player without a Rama keeps the editorial Home and gets one compact ward invitation" do
+    person = create_street_profile!
+    assert_nil person.ward
+    create_current_hub_week!
+
+    get root_path
+
+    assert_response :success
+    assert_equal %i[hero today rama_presence explore watch_frame install], hub_feed_sequence
+    assert_select ".quiz-hud:not(.is-guest) .quiz-hud-name", text: person.given_name, count: 1
+    assert_select ".hub-today[data-today-kind='weekly_reading']", count: 1
+    today_href = css_select(".hub-today__story").first["href"]
+    assert_select ".hub-explore-rail a[href=?]", today_href, count: 0
+    assert_select ".hub-rama-presence--missing", count: 1 do
+      assert_select ".hub-rama-presence__action[href=?]", search_path(cambiar: 1), count: 1
+    end
+    assert_select ".hub-rama-event, .hub-live--feature, .hub-identity-empty", count: 0
+    assert_hub_editorial_contract!
   end
 
   test "the new Hub copy is available in all four supported locales" do
     %w[es fr en pt-BR].each do |locale|
-      %w[
-        eyebrow title reading_recommended reading_weekly reading_action
-        reading_card_label challenge_incoming challenge_active challenge_accept
-        challenge_open weekly_programme challenge_due challenge_card_label
-      ].each do |key|
+      %w[challenge_incoming challenge_active challenge_accept challenge_open challenge_due].each do |key|
         assert I18n.exists?("hub.now.#{key}", locale), "hub.now.#{key} is missing in #{locale}"
       end
-      %w[title circle_kicker circle_body circle_action circle_card_label circle_news_kicker circle_activity_heading circle_threads circle_replies circle_last_activity circle_activity_label].each do |key|
+      %w[title date_range].each do |key|
+        assert I18n.exists?("hub.today.#{key}", locale), "hub.today.#{key} is missing in #{locale}"
+      end
+      %w[live live_upcoming daily_discovery expedition weekly_reading weekly_program rama_event].each do |kind|
+        assert I18n.exists?("hub.today.kinds.#{kind}", locale), "hub.today.kinds.#{kind} is missing in #{locale}"
+        assert I18n.exists?("hub.today.actions.#{kind}", locale), "hub.today.actions.#{kind} is missing in #{locale}"
+      end
+      assert I18n.exists?("hub.today.kinds.fallback", locale), "hub.today.kinds.fallback is missing in #{locale}"
+      %w[fallback_title fallback_body].each do |key|
+        assert I18n.exists?("hub.today.#{key}", locale), "hub.today.#{key} is missing in #{locale}"
+      end
+      %w[title find_kicker find_title find_body find_action challenge_title challenge_action circle_news_kicker circle_action circle_last_activity].each do |key|
         assert I18n.exists?("hub.rama.#{key}", locale), "hub.rama.#{key} is missing in #{locale}"
       end
-      %w[hero_league_open hero_recent_gains hero_gained hero_gains_empty].each do |key|
-        assert I18n.exists?("hub.#{key}", locale), "hub.#{key} is missing in #{locale}"
+      %w[kicker progress open continue dates].each do |key|
+        assert I18n.exists?("hub.expedition.#{key}", locale), "hub.expedition.#{key} is missing in #{locale}"
+      end
+      %w[explore watch watch_official watch_open watch_card_label reading_to_read reading_in_progress reading_completed reading_card_label].each do |key|
+        assert I18n.exists?("hub.rails.#{key}", locale), "hub.rails.#{key} is missing in #{locale}"
       end
       %w[next_eyebrow resume_eyebrow question_step start_action resume_action].each do |key|
         assert I18n.exists?("hub.#{key}", locale), "hub.#{key} is missing in #{locale}"
       end
+    end
+  end
+
+  test "the honest fallback delegates its date to the visitor's civil clock" do
+    travel_to Time.utc(1900, 1, 2, 23, 30) do
+      get root_path
+    end
+
+    assert_response :success
+    assert_select ".hub-today[data-today-kind='fallback'] article.hub-today__story", count: 1 do
+      assert_select "time[data-controller='local-date'][hidden]", count: 1
+      assert_select "a, button", count: 0
     end
   end
 
@@ -159,21 +213,16 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
     get root_path
 
     assert_response :success
-    assert_equal %i[hero rama_carousel install identity_empty], hub_feed_sequence
-    assert_select ".hub-rama-carousel__track[role='list']", count: 1 do
-      assert_select "> .hub-rama-card--live[role='listitem'] > .hub-live--feature.is-empty", count: 1
-      assert_select "> .hub-rama-card--event", count: 0
-      assert_select "> .hub-rama-card--circle", count: 0
-    end
-    assert_select ".hub-live--feature.is-ward_missing", count: 0
+    assert_equal %i[hero today watch_frame identity_empty install], hub_feed_sequence
+    assert_select ".hub-rama-presence, .hub-rama-carousel, .hub-live--feature", count: 0
     assert_select ".quiz-hud.is-guest .quiz-hud-who.is-guest", count: 1
     assert_select ".hub-now", count: 0
     assert_select ".street-hub-feed > article.hub-identity-empty.is-player-missing", count: 1 do
       assert_select "> a.hub-identity-empty__action[href=?]", street_profile_path(quick: 1, fresh: 1), count: 1
     end
-    assert_select ".street-hub-feed > .hub-install + article.hub-identity-empty.is-player-missing", count: 1
+    assert_select ".street-hub-feed > article.hub-identity-empty.is-player-missing + .hub-install", count: 1
     assert_select ".hub-identity-empty.is-player-unselected", count: 0
-    assert_hub_quick_actions!
+    assert_hub_editorial_contract!
   end
 
   test "a known ward with a linked player but no current selection offers the existing profile picker" do
@@ -185,26 +234,30 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
     get root_path
 
     assert_response :success
-    assert_equal %i[hero rama_carousel install identity_empty], hub_feed_sequence
+    assert_equal %i[hero today watch_frame identity_empty install], hub_feed_sequence
     assert_select ".quiz-hud.is-guest .quiz-hud-who.is-guest", count: 1
     assert_select ".street-hub-feed > article.hub-identity-empty.is-player-unselected", count: 1 do
       assert_select "> a.hub-identity-empty__action[href=?]", street_profile_path(quick: 1), count: 1
     end
     assert_select ".hub-identity-empty.is-player-missing", count: 0
     assert_select ".hub-now", count: 0
-    assert_hub_quick_actions!
+    assert_hub_editorial_contract!
   end
 
-  test "official videos stay in Parole rather than appearing on the Hub" do
+  test "official videos are deferred behind one lazy Home frame instead of entering the initial HTML" do
     video = publish_hub_video!(locale: I18n.locale.to_s, youtube_video_id: "watchVideo5")
 
     get root_path
 
     assert_response :success
     assert_select "img[src=?]", church_video_thumbnail_path(video.youtube_video_id), count: 0
+    assert_select "turbo-frame#hub_watch_rail[loading='lazy'][src=?]",
+      hub_video_highlights_path(locale: I18n.locale), count: 1 do
+      assert_select ".hub-watch-rail, .hub-content-card--video", count: 0
+    end
   end
 
-  test "a recommended chapter keeps its real route and reading status in the vertical stack" do
+  test "a recommended chapter keeps its real route and reading status in the explore rail" do
     sign_in_congregation
     person = create_street_profile!
     question = QuizDefinition.catalog.find_pack("coronas").questions.first
@@ -223,16 +276,16 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
     get root_path
 
     assert_response :success
-    assert_select ".hub-now .hub-now-card.is-in_progress[href=?]",
+    assert_select ".hub-explore-rail .hub-content-card--reading.is-in_progress[href=?]",
       scripture_path(question.scripture.study, cite: question.scripture.cite), count: 1 do
-      assert_select ".hub-now-card__cite", text: question.scripture.cite
-      assert_select ".hub-now-card__status.is-in_progress", text: I18n.t("hub.rails.reading_in_progress", percent: 42)
-      assert_select ".hub-now-card__meter i[style*='42%']", count: 1
+      assert_select ".hub-content-card__copy > span", text: question.scripture.cite
+      assert_select ".hub-content-card__copy > small", text: I18n.t("hub.rails.reading_in_progress", percent: 42)
+      assert_select ".hub-content-card__progress i[style*='42%']", count: 1
     end
   end
 
   test "the weekly programme stays reachable when its entries cannot make a chapter card" do
-    sign_in_congregation
+    sign_in_congregation(wards(:blank))
     create_street_profile!
     week = create_current_hub_week!
     quiz = week.published_quiz
@@ -243,11 +296,17 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
     get root_path
 
     assert_response :success
-    assert_select ".hub-now .hub-now-card--reading", count: 0
-    assert_select ".hub-now__programme[href=?]", scripture_library_path(section: "weekly", unit: week.id, anchor: "selection"), text: I18n.t("hub.now.weekly_programme")
+    assert_select ".hub-explore-rail .hub-content-card--reading", count: 0
+    assert_select ".hub-today[data-today-kind='weekly_program'] a.hub-today__story[href=?]",
+      scripture_library_path(section: "weekly", locale: I18n.locale, unit: week.id, anchor: "cette-semaine"), count: 1
+    assert_select ".hub-rama-presence__track > a.hub-rama-event--challenge[role='listitem'][href=?]",
+      street_challenges_path, count: 1 do
+      assert_select "strong", text: I18n.t("hub.rama.challenge_title")
+      assert_select "dl", count: 0
+    end
   end
 
-  test "PWA utility remains hidden, non-primary, and sits immediately after the Rama carousel" do
+  test "PWA utility remains hidden, non-primary, and sits at the end of the editorial programme" do
     sign_in_congregation
     person = create_street_profile!
     question = QuizDefinition.catalog.find_pack("coronas").questions.first
@@ -257,7 +316,7 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
     get root_path
 
     assert_response :success
-    assert_select ".hub-rama-carousel + article.hub-panel.hub-install--compact[hidden]", count: 1 do
+    assert_select ".street-hub-feed > article.hub-panel.hub-install--compact[hidden]", count: 1 do
       assert_select "[data-pwa-install-target~='tile'][data-pwa-install-state='idle'][aria-busy='false']"
       assert_select "button.hub-install-action[data-pwa-install-target~='action'][data-action='pwa-install#install']"
       assert_select "button.hub-install-dismiss[data-pwa-install-target~='dismiss'][data-action='pwa-install#dismissTile'][aria-label=?]", I18n.t("pwa.not_now")
@@ -266,7 +325,8 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
       assert_select ".hub-install-copy strong", text: I18n.t("pwa.banner_title")
       assert_select ".btn.btn-gold", count: 0
     end
-    assert_select "article.hub-install + .hub-now", count: 1
+    assert_equal :install, hub_feed_sequence.last
+    assert_operator hub_feed_sequence.index(:install), :>, hub_feed_sequence.index(:watch_frame)
     assert_select "dialog.pwa-install-dialog[aria-labelledby='pwa_install_title'][aria-describedby='pwa_install_lede']", count: 1
   end
 
@@ -288,17 +348,17 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
     assert_includes css_select(".hub-slide.is-current").sole.to_html, lcp_rendered_src
     assert_select ".hub-slide.is-current img.hub-slide-still[loading='eager'][fetchpriority='high'][decoding='async']", count: 1
     assert_select "#street_world .street-world-art[loading='lazy'][fetchpriority='low']", count: 1
-    assert_select ".hub-live img[fetchpriority='high'], .hub-now img[fetchpriority='high'], .hub-rama-block img[fetchpriority='high'], .hub-install img[fetchpriority='high']", count: 0
+    assert_select ".hub-today img[fetchpriority='high'], .hub-live img[fetchpriority='high'], .hub-rama-presence img[fetchpriority='high'], .hub-explore-rail img[fetchpriority='high'], .hub-install img[fetchpriority='high']", count: 0
   end
 
-  test "the Hero exposes one action while the Rama carousel stays independently scrollable" do
+  test "the Hero exposes one action while secondary editorial surfaces stay independent" do
     get root_path
 
     assert_response :success
     assert_select ".hub-hero[data-controller='hub-portal'] .hub-voyage > .hub-slide.is-current", count: 1
     assert_select ".hub-hero[data-controller~='hub-voyage'], .hub-voyage-nav, .hub-dot", count: 0
-    assert_select ".hub-rama-carousel .hub-rama-carousel__track[role='list']", count: 1
-    assert_select ".hub-rama-carousel[data-controller~='hub-voyage']", count: 0
+    assert_select ".hub-rama-presence--missing", count: 1
+    assert_select ".hub-rama-presence[data-controller~='hub-voyage']", count: 0
     refute Rails.root.join("app/javascript/controllers/hub_voyage_controller.js").exist?
   end
 
@@ -313,10 +373,11 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select ".hub-hero[data-hero-state='resume']", count: 1 do
       assert_select ".hub-hero-continue", text: I18n.t("hub.resume_eyebrow")
-      assert_select ".hub-hero-step", text: I18n.t("hub.question_step", n: 1, total: 10)
+      assert_select ".hub-hero-progress[aria-label=?]", I18n.t("hub.question_step", n: 1, total: 10), count: 1
       assert_select "a.hub-play[href=?]", jugar_path, text: I18n.t("hub.resume_action", n: 1)
       assert_select ".hub-slide", count: 1
     end
+    assert_select ".quiz-hud-pack, .quiz-hud-progress, .quiz-hud-rail", count: 0
   end
 
   test "artwork selects a shared light or dark Hub markup without a user theme toggle" do
@@ -474,7 +535,7 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
     assert_select ".mapa-node", count: 0
   end
 
-  test "home presents the complete weekly expedition after the Rama rail" do
+  test "home presents the weekly expedition as an editorial teaser before Rama" do
     sign_in_congregation
     create_street_profile!
     week = create_current_expedition_week!
@@ -482,11 +543,17 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
     get root_path
 
     assert_response :success
+    assert_equal %i[hero today expedition rama_presence explore watch_frame install], hub_feed_sequence
     assert_select ".street-hub-feed > .hub-expedition", count: 1 do
       assert_select "h2", text: "Ça aussi, c’est dans les Psaumes"
-      assert_select "ol li", count: 6
+      assert_select ".hub-expedition__copy > strong", text: "Six portes cachées"
+      assert_select ".hub-expedition__copy > span", text: "Entre dans six histoires humaines."
+      assert_select "time[datetime=?]", "#{week.starts_on.iso8601}/#{week.ends_on.iso8601}", count: 1
+      assert_select ".hub-expedition__progress", text: I18n.t("hub.expedition.progress", done: 0, total: 6), count: 1
       assert_select ".hub-expedition__cta[href=?]", street_map_path(view: "expeditions", expedition: week.id)
+      assert_select "ol, li, .hub-expedition__doors", count: 0
     end
+    assert_operator hub_feed_sequence.index(:expedition), :<, hub_feed_sequence.index(:rama_presence)
   end
 
   test "map page stylesheet stays off the home render path" do
@@ -556,8 +623,11 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
       css_select(".street-hub-feed > *").map do |node|
         classes = node["class"].to_s.split
         next :hero if classes.include?("hub-hero")
-        next :rama_carousel if classes.include?("hub-rama-carousel")
-        next :now if classes.include?("hub-now")
+        next :today if classes.include?("hub-today")
+        next :expedition if classes.include?("hub-expedition")
+        next :rama_presence if classes.include?("hub-rama-presence")
+        next :explore if classes.include?("hub-explore-rail")
+        next :watch_frame if node.name == "turbo-frame" && node["id"] == "hub_watch_rail"
         next :install if classes.include?("hub-install")
         next :identity_empty if classes.include?("hub-identity-empty")
 
@@ -565,19 +635,19 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
       end
     end
 
-    def assert_hub_quick_actions!
-      assert_select ".hub-rama-carousel__track[role='list']", count: 1 do
-        assert_select "> a.hub-rama-card--challenge[role='listitem'][href=?]", street_challenges_path,
-          text: /#{Regexp.escape(I18n.t("duel_campus.title"))}/, count: 1 do
-          assert_select ".hub-rama-event__art img[src*='campus-scriptures-celestial-dark-v1']", count: 1
-          assert_select "dl.hub-rama-challenge-counts[aria-label=?]", I18n.t("duel_campus.summary"), count: 1 do
-            assert_select "> div", count: 3
-          end
-        end
-        assert_select "> a.hub-rama-card--videos[role='listitem'][href=?]", church_videos_path(locale: I18n.locale),
-          text: /#{Regexp.escape(I18n.t("hub.videos_kicker"))}/, count: 1
-      end
+    def assert_hub_editorial_contract!
+      assert_select ".street-hub-feed > .hub-today[data-today-kind]", count: 1
+      assert_select ".hub-rama-card--videos, .hub-rama-challenge-counts, .hub-now, dl", count: 0
+      assert_select "turbo-frame#hub_watch_rail[loading='lazy'][src=?]",
+        hub_video_highlights_path(locale: I18n.locale), count: 1
       assert_select ".street-hub-feed > nav.hub-quick-actions", count: 0
+    end
+
+    def hub_rama_event_cards
+      css_select(".hub-rama-presence__track > .hub-rama-event").reject do |node|
+        classes = node["class"].to_s.split
+        classes.include?("hub-rama-event--circle") || classes.include?("hub-rama-event--challenge")
+      end
     end
 
     def add_unresolved_hub_answer!(person, question:)

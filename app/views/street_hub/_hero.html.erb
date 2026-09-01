@@ -1,6 +1,5 @@
 <% hero = screen.hero %>
 <% resumable = hero.state == :resume %>
-<% reward_chest_src = street_ceremony_asset_src("reward-chest") %>
 <% still_source = hero.still.presence || screen.backdrop.hero %>
 <% eyebrow = t(resumable ? "hub.resume_eyebrow" : "hub.next_eyebrow") %>
 <% action_label = resumable ? t("hub.resume_action", n: hero.step_n) : t("hub.start_action") %>
@@ -22,11 +21,6 @@
         one action only. Browsing other packs belongs on the Adventure map. %>
     <div class="hub-voyage">
       <section class="hub-slide is-current" data-kind="current" aria-hidden="false">
-        <span class="hub-hero-worldmark" aria-hidden="true">
-          <strong>Noche</strong>
-          <span class="hub-hero-worldmark__sub">Live Hub</span>
-          <span class="hub-hero-worldmark__tagline"><%= eyebrow %></span>
-        </span>
         <% if still_source.present? %>
           <%= noche_media_picture(
                 still_source,
@@ -40,11 +34,8 @@
         <div class="hub-slide-copy">
           <div class="hub-slide-copy-top">
             <p class="hub-kicker hub-hero-continue"><%= eyebrow %></p>
-            <h2 class="hub-hero-title"><%= hero.kicker %></h2>
-            <div class="hub-hero-meta">
-              <p class="hub-hero-step"><%= step_label %></p>
-              <p class="hub-hero-name"><%= hero.title %></p>
-            </div>
+            <% if hero.kicker.present? %><p class="hub-hero-name"><%= hero.kicker %></p><% end %>
+            <h1 class="hub-hero-title"><%= hero.title %></h1>
             <p class="hub-hero-lede"><%= hero.lede %></p>
           </div>
           <div class="hub-hero-actions">
@@ -82,55 +73,6 @@
                 <% end %>
               <% end %>
             </div>
-            <% if screen.league&.rank %>
-              <div class="hub-hero-league-panel">
-                <%= link_to street_leaderboard_path, class: "hub-hero-league", aria: { label: t("hub.hero_league_open") } do %>
-                  <span class="hub-hero-league__rank"><%= picto("podium") %><strong>#<%= screen.league.rank %></strong></span>
-                  <span class="hub-hero-league__copy">
-                    <b><%= t("hub.hero_league_position", rank: screen.league.rank, players: screen.league.players) %></b>
-                    <% if screen.league.rank == 1 %>
-                      <small><%= t("hub.hero_league_top") %></small>
-                    <% elsif screen.league.rival_name && screen.league.rival_gap %>
-                      <small><%= t("hub.hero_league_rival", gap: screen.league.rival_gap, name: screen.league.rival_name) %></small>
-                    <% end %>
-                  </span>
-                  <%= picto("arrow") %>
-                <% end %>
-                <% if screen.league.recent_gains.present? %>
-                  <ol class="hub-hero-gains" aria-label="<%= t("hub.hero_recent_gains") %>">
-                    <% screen.league.recent_gains.each do |gain| %>
-                      <li>
-                        <span class="hub-hero-gain__avatar" aria-hidden="true"><%= gain.name.to_s.first %></span>
-                        <span><strong><%= gain.name %></strong> <%= t("hub.hero_gained", points: gain.points) %></span>
-                        <time datetime="<%= gain.at.iso8601 %>"><%= l(gain.at, format: :short) %></time>
-                      </li>
-                    <% end %>
-                  </ol>
-                <% else %>
-                  <p class="hub-hero-gains-empty"><%= t("hub.hero_gains_empty") %></p>
-                <% end %>
-              </div>
-            <% end %>
-            <% if hero.reward.to_i.positive? %>
-              <span class="hub-reward">
-                <% if reward_chest_src %>
-                  <%= noche_media_picture(
-                        reward_chest_src,
-                        alt: "",
-                        class_name: "hub-reward-chest"
-                      ) %>
-                <% else %>
-                  <%= picto("chest") %>
-                <% end %>
-                <span class="hub-reward-copy">
-                  <em class="hub-reward-label"><%= t("hub.reward") %></em>
-                  <strong class="hub-reward-value">
-                    <span>+<%= hero.reward %></span>
-                    <%= picto("crown") %>
-                  </strong>
-                </span>
-              </span>
-            <% end %>
           </div>
         </div>
       </section>

@@ -65,6 +65,27 @@ class Hud::BarComponentTest < ViewComponent::TestCase
     assert_no_selector ".quiz-hud-cta"
   end
 
+  test "editorial street HUD omits empty crown and streak counters" do
+    bar = Huds::Present::Result.new(
+      kind: :street,
+      guest: false,
+      name: "Pilar",
+      rank_key: "explorador",
+      level: 1,
+      xp_progress: 0,
+      dots: [],
+      crowns: nil,
+      streak: nil
+    )
+
+    render_inline(Hud::BarComponent.new(bar:))
+
+    assert_selector ".quiz-hud-name", text: "Pilar"
+    assert_no_selector ".quiz-hud-stats"
+    assert_no_selector ".quiz-hud-score"
+    assert_no_selector ".quiz-hud-streak"
+  end
+
   test "quiz HUD keeps crown score targets and the same living fire as the payoff" do
     bar = Huds::Present::Result.new(
       kind: :quiz,

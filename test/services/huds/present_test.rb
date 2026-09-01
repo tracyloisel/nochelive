@@ -1,6 +1,56 @@
 require "test_helper"
 
 class Huds::PresentTest < ActiveSupport::TestCase
+  test "Home can keep identity in the HUD without repeating hero progress" do
+    player = Hubs::Screen::Player.new(
+      name: "Pili",
+      rank_key: "explorer",
+      level: 2,
+      xp_now: 120,
+      xp_next: 200,
+      xp_progress: 60,
+      crowns: 120,
+      streak: 3,
+      guest: false
+    )
+    hero = Hubs::Screen::Hero.new(title: "La puerta estrecha", step_n: 4, step_total: 10)
+    screen = Hubs::Screen::Result.new(player:, hero:)
+
+    bar = Huds::Present.from_screen(screen:, show_adventure: false)
+
+    assert_equal "Pili", bar.name
+    assert_equal 120, bar.crowns
+    assert_nil bar.pack_title
+    assert_equal 0, bar.progress_n
+    assert_equal 0, bar.progress_total
+    assert_empty bar.dots
+  end
+
+  test "Home hides empty crown and streak values without hiding real progress" do
+    player = Hubs::Screen::Player.new(
+      name: "Pili",
+      rank_key: "explorer",
+      level: 1,
+      xp_progress: 0,
+      crowns: 0,
+      streak: 0,
+      guest: false
+    )
+    screen = Hubs::Screen::Result.new(player:, hero: Hubs::Screen::Hero.new)
+
+    editorial_bar = Huds::Present.from_screen(
+      screen:,
+      show_adventure: false,
+      show_empty_stats: false
+    )
+    regular_bar = Huds::Present.from_screen(screen:)
+
+    assert_nil editorial_bar.crowns
+    assert_nil editorial_bar.streak
+    assert_equal 0, regular_bar.crowns
+    assert_equal 0, regular_bar.streak
+  end
+
   test "street HUD keeps a player's crowns without an active ward" do
     person = people(:pili)
     crowns = Quizzes::Complete.total_best(person)

@@ -187,7 +187,7 @@ class UiChromeTest < ActionDispatch::IntegrationTest
     assert_includes css, ".play-reel.is-street.is-quiz .play-sheet-body"
     assert_includes css, "padding: calc(var(--space-5) + var(--space-1)) var(--space-5)"
     assert_includes css, ".street-world"
-    assert_includes css, ".hub-now-card"
+    assert_includes css, ".hub-content-rail__track"
     assert_includes css, "street-sheet-rise"
     assert_includes css, ".hall-sheet"
     assert_includes css, ".charter-journey-hero"
