@@ -10,22 +10,8 @@ class WardProfilesController < ApplicationController
 
     remember_ward(@ward)
     configure_ward_seo
-    @ward_display_name = params[:slug].present? ? t("seo.ward.heading", city: @ward.city.presence || @ward.name) : @ward.name
-    live_nights = @ward.game_sessions.live
-    @live_nights = live_nights.order(:starts_at, :id).limit(8).to_a
-    @featured_night = @live_nights.first
-    remaining_live = @featured_night ? live_nights.where.not(id: @featured_night.id) : live_nights
-    @upcoming_nights_count = remaining_live.count
-    @upcoming_nights = remaining_live.order(:starts_at, :id).limit(3).to_a
-    @rama_events = Hubs::RamaEvents.call(ward: @ward, at: Time.current, limit: 4)
-    @featured_participants_count = @featured_night&.players&.count.to_i
-    online_ids = Presences::Registry.online_person_ids(ward_id: @ward.id)
-    @online_people = @ward.people
-      .where(id: online_ids)
-      .order(:given_name)
-      .limit(4)
-      .to_a
-    @online_count = online_ids.size
+    @featured_night = @ward.game_sessions.live.order(:starts_at, :id).first
+    @featured_night_artwork = featured_night_artwork(@featured_night)
     person = current_street_person
     person = nil unless person&.ward_id == @ward.id
     @study_week = StudyUnit
@@ -34,7 +20,6 @@ class WardProfilesController < ApplicationController
       .where("study_units.starts_on <= ? AND study_units.ends_on >= ?", Date.current, Date.current)
       .order(Arel.sql("study_programs.year DESC"), :position, :id)
       .first
-    @study_community = Studies::Community.call(ward: @ward, week: @study_week)
     study_quiz = @study_week&.published_quiz
     @expedition = if study_quiz&.expedition?
       Expeditions::Presentation.call(
@@ -52,6 +37,19 @@ class WardProfilesController < ApplicationController
       ).order(updated_at: :desc).first
     end
     @study_progress = @expedition ? @expedition.completed_count : (@study_run ? @study_run.study_answers.count : 0)
+    @ward_unit_kind = @ward.unit_kind.presence || inferred_unit_kind(@ward)
+    @circle_visible = person.present? && @ward.scripture_circle_readable?
+    @circle_writable = @circle_visible && @ward.scripture_circle_active?
+    @circle_highlights = if @circle_visible
+      ScriptureCircles::WardHighlights.call(
+        ward: @ward,
+        person:,
+        locale: I18n.locale,
+        references: @study_week&.scripture_refs
+      )
+    else
+      []
+    end
     @board = Quizzes::Leaderboard.call(
       ward: @ward,
       person:,
@@ -62,6 +60,19 @@ class WardProfilesController < ApplicationController
   end
 
   private
+
+    def featured_night_artwork(night)
+      return "scripture.library.daily.ps137.suspended-harps" if night&.quiz_pack_ids&.include?("exp_psalms_suspended_harps")
+
+      night&.primary_quiz_pack&.questions&.first&.presentation&.[]("image").presence ||
+        "scripture.library.daily.ps137.suspended-harps"
+    end
+
+    def inferred_unit_kind(ward)
+      return "branch" if ward.name.to_s.match?(/\A(?:rama|ramo|branch|branche)\b/i)
+
+      "ward"
+    end
 
     def configure_ward_seo
       city = @ward.city.presence || @ward.name

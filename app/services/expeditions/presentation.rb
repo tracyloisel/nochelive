@@ -36,14 +36,20 @@ module Expeditions
     def call
       return unless @quiz.expedition?
 
-      packs = @quiz.expedition_pack_ids.filter_map { |pack_id| build_pack(pack_id) }
-      return if packs.empty?
+      pack_ids = @quiz.expedition_pack_ids
+      packs = pack_ids.filter_map { |pack_id| build_pack(pack_id) }
+      # One untranslated door would make the whole expedition feel partially
+      # localized. Fail closed instead of silently borrowing the global
+      # Spanish fallback or rendering an incomplete constellation.
+      return unless packs.size == pack_ids.size
+      title = localized("title")
+      return unless title
 
       completed = packs.count { |pack| pack.state == :finished }
       Result.new(
         id: @data["id"].presence || "study-unit-#{@unit.id}",
         study_unit: @unit,
-        title: localized("title") || @unit.theme(@locale),
+        title:,
         subtitle: localized("subtitle"),
         promise: localized("promise"),
         artwork: @data["artwork"].presence || @quiz.content["artwork"].to_s,
@@ -68,21 +74,24 @@ module Expeditions
         view = Array(@world&.packs).find { |candidate| candidate.id == pack_id }
         state, stars, open_run_id = progress_for(pack_id, view)
         metadata = Array(@data["packs"]).find { |row| row["id"].to_s == pack_id } || {}
+        title = localized_pack_copy(pack_id, metadata, definition, "title")
+        kicker = localized_pack_copy(pack_id, metadata, definition, "kicker")
+        lede = localized_pack_copy(pack_id, metadata, definition, "lede")
+        hook = localized_pack_copy(pack_id, metadata, definition, "hook")
+        return unless title && kicker && (lede || hook)
 
-        I18n.with_locale(@locale) do
-          Pack.new(
-            id: pack_id,
-            title: localized_pack_copy(pack_id, metadata, definition, "title"),
-            kicker: localized_pack_copy(pack_id, metadata, definition, "kicker"),
-            lede: localized_pack_copy(pack_id, metadata, definition, "lede"),
-            hook: localized_pack_copy(pack_id, metadata, definition, "hook"),
-            question_count: definition.questions.size,
-            state:,
-            stars:,
-            open_run_id:,
-            artwork: definition.questions.first&.presentation&.fetch("image", nil)
-          )
-        end
+        Pack.new(
+          id: pack_id,
+          title:,
+          kicker:,
+          lede:,
+          hook:,
+          question_count: definition.questions.size,
+          state:,
+          stars:,
+          open_run_id:,
+          artwork: definition.questions.first&.presentation&.fetch("image", nil)
+        )
       end
 
       # Expedition doors are freely selectable. A locked state in the complete
@@ -105,18 +114,31 @@ module Expeditions
       end
 
       def localized_pack_copy(pack_id, metadata, definition, key)
-        localized_from(metadata, key, fallback: false).presence ||
-          I18n.t("quizzes.#{pack_id}.#{key}", default: nil).presence ||
-          (definition.copy(key) if %w[title kicker lede].include?(key))
+        localized_from(metadata, key).presence ||
+          exact_public_pack_copy(pack_id, key) ||
+          authored_pack_copy(definition, key)
       end
 
-      def localized_from(source, key, fallback: true)
+      def exact_public_pack_copy(pack_id, key)
+        i18n_key = "expedition_pack_presentations.#{pack_id}.#{key}"
+        return unless I18n.exists?(i18n_key, @locale, fallback: false)
+
+        I18n.t(i18n_key, locale: @locale, fallback: false).to_s.presence
+      end
+
+      def authored_pack_copy(definition, key)
+        return unless @locale == @quiz.editorial_locale.to_s
+        return unless %w[title kicker lede].include?(key)
+
+        definition.public_send(key).to_s.presence
+      end
+
+      def localized_from(source, key)
         value = source[key]
-        return value.to_s.presence unless value.is_a?(Hash)
+        return value[@locale].presence if value.is_a?(Hash)
+        return unless @locale == @quiz.editorial_locale.to_s
 
-        return value[@locale].presence unless fallback
-
-        value[@locale].presence || value["fr"].presence || value.values.find(&:present?)
+        value.to_s.presence
       end
 
       def date_state

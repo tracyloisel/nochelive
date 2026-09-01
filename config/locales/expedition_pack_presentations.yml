@@ -1,0 +1,131 @@
+fr:
+  expedition_pack_presentations:
+    exp_psalms_disappearing_voice:
+      title: "La voix qui disparaît"
+      kicker: "Psaumes 102–103"
+      lede: "Quand tes jours partent en fumée, qu’est-ce qui demeure ?"
+      hook: "Un homme dit que ses jours partent en fumée. Pourtant, son chant est encore là."
+    exp_psalms_nameless_king:
+      title: "Le roi sans nom"
+      kicker: "Psaume 110"
+      lede: "Un roi reçoit une étrange promesse : prêtre pour toujours."
+      hook: "Dieu réunit un roi et un prêtre dans le même homme. Puis un nom surgit : Melchisédek."
+    exp_psalms_cry_stone_seek:
+      title: "Cherche-moi"
+      kicker: "Psaumes 116–119"
+      lede: "Crier, franchir la porte, puis demander à Dieu : cherche-moi."
+      hook: "Le plus long psaume ne finit pas en triomphe. Il finit par un appel : je suis perdu. Cherche-moi."
+    exp_psalms_house_table_city:
+      title: "La maison que Dieu bâtit"
+      kicker: "Psaumes 127–128"
+      lede: "Travailler, aimer, bâtir — sans porter seul le poids du monde."
+      hook: "Tu travailles, tu veilles, tu recommences. Mais est-ce que tout repose vraiment sur toi ?"
+    exp_psalms_suspended_harps:
+      title: "Les harpes suspendues"
+      kicker: "Psaumes 135–139"
+      lede: "On a détruit leur ville. Puis on leur a demandé de la chanter."
+      hook: "On détruit leur ville. Puis on leur demande de la chanter. Ils suspendent leurs harpes."
+    exp_psalms_everything_breathes:
+      title: "Tout ce qui respire"
+      kicker: "Psaumes 146–150"
+      lede: "Le Dieu qui compte les étoiles s’arrête devant les cœurs brisés."
+      hook: "Il compte les étoiles. Il guérit les cœurs brisés. Et le dernier instrument, c’est tout ce qui respire."
+
+es:
+  expedition_pack_presentations:
+    exp_psalms_disappearing_voice:
+      title: "La voz que desaparece"
+      kicker: "Salmos 102–103"
+      lede: "Cuando tus días se disipan como humo, ¿qué permanece?"
+      hook: "Un hombre dice que sus días se disipan como humo. Sin embargo, su canto sigue aquí."
+    exp_psalms_nameless_king:
+      title: "El rey sin nombre"
+      kicker: "Salmo 110"
+      lede: "Un rey recibe una promesa extraña: sacerdote para siempre."
+      hook: "Dios reúne a un rey y a un sacerdote en la misma persona. Entonces surge un nombre: Melquisedec."
+    exp_psalms_cry_stone_seek:
+      title: "Búscame"
+      kicker: "Salmos 116–119"
+      lede: "Clamar, cruzar la puerta y pedirle a Dios: búscame."
+      hook: "El salmo más largo no termina en triunfo. Termina con una súplica: estoy perdido. Búscame."
+    exp_psalms_house_table_city:
+      title: "La casa que Dios edifica"
+      kicker: "Salmos 127–128"
+      lede: "Trabajar, amar y edificar sin cargar tú solo con el peso del mundo."
+      hook: "Trabajas, velas, vuelves a empezar. Pero ¿de verdad todo descansa sobre ti?"
+    exp_psalms_suspended_harps:
+      title: "Las arpas suspendidas"
+      kicker: "Salmos 135–139"
+      lede: "Destruyeron su ciudad. Después les pidieron que la cantaran."
+      hook: "Les destruyen la ciudad. Después les piden que la canten. Ellos cuelgan sus arpas."
+    exp_psalms_everything_breathes:
+      title: "Todo lo que respira"
+      kicker: "Salmos 146–150"
+      lede: "El Dios que cuenta las estrellas se detiene ante los corazones quebrantados."
+      hook: "Cuenta las estrellas. Sana los corazones quebrantados. Y el último instrumento es todo lo que respira."
+
+en:
+  expedition_pack_presentations:
+    exp_psalms_disappearing_voice:
+      title: "The Vanishing Voice"
+      kicker: "Psalms 102–103"
+      lede: "When your days vanish like smoke, what remains?"
+      hook: "A man says his days are vanishing like smoke. Yet his song is still here."
+    exp_psalms_nameless_king:
+      title: "The Nameless King"
+      kicker: "Psalm 110"
+      lede: "A king receives a strange promise: to be a priest forever."
+      hook: "God brings king and priest together in one man. Then a name appears: Melchizedek."
+    exp_psalms_cry_stone_seek:
+      title: "Come Find Me"
+      kicker: "Psalms 116–119"
+      lede: "Cry out, cross the gate, then ask God: come find me."
+      hook: "The longest psalm does not end in triumph. It ends with a plea: I’m lost. Come find me."
+    exp_psalms_house_table_city:
+      title: "The House God Builds"
+      kicker: "Psalms 127–128"
+      lede: "Work, love, build—without carrying the weight of the world alone."
+      hook: "You work, you keep watch, you start again. But does everything really rest on you?"
+    exp_psalms_suspended_harps:
+      title: "The Hanging Harps"
+      kicker: "Psalms 135–139"
+      lede: "Their city was destroyed. Then they were told to sing about it."
+      hook: "Their city is destroyed. Then they’re told to sing about it. They hang up their harps."
+    exp_psalms_everything_breathes:
+      title: "Everything That Breathes"
+      kicker: "Psalms 146–150"
+      lede: "The God who counts the stars stops for the brokenhearted."
+      hook: "He counts the stars. He heals broken hearts. And the final instrument is everything that breathes."
+
+pt-BR:
+  expedition_pack_presentations:
+    exp_psalms_disappearing_voice:
+      title: "A voz que desaparece"
+      kicker: "Salmos 102–103"
+      lede: "Quando seus dias viram fumaça, o que permanece?"
+      hook: "Um homem diz que seus dias viram fumaça. Mesmo assim, o canto dele ainda está aqui."
+    exp_psalms_nameless_king:
+      title: "O rei sem nome"
+      kicker: "Salmo 110"
+      lede: "Um rei recebe uma promessa estranha: sacerdote para sempre."
+      hook: "Deus reúne rei e sacerdote na mesma pessoa. Então surge um nome: Melquisedeque."
+    exp_psalms_cry_stone_seek:
+      title: "Vem me buscar"
+      kicker: "Salmos 116–119"
+      lede: "Clamar, atravessar a porta e pedir a Deus: vem me buscar."
+      hook: "O salmo mais longo não termina em triunfo. Termina com um pedido: estou perdido. Vem me buscar."
+    exp_psalms_house_table_city:
+      title: "A casa que Deus constrói"
+      kicker: "Salmos 127–128"
+      lede: "Trabalhar, amar e construir sem carregar o peso do mundo sozinho."
+      hook: "Você trabalha, vigia, começa de novo. Mas será que tudo depende mesmo de você?"
+    exp_psalms_suspended_harps:
+      title: "As harpas penduradas"
+      kicker: "Salmos 135–139"
+      lede: "Destruíram a cidade deles. Depois pediram que cantassem sobre ela."
+      hook: "A cidade deles é destruída. Depois pedem que cantem sobre ela. Eles penduram as harpas."
+    exp_psalms_everything_breathes:
+      title: "Tudo o que respira"
+      kicker: "Salmos 146–150"
+      lede: "O Deus que conta as estrelas se detém diante de corações partidos."
+      hook: "Ele conta as estrelas. Cura corações partidos. E o último instrumento é tudo o que respira."

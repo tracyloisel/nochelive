@@ -22,16 +22,16 @@ progression humaine et peut donc différer de l'ordre des chapitres.
 | expedition-historian | Auteurs possibles, datations, monde, lieux, pratiques | Veto absolu sur la vérité historique |
 | expedition-exegete | Texte, poésie, mots, liens, réceptions chrétiennes/LDS | Veto absolu sur la fidélité au texte |
 | expedition-showrunner | Trois angles, architecture interne et plan des sept jours de Bibliothèque | Ne possède aucun fait ni parole publique |
-| expedition-spiritual-experience-director | Expérience spirituelle, contenu formatif des quiz et expérience de chaque jour | Veto sur tout pack ou édito exact mais sans expérience ou pertinence pour l'âme |
+| expedition-spiritual-experience-director | Expérience spirituelle, architecture de connaissance et d'enquête des quiz, spécification sémantique et expérience de chaque jour | Veto sur tout pack ou édito exact mais sans expérience, progression de découverte ou pertinence pour l'âme |
 | expedition-human-dramaturge | Situations humaines, désirs, relations, gestes, silences et sous-texte avant tout brief d'illustration | Veto absolu sur les métaphores littérales et les images jolies mais émotionnellement génériques |
-| expedition-incarnate-writer | Titres, packs, hooks, scripts, éditos en quatre langues et explications dicibles | Oublie le jargon du dossier, conserve ses claim IDs |
-| expedition-game-designer | 2–7 packs, rythme, répétition, progression, récompenses | Met en jeu les questions formatives sans décider seul ce qui mérite d'être appris |
+| expedition-incarnate-writer | Titres, packs, hooks, scripts, éditos en quatre langues et copie finale jouée des quiz | Formule prompts, choix, corrections courtes et CTA lecteur ; oublie le jargon du dossier et conserve ses claim IDs |
+| expedition-game-designer | 2–7 packs, ordre, rythme, répétition, progression, récompenses | Met en jeu les questions formatives sans décider seul ce qui mérite d'être appris ni réécrire leur copie finale |
 | expedition-art-director | Key art, map, Light/Dark, briefs des packs et sept artworks Bibliothèque responsives | Ne représente pas l'incertain comme fait ; possède le Library Art Gate |
 | expedition-film-director | Brief exploitable Kling/Veo plan par plan | Ne monte pas et ne change pas les claims |
 | expedition-social-video-editor | Cut 9:16, captions, ruptures, silence, son | Coupe les plans, pas la vérité |
 | reel-editor-retention | Simulation du swipe seconde par seconde | Veto absolu sur la publication sociale |
-| human-voice-reviewer | Lecture à voix haute et test vocal WhatsApp, dont les quatre locales Bibliothèque | Veto absolu sur la voix publique |
-| expedition-fact-checker | Contrôle final de chaque transformation, date et représentation | Veto absolu sur les Truth Gates |
+| human-voice-reviewer | Lecture à voix haute et test vocal WhatsApp, dont les quiz et les quatre locales Bibliothèque | Veto absolu sur la voix publique, révision par révision |
+| expedition-fact-checker | Contrôle final de chaque transformation, date et représentation, dont la copie jouée des quiz | Veto absolu sur les Truth Gates, sur la même révision que la Human Voice Gate |
 
 Les configurations vivent dans `.codex/agents`.
 
@@ -56,9 +56,24 @@ library_editorial.days[].artwork     → Directeur artistique
 library_editorial.workflow           → Directeur
 experience_design               → Directeur d'expérience spirituelle
 human_dramaturgy                → Dramaturge humain
-formation_quizzes               → Directeur d'expérience spirituelle
+formation_quizzes               → Directeur d'expérience spirituelle, pour le contrat sémantique
+formation_quizzes.items[].semantic_handoff → Directeur d'expérience spirituelle
+formation_quizzes.items[].formation_goal   → Directeur d'expérience spirituelle
+formation_quizzes.items[].soul_relevance   → Directeur d'expérience spirituelle
+formation_quizzes.items[].scenario         → Directeur d'expérience spirituelle
+formation_quizzes.items[].choices[].diagnosis → Directeur d'expérience spirituelle
+formation_quizzes.items[].correct_choice   → Directeur d'expérience spirituelle
+formation_quizzes.items[].prompt           → Auteur incarné
+formation_quizzes.items[].choices[].text   → Auteur incarné
+formation_quizzes.items[].correction       → Auteur incarné
+formation_quizzes.items[].reader_cta_label → Auteur incarné
+formation_quizzes.copy_revision            → Auteur incarné
+formation_quizzes.items[].copy_handoff     → Auteur incarné
+formation_quizzes.items[].writer_self_check → Auteur incarné
 public_story                    → Auteur incarné
 packs                           → Game Designer
+packs.items[].formation_question_ids → Game Designer
+packs.items[].repetition_schedule    → Game Designer
 visual_language                 → Directeur artistique
 trailer.directing               → Réalisateur
 trailer.edit                    → Social Video Editor
@@ -74,6 +89,13 @@ review.library_editorial.human_dramaturgy_gate → Dramaturge humain
 review.library_editorial.truth_gate       → Fact Checker
 review.library_editorial.human_voice_gate → Human Voice Reviewer
 ~~~
+
+Le chemin le plus précis prévaut sur le propriétaire de sa section parente.
+Ainsi, le Directeur d'expérience garde la vérité testée et le sens de chaque
+distracteur, tandis que l'Auteur incarné possède les mots effectivement lus
+par le joueur. L'ordre d'apparition et la répétition vivent dans `packs`, chez
+le Game Designer ; l'ordre physique des entrées de `formation_quizzes.items`
+n'est pas une séquence de jeu.
 
 Une correction de claim crée une nouvelle révision ou un lien supersedes.
 Elle n'écrase pas silencieusement ce que d'autres agents ont déjà utilisé.
@@ -271,7 +293,7 @@ CONSEIL
 DIRECTEUR
   ↓ arbitrage explicite
 DIRECTEUR D'EXPÉRIENCE SPIRITUELLE
-  ↓ expérience locale + questions qui forment un discernement
+  ↓ expérience locale + enquête de connaissance + spécification sémantique
   ↳ REJECT retourne au Showrunner
 DRAMATURGE HUMAIN
   ↓ scène vécue; rejette la métaphore littérale et l'émotion générique
@@ -279,7 +301,13 @@ DRAMATURGE HUMAIN
 AUTEUR INCARNÉ
   ↓ titre, hooks et récit humain, sans langage de dossier
 GAME DESIGNER + DIRECTEUR ARTISTIQUE (après PASS dramaturgique)
-  ↓ répétition jouable, packs et monde en parallèle
+  ↓ ordre, rythme, répétition jouable, packs et monde en parallèle
+AUTEUR INCARNÉ
+  ↓ prompts, choix, corrections courtes et CTA lecteur dans l'ordre réellement joué
+HUMAN VOICE REVIEWER
+  ↓ voix du quiz sur la copy_revision finale
+FACT CHECKER
+  ↓ vérité du quiz sur cette même copy_revision
 SHOWRUNNER + EXPÉRIENCE + DRAMATURGE + AUTEUR + ART
   ↓ 7 éditos Bibliothèque datés, 4 locales, 21 compositions maîtres
 DIRECTEUR D'EXPÉRIENCE SPIRITUELLE
@@ -388,7 +416,12 @@ Même protocole pour une question :
 ~~~text
 « Qui a écrit le Psaume 102 ? David / Salomon / Moïse »
 → VETO : réponse non défendable.
-→ Retour au Game Designer.
+→ Retour au Directeur d'expérience pour réparer la spécification sémantique.
+
+« Le texte permet-il de nommer ce roi avec certitude ? »
+→ UNSAYABLE : connaissance défendable, formulation d'examen.
+→ Retour à l'Auteur incarné : « Sait-on qui est ce roi ? »
+→ Nouvelle copy_revision ; Human Voice Gate et Truth Gate redeviennent pending.
 ~~~
 
 ## Les cinq portes
@@ -410,11 +443,40 @@ humain. La DA attend également le Human Dramaturgy Gate. Leurs livrables
 repassent ensuite l'Experience Gate. Il ne prescrit jamais l'émotion, ne note
 pas la foi et ne transforme pas le traumatisme en mécanique de rétention.
 
-Pour les quiz, le Directeur d'expérience spirituelle possède
-`formation_quizzes` : objectif formatif, pertinence pour l'âme, scénario,
-choix, erreur de lecture visée, correction, invitation libre et variante de
-répétition. Le Game Designer possède le rythme, l'ordre, la difficulté, les
-récompenses et la maîtrise espacée.
+Pour les quiz, le Directeur d'expérience spirituelle possède l'enquête de
+connaissance et la spécification sémantique de `formation_quizzes` : objectif
+formatif, pertinence pour l'âme, étape de l'enquête, vérité à révéler, sens de
+la bonne réponse, intention de chaque distracteur, erreur de lecture visée,
+invitation libre et curiosité à laisser ouverte. Il ne possède pas la phrase
+finale affichée.
+
+Le Game Designer possède l'ordre réellement joué, le rythme, la difficulté,
+les récompenses et la maîtrise espacée. Il déplace les IDs de questions et
+planifie leurs reprises ; il ne réécrit ni leur vérité ni leur voix.
+
+L'Auteur incarné reçoit le handoff sémantique et l'ordre de jeu, puis possède
+la formulation finale des champs plats consommés par le runtime : `prompt`,
+`choices[].text`, `correction` courte et `reader_cta_label`. La correction
+révèle assez pour rendre la réponse intelligible, mais renvoie à la liseuse
+pour le développement. La frontière produit est absolue :
+
+> **Le quiz provoque la curiosité. La Bibliothèque la satisfait.**
+
+Avant tout handoff de revue, l'Auteur passe trois tests obligatoires :
+
+1. **Question humaine** — est-ce qu'un humain poserait réellement la question
+   comme ça ?
+2. **Choix en moins de deux secondes** — les réponses se comprennent-elles
+   toutes sans relire ni décoder du jargon ?
+3. **Curiosité ouverte** — la révélation donne-t-elle envie de découvrir
+   quelque chose de plus ?
+
+Un seul `false` renvoie la copie à l'Auteur. Une fois les trois tests passés,
+le Human Voice Reviewer contrôle la voix, puis le Fact Checker contrôle la
+vérité sur exactement la même `formation_quizzes.copy_revision`. Toute
+réécriture de `prompt`, `choices[].text`, `correction` ou `reader_cta_label`,
+même minime, incrémente cette révision globale et invalide les deux contrôles.
+Aucun PASS de voix ou de vérité d'une révision antérieure ne peut être reporté.
 
 Il planifie aussi neuf lentilles d'apprentissage : récit du texte, personnages,
 monde historique, lecture du texte, principes de l'Évangile, plan de Dieu,
@@ -490,6 +552,10 @@ Elle exige simultanément :
 
 Il n'existe pas de note moyenne.
 
+Pour la copie du quiz, le Fact Checker contrôle le prompt, chaque choix, la
+correction courte et le CTA lecteur de la `copy_revision` ciblée. Son PASS
+n'est valide que si la Human Voice Gate porte sur cette même révision.
+
 ### Attention Gate
 
 Le Reviewer joue le montage à 0–2, 2–5, 5–10, 10–20, 20–30 secondes et à la
@@ -512,15 +578,25 @@ phrase qui exige de ralentir, contient deux abstractions, sonne dissertation,
 n'évoque aucune image, explique l'image ou ne pourrait pas être envoyée en
 vocal WhatsApp à un ami.
 
+Pour le quiz, il lit également le prompt, chaque choix, la correction courte
+et le CTA lecteur. Il ne PASS que la `copy_revision` également ciblée par le
+Fact Checker.
+
 Sa sortie reste volontairement pauvre : chaque phrase est seulement `SAYABLE`
 ou `UNSAYABLE`. Une ligne rejetée reçoit une seule raison : `écrit mais pas
 parlé`, `abstraction`, `trop long`, `jargon`, `explication inutile`, `émotion
-fabriquée` ou `transition IA`. Aucun commentaire littéraire n'est permis.
+fabriquée`, `transition IA`, `question d'exégète`, `choix illisible en deux
+secondes`, `réponse administrative` ou `curiosité refermée`. Aucun commentaire
+littéraire n'est permis.
 
 Les mots `mouvement`, `strate`, `protagonisme`, `réception`, `arc éditorial`,
 `fonction dramatique`, `pertinence durable` et `pluralité des voix` sont
 interdits dans la parole joueur. Un rejet retourne à l'Auteur incarné. Le Fact
 Checker n'a pas le droit de proposer une reformulation.
+
+Après cette réécriture, Human Voice Gate et Truth Gate repassent toutes deux à
+`pending`, y compris lorsque le changement semble seulement stylistique : une
+phrase plus naturelle peut aussi déplacer un degré de certitude.
 
 ### Publish Ready
 

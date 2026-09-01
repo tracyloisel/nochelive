@@ -57,16 +57,16 @@ sa zone ou remet une proposition de patch au Directeur :
 | Historien | facts.historical |
 | Exégète | facts.exegetical |
 | Showrunner | concepts.candidates, expedition interne, editorial_structure et library_editorial.plan avec exactement sept dates locales |
-| Directeur d'expérience spirituelle | experience_design, formation_quizzes, library_editorial.days[].experience et les Experience Gates |
+| Directeur d'expérience spirituelle | experience_design, spécification sémantique de formation_quizzes, library_editorial.days[].experience et les Experience Gates |
 | Dramaturge humain | human_dramaturgy, library_editorial.days[].human_scene et les Human Dramaturgy Gates |
-| Auteur incarné | public_story, library_editorial.days[].copy et toute parole joueur |
+| Auteur incarné | public_story, library_editorial.days[].copy, tous les prompts/choix/feedbacks/CTA des quiz et toute parole joueur |
 | Game Designer | packs |
 | Directeur artistique | visual_language, briefs visuels des packs, library_editorial.days[].artwork et Library Art Gate |
 | Réalisateur | trailer.directing |
 | Social Video Editor | trailer.edit |
 | Reviewer Rétention | review.attention_gate |
-| Human Voice Reviewer | review.human_voice_gate et review.library_editorial.human_voice_gate |
-| Fact Checker / Canon Editor | review.truth_gate et review.library_editorial.truth_gate |
+| Human Voice Reviewer | review.human_voice_gate, dont chaque question complète, et review.library_editorial.human_voice_gate |
+| Fact Checker / Canon Editor | review.truth_gate sur la copie finale exacte et review.library_editorial.truth_gate |
 
 Un agent ne réécrit jamais silencieusement une vérité ou une décision possédée
 par un autre. Il ouvre une objection. Le Directeur fait appliquer la réparation
@@ -178,9 +178,12 @@ résume pas le dossier : il produit cinq titres publics, une recommandation,
 trois hooks, la parole naturelle et les futurs noms de packs. Ce premier test
 public a lieu avant que l'angle devienne des plans.
 
-Le Directeur d'expérience spirituelle crée ensuite `formation_quizzes` : les
-discernements à apprendre, scénarios, choix, corrections et variantes de
-répétition. Le Game Designer ne crée pas seul la matière spirituelle.
+Le Directeur d'expérience spirituelle crée ensuite la spécification sémantique
+de `formation_quizzes` : discernements à apprendre, étapes de l'enquête,
+claims, sens des bonnes réponses, erreurs visées, révélations, curiosités
+ouvertes, références d'approfondissement et variantes de répétition. Il peut
+fournir une glose de travail, jamais la copie publique définitive. Le Game
+Designer ne crée pas seul la matière spirituelle.
 
 Il produit aussi une matrice de couverture des quiz : récit du texte,
 personnages, monde historique, lecture du texte, principes de l'Évangile, plan
@@ -276,9 +279,24 @@ former un discernement utile à l'âme est rejetée, même si elle est exacte. L
 jeu score la reconnaissance d'un enseignement dans plusieurs situations, jamais
 la foi, la repentance, la prière ou l'émotion du joueur.
 
-Avant contrôle canonique, l'Auteur incarné reprend toute copie que le joueur
-verra dans les packs. Les métadonnées internes peuvent garder le langage du
-Conseil ; les titres, prompts et explications publics ne le peuvent pas.
+Une fois l'ordre, la difficulté et les répétitions fixés, l'Auteur incarné
+reprend toute copie que le joueur verra dans les packs. Il possède la
+formulation finale du prompt, de chaque choix, du feedback et du libellé du CTA
+lecteur dans chaque locale. Les métadonnées internes peuvent garder le langage
+du Conseil ; aucun mot affiché ne le peut.
+
+Chaque question doit obtenir trois `OUI` avant remise :
+
+1. un humain poserait réellement la question comme ça ;
+2. tous les choix se comprennent en moins de deux secondes ;
+3. la révélation donne envie de savoir quelque chose de plus.
+
+Un pack n'est pas une pile de dix fiches : ses révélations peuvent former une
+petite enquête où chaque réponse donne envie d'ouvrir la question suivante. Le
+feedback immédiat reste une micro-révélation, pas une note académique. La
+référence exacte et son CTA prennent le relais.
+
+> **Le quiz provoque la curiosité. La Bibliothèque la satisfait.**
 
 Le `MOBILE COPY GATE` est obligatoire avant ce contrôle : question autonome
 ≤ 72 graphèmes, chaque réponse ≤ 32, correction ≤ 120, quatre réponses maximum,
@@ -286,17 +304,24 @@ sur 3/2 lignes à `390 × 667`. Chaque langue passe séparément. Tout dépassem
 est réécrit ; aucune réduction de police, troncature, ellipse ou liste de
 réponses scrollable ne le masque.
 
+Le Human Voice Reviewer joue ensuite chaque question complète — prompt, tous
+les choix, feedback et CTA — et vérifie les trois tests dans chaque locale. Un
+seul échec retourne à l'Auteur incarné. Le Fact Checker contrôle ensuite cette
+même `copy_revision`.
+
 ### 7. CONTRÔLE CANONIQUE
 
 Expedition-fact-checker vérifie `public_story`, les packs, les briefs visuels
 et les sept entrées de `library_editorial` : chaque question, réponse,
-distracteur, explication, légende, traduction, date, référence et détail
+distracteur, feedback, CTA, légende, traduction, date, référence et détail
 historique doit être soutenu. Il utilise seulement `OK`, `FAUX`,
 `TROP_CERTAIN` ou `AMBIGU`. Il ne réécrit jamais le style et ne fournit pas de
 contenu de remplacement.
 
 Tout veto de vérité repart vers le propriétaire ciblé. Après réparation, le
-Fact Checker recontrôle la nouvelle révision.
+Fact Checker recontrôle la nouvelle révision. Toute réécriture par l'Auteur,
+même après un rejet de voix humaine et même sans changement de `correct_choice`,
+invalide Human Voice et Truth ; les deux portes repassent sur la même révision.
 
 ### 8. RÉALISATION + MONTAGE
 
@@ -407,6 +432,8 @@ PASS exige simultanément :
 - aucun veto de vérité ouvert ;
 - couverture de toutes les lectures ;
 - claims et sources pour toute affirmation transformée.
+- pour les quiz, `copy_revision` identique à la révision passée par le Human
+  Voice Reviewer.
 
 Aucune moyenne n'existe.
 
@@ -441,10 +468,14 @@ PASS exige simultanément :
 - aucune répétition inutile de ce que l'image montre ;
 - aucun terme interdit dans le public ;
 - chaque phrase dicible comme vocal WhatsApp à un ami ;
+- pour chaque quiz, question humaine, choix compris en moins de deux secondes
+  et révélation qui ouvre une curiosité ;
+- chaque prompt, choix, feedback et CTA effectivement contrôlé dans sa locale ;
 - aucun veto de voix humaine ouvert.
 
-Un script peut passer l'Attention Gate et échouer ici. Il repart alors à
-l'Auteur incarné, jamais au Fact Checker.
+Un script ou un quiz peut passer tous les contrôles métriques et échouer ici.
+Il repart alors à l'Auteur incarné. La réécriture invalide également le Truth
+Gate, qui repasse après le nouveau Human Voice PASS.
 
 ### LIBRARY EDITORIAL GATES
 
@@ -469,8 +500,10 @@ bloquante. L'Attention Gate du trailer ne remplace aucune de ces portes.
 ### PUBLISH READY
 
 Le Directeur ne pose review.publish_ready: true que si les cinq portes sont
-PASS, toutes les objections bloquantes sont verified, les disclosures et
-sorties accessibles sont présents, et l'approbation humaine reste requise.
+PASS, si chaque copie de quiz possède des Human Voice et Truth PASS sur la même
+révision, si toutes les objections bloquantes sont verified, si les
+disclosures et sorties accessibles sont présents, et si l'approbation humaine
+reste requise.
 
 Pour `library_editorial`, il pose obligatoirement `publish_ready` à la fin du
 run une fois ses cinq gates propres passées. La suite est explicite et ne se

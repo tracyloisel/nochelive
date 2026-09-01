@@ -33,8 +33,10 @@
         <% end %>
         <div class="hub-slide-copy">
           <div class="hub-slide-copy-top">
-            <p class="hub-kicker hub-hero-continue"><%= eyebrow %></p>
-            <% if hero.kicker.present? %><p class="hub-hero-name"><%= hero.kicker %></p><% end %>
+            <div class="hub-hero-gameops">
+              <p class="hub-kicker hub-hero-continue"><%= eyebrow %></p>
+              <% if hero.kicker.present? %><p class="hub-hero-name"><%= hero.kicker %></p><% end %>
+            </div>
             <h1 class="hub-hero-title"><%= hero.title %></h1>
             <p class="hub-hero-lede"><%= hero.lede %></p>
           </div>

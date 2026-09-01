@@ -14,7 +14,7 @@ PACK_IDS = %w[
   exp_psalms_everything_breathes
 ].freeze
 
-PACK_PRESENTATION = [
+PACK_PRESENTATION_SOURCE = [
   {
     "id" => "exp_psalms_disappearing_voice",
     "title" => { "fr" => "La voix qui disparaît", "es" => "La voz que desaparece" },
@@ -94,6 +94,23 @@ PACK_PRESENTATION = [
     }
   }
 ].freeze
+
+# Keep the Council-authored experience notes while sourcing the player-facing
+# Home/Map copy from the exact-locale presentation catalogue. This script can
+# then never republish Spanish-only door metadata by accident.
+PACK_PRESENTATION = PACK_PRESENTATION_SOURCE.map do |row|
+  localized = %w[title kicker lede hook].index_with do |field|
+    Locale::AVAILABLE.index_with do |locale|
+      I18n.t(
+        "expedition_pack_presentations.#{row.fetch('id')}.#{field}",
+        locale:,
+        fallback: false,
+        raise: true
+      )
+    end
+  end
+  row.merge(localized)
+end.freeze
 
 READINGS = [ 102, 103, 110, 116, 117, 118, 119, 127, 128, 135, 136, 137, 138, 139, 146, 147, 148, 149, 150 ].map do |chapter|
   {

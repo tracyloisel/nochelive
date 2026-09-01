@@ -18,12 +18,11 @@ module Seo
     end
 
     def self.resolve(slug)
-      Ward.listed.find_each.find { |ward| slug(ward) == slug.to_s.parameterize }
+      Ward.listed.find_by(public_slug: Ward.normalize_public_slug(slug))
     end
 
     def self.slug(ward)
-      source = ward.city.presence || ward.chapel_name.presence || ward.name
-      source.to_s.parameterize
+      ward.public_slug
     end
 
     def self.valid_section?(locale, section)

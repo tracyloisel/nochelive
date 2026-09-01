@@ -10,6 +10,7 @@ demo:
   region: Alicante
   postal_code: "03502"
   country_code: ES
+  public_slug: benidorm
   listed: true
   stake_unit_id: "527556"
   admin_token_digest: <%= Digest::SHA256.hexdigest("rama-demo") %>
@@ -20,5 +21,6 @@ blank:
   emblem: paloma
   city: Madrid
   country_code: ES
+  public_slug: madrid
   listed: false
   admin_token_digest: <%= Digest::SHA256.hexdigest("rama-blank") %>

@@ -1,176 +1,292 @@
 <% content_for :title, @ward.name %>
 <% content_for :body_class, "is-kid is-paper-hall is-rama-profile" %>
-<% enable_frontend_audio %>
 <% declare_frontend_resources(
      context: "ward.profile",
      styles: %w[shell ward_profile rama],
-     controllers: %w[loading press stage hub-countdown],
-     audio: { unlock: true, cues: %w[round_open] },
-     classes: { "style.shell" => "critical", "style.ward_profile" => "critical", "style.rama" => "critical", "audio.ward" => "interaction" }
+     controllers: %w[loading press rama-motion],
+     classes: { "style.shell" => "critical", "style.ward_profile" => "critical", "style.rama" => "critical" }
    ) %>
 <% admin = ward_admin?(@ward) %>
 <% live = @featured_night %>
+<% city = @ward.city.presence || @ward.name %>
+<% community_name = t("ward_story.community_name.#{@ward_unit_kind}", city:) %>
+<% hero_address = [@ward.chapel_address, @ward.city].compact_blank.uniq.join(" · ") %>
+<% visit_address = [@ward.chapel_address, [@ward.postal_code, @ward.city].compact_blank.join(" "), @ward.region].compact_blank.uniq %>
 <% page_hud(face: false, hud: true, theme: "celestial-dark") { site_menu } %>
 
-<main id="rama_profile" class="rama-page hall-paper">
-  <section class="rama-hero hall-still" style="--rama-hero: url('<%= media_src("media/rama/chapel-celestial-light.png") %>')">
-    <div class="rama-hero-copy">
-      <span class="emblem emblem-xl emblem-<%= @ward.emblem %>"><%= render "shared/emblem", key: @ward.emblem %></span>
-      <div>
-        <p class="rama-kicker"><%= t("ward.my_parish") %></p>
-        <h1><%= @ward_display_name || @ward.name %></h1>
-        <% if @ward.maps_url %>
-          <%= link_to @ward.maps_url, class: "rama-pin", target: "_blank", rel: "noreferrer" do %>
-            <%= picto("pin") %><span><%= @ward.maps_query %></span>
+<div id="rama_profile" class="rama-page hall-paper" data-controller="rama-motion">
+  <section class="rama-chapter rama-story-hero" aria-labelledby="rama-title"
+           data-rama-motion-target="chapter" data-rama-motion-recipe="result-reveal">
+    <% if @ward.code == "RAMA" %>
+      <picture class="rama-chapter-art rama-story-hero__art" aria-hidden="true">
+        <source media="(max-width: 700px)" type="image/avif"
+                srcset="/media/rama/benidorm-community-concept-v1/portrait-390.avif 390w, /media/rama/benidorm-community-concept-v1/portrait-529.avif 529w"
+                sizes="100vw">
+        <source media="(max-width: 700px)" type="image/webp"
+                srcset="/media/rama/benidorm-community-concept-v1/portrait-390.webp 390w, /media/rama/benidorm-community-concept-v1/portrait-529.webp 529w"
+                sizes="100vw">
+        <source type="image/avif"
+                srcset="/media/rama/benidorm-community-concept-v1/landscape-768.avif 768w, /media/rama/benidorm-community-concept-v1/landscape-1440.avif 1440w, /media/rama/benidorm-community-concept-v1/landscape-1672.avif 1672w"
+                sizes="100vw">
+        <source type="image/webp"
+                srcset="/media/rama/benidorm-community-concept-v1/landscape-768.webp 768w, /media/rama/benidorm-community-concept-v1/landscape-1440.webp 1440w, /media/rama/benidorm-community-concept-v1/landscape-1672.webp 1672w"
+                sizes="100vw">
+        <img src="/media/rama/benidorm-community-concept-v1/landscape-1672.jpg"
+             srcset="/media/rama/benidorm-community-concept-v1/landscape-768.jpg 768w, /media/rama/benidorm-community-concept-v1/landscape-1440.jpg 1440w, /media/rama/benidorm-community-concept-v1/landscape-1672.jpg 1672w"
+             sizes="100vw" width="1672" height="940" alt="" loading="eager" decoding="async" fetchpriority="high">
+      </picture>
+    <% else %>
+      <div class="rama-chapter-art rama-story-hero__art" aria-hidden="true">
+        <%= noche_media_picture("media/rama/chapel-celestial-light.png", alt: "", loading: "eager", fetchpriority: "high") %>
+      </div>
+    <% end %>
+    <span class="rama-story-hero__shade" aria-hidden="true"></span>
+
+    <div class="rama-chapter-inner rama-story-hero__inner">
+      <div class="rama-story-hero__copy" data-rama-motion-item>
+        <div class="rama-community-mark">
+          <% if (emblem = emblem_mark(@ward.emblem)) %>
+            <%= image_tag emblem, alt: "", width: 56, height: 56 %>
+          <% else %>
+            <span aria-hidden="true"><%= render "shared/emblem", key: @ward.emblem %></span>
           <% end %>
-        <% elsif ward_place(@ward).present? %>
-          <p class="rama-pin"><%= picto("pin") %><span><%= ward_place(@ward) %></span></p>
+          <strong><%= community_name %></strong>
+        </div>
+        <h1 id="rama-title"><%= t("ward_story.hero.title") %></h1>
+        <% if hero_address.present? %>
+          <p class="rama-story-hero__address"><span aria-hidden="true">●</span><%= hero_address %></p>
         <% end %>
+        <nav class="rama-story-hero__actions" aria-label="<%= t("ward_story.hero.actions_label", community: community_name) %>">
+          <% if @ward.maps_url %>
+            <%= link_to @ward.maps_url, target: "_blank", rel: "noreferrer" do %>
+              <%= t("ward_story.actions.directions") %><span aria-hidden="true">↗</span>
+            <% end %>
+          <% end %>
+          <%= link_to church_missionaries_path do %>
+            <%= t("ward_story.actions.missionaries") %><span aria-hidden="true">→</span>
+          <% end %>
+          <%= link_to church_path do %>
+            <%= t("ward_story.actions.church") %><span aria-hidden="true">→</span>
+          <% end %>
+        </nav>
       </div>
-    </div>
-    <div class="rama-social-proof rama-stats">
-      <div class="rama-online-faces" aria-hidden="true">
-        <% @online_people.each do |person| %>
-          <% if (src = avatar_mark(person)) %><img src="<%= src %>" alt=""><% else %><span><%= person.given_name.first %></span><% end %>
+      <% if @study_week %>
+        <%= link_to "#rama-week", class: "rama-scroll-cue", data: { turbo: false } do %>
+          <span><%= t("ward_story.hero.scroll") %></span><i aria-hidden="true">↓</i>
         <% end %>
-      </div>
-      <strong><%= t("street.leaderboard_players", count: @board.players) %></strong>
-      <span class="rama-online-dot"></span><strong><%= t("ward.online_count", count: @online_count) %></strong>
+      <% end %>
     </div>
-    <span class="rama-selected"><%= picto("star") %><%= t("ward.selected_parish") %></span>
   </section>
 
-  <div class="rama-content">
-    <section class="rama-visit rama-card">
-      <div class="rama-visit-intro">
-        <span class="rama-visit-mark" aria-hidden="true"><%= picto("pin") %></span>
-        <h2><%= t("ward.visit_us") %></h2>
+  <% if @study_week %>
+    <% word_path = @expedition ? street_map_path(view: "expeditions", expedition: @study_week.id) : scripture_library_path %>
+    <% word_art = @expedition&.artwork.presence || "expedition.psalms-2026.home" %>
+    <% word_title = @expedition&.title.presence || @study_week.display_heading %>
+    <% word_lede = @expedition&.promise.presence || @study_week.display_scripture_refs.join(" · ") %>
+    <% study_total = @expedition&.total_count || 10 %>
+    <% study_done = @study_progress.to_i %>
+    <section id="rama-week" class="rama-chapter rama-week" aria-labelledby="rama-week-title"
+             data-rama-motion-target="chapter" data-rama-motion-recipe="invitation-enter">
+      <div class="rama-chapter-art rama-week__art" aria-hidden="true">
+        <%= noche_media_picture(word_art, alt: "", loading: "lazy") %>
       </div>
-      <div class="rama-visit-actions">
-        <% if @ward.maps_url %><%= link_to @ward.maps_url, target: "_blank", rel: "noreferrer" do %><%= picto("pin") %><span><strong><%= t("ward.directions") %></strong><small><%= t("ward.open_maps") %></small></span><b>↗</b><% end %><% end %>
-        <%= link_to church_missionaries_path do %><%= picto("people") %><span><strong><%= t("ward.contact_missionaries") %></strong><small><%= t("ward.send_message") %></small></span><b>›</b><% end %>
-        <%= link_to church_path do %><%= picto("church") %><span><strong><%= t("ward.come_to_church") %></strong><small><%= t("church.invite") %></small></span><b>›</b><% end %>
+      <span class="rama-week__shade" aria-hidden="true"></span>
+      <div class="rama-chapter-inner rama-week__inner">
+        <div class="rama-editorial-copy is-dark" data-rama-motion-item>
+          <p class="rama-eyebrow"><%= t("ward_story.week.kicker") %></p>
+          <h2 id="rama-week-title"><%= word_title %></h2>
+          <p class="rama-editorial-lede"><%= word_lede %></p>
+          <div class="rama-door-progress" aria-label="<%= t("ward_story.week.progress_label", done: study_done, total: study_total) %>">
+            <span aria-hidden="true">
+              <% study_total.times do |index| %><i class="<%= "is-complete" if index < study_done %>"></i><% end %>
+            </span>
+            <strong><%= t("ward_story.week.progress", done: study_done, total: study_total) %></strong>
+          </div>
+          <%= link_to word_path, class: "rama-story-action is-gold" do %>
+            <%= @expedition ? t("ward_story.week.enter") : t("ward_story.week.read") %><span aria-hidden="true">→</span>
+          <% end %>
+        </div>
       </div>
     </section>
+  <% end %>
 
-    <% if @ward.sunday_schedule.any? %>
-      <section class="rama-sunday-card rama-card" style="--rama-chapel-art: url('<%= media_src("media/rama/chapel-celestial-light.png") %>')">
-        <div class="rama-sunday-welcome">
-          <p class="rama-kicker"><%= t("ward.welcome_sunday_kicker") %></p>
-          <h2><%= t("ward.welcome_sunday_title") %></h2>
-          <p><%= t("ward.welcome_sunday_lede") %></p>
-          <%= link_to church_missionaries_path, class: "rama-welcome-cta" do %>
-            <%= picto("people") %><span><%= t("ward.welcome_sunday_cta") %></span><b>›</b>
+  <% if live %>
+    <% night_titles = live.quiz_packs.map { |pack| pack.copy(:title) } %>
+    <section class="rama-chapter rama-story-night" aria-labelledby="rama-night-title"
+             data-rama-motion-target="chapter" data-rama-motion-recipe="result-reveal">
+      <div class="rama-chapter-art rama-night__art" aria-hidden="true">
+        <%= noche_media_picture(@featured_night_artwork, alt: "", loading: "lazy") %>
+      </div>
+      <span class="rama-night__shade" aria-hidden="true"></span>
+      <div class="rama-chapter-inner rama-night__inner">
+        <div class="rama-editorial-copy is-dark" data-rama-motion-item>
+          <p class="rama-eyebrow"><%= t("ward_story.night.kicker", weekday: l(live.local_starts_at, format: "%A")) %></p>
+          <h2 id="rama-night-title"><%= t("ward_story.night.title") %></h2>
+          <p class="rama-night__date"><time datetime="<%= live.starts_at.iso8601 %>"><%= l(live.local_starts_at, format: :rama_night) %></time></p>
+          <p class="rama-night__themes"><%= safe_join(night_titles.map { |title| tag.span(title) }) %></p>
+          <%= link_to home_night_path_for(live), class: "rama-story-action is-glass" do %>
+            <%= t("ward_story.night.open") %><span aria-hidden="true">→</span>
           <% end %>
-          <small><%= t("ward.welcome_sunday_hint") %></small>
         </div>
-        <div class="rama-sunday-schedule">
-          <span class="rama-sunday-icon" aria-hidden="true"><%= picto("calendar") %></span>
-          <strong><%= t("ward.sunday_schedule") %></strong>
-          <div class="rama-sunday-times">
-            <% @ward.sunday_schedule.each do |meeting| %>
-              <span><b><%= t("ward.#{meeting["label_key"]}") %></b><time><%= meeting["time"] %></time></span>
-            <% end %>
-          </div>
-        </div>
-      </section>
-    <% end %>
+      </div>
+    </section>
+  <% end %>
 
-    <% if @rama_events.any? %>
-      <section class="rama-events rama-section" aria-labelledby="rama-events-title">
-        <header class="rama-events-head">
-          <div>
-            <p class="rama-kicker"><%= t("ward.events_kicker") %></p>
-            <h2 id="rama-events-title"><%= t("ward.events_title") %></h2>
-          </div>
-          <span class="rama-rail-count"><%= @rama_events.size %></span>
-        </header>
-        <div class="rama-events-grid" role="list">
-          <% @rama_events.each do |event| %>
-            <% cancelled = event.state == :cancelled %>
-            <% meta = t("hub.rails.rama_meta", date: l(event.starts_at, format: :short), location: event.location_label) %>
-            <% label = cancelled ? t("hub.rails.rama_cancelled_card_label", title: event.title, reason: event.cancellation_reason) : t("hub.rails.rama_card_label", title: event.title, action: t("ward.event_open")) %>
-            <% content = capture do %>
-              <% if event.still.present? %>
-                <span class="rama-event-tile__art" aria-hidden="true"><%= noche_media_picture(event.still, alt: "", loading: "lazy") %></span>
+  <% if @circle_visible %>
+    <section id="rama-circle" class="rama-chapter rama-circle" aria-labelledby="rama-circle-title"
+             data-rama-motion-target="chapter" data-rama-motion-recipe="invitation-enter">
+      <div class="rama-chapter-art rama-circle__art" aria-hidden="true">
+        <%= noche_media_picture("scripture_circle.gathering.light", alt: "", loading: "lazy") %>
+      </div>
+      <span class="rama-circle__shade" aria-hidden="true"></span>
+      <div class="rama-chapter-inner rama-circle__inner">
+        <div class="rama-reading-sheet" data-rama-motion-item>
+          <p class="rama-eyebrow"><%= t("ward_story.circle.kicker", city:) %></p>
+          <h2 id="rama-circle-title"><%= t("ward_story.circle.title") %></h2>
+
+          <% if @circle_highlights.any? %>
+            <div class="rama-conversations">
+              <% @circle_highlights.each do |highlight| %>
+                <article class="rama-conversation">
+                  <header>
+                    <strong><%= highlight.author_name %></strong>
+                    <%= link_to highlight.citation, highlight.reader_path %>
+                  </header>
+                  <% if highlight.selected_text.present? %><p class="rama-conversation__selection"><%= highlight.selected_text %></p><% end %>
+                  <blockquote>“<%= highlight.body %>”</blockquote>
+                  <%= link_to highlight.path, class: "rama-conversation__reply" do %>
+                    <% if @circle_writable %>
+                      <%= highlight.reply_count.positive? ? t("ward_story.circle.replies", count: highlight.reply_count) : t("ward_story.circle.reply") %>
+                    <% else %>
+                      <%= t("ward_story.circle.open") %>
+                    <% end %>
+                    <span aria-hidden="true">→</span>
+                  <% end %>
+                </article>
               <% end %>
-              <span class="rama-event-tile__scrim" aria-hidden="true"></span>
-              <span class="rama-event-tile__copy">
-                <span class="rama-event-tile__kicker"><%= t("hub.rails.event_kinds.#{event.kind}") %></span>
-                <strong><%= event.title %></strong>
-                <span class="rama-event-tile__detail"><%= event.summary %></span>
-                <span class="rama-event-tile__meta"><%= meta %></span>
-                <span class="rama-event-tile__action"><%= cancelled ? t("hub.rails.rama_cancelled") : t("ward.event_open") %> <%= picto("arrow") %></span>
-              </span>
-            <% end %>
-            <% if cancelled %>
-              <article class="rama-event-tile is-cancelled" role="listitem" aria-label="<%= label %>"><%= content %></article>
-            <% else %>
-              <%= link_to event.path, class: "rama-event-tile is-#{event.state}", role: "listitem", aria: { label: } do %><%= content %><% end %>
-            <% end %>
+            </div>
+            <p class="rama-circle__privacy"><span aria-hidden="true">◇</span><%= t("ward_story.circle.privacy") %></p>
+          <% else %>
+            <div class="rama-circle-empty">
+              <span aria-hidden="true">“</span>
+              <h3><%= t(@circle_writable ? "ward_story.circle.empty_title" : "ward_story.circle.empty_read_only_title") %></h3>
+              <p><%= t(@circle_writable ? "ward_story.circle.empty_body" : "ward_story.circle.empty_read_only_body", city:) %></p>
+              <%= link_to scripture_library_path do %><%= t("ward_story.circle.empty_action") %><span aria-hidden="true">→</span><% end %>
+            </div>
           <% end %>
         </div>
-      </section>
-    <% end %>
+      </div>
+    </section>
+  <% end %>
 
-    <% if @study_week %>
-      <% word_path = @expedition ? street_map_path(view: "expeditions", expedition: @study_week.id) : scripture_library_path %>
-      <% word_art = @expedition&.artwork.presence || "media/study/psalms-refuge-2026.png" %>
-      <%= link_to word_path, class: ["rama-word-card", "rama-card", (@expedition ? "is-gameops" : "is-library")], style: "--rama-word-art: url('#{media_src(word_art)}')" do %>
-        <div class="rama-word-copy">
-          <p class="rama-kicker"><%= t("ward.word_kicker") %></p>
-          <h2><%= @expedition&.title || t("study.psalms_theme") %></h2>
-          <p class="rama-word-refs"><%= @expedition&.subtitle.presence || @study_week.display_scripture_refs.first %></p>
-          <% if @expedition&.promise.present? %><p class="rama-word-promise"><%= @expedition.promise %></p><% end %>
-          <% study_total = @expedition&.total_count || 10 %>
-          <% study_percent = @expedition&.progress_percent || (@study_progress * 10) %>
-          <div class="rama-word-progress" aria-label="<%= t("study.progress", n: @study_progress, total: study_total) %>">
-            <span><i style="width:<%= study_percent %>%"></i></span><strong><%= @study_progress %>/<%= study_total %></strong>
-          </div>
-          <p class="rama-word-community"><%= t("study.people_advancing", count: @study_community.players) %></p>
+  <section class="rama-chapter rama-league" aria-labelledby="rama-league-title"
+           data-rama-motion-target="chapter" data-rama-motion-recipe="list-enter">
+    <span class="rama-league__orbit" aria-hidden="true"></span>
+    <div class="rama-chapter-inner rama-league__inner">
+      <header class="rama-league__head">
+        <div>
+          <p class="rama-eyebrow"><%= t("ward_story.league.kicker") %></p>
+          <h2 id="rama-league-title"><%= t("ward_story.league.title", city:) %></h2>
         </div>
-        <span class="rama-word-mark" aria-hidden="true"><%= picto(@expedition ? "compass" : "book") %></span>
-        <span class="rama-word-link"><%= @expedition ? t("street.expeditions.see_map") : t("ward.word_cta") %> <b>›</b></span>
+        <p><%= t("ward_story.league.players", count: @board.players) %></p>
+      </header>
+
+      <% if @board.rows.any? %>
+        <div class="rama-player-rail" role="list" aria-label="<%= t("ward_story.league.rail_label") %>">
+          <% @board.rows.first(5).each do |row| %>
+            <article class="rama-player <%= "is-first" if row.rank == 1 %> <%= "is-you" if row.you %>" role="listitem">
+              <div class="rama-player__portrait" data-rama-motion-item>
+                <span class="rama-player__rank"><%= row.rank %></span>
+                <% if (avatar = avatar_mark(row.person)) %>
+                  <%= image_tag avatar, alt: "", width: 132, height: 132, loading: "lazy" %>
+                <% else %>
+                  <span class="rama-player__avatar-fallback" aria-hidden="true"><%= row.person.given_name.to_s.first %></span>
+                <% end %>
+                <% if row.you %><small><%= t("ward_story.league.you_badge") %></small><% end %>
+              </div>
+              <h3><%= row.person.given_name %></h3>
+              <p><%= picto("crown") %><%= number_with_delimiter(row.score) %></p>
+            </article>
+          <% end %>
+        </div>
+      <% else %>
+        <p class="rama-league-empty"><%= t("ward_story.league.empty", city:) %></p>
       <% end %>
-    <% end %>
 
-    <% if @live_nights.any? %>
-      <section class="rama-live-rail rama-section rama-section--gameops" aria-labelledby="rama-live-title">
-        <header class="rama-live-head">
-          <div><p class="rama-kicker"><%= t("hub.next_live") %></p><h2 id="rama-live-title"><%= t("ward.upcoming") %></h2></div>
-          <span class="rama-rail-count"><%= @live_nights.size %></span>
-        </header>
-        <div class="rama-live-carousel" role="list">
-        <% @live_nights.each_with_index do |night, index| %>
-          <% countdown = index.zero? && !night.playing? %>
-          <article class="rama-next rama-live-slide" role="listitem" style="--rama-night-poster: url('<%= night_poster_src(night) %>')"
-               <% if countdown %>data-controller="hub-countdown" data-hub-countdown-state-value="upcoming"
-               data-hub-countdown-starts-at-value="<%= night.starts_at.iso8601 %>"<% end %>>
-        <div class="rama-next-copy">
-          <p class="rama-kicker"><%= index.zero? ? t("hub.next_live") : t("ward.upcoming") %></p>
-          <h2><%= l(night.local_starts_at.to_date) %></h2>
-          <p class="rama-next-time"><%= picto("calendar") %><%= l(night.local_starts_at, format: "%H:%M") %></p>
-          <p class="rama-next-theme"><span><%= t("ward.theme") %></span><%= night_title(night) %></p>
-          <% if index.zero? %><p class="rama-next-players"><%= picto("people") %><%= t("ward.participants", count: @featured_participants_count) %></p><% end %>
-          <%= link_to t(night.playing? ? "home.enter" : "ward.see_night"), home_night_path_for(night), class: ["btn", (index.zero? ? "btn-gold" : "btn-ghost")] %>
+      <div class="rama-league__foot">
+        <% if @board.your_rank %>
+          <p>
+            <strong><%= t("ward_story.league.your_rank", rank: @board.your_rank) %></strong>
+            <% if @board.rival %>
+              <span><%= t("ward_story.league.gap", count: [@board.rival.score.to_i - @board.your_score.to_i, 0].max, name: @board.rival.person.given_name) %></span>
+            <% else %>
+              <span><%= t("ward_story.league.leading") %></span>
+            <% end %>
+          </p>
+        <% end %>
+        <%= link_to ward_leaderboard_path(@ward.code) do %><%= t("ward_story.league.open") %><span aria-hidden="true">→</span><% end %>
+      </div>
+    </div>
+  </section>
+
+  <section id="rama-visit" class="rama-chapter rama-story-visit" aria-labelledby="rama-visit-title"
+           data-rama-motion-target="chapter" data-rama-motion-recipe="invitation-enter">
+    <div class="rama-chapter-art rama-story-visit__art" aria-hidden="true">
+      <% if @ward.code == "RAMA" %>
+        <picture>
+          <source media="(max-width: 700px)" type="image/avif" srcset="/media/rama/benidorm-community-concept-v1/portrait-390.avif 390w, /media/rama/benidorm-community-concept-v1/portrait-529.avif 529w" sizes="100vw">
+          <source media="(max-width: 700px)" type="image/webp" srcset="/media/rama/benidorm-community-concept-v1/portrait-390.webp 390w, /media/rama/benidorm-community-concept-v1/portrait-529.webp 529w" sizes="100vw">
+          <source type="image/avif" srcset="/media/rama/benidorm-community-concept-v1/landscape-768.avif 768w, /media/rama/benidorm-community-concept-v1/landscape-1440.avif 1440w, /media/rama/benidorm-community-concept-v1/landscape-1672.avif 1672w" sizes="100vw">
+          <source type="image/webp" srcset="/media/rama/benidorm-community-concept-v1/landscape-768.webp 768w, /media/rama/benidorm-community-concept-v1/landscape-1440.webp 1440w, /media/rama/benidorm-community-concept-v1/landscape-1672.webp 1672w" sizes="100vw">
+          <img src="/media/rama/benidorm-community-concept-v1/landscape-1440.jpg"
+               srcset="/media/rama/benidorm-community-concept-v1/landscape-768.jpg 768w, /media/rama/benidorm-community-concept-v1/landscape-1440.jpg 1440w, /media/rama/benidorm-community-concept-v1/landscape-1672.jpg 1672w"
+               sizes="100vw" width="1440" height="810" alt="" loading="lazy" decoding="async">
+        </picture>
+      <% else %>
+        <%= noche_media_picture("media/rama/chapel-celestial-light.png", alt: "", loading: "lazy") %>
+      <% end %>
+    </div>
+    <span class="rama-story-visit__shade" aria-hidden="true"></span>
+    <div class="rama-chapter-inner rama-story-visit__inner">
+      <div class="rama-reading-sheet rama-visit-sheet" data-rama-motion-item>
+        <div class="rama-community-mark is-light">
+          <% if (emblem = emblem_mark(@ward.emblem)) %><%= image_tag emblem, alt: "", width: 48, height: 48, loading: "lazy" %><% end %>
+          <strong><%= community_name %></strong>
         </div>
-        <% if countdown %>
-          <div class="rama-countdown" data-hub-countdown-target="clock">
-            <p><%= t("ward.starts_in") %></p>
-            <div><strong data-hub-countdown-target="hours">00</strong><small><%= t("hub.hours") %></small></div>
-            <i>:</i><div><strong data-hub-countdown-target="minutes">00</strong><small><%= t("hub.min") %></small></div>
-            <i>:</i><div><strong data-hub-countdown-target="seconds">00</strong><small><%= t("hub.sec") %></small></div>
+        <p class="rama-eyebrow"><%= t("ward_story.visit.kicker") %></p>
+        <h2 id="rama-visit-title"><%= t("ward_story.visit.title", city:) %></h2>
+        <% if visit_address.any? %><p class="rama-visit-sheet__address"><%= safe_join(visit_address, tag.br) %></p><% end %>
+
+        <% if @ward.sunday_schedule.any? %>
+          <div class="rama-visit-schedule" aria-label="<%= t("ward.sunday_schedule") %>">
+            <% @ward.sunday_schedule.each do |meeting| %>
+              <p><span><%= t("ward.#{meeting["label_key"]}") %></span><time><%= meeting["time"] %></time></p>
+            <% end %>
           </div>
         <% end %>
-          </article>
-        <% end %>
-        </div>
-      </section>
-    <% end %>
 
-    <%= render "street_hub/league_strip", board: @board, path: ward_leaderboard_path(@ward.code), empty_ok: true, league_class: "rama-liga", extended: true %>
+        <nav class="rama-visit-actions" aria-label="<%= t("ward_story.visit.actions_label") %>">
+          <% if @ward.maps_url %>
+            <%= link_to @ward.maps_url, class: "is-primary", target: "_blank", rel: "noreferrer" do %>
+              <span><strong><%= t("ward_story.actions.directions") %></strong><small><%= t("ward_story.actions.maps_hint") %></small></span><i aria-hidden="true">↗</i>
+            <% end %>
+          <% end %>
+          <%= link_to church_missionaries_path do %>
+            <span><strong><%= t("ward_story.actions.missionaries") %></strong><small><%= t("ward_story.actions.missionaries_hint") %></small></span><i aria-hidden="true">→</i>
+          <% end %>
+          <%= link_to church_path do %>
+            <span><strong><%= t("ward_story.actions.church") %></strong><small><%= t("ward_story.actions.church_hint") %></small></span><i aria-hidden="true">→</i>
+          <% end %>
+        </nav>
+      </div>
+    </div>
+  </section>
 
-    <% if admin %><nav class="rama-host-tools"><%= link_to t("fichas.heading"), ward_fichas_path %><%= link_to t("ward.secret"), ward_gate_path %></nav><% end %>
-  </div>
-</main>
+  <% if admin %>
+    <nav class="rama-host-tools" aria-label="<%= t("ward_story.admin.label") %>">
+      <%= link_to t("fichas.heading"), ward_fichas_path %>
+      <%= link_to t("ward.secret"), ward_gate_path %>
+    </nav>
+  <% end %>
+</div>
 <% page_dock(active: :church) %>

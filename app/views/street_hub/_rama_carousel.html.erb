@@ -1,6 +1,5 @@
 <% live = local_assigns[:live] %>
 <% ward = local_assigns[:ward] %>
-<% person = local_assigns[:person] %>
 <% today = local_assigns[:today] %>
 <% challenge = local_assigns[:challenge] %>
 <% circle = local_assigns[:circle] %>
@@ -27,8 +26,7 @@ end %>
   <% reserved_slots = (show_live ? 1 : 0) + (challenge.present? ? 1 : 0) %>
   <% event_cards = event_cards.first([ 2, 3 - reserved_slots ].min.clamp(0, 2)) %>
   <% show_circle = circle_has_news && (reserved_slots + event_cards.size) < 3 %>
-  <% show_challenge_invite = person.present? && challenge.blank? && !show_live && event_cards.empty? && !show_circle %>
-  <% has_presence = show_live || event_cards.any? || show_circle || challenge.present? || show_challenge_invite %>
+  <% has_presence = show_live || event_cards.any? || show_circle || challenge.present? %>
   <% if has_presence %>
     <section class="hub-rama-carousel hub-rama-presence" aria-labelledby="hub-rama-title">
       <header class="hub-content-rail__head">
@@ -40,6 +38,24 @@ end %>
           <div class="hub-rama-card hub-rama-card--live" role="listitem">
             <%= render "street_hub/live", live: live %>
           </div>
+        <% end %>
+
+        <% if challenge.present? %>
+          <% challenge_content = capture do %>
+            <span class="hub-rama-event__art" aria-hidden="true"><%= noche_media_picture("media/social/campus-scriptures-celestial-dark-v1.png", alt: "", loading: "lazy") %></span>
+            <span class="hub-rama-event__scrim" aria-hidden="true"></span>
+            <span class="hub-rama-event__copy">
+              <span class="hub-rama-event__kicker"><%= t(challenge.state == :incoming ? "hub.now.challenge_incoming" : "hub.now.challenge_active", name: challenge.title) %></span>
+              <strong><%= challenge.pack_title.presence || t("hub.now.challenge_state.ready") %></strong>
+              <% if challenge.state == :incoming %><span class="hub-rama-event__meta"><%= t("hub.now.challenge_due", time: duel_time_left(challenge.due_at)) %></span><% end %>
+              <span class="hub-rama-event__action"><%= t(challenge.state == :incoming ? "hub.now.challenge_accept" : "hub.now.challenge_open") %><%= picto("arrow") %></span>
+            </span>
+          <% end %>
+          <% if challenge.method == :post %>
+            <%= button_to challenge.path, class: "hub-rama-card hub-rama-event hub-rama-event--challenge", form: { role: "listitem", class: "hub-rama-challenge-form" } do %><%= challenge_content %><% end %>
+          <% else %>
+            <%= link_to challenge.path, class: "hub-rama-card hub-rama-event hub-rama-event--challenge", role: "listitem" do %><%= challenge_content %><% end %>
+          <% end %>
         <% end %>
 
         <% event_cards.each do |event| %>
@@ -95,33 +111,6 @@ end %>
           <% end %>
         <% end %>
 
-        <% if challenge.present? %>
-          <% challenge_content = capture do %>
-            <span class="hub-rama-event__art" aria-hidden="true"><%= noche_media_picture("media/social/campus-scriptures-celestial-dark-v1.png", alt: "", loading: "lazy") %></span>
-            <span class="hub-rama-event__scrim" aria-hidden="true"></span>
-            <span class="hub-rama-event__copy">
-              <span class="hub-rama-event__kicker"><%= t(challenge.state == :incoming ? "hub.now.challenge_incoming" : "hub.now.challenge_active") %></span>
-              <strong><%= challenge.title %></strong>
-              <% if challenge.state == :incoming %><span class="hub-rama-event__meta"><%= t("hub.now.challenge_due", time: duel_time_left(challenge.due_at)) %></span><% end %>
-              <span class="hub-rama-event__action"><%= t(challenge.state == :incoming ? "hub.now.challenge_accept" : "hub.now.challenge_open") %><%= picto("arrow") %></span>
-            </span>
-          <% end %>
-          <% if challenge.method == :post %>
-            <%= button_to challenge.path, class: "hub-rama-card hub-rama-event hub-rama-event--challenge", form: { role: "listitem", class: "hub-rama-challenge-form" } do %><%= challenge_content %><% end %>
-          <% else %>
-            <%= link_to challenge.path, class: "hub-rama-card hub-rama-event hub-rama-event--challenge", role: "listitem" do %><%= challenge_content %><% end %>
-          <% end %>
-        <% elsif show_challenge_invite %>
-          <%= link_to street_challenges_path, class: "hub-rama-card hub-rama-event hub-rama-event--challenge", role: "listitem" do %>
-            <span class="hub-rama-event__art" aria-hidden="true"><%= noche_media_picture("media/social/campus-scriptures-celestial-dark-v1.png", alt: "", loading: "lazy") %></span>
-            <span class="hub-rama-event__scrim" aria-hidden="true"></span>
-            <span class="hub-rama-event__copy">
-              <span class="hub-rama-event__kicker"><%= t("duel_campus.kicker") %></span>
-              <strong><%= t("hub.rama.challenge_title") %></strong>
-              <span class="hub-rama-event__action"><%= t("hub.rama.challenge_action") %><%= picto("arrow") %></span>
-            </span>
-          <% end %>
-        <% end %>
       </div>
     </section>
   <% end %>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_31_173000) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_01_090000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -1060,6 +1060,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_31_173000) do
     t.decimal "longitude", precision: 10, scale: 6
     t.string "name", null: false
     t.string "postal_code"
+    t.string "public_slug", limit: 160, null: false
     t.string "region"
     t.string "scripture_circle_mode", default: "active", null: false
     t.string "stake_name"
@@ -1075,6 +1076,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_31_173000) do
     t.index ["listed", "country_code", "stake_name"], name: "index_wards_on_listed_country_stake"
     t.index ["listed"], name: "index_wards_on_listed", where: "(listed = true)"
     t.index ["name"], name: "index_wards_on_name_trgm", opclass: :gin_trgm_ops, using: :gin
+    t.index ["public_slug"], name: "index_wards_on_public_slug", unique: true
     t.index ["stake_name"], name: "index_wards_on_stake_name_trgm", opclass: :gin_trgm_ops, using: :gin
     t.index ["stake_unit_id"], name: "index_wards_on_stake_unit_id"
     t.check_constraint "scripture_circle_mode::text = ANY (ARRAY['disabled'::character varying::text, 'read_only'::character varying::text, 'active'::character varying::text])", name: "wards_scripture_circle_mode"

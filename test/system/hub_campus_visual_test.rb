@@ -25,6 +25,7 @@ class HubCampusVisualTest < ApplicationSystemTestCase
               rama: Boolean(rama),
               cards: cards.length,
               challenge: rama ? rama.querySelectorAll('.hub-rama-event--challenge').length : -1,
+              challengeIndex: cards.indexOf(challenge),
               formAction: challenge && challenge.closest('form')?.getAttribute('action'),
               formMethod: challenge && challenge.closest('form')?.getAttribute('method'),
               overflow: document.documentElement.scrollWidth > document.documentElement.clientWidth + 1,
@@ -36,9 +37,16 @@ class HubCampusVisualTest < ApplicationSystemTestCase
         assert_selector "#street_world[data-hub-theme='#{theme}']"
         assert snapshot.fetch("rama"), snapshot.inspect
         assert_equal 1, snapshot.fetch("challenge"), snapshot.inspect
+        assert_equal 0, snapshot.fetch("challengeIndex"), snapshot.inspect
         assert_operator snapshot.fetch("cards"), :<=, 3, snapshot.inspect
         assert_match(%r{\A/desafio/.+\z}, snapshot.fetch("formAction"), snapshot.inspect)
         assert_equal "post", snapshot.fetch("formMethod"), snapshot.inspect
+        assert_selector ".hub-rama-event--challenge .hub-rama-event__kicker",
+          text: /#{Regexp.escape(I18n.t("hub.now.challenge_incoming", name: "Ada", locale: :fr))}/i
+        assert_selector ".hub-rama-event--challenge strong",
+          text: I18n.with_locale(:fr) { QuizDefinition.catalog.find_pack("coronas").copy(:title) }
+        assert_selector ".hub-rama-event--challenge .hub-rama-event__action",
+          text: /#{Regexp.escape(I18n.t("hub.now.challenge_accept", locale: :fr))}/i
         assert_not snapshot.fetch("overflow"), snapshot.inspect
         assert_operator snapshot.dig("card", "width"), :>=, 44, snapshot.inspect
         assert_operator snapshot.dig("card", "height"), :>=, 44, snapshot.inspect
@@ -79,6 +87,16 @@ class HubCampusVisualTest < ApplicationSystemTestCase
       invitation = DuelInvitation.create!(
         challenger_person: early,
         recipient_person: person,
+        challenger_run: QuizRun.create!(
+          person: early,
+          device_digest: "hub-rama-early-#{SecureRandom.hex(8)}",
+          pack_id: "coronas",
+          position: 10,
+          score: 89,
+          status: "finished",
+          opened_at: 1.hour.ago
+        ),
+        challenger_score: 89,
         token_digest: SecureRandom.hex(32),
         status: "open",
         source: "hub-rama-early",

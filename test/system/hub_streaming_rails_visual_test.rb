@@ -46,6 +46,7 @@ class HubStreamingRailsVisualTest < ApplicationSystemTestCase
         assert_selector "#street_world[data-hub-theme='#{theme}']"
         assert_member_editorial_contract!
         assert_editorial_geometry!(width:, height:)
+        assert_hero_gameops_readability!(width:) if [ 390, 768, 1440 ].include?(width)
         assert_today_readability!(width:) if [ 390, 1440 ].include?(width)
         assert_mobile_hero_controls! if width == 390
         assert_rail_geometry!(width:)
@@ -546,6 +547,7 @@ class HubStreamingRailsVisualTest < ApplicationSystemTestCase
       assert geometry.fetch("targets").all? { |target| target.fetch("width") >= 44 && target.fetch("height") >= 44 }, geometry.inspect
       assert_not geometry.fetch("heroActionClipped"), geometry.inspect
       assert geometry.fetch("hudOutsideFeed"), geometry.inspect
+      assert_in_delta 0, geometry.dig("hero", "top"), 1, geometry.inspect
       assert_operator geometry.dig("today", "top"), :>=, geometry.dig("hero", "bottom") - 1, geometry.inspect
       assert_operator geometry.dig("expedition", "top"), :>, geometry.dig("today", "bottom"), geometry.inspect
       assert_operator geometry.dig("rama", "top"), :>=, geometry.dig("expedition", "bottom") + 20, geometry.inspect
@@ -665,6 +667,62 @@ class HubStreamingRailsVisualTest < ApplicationSystemTestCase
       assert_equal "block", geometry.fetch("railDisplay"), geometry.inspect
       assert_operator geometry.fetch("railWidth"), :>, 80, geometry.inspect
       assert_operator geometry.fetch("railHeight"), :>=, 6, geometry.inspect
+    end
+
+    def assert_hero_gameops_readability!(width:)
+      geometry = page.evaluate_script(<<~JS)
+        (function() {
+          var stage = document.querySelector('.hub-hero-stage').getBoundingClientRect();
+          var group = document.querySelector('.hub-hero-gameops').getBoundingClientRect();
+          var chipMetrics = Array.from(document.querySelectorAll('.hub-hero-gameops > p')).map(function(chip) {
+            var box = chip.getBoundingClientRect();
+            var style = getComputedStyle(chip);
+            var colorParts = style.backgroundColor.match(/[\\d.]+/g);
+            return {
+              left: box.left,
+              right: box.right,
+              width: box.width,
+              height: box.height,
+              fontSize: parseFloat(style.fontSize),
+              borderWidth: parseFloat(style.borderTopWidth),
+              background: style.background,
+              backgroundAlpha: colorParts && colorParts.length === 4 ? parseFloat(colorParts[3]) : 1,
+              backdropFilter: style.backdropFilter,
+              overflow: chip.scrollWidth > chip.clientWidth + 1
+            };
+          });
+          var titleStyle = getComputedStyle(document.querySelector('.hub-hero-title'));
+          var ledeStyle = getComputedStyle(document.querySelector('.hub-hero-lede'));
+          var copyStyle = getComputedStyle(document.querySelector('.hub-slide-copy-top'));
+          return {
+            stage: { left: stage.left, right: stage.right },
+            group: { left: group.left, right: group.right },
+            chips: chipMetrics,
+            copyBackground: copyStyle.backgroundColor,
+            copyBorder: parseFloat(copyStyle.borderTopWidth),
+            titleShadow: titleStyle.textShadow,
+            titleStroke: parseFloat(titleStyle.getPropertyValue('-webkit-text-stroke-width')),
+            ledeShadow: ledeStyle.textShadow
+          };
+        })()
+      JS
+
+      assert_equal 2, geometry.fetch("chips").length, { width:, geometry: }.inspect
+      assert_operator geometry.dig("group", "left"), :>=, geometry.dig("stage", "left") - 1, geometry.inspect
+      assert_operator geometry.dig("group", "right"), :<=, geometry.dig("stage", "right") + 1, geometry.inspect
+      assert geometry.fetch("chips").all? { |chip| chip.fetch("fontSize") >= 14 }, geometry.inspect
+      assert geometry.fetch("chips").all? { |chip| chip.fetch("height") >= 34 }, geometry.inspect
+      assert_in_delta geometry.dig("chips", 0, "height"), geometry.dig("chips", 1, "height"), 1, geometry.inspect
+      assert geometry.fetch("chips").all? { |chip| chip.fetch("borderWidth") >= 1 }, geometry.inspect
+      assert geometry.fetch("chips").all? { |chip| chip.fetch("background") !~ /rgba\(0, 0, 0, 0\) none/ }, geometry.inspect
+      assert geometry.fetch("chips").all? { |chip| chip.fetch("backgroundAlpha").between?(0.3, 0.55) }, geometry.inspect
+      assert geometry.fetch("chips").all? { |chip| chip.fetch("backdropFilter") != "none" }, geometry.inspect
+      assert geometry.fetch("chips").none? { |chip| chip.fetch("overflow") }, geometry.inspect
+      assert_includes [ "rgba(0, 0, 0, 0)", "transparent" ], geometry.fetch("copyBackground"), geometry.inspect
+      assert_equal 0, geometry.fetch("copyBorder"), geometry.inspect
+      refute_equal "none", geometry.fetch("titleShadow"), geometry.inspect
+      assert_operator geometry.fetch("titleStroke"), :>=, 0.4, geometry.inspect
+      refute_equal "none", geometry.fetch("ledeShadow"), geometry.inspect
     end
 
     def assert_watch_rail_geometry!(width:)

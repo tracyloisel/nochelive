@@ -1,6 +1,6 @@
 # Shared editorial artifact for the Expedition Council.
 # It is not a runtime study, Street pack, rendered clip or published mission.
-schema_version: 7
+schema_version: 8
 kind: expedition_council_dossier
 
 lifecycle:
@@ -58,20 +58,38 @@ council:
     "coverage": expedition-showrunner
     "experience_design": expedition-spiritual-experience-director
     "human_dramaturgy": expedition-human-dramaturge
+    # The most specific path wins over its parent section owner.
     "formation_quizzes": expedition-spiritual-experience-director
+    "formation_quizzes.items[].semantic_handoff": expedition-spiritual-experience-director
+    "formation_quizzes.items[].formation_goal": expedition-spiritual-experience-director
+    "formation_quizzes.items[].soul_relevance": expedition-spiritual-experience-director
+    "formation_quizzes.items[].scenario": expedition-spiritual-experience-director
+    "formation_quizzes.items[].choices[].diagnosis": expedition-spiritual-experience-director
+    "formation_quizzes.items[].correct_choice": expedition-spiritual-experience-director
+    "formation_quizzes.items[].prompt": expedition-incarnate-writer
+    "formation_quizzes.items[].choices[].text": expedition-incarnate-writer
+    "formation_quizzes.items[].correction": expedition-incarnate-writer
+    "formation_quizzes.items[].reader_cta_label": expedition-incarnate-writer
+    "formation_quizzes.copy_revision": expedition-incarnate-writer
+    "formation_quizzes.items[].copy_handoff": expedition-incarnate-writer
+    "formation_quizzes.items[].writer_self_check": expedition-incarnate-writer
     "public_story": expedition-incarnate-writer
     "packs": expedition-game-designer
+    "packs.items[].formation_question_ids": expedition-game-designer
+    "packs.items[].repetition_schedule": expedition-game-designer
     "visual_language": expedition-art-director
     "trailer.directing": expedition-film-director
     "trailer.edit": expedition-social-video-editor
     "daily_clips": expedition-social-video-editor
     "safety_accessibility": expedition-director
     "review.truth_gate": expedition-fact-checker
+    "review.truth_gate.quiz_copy": expedition-fact-checker
     "review.structure_gate": expedition-director
     "review.experience_gate": expedition-spiritual-experience-director
     "review.human_dramaturgy_gate": expedition-human-dramaturge
     "review.attention_gate": reel-editor-retention
     "review.human_voice_gate": human-voice-reviewer
+    "review.human_voice_gate.quiz_copy": human-voice-reviewer
     "review.library_editorial.art_gate": expedition-art-director
     "review.library_editorial.experience_gate": expedition-spiritual-experience-director
     "review.library_editorial.human_dramaturgy_gate": expedition-human-dramaturge
@@ -244,9 +262,10 @@ expedition:
   selected_concept_id:
   supporting_claim_ids: []
 
-# This is the only source for public titles, spoken copy and player-facing
-# labels. It is written from the research gold, never by simplifying dossier
-# language line by line.
+# This is the source for expedition titles and spoken story. Final quiz copy
+# stays flat under formation_quizzes.items[]; Library copy stays under
+# library_editorial.days[].copy. All are written from the research gold,
+# never by simplifying dossier language line by line.
 public_story:
   owner: expedition-incarnate-writer
   revision: 0
@@ -473,9 +492,18 @@ library_editorial:
 formation_quizzes:
   owner: expedition-spiritual-experience-director
   revision: 0
+  copy_revision: 0
   status: pending
   method: code_de_la_route
   mastery_rule: "Même discernement reconnu dans plusieurs contextes; jamais une déclaration de foi scorée."
+  product_boundary: "Le quiz provoque la curiosité. La Bibliothèque la satisfait."
+  workflow:
+    semantic_owner: expedition-spiritual-experience-director
+    sequencing_owner: expedition-game-designer
+    copy_owner: expedition-incarnate-writer
+    reviewers: [human-voice-reviewer, expedition-fact-checker]
+    same_copy_revision_required: true
+    rewrite_invalidates: [review.human_voice_gate, review.truth_gate]
   copy_limits:
     counting_unit: unicode_graphemes_including_spaces_and_punctuation
     reference_surface: street_quiz_390x667
@@ -502,6 +530,17 @@ formation_quizzes:
   items:
     - id: formation-001
       unit_id: ""
+      semantic_handoff:
+        owner: expedition-spiritual-experience-director
+        revision: 0
+        status: pending # pending | ready_for_sequence | ready_for_copy
+        knowledge_revealed: ""
+        inquiry_step: ""
+        correct_answer_meaning: ""
+        distractor_meanings: { a: "" }
+        curiosity_opened: ""
+        reader_reference: ""
+        transfer_context: ""
       formation_goal: ""
       soul_relevance: ""
       scripture_references: []
@@ -509,15 +548,24 @@ formation_quizzes:
       learning_lens: ""
       source_layer: "" # textual | historical | canonical | doctrinal
       scenario: ""
+      copy_handoff:
+        owner: expedition-incarnate-writer
+        status: pending # pending | drafting | ready_for_review
+        based_on_semantic_revision: 0
+        based_on_pack_revision: 0
       prompt: ""
       choices:
         - { id: a, text: "", diagnosis: "" }
       correct_choice: ""
       correction: ""
+      reader_cta_label: ""
+      writer_self_check:
+        human_would_ask_this: false
+        choices_under_two_seconds: false
+        reveal_opens_curiosity: false
       misconception_targeted: ""
       practice_invitation: ""
       transfer_question_id: ""
-      spaced_repetition: { after_questions: 0, changed_context: "" }
       pastoral_boundary: ""
       copy_metrics:
         prompt_graphemes: 0
@@ -708,7 +756,7 @@ review:
     owner: expedition-spiritual-experience-director
     status: pending
     target_revision: 0
-    targets: [editorial_structure, public_story, packs, visual_language]
+    targets: [editorial_structure, public_story, formation_quizzes, packs, visual_language]
     see: pending
     feel: pending
     inhabit_tension: pending
@@ -743,6 +791,17 @@ review:
     unsupported_elements: []
     objection_ids: []
     notes: ""
+    quiz_copy:
+      status: pending
+      target_copy_revision: 0
+      reviewed_paths:
+        - "formation_quizzes.items[].prompt"
+        - "formation_quizzes.items[].choices[].text"
+        - "formation_quizzes.items[].correction"
+        - "formation_quizzes.items[].reader_cta_label"
+      human_voice_status_required: PASS
+      same_revision_as_human_voice_required: true
+      rewrite_invalidates_gate: true
   attention_gate:
     owner: reel-editor-retention
     status: pending
@@ -787,8 +846,27 @@ review:
       - explication inutile
       - émotion fabriquée
       - transition IA
+      - question d'exégète
+      - choix illisible en deux secondes
+      - réponse administrative
+      - curiosité refermée
     lines: []
     counts: { SAYABLE: 0, UNSAYABLE: 0 }
+    quiz_copy:
+      status: pending
+      target_copy_revision: 0
+      reviewed_paths:
+        - "formation_quizzes.items[].prompt"
+        - "formation_quizzes.items[].choices[].text"
+        - "formation_quizzes.items[].correction"
+        - "formation_quizzes.items[].reader_cta_label"
+      same_revision_as_truth_required: true
+      required_self_checks: [human_would_ask_this, choices_under_two_seconds, reveal_opens_curiosity]
+      self_checks:
+        human_would_ask_this: pending
+        choices_under_two_seconds: pending
+        reveal_opens_curiosity: pending
+      rewrite_invalidates_gate: true
   library_editorial:
     target_revision: 0
     art_gate:

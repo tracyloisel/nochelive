@@ -180,13 +180,13 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
       %w[fallback_title fallback_body].each do |key|
         assert I18n.exists?("hub.today.#{key}", locale), "hub.today.#{key} is missing in #{locale}"
       end
-      %w[title find_kicker find_title find_body find_action challenge_title challenge_action circle_news_kicker circle_action circle_last_activity].each do |key|
+      %w[title find_kicker find_title find_body find_action circle_news_kicker circle_action circle_last_activity].each do |key|
         assert I18n.exists?("hub.rama.#{key}", locale), "hub.rama.#{key} is missing in #{locale}"
       end
       %w[kicker progress open continue dates].each do |key|
         assert I18n.exists?("hub.expedition.#{key}", locale), "hub.expedition.#{key} is missing in #{locale}"
       end
-      %w[explore watch watch_official watch_open watch_card_label reading_to_read reading_in_progress reading_completed reading_card_label].each do |key|
+      %w[explore watch watch_open watch_card_label reading_to_read reading_in_progress reading_completed reading_card_label].each do |key|
         assert I18n.exists?("hub.rails.#{key}", locale), "hub.rails.#{key} is missing in #{locale}"
       end
       %w[next_eyebrow resume_eyebrow question_step start_action resume_action].each do |key|
@@ -284,7 +284,7 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test "the weekly programme stays reachable when its entries cannot make a chapter card" do
+  test "a quiet ward does not fabricate a challenge when the weekly programme has no chapter card" do
     sign_in_congregation(wards(:blank))
     create_street_profile!
     week = create_current_hub_week!
@@ -299,11 +299,7 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
     assert_select ".hub-explore-rail .hub-content-card--reading", count: 0
     assert_select ".hub-today[data-today-kind='weekly_program'] a.hub-today__story[href=?]",
       scripture_library_path(section: "weekly", locale: I18n.locale, unit: week.id, anchor: "cette-semaine"), count: 1
-    assert_select ".hub-rama-presence__track > a.hub-rama-event--challenge[role='listitem'][href=?]",
-      street_challenges_path, count: 1 do
-      assert_select "strong", text: I18n.t("hub.rama.challenge_title")
-      assert_select "dl", count: 0
-    end
+    assert_select ".hub-rama-presence, .hub-rama-event--challenge", count: 0
   end
 
   test "PWA utility remains hidden, non-primary, and sits at the end of the editorial programme" do
@@ -507,11 +503,11 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
   test "expedition map is a distinct free-choice view over permanent packs" do
     week = create_current_expedition_week!
 
-    get street_map_path(view: "expeditions", expedition: week.id)
+    get street_map_path(view: "expeditions", expedition: week.id, locale: :fr)
 
     assert_response :success
     assert_select ".mapa-mode-tabs .mapa-mode-tab", count: 2
-    assert_select ".mapa-mode-tab.is-active", text: /#{Regexp.escape(I18n.t("street.mapa_expeditions"))}/
+    assert_select ".mapa-mode-tab.is-active", text: /#{Regexp.escape(I18n.t("street.mapa_expeditions", locale: :fr))}/
     assert_select ".mapa-expedition-carousel[role=list]", count: 1
     assert_select ".mapa-expedition-card.is-active .mapa-expedition-card__link[aria-current=page]", count: 1
     assert_select ".mapa-expedition-card__schedule", minimum: 1
@@ -527,7 +523,7 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
   test "an unknown expedition deep link falls back to the current expedition" do
     week = create_current_expedition_week!
 
-    get street_map_path(view: "expeditions", expedition: "missing-expedition")
+    get street_map_path(view: "expeditions", expedition: "missing-expedition", locale: :fr)
 
     assert_response :success
     assert_select ".mapa-expedition-hero h2", text: "Ça aussi, c’est dans les Psaumes"
@@ -540,20 +536,21 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
     create_street_profile!
     week = create_current_expedition_week!
 
-    get root_path
+    get root_path(locale: :fr)
 
     assert_response :success
-    assert_equal %i[hero today expedition rama_presence explore watch_frame install], hub_feed_sequence
+    assert_equal %i[hero today expedition explore watch_frame install], hub_feed_sequence
     assert_select ".street-hub-feed > .hub-expedition", count: 1 do
       assert_select "h2", text: "Ça aussi, c’est dans les Psaumes"
       assert_select ".hub-expedition__copy > strong", text: "Six portes cachées"
       assert_select ".hub-expedition__copy > span", text: "Entre dans six histoires humaines."
       assert_select "time[datetime=?]", "#{week.starts_on.iso8601}/#{week.ends_on.iso8601}", count: 1
-      assert_select ".hub-expedition__progress", text: I18n.t("hub.expedition.progress", done: 0, total: 6), count: 1
+      assert_select ".hub-expedition__progress", text: I18n.t("hub.expedition.progress", done: 0, total: 6, locale: :fr), count: 1
       assert_select ".hub-expedition__cta[href=?]", street_map_path(view: "expeditions", expedition: week.id)
       assert_select "ol, li, .hub-expedition__doors", count: 0
     end
-    assert_operator hub_feed_sequence.index(:expedition), :<, hub_feed_sequence.index(:rama_presence)
+    assert_select ".hub-rama-presence", count: 0
+    assert_operator hub_feed_sequence.index(:expedition), :<, hub_feed_sequence.index(:explore)
   end
 
   test "map page stylesheet stays off the home render path" do

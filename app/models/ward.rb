@@ -25,6 +25,12 @@ class Ward < ApplicationRecord
   UNIT_KINDS = %w[ward branch].freeze
   SCRIPTURE_CIRCLE_MODES = %w[disabled read_only active].freeze
   NAME_MAX = 120
+  PUBLIC_SLUG_MAX = 160
+  PUBLIC_SLUG_FORMAT = /\A[a-z0-9]+(?:-[a-z0-9]+)*\z/
+  PUBLIC_SLUG_UNIT_NOISE = %w[
+    ward branch rama ramo paroisse paroquia congregation congregacion congregacao
+    capilla chapel meetinghouse iglesia igreja church de del do da dos das des of the
+  ].freeze
 
   has_many :people, dependent: :destroy
   has_many :ward_teams, dependent: :destroy
@@ -48,12 +54,35 @@ class Ward < ApplicationRecord
   validates :country_code, format: { with: /\A[A-Z]{2}\z/ }, allow_blank: true
   validates :unit_kind, inclusion: { in: UNIT_KINDS }, allow_blank: true
   validates :scripture_circle_mode, inclusion: { in: SCRIPTURE_CIRCLE_MODES }
+  validates :public_slug,
+    presence: true,
+    uniqueness: true,
+    length: { maximum: PUBLIC_SLUG_MAX },
+    format: { with: PUBLIC_SLUG_FORMAT }
   validate :time_zone_is_valid
+  validate :public_slug_is_stable, on: :update
   validates :chapel_name, :chapel_address, :city, :region, :postal_code, :stake_name, :stake_unit_id, :country_name, length: { maximum: 80 }, allow_blank: true
+
+  before_validation :assign_public_slug, on: :create
+  before_validation :normalize_public_slug
 
   attr_accessor :admin_token
 
   private
+
+    def assign_public_slug
+      self.public_slug = self.class.next_public_slug(self) if public_slug.blank?
+    end
+
+    def normalize_public_slug
+      self.public_slug = self.class.normalize_public_slug(public_slug)
+    end
+
+    def public_slug_is_stable
+      return unless will_save_change_to_public_slug? && public_slug_in_database.present?
+
+      errors.add(:public_slug, :readonly)
+    end
 
     def time_zone_is_valid
       return if time_zone.blank?
@@ -75,6 +104,42 @@ class Ward < ApplicationRecord
 
   def self.generate_import_code
     Array.new(5) { GameSession::CODE_CHARS.sample }.join
+  end
+
+  def self.normalize_public_slug(value)
+    value.to_s.parameterize.first(PUBLIC_SLUG_MAX).sub(/-+\z/, "")
+  end
+
+  def self.next_public_slug(ward)
+    base = normalize_public_slug(ward.city.presence || ward.chapel_name.presence || ward.name.presence || ward.code)
+    base = "rama" if base.blank?
+    candidates = [
+      base,
+      public_slug_with_qualifier(base, public_slug_qualifier(ward.name, base)),
+      public_slug_with_qualifier(base, public_slug_qualifier(ward.chapel_name, base)),
+      public_slug_with_qualifier(base, ward.code)
+    ].compact.uniq
+
+    candidates.find { |candidate| !unscoped.exists?(public_slug: candidate) } ||
+      public_slug_with_qualifier(base, SecureRandom.hex(4))
+  end
+
+  def self.public_slug_qualifier(value, base)
+    tokens = normalize_public_slug(value).split("-").reject { |token| PUBLIC_SLUG_UNIT_NOISE.include?(token) }
+    base_tokens = base.split("-")
+    tokens = tokens.drop(base_tokens.length) if tokens.first(base_tokens.length) == base_tokens
+    tokens.join("-").presence
+  end
+
+  def self.public_slug_with_qualifier(base, qualifier)
+    suffix = normalize_public_slug(qualifier)
+    return if suffix.blank?
+
+    base_limit = PUBLIC_SLUG_MAX - suffix.length - 1
+    return suffix.first(PUBLIC_SLUG_MAX) unless base_limit.positive?
+
+    trimmed_base = base.first(base_limit).sub(/-+\z/, "")
+    normalize_public_slug([ trimmed_base, suffix ].compact_blank.join("-"))
   end
 
   def admin_token_matches?(token)

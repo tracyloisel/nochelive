@@ -2708,7 +2708,9 @@ body.is-street-hub.is-game-hub-page {
 
 /* The Home owns the full viewport. Its editorial sections provide their own
    gutters, while the opening artwork starts at the physical screen edge. */
-.street-world.is-game-hub:has(> .hub-streaming-feed--editorial) {
+body.is-street-hub:has(.home-menu.is-hud)
+  .street-world.is-game-hub:has(> .hub-streaming-feed--editorial) {
+  padding-top: 0;
   padding-inline: 0;
 }
 
@@ -2809,16 +2811,56 @@ body.is-street-hub.is-game-hub-page {
   backdrop-filter: none;
 }
 
-.street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-slide-copy-top {
-  position: static;
+.street-world.is-game-hub[data-hub-theme]
+  [data-hub-layout="hero-rama-carousel"]
+  .hub-hero--themed
+  .hub-slide-copy-top {
+  position: relative;
+  isolation: isolate;
   display: grid;
   width: min(100%, 39rem);
   max-width: none;
   gap: 5px;
   margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
 }
 
-.street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] :is(
+.street-world.is-game-hub[data-hub-theme]
+  [data-hub-layout="hero-rama-carousel"]
+  .hub-hero--themed
+  .hub-slide-copy-top::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: -18px -30px -22px -24px;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse 82% 72% at 12% 54%,
+    rgba(2, 8, 17, 0.7) 0%,
+    rgba(2, 8, 17, 0.42) 48%,
+    transparent 78%
+  );
+}
+
+.street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-hero-gameops {
+  order: 1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  width: fit-content;
+  max-width: 100%;
+}
+
+.street-world.is-game-hub[data-hub-theme]
+  [data-hub-layout="hero-rama-carousel"]
+  .hub-hero--themed :is(
   .hub-hero-continue,
   .hub-hero-name,
   .hub-hero-title,
@@ -2826,20 +2868,61 @@ body.is-street-hub.is-game-hub-page {
 ) {
   margin: 0;
   color: var(--hub-home-cream);
-  text-shadow: 0 2px 18px rgba(2, 8, 17, 0.7);
+  text-shadow: var(--story-shadow);
 }
 
 .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-hero-continue {
-  display: block;
-  color: #f3cd72;
   font: 820 0.875rem/1 var(--font-ui);
   letter-spacing: 0.16em;
   text-transform: uppercase;
 }
 
 .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-hero-name {
-  order: 2;
   font: 700 0.93rem/1.2 var(--font-ui);
+}
+
+.street-world.is-game-hub[data-hub-theme]
+  [data-hub-layout="hero-rama-carousel"]
+  .hub-hero--themed .hub-hero-continue {
+  color: #f3cd72;
+}
+
+.street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] :is(
+  .hub-hero-continue,
+  .hub-hero-name
+) {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  max-width: 100%;
+  padding: 6px 10px;
+  border: 1px solid rgba(243, 205, 114, 0.4);
+  border-radius: 9px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.025) 52%, transparent),
+    rgba(4, 12, 25, 0.48);
+  box-shadow:
+    inset 0 1px rgba(255, 255, 255, 0.14),
+    0 5px 18px rgba(2, 8, 17, 0.22);
+  line-height: 1.25rem;
+  -webkit-backdrop-filter: blur(14px) saturate(1.16);
+  backdrop-filter: blur(14px) saturate(1.16);
+}
+
+.street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-hero-continue::before {
+  content: "";
+  flex: 0 0 auto;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #f3cd72;
+  box-shadow:
+    0 0 0 2px rgba(243, 205, 114, 0.16),
+    0 0 9px rgba(243, 205, 114, 0.62);
+}
+
+.street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-hero-continue {
+  gap: 6px;
 }
 
 .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-hero-title {
@@ -2848,6 +2931,8 @@ body.is-street-hub.is-game-hub-page {
   font: 590 clamp(2.45rem, 12vw, 3.55rem)/0.9 var(--font-display);
   letter-spacing: -0.045em;
   text-wrap: balance;
+  -webkit-text-stroke: 0.45px rgba(2, 8, 17, 0.72);
+  paint-order: stroke fill;
 }
 
 .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-hero-title::after {
@@ -2863,6 +2948,12 @@ body.is-street-hub.is-game-hub-page {
   font: 560 0.89rem/1.35 var(--font-ui);
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
+}
+
+.street-world.is-game-hub[data-hub-theme]
+  [data-hub-layout="hero-rama-carousel"]
+  .hub-hero--themed .hub-hero-lede {
+  color: rgba(255, 248, 232, 0.86);
 }
 
 .street-world.is-game-hub [data-hub-layout="hero-rama-carousel"] .hub-hero-actions {

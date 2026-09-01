@@ -1,0 +1,267 @@
+es:
+  time:
+    formats:
+      rama_night: "%-d %B · %H:%M"
+  ward_story:
+    community_name:
+      branch: "RAMA %{city}"
+      ward: "BARRIO %{city}"
+    hero:
+      title: "Un lugar para venir, aprender y crecer juntos."
+      actions_label: "Opciones de visita · %{community}"
+      scroll: "Esta semana"
+    actions:
+      directions: "Cómo llegar"
+      missionaries: "Hablar con los misioneros"
+      church: "Ven a la Iglesia"
+      maps_hint: "Abrir en Google Maps"
+      missionaries_hint: "Enviar un mensaje"
+      church_hint: "Descubre qué puedes esperar"
+    week:
+      kicker: "ESTA SEMANA · LA PALABRA"
+      progress: "%{done} / %{total} puertas"
+      progress_label: "Puertas completadas: %{done} de %{total}"
+      enter: "Entrar en la expedición"
+      read: "Leer esta semana"
+    night:
+      kicker: "NOS VEMOS EL %{weekday}"
+      title: "Noche Live"
+      open: "Ver la noche"
+    circle:
+      kicker: "EL CÍRCULO DE %{city}"
+      title: "De lo que estamos hablando"
+      reply: "Responder"
+      open: "Abrir la conversación"
+      replies:
+        one: "1 respuesta"
+        other: "%{count} respuestas"
+      privacy: "Solo los miembros de esta comunidad ven estos intercambios."
+      empty_title: "Aún no hay conversaciones esta semana."
+      empty_body: "Abre una lectura y haz la primera pregunta en %{city}."
+      empty_read_only_title: "El Círculo aún está tranquilo esta semana."
+      empty_read_only_body: "La próxima conversación del Círculo de %{city} aparecerá aquí."
+      empty_action: "Leer esta semana"
+    league:
+      kicker: "LA COMUNIDAD JUEGA"
+      title: "Quién avanza en %{city}"
+      players:
+        zero: "0 jugadores"
+        one: "1 jugador"
+        other: "%{count} jugadores"
+      rail_label: "Jugadores que van en cabeza en la comunidad"
+      you_badge: "TÚ"
+      your_rank: "Tú eres #%{rank}"
+      gap:
+        zero: "Estás empatado con %{name}."
+        one: "Te separa 1 corona de %{name}."
+        other: "Te separan %{count} coronas de %{name}."
+      leading: "Vas en cabeza."
+      open: "Ver la clasificación"
+      empty: "La aventura de %{city} está a punto de comenzar."
+    visit:
+      kicker: "VEN A VERNOS"
+      title: "Nos vemos en %{city}."
+      actions_label: "Preparar una visita"
+    admin:
+      label: "Herramientas de la comunidad"
+
+fr:
+  time:
+    formats:
+      rama_night: "%-d %B · %H:%M"
+  ward_story:
+    community_name:
+      branch: "BRANCHE DE %{city}"
+      ward: "PAROISSE DE %{city}"
+    hero:
+      title: "Un lieu où venir, apprendre et grandir ensemble."
+      actions_label: "Options de visite · %{community}"
+      scroll: "Cette semaine"
+    actions:
+      directions: "Itinéraire"
+      missionaries: "Parler aux missionnaires"
+      church: "Venez à l’église"
+      maps_hint: "Ouvrir dans Google Maps"
+      missionaries_hint: "Envoyer un message"
+      church_hint: "Découvrez à quoi vous attendre"
+    week:
+      kicker: "CETTE SEMAINE · LA PAROLE"
+      progress: "%{done} / %{total} portes"
+      progress_label: "Portes franchies : %{done} sur %{total}"
+      enter: "Entrer dans l’expédition"
+      read: "Lire cette semaine"
+    night:
+      kicker: "ON SE RETROUVE %{weekday}"
+      title: "Noche Live"
+      open: "Voir la soirée"
+    circle:
+      kicker: "LE CERCLE DE %{city}"
+      title: "Ce dont nous parlons"
+      reply: "Répondre"
+      open: "Ouvrir la conversation"
+      replies:
+        one: "1 réponse"
+        other: "%{count} réponses"
+      privacy: "Seuls les membres de cette communauté voient ces échanges."
+      empty_title: "Il n’y a pas encore de conversation cette semaine."
+      empty_body: "Ouvrez une lecture et posez la première question dans le Cercle de %{city}."
+      empty_read_only_title: "Le Cercle est encore calme cette semaine."
+      empty_read_only_body: "La prochaine conversation du Cercle de %{city} apparaîtra ici."
+      empty_action: "Lire cette semaine"
+    league:
+      kicker: "LA COMMUNAUTÉ JOUE"
+      title: "Qui avance à %{city}"
+      players:
+        zero: "Aucun joueur"
+        one: "1 joueur"
+        other: "%{count} joueurs"
+      rail_label: "Joueurs en tête dans la communauté"
+      you_badge: "TOI"
+      your_rank: "Tu es #%{rank}"
+      gap:
+        zero: "Tu es à égalité avec %{name}."
+        one: "Il te manque 1 couronne pour rattraper %{name}."
+        other: "Il te manque %{count} couronnes pour rattraper %{name}."
+      leading: "Tu es en tête."
+      open: "Voir le classement"
+      empty: "L’aventure de %{city} est sur le point de commencer."
+    visit:
+      kicker: "VENEZ NOUS VOIR"
+      title: "Rendez-vous à %{city}."
+      actions_label: "Préparer une visite"
+    admin:
+      label: "Outils de la communauté"
+
+en:
+  time:
+    formats:
+      rama_night: "%B %-d · %H:%M"
+  ward_story:
+    community_name:
+      branch: "%{city} BRANCH"
+      ward: "%{city} WARD"
+    hero:
+      title: "A place to come, learn, and grow together."
+      actions_label: "Visit options · %{community}"
+      scroll: "This week"
+    actions:
+      directions: "Get directions"
+      missionaries: "Talk with the missionaries"
+      church: "Come to church"
+      maps_hint: "Open in Google Maps"
+      missionaries_hint: "Send a message"
+      church_hint: "Know what to expect"
+    week:
+      kicker: "THIS WEEK · THE WORD"
+      progress: "%{done} / %{total} doors"
+      progress_label: "Doors completed: %{done} of %{total}"
+      enter: "Enter the expedition"
+      read: "Read this week"
+    night:
+      kicker: "SEE YOU ON %{weekday}"
+      title: "Noche Live"
+      open: "See this Noche Live"
+    circle:
+      kicker: "THE %{city} CIRCLE"
+      title: "What we’re talking about"
+      reply: "Reply"
+      open: "Open the conversation"
+      replies:
+        one: "1 reply"
+        other: "%{count} replies"
+      privacy: "Only members of this community can see these conversations."
+      empty_title: "There are no conversations yet this week."
+      empty_body: "Open a reading and ask the first question in %{city}."
+      empty_read_only_title: "The Circle is still quiet this week."
+      empty_read_only_body: "The next conversation from the %{city} Circle will appear here."
+      empty_action: "Read this week"
+    league:
+      kicker: "OUR COMMUNITY PLAYS"
+      title: "Who’s leading the adventure in %{city}"
+      players:
+        zero: "No players yet"
+        one: "1 player"
+        other: "%{count} players"
+      rail_label: "Leading players in this community"
+      you_badge: "YOU"
+      your_rank: "You’re #%{rank}"
+      gap:
+        zero: "You’re tied with %{name}."
+        one: "You’re 1 crown behind %{name}."
+        other: "You’re %{count} crowns behind %{name}."
+      leading: "You’re in the lead."
+      open: "See the standings"
+      empty: "%{city}’s adventure is about to begin."
+    visit:
+      kicker: "COME SEE US"
+      title: "See you in %{city}."
+      actions_label: "Plan a visit"
+    admin:
+      label: "Community tools"
+
+"pt-BR":
+  time:
+    formats:
+      rama_night: "%-d de %B · %H:%M"
+  ward_story:
+    community_name:
+      branch: "RAMO %{city}"
+      ward: "ALA %{city}"
+    hero:
+      title: "Um lugar para chegar, aprender e crescer com a gente."
+      actions_label: "Opções de visita · %{community}"
+      scroll: "Esta semana"
+    actions:
+      directions: "Como chegar"
+      missionaries: "Falar com os missionários"
+      church: "Venha à Igreja"
+      maps_hint: "Abrir no Google Maps"
+      missionaries_hint: "Enviar uma mensagem"
+      church_hint: "Saiba o que esperar"
+    week:
+      kicker: "ESTA SEMANA · A PALAVRA"
+      progress: "%{done} / %{total} portas"
+      progress_label: "Portas concluídas: %{done} de %{total}"
+      enter: "Entrar na expedição"
+      read: "Ler esta semana"
+    night:
+      kicker: "%{weekday}, A GENTE SE VÊ"
+      title: "Noche Live"
+      open: "Ver esta Noche Live"
+    circle:
+      kicker: "O CÍRCULO DE %{city}"
+      title: "Sobre o que estamos conversando"
+      reply: "Responder"
+      open: "Abrir a conversa"
+      replies:
+        one: "1 resposta"
+        other: "%{count} respostas"
+      privacy: "Só os membros desta comunidade veem estas conversas."
+      empty_title: "Ainda não há conversas nesta semana."
+      empty_body: "Abra uma leitura e faça a primeira pergunta no Círculo de %{city}."
+      empty_read_only_title: "O Círculo ainda está tranquilo nesta semana."
+      empty_read_only_body: "A próxima conversa do Círculo de %{city} vai aparecer aqui."
+      empty_action: "Ler esta semana"
+    league:
+      kicker: "A COMUNIDADE JOGA"
+      title: "Quem está na frente em %{city}"
+      players:
+        zero: "Nenhum jogador"
+        one: "1 jogador"
+        other: "%{count} jogadores"
+      rail_label: "Jogadores da comunidade na liderança"
+      you_badge: "VOCÊ"
+      your_rank: "Você está em %{rank}º lugar"
+      gap:
+        zero: "Você está empatado com %{name}."
+        one: "Falta 1 coroa para alcançar %{name}."
+        other: "Faltam %{count} coroas para alcançar %{name}."
+      leading: "Você está na liderança."
+      open: "Ver a classificação"
+      empty: "A aventura de %{city} está prestes a começar."
+    visit:
+      kicker: "VENHA NOS VISITAR"
+      title: "A gente se encontra em %{city}."
+      actions_label: "Preparar uma visita"
+    admin:
+      label: "Ferramentas da comunidade"

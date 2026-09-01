@@ -38,6 +38,8 @@ class HubVideoHighlightsControllerTest < ActionDispatch::IntegrationTest
     assert_select "turbo-frame#hub_watch_rail", count: 1 do
       assert_select "section.hub-content-rail.hub-watch-rail", count: 1
       assert_select "h2#hub-watch-rail-title", text: I18n.t("hub.rails.watch", locale: :fr)
+      assert_select ".hub-content-rail__kicker, .hub-content-card--video small", count: 0
+      refute_includes response.body, "Vidéo officielle de l’Église"
       assert_select ".hub-content-card--video", count: 6
       assert_select "a.hub-content-card__link[data-turbo-frame='_top']", count: 6
       assert_select "a.hub-content-card__link[href=?]",
