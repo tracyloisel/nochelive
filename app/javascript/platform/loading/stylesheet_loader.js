@@ -1,10 +1,22 @@
 const pending = new Map()
 
+function isAllowedStylesheetUrl(url) {
+  if (url.protocol !== "http:" && url.protocol !== "https:") return false
+  if (url.origin === window.location.origin) return true
+
+  try {
+    const assetHost = new URL(document.documentElement?.dataset?.assetHost)
+    return (assetHost.protocol === "http:" || assetHost.protocol === "https:") && url.origin === assetHost.origin
+  } catch {
+    return false
+  }
+}
+
 export function loadStylesheet(href, key) {
   if (!href || !key) return Promise.reject(new TypeError("stylesheet href and key are required"))
 
   const url = new URL(href, document.baseURI)
-  if (url.origin !== window.location.origin) return Promise.reject(new TypeError("stylesheet must be same-origin"))
+  if (!isAllowedStylesheetUrl(url)) return Promise.reject(new TypeError("stylesheet must be same-origin or use the configured asset host"))
 
   if (pending.has(key)) return pending.get(key)
   const existing = document.head.querySelector(`link[data-runtime-stylesheet="${CSS.escape(key)}"]`)
