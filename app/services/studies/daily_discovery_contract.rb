@@ -7,6 +7,8 @@ module Studies
     COPY_FIELDS = %w[eyebrow title setup question cta_label].freeze
     MOTIONS = %w[still ambient].freeze
     AUDIO_MODES = %w[silent opt_in].freeze
+    LIGHT_FAMILIES = %w[celestial_light celestial_dark].freeze
+    REVIEW_MODES = %w[council fast].freeze
 
     def self.call(rows:, expedition_pack_ids:, starts_on:, ends_on:)
       new(rows:, expedition_pack_ids:, starts_on:, ends_on:).call
@@ -45,14 +47,20 @@ module Studies
         validate_route(row, prefix, issues)
         issues << "#{prefix}.claim_ids must not be empty" if normalized_claim_ids(row).empty?
         issues << "#{prefix}.artwork_key is required" if row["artwork_key"].to_s.strip.blank?
-        issues << "#{prefix}.light_family is required" if row["light_family"].to_s.strip.blank?
+        issues << "#{prefix}.light_family is invalid" unless LIGHT_FAMILIES.include?(row["light_family"].to_s)
         issues << "#{prefix}.depiction_mode is required" if row["depiction_mode"].to_s.strip.blank?
         issues << "#{prefix}.motion is invalid" unless MOTIONS.include?(row["motion"].to_s)
         issues << "#{prefix}.audio is invalid" unless AUDIO_MODES.include?(row["audio"].to_s)
         issues << "#{prefix}.scheduled_on is invalid" unless parse_date(row["scheduled_on"])
         issues << "#{prefix}.timezone is invalid" unless Time.find_zone(row["timezone"].to_s)
-        validate_gate(row, index, "truth_gate", issues)
-        validate_gate(row, index, "experience_gate", issues)
+        review_mode = row["review_mode"].to_s.presence || "council"
+        issues << "#{prefix}.review_mode is invalid" unless REVIEW_MODES.include?(review_mode)
+        if review_mode == "fast"
+          validate_gate(row, index, "fast_gate", issues)
+        else
+          validate_gate(row, index, "truth_gate", issues)
+          validate_gate(row, index, "experience_gate", issues)
+        end
         validate_locales(row, index, issues)
       end
 

@@ -109,7 +109,14 @@ module Studies
           "readings" => [],
           "expedition" => {
             "id" => "psalms-daily-edition",
-            "pack_ids" => [ "exp_psalms_disappearing_voice" ]
+            "pack_ids" => [ "psalms_living_god" ],
+            "rama_hero" => {
+              "revision" => 1,
+              "headline" => Locale::AVAILABLE.index_with { |locale| "Rama headline #{locale}" },
+              "artwork_key" => "expedition.psalms-102-150-fast.rama-weekly-hero",
+              "artwork_digest" => Expeditions::RamaHero.artwork_digest_for("expedition.psalms-102-150-fast.rama-weekly-hero"),
+              "light_family" => "celestial_light"
+            }
           }
         }
       end
@@ -134,7 +141,7 @@ module Studies
             "scheduled_on" => (@starts_on + index.days).iso8601,
             "timezone" => "Europe/Madrid",
             "status" => "approved",
-            "pack_id" => index == 6 ? nil : "exp_psalms_disappearing_voice",
+            "pack_id" => index == 6 ? nil : "psalms_living_god",
             "reference" => "ot/ps/102",
             "references" => [ "ot/ps/102" ],
             "claim_ids" => [ "claim-#{index + 1}" ],

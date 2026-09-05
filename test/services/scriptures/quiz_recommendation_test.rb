@@ -32,14 +32,14 @@ module Scriptures
         Quizzes::World::PackView.new(id: pack_id, state: :locked)
       end)
       expedition_pack = Struct.new(:id, :title, :kicker, :state).new(
-        "exp_psalms_everything_breathes", "Tout ce qui respire", "Psaumes 146–150", :available
+        "psalms_every_breath", "Que tout ce qui respire loue Dieu", "Psaumes 117 · 150", :available
       )
       expedition = Struct.new(:packs, :pack_ids, :study_unit_id).new(
         [ expedition_pack ], [ expedition_pack.id ], 42
       )
 
       recommendation = QuizRecommendation.call(
-        reference: "ot/ps/149",
+        reference: "ot/ps/150",
         world:,
         expedition:,
         locale: :fr
@@ -48,7 +48,7 @@ module Scriptures
       assert_equal expedition_pack.id, recommendation.pack_id
       assert_equal :available, recommendation.state
       assert_equal 42, recommendation.expedition_id
-      assert_equal "Tout ce qui respire", recommendation.title
+      assert_equal "Que tout ce qui respire loue Dieu", recommendation.title
     end
   end
 end

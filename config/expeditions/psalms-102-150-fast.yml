@@ -1,0 +1,4022 @@
+---
+schema_version: 1
+kind: expedition_fast_manifest
+lifecycle:
+  status: publish_ready
+  runtime_mode: detached
+  current_revision: 39
+  human_approval_required: true
+  publish_authorized: true
+  created_at: '2026-09-04'
+  updated_at: '2026-09-05'
+brief:
+  id: psalms-102-150
+  source_locale: fr
+  output_locale: fr
+  audience: Personnes découvrant l'Évangile ou se préparant peut-être au baptême,
+    personnes envisageant un retour à l'Église après une longue absence, et disciples
+    désirant progresser et persévérer en Jésus-Christ.
+  target_pack_count: 6
+  questions_per_pack: 10
+  authorized_scope: full_expedition_authoring
+  schedule:
+    starts_on: '2026-08-31'
+    ends_on: '2026-09-06'
+    timezone: Europe/Madrid
+  constraints:
+  - Produire exactement six packs de dix questions en français après approbation humaine
+    du périmètre.
+  - Ne pas hériter des choix éditoriaux, questions, concepts ou visuels de l'ancienne
+    expédition Psaumes.
+  - Ne pas confondre score de jeu, dignité personnelle et progression spirituelle.
+  - Ne transformer aucune promesse poétique en garantie automatique de guérison, prospérité
+    ou protection.
+  - Soumettre le choix et la répartition des textes à l'humain avant toute rédaction
+    de quiz.
+source:
+  readings:
+  - reference: Programme Viens et suis-moi, 31 août-6 septembre 2026
+    label: Que tout ce qui respire loue l'Éternel !
+    url: https://www.churchofjesuschrist.org/study/manual/come-follow-me-for-home-and-church-old-testament-2026/36?lang=fra
+    required: true
+  - reference: Psaume 102
+    label: Texte officiel français
+    url: https://www.churchofjesuschrist.org/study/scriptures/ot/ps/102?lang=fra
+    required: true
+  - reference: Psaume 103
+    label: Texte officiel français
+    url: https://www.churchofjesuschrist.org/study/scriptures/ot/ps/103?lang=fra
+    required: true
+  - reference: Psaume 110
+    label: Texte officiel français
+    url: https://www.churchofjesuschrist.org/study/scriptures/ot/ps/110?lang=fra
+    required: true
+  - reference: Psaume 116
+    label: Texte officiel français
+    url: https://www.churchofjesuschrist.org/study/scriptures/ot/ps/116?lang=fra
+    required: true
+  - reference: Psaume 117
+    label: Texte officiel français
+    url: https://www.churchofjesuschrist.org/study/scriptures/ot/ps/117?lang=fra
+    required: true
+  - reference: Psaume 118
+    label: Texte officiel français
+    url: https://www.churchofjesuschrist.org/study/scriptures/ot/ps/118?lang=fra
+    required: true
+  - reference: Psaume 119
+    label: Texte officiel français
+    url: https://www.churchofjesuschrist.org/study/scriptures/ot/ps/119?lang=fra
+    required: true
+  - reference: Psaume 127
+    label: Texte officiel français
+    url: https://www.churchofjesuschrist.org/study/scriptures/ot/ps/127?lang=fra
+    required: true
+  - reference: Psaume 128
+    label: Texte officiel français
+    url: https://www.churchofjesuschrist.org/study/scriptures/ot/ps/128?lang=fra
+    required: true
+  - reference: Psaume 135
+    label: Texte officiel français
+    url: https://www.churchofjesuschrist.org/study/scriptures/ot/ps/135?lang=fra
+    required: true
+  - reference: Psaume 136
+    label: Texte officiel français
+    url: https://www.churchofjesuschrist.org/study/scriptures/ot/ps/136?lang=fra
+    required: true
+  - reference: Psaume 137
+    label: Texte officiel français
+    url: https://www.churchofjesuschrist.org/study/scriptures/ot/ps/137?lang=fra
+    required: true
+  - reference: Psaume 138
+    label: Texte officiel français
+    url: https://www.churchofjesuschrist.org/study/scriptures/ot/ps/138?lang=fra
+    required: true
+  - reference: Psaume 139
+    label: Texte officiel français
+    url: https://www.churchofjesuschrist.org/study/scriptures/ot/ps/139?lang=fra
+    required: true
+  - reference: Psaume 146
+    label: Texte officiel français
+    url: https://www.churchofjesuschrist.org/study/scriptures/ot/ps/146?lang=fra
+    required: true
+  - reference: Psaume 147
+    label: Texte officiel français
+    url: https://www.churchofjesuschrist.org/study/scriptures/ot/ps/147?lang=fra
+    required: true
+  - reference: Psaume 148
+    label: Texte officiel français
+    url: https://www.churchofjesuschrist.org/study/scriptures/ot/ps/148?lang=fra
+    required: true
+  - reference: Psaume 149
+    label: Texte officiel français
+    url: https://www.churchofjesuschrist.org/study/scriptures/ot/ps/149?lang=fra
+    required: true
+  - reference: Psaume 150
+    label: Texte officiel français
+    url: https://www.churchofjesuschrist.org/study/scriptures/ot/ps/150?lang=fra
+    required: true
+council:
+  current_stage: production_deployment
+  sequence:
+  - expedition-fast-responsable-missionnaire
+  - expedition-fast-directeur-mise-en-scene
+  - expedition-fast-directeur-artistique-producteur
+  - expedition-fast-critique-deux-secondes
+  section_owners:
+    brief: expedition-fast-responsable-missionnaire
+    source: expedition-fast-responsable-missionnaire
+    council: expedition-fast-responsable-missionnaire
+    packs: expedition-fast-responsable-missionnaire
+    fast.agent_memory.responsable_missionnaire: expedition-fast-responsable-missionnaire
+    fast.result.missionary_source_map: expedition-fast-responsable-missionnaire
+    fast.result.missionary_architectures: expedition-fast-responsable-missionnaire
+    fast.result.approved_source_scope: expedition-fast-responsable-missionnaire
+    fast.public_editorial: human
+    fast.visual_staging_contract: human
+    fast.visual_requirements: human
+    fast.visual_proof_approval: human
+    fast.agent_memory.mise_en_scene_visuelle: expedition-fast-directeur-mise-en-scene
+    fast.result.visual_staging: expedition-fast-directeur-mise-en-scene
+    fast.agent_memory.direction_artistique: expedition-fast-directeur-artistique-producteur
+    fast.result.visual_production: expedition-fast-directeur-artistique-producteur
+    fast.agent_memory.critique_deux_secondes: expedition-fast-critique-deux-secondes
+    fast.result.visual_proof_review: expedition-fast-critique-deux-secondes
+    fast.source_scope_approval: human
+  revision_log:
+  - revision: 1
+    date: '2026-09-04'
+    agent: expedition-fast-responsable-missionnaire
+    action: Corpus officiel cartographié et deux architectures missionnaires de six
+      packs ouvertes à la décision humaine; aucun relais éditorial lancé.
+  - revision: 2
+    date: '2026-09-04'
+    agent: human
+    action: Architecture retour-a-la-maison approuvée sans amendement; ses six packs
+      et leurs références deviennent le périmètre source humain autorisé.
+  - revision: 3
+    date: '2026-09-04'
+    agent: human
+    action: 'La décision précédente est remplacée avant tout lancement éditorial :
+      architecture rencontrer-le-roi-serviteur approuvée sans amendement.'
+  - revision: 4
+    date: '2026-09-04'
+    agent: expedition-fast-responsable-missionnaire
+    action: 'Périmètre humain vérifié et matérialisé à l''identique. Suite FAST arrêtée
+      avant l''Influenceur : le schéma downstream ne possède que des mémoires et résultats
+      uniques et ne peut isoler six chaînes éditoriales de dix questions.'
+  - revision: 5
+    date: '2026-09-04'
+    agent: expedition-fast-responsable-missionnaire
+    action: Le blocage multi-pack est résolu par la séparation entre le manifeste
+      d’expédition et six YAML de pack autonomes. Le périmètre approuvé reste inchangé.
+  - revision: 6
+    date: '2026-09-04'
+    agent: expedition-fast-responsable-missionnaire
+    action: Le pack 01 a atteint séparément la porte humaine de validation de sa
+      preuve visuelle; aucune de ses productions downstream n’est recopiée ici.
+  - revision: 7
+    date: '2026-09-04'
+    agent: expedition-fast-responsable-missionnaire
+    action: Après approbation humaine de la preuve, le lot 9:16 du pack 01 a été
+      produit sur la seule surface quiz_question et attend la validation humaine
+      complète du quiz français; aucune production downstream n’est recopiée ici.
+  - revision: 8
+    date: '2026-09-04'
+    agent: expedition-fast-responsable-missionnaire
+    action: Les dix unités françaises du pack 01 sont approuvées par l’humain.
+      Sa traduction reste bloquée jusqu’à l’approbation française des six packs;
+      aucune production downstream n’est recopiée ici.
+  - revision: 9
+    date: '2026-09-04'
+    agent: expedition-fast-responsable-missionnaire
+    action: Le pack 02 a atteint séparément la porte humaine de validation de sa
+      preuve visuelle avec un verdict PASS; aucun lot, traduction ou résultat
+      downstream n’est recopié ici.
+  - revision: 10
+    date: '2026-09-04'
+    agent: expedition-fast-responsable-missionnaire
+    action: Les dix unités françaises du pack 02 sont approuvées par l’humain.
+      Sa traduction reste bloquée jusqu’à l’approbation française des six packs;
+      aucune production downstream n’est recopiée ici.
+  - revision: 11
+    date: '2026-09-04'
+    agent: expedition-fast-responsable-missionnaire
+    action: Les dix unités françaises du pack 03 sont approuvées par l’humain.
+      Sa traduction reste bloquée jusqu’à l’approbation française des six packs;
+      aucune production downstream n’est recopiée ici.
+  - revision: 12
+    date: '2026-09-05'
+    agent: human
+    action: Les six packs sont désormais approuvés en français; les packs 04, 05
+      et 06 sont aussi approuvés en es, en et pt-BR. Les packs 01, 02 et 03 sont
+      ouverts au Localisateur-Voix; aucun pack n’est relié au runtime ni autorisé
+      à la publication.
+  - revision: 13
+    date: '2026-09-05'
+    agent: expedition-fast-localisateur-voix
+    action: Le pack 01 a passé ses contrôles techniques en es, en et pt-BR et
+      attend la validation humaine de ses trente unités localisées; aucune production
+      downstream n’est recopiée ici et aucune publication n’est autorisée.
+  - revision: 14
+    date: '2026-09-05'
+    agent: human
+    action: Les localisations es, en et pt-BR du pack 01 sont approuvées; le pack
+      est complet mais reste détaché du runtime. Le pack 02 demeure le prochain
+      relais Localisateur-Voix et aucune publication n’est autorisée.
+  - revision: 15
+    date: '2026-09-05'
+    agent: human
+    action: Le contrat visuel d'expédition est approuvé sous contrainte de coût.
+      Les images de Quiz déjà approuvées portent six jours Bibliothèque; un seul
+      nouveau master créatif est prévu pour la campagne partagée et le septième
+      jour. Les crops HD et encodages responsives sont des dérivés techniques,
+      jamais des appels de génération supplémentaires.
+  - revision: 16
+    date: '2026-09-05'
+    agent: expedition-fast-localisateur-voix
+    action: Les packs 02 et 03 possèdent désormais leurs localisations es, en et
+      pt-BR contrôlées sur 120 surfaces Street réelles. Elles attendent la validation
+      humaine; les packs restent détachés du runtime et aucune publication n'est
+      autorisée.
+  - revision: 17
+    date: '2026-09-05'
+    agent: expedition-fast-directeur-mise-en-scene
+    action: Les six images Quiz approuvées sont auditées et verrouillées comme réemplois
+      Bibliothèque sans nouvel appel. Un unique concept de campagne partagé est prêt
+      pour une preuve carrée; aucun autre pixel, ratio créatif ou lot n'est autorisé.
+  - revision: 18
+    date: '2026-09-05'
+    agent: expedition-fast-directeur-artistique-producteur
+    action: L'unique appel ImageGen autorisé a produit la preuve carrée du Roi-serviteur
+      et son aperçu Rama mobile réel. Aucun second appel, variante, upscale, dérivé
+      final, branchement runtime ou lot n'a été lancé.
+  - revision: 19
+    date: '2026-09-05'
+    agent: expedition-fast-critique-deux-secondes
+    action: >-
+      Verdict REWORK : la preuve arrête le regard, mais le Hero mobile masque la
+      pierre et les mains, le trône prévu est absent et le fichier fait 1254 x 1254
+      au lieu de 2160 x 2160. La chaîne s'arrête au gate humain.
+  - revision: 20
+    date: '2026-09-05'
+    agent: human
+    action: >-
+      Un unique edit ciblé de la preuve v1 est autorisé : remonter le geste, la
+      pierre et les mains dans la zone sûre du Hero Rama et rendre visible le
+      trône quitté, sans changer le concept, le trio, le monde ou le traitement.
+      Aucun autre appel, variante, dérivé final ou branchement runtime n'est
+      autorisé avant le nouveau verdict du Critique et la validation humaine.
+  - revision: 21
+    date: '2026-09-05'
+    agent: expedition-fast-directeur-artistique-producteur
+    action: >-
+      L'unique edit ImageGen autorisé de la preuve v1 a produit la v2 et son
+      aperçu Rama mobile réel. Le trône vide est désormais explicite, mais le
+      geste reste partiellement masqué par le titre et le fichier demeure en
+      1254 x 1254; aucun autre appel, upscale, dérivé final ou runtime n'a été
+      lancé avant le nouveau verdict du Critique.
+  - revision: 22
+    date: '2026-09-05'
+    agent: expedition-fast-critique-deux-secondes
+    action: >-
+      Verdict REWORK sur la v2 : le trône, le trio et la pierre réussissent dans
+      le master, mais le Hero Rama masque encore la pierre et presque toutes les
+      mains; le fichier demeure en 1254 x 1254 au lieu de 2160 x 2160. Aucun
+      nouvel appel, lot, dérivé final ni runtime n'est autorisé; la chaîne revient
+      au gate humain.
+  - revision: 23
+    date: '2026-09-05'
+    agent: human
+    action: >-
+      La v2 est approuvée comme master artistique en connaissance du verdict
+      REWORK. La résolution de Rama et les trois renditions HD indispensables
+      sont autorisées par composition et redimensionnement déterministes depuis
+      la v2, avec zéro nouvel appel ImageGen. Le portrait 9:16 doit passer le
+      Critique sur le Hero Rama 390 x 844 avant la production des renditions 4:5
+      et 16:9; aucun runtime ni publication n'est encore autorisé.
+  - revision: 24
+    date: '2026-09-05'
+    agent: expedition-fast-directeur-artistique-producteur
+    action: >-
+      Le portrait 1080 x 1920 a été composé mécaniquement depuis la v2 approuvée,
+      avec le carré net en haut et une extension sombre fondue issue de son sol.
+      Son aperçu dans le Hero Rama réel garde trône, visages, pierre et mains
+      au-dessus du titre; zéro appel ImageGen, aucun 4:5, 16:9, runtime ou média
+      responsive n'a été produit avant le verdict du Critique.
+  - revision: 25
+    date: '2026-09-05'
+    agent: expedition-fast-critique-deux-secondes
+    action: >-
+      Verdict PASS sur le portrait mécanique 1080 x 1920 : dans le Hero Rama
+      réel, trône, trois visages, pierre entière, mains et geste partagé se lisent
+      avant le titre; progression, CTA et extension sombre résistent sans couture
+      ni duplication. Le portrait retourne au gate humain sans autoriser lui-même
+      les dérivés 4:5 ou 16:9, le runtime ou la publication.
+  - revision: 26
+    date: '2026-09-05'
+    agent: expedition-fast-directeur-artistique-producteur
+    action: >-
+      Après le PASS du portrait, les renditions 4:5 et 16:9 ont été composées
+      mécaniquement depuis la v2 et inspectées dans les vrais Hero Rama 768 x 1024
+      et 1440 x 900. La copie reste à gauche et le geste complet à droite; zéro
+      appel ImageGen, encodage responsive, runtime ou publication n'a été lancé.
+  - revision: 27
+    date: '2026-09-05'
+    agent: expedition-fast-critique-deux-secondes
+    action: >-
+      Verdicts PASS séparés pour la tablette 1440 x 1800 et le paysage 1920 x
+      1080, puis PASS global : sur les deux vrais Hero Rama, trône, trio, pierre,
+      mains et geste précèdent ou évitent la copie; titre, progression, compteur,
+      CTA et transitions sombres résistent sans couture ni duplication. Aucun
+      encodage, runtime ou publication n'est autorisé par ce verdict.
+  - revision: 28
+    date: '2026-09-05'
+    agent: human
+    action: >-
+      Les trois surfaces responsives 9:16, 4:5 et 16:9 sont approuvées après
+      leurs verdicts PASS. Le gate visuel de l'expédition est fermé : les trois
+      renditions deviennent les masters HD approuvés de la campagne partagée,
+      toujours sans encodage responsive, branchement runtime ni publication.
+  - revision: 29
+    date: '2026-09-05'
+    agent: noche-i18n
+    action: >-
+      Relecture de la voix publique française : le titre d'expédition, le Hero
+      Rama et les jours 1 à 5 passent. Les jours 6 et 7 demandent une réécriture
+      ciblée, car « jouer la joie », « présence sincère » et « porter six portes »
+      sonnent abstraits ou fabriquent une métaphore incohérente. Les propositions
+      exactes sont consignées sans modifier le texte public ni ses traductions.
+  - revision: 30
+    date: '2026-09-05'
+    agent: human
+    action: >-
+      Les réécritures françaises proposées pour les jours Bibliothèque 6 et 7
+      sont approuvées et remplacent seules leurs versions précédentes. Leurs
+      localisations es, en et pt-BR sont invalidées; les cinq autres jours et
+      toutes les autres copies publiques restent inchangés. Aucun runtime ni
+      publication n'est autorisé.
+  - revision: 31
+    date: '2026-09-05'
+    agent: noche-i18n
+    action: >-
+      Les jours Bibliothèque 6 et 7 approuvés en français sont relocalisés en es,
+      en et pt-BR avec contrôle de voix native. Ces six blocs localisés attendent
+      la validation humaine; aucune autre copie publique, aucun runtime et aucune
+      autorisation de publication ne sont modifiés.
+  - revision: 32
+    date: '2026-09-05'
+    agent: human
+    action: >-
+      Les localisations es, en et pt-BR des jours Bibliothèque 6 et 7 sont
+      approuvées. Le volet éditorial public multilingue de l'expédition est
+      complet; les packs 02 et 03 restent les deux seules validations de
+      traduction éditoriale ouvertes. Aucun runtime ni publication n'est autorisé.
+  - revision: 33
+    date: '2026-09-05'
+    agent: human
+    action: >-
+      La stratégie de remplacement visible de l'ancienne expédition des Psaumes
+      est autorisée sans suppression physique : une nouvelle version devra être
+      publiée atomiquement, l'ancienne sera retirée de l'expérience visible et
+      conservée comme version historique avec les progressions existantes. La
+      bascule reste bloquée par les validations multilingues des packs 02 et 03.
+  - revision: 34
+    date: '2026-09-05'
+    agent: human
+    action: >-
+      Les localisations es, en et pt-BR du pack 02 et leurs surfaces ask/reveal
+      sont approuvées. Le pack devient complet et reste détaché du runtime; le
+      pack 03 constitue la dernière validation éditoriale avant l'export de la
+      nouvelle expédition. Aucune publication n'est encore autorisée.
+  - revision: 35
+    date: '2026-09-05'
+    agent: human
+    action: >-
+      Les localisations es, en et pt-BR du pack 03 et leurs surfaces ask/reveal
+      sont approuvées. Les six packs et l'éditorial public sont désormais validés
+      dans les quatre langues; le préflight d'export runtime peut commencer, sans
+      constituer encore une autorisation de publication externe.
+  - revision: 36
+    date: '2026-09-05'
+    agent: codex-runtime-export
+    action: >-
+      Le préflight ouvre un export local réversible : six nouveaux identifiants
+      remplacent les six anciens dans le parcours visible, tandis que l'ancien
+      catalogue reste chargé en lecture seule pour l'historique. Les médias Quiz
+      approuvés sont recopiés comme masters runtime sans nouvelle génération. Les
+      titres localisés des packs 04 et 05 restent explicitement à valider avant
+      toute publication.
+  - revision: 37
+    date: '2026-09-05'
+    agent: codex-runtime-export
+    action: >-
+      L'aperçu runtime est complet : six packs actifs et soixante questions ont
+      été exportés, les six anciens packs sont archivés pour l'historique,
+      soixante masters Quiz et vingt-et-un masters Bibliothèque/campagne ont été
+      branchés au manifeste responsive sans nouvel appel ImageGen. La livraison
+      Bibliothèque reste en draft et la publication reste interdite jusqu'au gate
+      humain des deux titres localisés et des textes d'accessibilité.
+  - revision: 38
+    date: '2026-09-05'
+    agent: human
+    action: >-
+      Les titres localisés des packs 04 et 05 ainsi que les sept descriptions
+      alternatives et les sept disclosures sont approuvés en fr, es, en et
+      pt-BR. L'audit couvre six packs, soixante questions et les sept jours
+      Bibliothèque sans locale manquante ni surnuméraire. La livraison devient
+      publish-ready, mais aucune publication ni aucun déploiement n'est autorisé.
+  - revision: 39
+    date: '2026-09-05'
+    agent: human
+    action: >-
+      La publication de la nouvelle expédition FAST des Psaumes et son
+      déploiement manuel en production Render sont autorisés. Le remplacement
+      visible doit rester atomique et préserver l'ancienne version ainsi que les
+      progressions; le script idempotent de bascule doit être exécuté comme job
+      one-off après que le commit exact est live.
+  objections:
+  - code: BLOCKED_MISSING_MULTI_PACK_DOWNSTREAM_SCHEMA
+    references:
+    - brief.target_pack_count
+    - fast.agent_memory
+    - fast.result
+    note: Le brief exige six packs de dix questions, mais le contrat actuel ne définit
+      que fast.agent_memory.influenceur, mystique, nouveau_baptise, quiz et voix au
+      singulier, puis un seul fast.result.quiz.questions de dix unités et un seul
+      fast.result.quiz_final.questions. Il manque un conteneur canonique indexé par
+      pack, des propriétaires par pack, une orchestration pack par pack et des gates
+      français et visuels capables de compter soixante unités sans écrasement. Aucun
+      relais downstream ne peut donc être lancé honnêtement.
+    status: resolved
+    resolved_in_revision: 5
+    resolution: Un manifeste sans productions downstream référence désormais six fichiers
+      de pack autonomes, chacun doté du schéma FAST complet.
+  - code: PSALM_137_VIOLENT_IMPRECATION
+    references:
+    - Psaume 137:7-9
+    note: La douleur et la colère de l'exil appartiennent au texte; ses violences
+      finales ne doivent devenir ni approbation divine ni consigne personnelle.
+  - code: PSALM_149_JUDGMENT_LANGUAGE
+    references:
+    - Psaume 149:6-9
+    note: Le langage de vengeance et de glaive exige une lecture historique et théologique
+      avant toute question de vie; il ne légitime pas la violence.
+  pack_sequence_template:
+  - expedition-fast-influenceur
+  - expedition-fast-mystique
+  - expedition-fast-nouveau-baptise
+  - expedition-fast-quiz
+  - expedition-fast-voix
+  - expedition-fast-directeur-mise-en-scene
+  - expedition-fast-directeur-artistique-producteur
+  - expedition-fast-critique-deux-secondes
+  - expedition-fast-localisateur-voix
+fast:
+  status: publication_authorized_awaiting_deployment
+  public_editorial:
+    owner: human
+    status: approved
+    approval_revision: 32
+    approved_on: '2026-09-05'
+    source_locale: fr
+    required_locales:
+    - fr
+    - es
+    - en
+    - pt-BR
+    language_review:
+      owner: noche-i18n
+      revision: 1
+      locale: fr
+      status: approved
+      verdict: REWRITE
+      passing_units:
+      - expedition_title_subtitle_and_promise
+      - rama_headline
+      - library_day_1
+      - library_day_2
+      - library_day_3
+      - library_day_4
+      - library_day_5
+      objections:
+      - id: library_day_6_voice
+        current:
+          title: Une place sans jouer la joie
+          setup: Nations, générations, danse, instruments et souffle sont appelés.
+            Cette invitation est assez vaste pour accueillir aussi celui qui revient
+            sans savoir encore chanter sa joie.
+          question: Quelle présence sincère peux-tu offrir aujourd’hui ?
+        reason: « Jouer la joie » et « offrir une présence sincère » sont abstraits
+          à l'oral et refroidissent l'invitation missionnaire.
+        proposed:
+          title: Revenir sans faire semblant
+          setup: Dans ces psaumes, les nations, les générations, les instruments
+            et tout ce qui respire sont appelés à louer Dieu. Même si ta joie
+            n’est pas encore revenue, tu peux reprendre place sans faire semblant.
+          question: Quel pas sincère peux-tu faire vers Dieu aujourd’hui ?
+      - id: library_day_7_voice
+        current:
+          title: Quel pas vas-tu garder ?
+          setup: Le Dieu vivant agit. Le Roi-serviteur sauve. Il écoute, éclaire,
+            rassemble et appelle tout souffle. Tu n’as pas à porter ces six portes
+            en même temps.
+          question: Laquelle veux-tu rouvrir avec Dieu cette semaine ?
+        reason: Une personne ne « porte » pas six portes; la métaphore mélange le
+          parcours, le poids et l'ouverture au lieu de conclure simplement.
+        proposed:
+          title: Quel pas vas-tu poursuivre ?
+          setup: Le Dieu vivant agit. Le Roi-serviteur sauve. Il écoute, éclaire,
+            rassemble et appelle tout souffle. Tu n’as pas à tout comprendre ni
+            à tout changer en une semaine.
+          question: Laquelle de ces six étapes veux-tu reprendre avec Dieu cette
+            semaine ?
+      downstream_if_approved:
+        replace_french_units:
+        - library_day_6
+        - library_day_7
+        invalidate_locales:
+        - es
+        - en
+        - pt-BR
+        rerun_role: expedition-fast-localisateur-voix
+      human_decision: approve_both_rewrites
+      approved_on: '2026-09-05'
+    localized_revision:
+      owner: noche-i18n
+      revision: 1
+      based_on_human_approval_revision: 30
+      status: approved
+      verdict: PASS
+      changed_units:
+      - library_day_6
+      - library_day_7
+      unchanged_units:
+      - expedition_title_subtitle_and_promise
+      - rama_headline
+      - library_day_1
+      - library_day_2
+      - library_day_3
+      - library_day_4
+      - library_day_5
+      locales:
+      - es
+      - en
+      - pt-BR
+      checks:
+        source_meaning_preserved: true
+        native_spoken_voice: true
+        locale_specific_punctuation: true
+        cta_labels_unchanged: true
+      human_decision: approve_all_locales
+      approved_on: '2026-09-05'
+    expedition:
+      title:
+        fr: Rencontrer le Roi-serviteur
+        es: Conoce al Rey servidor
+        en: Meet the Servant King
+        pt-BR: Encontre o Rei servo
+      subtitle:
+        fr: Six étapes pour découvrir qui est Dieu, puis marcher avec lui
+        es: Seis etapas para descubrir quién es Dios y caminar con él
+        en: Six stages to discover who God is—and walk with him
+        pt-BR: Seis etapas para descobrir quem Deus é e caminhar com ele
+      promise:
+        fr: Tu peux venir avec tes questions, ta fatigue ou ton désir de recommencer.
+          Ces psaumes montrent un Dieu vivant qui agit, écoute, guide et rassemble,
+          et ils ouvrent en Jésus-Christ un chemin de salut.
+        es: Puedes venir con tus preguntas, tu cansancio o tus ganas de volver a
+          empezar. Estos salmos muestran a un Dios vivo que actúa, escucha, guía
+          y reúne, y abren en Jesucristo un camino de salvación.
+        en: Bring your questions, your weariness, or your desire to begin again.
+          These psalms reveal a living God who acts, listens, guides, and gathers,
+          and they open a path of salvation in Jesus Christ.
+        pt-BR: Você pode vir com suas perguntas, seu cansaço ou sua vontade de
+          recomeçar. Estes salmos mostram um Deus vivo que age, escuta, guia e
+          reúne, e abrem em Jesus Cristo um caminho de salvação.
+    rama_headline:
+      fr: Cette semaine, viens rencontrer le Roi-serviteur
+      es: Esta semana, ven a conocer al Rey servidor
+      en: This week, come meet the Servant King
+      pt-BR: Nesta semana, venha encontrar o Rei servo
+    library_days:
+    - id: psalms-102-150-fast-day-1
+      kind: discovery
+      scheduled_on: '2026-08-31'
+      pack_id: pack-01
+      reference: ot/ps/136
+      references:
+      - ot/ps/135
+      - ot/ps/136
+      - ot/ps/146
+      copy:
+        fr:
+          eyebrow: Aujourd’hui dans les Écritures
+          title: Vingt-six fois la même réponse
+          setup: Création, traversée, humiliation, délivrance et nourriture reçoivent
+            le même refrain dans le Psaume 136. Sa miséricorde dure d’âge en âge.
+          question: Quelle étape de ton histoire pourrais-tu relire avec ce refrain ?
+          cta_label: Ouvrir le Psaume 136
+        es:
+          eyebrow: Hoy en las Escrituras
+          title: Veintiséis veces la misma respuesta
+          setup: Creación, travesía, humillación, liberación y alimento reciben el
+            mismo estribillo en el Salmo 136. Su misericordia permanece para siempre.
+          question: ¿Qué etapa de tu historia podrías releer con este estribillo?
+          cta_label: Abrir el Salmo 136
+        en:
+          eyebrow: Today in Scripture
+          title: The same answer, twenty-six times
+          setup: Creation, the journey, humiliation, deliverance, and food all receive
+            the same refrain in Psalm 136. His mercy endures forever.
+          question: What part of your story could you revisit with this refrain?
+          cta_label: Open Psalm 136
+        pt-BR:
+          eyebrow: Hoje nas Escrituras
+          title: Vinte e seis vezes a mesma resposta
+          setup: Criação, travessia, humilhação, libertação e alimento recebem o
+            mesmo refrão no Salmo 136. Sua misericórdia dura para sempre.
+          question: Que etapa da sua história você poderia reler com esse refrão?
+          cta_label: Abrir o Salmo 136
+      visual_source:
+        strategy: reuse_approved_quiz_master
+        question_id: fast-psalms-pack01-q03
+        asset_path: public/media/expeditions/psalms-102-150-fast/pack-01/quiz/fr/psalms-pack01-q03-portrait-v1.png
+    - id: psalms-102-150-fast-day-2
+      kind: discovery
+      scheduled_on: '2026-09-01'
+      pack_id: pack-02
+      reference: ot/ps/118
+      references:
+      - ot/ps/110
+      - ot/ps/118
+      - nt/matt/22
+      - nt/heb/5
+      copy:
+        fr:
+          eyebrow: Aujourd’hui dans les Écritures
+          title: Le Roi, le prêtre et la pierre
+          setup: Un prêtre pour toujours. Une pierre rejetée devenue principale.
+            Le Nouveau Testament aide les chrétiens à reconnaître Jésus-Christ
+            dans ces images des Psaumes 110 et 118.
+          question: Que révèlent-elles du Sauveur que tu cherches ?
+          cta_label: Ouvrir les Psaumes 110 et 118
+        es:
+          eyebrow: Hoy en las Escrituras
+          title: El Rey, el sacerdote y la piedra
+          setup: Un sacerdote para siempre. Una piedra rechazada que llega a ser
+            la principal. El Nuevo Testamento ayuda a los cristianos a reconocer
+            a Jesucristo en estas imágenes de los Salmos 110 y 118.
+          question: ¿Qué revelan del Salvador que buscas?
+          cta_label: Abrir los Salmos 110 y 118
+        en:
+          eyebrow: Today in Scripture
+          title: The King, the priest, and the stone
+          setup: A priest forever. A rejected stone made the cornerstone. The New
+            Testament helps Christians recognize Jesus Christ in these images from
+            Psalms 110 and 118.
+          question: What do they reveal about the Savior you are seeking?
+          cta_label: Open Psalms 110 and 118
+        pt-BR:
+          eyebrow: Hoje nas Escrituras
+          title: O Rei, o sacerdote e a pedra
+          setup: Um sacerdote para sempre. Uma pedra rejeitada que se torna a principal.
+            O Novo Testamento ajuda os cristãos a reconhecer Jesus Cristo nessas
+            imagens dos Salmos 110 e 118.
+          question: O que elas revelam sobre o Salvador que você procura?
+          cta_label: Abrir os Salmos 110 e 118
+      visual_source:
+        strategy: reuse_approved_quiz_master
+        question_id: fast-psalms-pack02-q10
+        asset_path: public/media/expeditions/psalms-102-150-fast/pack-02/quiz/fr/psalms-pack02-q10-portrait-v1.png
+    - id: psalms-102-150-fast-day-3
+      kind: discovery
+      scheduled_on: '2026-09-02'
+      pack_id: pack-03
+      reference: ot/ps/139
+      references:
+      - ot/ps/102
+      - ot/ps/103
+      - ot/ps/116
+      - ot/ps/139
+      copy:
+        fr:
+          eyebrow: Aujourd’hui dans les Écritures
+          title: Connu sans être rejeté
+          setup: Ces psaumes ne cachent ni détresse, ni faute, ni fragilité. Dieu
+            écoute, se souvient de notre poussière et reçoit même la prière qui
+            lui demande de sonder le cœur.
+          question: Qu’oserais-tu lui dire si tu croyais pouvoir être connu ainsi ?
+          cta_label: Ouvrir le Psaume 139
+        es:
+          eyebrow: Hoy en las Escrituras
+          title: Conocido sin ser rechazado
+          setup: Estos salmos no esconden la angustia, el pecado ni la fragilidad.
+            Dios escucha, recuerda que somos polvo y recibe incluso la oración que
+            le pide examinar el corazón.
+          question: ¿Qué te atreverías a decirle si creyeras que puedes ser conocido así?
+          cta_label: Abrir el Salmo 139
+        en:
+          eyebrow: Today in Scripture
+          title: Known without being rejected
+          setup: These psalms hide neither distress, sin, nor frailty. God listens,
+            remembers that we are dust, and even receives the prayer asking him
+            to search the heart.
+          question: What would you dare tell him if you believed you could be known like this?
+          cta_label: Open Psalm 139
+        pt-BR:
+          eyebrow: Hoje nas Escrituras
+          title: Conhecido sem ser rejeitado
+          setup: Estes salmos não escondem angústia, pecado nem fragilidade. Deus
+            escuta, lembra que somos pó e recebe até a oração que pede que ele examine
+            o coração.
+          question: O que você ousaria lhe dizer se acreditasse que pode ser conhecido assim?
+          cta_label: Abrir o Salmo 139
+      visual_source:
+        strategy: reuse_approved_quiz_master
+        question_id: fast-psalms-pack03-q10
+        asset_path: public/media/expeditions/psalms-102-150-fast/pack-03/quiz/fr/psalms-pack03-q10-portrait-v1.png
+    - id: psalms-102-150-fast-day-4
+      kind: discovery
+      scheduled_on: '2026-09-03'
+      pack_id: pack-04
+      reference: ot/ps/119
+      references:
+      - ot/ps/119
+      - ot/ps/138
+      copy:
+        fr:
+          eyebrow: Aujourd’hui dans les Écritures
+          title: Assez de lumière pour un pas
+          setup: La parole n’éclaire pas forcément toute la route d’un coup. Le
+            Psaume 119 la compare à une lampe pour les pieds, tandis que le Psaume
+            138 parle d’une âme fortifiée au milieu de la détresse.
+          question: Quel prochain pas as-tu déjà assez de lumière pour faire ?
+          cta_label: Ouvrir le Psaume 119
+        es:
+          eyebrow: Hoy en las Escrituras
+          title: Luz suficiente para un paso
+          setup: La palabra no siempre ilumina todo el camino de una vez. El Salmo
+            119 la compara con una lámpara para los pies, mientras el Salmo 138
+            habla de un alma fortalecida en medio de la angustia.
+          question: ¿Para qué próximo paso ya tienes suficiente luz?
+          cta_label: Abrir el Salmo 119
+        en:
+          eyebrow: Today in Scripture
+          title: Enough light for one step
+          setup: The word may not light the entire road at once. Psalm 119 compares
+            it to a lamp for your feet, while Psalm 138 speaks of a soul strengthened
+            in the middle of distress.
+          question: What next step do you already have enough light to take?
+          cta_label: Open Psalm 119
+        pt-BR:
+          eyebrow: Hoje nas Escrituras
+          title: Luz suficiente para um passo
+          setup: A palavra nem sempre ilumina todo o caminho de uma vez. O Salmo
+            119 a compara a uma lâmpada para os pés, enquanto o Salmo 138 fala de
+            uma alma fortalecida em meio à angústia.
+          question: Para qual próximo passo você já tem luz suficiente?
+          cta_label: Abrir o Salmo 119
+      visual_source:
+        strategy: reuse_approved_quiz_master
+        question_id: fast-psalms-pack04-q04
+        asset_path: public/media/expeditions/psalms-102-150-fast/pack-04/quiz/fr/psalms-pack04-q04-portrait-v1.png
+    - id: psalms-102-150-fast-day-5
+      kind: discovery
+      scheduled_on: '2026-09-04'
+      pack_id: pack-05
+      reference: ot/ps/147
+      references:
+      - ot/ps/127
+      - ot/ps/128
+      - ot/ps/137
+      - ot/ps/147
+      copy:
+        fr:
+          eyebrow: Aujourd’hui dans les Écritures
+          title: Bâtir avant que tout soit réparé
+          setup: Les exilés pleurent encore Sion. Pourtant Dieu bâtit, rassemble
+            et panse les cœurs. Revenir ne demande pas d’attendre une vie parfaite.
+          question: Que pourrais-tu commencer avec Dieu avant que tout soit réparé ?
+          cta_label: Ouvrir le Psaume 147
+        es:
+          eyebrow: Hoy en las Escrituras
+          title: Construir antes de que todo sane
+          setup: Los exiliados aún lloran por Sion. Sin embargo, Dios construye,
+            reúne y sana los corazones. Volver no exige esperar una vida perfecta.
+          question: ¿Qué podrías empezar con Dios antes de que todo sane?
+          cta_label: Abrir el Salmo 147
+        en:
+          eyebrow: Today in Scripture
+          title: Build before everything is healed
+          setup: The exiles still weep for Zion. Yet God builds, gathers, and binds
+            up hearts. Returning does not require waiting for a perfect life.
+          question: What could you begin with God before everything is healed?
+          cta_label: Open Psalm 147
+        pt-BR:
+          eyebrow: Hoje nas Escrituras
+          title: Construir antes que tudo esteja curado
+          setup: Os exilados ainda choram por Sião. Mesmo assim, Deus constrói,
+            reúne e cuida dos corações. Voltar não exige esperar uma vida perfeita.
+          question: O que você poderia começar com Deus antes que tudo esteja curado?
+          cta_label: Abrir o Salmo 147
+      visual_source:
+        strategy: reuse_approved_quiz_master
+        question_id: fast-psalms-pack05-q10
+        asset_path: public/media/expeditions/psalms-102-150-fast/pack-05/quiz/fr/q10-v1.png
+    - id: psalms-102-150-fast-day-6
+      kind: discovery
+      scheduled_on: '2026-09-05'
+      pack_id: pack-06
+      reference: ot/ps/150
+      references:
+      - ot/ps/117
+      - ot/ps/148
+      - ot/ps/149
+      - ot/ps/150
+      copy:
+        fr:
+          eyebrow: Aujourd’hui dans les Écritures
+          title: Revenir sans faire semblant
+          setup: Dans ces psaumes, les nations, les générations, les instruments
+            et tout ce qui respire sont appelés à louer Dieu. Même si ta joie n’est
+            pas encore revenue, tu peux reprendre place sans faire semblant.
+          question: Quel pas sincère peux-tu faire vers Dieu aujourd’hui ?
+          cta_label: Ouvrir le Psaume 150
+        es:
+          eyebrow: Hoy en las Escrituras
+          title: Volver sin fingir
+          setup: Estos salmos llaman a las naciones, a todas las generaciones, a
+            los instrumentos y a todo ser que respira a alabar a Dios. Aunque la
+            alegría aún no haya vuelto, puedes ocupar de nuevo tu lugar sin fingir.
+          question: ¿Qué paso sincero puedes dar hoy para acercarte a Dios?
+          cta_label: Abrir el Salmo 150
+        en:
+          eyebrow: Today in Scripture
+          title: Come back without pretending
+          setup: In these psalms, nations, generations, instruments, and everything
+            that breathes are called to praise God. Even if your joy has not returned
+            yet, you can take your place again without pretending.
+          question: What honest step can you take toward God today?
+          cta_label: Open Psalm 150
+        pt-BR:
+          eyebrow: Hoje nas Escrituras
+          title: Voltar sem fingir
+          setup: Esses salmos chamam as nações, todas as gerações, os instrumentos
+            e tudo o que respira a louvar a Deus. Mesmo que sua alegria ainda não
+            tenha voltado, você pode ocupar seu lugar de novo sem fingir.
+          question: Que passo sincero você pode dar hoje para se aproximar de Deus?
+          cta_label: Abrir o Salmo 150
+      visual_source:
+        strategy: reuse_approved_quiz_master
+        question_id: fast-psalms-pack06-q08
+        asset_path: public/media/expeditions/psalms-102-150-fast/pack-06/proofs/psalms-pack06-q08-proof-v1.png
+    - id: psalms-102-150-fast-day-7
+      kind: contemplation
+      scheduled_on: '2026-09-06'
+      pack_id:
+      reference: ot/ps/118
+      references:
+      - ot/ps/102
+      - ot/ps/110
+      - ot/ps/118
+      - ot/ps/119
+      - ot/ps/127
+      - ot/ps/137
+      - ot/ps/139
+      - ot/ps/150
+      copy:
+        fr:
+          eyebrow: Contemplation de la semaine
+          title: Quel pas vas-tu poursuivre ?
+          setup: Le Dieu vivant agit. Le Roi-serviteur sauve. Il écoute, éclaire,
+            rassemble et appelle tout souffle. Tu n’as pas à tout comprendre ni
+            à tout changer en une semaine.
+          question: Laquelle de ces six étapes veux-tu reprendre avec Dieu cette
+            semaine ?
+          cta_label: Revenir à l’expédition
+        es:
+          eyebrow: Contemplación de la semana
+          title: ¿Qué paso quieres seguir dando?
+          setup: El Dios vivo actúa. El Rey servidor salva. Escucha, da luz, reúne
+            y llama a todo ser que respira. No tienes que entenderlo todo ni cambiarlo
+            todo en una semana.
+          question: ¿Cuál de estas seis etapas quieres retomar con Dios esta semana?
+          cta_label: Volver a la expedición
+        en:
+          eyebrow: This week’s contemplation
+          title: Which step will you keep taking?
+          setup: The living God acts. The Servant King saves. He listens, gives light,
+            gathers, and calls everything that breathes. You do not have to understand
+            everything or change everything in one week.
+          question: Which of these six stages do you want to revisit with God this
+            week?
+          cta_label: Return to the expedition
+        pt-BR:
+          eyebrow: Contemplação da semana
+          title: Qual passo você vai continuar dando?
+          setup: O Deus vivo age. O Rei servo salva. Ele escuta, ilumina, reúne e
+            chama tudo o que respira. Você não precisa entender tudo nem mudar tudo
+            em uma semana.
+          question: Qual dessas seis etapas você quer retomar com Deus nesta semana?
+          cta_label: Voltar à expedição
+      visual_source:
+        strategy: share_campaign_key_art
+        asset_path: ''
+  runtime_cutover:
+    owner: human
+    revision: 2
+    status: publication_authorized_awaiting_deployment
+    strategy: replace_visible_preserve_history
+    authorized_on: '2026-09-05'
+    legacy_expedition:
+      id: psalms-102-150-2026-08-31
+      dossier_path: config/expeditions/psalms-102-150-2026-08-31.yml
+      quiz_catalog_path: config/quizzes/expedition_psalms_2026.yml
+      published_version_policy: retire_on_successful_cutover
+      remove_from_player_surfaces: true
+      delete_database_records: false
+      delete_source_files: false
+      preserve_player_progress: true
+    replacement:
+      manifest_path: config/expeditions/psalms-102-150-fast.yml
+      pack_paths:
+      - config/expeditions/psalms-102-150-fast/packs/pack-01.yml
+      - config/expeditions/psalms-102-150-fast/packs/pack-02.yml
+      - config/expeditions/psalms-102-150-fast/packs/pack-03.yml
+      - config/expeditions/psalms-102-150-fast/packs/pack-04.yml
+      - config/expeditions/psalms-102-150-fast/packs/pack-05.yml
+      - config/expeditions/psalms-102-150-fast/packs/pack-06.yml
+      publish_as_new_study_quiz_version: true
+      runtime_export_started: true
+      publication_started: true
+    blockers: []
+    next_gate: production_deployment
+  runtime_export:
+    owner: codex-runtime-export
+    revision: 4
+    status: publication_authorized_awaiting_deployment
+    publication_authorized: true
+    publication_authorized_by: human
+    publication_authorized_on: '2026-09-05'
+    generated_catalog_path: config/quizzes/psalms_102_150_fast.yml
+    archive_catalog_path: config/quizzes/expedition_psalms_2026.yml
+    active_pack_ids:
+    - psalms_living_god
+    - psalms_servant_king
+    - psalms_hears_knows
+    - psalms_walk_with_god
+    - psalms_build_home
+    - psalms_every_breath
+    archived_pack_ids:
+    - exp_psalms_disappearing_voice
+    - exp_psalms_nameless_king
+    - exp_psalms_cry_stone_seek
+    - exp_psalms_house_table_city
+    - exp_psalms_suspended_harps
+    - exp_psalms_everything_breathes
+    outputs:
+      active_catalog:
+        pack_count: 6
+        question_count: 60
+        quiz_master_count: 60
+      archived_catalog:
+        pack_count: 6
+        history_lookup_enabled: true
+        included_in_visible_journey: false
+      responsive_media:
+        campaign_master_count: 3
+        library_master_count: 18
+        library_campaign_reuse_count: 3
+        new_imagegen_call_count: 0
+        generated_asset_count: 8
+      schedule:
+        state: scheduled
+        human_gate: PASS
+      verification:
+        focused_test_runs: 74
+        focused_test_assertions: 4308
+        failures: 0
+        errors: 0
+        locale_audit:
+          status: PASS
+          expected_locales:
+          - fr
+          - es
+          - en
+          - pt-BR
+          pack_count: 6
+          question_count: 60
+          library_day_count: 7
+          accessibility_day_count: 7
+          compared_question_localizations: 240
+          compared_pack_titles: 24
+          compared_library_localizations: 28
+          runtime_source_equivalence: PASS
+          schedule_validation_errors: []
+          issues: []
+    pack_copy:
+      psalms_living_god:
+        source_pack: pack-01
+        title_status: approved
+        title:
+          fr: Le Dieu vivant agit
+          es: El Dios viviente actúa
+          en: The living God acts
+          pt-BR: O Deus vivo age
+      psalms_servant_king:
+        source_pack: pack-02
+        title_status: approved
+        title:
+          fr: Voici Jésus-Christ
+          es: Este es Jesucristo
+          en: This Is Jesus Christ
+          pt-BR: Este é Jesus Cristo
+      psalms_hears_knows:
+        source_pack: pack-03
+        title_status: approved
+        title:
+          fr: Il entend et il connaît
+          es: Él te escucha y te conoce
+          en: He Hears and Knows You
+          pt-BR: Ele ouve e conhece você
+      psalms_walk_with_god:
+        source_pack: pack-04
+        title_status: approved
+        title:
+          fr: Apprendre à marcher avec lui
+          es: Aprender a caminar con él
+          en: Learn to Walk with Him
+          pt-BR: Aprender a caminhar com ele
+      psalms_build_home:
+        source_pack: pack-05
+        title_status: approved
+        title:
+          fr: Bâtir une vie et un peuple
+          es: Construir una vida y un pueblo
+          en: Build a Life and a People
+          pt-BR: Construir uma vida e um povo
+      psalms_every_breath:
+        source_pack: pack-06
+        title_status: approved
+        title:
+          fr: Tout souffle a sa place
+          es: Todo aliento tiene un lugar
+          en: Every breath has a place
+          pt-BR: Todo fôlego tem seu lugar
+    unresolved_human_copy: []
+    accessibility_copy:
+      status: approved
+      approved_by: human
+      approved_on: '2026-09-05'
+      approval_revision: 38
+      source: direct_description_of_approved_artwork
+      days:
+      - day_id: psalms-102-150-fast-day-1
+        alt:
+          fr: Dans une cour antique au coucher du soleil, un chantre lève la main
+            au milieu d’une assemblée de tous âges; des lampes allumées dessinent
+            un chemin autour d’eux.
+          es: En un patio antiguo al atardecer, un cantor levanta la mano en medio
+            de una asamblea de todas las edades; unas lámparas encendidas dibujan
+            un camino a su alrededor.
+          en: In an ancient courtyard at sunset, a song leader raises his hand among
+            an all-ages gathering; lit oil lamps trace a path around them.
+          pt-BR: Num pátio antigo ao pôr do sol, um cantor ergue a mão no meio de
+            uma reunião de todas as idades; lamparinas acesas formam um caminho ao redor.
+        disclosure:
+          fr: Cette illustration biblique s’inspire du refrain du Psaume 136. Elle
+            ne reconstitue pas un événement précis raconté par le psaume.
+          es: Esta ilustración bíblica se inspira en el estribillo del Salmo 136.
+            No reconstruye un acontecimiento concreto narrado en el salmo.
+          en: This biblical illustration draws on the refrain in Psalm 136. It does
+            not reconstruct a specific event narrated in the psalm.
+          pt-BR: Esta ilustração bíblica se inspira no refrão do Salmo 136. Ela não
+            reconstitui um acontecimento específico narrado no salmo.
+      - day_id: psalms-102-150-fast-day-2
+        alt:
+          fr: Sous une porte de pierre, Jésus accueille plusieurs voyageurs; une
+            grosse pierre d’angle repose au premier plan dans la lumière.
+          es: Bajo una puerta de piedra, Jesús recibe a varios viajeros; una gran
+            piedra angular descansa en primer plano, iluminada por el sol.
+          en: Beneath a stone gateway, Jesus welcomes several travelers; a large
+            cornerstone rests in the light in the foreground.
+          pt-BR: Sob um portal de pedra, Jesus recebe vários viajantes; uma grande
+            pedra angular repousa iluminada em primeiro plano.
+        disclosure:
+          fr: Cette illustration représente une lecture chrétienne des Psaumes 110
+            et 118 en Jésus-Christ. Elle ne reconstitue pas une scène racontée par
+            ces psaumes.
+          es: Esta ilustración representa una lectura cristiana de los Salmos 110
+            y 118 centrada en Jesucristo. No reconstruye una escena narrada en esos salmos.
+          en: This illustration presents a Christian reading of Psalms 110 and 118
+            centered on Jesus Christ. It does not reconstruct a scene narrated in
+            those psalms.
+          pt-BR: Esta ilustração representa uma leitura cristã dos Salmos 110 e 118
+            centrada em Jesus Cristo. Ela não reconstitui uma cena narrada nesses salmos.
+      - day_id: psalms-102-150-fast-day-3
+        alt:
+          fr: Assise seule sur un banc de chapelle, une femme relit un message sur
+            son téléphone avant de toucher l’écran.
+          es: Sentada sola en un banco de la capilla, una mujer relee un mensaje en
+            el teléfono antes de tocar la pantalla.
+          en: Sitting alone on a chapel pew, a woman rereads a message on her phone
+            before touching the screen.
+          pt-BR: Sentada sozinha num banco da capela, uma mulher relê uma mensagem
+            no celular antes de tocar na tela.
+        disclosure:
+          fr: Cette scène contemporaine a été inventée pour accompagner le Psaume
+            139. Cette femme n’est pas un personnage biblique.
+          es: Esta escena contemporánea fue inventada para acompañar el Salmo 139.
+            La mujer no es un personaje bíblico.
+          en: This present-day scene was invented to accompany Psalm 139. The woman
+            is not a biblical figure.
+          pt-BR: Esta cena contemporânea foi inventada para acompanhar o Salmo 139.
+            A mulher não é uma personagem bíblica.
+      - day_id: psalms-102-150-fast-day-4
+        alt:
+          fr: Dans une rue antique inondée sous un ciel nocturne, une femme tend
+            une lampe allumée à une jeune fille qui avance dans l’eau.
+          es: En una calle antigua inundada bajo el cielo nocturno, una mujer ofrece
+            una lámpara encendida a una niña que avanza por el agua.
+          en: On a flooded ancient street at night, a woman offers a lit lamp to a
+            girl moving through the water.
+          pt-BR: Numa rua antiga alagada sob o céu noturno, uma mulher oferece uma
+            lamparina acesa a uma menina que avança pela água.
+        disclosure:
+          fr: Cette illustration symbolique s’inspire de l’image de la lampe dans
+            le Psaume 119:105. Le psaume ne raconte pas cette scène.
+          es: Esta ilustración simbólica se inspira en la imagen de la lámpara del
+            Salmo 119:105. El salmo no narra esta escena.
+          en: This symbolic illustration draws on the lamp image in Psalm 119:105.
+            The psalm does not narrate this scene.
+          pt-BR: Esta ilustração simbólica se inspira na imagem da lâmpada no Salmo
+            119:105. O salmo não narra esta cena.
+      - day_id: psalms-102-150-fast-day-5
+        alt:
+          fr: Dans un jardin, plusieurs personnes de différentes générations se
+            rassemblent autour du plan d’un bâtiment encore inachevé.
+          es: En un jardín, personas de varias generaciones se reúnen alrededor del
+            plano de un edificio que aún está en construcción.
+          en: In a garden, people from several generations gather around the plans
+            for a building that is still under construction.
+          pt-BR: Num jardim, pessoas de várias gerações se reúnem em torno da planta
+            de um edifício que ainda está em construção.
+        disclosure:
+          fr: Cette scène contemporaine a été inventée à partir des thèmes de construction,
+            de rassemblement et de guérison des Psaumes 127 et 147. Elle ne reconstitue
+            pas leur époque.
+          es: Esta escena contemporánea fue inventada a partir de los temas de construcción,
+            reunión y sanación de los Salmos 127 y 147. No reconstruye su época.
+          en: This present-day scene was invented from the themes of building, gathering,
+            and healing in Psalms 127 and 147. It does not recreate their historical setting.
+          pt-BR: Esta cena contemporânea foi inventada a partir dos temas de construção,
+            reunião e cura dos Salmos 127 e 147. Ela não reconstitui a época desses salmos.
+      - day_id: psalms-102-150-fast-day-6
+        alt:
+          fr: À la porte d’un jardin de chapelle, une femme tend la main à une autre
+            qui hésite encore à entrer; un groupe l’attend dehors.
+          es: A la entrada del jardín de una capilla, una mujer tiende la mano a otra
+            que aún duda en entrar; un grupo la espera afuera.
+          en: At the entrance to a chapel garden, a woman reaches out to another who
+            still hesitates to enter; a group waits outside.
+          pt-BR: Na entrada do jardim de uma capela, uma mulher estende a mão a outra
+            que ainda hesita em entrar; um grupo espera do lado de fora.
+        disclosure:
+          fr: Cette scène contemporaine a été inventée pour accompagner l’appel à
+            la louange des Psaumes 117 et 148 à 150. Ces personnes ne sont pas des
+            personnages bibliques.
+          es: Esta escena contemporánea fue inventada para acompañar el llamado a
+            la alabanza de los Salmos 117 y 148–150. Estas personas no son personajes bíblicos.
+          en: This present-day scene was invented to accompany the call to praise
+            in Psalms 117 and 148–150. These people are not biblical figures.
+          pt-BR: Esta cena contemporânea foi inventada para acompanhar o chamado
+            ao louvor dos Salmos 117 e 148–150. Essas pessoas não são personagens bíblicas.
+      - day_id: psalms-102-150-fast-day-7
+        alt:
+          fr: Dans une porte monumentale ouverte sur un jardin, Jésus et deux bâtisseurs
+            soulèvent ensemble une pierre; un trône vide se dresse derrière eux.
+          es: En un portal monumental abierto hacia un jardín, Jesús y dos constructores
+            levantan juntos una piedra; detrás de ellos hay un trono vacío.
+          en: In a monumental gateway opening onto a garden, Jesus and two builders
+            lift a stone together; an empty throne stands behind them.
+          pt-BR: Num portal monumental aberto para um jardim, Jesus e dois construtores
+            erguem juntos uma pedra; atrás deles há um trono vazio.
+        disclosure:
+          fr: Cette illustration chrétienne associe Jésus-Christ au Roi-serviteur
+            et à la pierre des Psaumes 110 et 118. C’est une interprétation visuelle,
+            pas une scène racontée par les psaumes.
+          es: Esta ilustración cristiana relaciona a Jesucristo con el Rey servidor
+            y la piedra de los Salmos 110 y 118. Es una interpretación visual, no
+            una escena narrada en los salmos.
+          en: This Christian illustration connects Jesus Christ with the Servant
+            King and the stone in Psalms 110 and 118. It is a visual interpretation,
+            not a scene narrated in the psalms.
+          pt-BR: Esta ilustração cristã relaciona Jesus Cristo ao Rei servo e à pedra
+            dos Salmos 110 e 118. É uma interpretação visual, não uma cena narrada
+            nos salmos.
+    library_editorial:
+      status: approved
+      revision: 39
+      approved_by: human
+      approved_on: '2026-09-05'
+      starts_on: '2026-08-31'
+      ends_on: '2026-09-06'
+      timezone: Europe/Madrid
+      schedule_path: config/study/library_daily_editorials/2026-08-31-psalms-102-150.yml
+      required_locales:
+      - fr
+      - es
+      - en
+      - pt-BR
+      composition:
+        discoveries: 6
+        contemplations: 1
+        total_days: 7
+      expected_discoveries_digest: 4c215fddcf0f122c72a4fc468fbc4a7026a6119e038230eccba9feeeb531fe04
+      expected_artwork_digest: d6afb5154da76d65642d825c314a91139fdb48ef0d5185f0162ff671e3c6c066
+      creative_generation_call_count: 0
+      responsive_master_count: 21
+      plan:
+        days:
+        - day_id: psalms-102-150-fast-day-1
+          scheduled_on: '2026-08-31'
+          kind: discovery
+          references:
+          - ot/ps/135
+          - ot/ps/136
+          - ot/ps/146
+          claim_ids:
+          - fast-psalms-pack01-q03
+        - day_id: psalms-102-150-fast-day-2
+          scheduled_on: '2026-09-01'
+          kind: discovery
+          references:
+          - ot/ps/110
+          - ot/ps/118
+          - nt/matt/22
+          - nt/heb/5
+          claim_ids:
+          - fast-psalms-pack02-q10
+        - day_id: psalms-102-150-fast-day-3
+          scheduled_on: '2026-09-02'
+          kind: discovery
+          references:
+          - ot/ps/102
+          - ot/ps/103
+          - ot/ps/116
+          - ot/ps/139
+          claim_ids:
+          - fast-psalms-pack03-q10
+        - day_id: psalms-102-150-fast-day-4
+          scheduled_on: '2026-09-03'
+          kind: discovery
+          references:
+          - ot/ps/119
+          - ot/ps/138
+          claim_ids:
+          - fast-psalms-pack04-q04
+        - day_id: psalms-102-150-fast-day-5
+          scheduled_on: '2026-09-04'
+          kind: discovery
+          references:
+          - ot/ps/127
+          - ot/ps/128
+          - ot/ps/137
+          - ot/ps/147
+          claim_ids:
+          - fast-psalms-pack05-q10
+        - day_id: psalms-102-150-fast-day-6
+          scheduled_on: '2026-09-05'
+          kind: discovery
+          references:
+          - ot/ps/117
+          - ot/ps/148
+          - ot/ps/149
+          - ot/ps/150
+          claim_ids:
+          - fast-psalms-pack06-q08
+        - day_id: psalms-102-150-fast-day-7
+          scheduled_on: '2026-09-06'
+          kind: contemplation
+          references:
+          - ot/ps/102
+          - ot/ps/110
+          - ot/ps/118
+          - ot/ps/119
+          - ot/ps/127
+          - ot/ps/137
+          - ot/ps/139
+          - ot/ps/150
+          claim_ids:
+          - fast-psalms-pack01-q03
+          - fast-psalms-pack02-q10
+          - fast-psalms-pack03-q10
+          - fast-psalms-pack04-q04
+          - fast-psalms-pack05-q10
+          - fast-psalms-pack06-q08
+  visual_staging_contract:
+    owner: human
+    source_policy:
+      quiz_prompt_is_source: false
+      resolve_each_unique_reference_once: true
+      deduplicate_in_source_library: true
+    representation_modes:
+    - iconic_symbol
+    - human_dramaturgy
+    - historical_cinematic
+    - environmental_world
+    visual_treatments:
+    - cinematic_realism
+    - biblical_illustration
+    max_words_per_concept_excluding_ids_and_references: 160
+    generation_authorized: false
+    proof_generation:
+      authorized_by_council_contract: true
+      human_approval_before_first_proof: false
+      max_calls_before_human_review: 1
+      selection_owner: expedition-fast-directeur-artistique-producteur
+      human_approval_after_critic: true
+  visual_requirements:
+    owner: human
+    scope: expedition
+    production_owner: expedition-fast-directeur-artistique-producteur
+    revision: 1
+    status: approved_cost_optimized_contract
+    generation_authorized: false
+    creative_master_policy:
+      default_canvas:
+        ratio: '1:1'
+        width: 2160
+        height: 2160
+      master_file_format: png
+      common_safe_region_required: true
+      responsive_derivatives_are_new_generations: false
+      additional_composition_requires_documented_surface_failure: true
+      additional_composition_requires_human_authorization: true
+    derivative_targets:
+      portrait:
+        ratio: '9:16'
+        width: 1080
+        height: 1920
+      tablet:
+        ratio: '4:5'
+        width: 1440
+        height: 1800
+      landscape:
+        ratio: '16:9'
+        width: 1920
+        height: 1080
+    surfaces:
+      library:
+        required: true
+        units: 7
+        approved_quiz_asset_reuse_count: 6
+        shared_campaign_asset_count: 1
+        maximum_new_creative_master_count: 0
+        derivative_targets:
+        - portrait
+        - tablet
+        - landscape
+      campaign_key_art:
+        required: true
+        units: 1
+        creative_masters_per_unit: 1
+        planned_new_creative_master_count: 1
+        shared_by:
+        - expedition_key_art
+        - rama_hero
+        - home_expedition
+        - library_day_7
+        derivative_targets:
+        - portrait
+        - tablet
+        - landscape
+      rama_headline:
+        required: true
+        asset_kind: live_html_copy
+        required_locales:
+        - fr
+        - es
+        - en
+        - pt-BR
+        baked_into_artwork: false
+        expected_image_master_count: 0
+      expedition_pack_art:
+        required: true
+        source: first_approved_quiz_master_per_pack
+        expected_new_creative_master_count: 0
+        dedicated_master: only_after_documented_map_surface_failure
+      home_expedition:
+        required: true
+        source: campaign_key_art
+        expected_new_creative_master_count: 0
+    planned_new_creative_master_count: 1
+    generation_count_is_a_ceiling_not_a_target: true
+  visual_proof_approval:
+    owner: human
+    status: approved
+    proof_output_path: public/media/expeditions/psalms-102-150-fast/campaign/psalms-roi-serviteur-square-proof-v2.png
+    critic_verdict: REWORK
+    decision: approve_master_v2_and_authorize_mechanical_responsive_derivatives
+    approved_on: '2026-09-05'
+    decision_note: >-
+      Approbation artistique en connaissance de l'échec du crop carré sur Rama.
+      La correction doit venir d'une composition technique 9:16 qui conserve
+      l'image nette en hauteur et réserve une extension sombre à la copie, jamais
+      d'une nouvelle génération.
+    authorized_batch:
+      targeted_rework:
+        authorization_revision: 20
+        visual_concept_ids:
+        - psalms-expedition-campaign-key-art
+        source_asset_path: public/media/expeditions/psalms-102-150-fast/campaign/psalms-roi-serviteur-square-proof-v1.png
+        surfaces:
+        - rama_hero_mobile
+        ratios:
+        - '1:1'
+        max_new_generation_calls: 1
+        edit_of_existing_asset: true
+        versioned_output_required: true
+        required_changes:
+        - Remonter le geste partagé, la pierre et toutes les mains dans la zone sûre
+          qui demeure visible avant le titre HTML sur le Hero Rama 390 x 844.
+        - Montrer immédiatement, derrière le Roi-serviteur, le trône vide qu'il a
+          quitté.
+        preserved_invariants:
+        - Exactement trois personnes et aucun personnage ajouté.
+        - Même Roi-serviteur, bâtisseuse et bâtisseur, porte monumentale ouverte,
+          jardin ordonné, lumière d'aurore et illustration biblique Celestial Light.
+        - Aucun texte, logo, filigrane, halo, temple moderne identifiable ou rite.
+        derivatives_authorized: false
+        runtime_wiring_authorized: false
+      responsive_derivatives:
+        authorization_revision: 23
+        source_asset_path: public/media/expeditions/psalms-102-150-fast/campaign/psalms-roi-serviteur-square-proof-v2.png
+        source_asset_sha256: 9933529bfee6d5cdb118c83ca204a23ea24c5483d9d375de447893549e3b2c98
+        generation_call_count_allowed: 0
+        deterministic_processing_only: true
+        validation_order:
+        - portrait_on_rama_390x844
+        - tablet_4x5
+        - landscape_16x9
+        stop_after_portrait_failure: true
+        targets:
+          portrait:
+            ratio: '9:16'
+            width: 1080
+            height: 1920
+            composition: square_master_sharp_at_top_with_dark_blended_lower_extension
+          tablet:
+            ratio: '4:5'
+            width: 1440
+            height: 1800
+          landscape:
+            ratio: '16:9'
+            width: 1920
+            height: 1080
+        imagegen_calls_authorized: 0
+        runtime_wiring_authorized: false
+        publication_authorized: false
+    responsive_derivative_review:
+      owner: human
+      status: approved
+      critic_verdict: PASS
+      proof_output_paths:
+        portrait: public/media/expeditions/psalms-102-150-fast/campaign/psalms-roi-serviteur-portrait-1080x1920-v1.png
+        tablet: public/media/expeditions/psalms-102-150-fast/campaign/psalms-roi-serviteur-tablet-1440x1800-v1.png
+        landscape: public/media/expeditions/psalms-102-150-fast/campaign/psalms-roi-serviteur-landscape-1920x1080-v1.png
+      surface_preview_paths:
+        portrait: tmp/fast-psalms-expedition-visual-proof/rama-mobile-390x844-portrait-proof-v1.png
+        tablet: tmp/fast-psalms-expedition-visual-proof/rama-tablet-768x1024-proof-v1.png
+        landscape: tmp/fast-psalms-expedition-visual-proof/rama-landscape-1440x900-proof-v1.png
+      decision: approve_all_three_responsive_surfaces
+      approved_on: '2026-09-05'
+      decision_note: >-
+        Portrait, tablette et paysage sont approuvés tels qu'inspectés dans les
+        Hero Rama 390 x 844, 768 x 1024 et 1440 x 900. Aucun nouveau visuel
+        créatif n'est requis pour la campagne.
+  source_scope_approval:
+    owner: human
+    status: approved
+    candidate_architecture_ids:
+    - retour-a-la-maison
+    - rencontrer-le-roi-serviteur
+    selected_architecture_id: rencontrer-le-roi-serviteur
+    amendments: []
+    approved_pack_plan:
+    - working_id: pack-01
+      working_title: Le Dieu vivant agit
+      source_refs:
+      - Psaume 135:1-21
+      - Psaume 136:1-26
+      - Psaume 146:1-10
+    - working_id: pack-02
+      working_title: Voici Jésus-Christ
+      source_refs:
+      - Psaume 110:1-7
+      - Psaume 118:1-29
+    - working_id: pack-03
+      working_title: Il entend et il connaît
+      source_refs:
+      - Psaume 102
+      - Psaume 103
+      - Psaume 116
+      - Psaume 139
+    - working_id: pack-04
+      working_title: Apprendre à marcher avec lui
+      source_refs:
+      - Psaume 119:1-176
+      - Psaume 138:1-8
+    - working_id: pack-05
+      working_title: Bâtir une vie et un peuple
+      source_refs:
+      - Psaumes 127-128
+      - Psaume 137:1-6
+      - Psaume 147:1-20
+    - working_id: pack-06
+      working_title: Tout souffle a sa place
+      source_refs:
+      - Psaume 117
+      - Psaumes 148-150
+    excluded_sources: []
+    decision: approve_without_amendments
+    approved_on: '2026-09-04'
+  agent_memory:
+    responsable_missionnaire:
+      owner: expedition-fast-responsable-missionnaire
+      revision: 4
+      status: blocked_missing_multi_pack_downstream_schema
+      production: |-
+        INTENTION MISSIONNAIRE
+
+        Ces psaumes ne commencent pas tous dans la louange. Ils accueillent la
+        solitude, l'épuisement, l'exil, la faute, la peur et le désir d'être
+        conduit. Ils annoncent aussi un Dieu qui écoute, pardonne, connaît,
+        rebâtit, délivre, donne sa parole et rassemble un peuple pour le louer.
+        Pour une personne qui revient, leur première bonne nouvelle est qu'elle
+        peut parler à Dieu avant d'avoir remis toute sa vie en ordre. Pour une
+        personne qui découvre l'Évangile, ils ouvrent un chemin vers Jésus-Christ :
+        le programme officiel reçoit les Psaumes 110 et 118 comme témoignages de
+        son règne, de sa prêtrise et de la pierre rejetée devenue principale.
+
+        LECTURE DU CORPUS
+
+        Psaume 102 : la prière ne masque ni l'anxiété ni l'isolement. Le "mais
+        toi" du verset 13 déplace le regard vers le règne durable de Dieu, qui
+        écoute le démuni et rebâtit Sion. Il peut aider une personne absente à
+        recommencer par une plainte vraie, sans promettre la fin immédiate de
+        l'épreuve.
+
+        Psaume 103 : le croyant rappelle à son âme le pardon, la compassion et
+        l'alliance. Dieu sait que nous sommes poussière. Le texte ouvre le
+        repentir sans réduire Dieu à un accusateur; ses images de guérison ne
+        garantissent pas une guérison médicale individuelle.
+
+        Psaume 110 : le texte royal et sacerdotal est explicitement reçu par le
+        programme comme prophétique de Jésus-Christ. Il permet d'annoncer un
+        Christ vivant, Roi et prêtre pour toujours. Les scènes de jugement ne
+        doivent pas être transformées en violence chrétienne.
+
+        Psaume 116 : une voix sauvée passe de la détresse à l'invocation, au
+        repos, à la marche et à l'accomplissement public de ses vœux. C'est une
+        forte grammaire du retour et de l'alliance, sans garantie d'échapper à
+        toute mort ou souffrance.
+
+        Psaume 117 : deux versets élargissent la louange à toutes les nations.
+        Sa contribution est l'universalité de la bonté fidèle de Dieu; seul, il
+        ne soutient pas dix questions non répétitives.
+
+        Psaume 118 : la détresse devient espace, confiance, vie et témoignage.
+        Le programme relie la pierre rejetée et celui qui vient au nom du
+        Seigneur à Jésus-Christ. Le salut reçu devient une journée de joie.
+
+        Psaume 119 : l'immense poème présente la parole comme chemin, lumière,
+        conseil, joie, liberté, relèvement et appel à revenir après l'égarement.
+        L'obéissance n'y est pas une performance froide : le priant demande que
+        Dieu enseigne, donne l'intelligence, élargisse le cœur et rende la vie.
+
+        Psaumes 127-128 : maison, travail, repos, enfants, table, générations et
+        paix placent la vie ordinaire sous la bénédiction de Dieu. Ils ne
+        permettent pas de juger les célibataires, les couples sans enfant ou
+        les familles éprouvées, ni de promettre fécondité et prospérité.
+
+        Psaume 135 : le Dieu vivant agit, voit et entend, contrairement aux
+        idoles fabriquées. Le risque missionnaire est d'identifier avec mépris
+        les "idoles" d'autrui; l'invitation juste est d'examiner ce qui reçoit
+        notre confiance et nous façonne.
+
+        Psaume 136 : la création, l'exode, le désert, la mémoire de l'humiliation
+        et la nourriture sont repris par le refrain de la bonté durable. Le
+        refrain apprend à relire une histoire entière avec Dieu. La violence
+        historique exige contexte et ne devient pas un modèle d'action.
+
+        Psaume 137 : le peuple exilé refuse de chanter pour divertir ses
+        oppresseurs et garde mémoire de Sion. Le texte donne une voix à la perte
+        et à la colère; ses imprécations finales sont un cri humain conservé
+        dans l'Écriture, non une permission de vengeance. Toute utilisation de
+        137:7-9 requiert exégèse et Fact Checker.
+
+        Psaume 138 : la prière exaucée fortifie l'âme; Dieu voit l'humble et
+        n'abandonne pas l'œuvre de ses mains. Le mouvement est une confiance au
+        milieu de la détresse, non la négation de celle-ci.
+
+        Psaume 139 : être entièrement connu par Dieu peut devenir consolation,
+        émerveillement et invitation volontaire à être sondé et conduit. Les
+        versets de haine ne doivent pas annuler la prière finale de conversion.
+
+        Psaume 146 : il oppose la fragilité des puissants au Dieu créateur qui
+        garde la vérité, fait droit, nourrit, délivre et soutient. La réception
+        chrétienne peut reconnaître dans ces œuvres un écho du ministère du
+        Sauveur, sans appeler le psaume une prophétie explicite.
+
+        Psaume 147 : Dieu rassemble les exilés et panse les cœurs brisés tout en
+        nommant les étoiles. Sa grandeur cosmique et sa proximité ne
+        s'opposent pas. Son plaisir n'est pas dans la puissance humaine mais
+        dans l'espérance placée en sa bonté.
+
+        Psaume 148 : toute la création et tous les âges sont convoqués à louer.
+        Il élargit l'appartenance : personne n'est spectateur inutile dans le
+        chœur de Dieu.
+
+        Psaume 149 : le cantique nouveau, l'assemblée, la danse et la joie des
+        humbles offrent une image forte du peuple rassemblé. Les versets 6-9
+        emploient un langage de jugement qui ne doit jamais autoriser la
+        vengeance ou la violence personnelle.
+
+        Psaume 150 : souffle, corps, sanctuaire et instruments culminent dans
+        une louange où tout vivant est invité. La louange devient réponse libre
+        à l'œuvre de Dieu, pas déni de la douleur traversée auparavant.
+
+        NOMBRE DE PROPOSITIONS
+
+        Deux architectures sont présentées. Ce nombre est juste parce que le
+        corpus porte deux choix missionnaires vraiment différents : partir de
+        l'expérience d'une personne éloignée pour la conduire vers la maison et
+        la louange, ou partir de l'identité et de l'œuvre du Dieu vivant pour
+        conduire à une réponse d'alliance. Une troisième proposition ne ferait
+        que déplacer les mêmes groupes de textes sans créer un autre chemin
+        spirituel assez distinct.
+
+        ARCHITECTURE 1 — RETOUR À LA MAISON
+
+        Elle commence avec le droit de crier vers Dieu, passe par la compassion
+        et le Christ, reçoit une parole pour marcher, réapprend l'appartenance,
+        puis retrouve une voix dans la louange. Elle sert prioritairement celui
+        qui craint de devoir être déjà fort ou digne avant de revenir.
+
+        ARCHITECTURE 2 — RENCONTRER LE ROI SERVITEUR
+
+        Elle commence par le Dieu vivant et ses œuvres, rencontre Jésus-Christ
+        dans les psaumes reçus comme messianiques, puis apprend à lui répondre
+        personnellement, à marcher selon sa parole, à bâtir avec lui et à entrer
+        dans la louange de tout le peuple. Elle sert prioritairement celui qui
+        découvre la foi et demande d'abord qui est Dieu et pourquoi lui faire
+        confiance.
+
+        DISCERNEMENT À LAISSER À L'HUMAIN
+
+        L'architecture 1 a la chaleur du retour vécu; l'architecture 2 rend le
+        témoignage du Christ plus tôt et plus explicitement. Aucune n'est
+        approuvée ici. L'humain peut choisir, combiner, déplacer ou exclure des
+        passages. Le Psaume 137 est conservé dans la cartographie et intégré avec
+        prudence aux deux chemins, car l'exclure effacerait la parole de l'exilé;
+        ses versets violents ne deviennent toutefois aucune question de vie sans
+        travail exégétique ultérieur.
+
+        REPRISE APRÈS APPROBATION HUMAINE — RÉVISION 4
+
+        La porte humaine approuve rencontrer-le-roi-serviteur sans amendement.
+        Les six entrées de approved_pack_plan correspondent exactement, pour
+        leur identifiant, leur titre et leurs références, aux six packs de cette
+        architecture. Le périmètre approuvé est donc matérialisé à l'identique
+        dans fast.result.approved_source_scope.
+
+        FAST BLOQUÉ : BLOCKED_MISSING_MULTI_PACK_DOWNSTREAM_SCHEMA
+
+        La chaîne ne peut pas être lancée honnêtement. Le YAML et les rôles
+        downstream ne prévoient qu'une mémoire Influenceur, une mémoire
+        Mystique, une mémoire Nouveau baptisé, une mémoire Quiz et une mémoire
+        Voix, toutes au singulier. Les résultats sont également uniques : un
+        seul influenceur, un seul mystique, un seul nouveau_baptise, puis un
+        quiz de dix questions et un quiz_final de dix questions.
+
+        Pour produire six packs de dix questions sans écrasement, il manque un
+        schéma canonique indexé par working_id, des mémoires complètes par pack,
+        des résultats par pack, un contrat d'orchestration séquentielle des six
+        chaînes, ainsi que des gates français et visuels portant explicitement
+        sur soixante unités. Le Responsable missionnaire n'invente pas ce
+        contrat et n'appelle pas l'Influenceur tant que ce manque n'est pas
+        résolu.
+    mise_en_scene_visuelle:
+      owner: expedition-fast-directeur-mise-en-scene
+      revision: 1
+      status: complete
+      production: |-
+        SOURCES RÉSOLUES
+
+        Les sept unités publiques ont été relues depuis les liens de `source.readings`.
+        Le refrain de miséricorde du Psaume 136, la pierre rejetée du Psaume 118,
+        la connaissance du cœur du Psaume 139, la parole-lampe du Psaume 119,
+        le rassemblement des exilés du Psaume 147 et le souffle invité du Psaume
+        150 soutiennent directement les six jours. Pour la campagne, le Psaume
+        110 porte la royauté et la prêtrise, le Psaume 118 porte la pierre devenue
+        principale, et le programme Viens et suis-moi qualifie explicitement leur
+        réception chrétienne en Jésus-Christ. La campagne reste donc une synthèse
+        picturale de réception, jamais la reconstitution d'un événement historique.
+
+        AUDIT DES SIX RÉEMPLOIS
+
+        Les six fichiers existent, sont ouvrables, mesurent 941 x 1672 et gardent
+        une lecture immédiate : assemblée joyeuse; Christ accueilli dans une porte
+        de pierre; femme connue dans une prière contemporaine; lampe transmise dans
+        la nuit; communauté qui bâtit; femme hésitante accueillie sans joie forcée.
+        Chaque image sert exactement le jour qui la cite. Elles sont verrouillées :
+        aucune régénération, variante ou composition supplémentaire n'est demandée.
+        Les crops futurs devront préserver le geste central; un échec de crop sera
+        documenté, pas compensé silencieusement par un nouvel appel.
+
+        ARBITRAGE DE CAMPAGNE
+
+        L'image conventionnelle aurait montré un Christ couronné et une pierre
+        isolée devant une porte. Elle est lisible, mais statique et proche d'une
+        affiche religieuse générique. L'alternative dramaturgique montre Jésus,
+        reconnaissable sans prétention documentaire, descendu d'un trône visible
+        pour porter avec deux bâtisseurs la pierre rejetée vers le seuil d'une
+        porte ouverte. Le choix hybride conserve les signes universels — roi,
+        pierre, porte — et donne au Roi-serviteur un geste actif, coûteux et
+        partagé. La question naît en deux secondes : pourquoi le roi porte-t-il
+        lui-même la pierre rejetée ?
+
+        RYTHME ET COÛT
+
+        L'expédition alterne Celestial Light et Celestial Dark, Bible picturale et
+        situations contemporaines, célébration et tension intérieure. Le nouveau
+        master de campagne est une illustration biblique Celestial Light, riche en
+        pierre, bois, textile et jardin ordonné. Il concentre toute l'action dans
+        la zone commune aux crops 9:16, 4:5 et 16:9. C'est le seul concept transmis
+        au Producteur et le seul appel permis avant la décision humaine.
+    direction_artistique:
+      owner: expedition-fast-directeur-artistique-producteur
+      revision: 4
+      status: responsive_renditions_awaiting_two_second_review
+      production: |-
+        AUTORISATION ET SÉLECTION
+
+        À la révision de mise en scène 1, `visual_staging` était
+        `ready_for_proof`, les sept concepts étaient en PASS, le contrat
+        autorisait une preuve avant jugement humain et aucun appel n'était
+        consigné. J'ai retenu exclusivement
+        `psalms-expedition-campaign-key-art` : c'est le seul master neuf de
+        l'expédition et il éprouve à la fois l'image-clé, le Hero Rama, la
+        présence Home et le septième jour Bibliothèque. Les six autres jours
+        restent verrouillés sur leurs images de quiz approuvées.
+
+        PRODUCTION
+
+        Un seul appel ImageGen intégré a été effectué le 5 septembre 2026,
+        sans image de référence, variante, autre ratio, upscale ni retouche.
+        La preuve carrée montre exactement trois personnes : Jésus-Christ,
+        représenté comme jeune homme juif du Levant dans un vêtement royal
+        ivoire, indigo et or, porte avec une bâtisseuse et un bâtisseur une
+        pierre ébréchée au seuil d'une grande porte. Le jardin d'aurore, la
+        pierre claire, le bois sombre, les fleurs mûres et l'axe ordonné
+        empruntent des principes abstraits aux jardins de temple publiquement
+        visibles de l'Église; aucun temple moderne, rite ou lieu exact n'est
+        revendiqué.
+
+        INSPECTION RÉELLE
+
+        Le PNG s'ouvre, est carré, sans texte, inscription, logo, filigrane ni
+        halo. Les trois visages, les mains et la pierre sont lisibles dans le
+        master; le geste partagé, la richesse des matières et la lumière
+        Celestial Light sont forts. Deux écarts sont exposés sans les masquer :
+        le trône demandé n'est pas visible, et l'outil a livré 1254 x 1254
+        malgré la demande 2160 x 2160. Aucun upscale n'a été réalisé. Dans
+        l'aperçu réel du Hero Rama mobile 390 x 844, les trois visages tiennent,
+        mais le titre et le chrome recouvrent presque entièrement la pierre et
+        rendent le service partagé moins immédiat. La preuve est donc livrée au
+        Critique des deux secondes avec ces non-conformités documentées; aucune
+        seconde génération n'est ouverte automatiquement.
+
+        RETOUR DU CRITIQUE
+
+        Le verdict est `REWORK`. Il confirme l'arrêt du regard et la force du
+        master, mais refuse la preuve sur la surface Rama : le titre masque le
+        geste, le trône manque et la définition ne satisfait pas le master HD.
+        Le Conseil s'arrête au gate humain `visual_proof_approval`; aucun autre
+        appel, dérivé final ou branchement runtime n'est autorisé.
+
+        REWORK CIBLÉ AUTORISÉ EN RÉVISION 20
+
+        Après décision humaine, la v1 a été chargée et utilisée comme cible d'un
+        unique appel ImageGen intégré en mode edit. L'identité du trio, ses
+        vêtements, la porte, le jardin et la lumière ont été conservés. La v2
+        montre maintenant le trône de pierre vide dans l'axe, derrière le
+        Roi-serviteur, et remonte la pierre ainsi que les mains au niveau du
+        torse. Aucun personnage, texte, emblème religieux ou lieu contemporain
+        identifiable n'a été ajouté.
+
+        INSPECTION V2
+
+        Le master v2 est carré, ouvre correctement et conserve exactement trois
+        personnes. Le trône vide, la pierre, toutes les mains et le geste partagé
+        sont clairs dans l'image seule. L'outil a de nouveau livré 1254 x 1254;
+        conformément à l'autorisation, aucun upscale ni appel de rattrapage n'a
+        été effectué. Dans le vrai Hero Rama mobile 390 x 844, le trône et les
+        trois visages restent très lisibles, mais le grand titre recouvre encore
+        la pierre et une partie des mains. Le rework améliore donc la royauté
+        visible sans démontrer encore la lecture de l'action sur cette surface.
+        La v2 est transmise au Critique des deux secondes et la chaîne demeure
+        fermée à tout lot, dérivé final, runtime ou publication.
+
+        RETOUR DU CRITIQUE V2
+
+        Verdict `REWORK`. Le trône vide et le geste passent dans le master, mais
+        la pierre et presque toutes les mains restent masquées par le titre du
+        Hero Rama 390 x 844; la définition reste aussi sous le 2160 x 2160
+        contractuel. La chaîne est arrêtée au gate humain sans nouvel appel.
+
+        DÉRIVÉ PORTRAIT AUTORISÉ EN RÉVISION 23
+
+        Aucun appel ImageGen n'a été effectué. La v2 exacte, vérifiée par son SHA,
+        a été réduite sans recadrage à 1080 x 1080 et placée nette en tête d'un
+        canevas 1080 x 1920. Les 840 pixels inférieurs proviennent uniquement des
+        260 pixels bas du même master : retournement vertical, étirement, flou
+        gaussien et fondu bleu-noir progressif. Cette extension ne crée ni sujet
+        ni décor nouveau et ne présente aucune couture perceptible.
+
+        Le portrait et son aperçu réel Rama 390 x 844 ont été ouverts et regardés.
+        Le trône, les trois visages, la pierre entière et toutes les mains restent
+        visibles avant le début du titre HTML. Le titre, la progression et le CTA
+        reposent sur l'extension sombre; le CTA est complet et lisible. La sortie
+        est exactement 1080 x 1920. Conformément à la séquence autorisée, aucun
+        dérivé 4:5 ou 16:9 n'est produit avant le verdict du Critique.
+
+        PASS PORTRAIT ET RENDITIONS RESTANTES
+
+        Le Critique a validé le portrait en révision 25. Sous l'autorisation
+        humaine r23, deux compositions purement mécaniques ont ensuite été
+        retenues. Pour la tablette, un fond v2 fortement flouté et assombri porte
+        la copie; le carré net, réduit à 1080 x 1080, est placé à droite avec un
+        fondu inférieur et un dégradé latéral. Pour le paysage, le même fond
+        non figuratif porte la copie à gauche; le carré net est placé à droite,
+        avec une entrée latérale fondue. Aucun sujet lisible n'est dupliqué.
+
+        Les quatre fichiers ont été ouverts : masters 1440 x 1800 et 1920 x 1080,
+        aperçus Rama réels 768 x 1024 et 1440 x 900. Sur les deux surfaces, le
+        trône, les trois visages, la pierre entière et toutes les mains restent
+        immédiatement lisibles hors de la copie. Titres, progression, compteur
+        et CTA sont complets. Aucun texte n'est incrusté, aucune couture n'est
+        perceptible et aucun appel ImageGen n'a été effectué. Les fichiers sont
+        transmis au Critique avant tout encodage, runtime ou publication.
+    critique_deux_secondes:
+      owner: expedition-fast-critique-deux-secondes
+      revision: 4
+      status: complete_awaiting_human_proof_approval
+      production: |-
+        LECTURE FROIDE AVANT CONCEPT
+
+        Dans le master seul, l'œil rencontre d'abord le visage baissé de l'homme
+        central, puis les trois corps agenouillés et leurs mains réunies autour
+        d'une pierre brute. La porte ouverte, le jardin ordonné et l'aurore
+        installent immédiatement un monde ample, beau et accueillant. La scène
+        perçue est celle de trois personnes richement vêtues qui posent ensemble
+        une lourde pierre dans un seuil. La question naturelle est : pourquoi cet
+        homme placé au centre et vêtu avec plus de richesse prend-il lui-même le
+        poids avec les deux autres ? L'image seule peut arrêter le défilement.
+
+        Dans l'aperçu Rama mobile 390 x 844, le premier sujet devient le grand
+        titre HTML, puis les trois visages. La pierre, les mains et leur effort
+        commun tombent presque entièrement sous le sous-titre, la progression et
+        le bouton. En moins de deux secondes, on comprend surtout que trois
+        personnes sont penchées ensemble; on ne saisit plus sûrement qu'elles
+        portent ou placent une pierre. Le monde et les visages peuvent encore
+        arrêter le pouce, mais l'action qui devait faire contempler le
+        Roi-serviteur ne survit pas à la surface.
+
+        CONTRÔLE APRÈS LECTURE DU CONCEPT ET DU MANIFESTE
+
+        La preuve respecte le trio exact, la dignité des visages, la richesse des
+        étoffes, la pierre ébréchée, la porte ouverte, le jardin ordonné et la
+        famille Celestial Light. Elle ne montre ni texte incrusté, ni halo, ni
+        temple moderne identifiable, ni rite inventé. La référence esthétique
+        aux jardins de l'Église reste abstraite et cohérente avec la source
+        officielle consignée.
+
+        Deux éléments essentiels ne sont cependant pas prouvés. Le trône annoncé
+        n'est pas visible : sans ce signe et avec l'action masquée dans le Hero,
+        la royauté servante repose surtout sur le titre plutôt que sur l'image.
+        Le master livré mesure 1254 x 1254 au lieu des 2160 x 2160 requis; il ne
+        démontre donc pas la livraison HD contractuelle ni la résistance des
+        dérivés 9:16, 4:5 et 16:9.
+
+        VERDICT
+
+        REWORK. La direction est forte et mérite d'être conservée : présence
+        magnétique, service partagé, lumière, matières et profondeur sont déjà
+        convaincants. Avant une approbation, il faut rendre la pierre et les mains
+        lisibles sur le vrai Hero mobile, rétablir le signe royal prévu dans la
+        composition et fournir le master HD demandé. Ce verdict n'autorise aucun
+        nouvel appel ni aucune production en série; la décision revient à
+        l'humain.
+
+        NOUVELLE LECTURE FROIDE — PREUVE V2
+
+        Dans le master v2 seul, l'œil rencontre le trône de pierre vide placé dans
+        l'axe, puis le visage concentré de l'homme central et la masse claire de la
+        pierre tenue par le trio. On comprend immédiatement que cet homme de rang
+        a quitté son siège et prend le poids avec une bâtisseuse et un bâtisseur.
+        La question naît sans titre : pourquoi celui qui pourrait rester sur ce
+        trône porte-t-il lui-même la pierre ? L'image est forte, spécifique et
+        arrête le défilement.
+
+        Dans le Hero Rama mobile 390 x 844, le trône et les trois visages restent
+        nettement visibles. Le grand titre devient ensuite le foyer principal et
+        recouvre la pierre ainsi que presque toutes les mains. Avant de lire les
+        mots, on voit donc trois personnes penchées sous un trône vide, mais pas
+        l'acte précis de porter ensemble. Le titre explique « Roi-serviteur » à la
+        place de l'image. Le pouce peut s'arrêter pour la beauté et la présence,
+        mais la situation ne se livre toujours pas en deux secondes.
+
+        CONTRÔLE V2 APRÈS CONCEPT ET MANIFESTE
+
+        Le rework réussit le trône absent de la v1. Le master respecte exactement
+        trois personnes, leurs identités, la pierre ébréchée, toutes les mains, la
+        porte, le jardin, les matières riches et la famille Celestial Light. Il ne
+        présente ni texte incrusté, ni halo, ni temple moderne reconnaissable, ni
+        rite inventé. La référence esthétique à l'ordre et aux jardins de l'Église
+        reste abstraite et fidèle à la source officielle consignée.
+
+        La surface cible échoue néanmoins encore sur l'élément dramatique central :
+        pierre, mains et poids partagé ne survivent pas au chrome. Le PNG est
+        toujours livré en 1254 x 1254 au lieu des 2160 x 2160 requis; il ne prouve
+        ni le master HD contractuel ni ses dérivés 9:16, 4:5 et 16:9.
+
+        VERDICT V2
+
+        REWORK. La direction et le master sont convaincants, et le signe royal est
+        désormais réussi. La preuve ne passe toutefois pas le gate de lecture sur
+        sa vraie surface et ne satisfait pas la définition HD. Ce verdict ne vaut
+        ni autorisation d'un nouvel edit, ni autorisation de lot, de dérivé final,
+        de runtime ou de publication. La décision revient à l'humain.
+
+        LECTURE FROIDE — DÉRIVÉ PORTRAIT 1080 X 1920
+
+        Dans le portrait seul, l'œil rencontre le trône vide dans l'axe, les trois
+        visages concentrés puis la pierre entière portée par toutes les mains. La
+        scène nette occupe la moitié supérieure; le sol se prolonge ensuite dans
+        une profondeur sombre sans sujet répété. La transition ne présente ni
+        rupture horizontale perceptible, ni décor dupliqué lisible. Sans titre, on
+        comprend en deux secondes qu'un homme de rang a quitté son siège pour
+        partager le poids avec deux bâtisseurs.
+
+        Dans l'aperçu Rama mobile 390 x 844, le trône, les trois visages, la pierre
+        entière et les mains apparaissent tous avant le début du titre. Le bloc
+        éditorial repose sur l'extension sombre et ne recouvre plus l'action. Le
+        titre, les six repères de progression, le compteur 0 / 6 et le CTA sont
+        lisibles; aucun sujet n'est dupliqué sous eux. La scène ouvre naturellement
+        la question : pourquoi celui qui pourrait rester assis porte-t-il cette
+        pierre avec les autres ? Le pouce s'arrête et l'image donne envie de saisir
+        ce service.
+
+        CONTRÔLE APRÈS MANIFESTE
+
+        Le fichier ouvre en 1080 x 1920 exact et son SHA correspond au manifeste.
+        Il dérive mécaniquement de la v2 approuvée : réduction du carré net,
+        extension issue de son propre sol, flou et fondu bleu-noir. Le dossier
+        consigne zéro appel ImageGen pour cette dérivation; les deux appels
+        historiques de création des v1 et v2 restent inchangés. Casting, traitement,
+        trône, porte, jardin, dignité et intégrité de source sont préservés.
+
+        VERDICT PORTRAIT
+
+        PASS pour le portrait 9:16 et sa surface Rama mobile. Ce PASS ne constitue
+        ni une décision humaine, ni une autorisation du 4:5, du 16:9, d'un autre
+        traitement, du runtime ou de la publication. Le Conseil retourne au gate
+        humain.
+
+        LECTURE FROIDE — DÉRIVÉ TABLETTE 1440 X 1800
+
+        Dans le master 4:5, le trône vide, les trois visages et la pierre tenue par
+        toutes les mains occupent le haut-droit. Un champ sombre s'ouvre à gauche
+        et se prolonge sous la scène sans personnage lisible répété. La transition
+        est progressive : aucune couture horizontale ou verticale n'interrompt le
+        regard. Sans texte, on comprend immédiatement qu'un homme de rang partage
+        la charge avec deux bâtisseurs.
+
+        Dans le Hero Rama 768 x 1024, le trône, les visages, la pierre entière et
+        les mains restent dans la moitié supérieure droite. Le titre se déploie à
+        gauche et sous l'action sans la recouvrir. Sous-titre, six repères,
+        compteur 0 / 6 et CTA restent complets et lisibles. La question du siège
+        quitté et du poids partagé naît en moins de deux secondes.
+
+        VERDICT TABLETTE : PASS.
+
+        LECTURE FROIDE — DÉRIVÉ PAYSAGE 1920 X 1080
+
+        Dans le master 16:9, le grand champ sombre de gauche prépare une zone de
+        copie tandis que la scène nette occupe la droite. Trône, trois visages,
+        pierre et mains forment un seul foyer. L'entrée latérale du carré net se
+        fond dans l'architecture sombre : aucune ligne de collage perceptible et
+        aucun visage ou corps dupliqué n'apparaît dans l'extension.
+
+        Dans le Hero Rama 1440 x 900, toute la copie demeure à gauche et toute
+        l'action à droite. Le trône vide, les trois visages, la pierre entière et
+        les mains sont immédiatement visibles; le service partagé se comprend
+        sans lire le titre. Titre, sous-titre, progression, compteur et CTA ont un
+        contraste net et ne mordent pas sur les personnages.
+
+        VERDICT PAYSAGE : PASS.
+
+        CONTRÔLE APRÈS MANIFESTE ET VERDICT GLOBAL
+
+        Les fichiers ouvrent aux dimensions exactes 1440 x 1800 et 1920 x 1080;
+        leurs SHA ainsi que ceux des aperçus correspondent au manifeste. Les deux
+        renditions proviennent de compositions ImageMagick déterministes de la v2
+        approuvée. Le dossier consigne zéro appel ImageGen pour les dérivés et les
+        deux appels historiques restent inchangés. Casting, traitement, dignité,
+        porte, jardin et intégrité de source sont préservés.
+
+        VERDICT GLOBAL : PASS. Ce PASS constate uniquement les masters tablette
+        et paysage et leurs surfaces Rama réelles. Il n'autorise aucun asset
+        supplémentaire, encodage responsive, branchement runtime ou publication;
+        le Conseil retourne au gate humain.
+  result:
+    missionary_source_map:
+    - source_id: ps-102
+      reference: Psaume 102
+      textual_core: La plainte solitaire se tourne vers le Dieu durable qui écoute
+        et rebâtit Sion.
+      reveals_about_god: Il demeure, entend le démuni et regarde pour délivrer.
+      human_condition: Anxiété, isolement, fragilité et désir d'un avenir.
+      christ_relation: Aucune prophétie christologique explicite retenue ici; application
+        chrétienne par la prière adressée à Dieu en Christ.
+      missionary_good_news: On peut revenir en commençant par une plainte vraie.
+      faith_obstacle: Croire que Dieu méprise une prière épuisée.
+      next_step: Dire à Dieu sans masque ce qui fait mal.
+      quiz_affordances:
+      - images de détresse
+      - bascule du verset 13
+      - écoute du démuni
+      - Sion rebâtie
+      - permanence de Dieu
+      risks:
+      - ne pas promettre une délivrance immédiate
+      needs_exegesis: []
+    - source_id: ps-103
+      reference: Psaume 103
+      textual_core: L'âme se souvient du pardon, de la compassion, de l'alliance et
+        du règne de Dieu.
+      reveals_about_god: Miséricordieux, lent à la colère, compatissant comme un père.
+      human_condition: Péché, oubli, fragilité et besoin de miséricorde.
+      christ_relation: La réception chrétienne reçoit pardon et rachat par Jésus-Christ;
+        le psaume ne le nomme pas explicitement.
+      missionary_good_news: Dieu connaît notre poussière et éloigne les transgressions.
+      faith_obstacle: Imaginer Dieu seulement comme accusateur.
+      next_step: Se souvenir d'un bienfait et demander pardon.
+      quiz_affordances:
+      - bienfaits
+      - compassion
+      - orient et occident
+      - poussière
+      - alliance
+      - règne
+      risks:
+      - ne pas garantir une guérison médicale
+      needs_exegesis: []
+    - source_id: ps-110
+      reference: Psaume 110
+      textual_core: Un roi placé à la droite de Dieu est déclaré prêtre pour toujours.
+      reveals_about_god: Dieu établit un règne et une prêtrise durables.
+      human_condition: Besoin d'un roi juste et d'un médiateur fidèle.
+      christ_relation: Le programme officiel et le Nouveau Testament le reçoivent
+        explicitement comme prophétie accomplie en Jésus-Christ.
+      missionary_good_news: Jésus-Christ règne et exerce une prêtrise qui demeure.
+      faith_obstacle: Réduire Jésus à un sage du passé.
+      next_step: Lire les rapprochements proposés avec Matthieu 22 et Hébreux 5.
+      quiz_affordances:
+      - droite de Dieu
+      - Sion
+      - prêtre pour toujours
+      - Melchisédek
+      - réception messianique
+      risks:
+      - violence royale
+      - anachronisme doctrinal
+      needs_exegesis:
+      - Psaume 110:5-6
+    - source_id: ps-116
+      reference: Psaume 116
+      textual_core: L'appel au secours devient repos, marche, gratitude et fidélité
+        publique.
+      reveals_about_god: Il entend, se penche, compatit et délivre.
+      human_condition: Détresse, douleur, larmes, chute et gratitude.
+      christ_relation: La délivrance peut être reçue à la lumière du salut en Christ
+        sans faire du psaume une prophétie explicite.
+      missionary_good_news: La détresse n'interdit ni l'appel ni un nouveau départ.
+      faith_obstacle: Penser qu'il faut souffrir en silence.
+      next_step: Invoquer le Seigneur puis nommer un engagement fidèle.
+      quiz_affordances:
+      - oreille inclinée
+      - retour au repos
+      - terre des vivants
+      - coupe des délivrances
+      - vœux
+      - gratitude
+      risks:
+      - ne pas garantir l'absence de mort ou de souffrance
+      needs_exegesis: []
+    - source_id: ps-117
+      reference: Psaume 117
+      textual_core: Toutes les nations sont invitées à célébrer la bonté et la fidélité
+        durables de Dieu.
+      reveals_about_god: Sa bonté déborde un seul peuple et sa fidélité demeure.
+      human_condition: Besoin d'être inclus dans une espérance plus grande que soi.
+      christ_relation: Compatible avec l'annonce universelle de l'Évangile; Jésus-Christ
+        n'est pas nommé dans le psaume.
+      missionary_good_news: L'invitation à louer s'adresse à tous les peuples.
+      faith_obstacle: Croire que la foi appartient seulement aux initiés.
+      next_step: Recevoir personnellement l'invitation universelle.
+      quiz_affordances:
+      - destinataires
+      - bonté
+      - fidélité
+      - louange
+      risks:
+      - source trop brève pour porter seule dix questions
+      needs_exegesis: []
+    - source_id: ps-118
+      reference: Psaume 118
+      textual_core: Dieu répond dans la détresse; la pierre rejetée devient principale
+        et le salut ouvre la joie.
+      reveals_about_god: Il est refuge, force, secours et lumière.
+      human_condition: Rejet, peur, pression, besoin de salut et désir de témoigner.
+      christ_relation: Le programme officiel relie 118:22 et 25-26 à Jésus-Christ
+        et à son accueil à Jérusalem.
+      missionary_good_news: Le rejet n'a pas le dernier mot en Jésus-Christ.
+      faith_obstacle: Mettre l'ultime confiance dans le prestige humain.
+      next_step: Reconnaître en Christ la pierre principale et demander son salut.
+      quiz_affordances:
+      - miséricorde
+      - détresse mise au large
+      - refuge
+      - vie
+      - porte
+      - pierre rejetée
+      - jour de joie
+      risks:
+      - langage de combat
+      - prospérité comprise matériellement
+      needs_exegesis:
+      - Psaume 118:10-12, 25
+    - source_id: ps-119
+      reference: Psaume 119
+      textual_core: La parole de Dieu devient voie, lumière, conseil, liberté, relèvement
+        et retour.
+      reveals_about_god: Il enseigne, éclaire, donne l'intelligence et rend la vie.
+      human_condition: Désir, égarement, chagrin, tentation et besoin d'être conduit.
+      christ_relation: Le programme l'inscrit dans le chemin de retour au Père; l'application
+        chrétienne suit le Christ sans prétendre que chaque verset le nomme.
+      missionary_good_news: Dieu donne une parole pour retrouver et poursuivre le
+        chemin.
+      faith_obstacle: Voir les commandements comme contrôle sans relation ni grâce.
+      next_step: Choisir un verset-lampe à méditer et vivre cette semaine.
+      quiz_affordances:
+      - structure alphabétique
+      - voie
+      - cœur
+      - liberté
+      - lumière
+      - affliction
+      - espérance
+      - égarement
+      - retour
+      risks:
+      - moralisme
+      - perfectionnisme
+      needs_exegesis:
+      - structure alphabétique et vocabulaire de la Torah
+    - source_id: ps-127
+      reference: Psaume 127
+      textual_core: Le travail, la garde de la ville et la maison sont vains si Dieu
+        n'est pas le véritable bâtisseur.
+      reveals_about_god: Il bâtit, garde et donne aussi le repos à ses bien-aimés.
+      human_condition: Labeur anxieux, besoin de repos, foyer et transmission.
+      christ_relation: Application chrétienne à une vie bâtie avec le Seigneur; pas
+        de prophétie explicite.
+      missionary_good_news: Revenir à Dieu peut commencer en cessant de porter seul
+        ce que l'on bâtit.
+      faith_obstacle: Croire que tout dépend de sa performance ou de son contrôle.
+      next_step: Confier à Dieu une responsabilité concrète du foyer ou du travail.
+      quiz_affordances:
+      - maison bâtie
+      - garde de la ville
+      - pain de douleur
+      - sommeil
+      - enfants comme héritage
+      risks:
+      - culpabiliser les personnes sans enfant
+      - dévaloriser l'effort humain
+      needs_exegesis:
+      - Psaume 127:2-5 et les images de bénédiction familiale
+    - source_id: ps-128
+      reference: Psaume 128
+      textual_core: La marche avec Dieu rejoint le travail des mains, la table, les
+        générations, Sion et la paix.
+      reveals_about_god: Sa bénédiction embrasse une vie ordinaire inscrite dans un
+        peuple.
+      human_condition: Désir de bonheur, de fruit, de famille, de continuité et de
+        paix.
+      christ_relation: Application chrétienne à la marche d'alliance; Jésus-Christ
+        n'est pas nommé explicitement.
+      missionary_good_news: La foi peut prendre corps dans le quotidien et dans une
+        appartenance plus grande que soi.
+      faith_obstacle: Croire que Dieu n'entre que dans des moments religieux exceptionnels.
+      next_step: Relier un geste quotidien à sa marche avec Dieu et à la paix de son
+        peuple.
+      quiz_affordances:
+      - marche
+      - travail des mains
+      - table
+      - vigne
+      - oliviers
+      - générations
+      - paix sur Israël
+      risks:
+      - imposer un modèle familial unique
+      - garantir mariage
+      - fécondité ou prospérité
+      needs_exegesis:
+      - Psaume 128:2-6 et la portée poétique de ses bénédictions
+    - source_id: ps-135
+      reference: Psaume 135
+      textual_core: Le Dieu vivant agit, tandis que les idoles fabriquées ne voient,
+        n'entendent ni ne respirent.
+      reveals_about_god: Il est vivant, souverain, mémorable et compatissant envers
+        ses serviteurs.
+      human_condition: Nous plaçons notre confiance dans ce que nous fabriquons et
+        finissons par lui ressembler.
+      christ_relation: Discernement chrétien de la confiance; Jésus-Christ n'est pas
+        nommé explicitement.
+      missionary_good_news: La foi répond à un Dieu vivant, pas à un objet muet.
+      faith_obstacle: Confondre contrôle, argent ou statut avec un salut.
+      next_step: Examiner sans mépris ce qui reçoit aujourd'hui sa confiance.
+      quiz_affordances:
+      - Dieu vivant
+      - idoles
+      - sens inactifs
+      - ressemblance
+      - mémoire
+      - peuple
+      risks:
+      - caricaturer la croyance d'autrui
+      - violence historique
+      needs_exegesis:
+      - Psaume 135:8-12
+    - source_id: ps-136
+      reference: Psaume 136
+      textual_core: La création, l'exode, le désert et la nourriture sont relus par
+        le refrain de la bonté durable.
+      reveals_about_god: Créateur, libérateur, guide et pourvoyeur fidèle.
+      human_condition: Humiliation, traversée, mémoire fragile et besoin quotidien.
+      christ_relation: La délivrance nourrit une lecture chrétienne du salut, sans
+        prophétie explicite de Jésus.
+      missionary_good_news: La bonté de Dieu peut être reconnue à travers toute une
+        histoire.
+      faith_obstacle: Croire que Dieu était absent de toute sa traversée.
+      next_step: Relire une étape de sa vie avec le refrain de la miséricorde.
+      quiz_affordances:
+      - refrain
+      - création
+      - exode
+      - désert
+      - humiliation
+      - délivrance
+      - nourriture
+      risks:
+      - violence de l'exode et des conquêtes
+      - lecture triomphaliste
+      needs_exegesis:
+      - Psaume 136:10-22
+    - source_id: ps-137
+      reference: Psaume 137
+      textual_core: Des exilés pleurent Sion, refusent une joie commandée par leurs
+        oppresseurs et expriment une colère extrême.
+      reveals_about_god: Dieu reste le destinataire implicite de la mémoire et du
+        cri, sans réponse facile dans le psaume.
+      human_condition: Exil, humiliation, mémoire, résistance et désir de vengeance.
+      christ_relation: Aucune relation explicite à Jésus-Christ; toute réception chrétienne
+        doit préserver la plainte et refuser la vengeance personnelle.
+      missionary_good_news: L'Écriture ne censure pas la parole du traumatisé.
+      faith_obstacle: Croire qu'il faut afficher de la joie pour être accueilli par
+        Dieu.
+      next_step: Déposer devant Dieu une colère sans la transformer en violence.
+      quiz_affordances:
+      - fleuves de Babylone
+      - harpes suspendues
+      - chant refusé
+      - mémoire de Sion
+      risks:
+      - normaliser ou attribuer à Dieu la violence de 137:7-9
+      needs_exegesis:
+      - Psaume 137:7-9 avant toute question
+    - source_id: ps-138
+      reference: Psaume 138
+      textual_core: La reconnaissance au temple devient force intérieure et confiance
+        au milieu de la détresse.
+      reveals_about_god: Il répond, fortifie, voit l'humble et n'abandonne pas son
+        œuvre.
+      human_condition: Détresse, humilité, besoin d'assurance et désir d'achever le
+        chemin.
+      christ_relation: Application chrétienne de la confiance en Dieu par le Christ;
+        pas de prophétie explicite.
+      missionary_good_news: Dieu peut fortifier l'âme avant même que la difficulté
+        disparaisse.
+      faith_obstacle: Attendre que tout soit résolu avant de revenir adorer.
+      next_step: Entrer dans un lieu de prière ou reprendre une prière de gratitude.
+      quiz_affordances:
+      - tout le cœur
+      - temple
+      - parole
+      - âme fortifiée
+      - humbles
+      - détresse
+      - œuvre inachevée
+      risks:
+      - promesse automatique de résolution
+      needs_exegesis: []
+    - source_id: ps-139
+      reference: Psaume 139
+      textual_core: Dieu connaît, entoure et forme la personne, qui finit par lui
+        demander de sonder et conduire son cœur.
+      reveals_about_god: Sa connaissance et sa présence rejoignent toute profondeur.
+      human_condition: Désir d'être connu, peur d'être exposé, émerveillement et besoin
+        de conversion.
+      christ_relation: Le programme applique cette connaissance au Père céleste et
+        à Jésus-Christ; le psaume nomme l'Éternel.
+      missionary_good_news: Être entièrement connu de Dieu n'empêche pas de lui demander
+        de conduire.
+      faith_obstacle: Croire qu'une longue absence rend invisible ou irrécupérable.
+      next_step: Prier volontairement les versets 23-24.
+      quiz_affordances:
+      - gestes connus
+      - présence
+      - ténèbres
+      - création merveilleuse
+      - pensées
+      - cœur sondé
+      - voie éternelle
+      risks:
+      - surveillance anxiogène
+      - déterminisme
+      - haine des versets 19-22
+      needs_exegesis:
+      - Psaume 139:19-22
+    - source_id: ps-146
+      reference: Psaume 146
+      textual_core: La confiance quitte les puissants mortels pour le Dieu créateur
+        qui secourt les vulnérables.
+      reveals_about_god: Il garde la vérité, fait droit, nourrit, délivre, redresse
+        et règne.
+      human_condition: Faux appuis, faim, captivité, vulnérabilité et espérance.
+      christ_relation: Les œuvres décrites résonnent avec le ministère du Sauveur;
+        ce rapprochement est une réception, non une prophétie déclarée par le programme.
+      missionary_good_news: L'espérance repose sur un Dieu vivant qui voit les personnes
+        négligées.
+      faith_obstacle: Attendre d'un pouvoir humain ce qu'il ne peut sauver.
+      next_step: Choisir un acte de confiance et un acte de service envers une personne
+        vulnérable.
+      quiz_affordances:
+      - limite des grands
+      - Dieu créateur
+      - opprimés
+      - affamés
+      - captifs
+      - étrangers
+      - règne
+      risks:
+      - instrumentaliser les pauvres
+      - promettre une résolution sociale immédiate
+      needs_exegesis: []
+    - source_id: ps-147
+      reference: Psaume 147
+      textual_core: Le Dieu qui nomme les étoiles rassemble les exilés, panse les
+        cœurs et donne sa parole.
+      reveals_about_god: Puissance sans limite et proximité envers les blessés.
+      human_condition: Exil, cœur brisé, fascination pour la force et besoin d'une
+        parole.
+      christ_relation: Réception chrétienne possible de la guérison et du rassemblement
+        en Christ; il n'est pas nommé explicitement.
+      missionary_good_news: Aucune blessure n'est trop petite pour le Dieu des étoiles.
+      faith_obstacle: Croire que Dieu admire seulement la force.
+      next_step: Nommer une blessure et espérer en sa bonté plutôt qu'en sa performance.
+      quiz_affordances:
+      - exilés
+      - cœur brisé
+      - étoiles nommées
+      - force
+      - espérance
+      - parole
+      - saisons
+      risks:
+      - garantie de guérison immédiate
+      needs_exegesis: []
+    - source_id: ps-148
+      reference: Psaume 148
+      textual_core: Cieux, terre, créatures, peuples et générations forment une convocation
+        universelle à la louange.
+      reveals_about_god: Créateur dont le nom et la majesté dépassent ciel et terre.
+      human_condition: Besoin d'appartenir à un tout et de répondre avec les autres.
+      christ_relation: La louange chrétienne s'adresse à Dieu par Jésus-Christ; le
+        psaume ne formule pas cette médiation.
+      missionary_good_news: Tous les âges et toute la création sont invités.
+      faith_obstacle: Se croire inutile ou extérieur au peuple qui loue.
+      next_step: Rejoindre une louange communautaire avec sa propre voix.
+      quiz_affordances:
+      - cieux
+      - astres
+      - éléments
+      - animaux
+      - peuples
+      - âges
+      - nom de Dieu
+      risks:
+      - réduire le texte à une liste décorative
+      needs_exegesis: []
+    - source_id: ps-149
+      reference: Psaume 149
+      textual_core: Le peuple rassemblé chante un cantique nouveau et les humbles
+        se réjouissent du salut, avant un langage de jugement.
+      reveals_about_god: Il prend plaisir à son peuple et relève les humbles.
+      human_condition: Besoin d'appartenance, joie corporelle et désir de justice
+        pouvant devenir vengeance.
+      christ_relation: Application chrétienne à l'assemblée et au salut; aucune autorisation
+        de violence au nom du Christ.
+      missionary_good_news: Le retour peut devenir joie partagée dans une assemblée.
+      faith_obstacle: Imaginer l'Église seulement comme lieu de contrôle ou de silence.
+      next_step: Rejoindre une assemblée et offrir une louange nouvelle.
+      quiz_affordances:
+      - cantique nouveau
+      - assemblée
+      - danse
+      - humbles
+      - salut
+      risks:
+      - légitimer vengeance
+      - glaive ou violence
+      needs_exegesis:
+      - Psaume 149:6-9 avant toute question
+    - source_id: ps-150
+      reference: Psaume 150
+      textual_core: Tout souffle et de nombreux instruments sont appelés à louer Dieu
+        dans son sanctuaire.
+      reveals_about_god: Sa grandeur et ses œuvres appellent une réponse entière.
+      human_condition: Souffle reçu, corps, créativité et besoin de célébrer ensemble.
+      christ_relation: Accomplissement liturgique chrétien possible; Jésus-Christ
+        n'est pas nommé explicitement.
+      missionary_good_news: Toute personne qui respire reçoit une place dans la louange.
+      faith_obstacle: Croire qu'il faut une voix parfaite ou une histoire parfaite
+        pour louer.
+      next_step: Choisir une manière concrète et sincère de louer Dieu.
+      quiz_affordances:
+      - sanctuaire
+      - hauts faits
+      - instruments
+      - danse
+      - souffle
+      - universalité
+      risks:
+      - forcer la joie
+      - effacer la plainte
+      needs_exegesis: []
+    missionary_architectures:
+    - id: retour-a-la-maison
+      title: Revenir à la maison de Dieu
+      people_served:
+      - Personnes qui croient encore mais hésitent à revenir à l'Église
+      - Personnes éprouvées qui pensent devoir d'abord aller mieux
+      missionary_promise: Tu peux parler à Dieu tel que tu es, rencontrer sa compassion
+        et le Christ vivant, recevoir une lumière pour marcher, retrouver un peuple
+        et faire de nouveau entendre ta voix.
+      spiritual_movement:
+        begins_with: Je suis loin, épuisé ou sans mots.
+        passes_through: Dieu m'écoute, me connaît, me pardonne et me montre Jésus-Christ.
+        leads_toward: Je reprends le chemin, rebâtis avec lui et rejoins la louange.
+      strengths:
+      - entrée humaine immédiate
+      - retour sans honte
+      - progression de la prière à l'assemblée
+      tradeoffs:
+      - témoignage christologique explicite seulement au troisième pack
+      - forte densité du dernier pack
+      excluded_sources: []
+      packs:
+      - working_id: pack-01
+        working_title: Tu peux encore l'appeler
+        source_refs:
+        - Psaume 102:1-29
+        - Psaume 116:1-11
+        - Psaume 137:1-6
+        gospel_discovery: Dieu reçoit la plainte, entend l'appel et laisse l'exilé
+          garder mémoire de Sion.
+        human_question: Puis-je prier quand je suis en colère, loin ou épuisé ?
+        faith_obstacle: Croire qu'il faut aller bien et parler pieusement avant de
+          revenir.
+        possible_next_step: Formuler une prière honnête et non performante.
+        role_in_journey: Ouvrir la porte du retour.
+        ten_question_viability:
+          status: pass
+          reason: Trois mouvements distincts offrent texte, discernement et limites
+            sans exploiter les imprécations.
+        repetition_guard: Réserver la fidélité publique de Psaume 116 au pack 02.
+      - working_id: pack-02
+        working_title: La miséricorde te remet debout
+        source_refs:
+        - Psaume 103:1-22
+        - Psaume 116:12-19
+        - Psaume 138:1-8
+        gospel_discovery: Le Dieu compatissant pardonne, fortifie l'âme et appelle
+          une réponse fidèle.
+        human_question: Dieu me reçoit-il encore après mes fautes et mon absence ?
+        faith_obstacle: Voir en Dieu un accusateur impatient ou un distributeur de
+          faveurs.
+        possible_next_step: Demander pardon, se souvenir d'un bienfait et reprendre
+          un engagement.
+        role_in_journey: Passer de l'appel à une confiance responsable.
+        ten_question_viability:
+          status: pass
+          reason: Pardon, fragilité, gratitude, vœux, temple et force intérieure donnent
+            des angles distincts.
+        repetition_guard: Ne pas transformer guérison et délivrance en garanties.
+      - working_id: pack-03
+        working_title: Le Christ n'est pas resté rejeté
+        source_refs:
+        - Psaume 110:1-7
+        - Psaume 118:1-29
+        gospel_discovery: Le programme reçoit Jésus-Christ comme Roi, prêtre durable
+          et pierre rejetée devenue principale.
+        human_question: Qui peut vraiment me sauver et porter mon retour vers Dieu
+          ?
+        faith_obstacle: Réduire Jésus à un maître du passé ou chercher son refuge
+          dans le prestige humain.
+        possible_next_step: Lire les accomplissements indiqués par le programme et
+          invoquer le Christ.
+        role_in_journey: Placer Jésus-Christ au centre du retour.
+        ten_question_viability:
+          status: pass
+          reason: Deux psaumes messianiques riches permettent histoire du texte, réception
+            et confiance vécue.
+        repetition_guard: Qualifier chaque lien néotestamentaire et isoler le langage
+          guerrier.
+      - working_id: pack-04
+        working_title: Une lumière pour reprendre la route
+        source_refs:
+        - Psaume 119:1-176
+        - Psaume 139:23-24
+        gospel_discovery: Dieu donne sa parole et invite le cœur à être sondé pour
+          retrouver la voie éternelle.
+        human_question: Comment reprendre sans retomber dans mes anciens chemins ?
+        faith_obstacle: Confondre les commandements avec une performance qui mérite
+          l'amour de Dieu.
+        possible_next_step: Choisir une parole-lampe et consentir à une correction
+          précise.
+        role_in_journey: Donner une pratique de persévérance.
+        ten_question_viability:
+          status: pass
+          reason: Le Psaume 119 possède de nombreux mouvements; la finale de 139 personnalise
+            le discernement.
+        repetition_guard: Ne pas réduire les 176 versets aux seules images du chemin
+          et de la lampe.
+      - working_id: pack-05
+        working_title: Rebâtir avec Dieu
+        source_refs:
+        - Psaumes 127-128
+        - Psaume 135:13-21
+        - Psaume 139:1-18
+        gospel_discovery: Le Dieu vivant connaît la personne et veut habiter son travail,
+          son foyer et son appartenance.
+        human_question: À quoi ressemble une vie réellement rebâtie avec Dieu ?
+        faith_obstacle: Réduire le retour à une émotion du dimanche ou à un modèle
+          familial unique.
+        possible_next_step: Confier une responsabilité ordinaire à Dieu et reprendre
+          place parmi son peuple.
+        role_in_journey: Faire entrer l'alliance dans la vie quotidienne.
+        ten_question_viability:
+          status: pass
+          reason: Maison, travail, repos, générations, Dieu vivant et connaissance
+            personnelle offrent un corpus varié.
+        repetition_guard: Aucune bénédiction familiale ne devient promesse de mariage,
+          d'enfant ou de prospérité.
+      - working_id: pack-06
+        working_title: Retrouver ta voix
+        source_refs:
+        - Psaume 117
+        - Psaume 135:1-12
+        - Psaume 136
+        - Psaumes 146-150
+        gospel_discovery: Le Dieu créateur, libérateur et proche rassemble toutes
+          les nations et tout souffle dans une louange active.
+        human_question: Que puis-je offrir à Dieu après ce qu'il a fait et fait encore
+          ?
+        faith_obstacle: Croire que louer consiste à nier sa douleur ou posséder une
+          foi parfaite.
+        possible_next_step: Rejoindre une assemblée et témoigner d'une œuvre de Dieu.
+        role_in_journey: Achever le retour par une voix personnelle devenue communautaire.
+        ten_question_viability:
+          status: pass
+          reason: Universalité, création, justice, guérison, assemblée, instruments
+            et souffle dépassent largement dix angles.
+        repetition_guard: Répartir création, secours, rassemblement et formes de louange;
+          ne pas répéter seulement 'louez'.
+    - id: rencontrer-le-roi-serviteur
+      title: Rencontrer le Dieu vivant et choisir de le suivre
+      people_served:
+      - Personnes découvrant l'Évangile et demandant qui est Dieu
+      - Personnes se préparant peut-être au baptême et désirant comprendre l'alliance
+      missionary_promise: Découvre le Dieu vivant dans ses œuvres, rencontre Jésus-Christ
+        comme Roi, prêtre et pierre du salut, puis apprends à lui répondre par la
+        prière, la parole, une vie bâtie avec lui et la louange partagée.
+      spiritual_movement:
+        begins_with: Pourquoi placer ma confiance en Dieu ?
+        passes_through: Je vois ce qu'il fait et qui est Jésus-Christ, puis je lui
+          réponds personnellement.
+        leads_toward: Je choisis son chemin, bâtis avec lui et rejoins son peuple.
+      strengths:
+      - Dieu et Jésus-Christ annoncés tôt
+      - progression catéchétique claire
+      - alliance incarnée
+      tradeoffs:
+      - l'expérience de l'exil arrive plus tard
+      - chemin plus didactique
+      excluded_sources: []
+      packs:
+      - working_id: pack-01
+        working_title: Le Dieu vivant agit
+        source_refs:
+        - Psaume 135:1-21
+        - Psaume 136:1-26
+        - Psaume 146:1-10
+        gospel_discovery: Dieu crée, se souvient, délivre et secourt; les faux appuis
+          ne peuvent sauver.
+        human_question: Pourquoi lui faire confiance plutôt qu'à ce que nous contrôlons
+          ?
+        faith_obstacle: Prendre argent, influence ou puissance humaine pour un salut
+          durable.
+        possible_next_step: Nommer un faux appui et une œuvre de Dieu digne de confiance.
+        role_in_journey: Présenter le caractère et l'action du Dieu vivant.
+        ten_question_viability:
+          status: pass
+          reason: Idoles, création, histoire, miséricorde et justice offrent des découvertes
+            nettement distinctes.
+        repetition_guard: Ne pas confondre les récits de jugement avec des consignes
+          présentes.
+      - working_id: pack-02
+        working_title: Voici Jésus-Christ
+        source_refs:
+        - Psaume 110:1-7
+        - Psaume 118:1-29
+        gospel_discovery: Jésus-Christ est reçu comme Roi, prêtre pour toujours, pierre
+          principale, secours et salut.
+        human_question: Quel Sauveur les Psaumes nous apprennent-ils à reconnaître
+          ?
+        faith_obstacle: Croire que Jésus appartient seulement au passé.
+        possible_next_step: Comparer les psaumes avec les accomplissements néotestamentaires
+          du programme.
+        role_in_journey: Annoncer explicitement le Christ.
+        ten_question_viability:
+          status: pass
+          reason: Titres, images, accomplissements et mouvement de détresse au salut
+            soutiennent dix questions variées.
+        repetition_guard: Ne pas transformer tout détail royal en prophétie individuelle.
+      - working_id: pack-03
+        working_title: Il entend et il connaît
+        source_refs:
+        - Psaume 102
+        - Psaume 103
+        - Psaume 116
+        - Psaume 139
+        gospel_discovery: Le Dieu révélé et annoncé en Christ reçoit le cri, connaît
+          la fragilité, pardonne et conduit.
+        human_question: Puis-je être vraiment connu sans être rejeté ?
+        faith_obstacle: Cacher sa détresse ou sa faute par peur de Dieu.
+        possible_next_step: Prier avec franchise puis demander à Dieu de sonder son
+          cœur.
+        role_in_journey: Faire passer de la connaissance de Dieu à la relation.
+        ten_question_viability:
+          status: pass
+          reason: Plainte, pardon, délivrance, présence et conversion du cœur donnent
+            une grande variété.
+        repetition_guard: Distinguer écoute, compassion, connaissance et correction.
+      - working_id: pack-04
+        working_title: Apprendre à marcher avec lui
+        source_refs:
+        - Psaume 119:1-176
+        - Psaume 138:1-8
+        gospel_discovery: La parole éclaire une marche soutenue par la grâce, et Dieu
+          fortifie au milieu de la détresse.
+        human_question: Comment la foi devient-elle un chemin qui dure ?
+        faith_obstacle: Opposer relation avec Dieu et obéissance, ou faire de l'obéissance
+          un mérite.
+        possible_next_step: Mettre en pratique une directive reçue dans les Écritures.
+        role_in_journey: Préparer la persévérance et la vie d'alliance.
+        ten_question_viability:
+          status: pass
+          reason: Le long psaume et le témoignage de 138 couvrent apprentissage, choix,
+            chute, relèvement et fidélité.
+        repetition_guard: Varier structure, verbes, désirs, résistances et pratiques.
+      - working_id: pack-05
+        working_title: Bâtir une vie et un peuple
+        source_refs:
+        - Psaumes 127-128
+        - Psaume 137:1-6
+        - Psaume 147:1-20
+        gospel_discovery: Dieu bâtit, rassemble les exilés, panse les cœurs et inscrit
+          la foi dans les maisons et les générations.
+        human_question: Où trouver une maison spirituelle après l'exil ou l'absence
+          ?
+        faith_obstacle: Croire que l'appartenance passée est perdue ou qu'il n'existe
+          qu'un foyer valable.
+        possible_next_step: Reprendre contact avec une communauté et confier son quotidien
+          à Dieu.
+        role_in_journey: Faire de l'alliance une appartenance et une construction.
+        ten_question_viability:
+          status: pass
+          reason: Maison, exil, rassemblement, cœur guéri, parole et quotidien offrent
+            dix angles solides.
+        repetition_guard: Rester sur 137:1-6; ne pas utiliser les imprécations sans
+          étude spécialisée.
+      - working_id: pack-06
+        working_title: Tout souffle a sa place
+        source_refs:
+        - Psaume 117
+        - Psaumes 148-150
+        gospel_discovery: Toutes les nations, générations, créatures et voix sont
+          invitées à répondre à Dieu ensemble.
+        human_question: Quelle place puis-je prendre dans le peuple qui adore Dieu
+          ?
+        faith_obstacle: Se croire trop extérieur, trop maladroit ou trop tardif pour
+          louer.
+        possible_next_step: Venir à l'Église et offrir une louange sincère avec les
+          autres.
+        role_in_journey: Conduire de la foi reçue à la joie et au témoignage communautaires.
+        ten_question_viability:
+          status: pass
+          reason: Destinataires, création, générations, assemblée, humilité, arts
+            et souffle soutiennent dix questions.
+        repetition_guard: Éviter dix variantes lexicales de l'impératif de louer.
+    approved_source_scope:
+      status: approved
+      architecture_id: rencontrer-le-roi-serviteur
+      missionary_promise: Découvre le Dieu vivant dans ses œuvres, rencontre Jésus-Christ
+        comme Roi, prêtre et pierre du salut, puis apprends à lui répondre par la
+        prière, la parole, une vie bâtie avec lui et la louange partagée.
+      spiritual_movement:
+        begins_with: Pourquoi placer ma confiance en Dieu ?
+        passes_through: Je vois ce qu'il fait et qui est Jésus-Christ, puis je lui
+          réponds personnellement.
+        leads_toward: Je choisis son chemin, bâtis avec lui et rejoins son peuple.
+      packs:
+      - working_id: pack-01
+        working_title: Le Dieu vivant agit
+        source_refs:
+        - Psaume 135:1-21
+        - Psaume 136:1-26
+        - Psaume 146:1-10
+        gospel_discovery: Dieu crée, se souvient, délivre et secourt; les faux appuis
+          ne peuvent sauver.
+        human_question: Pourquoi lui faire confiance plutôt qu'à ce que nous contrôlons
+          ?
+        faith_obstacle: Prendre argent, influence ou puissance humaine pour un salut
+          durable.
+        possible_next_step: Nommer un faux appui et une œuvre de Dieu digne de confiance.
+        role_in_journey: Présenter le caractère et l'action du Dieu vivant.
+        ten_question_viability:
+          status: pass
+          reason: Idoles, création, histoire, miséricorde et justice offrent des découvertes
+            nettement distinctes.
+        repetition_guard: Ne pas confondre les récits de jugement avec des consignes
+          présentes.
+      - working_id: pack-02
+        working_title: Voici Jésus-Christ
+        source_refs:
+        - Psaume 110:1-7
+        - Psaume 118:1-29
+        gospel_discovery: Jésus-Christ est reçu comme Roi, prêtre pour toujours, pierre
+          principale, secours et salut.
+        human_question: Quel Sauveur les Psaumes nous apprennent-ils à reconnaître
+          ?
+        faith_obstacle: Croire que Jésus appartient seulement au passé.
+        possible_next_step: Comparer les psaumes avec les accomplissements néotestamentaires
+          du programme.
+        role_in_journey: Annoncer explicitement le Christ.
+        ten_question_viability:
+          status: pass
+          reason: Titres, images, accomplissements et mouvement de détresse au salut
+            soutiennent dix questions variées.
+        repetition_guard: Ne pas transformer tout détail royal en prophétie individuelle.
+      - working_id: pack-03
+        working_title: Il entend et il connaît
+        source_refs:
+        - Psaume 102
+        - Psaume 103
+        - Psaume 116
+        - Psaume 139
+        gospel_discovery: Le Dieu révélé et annoncé en Christ reçoit le cri, connaît
+          la fragilité, pardonne et conduit.
+        human_question: Puis-je être vraiment connu sans être rejeté ?
+        faith_obstacle: Cacher sa détresse ou sa faute par peur de Dieu.
+        possible_next_step: Prier avec franchise puis demander à Dieu de sonder son
+          cœur.
+        role_in_journey: Faire passer de la connaissance de Dieu à la relation.
+        ten_question_viability:
+          status: pass
+          reason: Plainte, pardon, délivrance, présence et conversion du cœur donnent
+            une grande variété.
+        repetition_guard: Distinguer écoute, compassion, connaissance et correction.
+      - working_id: pack-04
+        working_title: Apprendre à marcher avec lui
+        source_refs:
+        - Psaume 119:1-176
+        - Psaume 138:1-8
+        gospel_discovery: La parole éclaire une marche soutenue par la grâce, et Dieu
+          fortifie au milieu de la détresse.
+        human_question: Comment la foi devient-elle un chemin qui dure ?
+        faith_obstacle: Opposer relation avec Dieu et obéissance, ou faire de l'obéissance
+          un mérite.
+        possible_next_step: Mettre en pratique une directive reçue dans les Écritures.
+        role_in_journey: Préparer la persévérance et la vie d'alliance.
+        ten_question_viability:
+          status: pass
+          reason: Le long psaume et le témoignage de 138 couvrent apprentissage, choix,
+            chute, relèvement et fidélité.
+        repetition_guard: Varier structure, verbes, désirs, résistances et pratiques.
+      - working_id: pack-05
+        working_title: Bâtir une vie et un peuple
+        source_refs:
+        - Psaumes 127-128
+        - Psaume 137:1-6
+        - Psaume 147:1-20
+        gospel_discovery: Dieu bâtit, rassemble les exilés, panse les cœurs et inscrit
+          la foi dans les maisons et les générations.
+        human_question: Où trouver une maison spirituelle après l'exil ou l'absence
+          ?
+        faith_obstacle: Croire que l'appartenance passée est perdue ou qu'il n'existe
+          qu'un foyer valable.
+        possible_next_step: Reprendre contact avec une communauté et confier son quotidien
+          à Dieu.
+        role_in_journey: Faire de l'alliance une appartenance et une construction.
+        ten_question_viability:
+          status: pass
+          reason: Maison, exil, rassemblement, cœur guéri, parole et quotidien offrent
+            dix angles solides.
+        repetition_guard: Rester sur 137:1-6; ne pas utiliser les imprécations sans
+          étude spécialisée.
+      - working_id: pack-06
+        working_title: Tout souffle a sa place
+        source_refs:
+        - Psaume 117
+        - Psaumes 148-150
+        gospel_discovery: Toutes les nations, générations, créatures et voix sont
+          invitées à répondre à Dieu ensemble.
+        human_question: Quelle place puis-je prendre dans le peuple qui adore Dieu
+          ?
+        faith_obstacle: Se croire trop extérieur, trop maladroit ou trop tardif pour
+          louer.
+        possible_next_step: Venir à l'Église et offrir une louange sincère avec les
+          autres.
+        role_in_journey: Conduire de la foi reçue à la joie et au témoignage communautaires.
+        ten_question_viability:
+          status: pass
+          reason: Destinataires, création, générations, assemblée, humilité, arts
+            et souffle soutiennent dix questions.
+        repetition_guard: Éviter dix variantes lexicales de l'impératif de louer.
+      excluded_sources: []
+      human_amendments: []
+    visual_staging:
+      status: ready_for_proof
+      generation_authorized: false
+      staging_revision: 1
+      source_library:
+      - id: src-ps136-mercy-refrain
+        reference: Psaume 136:1-26
+        url: https://www.churchofjesuschrist.org/study/scriptures/ot/ps/136?lang=fra
+        consulted_on: '2026-09-05'
+        text_excerpt: Sa miséricorde dure pour toujours.
+        textual_fact: Le même refrain accompagne création, délivrance, humiliation
+          reconnue et nourriture.
+        qualified_interpretation: Le refrain permet de relire une histoire entière
+          sous la miséricorde de Dieu.
+        application_boundary: La violence historique du psaume ne devient aucun modèle
+          d'action présent.
+      - id: src-ps110-royal-priest
+        reference: Psaume 110:1-4
+        url: https://www.churchofjesuschrist.org/study/scriptures/ot/ps/110?lang=fra
+        consulted_on: '2026-09-05'
+        text_excerpt: Tu es prêtre pour toujours, à la manière de Melchisédek.
+        textual_fact: Le psaume unit une figure royale placée par Dieu et une prêtrise
+          durable.
+        qualified_interpretation: Le programme hebdomadaire le reçoit comme prophétie
+          accomplie en Jésus-Christ.
+        application_boundary: Les versets de jugement ne sont ni mis en scène ni appliqués.
+      - id: src-ps118-rejected-stone
+        reference: Psaume 118:19-26
+        url: https://www.churchofjesuschrist.org/study/scriptures/ot/ps/118?lang=fra
+        consulted_on: '2026-09-05'
+        text_excerpt: La pierre rejetée est devenue la principale de l'angle.
+        textual_fact: Porte, pierre rejetée devenue principale, salut et joie se succèdent.
+        qualified_interpretation: La réception chrétienne reconnaît Jésus-Christ dans
+          la pierre et celui qui vient au nom du Seigneur.
+        application_boundary: Le visuel de synthèse n'est pas présenté comme un événement
+          historique photographié.
+      - id: src-cfm-psalms-christ-reception
+        reference: Programme Viens et suis-moi, 31 août-6 septembre 2026
+        url: https://www.churchofjesuschrist.org/study/manual/come-follow-me-for-home-and-church-old-testament-2026/36?lang=fra
+        consulted_on: '2026-09-05'
+        text_excerpt: Jésus-Christ a accompli les prophéties des Psaumes.
+        textual_fact: Le programme rapproche Psaume 110:1-4 et Psaume 118:22,25-26
+          de passages du Nouveau Testament.
+        qualified_interpretation: Le Roi, le prêtre et la pierre peuvent être unis
+          dans une image chrétienne de Jésus-Christ.
+        application_boundary: Cette réception est annoncée comme chrétienne, jamais
+          dissimulée sous une prétendue neutralité historique.
+      - id: src-ps139-known-and-guided
+        reference: Psaume 139:1-18,23-24
+        url: https://www.churchofjesuschrist.org/study/scriptures/ot/ps/139?lang=fra
+        consulted_on: '2026-09-05'
+        text_excerpt: Sonde-moi, connais mon cœur et conduis-moi.
+        textual_fact: Le psalmiste se sait connu puis consent à être examiné et conduit.
+        qualified_interpretation: Être connu peut ouvrir une correction volontaire
+          sans devenir surveillance punitive.
+        application_boundary: Aucune réconciliation humaine n'est garantie par le geste.
+      - id: src-ps119-lamp
+        reference: Psaume 119:105
+        url: https://www.churchofjesuschrist.org/study/scriptures/ot/ps/119?lang=fra
+        consulted_on: '2026-09-05'
+        text_excerpt: Ta parole est une lampe à mes pieds et une lumière sur mon sentier.
+        textual_fact: La parole éclaire le sentier du priant.
+        qualified_interpretation: Une lumière limitée au prochain pas reste fidèle à
+          l'image et à l'expérience de persévérance.
+        application_boundary: La lumière ne promet ni route entièrement visible ni
+          absence d'obstacle.
+      - id: src-ps147-rebuild-and-gather
+        reference: Psaume 147:1-5
+        url: https://www.churchofjesuschrist.org/study/scriptures/ot/ps/147?lang=fra
+        consulted_on: '2026-09-05'
+        text_excerpt: Il rebâtit Jérusalem, rassemble les exilés et panse les blessures.
+        textual_fact: Bâtir, rassembler et prendre soin des cœurs blessés sont réunis.
+        qualified_interpretation: Une personne peut participer à une construction avant
+          que toute blessure soit réparée.
+        application_boundary: Ni guérison immédiate, ni famille idéale, ni appartenance
+          automatique ne sont promises.
+      - id: src-ps149-sincere-assembly
+        reference: Psaume 149:1-5
+        url: https://www.churchofjesuschrist.org/study/scriptures/ot/ps/149?lang=fra
+        consulted_on: '2026-09-05'
+        text_excerpt: Chantez ses louanges dans l'assemblée des fidèles.
+        textual_fact: Le peuple, son Roi, l'assemblée, la danse et le salut des humbles
+          portent les cinq premiers versets.
+        qualified_interpretation: Une personne peut rejoindre l'assemblée avec une
+          présence sincère avant de ressentir sa joie.
+        application_boundary: Les versets 6-9 et leur violence restent hors champ.
+      visual_concepts:
+      - id: psalms-expedition-library-day-1
+        content_source_ids:
+        - psalms-102-150-fast-day-1
+        surfaces:
+        - library_day_1
+        source_basis_ids:
+        - src-ps136-mercy-refrain
+        truth_to_stage: Une assemblée transforme le refrain répété en mémoire vivante
+          de la miséricorde de Dieu.
+        representation_mode: human_dramaturgy
+        visual_treatment:
+          selected: biblical_illustration
+          reason: Le chœur pictural rend la répétition joyeuse sans prétendre documenter
+            un rite.
+        approach_comparison:
+          conventional_image: Un manuscrit où un même refrain borde vingt-six lignes.
+          dramaturgical_alternative:
+            attempted: true
+            concept: Un chantre appelle et une assemblée multigénérationnelle répond.
+          selected: dramaturgical
+          selection_reason: La vague humaine se lit plus vite et donne envie d'entrer
+            dans la réponse.
+        two_second_read: Un chantre lève la main; toute une cour lui répond au couchant.
+        viewer_question: Quelle phrase cette foule reprend-elle ensemble ?
+        visual_concept: Réemploi verrouillé du chœur biblique rayonnant, avec chantre,
+          familles, anciens, couleurs de fête et lampes autour de la cour.
+        human_drama:
+          applicable: true
+          desire: Se souvenir ensemble.
+          resistance: L'oubli et l'isolement.
+          gesture_or_relationship: Une voix reçoit la réponse de toute la cour.
+        heart_sacrifice:
+          applicable: false
+          desire_kept_alive: ''
+          freely_renounced_action: ''
+          visible_cost: ''
+          hoped_horizon: ''
+        cast:
+          count: 26
+          roles:
+          - chantre
+          - assemblée multigénérationnelle
+          beauty_and_wardrobe: Lins et broderies colorés, visages vivants, joie sans
+            uniformité.
+        risks_to_avoid:
+        - rite_historique_affirme
+        - texte_invente
+        asset_reuse:
+          strategy: approved_quiz_master_locked
+          source_concept_id: psalms-pack01-visual-q03
+          path: public/media/expeditions/psalms-102-150-fast/pack-01/quiz/fr/psalms-pack01-q03-portrait-v1.png
+          dimensions: 941x1672
+          sha256: e200f51bb996cd33526737b34a0dd3dd3e667ee142d8b07da9baaa0fe06b5ec0
+          inspection: PASS
+          new_generation_allowed: false
+        status: PASS
+      - id: psalms-expedition-library-day-2
+        content_source_ids:
+        - psalms-102-150-fast-day-2
+        surfaces:
+        - library_day_2
+        source_basis_ids:
+        - src-ps110-royal-priest
+        - src-ps118-rejected-stone
+        - src-cfm-psalms-christ-reception
+        truth_to_stage: La réception chrétienne reconnaît Jésus-Christ comme Roi,
+          prêtre durable et pierre principale.
+        representation_mode: iconic_symbol
+        visual_treatment:
+          selected: biblical_illustration
+          reason: L'art dévotionnel unit les images sans simuler un reportage historique.
+        approach_comparison:
+          conventional_image: Le Christ porte couronne, étole et pierre d'angle.
+          dramaturgical_alternative:
+            attempted: true
+            concept: Le Christ accueille des personnes sous la porte soutenue par
+              la pierre rejetée.
+          selected: hybrid
+          selection_reason: La porte et la pierre restent immédiates; l'accueil évite
+            un catalogue d'attributs.
+        two_second_read: Jésus ouvre la main dans une porte de pierre baignée de lumière.
+        viewer_question: Pourquoi ce Roi-prêtre attend-il auprès de cette pierre ?
+        visual_concept: Réemploi verrouillé du Christ vivant accueillant des personnes
+          sous une porte dont la pierre principale reste visible.
+        human_drama:
+          applicable: true
+          desire: Trouver le secours du Christ.
+          resistance: Rejet et méfiance.
+          gesture_or_relationship: Sa main ouverte appelle sans contraindre.
+        heart_sacrifice:
+          applicable: false
+          desire_kept_alive: ''
+          freely_renounced_action: ''
+          visible_cost: ''
+          hoped_horizon: ''
+        cast:
+          count: 5
+          roles:
+          - Jesus-Christ
+          - personnes accueillies
+          beauty_and_wardrobe: Présences dignes, étoffes bibliques riches et lumière
+            matinale.
+        risks_to_avoid:
+        - reconstruction_historique_affirmee
+        - succes_terrestre_garanti
+        asset_reuse:
+          strategy: approved_quiz_master_locked
+          source_concept_id: psalms-pack02-visual-q10
+          path: public/media/expeditions/psalms-102-150-fast/pack-02/quiz/fr/psalms-pack02-q10-portrait-v1.png
+          dimensions: 941x1672
+          sha256: c86f7378d5627271207fbcac8b288bf9a79721aa895e1566c95ffb0cde02cedd
+          inspection: PASS
+          new_generation_allowed: false
+        status: PASS
+      - id: psalms-expedition-library-day-3
+        content_source_ids:
+        - psalms-102-150-fast-day-3
+        surfaces:
+        - library_day_3
+        source_basis_ids:
+        - src-ps139-known-and-guided
+        truth_to_stage: Être entièrement connue de Dieu peut conduire à une vérité
+          offerte librement, non au rejet.
+        representation_mode: human_dramaturgy
+        visual_treatment:
+          selected: cinematic_realism
+          reason: Une décision contemporaine rend l'examen du cœur concret.
+        approach_comparison:
+          conventional_image: Des mains ouvertes devant un sentier lumineux.
+          dramaturgical_alternative:
+            attempted: true
+            concept: Après sa prière, une femme envoie enfin un message d'excuse.
+          selected: dramaturgical
+          selection_reason: Le geste porte une vulnérabilité précise et une issue non
+            garantie.
+        two_second_read: Seule dans une chapelle claire, une femme émue appuie sur envoyer.
+        viewer_question: Quelle vérité a-t-elle accepté de dire ?
+        visual_concept: Réemploi verrouillé de la femme élégante sur un banc, téléphone
+          sans texte lisible, doigt décidé après la prière.
+        human_drama:
+          applicable: true
+          desire: Être connue et changer.
+          resistance: Protéger son innocence apparente.
+          gesture_or_relationship: Elle ouvre une conversation incertaine.
+        heart_sacrifice:
+          applicable: true
+          desire_kept_alive: Rester aimée et comprise.
+          freely_renounced_action: Éviter toute remise en question.
+          visible_cost: Reconnaître sa part sans obtenir d'avance le pardon.
+          hoped_horizon: Être conduite vers une voie plus juste.
+        cast:
+          count: 1
+          roles:
+          - femme en prière
+          beauty_and_wardrobe: Robe vert profond, présence digne, lumière paisible.
+        risks_to_avoid:
+        - reconciliation_garantie
+        - surveillance_divine
+        asset_reuse:
+          strategy: approved_quiz_master_locked
+          source_concept_id: psalms-pack03-visual-q10
+          path: public/media/expeditions/psalms-102-150-fast/pack-03/quiz/fr/psalms-pack03-q10-portrait-v1.png
+          dimensions: 941x1672
+          sha256: a2cdf80fdd043af06c46f7ba17c779589f24f856694d16a426a0a8cbf5d5d211
+          inspection: PASS
+          new_generation_allowed: false
+        status: PASS
+      - id: psalms-expedition-library-day-4
+        content_source_ids:
+        - psalms-102-150-fast-day-4
+        surfaces:
+        - library_day_4
+        source_basis_ids:
+        - src-ps119-lamp
+        truth_to_stage: La parole offre assez de lumière pour le prochain pas sans
+          révéler toute la route.
+        representation_mode: human_dramaturgy
+        visual_treatment:
+          selected: biblical_illustration
+          reason: La nuit picturale conserve flamme, relation et profondeur.
+        approach_comparison:
+          conventional_image: Une lampe à huile seule sur un sentier nocturne.
+          dramaturgical_alternative:
+            attempted: true
+            concept: Une sœur éclaire une seule pierre et tend la main à l'enfant.
+          selected: hybrid
+          selection_reason: Le symbole universel gagne en tension par le pas partagé.
+        two_second_read: Une lampe révèle une pierre sûre; une main attend l'enfant.
+        viewer_question: Cette lumière suffira-t-elle pour leur prochain pas ?
+        visual_concept: Réemploi verrouillé de la cour biblique inondée, bleu nuit
+          et or, pierre éclairée, maison chaude encore distante.
+        human_drama:
+          applicable: true
+          desire: Rejoindre ensemble la maison.
+          resistance: Eau et obscurité hors du cercle de lumière.
+          gesture_or_relationship: L'aînée éclaire et offre sa main.
+        heart_sacrifice:
+          applicable: false
+          desire_kept_alive: ''
+          freely_renounced_action: ''
+          visible_cost: ''
+          hoped_horizon: ''
+        cast:
+          count: 2
+          roles:
+          - sœur aînée
+          - enfant
+          beauty_and_wardrobe: Manteau bleu brodé, lin chaud, flamme dorée sur les
+            visages.
+        risks_to_avoid:
+        - sauvetage_garanti
+        - deluge_spectaculaire
+        asset_reuse:
+          strategy: approved_quiz_master_locked
+          source_concept_id: psalms-pack04-visual-q04
+          path: public/media/expeditions/psalms-102-150-fast/pack-04/quiz/fr/psalms-pack04-q04-portrait-v1.png
+          dimensions: 941x1672
+          sha256: 8b386018aa10a7b1fc35abeb624c2fe91035a886f2cccc2a25a97f4a16a99986
+          inspection: PASS
+          new_generation_allowed: false
+        status: PASS
+      - id: psalms-expedition-library-day-5
+        content_source_ids:
+        - psalms-102-150-fast-day-5
+        surfaces:
+        - library_day_5
+        source_basis_ids:
+        - src-ps147-rebuild-and-gather
+        truth_to_stage: Revenir et bâtir avec Dieu peut commencer avant que toute
+          blessure soit réparée.
+        representation_mode: human_dramaturgy
+        visual_treatment:
+          selected: cinematic_realism
+          reason: Un chantier contemporain rend appartenance et fragilité simultanées.
+        approach_comparison:
+          conventional_image: Une famille parfaite devant une maison achevée.
+          dramaturgical_alternative:
+            attempted: true
+            concept: Une femme encore appareillée rejoint des voisins autour d'un
+              pavillon en construction.
+          selected: dramaturgical
+          selection_reason: Les plans et le chantier montrent un commencement réel,
+            sans perfection garantie.
+        two_second_read: Un groupe divers bâtit dans un jardin autour d'une femme encore
+          en soin.
+        viewer_question: Que choisissent-ils de commencer avant que tout soit réparé ?
+        visual_concept: Réemploi verrouillé du pavillon inachevé, des plans partagés
+          et de la communauté multigénérationnelle au matin.
+        human_drama:
+          applicable: true
+          desire: Guérir et appartenir.
+          resistance: Attendre une vie parfaite.
+          gesture_or_relationship: Elle prend part au projet commun.
+        heart_sacrifice:
+          applicable: true
+          desire_kept_alive: Guérison et appartenance.
+          freely_renounced_action: Attendre de paraître parfaite.
+          visible_cost: Commencer encore fragile.
+          hoped_horizon: Bâtir sans accueil ni guérison garantis.
+        cast:
+          count: 7
+          roles:
+          - femme en rééducation
+          - voisins et artisans bénévoles
+          beauty_and_wardrobe: Groupe magnétique; tenues dominicales et de travail
+            raffinées.
+        risks_to_avoid:
+        - eglise_comme_guerison_garantie
+        - famille_ideale_imposee
+        asset_reuse:
+          strategy: approved_quiz_master_locked
+          source_concept_id: psalms-pack05-visual-q10
+          path: public/media/expeditions/psalms-102-150-fast/pack-05/quiz/fr/q10-v1.png
+          dimensions: 941x1672
+          sha256: 803f3b14ee4003136dcc90b1e854c12c5b34432658871d31dadac49639d7d611
+          inspection: PASS
+          new_generation_allowed: false
+        status: PASS
+      - id: psalms-expedition-library-day-6
+        content_source_ids:
+        - psalms-102-150-fast-day-6
+        surfaces:
+        - library_day_6
+        source_basis_ids:
+        - src-ps149-sincere-assembly
+        truth_to_stage: Une personne peut revenir parmi le peuple sans feindre une
+          joie qu'elle ne ressent pas encore.
+        representation_mode: human_dramaturgy
+        visual_treatment:
+          selected: cinematic_realism
+          reason: Un visage grave au milieu d'un accueil lumineux protège l'application.
+        approach_comparison:
+          conventional_image: Une personne hésitante entre dans une église accueillante.
+          dramaturgical_alternative:
+            attempted: true
+            concept: Une amie garde une place et tend la main sans tirer la revenante.
+          selected: dramaturgical
+          selection_reason: La distance et la main offerte gardent l'accueil libre.
+        two_second_read: Une femme grave s'arrête au seuil; son amie attend sans la tirer.
+        viewer_question: Entrera-t-elle telle qu'elle est ?
+        visual_concept: Réemploi verrouillé du jardin de chapelle, place vide visible,
+          assemblée claire au loin et pas encore suspendu.
+        human_drama:
+          applicable: true
+          desire: Revenir vers Dieu et son peuple.
+          resistance: Croire devoir paraître joyeuse ou parfaite.
+          gesture_or_relationship: L'amie offre sa main; la revenante garde son choix.
+        heart_sacrifice:
+          applicable: true
+          desire_kept_alive: Être accueillie.
+          freely_renounced_action: Attendre d'être parfaite.
+          visible_cost: Être vue sans masque.
+          hoped_horizon: Prendre place sans joie garantie.
+        cast:
+          count: 6
+          roles:
+          - revenante
+          - amie
+          - assemblée
+          beauty_and_wardrobe: Tenues dominicales riches et sobres, dignité sans tristesse
+            esthétisée.
+        risks_to_avoid:
+        - conversion_instantanee
+        - sourire_force
+        asset_reuse:
+          strategy: approved_quiz_master_locked
+          source_concept_id: psalms-pack06-visual-q08
+          path: public/media/expeditions/psalms-102-150-fast/pack-06/proofs/psalms-pack06-q08-proof-v1.png
+          dimensions: 941x1672
+          sha256: 211bfb9770ca0f9d848da3f6473049a2b8f7507f51625c1b6cb5cd5f1fea5d7e
+          inspection: PASS_HUMAN_OVERRIDE_OF_QUIZ_REWORK
+          new_generation_allowed: false
+        status: PASS
+      - id: psalms-expedition-campaign-key-art
+        content_source_ids:
+        - psalms-102-150-fast
+        - psalms-102-150-fast-day-7
+        surfaces:
+        - expedition_key_art
+        - rama_hero
+        - home_expedition
+        - library_day_7
+        source_basis_ids:
+        - src-ps110-royal-priest
+        - src-ps118-rejected-stone
+        - src-cfm-psalms-christ-reception
+        truth_to_stage: Jésus-Christ est reçu comme Roi et prêtre durable, et comme
+          la pierre rejetée devenue principale; sa royauté se donne dans un geste
+          de service.
+        representation_mode: human_dramaturgy
+        depiction_mode: christian_reception_symbolic
+        visual_treatment:
+          selected: biblical_illustration
+          reason: Une peinture biblique assume la synthèse royale, sacerdotale et
+            architecturale sans fabriquer une scène historique.
+        approach_comparison:
+          conventional_image: Le Christ couronné se tient devant une porte et une
+            pierre d'angle isolée.
+          dramaturgical_alternative:
+            attempted: true
+            concept: Jésus descend d'un trône visible et porte avec deux bâtisseurs
+              la pierre rejetée jusqu'au seuil ouvert.
+          selected: hybrid
+          selection_reason: Roi, pierre et porte parlent à tous; le geste partagé
+            révèle le Roi-serviteur et ouvre une vraie question.
+        two_second_read: Un homme en vêtements royaux s'abaisse avec deux ouvriers
+          pour porter une pierre rejetée vers une porte ouverte.
+        viewer_question: Pourquoi le roi porte-t-il lui-même la pierre rejetée ?
+        visual_concept: Illustration biblique AAA en carré. Jésus, jeune homme juif
+          du Levant, descend d'un trône de pierre encore visible; manteau royal ivoire,
+          bleu profond et or, il s'agenouille avec deux bâtisseurs pour engager une
+          pierre d'angle ébréchée dans le seuil d'une grande porte ouverte. Au-delà,
+          jardin ordonné et lumière d'aurore. Action et trois visages restent dans
+          l'intersection sûre des crops; zones calmes pour le titre HTML.
+        human_drama:
+          applicable: true
+          desire: Ouvrir le passage et bâtir avec ceux qui viennent.
+          resistance: La pierre rejetée est lourde; le rang pourrait tenir le roi à
+            distance du travail.
+          gesture_or_relationship: Jésus prend le poids à hauteur des deux bâtisseurs.
+        heart_sacrifice:
+          applicable: true
+          desire_kept_alive: La dignité royale et l'autorité véritable.
+          freely_renounced_action: Rester élevé et laisser les autres porter seuls.
+          visible_cost: Il s'abaisse et prend réellement sa part du poids.
+          hoped_horizon: Une porte juste s'ouvre sans transformer le service en paiement.
+        cast:
+          count: 3
+          roles:
+          - Jésus-Christ en Roi-serviteur
+          - bâtisseuse
+          - bâtisseur
+          beauty_and_wardrobe: Visages magnétiques du Levant, corps actifs, lins et
+            laines riches; tenue royale-priestly distincte sans costume théâtral.
+        risks_to_avoid:
+        - scene_historique_affirmee
+        - christ_europeanise
+        - roi_superheros_ou_dominateur
+        - halo_cliche_ou_texte_incruste
+        - architecture_moderne_identifiable
+        generation_budget:
+          proof_calls_allowed: 1
+          additional_variants_allowed: 0
+          required_master:
+            ratio: '1:1'
+            width: 2160
+            height: 2160
+          share_without_regeneration:
+          - expedition_key_art
+          - rama_hero
+          - home_expedition
+          - library_day_7
+        status: PASS
+      expedition_rhythm:
+        dominant_treatment: cinematic_realism
+        dominant_reason: Quatre réemplois installent des relations humaines immédiates
+          et contemporaines ou crédibles; trois illustrations bibliques ponctuent
+          les pivots poétiques et christologiques.
+        celestial_sequence:
+        - day_1: Celestial Dark vers Light, joie du couchant
+        - day_2: Celestial Light, rencontre du Christ
+        - day_3: Celestial Light, vérité intérieure
+        - day_4: Celestial Dark, prochain pas
+        - day_5: Celestial Light, chantier et appartenance
+        - day_6: Celestial Light, seuil et liberté
+        - day_7: Celestial Light, Roi-serviteur et porte ouverte
+        treatment_exceptions:
+        - concept_id: psalms-expedition-library-day-1
+          treatment: biblical_illustration
+          reason: Le refrain devient une vague humaine picturale.
+        - concept_id: psalms-expedition-library-day-2
+          treatment: biblical_illustration
+          reason: La réception chrétienne est assumée comme art dévotionnel.
+        - concept_id: psalms-expedition-library-day-4
+          treatment: biblical_illustration
+          reason: La lampe et la nuit gagnent une densité picturale.
+        - concept_id: psalms-expedition-campaign-key-art
+          treatment: biblical_illustration
+          reason: La synthèse du Roi, du prêtre et de la pierre ne prétend pas au
+            documentaire.
+        diversity_audit: Joie collective, accueil, examen intérieur, courage nocturne,
+          construction, retour hésitant et service royal alternent âges, époques,
+          corps, relations, lumière et mouvement.
+        reuse_contact_sheet: tmp/fast-psalms-expedition-visual-proof/reuse-audit-contact-sheet.png
+        new_creative_master_count: 1
+        reused_approved_master_count: 6
+      blocked_missing_semantic_content: []
+      blocked_missing_source: []
+    visual_production:
+      status: responsive_derivatives_human_approved
+      production_mode: approved_mechanical_derivatives
+      full_batch_authorized: true
+      proof:
+        status: reviewed_rework_awaiting_human_decision
+        critic_verdict: REWORK
+        visual_concept_id: psalms-expedition-campaign-key-art
+        staging_revision: 1
+        selection_reason: Une seule image neuve prouve le langage transversal de
+          l'expédition et alimente quatre surfaces sans régénération; les six jours
+          Bibliothèque réemploient leurs masters de quiz approuvés.
+        surface: rama_hero_mobile
+        ratio: '1:1'
+        rework_authorization_revision: 20
+        edit_source_path: public/media/expeditions/psalms-102-150-fast/campaign/psalms-roi-serviteur-square-proof-v1.png
+        edit_source_sha256: 38a463334f52eb18a6dea94064683aaa3f27f91de4c506096aa8ab8fe0fd3535
+        requested_dimensions: 2160x2160
+        actual_dimensions: 1254x1254
+        output_path: public/media/expeditions/psalms-102-150-fast/campaign/psalms-roi-serviteur-square-proof-v2.png
+        output_sha256: 9933529bfee6d5cdb118c83ca204a23ea24c5483d9d375de447893549e3b2c98
+        surface_preview_path: tmp/fast-psalms-expedition-visual-proof/rama-mobile-390x844-proof-v2.png
+        surface_preview_dimensions: 390x844
+        surface_preview_sha256: 8bc43dd5c1c12828ecee741d4a318a21ff36e2abd35071d341d69d519b4c2d6b
+        inspection:
+          file_opened_and_viewed: true
+          square_ratio: PASS
+          requested_pixel_dimensions: FAIL_1254_NOT_2160
+          exact_cast_count: PASS_EXACTLY_THREE
+          identity_and_world_preservation: PASS
+          shared_stone_carrying_action: PASS_IN_MASTER
+          stone_and_all_hands_raised: PASS_IN_MASTER
+          throne_visible: PASS_EMPTY_AND_CENTRAL
+          open_gate_and_ordered_garden: PASS
+          wardrobe_materials_and_celestial_light: PASS
+          forbidden_text_logo_watermark_halo: PASS_NONE_PRESENT
+          lower_45_percent_calm_copy_zone: PARTIAL_ONLY_LOWEST_FOREGROUND
+          mobile_rama_real_surface: FAIL_STONE_AND_PART_OF_HANDS_STILL_OBSCURED_BY_TITLE
+          common_crop_safety: NOT_PROVEN
+          upscale_performed: false
+          technical_result: REWORK_CONFIRMED_BY_TWO_SECOND_CRITIC
+      generation_records:
+      - call_index: 1
+        date: '2026-09-05'
+        tool: image_gen
+        mode: built_in_generate
+        visual_concept_id: psalms-expedition-campaign-key-art
+        authorization_source:
+          staging_status: ready_for_proof
+          staging_revision: 1
+          council_contract: fast.visual_staging_contract.proof_generation
+          max_calls_before_human_review: 1
+        ratio: '1:1'
+        requested_dimensions: 2160x2160
+        actual_dimensions: 1254x1254
+        generated_source_path: /Users/tracyloisel/.codex/generated_images/01a07235-4e2d-7dd2-aaf2-8edb43fce30b/exec-366e2599-94e0-4264-b1b0-66a36c34af24.png
+        workspace_output_path: public/media/expeditions/psalms-102-150-fast/campaign/psalms-roi-serviteur-square-proof-v1.png
+        sha256: 38a463334f52eb18a6dea94064683aaa3f27f91de4c506096aa8ab8fe0fd3535
+        reference_images: []
+        prompt_exact: |-
+          Use case: illustration-story
+          Asset type: Noche Live premium campaign key art shared by the expedition, Rama hero, Home and Library.
+          Primary request: symbolic Christian-reception scene, not an asserted historical event. Jesus Christ, a young Levantine Jewish man in rich ivory, deep-indigo and restrained-gold royal-priestly garments, has stepped down from a visible stone throne and kneels shoulder-to-shoulder with one female and one male builder. All three visibly bear the weight of a chipped rejected cornerstone and guide it into the threshold of a monumental open stone gate. His active service, humble authority, magnetic face and equal relationship with the builders must read immediately.
+          Scene/backdrop: beyond the gate, a meticulously ordered dawn garden of pale stone, dark wood and mature flowers, inspired only by the serenity, axial harmony, craftsmanship and light of publicly visible Latter-day Saint temple grounds; never a replica or identifiable modern temple.
+          Style/medium: rich expressive biblical painting, premium AAA mobile-game key art, Celestial Light.
+          Composition/framing: square 1:1 master intended at 2160 x 2160, medium-wide slightly low eye-level frame. Keep exactly three people, all three faces, hands and the cornerstone inside the central crop-safe intersection for later 9:16, 4:5 and 16:9 crops. Keep the lower foreground and peripheral upper areas calm enough for separate HTML copy.
+          Lighting/mood: sculpted sunrise, assurance, costly service and an opening future; ivory, indigo and restrained gold.
+          Materials/textures: tactile linen, wool, chipped limestone, dark carved wood, lush flowers.
+          Constraints: no embedded text, inscription, logo, watermark or halo.
+          Avoid: Europeanized Christ; superhero pose or triumphalist domination; identifiable modern temple or architecture.
+        call_result: generated_one_image
+        additional_calls_made: 0
+        inspection_result: REWORK_REQUIRED_BEFORE_FINAL_HD
+      - call_index: 2
+        date: '2026-09-05'
+        tool: image_gen
+        mode: built_in_edit
+        visual_concept_id: psalms-expedition-campaign-key-art
+        authorization_source:
+          gate: fast.visual_proof_approval.authorized_batch.targeted_rework
+          authorization_revision: 20
+          max_new_generation_calls: 1
+          edit_of_existing_asset: true
+        ratio: '1:1'
+        requested_dimensions: 2160x2160
+        actual_dimensions: 1254x1254
+        edit_source_path: public/media/expeditions/psalms-102-150-fast/campaign/psalms-roi-serviteur-square-proof-v1.png
+        edit_source_sha256: 38a463334f52eb18a6dea94064683aaa3f27f91de4c506096aa8ab8fe0fd3535
+        generated_source_path: /Users/tracyloisel/.codex/generated_images/01a07235-4e2d-7dd2-aaf2-8edb43fce30b/exec-bd8967bd-a82b-4a42-bdc8-eb50e195238c.png
+        workspace_output_path: public/media/expeditions/psalms-102-150-fast/campaign/psalms-roi-serviteur-square-proof-v2.png
+        sha256: 9933529bfee6d5cdb118c83ca204a23ea24c5483d9d375de447893549e3b2c98
+        reference_images:
+        - path: public/media/expeditions/psalms-102-150-fast/campaign/psalms-roi-serviteur-square-proof-v1.png
+          role: edit_target_and_identity_reference
+        prompt_exact: |-
+          Use case: identity-preserve
+          Asset type: targeted edit of the Noche Live campaign key art for the real Rama mobile hero.
+          Input images: Image 1 is the edit target and identity reference.
+          Primary request: change only the trio's body composition and add the empty throne. Keep the same Servant King, female builder and male builder, with the same recognizable magnetic Levantine faces and identities. Repose the exact trio standing or half-risen as they visibly carry and place together the same rejected chipped cornerstone at chest height in the upper-middle of the square. The whole stone and every supporting hand must remain clearly visible above the HTML title, progress and CTA zone of a 390 x 844 Rama hero. Immediately behind the Servant King in the upper area, show a clearly identifiable EMPTY stone throne that he has left.
+          Preserve: exactly three people; the same rich ivory, indigo and restrained-gold garments; monumental open gate; ordered dawn garden; pale stone, dark wood, mature flowers; rich expressive AAA biblical illustration; Celestial Light.
+          Composition/framing: preserve a square 1:1 master. Keep all three faces, the chest-high cornerstone, every hand and the empty throne inside the central crop-safe intersection for 9:16, 4:5 and 16:9. Reserve roughly the lower 45 percent as calm, darker, low-detail foreground for separate HTML copy.
+          Constraints: no transactional blessing; preserve the same symbolic Christian-reception scene, not a claimed historical event.
+          Avoid: any extra person, embedded text, logo or watermark; crown, halo, superhero pose or triumphalist domination; identifiable modern temple, invented rite or modern architecture.
+        call_result: edited_one_image
+        total_generation_calls_for_campaign_proof: 2
+        additional_calls_after_this_edit: 0
+        inspection_result: AWAITING_TWO_SECOND_REVIEW_WITH_DOCUMENTED_FAILURES
+      manifests:
+      - id: psalms-roi-serviteur-square-proof-v1
+        role: campaign_key_art_proof
+        visual_concept_id: psalms-expedition-campaign-key-art
+        depiction_mode: christian_reception_symbolic
+        visual_treatment: biblical_illustration
+        light_family: celestial_light
+        source_path: public/media/expeditions/psalms-102-150-fast/campaign/psalms-roi-serviteur-square-proof-v1.png
+        requested_dimensions: 2160x2160
+        actual_dimensions: 1254x1254
+        sha256: 38a463334f52eb18a6dea94064683aaa3f27f91de4c506096aa8ab8fe0fd3535
+        intended_surfaces:
+        - expedition_key_art
+        - rama_hero
+        - home_expedition
+        - library_day_7
+        final_runtime_asset: false
+        latter_day_saint_aesthetic_reference:
+          used: true
+          reference_kind: abstracted_principles
+          official_source_urls:
+          - https://www.churchofjesuschrist.org/temples/details/salt-lake-temple
+          borrowed_principles:
+          - composition axiale
+          - pierre claire et bois sombre
+          - jardin mûr et ordonné
+          - lumière sereine et dignité
+          exact_replica_claimed: false
+      - id: psalms-roi-serviteur-square-proof-v2
+        role: campaign_key_art_targeted_edit_proof
+        visual_concept_id: psalms-expedition-campaign-key-art
+        depiction_mode: christian_reception_symbolic
+        visual_treatment: biblical_illustration
+        light_family: celestial_light
+        source_path: public/media/expeditions/psalms-102-150-fast/campaign/psalms-roi-serviteur-square-proof-v2.png
+        derived_from_path: public/media/expeditions/psalms-102-150-fast/campaign/psalms-roi-serviteur-square-proof-v1.png
+        edit_authorization_revision: 20
+        requested_dimensions: 2160x2160
+        actual_dimensions: 1254x1254
+        sha256: 9933529bfee6d5cdb118c83ca204a23ea24c5483d9d375de447893549e3b2c98
+        surface_preview_path: tmp/fast-psalms-expedition-visual-proof/rama-mobile-390x844-proof-v2.png
+        surface_preview_sha256: 8bc43dd5c1c12828ecee741d4a318a21ff36e2abd35071d341d69d519b4c2d6b
+        intended_surfaces:
+        - expedition_key_art
+        - rama_hero
+        - home_expedition
+        - library_day_7
+        final_runtime_asset: false
+        latter_day_saint_aesthetic_reference:
+          used: true
+          reference_kind: abstracted_principles
+          official_source_urls:
+          - https://www.churchofjesuschrist.org/temples/details/salt-lake-temple
+          borrowed_principles:
+          - composition axiale
+          - pierre claire et bois sombre
+          - jardin mûr et ordonné
+          - lumière sereine et dignité
+          exact_replica_claimed: false
+      - id: psalms-roi-serviteur-portrait-1080x1920-v1
+        role: campaign_key_art_portrait_derivative
+        visual_concept_id: psalms-expedition-campaign-key-art
+        depiction_mode: christian_reception_symbolic
+        visual_treatment: biblical_illustration
+        light_family: celestial_light
+        source_path: public/media/expeditions/psalms-102-150-fast/campaign/psalms-roi-serviteur-portrait-1080x1920-v1.png
+        source_sha256: 8dc20f328ad24433518bf9fb32292f4c5a06d2a30f3fc92ed55ae551d2f039e4
+        derived_from_path: public/media/expeditions/psalms-102-150-fast/campaign/psalms-roi-serviteur-square-proof-v2.png
+        derived_from_sha256: 9933529bfee6d5cdb118c83ca204a23ea24c5483d9d375de447893549e3b2c98
+        derivative_authorization_revision: 23
+        dimensions: 1080x1920
+        ratio: '9:16'
+        generation_call_count: 0
+        surface_preview_path: tmp/fast-psalms-expedition-visual-proof/rama-mobile-390x844-portrait-proof-v1.png
+        surface_preview_sha256: 7387f8a490aeac823815ea04519c51c29a8c743d932f00a26e7f455b71848d2e
+        intended_surfaces:
+        - rama_hero_mobile
+        - expedition_key_art_portrait
+        - home_expedition_portrait
+        - library_day_7_portrait
+        final_runtime_asset: false
+        latter_day_saint_aesthetic_reference:
+          used: true
+          reference_kind: abstracted_principles
+          official_source_urls:
+          - https://www.churchofjesuschrist.org/temples/details/salt-lake-temple
+          borrowed_principles:
+          - composition axiale
+          - pierre claire et bois sombre
+          - jardin mûr et ordonné
+          - lumière sereine et dignité
+          exact_replica_claimed: false
+      - id: psalms-roi-serviteur-tablet-1440x1800-v1
+        role: campaign_key_art_tablet_derivative
+        visual_concept_id: psalms-expedition-campaign-key-art
+        depiction_mode: christian_reception_symbolic
+        visual_treatment: biblical_illustration
+        light_family: celestial_light
+        source_path: public/media/expeditions/psalms-102-150-fast/campaign/psalms-roi-serviteur-tablet-1440x1800-v1.png
+        source_sha256: 93a796e56eac749320d9169f627d3788cf816718f53c9871dfbd36c824960849
+        derived_from_path: public/media/expeditions/psalms-102-150-fast/campaign/psalms-roi-serviteur-square-proof-v2.png
+        derived_from_sha256: 9933529bfee6d5cdb118c83ca204a23ea24c5483d9d375de447893549e3b2c98
+        derivative_authorization_revision: 23
+        dimensions: 1440x1800
+        ratio: '4:5'
+        generation_call_count: 0
+        surface_preview_path: tmp/fast-psalms-expedition-visual-proof/rama-tablet-768x1024-proof-v1.png
+        surface_preview_sha256: f58ebc33500003bd147446059615e389a94b06ab102af8a013edb1b221a6e17b
+        intended_surfaces:
+        - rama_hero_tablet
+        - expedition_key_art_tablet
+        - home_expedition_tablet
+        - library_day_7_tablet
+        final_runtime_asset: false
+        latter_day_saint_aesthetic_reference:
+          used: true
+          reference_kind: abstracted_principles
+          official_source_urls:
+          - https://www.churchofjesuschrist.org/temples/details/salt-lake-temple
+          borrowed_principles:
+          - composition axiale
+          - pierre claire et bois sombre
+          - jardin mûr et ordonné
+          - lumière sereine et dignité
+          exact_replica_claimed: false
+      - id: psalms-roi-serviteur-landscape-1920x1080-v1
+        role: campaign_key_art_landscape_derivative
+        visual_concept_id: psalms-expedition-campaign-key-art
+        depiction_mode: christian_reception_symbolic
+        visual_treatment: biblical_illustration
+        light_family: celestial_light
+        source_path: public/media/expeditions/psalms-102-150-fast/campaign/psalms-roi-serviteur-landscape-1920x1080-v1.png
+        source_sha256: f214b0fff26392f7d327133cb11131c2bd558dcfb346ac8608b926617f00ab35
+        derived_from_path: public/media/expeditions/psalms-102-150-fast/campaign/psalms-roi-serviteur-square-proof-v2.png
+        derived_from_sha256: 9933529bfee6d5cdb118c83ca204a23ea24c5483d9d375de447893549e3b2c98
+        derivative_authorization_revision: 23
+        dimensions: 1920x1080
+        ratio: '16:9'
+        generation_call_count: 0
+        surface_preview_path: tmp/fast-psalms-expedition-visual-proof/rama-landscape-1440x900-proof-v1.png
+        surface_preview_sha256: a974e142c90b64365b1bbad6bb243e77d538127b4f78cfa9dc0dcd642ad6528b
+        intended_surfaces:
+        - rama_hero_landscape
+        - expedition_key_art_landscape
+        - home_expedition_landscape
+        - library_day_7_landscape
+        final_runtime_asset: false
+        latter_day_saint_aesthetic_reference:
+          used: true
+          reference_kind: abstracted_principles
+          official_source_urls:
+          - https://www.churchofjesuschrist.org/temples/details/salt-lake-temple
+          borrowed_principles:
+          - composition axiale
+          - pierre claire et bois sombre
+          - jardin mûr et ordonné
+          - lumière sereine et dignité
+          exact_replica_claimed: false
+      responsive_derivative_production:
+        status: complete_human_approved
+        authorization_revision: 23
+        source_asset_path: public/media/expeditions/psalms-102-150-fast/campaign/psalms-roi-serviteur-square-proof-v2.png
+        source_asset_sha256: 9933529bfee6d5cdb118c83ca204a23ea24c5483d9d375de447893549e3b2c98
+        generation_call_count: 0
+        imagegen_calls_made: 0
+        deterministic_processing_only: true
+        current_step: complete
+        stop_after_portrait_failure: true
+        portrait:
+          status: passed_two_second_review_r25
+          critic_verdict: PASS
+          output_path: public/media/expeditions/psalms-102-150-fast/campaign/psalms-roi-serviteur-portrait-1080x1920-v1.png
+          dimensions: 1080x1920
+          ratio: '9:16'
+          sha256: 8dc20f328ad24433518bf9fb32292f4c5a06d2a30f3fc92ed55ae551d2f039e4
+          surface: rama_hero_mobile
+          surface_preview_path: tmp/fast-psalms-expedition-visual-proof/rama-mobile-390x844-portrait-proof-v1.png
+          surface_preview_dimensions: 390x844
+          surface_preview_sha256: 7387f8a490aeac823815ea04519c51c29a8c743d932f00a26e7f455b71848d2e
+          command_exact: >-
+            magick ( psalms-roi-serviteur-square-proof-v2.png -resize
+            1080x1080! ) ( psalms-roi-serviteur-square-proof-v2.png -resize
+            1080x1080! -gravity south -crop 1080x260+0+0 +repage -flip
+            -resize 1080x840! -blur 0x18 ( -size 1080x840
+            gradient:rgba(4,10,18,0.08)-rgba(4,10,18,0.82) ) -compose over
+            -composite ) -append psalms-roi-serviteur-portrait-1080x1920-v1.png
+          technique:
+          - Carré v2 réduit à 1080 x 1080 sans recadrage et conservé net en haut.
+          - Les 260 pixels inférieurs du carré réduit sont retournés verticalement,
+            étirés à 1080 x 840 et floutés avec sigma 18.
+          - Un gradient transparent vers bleu-noir assombrit progressivement l'extension
+            avant son ajout sous le carré.
+          inspection:
+            portrait_opened_and_viewed: true
+            preview_opened_and_viewed: true
+            exact_dimensions: PASS_1080x1920
+            source_sha_matches_authorization: PASS
+            top_square_remains_sharp: PASS
+            throne_visible_before_title: PASS
+            three_faces_visible_before_title: PASS
+            full_stone_visible_before_title: PASS
+            all_hands_visible_before_title: PASS
+            html_title_avoids_action: PASS
+            progress_and_cta_legible: PASS
+            lower_extension_no_readable_subject_duplication: PASS
+            lower_extension_has_no_flat_black_band_or_visible_seam: PASS
+            embedded_text: PASS_NONE
+            responsive_encoding_run: false
+            technical_result: PASS_READY_FOR_TWO_SECOND_CRITIC
+        tablet:
+          status: passed_two_second_review_r27
+          output_path: public/media/expeditions/psalms-102-150-fast/campaign/psalms-roi-serviteur-tablet-1440x1800-v1.png
+          dimensions: 1440x1800
+          ratio: '4:5'
+          sha256: 93a796e56eac749320d9169f627d3788cf816718f53c9871dfbd36c824960849
+          surface: rama_hero_tablet
+          surface_preview_path: tmp/fast-psalms-expedition-visual-proof/rama-tablet-768x1024-proof-v1.png
+          surface_preview_dimensions: 768x1024
+          surface_preview_sha256: f58ebc33500003bd147446059615e389a94b06ab102af8a013edb1b221a6e17b
+          command_exact: >-
+            magick psalms-roi-serviteur-square-proof-v2.png -write mpr:src
+            +delete ( mpr:src -resize 1440x1800^ -gravity center -extent
+            1440x1800 -blur 0x45 -fill #04101c -colorize 60% ) ( mpr:src
+            -resize 1080x1080! ( ( -size 1080x850 xc:white ) ( -size
+            1080x230 gradient:white-black ) -append ) -alpha off -compose
+            CopyOpacity -composite ) -gravity northwest -geometry +360+20
+            -compose over -composite ( -size 1800x1440
+            gradient:rgba(4,10,18,0.90)-rgba(4,10,18,0.0) -rotate -90 )
+            -gravity northwest -compose over -composite
+            psalms-roi-serviteur-tablet-1440x1800-v1.png
+          technique:
+          - Fond de la v2 agrandi pour couvrir 1440 x 1800, flouté avec sigma 45
+            et assombri à 60 pour cent afin qu'aucun sujet dupliqué ne soit lisible.
+          - Carré net réduit à 1080 x 1080, placé à x 360 et y 20; ses 230 pixels
+            bas sont fondus progressivement dans le fond.
+          - Dégradé latéral bleu-noir à gauche pour la copie, transparent à droite
+            avant le trio.
+          inspection:
+            master_opened_and_viewed: true
+            preview_opened_and_viewed: true
+            exact_dimensions: PASS_1440x1800
+            source_sha_matches_authorization: PASS
+            throne_and_three_faces_clear: PASS
+            full_stone_and_all_hands_clear: PASS
+            copy_avoids_action: PASS
+            title_progress_counter_cta_legible: PASS
+            no_readable_subject_duplication: PASS
+            no_visible_seam: PASS
+            embedded_text: PASS_NONE
+            generation_call_count: 0
+            responsive_encoding_run: false
+            technical_result: PASS_READY_FOR_TWO_SECOND_CRITIC
+        landscape:
+          status: passed_two_second_review_r27
+          output_path: public/media/expeditions/psalms-102-150-fast/campaign/psalms-roi-serviteur-landscape-1920x1080-v1.png
+          dimensions: 1920x1080
+          ratio: '16:9'
+          sha256: f214b0fff26392f7d327133cb11131c2bd558dcfb346ac8608b926617f00ab35
+          surface: rama_hero_landscape
+          surface_preview_path: tmp/fast-psalms-expedition-visual-proof/rama-landscape-1440x900-proof-v1.png
+          surface_preview_dimensions: 1440x900
+          surface_preview_sha256: a974e142c90b64365b1bbad6bb243e77d538127b4f78cfa9dc0dcd642ad6528b
+          command_exact: >-
+            magick psalms-roi-serviteur-square-proof-v2.png -write mpr:src
+            +delete ( mpr:src -resize 1920x1080^ -gravity center -extent
+            1920x1080 -blur 0x45 -fill #04101c -colorize 62% ) ( mpr:src
+            -resize 1080x1080! ( ( -size 170x1080 gradient:black-white
+            -rotate -90 ) ( -size 910x1080 xc:white ) +append ) -alpha off
+            -compose CopyOpacity -composite ) -gravity northwest -geometry
+            +840+0 -compose over -composite ( -size 1080x1920
+            gradient:rgba(4,10,18,0.94)-rgba(4,10,18,0.0) -rotate -90 )
+            -gravity northwest -compose over -composite
+            psalms-roi-serviteur-landscape-1920x1080-v1.png
+          technique:
+          - Fond de la v2 agrandi et recadré pour couvrir 1920 x 1080, flouté
+            avec sigma 45 et assombri à 62 pour cent.
+          - Carré net 1080 x 1080 placé à x 840; ses 170 pixels gauches sont
+            fondus dans l'extension sombre.
+          - Dégradé latéral bleu-noir dense à gauche pour le bloc éditorial,
+            transparent avant l'action à droite.
+          inspection:
+            master_opened_and_viewed: true
+            preview_opened_and_viewed: true
+            exact_dimensions: PASS_1920x1080
+            source_sha_matches_authorization: PASS
+            throne_and_three_faces_clear: PASS
+            full_stone_and_all_hands_clear: PASS
+            copy_avoids_action: PASS
+            title_progress_counter_cta_legible: PASS
+            no_readable_subject_duplication: PASS
+            no_visible_seam: PASS
+            embedded_text: PASS_NONE
+            generation_call_count: 0
+            responsive_encoding_run: false
+            technical_result: PASS_READY_FOR_TWO_SECOND_CRITIC
+    visual_proof_review:
+      status: complete_human_approved
+      review_revision: 4
+      review_scope: tablet_and_landscape_derivatives
+      previous_reviews:
+      - review_revision: 1
+        manifest_revision: 19
+        proof_output_path: public/media/expeditions/psalms-102-150-fast/campaign/psalms-roi-serviteur-square-proof-v1.png
+        surface_preview_path: tmp/fast-psalms-expedition-visual-proof/rama-mobile-390x844-proof-v1.png
+        verdict: REWORK
+      - review_revision: 2
+        manifest_revision: 22
+        proof_output_path: public/media/expeditions/psalms-102-150-fast/campaign/psalms-roi-serviteur-square-proof-v2.png
+        surface_preview_path: tmp/fast-psalms-expedition-visual-proof/rama-mobile-390x844-proof-v2.png
+        verdict: REWORK
+      - review_revision: 3
+        manifest_revision: 25
+        proof_output_path: public/media/expeditions/psalms-102-150-fast/campaign/psalms-roi-serviteur-portrait-1080x1920-v1.png
+        surface_preview_path: tmp/fast-psalms-expedition-visual-proof/rama-mobile-390x844-portrait-proof-v1.png
+        verdict: PASS
+      proof_output_path: public/media/expeditions/psalms-102-150-fast/campaign/psalms-roi-serviteur-tablet-1440x1800-v1.png
+      surface_preview_path: tmp/fast-psalms-expedition-visual-proof/rama-tablet-768x1024-proof-v1.png
+      proof_output_paths:
+        tablet: public/media/expeditions/psalms-102-150-fast/campaign/psalms-roi-serviteur-tablet-1440x1800-v1.png
+        landscape: public/media/expeditions/psalms-102-150-fast/campaign/psalms-roi-serviteur-landscape-1920x1080-v1.png
+      surface_preview_paths:
+        tablet: tmp/fast-psalms-expedition-visual-proof/rama-tablet-768x1024-proof-v1.png
+        landscape: tmp/fast-psalms-expedition-visual-proof/rama-landscape-1440x900-proof-v1.png
+      cold_read:
+        first_seen: Sur les deux masters, le trône vide, les trois visages puis la
+          pierre entière et les mains; sur les deux Hero, la scène nette reste
+          séparée du grand bloc de copie.
+        perceived_situation: Un homme de rang a quitté son siège pour partager le
+          poids d'une pierre avec une bâtisseuse et un bâtisseur; les champs sombres
+          accueillent la copie sans répéter les personnages.
+        spontaneous_question: Pourquoi celui qui pourrait rester assis porte-t-il
+          cette pierre avec les autres ?
+        scroll_decision: stop
+      surface_verdicts:
+        tablet:
+          verdict: PASS
+          proof_output_path: public/media/expeditions/psalms-102-150-fast/campaign/psalms-roi-serviteur-tablet-1440x1800-v1.png
+          surface_preview_path: tmp/fast-psalms-expedition-visual-proof/rama-tablet-768x1024-proof-v1.png
+          observation: Sur le Hero 768 x 1024, trône, trois visages, pierre entière
+            et mains restent dans le haut-droit; titre, progression, compteur et
+            CTA occupent le champ sombre sans recouvrir l'action.
+          checks:
+            two_second_situation: pass
+            copy_avoids_action: pass
+            title_progress_counter_cta_legible: pass
+            extension_integrity: pass
+            exact_dimensions_1440x1800: pass
+            zero_imagegen: pass
+        landscape:
+          verdict: PASS
+          proof_output_path: public/media/expeditions/psalms-102-150-fast/campaign/psalms-roi-serviteur-landscape-1920x1080-v1.png
+          surface_preview_path: tmp/fast-psalms-expedition-visual-proof/rama-landscape-1440x900-proof-v1.png
+          observation: Sur le Hero 1440 x 900, la copie reste entièrement à gauche
+            et l'action entièrement à droite; tous les sujets et contrôles sont
+            complets, nets et immédiatement lisibles.
+          checks:
+            two_second_situation: pass
+            copy_avoids_action: pass
+            title_progress_counter_cta_legible: pass
+            extension_integrity: pass
+            exact_dimensions_1920x1080: pass
+            zero_imagegen: pass
+      checks:
+        first_second_focus:
+          status: pass
+          observation: Tablette et paysage conservent un foyer unique formé par le
+            trône, le visage central, la pierre et les mains, distinct de la copie.
+        two_second_situation:
+          status: pass
+          observation: Sur les deux vraies surfaces, le siège vide et les mains
+            convergentes rendent le service partagé compréhensible sans lire le
+            titre.
+        scroll_stop:
+          status: pass
+          observation: Le trône vide, les trois visages rapprochés, la lumière
+            d'aurore et la porte monumentale créent une interruption perceptive
+            réelle.
+        viewer_question:
+          status: pass
+          observation: Le contraste visible entre le siège vide, la tenue noble et
+            le poids partagé ouvre naturellement la question de l'abaissement.
+        contemplation_desire:
+          status: pass
+          observation: Les regards concentrés, le siège quitté et le jardin au-delà
+            de la porte donnent envie de comprendre qui sert et ce qui se construit.
+        beauty_and_dignity:
+          status: pass
+          observation: Les trois personnes sont actives, belles et dignes; étoffes,
+            pierre, bois et lumière sont riches sans misérabilisme ni sexualisation.
+        specificity:
+          status: pass
+          observation: Le siège vide placé derrière un trio qui porte une pierre
+            crée une situation singulière et concrète, loin d'une spiritualité de
+            banque d'images.
+        surface_survival:
+          status: pass
+          observation: Sur 768 x 1024 et 1440 x 900, trône, trio, pierre et mains
+            restent hors de la copie; titre, progression, compteur et CTA sont
+            complets et lisibles.
+        concept_fidelity:
+          status: pass
+          observation: Le Roi-serviteur, les deux bâtisseurs, le trône quitté, la
+            pierre, la porte, les matières et la lumière survivent aux deux
+            compositions et à leurs surfaces cibles.
+        source_integrity:
+          status: pass
+          observation: Aucun temple moderne ni rite n'est représenté; le jardin et
+            l'architecture restent une évocation abstraite d'ordre, de matière et
+            de lumière conforme à la source officielle consignée.
+        exact_tablet_dimensions:
+          status: pass
+          observation: Le PNG tablette ouvre en 1440 x 1800 exact, soit le 4:5 HD
+            autorisé.
+        exact_landscape_dimensions:
+          status: pass
+          observation: Le PNG paysage ouvre en 1920 x 1080 exact, soit le 16:9 HD
+            autorisé.
+        chrome_legibility:
+          status: pass
+          observation: Titre, sous-titre, six repères, compteur 0 / 6 et CTA gardent
+            contraste, intégrité et espace sur les deux champs sombres.
+        extension_integrity:
+          status: pass
+          observation: Les prolongements sombres se fondent dans le sol et
+            l'architecture sans couture perceptible, sujet lisible dupliqué ni
+            bande abrupte.
+        zero_generation_derivation:
+          status: pass
+          observation: Le manifeste consigne deux compositions déterministes depuis
+            la v2, zéro appel ImageGen pour les dérivés et deux appels historiques
+            inchangés pour les preuves carrées.
+      verdict: PASS
+      observed_failures: []
+      required_changes: []
+      recommendation: approve_proof
+      tablet_verdict: PASS
+      landscape_verdict: PASS
+      global_verdict: PASS
+      downstream_authorized_by_critic: false
+packs:
+- id: pack-01
+  title: Le Dieu vivant agit
+  source_refs:
+  - Psaume 135:1-21
+  - Psaume 136:1-26
+  - Psaume 146:1-10
+  path: config/expeditions/psalms-102-150-fast/packs/pack-01.yml
+  status: complete_detached
+- id: pack-02
+  title: Voici Jésus-Christ
+  source_refs:
+  - Psaume 110:1-7
+  - Psaume 118:1-29
+  path: config/expeditions/psalms-102-150-fast/packs/pack-02.yml
+  status: complete_detached
+- id: pack-03
+  title: Il entend et il connaît
+  source_refs:
+  - Psaume 102
+  - Psaume 103
+  - Psaume 116
+  - Psaume 139
+  path: config/expeditions/psalms-102-150-fast/packs/pack-03.yml
+  status: complete_detached
+- id: pack-04
+  title: Apprendre à marcher avec lui
+  source_refs:
+  - Psaume 119:1-176
+  - Psaume 138:1-8
+  path: config/expeditions/psalms-102-150-fast/packs/pack-04.yml
+  status: complete_detached
+- id: pack-05
+  title: Bâtir une vie et un peuple
+  source_refs:
+  - Psaumes 127-128
+  - Psaume 137:1-6
+  - Psaume 147:1-20
+  path: config/expeditions/psalms-102-150-fast/packs/pack-05.yml
+  status: complete_detached
+- id: pack-06
+  title: Tout souffle a sa place
+  source_refs:
+  - Psaume 117
+  - Psaumes 148-150
+  path: config/expeditions/psalms-102-150-fast/packs/pack-06.yml
+  status: complete_detached

@@ -1,0 +1,374 @@
+# Canonical shared authoring artifact for the FAST Expedition Council.
+# It remains detached from runtime until publication is separately authorized.
+schema_version: 1
+kind: expedition_fast_dossier
+
+lifecycle:
+  status: draft # draft | running | editorial_complete | visual_production | publish_ready | blocked | retired
+  runtime_mode: detached
+  current_revision: 0
+  human_approval_required: true
+  publish_authorized: false
+  created_at: "YYYY-MM-DD"
+  updated_at: "YYYY-MM-DD"
+
+parent_expedition:
+  manifest_path: "" # empty only for a standalone one-pack expedition
+  manifest_revision: 0
+  pack_id: ""
+  approved_architecture_id: ""
+  approved_source_refs: []
+
+brief:
+  id: ""
+  source_locale: fr
+  output_locale: fr
+  audience: ""
+  target_pack_count: 1
+  questions_per_pack: 10
+  authorized_scope: full_expedition_authoring
+  constraints: []
+
+source:
+  readings:
+    - reference: ""
+      label: ""
+      url: ""
+      required: true
+
+council:
+  current_stage: influenceur
+  sequence:
+    - expedition-fast-influenceur
+    - expedition-fast-mystique
+    - expedition-fast-nouveau-baptise
+    - expedition-fast-quiz
+    - expedition-fast-voix
+    - expedition-fast-directeur-mise-en-scene
+    - expedition-fast-directeur-artistique-producteur
+    - expedition-fast-critique-deux-secondes
+    - expedition-fast-localisateur-voix
+  section_owners:
+    "brief": expedition-fast-influenceur
+    "source": expedition-fast-influenceur
+    "council": expedition-fast-influenceur
+    "fast.agent_memory.influenceur": expedition-fast-influenceur
+    "fast.result.influenceur": expedition-fast-influenceur
+    "fast.agent_memory.mystique": expedition-fast-mystique
+    "fast.result.mystique": expedition-fast-mystique
+    "fast.agent_memory.nouveau_baptise": expedition-fast-nouveau-baptise
+    "fast.result.nouveau_baptise": expedition-fast-nouveau-baptise
+    "fast.agent_memory.quiz": expedition-fast-quiz
+    "fast.result.quiz": expedition-fast-quiz
+    "fast.agent_memory.voix": expedition-fast-voix
+    "fast.result.voix": expedition-fast-voix
+    "fast.result.quiz_final": expedition-fast-voix
+    "fast.agent_memory.mise_en_scene_visuelle": expedition-fast-directeur-mise-en-scene
+    "fast.result.visual_staging": expedition-fast-directeur-mise-en-scene
+    "fast.agent_memory.direction_artistique": expedition-fast-directeur-artistique-producteur
+    "fast.result.visual_production": expedition-fast-directeur-artistique-producteur
+    "fast.agent_memory.critique_deux_secondes": expedition-fast-critique-deux-secondes
+    "fast.result.visual_proof_review": expedition-fast-critique-deux-secondes
+    "fast.agent_memory.localisateur_voix": expedition-fast-localisateur-voix
+    "fast.result.translations": expedition-fast-localisateur-voix
+    "fast.quiz_copy_limits": human
+    "fast.visual_staging_contract": human
+    "fast.visual_requirements": human
+    "fast.visual_proof_approval": human
+    "fast.human_quiz_revision": human
+    "fast.result.revision_pipeline.quiz": expedition-fast-quiz
+    "fast.result.revision_pipeline.voix": expedition-fast-voix
+    "fast.result.revision_pipeline.mise_en_scene_visuelle": expedition-fast-directeur-mise-en-scene
+    "fast.french_quiz_approval": human
+    "fast.translation_gate": human
+    "fast.translation_approval": human
+  revision_log: []
+  objections: []
+
+fast:
+  status: draft
+  visual_staging_contract:
+    owner: human
+    source_policy:
+      quiz_prompt_is_source: false
+      resolve_each_unique_reference_once: true
+      deduplicate_in_source_library: true
+      memory_fallback_only_when_result_is_ambiguous: true
+    representation_modes: [iconic_symbol, human_dramaturgy, historical_cinematic, environmental_world]
+    visual_treatments: [cinematic_realism, biblical_illustration]
+    selection_policy:
+      conventional_images_allowed: true
+      dramaturgical_alternative_when_defensible: true
+      allowed_selections: [conventional, dramaturgical, hybrid]
+      criteria: [two_second_read, scroll_stop, beauty, emotional_force, fidelity, contemplation_desire]
+      no_mode_has_moral_priority: true
+    max_words_per_concept_excluding_ids_and_references: 160
+    generation_authorized: false
+    proof_generation:
+      authorized_by_council_contract: true
+      human_approval_before_first_proof: false
+      max_calls_before_human_review: 1
+      selection_owner: expedition-fast-directeur-artistique-producteur
+      human_approval_after_critic: true
+  quiz_copy_limits:
+    owner: human
+    source_contract:
+      document: config/expeditions/_showrunner_template.yml
+      path: formation_quizzes.copy_limits
+    source_documentation: docs/EXPEDITIONS.md#mobile-copy-gate
+    counting_unit: unicode_graphemes_including_spaces_and_punctuation
+    reference_surface: street_quiz_390x667
+    prompt: { hard_max: 72, max_lines: 3, must_be_self_contained: true }
+    choice: { hard_max: 32, max_lines: 2 }
+    feedback: { hard_max: 120 }
+    max_choices: 4
+    choice_count_by_format: { qcm: 4, vrai_faux: 2 }
+    locale_policy: validate_every_translation_independently
+    overflow_policy: REJECT_COPY_OVERFLOW
+    forbidden_fixes: [font_shrink, truncation, ellipsis, answer_scroll]
+  visual_proof_approval:
+    owner: human
+    status: pending
+    proof_output_path: ""
+    critic_verdict: ""
+    decision: ""
+    authorized_batch:
+      visual_concept_ids: []
+      surfaces: []
+      ratios: []
+  human_quiz_revision:
+    owner: human
+    revision: 0
+    status: idle # idle | editing | submitted | agents_running | processed | blocked
+    locale: fr
+    snapshot_mode: full
+    based_on_quiz_final_revision: 0
+    submitted_at: ""
+    changed_question_ids: []
+    reference_changed_question_ids: []
+    questions: []
+    required_rerun_agents: [expedition-fast-quiz, expedition-fast-voix, expedition-fast-directeur-mise-en-scene]
+    invalidation:
+      french_quiz_approval_question_ids: []
+      visual_concept_ids: []
+      visual_asset_ids: []
+      translation_question_ids: []
+    agent_findings: []
+  french_quiz_approval:
+    owner: human
+    status: pending
+    locale: fr
+    required_unit_count: 10
+    reference_surface: street_quiz_390x667
+    required_states: [ask, reveal]
+    required_content: [image, prompt, choices, displayed_correct_letter, correct_answer_text, feedback]
+    review_units: []
+    validated_question_ids: []
+    rejected_question_ids: []
+    decision: ""
+    invalidation_policy:
+      changed_fields: [image, prompt, choices, correct_choice, feedback]
+      action: reset_affected_question_approval
+  translation_gate:
+    owner: human
+    status: blocked_pending_french_quiz_approval
+    source_locale: fr
+    target_locales: [es, en, pt-BR]
+    translation_authorized: false
+    source_approval_revision: 0
+  translation_approval:
+    owner: human
+    status: blocked_pending_translations
+    source_approval_revision: 0
+    required_locales: [es, en, pt-BR]
+    locales:
+      es: { status: pending, review_units: [] }
+      en: { status: pending, review_units: [] }
+      pt-BR: { status: pending, review_units: [] }
+    validated_locales: []
+    rejected_locales: []
+    decision: ""
+  agent_memory:
+    influenceur:
+      owner: expedition-fast-influenceur
+      revision: 0
+      status: pending
+      production: |-
+
+    mystique:
+      owner: expedition-fast-mystique
+      revision: 0
+      status: pending
+      production: |-
+
+    nouveau_baptise:
+      owner: expedition-fast-nouveau-baptise
+      revision: 0
+      status: pending
+      production: |-
+
+    quiz:
+      owner: expedition-fast-quiz
+      revision: 0
+      status: pending
+      production: |-
+
+    voix:
+      owner: expedition-fast-voix
+      revision: 0
+      status: pending
+      production: |-
+
+    mise_en_scene_visuelle:
+      owner: expedition-fast-directeur-mise-en-scene
+      revision: 0
+      status: pending
+      production: |-
+
+    direction_artistique:
+      owner: expedition-fast-directeur-artistique-producteur
+      revision: 0
+      status: pending
+      production: |-
+
+    critique_deux_secondes:
+      owner: expedition-fast-critique-deux-secondes
+      revision: 0
+      status: pending
+      production: |-
+
+    localisateur_voix:
+      owner: expedition-fast-localisateur-voix
+      revision: 0
+      status: pending
+      production: |-
+
+  result:
+    revision_pipeline:
+      human_revision: 0
+      status: idle
+      quiz: { processed_revision: 0, status: pending }
+      voix: { processed_revision: 0, status: pending }
+      mise_en_scene_visuelle: { processed_revision: 0, status: pending }
+    influenceur:
+      opening_screen: ""
+      human_angle: ""
+      spoken_script: ""
+      closing_question: ""
+      simplification_risks: []
+    mystique:
+      thesis: ""
+      inner_movement: []
+      spiritual_practice: ""
+      limits: []
+    nouveau_baptise:
+      good_news: ""
+      belonging_risk: ""
+      first_step: ""
+      open_question: ""
+    quiz:
+      question_mix:
+        texte: 5
+        vie: 5
+      required_formats: [qcm, vrai_faux]
+      format_mix:
+        qcm: 0
+        vrai_faux: 0
+      questions: []
+    voix:
+      source_quiz_revision: 0
+      copy_revision: 0
+      status: pending
+      read_aloud_performed: false
+      ui_surfaces:
+        street_quiz_390x667: unverified
+      checks:
+        game_show_voice: pending
+        mobile_copy_gate: pending
+        meaning_preserved: pending
+        all_questions_sayable: pending
+        all_choices_under_two_seconds: pending
+      question_audits: []
+    quiz_final:
+      question_mix:
+        texte: 5
+        vie: 5
+      required_formats: [qcm, vrai_faux]
+      format_mix:
+        qcm: 0
+        vrai_faux: 0
+      questions: []
+    visual_staging:
+      status: pending
+      generation_authorized: false
+      source_library: {}
+      visual_concepts: []
+      expedition_rhythm: {}
+      blocked_missing_semantic_content: []
+      blocked_missing_source: []
+    visual_production:
+      status: pending
+      production_mode: proof_only
+      full_batch_authorized: false
+      proof:
+        status: pending
+        visual_concept_id: ""
+        staging_revision: 0
+        selection_reason: ""
+        surface: ""
+        ratio: ""
+        output_path: ""
+        surface_preview_path: ""
+        inspection: {}
+      generation_records: []
+      manifests: []
+    visual_proof_review:
+      status: pending
+      proof_output_path: ""
+      surface_preview_path: ""
+      cold_read:
+        first_seen: ""
+        perceived_situation: ""
+        spontaneous_question: ""
+        scroll_decision: ""
+      checks: {}
+      verdict: ""
+      observed_failures: []
+      required_changes: []
+      recommendation: ""
+    translations:
+      source_locale: fr
+      source_approval_revision: 0
+      status: pending
+      locales:
+        es: { status: pending, questions: [], question_audits: [] }
+        en: { status: pending, questions: [], question_audits: [] }
+        pt-BR: { status: pending, questions: [], question_audits: [] }
+  visual_requirements:
+    owner: human
+    scope: pack
+    production_owner: expedition-fast-directeur-artistique-producteur
+    revision: 2
+    status: approved_cost_optimized_contract
+    generation_authorized: false
+    creative_master_policy:
+      default_masters_per_scene: 1
+      master_file_format: png
+      responsive_derivatives_are_new_generations: false
+      additional_composition_requires_documented_surface_failure: true
+      additional_composition_requires_human_authorization: true
+    surfaces:
+      quiz_question:
+        required: true
+        unit: question
+        creative_masters_per_unit: 1
+        expected_creative_master_count: question_count
+        approved_master: { ratio: "9:16", usage: [phone_quiz] }
+        tv_presenter:
+          uses_same_master: true
+          dedicated_landscape_master: only_after_documented_surface_failure
+      expedition_pack_art:
+        required: true
+        source: first_approved_quiz_master
+        expected_new_creative_master_count: 0
+        dedicated_master: only_after_documented_map_surface_failure

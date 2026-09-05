@@ -28,6 +28,31 @@ class Quizzes::WorldTest < ActiveSupport::TestCase
     end
   end
 
+  test "the Word of Wisdom is on the wisdom path after inicios" do
+    world = Quizzes::World.call(device_digest: GameSession.digest_token("world-dc89"))
+    pack = world.packs.find { |candidate| candidate.id == "dc89_word_of_wisdom" }
+
+    assert_equal "sagesse", pack.category
+    assert_equal world.packs.index { |candidate| candidate.id == "inicios" } + 1, pack.index
+  end
+
+  test "an open run from an archived expedition stays out of the active journey" do
+    digest = GameSession.digest_token("world-archived-psalms")
+    QuizRun.create!(
+      device_digest: digest,
+      pack_id: "exp_psalms_disappearing_voice",
+      position: 1,
+      score: 0,
+      status: "open",
+      opened_at: Time.current
+    )
+
+    world = Quizzes::World.call(device_digest: digest)
+
+    assert_equal "coronas", world.current_pack_id
+    refute world.packs.any? { |pack| pack.id == "exp_psalms_disappearing_voice" }
+  end
+
   test "finishing pack unlocks next" do
     digest = GameSession.digest_token("world-finish")
     run = Quizzes::StartPack.call(device_digest: digest, pack_id: "coronas").run

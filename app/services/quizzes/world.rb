@@ -15,6 +15,7 @@ module Quizzes
       "exaltacion" => "sagesse",
       "jose" => "heros",
       "inicios" => "sagesse",
+      "dc89_word_of_wisdom" => "sagesse",
       "pruebas_profetas" => "prophetes",
       "pruebas_heroes" => "heros",
       "milagros" => "heros",
@@ -34,7 +35,13 @@ module Quizzes
       "exp_psalms_cry_stone_seek" => "sagesse",
       "exp_psalms_house_table_city" => "sagesse",
       "exp_psalms_suspended_harps" => "sagesse",
-      "exp_psalms_everything_breathes" => "sagesse"
+      "exp_psalms_everything_breathes" => "sagesse",
+      "psalms_living_god" => "sagesse",
+      "psalms_servant_king" => "rois",
+      "psalms_hears_knows" => "sagesse",
+      "psalms_walk_with_god" => "sagesse",
+      "psalms_build_home" => "sagesse",
+      "psalms_every_breath" => "sagesse"
     }.freeze
 
     TIER_BOUNDARIES = [
@@ -73,7 +80,7 @@ module Quizzes
 
     def call
       finished = finished_by_pack
-      open_runs = scoped.open_runs.index_by(&:pack_id)
+      open_runs = scoped.open_runs.where(pack_id: @pack_ids).index_by(&:pack_id)
       next_id = next_playable_pack_id(finished, open_runs)
       packs = @pack_ids.each_with_index.map do |pack_id, index|
         build_pack_view(pack_id, index, finished, open_runs, next_id)
@@ -102,7 +109,7 @@ module Quizzes
       end
 
       def finished_by_pack
-        best_runs = scoped.finished
+        best_runs = scoped.finished.where(pack_id: @pack_ids)
           .select("DISTINCT ON (quiz_runs.pack_id) quiz_runs.*")
           .order(Arel.sql("quiz_runs.pack_id ASC, quiz_runs.score DESC, quiz_runs.id DESC"))
 

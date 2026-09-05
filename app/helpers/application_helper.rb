@@ -496,14 +496,16 @@ module ApplicationHelper
   def street_next_still(street)
     pack = street.pack
     ids = QuizDefinition.catalog.pack_ids
+    current_index = ids.index(pack.id)
+    next_pack_id = current_index ? ids[(current_index + 1) % ids.size] : ids.first
     if street.done?
-      nxt = QuizDefinition.catalog.find_pack(ids[(ids.index(pack.id).to_i + 1) % ids.size])
+      nxt = QuizDefinition.catalog.find_pack(next_pack_id)
       return street_still_src(nxt.question_at(1))
     end
     return unless street.settled?
     return street_still_src(pack.question_at(street.run.position + 1)) unless street.run.last_question?
 
-    nxt = QuizDefinition.catalog.find_pack(ids[(ids.index(pack.id).to_i + 1) % ids.size])
+    nxt = QuizDefinition.catalog.find_pack(next_pack_id)
     street_still_src(nxt.question_at(1))
   end
 
@@ -967,6 +969,10 @@ module ApplicationHelper
     return t("scripture_reader.psalm_title", number: reference.chapter) if reference.base_study == "ot/ps"
 
     "#{reference.book_label} #{reference.chapter}"
+  end
+
+  def quiz_question_reference_label(question, fallback_title: nil)
+    question.scripture_cite.to_s.strip.presence || t("quiz.from_the_book", title: fallback_title)
   end
 
   def scripture_reader_citation_label(chapter_title, verses)

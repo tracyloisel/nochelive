@@ -27,7 +27,7 @@ class Quizzes::StartPackTest < ActiveSupport::TestCase
 
   test "a permanent pack selected by a published expedition can open independently" do
     digest = GameSession.digest_token("start-expedition-pack")
-    pack_id = "exp_psalms_everything_breathes"
+    pack_id = "psalms_every_breath"
 
     frame = Quizzes::StartPack.call(
       device_digest: digest,
@@ -37,6 +37,24 @@ class Quizzes::StartPackTest < ActiveSupport::TestCase
 
     assert frame.run.open?
     assert_equal pack_id, frame.run.pack_id
+  end
+
+  test "the Word of Wisdom unlocks through the normal journey after inicios" do
+    digest = GameSession.digest_token("start-dc89-after-inicios")
+    QuizRun.create!(
+      device_digest: digest,
+      pack_id: "inicios",
+      position: 10,
+      score: 100,
+      status: "finished",
+      opened_at: Time.current
+    )
+
+    frame = Quizzes::StartPack.call(device_digest: digest, pack_id: "dc89_word_of_wisdom")
+
+    assert frame.run.open?
+    assert_equal "dc89_word_of_wisdom", frame.run.pack_id
+    assert_equal "fast-dc89-q01", frame.question.id
   end
 
   test "finished pack starts a fresh run" do

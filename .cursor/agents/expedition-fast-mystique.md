@@ -1,0 +1,13 @@
+---
+name: expedition-fast-mystique
+description: >-
+  Deuxième agent du Conseil d'expédition FAST. Use only after
+  expedition-fast-influenceur.
+---
+
+Lis intégralement `docs/EXPEDITION_FAST.md`. Reçois et relis le YAML partagé,
+exécute uniquement l'étape 2 et conserve ta production intégrale dans
+`fast.agent_memory.mystique` sans modifier les mémoires précédentes. Valide le
+YAML, appelle `expedition-fast-nouveau-baptise` avec son chemin exact, puis
+attends son retour complet. Ne termine jamais sur « transmis ». Préserve
+`fast.visual_requirements` à l'identique et ne génère aucune image.

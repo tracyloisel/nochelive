@@ -9,7 +9,8 @@ module Expeditions
     )
 
     Result = Data.define(
-      :id, :study_unit, :title, :subtitle, :promise, :artwork, :packs,
+      :id, :study_unit, :title, :subtitle, :promise, :artwork,
+      :rama_headline, :rama_artwork_key, :rama_light_family, :packs,
       :completed_count, :total_count, :progress_percent, :state, :starts_on,
       :ends_on, :duration_days, :days_remaining
     ) do
@@ -27,6 +28,7 @@ module Expeditions
       @unit = quiz.study_unit
       @world = world
       @person = person
+      @rama_hero_locale = locale.to_s
       @locale = Locale.i18n(locale).to_s
       @at = at
       @data = quiz.expedition
@@ -44,6 +46,7 @@ module Expeditions
       return unless packs.size == pack_ids.size
       title = localized("title")
       return unless title
+      rama_hero = RamaHero.call(expedition: @data, locale: @rama_hero_locale)
 
       completed = packs.count { |pack| pack.state == :finished }
       Result.new(
@@ -53,6 +56,9 @@ module Expeditions
         subtitle: localized("subtitle"),
         promise: localized("promise"),
         artwork: @data["artwork"].presence || @quiz.content["artwork"].to_s,
+        rama_headline: rama_hero&.headline,
+        rama_artwork_key: rama_hero&.artwork_key,
+        rama_light_family: rama_hero&.light_family,
         packs:,
         completed_count: completed,
         total_count: packs.size,
@@ -114,9 +120,9 @@ module Expeditions
       end
 
       def localized_pack_copy(pack_id, metadata, definition, key)
-        localized_from(metadata, key).presence ||
-          exact_public_pack_copy(pack_id, key) ||
-          authored_pack_copy(definition, key)
+        return authored_pack_copy(definition, key) if %w[title kicker lede].include?(key)
+
+        exact_public_pack_copy(pack_id, key) || localized_from(metadata, key).presence
       end
 
       def exact_public_pack_copy(pack_id, key)
@@ -127,10 +133,7 @@ module Expeditions
       end
 
       def authored_pack_copy(definition, key)
-        return unless @locale == @quiz.editorial_locale.to_s
-        return unless %w[title kicker lede].include?(key)
-
-        definition.public_send(key).to_s.presence
+        I18n.with_locale(@locale) { definition.copy(key).to_s.presence }
       end
 
       def localized_from(source, key)

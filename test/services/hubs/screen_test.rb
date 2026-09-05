@@ -422,7 +422,8 @@ class Hubs::ScreenTest < ActiveSupport::TestCase
         "readings" => [],
         "expedition" => {
           "id" => "hub-daily-psalms",
-          "pack_ids" => [ "exp_psalms_suspended_harps" ]
+          "title" => Locale::AVAILABLE.index_with { |locale| "Expedition #{locale}" },
+          "pack_ids" => [ "psalms_living_god" ]
         },
         "daily_discoveries" => 7.times.map do |index|
           daily_editorial_row(index:, starts_on:)
@@ -448,7 +449,7 @@ class Hubs::ScreenTest < ActiveSupport::TestCase
         "scheduled_on" => (starts_on + index.days).iso8601,
         "timezone" => "Europe/Madrid",
         "status" => "approved",
-        "pack_id" => index == 6 ? nil : "exp_psalms_suspended_harps",
+        "pack_id" => index == 6 ? nil : "psalms_living_god",
         "reference" => "ot/ps/102",
         "references" => [ "ot/ps/102" ],
         "claim_ids" => [ format("exeg-%03d", number) ],

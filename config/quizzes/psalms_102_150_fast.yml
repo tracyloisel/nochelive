@@ -1,0 +1,3924 @@
+packs:
+- id: psalms_living_god
+  copy:
+    fr:
+      title: Le Dieu vivant agit
+      kicker: Psaumes 135 · 136 · 146
+      lede: Création, traversée, humiliation, délivrance et nourriture reçoivent le
+        même refrain dans le Psaume 136. Sa miséricorde dure d’âge en âge.
+    es:
+      title: El Dios viviente actúa
+      kicker: Salmos 135 · 136 · 146
+      lede: Creación, travesía, humillación, liberación y alimento reciben el mismo
+        estribillo en el Salmo 136. Su misericordia permanece para siempre.
+    en:
+      title: The living God acts
+      kicker: Psalms 135 · 136 · 146
+      lede: Creation, the journey, humiliation, deliverance, and food all receive
+        the same refrain in Psalm 136. His mercy endures forever.
+    pt-BR:
+      title: O Deus vivo age
+      kicker: Salmos 135 · 136 · 146
+      lede: Criação, travessia, humilhação, libertação e alimento recebem o mesmo
+        refrão no Salmo 136. Sua misericórdia dura para sempre.
+  readings:
+  - study: ot/ps/135
+    cite: Psaume 135
+  - study: ot/ps/136
+    cite: Psaume 136
+  - study: ot/ps/146
+    cite: Psaume 146
+  questions:
+  - id: fast-psalms-pack01-q01
+    scripture:
+      canon: bible
+      cite: Psaume 135:15-17
+      study: ot/ps/135
+    correct_choice: a
+    points: 5
+    duration: 0
+    intensity: 1
+    presentation:
+      image: quizzes/psalms_living_god/fast-psalms-pack01-q01.png
+    copy:
+      fr:
+        prompt: 'Vrai ou faux : les idoles ont une bouche, mais ne parlent pas.'
+        choices:
+        - key: a
+          label: Vrai
+        - key: b
+          label: Faux
+        feedback: Bouche, yeux, oreilles… mais aucun souffle. Ces idoles ont une forme
+          humaine, sans aucune vie.
+        scripture_cite: Psaume 135:15-17
+      es:
+        prompt: 'Cierto o falso: los ídolos tienen boca, pero no hablan.'
+        choices:
+        - key: a
+          label: Cierto
+        - key: b
+          label: Falso
+        feedback: Boca, ojos y oídos, pero sin aliento. Estos ídolos tienen forma
+          humana, pero no tienen vida.
+        scripture_cite: Salmo 135:15-17
+      en:
+        prompt: 'True or false: Idols have mouths, but they cannot speak.'
+        choices:
+        - key: a
+          label: 'True'
+        - key: b
+          label: 'False'
+        feedback: Mouths, eyes, and ears—but no breath. These idols have human form,
+          yet no life.
+        scripture_cite: Psalm 135:15-17
+      pt-BR:
+        prompt: 'Verdadeiro ou falso: os ídolos têm boca, mas não falam.'
+        choices:
+        - key: a
+          label: Verdadeiro
+        - key: b
+          label: Falso
+        feedback: Boca, olhos e ouvidos, mas nenhum fôlego. Esses ídolos têm forma
+          humana, porém não têm vida.
+        scripture_cite: Salmo 135:15-17
+  - id: fast-psalms-pack01-q02
+    scripture:
+      canon: bible
+      cite: Psaume 135:18
+      study: ot/ps/135
+    correct_choice: c
+    points: 5
+    duration: 0
+    intensity: 1
+    presentation:
+      image: quizzes/psalms_living_god/fast-psalms-pack01-q02.png
+    copy:
+      fr:
+        prompt: D’après le psaume, à qui ressemblent ceux qui se fient aux idoles
+          ?
+        choices:
+        - key: a
+          label: Aux rois puissants
+        - key: b
+          label: Aux serviteurs de l’Éternel
+        - key: c
+          label: Aux idoles qu’ils fabriquent
+        - key: d
+          label: Aux peuples délivrés
+        feedback: 'Voilà le piège : ceux qui fabriquent les idoles et leur font confiance
+          finissent par leur ressembler.'
+        scripture_cite: Psaume 135:18
+      es:
+        prompt: Según el salmo, ¿a quiénes se parecen quienes confían en ídolos?
+        choices:
+        - key: a
+          label: A reyes poderosos
+        - key: b
+          label: A los siervos de Jehová
+        - key: c
+          label: A los ídolos que fabrican
+        - key: d
+          label: A pueblos liberados
+        feedback: 'Ahí está la trampa: quienes fabrican ídolos y confían en ellos
+          terminan pareciéndose a ellos.'
+        scripture_cite: Salmo 135:18
+      en:
+        prompt: According to the psalm, whom do people who trust idols resemble?
+        choices:
+        - key: a
+          label: Powerful kings
+        - key: b
+          label: The Lord’s servants
+        - key: c
+          label: The idols they make
+        - key: d
+          label: Peoples set free
+        feedback: 'Here’s the trap: Those who make idols and trust them end up becoming
+          like them.'
+        scripture_cite: Psalm 135:18
+      pt-BR:
+        prompt: Segundo o salmo, com quem se parecem os que confiam em ídolos?
+        choices:
+        - key: a
+          label: Com reis poderosos
+        - key: b
+          label: Com os servos do Senhor
+        - key: c
+          label: Com os ídolos que fabricam
+        - key: d
+          label: Com povos libertos
+        feedback: 'Aí está a armadilha: quem fabrica ídolos e confia neles acaba se
+          tornando semelhante a eles.'
+        scripture_cite: Salmo 135:18
+  - id: fast-psalms-pack01-q03
+    scripture:
+      canon: bible
+      cite: Psaume 136:1-26
+      study: ot/ps/136
+    correct_choice: b
+    points: 5
+    duration: 0
+    intensity: 2
+    presentation:
+      image: quizzes/psalms_living_god/fast-psalms-pack01-q03.png
+    copy:
+      fr:
+        prompt: Dans le Psaume 136, quel refrain revient 26 fois ?
+        choices:
+        - key: a
+          label: Son règne commence ce jour
+        - key: b
+          label: Sa miséricorde dure à jamais
+        - key: c
+          label: Son peuple ne souffrira plus
+        - key: d
+          label: Sa puissance renverse tout
+        feedback: Vingt-six fois, le psaume proclame que la miséricorde de Dieu dure
+          à jamais. Chaque œuvre ravive cette mémoire.
+        scripture_cite: Psaume 136:1-26
+      es:
+        prompt: En el Salmo 136, ¿qué frase se repite 26 veces?
+        choices:
+        - key: a
+          label: Su reino comienza hoy
+        - key: b
+          label: Su misericordia es para siempre
+        - key: c
+          label: Su pueblo ya no sufrirá
+        - key: d
+          label: Su poder lo derriba todo
+        feedback: Veintiséis veces, el salmo proclama que la misericordia de Dios
+          es para siempre. Cada obra aviva esa memoria.
+        scripture_cite: Salmo 136:1-26
+      en:
+        prompt: In Psalm 136, which line is repeated 26 times?
+        choices:
+        - key: a
+          label: His reign begins today
+        - key: b
+          label: His mercy endures forever
+        - key: c
+          label: His people will suffer no more
+        - key: d
+          label: His power overturns everything
+        feedback: Twenty-six times, the psalm declares that God’s mercy endures forever.
+          Each deed brings it back to mind.
+        scripture_cite: Psalm 136:1-26
+      pt-BR:
+        prompt: No Salmo 136, qual frase se repete 26 vezes?
+        choices:
+        - key: a
+          label: Seu reino começa hoje
+        - key: b
+          label: Sua benignidade dura para sempre
+        - key: c
+          label: Seu povo não sofrerá mais
+        - key: d
+          label: Seu poder derruba tudo
+        feedback: Vinte e seis vezes, o salmo declara que a benignidade de Deus dura
+          para sempre. Cada obra reaviva essa memória.
+        scripture_cite: Salmo 136:1-26
+  - id: fast-psalms-pack01-q04
+    scripture:
+      canon: bible
+      cite: Psaume 136:23-25
+      study: ot/ps/136
+    correct_choice: d
+    points: 8
+    duration: 20
+    intensity: 2
+    presentation:
+      image: quizzes/psalms_living_god/fast-psalms-pack01-q04.png
+    copy:
+      fr:
+        prompt: Aux versets 23 à 25, trois actions de Dieu s’enchaînent. Lesquelles
+          ?
+        choices:
+        - key: a
+          label: Il livre son peuple aux rois
+        - key: b
+          label: Il prive les nations de pain
+        - key: c
+          label: Il oublie les humiliés
+        - key: d
+          label: Il se souvient, libère, nourrit
+        feedback: 'Dieu se souvient des humiliés, les délivre de leurs oppresseurs
+          et nourrit toute chair : sa bonté agit.'
+        scripture_cite: Psaume 136:23-25
+      es:
+        prompt: En los versículos 23 al 25, ¿qué tres acciones de Dios se suceden?
+        choices:
+        - key: a
+          label: Entrega su pueblo a reyes
+        - key: b
+          label: Niega pan a las naciones
+        - key: c
+          label: Olvida a los abatidos
+        - key: d
+          label: Recuerda, rescata y alimenta
+        feedback: 'Dios recuerda a los abatidos, los rescata de sus enemigos y alimenta
+          a toda criatura: su bondad actúa.'
+        scripture_cite: Salmo 136:23-25
+      en:
+        prompt: In verses 23–25, what three things does God do?
+        choices:
+        - key: a
+          label: He hands his people to kings
+        - key: b
+          label: He keeps food from nations
+        - key: c
+          label: He forgets the lowly
+        - key: d
+          label: He remembers, rescues, feeds
+        feedback: God remembers the lowly, rescues them from their enemies, and feeds
+          every living thing. His mercy acts.
+        scripture_cite: Psalm 136:23-25
+      pt-BR:
+        prompt: Nos versículos 23 a 25, quais são as três ações de Deus?
+        choices:
+        - key: a
+          label: Entrega seu povo aos reis
+        - key: b
+          label: Nega alimento às nações
+        - key: c
+          label: Esquece os abatidos
+        - key: d
+          label: Lembra, resgata e alimenta
+        feedback: 'Deus se lembra dos abatidos, resgata-os dos inimigos e alimenta
+          toda criatura: sua bondade age.'
+        scripture_cite: Salmo 136:23-25
+  - id: fast-psalms-pack01-q05
+    scripture:
+      canon: bible
+      cite: Psaume 146:3-4
+      study: ot/ps/146
+    correct_choice: a
+    points: 8
+    duration: 20
+    intensity: 2
+    presentation:
+      image: quizzes/psalms_living_god/fast-psalms-pack01-q05.png
+    copy:
+      fr:
+        prompt: Pourquoi les grands ne peuvent-ils pas être nos sauveurs ?
+        choices:
+        - key: a
+          label: Ils meurent, leurs projets aussi
+        - key: b
+          label: Ils refusent tous de secourir
+        - key: c
+          label: Ils adorent toujours des idoles
+        - key: d
+          label: Ils ignorent la loi
+        feedback: Leur souffle s’en va, ils retournent à la terre et leurs projets
+          meurent avec eux. Leur pouvoir ne sauve pas.
+        scripture_cite: Psaume 146:3-4
+      es:
+        prompt: "¿Por qué los poderosos no pueden ser nuestros salvadores?"
+        choices:
+        - key: a
+          label: Mueren, igual que sus planes
+        - key: b
+          label: Todos se niegan a ayudar
+        - key: c
+          label: Siempre adoran a ídolos
+        - key: d
+          label: Desconocen la ley
+        feedback: Su aliento se va, vuelven a la tierra y sus planes mueren con ellos.
+          Su poder no puede salvar.
+        scripture_cite: Salmo 146:3-4
+      en:
+        prompt: Why can’t powerful people be our saviors?
+        choices:
+        - key: a
+          label: They die, and so do their plans
+        - key: b
+          label: They all refuse to help
+        - key: c
+          label: They always worship idols
+        - key: d
+          label: They do not know the law
+        feedback: Their breath leaves, they return to the earth, and their plans die
+          with them. Their power cannot save.
+        scripture_cite: Psalm 146:3-4
+      pt-BR:
+        prompt: Por que os poderosos não podem ser nossos salvadores?
+        choices:
+        - key: a
+          label: Morrem, e seus planos também
+        - key: b
+          label: Todos se recusam a ajudar
+        - key: c
+          label: Sempre adoram ídolos
+        - key: d
+          label: Desconhecem a lei
+        feedback: Seu espírito sai, eles voltam à terra e seus planos morrem com eles.
+          Seu poder não pode salvar.
+        scripture_cite: Salmo 146:3-4
+  - id: fast-psalms-pack01-q06
+    scripture:
+      canon: bible
+      cite: Psaume 146:5-6
+      study: ot/ps/146
+    correct_choice: c
+    points: 8
+    duration: 20
+    intensity: 3
+    presentation:
+      image: quizzes/psalms_living_god/fast-psalms-pack01-q06.png
+    copy:
+      fr:
+        prompt: Selon le Psaume 146, où l’homme heureux place-t-il son espérance ?
+        choices:
+        - key: a
+          label: Dans ses propres projets
+        - key: b
+          label: Dans la puissance des grands
+        - key: c
+          label: Dans l’Éternel, son Dieu
+        - key: d
+          label: Dans ce qu’il fabrique
+        feedback: Son secours, c’est le Dieu de Jacob. Son espérance repose sur le
+          Créateur fidèle du ciel, de la terre et de la mer.
+        scripture_cite: Psaume 146:5-6
+      es:
+        prompt: Según el Salmo 146, ¿en quién espera la persona feliz?
+        choices:
+        - key: a
+          label: En sus propios planes
+        - key: b
+          label: En el poder de los grandes
+        - key: c
+          label: En Jehová, su Dios
+        - key: d
+          label: En lo que fabrica
+        feedback: Su ayuda es el Dios de Jacob. Espera en Jehová, el Creador fiel
+          del cielo, la tierra y el mar.
+        scripture_cite: Salmo 146:5-6
+      en:
+        prompt: According to Psalm 146, where does a happy person place their hope?
+        choices:
+        - key: a
+          label: In their own plans
+        - key: b
+          label: In the power of rulers
+        - key: c
+          label: In the Lord their God
+        - key: d
+          label: In what they make
+        feedback: The God of Jacob is their help. Their hope rests in the Lord, faithful
+          Creator of heaven, earth, and sea.
+        scripture_cite: Psalm 146:5-6
+      pt-BR:
+        prompt: Segundo o Salmo 146, onde a pessoa feliz põe sua esperança?
+        choices:
+        - key: a
+          label: Nos próprios planos
+        - key: b
+          label: No poder dos grandes
+        - key: c
+          label: No Senhor, seu Deus
+        - key: d
+          label: No que ela fabrica
+        feedback: Seu auxílio é o Deus de Jacó. Sua esperança está no Senhor, Criador
+          fiel do céu, da terra e do mar.
+        scripture_cite: Salmo 146:5-6
+  - id: fast-psalms-pack01-q07
+    scripture:
+      canon: bible
+      cite: Psaume 146:3-4
+      study: ot/ps/146
+    correct_choice: b
+    points: 12
+    duration: 15
+    intensity: 3
+    presentation:
+      image: quizzes/psalms_living_god/fast-psalms-pack01-q07.png
+    copy:
+      fr:
+        prompt: 'Vrai ou faux : les projets des grands leur survivent.'
+        choices:
+        - key: a
+          label: Vrai
+        - key: b
+          label: Faux
+        feedback: 'Le verset tranche : quand leur souffle s’en va, ils retournent
+          à la terre et leurs projets périssent.'
+        scripture_cite: Psaume 146:3-4
+      es:
+        prompt: 'Cierto o falso: los planes de los poderosos sobreviven a su muerte.'
+        choices:
+        - key: a
+          label: Cierto
+        - key: b
+          label: Falso
+        feedback: 'El versículo es tajante: cuando su aliento se va, vuelven a la
+          tierra y sus planes perecen.'
+        scripture_cite: Salmo 146:3-4
+      en:
+        prompt: 'True or false: The plans of rulers outlive them.'
+        choices:
+        - key: a
+          label: 'True'
+        - key: b
+          label: 'False'
+        feedback: 'The verse is clear: When their breath leaves, they return to the
+          earth, and their plans perish.'
+        scripture_cite: Psalm 146:3-4
+      pt-BR:
+        prompt: 'Verdadeiro ou falso: os planos dos poderosos sobrevivem a eles.'
+        choices:
+        - key: a
+          label: Verdadeiro
+        - key: b
+          label: Falso
+        feedback: 'O versículo é claro: quando seu espírito sai, eles voltam à terra
+          e seus planos perecem.'
+        scripture_cite: Salmo 146:3-4
+  - id: fast-psalms-pack01-q08
+    scripture:
+      canon: bible
+      cite: Psaume 146:5-10
+      study: ot/ps/146
+    correct_choice: b
+    points: 12
+    duration: 15
+    intensity: 4
+    presentation:
+      image: quizzes/psalms_living_god/fast-psalms-pack01-q08.png
+    copy:
+      fr:
+        prompt: 'Vrai ou faux : ce psaume promet que toute épreuve finit aussitôt.'
+        choices:
+        - key: a
+          label: Vrai
+        - key: b
+          label: Faux
+        feedback: Dieu demeure fidèle, secourt et règne. Le psaume ne promet pourtant
+          pas que chaque épreuve cessera aussitôt.
+        scripture_cite: Psaume 146:5-10
+      es:
+        prompt: 'Cierto o falso: este salmo promete que toda prueba acaba enseguida.'
+        choices:
+        - key: a
+          label: Cierto
+        - key: b
+          label: Falso
+        feedback: Dios sigue fiel, socorre y reina. Pero el salmo no promete que cada
+          prueba termine enseguida.
+        scripture_cite: Salmo 146:5-10
+      en:
+        prompt: 'True or false: This psalm promises every trial will end at once.'
+        choices:
+        - key: a
+          label: 'True'
+        - key: b
+          label: 'False'
+        feedback: God remains faithful, gives help, and reigns. Yet the psalm does
+          not promise every trial will end at once.
+        scripture_cite: Psalm 146:5-10
+      pt-BR:
+        prompt: 'Verdadeiro ou falso: este salmo promete o fim imediato de toda provação.'
+        choices:
+        - key: a
+          label: Verdadeiro
+        - key: b
+          label: Falso
+        feedback: Deus permanece fiel, socorre e reina. Mas o salmo não promete que
+          cada provação termine de imediato.
+        scripture_cite: Salmo 146:5-10
+  - id: fast-psalms-pack01-q09
+    scripture:
+      canon: bible
+      cite: Psaume 135:15-18 · Psaume 146:3-6
+      study: ot/ps/135
+    correct_choice: b
+    points: 15
+    duration: 15
+    intensity: 4
+    presentation:
+      image: quizzes/psalms_living_god/fast-psalms-pack01-q09.png
+    copy:
+      fr:
+        prompt: Un appui utile peut devenir une idole. À quel moment ?
+        choices:
+        - key: a
+          label: Quand on apprend à s’en servir
+        - key: b
+          label: Quand il doit garantir le salut
+        - key: c
+          label: Quand on demande un conseil
+        - key: d
+          label: Quand on reconnaît ses limites
+        feedback: 'Les moyens humains peuvent nous aider. Mais aucun ne peut porter
+          notre salut : cette confiance appartient à Dieu.'
+        scripture_cite: Psaume 135:15-18 · Psaume 146:3-6
+      es:
+        prompt: Un apoyo útil puede volverse un ídolo. ¿Cuándo?
+        choices:
+        - key: a
+          label: Cuando aprendes a usarlo
+        - key: b
+          label: Cuando esperas que te salve
+        - key: c
+          label: Cuando pides consejo
+        - key: d
+          label: Cuando reconoces sus límites
+        feedback: 'Los medios humanos pueden ayudar. Pero ninguno puede cargar con
+          tu salvación: esa confianza le pertenece a Dios.'
+        scripture_cite: Salmo 135:15-18 · Salmo 146:3-6
+      en:
+        prompt: A useful support can become an idol. When?
+        choices:
+        - key: a
+          label: When you learn to use it
+        - key: b
+          label: When you expect it to save you
+        - key: c
+          label: When you ask for advice
+        - key: d
+          label: When you admit its limits
+        feedback: Human help can be useful. But none can carry our salvation; that
+          trust belongs to God.
+        scripture_cite: Psalm 135:15-18 · Psalm 146:3-6
+      pt-BR:
+        prompt: Um apoio útil pode virar ídolo. Quando?
+        choices:
+        - key: a
+          label: Quando você aprende a usá-lo
+        - key: b
+          label: Quando deve garantir a salvação
+        - key: c
+          label: Quando você pede um conselho
+        - key: d
+          label: Quando reconhece seus limites
+        feedback: 'Os recursos humanos podem ajudar. Mas nenhum pode carregar nossa
+          salvação: essa confiança pertence a Deus.'
+        scripture_cite: Salmo 135:15-18 · Salmo 146:3-6
+  - id: fast-psalms-pack01-q10
+    scripture:
+      canon: bible
+      cite: Psaume 146:5-10
+      study: ot/ps/146
+    correct_choice: d
+    points: 25
+    duration: 15
+    intensity: 5
+    presentation:
+      image: quizzes/psalms_living_god/fast-psalms-pack01-q10.png
+    copy:
+      fr:
+        prompt: Le secours de Dieu tarde. Quel premier pas garde la foi vivante ?
+        choices:
+        - key: a
+          label: Cacher sa souffrance
+        - key: b
+          label: Croire sa foi trop faible
+        - key: c
+          label: Exiger un signe immédiat
+        - key: d
+          label: Prier vrai, continuer d’espérer
+        feedback: Tu peux dire à Dieu ce qui pèse et continuer d’espérer. Son délai
+          ne mesure ni ta foi ni ta valeur spirituelle.
+        scripture_cite: Psaume 146:5-10
+      es:
+        prompt: La ayuda de Dios tarda. ¿Qué primer paso mantiene viva tu fe?
+        choices:
+        - key: a
+          label: Ocultar tu sufrimiento
+        - key: b
+          label: Creer que tu fe es muy débil
+        - key: c
+          label: Exigir una señal inmediata
+        - key: d
+          label: Orar con sinceridad y esperar
+        feedback: Puedes contarle a Dios lo que te pesa y seguir esperando. La demora
+          no mide tu fe ni tu valor espiritual.
+        scripture_cite: Salmo 146:5-10
+      en:
+        prompt: God’s help is delayed. What first step keeps faith alive?
+        choices:
+        - key: a
+          label: Hide your pain
+        - key: b
+          label: Believe your faith is too weak
+        - key: c
+          label: Demand an immediate sign
+        - key: d
+          label: Pray honestly and keep hoping
+        feedback: You can tell God what weighs on you and keep hoping. His timing
+          does not measure your faith or spiritual worth.
+        scripture_cite: Psalm 146:5-10
+      pt-BR:
+        prompt: A ajuda de Deus demora. Que primeiro passo mantém sua fé viva?
+        choices:
+        - key: a
+          label: Esconder seu sofrimento
+        - key: b
+          label: Achar que sua fé é fraca demais
+        - key: c
+          label: Exigir um sinal imediato
+        - key: d
+          label: Orar com sinceridade e esperar
+        feedback: Você pode contar a Deus o que pesa e continuar esperando. A demora
+          não mede sua fé nem seu valor espiritual.
+        scripture_cite: Salmo 146:5-10
+- id: psalms_servant_king
+  copy:
+    fr:
+      title: Voici Jésus-Christ
+      kicker: Psaumes 110 · 118
+      lede: Un prêtre pour toujours. Une pierre rejetée devenue principale. Le Nouveau
+        Testament aide les chrétiens à reconnaître Jésus-Christ dans ces images des
+        Psaumes 110 et 118.
+    es:
+      title: Este es Jesucristo
+      kicker: Salmos 110 · 118
+      lede: Un sacerdote para siempre. Una piedra rechazada que llega a ser la principal.
+        El Nuevo Testamento ayuda a los cristianos a reconocer a Jesucristo en estas
+        imágenes de los Salmos 110 y 118.
+    en:
+      title: This Is Jesus Christ
+      kicker: Psalms 110 · 118
+      lede: A priest forever. A rejected stone made the cornerstone. The New Testament
+        helps Christians recognize Jesus Christ in these images from Psalms 110 and
+        118.
+    pt-BR:
+      title: Este é Jesus Cristo
+      kicker: Salmos 110 · 118
+      lede: Um sacerdote para sempre. Uma pedra rejeitada que se torna a principal.
+        O Novo Testamento ajuda os cristãos a reconhecer Jesus Cristo nessas imagens
+        dos Salmos 110 e 118.
+  readings:
+  - study: ot/ps/110
+    cite: Psaume 110
+  - study: ot/ps/118
+    cite: Psaume 118
+  questions:
+  - id: fast-psalms-pack02-q01
+    scripture:
+      canon: bible
+      cite: Psaume 110:4
+      study: ot/ps/110
+    correct_choice: a
+    points: 5
+    duration: 0
+    intensity: 1
+    presentation:
+      image: quizzes/psalms_servant_king/fast-psalms-pack02-q01.png
+    copy:
+      fr:
+        prompt: 'Vrai ou faux : Dieu établit ce prêtre pour toujours.'
+        choices:
+        - key: a
+          label: Vrai
+        - key: b
+          label: Faux
+        feedback: Dieu le déclare prêtre pour toujours, à la manière de Melchisédek.
+        scripture_cite: Psaume 110:4
+      es:
+        prompt: 'Cierto o falso: Dios establece a este sacerdote para siempre.'
+        choices:
+        - key: a
+          label: Cierto
+        - key: b
+          label: Falso
+        feedback: Dios lo declara sacerdote para siempre, según el orden de Melquisedec.
+        scripture_cite: Salmo 110:4
+      en:
+        prompt: 'True or false: God appoints this priest forever.'
+        choices:
+        - key: a
+          label: 'True'
+        - key: b
+          label: 'False'
+        feedback: God declares him a priest forever, after the order of Melchizedek.
+        scripture_cite: Psalm 110:4
+      pt-BR:
+        prompt: 'Verdadeiro ou falso: Deus estabelece este sacerdote para sempre.'
+        choices:
+        - key: a
+          label: Verdadeiro
+        - key: b
+          label: Falso
+        feedback: Deus o declara sacerdote eterno, segundo a ordem de Melquisedeque.
+        scripture_cite: Salmo 110:4
+  - id: fast-psalms-pack02-q02
+    scripture:
+      canon: bible
+      cite: Psaume 110:1
+      study: ot/ps/110
+    correct_choice: c
+    points: 5
+    duration: 0
+    intensity: 1
+    presentation:
+      image: quizzes/psalms_servant_king/fast-psalms-pack02-q02.png
+    copy:
+      fr:
+        prompt: À quelle place l’Éternel invite-t-il le Seigneur à s’asseoir ?
+        choices:
+        - key: a
+          label: Devant son trône
+        - key: b
+          label: Aux portes de Sion
+        - key: c
+          label: À sa droite
+        - key: d
+          label: Près de l’autel
+        feedback: 'L’Éternel lui dit : « Assieds-toi à ma droite. » Une autorité reçue,
+          pas conquise.'
+        scripture_cite: Psaume 110:1
+      es:
+        prompt: "¿Dónde invita Jehová al Señor a sentarse?"
+        choices:
+        - key: a
+          label: Frente a su trono
+        - key: b
+          label: A las puertas de Sion
+        - key: c
+          label: A su diestra
+        - key: d
+          label: Junto al altar
+        feedback: 'Jehová le dice: «Siéntate a mi diestra». Es una autoridad recibida,
+          no conquistada.'
+        scripture_cite: Salmo 110:1
+      en:
+        prompt: Where does God tell the Lord to sit?
+        choices:
+        - key: a
+          label: In front of his throne
+        - key: b
+          label: At Zion’s gates
+        - key: c
+          label: At his right hand
+        - key: d
+          label: Beside the altar
+        feedback: God tells him, “Sit at my right hand.” This authority is received,
+          not seized.
+        scripture_cite: Psalm 110:1
+      pt-BR:
+        prompt: Onde Deus convida o Senhor a se sentar?
+        choices:
+        - key: a
+          label: Diante de seu trono
+        - key: b
+          label: Às portas de Sião
+        - key: c
+          label: À sua mão direita
+        - key: d
+          label: Junto ao altar
+        feedback: 'Deus lhe diz: “Sente-se à minha direita”. Uma autoridade recebida,
+          não conquistada.'
+        scripture_cite: Salmo 110:1
+  - id: fast-psalms-pack02-q03
+    scripture:
+      canon: bible
+      cite: Psaume 118:5
+      study: ot/ps/118
+    correct_choice: b
+    points: 5
+    duration: 0
+    intensity: 2
+    presentation:
+      image: quizzes/psalms_servant_king/fast-psalms-pack02-q03.png
+    copy:
+      fr:
+        prompt: Le psalmiste crie dans la détresse. Que fait l’Éternel ?
+        choices:
+        - key: a
+          label: Il le laisse attendre
+        - key: b
+          label: Il l’exauce et le met au large
+        - key: c
+          label: Il lui envoie un roi
+        - key: d
+          label: Il cache ses ennemis
+        feedback: 'La détresse est bien réelle. Dieu entend son cri et le met au large
+          : enfin, il peut respirer.'
+        scripture_cite: Psaume 118:5
+      es:
+        prompt: El salmista clama en la angustia. ¿Qué hace Jehová?
+        choices:
+        - key: a
+          label: Lo deja esperando
+        - key: b
+          label: Le responde y le da espacio
+        - key: c
+          label: Le envía un rey
+        - key: d
+          label: Oculta a sus enemigos
+        feedback: 'La angustia es real. Dios oye su clamor y le da espacio: por fin
+          puede respirar.'
+        scripture_cite: Salmo 118:5
+      en:
+        prompt: The psalmist cries out in distress. What does the Lord do?
+        choices:
+        - key: a
+          label: Leaves him waiting
+        - key: b
+          label: Answers and gives him room
+        - key: c
+          label: Sends him a king
+        - key: d
+          label: Hides his enemies
+        feedback: The distress is real. God hears his cry and gives him room—at last,
+          he can breathe.
+        scripture_cite: Psalm 118:5
+      pt-BR:
+        prompt: O salmista clama na angústia. O que o Senhor faz?
+        choices:
+        - key: a
+          label: Deixa-o esperando
+        - key: b
+          label: Ouve e lhe dá espaço
+        - key: c
+          label: Envia-lhe um rei
+        - key: d
+          label: Esconde seus inimigos
+        feedback: 'A angústia é real. Deus ouve seu clamor e lhe dá espaço: enfim,
+          ele pode respirar.'
+        scripture_cite: Salmo 118:5
+  - id: fast-psalms-pack02-q04
+    scripture:
+      canon: bible
+      cite: Psaume 118:8-9
+      study: ot/ps/118
+    correct_choice: a
+    points: 8
+    duration: 20
+    intensity: 2
+    presentation:
+      image: quizzes/psalms_servant_king/fast-psalms-pack02-q04.png
+    copy:
+      fr:
+        prompt: 'Vrai ou faux : mieux vaut le refuge en Dieu que les puissants.'
+        choices:
+        - key: a
+          label: Vrai
+        - key: b
+          label: Faux
+        feedback: Le psaume préfère le refuge en l’Éternel à la confiance absolue
+          dans les humains, même les plus puissants.
+        scripture_cite: Psaume 118:8-9
+      es:
+        prompt: 'Cierto o falso: es mejor confiar en Dios que en los poderosos.'
+        choices:
+        - key: a
+          label: Cierto
+        - key: b
+          label: Falso
+        feedback: El salmo prefiere refugiarse en Jehová a confiar por completo en
+          otras personas, incluso las poderosas.
+        scripture_cite: Salmo 118:8-9
+      en:
+        prompt: 'True or false: Refuge in God is better than trusting the powerful.'
+        choices:
+        - key: a
+          label: 'True'
+        - key: b
+          label: 'False'
+        feedback: The psalm prefers refuge in the Lord to absolute trust in people,
+          even the powerful.
+        scripture_cite: Psalm 118:8-9
+      pt-BR:
+        prompt: 'Verdadeiro ou falso: é melhor confiar em Deus do que nos poderosos.'
+        choices:
+        - key: a
+          label: Verdadeiro
+        - key: b
+          label: Falso
+        feedback: O salmo prefere refúgio no Senhor à confiança absoluta nas pessoas,
+          mesmo nas mais poderosas.
+        scripture_cite: Salmo 118:8-9
+  - id: fast-psalms-pack02-q05
+    scripture:
+      canon: bible
+      cite: Psaume 118:22
+      study: ot/ps/118
+    correct_choice: d
+    points: 8
+    duration: 20
+    intensity: 2
+    presentation:
+      image: quizzes/psalms_servant_king/fast-psalms-pack02-q05.png
+    copy:
+      fr:
+        prompt: Les bâtisseurs rejettent une pierre. Que devient-elle ?
+        choices:
+        - key: a
+          label: Une pierre oubliée
+        - key: b
+          label: Une pierre de la porte
+        - key: c
+          label: Une pierre de l’autel
+        - key: d
+          label: La pierre principale
+        feedback: La pierre rejetée devient la principale de l’angle. Dieu bâtit avec
+          ce que les hommes avaient écarté.
+        scripture_cite: Psaume 118:22
+      es:
+        prompt: Los constructores rechazan una piedra. ¿En qué se convierte?
+        choices:
+        - key: a
+          label: Una piedra olvidada
+        - key: b
+          label: Una piedra de la puerta
+        - key: c
+          label: Una piedra del altar
+        - key: d
+          label: La piedra angular
+        feedback: La piedra rechazada se vuelve la piedra angular. Dios construye
+          con lo que otros descartaron.
+        scripture_cite: Salmo 118:22
+      en:
+        prompt: The builders reject a stone. What does it become?
+        choices:
+        - key: a
+          label: A forgotten stone
+        - key: b
+          label: A stone from the gate
+        - key: c
+          label: A stone from the altar
+        - key: d
+          label: The cornerstone
+        feedback: The rejected stone becomes the cornerstone. God builds with what
+          people cast aside.
+        scripture_cite: Psalm 118:22
+      pt-BR:
+        prompt: Os construtores rejeitam uma pedra. O que ela se torna?
+        choices:
+        - key: a
+          label: Uma pedra esquecida
+        - key: b
+          label: Uma pedra do portão
+        - key: c
+          label: Uma pedra do altar
+        - key: d
+          label: A pedra de esquina
+        feedback: A pedra rejeitada se torna a pedra de esquina. Deus constrói com
+          o que as pessoas descartaram.
+        scripture_cite: Salmo 118:22
+  - id: fast-psalms-pack02-q06
+    scripture:
+      canon: bible
+      cite: Psaume 118:5, 8-9
+      study: ot/ps/118
+    correct_choice: b
+    points: 8
+    duration: 20
+    intensity: 3
+    presentation:
+      image: quizzes/psalms_servant_king/fast-psalms-pack02-q06.png
+    copy:
+      fr:
+        prompt: 'Vrai ou faux : avec Dieu, toute épreuve finit tout de suite.'
+        choices:
+        - key: a
+          label: Vrai
+        - key: b
+          label: Faux
+        feedback: Chercher refuge en Dieu nourrit la confiance. Ce n’est pas la garantie
+          que l’épreuve prendra fin immédiatement.
+        scripture_cite: Psaume 118:5, 8-9
+      es:
+        prompt: 'Cierto o falso: con Dios, toda prueba termina de inmediato.'
+        choices:
+        - key: a
+          label: Cierto
+        - key: b
+          label: Falso
+        feedback: Buscar refugio en Dios fortalece la confianza. No garantiza que
+          la prueba termine de inmediato.
+        scripture_cite: Salmo 118:5, 8-9
+      en:
+        prompt: 'True or false: With God, every trial ends immediately.'
+        choices:
+        - key: a
+          label: 'True'
+        - key: b
+          label: 'False'
+        feedback: Taking refuge in God builds trust. It does not guarantee that a
+          trial will end immediately.
+        scripture_cite: Psalm 118:5, 8-9
+      pt-BR:
+        prompt: 'Verdadeiro ou falso: com Deus, toda provação acaba na hora.'
+        choices:
+        - key: a
+          label: Verdadeiro
+        - key: b
+          label: Falso
+        feedback: Buscar refúgio em Deus fortalece a confiança. Isso não garante o
+          fim imediato da provação.
+        scripture_cite: Salmo 118:5, 8-9
+  - id: fast-psalms-pack02-q07
+    scripture:
+      canon: bible
+      cite: Psaume 118:5, 8-9
+      study: ot/ps/118
+    correct_choice: b
+    points: 12
+    duration: 15
+    intensity: 3
+    presentation:
+      image: quizzes/psalms_servant_king/fast-psalms-pack02-q07.png
+    copy:
+      fr:
+        prompt: Tu te sens à l’étroit. Quel premier pas rejoint le psaume ?
+        choices:
+        - key: a
+          label: Attendre d’avoir tout résolu
+        - key: b
+          label: Dire mon mal, chercher de l’aide
+        - key: c
+          label: Refuser toute aide humaine
+        - key: d
+          label: Promettre que tout ira vite
+        feedback: Prier honnêtement, c’est dire à Dieu ce qui serre le cœur tout en
+          demandant une aide sûre et concrète.
+        scripture_cite: Psaume 118:5, 8-9
+      es:
+        prompt: Te sientes sin salida. ¿Qué primer paso refleja el salmo?
+        choices:
+        - key: a
+          label: Esperar a tener todo resuelto
+        - key: b
+          label: Decir lo que duele y pedir ayuda
+        - key: c
+          label: Rechazar toda ayuda humana
+        - key: d
+          label: Prometer una mejora inmediata
+        feedback: Orar con sinceridad es decirle a Dios qué te oprime mientras buscas
+          ayuda segura y concreta.
+        scripture_cite: Salmo 118:5, 8-9
+      en:
+        prompt: You feel trapped. What first step reflects the psalm?
+        choices:
+        - key: a
+          label: Wait until I have solved it all
+        - key: b
+          label: Name my pain and seek help
+        - key: c
+          label: Refuse all human help
+        - key: d
+          label: Promise things will improve fast
+        feedback: Honest prayer means telling God what is closing in on you while
+          seeking safe, practical help.
+        scripture_cite: Psalm 118:5, 8-9
+      pt-BR:
+        prompt: Você se sente sem saída. Que primeiro passo reflete o salmo?
+        choices:
+        - key: a
+          label: Esperar até resolver tudo
+        - key: b
+          label: Dizer o que dói e pedir ajuda
+        - key: c
+          label: Recusar toda ajuda humana
+        - key: d
+          label: Prometer melhora imediata
+        feedback: Orar com sinceridade é dizer a Deus o que aperta seu coração enquanto
+          você busca ajuda segura e concreta.
+        scripture_cite: Salmo 118:5, 8-9
+  - id: fast-psalms-pack02-q08
+    scripture:
+      canon: bible
+      cite: Psaume 118:22
+      study: ot/ps/118
+    correct_choice: b
+    points: 12
+    duration: 15
+    intensity: 4
+    presentation:
+      image: quizzes/psalms_servant_king/fast-psalms-pack02-q08.png
+    copy:
+      fr:
+        prompt: 'Vrai ou faux : être rejeté suffit à prouver qu’on a raison.'
+        choices:
+        - key: a
+          label: Vrai
+        - key: b
+          label: Faux
+        feedback: Le psaume célèbre ce que Dieu fait de la pierre rejetée. Le rejet,
+          à lui seul, ne rend pas toute cause juste.
+        scripture_cite: Psaume 118:22
+      es:
+        prompt: 'Cierto o falso: ser rechazado basta para demostrar que tienes razón.'
+        choices:
+        - key: a
+          label: Cierto
+        - key: b
+          label: Falso
+        feedback: El salmo celebra lo que Dios hace con la piedra rechazada. El rechazo
+          por sí solo no vuelve justa toda causa.
+        scripture_cite: Salmo 118:22
+      en:
+        prompt: 'True or false: Being rejected is enough to prove you are right.'
+        choices:
+        - key: a
+          label: 'True'
+        - key: b
+          label: 'False'
+        feedback: The psalm celebrates what God does with the rejected stone. Rejection
+          alone does not make every cause right.
+        scripture_cite: Psalm 118:22
+      pt-BR:
+        prompt: 'Verdadeiro ou falso: ser rejeitado basta para provar que você tem
+          razão.'
+        choices:
+        - key: a
+          label: Verdadeiro
+        - key: b
+          label: Falso
+        feedback: O salmo celebra o que Deus faz com a pedra rejeitada. A rejeição,
+          por si só, não torna toda causa justa.
+        scripture_cite: Salmo 118:22
+  - id: fast-psalms-pack02-q09
+    scripture:
+      canon: bible
+      cite: Psaume 118:5, 8-9
+      study: ot/ps/118
+    correct_choice: a
+    points: 15
+    duration: 15
+    intensity: 4
+    presentation:
+      image: quizzes/psalms_servant_king/fast-psalms-pack02-q09.png
+    copy:
+      fr:
+        prompt: Comment chercher refuge en Dieu sans écarter l’aide humaine ?
+        choices:
+        - key: a
+          label: Prier et chercher une aide sûre
+        - key: b
+          label: Tout garder pour moi
+        - key: c
+          label: Ne compter que sur la prière
+        - key: d
+          label: Tout confier à un puissant
+        feedback: 'La confiance en Dieu n’isole pas : elle peut inclure les soins,
+          la protection et l’aide de personnes compétentes.'
+        scripture_cite: Psaume 118:5, 8-9
+      es:
+        prompt: "¿Cómo refugiarte en Dios sin rechazar la ayuda humana?"
+        choices:
+        - key: a
+          label: Orar y buscar ayuda segura
+        - key: b
+          label: Guardarte el dolor
+        - key: c
+          label: Contar solo con la oración
+        - key: d
+          label: Dejarlo todo a alguien poderoso
+        feedback: 'Confiar en Dios no te aísla: puede incluir cuidados, protección
+          y ayuda de personas capacitadas.'
+        scripture_cite: Salmo 118:5, 8-9
+      en:
+        prompt: How can you take refuge in God without rejecting human help?
+        choices:
+        - key: a
+          label: Pray and seek safe help
+        - key: b
+          label: Keep my pain to myself
+        - key: c
+          label: Rely on prayer alone
+        - key: d
+          label: Leave it all to someone powerful
+        feedback: Trust in God does not isolate us. It can include care, protection,
+          and help from qualified people.
+        scripture_cite: Psalm 118:5, 8-9
+      pt-BR:
+        prompt: Como buscar refúgio em Deus sem rejeitar a ajuda humana?
+        choices:
+        - key: a
+          label: Orar e buscar ajuda segura
+        - key: b
+          label: Guardar minha dor só para mim
+        - key: c
+          label: Contar somente com a oração
+        - key: d
+          label: Entregar tudo a alguém poderoso
+        feedback: 'Confiar em Deus não nos isola: pode incluir cuidados, proteção
+          e ajuda de pessoas capacitadas.'
+        scripture_cite: Salmo 118:5, 8-9
+  - id: fast-psalms-pack02-q10
+    scripture:
+      canon: bible
+      cite: Psaume 110:4 · Psaume 118:22-26
+      study: ot/ps/110
+    correct_choice: c
+    points: 25
+    duration: 15
+    intensity: 5
+    presentation:
+      image: quizzes/psalms_servant_king/fast-psalms-pack02-q10.png
+    copy:
+      fr:
+        prompt: Qui les chrétiens reconnaissent-ils dans ces images des psaumes ?
+        choices:
+        - key: a
+          label: Un roi qui garantit la victoire
+        - key: b
+          label: Un maître qui refuse toute aide
+        - key: c
+          label: 'Jésus : Roi, prêtre et pierre'
+        - key: d
+          label: Un signe qui justifie tout rejet
+        feedback: 'Les chrétiens y reconnaissent Jésus-Christ : le Roi, le prêtre
+          pour toujours et la pierre devenue principale.'
+        scripture_cite: Psaume 110:4 · Psaume 118:22-26
+      es:
+        prompt: "¿A quién reconocen los cristianos en estas imágenes de los salmos?"
+        choices:
+        - key: a
+          label: Un rey que asegura la victoria
+        - key: b
+          label: Un amo que rechaza toda ayuda
+        - key: c
+          label: 'Jesús: Rey, sacerdote y piedra'
+        - key: d
+          label: 'Un signo: todo rechazo es justo'
+        feedback: 'Los cristianos reconocen a Jesucristo: el Rey, el sacerdote para
+          siempre y la piedra angular.'
+        scripture_cite: Salmo 110:4 · Salmo 118:22-26
+      en:
+        prompt: Who do Christians recognize in these images from the psalms?
+        choices:
+        - key: a
+          label: A king who guarantees victory
+        - key: b
+          label: A master who refuses all help
+        - key: c
+          label: 'Jesus: King, priest, cornerstone'
+        - key: d
+          label: 'A sign: every rejection is right'
+        feedback: 'Christians recognize Jesus Christ: the King, the priest forever,
+          and the cornerstone.'
+        scripture_cite: Psalm 110:4 · Psalm 118:22-26
+      pt-BR:
+        prompt: Quem os cristãos reconhecem nessas imagens dos salmos?
+        choices:
+        - key: a
+          label: Um rei que garante a vitória
+        - key: b
+          label: Um mestre que rejeita toda ajuda
+        - key: c
+          label: 'Jesus: Rei, sacerdote e pedra'
+        - key: d
+          label: 'Um sinal: toda rejeição é justa'
+        feedback: 'Os cristãos reconhecem Jesus Cristo: o Rei, o sacerdote eterno
+          e a pedra de esquina.'
+        scripture_cite: Salmo 110:4 · Salmo 118:22-26
+- id: psalms_hears_knows
+  copy:
+    fr:
+      title: Il entend et il connaît
+      kicker: Psaumes 102 · 103 · 116 · 139
+      lede: Ces psaumes ne cachent ni détresse, ni faute, ni fragilité. Dieu écoute,
+        se souvient de notre poussière et reçoit même la prière qui lui demande de
+        sonder le cœur.
+    es:
+      title: Él te escucha y te conoce
+      kicker: Salmos 102 · 103 · 116 · 139
+      lede: Estos salmos no esconden la angustia, el pecado ni la fragilidad. Dios
+        escucha, recuerda que somos polvo y recibe incluso la oración que le pide
+        examinar el corazón.
+    en:
+      title: He Hears and Knows You
+      kicker: Psalms 102 · 103 · 116 · 139
+      lede: These psalms hide neither distress, sin, nor frailty. God listens, remembers
+        that we are dust, and even receives the prayer asking him to search the heart.
+    pt-BR:
+      title: Ele ouve e conhece você
+      kicker: Salmos 102 · 103 · 116 · 139
+      lede: Estes salmos não escondem angústia, pecado nem fragilidade. Deus escuta,
+        lembra que somos pó e recebe até a oração que pede que ele examine o coração.
+  readings:
+  - study: ot/ps/102
+    cite: Psaume 102
+  - study: ot/ps/103
+    cite: Psaume 103
+  - study: ot/ps/116
+    cite: Psaume 116
+  - study: ot/ps/139
+    cite: Psaume 139
+  questions:
+  - id: fast-psalms-pack03-q01
+    scripture:
+      canon: bible
+      cite: Psaume 102:18
+      study: ot/ps/102
+    correct_choice: c
+    points: 5
+    duration: 0
+    intensity: 1
+    presentation:
+      image: quizzes/psalms_hears_knows/fast-psalms-pack03-q01.png
+    copy:
+      fr:
+        prompt: Dans le psaume, à quelle prière Dieu prête-t-il attention ?
+        choices:
+        - key: a
+          label: La prière des rois
+        - key: b
+          label: La prière des serviteurs de Sion
+        - key: c
+          label: La prière du démuni
+        - key: d
+          label: La prière des anges
+        feedback: 'Dieu ne dédaigne pas le démuni : il écoute sa prière, même au cœur
+          du dépouillement.'
+        scripture_cite: Psaume 102:18
+      es:
+        prompt: En el salmo, ¿a qué oración presta atención Dios?
+        choices:
+        - key: a
+          label: La oración de los reyes
+        - key: b
+          label: La oración de siervos de Sion
+        - key: c
+          label: La oración del desamparado
+        - key: d
+          label: La oración de los ángeles
+        feedback: 'Dios no desprecia al desamparado: escucha su oración aun en su
+          mayor necesidad.'
+        scripture_cite: Salmo 102:18
+      en:
+        prompt: In the psalm, whose prayer does God pay attention to?
+        choices:
+        - key: a
+          label: The prayer of kings
+        - key: b
+          label: Zion’s servants at prayer
+        - key: c
+          label: The prayer of someone in need
+        - key: d
+          label: The prayer of angels
+        feedback: God does not dismiss someone in need; he hears their prayer, even
+          in the deepest need.
+        scripture_cite: Psalm 102:18
+      pt-BR:
+        prompt: No salmo, a que oração Deus dá atenção?
+        choices:
+        - key: a
+          label: À oração dos reis
+        - key: b
+          label: À oração dos servos de Sião
+        - key: c
+          label: À oração do desamparado
+        - key: d
+          label: À oração dos anjos
+        feedback: 'Deus não despreza o desamparado: ouve sua oração mesmo em meio
+          à maior necessidade.'
+        scripture_cite: Salmo 102:18
+  - id: fast-psalms-pack03-q02
+    scripture:
+      canon: bible
+      cite: Psaume 102:1-3
+      study: ot/ps/102
+    correct_choice: b
+    points: 5
+    duration: 0
+    intensity: 1
+    presentation:
+      image: quizzes/psalms_hears_knows/fast-psalms-pack03-q02.png
+    copy:
+      fr:
+        prompt: La détresse t’épuise. Quel premier pas rejoint ce psaume ?
+        choices:
+        - key: a
+          label: Attendre d’être fort pour prier
+        - key: b
+          label: Prier, puis demander de l’aide
+        - key: c
+          label: Cacher ma douleur à tous
+        - key: d
+          label: Promettre que tout ira vite
+        feedback: Le psaume ouvre une prière sans masque. Dire sa détresse à Dieu
+          n’empêche pas de chercher une aide concrète.
+        scripture_cite: Psaume 102:1-3
+      es:
+        prompt: La angustia te agota. ¿Qué primer paso sigue el salmo?
+        choices:
+        - key: a
+          label: Esperar a ser fuerte para orar
+        - key: b
+          label: Orar y luego pedir ayuda
+        - key: c
+          label: Ocultar mi dolor a todos
+        - key: d
+          label: Prometer que todo pasará pronto
+        feedback: El salmo abre una oración sin máscaras. Contarle tu angustia a Dios
+          no impide buscar ayuda concreta.
+        scripture_cite: Salmo 102:1-3
+      en:
+        prompt: Distress wears you down. What first step fits this psalm?
+        choices:
+        - key: a
+          label: Wait until I’m strong to pray
+        - key: b
+          label: Pray, then ask for help
+        - key: c
+          label: Hide my pain from everyone
+        - key: d
+          label: Promise it will pass quickly
+        feedback: The psalm opens an honest prayer. Telling God your distress does
+          not keep you from seeking practical help.
+        scripture_cite: Psalm 102:1-3
+      pt-BR:
+        prompt: A angústia esgota você. Qual primeiro passo combina com o salmo?
+        choices:
+        - key: a
+          label: Esperar ser forte para orar
+        - key: b
+          label: Orar e depois pedir ajuda
+        - key: c
+          label: Esconder minha dor de todos
+        - key: d
+          label: Prometer que tudo passará logo
+        feedback: O salmo abre uma oração sem máscaras. Contar sua angústia a Deus
+          não impede buscar ajuda concreta.
+        scripture_cite: Salmo 102:1-3
+  - id: fast-psalms-pack03-q03
+    scripture:
+      canon: bible
+      cite: Psaume 103:10
+      study: ot/ps/103
+    correct_choice: b
+    points: 5
+    duration: 0
+    intensity: 2
+    presentation:
+      image: quizzes/psalms_hears_knows/fast-psalms-pack03-q03.png
+    copy:
+      fr:
+        prompt: 'Vrai ou faux : Dieu nous punit exactement selon nos fautes.'
+        choices:
+        - key: a
+          label: Vrai
+        - key: b
+          label: Faux
+        feedback: 'Le psaume dit l’inverse : Dieu ne nous traite pas selon nos péchés
+          et ne nous punit pas selon nos fautes.'
+        scripture_cite: Psaume 103:10
+      es:
+        prompt: 'Cierto o falso: Dios nos castiga exactamente según nuestras faltas.'
+        choices:
+        - key: a
+          label: Cierto
+        - key: b
+          label: Falso
+        feedback: 'El salmo dice lo contrario: Dios no nos trata según nuestros pecados
+          ni nos paga según nuestras iniquidades.'
+        scripture_cite: Salmo 103:10
+      en:
+        prompt: 'True or false: God punishes us exactly as our sins deserve.'
+        choices:
+        - key: a
+          label: 'True'
+        - key: b
+          label: 'False'
+        feedback: 'The psalm says the opposite: God does not deal with us according
+          to our sins or repay us for our wrongs.'
+        scripture_cite: Psalm 103:10
+      pt-BR:
+        prompt: 'Verdadeiro ou falso: Deus nos pune exatamente conforme nossas faltas.'
+        choices:
+        - key: a
+          label: Verdadeiro
+        - key: b
+          label: Falso
+        feedback: 'O salmo diz o contrário: Deus não nos trata segundo nossos pecados
+          nem nos retribui segundo nossas iniquidades.'
+        scripture_cite: Salmo 103:10
+  - id: fast-psalms-pack03-q04
+    scripture:
+      canon: bible
+      cite: Psaume 103:14
+      study: ot/ps/103
+    correct_choice: d
+    points: 8
+    duration: 20
+    intensity: 2
+    presentation:
+      image: quizzes/psalms_hears_knows/fast-psalms-pack03-q04.png
+    copy:
+      fr:
+        prompt: Dieu connaît notre fragilité. De quoi se souvient-il ?
+        choices:
+        - key: a
+          label: Nous sommes des rois
+        - key: b
+          label: Nous sommes sans faiblesse
+        - key: c
+          label: Nous sommes des anges
+        - key: d
+          label: Nous sommes poussière
+        feedback: Dieu se souvient que nous sommes poussière. Sa compassion rejoint
+          notre fragilité, elle ne la méprise pas.
+        scripture_cite: Psaume 103:14
+      es:
+        prompt: Dios conoce nuestra fragilidad. ¿De qué se acuerda?
+        choices:
+        - key: a
+          label: Somos reyes
+        - key: b
+          label: No tenemos debilidades
+        - key: c
+          label: Somos ángeles
+        - key: d
+          label: Somos polvo
+        feedback: Dios se acuerda de que somos polvo. Su compasión alcanza nuestra
+          fragilidad; no la desprecia.
+        scripture_cite: Salmo 103:14
+      en:
+        prompt: God knows our weakness. What does he remember?
+        choices:
+        - key: a
+          label: We are kings
+        - key: b
+          label: Nothing can weaken us
+        - key: c
+          label: We are angels
+        - key: d
+          label: We are dust
+        feedback: God remembers that we are dust. His compassion meets our weakness;
+          it does not despise it.
+        scripture_cite: Psalm 103:14
+      pt-BR:
+        prompt: Deus conhece nossa fragilidade. Do que ele se lembra?
+        choices:
+        - key: a
+          label: Somos reis
+        - key: b
+          label: Nada nos enfraquece
+        - key: c
+          label: Somos anjos
+        - key: d
+          label: Somos pó
+        feedback: Deus se lembra de que somos pó. Sua compaixão alcança nossa fragilidade;
+          não a despreza.
+        scripture_cite: Salmo 103:14
+  - id: fast-psalms-pack03-q05
+    scripture:
+      canon: bible
+      cite: Psaume 103:12-18
+      study: ot/ps/103
+    correct_choice: a
+    points: 8
+    duration: 20
+    intensity: 2
+    presentation:
+      image: quizzes/psalms_hears_knows/fast-psalms-pack03-q05.png
+    copy:
+      fr:
+        prompt: Le pardon ouvre une réponse. Laquelle honore aussi l’alliance ?
+        choices:
+        - key: a
+          label: Revenir à Dieu et réparer
+        - key: b
+          label: 'Nier le mal : Dieu pardonne'
+        - key: c
+          label: Attendre d’être irréprochable
+        - key: d
+          label: Mesurer la foi des autres
+        feedback: La miséricorde ouvre le chemin du retour. Elle permet de revenir
+          à Dieu et de réparer ce qui peut l’être.
+        scripture_cite: Psaume 103:12-18
+      es:
+        prompt: El perdón nos mueve a responder. ¿Qué respuesta honra el convenio?
+        choices:
+        - key: a
+          label: Volver a Dios y reparar
+        - key: b
+          label: 'Negar el mal: Dios perdona'
+        - key: c
+          label: Esperar a ser irreprochable
+        - key: d
+          label: Medir la fe de los demás
+        feedback: 'La misericordia abre el camino de regreso: nos permite volver a
+          Dios y reparar lo que sea posible.'
+        scripture_cite: Salmo 103:12-18
+      en:
+        prompt: Forgiveness invites a response. Which one also honors the covenant?
+        choices:
+        - key: a
+          label: Return to God and make amends
+        - key: b
+          label: 'Deny the harm: God forgives'
+        - key: c
+          label: Wait until I am blameless
+        - key: d
+          label: Judge everyone else’s faith
+        feedback: Mercy opens the way back. It lets us return to God and make amends
+          where we can.
+        scripture_cite: Psalm 103:12-18
+      pt-BR:
+        prompt: O perdão nos leva a responder. O que também honra o convênio?
+        choices:
+        - key: a
+          label: Voltar a Deus e reparar
+        - key: b
+          label: 'Negar o mal: Deus perdoa'
+        - key: c
+          label: Esperar até ser irrepreensível
+        - key: d
+          label: Medir a fé dos outros
+        feedback: A misericórdia abre o caminho de volta. Ela permite voltar a Deus
+          e reparar o que for possível.
+        scripture_cite: Salmo 103:12-18
+  - id: fast-psalms-pack03-q06
+    scripture:
+      canon: bible
+      cite: Psaume 116:1-2
+      study: ot/ps/116
+    correct_choice: a
+    points: 8
+    duration: 20
+    intensity: 3
+    presentation:
+      image: quizzes/psalms_hears_knows/fast-psalms-pack03-q06.png
+    copy:
+      fr:
+        prompt: 'Vrai ou faux : entendu par Dieu, il l’invoquera toute sa vie.'
+        choices:
+        - key: a
+          label: Vrai
+        - key: b
+          label: Faux
+        feedback: Dieu a entendu sa voix et penché son oreille. Le psalmiste lui répond
+          par une confiance qui dure.
+        scripture_cite: Psaume 116:1-2
+      es:
+        prompt: 'Cierto o falso: Dios oyó al salmista, que lo invocará siempre.'
+        choices:
+        - key: a
+          label: Cierto
+        - key: b
+          label: Falso
+        feedback: Dios oyó su voz e inclinó su oído. El salmista responde con una
+          confianza que perdura.
+        scripture_cite: Salmo 116:1-2
+      en:
+        prompt: 'True or false: God heard him, so he’ll call on God all his life.'
+        choices:
+        - key: a
+          label: 'True'
+        - key: b
+          label: 'False'
+        feedback: God heard his voice and leaned close to listen. The psalmist responds
+          with lasting trust.
+        scripture_cite: Psalm 116:1-2
+      pt-BR:
+        prompt: 'Verdadeiro ou falso: Deus ouviu o salmista, que o invocará sempre.'
+        choices:
+        - key: a
+          label: Verdadeiro
+        - key: b
+          label: Falso
+        feedback: Deus ouviu sua voz e inclinou os ouvidos. O salmista responde com
+          uma confiança duradoura.
+        scripture_cite: Salmo 116:1-2
+  - id: fast-psalms-pack03-q07
+    scripture:
+      canon: bible
+      cite: Psaume 116:12-17
+      study: ot/ps/116
+    correct_choice: c
+    points: 12
+    duration: 15
+    intensity: 3
+    presentation:
+      image: quizzes/psalms_hears_knows/fast-psalms-pack03-q07.png
+    copy:
+      fr:
+        prompt: Dieu l’a comblé de bienfaits. Qu’offre le psalmiste en retour ?
+        choices:
+        - key: a
+          label: Un silence loin du peuple
+        - key: b
+          label: La promesse de ne plus souffrir
+        - key: c
+          label: Un sacrifice de reconnaissance
+        - key: d
+          label: Une victoire sur ses ennemis
+        feedback: Il offre un sacrifice d’actions de grâces, invoque Dieu et tient
+          ses vœux devant le peuple.
+        scripture_cite: Psaume 116:12-17
+      es:
+        prompt: Dios le dio tantos bienes. ¿Qué ofrece el salmista a cambio?
+        choices:
+        - key: a
+          label: Silencio lejos del pueblo
+        - key: b
+          label: La promesa de no sufrir más
+        - key: c
+          label: Un sacrificio de gratitud
+        - key: d
+          label: Una victoria sobre sus enemigos
+        feedback: Ofrece un sacrificio de gratitud, invoca a Dios y cumple sus votos
+          ante el pueblo.
+        scripture_cite: Salmo 116:12-17
+      en:
+        prompt: God has blessed him richly. What does the psalmist offer in return?
+        choices:
+        - key: a
+          label: Silence far from the people
+        - key: b
+          label: A promise never to suffer again
+        - key: c
+          label: A sacrifice of thanksgiving
+        - key: d
+          label: Victory over his enemies
+        feedback: He offers a sacrifice of thanksgiving, calls on God, and keeps his
+          vows before the people.
+        scripture_cite: Psalm 116:12-17
+      pt-BR:
+        prompt: Deus lhe fez muito bem. O que o salmista oferece em resposta?
+        choices:
+        - key: a
+          label: Silêncio longe do povo
+        - key: b
+          label: Prometer nunca mais sofrer
+        - key: c
+          label: Um sacrifício de gratidão
+        - key: d
+          label: Vitória sobre seus inimigos
+        feedback: Ele oferece um sacrifício de gratidão, invoca a Deus e cumpre seus
+          votos diante do povo.
+        scripture_cite: Salmo 116:12-17
+  - id: fast-psalms-pack03-q08
+    scripture:
+      canon: bible
+      cite: Psaume 116:3-9
+      study: ot/ps/116
+    correct_choice: b
+    points: 12
+    duration: 15
+    intensity: 4
+    presentation:
+      image: quizzes/psalms_hears_knows/fast-psalms-pack03-q08.png
+    copy:
+      fr:
+        prompt: 'Vrai ou faux : prier empêche de demander des soins ou de l’aide.'
+        choices:
+        - key: a
+          label: Vrai
+        - key: b
+          label: Faux
+        feedback: La prière ne remplace ni les soins ni l’aide nécessaire. On peut
+          appeler Dieu et demander un soutien concret.
+        scripture_cite: Psaume 116:3-9
+      es:
+        prompt: 'Cierto o falso: orar impide pedir atención médica o ayuda.'
+        choices:
+        - key: a
+          label: Cierto
+        - key: b
+          label: Falso
+        feedback: La oración no sustituye la atención médica ni la ayuda necesaria.
+          Puedes invocar a Dios y pedir apoyo concreto.
+        scripture_cite: Salmo 116:3-9
+      en:
+        prompt: 'True or false: Prayer keeps you from seeking medical care or help.'
+        choices:
+        - key: a
+          label: 'True'
+        - key: b
+          label: 'False'
+        feedback: Prayer does not replace medical care or needed help. You can call
+          on God and ask for practical support.
+        scripture_cite: Psalm 116:3-9
+      pt-BR:
+        prompt: 'Verdadeiro ou falso: orar impede buscar cuidados médicos ou ajuda.'
+        choices:
+        - key: a
+          label: Verdadeiro
+        - key: b
+          label: Falso
+        feedback: A oração não substitui os cuidados médicos nem a ajuda necessária.
+          Você pode invocar a Deus e pedir apoio concreto.
+        scripture_cite: Salmo 116:3-9
+  - id: fast-psalms-pack03-q09
+    scripture:
+      canon: bible
+      cite: Psaume 139:11-12
+      study: ot/ps/139
+    correct_choice: d
+    points: 15
+    duration: 15
+    intensity: 4
+    presentation:
+      image: quizzes/psalms_hears_knows/fast-psalms-pack03-q09.png
+    copy:
+      fr:
+        prompt: Face à Dieu, que devient la nuit la plus sombre ?
+        choices:
+        - key: a
+          label: Elle cache toute parole
+        - key: b
+          label: Elle arrête sa main
+        - key: c
+          label: Elle éloigne son esprit
+        - key: d
+          label: Elle brille comme le jour
+        feedback: Devant Dieu, la nuit brille comme le jour. Même les ténèbres ne
+          sont pas obscures pour lui.
+        scripture_cite: Psaume 139:11-12
+      es:
+        prompt: Ante Dios, ¿qué pasa con la noche más oscura?
+        choices:
+        - key: a
+          label: Oculta toda palabra
+        - key: b
+          label: Detiene su mano
+        - key: c
+          label: Aleja su espíritu
+        - key: d
+          label: Brilla como el día
+        feedback: Ante Dios, la noche resplandece como el día. Ni las tinieblas son
+          oscuras para él.
+        scripture_cite: Salmo 139:11-12
+      en:
+        prompt: Before God, what happens to the darkest night?
+        choices:
+        - key: a
+          label: It hides every word
+        - key: b
+          label: It stops his hand
+        - key: c
+          label: It drives his spirit away
+        - key: d
+          label: It shines like the day
+        feedback: Before God, night shines like day. Even darkness is not dark to
+          him.
+        scripture_cite: Psalm 139:11-12
+      pt-BR:
+        prompt: Diante de Deus, o que acontece com a noite mais escura?
+        choices:
+        - key: a
+          label: Ela esconde toda palavra
+        - key: b
+          label: Ela detém sua mão
+        - key: c
+          label: Ela afasta seu espírito
+        - key: d
+          label: Ela brilha como o dia
+        feedback: Diante de Deus, a noite resplandece como o dia. Nem as trevas são
+          escuras para ele.
+        scripture_cite: Salmo 139:11-12
+  - id: fast-psalms-pack03-q10
+    scripture:
+      canon: bible
+      cite: Psaume 139:23-24
+      study: ot/ps/139
+    correct_choice: c
+    points: 25
+    duration: 15
+    intensity: 5
+    presentation:
+      image: quizzes/psalms_hears_knows/fast-psalms-pack03-q10.png
+    copy:
+      fr:
+        prompt: Dieu me connaît déjà. Pourquoi lui parler avec vérité ?
+        choices:
+        - key: a
+          label: Lui apprendre ce qu’il ignore
+        - key: b
+          label: Éviter toute remise en question
+        - key: c
+          label: Demander examen et conduite
+        - key: d
+          label: Obtenir une réponse immédiate
+        feedback: 'Le psalmiste choisit de s’ouvrir : « Sonde-moi » et « conduis-moi
+          ». Être connu devient une prière pour changer.'
+        scripture_cite: Psaume 139:23-24
+      es:
+        prompt: Dios ya te conoce. ¿Por qué hablarle con sinceridad?
+        choices:
+        - key: a
+          label: Enseñarle lo que no sabe
+        - key: b
+          label: Evitar cuestionarme
+        - key: c
+          label: Pedir que me examine y me guíe
+        - key: d
+          label: Recibir una respuesta inmediata
+        feedback: 'El salmista elige abrirse: «Escudríñame» y «guíame». Ser conocido
+          se convierte en una oración para cambiar.'
+        scripture_cite: Salmo 139:23-24
+      en:
+        prompt: God already knows you. Why speak to him honestly?
+        choices:
+        - key: a
+          label: Teach him what he doesn’t know
+        - key: b
+          label: Avoid examining myself
+        - key: c
+          label: Ask him to search and guide me
+        - key: d
+          label: Get an immediate answer
+        feedback: 'The psalmist chooses to open up: “Search me” and “lead me.” Being
+          known becomes a prayer to change.'
+        scripture_cite: Psalm 139:23-24
+      pt-BR:
+        prompt: Deus já conhece você. Por que falar com sinceridade?
+        choices:
+        - key: a
+          label: Ensinar o que ele não sabe
+        - key: b
+          label: Evitar me examinar
+        - key: c
+          label: Pedir que me sonde e me guie
+        - key: d
+          label: Receber resposta imediata
+        feedback: 'O salmista escolhe se abrir: «Sonda-me» e «guia-me». Ser conhecido
+          se torna uma oração para mudar.'
+        scripture_cite: Salmo 139:23-24
+- id: psalms_walk_with_god
+  copy:
+    fr:
+      title: Apprendre à marcher avec lui
+      kicker: Psaumes 119 · 138
+      lede: La parole n’éclaire pas forcément toute la route d’un coup. Le Psaume
+        119 la compare à une lampe pour les pieds, tandis que le Psaume 138 parle
+        d’une âme fortifiée au milieu de la détresse.
+    es:
+      title: Aprender a caminar con él
+      kicker: Salmos 119 · 138
+      lede: La palabra no siempre ilumina todo el camino de una vez. El Salmo 119
+        la compara con una lámpara para los pies, mientras el Salmo 138 habla de un
+        alma fortalecida en medio de la angustia.
+    en:
+      title: Learn to Walk with Him
+      kicker: Psalms 119 · 138
+      lede: The word may not light the entire road at once. Psalm 119 compares it
+        to a lamp for your feet, while Psalm 138 speaks of a soul strengthened in
+        the middle of distress.
+    pt-BR:
+      title: Aprender a caminhar com ele
+      kicker: Salmos 119 · 138
+      lede: A palavra nem sempre ilumina todo o caminho de uma vez. O Salmo 119 a
+        compara a uma lâmpada para os pés, enquanto o Salmo 138 fala de uma alma fortalecida
+        em meio à angústia.
+  readings:
+  - study: ot/ps/119
+    cite: Psaume 119
+  - study: ot/ps/138
+    cite: Psaume 138
+  questions:
+  - id: fast-psalms-pack04-q01
+    scripture:
+      canon: bible
+      cite: Psaume 119:18
+      study: ot/ps/119
+    correct_choice: b
+    points: 5
+    duration: 0
+    intensity: 1
+    presentation:
+      image: quizzes/psalms_walk_with_god/fast-psalms-pack04-q01.png
+    copy:
+      fr:
+        prompt: Quelle demande ouvre les merveilles de la loi au priant ?
+        choices:
+        - key: a
+          label: Éloigne mes ennemis
+        - key: b
+          label: Ouvre mes yeux
+        - key: c
+          label: Donne-moi de l’or
+        - key: d
+          label: Cache tes commandements
+        feedback: Il demande à Dieu d’ouvrir ses yeux pour contempler les merveilles
+          de sa loi.
+        scripture_cite: Psaume 119:18
+      es:
+        prompt: "¿Qué pide el salmista para ver las maravillas de la ley?"
+        choices:
+        - key: a
+          label: Aleja a mis enemigos
+        - key: b
+          label: Abre mis ojos
+        - key: c
+          label: Dame oro
+        - key: d
+          label: Oculta tus mandamientos
+        feedback: Le pide a Dios que abra sus ojos para contemplar las maravillas
+          de su ley.
+        scripture_cite: Salmo 119:18
+      en:
+        prompt: What does the psalmist ask for to see the wonders of God's law?
+        choices:
+        - key: a
+          label: Keep my enemies away
+        - key: b
+          label: Open my eyes
+        - key: c
+          label: Give me gold
+        - key: d
+          label: Hide your commands
+        feedback: He asks God to open his eyes so he can see the wonders in God's
+          law.
+        scripture_cite: Psalm 119:18
+      pt-BR:
+        prompt: O que o salmista pede para ver as maravilhas da lei?
+        choices:
+        - key: a
+          label: Afasta meus inimigos
+        - key: b
+          label: Abre meus olhos
+        - key: c
+          label: Dá-me ouro
+        - key: d
+          label: Esconde teus mandamentos
+        feedback: Ele pede que Deus abra seus olhos para contemplar as maravilhas
+          da lei.
+        scripture_cite: Salmo 119:18
+  - id: fast-psalms-pack04-q02
+    scripture:
+      canon: bible
+      cite: Psaume 119:32
+      study: ot/ps/119
+    correct_choice: a
+    points: 5
+    duration: 0
+    intensity: 1
+    presentation:
+      image: quizzes/psalms_walk_with_god/fast-psalms-pack04-q02.png
+    copy:
+      fr:
+        prompt: 'Vrai ou faux : Dieu élargit son cœur, il court vers ses commandements.'
+        choices:
+        - key: a
+          label: Vrai
+        - key: b
+          label: Faux
+        feedback: 'Dieu élargit son cœur : le priant ne traîne plus, il court dans
+          la voie de ses commandements.'
+        scripture_cite: Psaume 119:32
+      es:
+        prompt: 'Cierto o falso: Dios ensancha su corazón y corre a sus mandamientos.'
+        choices:
+        - key: a
+          label: Cierto
+        - key: b
+          label: Falso
+        feedback: 'Dios ensancha su corazón: el salmista deja de andar lento y corre
+          por el camino de sus mandamientos.'
+        scripture_cite: Salmo 119:32
+      en:
+        prompt: 'True or false: God enlarges his heart, so he runs toward God''s commands.'
+        choices:
+        - key: a
+          label: 'True'
+        - key: b
+          label: 'False'
+        feedback: 'God enlarges his heart: the psalmist no longer drags his feet but
+          runs in the way of God''s commands.'
+        scripture_cite: Psalm 119:32
+      pt-BR:
+        prompt: 'Verdadeiro ou falso: Deus amplia o coração, e ele corre aos mandamentos.'
+        choices:
+        - key: a
+          label: Verdadeiro
+        - key: b
+          label: Falso
+        feedback: 'Deus amplia seu coração: o salmista deixa de se arrastar e corre
+          pelo caminho dos mandamentos.'
+        scripture_cite: Salmo 119:32
+  - id: fast-psalms-pack04-q03
+    scripture:
+      canon: bible
+      cite: Psaume 119:45
+      study: ot/ps/119
+    correct_choice: c
+    points: 5
+    duration: 0
+    intensity: 2
+    presentation:
+      image: quizzes/psalms_walk_with_god/fast-psalms-pack04-q03.png
+    copy:
+      fr:
+        prompt: Pourquoi le priant affirme-t-il marcher librement ?
+        choices:
+        - key: a
+          label: Il possède tous les trésors
+        - key: b
+          label: Il n’a plus d’adversaires
+        - key: c
+          label: Il cherche les ordonnances
+        - key: d
+          label: Les rois l’approuvent
+        feedback: 'Sa liberté naît d’une recherche : il va vers les ordonnances de
+          Dieu, il ne fuit pas sa parole.'
+        scripture_cite: Psaume 119:45
+      es:
+        prompt: "¿Por qué dice el salmista que camina en libertad?"
+        choices:
+        - key: a
+          label: Tiene todos los tesoros
+        - key: b
+          label: Ya no tiene adversarios
+        - key: c
+          label: Busca los preceptos
+        - key: d
+          label: Los reyes lo aprueban
+        feedback: 'Su libertad nace de una búsqueda: va tras los preceptos de Dios;
+          no huye de su palabra.'
+        scripture_cite: Salmo 119:45
+      en:
+        prompt: Why does the psalmist say he walks in freedom?
+        choices:
+        - key: a
+          label: He owns every treasure
+        - key: b
+          label: He has no enemies left
+        - key: c
+          label: He seeks God's precepts
+        - key: d
+          label: Kings approve of him
+        feedback: His freedom grows from seeking God's precepts. He moves toward God's
+          word instead of running from it.
+        scripture_cite: Psalm 119:45
+      pt-BR:
+        prompt: Por que o salmista diz que anda em liberdade?
+        choices:
+        - key: a
+          label: Possui todos os tesouros
+        - key: b
+          label: Não tem mais adversários
+        - key: c
+          label: Busca os preceitos
+        - key: d
+          label: Os reis o aprovam
+        feedback: 'Sua liberdade nasce de uma busca: ele vai aos preceitos de Deus,
+          sem fugir da palavra.'
+        scripture_cite: Salmo 119:45
+  - id: fast-psalms-pack04-q04
+    scripture:
+      canon: bible
+      cite: Psaume 119:105
+      study: ot/ps/119
+    correct_choice: a
+    points: 8
+    duration: 20
+    intensity: 2
+    presentation:
+      image: quizzes/psalms_walk_with_god/fast-psalms-pack04-q04.png
+    copy:
+      fr:
+        prompt: 'Vrai ou faux : la parole de Dieu éclaire les pas comme une lampe.'
+        choices:
+        - key: a
+          label: Vrai
+        - key: b
+          label: Faux
+        feedback: 'Une lampe aux pieds, une lumière sur le sentier : la parole éclaire
+          le pas à faire.'
+        scripture_cite: Psaume 119:105
+      es:
+        prompt: 'Cierto o falso: la palabra de Dios alumbra los pasos como una lámpara.'
+        choices:
+        - key: a
+          label: Cierto
+        - key: b
+          label: Falso
+        feedback: 'Lámpara para los pies, luz para el camino: la palabra alumbra el
+          próximo paso.'
+        scripture_cite: Salmo 119:105
+      en:
+        prompt: 'True or false: God''s word lights each step like a lamp.'
+        choices:
+        - key: a
+          label: 'True'
+        - key: b
+          label: 'False'
+        feedback: 'A lamp for his feet, a light for his path: God''s word lights the
+          next step.'
+        scripture_cite: Psalm 119:105
+      pt-BR:
+        prompt: 'Verdadeiro ou falso: a palavra de Deus ilumina os passos como lâmpada.'
+        choices:
+        - key: a
+          label: Verdadeiro
+        - key: b
+          label: Falso
+        feedback: 'Lâmpada para os pés, luz para o caminho: a palavra ilumina o próximo
+          passo.'
+        scripture_cite: Salmo 119:105
+  - id: fast-psalms-pack04-q05
+    scripture:
+      canon: bible
+      cite: Psaume 119:176
+      study: ot/ps/119
+    correct_choice: d
+    points: 8
+    duration: 20
+    intensity: 2
+    presentation:
+      image: quizzes/psalms_walk_with_god/fast-psalms-pack04-q05.png
+    copy:
+      fr:
+        prompt: 'Dernier verset du Psaume 119 : quelle image reste en mémoire ?'
+        choices:
+        - key: a
+          label: Un veilleur sur sa tour
+        - key: b
+          label: Un voyageur sans bagage
+        - key: c
+          label: Un serviteur endormi
+        - key: d
+          label: Une brebis perdue
+        feedback: 'Le priant se sait errant comme une brebis perdue et ose demander
+          à Dieu : « Cherche ton serviteur. »'
+        scripture_cite: Psaume 119:176
+      es:
+        prompt: 'Último verso del Salmo 119: ¿qué imagen queda grabada?'
+        choices:
+        - key: a
+          label: Un guardián en su torre
+        - key: b
+          label: Un viajero sin equipaje
+        - key: c
+          label: Un siervo dormido
+        - key: d
+          label: Una oveja perdida
+        feedback: 'El salmista se sabe perdido como una oveja y se atreve a pedirle
+          a Dios: «Busca a tu siervo».'
+        scripture_cite: Salmo 119:176
+      en:
+        prompt: At the end of Psalm 119, what image stays with you?
+        choices:
+        - key: a
+          label: A watchman on his tower
+        - key: b
+          label: A traveler with no bags
+        - key: c
+          label: A sleeping servant
+        - key: d
+          label: A lost sheep
+        feedback: The psalmist knows he has strayed like a lost sheep and dares to
+          ask God, “Seek your servant.”
+        scripture_cite: Psalm 119:176
+      pt-BR:
+        prompt: No último versículo do Salmo 119, qual imagem fica na memória?
+        choices:
+        - key: a
+          label: Um vigia em sua torre
+        - key: b
+          label: Um viajante sem bagagem
+        - key: c
+          label: Um servo adormecido
+        - key: d
+          label: Uma ovelha perdida
+        feedback: 'O salmista se vê perdido como uma ovelha e ousa pedir a Deus: “Busca
+          o teu servo.”'
+        scripture_cite: Salmo 119:176
+  - id: fast-psalms-pack04-q06
+    scripture:
+      canon: bible
+      cite: Psaume 138:3
+      study: ot/ps/138
+    correct_choice: d
+    points: 8
+    duration: 20
+    intensity: 3
+    presentation:
+      image: quizzes/psalms_walk_with_god/fast-psalms-pack04-q06.png
+    copy:
+      fr:
+        prompt: Il invoque Dieu. Que reçoit-il, selon le Psaume 138 ?
+        choices:
+        - key: a
+          label: Célébrer devant les rois
+        - key: b
+          label: Tout le chemin à venir
+        - key: c
+          label: La fin de toute détresse
+        - key: d
+          label: Une réponse et une force
+        feedback: Dieu l’exauce, le rassure et fortifie son âme. La réponse reçue
+          lui donne de tenir.
+        scripture_cite: Psaume 138:3
+      es:
+        prompt: Invoca a Dios. ¿Qué recibe, según el Salmo 138?
+        choices:
+        - key: a
+          label: Celebrar ante los reyes
+        - key: b
+          label: Todo el camino por delante
+        - key: c
+          label: El fin de toda angustia
+        - key: d
+          label: Respuesta y fortaleza
+        feedback: Dios lo escucha, lo alienta y fortalece su alma. Esa respuesta lo
+          ayuda a mantenerse firme.
+        scripture_cite: Salmo 138:3
+      en:
+        prompt: He calls on God. What does he receive in Psalm 138?
+        choices:
+        - key: a
+          label: Praise before kings
+        - key: b
+          label: The whole road ahead
+        - key: c
+          label: An end to all distress
+        - key: d
+          label: An answer and new strength
+        feedback: God answers, reassures, and strengthens his soul. That answer helps
+          him stand firm.
+        scripture_cite: Psalm 138:3
+      pt-BR:
+        prompt: Ele invoca a Deus. O que recebe, segundo o Salmo 138?
+        choices:
+        - key: a
+          label: Louvar diante dos reis
+        - key: b
+          label: Todo o caminho à frente
+        - key: c
+          label: O fim de toda aflição
+        - key: d
+          label: Resposta e força
+        feedback: Deus o atende, encoraja e fortalece sua alma. Essa resposta o ajuda
+          a permanecer firme.
+        scripture_cite: Salmo 138:3
+  - id: fast-psalms-pack04-q07
+    scripture:
+      canon: bible
+      cite: Psaume 119:176
+      study: ot/ps/119
+    correct_choice: b
+    points: 12
+    duration: 15
+    intensity: 3
+    presentation:
+      image: quizzes/psalms_walk_with_god/fast-psalms-pack04-q07.png
+    copy:
+      fr:
+        prompt: 'Vrai ou faux : aimer la parole, c’est ne plus jamais s’égarer.'
+        choices:
+        - key: a
+          label: Vrai
+        - key: b
+          label: Faux
+        feedback: Le Psaume 119 finit par une brebis perdue qui se souvient encore
+          des commandements et demande à être cherchée.
+        scripture_cite: Psaume 119:176
+      es:
+        prompt: 'Cierto o falso: amar la palabra significa no perderse nunca más.'
+        choices:
+        - key: a
+          label: Cierto
+        - key: b
+          label: Falso
+        feedback: El Salmo 119 termina con una oveja perdida que aún recuerda los
+          mandamientos y pide que la busquen.
+        scripture_cite: Salmo 119:176
+      en:
+        prompt: 'True or false: loving God''s word means never straying again.'
+        choices:
+        - key: a
+          label: 'True'
+        - key: b
+          label: 'False'
+        feedback: Psalm 119 ends with a lost sheep who still remembers God's commands
+          and asks to be found.
+        scripture_cite: Psalm 119:176
+      pt-BR:
+        prompt: 'Verdadeiro ou falso: amar a palavra é nunca mais se perder.'
+        choices:
+        - key: a
+          label: Verdadeiro
+        - key: b
+          label: Falso
+        feedback: O Salmo 119 termina com uma ovelha perdida que ainda lembra os mandamentos
+          e pede para ser buscada.
+        scripture_cite: Salmo 119:176
+  - id: fast-psalms-pack04-q08
+    scripture:
+      canon: bible
+      cite: Psaume 119:33-35
+      study: ot/ps/119
+    correct_choice: a
+    points: 12
+    duration: 15
+    intensity: 4
+    presentation:
+      image: quizzes/psalms_walk_with_god/fast-psalms-pack04-q08.png
+    copy:
+      fr:
+        prompt: Quand avancer devient difficile, quelle prière sonne juste ?
+        choices:
+        - key: a
+          label: Enseigne-moi, conduis-moi
+        - key: b
+          label: Épargne-moi toute décision
+        - key: c
+          label: Montre-moi tout d’avance
+        - key: d
+          label: Décide sans m’enseigner
+        feedback: Le priant demande à Dieu de l’enseigner, de lui donner l’intelligence
+          et de le conduire dans une voie qu’il aime.
+        scripture_cite: Psaume 119:33-35
+      es:
+        prompt: Cuando cuesta avanzar, ¿qué oración te sale del corazón?
+        choices:
+        - key: a
+          label: Enséñame y guíame
+        - key: b
+          label: Líbrame de toda decisión
+        - key: c
+          label: Muéstramelo todo de antemano
+        - key: d
+          label: Decide sin enseñarme
+        feedback: El salmista le pide a Dios que le enseñe, le dé entendimiento y
+          lo guíe por un camino que ama.
+        scripture_cite: Salmo 119:33-35
+      en:
+        prompt: When moving forward is hard, which prayer rings true?
+        choices:
+        - key: a
+          label: Teach me and guide me
+        - key: b
+          label: Spare me every decision
+        - key: c
+          label: Show me everything ahead
+        - key: d
+          label: Decide without teaching me
+        feedback: The psalmist asks God to teach him, give him understanding, and
+          guide him on a path he loves.
+        scripture_cite: Psalm 119:33-35
+      pt-BR:
+        prompt: Quando avançar fica difícil, qual oração soa verdadeira?
+        choices:
+        - key: a
+          label: Ensina-me e guia-me
+        - key: b
+          label: Livra-me de toda decisão
+        - key: c
+          label: Mostra tudo de antemão
+        - key: d
+          label: Decide sem me ensinar
+        feedback: O salmista pede que Deus o ensine, lhe dê entendimento e o guie
+          por um caminho que ele ama.
+        scripture_cite: Salmo 119:33-35
+  - id: fast-psalms-pack04-q09
+    scripture:
+      canon: bible
+      cite: Psaume 138:7
+      study: ot/ps/138
+    correct_choice: b
+    points: 15
+    duration: 15
+    intensity: 4
+    presentation:
+      image: quizzes/psalms_walk_with_god/fast-psalms-pack04-q09.png
+    copy:
+      fr:
+        prompt: 'Vrai ou faux : fortifié par Dieu, on ne traverse plus la détresse.'
+        choices:
+        - key: a
+          label: Vrai
+        - key: b
+          label: Faux
+        feedback: 'Le psaume ne cache pas l’épreuve : Dieu rend la vie tandis que
+          le priant marche encore au milieu de la détresse.'
+        scripture_cite: Psaume 138:7
+      es:
+        prompt: 'Cierto o falso: si Dios te fortalece, ya no pasas por angustias.'
+        choices:
+        - key: a
+          label: Cierto
+        - key: b
+          label: Falso
+        feedback: 'El salmo no oculta la prueba: Dios le da vida mientras el salmista
+          aún camina en medio de la angustia.'
+        scripture_cite: Salmo 138:7
+      en:
+        prompt: 'True or false: if God strengthens you, distress is over.'
+        choices:
+        - key: a
+          label: 'True'
+        - key: b
+          label: 'False'
+        feedback: 'The psalm does not hide the trial: God gives life while the psalmist
+          still walks through distress.'
+        scripture_cite: Psalm 138:7
+      pt-BR:
+        prompt: 'Verdadeiro ou falso: fortalecido por Deus, você não enfrenta aflição.'
+        choices:
+        - key: a
+          label: Verdadeiro
+        - key: b
+          label: Falso
+        feedback: 'O salmo não esconde a provação: Deus dá vida enquanto o salmista
+          ainda atravessa a aflição.'
+        scripture_cite: Salmo 138:7
+  - id: fast-psalms-pack04-q10
+    scripture:
+      canon: bible
+      cite: Psaume 119:176; Psaume 138:8
+      study: ot/ps/119
+    correct_choice: c
+    points: 25
+    duration: 15
+    intensity: 5
+    presentation:
+      image: quizzes/psalms_walk_with_god/fast-psalms-pack04-q10.png
+    copy:
+      fr:
+        prompt: Tu t’es égaré. Quel premier pas rejoint ces deux psaumes ?
+        choices:
+        - key: a
+          label: Attendre de se sentir digne
+        - key: b
+          label: Cacher l’écart et avancer seul
+        - key: c
+          label: Cherche-moi, ne m’abandonne pas
+        - key: d
+          label: Promettre de ne plus tomber
+        feedback: 'Ces psaumes ouvrent une prière sans masque : « Cherche-moi » et
+          « n’abandonne pas l’œuvre de tes mains. »'
+        scripture_cite: Psaume 119:176; Psaume 138:8
+      es:
+        prompt: Te has perdido. ¿Qué primer paso refleja estos dos salmos?
+        choices:
+        - key: a
+          label: Esperar a sentirme digno
+        - key: b
+          label: Ocultarlo y seguir solo
+        - key: c
+          label: Búscame, no me abandones
+        - key: d
+          label: Prometer no volver a caer
+        feedback: 'Estos salmos abren una oración sincera: «Búscame» y «no abandones
+          la obra de tus manos».'
+        scripture_cite: Salmo 119:176; Salmo 138:8
+      en:
+        prompt: You have strayed. What first step echoes these two psalms?
+        choices:
+        - key: a
+          label: Wait until I feel worthy
+        - key: b
+          label: Hide it and carry on alone
+        - key: c
+          label: Seek me; do not abandon me
+        - key: d
+          label: Promise I will never fall again
+        feedback: 'These psalms open an honest prayer: “Seek me,” and “do not abandon
+          the work of your hands.”'
+        scripture_cite: Psalm 119:176; Psalm 138:8
+      pt-BR:
+        prompt: Você se perdeu. Qual primeiro passo ecoa estes dois salmos?
+        choices:
+        - key: a
+          label: Esperar me sentir digno
+        - key: b
+          label: Esconder e seguir sozinho
+        - key: c
+          label: Busca-me, não me abandones
+        - key: d
+          label: Prometer não cair de novo
+        feedback: 'Estes salmos abrem uma oração sincera: “Busca-me” e “não abandones
+          a obra de tuas mãos.”'
+        scripture_cite: Salmo 119:176; Salmo 138:8
+- id: psalms_build_home
+  copy:
+    fr:
+      title: Bâtir une vie et un peuple
+      kicker: Psaumes 127 · 128 · 137 · 147
+      lede: Les exilés pleurent encore Sion. Pourtant Dieu bâtit, rassemble et panse
+        les cœurs. Revenir ne demande pas d’attendre une vie parfaite.
+    es:
+      title: Construir una vida y un pueblo
+      kicker: Salmos 127 · 128 · 137 · 147
+      lede: Los exiliados aún lloran por Sion. Sin embargo, Dios construye, reúne
+        y sana los corazones. Volver no exige esperar una vida perfecta.
+    en:
+      title: Build a Life and a People
+      kicker: Psalms 127 · 128 · 137 · 147
+      lede: The exiles still weep for Zion. Yet God builds, gathers, and binds up
+        hearts. Returning does not require waiting for a perfect life.
+    pt-BR:
+      title: Construir uma vida e um povo
+      kicker: Salmos 127 · 128 · 137 · 147
+      lede: Os exilados ainda choram por Sião. Mesmo assim, Deus constrói, reúne e
+        cuida dos corações. Voltar não exige esperar uma vida perfeita.
+  readings:
+  - study: ot/ps/127
+    cite: Psaume 127
+  - study: ot/ps/128
+    cite: Psaume 128
+  - study: ot/ps/137
+    cite: Psaume 137
+  - study: ot/ps/147
+    cite: Psaume 147
+  questions:
+  - id: fast-psalms-pack05-q01
+    scripture:
+      canon: bible
+      cite: Psaume 127:1
+      study: ot/ps/127
+    correct_choice: a
+    points: 5
+    duration: 0
+    intensity: 1
+    presentation:
+      image: quizzes/psalms_build_home/fast-psalms-pack05-q01.png
+    copy:
+      fr:
+        prompt: Quand les bâtisseurs travaillent-ils en vain, selon le psaume ?
+        choices:
+        - key: a
+          label: Sans Dieu pour bâtir la maison
+        - key: b
+          label: Quand la ville n’a pas de murs
+        - key: c
+          label: Si le travail commence au matin
+        - key: d
+          label: Avec trois générations au foyer
+        feedback: Dieu place maison et ville sous son action, sans mépriser le travail
+          humain.
+        scripture_cite: Psaume 127:1
+      es:
+        prompt: "¿Cuándo trabajan en vano los que construyen, según el salmo?"
+        choices:
+        - key: a
+          label: Sin Dios para construir la casa
+        - key: b
+          label: Si la ciudad no tiene muros
+        - key: c
+          label: Si empiezan a trabajar temprano
+        - key: d
+          label: Con tres generaciones en casa
+        feedback: Dios pone la casa y la ciudad bajo su cuidado, sin despreciar el
+          trabajo humano.
+        scripture_cite: Salmo 127:1
+      en:
+        prompt: According to the psalm, when do builders labor in vain?
+        choices:
+        - key: a
+          label: Without God building the house
+        - key: b
+          label: When the city has no walls
+        - key: c
+          label: If work starts in the morning
+        - key: d
+          label: With three generations at home
+        feedback: God places house and city under his care, without dismissing human
+          work.
+        scripture_cite: Psalm 127:1
+      pt-BR:
+        prompt: Segundo o salmo, quando os construtores trabalham em vão?
+        choices:
+        - key: a
+          label: Sem Deus para construir a casa
+        - key: b
+          label: Quando a cidade não tem muros
+        - key: c
+          label: Se o trabalho começa cedo
+        - key: d
+          label: Com três gerações em casa
+        feedback: Deus coloca casa e cidade sob seu cuidado, sem desprezar o trabalho
+          humano.
+        scripture_cite: Salmo 127:1
+  - id: fast-psalms-pack05-q02
+    scripture:
+      canon: bible
+      cite: Psaume 127:2
+      study: ot/ps/127
+    correct_choice: b
+    points: 5
+    duration: 0
+    intensity: 1
+    presentation:
+      image: quizzes/psalms_build_home/fast-psalms-pack05-q02.png
+    copy:
+      fr:
+        prompt: 'Vrai ou faux : s’épuiser serait le seul chemin vers la bénédiction
+          ?'
+        choices:
+        - key: a
+          label: Vrai
+        - key: b
+          label: Faux
+        feedback: 'Dieu ne célèbre pas le labeur anxieux : il donne aussi à ses bien-aimés
+          pendant leur sommeil.'
+        scripture_cite: Psaume 127:2
+      es:
+        prompt: 'Cierto o falso: ¿agotarse es el único camino a la bendición?'
+        choices:
+        - key: a
+          label: Cierto
+        - key: b
+          label: Falso
+        feedback: 'Dios no celebra el trabajo angustioso: también da a sus amados
+          mientras duermen.'
+        scripture_cite: Salmo 127:2
+      en:
+        prompt: 'True or false: Is exhaustion the only path to blessing?'
+        choices:
+        - key: a
+          label: 'True'
+        - key: b
+          label: 'False'
+        feedback: God does not praise anxious toil; he also gives to his beloved while
+          they sleep.
+        scripture_cite: Psalm 127:2
+      pt-BR:
+        prompt: 'Verdadeiro ou falso: esgotar-se é o único caminho para a bênção?'
+        choices:
+        - key: a
+          label: Verdadeiro
+        - key: b
+          label: Falso
+        feedback: Deus não celebra o trabalho angustiante; ele também dá aos seus
+          amados enquanto dormem.
+        scripture_cite: Salmo 127:2
+  - id: fast-psalms-pack05-q03
+    scripture:
+      canon: bible
+      cite: Psaume 128:1-2
+      study: ot/ps/128
+    correct_choice: a
+    points: 5
+    duration: 0
+    intensity: 2
+    presentation:
+      image: quizzes/psalms_build_home/fast-psalms-pack05-q03.png
+    copy:
+      fr:
+        prompt: Que relie le Psaume 128 au bonheur ?
+        choices:
+        - key: a
+          label: Craindre Dieu, suivre ses voies
+        - key: b
+          label: Quitter maison et travail
+        - key: c
+          label: Posséder ville et armée
+        - key: d
+          label: Ne jamais peiner ni se fatiguer
+        feedback: Le bonheur est ici lié à la crainte de Dieu, à la marche dans ses
+          voies et au fruit du travail.
+        scripture_cite: Psaume 128:1-2
+      es:
+        prompt: "¿Qué vincula el Salmo 128 con la felicidad?"
+        choices:
+        - key: a
+          label: Temer a Dios, seguir sus caminos
+        - key: b
+          label: Dejar casa y trabajo
+        - key: c
+          label: Tener ciudad y ejército
+        - key: d
+          label: No sufrir ni cansarse jamás
+        feedback: La felicidad se une al temor de Dios, a seguir sus caminos y al
+          fruto del trabajo.
+        scripture_cite: Salmo 128:1-2
+      en:
+        prompt: What does Psalm 128 link with happiness?
+        choices:
+        - key: a
+          label: Fear God and walk in his ways
+        - key: b
+          label: Leave home and work
+        - key: c
+          label: Own a city and an army
+        - key: d
+          label: Never struggle or get tired
+        feedback: Happiness is linked to fearing God, walking in his ways, and enjoying
+          the fruit of work.
+        scripture_cite: Psalm 128:1-2
+      pt-BR:
+        prompt: O que o Salmo 128 liga à felicidade?
+        choices:
+        - key: a
+          label: Temer a Deus; seguir seu caminho
+        - key: b
+          label: Deixar casa e trabalho
+        - key: c
+          label: Ter cidade e exército
+        - key: d
+          label: Nunca sofrer nem se cansar
+        feedback: A felicidade se liga ao temor de Deus, aos seus caminhos e ao fruto
+          do trabalho.
+        scripture_cite: Salmo 128:1-2
+  - id: fast-psalms-pack05-q04
+    scripture:
+      canon: bible
+      cite: Psaume 128:3-6
+      study: ot/ps/128
+    correct_choice: b
+    points: 8
+    duration: 20
+    intensity: 2
+    presentation:
+      image: quizzes/psalms_build_home/fast-psalms-pack05-q04.png
+    copy:
+      fr:
+        prompt: 'Vrai ou faux : le Psaume 128 impose-t-il un modèle familial ?'
+        choices:
+        - key: a
+          label: Vrai
+        - key: b
+          label: Faux
+        feedback: Ce chant célèbre une bénédiction; il ne mesure ni la valeur des
+          personnes ni la fidélité des familles.
+        scripture_cite: Psaume 128:3-6
+      es:
+        prompt: 'Cierto o falso: ¿el Salmo 128 impone un modelo familiar?'
+        choices:
+        - key: a
+          label: Cierto
+        - key: b
+          label: Falso
+        feedback: Este canto celebra una bendición; no mide el valor de las personas
+          ni la fidelidad de las familias.
+        scripture_cite: Salmo 128:3-6
+      en:
+        prompt: 'True or false: Does Psalm 128 impose one family model?'
+        choices:
+        - key: a
+          label: 'True'
+        - key: b
+          label: 'False'
+        feedback: This song celebrates a blessing; it does not measure anyone's worth
+          or a family's faithfulness.
+        scripture_cite: Psalm 128:3-6
+      pt-BR:
+        prompt: 'Verdadeiro ou falso: o Salmo 128 impõe um modelo familiar?'
+        choices:
+        - key: a
+          label: Verdadeiro
+        - key: b
+          label: Falso
+        feedback: Este cântico celebra uma bênção; não mede o valor das pessoas nem
+          a fidelidade das famílias.
+        scripture_cite: Salmo 128:3-6
+  - id: fast-psalms-pack05-q05
+    scripture:
+      canon: bible
+      cite: Psaume 137:1-2
+      study: ot/ps/137
+    correct_choice: b
+    points: 8
+    duration: 20
+    intensity: 2
+    presentation:
+      image: quizzes/psalms_build_home/fast-psalms-pack05-q05.png
+    copy:
+      fr:
+        prompt: Que font les exilés en se souvenant de Sion ?
+        choices:
+        - key: a
+          label: Ils organisent aussitôt une fête
+        - key: b
+          label: Ils pleurent, harpes suspendues
+        - key: c
+          label: Ils oublient Jérusalem
+        - key: d
+          label: Ils chantent pour les vainqueurs
+        feedback: Au bord des fleuves de Babylone, les exilés pleurent et suspendent
+          leurs harpes.
+        scripture_cite: Psaume 137:1-2
+      es:
+        prompt: "¿Qué hacen los exiliados al recordar Sion?"
+        choices:
+        - key: a
+          label: Organizan una fiesta enseguida
+        - key: b
+          label: Lloran, con las arpas colgadas
+        - key: c
+          label: Olvidan Jerusalén
+        - key: d
+          label: Cantan para sus vencedores
+        feedback: A orillas de los ríos de Babilonia, los exiliados lloran y cuelgan
+          sus arpas.
+        scripture_cite: Salmo 137:1-2
+      en:
+        prompt: What do the exiles do when they remember Zion?
+        choices:
+        - key: a
+          label: They quickly throw a party
+        - key: b
+          label: They weep, their harps hung up
+        - key: c
+          label: They forget Jerusalem
+        - key: d
+          label: They sing for their conquerors
+        feedback: By Babylon's rivers, the exiles weep and hang up their harps.
+        scripture_cite: Psalm 137:1-2
+      pt-BR:
+        prompt: O que os exilados fazem ao lembrar de Sião?
+        choices:
+        - key: a
+          label: Fazem logo uma festa
+        - key: b
+          label: Choram, com as harpas penduradas
+        - key: c
+          label: Esquecem Jerusalém
+        - key: d
+          label: Cantam para seus vencedores
+        feedback: Às margens dos rios da Babilônia, os exilados choram e penduram
+          suas harpas.
+        scripture_cite: Salmo 137:1-2
+  - id: fast-psalms-pack05-q06
+    scripture:
+      canon: bible
+      cite: Psaume 137:3-4
+      study: ot/ps/137
+    correct_choice: b
+    points: 8
+    duration: 20
+    intensity: 3
+    presentation:
+      image: quizzes/psalms_build_home/fast-psalms-pack05-q06.png
+    copy:
+      fr:
+        prompt: 'Vrai ou faux : les exilés chantent quand leurs oppresseurs l’exigent
+          ?'
+        choices:
+        - key: a
+          label: Vrai
+        - key: b
+          label: Faux
+        feedback: 'Ils demandent comment chanter pour Dieu en terre étrangère : leurs
+          oppresseurs ne commandent pas leur joie.'
+        scripture_cite: Psaume 137:3-4
+      es:
+        prompt: 'Cierto o falso: ¿cantan los exiliados cuando sus opresores lo exigen?'
+        choices:
+        - key: a
+          label: Cierto
+        - key: b
+          label: Falso
+        feedback: 'Preguntan cómo cantar para Dios en tierra extraña: sus opresores
+          no mandan sobre su alegría.'
+        scripture_cite: Salmo 137:3-4
+      en:
+        prompt: 'True or false: Do the exiles sing when their oppressors demand it?'
+        choices:
+        - key: a
+          label: 'True'
+        - key: b
+          label: 'False'
+        feedback: 'They ask how to sing for God in a foreign land: their oppressors
+          do not command their joy.'
+        scripture_cite: Psalm 137:3-4
+      pt-BR:
+        prompt: 'Verdadeiro ou falso: os exilados cantam quando seus opressores exigem?'
+        choices:
+        - key: a
+          label: Verdadeiro
+        - key: b
+          label: Falso
+        feedback: 'Eles perguntam como cantar para Deus em terra estrangeira: os opressores
+          não mandam em sua alegria.'
+        scripture_cite: Salmo 137:3-4
+  - id: fast-psalms-pack05-q07
+    scripture:
+      canon: bible
+      cite: Psaume 137:5-6
+      study: ot/ps/137
+    correct_choice: c
+    points: 12
+    duration: 15
+    intensity: 3
+    presentation:
+      image: quizzes/psalms_build_home/fast-psalms-pack05-q07.png
+    copy:
+      fr:
+        prompt: Qu’est-ce que l’exilé refuse d’oublier ?
+        choices:
+        - key: a
+          label: La richesse de Babylone
+        - key: b
+          label: Le chant de ses vainqueurs
+        - key: c
+          label: Jérusalem, sa plus grande joie
+        - key: d
+          label: Le chemin des caravanes
+        feedback: Même en exil, Jérusalem reste vivante dans sa mémoire et demeure
+          son principal sujet de joie.
+        scripture_cite: Psaume 137:5-6
+      es:
+        prompt: "¿Qué se niega a olvidar el exiliado?"
+        choices:
+        - key: a
+          label: La riqueza de Babilonia
+        - key: b
+          label: El canto de sus vencedores
+        - key: c
+          label: Jerusalén, su mayor alegría
+        - key: d
+          label: La ruta de las caravanas
+        feedback: Aun en el exilio, Jerusalén vive en su memoria y sigue siendo su
+          mayor alegría.
+        scripture_cite: Salmo 137:5-6
+      en:
+        prompt: What does the exile refuse to forget?
+        choices:
+        - key: a
+          label: Babylon's riches
+        - key: b
+          label: Their conquerors' song
+        - key: c
+          label: Jerusalem, his greatest joy
+        - key: d
+          label: The caravan route
+        feedback: Even in exile, Jerusalem stays alive in his memory and remains his
+          greatest joy.
+        scripture_cite: Psalm 137:5-6
+      pt-BR:
+        prompt: O que o exilado se recusa a esquecer?
+        choices:
+        - key: a
+          label: A riqueza da Babilônia
+        - key: b
+          label: O canto de seus vencedores
+        - key: c
+          label: Jerusalém, sua maior alegria
+        - key: d
+          label: A rota das caravanas
+        feedback: Mesmo no exílio, Jerusalém vive em sua memória e continua sendo
+          sua maior alegria.
+        scripture_cite: Salmo 137:5-6
+  - id: fast-psalms-pack05-q08
+    scripture:
+      canon: bible
+      cite: Psaume 147:2-4
+      study: ot/ps/147
+    correct_choice: a
+    points: 12
+    duration: 15
+    intensity: 4
+    presentation:
+      image: quizzes/psalms_build_home/fast-psalms-pack05-q08.png
+    copy:
+      fr:
+        prompt: Quelle œuvre de Dieu réunit ces versets ?
+        choices:
+        - key: a
+          label: Rebâtir, réunir, panser, nommer
+        - key: b
+          label: Effacer la mémoire de l’exil
+        - key: c
+          label: Ne voir que les puissants
+        - key: d
+          label: Laisser les blessés se guérir
+        feedback: Dieu rebâtit Jérusalem, rassemble les exilés, panse les cœurs et
+          nomme les étoiles.
+        scripture_cite: Psaume 147:2-4
+      es:
+        prompt: "¿Qué obra de Dios reúne estos versículos?"
+        choices:
+        - key: a
+          label: Edificar, reunir, sanar, nombrar
+        - key: b
+          label: Borrar el recuerdo del exilio
+        - key: c
+          label: Mirar solo a los poderosos
+        - key: d
+          label: Dejar que los heridos se curen
+        feedback: Dios edifica Jerusalén, reúne a los exiliados, sana corazones y
+          nombra las estrellas.
+        scripture_cite: Salmo 147:2-4
+      en:
+        prompt: What work of God ties these verses together?
+        choices:
+        - key: a
+          label: Rebuild, gather, heal, name
+        - key: b
+          label: Erase the memory of exile
+        - key: c
+          label: Notice only the powerful
+        - key: d
+          label: Leave the wounded to heal alone
+        feedback: God rebuilds Jerusalem, gathers the exiles, heals hearts, and names
+          the stars.
+        scripture_cite: Psalm 147:2-4
+      pt-BR:
+        prompt: Que obra de Deus reúne esses versículos?
+        choices:
+        - key: a
+          label: Edificar, reunir, curar, nomear
+        - key: b
+          label: Apagar a memória do exílio
+        - key: c
+          label: Ver apenas os poderosos
+        - key: d
+          label: Deixar os feridos se curarem
+        feedback: Deus edifica Jerusalém, reúne os exilados, cura corações e dá nome
+          às estrelas.
+        scripture_cite: Salmo 147:2-4
+  - id: fast-psalms-pack05-q09
+    scripture:
+      canon: bible
+      cite: Psaume 147:10-11
+      study: ot/ps/147
+    correct_choice: b
+    points: 15
+    duration: 15
+    intensity: 4
+    presentation:
+      image: quizzes/psalms_build_home/fast-psalms-pack05-q09.png
+    copy:
+      fr:
+        prompt: Qu’est-ce qui compte plus que la seule performance ?
+        choices:
+        - key: a
+          label: Cacher sa faiblesse
+        - key: b
+          label: Espérer en la bonté de Dieu
+        - key: c
+          label: N’avoir besoin de personne
+        - key: d
+          label: Être le plus fort
+        feedback: Dieu ne regarde pas d’abord la vigueur humaine, mais ceux qui espèrent
+          en sa bonté.
+        scripture_cite: Psaume 147:10-11
+      es:
+        prompt: "¿Qué importa más que el puro rendimiento?"
+        choices:
+        - key: a
+          label: Ocultar tu debilidad
+        - key: b
+          label: Esperar en la bondad de Dios
+        - key: c
+          label: No necesitar a nadie
+        - key: d
+          label: Ser el más fuerte
+        feedback: Dios no mira primero la fuerza humana, sino a quienes esperan en
+          su bondad.
+        scripture_cite: Salmo 147:10-11
+      en:
+        prompt: What matters more than sheer performance?
+        choices:
+        - key: a
+          label: Hide your weakness
+        - key: b
+          label: Hope in God's goodness
+        - key: c
+          label: Need nobody else
+        - key: d
+          label: Be the strongest
+        feedback: God looks first not at human strength, but at those who hope in
+          his goodness.
+        scripture_cite: Psalm 147:10-11
+      pt-BR:
+        prompt: O que vale mais do que só o desempenho?
+        choices:
+        - key: a
+          label: Esconder sua fraqueza
+        - key: b
+          label: Esperar na bondade de Deus
+        - key: c
+          label: Não precisar de ninguém
+        - key: d
+          label: Ser o mais forte
+        feedback: Deus não olha primeiro para a força humana, mas para quem espera
+          em sua bondade.
+        scripture_cite: Salmo 147:10-11
+  - id: fast-psalms-pack05-q10
+    scripture:
+      canon: bible
+      cite: Psaumes 127-128 ; 147:2-3
+      study: ot/ps/127
+    correct_choice: b
+    points: 25
+    duration: 15
+    intensity: 5
+    presentation:
+      image: quizzes/psalms_build_home/fast-psalms-pack05-q10.png
+    copy:
+      fr:
+        prompt: 'Vrai ou faux : bâtir avec Dieu garantit famille idéale et guérison
+          ?'
+        choices:
+        - key: a
+          label: Vrai
+        - key: b
+          label: Faux
+        feedback: Ces psaumes invitent à recevoir et bâtir avec Dieu, sans garantir
+          famille idéale ni guérison immédiate.
+        scripture_cite: Psaumes 127-128 ; 147:2-3
+      es:
+        prompt: 'Cierto o falso: ¿construir con Dios garantiza familia ideal y sanación?'
+        choices:
+        - key: a
+          label: Cierto
+        - key: b
+          label: Falso
+        feedback: Estos salmos invitan a recibir y construir con Dios, sin garantizar
+          familia ideal ni sanación inmediata.
+        scripture_cite: Salmos 127-128 ; 147:2-3
+      en:
+        prompt: 'True or false: Building with God guarantees an ideal family and healing.'
+        choices:
+        - key: a
+          label: 'True'
+        - key: b
+          label: 'False'
+        feedback: These psalms invite us to receive and build with God, without promising
+          an ideal family or instant healing.
+        scripture_cite: Psalms 127-128 ; 147:2-3
+      pt-BR:
+        prompt: 'Verdadeiro ou falso: construir com Deus garante família ideal e cura?'
+        choices:
+        - key: a
+          label: Verdadeiro
+        - key: b
+          label: Falso
+        feedback: Estes salmos convidam a receber e construir com Deus, sem garantir
+          família ideal nem cura imediata.
+        scripture_cite: Salmos 127-128 ; 147:2-3
+- id: psalms_every_breath
+  copy:
+    fr:
+      title: Tout souffle a sa place
+      kicker: Psaumes 117 · 148 · 149 · 150
+      lede: Dans ces psaumes, les nations, les générations, les instruments et tout
+        ce qui respire sont appelés à louer Dieu. Même si ta joie n’est pas encore
+        revenue, tu peux reprendre place sans faire semblant.
+    es:
+      title: Todo aliento tiene un lugar
+      kicker: Salmos 117 · 148 · 149 · 150
+      lede: Estos salmos llaman a las naciones, a todas las generaciones, a los instrumentos
+        y a todo ser que respira a alabar a Dios. Aunque la alegría aún no haya vuelto,
+        puedes ocupar de nuevo tu lugar sin fingir.
+    en:
+      title: Every breath has a place
+      kicker: Psalms 117 · 148 · 149 · 150
+      lede: In these psalms, nations, generations, instruments, and everything that
+        breathes are called to praise God. Even if your joy has not returned yet,
+        you can take your place again without pretending.
+    pt-BR:
+      title: Todo fôlego tem seu lugar
+      kicker: Salmos 117 · 148 · 149 · 150
+      lede: Esses salmos chamam as nações, todas as gerações, os instrumentos e tudo
+        o que respira a louvar a Deus. Mesmo que sua alegria ainda não tenha voltado,
+        você pode ocupar seu lugar de novo sem fingir.
+  readings:
+  - study: ot/ps/117
+    cite: Psaume 117
+  - study: ot/ps/148
+    cite: Psaume 148
+  - study: ot/ps/149
+    cite: Psaume 149
+  - study: ot/ps/150
+    cite: Psaume 150
+  questions:
+  - id: fast-psalms-pack06-q01
+    scripture:
+      canon: bible
+      cite: Psaume 117:1
+      study: ot/ps/117
+    correct_choice: c
+    points: 5
+    duration: 0
+    intensity: 1
+    presentation:
+      image: quizzes/psalms_every_breath/fast-psalms-pack06-q01.png
+    copy:
+      fr:
+        prompt: Qui le Psaume 117 invite-t-il à louer l’Éternel ?
+        choices:
+        - key: a
+          label: Seulement les prêtres
+        - key: b
+          label: Seulement Israël
+        - key: c
+          label: Nations et peuples, tous appelés
+        - key: d
+          label: Les musiciens du temple
+        feedback: 'Toutes les nations et tous les peuples sont invités à louer l’Éternel
+          : personne n’est hors de l’appel.'
+        scripture_cite: Psaume 117:1
+      es:
+        prompt: "¿A quién invita el Salmo 117 a alabar a Jehová?"
+        choices:
+        - key: a
+          label: Solo a los sacerdotes
+        - key: b
+          label: Solo a Israel
+        - key: c
+          label: A todas las naciones y pueblos
+        - key: d
+          label: A los músicos del templo
+        feedback: 'Todas las naciones y todos los pueblos son invitados a alabar a
+          Jehová: nadie queda fuera de su llamado.'
+        scripture_cite: Salmo 117:1
+      en:
+        prompt: Whom does Psalm 117 invite to praise the Lord?
+        choices:
+        - key: a
+          label: Only the priests
+        - key: b
+          label: Only Israel
+        - key: c
+          label: All nations and peoples
+        - key: d
+          label: The temple musicians
+        feedback: 'All nations and peoples are invited to praise the Lord: no one
+          is left outside the call.'
+        scripture_cite: Psalm 117:1
+      pt-BR:
+        prompt: Quem o Salmo 117 convida a louvar o Senhor?
+        choices:
+        - key: a
+          label: Somente os sacerdotes
+        - key: b
+          label: Somente Israel
+        - key: c
+          label: Todas as nações e povos
+        - key: d
+          label: Os músicos do templo
+        feedback: 'Todas as nações e todos os povos são convidados a louvar o Senhor:
+          ninguém fica de fora do chamado.'
+        scripture_cite: Salmo 117:1
+  - id: fast-psalms-pack06-q02
+    scripture:
+      canon: bible
+      cite: Psaume 117:2
+      study: ot/ps/117
+    correct_choice: b
+    points: 5
+    duration: 0
+    intensity: 1
+    presentation:
+      image: quizzes/psalms_every_breath/fast-psalms-pack06-q02.png
+    copy:
+      fr:
+        prompt: 'Vrai ou faux : la fidélité de l’Éternel dure une seule génération.'
+        choices:
+        - key: a
+          label: Vrai
+        - key: b
+          label: Faux
+        feedback: 'Sa fidélité dure à jamais : la bonté de Dieu traverse les générations.'
+        scripture_cite: Psaume 117:2
+      es:
+        prompt: 'Cierto o falso: la fidelidad de Jehová dura solo una generación.'
+        choices:
+        - key: a
+          label: Cierto
+        - key: b
+          label: Falso
+        feedback: 'Su fidelidad dura para siempre: la bondad de Dios atraviesa las
+          generaciones.'
+        scripture_cite: Salmo 117:2
+      en:
+        prompt: 'True or false: The Lord’s faithfulness lasts for one generation.'
+        choices:
+        - key: a
+          label: 'True'
+        - key: b
+          label: 'False'
+        feedback: 'His faithfulness lasts forever: God’s goodness carries through
+          the generations.'
+        scripture_cite: Psalm 117:2
+      pt-BR:
+        prompt: 'Verdadeiro ou falso: a fidelidade do Senhor dura só uma geração.'
+        choices:
+        - key: a
+          label: Verdadeiro
+        - key: b
+          label: Falso
+        feedback: 'Sua fidelidade dura para sempre: a bondade de Deus atravessa gerações.'
+        scripture_cite: Salmo 117:2
+  - id: fast-psalms-pack06-q03
+    scripture:
+      canon: bible
+      cite: Psaume 148:3
+      study: ot/ps/148
+    correct_choice: a
+    points: 5
+    duration: 0
+    intensity: 2
+    presentation:
+      image: quizzes/psalms_every_breath/fast-psalms-pack06-q03.png
+    copy:
+      fr:
+        prompt: Quels astres le Psaume 148 appelle-t-il à louer Dieu ?
+        choices:
+        - key: a
+          label: Soleil, lune et étoiles
+        - key: b
+          label: Nuages, pluie et tonnerre
+        - key: c
+          label: Mer, fleuves et sources
+        - key: d
+          label: Aurore, midi et crépuscule
+        feedback: 'Soleil, lune et étoiles lumineuses : le ciel entier entre dans
+          la louange.'
+        scripture_cite: Psaume 148:3
+      es:
+        prompt: "¿Qué astros llama el Salmo 148 a alabar a Dios?"
+        choices:
+        - key: a
+          label: Sol, luna y estrellas
+        - key: b
+          label: Nubes, lluvia y truenos
+        - key: c
+          label: Mar, ríos y manantiales
+        - key: d
+          label: Amanecer, mediodía y ocaso
+        feedback: 'Sol, luna y estrellas luminosas: todo el cielo se suma a la alabanza.'
+        scripture_cite: Salmo 148:3
+      en:
+        prompt: Which heavenly lights does Psalm 148 call to praise God?
+        choices:
+        - key: a
+          label: Sun, moon, and stars
+        - key: b
+          label: Clouds, rain, and thunder
+        - key: c
+          label: Sea, rivers, and springs
+        - key: d
+          label: Dawn, noon, and dusk
+        feedback: 'Bright sun, moon, and stars: the whole sky joins the praise.'
+        scripture_cite: Psalm 148:3
+      pt-BR:
+        prompt: Que astros o Salmo 148 chama para louvar a Deus?
+        choices:
+        - key: a
+          label: Sol, lua e estrelas
+        - key: b
+          label: Nuvens, chuva e trovões
+        - key: c
+          label: Mar, rios e nascentes
+        - key: d
+          label: Aurora, meio-dia e entardecer
+        feedback: 'Sol, lua e estrelas brilhantes: o céu inteiro entra no louvor.'
+        scripture_cite: Salmo 148:3
+  - id: fast-psalms-pack06-q04
+    scripture:
+      canon: bible
+      cite: Psaume 148:11-12
+      study: ot/ps/148
+    correct_choice: a
+    points: 8
+    duration: 20
+    intensity: 2
+    presentation:
+      image: quizzes/psalms_every_breath/fast-psalms-pack06-q04.png
+    copy:
+      fr:
+        prompt: 'Vrai ou faux : rois, peuples, vieillards et enfants sont appelés.'
+        choices:
+        - key: a
+          label: Vrai
+        - key: b
+          label: Faux
+        feedback: Du roi à l’enfant, tous les peuples et tous les âges sont invités
+          à louer Dieu.
+        scripture_cite: Psaume 148:11-12
+      es:
+        prompt: 'Cierto o falso: reyes, pueblos, ancianos y niños son llamados.'
+        choices:
+        - key: a
+          label: Cierto
+        - key: b
+          label: Falso
+        feedback: Del rey al niño, todos los pueblos y todas las edades son invitados
+          a alabar a Dios.
+        scripture_cite: Salmo 148:11-12
+      en:
+        prompt: 'True or false: Kings, peoples, older people, and children are called.'
+        choices:
+        - key: a
+          label: 'True'
+        - key: b
+          label: 'False'
+        feedback: From kings to children, people of every nation and age are invited
+          to praise God.
+        scripture_cite: Psalm 148:11-12
+      pt-BR:
+        prompt: 'Verdadeiro ou falso: reis, povos, idosos e crianças são chamados.'
+        choices:
+        - key: a
+          label: Verdadeiro
+        - key: b
+          label: Falso
+        feedback: Do rei à criança, todos os povos e todas as idades são convidados
+          a louvar a Deus.
+        scripture_cite: Salmo 148:11-12
+  - id: fast-psalms-pack06-q05
+    scripture:
+      canon: bible
+      cite: Psaume 148:11-13
+      study: ot/ps/148
+    correct_choice: d
+    points: 8
+    duration: 20
+    intensity: 2
+    presentation:
+      image: quizzes/psalms_every_breath/fast-psalms-pack06-q05.png
+    copy:
+      fr:
+        prompt: Tu te crois trop âgé pour avoir ta place. Que répond le psaume ?
+        choices:
+        - key: a
+          label: Seuls les jeunes peuvent louer
+        - key: b
+          label: L’âge décide de ta place
+        - key: c
+          label: Il faut cacher sa fragilité
+        - key: d
+          label: Vieillards et enfants aussi
+        feedback: 'Le psaume appelle vieillards et enfants : pour nous, aucun âge
+          n’exclut de la louange.'
+        scripture_cite: Psaume 148:11-13
+      es:
+        prompt: Te crees demasiado mayor para tener un lugar. ¿Qué dice el salmo?
+        choices:
+        - key: a
+          label: Solo los jóvenes pueden alabar
+        - key: b
+          label: Tu edad decide tu lugar
+        - key: c
+          label: Debes ocultar tu fragilidad
+        - key: d
+          label: También ancianos y niños
+        feedback: 'El salmo llama a ancianos y niños: para nosotros, ninguna edad
+          excluye de la alabanza.'
+        scripture_cite: Salmo 148:11-13
+      en:
+        prompt: You feel too old to have a place. What does the psalm say?
+        choices:
+        - key: a
+          label: Only the young can praise
+        - key: b
+          label: Age decides your place
+        - key: c
+          label: Hide your weakness
+        - key: d
+          label: Older people and children too
+        feedback: 'The psalm calls older people and children: for us, no age shuts
+          anyone out of praise.'
+        scripture_cite: Psalm 148:11-13
+      pt-BR:
+        prompt: Você acha que já passou da idade. O que o salmo responde?
+        choices:
+        - key: a
+          label: Só os jovens podem louvar
+        - key: b
+          label: A idade decide seu lugar
+        - key: c
+          label: É preciso esconder a fragilidade
+        - key: d
+          label: Idosos e crianças também
+        feedback: 'O salmo chama idosos e crianças: para nós, nenhuma idade exclui
+          alguém do louvor.'
+        scripture_cite: Salmo 148:11-13
+  - id: fast-psalms-pack06-q06
+    scripture:
+      canon: bible
+      cite: Psaume 149:1
+      study: ot/ps/149
+    correct_choice: b
+    points: 8
+    duration: 20
+    intensity: 3
+    presentation:
+      image: quizzes/psalms_every_breath/fast-psalms-pack06-q06.png
+    copy:
+      fr:
+        prompt: Où le cantique nouveau résonne-t-il ?
+        choices:
+        - key: a
+          label: Dans une chambre fermée
+        - key: b
+          label: Dans l’assemblée des fidèles
+        - key: c
+          label: Devant des rois étrangers
+        - key: d
+          label: Au cœur d’une bataille
+        feedback: 'Le chant nouveau résonne dans l’assemblée des fidèles : la louange
+          devient une voix partagée.'
+        scripture_cite: Psaume 149:1
+      es:
+        prompt: "¿Dónde resuena el cántico nuevo?"
+        choices:
+        - key: a
+          label: En una habitación cerrada
+        - key: b
+          label: En la congregación de los santos
+        - key: c
+          label: Ante reyes extranjeros
+        - key: d
+          label: En plena batalla
+        feedback: 'El canto nuevo resuena en la congregación de los santos: la alabanza
+          se vuelve una voz compartida.'
+        scripture_cite: Salmo 149:1
+      en:
+        prompt: Where does the new song ring out?
+        choices:
+        - key: a
+          label: In a locked room
+        - key: b
+          label: In the congregation of saints
+        - key: c
+          label: Before foreign kings
+        - key: d
+          label: In the heart of battle
+        feedback: 'The new song rings out in the congregation of saints: praise becomes
+          a shared voice.'
+        scripture_cite: Psalm 149:1
+      pt-BR:
+        prompt: Onde o cântico novo ressoa?
+        choices:
+        - key: a
+          label: Num quarto fechado
+        - key: b
+          label: Na congregação dos santos
+        - key: c
+          label: Diante de reis estrangeiros
+        - key: d
+          label: No meio de uma batalha
+        feedback: 'O cântico novo ressoa na congregação dos santos: o louvor se torna
+          uma voz compartilhada.'
+        scripture_cite: Salmo 149:1
+  - id: fast-psalms-pack06-q07
+    scripture:
+      canon: bible
+      cite: Psaume 149:3
+      study: ot/ps/149
+    correct_choice: a
+    points: 12
+    duration: 15
+    intensity: 3
+    presentation:
+      image: quizzes/psalms_every_breath/fast-psalms-pack06-q07.png
+    copy:
+      fr:
+        prompt: 'Vrai ou faux : danse, tambourin et harpe entrent dans la louange.'
+        choices:
+        - key: a
+          label: Vrai
+        - key: b
+          label: Faux
+        feedback: 'Le psaume unit le corps et les instruments : danse, tambourin et
+          harpe célèbrent Dieu.'
+        scripture_cite: Psaume 149:3
+      es:
+        prompt: 'Cierto o falso: danza, pandero y arpa entran en la alabanza.'
+        choices:
+        - key: a
+          label: Cierto
+        - key: b
+          label: Falso
+        feedback: 'El salmo une cuerpo e instrumentos: danza, pandero y arpa alaban
+          a Dios.'
+        scripture_cite: Salmo 149:3
+      en:
+        prompt: 'True or false: Dance, tambourine, and harp join the praise.'
+        choices:
+        - key: a
+          label: 'True'
+        - key: b
+          label: 'False'
+        feedback: 'The psalm joins body and instruments: dance, tambourine, and harp
+          praise God.'
+        scripture_cite: Psalm 149:3
+      pt-BR:
+        prompt: 'Verdadeiro ou falso: dança, tamborim e harpa entram no louvor.'
+        choices:
+        - key: a
+          label: Verdadeiro
+        - key: b
+          label: Falso
+        feedback: 'O salmo une corpo e instrumentos: dança, tamborim e harpa louvam
+          a Deus.'
+        scripture_cite: Salmo 149:3
+  - id: fast-psalms-pack06-q08
+    scripture:
+      canon: bible
+      cite: Psaume 149:1-5
+      study: ot/ps/149
+    correct_choice: c
+    points: 12
+    duration: 15
+    intensity: 4
+    presentation:
+      image: quizzes/psalms_every_breath/fast-psalms-pack06-q08.png
+    copy:
+      fr:
+        prompt: Tu reviens à l’Église sans ressentir la joie. Quel premier pas choisir
+          ?
+        choices:
+        - key: a
+          label: Afficher une joie de façade
+        - key: b
+          label: Attendre de se sentir parfait
+        - key: c
+          label: Venir sincère et offrir un pas
+        - key: d
+          label: Mesurer sa foi au volume
+        feedback: La joie habite le psaume; nous pouvons venir sans la feindre et
+          offrir à Dieu ce qui est possible aujourd’hui.
+        scripture_cite: Psaume 149:1-5
+      es:
+        prompt: Vuelves a la Iglesia sin sentir alegría. ¿Qué primer paso puedes dar?
+        choices:
+        - key: a
+          label: Fingir alegría para encajar
+        - key: b
+          label: Esperar hasta sentirte perfecto
+        - key: c
+          label: Venir de corazón y dar un paso
+        - key: d
+          label: Medir tu fe por el volumen
+        feedback: La alegría vive en el salmo; puedes venir sin fingirla y ofrecer
+          a Dios lo que hoy sea posible.
+        scripture_cite: Salmo 149:1-5
+      en:
+        prompt: You’re coming back to church without feeling joy. What’s one first
+          step?
+        choices:
+        - key: a
+          label: Put on a joyful face
+        - key: b
+          label: Wait until you feel perfect
+        - key: c
+          label: Come honestly and take one step
+        - key: d
+          label: Measure faith by volume
+        feedback: Joy lives in the psalm; you can come without pretending and offer
+          God what you can today.
+        scripture_cite: Psalm 149:1-5
+      pt-BR:
+        prompt: Você volta à Igreja sem sentir alegria. Qual primeiro passo dar?
+        choices:
+        - key: a
+          label: Fingir alegria para se encaixar
+        - key: b
+          label: Esperar até se sentir perfeito
+        - key: c
+          label: Vir de coração e dar um passo
+        - key: d
+          label: Medir sua fé pelo volume
+        feedback: A alegria vive no salmo; você pode vir sem fingir e oferecer a Deus
+          o que for possível hoje.
+        scripture_cite: Salmo 149:1-5
+  - id: fast-psalms-pack06-q09
+    scripture:
+      canon: bible
+      cite: Psaume 150:3-5
+      study: ot/ps/150
+    correct_choice: b
+    points: 15
+    duration: 15
+    intensity: 4
+    presentation:
+      image: quizzes/psalms_every_breath/fast-psalms-pack06-q09.png
+    copy:
+      fr:
+        prompt: 'Vrai ou faux : le Psaume 150 ne cite qu’un seul instrument.'
+        choices:
+        - key: a
+          label: Vrai
+        - key: b
+          label: Faux
+        feedback: Trompette, luth, harpe, tambourin, cordes, flûte, cymbales et danse
+          composent toute une fête.
+        scripture_cite: Psaume 150:3-5
+      es:
+        prompt: 'Cierto o falso: el Salmo 150 cita un solo instrumento.'
+        choices:
+        - key: a
+          label: Cierto
+        - key: b
+          label: Falso
+        feedback: Trompeta, salterio, arpa, pandero, cuerdas, flauta, címbalos y danza
+          componen toda una fiesta.
+        scripture_cite: Salmo 150:3-5
+      en:
+        prompt: 'True or false: Psalm 150 names only one instrument.'
+        choices:
+        - key: a
+          label: 'True'
+        - key: b
+          label: 'False'
+        feedback: Trumpet, psaltery, harp, timbrel, strings, flute, cymbals, and dance
+          make a whole celebration.
+        scripture_cite: Psalm 150:3-5
+      pt-BR:
+        prompt: 'Verdadeiro ou falso: o Salmo 150 cita só um instrumento.'
+        choices:
+        - key: a
+          label: Verdadeiro
+        - key: b
+          label: Falso
+        feedback: Trombeta, saltério, harpa, tamborim, cordas, flautas, címbalos e
+          dança formam uma grande festa.
+        scripture_cite: Salmo 150:3-5
+  - id: fast-psalms-pack06-q10
+    scripture:
+      canon: bible
+      cite: Psaume 150:6
+      study: ot/ps/150
+    correct_choice: a
+    points: 25
+    duration: 15
+    intensity: 5
+    presentation:
+      image: quizzes/psalms_every_breath/fast-psalms-pack06-q10.png
+    copy:
+      fr:
+        prompt: Tu ne sais ni chanter ni jouer. Quelle place le psaume t’ouvre-t-il
+          ?
+        choices:
+        - key: a
+          label: Répondre par souffle et présence
+        - key: b
+          label: Laisser louer les musiciens
+        - key: c
+          label: Prouver sa foi par un talent
+        - key: d
+          label: Attendre une émotion forte
+        feedback: "« Tout ce qui respire » t’inclut : souffle et présence peuvent
+          répondre à Dieu. La louange n’est pas un concours."
+        scripture_cite: Psaume 150:6
+      es:
+        prompt: No sabes cantar ni tocar. ¿Cómo te incluye el salmo?
+        choices:
+        - key: a
+          label: Tu aliento y presencia responden
+        - key: b
+          label: Dejar que alaben los músicos
+        - key: c
+          label: Probar tu fe con un talento
+        - key: d
+          label: Esperar una emoción fuerte
+        feedback: "«Todo lo que respira» te incluye: tu aliento y presencia pueden
+          responder a Dios. La alabanza no es un concurso."
+        scripture_cite: Salmo 150:6
+      en:
+        prompt: You can’t sing or play. How does the psalm make room for you?
+        choices:
+        - key: a
+          label: Respond with breath and presence
+        - key: b
+          label: Leave praise to the musicians
+        - key: c
+          label: Prove faith through talent
+        - key: d
+          label: Wait for a powerful feeling
+        feedback: "“Everything that has breath” includes you: your breath and presence
+          can respond to God. Praise is not a contest."
+        scripture_cite: Psalm 150:6
+      pt-BR:
+        prompt: Você não sabe cantar nem tocar. Como o salmo inclui você?
+        choices:
+        - key: a
+          label: Responder com fôlego e presença
+        - key: b
+          label: Deixar o louvor aos músicos
+        - key: c
+          label: Provar sua fé com um talento
+        - key: d
+          label: Esperar uma emoção forte
+        feedback: "“Tudo o que tem fôlego” inclui você: fôlego e presença podem responder
+          a Deus. O louvor não é uma competição."
+        scripture_cite: Salmo 150:6

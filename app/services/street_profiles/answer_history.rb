@@ -114,7 +114,7 @@ module StreetProfiles
       def build_adventure_session(run)
         return unless run
 
-        pack = QuizDefinition.catalog.packs.find { |candidate| candidate.id == run.pack_id }
+        pack = find_adventure_pack(run.pack_id)
         answers = run.quiz_answers.sort_by { |answer| adventure_position(pack, answer) }
           .map { |answer| build_adventure_entry(pack, answer) }
         Session.new(
@@ -141,8 +141,14 @@ module StreetProfiles
           correct: answer.correct?,
           duration_ms: answer.duration_ms,
           answered_at: answer.created_at,
-          scripture: question&.scripture&.cite
+          scripture: question&.scripture_cite
         )
+      end
+
+      def find_adventure_pack(pack_id)
+        QuizDefinition.catalog.find_pack(pack_id)
+      rescue QuizDefinition::Error
+        nil
       end
 
       def build_word_session(run)

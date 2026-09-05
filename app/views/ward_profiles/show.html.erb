@@ -10,6 +10,8 @@
 <% live = @featured_night %>
 <% city = @ward.city.presence || @ward.name %>
 <% community_name = t("ward_story.community_name.#{@ward_unit_kind}", city:) %>
+<% word_art = @expedition&.rama_artwork_key.presence || @expedition&.artwork.presence || "expedition.psalms-2026.home" %>
+<% hero_title = @expedition&.rama_headline.presence || t("ward_story.hero.title") %>
 <% hero_address = [@ward.chapel_address, @ward.city].compact_blank.uniq.join(" · ") %>
 <% visit_address = [@ward.chapel_address, [@ward.postal_code, @ward.city].compact_blank.join(" "), @ward.region].compact_blank.uniq %>
 <% page_hud(face: false, hud: true, theme: "celestial-dark") { site_menu } %>
@@ -17,7 +19,17 @@
 <div id="rama_profile" class="rama-page hall-paper" data-controller="rama-motion">
   <section class="rama-chapter rama-story-hero" aria-labelledby="rama-title"
            data-rama-motion-target="chapter" data-rama-motion-recipe="result-reveal">
-    <% if @ward.code == "RAMA" %>
+    <% if @expedition&.rama_artwork_key.present? %>
+      <%= noche_picture(
+            word_art,
+            role: :rama_weekly_hero,
+            alt: "",
+            picture_class: "rama-chapter-art rama-story-hero__art",
+            loading: "eager",
+            fetchpriority: "high",
+            sizes: "100vw"
+          ) %>
+    <% elsif @ward.code == "RAMA" %>
       <picture class="rama-chapter-art rama-story-hero__art" aria-hidden="true">
         <source media="(max-width: 700px)" type="image/avif"
                 srcset="/media/rama/benidorm-community-concept-v1/portrait-390.avif 390w, /media/rama/benidorm-community-concept-v1/portrait-529.avif 529w"
@@ -52,7 +64,7 @@
           <% end %>
           <strong><%= community_name %></strong>
         </div>
-        <h1 id="rama-title"><%= t("ward_story.hero.title") %></h1>
+        <h1 id="rama-title"><%= hero_title %></h1>
         <% if hero_address.present? %>
           <p class="rama-story-hero__address"><span aria-hidden="true">●</span><%= hero_address %></p>
         <% end %>
@@ -80,7 +92,6 @@
 
   <% if @study_week %>
     <% word_path = @expedition ? street_map_path(view: "expeditions", expedition: @study_week.id) : scripture_library_path %>
-    <% word_art = @expedition&.artwork.presence || "expedition.psalms-2026.home" %>
     <% word_title = @expedition&.title.presence || @study_week.display_heading %>
     <% word_lede = @expedition&.promise.presence || @study_week.display_scripture_refs.join(" · ") %>
     <% study_total = @expedition&.total_count || 10 %>

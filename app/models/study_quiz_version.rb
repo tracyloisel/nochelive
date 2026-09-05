@@ -116,7 +116,11 @@ class StudyQuizVersion < ApplicationRecord
     def learning_content
       if expedition?
         errors.add(:content, "expedition cannot embed a second quiz set") if questions.any?
-        unknown = expedition_pack_ids.reject { |pack_id| QuizDefinition.catalog.pack_ids.include?(pack_id) }
+        # Archived packs remain valid historical references. They are absent
+        # from the playable catalog, but published and retired expedition
+        # versions must still be loadable, reproducible and testable.
+        known_pack_ids = QuizDefinition.catalog.all_packs.map(&:id)
+        unknown = expedition_pack_ids.reject { |pack_id| known_pack_ids.include?(pack_id) }
         errors.add(:content, "contains unknown expedition packs: #{unknown.join(', ')}") if unknown.any?
       elsif questions.size != 10
         errors.add(:content, "must contain 10 questions")

@@ -12,11 +12,13 @@ module Studies
   class DailyEditorialSchedule
     ROOT = Rails.root.join("config/study/library_daily_editorials")
     SCHEMA_VERSION = 2
-    SUPPORTED_SCHEMA_VERSIONS = [ 1, SCHEMA_VERSION ].freeze
+    FAST_SCHEMA_VERSION = 3
+    SUPPORTED_SCHEMA_VERSIONS = [ 1, SCHEMA_VERSION, FAST_SCHEMA_VERSION ].freeze
     HUMAN_DRAMATURGY_REQUIRED_FROM = Date.new(2026, 9, 7)
     WORKFLOW_STATES = %w[draft publish_ready scheduled].freeze
     LEGACY_COUNCIL_GATES = %w[art_gate experience_gate human_voice_gate truth_gate].freeze
     REQUIRED_COUNCIL_GATES = %w[art_gate experience_gate human_dramaturgy_gate human_voice_gate truth_gate].freeze
+    REQUIRED_FAST_GATES = %w[quiz_gate translation_gate public_editorial_gate visual_gate human_gate].freeze
     REQUIRED_RENDITIONS = {
       "portrait" => "9:16",
       "tablet" => "4:5",
@@ -82,6 +84,7 @@ module Studies
     def publication = data["publication"].is_a?(Hash) ? data["publication"] : {}
     def workflow_state = publication["state"].to_s
     def council_review = data["council_review"].is_a?(Hash) ? data["council_review"] : {}
+    def fast_review = data["fast_review"].is_a?(Hash) ? data["fast_review"] : {}
     def starts_on = parse_date(data["starts_on"])
     def ends_on = parse_date(data["ends_on"])
     def time_zone = Time.find_zone(data["timezone"].to_s)
@@ -200,20 +203,32 @@ module Studies
       def validate_council_readiness(issues)
         return if workflow_state == "draft"
 
-        issues << "council_review.publish_ready must be true" unless council_review["publish_ready"] == true
-        reviewed_revision = council_review["revision"]
-        if schema_version == SCHEMA_VERSION && (!reviewed_revision.is_a?(Integer) || reviewed_revision < 1)
-          issues << "council_review.revision must be a positive integer"
+        review = review_contract
+        prefix = review_contract_name
+        issues << "#{prefix}.publish_ready must be true" unless review["publish_ready"] == true
+        reviewed_revision = review["revision"]
+        if schema_version != 1 && (!reviewed_revision.is_a?(Integer) || reviewed_revision < 1)
+          issues << "#{prefix}.revision must be a positive integer"
         end
-        required_council_gates.each do |gate|
-          issues << "council_review.#{gate} must PASS" unless council_review.dig(gate, "status") == "PASS"
-          if schema_version == SCHEMA_VERSION && council_review.dig(gate, "reviewed_revision") != reviewed_revision
-            issues << "council_review.#{gate}.reviewed_revision must match council_review.revision"
+        required_review_gates.each do |gate|
+          issues << "#{prefix}.#{gate} must PASS" unless review.dig(gate, "status") == "PASS"
+          if schema_version != 1 && review.dig(gate, "reviewed_revision") != reviewed_revision
+            issues << "#{prefix}.#{gate}.reviewed_revision must match #{prefix}.revision"
           end
         end
       end
 
-      def required_council_gates
+      def review_contract
+        schema_version == FAST_SCHEMA_VERSION ? fast_review : council_review
+      end
+
+      def review_contract_name
+        schema_version == FAST_SCHEMA_VERSION ? "fast_review" : "council_review"
+      end
+
+      def required_review_gates
+        return REQUIRED_FAST_GATES if schema_version == FAST_SCHEMA_VERSION
+
         schema_version == 1 ? LEGACY_COUNCIL_GATES : REQUIRED_COUNCIL_GATES
       end
 
@@ -232,6 +247,12 @@ module Studies
           unless asset && asset["role"] == "library_daily_hero"
             issues << "daily_discoveries[#{index}].artwork_key is not in the generated media manifest"
             next
+          end
+
+          expected_theme = row["light_family"].to_s.delete_prefix("celestial_")
+          if Studies::DailyDiscoveryContract::LIGHT_FAMILIES.include?(row["light_family"].to_s) &&
+              asset["theme"].to_s != expected_theme
+            issues << "daily_discoveries[#{index}].light_family must match the artwork theme"
           end
 
           renditions = asset.fetch("renditions", {})
@@ -262,7 +283,7 @@ module Studies
           expected_source_count == 21 && weekly_sources.size == expected_source_count &&
             weekly_sources.uniq.size == expected_source_count
 
-        return unless schema_version == SCHEMA_VERSION
+        return unless schema_version.in?([ SCHEMA_VERSION, FAST_SCHEMA_VERSION ])
 
         issues << "expected_artwork_digest is required" if expected_artwork_digest.blank?
         issues << "daily artwork changed after Council review" unless
@@ -277,8 +298,13 @@ module Studies
         end
 
         dossier = YAML.safe_load_file(path, aliases: false)
-        unless dossier.is_a?(Hash) && dossier["kind"] == "expedition_council_dossier"
-          issues << "source_dossier must be an expedition Council dossier"
+        expected_kind = schema_version == FAST_SCHEMA_VERSION ? "expedition_fast_manifest" : "expedition_council_dossier"
+        unless dossier.is_a?(Hash) && dossier["kind"] == expected_kind
+          issues << if schema_version == FAST_SCHEMA_VERSION
+            "source_dossier must be an expedition FAST manifest"
+          else
+            "source_dossier must be an expedition Council dossier"
+          end
           return
         end
 
@@ -291,14 +317,18 @@ module Studies
         end
 
 
-        return unless schema_version == SCHEMA_VERSION
+        return if schema_version == 1
 
-        validate_dossier_library_editorial(dossier, issues)
+        if schema_version == FAST_SCHEMA_VERSION
+          validate_fast_library_editorial(dossier, issues)
+        else
+          validate_dossier_library_editorial(dossier, issues)
+        end
         return if workflow_state == "draft"
 
         dossier_revision = dossier.dig("lifecycle", "current_revision")
-        unless dossier_revision.is_a?(Integer) && dossier_revision == council_review["revision"]
-          issues << "council_review.revision must match source_dossier lifecycle.current_revision"
+        unless dossier_revision.is_a?(Integer) && dossier_revision == review_contract["revision"]
+          issues << "#{review_contract_name}.revision must match source_dossier lifecycle.current_revision"
         end
       rescue Psych::Exception, Errno::ENOENT
         issues << "source_dossier must be readable Council YAML"
@@ -346,6 +376,60 @@ module Studies
           row.slice("day_id", "scheduled_on", "kind", "references", "claim_ids")
         end
         issues << "source_dossier library_editorial plan must match the seven delivered days" unless
+          actual_days == expected_days
+      end
+
+      def validate_fast_library_editorial(dossier, issues)
+        runtime = dossier.dig("fast", "runtime_export")
+        editorial = runtime&.dig("library_editorial")
+        unless editorial.is_a?(Hash)
+          issues << "source_dossier must contain fast.runtime_export.library_editorial"
+          return
+        end
+
+        dossier_revision = dossier.dig("lifecycle", "current_revision")
+        issues << "source_dossier FAST library editorial revision must match lifecycle.current_revision" unless
+          editorial["revision"] == dossier_revision
+        issues << "source_dossier FAST library editorial dates and timezone must match the delivery" unless
+          editorial["starts_on"].to_s == data["starts_on"].to_s &&
+            editorial["ends_on"].to_s == data["ends_on"].to_s &&
+            editorial["timezone"].to_s == data["timezone"].to_s
+        issues << "source_dossier FAST library editorial must declare six discoveries and one contemplation" unless
+          editorial["composition"] == {
+            "discoveries" => 6, "contemplations" => 1, "total_days" => 7
+          }
+        issues << "source_dossier FAST library editorial must require all player locales" unless
+          Array(editorial["required_locales"]).map(&:to_s).sort == Locale::AVAILABLE.sort
+        issues << "source_dossier FAST library editorial discoveries digest must match the delivery" unless
+          secure_digest?(editorial["expected_discoveries_digest"], expected_discoveries_digest)
+        issues << "source_dossier FAST library editorial artwork digest must match the delivery" unless
+          secure_digest?(editorial["expected_artwork_digest"], expected_artwork_digest)
+
+        if workflow_state != "draft"
+          issues << "source_dossier FAST library editorial must be approved" unless editorial["status"] == "approved"
+          issues << "source_dossier FAST accessibility copy must be approved" unless
+            runtime.dig("accessibility_copy", "status") == "approved"
+          issues << "source_dossier FAST runtime copy still has unresolved human decisions" unless
+            Array(runtime["unresolved_human_copy"]).empty?
+        end
+
+        return unless discoveries.is_a?(Array)
+
+        expected_days = discoveries.map do |row|
+          {
+            "day_id" => row["id"],
+            "scheduled_on" => row["scheduled_on"],
+            "kind" => row["kind"],
+            "references" => row["references"],
+            "claim_ids" => row["claim_ids"]
+          }.compact
+        end
+        actual_days = Array(editorial.dig("plan", "days")).map do |row|
+          next {} unless row.is_a?(Hash)
+
+          row.slice("day_id", "scheduled_on", "kind", "references", "claim_ids")
+        end
+        issues << "source_dossier FAST library editorial plan must match the seven delivered days" unless
           actual_days == expected_days
       end
 

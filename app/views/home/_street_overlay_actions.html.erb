@@ -1,17 +1,17 @@
 <div id="street_quiz_actions" class="<%= street.settled? ? "street-shot-actions" : "is-empty" %>">
   <% if street.settled? %>
     <% if question.scripture %>
-      <%= link_to scripture_path(question.scripture.study, cite: question.scripture.cite),
+      <%= link_to scripture_path(question.scripture.study, cite: question.scripture_cite),
             class: "quiz-scripture",
-            aria: { label: "#{t("quiz.read")} #{question.scripture.cite}" },
+            aria: { label: question.copy(:reader_cta_label).presence || "#{t("quiz.read")} #{question.scripture_cite}" },
             data: {
               turbo_frame: "scripture_reader",
               action: "click->scripture-launcher#prepare",
               scripture_chapter_title: scripture_reader_reference_label(question.scripture.study)
             } do %>
         <%= picto("scroll") %>
-        <span class="quiz-read"><%= t("quiz.read") %></span>
-        <span class="quiz-cite"><%= question.scripture.cite %></span>
+        <span class="quiz-read"><%= question.copy(:reader_cta_label).presence || t("quiz.read") %></span>
+        <span class="quiz-cite"><%= question.scripture_cite %></span>
       <% end %>
     <% else %>
       <span></span>

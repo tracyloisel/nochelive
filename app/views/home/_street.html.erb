@@ -63,16 +63,16 @@ end %>
       <% end %>
       <% if street.settled? && !street.done? %>
         <div class="street-shot-actions">
-          <%= link_to scripture_path(question.scripture.study, cite: question.scripture.cite),
+          <%= link_to scripture_path(question.scripture.study, cite: question.scripture_cite),
                 class: "btn btn-navy quiz-scripture",
-                aria: { label: "#{t("quiz.read")} #{question.scripture.cite}" },
+                aria: { label: question.copy(:reader_cta_label).presence || "#{t("quiz.read")} #{question.scripture_cite}" },
                 data: {
                   turbo_frame: "scripture_reader",
                   action: "click->scripture-launcher#prepare",
                   scripture_chapter_title: scripture_reader_reference_label(question.scripture.study)
                 } do %>
-            <span class="quiz-read"><%= t("quiz.read") %></span>
-            <span class="quiz-cite"><%= question.scripture.cite %></span>
+            <span class="quiz-read"><%= question.copy(:reader_cta_label).presence || t("quiz.read") %></span>
+            <span class="quiz-cite"><%= question.scripture_cite %></span>
           <% end %>
           <%= button_to quiz_advance_path(street.run),
                 class: "btn btn-gold quiz-next",

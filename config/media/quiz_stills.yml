@@ -1149,7 +1149,7 @@ stills:
     atmosphere: peaceful
     glass: soft
   quizzes/exp_psalms_disappearing_voice/ps103_distance_07.png:
-    mode: light
+    mode: dark
     atmosphere: glorious
     glass: soft
   quizzes/exp_psalms_disappearing_voice/ps103_fragilite_08.png:
@@ -1165,15 +1165,15 @@ stills:
     atmosphere: glorious
     glass: medium
   quizzes/exp_psalms_nameless_king/ps110_roles_01.png:
-    mode: dark
+    mode: light
     atmosphere: solemn
     glass: strong
   quizzes/exp_psalms_nameless_king/ps110_roi_inconnu_02.png:
-    mode: dark
+    mode: light
     atmosphere: dramatic
     glass: strong
   quizzes/exp_psalms_nameless_king/ps110_droite_03.png:
-    mode: dark
+    mode: light
     atmosphere: glorious
     glass: strong
   quizzes/exp_psalms_nameless_king/ps110_melchisedek_04.png:
@@ -1181,11 +1181,11 @@ stills:
     atmosphere: solemn
     glass: strong
   quizzes/exp_psalms_nameless_king/ps110_fin_05.png:
-    mode: dark
+    mode: light
     atmosphere: dramatic
     glass: strong
   quizzes/exp_psalms_nameless_king/ps110_scene_06.png:
-    mode: dark
+    mode: light
     atmosphere: dramatic
     glass: strong
   quizzes/exp_psalms_nameless_king/ps110_matthieu_07.png:
@@ -1193,7 +1193,7 @@ stills:
     atmosphere: solemn
     glass: medium
   quizzes/exp_psalms_nameless_king/ps110_hebreux5_08.png:
-    mode: light
+    mode: dark
     atmosphere: glorious
     glass: soft
   quizzes/exp_psalms_nameless_king/ps110_hebreux7_09.png:
@@ -1313,7 +1313,7 @@ stills:
     atmosphere: dramatic
     glass: strong
   quizzes/exp_psalms_suspended_harps/ps139_fuir_08.png:
-    mode: dark
+    mode: light
     atmosphere: dramatic
     glass: strong
   quizzes/exp_psalms_suspended_harps/ps139_parole_09.png:
@@ -1345,7 +1345,7 @@ stills:
     atmosphere: glorious
     glass: soft
   quizzes/exp_psalms_everything_breathes/ps148_choeur_06.png:
-    mode: light
+    mode: dark
     atmosphere: glorious
     glass: soft
   quizzes/exp_psalms_everything_breathes/ps148_ages_07.png:
@@ -1364,6 +1364,289 @@ stills:
     mode: light
     atmosphere: glorious
     glass: soft
+  quizzes/dc89_word_of_wisdom/fast-dc89-q01.png:
+    mode: light
+    atmosphere: solemn
+    glass: medium
+  quizzes/dc89_word_of_wisdom/fast-dc89-q02.png:
+    mode: dark
+    atmosphere: dramatic
+    glass: medium
+  quizzes/dc89_word_of_wisdom/fast-dc89-q03.png:
+    mode: light
+    atmosphere: solemn
+    glass: medium
+  quizzes/dc89_word_of_wisdom/fast-dc89-q04.png:
+    mode: light
+    atmosphere: peaceful
+    glass: medium
+  quizzes/dc89_word_of_wisdom/fast-dc89-q05.png:
+    mode: light
+    atmosphere: peaceful
+    glass: medium
+  quizzes/dc89_word_of_wisdom/fast-dc89-q06.png:
+    mode: dark
+    atmosphere: dramatic
+    glass: medium
+  quizzes/dc89_word_of_wisdom/fast-dc89-q07.png:
+    mode: light
+    atmosphere: peaceful
+    glass: medium
+  quizzes/dc89_word_of_wisdom/fast-dc89-q08.png:
+    mode: light
+    atmosphere: peaceful
+    glass: medium
+  quizzes/dc89_word_of_wisdom/fast-dc89-q09.png:
+    mode: light
+    atmosphere: solemn
+    glass: medium
+  quizzes/dc89_word_of_wisdom/fast-dc89-q10.png:
+    mode: light
+    atmosphere: solemn
+    glass: medium
+
+# BEGIN GENERATED PSALMS FAST RUNTIME STILLS
+  quizzes/psalms_living_god/fast-psalms-pack01-q01.png:
+    mode: light
+    atmosphere: peaceful
+    glass: strong
+  quizzes/psalms_living_god/fast-psalms-pack01-q02.png:
+    mode: light
+    atmosphere: peaceful
+    glass: strong
+  quizzes/psalms_living_god/fast-psalms-pack01-q03.png:
+    mode: light
+    atmosphere: peaceful
+    glass: strong
+  quizzes/psalms_living_god/fast-psalms-pack01-q04.png:
+    mode: light
+    atmosphere: peaceful
+    glass: strong
+  quizzes/psalms_living_god/fast-psalms-pack01-q05.png:
+    mode: light
+    atmosphere: peaceful
+    glass: strong
+  quizzes/psalms_living_god/fast-psalms-pack01-q06.png:
+    mode: light
+    atmosphere: peaceful
+    glass: strong
+  quizzes/psalms_living_god/fast-psalms-pack01-q07.png:
+    mode: light
+    atmosphere: peaceful
+    glass: strong
+  quizzes/psalms_living_god/fast-psalms-pack01-q08.png:
+    mode: light
+    atmosphere: peaceful
+    glass: strong
+  quizzes/psalms_living_god/fast-psalms-pack01-q09.png:
+    mode: light
+    atmosphere: peaceful
+    glass: strong
+  quizzes/psalms_living_god/fast-psalms-pack01-q10.png:
+    mode: light
+    atmosphere: peaceful
+    glass: strong
+  quizzes/psalms_servant_king/fast-psalms-pack02-q01.png:
+    mode: light
+    atmosphere: peaceful
+    glass: strong
+  quizzes/psalms_servant_king/fast-psalms-pack02-q02.png:
+    mode: light
+    atmosphere: peaceful
+    glass: strong
+  quizzes/psalms_servant_king/fast-psalms-pack02-q03.png:
+    mode: light
+    atmosphere: peaceful
+    glass: strong
+  quizzes/psalms_servant_king/fast-psalms-pack02-q04.png:
+    mode: light
+    atmosphere: peaceful
+    glass: strong
+  quizzes/psalms_servant_king/fast-psalms-pack02-q05.png:
+    mode: light
+    atmosphere: peaceful
+    glass: strong
+  quizzes/psalms_servant_king/fast-psalms-pack02-q06.png:
+    mode: light
+    atmosphere: peaceful
+    glass: strong
+  quizzes/psalms_servant_king/fast-psalms-pack02-q07.png:
+    mode: light
+    atmosphere: peaceful
+    glass: strong
+  quizzes/psalms_servant_king/fast-psalms-pack02-q08.png:
+    mode: light
+    atmosphere: peaceful
+    glass: strong
+  quizzes/psalms_servant_king/fast-psalms-pack02-q09.png:
+    mode: light
+    atmosphere: peaceful
+    glass: strong
+  quizzes/psalms_servant_king/fast-psalms-pack02-q10.png:
+    mode: light
+    atmosphere: peaceful
+    glass: strong
+  quizzes/psalms_hears_knows/fast-psalms-pack03-q01.png:
+    mode: light
+    atmosphere: peaceful
+    glass: strong
+  quizzes/psalms_hears_knows/fast-psalms-pack03-q02.png:
+    mode: light
+    atmosphere: peaceful
+    glass: strong
+  quizzes/psalms_hears_knows/fast-psalms-pack03-q03.png:
+    mode: light
+    atmosphere: peaceful
+    glass: strong
+  quizzes/psalms_hears_knows/fast-psalms-pack03-q04.png:
+    mode: light
+    atmosphere: peaceful
+    glass: strong
+  quizzes/psalms_hears_knows/fast-psalms-pack03-q05.png:
+    mode: light
+    atmosphere: peaceful
+    glass: strong
+  quizzes/psalms_hears_knows/fast-psalms-pack03-q06.png:
+    mode: light
+    atmosphere: peaceful
+    glass: strong
+  quizzes/psalms_hears_knows/fast-psalms-pack03-q07.png:
+    mode: light
+    atmosphere: peaceful
+    glass: strong
+  quizzes/psalms_hears_knows/fast-psalms-pack03-q08.png:
+    mode: light
+    atmosphere: peaceful
+    glass: strong
+  quizzes/psalms_hears_knows/fast-psalms-pack03-q09.png:
+    mode: light
+    atmosphere: peaceful
+    glass: strong
+  quizzes/psalms_hears_knows/fast-psalms-pack03-q10.png:
+    mode: light
+    atmosphere: peaceful
+    glass: strong
+  quizzes/psalms_walk_with_god/fast-psalms-pack04-q01.png:
+    mode: light
+    atmosphere: peaceful
+    glass: strong
+  quizzes/psalms_walk_with_god/fast-psalms-pack04-q02.png:
+    mode: light
+    atmosphere: peaceful
+    glass: strong
+  quizzes/psalms_walk_with_god/fast-psalms-pack04-q03.png:
+    mode: light
+    atmosphere: peaceful
+    glass: strong
+  quizzes/psalms_walk_with_god/fast-psalms-pack04-q04.png:
+    mode: light
+    atmosphere: peaceful
+    glass: strong
+  quizzes/psalms_walk_with_god/fast-psalms-pack04-q05.png:
+    mode: light
+    atmosphere: peaceful
+    glass: strong
+  quizzes/psalms_walk_with_god/fast-psalms-pack04-q06.png:
+    mode: light
+    atmosphere: peaceful
+    glass: strong
+  quizzes/psalms_walk_with_god/fast-psalms-pack04-q07.png:
+    mode: light
+    atmosphere: peaceful
+    glass: strong
+  quizzes/psalms_walk_with_god/fast-psalms-pack04-q08.png:
+    mode: light
+    atmosphere: peaceful
+    glass: strong
+  quizzes/psalms_walk_with_god/fast-psalms-pack04-q09.png:
+    mode: light
+    atmosphere: peaceful
+    glass: strong
+  quizzes/psalms_walk_with_god/fast-psalms-pack04-q10.png:
+    mode: light
+    atmosphere: peaceful
+    glass: strong
+  quizzes/psalms_build_home/fast-psalms-pack05-q01.png:
+    mode: light
+    atmosphere: peaceful
+    glass: strong
+  quizzes/psalms_build_home/fast-psalms-pack05-q02.png:
+    mode: dark
+    atmosphere: dramatic
+    glass: strong
+  quizzes/psalms_build_home/fast-psalms-pack05-q03.png:
+    mode: light
+    atmosphere: peaceful
+    glass: strong
+  quizzes/psalms_build_home/fast-psalms-pack05-q04.png:
+    mode: light
+    atmosphere: peaceful
+    glass: strong
+  quizzes/psalms_build_home/fast-psalms-pack05-q05.png:
+    mode: dark
+    atmosphere: dramatic
+    glass: strong
+  quizzes/psalms_build_home/fast-psalms-pack05-q06.png:
+    mode: dark
+    atmosphere: dramatic
+    glass: strong
+  quizzes/psalms_build_home/fast-psalms-pack05-q07.png:
+    mode: light
+    atmosphere: peaceful
+    glass: strong
+  quizzes/psalms_build_home/fast-psalms-pack05-q08.png:
+    mode: dark
+    atmosphere: dramatic
+    glass: strong
+  quizzes/psalms_build_home/fast-psalms-pack05-q09.png:
+    mode: light
+    atmosphere: peaceful
+    glass: strong
+  quizzes/psalms_build_home/fast-psalms-pack05-q10.png:
+    mode: light
+    atmosphere: peaceful
+    glass: strong
+  quizzes/psalms_every_breath/fast-psalms-pack06-q01.png:
+    mode: light
+    atmosphere: peaceful
+    glass: strong
+  quizzes/psalms_every_breath/fast-psalms-pack06-q02.png:
+    mode: light
+    atmosphere: peaceful
+    glass: strong
+  quizzes/psalms_every_breath/fast-psalms-pack06-q03.png:
+    mode: dark
+    atmosphere: glorious
+    glass: strong
+  quizzes/psalms_every_breath/fast-psalms-pack06-q04.png:
+    mode: light
+    atmosphere: peaceful
+    glass: strong
+  quizzes/psalms_every_breath/fast-psalms-pack06-q05.png:
+    mode: light
+    atmosphere: peaceful
+    glass: strong
+  quizzes/psalms_every_breath/fast-psalms-pack06-q06.png:
+    mode: dark
+    atmosphere: dramatic
+    glass: strong
+  quizzes/psalms_every_breath/fast-psalms-pack06-q07.png:
+    mode: light
+    atmosphere: glorious
+    glass: strong
+  quizzes/psalms_every_breath/fast-psalms-pack06-q08.png:
+    mode: light
+    atmosphere: peaceful
+    glass: strong
+  quizzes/psalms_every_breath/fast-psalms-pack06-q09.png:
+    mode: light
+    atmosphere: glorious
+    glass: strong
+  quizzes/psalms_every_breath/fast-psalms-pack06-q10.png:
+    mode: light
+    atmosphere: solemn
+    glass: strong
+# END GENERATED PSALMS FAST RUNTIME STILLS
 
 # Generation prompts for the new parable collection. The runtime reads only `stills`.
 packs:

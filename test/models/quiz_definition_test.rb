@@ -4,13 +4,12 @@ require "digest"
 class QuizDefinitionTest < ActiveSupport::TestCase
   LOCKED_PACK_IDS = %w[
     coronas placas hermanas abish profetas jehova nazareno moises abraham
-    kolob premortal exaltacion jose inicios pruebas_profetas pruebas_heroes milagros
+    kolob premortal exaltacion jose inicios dc89_word_of_wisdom pruebas_profetas pruebas_heroes milagros
     apocalipsis segunda_venida milenio
     perdido_encontrado secretos_reino amar_projimo velar_servir sobre_roca
     simbolos_mormon parabolas_profetas improbables
-    exp_psalms_disappearing_voice exp_psalms_nameless_king
-    exp_psalms_cry_stone_seek exp_psalms_house_table_city
-    exp_psalms_suspended_harps exp_psalms_everything_breathes
+    psalms_living_god psalms_servant_king psalms_hears_knows
+    psalms_walk_with_god psalms_build_home psalms_every_breath
   ].freeze
 
   setup do

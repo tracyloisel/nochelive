@@ -1,0 +1,597 @@
+packs:
+- id: dc89_word_of_wisdom
+  copy:
+    fr:
+      title: La Parole de Sagesse
+      kicker: Doctrine et Alliances 89
+      lede: Qui commande tes habitudes ?
+    es:
+      title: La Palabra de Sabiduría
+      kicker: Doctrina y Convenios 89
+      lede: "¿Quién manda sobre tus hábitos?"
+    en:
+      title: The Word of Wisdom
+      kicker: Doctrine and Covenants 89
+      lede: Who is in charge of your habits?
+    pt-BR:
+      title: A Palavra de Sabedoria
+      kicker: Doutrina e Convênios 89
+      lede: Quem comanda os seus hábitos?
+  readings:
+  - study: dc-testament/dc/89
+    cite: D&A 89
+  questions:
+  - id: fast-dc89-q01
+    scripture:
+      canon: dc
+      cite: D&A 89:1-3
+      study: dc-testament/dc/89
+    correct_choice: b
+    points: 5
+    duration: 0
+    intensity: 1
+    presentation:
+      image: quizzes/dc89_word_of_wisdom/fast-dc89-q01.png
+    copy:
+      fr:
+        prompt: Au début, à qui s’adresse la Parole de Sagesse ?
+        choices:
+        - key: a
+          label: À Joseph Smith et sa famille
+        - key: b
+          label: Conseil, Église, saints de Sion
+        - key: c
+          label: Aux personnes déjà malades
+        - key: d
+          label: Aux seuls responsables d’Église
+        feedback: Le verset 1 nomme le conseil, l’Église et les saints de Sion. Le
+          principe est adapté même aux plus faibles.
+      es:
+        prompt: "¿A quién se dirige la Palabra de Sabiduría al comienzo?"
+        choices:
+        - key: a
+          label: A José Smith y su familia
+        - key: b
+          label: Consejo, Iglesia, santos de Sion
+        - key: c
+          label: A quienes ya estaban enfermos
+        - key: d
+          label: Solo a líderes de la Iglesia
+        feedback: El versículo 1 nombra al consejo, la Iglesia y los santos de Sion.
+          Es un principio pensado incluso para los más débiles.
+      en:
+        prompt: Who is the Word of Wisdom addressed to at the start?
+        choices:
+        - key: a
+          label: Joseph Smith and his family
+        - key: b
+          label: Council, Church, Saints in Zion
+        - key: c
+          label: People who were already sick
+        - key: d
+          label: Church leaders alone
+        feedback: Verse 1 names the council, the Church, and the Saints in Zion. The
+          principle is meant for everyone, even the weak.
+      pt-BR:
+        prompt: No início, para quem é a Palavra de Sabedoria?
+        choices:
+        - key: a
+          label: A Joseph Smith e sua família
+        - key: b
+          label: Conselho, Igreja, santos de Sião
+        - key: c
+          label: A quem já estava doente
+        - key: d
+          label: Só aos líderes da Igreja
+        feedback: O versículo 1 cita o conselho, a Igreja e os santos de Sião. O princípio
+          serve até para os mais fracos.
+  - id: fast-dc89-q02
+    scripture:
+      canon: dc
+      cite: D&A 89
+      study: dc-testament/dc/89
+    correct_choice: c
+    points: 5
+    duration: 0
+    intensity: 1
+    presentation:
+      image: quizzes/dc89_word_of_wisdom/fast-dc89-q02.png
+    copy:
+      fr:
+        prompt: En soirée, on te propose de l’alcool. À quoi t’invite le texte ?
+        choices:
+        - key: a
+          label: Quitter la soirée
+        - key: b
+          label: Céder pour éviter les regards
+        - key: c
+          label: Te protéger sans te justifier
+        - key: d
+          label: Transformer la soirée en leçon
+        feedback: Par amour pour le Seigneur et pour toi, tu peux refuser sans te
+          justifier, sans condamner les autres ni rompre le lien.
+      es:
+        prompt: En una fiesta te ofrecen alcohol. ¿A qué te invita el texto?
+        choices:
+        - key: a
+          label: Irte de la fiesta
+        - key: b
+          label: Ceder para evitar miradas
+        - key: c
+          label: Cuidarte sin justificarte
+        - key: d
+          label: Convertir la fiesta en sermón
+        feedback: Por amor al Señor y a ti, puedes decir que no sin justificarte,
+          condenar a otros ni romper el vínculo.
+      en:
+        prompt: At a party, you’re offered alcohol. Which choice fits the text?
+        choices:
+        - key: a
+          label: Leave the party
+        - key: b
+          label: Give in to avoid the looks
+        - key: c
+          label: Say no without explaining
+        - key: d
+          label: Turn the party into a sermon
+        feedback: Out of love for the Lord and yourself, you can say no without explaining,
+          condemning others, or breaking the bond.
+      pt-BR:
+        prompt: Numa festa, alguém oferece álcool. O que o texto convida você a fazer?
+        choices:
+        - key: a
+          label: Sair da festa
+        - key: b
+          label: Ceder para evitar os olhares
+        - key: c
+          label: Se proteger sem se justificar
+        - key: d
+          label: Transformar a festa em sermão
+        feedback: Por amar o Senhor e cuidar de você, dá para recusar sem se explicar,
+          julgar os outros ou romper o vínculo.
+  - id: fast-dc89-q03
+    scripture:
+      canon: dc
+      cite: D&A 89:5-6
+      study: dc-testament/dc/89
+    correct_choice: b
+    points: 5
+    duration: 0
+    intensity: 2
+    presentation:
+      image: quizzes/dc89_word_of_wisdom/fast-dc89-q03.png
+    copy:
+      fr:
+        prompt: 'Vrai ou faux : la Parole de Sagesse interdit tout vin, sans exception.'
+        choices:
+        - key: a
+          label: Vrai
+        - key: b
+          label: Faux
+        feedback: 'Les versets 5 et 6 gardent une exception pour le sacrement : du
+          vin pur de raisin fabriqué par les saints.'
+      es:
+        prompt: 'Verdadero o falso: la Palabra de Sabiduría prohíbe todo vino.'
+        choices:
+        - key: a
+          label: Verdadero
+        - key: b
+          label: Falso
+        feedback: 'Los versículos 5–6 mantienen una excepción para la Santa Cena:
+          vino puro de uva elaborado por los santos.'
+      en:
+        prompt: 'True or false: the Word of Wisdom bans all wine, no exceptions.'
+        choices:
+        - key: a
+          label: 'True'
+        - key: b
+          label: 'False'
+        feedback: 'Verses 5–6 keep an exception for the sacrament: pure grape wine
+          made by the Saints.'
+      pt-BR:
+        prompt: 'Verdadeiro ou falso: a Palavra de Sabedoria proíbe todo vinho.'
+        choices:
+        - key: a
+          label: Verdadeiro
+        - key: b
+          label: Falso
+        feedback: 'Os versículos 5–6 mantêm uma exceção para o sacramento: vinho puro
+          de uva feito pelos santos.'
+  - id: fast-dc89-q04
+    scripture:
+      canon: dc
+      cite: D&A 89
+      study: dc-testament/dc/89
+    correct_choice: b
+    points: 8
+    duration: 20
+    intensity: 2
+    presentation:
+      image: quizzes/dc89_word_of_wisdom/fast-dc89-q04.png
+    copy:
+      fr:
+        prompt: 'Vrai ou faux : appliquer la Parole de Sagesse garantit la santé.'
+        choices:
+        - key: a
+          label: Vrai
+        - key: b
+          label: Faux
+        feedback: La Parole de Sagesse n’est ni un contrat médical ni un permis de
+          juger les autres.
+      es:
+        prompt: 'Verdadero o falso: vivir la Palabra de Sabiduría garantiza la salud.'
+        choices:
+        - key: a
+          label: Verdadero
+        - key: b
+          label: Falso
+        feedback: La Palabra de Sabiduría no es un contrato médico ni un permiso para
+          juzgar a los demás.
+      en:
+        prompt: 'True or false: living the Word of Wisdom guarantees good health.'
+        choices:
+        - key: a
+          label: 'True'
+        - key: b
+          label: 'False'
+        feedback: The Word of Wisdom is neither a medical contract nor a license to
+          judge others.
+      pt-BR:
+        prompt: 'Verdadeiro ou falso: viver a Palavra de Sabedoria garante saúde.'
+        choices:
+        - key: a
+          label: Verdadeiro
+        - key: b
+          label: Falso
+        feedback: A Palavra de Sabedoria não é um contrato médico nem uma licença
+          para julgar os outros.
+  - id: fast-dc89-q05
+    scripture:
+      canon: dc
+      cite: D&A 89:12-13
+      study: dc-testament/dc/89
+    correct_choice: a
+    points: 8
+    duration: 20
+    intensity: 2
+    presentation:
+      image: quizzes/dc89_word_of_wisdom/fast-dc89-q05.png
+    copy:
+      fr:
+        prompt: Quand est-il agréable au Seigneur de consommer de la viande ?
+        choices:
+        - key: a
+          label: En hiver, au froid ou en famine
+        - key: b
+          label: Chaque jour avec gratitude
+        - key: c
+          label: Lors des fêtes seulement
+        - key: d
+          label: Après un effort physique
+        feedback: Les versets 12–13 conseillent d’en user avec économie, seulement
+          en hiver, par temps froid ou en période de famine.
+      es:
+        prompt: "¿Cuándo le agrada al Señor que consumamos carne?"
+        choices:
+        - key: a
+          label: En invierno, con frío o hambre
+        - key: b
+          label: Cada día con gratitud
+        - key: c
+          label: Solo durante las fiestas
+        - key: d
+          label: Después de hacer ejercicio
+        feedback: Los versículos 12–13 aconsejan usarla con moderación, solo en invierno,
+          con frío o en época de hambre.
+      en:
+        prompt: When is it pleasing to the Lord for us to eat meat?
+        choices:
+        - key: a
+          label: Winter, cold weather, or famine
+        - key: b
+          label: Every day with gratitude
+        - key: c
+          label: Only at celebrations
+        - key: d
+          label: After physical exertion
+        feedback: Verses 12–13 counsel using it sparingly, only in winter, cold weather,
+          or famine.
+      pt-BR:
+        prompt: Quando agrada ao Senhor que a gente consuma carne?
+        choices:
+        - key: a
+          label: No inverno, no frio ou na fome
+        - key: b
+          label: Todos os dias, com gratidão
+        - key: c
+          label: Só durante as festas
+        - key: d
+          label: Depois de fazer exercício
+        feedback: 'Os versículos 12–13 aconselham moderação: apenas no inverno, no
+          frio ou em época de fome.'
+  - id: fast-dc89-q06
+    scripture:
+      canon: dc
+      cite: D&A 89
+      study: dc-testament/dc/89
+    correct_choice: b
+    points: 8
+    duration: 20
+    intensity: 3
+    presentation:
+      image: quizzes/dc89_word_of_wisdom/fast-dc89-q06.png
+    copy:
+      fr:
+        prompt: En cas d’addiction, que faire d’abord après une rechute ?
+        choices:
+        - key: a
+          label: La cacher pour sauver son image
+        - key: b
+          label: Dire vrai et demander de l’aide
+        - key: c
+          label: Attendre avant de prier
+        - key: d
+          label: Croire son baptême annulé
+        feedback: Une rechute n’efface ni dignité ni alliance. Se confesser, prier
+          et demander de l’aide rouvrent le chemin.
+      es:
+        prompt: Tras recaer en una adicción, ¿qué haces primero?
+        choices:
+        - key: a
+          label: Ocultarlo para salvar tu imagen
+        - key: b
+          label: Decir la verdad y pedir ayuda
+        - key: c
+          label: Esperar antes de orar
+        - key: d
+          label: Dar por anulado tu bautismo
+        feedback: Una recaída no borra tu dignidad ni tu convenio. Confesarlo, orar
+          y pedir ayuda vuelven a abrir el camino.
+      en:
+        prompt: After an addiction relapse, what should you do first?
+        choices:
+        - key: a
+          label: Hide it to protect your image
+        - key: b
+          label: Tell the truth and ask for help
+        - key: c
+          label: Wait before praying
+        - key: d
+          label: Think your baptism is canceled
+        feedback: A relapse doesn’t erase your dignity or your covenant. Confessing,
+          praying, and asking for help reopen the way.
+      pt-BR:
+        prompt: Depois de uma recaída no vício, o que fazer primeiro?
+        choices:
+        - key: a
+          label: Esconder para manter sua imagem
+        - key: b
+          label: Dizer a verdade e pedir ajuda
+        - key: c
+          label: Esperar antes de orar
+        - key: d
+          label: Crer que o batismo foi anulado
+        feedback: Uma recaída não apaga sua dignidade nem seu convênio. Confessar,
+          orar e pedir ajuda reabrem o caminho.
+  - id: fast-dc89-q07
+    scripture:
+      canon: dc
+      cite: D&A 89:9
+      study: dc-testament/dc/89
+    correct_choice: c
+    points: 12
+    duration: 15
+    intensity: 3
+    presentation:
+      image: quizzes/dc89_word_of_wisdom/fast-dc89-q07.png
+    copy:
+      fr:
+        prompt: Selon le verset 9, que dit le texte des boissons brûlantes ?
+        choices:
+        - key: a
+          label: Excellentes pour la santé
+        - key: b
+          label: Réservées aux fièvres
+        - key: c
+          label: Ni pour le corps ni le ventre
+        - key: d
+          label: Permises seulement le soir
+        feedback: Le verset 9 dit que les boissons brûlantes ne sont ni pour le corps
+          ni pour le ventre.
+      es:
+        prompt: Según el versículo 9, ¿qué dice de las bebidas calientes?
+        choices:
+        - key: a
+          label: Excelentes para la salud
+        - key: b
+          label: Reservadas para la fiebre
+        - key: c
+          label: Ni para el cuerpo ni el vientre
+        - key: d
+          label: Permitidas solo de noche
+        feedback: El versículo 9 dice que las bebidas calientes no son para el cuerpo
+          ni para el vientre.
+      en:
+        prompt: According to verse 9, what does the text say about hot drinks?
+        choices:
+        - key: a
+          label: Excellent for your health
+        - key: b
+          label: Reserved for fevers
+        - key: c
+          label: Not for the body or belly
+        - key: d
+          label: Allowed only at night
+        feedback: Verse 9 says hot drinks are not for the body or the belly.
+      pt-BR:
+        prompt: Segundo o versículo 9, o que o texto diz das bebidas quentes?
+        choices:
+        - key: a
+          label: Excelentes para a saúde
+        - key: b
+          label: Reservadas para a febre
+        - key: c
+          label: Nem para o corpo nem o ventre
+        - key: d
+          label: Permitidas apenas à noite
+        feedback: O versículo 9 diz que bebidas quentes não são para o corpo nem para
+          o ventre.
+  - id: fast-dc89-q08
+    scripture:
+      canon: dc
+      cite: D&A 89:10
+      study: dc-testament/dc/89
+    correct_choice: b
+    points: 12
+    duration: 15
+    intensity: 4
+    presentation:
+      image: quizzes/dc89_word_of_wisdom/fast-dc89-q08.png
+    copy:
+      fr:
+        prompt: 'Vrai ou faux : créées par Dieu, toutes les plantes guérissent.'
+        choices:
+        - key: a
+          label: Vrai
+        - key: b
+          label: Faux
+        feedback: Le verset 10 parle d’herbes salutaires pour l’homme. Il ne dit pas
+          que toute plante est un remède.
+      es:
+        prompt: 'Verdadero o falso: si Dios las creó, todas las plantas curan.'
+        choices:
+        - key: a
+          label: Verdadero
+        - key: b
+          label: Falso
+        feedback: El versículo 10 habla de hierbas saludables. No afirma que toda
+          planta sea un remedio.
+      en:
+        prompt: 'True or false: because God created them, all plants can heal.'
+        choices:
+        - key: a
+          label: 'True'
+        - key: b
+          label: 'False'
+        feedback: Verse 10 speaks of wholesome herbs. It does not say every plant
+          is a remedy.
+      pt-BR:
+        prompt: 'Verdadeiro ou falso: se Deus as criou, todas as plantas curam.'
+        choices:
+        - key: a
+          label: Verdadeiro
+        - key: b
+          label: Falso
+        feedback: O versículo 10 fala de ervas salutares. Não diz que toda planta
+          é um remédio.
+  - id: fast-dc89-q09
+    scripture:
+      canon: dc
+      cite: D&A 89:8
+      study: dc-testament/dc/89
+    correct_choice: b
+    points: 15
+    duration: 15
+    intensity: 4
+    presentation:
+      image: quizzes/dc89_word_of_wisdom/fast-dc89-q09.png
+    copy:
+      fr:
+        prompt: 'Vrai ou faux : D&A 89 permet de fumer ou de chiquer du tabac.'
+        choices:
+        - key: a
+          label: Vrai
+        - key: b
+          label: Faux
+        feedback: 'Le verset 8 dit que le tabac n’est ni pour le corps ni pour le
+          ventre : le fumer ou le chiquer est proscrit.'
+      es:
+        prompt: 'Verdadero o falso: DyC 89 permite fumar o mascar tabaco.'
+        choices:
+        - key: a
+          label: Verdadero
+        - key: b
+          label: Falso
+        feedback: 'El versículo 8 dice que el tabaco no es para el cuerpo ni el vientre:
+          fumarlo o mascarlo está prohibido.'
+      en:
+        prompt: 'True or false: D&C 89 allows smoking or chewing tobacco.'
+        choices:
+        - key: a
+          label: 'True'
+        - key: b
+          label: 'False'
+        feedback: 'Verse 8 says tobacco is not for the body or belly: smoking or chewing
+          it is forbidden.'
+      pt-BR:
+        prompt: 'Verdadeiro ou falso: D&C 89 permite fumar ou mascar tabaco.'
+        choices:
+        - key: a
+          label: Verdadeiro
+        - key: b
+          label: Falso
+        feedback: 'O versículo 8 diz que o tabaco não é para o corpo nem o ventre:
+          fumar ou mascar é proibido.'
+  - id: fast-dc89-q10
+    scripture:
+      canon: dc
+      cite: D&A 89:2
+      study: dc-testament/dc/89
+    correct_choice: c
+    points: 25
+    duration: 15
+    intensity: 5
+    presentation:
+      image: quizzes/dc89_word_of_wisdom/fast-dc89-q10.png
+    copy:
+      fr:
+        prompt: Selon le verset 2, comment la Parole de Sagesse est-elle envoyée ?
+        choices:
+        - key: a
+          label: Par commandement
+        - key: b
+          label: Par contrainte
+        - key: c
+          label: Par révélation
+        - key: d
+          label: Par tradition
+        feedback: Le verset 2 dit qu’elle n’est envoyée ni par commandement ni par
+          contrainte, mais par révélation.
+      es:
+        prompt: Según el versículo 2, ¿cómo se envía la Palabra de Sabiduría?
+        choices:
+        - key: a
+          label: Por mandamiento
+        - key: b
+          label: Por coacción
+        - key: c
+          label: Por revelación
+        - key: d
+          label: Por tradición
+        feedback: El versículo 2 dice que no se envía por mandamiento ni coacción,
+          sino por revelación.
+      en:
+        prompt: According to verse 2, how is the Word of Wisdom sent?
+        choices:
+        - key: a
+          label: By commandment
+        - key: b
+          label: By force
+        - key: c
+          label: By revelation
+        - key: d
+          label: By tradition
+        feedback: Verse 2 says it is sent not by commandment or force, but by revelation.
+      pt-BR:
+        prompt: Segundo o versículo 2, como a Palavra de Sabedoria é enviada?
+        choices:
+        - key: a
+          label: Por mandamento
+        - key: b
+          label: Por coação
+        - key: c
+          label: Por revelação
+        - key: d
+          label: Por tradição
+        feedback: O versículo 2 diz que ela não é enviada por mandamento nem coação,
+          mas por revelação.

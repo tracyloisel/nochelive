@@ -176,7 +176,7 @@ class ArchitectureContractTest < ActiveSupport::TestCase
     expected_paths = []
 
     manifest.fetch("assets").each do |key, asset|
-      assert_includes %w[hub_backdrop hub_hero library_daily_hero hub_card catalog_portrait catalog_landscape catalog_square catalog_icon], asset.fetch("role"), key
+      assert_includes %w[hub_backdrop hub_hero library_daily_hero rama_weekly_hero hub_card catalog_portrait catalog_landscape catalog_square catalog_icon], asset.fetch("role"), key
       assert asset.fetch("source_width").positive?, key
       assert asset.fetch("source_bytes").positive?, key
       assert asset.fetch("ratio").present?, key

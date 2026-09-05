@@ -57,18 +57,29 @@ Gold = metal, emblem, one CTA, Buzz disc, trophy, score-as-metal, leaf on arches
 
 Veto opaque white cards pasted over artwork, indiscriminate frosted blur, milky full-screen veils, and generic glassmorphism with no gold, world tint, or Noche hierarchy.
 
-## Human drama before visual metaphor
+## Universal image or human drama
 
-For Scripture illustration, never make the text's noun, expression, or metaphor
-the default subject of the image. A road for “the way,” a door for “enter,” a
-summit for “rise,” a broken chain for “freedom,” or a providential light beam
-for “blessing” is a rejected first idea.
+A road for “the way,” a door for “enter,” a summit for “rise,” a broken chain
+for “freedom” or a light beam for “blessing” is allowed when it is the most
+immediate, beautiful and intriguing image. A familiar symbol is not rejected
+merely because it is familiar.
 
-Start from an observable human situation: someone wants something they do not
-yet have, feels two honest emotions at once, and reveals the tension through a
-relationship, gesture, look, silence, or distance. The scene must communicate
-something with the title and Scripture reference removed. If it resembles a
-stock-image search result, return it to the Human Dramaturge before rendering.
+Do not stop mechanically at the first association. When an observable human,
+historical or environmental situation can carry the same subject, compare it
+with the conventional image. Judge first-second readability, scroll-stopping
+power, emotional force, fidelity and desire to contemplate; keep the stronger
+result, whether conventional, dramaturgical or hybrid.
+
+Human drama uses desire, resistance, relationship, gesture, look, silence or
+distance. Symbolic and environmental images do not need invented characters or
+conflict. Whatever the mode, the image must communicate something with the
+title and Scripture reference removed and must not look like a lazy stock-image
+result.
+
+Choose the rendering language deliberately: `cinematic_realism` for a
+convincing live-action film still, or `biblical_illustration` for a rich,
+expressive pictorial Bible illustration. Historical does not automatically mean
+illustrated, and contemporary does not automatically mean photorealistic.
 
 Characters are beautiful, charismatic, and desirable in the Noche Live sense:
 magnetic presence, expressive faces, considered styling, living bodies,
@@ -93,5 +104,7 @@ Agent 2 ([noche-ui](../noche-ui/SKILL.md)) owns HUD, targets, states, tokens. Yo
 - [ ] Depth, light, and VFX proposed (or documented why none)
 - [ ] Screen is immediately Noche Live, not a web form on a painting
 - [ ] Same components can live in the other family when the moment changes
-- [ ] Scripture imagery is a lived human scene, not a literal metaphor or stock cliché
+- [ ] Conventional and dramaturgical readings were compared when both were defensible
+- [ ] Rendering language is intentionally `cinematic_realism` or `biblical_illustration`
+- [ ] Scripture imagery is immediate and specific, not a lazy stock cliché
 - [ ] Human subjects are magnetic and desirable without plastic perfection or sexualization

@@ -137,6 +137,78 @@ module Studies
       assert_equal "fr titre 1", @candidate.reload.content.dig("daily_discoveries", 0, "copy", "fr", "title")
     end
 
+    test "rejects a new expedition without a Council-authored Rama hero" do
+      changed = @candidate.content.deep_dup
+      changed.fetch("expedition").delete("rama_hero")
+      replace_candidate_content!(changed)
+
+      error = assert_raises(PublishQuizVersion::Error) do
+        PublishQuizVersion.call(version: @candidate, expected_content_digest: @candidate.content_digest)
+      end
+
+      assert_includes error.message, "rama_hero is required"
+      assert_equal "needs_review", @candidate.reload.status
+      assert_equal "published", @previous.reload.status
+    end
+
+    test "rejects a new expedition when one Rama headline locale is missing" do
+      changed = @candidate.content.deep_dup
+      changed.dig("expedition", "rama_hero", "headline").delete("pt-BR")
+      replace_candidate_content!(changed)
+
+      error = assert_raises(PublishQuizVersion::Error) do
+        PublishQuizVersion.call(version: @candidate, expected_content_digest: @candidate.content_digest)
+      end
+
+      assert_includes error.message, "rama_hero headline must contain exactly es, pt-BR, fr, en"
+      assert_equal "needs_review", @candidate.reload.status
+      assert_equal "published", @previous.reload.status
+    end
+
+    test "rejects a new expedition without a Rama hero artwork" do
+      changed = @candidate.content.deep_dup
+      changed.fetch("expedition").fetch("rama_hero").delete("artwork_key")
+      replace_candidate_content!(changed)
+
+      error = assert_raises(PublishQuizVersion::Error) do
+        PublishQuizVersion.call(version: @candidate, expected_content_digest: @candidate.content_digest)
+      end
+
+      assert_includes error.message, "rama_hero artwork_key is required"
+      assert_equal "needs_review", @candidate.reload.status
+      assert_equal "published", @previous.reload.status
+    end
+
+    test "rejects a borrowed hub card instead of a native Rama hero" do
+      changed = @candidate.content.deep_dup
+      hero = changed.fetch("expedition").fetch("rama_hero")
+      hero["artwork_key"] = "expedition.psalms-2026.home"
+      hero["artwork_digest"] = Expeditions::RamaHero.artwork_digest_for(hero.fetch("artwork_key"))
+      replace_candidate_content!(changed)
+
+      error = assert_raises(PublishQuizVersion::Error) do
+        PublishQuizVersion.call(version: @candidate, expected_content_digest: @candidate.content_digest)
+      end
+
+      assert_includes error.message, "artwork must use the rama_weekly_hero media role"
+      assert_equal "needs_review", @candidate.reload.status
+      assert_equal "published", @previous.reload.status
+    end
+
+    test "rejects Rama artwork changed after Council review" do
+      changed = @candidate.content.deep_dup
+      changed.dig("expedition", "rama_hero")["artwork_digest"] = "0" * 64
+      replace_candidate_content!(changed)
+
+      error = assert_raises(PublishQuizVersion::Error) do
+        PublishQuizVersion.call(version: @candidate, expected_content_digest: @candidate.content_digest)
+      end
+
+      assert_includes error.message, "artwork changed after Council review"
+      assert_equal "needs_review", @candidate.reload.status
+      assert_equal "published", @previous.reload.status
+    end
+
     private
 
       def create_version(version:, status:, content:, published_at: nil)
@@ -157,7 +229,14 @@ module Studies
           "readings" => [],
           "expedition" => {
             "id" => "previous-expedition",
-            "pack_ids" => [ "exp_psalms_disappearing_voice" ]
+            "pack_ids" => [ "psalms_living_god" ],
+            "rama_hero" => {
+              "revision" => 1,
+              "headline" => Locale::AVAILABLE.index_with { |locale| "Rama headline #{locale}" },
+              "artwork_key" => "expedition.psalms-102-150-fast.rama-weekly-hero",
+              "artwork_digest" => Expeditions::RamaHero.artwork_digest_for("expedition.psalms-102-150-fast.rama-weekly-hero"),
+              "light_family" => "celestial_light"
+            }
           }
         }
       end
@@ -177,7 +256,7 @@ module Studies
           "scheduled_on" => (@starts_on + index.days).iso8601,
           "timezone" => "Europe/Madrid",
           "status" => "approved",
-          "pack_id" => index == 6 ? nil : "exp_psalms_disappearing_voice",
+          "pack_id" => index == 6 ? nil : "psalms_living_god",
           "reference" => "ot/ps/137",
           "references" => [ "ot/ps/137" ],
           "claim_ids" => [ format("exeg-%03d", number) ],

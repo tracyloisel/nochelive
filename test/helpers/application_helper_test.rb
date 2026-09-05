@@ -1,6 +1,23 @@
 require "test_helper"
 
 class ApplicationHelperTest < ActionView::TestCase
+  test "quiz source uses the question citation instead of the editorial pack title" do
+    question = QuizDefinition::Question.new(
+      scripture: QuizDefinition::Scripture.new(canon: "bible", cite: "Psaume 118:22", study: "ot/ps/118")
+    )
+
+    assert_equal "Psaume 118:22", quiz_question_reference_label(question, fallback_title: "Voici Jésus-Christ")
+  end
+
+  test "quiz source keeps the legacy title fallback when no citation exists" do
+    question = QuizDefinition::Question.new(scripture: nil)
+
+    I18n.with_locale(:fr) do
+      assert_equal "Selon le livre de Voici Jésus-Christ",
+        quiz_question_reference_label(question, fallback_title: "Voici Jésus-Christ")
+    end
+  end
+
   test "Noche title and artwork come from the first quiz pack" do
     night = game_sessions(:david)
 

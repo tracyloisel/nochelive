@@ -37,7 +37,7 @@ class StudyQuizVersionTest < ActiveSupport::TestCase
 
     assert quiz.expedition?
     assert_empty quiz.questions
-    assert_equal [ "exp_psalms_disappearing_voice", "exp_psalms_nameless_king" ], quiz.expedition_pack_ids
+    assert_equal [ "psalms_living_god", "psalms_servant_king" ], quiz.expedition_pack_ids
   end
 
   test "an expedition rejects duplicated embedded questions and unknown packs" do
@@ -55,6 +55,27 @@ class StudyQuizVersionTest < ActiveSupport::TestCase
     quiz.content_digest = "unknown"
     refute quiz.valid?
     assert quiz.errors[:content].any? { |error| error.include?("invented-pack") }
+  end
+
+  test "an existing published expedition may retire after its packs leave the visible catalog" do
+    content = expedition_content
+    quiz = @unit.study_quiz_versions.create!(
+      version: 1,
+      status: "published",
+      editorial_locale: "fr",
+      content:,
+      content_digest: StudyQuizVersion.content_digest_for(content),
+      published_at: Time.current
+    )
+    historical = content.deep_dup
+    historical["expedition"]["pack_ids"] = [ "exp_psalms_disappearing_voice" ]
+    quiz.update_columns(
+      content: historical,
+      content_digest: StudyQuizVersion.content_digest_for(historical)
+    )
+
+    assert quiz.reload.update(status: "retired")
+    assert_equal "retired", quiz.status
   end
 
   test "does not use French reading labels as a cross-locale fallback" do
@@ -81,7 +102,7 @@ class StudyQuizVersionTest < ActiveSupport::TestCase
         "expedition" => {
           "id" => "weekly-psalms",
           "title" => { "fr" => "Six portes" },
-          "pack_ids" => [ "exp_psalms_disappearing_voice", "exp_psalms_nameless_king" ]
+          "pack_ids" => [ "psalms_living_god", "psalms_servant_king" ]
         }
       }
     end

@@ -51,6 +51,16 @@ module Studies
         raise Error, "expected content digest is required" if @expected_content_digest.blank?
         raise Error, "content changed after review" unless same_digest?(version.content_digest, @expected_content_digest)
         raise Error, "stored content digest is stale" unless version.content_digest_current?
+        ensure_expedition_rama_hero!(version)
+      end
+
+      def ensure_expedition_rama_hero!(version)
+        return unless version.expedition?
+
+        issues = Expeditions::RamaHero.validation_errors(expedition: version.expedition)
+        return if issues.empty?
+
+        raise Error, "expedition cannot be published: #{issues.to_sentence}"
       end
 
       def same_digest?(left, right)

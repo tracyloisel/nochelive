@@ -73,6 +73,32 @@ roles:
       avif: 54
       webp: 80
       jpeg: 84
+  # Weekly Rama heroes use three separately approved compositions. Keeping
+  # this contract distinct from Library covers prevents one crop from being
+  # reused as if it were a native first-screen composition.
+  rama_weekly_hero:
+    default_rendition: portrait
+    source_ratio_tolerance: 0.005
+    renditions:
+      portrait:
+        widths: [390, 768, 1170, 1440]
+        sizes: "100vw"
+        ratio: "9:16"
+        media: "(max-width: 599px) and (orientation: portrait)"
+      tablet:
+        widths: [768, 1024, 1536, 1600]
+        sizes: "100vw"
+        ratio: "4:5"
+        media: "(min-width: 600px) and (orientation: portrait)"
+      landscape:
+        widths: [768, 1024, 1440, 1920, 2560]
+        sizes: "100vw"
+        ratio: "16:9"
+        media: "(orientation: landscape)"
+    quality:
+      avif: 54
+      webp: 80
+      jpeg: 84
   # Hub editorial plates retain their approved master ratio. Their layout can
   # crop locally without baking a second, unstable media identity into content.
   hub_card:
@@ -116,6 +142,17 @@ assets:
     role: hub_card
     focus: "50% 50%"
     theme: dark
+  expedition.psalms-102-150-fast.rama-weekly-hero:
+    source: media/expeditions/psalms-102-150-fast/ps110-118-roi-serviteur-portrait-v1.png
+    sources:
+      tablet: media/expeditions/psalms-102-150-fast/ps110-118-roi-serviteur-tablet-v1.png
+      landscape: media/expeditions/psalms-102-150-fast/ps110-118-roi-serviteur-landscape-v1.png
+    role: rama_weekly_hero
+    focuses:
+      portrait: "52% 30%"
+      tablet: "78% 50%"
+      landscape: "78% 50%"
+    theme: light
   scripture.reader.mountains-gold-ivory:
     source: media/scripture/reader-mountains-gold-ivory-v1.png
     role: catalog_landscape
@@ -204,6 +241,83 @@ assets:
       tablet: "66% 66%"
       landscape: "76% 58%"
     theme: dark
+  scripture.library.daily.psalms-fast.ps136-mercy-refrain:
+    source: media/study/library/daily/psalms-102-150-fast/ps136-mercy-refrain-portrait-v1.png
+    sources:
+      tablet: media/study/library/daily/psalms-102-150-fast/ps136-mercy-refrain-tablet-v1.png
+      landscape: media/study/library/daily/psalms-102-150-fast/ps136-mercy-refrain-landscape-v1.png
+    role: library_daily_hero
+    focuses:
+      portrait: "50% 38%"
+      tablet: "76% 50%"
+      landscape: "80% 50%"
+    theme: light
+  scripture.library.daily.psalms-fast.ps110-118-servant-king:
+    source: media/study/library/daily/psalms-102-150-fast/ps110-118-servant-king-portrait-v1.png
+    sources:
+      tablet: media/study/library/daily/psalms-102-150-fast/ps110-118-servant-king-tablet-v1.png
+      landscape: media/study/library/daily/psalms-102-150-fast/ps110-118-servant-king-landscape-v1.png
+    role: library_daily_hero
+    focuses:
+      portrait: "50% 38%"
+      tablet: "76% 50%"
+      landscape: "80% 50%"
+    theme: light
+  scripture.library.daily.psalms-fast.ps139-known:
+    source: media/study/library/daily/psalms-102-150-fast/ps139-known-portrait-v1.png
+    sources:
+      tablet: media/study/library/daily/psalms-102-150-fast/ps139-known-tablet-v1.png
+      landscape: media/study/library/daily/psalms-102-150-fast/ps139-known-landscape-v1.png
+    role: library_daily_hero
+    focuses:
+      portrait: "50% 38%"
+      tablet: "76% 50%"
+      landscape: "80% 50%"
+    theme: light
+  scripture.library.daily.psalms-fast.ps119-lamp:
+    source: media/study/library/daily/psalms-102-150-fast/ps119-lamp-portrait-v1.png
+    sources:
+      tablet: media/study/library/daily/psalms-102-150-fast/ps119-lamp-tablet-v1.png
+      landscape: media/study/library/daily/psalms-102-150-fast/ps119-lamp-landscape-v1.png
+    role: library_daily_hero
+    focuses:
+      portrait: "50% 38%"
+      tablet: "76% 50%"
+      landscape: "80% 50%"
+    theme: light
+  scripture.library.daily.psalms-fast.ps147-build-heal:
+    source: media/study/library/daily/psalms-102-150-fast/ps147-build-heal-portrait-v1.png
+    sources:
+      tablet: media/study/library/daily/psalms-102-150-fast/ps147-build-heal-tablet-v1.png
+      landscape: media/study/library/daily/psalms-102-150-fast/ps147-build-heal-landscape-v1.png
+    role: library_daily_hero
+    focuses:
+      portrait: "50% 38%"
+      tablet: "76% 50%"
+      landscape: "80% 50%"
+    theme: light
+  scripture.library.daily.psalms-fast.ps150-return:
+    source: media/study/library/daily/psalms-102-150-fast/ps150-return-portrait-v1.png
+    sources:
+      tablet: media/study/library/daily/psalms-102-150-fast/ps150-return-tablet-v1.png
+      landscape: media/study/library/daily/psalms-102-150-fast/ps150-return-landscape-v1.png
+    role: library_daily_hero
+    focuses:
+      portrait: "50% 38%"
+      tablet: "76% 50%"
+      landscape: "80% 50%"
+    theme: light
+  scripture.library.daily.psalms-fast.ps110-118-weekly-contemplation:
+    source: media/expeditions/psalms-102-150-fast/ps110-118-roi-serviteur-portrait-v1.png
+    sources:
+      tablet: media/expeditions/psalms-102-150-fast/ps110-118-roi-serviteur-tablet-v1.png
+      landscape: media/expeditions/psalms-102-150-fast/ps110-118-roi-serviteur-landscape-v1.png
+    role: library_daily_hero
+    focuses:
+      portrait: "52% 30%"
+      tablet: "78% 50%"
+      landscape: "78% 50%"
+    theme: light
   scripture.library.daily.prov1.wisdom-cries:
     source: media/study/library/daily/prov1-public-threshold-listening-portrait-v2.png
     sources:

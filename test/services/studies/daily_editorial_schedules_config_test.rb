@@ -24,7 +24,10 @@ module Studies
         assert_equal schedule.expected_discoveries_digest,
           StudyQuizVersion.content_digest_for(schedule.discoveries),
           schedule.id
-        next unless schedule.schema_version == DailyEditorialSchedule::SCHEMA_VERSION
+        next unless [
+          DailyEditorialSchedule::SCHEMA_VERSION,
+          DailyEditorialSchedule::FAST_SCHEMA_VERSION
+        ].include?(schedule.schema_version)
 
         assert_equal schedule.expected_artwork_digest,
           schedule.current_artwork_digest,
@@ -35,7 +38,8 @@ module Studies
     test "all per-entry gates cover the frozen revision" do
       schedules.each do |schedule|
         schedule.discoveries.each do |row|
-          %w[truth_gate experience_gate].each do |gate_name|
+          gate_names = row["review_mode"] == "fast" ? %w[fast_gate] : %w[truth_gate experience_gate]
+          gate_names.each do |gate_name|
             gate = row.fetch(gate_name)
             assert_equal "PASS", gate.fetch("status"), row.fetch("id")
             assert_equal row.fetch("revision"), gate.fetch("reviewed_revision"), row.fetch("id")
