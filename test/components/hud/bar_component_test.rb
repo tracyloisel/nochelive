@@ -6,7 +6,7 @@ class Hud::BarComponentTest < ViewComponent::TestCase
     bar = Huds::Present::Result.new(kind: :street, guest: true, dots: [])
     render_inline(Hud::BarComponent.new(bar:))
 
-    assert_selector ".quiz-hud.is-guest[data-hud-theme='celestial-light']"
+    assert_selector ".quiz-hud.is-guest[data-hud-theme='celestial-light'][data-controller~='hud-surface']"
     assert_selector ".quiz-hud-avatar.is-guest .picto-profile-spark"
     assert_text I18n.t("hub.guest_invite")
     assert_text I18n.t("hub.guest_in_ward")
@@ -30,7 +30,7 @@ class Hud::BarComponentTest < ViewComponent::TestCase
     assert_selector ".quiz-hud[data-hud-theme='celestial-light']"
   end
 
-  test "signed-in street HUD is the quiz capsule" do
+  test "signed-in street HUD keeps player state without repeating adventure progress" do
     bar = Huds::Present::Result.new(
       kind: :street,
       guest: false,
@@ -56,9 +56,11 @@ class Hud::BarComponentTest < ViewComponent::TestCase
     assert_selector ".quiz-hud-who .quiz-hud-level", text: "6"
     assert_no_selector ".quiz-hud-pack .quiz-hud-level"
     assert_selector ".quiz-hud-xp[role=progressbar][aria-valuenow='64']"
-    assert_selector ".quiz-hud-title", text: "Coronas"
-    assert_selector ".quiz-hud-dot.is-done", count: 1
-    assert_selector ".quiz-hud-dot.is-now", count: 1
+    assert_selector ".quiz-hud[data-controller~='hud-surface']"
+    assert_no_selector ".quiz-hud-pack"
+    assert_no_selector ".quiz-hud-title", text: "Coronas"
+    assert_no_selector ".quiz-hud-progress"
+    assert_no_selector ".quiz-hud-rail"
     assert_selector ".quiz-hud-score", text: /382/
     assert_selector ".quiz-hud-streak-num", text: "2"
     assert_selector ".quiz-hud-menu"
@@ -86,6 +88,25 @@ class Hud::BarComponentTest < ViewComponent::TestCase
     assert_no_selector ".quiz-hud-streak"
   end
 
+  test "editorial street HUD keeps explicit zero crown and streak values" do
+    bar = Huds::Present::Result.new(
+      kind: :street,
+      guest: false,
+      name: "Pilar",
+      rank_key: "explorador",
+      level: 1,
+      xp_progress: 0,
+      dots: [],
+      crowns: 0,
+      streak: 0
+    )
+
+    render_inline(Hud::BarComponent.new(bar:))
+
+    assert_selector ".quiz-hud-score", text: "0"
+    assert_selector ".quiz-hud-streak.is-idle[data-tier='idle'] .quiz-hud-streak-num", text: "0"
+  end
+
   test "quiz HUD keeps crown score targets and the same living fire as the payoff" do
     bar = Huds::Present::Result.new(
       kind: :quiz,
@@ -103,6 +124,11 @@ class Hud::BarComponentTest < ViewComponent::TestCase
     render_inline(Hud::BarComponent.new(bar:))
 
     assert_selector ".quiz-hud.is-quiz"
+    assert_no_selector ".quiz-hud[data-controller~='hud-surface']"
+    assert_selector ".quiz-hud-title", text: "Coronas"
+    assert_selector ".quiz-hud-progress", text: I18n.t("quiz.progress", n: 2, total: 10)
+    assert_selector ".quiz-hud-dot.is-done", count: 1
+    assert_selector ".quiz-hud-dot.is-now", count: 1
     assert_no_selector ".quiz-hud > .quiz-hud-level"
     assert_selector ".quiz-hud-name .quiz-hud-level", text: "1"
     assert_no_selector ".quiz-hud-rank .quiz-hud-level"
@@ -153,5 +179,25 @@ class Hud::BarComponentTest < ViewComponent::TestCase
     assert_no_selector ".quiz-hud-rank .quiz-hud-level"
     assert_no_selector ".quiz-hud > .quiz-hud-level"
     assert_no_selector ".quiz-hud-pack .quiz-hud-level"
+  end
+
+  test "late Hub and quiz styles preserve glass accessibility fallbacks" do
+    hub_css = Rails.root.join("app/assets/stylesheets/surfaces/hub.css").read
+    quiz_css = Rails.root.join("app/assets/stylesheets/surfaces/street_play.css").read
+
+    assert_equal 3, hub_css.scan("body.is-game-hub-page .home-menu.is-hud.is-compact .quiz-hud:not(.is-quiz)").size
+    guard_start = quiz_css.rindex("/* The quiz owns its artwork theme")
+    last_quiz_blur = quiz_css.rindex("backdrop-filter: blur(14px);")
+    assert guard_start
+    assert last_quiz_blur
+    assert_operator guard_start, :>, last_quiz_blur
+
+    [ hub_css, quiz_css ].each do |css|
+      assert_includes css, "@supports not ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px)))"
+      assert_includes css, "@media (prefers-reduced-transparency: reduce)"
+      assert_includes css, "@media (forced-colors: active)"
+      assert_includes css, "background: Canvas;"
+      assert_includes css, "backdrop-filter: none;"
+    end
   end
 end

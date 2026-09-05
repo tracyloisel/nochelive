@@ -49,10 +49,6 @@ body.is-street-map-page .sky { background: none; }
   width: min(100%, 50rem);
   margin-inline: auto;
 }
-body.is-street-map-page .home-menu.is-hud > .home-menu-btn {
-  width: 2.75rem;
-  height: 2.75rem;
-}
 .mapa-header {
   display: grid;
   gap: var(--space-4);

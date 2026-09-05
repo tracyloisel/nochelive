@@ -31,6 +31,7 @@
          class="street-world is-game-hub"
          data-controller="street-share"
          data-street-share-copied-value="<%= t("street.share_copied") %>"
+         data-chrome-surface="<%= art.theme.mode %>"
          data-hub-theme="<%= art.theme.mode %>"
          data-hub-atmosphere="<%= art.theme.atmosphere %>"
          data-hub-accent="<%= art.theme.accent %>"
@@ -54,8 +55,7 @@
         bar: Huds::Present.from_screen(
           screen: screen,
           rank_up: params[:rank_up].present?,
-          show_adventure: false,
-          show_empty_stats: false
+          show_adventure: false
         )
       ) { site_menu(player: screen.player) } %>
 

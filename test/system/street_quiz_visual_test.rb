@@ -1996,6 +1996,10 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
         if (!hud || !dock) return null;
         var h = hud.getBoundingClientRect();
         var d = dock.getBoundingClientRect();
+        var dockStyle = getComputedStyle(dock);
+        var navigation = document.querySelector('.desktop-navigation');
+        var navigationBounds = navigation.getBoundingClientRect();
+        var navigationStyle = getComputedStyle(navigation);
         var viewport = document.documentElement.clientWidth;
         return {
           viewport: viewport,
@@ -2005,7 +2009,9 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
           dockLeft: d.left,
           dockRight: viewport - d.right,
           hudPosition: getComputedStyle(hud).position,
-          dockPosition: getComputedStyle(dock).position
+          dockPosition: dockStyle.position,
+          dockDisplay: dockStyle.display,
+          navigationVisible: navigationStyle.display !== 'none' && navigationStyle.visibility !== 'hidden' && navigationBounds.width > 0 && navigationBounds.height > 0
         };
       })()
     JS
@@ -2013,10 +2019,15 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
     assert_equal "fixed", measured["hudPosition"]
     assert_equal "fixed", measured["dockPosition"]
     assert_in_delta measured["viewport"], measured["hudW"], 2, "HUD should span the viewport"
-    assert_operator measured["dockW"], :<, measured["viewport"], "dock should float inside the viewport"
     assert_in_delta 0, measured["hudLeft"], 2, "HUD should start at the viewport edge"
-    assert_operator measured["dockLeft"], :>=, 11, "dock should detach from the left edge"
-    assert_in_delta measured["dockLeft"], measured["dockRight"], 2, "dock should be centered"
+    if measured["viewport"] >= 1_200
+      assert_equal "none", measured["dockDisplay"], "desktop uses the shared top navigation instead of duplicating the dock"
+      assert measured["navigationVisible"], "desktop navigation should replace the hidden dock"
+    else
+      assert_operator measured["dockW"], :<, measured["viewport"], "dock should float inside the viewport"
+      assert_operator measured["dockLeft"], :>=, 11, "dock should detach from the left edge"
+      assert_in_delta measured["dockLeft"], measured["dockRight"], 2, "dock should be centered"
+    end
   end
 
   def assert_shared_hud_morph!
@@ -2033,7 +2044,8 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
     sleep 0.34
     floating = shared_hud_state
 
-    assert_operator floating.fetch("radius"), :>=, 20, floating.inspect
+    assert_in_delta floating.fetch("dockRadius"), floating.fetch("radius"), 0.6,
+      "the floating HUD should share the dock silhouette: #{floating.inspect}"
     assert_operator floating.fetch("left"), :>=, 11, floating.inspect
     assert_operator floating.fetch("height"), :<, resting.fetch("height"), { resting:, floating: }.inspect
     refute_equal resting.fetch("background"), floating.fetch("background"), { resting:, floating: }.inspect
@@ -2078,10 +2090,12 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
     assert_selector ".home-menu.has-desktop-hud.is-compact", visible: :all
     sleep 0.34
     floating = desktop_only_hud_state
-    assert_operator floating.fetch("radius"), :>=, 20, floating.inspect
+    assert_in_delta floating.fetch("dockRadius"), floating.fetch("radius"), 0.6,
+      "the floating desktop HUD should share the dock silhouette: #{floating.inspect}"
     assert_operator floating.fetch("left"), :>=, 11, floating.inspect
     assert_operator floating.fetch("height"), :<, resting.fetch("height"), { resting:, floating: }.inspect
-    assert floating.fetch("navigationHidden"), floating.inspect
+    assert floating.fetch("navigationVisible"), floating.inspect
+    assert floating.fetch("navigationLinks").all? { |link| link.fetch("height") >= 44 && link.fetch("fontSize") >= 16 }, floating.inspect
     shot("hud-desktop-route-profile-floating")
   ensure
     begin
@@ -2101,11 +2115,20 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
         var style = getComputedStyle(hud);
         var bounds = shell.getBoundingClientRect();
         var navigation = document.querySelector('.desktop-navigation');
+        var dock = document.querySelector('body > .navigation-dock');
+        var navigationStyle = getComputedStyle(navigation);
+        var navigationBounds = navigation.getBoundingClientRect();
         return {
           radius: parseFloat(style.borderTopLeftRadius),
+          dockRadius: parseFloat(getComputedStyle(dock).borderTopLeftRadius),
           left: bounds.left,
           height: hud.getBoundingClientRect().height,
-          navigationHidden: getComputedStyle(navigation).visibility === 'hidden'
+          navigationVisible: navigationStyle.display !== 'none' && navigationStyle.visibility !== 'hidden' && navigationStyle.opacity !== '0' && navigationBounds.width > 0 && navigationBounds.height > 0,
+          navigationLinks: Array.from(navigation.querySelectorAll('a')).map(function(link) {
+            var linkStyle = getComputedStyle(link);
+            var linkBounds = link.getBoundingClientRect();
+            return { height: linkBounds.height, fontSize: parseFloat(linkStyle.fontSize) };
+          })
         };
       })()
     JS
@@ -2141,8 +2164,10 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
         var hud = menu.querySelector('.quiz-hud');
         var style = getComputedStyle(hud);
         var bounds = menu.getBoundingClientRect();
+        var dock = document.querySelector('body > .navigation-dock');
         return {
           radius: parseFloat(style.borderTopLeftRadius),
+          dockRadius: parseFloat(getComputedStyle(dock).borderTopLeftRadius),
           left: bounds.left,
           height: hud.getBoundingClientRect().height,
           background: [ style.backgroundColor, style.backgroundImage ].join(' | ')
@@ -2200,13 +2225,16 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
     JS
 
     assert measured, "the shared HUD must expose its theme and contrast tokens"
-    mode = find("body", visible: :all)[:class][/\bis-celestial-(light|dark)\b/, 1]
-    expected_theme ||= "celestial-#{mode}" if mode
+    expected_theme ||= measured["menuTheme"]
     assert_includes Hud::BarComponent::THEMES, expected_theme
     assert_equal expected_theme, measured["menuTheme"]
     assert_equal expected_theme, measured["hudTheme"]
-    assert_operator measured["onBlack"], :>=, 7.0, "#{expected_theme} HUD must remain AAA on a black artwork region"
-    assert_operator measured["onWhite"], :>=, 7.0, "#{expected_theme} HUD must remain AAA on a white artwork region"
+    primary_surface = expected_theme == "celestial-dark" ? "onBlack" : "onWhite"
+    transition_surface = expected_theme == "celestial-dark" ? "onWhite" : "onBlack"
+    assert_operator measured[primary_surface], :>=, 7.0,
+      "#{expected_theme} HUD must remain AAA on the artwork surface selected by the adaptive sampler"
+    assert_operator measured[transition_surface], :>=, 4.5,
+      "#{expected_theme} HUD must remain AA during the short adaptive Light/Dark handoff"
   end
 
   def assert_praise_inside_shot(shout = nil)
@@ -2266,6 +2294,10 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
         var b = burger.getBoundingClientRect();
         var s = slot.getBoundingClientRect();
         var i = icon.getBoundingClientRect();
+        var hudStyle = getComputedStyle(hud);
+        var background = hudStyle.backgroundColor;
+        var alphaToken = background.includes("/") ? background.split("/").pop() :
+          (background.startsWith("rgba(") ? background.split(",").pop() : "1");
         var mid = (q.left + q.right) / 2;
         return {
           aligned: !mute && !flag && f.left >= q.left - 12 && b.right <= q.right + 12 && b.left > mid && f.right < mid && f.height > 0,
@@ -2282,6 +2314,11 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
           iconOpacity: getComputedStyle(icon).opacity,
           slotXDelta: Math.abs(((b.left + b.right) / 2) - ((s.left + s.right) / 2)),
           slotYDelta: Math.abs(((b.top + b.bottom) / 2) - ((s.top + s.bottom) / 2)),
+          hudHeight: h.height,
+          whoHeight: w.height,
+          hudTheme: hud.dataset.hudTheme,
+          hudBackground: background,
+          hudSurfaceAlpha: Number.parseFloat(alphaToken),
           levelInsideWho: l.left >= w.left - 1 && l.right <= w.right + 1 && l.top >= w.top - 1 && l.bottom <= w.bottom + 1,
           packCenterDelta: Math.abs(((p.left + p.right) / 2) - ((h.left + h.right) / 2)),
           viewportWidth: window.innerWidth
@@ -2296,6 +2333,19 @@ class StreetQuizVisualTest < ApplicationSystemTestCase
     assert_operator geometry["iconWidth"], :>=, 30, "jugar hamburger glyph should match the Hub visual weight"
     assert_operator geometry["slotXDelta"], :<=, 1.5, "jugar hamburger should be centered in its reserved HUD slot: #{geometry.inspect}"
     assert_operator geometry["slotYDelta"], :<=, 1.5, "jugar hamburger should share the HUD vertical axis: #{geometry.inspect}"
+    assert_operator geometry["whoHeight"], :>=, 44, "jugar player identity must remain a 44px target: #{geometry.inspect}"
+    max_hud_height = if geometry["viewportWidth"] >= 1200
+      63
+    elsif geometry["viewportWidth"] >= 600
+      59
+    else
+      55
+    end
+    assert_operator geometry["hudHeight"], :<=, max_hud_height,
+      "jugar HUD should keep the calibrated compact height: #{geometry.inspect}"
+    expected_alpha = geometry["hudTheme"] == "celestial-dark" ? 0.64 : 0.76
+    assert_in_delta expected_alpha, geometry["hudSurfaceAlpha"], 0.02,
+      "jugar HUD should keep its own translucent glass token: #{geometry.inspect}"
     assert geometry["levelInsideWho"], "jugar level should stay attached to the player identity: #{geometry.inspect}"
     if geometry["viewportWidth"] >= 600
       assert_operator geometry["packCenterDelta"], :<=, 1.5, "jugar pack progress should sit on the capsule's true center: #{geometry.inspect}"

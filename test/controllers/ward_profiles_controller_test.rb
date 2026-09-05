@@ -29,7 +29,7 @@ class WardProfilesControllerTest < ActionDispatch::IntegrationTest
     assert_includes manifest.fetch("controllers"), "rama-motion"
     refute_includes manifest.fetch("controllers"), "hub-countdown"
     assert_select "link[href*='surfaces/rama'][data-turbo-track='dynamic']", count: 1
-    assert_select "#rama_profile.rama-page[data-controller='rama-motion']"
+    assert_select "#rama_profile.rama-page[data-controller='rama-motion'][data-chrome-surface='dark']"
     assert_select "#rama_profile > section" do |sections|
       assert_equal %w[rama-story-hero rama-week rama-story-night rama-league rama-story-visit],
         sections.map { |section| section["class"].split.find { |name| name.in?(%w[rama-story-hero rama-week rama-story-night rama-league rama-story-visit]) } }
@@ -50,11 +50,61 @@ class WardProfilesControllerTest < ActionDispatch::IntegrationTest
     assert_select ".rama-circle", count: 0
     assert_select ".rama-countdown, [data-controller~='hub-countdown']", count: 0
     assert_select ".rama-next-players, .rama-stats, .rama-events, .rama-live-carousel, .rama-card", count: 0
-    assert_select "nav.home-menu"
+    assert_select ".rama-story-hero[data-chrome-surface='dark']"
+    assert_select ".rama-week[data-chrome-surface='dark']"
+    assert_select ".rama-story-night[data-chrome-surface='dark']"
+    assert_select ".rama-league[data-chrome-surface='dark']"
+    assert_select ".rama-story-visit[data-chrome-surface='dark']"
+    assert_select ".rama-visit-sheet[data-chrome-surface='light']"
+    assert_select "header.quiz-hud[data-hud-theme='celestial-dark'][data-controller~='hud-surface']"
+    assert_select "nav.home-menu.is-hud[data-hud-theme='celestial-dark']"
+    assert_select "nav.desktop-navigation[data-hud-theme='celestial-dark'][data-hud-theme-companion]"
+    assert_select "nav.navigation-dock[data-dock-theme='celestial-dark']"
     assert_select ".chrome-drawer a[href=?]", about_path
     assert_select ".chrome-drawer a[href=?]", ward_profile_path("RAMA")
     assert_select ".navigation-dock__item.is-active[href=?]", church_path
     assert_select ".navigation-dock__item[href=?] > .picto-scripture-book", scripture_library_path
+  end
+
+  test "a light weekly expedition seeds light chrome before adaptive sampling" do
+    week = create_current_week!
+    artwork_key = "expedition.psalms-102-150-fast.rama-weekly-hero"
+    content = {
+      "questions" => [],
+      "readings" => [],
+      "expedition" => {
+        "id" => "light-rama-test",
+        "title" => Locale::AVAILABLE.index_with { |locale| "Light expedition #{locale}" },
+        "pack_ids" => [ "psalms_servant_king" ],
+        "packs" => [ { "id" => "psalms_servant_king" } ],
+        "rama_hero" => {
+          "revision" => 1,
+          "headline" => Locale::AVAILABLE.index_with { |locale| "Light Rama #{locale}" },
+          "artwork_key" => artwork_key,
+          "artwork_digest" => Expeditions::RamaHero.artwork_digest_for(artwork_key),
+          "light_family" => "celestial_light"
+        }
+      }
+    }
+    week.study_quiz_versions.create!(
+      version: 1,
+      status: "published",
+      editorial_locale: "es",
+      content:,
+      content_digest: StudyQuizVersion.content_digest_for(content),
+      published_at: Time.current
+    )
+
+    get ward_profile_path("RAMA")
+
+    assert_response :success
+    assert_select "body[data-chrome-surface='light']"
+    assert_select "#rama_profile[data-chrome-surface='dark']"
+    assert_select ".rama-story-hero[data-chrome-surface='light']"
+    assert_select ".rama-week[data-chrome-surface='light']"
+    assert_select "header.quiz-hud[data-hud-theme='celestial-light'][data-controller~='hud-surface']"
+    assert_select "nav.desktop-navigation[data-hud-theme='celestial-light'][data-hud-theme-companion]"
+    assert_select "nav.navigation-dock[data-dock-theme='celestial-light']"
   end
 
   test "guest never receives Circle content" do

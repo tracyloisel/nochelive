@@ -1,9 +1,11 @@
-<% content_for :title, t("scripture_library.title") %>
-<% content_for :body_class, "is-scripture-library is-celestial-dark" %>
-<% declare_frontend_resources(context: "scripture.library", styles: %w[library]) %>
-<% page_hud(hud: true, theme: "celestial-dark") { site_menu } %>
-
 <% editorial = @screen.editorial %>
+<% library_theme = normalize_hud_theme(editorial&.light_family.presence || "celestial-dark") %>
+<% library_surface_theme = library_theme.delete_prefix("celestial-") %>
+<% content_for :title, t("scripture_library.title") %>
+<% content_for :body_class, "is-scripture-library is-#{library_theme}" %>
+<% declare_frontend_resources(context: "scripture.library", styles: %w[library]) %>
+<% page_hud(hud: true, theme: library_theme) { site_menu } %>
+
 <% hero_artwork = editorial&.artwork_key || "scripture.library.psalms-refuge" %>
 <% hero_role = editorial ? :library_daily_hero : :hub_hero %>
 <% content_for :head do %>
@@ -25,6 +27,7 @@
          data-controller="library-search"
          data-library-search-error-message-value="<%= t("scripture_library.search.errors.network") %>">
   <header class="scripture-library-daily<%= " is-fallback" unless editorial %>"
+          data-chrome-surface="<%= library_surface_theme %>"
           <% if editorial %>data-daily-discovery-id="<%= editorial.id %>" data-daily-discovery-date="<%= editorial.scheduled_on.iso8601 %>"<% end %>>
     <div class="scripture-library-daily__world">
       <%= noche_picture(
@@ -131,7 +134,7 @@
     </a>
   </header>
 
-  <main id="choisir-lecture" class="scripture-library-stream" aria-label="<%= t("scripture_library.editorial.stream_label") %>">
+  <main id="choisir-lecture" class="scripture-library-stream" data-chrome-surface="dark" aria-label="<%= t("scripture_library.editorial.stream_label") %>">
     <div class="scripture-library-stream__inner">
       <%= render "scripture_libraries/resume", resume: @screen.resume if @screen.resume %>
       <%= render "scripture_libraries/week", week: @screen.week, active: selection_key == "weekly" if @screen.week %>
@@ -155,4 +158,4 @@
   </main>
 </article>
 
-<% page_dock(active: :word) %>
+<% page_dock(active: :word, surface: library_theme) %>

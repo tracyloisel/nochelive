@@ -212,21 +212,6 @@ body.is-night-live:has(.noche-team-pick) .chrome-tools .mute .picto { width: 1.3
 body.is-night-entry .chrome-tools .lang-menu,
 body.is-night-live:has(.noche-team-pick) .chrome-tools .lang-menu { top: calc(100% + .4rem); bottom: auto; }
 
-body.is-night-watch > .home-menu.is-hud {
-  z-index: 60;
-  top: max(.55rem,env(safe-area-inset-top));
-  right: auto;
-  left: 50%;
-  width: min(92rem,calc(100% - 2rem));
-  transform: translateX(-50%);
-}
-body.is-night-watch > .home-menu.is-hud.is-compact {
-  top: max(var(--hud-floating-inset), env(safe-area-inset-top));
-  right: max(var(--hud-floating-inset), env(safe-area-inset-right));
-  left: max(var(--hud-floating-inset), env(safe-area-inset-left));
-  width: auto;
-  transform: none;
-}
 @media (min-width: 48rem) {
   .noche-live-topline, .noche-live-heading, .noche-live-body { width: min(92rem, calc(100% - 3rem)); }
   .noche-live-before { grid-template-columns: 1.2fr .8fr; }
@@ -254,7 +239,6 @@ body.is-night-watch > .home-menu.is-hud.is-compact {
 
 @media (max-width: 30rem) {
   .noche-live-topline, .noche-live-heading, .noche-live-body { width: calc(100% - 1rem); }
-  body.is-night-watch > .home-menu.is-hud { width: calc(100% - 1rem); }
   .noche-live-hero { min-height: 39rem; }
   .noche-live-topline { align-items: flex-start; padding-top: max(5.55rem,calc(env(safe-area-inset-top) + 5rem)); }
   .noche-live-brand { padding-top: .45rem; font-size: .72rem; }

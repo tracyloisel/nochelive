@@ -1,9 +1,9 @@
 <% content_for :title, t("legal.title") %>
 <% content_for :body_class, "is-kid is-church-journey is-charter-journey is-charter-legal" %>
-<% page_hud { site_menu } %>
+<% page_hud(theme: "celestial-dark") { site_menu } %>
 
-<section id="legal_charter" class="charter-journey charter-journey--legal">
-  <header class="charter-journey-hero" style="--charter-scene: url('<%= media_src("media/legal/legal-charter-celestial-light-v1.webp") %>')">
+<section id="legal_charter" class="charter-journey charter-journey--legal" data-chrome-surface="dark">
+  <header class="charter-journey-hero" data-chrome-surface="dark" style="--charter-scene: url('<%= media_src("media/legal/legal-charter-celestial-light-v1.webp") %>')">
     <div class="church-scene-atmosphere" aria-hidden="true"><i></i><i></i><i></i></div>
     <div class="charter-journey-intro">
       <p class="church-scene-kicker"><%= t("legal.kicker") %></p>
@@ -49,5 +49,5 @@
 
   </main>
 
-  <% page_dock(active: nil) %>
+  <% page_dock(active: nil, surface: :dark) %>
 </section>

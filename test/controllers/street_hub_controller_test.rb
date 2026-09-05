@@ -433,6 +433,18 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
     assert_select ".street-xp-caption, .street-rank-banner", count: 0
   end
 
+  test "home HUD keeps zero crowns and an idle zero streak" do
+    sign_in_congregation
+    person = create_street_profile!
+
+    assert_equal 0, Quizzes::Leaderboard.total_score(person:)
+    get root_path
+
+    assert_response :success
+    assert_select ".quiz-hud-score > span", text: "0", count: 1
+    assert_select ".quiz-hud-streak.is-idle[data-tier='idle'] .quiz-hud-streak-num", text: "0", count: 1
+  end
+
   test "legacy camino paths redirect to the map historial anchor" do
     get "/camino"
     assert_redirected_to "/mapa#historial"
@@ -445,7 +457,7 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
     get street_map_path
     assert_response :success
     assert_select "link[href*='pages/street_map'][data-turbo-track='dynamic']", count: 1
-    assert_select "#street_world.street-map-page"
+    assert_select "#street_world.street-map-page[data-chrome-surface='light']"
     assert_select ".mapa-header .mapa-title", text: I18n.t("street.mapa_title")
     assert_select ".mapa-mission"
     assert_select ".mapa-mission-progress[role=progressbar]"
@@ -461,8 +473,8 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
     assert_select ".mapa-node.is-current[aria-current=step]"
     assert_select ".mapa-node.is-locked[data-action*='click->hub-map#tapNode'] .mapa-node-lock"
     assert_select ".mapa-footer-cta[href=?]", street_leaderboard_path
-    assert_select "body > .home-menu.is-hud .quiz-hud"
-    assert_select "body > .navigation-dock .navigation-dock__item.is-active[href=?]", street_map_path
+    assert_select "body > .home-menu.is-hud[data-hud-theme='celestial-light'] .quiz-hud[data-controller~='hud-surface'][data-hud-theme='celestial-light']"
+    assert_select "body > .navigation-dock[data-controller='navigation-dock'][data-dock-theme='celestial-light'] .navigation-dock__item.is-active[href=?]", street_map_path
     assert_select "#street_world .home-menu", count: 0
     assert_select "#street_world .navigation-dock", count: 0
     assert_select "a.home-menu-adventure[href=?]", street_map_path, text: /#{Regexp.escape(I18n.t("hub_menu.adventure"))}/
@@ -510,12 +522,14 @@ class StreetHubControllerTest < ActionDispatch::IntegrationTest
     assert_select ".mapa-mode-tab.is-active", text: /#{Regexp.escape(I18n.t("street.mapa_expeditions", locale: :fr))}/
     assert_select ".mapa-expedition-carousel[role=list]", count: 1
     assert_select ".mapa-expedition-card.is-active .mapa-expedition-card__link[aria-current=page]", count: 1
+    assert_select ".mapa-expedition-card[data-chrome-surface='dark']", minimum: 1
     assert_select ".mapa-expedition-card__schedule", minimum: 1
     assert_select ".mapa-expedition-journey-link[href=?]", street_map_path(view: "journey"), count: 1
     assert_select ".mapa-expedition-hero h2", text: "Ça aussi, c’est dans les Psaumes"
+    assert_select ".mapa-expedition-hero[data-chrome-surface='dark']", count: 1
     assert_select ".mapa-expedition-hero__badges", count: 1
     assert_select ".mapa-expedition-hero__cta", count: 1
-    assert_select ".mapa-expedition-door", count: 6
+    assert_select ".mapa-expedition-door[data-chrome-surface='dark']", count: 6
     assert_select ".mapa-expedition-door form[action*='expedition=#{week.id}']", count: 6
     assert_select ".mapa-node", count: 0
   end

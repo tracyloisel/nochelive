@@ -572,7 +572,6 @@ body.is-duel-campus.is-celestial-dark {
   --story-type-soft: var(--text-secondary);
   --story-shadow: 0 2px 18px rgba(0, 0, 0, .72);
   --hub-muted: var(--text-secondary);
-  --navigation-dock-surface: rgba(4, 14, 27, .82);
   min-height: 100dvh;
   background: #030a13;
   color: var(--text-primary);

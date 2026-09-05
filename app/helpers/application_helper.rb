@@ -384,11 +384,25 @@ module ApplicationHelper
   end
 
   def page_hud(**options, &block)
-    content_for(:hud) { chrome_menu(**options, &block) }
+    theme = normalize_hud_theme(options[:theme] || chrome_hud_theme)
+    content_for(:hud_theme, theme, flush: true)
+    content_for(:hud) { chrome_menu(**options.merge(theme:), &block) }
   end
 
-  def page_dock(active:)
-    content_for(:dock) { render Navigation::DockComponent.new(active:) }
+  def desktop_navigation_theme
+    normalize_hud_theme(content_for(:hud_theme).presence || chrome_hud_theme)
+  end
+
+  def page_dock(active:, surface: nil)
+    content_for(:dock_surface, surface.to_s) if surface.present?
+    content_for(:dock) { render Navigation::DockComponent.new(active:, theme: "celestial-#{dock_surface_theme}") }
+  end
+
+  def dock_surface_theme
+    explicit = content_for(:dock_surface).to_s.strip.tr("_", "-").delete_prefix("celestial-")
+    return explicit if %w[light dark].include?(explicit)
+
+    chrome_hud_theme.delete_prefix("celestial-")
   end
 
   def desktop_hud_navigation?

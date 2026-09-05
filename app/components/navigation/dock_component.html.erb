@@ -1,4 +1,8 @@
-<nav class="navigation-dock <%= "has-active" if active.present? %>" style="--dock-active-index: <%= active_index %>;" aria-label="<%= t("hub.nav_home") %>">
+<nav class="navigation-dock <%= "has-active" if active.present? %>"
+     style="--dock-active-index: <%= active_index %>;"
+     data-controller="navigation-dock"
+     data-dock-theme="<%= theme %>"
+     aria-label="<%= t("hub.rails.primary_navigation") %>">
   <span class="navigation-dock__active-halo" aria-hidden="true"></span>
   <span class="navigation-dock__active-rail" aria-hidden="true"></span>
   <% items.each do |item| %>

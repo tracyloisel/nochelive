@@ -3,9 +3,10 @@
 <% content_for :body_class, "is-kid is-street-hub is-street-map-page" %>
 <% page_hud(
      hud: true,
+     theme: "celestial-light",
      bar: Huds::Present.from_screen(screen: @screen, rank_up: params[:rank_up].present?)
    ) { site_menu } %>
-<% page_dock(active: :adventure) %>
+<% page_dock(active: :adventure, surface: :light) %>
 
 <% packs = @world.packs %>
 <% finished = packs.count { |p| p.state == :finished } %>
@@ -25,6 +26,7 @@ end %>
 
 <section id="street_world"
          class="street-world street-map-page"
+         data-chrome-surface="light"
          data-controller="street-share hub-map"
          data-hub-map-view-value="<%= @map_view %>"
          data-street-share-copied-value="<%= t("street.share_copied") %>"

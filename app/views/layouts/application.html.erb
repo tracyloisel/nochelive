@@ -33,6 +33,7 @@
     <%= javascript_importmap_tags %>
   </head>
   <body class="<%= content_for(:body_class) %>"
+        data-chrome-surface="<%= dock_surface_theme %>"
         data-controller="loading press motion hud-scroll scripture-launcher pwa-install<%= " stage" if frontend_audio_enabled? %>"
         data-scripture-launcher-stylesheet-value="<%= asset_path("surfaces/scripture.css") %>"
         data-pwa-install-stylesheet-value="<%= asset_path("surfaces/pwa.css") %>"
@@ -67,7 +68,7 @@
     <% end %>
     <%= yield :hud %>
     <% if content_for?(:hud) && desktop_hud_navigation? %>
-      <%= render "shared/desktop_navigation", active: desktop_navigation_active %>
+      <%= render "shared/desktop_navigation", active: desktop_navigation_active, theme: desktop_navigation_theme %>
     <% end %>
     <main id="main" class="shell">
       <%= yield %>

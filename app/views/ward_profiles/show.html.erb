@@ -14,10 +14,14 @@
 <% hero_title = @expedition&.rama_headline.presence || t("ward_story.hero.title") %>
 <% hero_address = [@ward.chapel_address, @ward.city].compact_blank.uniq.join(" · ") %>
 <% visit_address = [@ward.chapel_address, [@ward.postal_code, @ward.city].compact_blank.join(" "), @ward.region].compact_blank.uniq %>
-<% page_hud(face: false, hud: true, theme: "celestial-dark") { site_menu } %>
+<% hero_fallback = @ward.code == "RAMA" ? "celestial-dark" : "celestial-light" %>
+<% hero_hud_theme = normalize_hud_theme(@expedition&.rama_light_family.presence || hero_fallback) %>
+<% hero_surface_theme = hero_hud_theme.delete_prefix("celestial-") %>
+<% page_hud(face: false, hud: true, theme: hero_hud_theme) { site_menu } %>
 
-<div id="rama_profile" class="rama-page hall-paper" data-controller="rama-motion">
+<div id="rama_profile" class="rama-page hall-paper" data-controller="rama-motion" data-chrome-surface="dark">
   <section class="rama-chapter rama-story-hero" aria-labelledby="rama-title"
+           data-chrome-surface="<%= hero_surface_theme %>"
            data-rama-motion-target="chapter" data-rama-motion-recipe="result-reveal">
     <% if @expedition&.rama_artwork_key.present? %>
       <%= noche_picture(
@@ -97,6 +101,7 @@
     <% study_total = @expedition&.total_count || 10 %>
     <% study_done = @study_progress.to_i %>
     <section id="rama-week" class="rama-chapter rama-week" aria-labelledby="rama-week-title"
+             data-chrome-surface="<%= hero_surface_theme %>"
              data-rama-motion-target="chapter" data-rama-motion-recipe="invitation-enter">
       <div class="rama-chapter-art rama-week__art" aria-hidden="true">
         <%= noche_media_picture(word_art, alt: "", loading: "lazy") %>
@@ -124,6 +129,7 @@
   <% if live %>
     <% night_titles = live.quiz_packs.map { |pack| pack.copy(:title) } %>
     <section class="rama-chapter rama-story-night" aria-labelledby="rama-night-title"
+             data-chrome-surface="dark"
              data-rama-motion-target="chapter" data-rama-motion-recipe="result-reveal">
       <div class="rama-chapter-art rama-night__art" aria-hidden="true">
         <%= noche_media_picture(@featured_night_artwork, alt: "", loading: "lazy") %>
@@ -145,6 +151,7 @@
 
   <% if @circle_visible %>
     <section id="rama-circle" class="rama-chapter rama-circle" aria-labelledby="rama-circle-title"
+             data-chrome-surface="light"
              data-rama-motion-target="chapter" data-rama-motion-recipe="invitation-enter">
       <div class="rama-chapter-art rama-circle__art" aria-hidden="true">
         <%= noche_media_picture("scripture_circle.gathering.light", alt: "", loading: "lazy") %>
@@ -191,6 +198,7 @@
   <% end %>
 
   <section class="rama-chapter rama-league" aria-labelledby="rama-league-title"
+           data-chrome-surface="dark"
            data-rama-motion-target="chapter" data-rama-motion-recipe="list-enter">
     <span class="rama-league__orbit" aria-hidden="true"></span>
     <div class="rama-chapter-inner rama-league__inner">
@@ -241,6 +249,7 @@
   </section>
 
   <section id="rama-visit" class="rama-chapter rama-story-visit" aria-labelledby="rama-visit-title"
+           data-chrome-surface="dark"
            data-rama-motion-target="chapter" data-rama-motion-recipe="invitation-enter">
     <div class="rama-chapter-art rama-story-visit__art" aria-hidden="true">
       <% if @ward.code == "RAMA" %>
@@ -259,7 +268,7 @@
     </div>
     <span class="rama-story-visit__shade" aria-hidden="true"></span>
     <div class="rama-chapter-inner rama-story-visit__inner">
-      <div class="rama-reading-sheet rama-visit-sheet" data-rama-motion-item>
+      <div class="rama-reading-sheet rama-visit-sheet" data-chrome-surface="light" data-rama-motion-item>
         <div class="rama-community-mark is-light">
           <% if (emblem = emblem_mark(@ward.emblem)) %><%= image_tag emblem, alt: "", width: 48, height: 48, loading: "lazy" %><% end %>
           <strong><%= community_name %></strong>
@@ -294,10 +303,10 @@
   </section>
 
   <% if admin %>
-    <nav class="rama-host-tools" aria-label="<%= t("ward_story.admin.label") %>">
+    <nav class="rama-host-tools" data-chrome-surface="dark" aria-label="<%= t("ward_story.admin.label") %>">
       <%= link_to t("fichas.heading"), ward_fichas_path %>
       <%= link_to t("ward.secret"), ward_gate_path %>
     </nav>
   <% end %>
 </div>
-<% page_dock(active: :church) %>
+<% page_dock(active: :church, surface: hero_surface_theme) %>

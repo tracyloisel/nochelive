@@ -6,6 +6,7 @@
 <% still = (media_src(live.still) || live.still) if live.still.present? %>
 <% countdown_visible = live.state == :imminent %>
 <article class="hub-live hub-live--feature hub-panel hub-light-tile--live is-<%= live.state %> is-celestial-<%= theme %><%= " is-empty" if empty %><%= " is-still" if still %>"
+         data-chrome-surface="<%= theme %>"
          data-hub-live-theme="<%= theme %>"
          data-hub-live-atmosphere="<%= atmosphere %>"
          data-controller="hub-countdown"

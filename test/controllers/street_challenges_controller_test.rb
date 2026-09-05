@@ -146,6 +146,11 @@ class StreetChallengesControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     assert_select "body.is-duel-invitation"
+    assert_select ".duel-invitation[data-chrome-surface='light']"
+    assert_select ".duel-invitation-hero[data-chrome-surface='dark']"
+    assert_select ".duel-invitation-sheet[data-chrome-surface='light']"
+    assert_select "header.quiz-hud[data-controller~='hud-surface'][data-hud-theme='celestial-dark']"
+    assert_select "nav.navigation-dock[data-controller='navigation-dock'][data-dock-theme='celestial-light']"
     assert_select "img[src=?]", generated_media_src("media/social/campus-invitation-friends-v1.png")
     assert_select ".picto-duel-scrolls"
     assert_select "time.duel-campus-invitation-date[datetime=?]", invitation.expires_at.iso8601,
@@ -188,6 +193,10 @@ class StreetChallengesControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     assert_select "body.is-duel-detail"
+    assert_select ".duel-detail[data-chrome-surface='dark']"
+    assert_select ".duel-detail-sheet[data-chrome-surface='light']"
+    assert_select "header.quiz-hud[data-controller~='hud-surface'][data-hud-theme='celestial-dark']"
+    assert_select "nav.navigation-dock[data-controller='navigation-dock'][data-dock-theme='celestial-dark']"
     assert_select "main main", count: 0
     assert_select ".duel-detail-world picture img[alt='']"
     assert_select ".duel-detail-sheet[aria-labelledby='duel_detail_status']"

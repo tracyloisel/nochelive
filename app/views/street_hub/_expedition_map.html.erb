@@ -67,7 +67,9 @@
            end %>
           <% card_label = [ entry.title, duration_label, schedule_label, t("street.expeditions.progress", done: entry.completed_count, total: entry.total_count) ].join(" · ") %>
 
-          <article class="mapa-expedition-card is-<%= entry.state %><%= " is-active" if active %>" role="listitem">
+          <article class="mapa-expedition-card is-<%= entry.state %><%= " is-active" if active %>"
+                   data-chrome-surface="dark"
+                   role="listitem">
             <%= link_to street_map_path(view: "expeditions", expedition: entry.study_unit_id),
                   class: "mapa-expedition-card__link",
                   aria: { current: (active ? "page" : nil), label: card_label },
@@ -129,6 +131,7 @@
     <% focus_path = focus_pack&.open_run_id ? jugar_path : nil %>
 
     <article class="mapa-expedition-hero is-<%= expedition.state %>"
+             data-chrome-surface="dark"
              aria-labelledby="mapa-expedition-detail-title"
              style="view-transition-name: street-expedition-hero">
       <% if artwork.present? %>
@@ -179,7 +182,7 @@
 
     <div class="mapa-expedition-doors" role="list" aria-label="<%= t("street.expeditions.discoveries_title", count: expedition.total_count) %>">
       <% expedition.packs.each_with_index do |pack, index| %>
-        <article class="mapa-expedition-door is-<%= pack.state %>" role="listitem">
+        <article class="mapa-expedition-door is-<%= pack.state %>" data-chrome-surface="dark" role="listitem">
           <span class="mapa-expedition-door__number" aria-hidden="true"><%= index + 1 %></span>
           <% if pack.artwork.present? %>
             <% pack_artwork = pack.artwork.to_s.delete_prefix("/") %>

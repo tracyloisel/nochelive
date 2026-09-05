@@ -1,5 +1,7 @@
 <nav class="desktop-navigation"
      data-hud-scroll-companion
+     data-hud-theme-companion
+     data-hud-theme="<%= normalize_hud_theme(local_assigns[:theme] || chrome_hud_theme) %>"
      aria-label="<%= t("hub.rails.primary_navigation") %>">
   <% active = local_assigns[:active]&.to_sym %>
   <%= link_to root_path, class: ("is-active" if active == :home), aria: { current: ("page" if active == :home) }.compact do %>

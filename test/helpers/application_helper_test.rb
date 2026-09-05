@@ -71,6 +71,19 @@ class ApplicationHelperTest < ActionView::TestCase
     end
   end
 
+  test "dock surface follows the page celestial family by default" do
+    content_for(:body_class, "is-kid is-celestial-dark")
+
+    assert_equal "dark", dock_surface_theme
+  end
+
+  test "dock surface accepts an explicit local fallback" do
+    content_for(:body_class, "is-kid is-celestial-dark")
+    content_for(:dock_surface, "celestial_light")
+
+    assert_equal "light", dock_surface_theme
+  end
+
   private
 
     def with_media_asset(asset)

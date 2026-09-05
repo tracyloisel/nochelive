@@ -7,7 +7,10 @@ class ScriptureLibrariesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select "body.is-scripture-library.is-celestial-dark"
     assert_select "head link[rel='stylesheet'][href*='surfaces/library']", count: 1
-    assert_select ".scripture-library-daily[data-daily-discovery-id='preview-ps137-suspended-harps']", count: 1
+    assert_select ".scripture-library-daily[data-chrome-surface='dark'][data-daily-discovery-id='preview-ps137-suspended-harps']", count: 1
+    assert_select ".scripture-library-stream[data-chrome-surface='dark']", count: 1
+    assert_select "header.quiz-hud[data-controller~='hud-surface'][data-hud-theme='celestial-dark']", count: 1
+    assert_select "nav.navigation-dock[data-controller='navigation-dock'][data-dock-theme='celestial-dark']", count: 1
     assert_select ".scripture-library-daily h1", text: "Ils ont refusé de chanter."
     assert_select ".scripture-library-daily__world picture img[alt*='lyre suspendue']", count: 1
     assert_select ".scripture-library-action--hero[href^='/escrituras/ot/ps/137'][href*='locale=fr']", count: 1

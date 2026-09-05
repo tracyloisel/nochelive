@@ -23,9 +23,10 @@
        "motion.result" => "contextual"
      }
    ) %>
-<% page_hud(face: true) { site_menu } %>
+<% page_hud(face: true, theme: "celestial-dark") { site_menu } %>
 
 <section class="duel-detail"
+         data-chrome-surface="dark"
          data-controller="duel-motion"
          data-state="<%= @duel.resolved? ? "resolved" : "active" %>"
          data-next-desire="<%= @duel.resolved? ? "rematch" : "play" %>"
@@ -38,7 +39,7 @@
   <header class="duel-detail-hero">
     <div><p><%= @duel.rematch? ? t("duel_campus.labels.rematch") : t("duel_campus.duel.kicker") %></p><h1><%= t("duel_campus.duel.title", name: other.given_name) %></h1></div>
   </header>
-  <section class="duel-detail-sheet" data-duel-motion-target="reveal" aria-labelledby="duel_detail_status">
+  <section class="duel-detail-sheet" data-chrome-surface="light" data-duel-motion-target="reveal" aria-labelledby="duel_detail_status">
     <span class="duel-detail-apex" aria-hidden="true"><%= picto("duel-scrolls") %></span>
     <div class="duel-detail-people">
       <article class="duel-detail-player is-me">
@@ -84,5 +85,5 @@
       </div>
     <% end %>
   </section>
-  <% page_dock(active: :home) %>
+  <% page_dock(active: :home, surface: :dark) %>
 </section>

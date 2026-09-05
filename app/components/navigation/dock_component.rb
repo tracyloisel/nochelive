@@ -1,14 +1,16 @@
 module Navigation
   class DockComponent < ViewComponent::Base
-    delegate :picto, :t, to: :helpers
+    delegate :t, to: :helpers
 
     Item = Data.define(:key, :path, :icon, :label_key)
+    THEMES = %w[celestial-light celestial-dark].freeze
 
-    def initialize(active: :home)
+    def initialize(active: :home, theme: "celestial-light")
       @active = active&.to_sym
+      @theme = THEMES.include?(theme.to_s) ? theme.to_s : "celestial-light"
     end
 
-    attr_reader :active
+    attr_reader :active, :theme
 
     def items
       person = helpers.current_street_person

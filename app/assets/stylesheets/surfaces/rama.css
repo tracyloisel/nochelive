@@ -920,6 +920,17 @@ picture.rama-chapter-art > img {
   font-size: max(var(--rama-type-comfort), var(--type-min));
 }
 
+@media (max-width: 1199px) {
+  body.is-rama-profile .rama-page.hall-paper:not(:has(> .rama-host-tools)) {
+    /* Shared dock height + lower offset + one spacing token of breathing room. */
+    padding-bottom: calc(
+      3.25rem + .76rem + 2px +
+      max(1rem, env(safe-area-inset-bottom)) +
+      var(--space-4)
+    );
+  }
+}
+
 @media (hover: hover) {
   .rama-story-hero__actions a:hover,
   .rama-conversation a:hover,

@@ -1,8 +1,8 @@
 <% content_for :title, t("church.worship_title") %>
 <% content_for :body_class, "is-kid is-church-journey is-celestial-dark" %>
 <% page_hud { site_menu } %>
-<section class="church-worship church-scene--worship" style="--church-scene: url('<%= media_src("media/church/journey/worship-v2.png") %>')">
-  <header class="church-worship-hero">
+<section class="church-worship church-scene--worship" data-chrome-surface="light" style="--church-scene: url('<%= media_src("media/church/journey/worship-v2.png") %>')">
+  <header class="church-worship-hero" data-chrome-surface="dark">
     <div class="church-scene-head">
       <%= link_to church_path, class: "church-back", aria: { label: t("church.back") } do %><%= picto("arrow") %><% end %>
       <span><%= t("church.kicker") %></span><span class="church-chapter">4 / 4</span>
@@ -15,7 +15,7 @@
   </header>
 
   <main class="worship-story">
-    <section class="worship-overview" aria-labelledby="worship-overview-title">
+    <section class="worship-overview" data-chrome-surface="light" aria-labelledby="worship-overview-title">
       <p class="church-scene-kicker"><%= t("church.worship.overview_kicker") %></p>
       <h2 id="worship-overview-title"><%= t("church.worship.overview_title") %></h2>
       <p class="lede"><%= t("church.worship.overview_body") %></p>
@@ -30,7 +30,7 @@
       </ol>
     </section>
 
-    <section class="worship-sacrament" aria-labelledby="worship-sacrament-title">
+    <section class="worship-sacrament" data-chrome-surface="dark" aria-labelledby="worship-sacrament-title">
       <span class="worship-sacrament-emblem" aria-hidden="true"><%= picto("star8") %></span>
       <p class="church-scene-kicker"><%= t("church.worship.center_kicker") %></p>
       <h2 id="worship-sacrament-title"><%= t("church.worship.center_title") %></h2>
@@ -38,7 +38,7 @@
       <div class="worship-symbols" aria-hidden="true"><span><%= picto("book") %></span><i></i><span><%= picto("sparkle") %></span></div>
     </section>
 
-    <section class="worship-first-visit" aria-labelledby="worship-first-title">
+    <section class="worship-first-visit" data-chrome-surface="light" aria-labelledby="worship-first-title">
       <div class="worship-first-heading">
         <p class="church-scene-kicker"><%= t("church.worship.first_kicker") %></p>
         <h2 id="worship-first-title"><%= t("church.worship.first_title") %></h2>
@@ -58,5 +58,5 @@
 
     <%= render "pages/church_chapter_paths", current: :worship %>
   </main>
-  <% page_dock(active: :church) %>
+  <% page_dock(active: :church, surface: :dark) %>
 </section>

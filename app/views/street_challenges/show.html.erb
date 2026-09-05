@@ -28,16 +28,17 @@ end %>
 <% content_for :head do %>
   <%= noche_picture_preload("media/social/campus-invitation-friends-v1.png") %>
 <% end %>
-<% page_hud(face: true) { site_menu } %>
+<% page_hud(face: true, theme: "celestial-dark") { site_menu } %>
 
 <section class="duel-invitation<%= " has-dock" if current_street_person %>"
+         data-chrome-surface="light"
          data-controller="duel-invitation duel-motion"
          data-state="<%= @screen.state %>"
          data-origin="<%= invitation.external? ? "cold" : "named" %>"
          data-duel-invitation-receipt-url-value="<%= receipt_url %>"
          data-duel-motion-sequence-value="invitation"
          style="view-transition-name: street-world">
-  <header class="duel-invitation-hero">
+  <header class="duel-invitation-hero" data-chrome-surface="dark">
     <%= noche_media_picture("media/social/campus-invitation-friends-v1.png", alt: "", loading: "eager", fetchpriority: "high") %>
     <span aria-hidden="true"></span>
     <div>
@@ -47,7 +48,7 @@ end %>
     </div>
   </header>
 
-  <main class="duel-invitation-sheet" data-duel-motion-target="reveal">
+  <main class="duel-invitation-sheet" data-chrome-surface="light" data-duel-motion-target="reveal">
     <div class="duel-invitation-faces">
       <%= render "street_challenges/person", person: challenger %>
       <span class="duel-invitation-versus" aria-hidden="true"><%= picto("duel-scrolls") %></span>
@@ -122,5 +123,5 @@ end %>
     <footer><%= link_to t("duel_campus.actions.back"), owner ? street_challenges_path : root_path, class: "quiet-link" %></footer>
   </main>
 
-  <% page_dock(active: :home) if current_street_person %>
+  <% page_dock(active: :home, surface: :light) if current_street_person %>
 </section>

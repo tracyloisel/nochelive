@@ -1,9 +1,9 @@
 <% content_for :title, t("privacy.title") %>
 <% content_for :body_class, "is-kid is-church-journey is-charter-journey is-charter-privacy" %>
-<% page_hud { site_menu } %>
+<% page_hud(theme: "celestial-dark") { site_menu } %>
 
-<section id="privacy_charter" class="charter-journey charter-journey--privacy">
-  <header class="charter-journey-hero" style="--charter-scene: url('<%= media_src("media/legal/privacy-charter-celestial-light-v1.webp") %>')">
+<section id="privacy_charter" class="charter-journey charter-journey--privacy" data-chrome-surface="dark">
+  <header class="charter-journey-hero" data-chrome-surface="dark" style="--charter-scene: url('<%= media_src("media/legal/privacy-charter-celestial-light-v1.webp") %>')">
     <div class="church-scene-atmosphere" aria-hidden="true"><i></i><i></i><i></i></div>
     <div class="charter-journey-intro">
       <p class="church-scene-kicker"><%= t("privacy.kicker") %></p>
@@ -105,5 +105,5 @@
 
   </main>
 
-  <% page_dock(active: nil) %>
+  <% page_dock(active: nil, surface: :dark) %>
 </section>

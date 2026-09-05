@@ -88,7 +88,13 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
   test "worship keeps the title with the still and links to the map" do
     get church_worship_path
     assert_response :success
-    assert_select ".church-scene--worship[style*=?]", generated_media_src("media/church/journey/worship-v2.png", format: "webp")
+    assert_select ".church-scene--worship[data-chrome-surface='light'][style*=?]", generated_media_src("media/church/journey/worship-v2.png", format: "webp")
+    assert_select ".church-worship-hero[data-chrome-surface='dark']"
+    assert_select ".worship-overview[data-chrome-surface='light']"
+    assert_select ".worship-sacrament[data-chrome-surface='dark']"
+    assert_select ".worship-first-visit[data-chrome-surface='light']"
+    assert_select "header.quiz-hud[data-controller~='hud-surface'][data-hud-theme='celestial-dark']"
+    assert_select "nav.navigation-dock[data-controller='navigation-dock'][data-dock-theme='celestial-dark']"
     assert_select ".church-worship h1", text: I18n.t("church.worship_title")
     assert_select ".worship-schedule li", count: 2
     assert_select ".worship-reassurances article", count: 3
@@ -108,8 +114,8 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select "body.is-church-journey.is-charter-journey.is-charter-legal"
     assert_select "body.is-paper-hall", count: 0
-    assert_select "#legal_charter.charter-journey--legal"
-    assert_select ".charter-journey-hero[style*=?]", generated_media_src("media/legal/legal-charter-celestial-light-v1.webp", format: "webp")
+    assert_select "#legal_charter.charter-journey--legal[data-chrome-surface='dark']"
+    assert_select ".charter-journey-hero[data-chrome-surface='dark'][style*=?]", generated_media_src("media/legal/legal-charter-celestial-light-v1.webp", format: "webp")
     assert_select ".charter-journey-intro h1", text: I18n.t("legal.title")
     assert_select ".charter-journey-story .charter-journey-act", count: 3
     assert_select ".paper-facts", text: /Tracy Loisel/
@@ -124,7 +130,8 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
     assert_select ".charter-journey-story a[href=?]", privacy_path, count: 0
     assert_select ".charter-journey-story a[href=?]", platform_stats_path, count: 0
     assert_select ".navigation-dock .navigation-dock__item", count: 5
-    assert_select ".home-menu.is-hud[data-hud-theme='celestial-light'] .quiz-hud[data-hud-theme='celestial-light']"
+    assert_select ".home-menu.is-hud[data-hud-theme='celestial-dark'] .quiz-hud[data-hud-theme='celestial-dark'][data-controller~='hud-surface']"
+    assert_select ".navigation-dock[data-dock-theme='celestial-dark']"
     assert_select ".hall-sheet", count: 0
     assert_select ".story-ticks", count: 0
     assert_select ".btn.btn-gold", count: 0
@@ -135,8 +142,8 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select "body.is-church-journey.is-charter-journey.is-charter-privacy"
     assert_select "body.is-paper-hall", count: 0
-    assert_select "#privacy_charter.charter-journey--privacy"
-    assert_select ".charter-journey-hero[style*=?]", generated_media_src("media/legal/privacy-charter-celestial-light-v1.webp", format: "webp")
+    assert_select "#privacy_charter.charter-journey--privacy[data-chrome-surface='dark']"
+    assert_select ".charter-journey-hero[data-chrome-surface='dark'][style*=?]", generated_media_src("media/legal/privacy-charter-celestial-light-v1.webp", format: "webp")
     assert_select ".charter-journey-intro h1", text: I18n.t("privacy.title")
     assert_select ".charter-journey-story .charter-journey-act", count: 13
     assert_select ".charter-journey-act h2", text: I18n.t("privacy.ask.title")
@@ -157,7 +164,8 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
     assert_select ".charter-journey-foot", count: 0
     assert_select ".charter-journey-story a[href=?]", legal_path, count: 0
     assert_select ".navigation-dock .navigation-dock__item", count: 5
-    assert_select ".home-menu.is-hud[data-hud-theme='celestial-light'] .quiz-hud[data-hud-theme='celestial-light']"
+    assert_select ".home-menu.is-hud[data-hud-theme='celestial-dark'] .quiz-hud[data-hud-theme='celestial-dark'][data-controller~='hud-surface']"
+    assert_select ".navigation-dock[data-dock-theme='celestial-dark']"
     assert_select ".hall-sheet", count: 0
     assert_select ".story-ticks", count: 0
     assert_select ".btn.btn-gold", count: 0

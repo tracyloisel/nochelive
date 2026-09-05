@@ -1392,26 +1392,6 @@ body.is-street-hub:has(.home-menu.is-hud) .street-world.is-game-hub {
   backdrop-filter: blur(18px) saturate(1.18);
 }
 
-body.is-game-hub-page.is-celestial-light .navigation-dock {
-  --navigation-dock-surface: color-mix(in srgb, var(--hub-light-pearl, #edf4f6) 86%, transparent);
-  border-color: color-mix(in srgb, var(--hub-light-gold-deep, #93620a) 28%, transparent);
-  background:
-    linear-gradient(180deg, color-mix(in srgb, var(--hub-light-gold-glint, #fff0a6) 19%, transparent), color-mix(in srgb, var(--hub-light-sky, #cfe3ee) 11%, transparent) 48%, transparent),
-    var(--navigation-dock-surface);
-  box-shadow:
-    0 -7px 20px color-mix(in srgb, var(--hub-light-ink, #102a49) 10%, transparent),
-    inset 0 1px 0 color-mix(in srgb, white 72%, transparent);
-  backdrop-filter: blur(24px) saturate(1.22);
-}
-
-body.is-game-hub-page.is-celestial-light .navigation-dock__item {
-  color: color-mix(in srgb, var(--hub-light-ink, #102a49) 58%, #7b878c);
-}
-
-body.is-game-hub-page.is-celestial-light .navigation-dock__item.is-active {
-  color: var(--hub-light-gold-deep, #93620a);
-}
-
 /* Empty social states keep the Hub's people and live-show fantasy visible. */
 .street-world.is-game-hub .hub-live.is-ward_missing.is-still::before {
   inset: 0;
@@ -1689,13 +1669,6 @@ body.is-game-hub-page.is-celestial-dark {
 
 .street-world.is-game-hub[data-hub-theme="light"] .hub-hero--themed .hub-slide-still {
   object-position: 72% 50%;
-}
-
-body.is-game-hub-page.is-celestial-light .navigation-dock {
-  border-top-color: color-mix(in srgb, var(--hub-light-ink) 16%, transparent);
-  box-shadow:
-    0 -0.7rem 1.7rem color-mix(in srgb, var(--hub-light-ink) 13%, transparent),
-    inset 0 1px 0 color-mix(in srgb, var(--hub-light-ivory) 82%, transparent);
 }
 
 @media (min-width: 720px) {
@@ -4248,5 +4221,34 @@ body.is-street-hub:has(.home-menu.is-hud)
     background: Canvas !important;
     color: CanvasText !important;
     box-shadow: none !important;
+  }
+}
+
+/* Keep late Home HUD art treatments from defeating the shared glass fallbacks. */
+@supports not ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+  body.is-game-hub-page .home-menu.is-hud.is-compact .quiz-hud:not(.is-quiz) {
+    background: var(--quiz-hud-glass, var(--surface-primary));
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  body.is-game-hub-page .home-menu.is-hud.is-compact .quiz-hud:not(.is-quiz) {
+    background: var(--quiz-hud-glass, var(--surface-primary));
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+}
+
+@media (forced-colors: active) {
+  body.is-game-hub-page .home-menu.is-hud.is-compact .quiz-hud:not(.is-quiz) {
+    border-color: CanvasText;
+    background: Canvas;
+    box-shadow: none;
+    color: CanvasText;
+    forced-color-adjust: auto;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
   }
 }

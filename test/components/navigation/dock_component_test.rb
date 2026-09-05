@@ -5,7 +5,8 @@ class Navigation::DockComponentTest < ViewComponent::TestCase
   test "renders the five game destinations and marks the active one" do
     render_inline(Navigation::DockComponent.new(active: :profile))
 
-    assert_selector "nav.navigation-dock"
+    assert_selector "nav.navigation-dock[aria-label='#{I18n.t("hub.rails.primary_navigation")}']"
+    assert_selector "nav.navigation-dock[data-controller='navigation-dock'][data-dock-theme='celestial-light']"
     assert_selector "a.navigation-dock__item", count: 5
     assert_selector "a.navigation-dock__item.is-active", text: I18n.t("hub.nav_profile")
     assert_selector "a.navigation-dock__item.is-active[aria-current='page']", count: 1
@@ -25,6 +26,14 @@ class Navigation::DockComponentTest < ViewComponent::TestCase
     render_inline(Navigation::DockComponent.new(active: :word))
 
     assert_selector "a.navigation-dock__item.is-active[href='/bibliotheque'] > .picto-scripture-book"
+  end
+
+  test "renders the requested celestial family and safely normalizes unknown themes" do
+    render_inline(Navigation::DockComponent.new(active: :church, theme: "celestial-dark"))
+    assert_selector "nav.navigation-dock[data-dock-theme='celestial-dark']"
+
+    render_inline(Navigation::DockComponent.new(active: :church, theme: "page-dark"))
+    assert_selector "nav.navigation-dock[data-dock-theme='celestial-light']"
   end
 
   test "moves the shared halo on the same five-column grid as the destinations" do
@@ -66,6 +75,13 @@ class Navigation::DockComponentTest < ViewComponent::TestCase
     assert_includes dock_contract, "bottom: max(0.62rem, env(safe-area-inset-bottom));"
     assert_includes dock_contract, "width: auto;"
     assert_includes dock_contract, "transform: none;"
+    assert_includes dock_contract, "border-radius: var(--radius-floating-chrome);"
+    assert_includes dock_contract, "background-color: var(--navigation-dock-surface);"
+    assert_includes dock_contract, "backdrop-filter: blur(22px) saturate(1.12);"
+    assert_includes css, '.navigation-dock[data-dock-theme="celestial-light"]'
+    assert_includes css, '.navigation-dock[data-dock-theme="celestial-dark"]'
+    assert_includes css, "@media (prefers-reduced-transparency: reduce)"
+    assert_includes css, "@media (forced-colors: active)"
 
     hud_contract = css[/^\.home-menu\.is-hud \{[^}]+\}/m]
     assert_includes hud_contract, "position: fixed;"
@@ -90,6 +106,11 @@ class Navigation::DockComponentTest < ViewComponent::TestCase
     compact_contract = css[/^\.home-menu\.is-hud\.is-compact \{[^}]+\}/m]
     assert_includes compact_contract, "left: max(var(--hud-floating-inset), env(safe-area-inset-left));"
     assert_includes compact_contract, "right: max(var(--hud-floating-inset), env(safe-area-inset-right));"
+    mobile_floating_hud = css[/^\.home-menu\.is-hud\.is-compact \.quiz-hud \{[^}]+\}/m]
+    desktop_floating_hud = css[/^\s+\.home-menu\.has-desktop-hud:not\(\.is-hud\)\.is-compact \.quiz-hud \{[^}]+\}/m]
+    assert_includes mobile_floating_hud, "border-radius: var(--radius-floating-chrome);"
+    assert_includes desktop_floating_hud, "border-radius: var(--radius-floating-chrome);"
+    assert_includes css, "--radius-floating-chrome: 1.1rem;"
 
     css.scan(/([^{}]+)\{([^{}]*)\}/m).each do |selector, declarations|
       next unless declarations.match?(/(?:^|;)\s*(?:position|top|right|bottom|left|inset|inset-inline|width|max-width|transform)\s*:/m)
@@ -104,6 +125,7 @@ class Navigation::DockComponentTest < ViewComponent::TestCase
     refute_includes css, "--hud-inset"
     assert_includes layout, "yield :hud"
     assert_includes layout, "yield :dock"
+    assert_includes layout, 'data-chrome-surface="<%= dock_surface_theme %>"'
     views.each do |path|
       refute_includes path.read, "Navigation::DockComponent", "#{path} must use the layout dock slot"
       refute_includes path.read, "chrome_menu", "#{path} must use the layout HUD slot"
@@ -121,5 +143,15 @@ class Navigation::DockComponentTest < ViewComponent::TestCase
 
     hub_css = Rails.root.join("app/assets/stylesheets/surfaces/hub.css").read
     assert_match(/@media \(min-width: 1200px\).*body\.is-street-hub\.is-game-hub-page \.street-world\.is-game-hub \{\s*--street-hub-dock-clearance: 0px;/m, hub_css)
+    refute_match(/\.navigation-dock\s*\{[^}]*--navigation-dock-surface:/m, hub_css)
+
+    all_surface_css = Rails.root.glob("app/assets/stylesheets/**/*.css").reject { |path| path.basename.to_s == "application.css" }.map(&:read).join("\n")
+    chromatic_overrides = all_surface_css.scan(/([^{}]+)\{([^{}]*)\}/m).filter_map do |selector, declarations|
+      next unless selector.include?(".navigation-dock")
+      next unless declarations.match?(/(?:background|border|box-shadow|--navigation-dock-)/)
+
+      [ selector.strip, declarations.strip ]
+    end
+    assert_empty chromatic_overrides, chromatic_overrides.inspect
   end
 end

@@ -1,7 +1,7 @@
 <header class="quiz-hud<%= " is-guest" if guest? %><%= " is-quiz" if quiz? %><%= " is-rank-up" if bar.rank_up %>"
         aria-label="<%= aria_label %>"
         data-hud-theme="<%= theme %>"
-        data-controller="hub-streak">
+        data-controller="hub-streak<%= " hud-surface" unless quiz? %>">
   <% if guest? && !quiz? %>
     <%= link_to who_path, class: "quiz-hud-who is-guest", aria: { label: t("hub.guest_invite") } do %>
       <span class="quiz-hud-avatar is-guest"><%= picto("profile-spark") %></span>
@@ -61,7 +61,7 @@
         </div>
       <% end %>
     <% end %>
-    <% if bar.pack_title.present? %>
+    <% if quiz? && bar.pack_title.present? %>
       <div class="quiz-hud-pack">
         <div class="quiz-hud-pack-copy">
           <p class="quiz-hud-title"><%= bar.pack_title %></p>
